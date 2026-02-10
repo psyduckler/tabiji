@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D7QHNRXLHJ');
+    </script>
+    <title>Plan Your Trip — tabiji.ai</title>
+    <meta name="description" content="Tell us about your dream trip and we'll craft a personalized itinerary from real traveler intel.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --indigo: #2D3A5C;
+            --indigo-light: #3D4E7A;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --earth-light: #A6906F;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text); background: var(--white); line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--indigo);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
+        .logo span { color: var(--terracotta); }
+        nav .nav-step {
+            font-size: 0.85rem; color: var(--text-muted); font-weight: 500;
+        }
+
+        .form-hero {
+            padding: 7rem 2rem 2rem; max-width: 640px; margin: 0 auto; text-align: center;
+        }
+        .form-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800;
+            color: var(--indigo); margin-bottom: 0.5rem; letter-spacing: -0.03em;
+        }
+        .form-hero p {
+            font-size: 1.05rem; color: var(--text-muted); max-width: 480px; margin: 0 auto;
+        }
+
+        .form-container {
+            max-width: 640px; margin: 2rem auto 4rem; padding: 0 2rem;
+        }
+
+        .field { margin-bottom: 2rem; }
+        .field label {
+            display: block; font-size: 0.95rem; font-weight: 600;
+            color: var(--indigo); margin-bottom: 0.4rem;
+        }
+        .field .hint {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;
+        }
+        .field input[type="text"],
+        .field input[type="email"],
+        .field input[type="date"],
+        .field select,
+        .field textarea {
+            width: 100%; padding: 0.8rem 1rem; border-radius: 10px;
+            border: 2px solid var(--sand); font-size: 1rem;
+            background: var(--white); color: var(--text);
+            font-family: inherit; outline: none; transition: border 0.2s;
+        }
+        .field input:focus, .field select:focus, .field textarea:focus {
+            border-color: var(--indigo);
+        }
+        .field textarea { resize: vertical; min-height: 80px; }
+
+        .date-row { display: flex; gap: 1rem; }
+        .date-row > div { flex: 1; }
+
+        .checkbox-group, .radio-group {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .checkbox-group label, .radio-group label {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-weight: 400; font-size: 0.95rem; color: var(--text);
+            background: var(--warm-cream); padding: 0.5rem 1rem;
+            border-radius: 100px; cursor: pointer; border: 2px solid transparent;
+            transition: border 0.2s, background 0.2s;
+        }
+        .checkbox-group input, .radio-group input { display: none; }
+        .checkbox-group input:checked + label,
+        .radio-group input:checked + label {
+            border-color: var(--terracotta); background: #FEF0E7;
+        }
+        /* Wrap input inside label approach */
+        .pill { display: inline-block; }
+        .pill input { display: none; }
+        .pill span {
+            display: inline-block; padding: 0.5rem 1rem; border-radius: 100px;
+            background: var(--warm-cream); border: 2px solid transparent;
+            font-size: 0.9rem; color: var(--text); cursor: pointer;
+            transition: border 0.2s, background 0.2s; user-select: none;
+        }
+        .pill input:checked + span {
+            border-color: var(--terracotta); background: #FEF0E7; color: var(--terracotta);
+        }
+        .pill span:hover { border-color: var(--sand); }
+
+        .divider {
+            border: none; border-top: 1px solid var(--sand);
+            margin: 2.5rem 0;
+        }
+
+        .submit-btn {
+            display: block; width: 100%;
+            background: var(--terracotta); color: white;
+            padding: 1rem; border-radius: 10px; border: none;
+            font-size: 1.1rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(196, 112, 75, 0.3);
+            transition: transform 0.15s, box-shadow 0.15s;
+            font-family: inherit;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 112, 75, 0.4);
+        }
+        .submit-btn:disabled {
+            opacity: 0.7; cursor: not-allowed; transform: none;
+        }
+        .submit-sub {
+            text-align: center; margin-top: 0.75rem;
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+
+        footer {
+            padding: 3rem 2rem; text-align: center;
+            border-top: 1px solid var(--sand);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 0.8rem 1.2rem; }
+            .form-hero { padding: 6rem 1.5rem 1.5rem; }
+            .form-container { padding: 0 1.5rem; }
+            .date-row { flex-direction: column; gap: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">tabiji<span>.ai</span></a>
+    <div class="nav-step">Step 1 of 2 — Tell us about your trip</div>
+</nav>
+
+<div class="form-hero">
+    <h1>Let's plan your perfect trip ✈️</h1>
+    <p>The more you tell us, the better your itinerary. Takes about 2 minutes.</p>
+</div>
+
+<form class="form-container" id="intake-form" onsubmit="submitForm(event)">
+
+    <div class="field">
+        <label for="destination">Where are you going?</label>
+        <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo, Japan" required>
+    </div>
+
+    <div class="field">
+        <label>When are you traveling?</label>
+        <div class="date-row">
+            <div>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+            <div>
+                <input type="date" id="end_date" name="end_date" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="group_size">Group size</label>
+        <select id="group_size" name="group_size" required>
+            <option value="" disabled selected>How many travelers?</option>
+            <option value="1">1 — Solo</option>
+            <option value="2">2 — Couple / Duo</option>
+            <option value="3-4">3–4</option>
+            <option value="5+">5+</option>
+        </select>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+        <label>Travel style</label>
+        <p class="hint">Pick all that apply</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <label class="pill"><input type="checkbox" name="style" value="Adventure"><span>🥾 Adventure</span></label>
+            <label class="pill"><input type="checkbox" name="style" value="Cultural"><span>🏛️ Cultural</span></label>
+            <label class="pill"><input type="checkbox" name="style" value="Foodie"><span>🍜 Foodie</span></label>
+            <label class="pill"><input type="checkbox" name="style" value="Relaxation"><span>🧘 Relaxation</span></label>
+            <label class="pill"><input type="checkbox" name="style" value="Nightlife"><span>🍸 Nightlife</span></label>
+            <label class="pill"><input type="checkbox" name="style" value="Family-friendly"><span>👨‍👩‍👧 Family-friendly</span></label>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Dining preferences</label>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <label class="pill"><input type="radio" name="dining" value="Fine dining all meals"><span>Fine dining for all meals</span></label>
+            <label class="pill"><input type="radio" name="dining" value="Fine dining dinners only"><span>Fine dining dinners only</span></label>
+            <label class="pill"><input type="radio" name="dining" value="Casual throughout"><span>Casual throughout</span></label>
+            <label class="pill"><input type="radio" name="dining" value="Mix of everything" checked><span>Mix of everything</span></label>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="budget">Budget per person</label>
+        <select id="budget" name="budget" required>
+            <option value="" disabled selected>Select a range</option>
+            <option value="Under $1,000">Under $1,000</option>
+            <option value="$1,000-2,000">$1,000–$2,000</option>
+            <option value="$2,000-5,000">$2,000–$5,000</option>
+            <option value="$5,000-10,000">$5,000–$10,000</option>
+            <option value="$10,000+">$10,000+</option>
+            <option value="Surprise me">Surprise me 🎉</option>
+        </select>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+        <label for="requests">Anything else we should know?</label>
+        <p class="hint">Allergies, must-see spots, accessibility needs, vibe preferences…</p>
+        <textarea id="requests" name="requests" placeholder="e.g. We love hole-in-the-wall ramen joints. Partner is vegetarian. Want at least one onsen day."></textarea>
+    </div>
+
+    <div class="field">
+        <label for="email">Email</label>
+        <p class="hint">We'll deliver your itinerary here</p>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Continue to Payment — $1</button>
+    <p class="submit-sub">You'll be taken to Stripe for secure payment. Itinerary delivered within 24 hours.</p>
+
+</form>
+
+<footer>
+    <p>© 2026 tabiji.ai. All rights reserved.</p>
+</footer>
+
+<script>
+async function submitForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Redirecting to checkout…';
+    btn.disabled = true;
+
+    const form = document.getElementById('intake-form');
+    const styles = Array.from(form.querySelectorAll('input[name="style"]:checked')).map(c => c.value);
+    const dining = form.querySelector('input[name="dining"]:checked')?.value || '';
+
+    const payload = {
+        destination: form.destination.value,
+        start_date: form.start_date.value,
+        end_date: form.end_date.value,
+        group_size: form.group_size.value,
+        travel_style: styles.join(', '),
+        dining: dining,
+        budget: form.budget.value,
+        requests: form.requests.value,
+        email: form.email.value,
+    };
+
+    try {
+        const res = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert('Something went wrong. Please try again.');
+            btn.textContent = 'Continue to Payment — $1';
+            btn.disabled = false;
+        }
+    } catch (err) {
+        alert('Something went wrong. Please try again.');
+        btn.textContent = 'Continue to Payment — $1';
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>

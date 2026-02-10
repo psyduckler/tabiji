@@ -5,18 +5,40 @@ export async function onRequestPost(context) {
 
   try {
     const body = await context.request.json().catch(() => ({}));
+
     const destination = body.destination || '';
+    const startDate = body.start_date || '';
+    const endDate = body.end_date || '';
+    const groupSize = body.group_size || '';
+    const travelStyle = body.travel_style || '';
+    const dining = body.dining || '';
+    const budget = body.budget || '';
+    const requests = (body.requests || '').slice(0, 500);
+    const email = body.email || '';
 
     const params = new URLSearchParams();
     params.append('mode', 'payment');
     params.append('success_url', `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`);
-    params.append('cancel_url', `${SITE_URL}/#pricing`);
+    params.append('cancel_url', `${SITE_URL}/plan`);
     params.append('line_items[0][price]', PRICE_ID);
     params.append('line_items[0][quantity]', '1');
     params.append('payment_method_types[0]', 'card');
-    params.append('metadata[destination]', destination);
 
-    // Let Stripe collect email during checkout
+    // Pass trip details as Stripe metadata
+    params.append('metadata[destination]', destination);
+    params.append('metadata[start_date]', startDate);
+    params.append('metadata[end_date]', endDate);
+    params.append('metadata[group_size]', groupSize);
+    params.append('metadata[travel_style]', travelStyle);
+    params.append('metadata[dining]', dining);
+    params.append('metadata[budget]', budget);
+    params.append('metadata[requests]', requests);
+    params.append('metadata[email]', email);
+
+    // Pre-fill customer email if provided
+    if (email) {
+      params.append('customer_email', email);
+    }
     params.append('customer_creation', 'always');
 
     const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
