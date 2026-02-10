@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tabiji.ai — AI-Powered Travel Itineraries Built from Real Traveler Intel</title>
+    <meta name="description" content="Custom travel itineraries powered by AI, built from thousands of real Reddit reviews and traveler experiences. Not generic AI slop — real intel, real journeys.">
+    <meta property="og:title" content="tabiji.ai — Your Journey, Perfected by AI">
+    <meta property="og:description" content="Custom travel itineraries built from real traveler intel. Reddit-backed, AI-crafted, delivered to your inbox.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tabiji.ai">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="tabiji.ai — AI-Powered Travel Itineraries">
+    <meta name="twitter:description" content="Custom itineraries from real traveler intel. Not generic guides — real Reddit-backed recommendations.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="https://tabiji.ai">
+    <style>
+        :root {
+            --indigo: #2D3A5C;
+            --indigo-light: #3D4E7A;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --earth-light: #A6906F;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--indigo);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
+        .logo span { color: var(--terracotta); }
+        nav a.cta-nav {
+            background: var(--indigo); color: var(--warm-cream);
+            padding: 0.5rem 1.2rem; border-radius: 8px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            transition: background 0.2s;
+        }
+        nav a.cta-nav:hover { background: var(--indigo-light); }
+
+        /* HERO */
+        .hero {
+            padding: 8rem 2rem 5rem;
+            max-width: 800px; margin: 0 auto;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--sand); color: var(--earth);
+            padding: 0.35rem 1rem; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            line-height: 1.15; font-weight: 800;
+            color: var(--indigo);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.03em;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--terracotta), var(--earth));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem; color: var(--text-muted);
+            max-width: 580px; margin: 0 auto 2rem;
+        }
+        .hero-cta {
+            display: inline-block;
+            background: var(--terracotta); color: white;
+            padding: 0.9rem 2rem; border-radius: 10px;
+            text-decoration: none; font-size: 1.05rem; font-weight: 600;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 14px rgba(196, 112, 75, 0.3);
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 112, 75, 0.4);
+        }
+        .hero-sub {
+            margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted);
+        }
+
+        /* SECTIONS */
+        section { padding: 5rem 2rem; }
+        .container { max-width: 960px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--terracotta); font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 700; color: var(--indigo);
+            margin-bottom: 1rem; letter-spacing: -0.02em;
+        }
+        .section-desc {
+            font-size: 1.05rem; color: var(--text-muted);
+            max-width: 600px; margin-bottom: 3rem;
+        }
+
+        /* WHY DIFFERENT */
+        .diff { background: var(--warm-cream); }
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .diff-card {
+            background: var(--white);
+            border-radius: 14px; padding: 2rem;
+            border: 1px solid var(--sand);
+        }
+        .diff-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; margin-bottom: 1rem;
+        }
+        .diff-card:nth-child(1) .diff-icon { background: #FEF0E7; }
+        .diff-card:nth-child(2) .diff-icon { background: #E8F0E4; }
+        .diff-card:nth-child(3) .diff-icon { background: #EAE8F5; }
+        .diff-card h3 {
+            font-size: 1.1rem; font-weight: 600; color: var(--indigo);
+            margin-bottom: 0.5rem;
+        }
+        .diff-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* HOW IT WORKS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem; counter-reset: step;
+        }
+        .step { position: relative; padding-left: 0; }
+        .step-num {
+            font-size: 3rem; font-weight: 800;
+            color: var(--sand); line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .step h3 {
+            font-size: 1.1rem; font-weight: 600;
+            color: var(--indigo); margin-bottom: 0.4rem;
+        }
+        .step p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* PRICING */
+        .pricing { background: var(--warm-cream); text-align: center; }
+        .price-card {
+            background: var(--white); border-radius: 16px;
+            padding: 2.5rem; max-width: 420px; margin: 0 auto;
+            border: 2px solid var(--sand);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+        .price-card h3 {
+            font-size: 1.2rem; color: var(--indigo);
+            font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .price {
+            font-size: 3rem; font-weight: 800;
+            color: var(--terracotta); margin: 0.5rem 0;
+        }
+        .price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        .price-features {
+            list-style: none; margin: 1.5rem 0;
+            text-align: left;
+        }
+        .price-features li {
+            padding: 0.5rem 0;
+            font-size: 0.95rem; color: var(--text-muted);
+            border-bottom: 1px solid var(--sand);
+        }
+        .price-features li:last-child { border: none; }
+        .price-features li::before {
+            content: "✓ "; color: var(--sage); font-weight: 700;
+        }
+        .price-cta {
+            display: inline-block; width: 100%;
+            background: var(--terracotta); color: white;
+            padding: 0.85rem; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: transform 0.15s;
+        }
+        .price-cta:hover { transform: translateY(-2px); }
+
+        /* WAITLIST */
+        .waitlist { text-align: center; }
+        .waitlist-form {
+            display: flex; gap: 0.75rem;
+            max-width: 480px; margin: 0 auto;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .waitlist-form input {
+            flex: 1; min-width: 240px;
+            padding: 0.85rem 1.2rem; border-radius: 10px;
+            border: 2px solid var(--sand); font-size: 1rem;
+            background: var(--white); color: var(--text);
+            outline: none; transition: border 0.2s;
+        }
+        .waitlist-form input:focus { border-color: var(--indigo); }
+        .waitlist-form button {
+            padding: 0.85rem 1.8rem; border-radius: 10px;
+            background: var(--indigo); color: var(--warm-cream);
+            border: none; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .waitlist-form button:hover { background: var(--indigo-light); }
+
+        /* FOOTER */
+        footer {
+            padding: 3rem 2rem; text-align: center;
+            border-top: 1px solid var(--sand);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        footer .logo-footer {
+            font-size: 1.1rem; font-weight: 700; color: var(--indigo);
+            margin-bottom: 0.5rem;
+        }
+
+        /* QUOTE */
+        .reddit-quote {
+            background: var(--warm-cream); border-left: 3px solid var(--terracotta);
+            padding: 1rem 1.5rem; border-radius: 0 8px 8px 0;
+            margin-top: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;
+            font-size: 0.95rem; color: var(--text-muted); font-style: italic;
+        }
+        .reddit-quote cite {
+            display: block; margin-top: 0.5rem;
+            font-style: normal; font-size: 0.8rem; color: var(--earth);
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 0.8rem 1.2rem; }
+            section { padding: 3.5rem 1.5rem; }
+            .hero { padding: 6.5rem 1.5rem 3.5rem; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "tabiji.ai",
+        "description": "AI-powered custom travel itineraries built from real traveler intelligence",
+        "url": "https://tabiji.ai",
+        "applicationCategory": "TravelApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "29",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">tabiji<span>.ai</span></a>
+    <a href="#pricing" class="cta-nav">Get Your Itinerary</a>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">旅路 — "journey" in Japanese</div>
+    <h1>Travel itineraries from <em>real intel</em>, not generic AI slop</h1>
+    <p>We scour thousands of Reddit posts, travel forums, and local sources to build you a day-by-day itinerary that actually works. AI-crafted, human-vetted, delivered to your inbox.</p>
+    <a href="#pricing" class="hero-cta">Get Your Custom Itinerary — $29</a>
+    <p class="hero-sub">Delivered within 24 hours. 100% satisfaction guaranteed.</p>
+</section>
+
+<section class="diff">
+    <div class="container">
+        <div class="section-label">Why tabiji</div>
+        <h2 class="section-title">Not another ChatGPT wrapper</h2>
+        <p class="section-desc">Most AI travel tools regurgitate the same top-10 lists. We dig deeper.</p>
+        <div class="diff-grid">
+            <div class="diff-card">
+                <div class="diff-icon">🔍</div>
+                <h3>Reddit-Backed Research</h3>
+                <p>We analyze hundreds of real traveler posts — the hidden ramen shops, the overrated tourist traps, the neighborhoods locals actually recommend.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">🗺️</div>
+                <h3>Logistics That Work</h3>
+                <p>Geographically clustered, transit-optimized, with realistic timing. No "visit 12 things in one day" nonsense.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">🎯</div>
+                <h3>Personalized to You</h3>
+                <p>Your budget, your pace, your interests. Foodie? History buff? Want to avoid crowds? We build around what you actually care about.</p>
+            </div>
+        </div>
+        <div class="reddit-quote">
+            "Skip Shibuya Crossing at noon — go at 2am when it's empty and magical. The Don Quijote across the street is open 24h if you need snacks."
+            <cite>— r/JapanTravel, 2.4k upvotes</cite>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="section-label">How it works</div>
+        <h2 class="section-title">Three steps to your perfect trip</h2>
+        <p class="section-desc">Tell us where you're going. We handle the rest.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h3>Tell us your trip</h3>
+                <p>Destination, dates, budget, interests, dietary needs — the more detail, the better your itinerary.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h3>We deep-dive research</h3>
+                <p>Our AI scours Reddit, travel forums, local blogs, and review sites to find the best recommendations from real travelers.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h3>Get your itinerary</h3>
+                <p>A detailed day-by-day plan lands in your inbox within 24 hours. With insider tips, logistics, and booking links.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pricing" id="pricing">
+    <div class="container">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">One trip. One price. No subscriptions.</h2>
+        <p class="section-desc" style="margin-left:auto;margin-right:auto;">Less than the cost of one bad restaurant recommendation.</p>
+        <div class="price-card">
+            <h3>Custom Itinerary</h3>
+            <div class="price">$29 <span>per trip</span></div>
+            <ul class="price-features">
+                <li>Day-by-day personalized itinerary</li>
+                <li>Reddit & forum-sourced recommendations</li>
+                <li>Restaurant picks matched to your taste</li>
+                <li>Transit directions & logistics</li>
+                <li>Insider tips from real travelers</li>
+                <li>Delivered within 24 hours</li>
+                <li>2 free revisions</li>
+                <li>Reply anytime for trip questions</li>
+            </ul>
+            <a href="#waitlist" class="price-cta">Get Started</a>
+        </div>
+    </div>
+</section>
+
+<section class="waitlist" id="waitlist">
+    <div class="container">
+        <div class="section-label">Get early access</div>
+        <h2 class="section-title">Join the waitlist</h2>
+        <p class="section-desc" style="margin-left:auto;margin-right:auto;">Be the first to know when we launch. Early signups get 50% off their first itinerary.</p>
+        <form class="waitlist-form" action="#" method="POST" onsubmit="handleSubmit(event)">
+            <input type="email" name="email" placeholder="your@email.com" required>
+            <button type="submit">Join Waitlist</button>
+        </form>
+        <p class="hero-sub" style="margin-top:1rem;">No spam. Just launch updates.</p>
+    </div>
+</section>
+
+<footer>
+    <div class="logo-footer">tabiji.ai</div>
+    <p>旅路 — Every journey begins with a single step.</p>
+    <p style="margin-top:0.5rem;">© 2026 tabiji.ai. All rights reserved.</p>
+</footer>
+
+<script>
+function handleSubmit(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✓ You\'re on the list!';
+    btn.style.background = '#7A8B6F';
+    e.target.querySelector('input').disabled = true;
+    btn.disabled = true;
+    // TODO: Wire up to API endpoint or Cloudflare KV
+    console.log('Waitlist signup:', email);
+}
+</script>
+
+</body>
+</html>
