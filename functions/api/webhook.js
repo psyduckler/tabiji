@@ -1,13 +1,8 @@
 export async function onRequestPost(context) {
   const STRIPE_SK = context.env.STRIPE_SECRET_KEY;
-  const WEBHOOK_SECRET = context.env.STRIPE_WEBHOOK_SECRET;
-  const SLACK_WEBHOOK_URL = context.env.SLACK_WEBHOOK_URL;
 
   try {
     const body = await context.request.text();
-
-    // TODO: Verify Stripe webhook signature with WEBHOOK_SECRET
-    // For v1, we'll trust the payload and verify via Stripe API
     const event = JSON.parse(body);
 
     if (event.type !== 'checkout.session.completed') {
@@ -15,25 +10,31 @@ export async function onRequestPost(context) {
     }
 
     const session = event.data.object;
-    const customerEmail = session.customer_details?.email || 'unknown';
-    const destination = session.metadata?.destination || 'Not specified';
-    const amountPaid = (session.amount_total / 100).toFixed(2);
-    const sessionId = session.id;
+    const order = {
+      id: session.id,
+      email: session.customer_details?.email || session.metadata?.email || 'unknown',
+      destination: session.metadata?.destination || 'Not specified',
+      start_date: session.metadata?.start_date || '',
+      end_date: session.metadata?.end_date || '',
+      group_size: session.metadata?.group_size || '',
+      travel_style: session.metadata?.travel_style || '',
+      dining: session.metadata?.dining || '',
+      budget: session.metadata?.budget || '',
+      requests: session.metadata?.requests || '',
+      amount: (session.amount_total / 100).toFixed(2),
+      timestamp: new Date().toISOString(),
+      status: 'pending'
+    };
 
-    // Post to Slack #tabiji channel
-    if (SLACK_WEBHOOK_URL) {
-      const slackPayload = {
-        text: `🎌 *New Tabiji Order!*\n\n• *Customer:* ${customerEmail}\n• *Destination:* ${destination}\n• *Amount:* $${amountPaid}\n• *Session:* \`${sessionId}\`\n\nTime to build an itinerary! 🗺️`,
-      };
-
-      await fetch(SLACK_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(slackPayload),
-      });
+    // Store order in KV if available, otherwise just respond
+    if (context.env.ORDERS) {
+      // Cloudflare KV binding
+      const orders = JSON.parse(await context.env.ORDERS.get('pending') || '[]');
+      orders.push(order);
+      await context.env.ORDERS.put('pending', JSON.stringify(orders));
     }
 
-    return new Response(JSON.stringify({ received: true }), {
+    return new Response(JSON.stringify({ received: true, order_id: session.id }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
