@@ -16,9 +16,8 @@ export async function onRequestPost(context) {
     params.append('payment_method_types[0]', 'card');
     params.append('metadata[destination]', destination);
 
-    // Collect customer email
+    // Let Stripe collect email during checkout
     params.append('customer_creation', 'always');
-    params.append('customer_email', '');
 
     const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
