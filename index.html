@@ -362,7 +362,7 @@
                 <li>2 free revisions</li>
                 <li>Reply anytime for trip questions</li>
             </ul>
-            <a href="#waitlist" class="price-cta">Get Started</a>
+            <a href="#" class="price-cta" onclick="startCheckout(event)">Get Started — $1</a>
         </div>
     </div>
 </section>
@@ -397,6 +397,32 @@ function handleSubmit(e) {
     btn.disabled = true;
     // TODO: Wire up to API endpoint or Cloudflare KV
     console.log('Waitlist signup:', email);
+}
+
+async function startCheckout(e) {
+    e.preventDefault();
+    const btn = e.target;
+    btn.textContent = 'Redirecting to checkout...';
+    btn.style.pointerEvents = 'none';
+    try {
+        const res = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ destination: '' })
+        });
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert('Something went wrong. Please try again.');
+            btn.textContent = 'Get Started — $1';
+            btn.style.pointerEvents = 'auto';
+        }
+    } catch (err) {
+        alert('Something went wrong. Please try again.');
+        btn.textContent = 'Get Started — $1';
+        btn.style.pointerEvents = 'auto';
+    }
 }
 </script>
 
