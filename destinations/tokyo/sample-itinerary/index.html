@@ -23,6 +23,7 @@
     <meta name="twitter:title" content="5-Day Tokyo Itinerary — tabiji.ai">
     <meta name="twitter:description" content="Complete day-by-day Tokyo guide with real restaurant names, hidden neighborhoods, and local tips. Built from Reddit intel.">
     <link rel="canonical" href="https://tabiji.ai/destinations/tokyo/sample-itinerary/">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --indigo: #2D3A5C;
@@ -298,12 +299,37 @@
         }
         footer .dest-links a:hover { color: var(--terracotta); }
 
+        /* LEAFLET MAPS */
+        .day-map {
+            width: 100%; height: 450px; border-radius: 14px;
+            margin: 1.5rem 0 2rem; border: 1px solid var(--sand);
+            z-index: 1;
+        }
+        .day-map .leaflet-popup-content-wrapper {
+            border-radius: 10px; font-family: inherit;
+        }
+        .day-map .leaflet-popup-content { font-size: 0.85rem; line-height: 1.4; }
+        .day-map .leaflet-popup-content strong { color: var(--indigo); }
+        .day-map .leaflet-popup-content .map-cat {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 0.15rem 0.5rem; border-radius: 100px; margin-bottom: 0.3rem;
+        }
+        .map-cat-temple { background: #fde8e8; color: #c0392b; }
+        .map-cat-food { background: #fef0e7; color: #d35400; }
+        .map-cat-shopping { background: #e8f0fe; color: #2471a3; }
+        .map-cat-park { background: #e8f5e8; color: #27ae60; }
+        .map-cat-nightlife { background: #f0e8fe; color: #7d3c98; }
+        .map-cat-attraction { background: #fef9e7; color: #b7950b; }
+        .map-cat-art { background: #fce4ec; color: #c2185b; }
+
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
+            .day-map { height: 350px; }
         }
     </style>
     <script type="application/ld+json">
@@ -483,6 +509,7 @@
             </div>
             <div class="spot-detail">📍 Kabukichō 1-chome, Shinjuku · Most bars ¥500–800/drink + ¥300–500 cover at some · 19:00–late</div>
         </div>
+        <div id="map-day1" class="day-map"></div>
     </div>
 
     <!-- DAY 2 -->
@@ -554,6 +581,7 @@
                 <div class="meal-meta">📍 Asakusa 2-chome, Taito-ku · ¥2,000–3,000 · Cash mostly · Lively from 17:00</div>
             </div>
         </div>
+        <div id="map-day2" class="day-map"></div>
     </div>
 
     <!-- DAY 3 -->
@@ -625,6 +653,7 @@
             </div>
             <p style="margin-top:0.75rem;"><strong>After dinner:</strong> Shimokita has great small bars. Walk around until you find one that looks interesting. <strong>Mother</strong> (a music bar) and <strong>Trouble Peach</strong> (a cocktail bar the size of a closet) are local favorites.</p>
         </div>
+        <div id="map-day3" class="day-map"></div>
     </div>
 
     <!-- DAY 4 -->
@@ -694,6 +723,7 @@
             </div>
             <p style="margin-top:0.75rem;"><strong>Night option:</strong> Koenji's bar scene is legendary among locals. <strong>Cocktail Shobō</strong> is a bar inside a bookshop. <strong>UFO Club</strong> is a basement live music venue that's been running since 1994.</p>
         </div>
+        <div id="map-day4" class="day-map"></div>
     </div>
 
     <!-- DAY 5 -->
@@ -764,6 +794,7 @@
             </div>
             <p style="margin-top:0.75rem;"><strong>One last thing:</strong> If you have the energy, walk to <strong>Tokyo Tower</strong> at night (15 min from Roppongi). It's more beautiful from the outside than the inside — the orange glow against the dark sky is the postcard moment. Grab a Suntory Highball from a vending machine and toast your trip.</p>
         </div>
+        <div id="map-day5" class="day-map"></div>
     </div>
 
     <!-- BUDGET -->
@@ -844,5 +875,105 @@
     <p>© 2026 tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step.</p>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+    var colors = {
+        temple: '#c0392b', food: '#d35400', shopping: '#2471a3',
+        park: '#27ae60', nightlife: '#7d3c98', attraction: '#b7950b', art: '#c2185b'
+    };
+    var catLabels = {
+        temple: 'Temple', food: 'Food', shopping: 'Shopping',
+        park: 'Park', nightlife: 'Nightlife', attraction: 'Attraction', art: 'Art'
+    };
+
+    function makeIcon(cat) {
+        var c = colors[cat] || '#2D3A5C';
+        return L.divIcon({
+            className: '',
+            html: '<div style="width:28px;height:28px;background:' + c + ';border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
+            iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -16]
+        });
+    }
+
+    function popup(name, desc, cat) {
+        var cls = 'map-cat-' + cat;
+        return '<span class="map-cat ' + cls + '">' + catLabels[cat] + '</span><br><strong>' + name + '</strong><br>' + desc;
+    }
+
+    function initMap(id, pins) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var map = L.map(id, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+        var bounds = [];
+        pins.forEach(function(p) {
+            var m = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat) }).addTo(map);
+            m.bindPopup(popup(p.name, p.desc, p.cat));
+            bounds.push([p.lat, p.lng]);
+        });
+        if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40] });
+        else map.setView(bounds[0], 15);
+    }
+
+    // Day 1: Shinjuku & Kabukichō
+    initMap('map-day1', [
+        { lat: 35.6876, lng: 139.6997, name: 'Fuunji (風雲児)', desc: 'Legendary tsukemen behind Shinjuku Station', cat: 'food' },
+        { lat: 35.6852, lng: 139.7100, name: 'Shinjuku Gyoen', desc: 'Beautiful national garden — perfect jet lag antidote', cat: 'park' },
+        { lat: 35.6938, lng: 139.7035, name: 'Kabukichō', desc: 'Neon entertainment district & Kabukichō Tower', cat: 'attraction' },
+        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokochō', desc: 'Tiny yakitori alley — the essential Tokyo experience', cat: 'food' },
+        { lat: 35.6935, lng: 139.7045, name: 'Golden Gai', desc: '200+ tiny bars in six narrow alleys', cat: 'nightlife' }
+    ]);
+
+    // Day 2: Asakusa, Yanaka & Ueno
+    initMap('map-day2', [
+        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — go at 6 AM', cat: 'temple' },
+        { lat: 35.7100, lng: 139.7930, name: 'Pelican Café', desc: 'Family bakery since 1942 — incredible shokupan toast', cat: 'food' },
+        { lat: 35.7135, lng: 139.7965, name: 'Nakamise-dori', desc: 'Asakusa Menchi croquettes & Kibidango Azuma', cat: 'shopping' },
+        { lat: 35.7270, lng: 139.7680, name: 'Yanaka Ginza', desc: '170m shopping street — old Tokyo vibes', cat: 'shopping' },
+        { lat: 35.7205, lng: 139.7620, name: 'Hantei', desc: 'Kushiage in a stunning 1917 wooden building', cat: 'food' },
+        { lat: 35.7186, lng: 139.7745, name: 'Ueno Park & Tokyo National Museum', desc: 'Museums, shrines & people-watching', cat: 'park' },
+        { lat: 35.7085, lng: 139.7745, name: 'Ameyoko Market', desc: 'Chaotic open-air market under the train tracks', cat: 'shopping' },
+        { lat: 35.7130, lng: 139.7950, name: 'Hoppy-dori', desc: 'Open-air izakayas near Senso-ji — local drinking culture', cat: 'nightlife' }
+    ]);
+
+    // Day 3: Shibuya, Harajuku & Shimokitazawa
+    initMap('map-day3', [
+        { lat: 35.6680, lng: 139.7070, name: 'Bills Omotesando', desc: 'Famous ricotta hotcakes for breakfast', cat: 'food' },
+        { lat: 35.6764, lng: 139.6993, name: 'Meiji Jingu Shrine', desc: 'Serene forested shrine in central Tokyo', cat: 'temple' },
+        { lat: 35.6705, lng: 139.7027, name: 'Takeshita-dori', desc: 'Harajuku\'s famous teen fashion street', cat: 'shopping' },
+        { lat: 35.6700, lng: 139.7060, name: 'Afuri (阿夫利)', desc: 'Light yuzu-citrus shio ramen', cat: 'food' },
+        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest pedestrian scramble', cat: 'attraction' },
+        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — book for sunset', cat: 'attraction' },
+        { lat: 35.6613, lng: 139.6680, name: 'Shimokitazawa', desc: 'Tokyo\'s indie heart — vintage, curry, live music', cat: 'shopping' },
+        { lat: 35.6620, lng: 139.6670, name: 'Shirube (しるべ)', desc: 'Intimate 20-seat izakaya with seasonal dishes', cat: 'food' }
+    ]);
+
+    // Day 4: Akihabara, Jimbocho & Koenji
+    initMap('map-day4', [
+        { lat: 35.6984, lng: 139.7710, name: 'Super Potato', desc: 'Multi-floor retro game shop — play Famicom upstairs', cat: 'shopping' },
+        { lat: 35.6987, lng: 139.7725, name: 'Mandarake Complex', desc: '8 floors of manga, anime & vintage toys', cat: 'shopping' },
+        { lat: 35.6980, lng: 139.7700, name: 'Radio Kaikan', desc: 'Original electronics building — gadgets & hobby supplies', cat: 'shopping' },
+        { lat: 35.6958, lng: 139.7575, name: 'Jimbocho Book District', desc: '170+ bookshops — world\'s highest concentration', cat: 'shopping' },
+        { lat: 35.6955, lng: 139.7580, name: 'Bondy (ボンディ)', desc: 'Crown jewel of Jimbocho\'s curry district', cat: 'food' },
+        { lat: 35.7053, lng: 139.6494, name: 'Koenji', desc: 'Punk rock & vintage paradise — counterculture capital', cat: 'shopping' },
+        { lat: 35.7040, lng: 139.6490, name: 'Tensuke (天すけ)', desc: 'No-frills tempura counter — famous egg tempura', cat: 'food' }
+    ]);
+
+    // Day 5: Tsukiji, Ginza & Roppongi
+    initMap('map-day5', [
+        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: '400+ stalls — graze your way through Tokyo\'s best food', cat: 'food' },
+        { lat: 35.6714, lng: 139.7652, name: 'Ginza / Mitsukoshi', desc: 'Upscale district — depachika food halls are a must', cat: 'shopping' },
+        { lat: 35.6720, lng: 139.7650, name: 'Itoya', desc: '12-floor stationery wonderland with rooftop farm', cat: 'shopping' },
+        { lat: 35.6600, lng: 139.7410, name: 'Yamaharu Standing Sushi', desc: 'Toranomon Hills — incredible omakase for ¥2,000', cat: 'food' },
+        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: 'Immersive digital art at Azabudai Hills', cat: 'art' },
+        { lat: 35.6627, lng: 139.7316, name: 'Uoharu (魚治)', desc: 'Refined izakaya — the perfect farewell dinner', cat: 'food' },
+        { lat: 35.6586, lng: 139.7454, name: 'Tokyo Tower', desc: 'Iconic orange glow — best from outside at night', cat: 'attraction' }
+    ]);
+})();
+</script>
 </body>
 </html>
