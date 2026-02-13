@@ -12,7 +12,6 @@
     </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><title>Plan Your Trip — tabiji.ai</title>
     <meta name="description" content="Tell us about your dream trip and we'll craft a personalized itinerary from real traveler intel.">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         :root {
             --indigo: #2D3A5C;
@@ -92,22 +91,6 @@
         .date-row { display: flex; gap: 1rem; }
         .date-row > div { flex: 1; }
 
-        .checkbox-group, .radio-group {
-            display: flex; flex-wrap: wrap; gap: 0.5rem;
-        }
-        .checkbox-group label, .radio-group label {
-            display: flex; align-items: center; gap: 0.4rem;
-            font-weight: 400; font-size: 0.95rem; color: var(--text);
-            background: var(--warm-cream); padding: 0.5rem 1rem;
-            border-radius: 100px; cursor: pointer; border: 2px solid transparent;
-            transition: border 0.2s, background 0.2s;
-        }
-        .checkbox-group input, .radio-group input { display: none; }
-        .checkbox-group input:checked + label,
-        .radio-group input:checked + label {
-            border-color: var(--terracotta); background: #FEF0E7;
-        }
-        /* Wrap input inside label approach */
         .pill { display: inline-block; }
         .pill input { display: none; }
         .pill span {
@@ -124,6 +107,48 @@
         .divider {
             border: none; border-top: 1px solid var(--sand);
             margin: 2.5rem 0;
+        }
+
+        /* Accordion styles */
+        .accordion {
+            border: 2px solid var(--sand); border-radius: 12px;
+            margin-bottom: 0.75rem; overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .accordion.open { border-color: var(--earth-light); }
+        .accordion-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.9rem 1.1rem; cursor: pointer; user-select: none;
+            background: var(--warm-cream); transition: background 0.2s;
+        }
+        .accordion-header:hover { background: var(--sand); }
+        .accordion-header .acc-title {
+            font-size: 0.95rem; font-weight: 600; color: var(--indigo);
+        }
+        .accordion-header .acc-subtitle {
+            font-size: 0.8rem; color: var(--text-muted); font-weight: 400;
+            margin-left: 0.5rem;
+        }
+        .accordion-header .acc-chevron {
+            font-size: 1rem; color: var(--text-muted); transition: transform 0.25s;
+            flex-shrink: 0; margin-left: 0.75rem;
+        }
+        .accordion.open .acc-chevron { transform: rotate(180deg); }
+        .accordion-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 1.1rem;
+        }
+        .accordion.open .accordion-body {
+            max-height: 400px; padding: 0.75rem 1.1rem 1.1rem;
+        }
+        .accordion-body .hint {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;
+        }
+
+        .optional-section-label {
+            font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
         }
 
         .submit-btn {
@@ -170,11 +195,12 @@
 
 <div class="form-hero">
     <h1>Let's plan your perfect trip ✈️</h1>
-    <p>The more you tell us, the better your itinerary. Takes about 2 minutes.</p>
+    <p>Just the basics — or tell us everything. The more we know, the better your itinerary.</p>
 </div>
 
 <form class="form-container" id="intake-form" onsubmit="submitForm(event)">
 
+    <!-- REQUIRED FIELDS -->
     <div class="field">
         <label for="destination">Where are you going?</label>
         <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo, Japan" required>
@@ -203,60 +229,82 @@
         </select>
     </div>
 
-    <hr class="divider">
-
-    <div class="field">
-        <label>Travel style</label>
-        <p class="hint">Pick all that apply</p>
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-            <label class="pill"><input type="checkbox" name="style" value="Adventure"><span>🥾 Adventure</span></label>
-            <label class="pill"><input type="checkbox" name="style" value="Cultural"><span>🏛️ Cultural</span></label>
-            <label class="pill"><input type="checkbox" name="style" value="Foodie"><span>🍜 Foodie</span></label>
-            <label class="pill"><input type="checkbox" name="style" value="Relaxation"><span>🧘 Relaxation</span></label>
-            <label class="pill"><input type="checkbox" name="style" value="Nightlife"><span>🍸 Nightlife</span></label>
-            <label class="pill"><input type="checkbox" name="style" value="Family-friendly"><span>👨‍👩‍👧 Family-friendly</span></label>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>Dining preferences</label>
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-            <label class="pill"><input type="radio" name="dining" value="Fine dining all meals"><span>Fine dining for all meals</span></label>
-            <label class="pill"><input type="radio" name="dining" value="Fine dining dinners only"><span>Fine dining dinners only</span></label>
-            <label class="pill"><input type="radio" name="dining" value="Casual throughout"><span>Casual throughout</span></label>
-            <label class="pill"><input type="radio" name="dining" value="Mix of everything" checked><span>Mix of everything</span></label>
-        </div>
-    </div>
-
-    <div class="field">
-        <label for="budget">Budget per person</label>
-        <select id="budget" name="budget" required>
-            <option value="" disabled selected>Select a range</option>
-            <option value="Under $1,000">Under $1,000</option>
-            <option value="$1,000-2,000">$1,000–$2,000</option>
-            <option value="$2,000-5,000">$2,000–$5,000</option>
-            <option value="$5,000-10,000">$5,000–$10,000</option>
-            <option value="$10,000+">$10,000+</option>
-            <option value="Surprise me">Surprise me 🎉</option>
-        </select>
-    </div>
-
-    <hr class="divider">
-
-    <div class="field">
-        <label for="requests">Anything else we should know?</label>
-        <p class="hint">Allergies, must-see spots, accessibility needs, vibe preferences…</p>
-        <textarea id="requests" name="requests" placeholder="e.g. We love hole-in-the-wall ramen joints. Partner is vegetarian. Want at least one onsen day."></textarea>
-    </div>
-
     <div class="field">
         <label for="email">Email</label>
         <p class="hint">We'll deliver your itinerary here</p>
         <input type="email" id="email" name="email" placeholder="your@email.com" required>
     </div>
 
-    <button type="submit" class="submit-btn" id="submit-btn">Continue to Payment — $1</button>
-    <p class="submit-sub">You'll be taken to Stripe for secure payment. Itinerary delivered within 24 hours.</p>
+    <hr class="divider">
+
+    <!-- OPTIONAL ACCORDIONS -->
+    <p class="optional-section-label">Optional — personalize your trip</p>
+
+    <div class="accordion" data-accordion>
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div><span class="acc-title">🥾 Travel style</span><span class="acc-subtitle">Adventure, cultural, foodie…</span></div>
+            <span class="acc-chevron">▾</span>
+        </div>
+        <div class="accordion-body">
+            <p class="hint">Pick all that apply</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <label class="pill"><input type="checkbox" name="style" value="Adventure"><span>🥾 Adventure</span></label>
+                <label class="pill"><input type="checkbox" name="style" value="Cultural"><span>🏛️ Cultural</span></label>
+                <label class="pill"><input type="checkbox" name="style" value="Foodie"><span>🍜 Foodie</span></label>
+                <label class="pill"><input type="checkbox" name="style" value="Relaxation"><span>🧘 Relaxation</span></label>
+                <label class="pill"><input type="checkbox" name="style" value="Nightlife"><span>🍸 Nightlife</span></label>
+                <label class="pill"><input type="checkbox" name="style" value="Family-friendly"><span>👨‍👩‍👧 Family-friendly</span></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" data-accordion>
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div><span class="acc-title">🍽️ Dining preferences</span><span class="acc-subtitle">Fine dining, casual, mix…</span></div>
+            <span class="acc-chevron">▾</span>
+        </div>
+        <div class="accordion-body">
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <label class="pill"><input type="radio" name="dining" value="Fine dining all meals"><span>Fine dining for all meals</span></label>
+                <label class="pill"><input type="radio" name="dining" value="Fine dining dinners only"><span>Fine dining dinners only</span></label>
+                <label class="pill"><input type="radio" name="dining" value="Casual throughout"><span>Casual throughout</span></label>
+                <label class="pill"><input type="radio" name="dining" value="Mix of everything"><span>Mix of everything</span></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" data-accordion>
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div><span class="acc-title">💰 Budget per person</span><span class="acc-subtitle">Helps us tailor recommendations</span></div>
+            <span class="acc-chevron">▾</span>
+        </div>
+        <div class="accordion-body">
+            <select id="budget" name="budget" style="width:100%;padding:0.8rem 1rem;border-radius:10px;border:2px solid var(--sand);font-size:1rem;background:var(--white);color:var(--text);font-family:inherit;outline:none;">
+                <option value="" disabled selected>Select a range</option>
+                <option value="Under $1,000">Under $1,000</option>
+                <option value="$1,000-2,000">$1,000–$2,000</option>
+                <option value="$2,000-5,000">$2,000–$5,000</option>
+                <option value="$5,000-10,000">$5,000–$10,000</option>
+                <option value="$10,000+">$10,000+</option>
+                <option value="Surprise me">Surprise me 🎉</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="accordion" data-accordion>
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div><span class="acc-title">✨ Anything else?</span><span class="acc-subtitle">Special requests, must-sees, vibes…</span></div>
+            <span class="acc-chevron">▾</span>
+        </div>
+        <div class="accordion-body">
+            <textarea id="requests" name="requests" placeholder="e.g. We love hole-in-the-wall ramen joints. Partner is vegetarian. Want at least one onsen day." style="width:100%;padding:0.8rem 1rem;border-radius:10px;border:2px solid var(--sand);font-size:1rem;background:var(--white);color:var(--text);font-family:inherit;outline:none;resize:vertical;min-height:80px;"></textarea>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <button type="submit" class="submit-btn" id="submit-btn">Continue to Payment — $1</button>
+        <p class="submit-sub">You'll be taken to Stripe for secure payment. Itinerary delivered within 24 hours.</p>
+    </div>
 
 </form>
 
@@ -275,6 +323,11 @@
     }
 })();
 
+function toggleAccordion(header) {
+    const accordion = header.closest('.accordion');
+    accordion.classList.toggle('open');
+}
+
 async function submitForm(e) {
     e.preventDefault();
     const btn = document.getElementById('submit-btn');
@@ -283,7 +336,10 @@ async function submitForm(e) {
 
     const form = document.getElementById('intake-form');
     const styles = Array.from(form.querySelectorAll('input[name="style"]:checked')).map(c => c.value);
-    const dining = form.querySelector('input[name="dining"]:checked')?.value || '';
+    const diningEl = form.querySelector('input[name="dining"]:checked');
+    const dining = diningEl ? diningEl.value : '';
+    const budgetEl = document.getElementById('budget');
+    const budget = budgetEl ? budgetEl.value : '';
 
     const payload = {
         destination: form.destination.value,
@@ -292,7 +348,7 @@ async function submitForm(e) {
         group_size: form.group_size.value,
         travel_style: styles.join(', '),
         dining: dining,
-        budget: form.budget.value,
+        budget: budget,
         requests: form.requests.value,
         email: form.email.value,
     };
