@@ -23,7 +23,6 @@
     <meta name="twitter:title" content="5-Day Tokyo Itinerary — tabiji.ai">
     <meta name="twitter:description" content="Complete day-by-day Tokyo guide with real restaurant names, hidden neighborhoods, and local tips. Built from Reddit intel.">
     <link rel="canonical" href="https://tabiji.ai/destinations/tokyo/sample-itinerary/">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --indigo: #2D3A5C;
@@ -299,29 +298,12 @@
         }
         footer .dest-links a:hover { color: var(--terracotta); }
 
-        /* LEAFLET MAPS */
+        /* GOOGLE MAPS */
         .day-map {
             width: 100%; height: 450px; border-radius: 14px;
             margin: 1.5rem 0 2rem; border: 1px solid var(--sand);
-            z-index: 1;
+            z-index: 1; overflow: hidden;
         }
-        .day-map .leaflet-popup-content-wrapper {
-            border-radius: 10px; font-family: inherit;
-        }
-        .day-map .leaflet-popup-content { font-size: 0.85rem; line-height: 1.4; }
-        .day-map .leaflet-popup-content strong { color: var(--indigo); }
-        .day-map .leaflet-popup-content .map-cat {
-            display: inline-block; font-size: 0.7rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            padding: 0.15rem 0.5rem; border-radius: 100px; margin-bottom: 0.3rem;
-        }
-        .map-cat-temple { background: #fde8e8; color: #c0392b; }
-        .map-cat-food { background: #fef0e7; color: #d35400; }
-        .map-cat-shopping { background: #e8f0fe; color: #2471a3; }
-        .map-cat-park { background: #e8f5e8; color: #27ae60; }
-        .map-cat-nightlife { background: #f0e8fe; color: #7d3c98; }
-        .map-cat-attraction { background: #fef9e7; color: #b7950b; }
-        .map-cat-art { background: #fce4ec; color: #c2185b; }
 
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
@@ -877,7 +859,7 @@
     <p>© 2026 tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step.</p>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
     var colors = {
@@ -888,37 +870,51 @@
         temple: 'Temple', food: 'Food', shopping: 'Shopping',
         park: 'Park', nightlife: 'Nightlife', attraction: 'Attraction', art: 'Art'
     };
+    var catBgColors = {
+        temple: '#fde8e8', food: '#fef0e7', shopping: '#e8f0fe',
+        park: '#e8f5e8', nightlife: '#f0e8fe', attraction: '#fef9e7', art: '#fce4ec'
+    };
 
-    function makeIcon(cat) {
+    function makeSVGIcon(cat) {
         var c = colors[cat] || '#2D3A5C';
-        return L.divIcon({
-            className: '',
-            html: '<div style="width:28px;height:28px;background:' + c + ';border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
-            iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -16]
-        });
-    }
-
-    function popup(name, desc, cat) {
-        var cls = 'map-cat-' + cat;
-        return '<span class="map-cat ' + cls + '">' + catLabels[cat] + '</span><br><strong>' + name + '</strong><br>' + desc;
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
     }
 
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
-        var map = L.map(id, { scrollWheelZoom: false });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            maxZoom: 18
-        }).addTo(map);
-        var bounds = [];
-        pins.forEach(function(p) {
-            var m = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat) }).addTo(map);
-            m.bindPopup(popup(p.name, p.desc, p.cat));
-            bounds.push([p.lat, p.lng]);
+        var map = new google.maps.Map(el, {
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            styles: [
+                { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] }
+            ]
         });
-        if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40] });
-        else map.setView(bounds[0], 15);
+        var bounds = new google.maps.LatLngBounds();
+        var infoWindow = new google.maps.InfoWindow();
+        pins.forEach(function(p) {
+            var pos = { lat: p.lat, lng: p.lng };
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat),
+                title: p.name
+            });
+            bounds.extend(pos);
+            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+            marker.addListener('click', function() {
+                infoWindow.setContent(content);
+                infoWindow.open(map, marker);
+            });
+        });
+        map.fitBounds(bounds, 40);
     }
 
     // Day 1: Shinjuku & Kabukichō
