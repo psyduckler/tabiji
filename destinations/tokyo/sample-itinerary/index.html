@@ -103,23 +103,59 @@
         }
         .hero-meta strong { color: var(--indigo); }
 
-        /* CONTENT */
-        .content { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        /* CONTENT LAYOUT — sidebar + main */
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content { flex: 1; min-width: 0; max-width: 800px; }
 
-        /* TABLE OF CONTENTS */
-        .toc {
+        /* STICKY SIDEBAR TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+
+        /* Inline TOC (mobile fallback) */
+        .toc-inline {
             background: var(--warm-cream); border-radius: 14px;
             padding: 2rem; margin: 2rem 0 3rem;
             border: 1px solid var(--sand);
+            display: none;
         }
-        .toc h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
-        .toc ul { list-style: none; }
-        .toc li { margin-bottom: 0.5rem; }
-        .toc a {
+        .toc-inline h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
+        .toc-inline ul { list-style: none; }
+        .toc-inline li { margin-bottom: 0.5rem; }
+        .toc-inline a {
             color: var(--earth); text-decoration: none; font-size: 0.95rem;
             transition: color 0.2s;
         }
-        .toc a:hover { color: var(--terracotta); }
+        .toc-inline a:hover { color: var(--terracotta); }
+
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-inline { display: block; }
+        }
 
         /* ESSENTIALS BOX */
         .essentials {
@@ -387,10 +423,26 @@
     </div>
 </section>
 
+<div class="content-wrapper">
+
+<!-- STICKY SIDEBAR TOC (desktop) -->
+<aside class="toc-sidebar" id="toc-sidebar">
+    <h2>Itinerary</h2>
+    <ul>
+        <li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>
+        <li><a href="#day1" data-section="day1">Day 1: Shinjuku</a></li>
+        <li><a href="#day2" data-section="day2">Day 2: Asakusa & Ueno</a></li>
+        <li><a href="#day3" data-section="day3">Day 3: Shibuya & Harajuku</a></li>
+        <li><a href="#day4" data-section="day4">Day 4: Akihabara & Koenji</a></li>
+        <li><a href="#day5" data-section="day5">Day 5: Tsukiji & Ginza</a></li>
+        <li><a href="#budget" data-section="budget">💰 Budget</a></li>
+    </ul>
+</aside>
+
 <div class="content">
 
-    <!-- TABLE OF CONTENTS -->
-    <div class="toc">
+    <!-- INLINE TOC (mobile) -->
+    <div class="toc-inline">
         <h2>Jump to a day</h2>
         <ul>
             <li><a href="#essentials">⚡ Before You Go — Tokyo Essentials</a></li>
@@ -845,6 +897,7 @@
     </div>
 
 </div><!-- /content -->
+</div><!-- /content-wrapper -->
 
 <!-- CTA -->
 <section class="final-cta">
@@ -971,6 +1024,33 @@
         { lat: 35.6627, lng: 139.7316, name: 'Uoharu (魚治)', desc: 'Refined izakaya — the perfect farewell dinner', cat: 'food' },
         { lat: 35.6586, lng: 139.7454, name: 'Tokyo Tower', desc: 'Iconic orange glow — best from outside at night', cat: 'attraction' }
     ]);
+})();
+</script>
+
+<!-- Scroll spy for sidebar TOC -->
+<script>
+(function() {
+    var links = document.querySelectorAll('.toc-sidebar a[data-section]');
+    var sections = [];
+    links.forEach(function(link) {
+        var id = link.getAttribute('data-section');
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+    });
+    if (!sections.length) return;
+
+    function update() {
+        var scrollY = window.scrollY + 120;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+        }
+        links.forEach(function(l) { l.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
 })();
 </script>
 </body>
