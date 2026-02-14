@@ -23,18 +23,12 @@ function generateItineraryHTML(data) {
   const tocEntries = [
     `<li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>`
   ];
-  const tocInlineEntries = [
-    `<li><a href="#essentials">⚡ Before You Go — Essentials</a></li>`
-  ];
   days.forEach(d => {
     tocEntries.push(`<li><a href="#day${d.num}" data-section="day${d.num}">Day ${d.num}: ${esc(d.neighborhoods.split('·')[0].trim())}</a></li>`);
-    tocInlineEntries.push(`<li><a href="#day${d.num}">Day ${d.num}: ${esc(d.neighborhoods)} — ${esc(d.title)}</a></li>`);
   });
   tocEntries.push(`<li><a href="#budget" data-section="budget">💰 Budget</a></li>`);
-  tocInlineEntries.push(`<li><a href="#budget">💰 Budget Breakdown</a></li>`);
   if (practicalInfo.length) {
     tocEntries.push(`<li><a href="#practical" data-section="practical">📋 Practical Info</a></li>`);
-    tocInlineEntries.push(`<li><a href="#practical">📋 Practical Info</a></li>`);
   }
 
   // Build essentials HTML
@@ -292,21 +286,52 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             color: var(--terracotta); border-left-color: var(--terracotta);
             font-weight: 600;
         }
-        .toc-inline {
-            background: var(--warm-cream); border-radius: 14px;
-            padding: 2rem; margin: 2rem 0 3rem;
-            border: 1px solid var(--sand);
+        .toc-mobile-sticky {
             display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        .toc-inline h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
-        .toc-inline ul { list-style: none; }
-        .toc-inline li { margin-bottom: 0.5rem; }
-        .toc-inline a { color: var(--earth); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
-        .toc-inline a:hover { color: var(--terracotta); }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
         @media (max-width: 900px) {
             .content-wrapper { flex-direction: column; gap: 0; }
             .toc-sidebar { display: none; }
-            .toc-inline { display: block; }
+            .toc-mobile-sticky { display: block; }
         }
         .essentials {
             background: var(--warm-cream); border-radius: 14px;
@@ -493,6 +518,18 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
     </div>
 </section>
 
+<div class="toc-mobile-sticky">
+    <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc-mobile-dropdown">
+        <span class="toc-active-label">📍 Jump to...</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            ${tocEntries.join('\n            ')}
+        </ul>
+    </div>
+</div>
+
 <div class="content-wrapper">
 
 <aside class="toc-sidebar" id="toc-sidebar">
@@ -503,13 +540,6 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
 </aside>
 
 <div class="content">
-
-    <div class="toc-inline">
-        <h2>Jump to a day</h2>
-        <ul>
-            ${tocInlineEntries.join('\n            ')}
-        </ul>
-    </div>
 
     <div class="essentials" id="essentials">
         <h2>⚡ Before You Go — Essentials</h2>
@@ -621,6 +651,47 @@ ${mapsJS}
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
+})();
+</script>
+
+<script>
+(function() {
+    var mobileLinks = document.querySelectorAll('.toc-mobile-dropdown a[data-section]');
+    var mobileSections = [];
+    mobileLinks.forEach(function(link) {
+        var id = link.getAttribute('data-section');
+        var el = document.getElementById(id);
+        if (el) mobileSections.push({ id: id, el: el, link: link });
+    });
+    var activeLabel = document.querySelector('.toc-active-label');
+    function updateMobile() {
+        if (!mobileSections.length) return;
+        var scrollY = window.scrollY + 120;
+        var current = mobileSections[0];
+        for (var i = 0; i < mobileSections.length; i++) {
+            if (mobileSections[i].el.offsetTop <= scrollY) current = mobileSections[i];
+        }
+        mobileLinks.forEach(function(l) { l.classList.remove('active'); });
+        current.link.classList.add('active');
+        if (activeLabel) activeLabel.textContent = '📍 ' + current.link.textContent.trim();
+    }
+    window.addEventListener('scroll', updateMobile, { passive: true });
+    updateMobile();
+
+    var sticky = document.querySelector('.toc-mobile-sticky');
+    var toggle = document.querySelector('.toc-mobile-toggle');
+    if (toggle && sticky) {
+        toggle.addEventListener('click', function() {
+            sticky.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', sticky.classList.contains('open'));
+        });
+        mobileLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                sticky.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 })();
 </script>
 </body>
