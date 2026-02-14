@@ -135,26 +135,55 @@
             font-weight: 600;
         }
 
-        /* Inline TOC (mobile fallback) */
-        .toc-inline {
-            background: var(--warm-cream); border-radius: 14px;
-            padding: 2rem; margin: 2rem 0 3rem;
-            border: 1px solid var(--sand);
+        /* Mobile Sticky TOC */
+        .toc-mobile-sticky {
             display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        .toc-inline h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
-        .toc-inline ul { list-style: none; }
-        .toc-inline li { margin-bottom: 0.5rem; }
-        .toc-inline a {
-            color: var(--earth); text-decoration: none; font-size: 0.95rem;
-            transition: color 0.2s;
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
         }
-        .toc-inline a:hover { color: var(--terracotta); }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; }
+        .toc-mobile-dropdown li { }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
 
         @media (max-width: 900px) {
             .content-wrapper { flex-direction: column; gap: 0; }
             .toc-sidebar { display: none; }
-            .toc-inline { display: block; }
+            .toc-mobile-sticky { display: block; }
         }
 
         /* ESSENTIALS BOX */
@@ -508,54 +537,31 @@
     </div>
 </section>
 
-<div class="content-wrapper">
-
-<!-- STICKY SIDEBAR TOC (desktop) -->
-<aside class="toc-sidebar" id="toc-sidebar">
-    <h2>Itinerary</h2>
-    <ul>
-        <li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>
-        <li><a href="#overview" data-section="overview">📋 Overview</a></li>
-        <li><a href="#day1" data-section="day1">Day 1: Shinjuku & Shibuya</a></li>
-        <li><a href="#day2" data-section="day2">Day 2: Asakusa & Ueno</a></li>
-        <li><a href="#day3" data-section="day3">Day 3: Harajuku & TeamLab</a></li>
-        <li><a href="#day4" data-section="day4">Day 4: Hakone / Kamakura</a></li>
-        <li><a href="#day5" data-section="day5">Day 5: Fushimi Inari & Higashiyama</a></li>
-        <li><a href="#day6" data-section="day6">Day 6: Arashiyama & Kinkaku-ji</a></li>
-        <li><a href="#day7" data-section="day7">Day 7: Central Kyoto</a></li>
-        <li><a href="#day8" data-section="day8">Day 8: Nara Day Trip</a></li>
-        <li><a href="#day9" data-section="day9">Day 9: Osaka Food & Culture</a></li>
-        <li><a href="#day10" data-section="day10">Day 10: Kuromon & Departure</a></li>
-        <li><a href="#seasonal" data-section="seasonal">🌸 Seasonal Guide</a></li>
-        <li><a href="#tips" data-section="tips">📝 First-Timer Tips</a></li>
-        <li><a href="#budget" data-section="budget">💰 Budget</a></li>
-        <li><a href="#faq" data-section="faq">❓ FAQ</a></li>
-    </ul>
-</aside>
-
-<div class="content">
-
-    <!-- INLINE TOC (mobile) -->
-    <div class="toc-inline">
-        <h2>Jump to a section</h2>
-        <ul>
-            <li><a href="#essentials">⚡ Before You Go — Essentials</a></li>
-            <li><a href="#overview">📋 Quick Overview</a></li>
-            <li><a href="#day1">Day 1: Arrival + Shinjuku & Shibuya</a></li>
-            <li><a href="#day2">Day 2: Asakusa, Akihabara & Ueno</a></li>
-            <li><a href="#day3">Day 3: Harajuku, Meiji Shrine & TeamLab</a></li>
-            <li><a href="#day4">Day 4: Day Trip — Hakone or Kamakura</a></li>
-            <li><a href="#day5">Day 5: Fushimi Inari & Higashiyama</a></li>
-            <li><a href="#day6">Day 6: Arashiyama & Golden Pavilion</a></li>
-            <li><a href="#day7">Day 7: Central Kyoto + Cultural Experiences</a></li>
-            <li><a href="#day8">Day 8: Day Trip to Nara</a></li>
-            <li><a href="#day9">Day 9: Osaka Food & Culture</a></li>
-            <li><a href="#day10">Day 10: Kuromon Market & Departure</a></li>
-            <li><a href="#seasonal">🌸 Seasonal Guide</a></li>
-            <li><a href="#tips">📝 First-Timer Tips</a></li>
-            <li><a href="#budget">💰 Budget Breakdown</a></li>
-            <li><a href="#faq">❓ FAQ</a></li>
+<div class="toc-mobile-sticky">
+        <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc-mobile-dropdown">
+            <span class="toc-active-label">📍 Jump to...</span>
+            <span class="toc-chevron">▼</span>
+        </button>
+        <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+            <ul>
+            <li><a href="#essentials" data-section="essentials">⚡ Before You Go — Essentials</a></li>
+            <li><a href="#overview" data-section="overview">📋 Quick Overview</a></li>
+            <li><a href="#day1" data-section="day1">Day 1: Arrival + Shinjuku & Shibuya</a></li>
+            <li><a href="#day2" data-section="day2">Day 2: Asakusa, Akihabara & Ueno</a></li>
+            <li><a href="#day3" data-section="day3">Day 3: Harajuku, Meiji Shrine & TeamLab</a></li>
+            <li><a href="#day4" data-section="day4">Day 4: Day Trip — Hakone or Kamakura</a></li>
+            <li><a href="#day5" data-section="day5">Day 5: Fushimi Inari & Higashiyama</a></li>
+            <li><a href="#day6" data-section="day6">Day 6: Arashiyama & Golden Pavilion</a></li>
+            <li><a href="#day7" data-section="day7">Day 7: Central Kyoto + Cultural Experiences</a></li>
+            <li><a href="#day8" data-section="day8">Day 8: Day Trip to Nara</a></li>
+            <li><a href="#day9" data-section="day9">Day 9: Osaka Food & Culture</a></li>
+            <li><a href="#day10" data-section="day10">Day 10: Kuromon Market & Departure</a></li>
+            <li><a href="#seasonal" data-section="seasonal">🌸 Seasonal Guide</a></li>
+            <li><a href="#tips" data-section="tips">📝 First-Timer Tips</a></li>
+            <li><a href="#budget" data-section="budget">💰 Budget Breakdown</a></li>
+            <li><a href="#faq" data-section="faq">❓ FAQ</a></li>
         </ul>
+        </div>
     </div>
 
     <!-- ESSENTIALS -->
@@ -588,6 +594,33 @@
             </div>
         </div>
     </div>
+
+<div class="content-wrapper">
+
+<!-- STICKY SIDEBAR TOC (desktop) -->
+<aside class="toc-sidebar" id="toc-sidebar">
+    <h2>Itinerary</h2>
+    <ul>
+        <li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>
+        <li><a href="#overview" data-section="overview">📋 Overview</a></li>
+        <li><a href="#day1" data-section="day1">Day 1: Shinjuku & Shibuya</a></li>
+        <li><a href="#day2" data-section="day2">Day 2: Asakusa & Ueno</a></li>
+        <li><a href="#day3" data-section="day3">Day 3: Harajuku & TeamLab</a></li>
+        <li><a href="#day4" data-section="day4">Day 4: Hakone / Kamakura</a></li>
+        <li><a href="#day5" data-section="day5">Day 5: Fushimi Inari & Higashiyama</a></li>
+        <li><a href="#day6" data-section="day6">Day 6: Arashiyama & Kinkaku-ji</a></li>
+        <li><a href="#day7" data-section="day7">Day 7: Central Kyoto</a></li>
+        <li><a href="#day8" data-section="day8">Day 8: Nara Day Trip</a></li>
+        <li><a href="#day9" data-section="day9">Day 9: Osaka Food & Culture</a></li>
+        <li><a href="#day10" data-section="day10">Day 10: Kuromon & Departure</a></li>
+        <li><a href="#seasonal" data-section="seasonal">🌸 Seasonal Guide</a></li>
+        <li><a href="#tips" data-section="tips">📝 First-Timer Tips</a></li>
+        <li><a href="#budget" data-section="budget">💰 Budget</a></li>
+        <li><a href="#faq" data-section="faq">❓ FAQ</a></li>
+    </ul>
+</aside>
+
+<div class="content">
 
     <!-- OVERVIEW -->
     <div class="day" id="overview" style="border-top-color: var(--earth);">
@@ -1204,17 +1237,20 @@
 })();
 </script>
 
-<!-- Scroll spy for sidebar TOC -->
+<!-- Scroll spy for sidebar + mobile TOC -->
 <script>
 (function() {
-    var links = document.querySelectorAll('.toc-sidebar a[data-section]');
+    var sidebarLinks = document.querySelectorAll('.toc-sidebar a[data-section]');
+    var mobileLinks = document.querySelectorAll('.toc-mobile-dropdown a[data-section]');
     var sections = [];
-    links.forEach(function(link) {
+    sidebarLinks.forEach(function(link) {
         var id = link.getAttribute('data-section');
         var el = document.getElementById(id);
-        if (el) sections.push({ id: id, el: el, link: link });
+        if (el) sections.push({ id: id, el: el });
     });
     if (!sections.length) return;
+
+    var activeLabel = document.querySelector('.toc-active-label');
 
     function update() {
         var scrollY = window.scrollY + 120;
@@ -1222,12 +1258,36 @@
         for (var i = 0; i < sections.length; i++) {
             if (sections[i].el.offsetTop <= scrollY) current = sections[i];
         }
-        links.forEach(function(l) { l.classList.remove('active'); });
-        current.link.classList.add('active');
+        sidebarLinks.forEach(function(l) { l.classList.remove('active'); });
+        mobileLinks.forEach(function(l) { l.classList.remove('active'); });
+        // Highlight sidebar
+        var sActive = document.querySelector('.toc-sidebar a[data-section="'+current.id+'"]');
+        if (sActive) sActive.classList.add('active');
+        // Highlight mobile
+        var mActive = document.querySelector('.toc-mobile-dropdown a[data-section="'+current.id+'"]');
+        if (mActive) {
+            mActive.classList.add('active');
+            if (activeLabel) activeLabel.textContent = '📍 ' + mActive.textContent.trim();
+        }
     }
 
     window.addEventListener('scroll', update, { passive: true });
     update();
+
+    // Mobile TOC toggle
+    var sticky = document.querySelector('.toc-mobile-sticky');
+    var toggle = document.querySelector('.toc-mobile-toggle');
+    if (toggle && sticky) {
+        toggle.addEventListener('click', function() {
+            sticky.classList.toggle('open');
+        });
+        // Close on link click + smooth scroll
+        mobileLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                sticky.classList.remove('open');
+            });
+        });
+    }
 })();
 </script>
 </body>
