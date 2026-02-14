@@ -11,69 +11,516 @@
     gtag('js', new Date());
     gtag('config', 'G-D7QHNRXLHJ');
     </script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><title>Order Confirmed — tabiji.ai</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <title>Order Confirmed — tabiji.ai</title>
     <style>
+        :root {
+            --indigo: #2D3A5C;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Georgia', serif;
-            background: #FAF7F2;
-            color: #2D2A26;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--warm-cream);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === NAV === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--sand);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--deep-brown);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-cta {
+            background: var(--indigo);
+            color: var(--white);
+            padding: 0.6rem 1.4rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover { background: var(--deep-brown); }
+
+        /* === CONFETTI === */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti-fall 3.5s ease-in forwards;
+        }
+        .confetti:nth-child(odd) { border-radius: 50%; }
+        .confetti:nth-child(even) { border-radius: 2px; }
+
+        @keyframes confetti-fall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.5); }
+        }
+
+        /* === MAIN CONTENT === */
+        .main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 100px 1.5rem 4rem;
+        }
+
+        /* === HERO === */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .hero-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: hero-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes hero-pop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--deep-brown);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* === PROGRESS STEPPER === */
+        .stepper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 3.5rem;
+            padding: 2rem 1rem;
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--sand);
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 2;
         }
-        .card {
+        .step.completed .step-icon {
+            background: var(--sage);
+            color: white;
+        }
+        .step.active .step-icon {
+            background: var(--terracotta);
+            color: white;
+            animation: pulse-ring 2s ease-in-out infinite;
+        }
+        .step.pending .step-icon {
+            background: var(--sand);
+            color: var(--text-muted);
+        }
+        @keyframes pulse-ring {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 112, 75, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(196, 112, 75, 0); }
+        }
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        .step.pending .step-label { color: var(--text-muted); }
+        .step-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .step-connector {
+            flex: 0 0 60px;
+            height: 2px;
+            background: var(--sand);
+            margin-top: 24px;
+        }
+        .step-connector.done { background: var(--sage); }
+
+        /* === SECTION STYLING === */
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--deep-brown);
+            margin-bottom: 1.5rem;
             text-align: center;
-            max-width: 520px;
         }
-        .check {
-            font-size: 4rem;
+
+        /* === WHAT HAPPENS NEXT === */
+        .next-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .next-card {
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .next-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .next-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 0.4rem;
+        }
+        .next-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* === SAMPLE PREVIEW === */
+        .preview-card {
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .preview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(44, 36, 25, 0.08);
+        }
+        .preview-mockup {
+            background: var(--indigo);
+            padding: 2rem;
+            color: var(--white);
+        }
+        .preview-mockup-header {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+        .preview-mockup h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .preview-day {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .preview-day strong {
+            color: var(--sand);
+        }
+        .preview-body {
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+        .preview-body p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .preview-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--terracotta);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: gap 0.2s;
+        }
+        .preview-link:hover { gap: 0.7rem; }
+
+        /* === TRUST SIGNALS === */
+        .trust {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--sand);
+        }
+        .trust-headline {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--deep-brown);
             margin-bottom: 1.5rem;
         }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #3D405B;
+        .trust-destinations {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #6B6560;
-            margin-bottom: 1rem;
+        .trust-tag {
+            background: var(--warm-cream);
+            border: 1px solid var(--sand);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
-        .highlight {
-            background: #3D405B;
-            color: #FAF7F2;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            font-size: 1rem;
+
+        /* === FOOTER === */
+        .page-footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
-        a {
-            color: #3D405B;
-            text-decoration: underline;
+        .page-footer a {
+            color: var(--terracotta);
+            text-decoration: none;
+            font-weight: 600;
         }
-        .footer {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #A09A94;
+
+        /* === MOBILE === */
+        @media (max-width: 600px) {
+            .main { padding: 88px 1rem 3rem; }
+            .hero h1 { font-size: 1.7rem; }
+            .hero p { font-size: 1rem; }
+            .stepper {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 1.5rem;
+            }
+            .step {
+                flex-direction: row;
+                text-align: left;
+                gap: 1rem;
+                padding: 0.5rem 0;
+            }
+            .step-icon { margin-bottom: 0; flex-shrink: 0; }
+            .step-connector {
+                width: 2px;
+                height: 24px;
+                margin: 0 0 0 23px;
+                flex: 0 0 24px;
+            }
+            .next-grid { grid-template-columns: 1fr; }
+            .preview-mockup { padding: 1.5rem; }
+            .preview-body { padding: 1.25rem; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="check">✈️</div>
-        <h1>Your itinerary is on the way!</h1>
-        <p>Our AI travel researcher is now building your personalized itinerary using insights from real travelers, local forums, and expert recommendations.</p>
-        <div class="highlight">
-            📬 Check your email within <strong>10 minutes</strong> for your custom itinerary.
+
+    <!-- Nav -->
+    <nav>
+        <a href="/" class="nav-logo">tabiji<span>.ai</span></a>
+        <a href="/" class="nav-cta">Get Your Itinerary</a>
+    </nav>
+
+    <!-- Confetti -->
+    <div class="confetti-container" id="confetti"></div>
+
+    <div class="main">
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-emoji">✈️</div>
+            <h1>Your itinerary is on the way!</h1>
+            <p>Our AI travel researcher is crafting your personalized guide right now. Sit back — it'll land in your inbox shortly.</p>
         </div>
-        <p>Have questions or special requests? Reply to your confirmation email anytime — our AI concierge is here to help.</p>
-        <div class="footer">
+
+        <!-- Progress Stepper -->
+        <div class="stepper">
+            <div class="step completed">
+                <div class="step-icon">✓</div>
+                <div>
+                    <div class="step-label">Order Received</div>
+                    <div class="step-sub">Payment confirmed</div>
+                </div>
+            </div>
+            <div class="step-connector done"></div>
+            <div class="step active">
+                <div class="step-icon">🔍</div>
+                <div>
+                    <div class="step-label">Researching</div>
+                    <div class="step-sub">Scanning real reviews</div>
+                </div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step pending">
+                <div class="step-icon">📬</div>
+                <div>
+                    <div class="step-label">Delivered</div>
+                    <div class="step-sub">~10 minutes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What Happens Next -->
+        <div class="section">
+            <h2 class="section-title">What happens next</h2>
+            <div class="next-grid">
+                <div class="next-card">
+                    <div class="icon">🔎</div>
+                    <h3>Deep Research</h3>
+                    <p>Our AI scours Reddit, travel forums, and local blogs for authentic recommendations.</p>
+                </div>
+                <div class="next-card">
+                    <div class="icon">🗺️</div>
+                    <h3>Custom Itinerary</h3>
+                    <p>We build a day-by-day plan tailored to your preferences and travel style.</p>
+                </div>
+                <div class="next-card">
+                    <div class="icon">📧</div>
+                    <h3>Inbox Delivery</h3>
+                    <p>Your personalized itinerary arrives in your inbox within 10 minutes.</p>
+                </div>
+                <div class="next-card">
+                    <div class="icon">💬</div>
+                    <h3>Free Revisions</h3>
+                    <p>Reply anytime for changes — our AI concierge has you covered.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Preview -->
+        <div class="section">
+            <h2 class="section-title">Here's a taste of what's coming</h2>
+            <a href="https://tabiji.ai/d/tokyo/" style="text-decoration:none; color:inherit;">
+                <div class="preview-card">
+                    <div class="preview-mockup">
+                        <div class="preview-mockup-header">Sample Itinerary</div>
+                        <h3>🇯🇵 3 Days in Tokyo</h3>
+                        <div class="preview-day"><strong>Day 1</strong> — Shibuya, Meiji Shrine, Harajuku backstreets, Omakase dinner in Ebisu</div>
+                        <div class="preview-day"><strong>Day 2</strong> — Tsukiji outer market, TeamLab, Golden Gai night crawl</div>
+                        <div class="preview-day"><strong>Day 3</strong> — Day trip to Kamakura, sunset at Enoshima Island</div>
+                    </div>
+                    <div class="preview-body">
+                        <p>Each itinerary includes maps, budget tips, local phrases, and hidden gems sourced from real travelers.</p>
+                        <span class="preview-link">See the full sample itinerary <span>→</span></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Trust Signals -->
+        <div class="section">
+            <div class="trust">
+                <div class="trust-headline">✨ Powered by insights from 10,000+ real traveler reviews</div>
+                <div class="trust-destinations">
+                    <span class="trust-tag">Tokyo</span>
+                    <span class="trust-tag">Paris</span>
+                    <span class="trust-tag">Barcelona</span>
+                    <span class="trust-tag">Bali</span>
+                    <span class="trust-tag">New York</span>
+                    <span class="trust-tag">Lisbon</span>
+                    <span class="trust-tag">Bangkok</span>
+                    <span class="trust-tag">Rome</span>
+                    <span class="trust-tag">Kyoto</span>
+                    <span class="trust-tag">Mexico City</span>
+                    <span class="trust-tag">London</span>
+                    <span class="trust-tag">Seoul</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
             <a href="/">← Back to tabiji.ai</a>
         </div>
+
     </div>
+
+    <script>
+    // Generate confetti on page load
+    (function() {
+        var container = document.getElementById('confetti');
+        var colors = ['#C4704B', '#2D3A5C', '#7A8B6F', '#8B7355', '#E8DFD0', '#F5F0E8'];
+        for (var i = 0; i < 40; i++) {
+            var el = document.createElement('div');
+            el.className = 'confetti';
+            el.style.left = Math.random() * 100 + '%';
+            el.style.width = (Math.random() * 8 + 5) + 'px';
+            el.style.height = (Math.random() * 8 + 5) + 'px';
+            el.style.background = colors[Math.floor(Math.random() * colors.length)];
+            el.style.animationDelay = (Math.random() * 1.5) + 's';
+            el.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+            container.appendChild(el);
+        }
+        // Remove confetti after animation
+        setTimeout(function() { container.remove(); }, 5000);
+    })();
+    </script>
 </body>
 </html>
