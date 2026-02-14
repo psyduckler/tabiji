@@ -302,8 +302,8 @@
     </div>
 
     <div style="margin-top: 2rem;">
-        <button type="submit" class="submit-btn" id="submit-btn">Continue to Payment — $1</button>
-        <p class="submit-sub">You'll be taken to Stripe for secure payment. Itinerary delivered within 24 hours.</p>
+        <button type="submit" class="submit-btn" id="submit-btn">Get My Itinerary — Free</button>
+        <p class="submit-sub">We'll craft your personalized itinerary and email it to you within 24 hours.</p>
     </div>
 
 </form>
@@ -331,7 +331,7 @@ function toggleAccordion(header) {
 async function submitForm(e) {
     e.preventDefault();
     const btn = document.getElementById('submit-btn');
-    btn.textContent = 'Redirecting to checkout…';
+    btn.textContent = 'Submitting…';
     btn.disabled = true;
 
     const form = document.getElementById('intake-form');
@@ -354,22 +354,22 @@ async function submitForm(e) {
     };
 
     try {
-        const res = await fetch('/api/checkout', {
+        const res = await fetch('https://webhook.tabiji.ai/order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         });
         const data = await res.json();
-        if (data.url) {
-            window.location.href = data.url;
+        if (data.ok) {
+            window.location.href = '/success.html';
         } else {
             alert('Something went wrong. Please try again.');
-            btn.textContent = 'Continue to Payment — $1';
+            btn.textContent = 'Get My Itinerary — Free';
             btn.disabled = false;
         }
     } catch (err) {
         alert('Something went wrong. Please try again.');
-        btn.textContent = 'Continue to Payment — $1';
+        btn.textContent = 'Get My Itinerary — Free';
         btn.disabled = false;
     }
 }
