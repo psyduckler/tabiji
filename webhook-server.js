@@ -1,10 +1,49 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
 const PORT = 8787;
 const ORDERS_DIR = path.join(__dirname, 'orders');
 const PENDING_FILE = path.join(ORDERS_DIR, 'pending.json');
+
+// Slack notification via OpenClaw message API
+function notifySlack(order) {
+  const lines = [
+    `🎌 *New Itinerary Request!*`,
+    `• *Destination:* ${order.destination}`,
+    `• *Dates:* ${order.start_date} → ${order.end_date}`,
+    `• *Group:* ${order.group_size}`,
+    `• *Email:* ${order.email}`,
+  ];
+  if (order.travel_style) lines.push(`• *Style:* ${order.travel_style}`);
+  if (order.dining) lines.push(`• *Dining:* ${order.dining}`);
+  if (order.budget) lines.push(`• *Budget:* ${order.budget}`);
+  if (order.requests) lines.push(`• *Requests:* ${order.requests}`);
+  lines.push(`• *Order ID:* \`${order.id}\``);
+
+  const payload = JSON.stringify({
+    action: 'send',
+    channel: 'slack',
+    channelId: 'C0ADJM5823Z',
+    message: lines.join('\n'),
+  });
+
+  const req = http.request({
+    hostname: '127.0.0.1',
+    port: 4152,
+    path: '/api/message',
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) },
+  }, (res) => {
+    let body = '';
+    res.on('data', c => body += c);
+    res.on('end', () => console.log('Slack notification sent:', body));
+  });
+  req.on('error', (err) => console.error('Slack notification failed:', err.message));
+  req.write(payload);
+  req.end();
+}
 
 // Ensure orders directory exists
 if (!fs.existsSync(ORDERS_DIR)) fs.mkdirSync(ORDERS_DIR, { recursive: true });
@@ -47,6 +86,7 @@ const server = http.createServer((req, res) => {
         fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount})`);
+        notifySlack(order);
 
         // Wake OpenClaw to fulfill the order
         const wakeText = `New tabiji.ai order! Customer: ${order.email}, Destination: ${order.destination}, Dates: ${order.start_date} to ${order.end_date}, Group: ${order.group_size}, Style: ${order.travel_style}, Dining: ${order.dining}, Budget: ${order.budget}, Requests: ${order.requests}. Check /Users/psy/.openclaw/workspace/tabiji/orders/pending.json and fulfill this order.`;
@@ -99,6 +139,7 @@ const server = http.createServer((req, res) => {
         fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} (free)`);
+        notifySlack(order);
 
         const wakeText = `New tabiji.ai order! Customer: ${order.email}, Destination: ${order.destination}, Dates: ${order.start_date} to ${order.end_date}, Group: ${order.group_size}, Style: ${order.travel_style}, Dining: ${order.dining}, Budget: ${order.budget}, Requests: ${order.requests}. Check /Users/psy/.openclaw/workspace/tabiji/orders/pending.json and fulfill this order.`;
         try {
