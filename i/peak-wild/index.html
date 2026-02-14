@@ -462,6 +462,7 @@
             <span class="day-neighborhoods">Jackson Town · Town Square</span>
         </div>
         <h2>Arrive &amp; Explore Jackson Town Square</h2>
+        <div id="map-day1" style="width:100%;height:300px;border-radius:12px;margin:1rem 0 1.5rem;"></div>
         <p style="color:var(--text-muted);margin-bottom:2rem;">Fly into Jackson Hole Airport (JAC), grab your rental, settle into your lodging, and spend the afternoon exploring the charming western town of Jackson. Ease in with good food and iconic elk-antler arches.</p>
 
         <div class="time-block">
@@ -506,6 +507,7 @@
             <span class="day-neighborhoods">Grand Teton National Park · Snake River</span>
         </div>
         <h2>Grand Teton National Park &amp; Snake River Rafting</h2>
+        <div id="map-day2" style="width:100%;height:300px;border-radius:12px;margin:1rem 0 1.5rem;"></div>
         <p style="color:var(--text-muted);margin-bottom:2rem;">Your biggest adventure day — morning in Grand Teton National Park with one of the most scenic drives in America, followed by afternoon whitewater rafting through the Snake River Canyon. This is the day you'll remember forever.</p>
 
         <div class="time-block">
@@ -559,6 +561,7 @@
             <span class="day-neighborhoods">Teton Village · Jackson</span>
         </div>
         <h2>Teton Village, Via Ferrata &amp; Relaxation</h2>
+        <div id="map-day3" style="width:100%;height:300px;border-radius:12px;margin:1rem 0 1.5rem;"></div>
         <p style="color:var(--text-muted);margin-bottom:2rem;">Split the group today — adrenaline seekers tackle the via ferrata climbing route at the resort, while the relaxation crew soaks in hot springs and explores galleries. Reunite for the best meal of the trip.</p>
 
         <div class="time-block">
@@ -614,6 +617,7 @@
             <span class="day-neighborhoods">Elk Refuge · Cache Creek · Jackson</span>
         </div>
         <h2>Wildlife Safari &amp; Western Cookout</h2>
+        <div id="map-day4" style="width:100%;height:300px;border-radius:12px;margin:1rem 0 1.5rem;"></div>
         <p style="color:var(--text-muted);margin-bottom:2rem;">Late August is prime wildlife season. Start with a guided wildlife safari at dawn, spend the afternoon on an easy hike, and cap the trip with a classic western chuck-wagon cookout under the stars.</p>
 
         <div class="time-block">
@@ -666,6 +670,7 @@
             <span class="day-neighborhoods">Grand Teton · Departure</span>
         </div>
         <h2>Sunrise at the Tetons &amp; Farewell</h2>
+        <div id="map-day5" style="width:100%;height:300px;border-radius:12px;margin:1rem 0 1.5rem;"></div>
         <p style="color:var(--text-muted);margin-bottom:2rem;">Your last morning — catch one final sunrise over the Teton Range, grab a legendary breakfast, and head to the airport with a head full of mountain memories.</p>
 
         <div class="time-block">
@@ -819,6 +824,114 @@ updateToc();
             });
         });
     }
+})();
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
+<script>
+(function() {
+    var colors = {
+        food: '#d35400', adventure: '#c2185b', nature: '#27ae60',
+        culture: '#7d3c98', nightlife: '#c0392b', attraction: '#b7950b', wellness: '#2471a3'
+    };
+    var catLabels = {
+        food: 'Food', adventure: 'Adventure', nature: 'Nature',
+        culture: 'Culture', nightlife: 'Nightlife', attraction: 'Attraction', wellness: 'Wellness'
+    };
+    var catBgColors = {
+        food: '#fef0e7', adventure: '#fce4ec', nature: '#e8f5e8',
+        culture: '#f0e8fe', nightlife: '#fde8e8', attraction: '#fef9e7', wellness: '#e8f0fe'
+    };
+
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = num != null ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">' +
+            '<circle cx="16" cy="16" r="14" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            '<text x="16" y="21" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Arial,sans-serif">' + label + '</text>' +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(32, 32), anchor: new google.maps.Point(16, 16) };
+    }
+
+    function initMap(id, pins) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var map = new google.maps.Map(el, {
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            styles: [
+                { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] }
+            ]
+        });
+        var bounds = new google.maps.LatLngBounds();
+        var infoWindow = new google.maps.InfoWindow();
+        pins.forEach(function(p, i) {
+            var pos = { lat: p.lat, lng: p.lng };
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, i + 1),
+                title: p.name
+            });
+            bounds.extend(pos);
+            var linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
+            marker.addListener('click', function() {
+                infoWindow.setContent(content);
+                infoWindow.open(map, marker);
+            });
+        });
+        map.fitBounds(bounds, 40);
+    }
+
+    // Day 1 — Arrive & Explore Jackson Town Square
+    initMap('map-day1', [
+        {lat:43.4799,lng:-110.7624,name:"Jackson Town Square",cat:"attraction",desc:"Iconic elk-antler arches"},
+        {lat:43.4796,lng:-110.7631,name:"Persephone Bakery",cat:"food",desc:"French-inspired café & pastries"},
+        {lat:43.4806,lng:-110.7618,name:"Teton Mountaineering",cat:"adventure",desc:"Bear spray & gear rentals"},
+        {lat:43.4788,lng:-110.7637,name:"Handfire Pizza",cat:"food",desc:"Wood-fired Neapolitan pizza"},
+        {lat:43.4800,lng:-110.7620,name:"Million Dollar Cowboy Bar",cat:"nightlife",desc:"Saddle barstools & live music"}
+    ]);
+
+    // Day 2 — Grand Teton & Snake River Rafting
+    initMap('map-day2', [
+        {lat:43.7102,lng:-110.7440,name:"Schwabacher Landing",cat:"nature",desc:"Iconic Teton reflection spot"},
+        {lat:43.6920,lng:-110.7365,name:"Taggart Lake Trailhead",cat:"nature",desc:"3.2mi hike to glacial lake"},
+        {lat:43.4810,lng:-110.7610,name:"The Bunnery",cat:"food",desc:"Legendary breakfast since 1975"},
+        {lat:43.7680,lng:-110.7115,name:"String Lake Picnic Area",cat:"nature",desc:"Crystal-clear lake & Teton views"},
+        {lat:43.3600,lng:-110.8600,name:"Snake River Canyon",cat:"adventure",desc:"Class II–III whitewater rafting"},
+        {lat:43.4783,lng:-110.7645,name:"Snake River Brewing",cat:"food",desc:"Wyoming's most-awarded brewery"}
+    ]);
+
+    // Day 3 — Teton Village, Via Ferrata & Relaxation
+    initMap('map-day3', [
+        {lat:43.5877,lng:-110.8279,name:"Jackson Hole Mountain Resort",cat:"adventure",desc:"Aerial Tram & Via Ferrata"},
+        {lat:43.5880,lng:-110.8275,name:"Corbet's Cabin",cat:"food",desc:"Waffles at 10,450 feet"},
+        {lat:43.3410,lng:-110.7530,name:"Astoria Hot Springs",cat:"wellness",desc:"Natural hot spring on Snake River"},
+        {lat:43.4792,lng:-110.7650,name:"Fiesta Mexicana",cat:"food",desc:"Authentic Mexican, great value"},
+        {lat:43.4802,lng:-110.7612,name:"Gather",cat:"food",desc:"Jackson's best farm-to-table"}
+    ]);
+
+    // Day 4 — Wildlife Safari & Western Cookout
+    initMap('map-day4', [
+        {lat:43.4900,lng:-110.7300,name:"National Elk Refuge",cat:"nature",desc:"Wildlife safari at dawn"},
+        {lat:43.4815,lng:-110.7505,name:"Café Genevieve",cat:"food",desc:"Pig candy bacon & southern comfort"},
+        {lat:43.4830,lng:-110.7480,name:"Cache Creek Trailhead",cat:"nature",desc:"Easy 3mi creekside hike"},
+        {lat:43.4795,lng:-110.7628,name:"Liberty Burger",cat:"food",desc:"Local grass-fed & bison burgers"},
+        {lat:43.4850,lng:-110.7450,name:"Bar T5 Cookout",cat:"culture",desc:"Wagon ride & western dinner"}
+    ]);
+
+    // Day 5 — Sunrise & Farewell
+    initMap('map-day5', [
+        {lat:43.8550,lng:-110.5650,name:"Oxbow Bend",cat:"nature",desc:"Iconic Mt. Moran reflection"},
+        {lat:43.4815,lng:-110.7505,name:"Café Genevieve",cat:"food",desc:"Farewell breakfast spot"},
+        {lat:43.6073,lng:-110.7378,name:"Jackson Hole Airport (JAC)",cat:"attraction",desc:"Airport inside Grand Teton NP"}
+    ]);
 })();
 </script>
 </body>
