@@ -230,20 +230,53 @@
         .milos-section h2 { font-size: 1.4rem; color: var(--indigo); margin-bottom: 0.5rem; }
         .milos-section h3 { font-size: 1.1rem; color: var(--indigo); margin: 1.5rem 0 0.5rem; }
         .milos-section p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
         }
-    </style>
+    
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--indigo);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .hamburger { display: block; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(254, 252, 249, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--sand);
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .nav-links.open {
+        display: flex;
+    }
+    nav a.cta-nav {
+        text-align: center;
+    }
+}
+</style>
 </head>
 <body>
 
 <nav>
     <a href="/" class="logo">tabiji<span>.ai</span></a>
-    <div style="display:flex;gap:1.5rem;align-items:center;">
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links" style="display:flex;gap:1.5rem;align-items:center;">
         <a href="/destinations/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Destinations</a>
         <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Itineraries</a>
         <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
