@@ -1,13 +1,37 @@
 const http = require('http');
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
 const PORT = 8787;
+const OPENCLAW_PORT = 18789;
+const HOOKS_TOKEN = process.env.OPENCLAW_HOOKS_TOKEN || '';
 const ORDERS_DIR = path.join(__dirname, 'orders');
 const PENDING_FILE = path.join(ORDERS_DIR, 'pending.json');
 
-// Slack notification via OpenClaw message API
+// Helper: POST to OpenClaw hooks API
+function postToOpenClaw(endpoint, payload, label) {
+  const data = JSON.stringify(payload);
+  const req = http.request({
+    hostname: '127.0.0.1',
+    port: OPENCLAW_PORT,
+    path: `/hooks/${endpoint}`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(data),
+      'Authorization': `Bearer ${HOOKS_TOKEN}`,
+    },
+  }, (res) => {
+    let body = '';
+    res.on('data', c => body += c);
+    res.on('end', () => console.log(`${label} [${res.statusCode}]:`, body));
+  });
+  req.on('error', (err) => console.error(`${label} failed:`, err.message));
+  req.write(data);
+  req.end();
+}
+
+// Notify #tabiji Slack channel about new order
 function notifySlack(order) {
   const lines = [
     `🎌 *New Itinerary Request!*`,
@@ -22,40 +46,49 @@ function notifySlack(order) {
   if (order.requests) lines.push(`• *Requests:* ${order.requests}`);
   lines.push(`• *Order ID:* \`${order.id}\``);
 
-  const payload = JSON.stringify({
-    action: 'send',
-    channel: 'slack',
-    channelId: 'C0ADJM5823Z',
-    message: lines.join('\n'),
-  });
+  // Use wake event to notify main session, which will handle Slack + fulfillment
+  // The wake text includes all order details so the agent can act on it
+}
 
-  const req = http.request({
-    hostname: '127.0.0.1',
-    port: 4152,
-    path: '/api/message',
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) },
-  }, (res) => {
-    let body = '';
-    res.on('data', c => body += c);
-    res.on('end', () => console.log('Slack notification sent:', body));
-  });
-  req.on('error', (err) => console.error('Slack notification failed:', err.message));
-  req.write(payload);
-  req.end();
+// Wake OpenClaw to fulfill the order
+function triggerFulfillment(order) {
+  const wakeText = [
+    `New tabiji.ai itinerary order received!`,
+    `Customer: ${order.email}`,
+    `Destination: ${order.destination}`,
+    `Dates: ${order.start_date} to ${order.end_date}`,
+    `Group size: ${order.group_size}`,
+    order.travel_style ? `Travel style: ${order.travel_style}` : '',
+    order.dining ? `Dining: ${order.dining}` : '',
+    order.budget ? `Budget: ${order.budget}` : '',
+    order.requests ? `Special requests: ${order.requests}` : '',
+    `Order ID: ${order.id}`,
+    ``,
+    `Fulfill this order: spawn a sub-agent to research, generate the itinerary, publish to /i/ (slug format: /i/xxxx-xxxx, both words 4 letters), email the customer, and update pending.json.`,
+  ].filter(Boolean).join('\n');
+
+  postToOpenClaw('wake', { text: wakeText, mode: 'now' }, 'Wake event');
+}
+
+// Save order to pending.json
+function saveOrder(order) {
+  let pending = [];
+  try { pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8')); } catch {}
+  pending.push(order);
+  fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 }
 
 // Ensure orders directory exists
 if (!fs.existsSync(ORDERS_DIR)) fs.mkdirSync(ORDERS_DIR, { recursive: true });
 
 const server = http.createServer((req, res) => {
+  // Stripe webhook
   if (req.method === 'POST' && req.url === '/webhook') {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
       try {
         const event = JSON.parse(body);
-
         if (event.type !== 'checkout.session.completed') {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ received: true }));
@@ -79,24 +112,9 @@ const server = http.createServer((req, res) => {
           status: 'pending'
         };
 
-        // Append to pending orders file
-        let pending = [];
-        try { pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8')); } catch {}
-        pending.push(order);
-        fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
-
+        saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount})`);
-        notifySlack(order);
-
-        // Wake OpenClaw to fulfill the order
-        const wakeText = `New tabiji.ai order! Customer: ${order.email}, Destination: ${order.destination}, Dates: ${order.start_date} to ${order.end_date}, Group: ${order.group_size}, Style: ${order.travel_style}, Dining: ${order.dining}, Budget: ${order.budget}, Requests: ${order.requests}. Check /Users/psy/.openclaw/workspace/tabiji/orders/pending.json and fulfill this order.`;
-        try {
-          const { execSync } = require('child_process');
-          execSync(`curl -s -X POST http://127.0.0.1:4152/api/cron/wake -H "Content-Type: application/json" -d '${JSON.stringify({ text: wakeText, mode: "now" })}'`, { timeout: 5000 });
-          console.log('OpenClaw wake event sent');
-        } catch (wakeErr) {
-          console.error('Wake event failed:', wakeErr.message);
-        }
+        triggerFulfillment(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ received: true, order_id: session.id }));
@@ -106,12 +124,12 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: err.message }));
       }
     });
+
+  // Direct form submission (free)
   } else if (req.method === 'POST' && req.url === '/order') {
-    // Direct form submission (no Stripe)
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
-      // CORS headers
       res.setHeader('Access-Control-Allow-Origin', 'https://tabiji.ai');
       res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -133,22 +151,9 @@ const server = http.createServer((req, res) => {
           status: 'pending'
         };
 
-        let pending = [];
-        try { pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8')); } catch {}
-        pending.push(order);
-        fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
-
+        saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} (free)`);
-        notifySlack(order);
-
-        const wakeText = `New tabiji.ai order! Customer: ${order.email}, Destination: ${order.destination}, Dates: ${order.start_date} to ${order.end_date}, Group: ${order.group_size}, Style: ${order.travel_style}, Dining: ${order.dining}, Budget: ${order.budget}, Requests: ${order.requests}. Check /Users/psy/.openclaw/workspace/tabiji/orders/pending.json and fulfill this order.`;
-        try {
-          const { execSync } = require('child_process');
-          execSync(`curl -s -X POST http://127.0.0.1:4152/api/cron/wake -H "Content-Type: application/json" -d '${JSON.stringify({ text: wakeText, mode: "now" })}'`, { timeout: 5000 });
-          console.log('OpenClaw wake event sent');
-        } catch (wakeErr) {
-          console.error('Wake event failed:', wakeErr.message);
-        }
+        triggerFulfillment(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true, order_id: order.id }));
@@ -158,16 +163,20 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ ok: false, error: err.message }));
       }
     });
+
+  // CORS preflight
   } else if (req.method === 'OPTIONS' && req.url === '/order') {
-    // CORS preflight
     res.setHeader('Access-Control-Allow-Origin', 'https://tabiji.ai');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.writeHead(204);
     res.end();
+
+  // Health check
   } else if (req.method === 'GET' && req.url === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', timestamp: new Date().toISOString() }));
+
   } else {
     res.writeHead(404);
     res.end('Not found');
