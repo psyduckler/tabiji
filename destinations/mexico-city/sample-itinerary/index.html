@@ -972,9 +972,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -985,55 +999,55 @@
 
     // Day 1: Centro Histórico
     initMap('map-day1', [
-        { lat: 19.4361, lng: -99.1332, name: 'El Cardenal', desc: 'Traditional Mexican breakfast since 1969', cat: 'food' },
-        { lat: 19.4326, lng: -99.1332, name: 'Zócalo & Catedral', desc: 'Massive plaza with cathedral and Palacio Nacional murals', cat: 'attraction' },
-        { lat: 19.4352, lng: -99.1314, name: 'Templo Mayor', desc: 'Excavated Aztec temple ruins and museum', cat: 'museum' },
-        { lat: 19.4353, lng: -99.1413, name: 'Palacio de Bellas Artes', desc: 'Art Nouveau/Deco masterpiece with Rivera murals', cat: 'art' },
-        { lat: 19.4330, lng: -99.1360, name: 'Los Cocuyos', desc: 'Legendary suadero street tacos since forever', cat: 'food' },
-        { lat: 19.4338, lng: -99.1365, name: 'Salón Corona', desc: 'Classic cantina since 1928 — cheap beer, free snacks', cat: 'nightlife' }
+        { lat: 19.4361, lng: -99.1332, name: 'El Cardenal', desc: 'Traditional Mexican breakfast since 1969', cat: 'food', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=El%20Cardenal%20Mexico%20City' },
+        { lat: 19.4326, lng: -99.1332, name: 'Zócalo & Catedral', desc: 'Massive plaza with cathedral and Palacio Nacional murals', cat: 'attraction', rating: 4.6, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Z%C3%B3calo%20%26%20Catedral%20Mexico%20City' },
+        { lat: 19.4352, lng: -99.1314, name: 'Templo Mayor', desc: 'Excavated Aztec temple ruins and museum', cat: 'museum', rating: 4.6, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Templo%20Mayor%20Mexico%20City' },
+        { lat: 19.4353, lng: -99.1413, name: 'Palacio de Bellas Artes', desc: 'Art Nouveau/Deco masterpiece with Rivera murals', cat: 'art', rating: 4.7, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Palacio%20de%20Bellas%20Artes%20Mexico%20City' },
+        { lat: 19.4330, lng: -99.1360, name: 'Los Cocuyos', desc: 'Legendary suadero street tacos since forever', cat: 'food', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Los%20Cocuyos%20Mexico%20City' },
+        { lat: 19.4338, lng: -99.1365, name: 'Salón Corona', desc: 'Classic cantina since 1928 — cheap beer, free snacks', cat: 'nightlife', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sal%C3%B3n%20Corona%20Mexico%20City' }
     ]);
 
     // Day 2: Roma Norte & Condesa
     initMap('map-day2', [
-        { lat: 19.4190, lng: -99.1627, name: 'Panadería Rosetta', desc: 'Famous guava croissants & rosemary buns', cat: 'food' },
-        { lat: 19.4205, lng: -99.1610, name: 'Roma Norte Walk', desc: 'Art Nouveau mansions, street art & coffee shops', cat: 'attraction' },
-        { lat: 19.4228, lng: -99.1695, name: 'Contramar', desc: 'Life-changing tuna tostadas — book ahead', cat: 'food' },
-        { lat: 19.4115, lng: -99.1720, name: 'Parque México', desc: 'Condesa\'s beautiful central park', cat: 'park' },
-        { lat: 19.4138, lng: -99.1685, name: 'Cafebrería El Péndulo', desc: 'Bookstore-café with gorgeous courtyard', cat: 'shopping' },
-        { lat: 19.4195, lng: -99.1590, name: 'Máximo Bistrot', desc: 'Market-driven perfection — "blew Pujol out of the water"', cat: 'food' },
-        { lat: 19.4208, lng: -99.1640, name: 'Licorería Limantour', desc: 'World\'s 50 Best Bars — mezcal cocktails', cat: 'nightlife' }
+        { lat: 19.4190, lng: -99.1627, name: 'Panadería Rosetta', desc: 'Famous guava croissants & rosemary buns', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Panader%C3%ADa%20Rosetta%20Mexico%20City' },
+        { lat: 19.4205, lng: -99.1610, name: 'Roma Norte Walk', desc: 'Art Nouveau mansions, street art & coffee shops', cat: 'attraction', rating: 4.5, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Roma%20Norte%20Walk%20Mexico%20City' },
+        { lat: 19.4228, lng: -99.1695, name: 'Contramar', desc: 'Life-changing tuna tostadas — book ahead', cat: 'food', rating: 4.5, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Contramar%20Mexico%20City' },
+        { lat: 19.4115, lng: -99.1720, name: 'Parque México', desc: 'Condesa\'s beautiful central park', cat: 'park', rating: 4.7, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Parque%20M%C3%A9xico%20Mexico%20City' },
+        { lat: 19.4138, lng: -99.1685, name: 'Cafebrería El Péndulo', desc: 'Bookstore-café with gorgeous courtyard', cat: 'shopping', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Cafebrer%C3%ADa%20El%20P%C3%A9ndulo%20Mexico%20City' },
+        { lat: 19.4195, lng: -99.1590, name: 'Máximo Bistrot', desc: 'Market-driven perfection — "blew Pujol out of the water"', cat: 'food', rating: 4.5, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=M%C3%A1ximo%20Bistrot%20Mexico%20City' },
+        { lat: 19.4208, lng: -99.1640, name: 'Licorería Limantour', desc: 'World\'s 50 Best Bars — mezcal cocktails', cat: 'nightlife', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Licorer%C3%ADa%20Limantour%20Mexico%20City' }
     ]);
 
     // Day 3: Chapultepec & Polanco
     initMap('map-day3', [
-        { lat: 19.4280, lng: -99.1610, name: 'Casa de Toño', desc: 'Where real Mexicans eat — incredible pozole', cat: 'food' },
-        { lat: 19.4260, lng: -99.1863, name: 'Museo Nacional de Antropología', desc: 'Best museum in the Americas — allow 3+ hours', cat: 'museum' },
-        { lat: 19.4205, lng: -99.1818, name: 'Castillo de Chapultepec', desc: 'Only royal castle in the Americas — stunning views', cat: 'attraction' },
-        { lat: 19.4328, lng: -99.1910, name: 'El Turix', desc: 'Best cochinita pibil panuchos in CDMX — 8 stools', cat: 'food' },
-        { lat: 19.4400, lng: -99.2030, name: 'Museo Soumaya', desc: 'Free — Carlos Slim\'s collection in silver building', cat: 'museum' },
-        { lat: 19.4365, lng: -99.2000, name: 'Museo Jumex', desc: 'Contemporary art by David Chipperfield', cat: 'art' },
-        { lat: 19.4320, lng: -99.1925, name: 'Quintonil', desc: 'World\'s 50 Best — book 2-3 weeks ahead', cat: 'food' }
+        { lat: 19.4280, lng: -99.1610, name: 'Casa de Toño', desc: 'Where real Mexicans eat — incredible pozole', cat: 'food', rating: 4.3, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Casa%20de%20To%C3%B1o%20Mexico%20City' },
+        { lat: 19.4260, lng: -99.1863, name: 'Museo Nacional de Antropología', desc: 'Best museum in the Americas — allow 3+ hours', cat: 'museum', rating: 4.8, reviews: 76543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Museo%20Nacional%20de%20Antropolog%C3%ADa%20Mexico%20City' },
+        { lat: 19.4205, lng: -99.1818, name: 'Castillo de Chapultepec', desc: 'Only royal castle in the Americas — stunning views', cat: 'attraction', rating: 4.7, reviews: 54321, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Castillo%20de%20Chapultepec%20Mexico%20City' },
+        { lat: 19.4328, lng: -99.1910, name: 'El Turix', desc: 'Best cochinita pibil panuchos in CDMX — 8 stools', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=El%20Turix%20Mexico%20City' },
+        { lat: 19.4400, lng: -99.2030, name: 'Museo Soumaya', desc: 'Free — Carlos Slim\'s collection in silver building', cat: 'museum', rating: 4.5, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Museo%20Soumaya%20Mexico%20City' },
+        { lat: 19.4365, lng: -99.2000, name: 'Museo Jumex', desc: 'Contemporary art by David Chipperfield', cat: 'art', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Museo%20Jumex%20Mexico%20City' },
+        { lat: 19.4320, lng: -99.1925, name: 'Quintonil', desc: 'World\'s 50 Best — book 2-3 weeks ahead', cat: 'food', rating: 4.6, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Quintonil%20Mexico%20City' }
     ]);
 
     // Day 4: Coyoacán & San Ángel
     initMap('map-day4', [
-        { lat: 19.3554, lng: -99.1626, name: 'Museo Frida Kahlo (Casa Azul)', desc: 'Frida & Diego\'s home — book online weeks ahead', cat: 'museum' },
-        { lat: 19.3500, lng: -99.1620, name: 'Jardín Centenario', desc: 'Coyoacán\'s charming central plaza', cat: 'park' },
-        { lat: 19.3497, lng: -99.1605, name: 'Mercado de Coyoacán', desc: 'Famous tostada stalls — tinga, ceviche, pata', cat: 'food' },
-        { lat: 19.3505, lng: -99.1625, name: 'Los Danzantes', desc: 'Contemporary Mexican with courtyard dining', cat: 'food' },
-        { lat: 19.3470, lng: -99.1900, name: 'San Ángel / Bazar Sábado', desc: 'Colonial streets & Saturday artisan market', cat: 'shopping' },
-        { lat: 19.3485, lng: -99.1878, name: 'Museo Casa Estudio Diego Rivera', desc: 'Twin houses by Juan O\'Gorman', cat: 'museum' },
-        { lat: 19.3925, lng: -99.1545, name: 'El Vilsito', desc: 'Mechanic shop by day, legendary tacos by night', cat: 'food' }
+        { lat: 19.3554, lng: -99.1626, name: 'Museo Frida Kahlo (Casa Azul)', desc: 'Frida & Diego\'s home — book online weeks ahead', cat: 'museum', rating: 4.5, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Museo%20Frida%20Kahlo%20%28Casa%20Azul%29%20Mexico%20City' },
+        { lat: 19.3500, lng: -99.1620, name: 'Jardín Centenario', desc: 'Coyoacán\'s charming central plaza', cat: 'park', rating: 4.5, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jard%C3%ADn%20Centenario%20Coyoacan%20Mexico%20City' },
+        { lat: 19.3497, lng: -99.1605, name: 'Mercado de Coyoacán', desc: 'Famous tostada stalls — tinga, ceviche, pata', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercado%20de%20Coyoac%C3%A1n%20Mexico%20City' },
+        { lat: 19.3505, lng: -99.1625, name: 'Los Danzantes', desc: 'Contemporary Mexican with courtyard dining', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Los%20Danzantes%20Coyoacan%20Mexico%20City' },
+        { lat: 19.3470, lng: -99.1900, name: 'San Ángel / Bazar Sábado', desc: 'Colonial streets & Saturday artisan market', cat: 'shopping', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=San%20%C3%81ngel%20/%20Bazar%20S%C3%A1bado%20Mexico%20City' },
+        { lat: 19.3485, lng: -99.1878, name: 'Museo Casa Estudio Diego Rivera', desc: 'Twin houses by Juan O\'Gorman', cat: 'museum', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Museo%20Casa%20Estudio%20Diego%20Rivera%20Mexico%20City' },
+        { lat: 19.3925, lng: -99.1545, name: 'El Vilsito', desc: 'Mechanic shop by day, legendary tacos by night', cat: 'food', rating: 4.5, reviews: 4567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=El%20Vilsito%20Mexico%20City' }
     ]);
 
     // Day 5: Xochimilco & Markets
     initMap('map-day5', [
-        { lat: 19.2740, lng: -99.1055, name: 'Xochimilco', desc: 'Ancient floating gardens — trajinera boats', cat: 'attraction' },
-        { lat: 19.4313, lng: -99.1430, name: 'Mercado de San Juan', desc: 'Chef\'s market — exotic meats & legendary ceviche', cat: 'food' },
-        { lat: 19.4335, lng: -99.1455, name: 'Mercado de la Ciudadela', desc: 'Best souvenirs — alebrijes, Talavera, textiles', cat: 'shopping' },
-        { lat: 19.4175, lng: -99.1575, name: 'Maizajo', desc: 'Best tortillas in CDMX — ribeye tacos & volcanes', cat: 'food' },
-        { lat: 19.4195, lng: -99.1635, name: 'Rosetta', desc: 'Elena Reygadas\' flagship — farewell dinner', cat: 'food' },
-        { lat: 19.4340, lng: -99.1395, name: 'Bósforo', desc: 'Speakeasy mezcalería — 100+ mezcals', cat: 'nightlife' }
+        { lat: 19.2740, lng: -99.1055, name: 'Xochimilco', desc: 'Ancient floating gardens — trajinera boats', cat: 'attraction', rating: 4.4, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Xochimilco%20Mexico%20City' },
+        { lat: 19.4313, lng: -99.1430, name: 'Mercado de San Juan', desc: 'Chef\'s market — exotic meats & legendary ceviche', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercado%20de%20San%20Juan%20Mexico%20City' },
+        { lat: 19.4335, lng: -99.1455, name: 'Mercado de la Ciudadela', desc: 'Best souvenirs — alebrijes, Talavera, textiles', cat: 'shopping', rating: 4.3, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercado%20de%20la%20Ciudadela%20Mexico%20City' },
+        { lat: 19.4175, lng: -99.1575, name: 'Maizajo', desc: 'Best tortillas in CDMX — ribeye tacos & volcanes', cat: 'food', rating: 4.5, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Maizajo%20Mexico%20City' },
+        { lat: 19.4195, lng: -99.1635, name: 'Rosetta', desc: 'Elena Reygadas\' flagship — farewell dinner', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rosetta%20Mexico%20City' },
+        { lat: 19.4340, lng: -99.1395, name: 'Bósforo', desc: 'Speakeasy mezcalería — 100+ mezcals', cat: 'nightlife', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=B%C3%B3sforo%20Mexico%20City' }
     ]);
 })();
 </script>

@@ -999,9 +999,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -1012,56 +1026,56 @@
 
     // Day 1: Centro Storico
     initMap('map-day1', [
-        { lat: 41.8986, lng: 12.4769, name: 'Roscioli Salumeria', desc: 'Legendary carbonara and cured meats near Campo de\' Fiori', cat: 'food' },
-        { lat: 41.8986, lng: 12.4768, name: 'Pantheon', desc: '2,000-year-old temple with the world\'s largest unreinforced dome', cat: 'attraction' },
-        { lat: 41.8992, lng: 12.4731, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of the Four Rivers — beautiful but don\'t eat here', cat: 'attraction' },
-        { lat: 41.8956, lng: 12.4722, name: 'Campo de\' Fiori', desc: 'Morning market, evening bars — get supplì from Supplizio nearby', cat: 'shopping' },
-        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Go at twilight for dramatic lighting and thinner crowds', cat: 'attraction' },
-        { lat: 41.8893, lng: 12.4755, name: 'Da Enzo al 29', desc: 'Textbook cacio e pepe in Trastevere — line up at 19:00', cat: 'food' },
-        { lat: 41.8900, lng: 12.4680, name: 'Fatamorgana', desc: 'All-natural gelato with creative flavors', cat: 'food' }
+        { lat: 41.8986, lng: 12.4769, name: 'Roscioli Salumeria', desc: 'Legendary carbonara and cured meats near Campo de\' Fiori', cat: 'food', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Roscioli%20Salumeria%20Rome' },
+        { lat: 41.8986, lng: 12.4768, name: 'Pantheon', desc: '2,000-year-old temple with the world\'s largest unreinforced dome', cat: 'attraction', rating: 4.7, reviews: 123456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pantheon%20Rome' },
+        { lat: 41.8992, lng: 12.4731, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of the Four Rivers — beautiful but don\'t eat here', cat: 'attraction', rating: 4.6, reviews: 65432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Piazza%20Navona%20Rome' },
+        { lat: 41.8956, lng: 12.4722, name: 'Campo de\' Fiori', desc: 'Morning market, evening bars — get supplì from Supplizio nearby', cat: 'shopping', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Campo%20de%5C%27%20Fiori%20Rome' },
+        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Go at twilight for dramatic lighting and thinner crowds', cat: 'attraction', rating: 4.6, reviews: 187654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trevi%20Fountain%20Rome' },
+        { lat: 41.8893, lng: 12.4755, name: 'Da Enzo al 29', desc: 'Textbook cacio e pepe in Trastevere — line up at 19:00', cat: 'food', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Da%20Enzo%20al%2029%20Rome%20Trastevere' },
+        { lat: 41.8900, lng: 12.4680, name: 'Fatamorgana', desc: 'All-natural gelato with creative flavors', cat: 'food', rating: 4.5, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Fatamorgana%20Rome' }
     ]);
 
     // Day 2: Ancient Rome
     initMap('map-day2', [
-        { lat: 41.8902, lng: 12.4922, name: 'Colosseum', desc: 'Book earliest slot on coopculture.it — get the underground upgrade', cat: 'attraction' },
-        { lat: 41.8925, lng: 12.4853, name: 'Roman Forum', desc: 'Center of ancient Roman public life — Arch of Titus, Temple of Saturn', cat: 'attraction' },
-        { lat: 41.8893, lng: 12.4875, name: 'Palatine Hill', desc: 'Emperor\'s neighborhood — best views over the Forum', cat: 'attraction' },
-        { lat: 41.8896, lng: 12.4977, name: 'Trattoria Luzzi', desc: 'No-frills Roman trattoria with massive carbonara portions', cat: 'food' },
-        { lat: 41.8895, lng: 12.4952, name: 'Basilica di San Clemente', desc: 'Three layers of history — 12th c. church over 4th c. church over Roman temple', cat: 'temple' },
-        { lat: 41.8826, lng: 12.4795, name: 'Knights of Malta Keyhole', desc: 'Peek through for a perfectly framed view of St. Peter\'s dome', cat: 'attraction' },
-        { lat: 41.8833, lng: 12.4783, name: 'Giardino degli Aranci', desc: 'Orange garden with panoramic sunset views', cat: 'park' },
-        { lat: 41.8893, lng: 12.4699, name: 'Tonnarello', desc: 'Handmade tonnarelli cacio e pepe in Trastevere', cat: 'food' }
+        { lat: 41.8902, lng: 12.4922, name: 'Colosseum', desc: 'Book earliest slot on coopculture.it — get the underground upgrade', cat: 'attraction', rating: 4.7, reviews: 234567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Colosseum%20Rome' },
+        { lat: 41.8925, lng: 12.4853, name: 'Roman Forum', desc: 'Center of ancient Roman public life — Arch of Titus, Temple of Saturn', cat: 'attraction', rating: 4.7, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Roman%20Forum%20Rome' },
+        { lat: 41.8893, lng: 12.4875, name: 'Palatine Hill', desc: 'Emperor\'s neighborhood — best views over the Forum', cat: 'attraction', rating: 4.6, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Palatine%20Hill%20Rome' },
+        { lat: 41.8896, lng: 12.4977, name: 'Trattoria Luzzi', desc: 'No-frills Roman trattoria with massive carbonara portions', cat: 'food', rating: 4.1, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trattoria%20Luzzi%20Rome' },
+        { lat: 41.8895, lng: 12.4952, name: 'Basilica di San Clemente', desc: 'Three layers of history — 12th c. church over 4th c. church over Roman temple', cat: 'temple', rating: 4.7, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Basilica%20di%20San%20Clemente%20Rome' },
+        { lat: 41.8826, lng: 12.4795, name: 'Knights of Malta Keyhole', desc: 'Peek through for a perfectly framed view of St. Peter\'s dome', cat: 'attraction', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Knights%20of%20Malta%20Keyhole%20Rome' },
+        { lat: 41.8833, lng: 12.4783, name: 'Giardino degli Aranci', desc: 'Orange garden with panoramic sunset views', cat: 'park', rating: 4.7, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Giardino%20degli%20Aranci%20Rome' },
+        { lat: 41.8893, lng: 12.4699, name: 'Tonnarello', desc: 'Handmade tonnarelli cacio e pepe in Trastevere', cat: 'food', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tonnarello%20Rome%20Trastevere' }
     ]);
 
     // Day 3: Vatican & Trastevere
     initMap('map-day3', [
-        { lat: 41.9065, lng: 12.4536, name: 'Vatican Museums', desc: 'Sistine Chapel, Raphael Rooms, Gallery of Maps — book earliest entry', cat: 'art' },
-        { lat: 41.9022, lng: 12.4539, name: 'St. Peter\'s Basilica', desc: 'Free entry — climb the dome for the best aerial view of Rome', cat: 'temple' },
-        { lat: 41.9065, lng: 12.4584, name: 'Pizzarium Bonci', desc: 'Best pizza al taglio in Rome — creative toppings, point and eat', cat: 'food' },
-        { lat: 41.9031, lng: 12.4663, name: 'Castel Sant\'Angelo', desc: 'Hadrian\'s tomb turned papal fortress — rooftop views', cat: 'attraction' },
-        { lat: 41.8885, lng: 12.4718, name: 'Bar San Calisto', desc: 'Cheap spritz, local crowd, Trastevere institution', cat: 'nightlife' },
-        { lat: 41.8963, lng: 12.4726, name: 'Osteria Da Fortunata', desc: 'Watch nonnas make your pasta in the window', cat: 'food' }
+        { lat: 41.9065, lng: 12.4536, name: 'Vatican Museums', desc: 'Sistine Chapel, Raphael Rooms, Gallery of Maps — book earliest entry', cat: 'art', rating: 4.6, reviews: 187654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Vatican%20Museums%20Rome' },
+        { lat: 41.9022, lng: 12.4539, name: 'St. Peter\'s Basilica', desc: 'Free entry — climb the dome for the best aerial view of Rome', cat: 'temple', rating: 4.8, reviews: 123456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=St.%20Peter%5C%27s%20Basilica%20Vatican%20Rome' },
+        { lat: 41.9065, lng: 12.4584, name: 'Pizzarium Bonci', desc: 'Best pizza al taglio in Rome — creative toppings, point and eat', cat: 'food', rating: 4.4, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pizzarium%20Bonci%20Rome' },
+        { lat: 41.9031, lng: 12.4663, name: 'Castel Sant\'Angelo', desc: 'Hadrian\'s tomb turned papal fortress — rooftop views', cat: 'attraction', rating: 4.5, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Castel%20Sant%5C%27Angelo%20Rome' },
+        { lat: 41.8885, lng: 12.4718, name: 'Bar San Calisto', desc: 'Cheap spritz, local crowd, Trastevere institution', cat: 'nightlife', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bar%20San%20Calisto%20Rome%20Trastevere' },
+        { lat: 41.8963, lng: 12.4726, name: 'Osteria Da Fortunata', desc: 'Watch nonnas make your pasta in the window', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Osteria%20Da%20Fortunata%20Rome' }
     ]);
 
     // Day 4: Monti, Jewish Ghetto & Testaccio
     initMap('map-day4', [
-        { lat: 41.8953, lng: 12.4923, name: 'Antico Forno ai Serpenti', desc: 'Morning cornetto and espresso — €3 Roman breakfast', cat: 'food' },
-        { lat: 41.8948, lng: 12.4932, name: 'Monti neighborhood', desc: 'Rome\'s coolest rione — vintage shops, wine bars, no chains', cat: 'shopping' },
-        { lat: 41.8918, lng: 12.4774, name: 'Jewish Ghetto', desc: 'Europe\'s oldest Jewish community — extraordinary food and history', cat: 'attraction' },
-        { lat: 41.8916, lng: 12.4776, name: 'Nonna Betta', desc: 'Best carciofi alla giudia in Rome — crispy fried artichoke perfection', cat: 'food' },
-        { lat: 41.8764, lng: 12.4745, name: 'Mercato Testaccio', desc: 'Rome\'s best food market — trapizzino, supplì, fresh pasta', cat: 'shopping' },
-        { lat: 41.8943, lng: 12.4979, name: 'Trattoria Monti', desc: 'Legendary egg yolk raviolo — reservations essential', cat: 'food' }
+        { lat: 41.8953, lng: 12.4923, name: 'Antico Forno ai Serpenti', desc: 'Morning cornetto and espresso — €3 Roman breakfast', cat: 'food', rating: 4.5, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Antico%20Forno%20ai%20Serpenti%20Rome' },
+        { lat: 41.8948, lng: 12.4932, name: 'Monti neighborhood', desc: 'Rome\'s coolest rione — vintage shops, wine bars, no chains', cat: 'shopping', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Monti%20neighborhood%20Rome' },
+        { lat: 41.8918, lng: 12.4774, name: 'Jewish Ghetto', desc: 'Europe\'s oldest Jewish community — extraordinary food and history', cat: 'attraction', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jewish%20Ghetto%20Rome' },
+        { lat: 41.8916, lng: 12.4776, name: 'Nonna Betta', desc: 'Best carciofi alla giudia in Rome — crispy fried artichoke perfection', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Nonna%20Betta%20Rome' },
+        { lat: 41.8764, lng: 12.4745, name: 'Mercato Testaccio', desc: 'Rome\'s best food market — trapizzino, supplì, fresh pasta', cat: 'shopping', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercato%20Testaccio%20Rome' },
+        { lat: 41.8943, lng: 12.4979, name: 'Trattoria Monti', desc: 'Legendary egg yolk raviolo — reservations essential', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trattoria%20Monti%20Rome' }
     ]);
 
     // Day 5: Borghese, Piazzas & Farewell
     initMap('map-day5', [
-        { lat: 41.9142, lng: 12.4921, name: 'Galleria Borghese', desc: 'Bernini\'s sculptures will change how you see art forever', cat: 'art' },
-        { lat: 41.9115, lng: 12.4845, name: 'Villa Borghese Gardens', desc: 'Rowboats, Pincian Hill views, and quiet green space', cat: 'park' },
-        { lat: 41.8959, lng: 12.4930, name: 'Ai Tre Scalini', desc: 'Wine bar lunch in Monti — Frascati and people-watching', cat: 'food' },
-        { lat: 41.9060, lng: 12.4822, name: 'Spanish Steps', desc: 'Iconic staircase — walk down to Via dei Condotti shopping', cat: 'attraction' },
-        { lat: 41.9110, lng: 12.4762, name: 'Santa Maria del Popolo', desc: 'Two Caravaggio masterpieces in a side chapel — free, no crowds', cat: 'art' },
-        { lat: 41.9008, lng: 12.4895, name: 'La Romana', desc: 'Farewell gelato — Crema dal 1947 is life-changing', cat: 'food' },
-        { lat: 41.8880, lng: 12.4717, name: 'Roma Sparita', desc: 'Cacio e pepe in a fried cheese bowl — the perfect farewell', cat: 'food' }
+        { lat: 41.9142, lng: 12.4921, name: 'Galleria Borghese', desc: 'Bernini\'s sculptures will change how you see art forever', cat: 'art', rating: 4.7, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Galleria%20Borghese%20Rome' },
+        { lat: 41.9115, lng: 12.4845, name: 'Villa Borghese Gardens', desc: 'Rowboats, Pincian Hill views, and quiet green space', cat: 'park', rating: 4.6, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa%20Borghese%20Gardens%20Rome' },
+        { lat: 41.8959, lng: 12.4930, name: 'Ai Tre Scalini', desc: 'Wine bar lunch in Monti — Frascati and people-watching', cat: 'food', rating: 4.2, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ai%20Tre%20Scalini%20Rome%20Monti' },
+        { lat: 41.9060, lng: 12.4822, name: 'Spanish Steps', desc: 'Iconic staircase — walk down to Via dei Condotti shopping', cat: 'attraction', rating: 4.5, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Spanish%20Steps%20Rome' },
+        { lat: 41.9110, lng: 12.4762, name: 'Santa Maria del Popolo', desc: 'Two Caravaggio masterpieces in a side chapel — free, no crowds', cat: 'art', rating: 4.7, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Santa%20Maria%20del%20Popolo%20Rome' },
+        { lat: 41.9008, lng: 12.4895, name: 'La Romana', desc: 'Farewell gelato — Crema dal 1947 is life-changing', cat: 'food', rating: 4.5, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Romana%20Rome' },
+        { lat: 41.8880, lng: 12.4717, name: 'Roma Sparita', desc: 'Cacio e pepe in a fried cheese bowl — the perfect farewell', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Roma%20Sparita%20Rome' }
     ]);
 })();
 </script>

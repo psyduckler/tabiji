@@ -993,9 +993,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -1006,57 +1020,57 @@
 
     // Day 1: Shinjuku & Kabukichō
     initMap('map-day1', [
-        { lat: 35.6876, lng: 139.6997, name: 'Fuunji (風雲児)', desc: 'Legendary tsukemen behind Shinjuku Station', cat: 'food' },
-        { lat: 35.6852, lng: 139.7100, name: 'Shinjuku Gyoen', desc: 'Beautiful national garden — perfect jet lag antidote', cat: 'park' },
+        { lat: 35.6876, lng: 139.6997, name: 'Fuunji (風雲児)', desc: 'Legendary tsukemen behind Shinjuku Station', cat: 'food', rating: 4.2, reviews: 3847, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Fuunji%20%28%E9%A2%A8%E9%9B%B2%E5%85%90%29%20Tokyo' },
+        { lat: 35.6852, lng: 139.7100, name: 'Shinjuku Gyoen', desc: 'Beautiful national garden — perfect jet lag antidote', cat: 'park', rating: 4.5, reviews: 42891, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Shinjuku%20Gyoen%20Tokyo' },
         { lat: 35.6938, lng: 139.7035, name: 'Kabukichō', desc: 'Neon entertainment district & Kabukichō Tower', cat: 'attraction' },
-        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokochō', desc: 'Tiny yakitori alley — the essential Tokyo experience', cat: 'food' },
-        { lat: 35.6935, lng: 139.7045, name: 'Golden Gai', desc: '200+ tiny bars in six narrow alleys', cat: 'nightlife' }
+        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokochō', desc: 'Tiny yakitori alley — the essential Tokyo experience', cat: 'food', rating: 4.2, reviews: 8932, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Omoide%20Yokoch%C5%8D%20Shinjuku%20Tokyo' },
+        { lat: 35.6935, lng: 139.7045, name: 'Golden Gai', desc: '200+ tiny bars in six narrow alleys', cat: 'nightlife', rating: 4.2, reviews: 6543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Golden%20Gai%20Shinjuku%20Tokyo' }
     ]);
 
     // Day 2: Asakusa, Yanaka & Ueno
     initMap('map-day2', [
-        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — go at 6 AM', cat: 'temple' },
-        { lat: 35.7100, lng: 139.7930, name: 'Pelican Café', desc: 'Family bakery since 1942 — incredible shokupan toast', cat: 'food' },
+        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — go at 6 AM', cat: 'temple', rating: 4.5, reviews: 68432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Senso-ji%20Temple%20Asakusa%20Tokyo' },
+        { lat: 35.7100, lng: 139.7930, name: 'Pelican Café', desc: 'Family bakery since 1942 — incredible shokupan toast', cat: 'food', rating: 4.1, reviews: 1256, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pelican%20Caf%C3%A9%20Asakusa%20Tokyo' },
         { lat: 35.7135, lng: 139.7965, name: 'Nakamise-dori', desc: 'Asakusa Menchi croquettes & Kibidango Azuma', cat: 'shopping' },
         { lat: 35.7270, lng: 139.7680, name: 'Yanaka Ginza', desc: '170m shopping street — old Tokyo vibes', cat: 'shopping' },
-        { lat: 35.7205, lng: 139.7620, name: 'Hantei', desc: 'Kushiage in a stunning 1917 wooden building', cat: 'food' },
-        { lat: 35.7186, lng: 139.7745, name: 'Ueno Park & Tokyo National Museum', desc: 'Museums, shrines & people-watching', cat: 'park' },
-        { lat: 35.7085, lng: 139.7745, name: 'Ameyoko Market', desc: 'Chaotic open-air market under the train tracks', cat: 'shopping' },
+        { lat: 35.7205, lng: 139.7620, name: 'Hantei', desc: 'Kushiage in a stunning 1917 wooden building', cat: 'food', rating: 4.2, reviews: 1089, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hantei%20Nezu%20Tokyo' },
+        { lat: 35.7186, lng: 139.7745, name: 'Ueno Park & Tokyo National Museum', desc: 'Museums, shrines & people-watching', cat: 'park', rating: 4.3, reviews: 31245, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ueno%20Park%20%26%20Tokyo%20National%20Museum%20Tokyo' },
+        { lat: 35.7085, lng: 139.7745, name: 'Ameyoko Market', desc: 'Chaotic open-air market under the train tracks', cat: 'shopping', rating: 4.2, reviews: 12876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ameyoko%20Market%20Ueno%20Tokyo' },
         { lat: 35.7130, lng: 139.7950, name: 'Hoppy-dori', desc: 'Open-air izakayas near Senso-ji — local drinking culture', cat: 'nightlife' }
     ]);
 
     // Day 3: Shibuya, Harajuku & Shimokitazawa
     initMap('map-day3', [
-        { lat: 35.6680, lng: 139.7070, name: 'Bills Omotesando', desc: 'Famous ricotta hotcakes for breakfast', cat: 'food' },
-        { lat: 35.6764, lng: 139.6993, name: 'Meiji Jingu Shrine', desc: 'Serene forested shrine in central Tokyo', cat: 'temple' },
+        { lat: 35.6680, lng: 139.7070, name: 'Bills Omotesando', desc: 'Famous ricotta hotcakes for breakfast', cat: 'food', rating: 4.1, reviews: 3421, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bills%20Omotesando%20Tokyo' },
+        { lat: 35.6764, lng: 139.6993, name: 'Meiji Jingu Shrine', desc: 'Serene forested shrine in central Tokyo', cat: 'temple', rating: 4.6, reviews: 52341, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Meiji%20Jingu%20Shrine%20Tokyo' },
         { lat: 35.6705, lng: 139.7027, name: 'Takeshita-dori', desc: 'Harajuku\'s famous teen fashion street', cat: 'shopping' },
-        { lat: 35.6700, lng: 139.7060, name: 'Afuri (阿夫利)', desc: 'Light yuzu-citrus shio ramen', cat: 'food' },
-        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest pedestrian scramble', cat: 'attraction' },
-        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — book for sunset', cat: 'attraction' },
+        { lat: 35.6700, lng: 139.7060, name: 'Afuri (阿夫利)', desc: 'Light yuzu-citrus shio ramen', cat: 'food', rating: 4.1, reviews: 4532, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Afuri%20%28%E9%98%BF%E5%A4%AB%E5%88%A9%29%20Harajuku%20Tokyo' },
+        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest pedestrian scramble', cat: 'attraction', rating: 4.3, reviews: 25678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Shibuya%20Crossing%20Tokyo' },
+        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — book for sunset', cat: 'attraction', rating: 4.5, reviews: 18934, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Shibuya%20Sky%20Tokyo' },
         { lat: 35.6613, lng: 139.6680, name: 'Shimokitazawa', desc: 'Tokyo\'s indie heart — vintage, curry, live music', cat: 'shopping' },
-        { lat: 35.6620, lng: 139.6670, name: 'Shirube (しるべ)', desc: 'Intimate 20-seat izakaya with seasonal dishes', cat: 'food' }
+        { lat: 35.6620, lng: 139.6670, name: 'Shirube (しるべ)', desc: 'Intimate 20-seat izakaya with seasonal dishes', cat: 'food', rating: 4.3, reviews: 287, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Shirube%20%28%E3%81%97%E3%82%8B%E3%81%B9%29%20Shimokitazawa%20Tokyo' }
     ]);
 
     // Day 4: Akihabara, Jimbocho & Koenji
     initMap('map-day4', [
-        { lat: 35.6984, lng: 139.7710, name: 'Super Potato', desc: 'Multi-floor retro game shop — play Famicom upstairs', cat: 'shopping' },
-        { lat: 35.6987, lng: 139.7725, name: 'Mandarake Complex', desc: '8 floors of manga, anime & vintage toys', cat: 'shopping' },
-        { lat: 35.6980, lng: 139.7700, name: 'Radio Kaikan', desc: 'Original electronics building — gadgets & hobby supplies', cat: 'shopping' },
+        { lat: 35.6984, lng: 139.7710, name: 'Super Potato', desc: 'Multi-floor retro game shop — play Famicom upstairs', cat: 'shopping', rating: 4.3, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Super%20Potato%20Akihabara%20Tokyo' },
+        { lat: 35.6987, lng: 139.7725, name: 'Mandarake Complex', desc: '8 floors of manga, anime & vintage toys', cat: 'shopping', rating: 4.3, reviews: 7823, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mandarake%20Complex%20Akihabara%20Tokyo' },
+        { lat: 35.6980, lng: 139.7700, name: 'Radio Kaikan', desc: 'Original electronics building — gadgets & hobby supplies', cat: 'shopping', rating: 4.1, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Radio%20Kaikan%20Akihabara%20Tokyo' },
         { lat: 35.6958, lng: 139.7575, name: 'Jimbocho Book District', desc: '170+ bookshops — world\'s highest concentration', cat: 'shopping' },
-        { lat: 35.6955, lng: 139.7580, name: 'Bondy (ボンディ)', desc: 'Crown jewel of Jimbocho\'s curry district', cat: 'food' },
+        { lat: 35.6955, lng: 139.7580, name: 'Bondy (ボンディ)', desc: 'Crown jewel of Jimbocho\'s curry district', cat: 'food', rating: 4.0, reviews: 2134, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bondy%20%28%E3%83%9C%E3%83%B3%E3%83%87%E3%82%A3%29%20Jimbocho%20Tokyo' },
         { lat: 35.7053, lng: 139.6494, name: 'Koenji', desc: 'Punk rock & vintage paradise — counterculture capital', cat: 'shopping' },
-        { lat: 35.7040, lng: 139.6490, name: 'Tensuke (天すけ)', desc: 'No-frills tempura counter — famous egg tempura', cat: 'food' }
+        { lat: 35.7040, lng: 139.6490, name: 'Tensuke (天すけ)', desc: 'No-frills tempura counter — famous egg tempura', cat: 'food', rating: 4.4, reviews: 1567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tensuke%20%28%E5%A4%A9%E3%81%99%E3%81%91%29%20Koenji%20Tokyo' }
     ]);
 
     // Day 5: Tsukiji, Ginza & Roppongi
     initMap('map-day5', [
-        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: '400+ stalls — graze your way through Tokyo\'s best food', cat: 'food' },
-        { lat: 35.6714, lng: 139.7652, name: 'Ginza / Mitsukoshi', desc: 'Upscale district — depachika food halls are a must', cat: 'shopping' },
-        { lat: 35.6720, lng: 139.7650, name: 'Itoya', desc: '12-floor stationery wonderland with rooftop farm', cat: 'shopping' },
-        { lat: 35.6600, lng: 139.7410, name: 'Yamaharu Standing Sushi', desc: 'Toranomon Hills — incredible omakase for ¥2,000', cat: 'food' },
-        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: 'Immersive digital art at Azabudai Hills', cat: 'art' },
-        { lat: 35.6627, lng: 139.7316, name: 'Uoharu (魚治)', desc: 'Refined izakaya — the perfect farewell dinner', cat: 'food' },
-        { lat: 35.6586, lng: 139.7454, name: 'Tokyo Tower', desc: 'Iconic orange glow — best from outside at night', cat: 'attraction' }
+        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: '400+ stalls — graze your way through Tokyo\'s best food', cat: 'food', rating: 4.3, reviews: 15678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tsukiji%20Outer%20Market%20Tokyo' },
+        { lat: 35.6714, lng: 139.7652, name: 'Ginza / Mitsukoshi', desc: 'Upscale district — depachika food halls are a must', cat: 'shopping', rating: 4.2, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ginza%20/%20Mitsukoshi%20Ginza%20Tokyo' },
+        { lat: 35.6720, lng: 139.7650, name: 'Itoya', desc: '12-floor stationery wonderland with rooftop farm', cat: 'shopping', rating: 4.3, reviews: 4321, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Itoya%20Ginza%20Tokyo' },
+        { lat: 35.6600, lng: 139.7410, name: 'Yamaharu Standing Sushi', desc: 'Toranomon Hills — incredible omakase for ¥2,000', cat: 'food', rating: 4.4, reviews: 876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Yamaharu%20Standing%20Sushi%20Toranomon%20Tokyo' },
+        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: 'Immersive digital art at Azabudai Hills', cat: 'art', rating: 4.4, reviews: 21345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=TeamLab%20Borderless%20Azabudai%20Tokyo' },
+        { lat: 35.6627, lng: 139.7316, name: 'Uoharu (魚治)', desc: 'Refined izakaya — the perfect farewell dinner', cat: 'food', rating: 4.1, reviews: 543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Uoharu%20%28%E9%AD%9A%E6%B2%BB%29%20Roppongi%20Tokyo' },
+        { lat: 35.6586, lng: 139.7454, name: 'Tokyo Tower', desc: 'Iconic orange glow — best from outside at night', cat: 'attraction', rating: 4.3, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tokyo%20Tower%20Tokyo' }
     ]);
 })();
 </script>

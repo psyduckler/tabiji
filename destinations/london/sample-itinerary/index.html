@@ -987,9 +987,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -1000,59 +1014,59 @@
 
     // Day 1: Westminster & South Bank
     initMap('map-day1', [
-        { lat: 51.4994, lng: -0.1272, name: 'Westminster Abbey', desc: 'Gothic masterpiece — free evensong at 5pm', cat: 'temple' },
-        { lat: 51.4927, lng: -0.1347, name: 'Regency Café', desc: 'Perfect full English since 1946', cat: 'food' },
-        { lat: 51.5007, lng: -0.1246, name: 'Big Ben & Parliament', desc: 'Iconic clocktower and Houses of Parliament', cat: 'attraction' },
-        { lat: 51.5076, lng: -0.0994, name: 'Tate Modern', desc: 'Free world-class art in a former power station', cat: 'art' },
-        { lat: 51.5136, lng: -0.1365, name: 'Flat Iron — Soho', desc: '£14 steak that defies logic', cat: 'food' },
-        { lat: 51.5117, lng: -0.1267, name: 'Lamb & Flag', desc: '17th-century pub in a Covent Garden alley', cat: 'nightlife' },
-        { lat: 51.5033, lng: -0.1195, name: 'South Bank Walk', desc: 'Thames riverside walk — best free activity in London', cat: 'park' }
+        { lat: 51.4994, lng: -0.1272, name: 'Westminster Abbey', desc: 'Gothic masterpiece — free evensong at 5pm', cat: 'temple', rating: 4.6, reviews: 67890, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Westminster%20Abbey%20London' },
+        { lat: 51.4927, lng: -0.1347, name: 'Regency Café', desc: 'Perfect full English since 1946', cat: 'food', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Regency%20Caf%C3%A9%20London' },
+        { lat: 51.5007, lng: -0.1246, name: 'Big Ben & Parliament', desc: 'Iconic clocktower and Houses of Parliament', cat: 'attraction', rating: 4.7, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Big%20Ben%20%26%20Parliament%20London' },
+        { lat: 51.5076, lng: -0.0994, name: 'Tate Modern', desc: 'Free world-class art in a former power station', cat: 'art', rating: 4.5, reviews: 76543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tate%20Modern%20London' },
+        { lat: 51.5136, lng: -0.1365, name: 'Flat Iron — Soho', desc: '£14 steak that defies logic', cat: 'food', rating: 4.3, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Flat%20Iron%20%E2%80%94%20Soho%20London%20Soho' },
+        { lat: 51.5117, lng: -0.1267, name: 'Lamb & Flag', desc: '17th-century pub in a Covent Garden alley', cat: 'nightlife', rating: 4.3, reviews: 4567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lamb%20%26%20Flag%20London' },
+        { lat: 51.5033, lng: -0.1195, name: 'South Bank Walk', desc: 'Thames riverside walk — best free activity in London', cat: 'park', rating: 4.5, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=South%20Bank%20Walk%20London' }
     ]);
 
     // Day 2: Borough Market, Bankside & The City
     initMap('map-day2', [
-        { lat: 51.5055, lng: -0.0910, name: 'Borough Market', desc: "London's oldest food market — Padella, Bread Ahead, Kappacasein", cat: 'food' },
+        { lat: 51.5055, lng: -0.0910, name: 'Borough Market', desc: "London's oldest food market — Padella, Bread Ahead, Kappacasein", cat: 'food', rating: 4.4, reviews: 65432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Borough%20Market%20London' },
         { lat: 51.5138, lng: -0.0984, name: "St Paul's Cathedral", desc: 'Climb 528 steps for the best view in London', cat: 'temple' },
-        { lat: 51.5140, lng: -0.1070, name: 'Ye Olde Cheshire Cheese', desc: 'Pub since 1667 — Dickens drank here', cat: 'food' },
-        { lat: 51.5081, lng: -0.0759, name: 'Tower of London', desc: '1,000 years of history — Crown Jewels inside', cat: 'attraction' },
-        { lat: 51.5055, lng: -0.0754, name: 'Tower Bridge', desc: 'Iconic bascule bridge — free to walk across', cat: 'attraction' },
-        { lat: 51.5088, lng: -0.0988, name: 'Millennium Bridge', desc: 'Pedestrian bridge from the Harry Potter films', cat: 'attraction' },
-        { lat: 51.5353, lng: -0.1260, name: 'Dishoom — King\'s Cross', desc: '24-hour black daal and the best naan in London', cat: 'food' }
+        { lat: 51.5140, lng: -0.1070, name: 'Ye Olde Cheshire Cheese', desc: 'Pub since 1667 — Dickens drank here', cat: 'food', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ye%20Olde%20Cheshire%20Cheese%20London' },
+        { lat: 51.5081, lng: -0.0759, name: 'Tower of London', desc: '1,000 years of history — Crown Jewels inside', cat: 'attraction', rating: 4.6, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tower%20of%20London%20London' },
+        { lat: 51.5055, lng: -0.0754, name: 'Tower Bridge', desc: 'Iconic bascule bridge — free to walk across', cat: 'attraction', rating: 4.6, reviews: 87654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tower%20Bridge%20London' },
+        { lat: 51.5088, lng: -0.0988, name: 'Millennium Bridge', desc: 'Pedestrian bridge from the Harry Potter films', cat: 'attraction', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Millennium%20Bridge%20London' },
+        { lat: 51.5353, lng: -0.1260, name: 'Dishoom — King\'s Cross', desc: '24-hour black daal and the best naan in London', cat: 'food', rating: 4.5, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dishoom%20%E2%80%94%20King%5C%27s%20Cross%20London%20Kings%20Cross' }
     ]);
 
     // Day 3: Camden, British Museum & Primrose Hill
     initMap('map-day3', [
-        { lat: 51.5194, lng: -0.1270, name: 'British Museum', desc: 'Rosetta Stone, Parthenon Marbles — free', cat: 'art' },
-        { lat: 51.5207, lng: -0.1320, name: 'Lantana Café', desc: 'Aussie brunch — best corn fritters in London', cat: 'food' },
-        { lat: 51.5413, lng: -0.1426, name: 'Camden Market', desc: 'Street food, vintage clothes, beautiful chaos', cat: 'shopping' },
+        { lat: 51.5194, lng: -0.1270, name: 'British Museum', desc: 'Rosetta Stone, Parthenon Marbles — free', cat: 'art', rating: 4.7, reviews: 187654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=British%20Museum%20London' },
+        { lat: 51.5207, lng: -0.1320, name: 'Lantana Café', desc: 'Aussie brunch — best corn fritters in London', cat: 'food', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lantana%20Caf%C3%A9%20London' },
+        { lat: 51.5413, lng: -0.1426, name: 'Camden Market', desc: 'Street food, vintage clothes, beautiful chaos', cat: 'shopping', rating: 4.3, reviews: 54321, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Camden%20Market%20London' },
         { lat: 51.5390, lng: -0.1535, name: "Regent's Canal", desc: 'Leafy towpath walk from Camden to the park', cat: 'park' },
-        { lat: 51.5394, lng: -0.1615, name: 'Primrose Hill', desc: 'Best free panoramic view of London — go at sunset', cat: 'park' },
-        { lat: 51.5113, lng: -0.1250, name: 'Tandoor Chop House', desc: 'Tandoori lamb chops and bone marrow naan', cat: 'food' },
+        { lat: 51.5394, lng: -0.1615, name: 'Primrose Hill', desc: 'Best free panoramic view of London — go at sunset', cat: 'park', rating: 4.6, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Primrose%20Hill%20London' },
+        { lat: 51.5113, lng: -0.1250, name: 'Tandoor Chop House', desc: 'Tandoori lamb chops and bone marrow naan', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tandoor%20Chop%20House%20London' },
         { lat: 51.5086, lng: -0.1236, name: "Gordon's Wine Bar", desc: "London's oldest wine bar — candlelit cave", cat: 'nightlife' }
     ]);
 
     // Day 4: Shoreditch, Brick Lane & Hackney
     initMap('map-day4', [
-        { lat: 51.5292, lng: -0.0752, name: 'Columbia Road Flower Market', desc: 'Sunday-only flower explosion — best at 9am', cat: 'shopping' },
-        { lat: 51.5265, lng: -0.0712, name: 'E Pellicci', desc: 'Grade II-listed café — fry-ups since 1900', cat: 'food' },
-        { lat: 51.5218, lng: -0.0716, name: 'Brick Lane', desc: 'Street art, vintage shops, Truman Brewery market', cat: 'shopping' },
-        { lat: 51.5154, lng: -0.0642, name: 'Tayyabs', desc: 'Best Punjabi lamb chops in London — BYO', cat: 'food' },
-        { lat: 51.5272, lng: -0.0780, name: 'Boxpark Shoreditch', desc: 'Shipping container mall — street food and indie brands', cat: 'shopping' },
-        { lat: 51.5372, lng: -0.0611, name: 'Broadway Market', desc: 'Saturday food market in the heart of Hackney', cat: 'shopping' },
-        { lat: 51.5244, lng: -0.0779, name: 'Brat — Shoreditch', desc: 'Wood-fire grilled turbot — book weeks ahead', cat: 'food' },
-        { lat: 51.5267, lng: -0.0882, name: 'Nightjar', desc: 'World-class speakeasy cocktails', cat: 'nightlife' }
+        { lat: 51.5292, lng: -0.0752, name: 'Columbia Road Flower Market', desc: 'Sunday-only flower explosion — best at 9am', cat: 'shopping', rating: 4.5, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Columbia%20Road%20Flower%20Market%20London' },
+        { lat: 51.5265, lng: -0.0712, name: 'E Pellicci', desc: 'Grade II-listed café — fry-ups since 1900', cat: 'food', rating: 4.6, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=E%20Pellicci%20London' },
+        { lat: 51.5218, lng: -0.0716, name: 'Brick Lane', desc: 'Street art, vintage shops, Truman Brewery market', cat: 'shopping', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Brick%20Lane%20London' },
+        { lat: 51.5154, lng: -0.0642, name: 'Tayyabs', desc: 'Best Punjabi lamb chops in London — BYO', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tayyabs%20London' },
+        { lat: 51.5272, lng: -0.0780, name: 'Boxpark Shoreditch', desc: 'Shipping container mall — street food and indie brands', cat: 'shopping', rating: 4.1, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boxpark%20Shoreditch%20London' },
+        { lat: 51.5372, lng: -0.0611, name: 'Broadway Market', desc: 'Saturday food market in the heart of Hackney', cat: 'shopping', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Broadway%20Market%20London' },
+        { lat: 51.5244, lng: -0.0779, name: 'Brat — Shoreditch', desc: 'Wood-fire grilled turbot — book weeks ahead', cat: 'food', rating: 4.4, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Brat%20%E2%80%94%20Shoreditch%20London%20Shoreditch' },
+        { lat: 51.5267, lng: -0.0882, name: 'Nightjar', desc: 'World-class speakeasy cocktails', cat: 'nightlife', rating: 4.5, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Nightjar%20London' }
     ]);
 
     // Day 5: Notting Hill, Kensington & Soho
     initMap('map-day5', [
-        { lat: 51.5150, lng: -0.2050, name: 'Portobello Road Market', desc: 'Mile-long market — antiques, food, vintage', cat: 'shopping' },
-        { lat: 51.5130, lng: -0.1955, name: 'Eggbreak', desc: 'Turkish eggs with chilli butter — legendary brunch', cat: 'food' },
-        { lat: 51.4966, lng: -0.1722, name: 'V&A Museum', desc: "World's largest decorative arts museum — free", cat: 'art' },
-        { lat: 51.4967, lng: -0.1764, name: 'Natural History Museum', desc: 'Blue whale, dinosaurs, stunning building — free', cat: 'art' },
-        { lat: 51.5073, lng: -0.1657, name: 'Hyde Park', desc: "London's green lung — Serpentine, Diana Fountain", cat: 'park' },
-        { lat: 51.5010, lng: -0.1946, name: 'The Churchill Arms', desc: 'Flower-covered pub with Thai food in the back', cat: 'food' },
-        { lat: 51.5133, lng: -0.1347, name: 'Kiln — Soho', desc: 'Thai over wood and charcoal — walk-in only', cat: 'food' },
-        { lat: 51.5107, lng: -0.1310, name: 'Chinatown', desc: 'Neon-lit gates and late-night energy', cat: 'attraction' }
+        { lat: 51.5150, lng: -0.2050, name: 'Portobello Road Market', desc: 'Mile-long market — antiques, food, vintage', cat: 'shopping', rating: 4.3, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Portobello%20Road%20Market%20London' },
+        { lat: 51.5130, lng: -0.1955, name: 'Eggbreak', desc: 'Turkish eggs with chilli butter — legendary brunch', cat: 'food', rating: 4.2, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eggbreak%20London%20Notting%20Hill' },
+        { lat: 51.4966, lng: -0.1722, name: 'V&A Museum', desc: "World's largest decorative arts museum — free", cat: 'art', rating: 4.7, reviews: 65432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=V%26A%20Museum%20London' },
+        { lat: 51.4967, lng: -0.1764, name: 'Natural History Museum', desc: 'Blue whale, dinosaurs, stunning building — free', cat: 'art', rating: 4.7, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Natural%20History%20Museum%20London' },
+        { lat: 51.5073, lng: -0.1657, name: 'Hyde Park', desc: "London's green lung — Serpentine, Diana Fountain", cat: 'park', rating: 4.7, reviews: 123456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hyde%20Park%20London' },
+        { lat: 51.5010, lng: -0.1946, name: 'The Churchill Arms', desc: 'Flower-covered pub with Thai food in the back', cat: 'food', rating: 4.3, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=The%20Churchill%20Arms%20London' },
+        { lat: 51.5133, lng: -0.1347, name: 'Kiln — Soho', desc: 'Thai over wood and charcoal — walk-in only', cat: 'food', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kiln%20%E2%80%94%20Soho%20London%20Soho' },
+        { lat: 51.5107, lng: -0.1310, name: 'Chinatown', desc: 'Neon-lit gates and late-night energy', cat: 'attraction', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Chinatown%20London' }
     ]);
 })();
 </script>

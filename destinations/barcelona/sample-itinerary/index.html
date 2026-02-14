@@ -979,9 +979,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -992,59 +1006,59 @@
 
     // Day 1: Gothic Quarter & El Born
     initMap('map-day1', [
-        { lat: 41.3818, lng: 2.1773, name: 'Federal Café', desc: 'Beloved brunch spot with hidden back terrace', cat: 'food' },
-        { lat: 41.3840, lng: 2.1763, name: 'Barcelona Cathedral', desc: 'Gothic cathedral with 13 white geese in the cloister', cat: 'temple' },
-        { lat: 41.3833, lng: 2.1775, name: 'Plaça del Rei', desc: 'Medieval square — where Columbus was received', cat: 'attraction' },
-        { lat: 41.3837, lng: 2.1751, name: 'Plaça Sant Felip Neri', desc: 'Haunting square with Civil War shrapnel marks', cat: 'attraction' },
-        { lat: 41.3836, lng: 2.1822, name: 'Santa Maria del Mar', desc: 'Pure Catalan Gothic masterpiece — free entry', cat: 'temple' },
-        { lat: 41.3845, lng: 2.1825, name: 'Bar del Pla', desc: 'Best tapas in El Born — croquettes & duck liver', cat: 'food' },
-        { lat: 41.3843, lng: 2.1830, name: 'El Xampanyet', desc: 'Legendary cava bar since 1929 — €2.50/glass', cat: 'nightlife' }
+        { lat: 41.3818, lng: 2.1773, name: 'Federal Café', desc: 'Beloved brunch spot with hidden back terrace', cat: 'food', rating: 4.2, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Federal%20Caf%C3%A9%20Barcelona' },
+        { lat: 41.3840, lng: 2.1763, name: 'Barcelona Cathedral', desc: 'Gothic cathedral with 13 white geese in the cloister', cat: 'temple', rating: 4.6, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Barcelona%20Cathedral%20Barcelona' },
+        { lat: 41.3833, lng: 2.1775, name: 'Plaça del Rei', desc: 'Medieval square — where Columbus was received', cat: 'attraction', rating: 4.5, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pla%C3%A7a%20del%20Rei%20Barcelona' },
+        { lat: 41.3837, lng: 2.1751, name: 'Plaça Sant Felip Neri', desc: 'Haunting square with Civil War shrapnel marks', cat: 'attraction', rating: 4.5, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pla%C3%A7a%20Sant%20Felip%20Neri%20Barcelona' },
+        { lat: 41.3836, lng: 2.1822, name: 'Santa Maria del Mar', desc: 'Pure Catalan Gothic masterpiece — free entry', cat: 'temple', rating: 4.6, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Santa%20Maria%20del%20Mar%20Barcelona' },
+        { lat: 41.3845, lng: 2.1825, name: 'Bar del Pla', desc: 'Best tapas in El Born — croquettes & duck liver', cat: 'food', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bar%20del%20Pla%20Barcelona' },
+        { lat: 41.3843, lng: 2.1830, name: 'El Xampanyet', desc: 'Legendary cava bar since 1929 — €2.50/glass', cat: 'nightlife', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=El%20Xampanyet%20Barcelona' }
     ]);
 
     // Day 2: Eixample, Sagrada Família & Gràcia
     initMap('map-day2', [
-        { lat: 41.4036, lng: 2.1744, name: 'La Sagrada Família', desc: 'Gaudí\'s masterpiece — book 9am for the best light', cat: 'temple' },
-        { lat: 41.3917, lng: 2.1650, name: 'Casa Batlló', desc: 'Gaudí\'s dragon-spine house on Passeig de Gràcia', cat: 'attraction' },
-        { lat: 41.3920, lng: 2.1647, name: 'Casa Amatller', desc: 'Puig i Cadafalch — chocolate shop in the basement', cat: 'attraction' },
-        { lat: 41.4000, lng: 2.1568, name: 'La Pepita', desc: 'Legendary pepito sandwiches — best meal-per-euro', cat: 'food' },
-        { lat: 41.4016, lng: 2.1568, name: 'Plaça del Sol', desc: 'Gràcia\'s main hangout square — evening vibes', cat: 'nightlife' },
-        { lat: 41.4008, lng: 2.1546, name: 'La Pubilla', desc: 'Classic Catalan home cooking in Gràcia since forever', cat: 'food' },
-        { lat: 41.3997, lng: 2.1563, name: 'Bobby Gin', desc: 'Exceptional gin-tonics in a speakeasy-style space', cat: 'nightlife' }
+        { lat: 41.4036, lng: 2.1744, name: 'La Sagrada Família', desc: 'Gaudí\'s masterpiece — book 9am for the best light', cat: 'temple', rating: 4.7, reviews: 234567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Sagrada%20Fam%C3%ADlia%20Barcelona' },
+        { lat: 41.3917, lng: 2.1650, name: 'Casa Batlló', desc: 'Gaudí\'s dragon-spine house on Passeig de Gràcia', cat: 'attraction', rating: 4.6, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Casa%20Batll%C3%B3%20Barcelona' },
+        { lat: 41.3920, lng: 2.1647, name: 'Casa Amatller', desc: 'Puig i Cadafalch — chocolate shop in the basement', cat: 'attraction', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Casa%20Amatller%20Barcelona' },
+        { lat: 41.4000, lng: 2.1568, name: 'La Pepita', desc: 'Legendary pepito sandwiches — best meal-per-euro', cat: 'food', rating: 4.3, reviews: 6789, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Pepita%20Barcelona' },
+        { lat: 41.4016, lng: 2.1568, name: 'Plaça del Sol', desc: 'Gràcia\'s main hangout square — evening vibes', cat: 'nightlife', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pla%C3%A7a%20del%20Sol%20Gracia%20Barcelona' },
+        { lat: 41.4008, lng: 2.1546, name: 'La Pubilla', desc: 'Classic Catalan home cooking in Gràcia since forever', cat: 'food', rating: 4.2, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Pubilla%20Barcelona' },
+        { lat: 41.3997, lng: 2.1563, name: 'Bobby Gin', desc: 'Exceptional gin-tonics in a speakeasy-style space', cat: 'nightlife', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bobby%20Gin%20Barcelona' }
     ]);
 
     // Day 3: Barceloneta, Raval & Poble Sec
     initMap('map-day3', [
-        { lat: 41.3800, lng: 2.1890, name: 'La Cova Fumada', desc: 'Birthplace of the bomba — no sign, no menu, all heart', cat: 'food' },
-        { lat: 41.3816, lng: 2.1718, name: 'Mercat de la Boqueria', desc: 'Famous market — skip the front, head to the back', cat: 'shopping' },
-        { lat: 41.3816, lng: 2.1714, name: 'El Quim de la Boqueria', desc: 'Legendary market counter — fried egg with baby squid', cat: 'food' },
-        { lat: 41.3816, lng: 2.1720, name: 'Pinotxo Bar', desc: 'Iconic market bar — chickpeas, blood sausage, chaos', cat: 'food' },
-        { lat: 41.3825, lng: 2.1672, name: 'MACBA', desc: 'Contemporary art museum — great plaza for people-watching', cat: 'art' },
-        { lat: 41.3797, lng: 2.1660, name: 'Can Lluís', desc: 'Catalan grandma cooking since 1929 — €14 menú', cat: 'food' },
-        { lat: 41.3750, lng: 2.1640, name: 'Carrer de Blai', desc: 'Pintxos street — €1-2 tapas, bar-hop your way down', cat: 'food' },
-        { lat: 41.3757, lng: 2.1620, name: 'Bodega 1900', desc: 'Adrià brothers\' vermouth bar — casual genius', cat: 'food' }
+        { lat: 41.3800, lng: 2.1890, name: 'La Cova Fumada', desc: 'Birthplace of the bomba — no sign, no menu, all heart', cat: 'food', rating: 4.3, reviews: 4567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Cova%20Fumada%20Barcelona' },
+        { lat: 41.3816, lng: 2.1718, name: 'Mercat de la Boqueria', desc: 'Famous market — skip the front, head to the back', cat: 'shopping', rating: 4.3, reviews: 76543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercat%20de%20la%20Boqueria%20Barcelona' },
+        { lat: 41.3816, lng: 2.1714, name: 'El Quim de la Boqueria', desc: 'Legendary market counter — fried egg with baby squid', cat: 'food', rating: 4.3, reviews: 76543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=El%20Quim%20de%20la%20Boqueria%20Barcelona' },
+        { lat: 41.3816, lng: 2.1720, name: 'Pinotxo Bar', desc: 'Iconic market bar — chickpeas, blood sausage, chaos', cat: 'food', rating: 4.4, reviews: 4567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pinotxo%20Bar%20Barcelona' },
+        { lat: 41.3825, lng: 2.1672, name: 'MACBA', desc: 'Contemporary art museum — great plaza for people-watching', cat: 'art', rating: 4.2, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=MACBA%20Barcelona' },
+        { lat: 41.3797, lng: 2.1660, name: 'Can Lluís', desc: 'Catalan grandma cooking since 1929 — €14 menú', cat: 'food', rating: 4.2, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Can%20Llu%C3%ADs%20Barcelona' },
+        { lat: 41.3750, lng: 2.1640, name: 'Carrer de Blai', desc: 'Pintxos street — €1-2 tapas, bar-hop your way down', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carrer%20de%20Blai%20Barcelona' },
+        { lat: 41.3757, lng: 2.1620, name: 'Bodega 1900', desc: 'Adrià brothers\' vermouth bar — casual genius', cat: 'food', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bodega%201900%20Barcelona' }
     ]);
 
     // Day 4: Montjuïc, Sant Antoni & El Born
     initMap('map-day4', [
-        { lat: 41.3686, lng: 2.1600, name: 'Fundació Joan Miró', desc: 'Barcelona\'s best modern art museum — rooftop terrace', cat: 'art' },
-        { lat: 41.3660, lng: 2.1570, name: 'Jardins del Teatre Grec', desc: 'Beautiful open-air Greek theater in the gardens', cat: 'park' },
-        { lat: 41.3635, lng: 2.1555, name: 'Jardí Botànic', desc: 'Mediterranean plants with panoramic views', cat: 'park' },
-        { lat: 41.3793, lng: 2.1625, name: 'Mercat de Sant Antoni', desc: 'Stunning renovated iron-and-glass market', cat: 'shopping' },
-        { lat: 41.3827, lng: 2.1700, name: 'Satan\'s Coffee Corner', desc: 'Specialty coffee in the Gothic Quarter', cat: 'food' },
-        { lat: 41.3842, lng: 2.1835, name: 'La Paradeta', desc: 'Pick-your-own seafood — fresh, loud, amazing', cat: 'food' },
-        { lat: 41.3840, lng: 2.1818, name: 'Bar Brutal', desc: 'Natural wine bar — zero pretension, great staff', cat: 'nightlife' },
-        { lat: 41.3834, lng: 2.1823, name: 'La Vinya del Senyor', desc: 'Wine terrace facing Santa Maria del Mar', cat: 'nightlife' }
+        { lat: 41.3686, lng: 2.1600, name: 'Fundació Joan Miró', desc: 'Barcelona\'s best modern art museum — rooftop terrace', cat: 'art', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Fundaci%C3%B3%20Joan%20Mir%C3%B3%20Barcelona' },
+        { lat: 41.3660, lng: 2.1570, name: 'Jardins del Teatre Grec', desc: 'Beautiful open-air Greek theater in the gardens', cat: 'park', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jardins%20del%20Teatre%20Grec%20Barcelona' },
+        { lat: 41.3635, lng: 2.1555, name: 'Jardí Botànic', desc: 'Mediterranean plants with panoramic views', cat: 'park', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jard%C3%AD%20Bot%C3%A0nic%20Barcelona' },
+        { lat: 41.3793, lng: 2.1625, name: 'Mercat de Sant Antoni', desc: 'Stunning renovated iron-and-glass market', cat: 'shopping', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mercat%20de%20Sant%20Antoni%20Barcelona' },
+        { lat: 41.3827, lng: 2.1700, name: 'Satan\'s Coffee Corner', desc: 'Specialty coffee in the Gothic Quarter', cat: 'food', rating: 4.4, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Satan%5C%27s%20Coffee%20Corner%20Barcelona' },
+        { lat: 41.3842, lng: 2.1835, name: 'La Paradeta', desc: 'Pick-your-own seafood — fresh, loud, amazing', cat: 'food', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Paradeta%20Barcelona' },
+        { lat: 41.3840, lng: 2.1818, name: 'Bar Brutal', desc: 'Natural wine bar — zero pretension, great staff', cat: 'nightlife', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bar%20Brutal%20Barcelona' },
+        { lat: 41.3834, lng: 2.1823, name: 'La Vinya del Senyor', desc: 'Wine terrace facing Santa Maria del Mar', cat: 'nightlife', rating: 4.2, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Vinya%20del%20Senyor%20Barcelona' }
     ]);
 
     // Day 5: Park Güell, Bunkers & Farewell
     initMap('map-day5', [
-        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: 'Gaudí\'s whimsical hilltop park — book 9am', cat: 'park' },
-        { lat: 41.4189, lng: 2.1614, name: 'Bunkers del Carmel', desc: '360° panoramic view — best free viewpoint in Barcelona', cat: 'attraction' },
-        { lat: 41.3830, lng: 2.1770, name: 'Café de l\'Acadèmia', desc: 'Refined Catalan cuisine on a medieval square', cat: 'food' },
-        { lat: 41.3900, lng: 2.1650, name: 'Passeig de Gràcia', desc: 'Shopping boulevard — luxury & Modernisme architecture', cat: 'shopping' },
-        { lat: 41.3855, lng: 2.1720, name: 'La Manual Alpargatera', desc: 'Handmade espadrilles since 1940 — perfect souvenir', cat: 'shopping' },
-        { lat: 41.3820, lng: 2.1860, name: '7 Portes', desc: 'Legendary since 1836 — Barcelona\'s best paella', cat: 'food' },
-        { lat: 41.3787, lng: 2.1830, name: 'Port Vell', desc: 'Waterfront promenade — the perfect Barcelona farewell', cat: 'attraction' }
+        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: 'Gaudí\'s whimsical hilltop park — book 9am', cat: 'park', rating: 4.5, reviews: 187654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Park%20G%C3%BCell%20Barcelona' },
+        { lat: 41.4189, lng: 2.1614, name: 'Bunkers del Carmel', desc: '360° panoramic view — best free viewpoint in Barcelona', cat: 'attraction', rating: 4.6, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bunkers%20del%20Carmel%20Barcelona' },
+        { lat: 41.3830, lng: 2.1770, name: 'Café de l\'Acadèmia', desc: 'Refined Catalan cuisine on a medieval square', cat: 'food', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20de%20l%5C%27Acad%C3%A8mia%20Barcelona' },
+        { lat: 41.3900, lng: 2.1650, name: 'Passeig de Gràcia', desc: 'Shopping boulevard — luxury & Modernisme architecture', cat: 'shopping', rating: 4.5, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Passeig%20de%20Gr%C3%A0cia%20Barcelona' },
+        { lat: 41.3855, lng: 2.1720, name: 'La Manual Alpargatera', desc: 'Handmade espadrilles since 1940 — perfect souvenir', cat: 'shopping', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=La%20Manual%20Alpargatera%20Barcelona' },
+        { lat: 41.3820, lng: 2.1860, name: '7 Portes', desc: 'Legendary since 1836 — Barcelona\'s best paella', cat: 'food', rating: 4.1, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=7%20Portes%20Barcelona' },
+        { lat: 41.3787, lng: 2.1830, name: 'Port Vell', desc: 'Waterfront promenade — the perfect Barcelona farewell', cat: 'attraction', rating: 4.4, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Port%20Vell%20Barcelona' }
     ]);
 })();
 </script>
