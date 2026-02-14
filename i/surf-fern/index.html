@@ -872,14 +872,16 @@
         yoga: '#f0e8fe', nightlife: '#fde8e8', attraction: '#fef9e7', adventure: '#fce4ec'
     };
 
-    function makeSVGIcon(cat) {
+    function makeSVGIcon(cat, num) {
         var c = colors[cat] || '#2D3A5C';
+        var label = num != null ? num : '';
         var svg = 'data:image/svg+xml,' + encodeURIComponent(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
-            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">' +
+            '<circle cx="16" cy="16" r="14" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            '<text x="16" y="21" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Arial,sans-serif">' + label + '</text>' +
             '</svg>'
         );
-        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+        return { url: svg, scaledSize: new google.maps.Size(32, 32), anchor: new google.maps.Point(16, 16) };
     }
 
     function initMap(id, pins) {
@@ -895,11 +897,11 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
             var marker = new google.maps.Marker({
                 position: pos, map: map,
-                icon: makeSVGIcon(p.cat),
+                icon: makeSVGIcon(p.cat, i + 1),
                 title: p.name
             });
             bounds.extend(pos);
