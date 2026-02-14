@@ -1,0 +1,630 @@
+/**
+ * Generates a complete HTML itinerary page matching the tabiji.ai design system.
+ * @param {Object} data - Structured itinerary data
+ * @returns {string} Complete HTML document
+ */
+function generateItineraryHTML(data) {
+  const {
+    slug, destination, countryEmoji, title, subtitle, description,
+    duration, dates, budget, pace, bestFor,
+    essentials = [], days = [], budgetTable = [], practicalInfo = []
+  } = data;
+
+  const url = `https://tabiji.ai/i/${slug}/`;
+  const today = new Date().toISOString().split('T')[0];
+
+  // Escape HTML entities
+  function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Build TOC entries
+  const tocEntries = [
+    `<li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>`
+  ];
+  const tocInlineEntries = [
+    `<li><a href="#essentials">⚡ Before You Go — Essentials</a></li>`
+  ];
+  days.forEach(d => {
+    tocEntries.push(`<li><a href="#day${d.num}" data-section="day${d.num}">Day ${d.num}: ${esc(d.neighborhoods.split('·')[0].trim())}</a></li>`);
+    tocInlineEntries.push(`<li><a href="#day${d.num}">Day ${d.num}: ${esc(d.neighborhoods)} — ${esc(d.title)}</a></li>`);
+  });
+  tocEntries.push(`<li><a href="#budget" data-section="budget">💰 Budget</a></li>`);
+  tocInlineEntries.push(`<li><a href="#budget">💰 Budget Breakdown</a></li>`);
+  if (practicalInfo.length) {
+    tocEntries.push(`<li><a href="#practical" data-section="practical">📋 Practical Info</a></li>`);
+    tocInlineEntries.push(`<li><a href="#practical">📋 Practical Info</a></li>`);
+  }
+
+  // Build essentials HTML
+  const essentialsHTML = essentials.map(e =>
+    `<div class="essential-item"><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p></div>`
+  ).join('\n            ');
+
+  // Build day sections
+  const daysHTML = days.map(day => {
+    const timeBlocksHTML = day.timeBlocks.map(tb => {
+      let inner = `<div class="time-label">${esc(tb.label)}</div>\n`;
+
+      // Activities
+      (tb.activities || []).forEach(act => {
+        inner += `            <h3>${esc(act.title)}</h3>\n`;
+        inner += `            <p>${act.description}</p>\n`;
+        (act.details || []).forEach(det => {
+          inner += `            <div class="spot-detail">${det}</div>\n`;
+        });
+      });
+
+      // Meals
+      (tb.meals || []).forEach(meal => {
+        inner += `            <div class="meal-card">
+                <div class="meal-type">${esc(meal.type)}</div>
+                <div class="meal-name">${esc(meal.name)}</div>
+                <div class="meal-desc">${meal.description}</div>
+                <div class="meal-meta">${meal.meta}</div>
+            </div>\n`;
+      });
+
+      // Tips
+      (tb.tips || []).forEach(tip => {
+        if (tip.type === 'reddit') {
+          inner += `            <div class="reddit-tip">${esc(tip.text)}<cite>${esc(tip.cite)}</cite></div>\n`;
+        } else {
+          inner += `            <div class="tip">${esc(tip.text)}</div>\n`;
+        }
+      });
+
+      return `        <div class="time-block">\n            ${inner}        </div>`;
+    }).join('\n\n');
+
+    // Map pins data for JS
+    const pinsJS = (day.mapPins || []).map(p =>
+      `{lat:${p.lat},lng:${p.lng},name:${JSON.stringify(p.label)},num:${p.num},cat:${JSON.stringify(p.cat || 'attraction')},desc:${JSON.stringify(p.desc || p.label)}}`
+    ).join(',\n            ');
+
+    return `
+    <!-- DAY ${day.num} -->
+    <div class="day" id="day${day.num}">
+        <div class="day-header">
+            <span class="day-num">Day ${day.num}</span>
+            <span class="day-neighborhoods">${esc(day.neighborhoods)}</span>
+        </div>
+        <h2>${esc(day.title)}</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">${day.description}</p>
+
+${timeBlocksHTML}
+
+        <div id="map-day${day.num}" class="day-map"></div>
+    </div>`;
+  }).join('\n');
+
+  // Budget table
+  let budgetHTML = '';
+  if (budgetTable.length) {
+    const headers = Object.keys(budgetTable[0]).filter(k => k !== 'category');
+    budgetHTML = `
+    <div class="day" id="budget" style="border-top-color: var(--terracotta);">
+        <h2 style="margin-bottom:1rem;">💰 Budget Breakdown</h2>
+        <table class="budget-table">
+            <thead><tr><th>Category</th>${headers.map(h => `<th>${esc(h.charAt(0).toUpperCase() + h.slice(1))}</th>`).join('')}</tr></thead>
+            <tbody>
+${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${headers.map(h => `<td>${esc(row[h])}</td>`).join('')}</tr>`).join('\n')}
+            </tbody>
+        </table>
+    </div>`;
+  }
+
+  // Practical info
+  let practicalHTML = '';
+  if (practicalInfo.length) {
+    practicalHTML = `
+    <div style="background:var(--warm-cream);border-radius:14px;padding:2rem;margin:2rem 0 3rem;border:1px solid var(--sand);" id="practical">
+        ${practicalInfo.map(section => `
+        <h2 style="font-size:1.2rem;color:var(--indigo);margin-bottom:1rem;">${esc(section.title)}</h2>
+        <ul style="list-style:none;font-size:0.9rem;color:var(--text-muted);">
+            ${section.items.map(item => `<li style="margin-bottom:0.6rem;padding-left:1.5rem;">${item}</li>`).join('\n            ')}
+        </ul>`).join('\n')}
+    </div>`;
+  }
+
+  // Map initialization JS
+  const mapsJS = days.filter(d => d.mapPins && d.mapPins.length).map(day => {
+    const pins = day.mapPins.map(p =>
+      `{lat:${p.lat},lng:${p.lng},name:${JSON.stringify(p.label)},cat:${JSON.stringify(p.cat||'attraction')},desc:${JSON.stringify(p.desc||p.label)}}`
+    ).join(',');
+    return `    initMap('map-day${day.num}', [${pins}]);`;
+  }).join('\n');
+
+  // Schema.org JSON-LD
+  const schemaArticle = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title + ': ' + subtitle,
+    description: description,
+    author: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai" },
+    publisher: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai" },
+    datePublished: today,
+    dateModified: today,
+    mainEntityOfPage: url
+  }, null, 4);
+
+  const schemaTourist = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    name: title,
+    description: description,
+    touristType: ["Cultural Tourism", "Food Tourism", "Urban Tourism"],
+    itinerary: {
+      "@type": "ItemList",
+      numberOfItems: days.length,
+      itemListElement: days.map(d => ({
+        "@type": "ListItem",
+        position: d.num,
+        name: `Day ${d.num}: ${d.neighborhoods} — ${d.title}`
+      }))
+    }
+  }, null, 4);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D7QHNRXLHJ');
+    </script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <title>${esc(title)} — ${esc(subtitle)} | tabiji.ai</title>
+    <meta name="description" content="${esc(description)}">
+    <meta property="og:title" content="${esc(title)} — tabiji.ai">
+    <meta property="og:description" content="${esc(description)}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="${url}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${esc(title)} — tabiji.ai">
+    <meta name="twitter:description" content="${esc(description)}">
+    <link rel="canonical" href="${url}">
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        :root {
+            --indigo: #2D3A5C;
+            --indigo-light: #3D4E7A;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --earth-light: #A6906F;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text); background: var(--white); line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--indigo); text-decoration: none; letter-spacing: -0.02em; }
+        .logo span { color: var(--terracotta); }
+        nav a.cta-nav {
+            background: var(--indigo); color: var(--warm-cream);
+            padding: 0.5rem 1.2rem; border-radius: 8px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            transition: background 0.2s;
+        }
+        nav a.cta-nav:hover { background: var(--indigo-light); }
+        .hero {
+            padding: 7rem 2rem 3rem;
+            max-width: 800px; margin: 0 auto;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--sand); color: var(--earth);
+            padding: 0.35rem 1rem; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            line-height: 1.15; font-weight: 800;
+            color: var(--indigo);
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--terracotta), var(--earth));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero > p {
+            font-size: 1.1rem; color: var(--text-muted);
+            max-width: 640px; margin-bottom: 1.5rem;
+        }
+        .hero-meta {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            font-size: 0.9rem; color: var(--earth);
+            border-top: 1px solid var(--sand);
+            padding-top: 1.5rem; margin-top: 0.5rem;
+        }
+        .hero-meta strong { color: var(--indigo); }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content { flex: 1; min-width: 0; max-width: 800px; }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-inline {
+            background: var(--warm-cream); border-radius: 14px;
+            padding: 2rem; margin: 2rem 0 3rem;
+            border: 1px solid var(--sand);
+            display: none;
+        }
+        .toc-inline h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
+        .toc-inline ul { list-style: none; }
+        .toc-inline li { margin-bottom: 0.5rem; }
+        .toc-inline a { color: var(--earth); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        .toc-inline a:hover { color: var(--terracotta); }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-inline { display: block; }
+        }
+        .essentials {
+            background: var(--warm-cream); border-radius: 14px;
+            padding: 2rem; margin-bottom: 3rem;
+            border: 1px solid var(--sand);
+        }
+        .essentials h2 { font-size: 1.2rem; color: var(--indigo); margin-bottom: 1rem; }
+        .essentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .essential-item h3 {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--terracotta); font-weight: 600; margin-bottom: 0.3rem;
+        }
+        .essential-item p { font-size: 0.9rem; color: var(--text-muted); }
+        .day {
+            margin-bottom: 4rem;
+            border-top: 3px solid var(--indigo);
+            padding-top: 2rem;
+        }
+        .day-header {
+            display: flex; align-items: baseline; gap: 1rem;
+            margin-bottom: 0.5rem; flex-wrap: wrap;
+        }
+        .day-num {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--terracotta); font-weight: 700;
+            background: #FEF0E7; padding: 0.25rem 0.75rem; border-radius: 100px;
+        }
+        .day-neighborhoods { font-size: 0.85rem; color: var(--text-muted); }
+        .day h2 {
+            font-size: 1.6rem; font-weight: 700; color: var(--indigo);
+            margin-bottom: 1.5rem; letter-spacing: -0.02em;
+        }
+        .time-block {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--sand);
+        }
+        .time-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--terracotta); font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .time-block h3 {
+            font-size: 1.15rem; font-weight: 600; color: var(--indigo);
+            margin-bottom: 0.4rem;
+        }
+        .time-block p {
+            font-size: 0.95rem; color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .spot-detail {
+            font-size: 0.85rem; color: var(--earth);
+            background: var(--warm-cream); padding: 0.5rem 0.75rem;
+            border-radius: 8px; margin-top: 0.5rem;
+            display: inline-block;
+        }
+        .spot-detail + .spot-detail { margin-left: 0.5rem; }
+        .meal-card {
+            background: var(--warm-cream); border-radius: 12px;
+            padding: 1.25rem 1.5rem; margin: 0.75rem 0;
+            border: 1px solid var(--sand);
+        }
+        .meal-card .meal-name { font-weight: 600; color: var(--indigo); font-size: 1rem; }
+        .meal-card .meal-type {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--terracotta); font-weight: 600;
+        }
+        .meal-card .meal-desc { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .meal-card .meal-meta { font-size: 0.8rem; color: var(--earth); margin-top: 0.4rem; }
+        .tip {
+            background: #E8F0E4; border-radius: 10px;
+            padding: 1rem 1.25rem; margin: 1rem 0;
+            font-size: 0.9rem; color: var(--text);
+        }
+        .tip::before { content: "💡 "; }
+        .reddit-tip {
+            background: #FEF0E7; border-left: 3px solid var(--terracotta);
+            border-radius: 0 10px 10px 0;
+            padding: 1rem 1.25rem; margin: 1rem 0;
+            font-size: 0.9rem; color: var(--text); font-style: italic;
+        }
+        .reddit-tip cite {
+            display: block; margin-top: 0.4rem;
+            font-style: normal; font-size: 0.8rem; color: var(--earth);
+        }
+        .budget-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        .budget-table th {
+            text-align: left; padding: 0.6rem 0.75rem;
+            background: var(--indigo); color: var(--warm-cream);
+            font-weight: 600; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .budget-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--sand);
+            color: var(--text-muted);
+        }
+        .budget-table tr:last-child td {
+            font-weight: 700; color: var(--indigo);
+            border-bottom: none; border-top: 2px solid var(--indigo);
+        }
+        .final-cta {
+            text-align: center; background: var(--indigo);
+            padding: 5rem 2rem; margin-top: 3rem;
+        }
+        .final-cta h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 700; color: var(--warm-cream);
+            margin-bottom: 0.75rem;
+        }
+        .final-cta p {
+            font-size: 1.05rem; color: rgba(245, 240, 232, 0.8);
+            max-width: 550px; margin: 0 auto 2rem;
+        }
+        .final-cta a.cta-btn {
+            display: inline-block;
+            background: var(--terracotta); color: white;
+            padding: 0.9rem 2.5rem; border-radius: 10px;
+            text-decoration: none; font-size: 1.1rem; font-weight: 600;
+            box-shadow: 0 4px 14px rgba(196, 112, 75, 0.4);
+            transition: transform 0.15s;
+        }
+        .final-cta a.cta-btn:hover { transform: translateY(-2px); }
+        .final-cta .sub {
+            margin-top: 0.75rem; font-size: 0.85rem;
+            color: rgba(245, 240, 232, 0.6);
+        }
+        footer {
+            padding: 3rem 2rem; text-align: center;
+            border-top: 1px solid var(--sand);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        .day-map {
+            width: 100%; height: 450px; border-radius: 14px;
+            margin: 1.5rem 0 2rem; border: 1px solid var(--sand);
+            z-index: 1; overflow: hidden;
+        }
+        @media (max-width: 600px) {
+            nav { padding: 0.8rem 1.2rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
+            .content { padding: 0 1.5rem; }
+            .time-block { padding-left: 1rem; }
+            .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
+            .day-map { height: 350px; }
+        }
+    </style>
+    <script type="application/ld+json">
+    ${schemaArticle}
+    </script>
+    <script type="application/ld+json">
+    ${schemaTourist}
+    </script>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">tabiji<span>.ai</span></a>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+        <a href="/destinations/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Destinations</a>
+        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Itineraries</a>
+        <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
+        <a href="/resources/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Resources</a>
+        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
+        <a href="/plan" class="cta-nav">Get Your Itinerary</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">${countryEmoji || ''} Your Custom Itinerary</div>
+    <h1>${esc(title)}: <em>${esc(subtitle)}</em></h1>
+    <p>${esc(description)}</p>
+    <div class="hero-meta">
+        <div><strong>Duration:</strong> ${esc(duration)}</div>
+        ${dates ? `<div><strong>Dates:</strong> ${esc(dates)}</div>` : ''}
+        <div><strong>Budget:</strong> ${esc(budget)}</div>
+        <div><strong>Pace:</strong> ${esc(pace)}</div>
+        <div><strong>Best for:</strong> ${esc(bestFor)}</div>
+    </div>
+</section>
+
+<div class="content-wrapper">
+
+<aside class="toc-sidebar" id="toc-sidebar">
+    <h2>Itinerary</h2>
+    <ul>
+        ${tocEntries.join('\n        ')}
+    </ul>
+</aside>
+
+<div class="content">
+
+    <div class="toc-inline">
+        <h2>Jump to a day</h2>
+        <ul>
+            ${tocInlineEntries.join('\n            ')}
+        </ul>
+    </div>
+
+    <div class="essentials" id="essentials">
+        <h2>⚡ Before You Go — Essentials</h2>
+        <div class="essentials-grid">
+            ${essentialsHTML}
+        </div>
+    </div>
+
+${daysHTML}
+
+${budgetHTML}
+
+${practicalHTML}
+
+</div>
+</div>
+
+<section class="final-cta">
+    <h2>Love this format? Get your own.</h2>
+    <p>Every tabiji itinerary is custom-built from real traveler intelligence — specific restaurants, actual addresses, local timing tricks.</p>
+    <a href="/plan" class="cta-btn">Get Your Personalized Itinerary — $1</a>
+    <p class="sub">Delivered within 24 hours. 2 free revisions. 100% satisfaction guaranteed.</p>
+</section>
+
+<footer>
+    <p>© ${new Date().getFullYear()} tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step.</p>
+</footer>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
+<script>
+(function() {
+    var colors = {
+        temple: '#c0392b', food: '#d35400', shopping: '#2471a3',
+        park: '#27ae60', nightlife: '#7d3c98', attraction: '#b7950b', art: '#c2185b'
+    };
+    var catLabels = {
+        temple: 'Temple', food: 'Food', shopping: 'Shopping',
+        park: 'Park', nightlife: 'Nightlife', attraction: 'Attraction', art: 'Art'
+    };
+    var catBgColors = {
+        temple: '#fde8e8', food: '#fef0e7', shopping: '#e8f0fe',
+        park: '#e8f5e8', nightlife: '#f0e8fe', attraction: '#fef9e7', art: '#fce4ec'
+    };
+
+    function makeSVGIcon(cat) {
+        var c = colors[cat] || '#2D3A5C';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
+    function initMap(id, pins) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var map = new google.maps.Map(el, {
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            styles: [
+                { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] }
+            ]
+        });
+        var bounds = new google.maps.LatLngBounds();
+        var infoWindow = new google.maps.InfoWindow();
+        pins.forEach(function(p) {
+            var pos = { lat: p.lat, lng: p.lng };
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat),
+                title: p.name
+            });
+            bounds.extend(pos);
+            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+            marker.addListener('click', function() {
+                infoWindow.setContent(content);
+                infoWindow.open(map, marker);
+            });
+        });
+        map.fitBounds(bounds, 40);
+    }
+
+${mapsJS}
+})();
+</script>
+
+<script>
+(function() {
+    var links = document.querySelectorAll('.toc-sidebar a[data-section]');
+    var sections = [];
+    links.forEach(function(link) {
+        var id = link.getAttribute('data-section');
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+    });
+    if (!sections.length) return;
+    function update() {
+        var scrollY = window.scrollY + 120;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+        }
+        links.forEach(function(l) { l.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+})();
+</script>
+</body>
+</html>`;
+}
+
+module.exports = generateItineraryHTML;
