@@ -203,7 +203,7 @@
     <!-- REQUIRED FIELDS -->
     <div class="field">
         <label for="destination">Where are you going?</label>
-        <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo, Japan" required>
+        <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo, Japan" required autocomplete="off">
     </div>
 
     <div class="field">
@@ -375,5 +375,20 @@ async function submitForm(e) {
 }
 </script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&libraries=places&callback=initAutocomplete" async defer></script>
+<script>
+function initAutocomplete() {
+    var input = document.getElementById('destination');
+    var autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ['(cities)']
+    });
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (place && place.formatted_address) {
+            input.value = place.formatted_address;
+        }
+    });
+}
+</script>
 </body>
 </html>
