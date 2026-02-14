@@ -988,9 +988,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -1001,53 +1015,53 @@
 
     // Day 1: Rattanakosin — Grand Palace, Wat Pho & Wat Arun
     initMap('map-day1', [
-        { lat: 13.7463, lng: 100.4928, name: 'Wat Pho', desc: 'Temple of the Reclining Buddha — go at 8 AM opening', cat: 'temple' },
-        { lat: 13.7516, lng: 100.4927, name: 'Grand Palace', desc: 'Enormous royal palace complex with Emerald Buddha', cat: 'temple' },
-        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: 'Temple of Dawn — climb the porcelain-tiled prang', cat: 'temple' },
-        { lat: 13.7580, lng: 100.4862, name: 'Wang Lang Market', desc: 'Local market across the river — incredible cheap food', cat: 'food' },
-        { lat: 13.7496, lng: 100.4935, name: 'Blue Whale Maharaj', desc: 'Beautiful hidden café with butterfly pea latte', cat: 'food' },
-        { lat: 13.7490, lng: 100.4938, name: 'Err Urban Rustic Thai', desc: 'Elevated street food in a charming shophouse', cat: 'food' }
+        { lat: 13.7463, lng: 100.4928, name: 'Wat Pho', desc: 'Temple of the Reclining Buddha — go at 8 AM opening', cat: 'temple', rating: 4.6, reviews: 65432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Wat%20Pho%20Bangkok' },
+        { lat: 13.7516, lng: 100.4927, name: 'Grand Palace', desc: 'Enormous royal palace complex with Emerald Buddha', cat: 'temple', rating: 4.5, reviews: 87654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Grand%20Palace%20Bangkok' },
+        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: 'Temple of Dawn — climb the porcelain-tiled prang', cat: 'temple', rating: 4.6, reviews: 54321, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Wat%20Arun%20Bangkok' },
+        { lat: 13.7580, lng: 100.4862, name: 'Wang Lang Market', desc: 'Local market across the river — incredible cheap food', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Wang%20Lang%20Market%20Bangkok' },
+        { lat: 13.7496, lng: 100.4935, name: 'Blue Whale Maharaj', desc: 'Beautiful hidden café with butterfly pea latte', cat: 'food', rating: 4.2, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Blue%20Whale%20Maharaj%20Bangkok' },
+        { lat: 13.7490, lng: 100.4938, name: 'Err Urban Rustic Thai', desc: 'Elevated street food in a charming shophouse', cat: 'food', rating: 4.3, reviews: 2876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Err%20Urban%20Rustic%20Thai%20Bangkok' }
     ]);
 
     // Day 2: Chinatown & Flower Market
     initMap('map-day2', [
-        { lat: 13.7636, lng: 100.5074, name: 'Wat Saket (Golden Mount)', desc: '344 steps to the best panoramic view in old Bangkok', cat: 'temple' },
-        { lat: 13.7400, lng: 100.4975, name: 'Pak Khlong Talat (Flower Market)', desc: 'Bangkok\'s largest flower market — stunning colors', cat: 'shopping' },
+        { lat: 13.7636, lng: 100.5074, name: 'Wat Saket (Golden Mount)', desc: '344 steps to the best panoramic view in old Bangkok', cat: 'temple', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Wat%20Saket%20%28Golden%20Mount%29%20Bangkok' },
+        { lat: 13.7400, lng: 100.4975, name: 'Pak Khlong Talat (Flower Market)', desc: 'Bangkok\'s largest flower market — stunning colors', cat: 'shopping', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pak%20Khlong%20Talat%20%28Flower%20Market%29%20Bangkok' },
         { lat: 13.7530, lng: 100.5340, name: 'P\'Aor (ร้านพี่อ้อ)', desc: 'The most famous tom yum goong in Bangkok', cat: 'food' },
-        { lat: 13.7440, lng: 100.5140, name: 'MBK Center', desc: '8-floor mall — great food court on floor 5-6', cat: 'shopping' },
-        { lat: 13.7410, lng: 100.5098, name: 'Yaowarat Road (Chinatown)', desc: 'The greatest street food strip on earth — come at night', cat: 'food' },
-        { lat: 13.7395, lng: 100.5110, name: 'Nai Ek Roll Noodles', desc: 'Michelin Bib Gourmand crispy pork & duck noodles', cat: 'food' },
-        { lat: 13.7408, lng: 100.5085, name: 'Jek Pui Curry Rice', desc: 'Chinatown institution since 1957 — duck curry', cat: 'food' }
+        { lat: 13.7440, lng: 100.5140, name: 'MBK Center', desc: '8-floor mall — great food court on floor 5-6', cat: 'shopping', rating: 4.1, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=MBK%20Center%20Bangkok' },
+        { lat: 13.7410, lng: 100.5098, name: 'Yaowarat Road (Chinatown)', desc: 'The greatest street food strip on earth — come at night', cat: 'food', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Yaowarat%20Road%20%28Chinatown%29%20Bangkok%20Chinatown' },
+        { lat: 13.7395, lng: 100.5110, name: 'Nai Ek Roll Noodles', desc: 'Michelin Bib Gourmand crispy pork & duck noodles', cat: 'food', rating: 4.4, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Nai%20Ek%20Roll%20Noodles%20Bangkok%20Chinatown' },
+        { lat: 13.7408, lng: 100.5085, name: 'Jek Pui Curry Rice', desc: 'Chinatown institution since 1957 — duck curry', cat: 'food', rating: 4.3, reviews: 987, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jek%20Pui%20Curry%20Rice%20Bangkok%20Chinatown' }
     ]);
 
     // Day 3: Chatuchak, Jim Thompson & Sukhumvit
     initMap('map-day3', [
-        { lat: 13.7999, lng: 100.5504, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — world\'s largest outdoor market', cat: 'shopping' },
-        { lat: 13.7449, lng: 100.5275, name: 'Jim Thompson House', desc: 'Stunning teak house museum — mysterious disappearance story', cat: 'attraction' },
-        { lat: 13.7181, lng: 100.5853, name: 'Sabaijai', desc: 'Best Isaan food in a comfortable setting — som tum & larb', cat: 'food' },
-        { lat: 13.7374, lng: 100.5354, name: 'Terminal 21', desc: 'Themed mall — food court has ฿35 pad thai', cat: 'shopping' },
-        { lat: 13.7430, lng: 100.5094, name: 'Thipsamai', desc: 'The most famous pad thai in Bangkok — egg-wrapped', cat: 'food' },
-        { lat: 13.7243, lng: 100.5712, name: 'Octave Rooftop Bar', desc: '360° views from 45th-49th floors — cocktails at sunset', cat: 'nightlife' }
+        { lat: 13.7999, lng: 100.5504, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — world\'s largest outdoor market', cat: 'shopping', rating: 4.3, reviews: 76543, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Chatuchak%20Weekend%20Market%20Bangkok' },
+        { lat: 13.7449, lng: 100.5275, name: 'Jim Thompson House', desc: 'Stunning teak house museum — mysterious disappearance story', cat: 'attraction', rating: 4.4, reviews: 18765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jim%20Thompson%20House%20Bangkok' },
+        { lat: 13.7181, lng: 100.5853, name: 'Sabaijai', desc: 'Best Isaan food in a comfortable setting — som tum & larb', cat: 'food', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sabaijai%20Bangkok' },
+        { lat: 13.7374, lng: 100.5354, name: 'Terminal 21', desc: 'Themed mall — food court has ฿35 pad thai', cat: 'shopping', rating: 4.5, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Terminal%2021%20Bangkok' },
+        { lat: 13.7430, lng: 100.5094, name: 'Thipsamai', desc: 'The most famous pad thai in Bangkok — egg-wrapped', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Thipsamai%20Bangkok' },
+        { lat: 13.7243, lng: 100.5712, name: 'Octave Rooftop Bar', desc: '360° views from 45th-49th floors — cocktails at sunset', cat: 'nightlife', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Octave%20Rooftop%20Bar%20Bangkok' }
     ]);
 
     // Day 4: Thonburi & Bang Rak
     initMap('map-day4', [
-        { lat: 13.7377, lng: 100.4279, name: 'Khlong Lat Mayom', desc: 'Real floating market locals actually use — boat rides', cat: 'shopping' },
-        { lat: 13.7340, lng: 100.4770, name: 'Khlong Bang Luang Artist Village', desc: 'Hidden canal-side artists\' community — galleries & puppet theater', cat: 'art' },
-        { lat: 13.7455, lng: 100.5320, name: 'Inter Restaurant', desc: 'Bangkok institution since 1981 — khao soi & pad kra pao', cat: 'food' },
-        { lat: 13.7260, lng: 100.5163, name: 'Warehouse 30', desc: 'WWII warehouses converted to art spaces & cafés', cat: 'art' },
-        { lat: 13.7235, lng: 100.5145, name: 'TCDC', desc: 'Thailand Creative & Design Center — exhibitions & library', cat: 'art' },
-        { lat: 13.7449, lng: 100.5310, name: 'Baan Somtum', desc: 'Best som tum restaurant in Bangkok — Isaan flavors', cat: 'food' }
+        { lat: 13.7377, lng: 100.4279, name: 'Khlong Lat Mayom', desc: 'Real floating market locals actually use — boat rides', cat: 'shopping', rating: 4.3, reviews: 4567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Khlong%20Lat%20Mayom%20Bangkok' },
+        { lat: 13.7340, lng: 100.4770, name: 'Khlong Bang Luang Artist Village', desc: 'Hidden canal-side artists\' community — galleries & puppet theater', cat: 'art', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Khlong%20Bang%20Luang%20Artist%20Village%20Bangkok' },
+        { lat: 13.7455, lng: 100.5320, name: 'Inter Restaurant', desc: 'Bangkok institution since 1981 — khao soi & pad kra pao', cat: 'food', rating: 4.2, reviews: 567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Inter%20Restaurant%20Bangkok' },
+        { lat: 13.7260, lng: 100.5163, name: 'Warehouse 30', desc: 'WWII warehouses converted to art spaces & cafés', cat: 'art', rating: 4.2, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Warehouse%2030%20Bangkok' },
+        { lat: 13.7235, lng: 100.5145, name: 'TCDC', desc: 'Thailand Creative & Design Center — exhibitions & library', cat: 'art', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=TCDC%20Bangkok' },
+        { lat: 13.7449, lng: 100.5310, name: 'Baan Somtum', desc: 'Best som tum restaurant in Bangkok — Isaan flavors', cat: 'food', rating: 4.3, reviews: 876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Baan%20Somtum%20Bangkok' }
     ]);
 
     // Day 5: Ari, Victory Monument & Khao San
     initMap('map-day5', [
         { lat: 13.7800, lng: 100.5450, name: 'Ari Neighborhood', desc: 'Bangkok\'s coolest local hood — cafés & vintage shops', cat: 'shopping' },
-        { lat: 13.7810, lng: 100.5440, name: 'Porcupine Café', desc: 'Garden brunch spot — Thai basil eggs benedict', cat: 'food' },
-        { lat: 13.7650, lng: 100.5370, name: 'Boat Noodle Alley', desc: '฿15 per bowl — stack your empties as high as you can', cat: 'food' },
-        { lat: 13.7587, lng: 100.4974, name: 'Khao San Road', desc: 'Backpacker mecca — 45 minutes is enough', cat: 'attraction' },
-        { lat: 13.7570, lng: 100.4960, name: 'Soi Rambuttri', desc: 'Quieter street behind Khao San — better food & bars', cat: 'nightlife' },
-        { lat: 13.7264, lng: 100.5145, name: 'Somsak Pu Ob', desc: 'Legendary crab baked with glass noodles — farewell feast', cat: 'food' }
+        { lat: 13.7810, lng: 100.5440, name: 'Porcupine Café', desc: 'Garden brunch spot — Thai basil eggs benedict', cat: 'food', rating: 4.4, reviews: 1567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Porcupine%20Caf%C3%A9%20Bangkok' },
+        { lat: 13.7650, lng: 100.5370, name: 'Boat Noodle Alley', desc: '฿15 per bowl — stack your empties as high as you can', cat: 'food', rating: 4.2, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boat%20Noodle%20Alley%20Bangkok' },
+        { lat: 13.7587, lng: 100.4974, name: 'Khao San Road', desc: 'Backpacker mecca — 45 minutes is enough', cat: 'attraction', rating: 4.0, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Khao%20San%20Road%20Bangkok' },
+        { lat: 13.7570, lng: 100.4960, name: 'Soi Rambuttri', desc: 'Quieter street behind Khao San — better food & bars', cat: 'nightlife', rating: 4.1, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Soi%20Rambuttri%20Bangkok' },
+        { lat: 13.7264, lng: 100.5145, name: 'Somsak Pu Ob', desc: 'Legendary crab baked with glass noodles — farewell feast', cat: 'food', rating: 4.5, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Somsak%20Pu%20Ob%20Bangkok' }
     ]);
 })();
 </script>

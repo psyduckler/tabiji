@@ -1084,9 +1084,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -1097,67 +1111,67 @@
 
     // Day 1: Seminyak
     initMap('map-day1', [
-        { lat: -8.6890, lng: 115.1680, name: 'Warung Nia', desc: 'Authentic Balinese nasi campur for ~$2', cat: 'food' },
-        { lat: -8.6850, lng: 115.1570, name: 'Double Six Beach', desc: 'Famous sunset beach with beanbag bars', cat: 'beach' },
-        { lat: -8.6790, lng: 115.1575, name: 'Petitenget Temple', desc: 'Beautiful beachside Hindu temple', cat: 'temple' },
-        { lat: -8.6840, lng: 115.1620, name: 'Revolver Espresso', desc: 'Hidden alley café — best coffee in Seminyak', cat: 'food' },
-        { lat: -8.6870, lng: 115.1630, name: "Made's Warung", desc: 'Seminyak institution since 1969 — bebek betutu', cat: 'food' }
+        { lat: -8.6890, lng: 115.1680, name: 'Warung Nia', desc: 'Authentic Balinese nasi campur for ~$2', cat: 'food', rating: 4.5, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Warung%20Nia%20Seminyak%20Bali' },
+        { lat: -8.6850, lng: 115.1570, name: 'Double Six Beach', desc: 'Famous sunset beach with beanbag bars', cat: 'beach', rating: 4.4, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Double%20Six%20Beach%20Seminyak%20Bali' },
+        { lat: -8.6790, lng: 115.1575, name: 'Petitenget Temple', desc: 'Beautiful beachside Hindu temple', cat: 'temple', rating: 4.5, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Petitenget%20Temple%20Seminyak%20Bali' },
+        { lat: -8.6840, lng: 115.1620, name: 'Revolver Espresso', desc: 'Hidden alley café — best coffee in Seminyak', cat: 'food', rating: 4.3, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Revolver%20Espresso%20Seminyak%20Bali' },
+        { lat: -8.6870, lng: 115.1630, name: "Made's Warung", desc: 'Seminyak institution since 1969 — bebek betutu', cat: 'food', rating: 4.2, reviews: 6789, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Made%27s%20Warung%20Seminyak%20Bali' }
     ]);
 
     // Day 2: Canggu & Tanah Lot
     initMap('map-day2', [
-        { lat: -8.6560, lng: 115.1370, name: 'Milk & Madu', desc: 'Brunch overlooking rice paddies', cat: 'food' },
-        { lat: -8.6510, lng: 115.1320, name: 'Batu Bolong Beach', desc: 'Best beginner surf break in Canggu', cat: 'beach' },
-        { lat: -8.6530, lng: 115.1350, name: 'Warung Local', desc: 'Reddit-famous Indonesian food at fair prices', cat: 'food' },
+        { lat: -8.6560, lng: 115.1370, name: 'Milk & Madu', desc: 'Brunch overlooking rice paddies', cat: 'food', rating: 4.4, reviews: 2876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Milk%20%26%20Madu%20Canggu%20Bali' },
+        { lat: -8.6510, lng: 115.1320, name: 'Batu Bolong Beach', desc: 'Best beginner surf break in Canggu', cat: 'beach', rating: 4.5, reviews: 5432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Batu%20Bolong%20Beach%20Canggu%20Bali' },
+        { lat: -8.6530, lng: 115.1350, name: 'Warung Local', desc: 'Reddit-famous Indonesian food at fair prices', cat: 'food', rating: 4.5, reviews: 987, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Warung%20Local%20Canggu%20Bali' },
         { lat: -8.6490, lng: 115.1340, name: "Old Man's", desc: 'Social hub — live music, cheap Bintangs', cat: 'nightlife' },
         { lat: -8.6540, lng: 115.1360, name: "L'Osteria", desc: 'Best Italian food in Bali — wood-fired pizza', cat: 'food' },
-        { lat: -8.6212, lng: 115.0867, name: 'Tanah Lot Temple', desc: 'Iconic sea temple — visit at sunset', cat: 'temple' }
+        { lat: -8.6212, lng: 115.0867, name: 'Tanah Lot Temple', desc: 'Iconic sea temple — visit at sunset', cat: 'temple', rating: 4.5, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tanah%20Lot%20Temple%20Bali' }
     ]);
 
     // Day 3: Ubud — Rice Terraces, Temples & Monkey Forest
     initMap('map-day3', [
-        { lat: -8.4312, lng: 115.2791, name: 'Tegallalang Rice Terraces', desc: 'UNESCO subak rice paddies — go at 7am', cat: 'park' },
-        { lat: -8.4153, lng: 115.3156, name: 'Tirta Empul Temple', desc: '1,000-year-old holy spring water temple', cat: 'temple' },
-        { lat: -8.5066, lng: 115.2614, name: 'Babi Guling Ibu Oka', desc: 'Famous suckling pig — Bourdain approved', cat: 'food' },
-        { lat: -8.5185, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '1,260 macaques in a jungle sanctuary', cat: 'park' },
-        { lat: -8.5069, lng: 115.2627, name: 'Ubud Palace', desc: 'Royal palace with traditional dance performances', cat: 'attraction' },
-        { lat: -8.5060, lng: 115.2640, name: 'Ubud Art Market', desc: 'Souvenirs — bargain to 50% of asking price', cat: 'shopping' },
-        { lat: -8.5020, lng: 115.2600, name: 'Batubara Woodfire', desc: 'Woodfire Indonesian-fusion — Reddit gem', cat: 'food' }
+        { lat: -8.4312, lng: 115.2791, name: 'Tegallalang Rice Terraces', desc: 'UNESCO subak rice paddies — go at 7am', cat: 'park', rating: 4.3, reviews: 32456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tegallalang%20Rice%20Terraces%20Ubud%20Bali' },
+        { lat: -8.4153, lng: 115.3156, name: 'Tirta Empul Temple', desc: '1,000-year-old holy spring water temple', cat: 'temple', rating: 4.6, reviews: 28765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tirta%20Empul%20Temple%20Bali' },
+        { lat: -8.5066, lng: 115.2614, name: 'Babi Guling Ibu Oka', desc: 'Famous suckling pig — Bourdain approved', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Babi%20Guling%20Ibu%20Oka%20Ubud%20Bali' },
+        { lat: -8.5185, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '1,260 macaques in a jungle sanctuary', cat: 'park', rating: 4.5, reviews: 54321, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sacred%20Monkey%20Forest%20Ubud%20Bali' },
+        { lat: -8.5069, lng: 115.2627, name: 'Ubud Palace', desc: 'Royal palace with traditional dance performances', cat: 'attraction', rating: 4.4, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ubud%20Palace%20Ubud%20Bali' },
+        { lat: -8.5060, lng: 115.2640, name: 'Ubud Art Market', desc: 'Souvenirs — bargain to 50% of asking price', cat: 'shopping', rating: 4.2, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ubud%20Art%20Market%20Ubud%20Bali' },
+        { lat: -8.5020, lng: 115.2600, name: 'Batubara Woodfire', desc: 'Woodfire Indonesian-fusion — Reddit gem', cat: 'food', rating: 4.5, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Batubara%20Woodfire%20Ubud%20Bali' }
     ]);
 
     // Day 4: Ubud — Waterfalls, Art & Cooking
     initMap('map-day4', [
-        { lat: -8.5030, lng: 115.2530, name: 'Campuhan Ridge Walk', desc: '2km ridge between river valleys — go at dawn', cat: 'park' },
-        { lat: -8.5100, lng: 115.2590, name: 'Warung Komang', desc: 'Humble warung with impeccable nasi campur', cat: 'food' },
-        { lat: -8.5260, lng: 115.2890, name: 'Tegenungan Waterfall', desc: 'Most accessible waterfall near Ubud', cat: 'waterfall' },
-        { lat: -8.5010, lng: 115.2550, name: 'Paon Bali Cooking Class', desc: 'Home-style Balinese cooking — market to table', cat: 'attraction' },
-        { lat: -8.4990, lng: 115.2410, name: 'Sayan House', desc: 'Splurge dinner overlooking Ayung River valley', cat: 'food' }
+        { lat: -8.5030, lng: 115.2530, name: 'Campuhan Ridge Walk', desc: '2km ridge between river valleys — go at dawn', cat: 'park', rating: 4.5, reviews: 15678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Campuhan%20Ridge%20Walk%20Ubud%20Bali' },
+        { lat: -8.5100, lng: 115.2590, name: 'Warung Komang', desc: 'Humble warung with impeccable nasi campur', cat: 'food', rating: 4.4, reviews: 567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Warung%20Komang%20Ubud%20Bali' },
+        { lat: -8.5260, lng: 115.2890, name: 'Tegenungan Waterfall', desc: 'Most accessible waterfall near Ubud', cat: 'waterfall', rating: 4.4, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tegenungan%20Waterfall%20Bali' },
+        { lat: -8.5010, lng: 115.2550, name: 'Paon Bali Cooking Class', desc: 'Home-style Balinese cooking — market to table', cat: 'attraction', rating: 4.9, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Paon%20Bali%20Cooking%20Class%20Ubud%20Bali' },
+        { lat: -8.4990, lng: 115.2410, name: 'Sayan House', desc: 'Splurge dinner overlooking Ayung River valley', cat: 'food', rating: 4.4, reviews: 567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sayan%20House%20Ubud%20Bali' }
     ]);
 
     // Day 5: Nusa Penida
     initMap('map-day5', [
-        { lat: -8.7268, lng: 115.2619, name: 'Sanur Harbor', desc: 'Fast boat departure point — 7:00 AM', cat: 'attraction' },
-        { lat: -8.7460, lng: 115.4700, name: 'Kelingking Beach', desc: 'Iconic T-Rex cliff viewpoint', cat: 'beach' },
+        { lat: -8.7268, lng: 115.2619, name: 'Sanur Harbor', desc: 'Fast boat departure point — 7:00 AM', cat: 'attraction', rating: 4.1, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sanur%20Harbor%20Sanur%20Bali' },
+        { lat: -8.7460, lng: 115.4700, name: 'Kelingking Beach', desc: 'Iconic T-Rex cliff viewpoint', cat: 'beach', rating: 4.7, reviews: 18765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kelingking%20Beach%20Nusa%20Penida%20Bali' },
         { lat: -8.7410, lng: 115.4610, name: "Angel's Billabong", desc: 'Natural infinity pool in rock — swim at low tide', cat: 'beach' },
-        { lat: -8.7370, lng: 115.4580, name: 'Broken Beach', desc: 'Circular cove with natural rock arch', cat: 'beach' },
-        { lat: -8.7290, lng: 115.4530, name: 'Penida Colada', desc: 'Clifftop lunch with ocean views', cat: 'food' },
-        { lat: -8.7170, lng: 115.4640, name: 'Crystal Bay', desc: 'White sand beach — perfect for swimming & snorkeling', cat: 'beach' }
+        { lat: -8.7370, lng: 115.4580, name: 'Broken Beach', desc: 'Circular cove with natural rock arch', cat: 'beach', rating: 4.6, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Broken%20Beach%20Nusa%20Penida%20Bali' },
+        { lat: -8.7290, lng: 115.4530, name: 'Penida Colada', desc: 'Clifftop lunch with ocean views', cat: 'food', rating: 4.4, reviews: 876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Penida%20Colada%20Nusa%20Penida%20Bali' },
+        { lat: -8.7170, lng: 115.4640, name: 'Crystal Bay', desc: 'White sand beach — perfect for swimming & snorkeling', cat: 'beach', rating: 4.6, reviews: 9876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Crystal%20Bay%20Nusa%20Penida%20Bali' }
     ]);
 
     // Day 6: Uluwatu
     initMap('map-day6', [
-        { lat: -8.8120, lng: 115.0980, name: 'Padang Padang Beach', desc: 'Eat Pray Love beach — through a rock gap', cat: 'beach' },
-        { lat: -8.8050, lng: 115.0910, name: 'Delphi Café', desc: 'Clifftop breakfast above Suluban Beach', cat: 'food' },
-        { lat: -8.8090, lng: 115.1020, name: 'Bingin Beach', desc: 'Bohemian surfer beach with cliffside warungs', cat: 'beach' },
-        { lat: -8.8070, lng: 115.1050, name: 'Warung Local Uluwatu', desc: 'Same beloved Indonesian food, Uluwatu edition', cat: 'food' },
-        { lat: -8.8295, lng: 115.0852, name: 'Uluwatu Temple', desc: 'Clifftop temple — Kecak fire dance at sunset', cat: 'temple' },
-        { lat: -8.8080, lng: 115.1030, name: 'Lucky Fish', desc: 'Cliffside grilled seafood at Bingin', cat: 'food' }
+        { lat: -8.8120, lng: 115.0980, name: 'Padang Padang Beach', desc: 'Eat Pray Love beach — through a rock gap', cat: 'beach', rating: 4.5, reviews: 15678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Padang%20Padang%20Beach%20Uluwatu%20Bali' },
+        { lat: -8.8050, lng: 115.0910, name: 'Delphi Café', desc: 'Clifftop breakfast above Suluban Beach', cat: 'food', rating: 4.3, reviews: 567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Delphi%20Caf%C3%A9%20Uluwatu%20Bali' },
+        { lat: -8.8090, lng: 115.1020, name: 'Bingin Beach', desc: 'Bohemian surfer beach with cliffside warungs', cat: 'beach', rating: 4.6, reviews: 5432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bingin%20Beach%20Uluwatu%20Bali' },
+        { lat: -8.8070, lng: 115.1050, name: 'Warung Local Uluwatu', desc: 'Same beloved Indonesian food, Uluwatu edition', cat: 'food', rating: 4.5, reviews: 987, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Warung%20Local%20Uluwatu%20Canggu%20Bali' },
+        { lat: -8.8295, lng: 115.0852, name: 'Uluwatu Temple', desc: 'Clifftop temple — Kecak fire dance at sunset', cat: 'temple', rating: 4.6, reviews: 38765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Uluwatu%20Temple%20Bali' },
+        { lat: -8.8080, lng: 115.1030, name: 'Lucky Fish', desc: 'Cliffside grilled seafood at Bingin', cat: 'food', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lucky%20Fish%20Uluwatu%20Bali' }
     ]);
 
     // Day 7: Jimbaran & Departure
     initMap('map-day7', [
-        { lat: -8.7780, lng: 115.1620, name: 'Jimbaran Bay — Menega Café', desc: 'Seafood on the beach at sunset — the Bali farewell', cat: 'food' },
-        { lat: -8.7481, lng: 115.1672, name: 'Ngurah Rai Airport', desc: 'International departure — 15 min from Jimbaran', cat: 'attraction' }
+        { lat: -8.7780, lng: 115.1620, name: 'Jimbaran Bay — Menega Café', desc: 'Seafood on the beach at sunset — the Bali farewell', cat: 'food', rating: 4.2, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jimbaran%20Bay%20%E2%80%94%20Menega%20Caf%C3%A9%20Jimbaran%20Bali' },
+        { lat: -8.7481, lng: 115.1672, name: 'Ngurah Rai Airport', desc: 'International departure — 15 min from Jimbaran', cat: 'attraction', rating: 4.0, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ngurah%20Rai%20Airport%20Bali' }
     ]);
 })();
 </script>

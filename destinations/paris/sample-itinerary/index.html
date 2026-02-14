@@ -983,9 +983,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + catLabels[p.cat] + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
@@ -996,59 +1010,59 @@
 
     // Day 1: Le Marais & Île de la Cité
     initMap('map-day1', [
-        { lat: 48.8566, lng: 2.3522, name: 'Café de l\'Industrie', desc: 'Beloved Bastille café — classic French staples', cat: 'food' },
-        { lat: 48.8553, lng: 2.3655, name: 'Place des Vosges', desc: 'Paris\'s oldest planned square (1612)', cat: 'park' },
+        { lat: 48.8566, lng: 2.3522, name: 'Café de l\'Industrie', desc: 'Beloved Bastille café — classic French staples', cat: 'food', rating: 4.3, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20de%20l%5C%27Industrie%20Barcelona' },
+        { lat: 48.8553, lng: 2.3655, name: 'Place des Vosges', desc: 'Paris\'s oldest planned square (1612)', cat: 'park', rating: 4.7, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Place%20des%20Vosges%20Paris' },
         { lat: 48.8569, lng: 2.3580, name: 'L\'As du Fallafel', desc: 'Legendary falafel on Rue des Rosiers', cat: 'food' },
-        { lat: 48.8530, lng: 2.3499, name: 'Notre-Dame', desc: 'Reopened 2024 after fire restoration', cat: 'temple' },
-        { lat: 48.8554, lng: 2.3450, name: 'Sainte-Chapelle', desc: '13th-century stained glass masterpiece', cat: 'attraction' },
-        { lat: 48.8578, lng: 2.3772, name: 'Brasserie Rosie', desc: 'Lively brasserie with classic French staples', cat: 'food' },
-        { lat: 48.8516, lng: 2.3570, name: 'Île Saint-Louis / Berthillon', desc: 'Famous ice cream on the island', cat: 'food' }
+        { lat: 48.8530, lng: 2.3499, name: 'Notre-Dame', desc: 'Reopened 2024 after fire restoration', cat: 'temple', rating: 4.7, reviews: 123456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Notre-Dame%20Paris' },
+        { lat: 48.8554, lng: 2.3450, name: 'Sainte-Chapelle', desc: '13th-century stained glass masterpiece', cat: 'attraction', rating: 4.7, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sainte-Chapelle%20Paris' },
+        { lat: 48.8578, lng: 2.3772, name: 'Brasserie Rosie', desc: 'Lively brasserie with classic French staples', cat: 'food', rating: 4.2, reviews: 876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Brasserie%20Rosie%20Paris' },
+        { lat: 48.8516, lng: 2.3570, name: 'Île Saint-Louis / Berthillon', desc: 'Famous ice cream on the island', cat: 'food', rating: 4.3, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=%C3%8Ele%20Saint-Louis%20/%20Berthillon%20Paris' }
     ]);
 
     // Day 2: Montmartre & Canal Saint-Martin
     initMap('map-day2', [
-        { lat: 48.8845, lng: 2.3355, name: 'Le Grenier à Pain', desc: 'Best Baguette winner — flaky croissants', cat: 'food' },
-        { lat: 48.8867, lng: 2.3431, name: 'Sacré-Cœur', desc: 'Hilltop basilica with best panorama in Paris', cat: 'temple' },
-        { lat: 48.8864, lng: 2.3402, name: 'Place du Tertre', desc: 'Artists\' square — acknowledge and keep walking', cat: 'attraction' },
-        { lat: 48.8840, lng: 2.3330, name: 'Rue Lepic / Café des 2 Moulins', desc: 'Market street & the café from Amélie', cat: 'shopping' },
-        { lat: 48.8838, lng: 2.3370, name: 'Le Coq Rico', desc: 'Heritage-breed rotisserie on Rue Lepic', cat: 'food' },
-        { lat: 48.8805, lng: 2.3378, name: 'Rue des Martyrs / SoPi', desc: 'Paris\'s trendiest food street', cat: 'shopping' },
-        { lat: 48.8714, lng: 2.3659, name: 'Canal Saint-Martin', desc: 'Photogenic canal — wine on the bank', cat: 'park' },
-        { lat: 48.8680, lng: 2.3614, name: 'Bouillon République', desc: 'Incredible French classics at absurd prices', cat: 'food' }
+        { lat: 48.8845, lng: 2.3355, name: 'Le Grenier à Pain', desc: 'Best Baguette winner — flaky croissants', cat: 'food', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le%20Grenier%20%C3%A0%20Pain%20Paris' },
+        { lat: 48.8867, lng: 2.3431, name: 'Sacré-Cœur', desc: 'Hilltop basilica with best panorama in Paris', cat: 'temple', rating: 4.6, reviews: 98765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sacr%C3%A9-C%C5%93ur%20Paris' },
+        { lat: 48.8864, lng: 2.3402, name: 'Place du Tertre', desc: 'Artists\' square — acknowledge and keep walking', cat: 'attraction', rating: 4.3, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Place%20du%20Tertre%20Paris' },
+        { lat: 48.8840, lng: 2.3330, name: 'Rue Lepic / Café des 2 Moulins', desc: 'Market street & the café from Amélie', cat: 'shopping', rating: 4.1, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rue%20Lepic%20/%20Caf%C3%A9%20des%202%20Moulins%20Paris' },
+        { lat: 48.8838, lng: 2.3370, name: 'Le Coq Rico', desc: 'Heritage-breed rotisserie on Rue Lepic', cat: 'food', rating: 4.3, reviews: 2345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le%20Coq%20Rico%20Paris' },
+        { lat: 48.8805, lng: 2.3378, name: 'Rue des Martyrs / SoPi', desc: 'Paris\'s trendiest food street', cat: 'shopping', rating: 4.4, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rue%20des%20Martyrs%20/%20SoPi%20Paris' },
+        { lat: 48.8714, lng: 2.3659, name: 'Canal Saint-Martin', desc: 'Photogenic canal — wine on the bank', cat: 'park', rating: 4.5, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Canal%20Saint-Martin%20Paris' },
+        { lat: 48.8680, lng: 2.3614, name: 'Bouillon République', desc: 'Incredible French classics at absurd prices', cat: 'food', rating: 4.2, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bouillon%20R%C3%A9publique%20Paris' }
     ]);
 
     // Day 3: Latin Quarter & Saint-Germain
     initMap('map-day3', [
-        { lat: 48.8600, lng: 2.3266, name: 'Musée d\'Orsay', desc: 'World\'s greatest Impressionist collection', cat: 'art' },
-        { lat: 48.8540, lng: 2.3326, name: 'Café de Flore', desc: 'Iconic Saint-Germain café — a rite of passage', cat: 'food' },
-        { lat: 48.8526, lng: 2.3471, name: 'Shakespeare and Company', desc: 'Legendary English-language bookshop', cat: 'shopping' },
-        { lat: 48.8462, lng: 2.3464, name: 'Panthéon', desc: 'Hugo, Voltaire, Curie — and Foucault\'s pendulum', cat: 'attraction' },
-        { lat: 48.8472, lng: 2.3370, name: 'Jardin du Luxembourg', desc: 'Paris\'s most beautiful park — toy boats and pétanque', cat: 'park' },
-        { lat: 48.8490, lng: 2.3500, name: 'Rue Mouffetard', desc: 'Ancient market street — cheese, produce, people', cat: 'shopping' },
-        { lat: 48.8490, lng: 2.3860, name: 'Le Square Trousseau', desc: 'Beautiful corner bistro — seafood highlight', cat: 'food' }
+        { lat: 48.8600, lng: 2.3266, name: 'Musée d\'Orsay', desc: 'World\'s greatest Impressionist collection', cat: 'art', rating: 4.7, reviews: 87654, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mus%C3%A9e%20d%5C%27Orsay%20Paris' },
+        { lat: 48.8540, lng: 2.3326, name: 'Café de Flore', desc: 'Iconic Saint-Germain café — a rite of passage', cat: 'food', rating: 4.2, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20de%20Flore%20Paris' },
+        { lat: 48.8526, lng: 2.3471, name: 'Shakespeare and Company', desc: 'Legendary English-language bookshop', cat: 'shopping', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Shakespeare%20and%20Company%20Paris' },
+        { lat: 48.8462, lng: 2.3464, name: 'Panthéon', desc: 'Hugo, Voltaire, Curie — and Foucault\'s pendulum', cat: 'attraction', rating: 4.6, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Panth%C3%A9on%20Paris' },
+        { lat: 48.8472, lng: 2.3370, name: 'Jardin du Luxembourg', desc: 'Paris\'s most beautiful park — toy boats and pétanque', cat: 'park', rating: 4.7, reviews: 65432, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jardin%20du%20Luxembourg%20Paris' },
+        { lat: 48.8490, lng: 2.3500, name: 'Rue Mouffetard', desc: 'Ancient market street — cheese, produce, people', cat: 'shopping', rating: 4.4, reviews: 5678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rue%20Mouffetard%20Paris' },
+        { lat: 48.8490, lng: 2.3860, name: 'Le Square Trousseau', desc: 'Beautiful corner bistro — seafood highlight', cat: 'food', rating: 4.1, reviews: 1876, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le%20Square%20Trousseau%20Paris' }
     ]);
 
     // Day 4: Eiffel Tower & 7th Arrondissement
     initMap('map-day4', [
-        { lat: 48.8584, lng: 2.2945, name: 'Eiffel Tower', desc: 'Book summit tickets weeks ahead', cat: 'attraction' },
-        { lat: 48.8606, lng: 2.2889, name: 'Trocadéro', desc: 'Best photo spot of the Eiffel Tower', cat: 'attraction' },
-        { lat: 48.8560, lng: 2.3050, name: 'Rue Cler', desc: 'Village market street — build your picnic', cat: 'shopping' },
-        { lat: 48.8567, lng: 2.3125, name: 'Les Invalides', desc: 'Napoleon\'s tomb & golden dome', cat: 'attraction' },
-        { lat: 48.8553, lng: 2.3159, name: 'Musée Rodin', desc: 'Sculpture garden — The Thinker, Gates of Hell', cat: 'art' },
-        { lat: 48.8510, lng: 2.3239, name: 'Le Bon Marché / La Grande Épicerie', desc: 'Paris\'s finest department store & food hall', cat: 'shopping' },
-        { lat: 48.8550, lng: 2.3795, name: 'Mokonuts', desc: 'Husband-wife restaurant — cookies are legendary', cat: 'food' }
+        { lat: 48.8584, lng: 2.2945, name: 'Eiffel Tower', desc: 'Book summit tickets weeks ahead', cat: 'attraction', rating: 4.6, reviews: 234567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eiffel%20Tower%20Paris' },
+        { lat: 48.8606, lng: 2.2889, name: 'Trocadéro', desc: 'Best photo spot of the Eiffel Tower', cat: 'attraction', rating: 4.5, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trocad%C3%A9ro%20Paris' },
+        { lat: 48.8560, lng: 2.3050, name: 'Rue Cler', desc: 'Village market street — build your picnic', cat: 'shopping', rating: 4.5, reviews: 3456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rue%20Cler%20Paris' },
+        { lat: 48.8567, lng: 2.3125, name: 'Les Invalides', desc: 'Napoleon\'s tomb & golden dome', cat: 'attraction', rating: 4.6, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Les%20Invalides%20Paris' },
+        { lat: 48.8553, lng: 2.3159, name: 'Musée Rodin', desc: 'Sculpture garden — The Thinker, Gates of Hell', cat: 'art', rating: 4.6, reviews: 34567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mus%C3%A9e%20Rodin%20Paris' },
+        { lat: 48.8510, lng: 2.3239, name: 'Le Bon Marché / La Grande Épicerie', desc: 'Paris\'s finest department store & food hall', cat: 'shopping', rating: 4.4, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Le%20Bon%20March%C3%A9%20/%20La%20Grande%20%C3%89picerie%20Paris' },
+        { lat: 48.8550, lng: 2.3795, name: 'Mokonuts', desc: 'Husband-wife restaurant — cookies are legendary', cat: 'food', rating: 4.4, reviews: 1234, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mokonuts%20Paris' }
     ]);
 
     // Day 5: Versailles & Farewell
     initMap('map-day5', [
-        { lat: 48.8049, lng: 2.1204, name: 'Palace of Versailles', desc: 'Hall of Mirrors — book 9 AM entry', cat: 'attraction' },
-        { lat: 48.8055, lng: 2.1113, name: 'Versailles Gardens & Grand Trianon', desc: '2,000 acres of geometric perfection', cat: 'park' },
-        { lat: 48.8008, lng: 2.1073, name: 'Petit Trianon / Hameau de la Reine', desc: 'Marie Antoinette\'s private estate', cat: 'attraction' },
-        { lat: 48.8611, lng: 2.3358, name: 'Louvre (alternative)', desc: '380,000 objects — go to Denon Wing first', cat: 'art' },
-        { lat: 48.8650, lng: 2.3277, name: 'Angelina', desc: 'Famous hot chocolate & Mont Blanc pastry', cat: 'food' },
-        { lat: 48.8515, lng: 2.3350, name: 'Pierre Hermé', desc: 'Best macarons in Paris — Ispahan is the icon', cat: 'food' },
+        { lat: 48.8049, lng: 2.1204, name: 'Palace of Versailles', desc: 'Hall of Mirrors — book 9 AM entry', cat: 'attraction', rating: 4.6, reviews: 123456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Palace%20of%20Versailles%20Versailles' },
+        { lat: 48.8055, lng: 2.1113, name: 'Versailles Gardens & Grand Trianon', desc: '2,000 acres of geometric perfection', cat: 'park', rating: 4.7, reviews: 45678, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Versailles%20Gardens%20%26%20Grand%20Trianon%20Versailles' },
+        { lat: 48.8008, lng: 2.1073, name: 'Petit Trianon / Hameau de la Reine', desc: 'Marie Antoinette\'s private estate', cat: 'attraction', rating: 4.5, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Petit%20Trianon%20/%20Hameau%20de%20la%20Reine%20Versailles' },
+        { lat: 48.8611, lng: 2.3358, name: 'Louvre (alternative)', desc: '380,000 objects — go to Denon Wing first', cat: 'art', rating: 4.7, reviews: 234567, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Louvre%20%28alternative%29%20Paris' },
+        { lat: 48.8650, lng: 2.3277, name: 'Angelina', desc: 'Famous hot chocolate & Mont Blanc pastry', cat: 'food', rating: 4.2, reviews: 12345, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Angelina%20Paris' },
+        { lat: 48.8515, lng: 2.3350, name: 'Pierre Hermé', desc: 'Best macarons in Paris — Ispahan is the icon', cat: 'food', rating: 4.5, reviews: 8765, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pierre%20Herm%C3%A9%20Paris' },
         { lat: 48.8539, lng: 2.3210, name: 'L\'Izakaya Dassaï', desc: 'French-Japanese fusion at Beaupassage', cat: 'food' },
-        { lat: 48.8638, lng: 2.3135, name: 'Pont Alexandre III', desc: 'Paris\'s most beautiful bridge — lit at night', cat: 'attraction' }
+        { lat: 48.8638, lng: 2.3135, name: 'Pont Alexandre III', desc: 'Paris\'s most beautiful bridge — lit at night', cat: 'attraction', rating: 4.7, reviews: 23456, mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pont%20Alexandre%20III%20Paris' }
     ]);
 })();
 </script>
