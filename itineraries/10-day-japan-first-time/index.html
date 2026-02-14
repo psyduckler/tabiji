@@ -41,7 +41,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            color: var(--text); background: var(--white); line-height: 1.7;
+            color: var(--text); background: var(--white); line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -54,7 +54,10 @@
             padding: 1rem 2rem;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--indigo); text-decoration: none; letter-spacing: -0.02em; }
+        .logo {
+            font-size: 1.4rem; font-weight: 700; color: var(--indigo);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
         .logo span { color: var(--terracotta); }
         nav a.cta-nav {
             background: var(--indigo); color: var(--warm-cream);
@@ -64,151 +67,295 @@
         }
         nav a.cta-nav:hover { background: var(--indigo-light); }
 
-        /* ARTICLE */
-        .article-header {
-            padding: 8rem 2rem 3rem;
-            max-width: 780px; margin: 0 auto;
-            text-align: center;
+        /* HERO */
+        .hero {
+            padding: 7rem 2rem 3rem;
+            max-width: 800px; margin: 0 auto;
         }
-        .article-header .breadcrumb {
-            font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;
+        .hero-badge {
+            display: inline-block;
+            background: var(--sand); color: var(--earth);
+            padding: 0.35rem 1rem; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 1.5rem;
         }
-        .article-header .breadcrumb a { color: var(--terracotta); text-decoration: none; }
-        .article-header .breadcrumb a:hover { text-decoration: underline; }
-        .article-header h1 {
-            font-size: clamp(2rem, 4.5vw, 2.8rem);
-            line-height: 1.2; font-weight: 800;
+        .hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            line-height: 1.15; font-weight: 800;
             color: var(--indigo);
             margin-bottom: 1rem;
             letter-spacing: -0.03em;
         }
-        .article-header .subtitle {
-            font-size: 1.15rem; color: var(--text-muted);
-            max-width: 620px; margin: 0 auto 1.5rem;
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--terracotta), var(--earth));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .article-meta {
-            font-size: 0.85rem; color: var(--earth);
-            display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+        .hero > p {
+            font-size: 1.1rem; color: var(--text-muted);
+            max-width: 640px; margin-bottom: 1.5rem;
+        }
+        .hero-meta {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            font-size: 0.9rem; color: var(--earth);
+            border-top: 1px solid var(--sand);
+            padding-top: 1.5rem; margin-top: 0.5rem;
+        }
+        .hero-meta strong { color: var(--indigo); }
+
+        /* CONTENT LAYOUT — sidebar + main */
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content { flex: 1; min-width: 0; max-width: 800px; }
+
+        /* STICKY SIDEBAR TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
         }
 
-        .article-body {
-            max-width: 720px; margin: 0 auto;
-            padding: 0 2rem 5rem;
+        /* Inline TOC (mobile fallback) */
+        .toc-inline {
+            background: var(--warm-cream); border-radius: 14px;
+            padding: 2rem; margin: 2rem 0 3rem;
+            border: 1px solid var(--sand);
+            display: none;
         }
-        .article-body h2 {
+        .toc-inline h2 { font-size: 1rem; color: var(--indigo); margin-bottom: 1rem; font-weight: 700; }
+        .toc-inline ul { list-style: none; }
+        .toc-inline li { margin-bottom: 0.5rem; }
+        .toc-inline a {
+            color: var(--earth); text-decoration: none; font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .toc-inline a:hover { color: var(--terracotta); }
+
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-inline { display: block; }
+        }
+
+        /* ESSENTIALS BOX */
+        .essentials {
+            background: var(--warm-cream); border-radius: 14px;
+            padding: 2rem; margin-bottom: 3rem;
+            border: 1px solid var(--sand);
+        }
+        .essentials h2 { font-size: 1.2rem; color: var(--indigo); margin-bottom: 1rem; }
+        .essentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .essential-item h3 {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--terracotta); font-weight: 600; margin-bottom: 0.3rem;
+        }
+        .essential-item p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* DAY SECTIONS */
+        .day {
+            margin-bottom: 4rem;
+            border-top: 3px solid var(--indigo);
+            padding-top: 2rem;
+        }
+        .day-header {
+            display: flex; align-items: baseline; gap: 1rem;
+            margin-bottom: 0.5rem; flex-wrap: wrap;
+        }
+        .day-num {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--terracotta); font-weight: 700;
+            background: #FEF0E7; padding: 0.25rem 0.75rem; border-radius: 100px;
+        }
+        .day-neighborhoods {
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+        .day h2 {
             font-size: 1.6rem; font-weight: 700; color: var(--indigo);
-            margin: 3rem 0 1rem; letter-spacing: -0.02em;
-            padding-top: 1rem;
-            border-top: 1px solid var(--sand);
+            margin-bottom: 1.5rem; letter-spacing: -0.02em;
         }
-        .article-body h2:first-child { border-top: none; padding-top: 0; }
-        .article-body h3 {
-            font-size: 1.25rem; font-weight: 700; color: var(--indigo);
-            margin: 2rem 0 0.75rem;
-        }
-        .article-body h4 {
-            font-size: 1.1rem; font-weight: 600; color: var(--indigo-light);
+        .day h3 {
+            font-size: 1.15rem; font-weight: 600; color: var(--indigo);
             margin: 1.5rem 0 0.5rem;
         }
-        .article-body p {
-            margin-bottom: 1rem; font-size: 1.02rem; color: var(--text);
+        .day h4 {
+            font-size: 1.05rem; font-weight: 600; color: var(--indigo-light);
+            margin: 1.25rem 0 0.5rem;
         }
-        .article-body ul, .article-body ol {
-            margin: 0.5rem 0 1.25rem 1.5rem;
+        .day p {
+            font-size: 0.95rem; color: var(--text-muted);
+            margin-bottom: 0.75rem;
         }
-        .article-body li {
-            margin-bottom: 0.4rem; font-size: 1rem;
+        .day ul, .day ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            font-size: 0.95rem; color: var(--text-muted);
         }
-        .article-body strong { color: var(--deep-brown); }
-        .article-body a { color: var(--terracotta); text-decoration: underline; text-underline-offset: 2px; }
-        .article-body a:hover { color: var(--earth); }
+        .day li { margin-bottom: 0.4rem; }
+        .day strong { color: var(--deep-brown); }
+        .day a { color: var(--terracotta); text-decoration: underline; text-underline-offset: 2px; }
+        .day a:hover { color: var(--earth); }
 
-        /* TABLES */
-        .table-wrap {
-            overflow-x: auto; margin: 1rem 0 1.5rem;
+        /* TIME BLOCKS */
+        .time-block {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--sand);
         }
-        .article-body table {
-            width: 100%; border-collapse: collapse;
-            font-size: 0.92rem;
+        .time-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--terracotta); font-weight: 600; margin-bottom: 0.5rem;
         }
-        .article-body th {
-            background: var(--warm-cream); color: var(--indigo);
-            text-align: left; padding: 0.7rem 1rem;
-            font-weight: 600; font-size: 0.85rem;
-            text-transform: uppercase; letter-spacing: 0.04em;
-            border-bottom: 2px solid var(--sand);
+        .time-block h3 {
+            font-size: 1.15rem; font-weight: 600; color: var(--indigo);
+            margin-bottom: 0.4rem;
         }
-        .article-body td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid var(--sand);
-            color: var(--text);
+        .time-block p {
+            font-size: 0.95rem; color: var(--text-muted);
+            margin-bottom: 0.5rem;
         }
-        .article-body tr:last-child td { font-weight: 600; }
 
-        /* CALLOUT BOXES */
+        /* TIP CALLOUT */
+        .tip {
+            background: #E8F0E4; border-radius: 10px;
+            padding: 1rem 1.25rem; margin: 1rem 0;
+            font-size: 0.9rem; color: var(--text);
+        }
+        .tip::before { content: "💡 "; }
         .tip-box {
             background: var(--warm-cream);
             border-left: 3px solid var(--terracotta);
             padding: 1rem 1.5rem;
             border-radius: 0 10px 10px 0;
-            margin: 1.5rem 0;
-            font-size: 0.95rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
         }
         .tip-box strong { color: var(--terracotta); }
+        .tip-box a { color: var(--terracotta); }
 
-        /* DAY HEADERS */
-        .day-header {
-            background: var(--indigo);
-            color: var(--warm-cream);
-            padding: 0.6rem 1.2rem;
-            border-radius: 10px;
-            margin: 2.5rem 0 1.25rem;
-            font-size: 1.15rem;
-            font-weight: 700;
+        /* OVERVIEW TABLE */
+        .table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+        .content table {
+            width: 100%; border-collapse: collapse; font-size: 0.9rem;
+        }
+        .content th {
+            text-align: left; padding: 0.6rem 0.75rem;
+            background: var(--indigo); color: var(--warm-cream);
+            font-weight: 600; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .content td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--sand);
+            color: var(--text-muted);
+        }
+        .content tr:last-child td {
+            font-weight: 700; color: var(--indigo);
+            border-bottom: none; border-top: 2px solid var(--indigo);
         }
 
-        /* CTA */
-        .cta-box {
-            background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
-            color: var(--warm-cream);
-            padding: 2.5rem;
-            border-radius: 16px;
-            text-align: center;
-            margin: 3rem 0;
+        /* BUDGET TABLE */
+        .budget-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.9rem;
         }
-        .cta-box h3 { font-size: 1.4rem; margin-bottom: 0.75rem; color: white; }
-        .cta-box p { font-size: 1rem; opacity: 0.9; margin-bottom: 1.25rem; color: var(--sand); }
-        .cta-box a {
-            display: inline-block;
-            background: var(--terracotta); color: white;
-            padding: 0.8rem 2rem; border-radius: 10px;
-            text-decoration: none; font-weight: 600;
-            transition: transform 0.15s;
+        .budget-table th {
+            text-align: left; padding: 0.6rem 0.75rem;
+            background: var(--indigo); color: var(--warm-cream);
+            font-weight: 600; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
         }
-        .cta-box a:hover { transform: translateY(-2px); }
+        .budget-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--sand);
+            color: var(--text-muted);
+        }
+        .budget-table tr:last-child td {
+            font-weight: 700; color: var(--indigo);
+            border-bottom: none; border-top: 2px solid var(--indigo);
+        }
+
+        /* GOOGLE MAPS */
+        .day-map {
+            width: 100%; height: 450px; border-radius: 14px;
+            margin: 1.5rem 0 2rem; border: 1px solid var(--sand);
+            z-index: 1; overflow: hidden;
+        }
 
         /* FAQ */
+        .faq-section { margin-top: 3rem; }
+        .faq-section h2 {
+            font-size: 1.6rem; font-weight: 700; color: var(--indigo);
+            margin-bottom: 1.5rem;
+        }
         .faq-item { margin-bottom: 1.5rem; }
-        .faq-item h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-        .faq-item p { font-size: 0.98rem; color: var(--text-muted); }
+        .faq-item h3 { font-size: 1.1rem; font-weight: 600; color: var(--indigo); margin-bottom: 0.4rem; }
+        .faq-item p { font-size: 0.95rem; color: var(--text-muted); }
 
+        /* CTA */
+        .final-cta {
+            text-align: center; background: var(--indigo);
+            padding: 5rem 2rem; margin-top: 3rem;
+            border-radius: 0;
+        }
+        .final-cta h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 700; color: var(--warm-cream);
+            margin-bottom: 0.75rem;
+        }
+        .final-cta p {
+            font-size: 1.05rem; color: rgba(245, 240, 232, 0.8);
+            max-width: 550px; margin: 0 auto 2rem;
+        }
+        .final-cta a.cta-btn {
+            display: inline-block;
+            background: var(--terracotta); color: white;
+            padding: 0.9rem 2.5rem; border-radius: 10px;
+            text-decoration: none; font-size: 1.1rem; font-weight: 600;
+            box-shadow: 0 4px 14px rgba(196, 112, 75, 0.4);
+            transition: transform 0.15s;
+        }
+        .final-cta a.cta-btn:hover { transform: translateY(-2px); }
+        .final-cta .sub {
+            margin-top: 0.75rem; font-size: 0.85rem;
+            color: rgba(245, 240, 232, 0.6);
+        }
+
+        /* FOOTER */
         footer {
             padding: 3rem 2rem; text-align: center;
             border-top: 1px solid var(--sand);
             color: var(--text-muted); font-size: 0.85rem;
         }
-        /* GOOGLE MAPS */
-        .day-map {
-            width: 100%; height: 400px; border-radius: 14px;
-            margin: 1.5rem 0 2rem; border: 1px solid var(--sand);
-            overflow: hidden;
-        }
 
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
-            .article-header { padding: 6.5rem 1.5rem 2rem; }
-            .article-body { padding: 0 1.5rem 3.5rem; }
-            .day-map { height: 300px; }
+            .hero { padding: 6rem 1.5rem 2rem; }
+            .content { padding: 0 1.5rem; }
+            .time-block { padding-left: 1rem; }
+            .day-map { height: 350px; }
         }
     </style>
     <script type="application/ld+json">
@@ -302,368 +449,598 @@
     </div>
 </nav>
 
-<header class="article-header">
-    <div class="breadcrumb">
-        <a href="/">Home</a> → <a href="/itineraries/">Itineraries</a> → Japan 10-Day
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">🇯🇵 Complete 10-Day Itinerary</div>
+    <h1>10 Days in Japan: The <em>First-Timer's</em> Complete Guide</h1>
+    <p>Tokyo → Hakone → Kyoto → Nara → Osaka. Day-by-day with budgets, logistics, and real traveler intel. Built from thousands of Reddit trip reports and local Japanese sources — not generic travel blog fluff.</p>
+    <div class="hero-meta">
+        <div><strong>Duration:</strong> 10 days / 9 nights</div>
+        <div><strong>Budget:</strong> From ~$570 budget to $2,400+ comfort</div>
+        <div><strong>Pace:</strong> Medium (3–4 activities/day)</div>
+        <div><strong>Best for:</strong> First-time visitors to Japan</div>
     </div>
-    <h1>10 Day Japan Itinerary for First-Time Visitors (2026)</h1>
-    <p class="subtitle">Tokyo → Hakone → Kyoto → Nara → Osaka. Day-by-day with budgets, logistics, and real traveler intel.</p>
-    <div class="article-meta">
-        <span>📅 Updated February 2026</span>
-        <span>⏱️ 10 Days</span>
-        <span>💰 From $570 budget</span>
-    </div>
-</header>
+</section>
 
-<article class="article-body">
+<div class="content-wrapper">
 
-    <p><strong>A 10-day Japan itinerary for first-time visitors should cover Tokyo (3 days), a day trip to Hakone or Kamakura, Kyoto (3 days), and Osaka (2 days), with one flex day for Nara, Hiroshima, or slower exploration.</strong> This route follows the classic "Golden Route" from east to west, maximizing Japan's bullet train network while giving you enough time in each city to go beyond the tourist highlights.</p>
-
-    <p>We built this itinerary by analyzing thousands of real traveler reports, Reddit trip reviews, and local Japanese sources. Below you'll find a detailed day-by-day breakdown with specific restaurant names, transit instructions, realistic timing, budget estimates, and seasonal adjustments.</p>
-
-    <h2>Quick Overview: 10 Days in Japan at a Glance</h2>
-
-    <div class="table-wrap">
-    <table>
-        <thead>
-            <tr><th>Days</th><th>Destination</th><th>Highlights</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>1–3</td><td>Tokyo</td><td>Shibuya, Shinjuku, Asakusa, Akihabara, Tsukiji Outer Market, Meiji Shrine, TeamLab</td></tr>
-            <tr><td>4</td><td>Day Trip</td><td>Hakone (Mt. Fuji views) or Kamakura (Great Buddha)</td></tr>
-            <tr><td>5–7</td><td>Kyoto</td><td>Fushimi Inari, Arashiyama, Kinkaku-ji, Gion, Nishiki Market</td></tr>
-            <tr><td>8</td><td>Day Trip</td><td>Nara (deer park, Todai-ji)</td></tr>
-            <tr><td>9–10</td><td>Osaka</td><td>Dotonbori, Osaka Castle, Shinsekai, street food</td></tr>
-        </tbody>
-    </table>
-    </div>
-
-    <p><strong>Getting between cities:</strong> Take the shinkansen (bullet train) from Tokyo to Kyoto (2 hours 15 minutes, ~¥13,320 one-way). Kyoto to Osaka is just 15 minutes by JR Special Rapid train (¥570).</p>
-
-    <h2>Before You Go: Essential First-Timer Logistics</h2>
-
-    <h3>Japan Rail Pass: Is It Worth It in 2026?</h3>
-
-    <p>The Japan Rail Pass underwent a significant price increase in October 2023. A 7-day pass now costs ¥50,000 (~$330 USD) for ordinary class. Whether it's worth it depends on your specific route:</p>
-
-    <p><strong>When the JR Pass saves money:</strong></p>
+<!-- STICKY SIDEBAR TOC (desktop) -->
+<aside class="toc-sidebar" id="toc-sidebar">
+    <h2>Itinerary</h2>
     <ul>
-        <li>Tokyo → Kyoto round trip by shinkansen = ~¥26,640. Add a Hiroshima day trip (¥11,300 each way from Kyoto) and the 7-day pass pays for itself.</li>
-        <li>If you're also using JR lines for local transit in Tokyo and day trips to Hakone/Kamakura.</li>
+        <li><a href="#essentials" data-section="essentials">⚡ Essentials</a></li>
+        <li><a href="#overview" data-section="overview">📋 Overview</a></li>
+        <li><a href="#day1" data-section="day1">Day 1: Shinjuku & Shibuya</a></li>
+        <li><a href="#day2" data-section="day2">Day 2: Asakusa & Ueno</a></li>
+        <li><a href="#day3" data-section="day3">Day 3: Harajuku & TeamLab</a></li>
+        <li><a href="#day4" data-section="day4">Day 4: Hakone / Kamakura</a></li>
+        <li><a href="#day5" data-section="day5">Day 5: Fushimi Inari & Higashiyama</a></li>
+        <li><a href="#day6" data-section="day6">Day 6: Arashiyama & Kinkaku-ji</a></li>
+        <li><a href="#day7" data-section="day7">Day 7: Central Kyoto</a></li>
+        <li><a href="#day8" data-section="day8">Day 8: Nara Day Trip</a></li>
+        <li><a href="#day9" data-section="day9">Day 9: Osaka Food & Culture</a></li>
+        <li><a href="#day10" data-section="day10">Day 10: Kuromon & Departure</a></li>
+        <li><a href="#seasonal" data-section="seasonal">🌸 Seasonal Guide</a></li>
+        <li><a href="#tips" data-section="tips">📝 First-Timer Tips</a></li>
+        <li><a href="#budget" data-section="budget">💰 Budget</a></li>
+        <li><a href="#faq" data-section="faq">❓ FAQ</a></li>
     </ul>
+</aside>
 
-    <p><strong>When to skip the JR Pass:</strong></p>
-    <ul>
-        <li>If you're only doing Tokyo → Kyoto → Osaka one-way (then flying out of KIX), individual tickets are cheaper.</li>
-        <li>If most of your travel falls within Kyoto/Osaka, where private railways (Hankyu, Keihan) are more convenient and not covered by JR Pass.</li>
-    </ul>
+<div class="content">
 
-    <div class="tip-box">
-        <strong>Pro tip:</strong> Use the <a href="https://www.japan-guide.com/railpass/">JR Pass Calculator on Japan-Guide.com</a> to plug in your exact route before buying. For this itinerary, a 7-day pass activated on Day 4 (covering your day trip + Tokyo-Kyoto-Osaka travel) typically breaks even or saves ¥3,000–8,000.
+    <!-- INLINE TOC (mobile) -->
+    <div class="toc-inline">
+        <h2>Jump to a section</h2>
+        <ul>
+            <li><a href="#essentials">⚡ Before You Go — Essentials</a></li>
+            <li><a href="#overview">📋 Quick Overview</a></li>
+            <li><a href="#day1">Day 1: Arrival + Shinjuku & Shibuya</a></li>
+            <li><a href="#day2">Day 2: Asakusa, Akihabara & Ueno</a></li>
+            <li><a href="#day3">Day 3: Harajuku, Meiji Shrine & TeamLab</a></li>
+            <li><a href="#day4">Day 4: Day Trip — Hakone or Kamakura</a></li>
+            <li><a href="#day5">Day 5: Fushimi Inari & Higashiyama</a></li>
+            <li><a href="#day6">Day 6: Arashiyama & Golden Pavilion</a></li>
+            <li><a href="#day7">Day 7: Central Kyoto + Cultural Experiences</a></li>
+            <li><a href="#day8">Day 8: Day Trip to Nara</a></li>
+            <li><a href="#day9">Day 9: Osaka Food & Culture</a></li>
+            <li><a href="#day10">Day 10: Kuromon Market & Departure</a></li>
+            <li><a href="#seasonal">🌸 Seasonal Guide</a></li>
+            <li><a href="#tips">📝 First-Timer Tips</a></li>
+            <li><a href="#budget">💰 Budget Breakdown</a></li>
+            <li><a href="#faq">❓ FAQ</a></li>
+        </ul>
     </div>
 
-    <p><strong>Alternative:</strong> Buy individual tickets via the SmartEX app (English-language shinkansen booking) or at station ticket machines. IC cards (Suica/Pasmo) work for all local trains, buses, and convenience stores.</p>
-
-    <h3>Typical Daily Budget for 10 Days in Japan</h3>
-
-    <p>Japan is more affordable than most first-timers expect, especially for food. Here's a realistic per-person daily breakdown:</p>
-
-    <div class="table-wrap">
-    <table>
-        <thead>
-            <tr><th>Category</th><th>Budget</th><th>Mid-Range</th><th>Comfort</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>Accommodation</td><td>¥4,000–7,000 ($27–47)</td><td>¥10,000–18,000 ($67–120)</td><td>¥20,000–40,000 ($133–267)</td></tr>
-            <tr><td>Food</td><td>¥3,000–4,500 ($20–30)</td><td>¥5,000–8,000 ($33–53)</td><td>¥10,000–20,000 ($67–133)</td></tr>
-            <tr><td>Transport</td><td>¥1,000–2,000 ($7–13)</td><td>¥2,000–3,500 ($13–23)</td><td>¥3,500–5,000 ($23–33)</td></tr>
-            <tr><td>Activities</td><td>¥500–1,000 ($3–7)</td><td>¥1,500–3,000 ($10–20)</td><td>¥3,000–8,000 ($20–53)</td></tr>
-            <tr><td><strong>Daily Total</strong></td><td><strong>¥8,500–14,500 ($57–97)</strong></td><td><strong>¥18,500–32,500 ($123–217)</strong></td><td><strong>¥36,500–73,000 ($243–487)</strong></td></tr>
-        </tbody>
-    </table>
+    <!-- ESSENTIALS -->
+    <div class="essentials" id="essentials">
+        <h2>⚡ Before You Go — Essential Logistics</h2>
+        <div class="essentials-grid">
+            <div class="essential-item">
+                <h3>JR Pass</h3>
+                <p>A 7-day pass (¥50,000 / ~$330) activated on Day 4 covers your day trip + Tokyo–Kyoto–Osaka travel. Use the <a href="https://www.japan-guide.com/railpass/" style="color:var(--terracotta)">JR Pass Calculator</a> to check if it saves you money for your route.</p>
+            </div>
+            <div class="essential-item">
+                <h3>IC Card (Suica/Pasmo)</h3>
+                <p>Get one at the airport immediately. Load ¥5,000. Works on all local trains, buses, konbini, and vending machines. This handles all in-city transport.</p>
+            </div>
+            <div class="essential-item">
+                <h3>Pocket WiFi / eSIM</h3>
+                <p>Get an eSIM (Ubigi or Airalo, ~$15–25 for 10 days) before you land. Google Maps + Translate are essential. Free WiFi is unreliable.</p>
+            </div>
+            <div class="essential-item">
+                <h3>Cash</h3>
+                <p>Japan is still cash-heavy at small restaurants, temples, and in Kyoto. Withdraw ¥20,000–30,000 at a 7-Eleven ATM (they accept foreign cards). Carry ¥10,000–20,000 at all times.</p>
+            </div>
+            <div class="essential-item">
+                <h3>Shoes</h3>
+                <p>You will walk 15,000–25,000 steps/day. Bring your most comfortable walking shoes and slip-ons for temples. The #1 tip from every returning traveler.</p>
+            </div>
+            <div class="essential-item">
+                <h3>Luggage Forwarding</h3>
+                <p>Don't drag suitcases on the shinkansen. Use Yamato Transport (Kuroneko) takkyubin — ship between hotels for ¥2,000–3,000/bag, next-day delivery. Ship from any konbini or hotel front desk.</p>
+            </div>
+        </div>
     </div>
 
-    <p><strong>10-day trip total (excluding flights and JR Pass):</strong> ¥85,000–145,000 ($570–970) budget | ¥185,000–325,000 ($1,230–2,170) mid-range | ¥365,000–730,000 ($2,430–4,870) comfort.</p>
+    <!-- OVERVIEW -->
+    <div class="day" id="overview" style="border-top-color: var(--earth);">
+        <h2>📋 10 Days at a Glance</h2>
+        <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Days</th><th>Destination</th><th>Highlights</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1–3</td><td>Tokyo</td><td>Shibuya, Shinjuku, Asakusa, Akihabara, Tsukiji Outer Market, Meiji Shrine, TeamLab</td></tr>
+                <tr><td>4</td><td>Day Trip</td><td>Hakone (Mt. Fuji views) or Kamakura (Great Buddha)</td></tr>
+                <tr><td>5–7</td><td>Kyoto</td><td>Fushimi Inari, Arashiyama, Kinkaku-ji, Gion, Nishiki Market</td></tr>
+                <tr><td>8</td><td>Day Trip</td><td>Nara (deer park, Todai-ji)</td></tr>
+                <tr><td>9–10</td><td>Osaka</td><td>Dotonbori, Osaka Castle, Shinsekai, street food</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><strong>Getting between cities:</strong> Take the shinkansen (bullet train) from Tokyo to Kyoto (2 hours 15 minutes, ~¥13,320 one-way). Kyoto to Osaka is just 15 minutes by JR Special Rapid train (¥570).</p>
+    </div>
 
-    <p><strong>Where the money goes:</strong> Accommodation is your biggest variable. A capsule hotel or hostel in Tokyo runs ¥3,500–5,000/night; a well-located business hotel is ¥12,000–18,000. Food is remarkably cheap — a bowl of ramen costs ¥800–1,200, a conveyor belt sushi lunch is ¥1,000–2,000, and convenience store onigiri are ¥120–180 each.</p>
+    <!-- DAY 1 -->
+    <div class="day" id="day1">
+        <div class="day-header">
+            <span class="day-num">Day 1</span>
+            <span class="day-neighborhoods">Shinjuku · Shibuya · Kabukichō · Omoide Yokochō</span>
+        </div>
+        <h2>Arrival + Shinjuku & Shibuya</h2>
+        <div id="map-day1" class="day-map"></div>
 
-    <p><strong>Cash vs. card:</strong> Japan has shifted significantly toward cashless payment since 2023. Most restaurants and shops in Tokyo and Osaka accept credit cards and IC cards. Kyoto's smaller temples and traditional shops still prefer cash. Carry ¥10,000–20,000 in cash as backup, withdrawable from 7-Eleven ATMs (which accept international cards).</p>
+        <div class="time-block">
+            <div class="time-label">✈️ Morning/Afternoon — Arrival</div>
+            <p>Arrive at Narita (NRT) or Haneda (HND) airport.</p>
+            <ul>
+                <li><strong>From Narita:</strong> Take the Narita Express (N'EX) to Shinjuku or Shibuya (~90 minutes, ¥3,250). Or the budget option: Keisei Access Express to Aoto, transfer to subway (~100 minutes, ¥1,270).</li>
+                <li><strong>From Haneda:</strong> Take the Keikyu Line or Tokyo Monorail (~30–45 minutes, ¥300–500).</li>
+            </ul>
+            <p>Check into your hotel. Don't over-schedule today — jetlag is real (Japan is 14–17 hours ahead of US time zones).</p>
+        </div>
 
-    <h2>Day-by-Day Itinerary</h2>
+        <div class="time-block">
+            <div class="time-label">🏙️ Late Afternoon — Shibuya</div>
+            <p>Walk to <strong>Shibuya Crossing</strong> — the world's busiest pedestrian scramble. Best viewed from the Shibuya Sky observation deck (¥2,000, book online) or the Starbucks overlooking the crossing. Walk through <strong>Center-Gai</strong> and explore the backstreets.</p>
+        </div>
 
-    <!-- DAYS 1-3: TOKYO -->
-    <h3>Days 1–3: Tokyo</h3>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening — Shinjuku</div>
+            <p>Dinner in <strong>Shinjuku</strong>. Head to <strong>Omoide Yokocho</strong> (Memory Lane / "Piss Alley") for yakitori skewers at tiny open-air stalls (¥100–300 per skewer). Then walk through <strong>Kabukicho</strong> and the neon-lit Golden Gai — a cluster of 200+ tiny bars, most seating 6–8 people. Some charge a cover (¥500–1,000), others don't. Just peek in and ask.</p>
+        </div>
 
-    <p>Tokyo is overwhelming in the best way. Three days lets you hit the major neighborhoods without rushing. Base yourself near <strong>Shibuya, Shinjuku, or Tokyo Station</strong> for the best train access.</p>
+        <div class="tip">Budget for Day 1: ¥5,000–8,000 (food + transport from airport)</div>
+    </div>
 
-    <div class="day-header">Day 1: Arrival + Shinjuku &amp; Shibuya</div>
-    <div id="map-day1" class="day-map"></div>
+    <!-- DAY 2 -->
+    <div class="day" id="day2">
+        <div class="day-header">
+            <span class="day-num">Day 2</span>
+            <span class="day-neighborhoods">Asakusa · Akihabara · Ueno</span>
+        </div>
+        <h2>East Tokyo — Temples, Markets & Anime</h2>
+        <div id="map-day2" class="day-map"></div>
 
-    <p><strong>Morning/Afternoon:</strong> Arrive at Narita (NRT) or Haneda (HND) airport.</p>
-    <ul>
-        <li><strong>From Narita:</strong> Take the Narita Express (N'EX) to Shinjuku or Shibuya (~90 minutes, ¥3,250). Or the budget option: Keisei Access Express to Aoto, transfer to subway (~100 minutes, ¥1,270).</li>
-        <li><strong>From Haneda:</strong> Take the Keikyu Line or Tokyo Monorail (~30–45 minutes, ¥300–500).</li>
-    </ul>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Asakusa</div>
+            <p>Start at <strong>Senso-ji Temple</strong> in Asakusa — Tokyo's oldest temple (628 AD). Arrive by 8:00 AM to beat crowds. Walk through Nakamise-dori shopping street (opens ~9:00 AM) for ningyo-yaki (cake-filled pastries, ¥300) and traditional crafts.</p>
+        </div>
 
-    <p>Check into your hotel. Don't over-schedule today — jetlag is real (Japan is 14–17 hours ahead of US time zones).</p>
+        <div class="time-block">
+            <div class="time-label">🏛️ Late Morning — Ueno</div>
+            <p>Walk or take the subway one stop to <strong>Ueno</strong>. Visit <strong>Ueno Park</strong> — home to the Tokyo National Museum (¥1,000, closed Mondays), the National Museum of Nature and Science (¥630), and Ameya-Yokocho market street underneath the train tracks (great for cheap street food and clothing).</p>
+        </div>
 
-    <p><strong>Late Afternoon:</strong> Walk to <strong>Shibuya Crossing</strong> — the world's busiest pedestrian scramble. Best viewed from the Shibuya Sky observation deck (¥2,000, book online) or the Starbucks overlooking the crossing. Walk through <strong>Center-Gai</strong> and explore the backstreets.</p>
+        <div class="time-block">
+            <div class="time-label">🏙️ Afternoon — Akihabara</div>
+            <p>Take the Hibiya Line to <strong>Akihabara</strong> — Tokyo's electronics and anime district. Even non-anime fans enjoy the sheer sensory overload. Stop by <strong>Yodobashi Camera</strong> (8 floors of electronics), browse the retro game shops on Chuo-Dori, or try a themed café.</p>
+        </div>
 
-    <p><strong>Evening:</strong> Dinner in <strong>Shinjuku</strong>. Head to <strong>Omoide Yokocho</strong> (Memory Lane / "Piss Alley") for yakitori skewers at tiny open-air stalls (¥100–300 per skewer). Then walk through <strong>Kabukicho</strong> and the neon-lit Golden Gai — a cluster of 200+ tiny bars, most seating 6–8 people. Some charge a cover (¥500–1,000), others don't. Just peek in and ask.</p>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening</div>
+            <p>Dinner at a <strong>conveyor belt sushi</strong> spot — Sushiro, Kura Sushi, or Hamazushi all have locations near major stations (¥1,000–2,500 for a full meal). These chains use an app/tablet ordering system with English support.</p>
+        </div>
+    </div>
 
-    <p><strong>Budget for Day 1:</strong> ¥5,000–8,000 (food + transport from airport)</p>
+    <!-- DAY 3 -->
+    <div class="day" id="day3">
+        <div class="day-header">
+            <span class="day-num">Day 3</span>
+            <span class="day-neighborhoods">Harajuku · Meiji Shrine · Omotesando · TeamLab</span>
+        </div>
+        <h2>Youth Culture, Art & Farewell Tokyo</h2>
+        <div id="map-day3" class="day-map"></div>
 
-    <div class="day-header">Day 2: East Tokyo — Asakusa, Akihabara &amp; Ueno</div>
-    <div id="map-day2" class="day-map"></div>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Meiji Shrine</div>
+            <p>Start at <strong>Meiji Shrine</strong> (Meiji Jingu) — a serene forested shrine in the heart of Tokyo. Free entry. The 700-meter forested approach path is beautiful. Allow 45–60 minutes.</p>
+        </div>
 
-    <p><strong>Morning:</strong> Start at <strong>Senso-ji Temple</strong> in Asakusa — Tokyo's oldest temple (628 AD). Arrive by 8:00 AM to beat crowds. Walk through Nakamise-dori shopping street (opens ~9:00 AM) for ningyo-yaki (cake-filled pastries, ¥300) and traditional crafts.</p>
+        <div class="time-block">
+            <div class="time-label">🛍️ Late Morning — Harajuku</div>
+            <p>Walk to <strong>Harajuku</strong> and Takeshita-dori — a narrow lane packed with quirky fashion, crêpe stands (¥400–600), and pop culture shops. Then stroll <strong>Omotesando</strong> — Tokyo's Champs-Élysées, lined with flagship stores and excellent architecture.</p>
+        </div>
 
-    <p><strong>Late Morning:</strong> Walk or take the subway one stop to <strong>Ueno</strong>. Visit <strong>Ueno Park</strong> — home to the Tokyo National Museum (¥1,000, closed Mondays), the National Museum of Nature and Science (¥630), and Ameya-Yokocho market street underneath the train tracks (great for cheap street food and clothing).</p>
+        <div class="time-block">
+            <div class="time-label">🎨 Afternoon — TeamLab</div>
+            <p>Visit <strong>TeamLab Borderless</strong> (relocated to Azabudai Hills in 2024, ¥3,800). Book tickets online in advance — they sell out weeks ahead. This immersive digital art museum is unlike anything you've experienced. Allow 2–3 hours.</p>
+        </div>
 
-    <p><strong>Afternoon:</strong> Take the Hibiya Line to <strong>Akihabara</strong> — Tokyo's electronics and anime district. Even non-anime fans enjoy the sheer sensory overload. Stop by <strong>Yodobashi Camera</strong> (8 floors of electronics), browse the retro game shops on Chuo-Dori, or try a themed café.</p>
-
-    <p><strong>Evening:</strong> Dinner at a <strong>conveyor belt sushi</strong> spot — Sushiro, Kura Sushi, or Hamazushi all have locations near major stations (¥1,000–2,500 for a full meal). These chains use an app/tablet ordering system with English support.</p>
-
-    <div class="day-header">Day 3: Harajuku, Meiji Shrine &amp; TeamLab</div>
-    <div id="map-day3" class="day-map"></div>
-
-    <p><strong>Morning:</strong> Start at <strong>Meiji Shrine</strong> (Meiji Jingu) — a serene forested shrine in the heart of Tokyo. Free entry. The 700-meter forested approach path is beautiful. Allow 45–60 minutes.</p>
-
-    <p><strong>Late Morning:</strong> Walk to <strong>Harajuku</strong> and Takeshita-dori — a narrow lane packed with quirky fashion, crêpe stands (¥400–600), and pop culture shops. Then stroll <strong>Omotesando</strong> — Tokyo's Champs-Élysées, lined with flagship stores and excellent architecture.</p>
-
-    <p><strong>Afternoon:</strong> Visit <strong>TeamLab Borderless</strong> (relocated to Azabudai Hills in 2024, ¥3,800). Book tickets online in advance — they sell out weeks ahead. This immersive digital art museum is unlike anything you've experienced. Allow 2–3 hours.</p>
-
-    <p><strong>Evening:</strong> Head to <strong>Ebisu or Nakameguro</strong> for dinner. Afuri Ramen in Ebisu (yuzu shio ramen, ~¥1,100) is a local favorite. Alternatively, explore the <strong>Shibuya Yokocho</strong> food hall under Shibuya Station for regional Japanese cuisines under one roof.</p>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening</div>
+            <p>Head to <strong>Ebisu or Nakameguro</strong> for dinner. Afuri Ramen in Ebisu (yuzu shio ramen, ~¥1,100) is a local favorite. Alternatively, explore the <strong>Shibuya Yokocho</strong> food hall under Shibuya Station for regional Japanese cuisines under one roof.</p>
+        </div>
+    </div>
 
     <!-- DAY 4 -->
-    <div class="day-header">Day 4: Day Trip — Hakone or Kamakura</div>
-    <div id="map-day4" class="day-map"></div>
+    <div class="day" id="day4">
+        <div class="day-header">
+            <span class="day-num">Day 4</span>
+            <span class="day-neighborhoods">Hakone or Kamakura (Day Trip)</span>
+        </div>
+        <h2>Day Trip — Nature, Temples & Mt. Fuji</h2>
+        <div id="map-day4" class="day-map"></div>
 
-    <p>You have two excellent options. Choose based on your interests:</p>
+        <p>You have two excellent options. Choose based on your interests:</p>
 
-    <h4>Option A: Hakone (Nature + Hot Springs + Mt. Fuji Views)</h4>
+        <h3>Option A: Hakone (Nature + Hot Springs + Mt. Fuji Views)</h3>
 
-    <p><strong>Getting there:</strong> Odakyu Romance Car from Shinjuku to Hakone-Yumoto (85 minutes, ¥2,330). Buy the <strong>Hakone Free Pass</strong> (¥6,100 from Shinjuku, 2-day) — it covers the Romance Car plus all Hakone loop transport (cable car, ropeway, pirate ship, buses).</p>
+        <p><strong>Getting there:</strong> Odakyu Romance Car from Shinjuku to Hakone-Yumoto (85 minutes, ¥2,330). Buy the <strong>Hakone Free Pass</strong> (¥6,100 from Shinjuku, 2-day) — it covers the Romance Car plus all Hakone loop transport (cable car, ropeway, pirate ship, buses).</p>
 
-    <p><strong>The Hakone Loop:</strong> Hakone-Yumoto → Gora (switchback train) → Sounzan (cable car) → Owakudani (volcanic valley with sulfur vents, try the black eggs — legend says each adds 7 years to your life, ¥500 for 5) → Togendai (ropeway with Mt. Fuji views on clear days) → cross Lake Ashi by pirate ship → Hakone Shrine (iconic red torii gate on the water).</p>
+        <p><strong>The Hakone Loop:</strong> Hakone-Yumoto → Gora (switchback train) → Sounzan (cable car) → Owakudani (volcanic valley with sulfur vents, try the black eggs — legend says each adds 7 years to your life, ¥500 for 5) → Togendai (ropeway with Mt. Fuji views on clear days) → cross Lake Ashi by pirate ship → Hakone Shrine (iconic red torii gate on the water).</p>
 
-    <div class="tip-box">
-        <strong>Mt. Fuji visibility tip:</strong> Best chances are early morning on clear winter/spring days. Check the <a href="https://www.hakoneropeway.co.jp/en/">Hakone Ropeway live camera</a> before heading out. Summer and rainy season (June–July) have the lowest visibility.
+        <div class="tip-box">
+            <strong>Mt. Fuji visibility tip:</strong> Best chances are early morning on clear winter/spring days. Check the <a href="https://www.hakoneropeway.co.jp/en/">Hakone Ropeway live camera</a> before heading out. Summer and rainy season (June–July) have the lowest visibility.
+        </div>
+
+        <h3>Option B: Kamakura (Temples + Beach Town Vibes)</h3>
+
+        <p><strong>Getting there:</strong> JR Yokosuka Line from Tokyo Station (55 minutes, ¥940, covered by JR Pass).</p>
+
+        <p><strong>Must-see:</strong> Kotoku-in Temple for the <strong>Great Buddha</strong> (Daibutsu, ¥300) — a 13-meter bronze statue from 1252. <strong>Hase-dera Temple</strong> (¥400) for ocean views and thousands of small Jizo statues. <strong>Tsurugaoka Hachimangu</strong> — Kamakura's main shrine. Walk <strong>Komachi-dori</strong> for matcha soft serve (¥400) and local crafts.</p>
     </div>
 
-    <h4>Option B: Kamakura (Temples + Beach Town Vibes)</h4>
+    <!-- DAY 5 -->
+    <div class="day" id="day5">
+        <div class="day-header">
+            <span class="day-num">Day 5</span>
+            <span class="day-neighborhoods">Fushimi Inari · Kiyomizu-dera · Gion · Nishiki Market</span>
+        </div>
+        <h2>Eastern Kyoto — Gates, Geisha & Street Food</h2>
+        <div id="map-day5" class="day-map"></div>
 
-    <p><strong>Getting there:</strong> JR Yokosuka Line from Tokyo Station (55 minutes, ¥940, covered by JR Pass).</p>
+        <p style="margin-bottom:1.5rem;">Take the shinkansen from Tokyo Station to Kyoto Station (Nozomi: 2 hours 15 minutes, ¥13,320; Hikari: 2 hours 40 minutes, covered by JR Pass). Base yourself near <strong>Kyoto Station</strong>, <strong>Gion/Higashiyama</strong>, or along the <strong>Karasuma Line</strong> for easy subway access.</p>
 
-    <p><strong>Must-see:</strong> Kotoku-in Temple for the <strong>Great Buddha</strong> (Daibutsu, ¥300) — a 13-meter bronze statue from 1252. <strong>Hase-dera Temple</strong> (¥400) for ocean views and thousands of small Jizo statues. <strong>Tsurugaoka Hachimangu</strong> — Kamakura's main shrine. Walk <strong>Komachi-dori</strong> for matcha soft serve (¥400) and local crafts.</p>
+        <div class="time-block">
+            <div class="time-label">🌅 Early Morning — 7:00 AM</div>
+            <h3>Fushimi Inari Taisha</h3>
+            <p>The iconic tunnel of 10,000+ vermilion torii gates. <strong>Arrive by 7:00 AM</strong> (it's open 24/7) to experience it without crowds. The full hike to the summit takes 2–3 hours; most visitors walk 30–45 minutes to the Yotsutsuji intersection viewpoint and turn back.</p>
+        </div>
 
-    <!-- DAYS 5-7: KYOTO -->
-    <h3>Days 5–7: Kyoto</h3>
+        <div class="time-block">
+            <div class="time-label">🏯 Late Morning</div>
+            <h3>Kiyomizu-dera & Higashiyama</h3>
+            <p>Take the Keihan Line to <strong>Kiyomizu-dera Temple</strong> (¥400). Walk through the atmospheric streets of <strong>Ninenzaka and Sannenzaka</strong> — preserved Edo-period lanes with tea houses and pottery shops. Try yatsuhashi (cinnamon rice cake, Kyoto's signature sweet).</p>
+        </div>
 
-    <p>Take the shinkansen from Tokyo Station to Kyoto Station (Nozomi: 2 hours 15 minutes, ¥13,320; Hikari: 2 hours 40 minutes, covered by JR Pass). Base yourself near <strong>Kyoto Station</strong>, <strong>Gion/Higashiyama</strong>, or along the <strong>Karasuma Line</strong> for easy subway access.</p>
+        <div class="time-block">
+            <div class="time-label">🏙️ Afternoon — Gion</div>
+            <p>Continue north through <strong>Higashiyama</strong> to <strong>Maruyama Park</strong> and <strong>Yasaka Shrine</strong> (free). Walk into <strong>Gion</strong> — Kyoto's geisha district. The narrow lane <strong>Hanamikoji-dori</strong> is where you're most likely to spot a geiko or maiko heading to an evening engagement, usually between 5:30–6:30 PM.</p>
+        </div>
 
-    <div class="day-header">Day 5: Eastern Kyoto — Fushimi Inari &amp; Higashiyama</div>
-    <div id="map-day5" class="day-map"></div>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening</div>
+            <p>Dinner at <strong>Nishiki Market</strong> ("Kyoto's Kitchen") — a 400-meter covered arcade with 100+ food stalls. Try tamagoyaki (sweet rolled omelet, ¥200–400), grilled mochi, pickled vegetables (tsukemono), and fresh tofu.</p>
+        </div>
+    </div>
 
-    <p><strong>Early Morning:</strong> Start at <strong>Fushimi Inari Taisha</strong> — the iconic tunnel of 10,000+ vermilion torii gates. <strong>Arrive by 7:00 AM</strong> (it's open 24/7) to experience it without crowds. The full hike to the summit takes 2–3 hours; most visitors walk 30–45 minutes to the Yotsutsuji intersection viewpoint and turn back.</p>
+    <!-- DAY 6 -->
+    <div class="day" id="day6">
+        <div class="day-header">
+            <span class="day-num">Day 6</span>
+            <span class="day-neighborhoods">Arashiyama · Kinkaku-ji · Ryoan-ji · Pontocho</span>
+        </div>
+        <h2>Western Kyoto — Bamboo, Gold & Riverside Dining</h2>
+        <div id="map-day6" class="day-map"></div>
 
-    <p><strong>Late Morning:</strong> Take the Keihan Line to <strong>Kiyomizu-dera Temple</strong> (¥400). Walk through the atmospheric streets of <strong>Ninenzaka and Sannenzaka</strong> — preserved Edo-period lanes with tea houses and pottery shops. Try yatsuhashi (cinnamon rice cake, Kyoto's signature sweet).</p>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Arashiyama</div>
+            <p>Head to <strong>Arashiyama Bamboo Grove</strong> — arrive by 8:00 AM for photos without crowds. Walk through the towering bamboo stalks (10 minutes) and continue to <strong>Tenryu-ji Temple</strong> (¥500 for garden). Cross the photogenic <strong>Togetsukyo Bridge</strong> over the Katsura River.</p>
+            <p><strong>Optional:</strong> Take the <strong>Sagano Scenic Railway</strong> (¥880 one-way) along the Hozu River gorge — stunning in cherry blossom season (late March–early April) and autumn foliage (mid-November to early December). Book tickets in advance.</p>
+        </div>
 
-    <p><strong>Afternoon:</strong> Continue north through <strong>Higashiyama</strong> to <strong>Maruyama Park</strong> and <strong>Yasaka Shrine</strong> (free). Walk into <strong>Gion</strong> — Kyoto's geisha district. The narrow lane <strong>Hanamikoji-dori</strong> is where you're most likely to spot a geiko or maiko heading to an evening engagement, usually between 5:30–6:30 PM.</p>
+        <div class="time-block">
+            <div class="time-label">🏯 Afternoon — Golden Pavilion</div>
+            <p>Bus or taxi to <strong>Kinkaku-ji</strong> (Golden Pavilion, ¥500) — the gold-leaf-covered Zen temple reflected in its mirror pond. Nearby: <strong>Ryoan-ji</strong> (¥500), famous for its minimalist rock garden.</p>
+        </div>
 
-    <p><strong>Evening:</strong> Dinner at <strong>Nishiki Market</strong> ("Kyoto's Kitchen") — a 400-meter covered arcade with 100+ food stalls. Try tamagoyaki (sweet rolled omelet, ¥200–400), grilled mochi, pickled vegetables (tsukemono), and fresh tofu.</p>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening — Pontocho</div>
+            <p>Explore <strong>Pontocho Alley</strong> — a narrow pedestrian lane along the Kamogawa River lined with restaurants. In warm months, many restaurants set up <strong>kawadoko</strong> (riverside dining platforms). Splurge on a kaiseki (multi-course traditional Japanese dinner, ¥8,000–15,000) or keep it casual at a riverside yakitori spot.</p>
+        </div>
+    </div>
 
-    <div class="day-header">Day 6: Western Kyoto — Arashiyama &amp; Golden Pavilion</div>
-    <div id="map-day6" class="day-map"></div>
+    <!-- DAY 7 -->
+    <div class="day" id="day7">
+        <div class="day-header">
+            <span class="day-num">Day 7</span>
+            <span class="day-neighborhoods">Nijo Castle · Gion · Philosopher's Path</span>
+        </div>
+        <h2>Central Kyoto + Cultural Experiences</h2>
+        <div id="map-day7" class="day-map"></div>
 
-    <p><strong>Morning:</strong> Head to <strong>Arashiyama Bamboo Grove</strong> — arrive by 8:00 AM for photos without crowds. Walk through the towering bamboo stalks (10 minutes) and continue to <strong>Tenryu-ji Temple</strong> (¥500 for garden). Cross the photogenic <strong>Togetsukyo Bridge</strong> over the Katsura River.</p>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Nijo Castle</div>
+            <p>Visit <strong>Nijo Castle</strong> (¥1,300) — a UNESCO World Heritage Site with "nightingale floors" that chirp when you walk on them (an ancient intruder alert system). The ornate interiors and gardens are impressive.</p>
+        </div>
 
-    <p><strong>Optional:</strong> Take the <strong>Sagano Scenic Railway</strong> (¥880 one-way) along the Hozu River gorge — stunning in cherry blossom season (late March–early April) and autumn foliage (mid-November to early December). Book tickets in advance.</p>
+        <div class="time-block">
+            <div class="time-label">🍵 Late Morning — Tea Ceremony</div>
+            <p>Tea ceremony experience in Gion or near Kodai-ji Temple. <strong>Camellia Garden</strong> and <strong>En</strong> offer English-language tea ceremonies (¥2,000–4,000, 45 minutes). This is one of those uniquely Japanese experiences worth the time.</p>
+        </div>
 
-    <p><strong>Afternoon:</strong> Bus or taxi to <strong>Kinkaku-ji</strong> (Golden Pavilion, ¥500) — the gold-leaf-covered Zen temple reflected in its mirror pond. Nearby: <strong>Ryoan-ji</strong> (¥500), famous for its minimalist rock garden.</p>
+        <div class="time-block">
+            <div class="time-label">🚲 Afternoon — Cycling Kyoto</div>
+            <p>Rent a bicycle (¥1,000/day from shops near Kyoto Station) and explore at your own pace. Kyoto is flat and extremely bike-friendly. Good cycling targets: <strong>Philosopher's Path</strong> (a 2km canal-side walk connecting Ginkaku-ji to Nanzen-ji), the <strong>Imperial Palace</strong> grounds (free, no reservation needed), and the <strong>Demachi Masugata</strong> shopping arcade for local snacks.</p>
+        </div>
 
-    <p><strong>Evening:</strong> Explore <strong>Pontocho Alley</strong> — a narrow pedestrian lane along the Kamogawa River lined with restaurants. In warm months, many restaurants set up <strong>kawadoko</strong> (riverside dining platforms). Splurge on a kaiseki (multi-course traditional Japanese dinner, ¥8,000–15,000) or keep it casual at a riverside yakitori spot.</p>
-
-    <div class="day-header">Day 7: Central Kyoto + Cultural Experiences</div>
-    <div id="map-day7" class="day-map"></div>
-
-    <p><strong>Morning:</strong> Visit <strong>Nijo Castle</strong> (¥1,300) — a UNESCO World Heritage Site with "nightingale floors" that chirp when you walk on them (an ancient intruder alert system). The ornate interiors and gardens are impressive.</p>
-
-    <p><strong>Late Morning:</strong> Tea ceremony experience in Gion or near Kodai-ji Temple. <strong>Camellia Garden</strong> and <strong>En</strong> offer English-language tea ceremonies (¥2,000–4,000, 45 minutes). This is one of those uniquely Japanese experiences worth the time.</p>
-
-    <p><strong>Afternoon:</strong> Rent a bicycle (¥1,000/day from shops near Kyoto Station) and explore at your own pace. Kyoto is flat and extremely bike-friendly. Good cycling targets: <strong>Philosopher's Path</strong> (a 2km canal-side walk connecting Ginkaku-ji to Nanzen-ji), the <strong>Imperial Palace</strong> grounds (free, no reservation needed), and the <strong>Demachi Masugata</strong> shopping arcade for local snacks.</p>
-
-    <p><strong>Evening:</strong> If you haven't yet, visit <strong>Fushimi Inari at night</strong> — the torii gates are illuminated and nearly empty after dark. Eerie and beautiful.</p>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening</div>
+            <p>If you haven't yet, visit <strong>Fushimi Inari at night</strong> — the torii gates are illuminated and nearly empty after dark. Eerie and beautiful.</p>
+        </div>
+    </div>
 
     <!-- DAY 8 -->
-    <div class="day-header">Day 8: Day Trip to Nara</div>
-    <div id="map-day8" class="day-map"></div>
+    <div class="day" id="day8">
+        <div class="day-header">
+            <span class="day-num">Day 8</span>
+            <span class="day-neighborhoods">Nara (Day Trip from Kyoto)</span>
+        </div>
+        <h2>Day Trip to Nara — Deer, Giant Buddha & Ancient Shrines</h2>
+        <div id="map-day8" class="day-map"></div>
 
-    <p><strong>Getting there:</strong> JR Nara Line from Kyoto Station (45 minutes, ¥720, covered by JR Pass) or Kintetsu Railway (35 minutes, ¥760, not covered by JR Pass but drops you closer to the sights).</p>
+        <div class="time-block">
+            <div class="time-label">🚆 Getting There</div>
+            <p>JR Nara Line from Kyoto Station (45 minutes, ¥720, covered by JR Pass) or Kintetsu Railway (35 minutes, ¥760, not covered by JR Pass but drops you closer to the sights).</p>
+            <p><strong>Nara is compact and walkable.</strong> Everything is within Nara Park, a short walk from either station.</p>
+        </div>
 
-    <p><strong>Nara is compact and walkable.</strong> Everything is within Nara Park, a short walk from either station.</p>
+        <div class="time-block">
+            <div class="time-label">🏯 Must-See</div>
+            <ul>
+                <li><strong>Todai-ji Temple</strong> (¥600) — houses the world's largest bronze Buddha statue (15 meters tall) inside the world's largest wooden building. The scale is genuinely awe-inspiring.</li>
+                <li><strong>Nara Park deer</strong> — roughly 1,200 wild sika deer roam freely. Buy shika-senbei (deer crackers, ¥200) and bow to them — they bow back. (Watch your maps and bags — the deer are friendly but assertive.)</li>
+                <li><strong>Kasuga-taisha Shrine</strong> (¥500) — famous for its thousands of stone and bronze lanterns.</li>
+                <li><strong>Isuien Garden</strong> (¥1,200) — a stunning Meiji-era garden with Todai-ji as its backdrop.</li>
+            </ul>
+        </div>
 
-    <p><strong>Must-see:</strong></p>
-    <ul>
-        <li><strong>Todai-ji Temple</strong> (¥600) — houses the world's largest bronze Buddha statue (15 meters tall) inside the world's largest wooden building. The scale is genuinely awe-inspiring.</li>
-        <li><strong>Nara Park deer</strong> — roughly 1,200 wild sika deer roam freely. Buy shika-senbei (deer crackers, ¥200) and bow to them — they bow back. (Watch your maps and bags — the deer are friendly but assertive.)</li>
-        <li><strong>Kasuga-taisha Shrine</strong> (¥500) — famous for its thousands of stone and bronze lanterns.</li>
-        <li><strong>Isuien Garden</strong> (¥1,200) — a stunning Meiji-era garden with Todai-ji as its backdrop.</li>
-    </ul>
+        <div class="time-block">
+            <div class="time-label">🍜 Lunch in Nara</div>
+            <p>Try kakinoha-zushi (sushi wrapped in persimmon leaves) — Nara's local specialty. <strong>Hiraso</strong> near Kintetsu Nara Station is the most well-known spot.</p>
+        </div>
 
-    <p><strong>Lunch in Nara:</strong> Try kakinoha-zushi (sushi wrapped in persimmon leaves) — Nara's local specialty. <strong>Hiraso</strong> near Kintetsu Nara Station is the most well-known spot.</p>
+        <p><strong>Return to Kyoto by late afternoon</strong> and pack for Osaka.</p>
+    </div>
 
-    <p><strong>Return to Kyoto by late afternoon</strong> and pack for Osaka.</p>
+    <!-- DAY 9 -->
+    <div class="day" id="day9">
+        <div class="day-header">
+            <span class="day-num">Day 9</span>
+            <span class="day-neighborhoods">Osaka Castle · Shinsekai · Dotonbori</span>
+        </div>
+        <h2>Osaka — Food Capital of Japan</h2>
+        <div id="map-day9" class="day-map"></div>
 
-    <!-- DAYS 9-10: OSAKA -->
-    <h3>Days 9–10: Osaka</h3>
+        <p style="margin-bottom:1.5rem;"><strong>Getting there from Kyoto:</strong> JR Special Rapid to Osaka Station (30 minutes, ¥570) or Hankyu Line to Umeda (45 minutes, ¥400). Base yourself in <strong>Namba or Shinsaibashi</strong> — walking distance to Dotonbori.</p>
 
-    <p><strong>Getting there from Kyoto:</strong> JR Special Rapid to Osaka Station (30 minutes, ¥570) or Hankyu Line to Umeda (45 minutes, ¥400). Both drop you in central Osaka.</p>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Osaka Castle</div>
+            <p>Visit <strong>Osaka Castle</strong> (¥600) — a reconstructed 16th-century castle with a museum inside and panoramic city views from the top floor. The surrounding park is beautiful, especially during cherry blossom season. Allow 1.5–2 hours.</p>
+        </div>
 
-    <p>Base yourself in <strong>Namba or Shinsaibashi</strong> — walking distance to Dotonbori and the best food streets.</p>
+        <div class="time-block">
+            <div class="time-label">🏙️ Afternoon — Shinsekai</div>
+            <p>Head to <strong>Shinsekai</strong> — a retro entertainment district with Tsutenkaku Tower and the best <strong>kushikatsu</strong> (deep-fried skewered everything) in Japan. <strong>Daruma</strong> is the most famous chain, but locals prefer <strong>Yaekatsu</strong> or <strong>Kushikatsu Tanaka</strong> for less tourist-oriented experiences. Rules: never double-dip in the communal sauce.</p>
+        </div>
 
-    <div class="day-header">Day 9: Osaka Food &amp; Culture</div>
-    <div id="map-day9" class="day-map"></div>
+        <div class="time-block">
+            <div class="time-label">🌙 Evening — Dotonbori</div>
+            <p><strong>Dotonbori</strong> — Osaka's neon-drenched food paradise. This is where you eat your way through Japan's greatest hits:</p>
+            <ul>
+                <li><strong>Takoyaki</strong> (octopus balls): Wanaka or Kukuru (¥500–700 for 8 pieces)</li>
+                <li><strong>Okonomiyaki</strong> (savory pancake): Mizuno or Fukutaro (¥800–1,200) — watch them cook on the griddle in front of you</li>
+                <li><strong>Gyoza</strong>: Chao Chao or Horai (¥300–500)</li>
+            </ul>
+            <p>Walk along the Dotonbori canal at night for the iconic Glico Running Man sign photo.</p>
+        </div>
+    </div>
 
-    <p><strong>Morning:</strong> Visit <strong>Osaka Castle</strong> (¥600) — a reconstructed 16th-century castle with a museum inside and panoramic city views from the top floor. The surrounding park is beautiful, especially during cherry blossom season. Allow 1.5–2 hours.</p>
+    <!-- DAY 10 -->
+    <div class="day" id="day10">
+        <div class="day-header">
+            <span class="day-num">Day 10</span>
+            <span class="day-neighborhoods">Kuromon Market · Departure</span>
+        </div>
+        <h2>Morning in Osaka + Departure</h2>
+        <div id="map-day10" class="day-map"></div>
 
-    <p><strong>Afternoon:</strong> Head to <strong>Shinsekai</strong> — a retro entertainment district with Tsutenkaku Tower and the best <strong>kushikatsu</strong> (deep-fried skewered everything) in Japan. <strong>Daruma</strong> is the most famous chain, but locals prefer <strong>Yaekatsu</strong> or <strong>Kushikatsu Tanaka</strong> for less tourist-oriented experiences. Rules: never double-dip in the communal sauce.</p>
+        <div class="time-block">
+            <div class="time-label">🌅 Morning — Kuromon Market</div>
+            <p>Explore <strong>Kuromon Market</strong> ("Osaka's Kitchen") — a 600-meter-long market with fresh seafood, wagyu beef skewers (¥800–1,500), uni (sea urchin, ¥500–1,000), and fresh fruit. Best visited before 11 AM when stalls are freshest.</p>
+        </div>
 
-    <p><strong>Evening: Dotonbori</strong> — Osaka's neon-drenched food paradise. This is where you eat your way through Japan's greatest hits:</p>
-    <ul>
-        <li><strong>Takoyaki</strong> (octopus balls): Wanaka or Kukuru (¥500–700 for 8 pieces)</li>
-        <li><strong>Okonomiyaki</strong> (savory pancake): Mizuno or Fukutaro (¥800–1,200) — watch them cook on the griddle in front of you</li>
-        <li><strong>Gyoza</strong>: Chao Chao or Horai (¥300–500)</li>
-    </ul>
-    <p>Walk along the Dotonbori canal at night for the iconic Glico Running Man sign photo.</p>
-
-    <div class="day-header">Day 10: Morning in Osaka + Departure</div>
-    <div id="map-day10" class="day-map"></div>
-
-    <p><strong>Morning:</strong> Explore <strong>Kuromon Market</strong> ("Osaka's Kitchen") — a 600-meter-long market with fresh seafood, wagyu beef skewers (¥800–1,500), uni (sea urchin, ¥500–1,000), and fresh fruit. Best visited before 11 AM when stalls are freshest.</p>
-
-    <p><strong>If your flight is from Kansai Airport (KIX):</strong> Take the Nankai Rapi:t express from Namba (35 minutes, ¥1,450) or JR Haruka from Tennoji/Shin-Osaka (45–50 minutes, ¥2,230). KIX is the logical departure airport for this west-to-east itinerary — saves you a 3-hour shinkansen ride back to Tokyo.</p>
-
-    <p><strong>If your flight is from Tokyo (NRT/HND):</strong> Take the shinkansen from Shin-Osaka to Tokyo (2.5 hours, ¥13,870), then connect to the airport. Budget an extra half-day for this.</p>
+        <div class="time-block">
+            <div class="time-label">✈️ Departure</div>
+            <p><strong>If your flight is from Kansai Airport (KIX):</strong> Take the Nankai Rapi:t express from Namba (35 minutes, ¥1,450) or JR Haruka from Tennoji/Shin-Osaka (45–50 minutes, ¥2,230). KIX is the logical departure airport for this west-to-east itinerary — saves you a 3-hour shinkansen ride back to Tokyo.</p>
+            <p><strong>If your flight is from Tokyo (NRT/HND):</strong> Take the shinkansen from Shin-Osaka to Tokyo (2.5 hours, ¥13,870), then connect to the airport. Budget an extra half-day for this.</p>
+        </div>
+    </div>
 
     <!-- SEASONAL GUIDE -->
-    <h2>Seasonal Guide: When to Visit Japan</h2>
+    <div class="day" id="seasonal" style="border-top-color: var(--sage);">
+        <h2>🌸 Seasonal Guide: When to Visit Japan</h2>
 
-    <p>Each season transforms the experience. Here's what to expect:</p>
+        <p>Each season transforms the experience. Here's what to expect:</p>
 
-    <h3>Cherry Blossom Season (Late March–Mid April)</h3>
-    <p>The most popular time. Peak bloom varies by region (Tokyo: ~March 25–April 5; Kyoto: ~March 28–April 8). Book accommodation 3–6 months ahead. Expect higher prices (+20–40%) and crowds at major sites. <strong>Worth it</strong> if you time it right — the sakura viewing (hanami) is genuinely magical.</p>
+        <h3>Cherry Blossom Season (Late March–Mid April)</h3>
+        <p>The most popular time. Peak bloom varies by region (Tokyo: ~March 25–April 5; Kyoto: ~March 28–April 8). Book accommodation 3–6 months ahead. Expect higher prices (+20–40%) and crowds at major sites. <strong>Worth it</strong> if you time it right — the sakura viewing (hanami) is genuinely magical.</p>
 
-    <h3>Summer (June–August)</h3>
-    <p>Hot and humid (30–35°C / 86–95°F), especially July–August. June brings the rainy season (tsuyu). Fewer tourists, lower prices, and summer festivals (matsuri) including massive fireworks displays. Best for: Hokkaido (mild summers) or beach trips to Okinawa.</p>
+        <h3>Summer (June–August)</h3>
+        <p>Hot and humid (30–35°C / 86–95°F), especially July–August. June brings the rainy season (tsuyu). Fewer tourists, lower prices, and summer festivals (matsuri) including massive fireworks displays. Best for: Hokkaido (mild summers) or beach trips to Okinawa.</p>
 
-    <h3>Autumn Foliage (Mid October–Early December)</h3>
-    <p>Stunning red and gold maple leaves (koyo). Kyoto peaks mid-to-late November. Less crowded than cherry blossom season but equally beautiful. <strong>Our top recommendation for first-timers</strong> — comfortable temperatures (15–20°C), manageable crowds, and spectacular scenery.</p>
+        <h3>Autumn Foliage (Mid October–Early December)</h3>
+        <p>Stunning red and gold maple leaves (koyo). Kyoto peaks mid-to-late November. Less crowded than cherry blossom season but equally beautiful. <strong>Our top recommendation for first-timers</strong> — comfortable temperatures (15–20°C), manageable crowds, and spectacular scenery.</p>
 
-    <h3>Winter (December–February)</h3>
-    <p>Cold but clear skies mean the best Mt. Fuji visibility. Fewer tourists, great deals on accommodation. Winter illumination events in Tokyo and Osaka. Perfect for onsen (hot spring) visits. Snow in northern Honshu and Hokkaido for skiing.</p>
+        <h3>Winter (December–February)</h3>
+        <p>Cold but clear skies mean the best Mt. Fuji visibility. Fewer tourists, great deals on accommodation. Winter illumination events in Tokyo and Osaka. Perfect for onsen (hot spring) visits. Snow in northern Honshu and Hokkaido for skiing.</p>
+    </div>
 
     <!-- TIPS -->
-    <h2>First-Timer Tips That Actually Matter</h2>
+    <div class="day" id="tips" style="border-top-color: var(--earth);">
+        <h2>📝 First-Timer Tips That Actually Matter</h2>
 
-    <h3>Communication &amp; Navigation</h3>
-    <ul>
-        <li><strong>Download Google Maps offline maps</strong> for Japan before you go. It's by far the best navigation tool, including transit directions with real-time train schedules.</li>
-        <li><strong>Pocket WiFi or eSIM:</strong> Essential. Rent a pocket WiFi (~¥800–1,000/day) at the airport, or buy an eSIM through Ubigi, Airalo, or Holafly before departure (~$15–25 for 10 days, data only). We recommend eSIM for simplicity.</li>
-        <li><strong>Language:</strong> English signage exists at major stations and tourist areas. Google Translate's camera mode handles menu translation well. Learn a few phrases: <em>sumimasen</em> (excuse me), <em>arigatou gozaimasu</em> (thank you), <em>eigo no menu wa arimasu ka</em> (do you have an English menu?).</li>
-    </ul>
+        <h3>Communication & Navigation</h3>
+        <ul>
+            <li><strong>Download Google Maps offline maps</strong> for Japan before you go. It's by far the best navigation tool, including transit directions with real-time train schedules.</li>
+            <li><strong>Pocket WiFi or eSIM:</strong> Essential. Rent a pocket WiFi (~¥800–1,000/day) at the airport, or buy an eSIM through Ubigi, Airalo, or Holafly before departure (~$15–25 for 10 days, data only). We recommend eSIM for simplicity.</li>
+            <li><strong>Language:</strong> English signage exists at major stations and tourist areas. Google Translate's camera mode handles menu translation well. Learn a few phrases: <em>sumimasen</em> (excuse me), <em>arigatou gozaimasu</em> (thank you), <em>eigo no menu wa arimasu ka</em> (do you have an English menu?).</li>
+        </ul>
 
-    <h3>Food Etiquette</h3>
-    <ul>
-        <li>Tipping is not practiced in Japan and can be considered rude.</li>
-        <li>Slurping noodles is polite — it shows you're enjoying the food.</li>
-        <li>Many restaurants use <strong>ticket vending machines</strong> (食券機, shokkenki) at the entrance. Insert money, press the button with a picture of what you want, hand the ticket to the chef.</li>
-        <li><strong>Konbini (convenience stores)</strong> are a food group in Japan. 7-Eleven, FamilyMart, and Lawson serve genuinely good onigiri, egg sandwiches, fried chicken (famichiki), and even wine. Don't sleep on konbini meals — they're ¥300–600 and surprisingly excellent.</li>
-    </ul>
+        <h3>Food Etiquette</h3>
+        <ul>
+            <li>Tipping is not practiced in Japan and can be considered rude.</li>
+            <li>Slurping noodles is polite — it shows you're enjoying the food.</li>
+            <li>Many restaurants use <strong>ticket vending machines</strong> (食券機, shokkenki) at the entrance. Insert money, press the button with a picture of what you want, hand the ticket to the chef.</li>
+            <li><strong>Konbini (convenience stores)</strong> are a food group in Japan. 7-Eleven, FamilyMart, and Lawson serve genuinely good onigiri, egg sandwiches, fried chicken (famichiki), and even wine. Don't sleep on konbini meals — they're ¥300–600 and surprisingly excellent.</li>
+        </ul>
 
-    <h3>Getting Around</h3>
-    <ul>
-        <li><strong>Trains stop around midnight</strong> (last train varies by line, typically 11:30 PM–12:30 AM). Plan accordingly or budget ¥2,000–4,000 for a taxi.</li>
-        <li><strong>Get a Suica or Pasmo IC card</strong> at the airport. Tap-and-go for all trains, buses, and many vending machines. Load at any station or convenience store.</li>
-        <li><strong>In Kyoto, take buses.</strong> The bus network covers more tourist sites than the limited subway. A one-day bus pass (¥700) pays for itself after 3 rides.</li>
-        <li><strong>Luggage forwarding (takkyubin):</strong> Don't drag your suitcase onto the shinkansen. Use Yamato Transport (Kuroneko) to ship luggage between hotels (¥2,000–3,000 per bag, next-day delivery). Ship from any convenience store or hotel front desk.</li>
-    </ul>
+        <h3>Getting Around</h3>
+        <ul>
+            <li><strong>Trains stop around midnight</strong> (last train varies by line, typically 11:30 PM–12:30 AM). Plan accordingly or budget ¥2,000–4,000 for a taxi.</li>
+            <li><strong>Get a Suica or Pasmo IC card</strong> at the airport. Tap-and-go for all trains, buses, and many vending machines. Load at any station or convenience store.</li>
+            <li><strong>In Kyoto, take buses.</strong> The bus network covers more tourist sites than the limited subway. A one-day bus pass (¥700) pays for itself after 3 rides.</li>
+            <li><strong>Luggage forwarding (takkyubin):</strong> Don't drag your suitcase onto the shinkansen. Use Yamato Transport (Kuroneko) to ship luggage between hotels (¥2,000–3,000 per bag, next-day delivery). Ship from any convenience store or hotel front desk.</li>
+        </ul>
 
-    <h3>Cultural Essentials</h3>
-    <ul>
-        <li><strong>Remove shoes</strong> when entering homes, ryokans, some restaurants, and temple interiors. Look for a genkan (entryway step) and shoe cubbies.</li>
-        <li><strong>Onsen etiquette:</strong> Wash thoroughly at the shower stations before entering the communal bath. No swimsuits. Tattoos are increasingly accepted but some traditional onsen still prohibit them — check beforehand.</li>
-        <li><strong>Trash cans are rare.</strong> Carry a small bag for your garbage. You'll find bins at convenience stores and stations.</li>
-        <li><strong>Quiet on trains.</strong> Talking on the phone is considered rude. Keep conversations low.</li>
-    </ul>
+        <h3>Cultural Essentials</h3>
+        <ul>
+            <li><strong>Remove shoes</strong> when entering homes, ryokans, some restaurants, and temple interiors. Look for a genkan (entryway step) and shoe cubbies.</li>
+            <li><strong>Onsen etiquette:</strong> Wash thoroughly at the shower stations before entering the communal bath. No swimsuits. Tattoos are increasingly accepted but some traditional onsen still prohibit them — check beforehand.</li>
+            <li><strong>Trash cans are rare.</strong> Carry a small bag for your garbage. You'll find bins at convenience stores and stations.</li>
+            <li><strong>Quiet on trains.</strong> Talking on the phone is considered rude. Keep conversations low.</li>
+        </ul>
 
-    <!-- CUSTOMIZE -->
-    <h2>Customize This Itinerary</h2>
+        <h3>Customize This Itinerary</h3>
+        <p>This 10-day Japan itinerary works as a template, but the best trip is one tailored to your pace, interests, and budget. Some common modifications:</p>
+        <ul>
+            <li><strong>Swap Osaka for Hiroshima + Miyajima Island</strong> (Day 9): Take the shinkansen from Kyoto (80 minutes). Visit the Peace Memorial Museum, then ferry to Miyajima Island for the floating torii gate.</li>
+            <li><strong>Add a ryokan night:</strong> Replace one hotel night in Hakone or Kyoto with a traditional ryokan experience (¥15,000–40,000/person including kaiseki dinner and breakfast).</li>
+            <li><strong>Slow it down:</strong> Cut Osaka to 1 day and add an extra day in Kyoto or a second day trip (Mt. Koya for temple lodging, or Himeji Castle — Japan's most spectacular original castle, 45 minutes from Osaka by shinkansen).</li>
+            <li><strong>Skip the day trip:</strong> If you want more Tokyo time, drop Day 4's day trip and explore Tsukiji Outer Market, Odaiba, Shimokitazawa, or Yanaka — Tokyo's old-town neighborhood.</li>
+        </ul>
 
-    <p>This 10-day Japan itinerary works as a template, but the best trip is one tailored to your pace, interests, and budget. Some common modifications:</p>
+        <h3>Packing Quick List</h3>
+        <ul>
+            <li><strong>Comfortable walking shoes</strong> — you'll walk 15,000–25,000 steps per day</li>
+            <li><strong>Portable battery pack</strong> — for your phone (your lifeline for navigation)</li>
+            <li><strong>Small towel</strong> — many public restrooms don't have hand dryers or paper towels</li>
+            <li><strong>Light rain jacket or umbrella</strong> — weather shifts quickly, especially in spring/fall</li>
+            <li><strong>Slip-on shoes</strong> — you'll be removing shoes frequently at temples and restaurants</li>
+            <li><strong>Universal power adapter</strong> — Japan uses Type A plugs (same as US). European/UK travelers need an adapter.</li>
+        </ul>
+    </div>
 
-    <ul>
-        <li><strong>Swap Osaka for Hiroshima + Miyajima Island</strong> (Day 9): Take the shinkansen from Kyoto (80 minutes). Visit the Peace Memorial Museum, then ferry to Miyajima Island for the floating torii gate.</li>
-        <li><strong>Add a ryokan night:</strong> Replace one hotel night in Hakone or Kyoto with a traditional ryokan experience (¥15,000–40,000/person including kaiseki dinner and breakfast).</li>
-        <li><strong>Slow it down:</strong> Cut Osaka to 1 day and add an extra day in Kyoto or a second day trip (Mt. Koya for temple lodging, or Himeji Castle — Japan's most spectacular original castle, 45 minutes from Osaka by shinkansen).</li>
-        <li><strong>Skip the day trip:</strong> If you want more Tokyo time, drop Day 4's day trip and explore Tsukiji Outer Market, Odaiba, Shimokitazawa, or Yanaka — Tokyo's old-town neighborhood.</li>
-    </ul>
+    <!-- BUDGET -->
+    <div class="day" id="budget" style="border-top-color: var(--terracotta);">
+        <h2>💰 10-Day Budget Breakdown</h2>
+        <p>Realistic per-person daily breakdown. Japan is more affordable than most first-timers expect, especially for food.</p>
 
-    <!-- PACKING -->
-    <h2>Packing Quick List for Japan</h2>
-    <ul>
-        <li><strong>Comfortable walking shoes</strong> — you'll walk 15,000–25,000 steps per day</li>
-        <li><strong>Portable battery pack</strong> — for your phone (your lifeline for navigation)</li>
-        <li><strong>Small towel</strong> — many public restrooms don't have hand dryers or paper towels</li>
-        <li><strong>Light rain jacket or umbrella</strong> — weather shifts quickly, especially in spring/fall</li>
-        <li><strong>Slip-on shoes</strong> — you'll be removing shoes frequently at temples and restaurants</li>
-        <li><strong>Universal power adapter</strong> — Japan uses Type A plugs (same as US). European/UK travelers need an adapter.</li>
-    </ul>
+        <table class="budget-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Budget</th>
+                    <th>Mid-Range</th>
+                    <th>Comfort</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🏨 Accommodation</td>
+                    <td>¥4,000–7,000 ($27–47)</td>
+                    <td>¥10,000–18,000 ($67–120)</td>
+                    <td>¥20,000–40,000 ($133–267)</td>
+                </tr>
+                <tr>
+                    <td>🍽️ Food</td>
+                    <td>¥3,000–4,500 ($20–30)</td>
+                    <td>¥5,000–8,000 ($33–53)</td>
+                    <td>¥10,000–20,000 ($67–133)</td>
+                </tr>
+                <tr>
+                    <td>🚆 Transport</td>
+                    <td>¥1,000–2,000 ($7–13)</td>
+                    <td>¥2,000–3,500 ($13–23)</td>
+                    <td>¥3,500–5,000 ($23–33)</td>
+                </tr>
+                <tr>
+                    <td>🎟️ Activities</td>
+                    <td>¥500–1,000 ($3–7)</td>
+                    <td>¥1,500–3,000 ($10–20)</td>
+                    <td>¥3,000–8,000 ($20–53)</td>
+                </tr>
+                <tr>
+                    <td><strong>Daily Total</strong></td>
+                    <td><strong>¥8,500–14,500 ($57–97)</strong></td>
+                    <td><strong>¥18,500–32,500 ($123–217)</strong></td>
+                    <td><strong>¥36,500–73,000 ($243–487)</strong></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <!-- CTA -->
-    <div class="cta-box">
-        <h3>Want a Personalized Version?</h3>
-        <p>tabiji.ai builds custom Japan itineraries backed by real traveler intel from Reddit and local sources — tailored to your dates, budget, and interests.</p>
-        <a href="/plan">Get Your Custom Itinerary — $1</a>
+        <p><strong>10-day trip total (excluding flights and JR Pass):</strong></p>
+        <ul>
+            <li><strong>Budget:</strong> ¥85,000–145,000 ($570–970)</li>
+            <li><strong>Mid-range:</strong> ¥185,000–325,000 ($1,230–2,170)</li>
+            <li><strong>Comfort:</strong> ¥365,000–730,000 ($2,430–4,870)</li>
+        </ul>
+
+        <div class="tip">A bowl of ramen costs ¥800–1,200, conveyor belt sushi is ¥1,000–2,000, and convenience store onigiri are ¥120–180 each. You can eat incredibly well on a budget in Japan.</div>
     </div>
 
     <!-- FAQ -->
-    <h2>Frequently Asked Questions</h2>
+    <div class="faq-section" id="faq">
+        <h2>❓ Frequently Asked Questions</h2>
 
-    <div class="faq-item">
-        <h3>Is 10 days enough for Japan?</h3>
-        <p>Ten days is the sweet spot for a first trip. You can comfortably cover Tokyo, Kyoto, and Osaka — Japan's three essential cities — plus day trips. Two weeks would let you add Hiroshima, Hakone, and a slower pace, but 10 days gives you a comprehensive introduction without feeling rushed.</p>
+        <div class="faq-item">
+            <h3>Is 10 days enough for Japan?</h3>
+            <p>Ten days is the sweet spot for a first trip. You can comfortably cover Tokyo, Kyoto, and Osaka — Japan's three essential cities — plus day trips. Two weeks would let you add Hiroshima, Hakone, and a slower pace, but 10 days gives you a comprehensive introduction without feeling rushed.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How much does a 10-day trip to Japan cost?</h3>
+            <p>For a mid-range traveler, budget approximately $2,500–3,500 per person including flights, accommodation, food, transport, and activities. Budget travelers can do it for $1,500–2,000 (hostels, convenience store meals, limited activities). Luxury travelers should budget $5,000–8,000+. See the detailed budget breakdown above.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Do I need to speak Japanese?</h3>
+            <p>No. Major cities have English signage at train stations, and most tourist-facing businesses have English menus or picture menus. Google Translate's camera feature handles the rest. That said, learning basic greetings goes a long way — Japanese people deeply appreciate the effort.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Should I book a guided tour or go independently?</h3>
+            <p>Japan is one of the easiest countries to travel independently. Trains run on time to the second, signage is clear, and the country is extremely safe. Self-guided travel gives you flexibility and saves money. Consider a guided experience for specific activities (tea ceremony, cooking class, sake brewery tour) rather than a full guided trip.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What's the best area to stay in Tokyo?</h3>
+            <p><strong>Shibuya</strong> and <strong>Shinjuku</strong> are the most popular bases — central, well-connected by train, and surrounded by restaurants and nightlife. <strong>Asakusa</strong> is quieter and more traditional, with easy access to Senso-ji. <strong>Tokyo Station area</strong> is ideal if you prioritize shinkansen access for day trips.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Can I use credit cards in Japan?</h3>
+            <p>Yes, increasingly so. Visa and Mastercard are widely accepted in Tokyo and Osaka at restaurants, shops, and hotels. Kyoto's smaller establishments and temples often require cash. Carry ¥10,000–20,000 as backup. 7-Eleven and Japan Post ATMs accept international cards for withdrawals.</p>
+        </div>
     </div>
 
-    <div class="faq-item">
-        <h3>How much does a 10-day trip to Japan cost?</h3>
-        <p>For a mid-range traveler, budget approximately $2,500–3,500 per person including flights, accommodation, food, transport, and activities. Budget travelers can do it for $1,500–2,000 (hostels, convenience store meals, limited activities). Luxury travelers should budget $5,000–8,000+. See the detailed budget breakdown above.</p>
-    </div>
+    <p style="margin-top: 3rem; font-size: 0.9rem; color: var(--text-muted); font-style: italic;">This itinerary was researched and built by <a href="/" style="color:var(--terracotta)">tabiji.ai</a>, which creates personalized Japan travel itineraries from real traveler data. Get your own custom itinerary — tailored to your dates, budget, and interests — for <a href="/plan" style="color:var(--terracotta)">$1 at tabiji.ai</a>.</p>
 
-    <div class="faq-item">
-        <h3>Do I need to speak Japanese?</h3>
-        <p>No. Major cities have English signage at train stations, and most tourist-facing businesses have English menus or picture menus. Google Translate's camera feature handles the rest. That said, learning basic greetings goes a long way — Japanese people deeply appreciate the effort.</p>
-    </div>
+</div><!-- /content -->
+</div><!-- /content-wrapper -->
 
-    <div class="faq-item">
-        <h3>Should I book a guided tour or go independently?</h3>
-        <p>Japan is one of the easiest countries to travel independently. Trains run on time to the second, signage is clear, and the country is extremely safe. Self-guided travel gives you flexibility and saves money. Consider a guided experience for specific activities (tea ceremony, cooking class, sake brewery tour) rather than a full guided trip.</p>
-    </div>
+<!-- CTA -->
+<section class="final-cta">
+    <h2>Want an itinerary personalized to <em style="font-style:normal;color:var(--warm-cream);">you</em>?</h2>
+    <p>This itinerary covers the essentials, but your perfect Japan trip depends on your dates, budget, and interests. We build custom itineraries from the same Reddit-backed research — tailored to exactly what you want.</p>
+    <a href="/plan" class="cta-btn">Get Your Personalized Itinerary — $1</a>
+    <p class="sub">Delivered within 24 hours. 2 free revisions. 100% satisfaction guaranteed.</p>
+</section>
 
-    <div class="faq-item">
-        <h3>What's the best area to stay in Tokyo?</h3>
-        <p><strong>Shibuya</strong> and <strong>Shinjuku</strong> are the most popular bases — central, well-connected by train, and surrounded by restaurants and nightlife. <strong>Asakusa</strong> is quieter and more traditional, with easy access to Senso-ji. <strong>Tokyo Station area</strong> is ideal if you prioritize shinkansen access for day trips.</p>
-    </div>
-
-    <div class="faq-item">
-        <h3>Can I use credit cards in Japan?</h3>
-        <p>Yes, increasingly so. Visa and Mastercard are widely accepted in Tokyo and Osaka at restaurants, shops, and hotels. Kyoto's smaller establishments and temples often require cash. Carry ¥10,000–20,000 as backup. 7-Eleven and Japan Post ATMs accept international cards for withdrawals.</p>
-    </div>
-
-    <p style="margin-top: 3rem; font-size: 0.9rem; color: var(--text-muted); font-style: italic;">This itinerary was researched and built by <a href="/">tabiji.ai</a>, which creates personalized Japan travel itineraries from real traveler data. Get your own custom itinerary — tailored to your dates, budget, and interests — for <a href="/plan">$1 at tabiji.ai</a>.</p>
-
-</article>
-
+<!-- FOOTER -->
 <footer>
     <p>© 2026 tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step.</p>
 </footer>
@@ -778,6 +1155,33 @@
         { lat: 34.6624, lng: 135.5068, name: 'Kuromon Market', desc: 'Osaka\'s Kitchen — fresh seafood, wagyu skewers, uni' },
         { lat: 34.6466, lng: 135.3900, name: 'Kansai Airport (KIX)', desc: 'Nankai Rapi:t from Namba — 35 min' }
     ]);
+})();
+</script>
+
+<!-- Scroll spy for sidebar TOC -->
+<script>
+(function() {
+    var links = document.querySelectorAll('.toc-sidebar a[data-section]');
+    var sections = [];
+    links.forEach(function(link) {
+        var id = link.getAttribute('data-section');
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+    });
+    if (!sections.length) return;
+
+    function update() {
+        var scrollY = window.scrollY + 120;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+        }
+        links.forEach(function(l) { l.classList.remove('active'); });
+        current.link.classList.add('active');
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
 })();
 </script>
 </body>
