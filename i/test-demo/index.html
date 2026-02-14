@@ -291,6 +291,12 @@
             .day-map { height: 350px; }
         }
     
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
 .hamburger {
     display: none;
     background: none;
@@ -301,7 +307,13 @@
 }
 
 @media (max-width: 768px) {
-    .hamburger { display: block; }
+    .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.hamburger { display: block; }
     .nav-links {
         display: none;
         position: absolute;
@@ -374,7 +386,7 @@
 <nav>
     <a href="/" class="logo">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links" style="display:flex;gap:1.5rem;align-items:center;">
+    <div class="nav-links">
         <a href="/destinations/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Destinations</a>
         <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Itineraries</a>
         <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
@@ -553,9 +565,23 @@
                 title: p.name
             });
             bounds.extend(pos);
+            var ratingHtml = '';
+            if (p.rating) {
+                var fullStars = Math.floor(p.rating);
+                var halfStar = (p.rating % 1) >= 0.3;
+                var stars = '★'.repeat(fullStars) + (halfStar ? '½' : '');
+                ratingHtml = '<div style="margin:0.25rem 0;color:#F4B400;font-size:0.8rem;">' + stars + ' <span style="color:#666;">' + p.rating + (p.reviews ? ' (' + p.reviews.toLocaleString() + ' reviews)' : '') + '</span></div>';
+            }
+            var linkHtml = '';
+            if (p.mapsUrl) {
+                linkHtml = '<a href="' + p.mapsUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            } else {
+                linkHtml = '<a href="https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:#1a73e8;text-decoration:none;">View on Google Maps →</a>';
+            }
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
                 '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
-                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong>' + ratingHtml +
+                '<div style="margin:0.15rem 0 0.3rem;">' + p.desc + '</div>' + linkHtml + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);
