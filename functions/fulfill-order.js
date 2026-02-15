@@ -13,6 +13,23 @@ const REPO_ROOT = path.resolve(__dirname, '..');
  * @returns {Object} { slug, url, filePath }
  */
 function fulfillOrder(order, itineraryData) {
+  // Validate: every day MUST have mapPins with lat/lng
+  if (itineraryData.days && itineraryData.days.length) {
+    const missingMaps = itineraryData.days.filter(d => !d.mapPins || !d.mapPins.length);
+    if (missingMaps.length) {
+      const nums = missingMaps.map(d => d.num).join(', ');
+      throw new Error(`VALIDATION FAILED: Days [${nums}] are missing mapPins. Every day MUST have at least 2 mapPins with {lat, lng, label, num, cat, desc}. Regenerate the itinerary data with mapPins for ALL days.`);
+    }
+    // Validate each pin has required fields
+    for (const day of itineraryData.days) {
+      for (const pin of day.mapPins) {
+        if (typeof pin.lat !== 'number' || typeof pin.lng !== 'number' || !pin.label) {
+          throw new Error(`VALIDATION FAILED: Day ${day.num} has invalid mapPin. Each pin needs: {lat: number, lng: number, label: string, num: number, cat: string, desc: string}`);
+        }
+      }
+    }
+  }
+
   // Generate unique slug
   const slug = generateSlug(REPO_ROOT);
 
