@@ -3,72 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 8787;
-const OPENCLAW_PORT = 18789;
-const HOOKS_TOKEN = process.env.OPENCLAW_HOOKS_TOKEN || '';
 const ORDERS_DIR = path.join(__dirname, 'orders');
 const PENDING_FILE = path.join(ORDERS_DIR, 'pending.json');
-
-// Helper: POST to OpenClaw hooks API
-function postToOpenClaw(endpoint, payload, label) {
-  const data = JSON.stringify(payload);
-  const req = http.request({
-    hostname: '127.0.0.1',
-    port: OPENCLAW_PORT,
-    path: `/hooks/${endpoint}`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(data),
-      'Authorization': `Bearer ${HOOKS_TOKEN}`,
-    },
-  }, (res) => {
-    let body = '';
-    res.on('data', c => body += c);
-    res.on('end', () => console.log(`${label} [${res.statusCode}]:`, body));
-  });
-  req.on('error', (err) => console.error(`${label} failed:`, err.message));
-  req.write(data);
-  req.end();
-}
-
-// Notify #tabiji Slack channel about new order
-function notifySlack(order) {
-  const lines = [
-    `🎌 *New Itinerary Request!*`,
-    `• *Destination:* ${order.destination}`,
-    `• *Dates:* ${order.start_date} → ${order.end_date}`,
-    `• *Group:* ${order.group_size}`,
-    `• *Email:* ${order.email}`,
-  ];
-  if (order.travel_style) lines.push(`• *Style:* ${order.travel_style}`);
-  if (order.dining) lines.push(`• *Dining:* ${order.dining}`);
-  if (order.budget) lines.push(`• *Budget:* ${order.budget}`);
-  if (order.requests) lines.push(`• *Requests:* ${order.requests}`);
-  lines.push(`• *Order ID:* \`${order.id}\``);
-
-  // Use wake event to notify main session, which will handle Slack + fulfillment
-  // The wake text includes all order details so the agent can act on it
-}
-
-// Wake OpenClaw to fulfill the order
-function triggerFulfillment(order) {
-  const wakeText = [
-    `New tabiji.ai itinerary order received!`,
-    `Customer: ${order.email}`,
-    `Destination: ${order.destination}`,
-    `Dates: ${order.start_date} to ${order.end_date}`,
-    `Group size: ${order.group_size}`,
-    order.travel_style ? `Travel style: ${order.travel_style}` : '',
-    order.dining ? `Dining: ${order.dining}` : '',
-    order.budget ? `Budget: ${order.budget}` : '',
-    order.requests ? `Special requests: ${order.requests}` : '',
-    `Order ID: ${order.id}`,
-    ``,
-    `Fulfill this order: spawn a sub-agent to research, generate the itinerary, publish to /i/ (slug format: /i/xxxx-xxxx, both words 4 letters), email the customer, and update pending.json.`,
-  ].filter(Boolean).join('\n');
-
-  postToOpenClaw('wake', { text: wakeText, mode: 'now' }, 'Wake event');
-}
 
 // Save order to pending.json
 function saveOrder(order) {
@@ -114,7 +50,6 @@ const server = http.createServer((req, res) => {
 
         saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount})`);
-        triggerFulfillment(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ received: true, order_id: session.id }));
@@ -151,9 +86,24 @@ const server = http.createServer((req, res) => {
           status: 'pending'
         };
 
+        // Dedup: skip if same email+destination already pending
+        let existing = [];
+        try { existing = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8')); } catch {}
+        const isDupe = existing.some(o =>
+          o.email === order.email &&
+          o.destination === order.destination &&
+          o.start_date === order.start_date &&
+          o.status === 'pending'
+        );
+        if (isDupe) {
+          console.log(`⚠️ DUPLICATE ORDER skipped: ${order.destination} for ${order.email}`);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: true, duplicate: true }));
+          return;
+        }
+
         saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} (free)`);
-        triggerFulfillment(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true, order_id: order.id }));
