@@ -89,7 +89,7 @@ function generateItineraryHTML(data) {
 
 ${timeBlocksHTML}
 
-        <div id="map-day${day.num}" class="day-map"></div>
+        ${(day.mapPins && day.mapPins.length) ? `<div id="map-day${day.num}" class="day-map"></div>` : '<!-- no map pins for this day -->'}
     </div>`;
   }).join('\n');
 
