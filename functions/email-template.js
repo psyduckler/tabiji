@@ -28,8 +28,6 @@ View it here: ${url}
 
   body += `Bookmark it, share it, or pull it up on your phone during your trip — it's yours forever.
 
-Need changes? Just reply to this email. You get 2 free revisions — we'll update restaurants, swap neighborhoods, adjust the pace, whatever you need.
-
 Have an amazing trip! 🌍
 
 — tabiji.ai
