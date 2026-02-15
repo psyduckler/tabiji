@@ -14,9 +14,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <title>Travel Itineraries — Day-by-Day Guides from Real Traveler Intel | tabiji.ai</title>
-    <meta name="description" content="Free detailed travel itineraries built from thousands of real Reddit reviews and traveler experiences. Day-by-day guides with budgets, logistics, and insider tips.">
+    <meta name="description" content="23 free detailed travel itineraries built from thousands of real Reddit reviews and traveler experiences. Day-by-day guides with budgets, logistics, and insider tips for Japan, Italy, Thailand, Bali, and more.">
     <meta property="og:title" content="Travel Itineraries — tabiji.ai">
-    <meta property="og:description" content="Detailed day-by-day travel itineraries built from real traveler intel.">
+    <meta property="og:description" content="23 detailed day-by-day travel itineraries built from real traveler intel.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/itineraries/">
     <link rel="canonical" href="https://tabiji.ai/itineraries/">
@@ -72,18 +72,49 @@
         }
         .hero p {
             font-size: 1.15rem; color: var(--text-muted);
-            max-width: 580px; margin: 0 auto 3rem;
+            max-width: 580px; margin: 0 auto 1.5rem;
+        }
+        .hero .count {
+            display: inline-block;
+            background: var(--sand); color: var(--earth);
+            padding: 0.3rem 1rem; border-radius: 100px;
+            font-size: 0.9rem; font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        .filter-bar {
+            max-width: 800px; margin: 0 auto;
+            padding: 0 2rem 2rem;
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            justify-content: center;
+        }
+        .filter-btn {
+            background: var(--white); border: 1px solid var(--sand);
+            padding: 0.4rem 1rem; border-radius: 100px;
+            font-size: 0.85rem; color: var(--text-muted);
+            cursor: pointer; transition: all 0.15s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--indigo); color: white; border-color: var(--indigo);
+        }
+        .region-section {
+            max-width: 800px; margin: 0 auto;
+            padding: 0 2rem 1rem;
+        }
+        .region-title {
+            font-size: 1.4rem; font-weight: 700;
+            color: var(--indigo); margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--sand);
         }
         .itinerary-grid {
-            max-width: 800px; margin: 0 auto;
-            padding: 0 2rem 5rem;
-            display: grid; gap: 1.5rem;
+            display: grid; gap: 1rem;
+            margin-bottom: 1rem;
         }
         .itinerary-card {
             background: var(--white);
             border: 1px solid var(--sand);
             border-radius: 14px;
-            padding: 2rem;
+            padding: 1.75rem;
             text-decoration: none;
             color: inherit;
             transition: transform 0.15s, box-shadow 0.15s;
@@ -96,77 +127,73 @@
         .card-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
-            padding: 0.25rem 0.75rem; border-radius: 100px;
-            font-size: 0.8rem; font-weight: 500;
-            margin-bottom: 0.75rem;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 500;
+            margin-bottom: 0.6rem;
         }
         .itinerary-card h2 {
-            font-size: 1.3rem; font-weight: 700;
-            color: var(--indigo); margin-bottom: 0.5rem;
+            font-size: 1.2rem; font-weight: 700;
+            color: var(--indigo); margin-bottom: 0.4rem;
         }
         .itinerary-card p {
-            font-size: 0.95rem; color: var(--text-muted);
+            font-size: 0.92rem; color: var(--text-muted);
         }
         .card-meta {
-            margin-top: 1rem;
-            font-size: 0.85rem; color: var(--earth);
-            display: flex; gap: 1.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.82rem; color: var(--earth);
+            display: flex; gap: 1.25rem; flex-wrap: wrap;
         }
+        .cta-section {
+            max-width: 800px; margin: 2rem auto 0;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 1.6rem; font-weight: 700;
+            color: var(--indigo); margin-bottom: 0.75rem;
+        }
+        .cta-section p {
+            color: var(--text-muted); margin-bottom: 1.5rem;
+        }
+        .cta-section a {
+            display: inline-block;
+            background: var(--terracotta); color: white;
+            padding: 0.75rem 2rem; border-radius: 10px;
+            text-decoration: none; font-weight: 600;
+            transition: background 0.2s;
+        }
+        .cta-section a:hover { background: #b5633f; }
         footer {
             padding: 3rem 2rem; text-align: center;
             border-top: 1px solid var(--sand);
             color: var(--text-muted); font-size: 0.85rem;
         }
+        .nav-links {
+            display: flex; gap: 1.5rem; align-items: center;
+        }
+        .hamburger {
+            display: none; background: none; border: none;
+            font-size: 1.5rem; color: var(--indigo); cursor: pointer;
+        }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6.5rem 1.5rem 3rem; }
-            .itinerary-grid { padding: 0 1.5rem 3.5rem; }
+            .region-section { padding: 0 1.5rem 1rem; }
+            .filter-bar { padding: 0 1.5rem 1.5rem; }
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: rgba(254, 252, 249, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--sand);
+                padding: 1rem 1.5rem;
+                flex-direction: column; gap: 1rem;
+            }
+            .nav-links.open { display: flex; }
+            nav a.cta-nav { text-align: center; }
         }
-    
-.nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--indigo);
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.hamburger { display: block; }
-    .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(254, 252, 249, 0.98);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--sand);
-        padding: 1rem 1.5rem;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    .nav-links.open {
-        display: flex;
-    }
-    nav a.cta-nav {
-        text-align: center;
-    }
-}
-</style>
+    </style>
 </head>
 <body>
 
@@ -185,21 +212,252 @@
 
 <section class="hero">
     <h1>Travel Itineraries</h1>
-    <p>Detailed day-by-day guides built from real traveler intel. Budgets, logistics, and insider tips included — no fluff.</p>
+    <p>Detailed day-by-day guides built from real traveler intel. Budgets, logistics, and insider tips — no fluff.</p>
+    <div class="count">23 free itineraries and counting</div>
 </section>
 
-<div class="itinerary-grid">
-    <a href="/itineraries/10-day-japan-first-time/" class="itinerary-card">
-        <span class="card-badge">🇯🇵 Japan</span>
-        <h2>10 Day Japan Itinerary for First-Time Visitors (2026)</h2>
-        <p>The complete Golden Route: Tokyo, Hakone, Kyoto, Nara, and Osaka — with day-by-day breakdowns, budget estimates, JR Pass advice, and tips from thousands of real traveler reports.</p>
-        <div class="card-meta">
-            <span>📅 10 Days</span>
-            <span>💰 From $570</span>
-            <span>⭐ First-Timers</span>
-        </div>
-    </a>
+<!-- Japan -->
+<div class="region-section">
+    <h2 class="region-title">🇯🇵 Japan</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-japan-first-time/" class="itinerary-card">
+            <span class="card-badge">First-Timers</span>
+            <h2>10 Day Japan Itinerary for First-Time Visitors</h2>
+            <p>The complete Golden Route: Tokyo, Hakone, Kyoto, Nara, and Osaka — with day-by-day breakdowns, budget estimates, and JR Pass advice.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+        </a>
+        <a href="/itineraries/7-day-japan-cherry-blossom/" class="itinerary-card">
+            <span class="card-badge">Seasonal</span>
+            <h2>7 Day Japan Cherry Blossom Itinerary (Spring 2026)</h2>
+            <p>Tokyo and Kyoto hanami spots, sakura forecasts, bloom timing, and day-by-day planning for the perfect spring trip.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🌸 Spring</span></div>
+        </a>
+        <a href="/itineraries/14-day-japan-family/" class="itinerary-card">
+            <span class="card-badge">Family</span>
+            <h2>14 Day Japan Family Adventure</h2>
+            <p>Tokyo Disney, Universal Studios Osaka, Nara deer park, kid-friendly activities, stroller tips, and budget advice for families.</p>
+            <div class="card-meta"><span>📅 14 Days</span><span>👨‍👩‍👧 Family</span></div>
+        </a>
+        <a href="/itineraries/5-day-tokyo-food-nightlife/" class="itinerary-card">
+            <span class="card-badge">Couples</span>
+            <h2>5 Day Tokyo Food & Nightlife Guide</h2>
+            <p>Tsukiji, ramen districts, izakayas, Golden Gai, Shibuya nightlife, craft cocktails, and hidden gems for food lovers.</p>
+            <div class="card-meta"><span>📅 5 Days</span><span>🍜 Food & Nightlife</span></div>
+        </a>
+    </div>
 </div>
+
+<!-- Italy -->
+<div class="region-section">
+    <h2 class="region-title">🇮🇹 Italy</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-italy-first-time/" class="itinerary-card">
+            <span class="card-badge">First-Timers</span>
+            <h2>10 Day Italy Itinerary for First-Time Visitors</h2>
+            <p>Rome, Florence, and the Amalfi Coast day-by-day with train tips, budget breakdowns, and real traveler advice.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+        </a>
+        <a href="/itineraries/7-day-rome-southern-italy/" class="itinerary-card">
+            <span class="card-badge">Food Tour</span>
+            <h2>7 Day Rome & Southern Italy Food Tour</h2>
+            <p>Trastevere, Testaccio, Naples pizza, Pompeii, and the Amalfi Coast — day-by-day with restaurant picks and real prices.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🍝 Food Tour</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Thailand -->
+<div class="region-section">
+    <h2 class="region-title">🇹🇭 Thailand</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-thailand-first-time/" class="itinerary-card">
+            <span class="card-badge">First-Timers</span>
+            <h2>10 Day Thailand Itinerary for First-Time Visitors</h2>
+            <p>Bangkok, Chiang Mai, and Southern Islands day-by-day with budget breakdowns, scam warnings, and insider tips.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+        </a>
+        <a href="/itineraries/7-day-bangkok-beach/" class="itinerary-card">
+            <span class="card-badge">Beach</span>
+            <h2>7 Day Bangkok & Beach Combo</h2>
+            <p>3 days of temples, markets, and street food + 4 days on Railay Beach. All for $30-50/day with real budget tips.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🏖️ Beach</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Bali -->
+<div class="region-section">
+    <h2 class="region-title">🇮🇩 Bali</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-bali-wellness/" class="itinerary-card">
+            <span class="card-badge">Wellness</span>
+            <h2>10 Day Bali Wellness & Culture Retreat</h2>
+            <p>Ubud yoga and rice terraces, Canggu surf and beach clubs, Uluwatu cliff temples — day-by-day with budgets and real tips.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>🧘 Wellness</span></div>
+        </a>
+        <a href="/itineraries/7-day-bali-adventure/" class="itinerary-card">
+            <span class="card-badge">Adventure</span>
+            <h2>7 Day Bali Adventure Itinerary</h2>
+            <p>Mt Batur sunrise trek, white water rafting, surfing lessons, rice terraces, waterfall chasing, and Nusa Penida day trip.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🏔️ Adventure</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- France -->
+<div class="region-section">
+    <h2 class="region-title">🇫🇷 France</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/5-day-paris-romantic/" class="itinerary-card">
+            <span class="card-badge">Couples</span>
+            <h2>5 Day Paris Romantic Getaway</h2>
+            <p>Eiffel Tower, Seine cruise, Montmartre, wine bars, Versailles day trip, and the best patisseries for couples.</p>
+            <div class="card-meta"><span>📅 5 Days</span><span>💕 Romantic</span></div>
+        </a>
+        <a href="/itineraries/7-day-paris-countryside/" class="itinerary-card">
+            <span class="card-badge">Family</span>
+            <h2>7 Day Paris & French Countryside Family Trip</h2>
+            <p>4 days in Paris + 3 days exploring Loire Valley châteaux and Normandy. Kid-friendly with budget breakdowns.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Spain -->
+<div class="region-section">
+    <h2 class="region-title">🇪🇸 Spain</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/4-day-barcelona-solo/" class="itinerary-card">
+            <span class="card-badge">Solo</span>
+            <h2>4 Day Barcelona Long Weekend</h2>
+            <p>Gothic Quarter, El Born, tapas crawl, Montjuïc, and nightlife — an efficient day-by-day route for solo travelers.</p>
+            <div class="card-meta"><span>📅 4 Days</span><span>🎒 Solo</span></div>
+        </a>
+        <a href="/itineraries/7-day-barcelona-costa-brava/" class="itinerary-card">
+            <span class="card-badge">Family</span>
+            <h2>7 Day Barcelona & Costa Brava Family Trip</h2>
+            <p>Sagrada Familia, Park Güell, beach days, Tossa de Mar, and kid-friendly restaurants — all planned for families.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Greece -->
+<div class="region-section">
+    <h2 class="region-title">🇬🇷 Greece</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-greek-island-hopping/" class="itinerary-card">
+            <span class="card-badge">Island Hopping</span>
+            <h2>10 Day Greek Island Hopping Itinerary</h2>
+            <p>Athens → Mykonos → Paros → Santorini with ferry logistics, beach guides, sunset spots, and real tavern picks.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>⛴️ Island Hopping</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Portugal -->
+<div class="region-section">
+    <h2 class="region-title">🇵🇹 Portugal</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/10-day-portugal-road-trip/" class="itinerary-card">
+            <span class="card-badge">Road Trip</span>
+            <h2>10 Day Portugal Road Trip</h2>
+            <p>Lisbon, Sintra, Porto, Douro Valley, and the Algarve coast — day-by-day with driving tips, toll advice, and local picks.</p>
+            <div class="card-meta"><span>📅 10 Days</span><span>🚗 Road Trip</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- UK -->
+<div class="region-section">
+    <h2 class="region-title">🇬🇧 United Kingdom</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/5-day-london-first-time/" class="itinerary-card">
+            <span class="card-badge">First-Timers</span>
+            <h2>5 Day London Itinerary for First-Time Visitors</h2>
+            <p>Free museums, Borough Market, Camden, day trip to Bath & Stonehenge. Budget breakdowns and Oyster card tips.</p>
+            <div class="card-meta"><span>📅 5 Days</span><span>⭐ First-Timers</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Vietnam -->
+<div class="region-section">
+    <h2 class="region-title">🇻🇳 Vietnam</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/14-day-vietnam-north-south/" class="itinerary-card">
+            <span class="card-badge">Epic Trip</span>
+            <h2>14 Day Vietnam North to South</h2>
+            <p>Hanoi to Ho Chi Minh City: street food, Ha Long Bay, Hue, Hoi An, Cu Chi tunnels — day-by-day with real prices and transport tips.</p>
+            <div class="card-meta"><span>📅 14 Days</span><span>🛵 North to South</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Colombia -->
+<div class="region-section">
+    <h2 class="region-title">🇨🇴 Colombia</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/7-day-colombia-adventure/" class="itinerary-card">
+            <span class="card-badge">Adventure</span>
+            <h2>7 Day Colombia: Bogotá to Cartagena Adventure</h2>
+            <p>Bogotá, Coffee Region, and Cartagena day-by-day with budget breakdowns, safety tips, and insider advice.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🌴 Adventure</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Costa Rica -->
+<div class="region-section">
+    <h2 class="region-title">🇨🇷 Costa Rica</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/7-day-costa-rica-eco/" class="itinerary-card">
+            <span class="card-badge">Eco-Adventure</span>
+            <h2>7 Day Costa Rica Eco-Adventure</h2>
+            <p>San José, Arenal, and Manuel Antonio day-by-day with budget breakdowns, 4x4 rental tips, and family-friendly advice.</p>
+            <div class="card-meta"><span>📅 7 Days</span><span>🌿 Eco-Adventure</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- Mexico -->
+<div class="region-section">
+    <h2 class="region-title">🇲🇽 Mexico</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/5-day-mexico-city-food-art/" class="itinerary-card">
+            <span class="card-badge">Food & Art</span>
+            <h2>5 Day Mexico City Art & Food Guide</h2>
+            <p>Roma & Condesa, Frida Kahlo museum, lucha libre, mezcal bars, and the best street food markets for couples.</p>
+            <div class="card-meta"><span>📅 5 Days</span><span>🎨 Art & Food</span></div>
+        </a>
+        <a href="/itineraries/cdmx-may-2026/" class="itinerary-card">
+            <span class="card-badge">Custom</span>
+            <h2>5 Day Mexico City Itinerary</h2>
+            <p>A personalized Mexico City itinerary packed with foodie experiences, adventure day trips, and relaxation spots.</p>
+            <div class="card-meta"><span>📅 5 Days</span><span>🌮 Custom</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- USA -->
+<div class="region-section">
+    <h2 class="region-title">🇺🇸 United States</h2>
+    <div class="itinerary-grid">
+        <a href="/itineraries/3-day-austin-sxsw-solo/" class="itinerary-card">
+            <span class="card-badge">Solo</span>
+            <h2>3-Day Austin SXSW Solo Itinerary</h2>
+            <p>Best BBQ joints, live music venues, free unofficial shows, and nightlife on 6th St & Rainey St. Reddit-sourced tips.</p>
+            <div class="card-meta"><span>📅 3 Days</span><span>🎸 SXSW</span></div>
+        </a>
+    </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Want a custom itinerary?</h2>
+    <p>Tell us where you're going, how long, and what you're into. We'll build you a personalized day-by-day plan — free.</p>
+    <a href="/plan">Get Your Free Custom Itinerary →</a>
+</section>
 
 <footer>
     <p>© 2026 tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step.</p>
