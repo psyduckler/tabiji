@@ -39,6 +39,32 @@ function fulfillOrder(order, itineraryData) {
   }
 
   const url = `https://tabiji.ai/i/${slug}/`;
+
+  // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
+  if (order.email) {
+    const generateEmailText = require('./email-template');
+    const emailBody = generateEmailText({
+      customerName: order.customerName || order.name,
+      destination: data.destination,
+      url,
+      duration: data.duration,
+      highlights: data.highlights,
+    });
+
+    const sendScript = path.join(__dirname, 'send-email.sh');
+    const subject = `Your ${data.destination || ''} Itinerary is Ready!`.trim();
+    try {
+      const result = execSync(
+        `bash "${sendScript}" --to "${order.email}" --subject "${subject}" --body "${emailBody.replace(/"/g, '\\"')}"`,
+        { cwd: REPO_ROOT, stdio: 'pipe' }
+      );
+      console.log('Email sent:', result.toString());
+    } catch (err) {
+      console.error('Email send failed:', err.message);
+      console.error('⚠️ Itinerary is live at', url, '— send email manually via send-email.sh');
+    }
+  }
+
   return { slug, url, filePath };
 }
 
