@@ -20,6 +20,7 @@ View it here: ${url}
 
 `;
 
+  if (highlights && typeof highlights === 'string') highlights = highlights.split(/[,;•\n]/).map(s => s.trim()).filter(Boolean);
   if (highlights && highlights.length) {
     body += `What's inside:\n`;
     highlights.forEach(h => { body += `• ${h}\n`; });
