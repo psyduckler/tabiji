@@ -58,6 +58,7 @@ function fulfillOrder(order, itineraryData) {
   const url = `https://tabiji.ai/i/${slug}/`;
 
   // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
+  let emailSent = false;
   if (order.email) {
     const generateEmailText = require('./email-template');
     const emailBody = generateEmailText({
@@ -68,17 +69,25 @@ function fulfillOrder(order, itineraryData) {
       highlights: data.highlights,
     });
 
+    // Write body to temp file to avoid shell escaping issues with newlines/quotes
+    const tmpFile = path.join(REPO_ROOT, '.tmp-email-body.txt');
+    fs.writeFileSync(tmpFile, emailBody, 'utf8');
+
     const sendScript = path.join(__dirname, 'send-email.sh');
     const subject = `Your ${data.destination || ''} Itinerary is Ready!`.trim();
     try {
       const result = execSync(
-        `bash "${sendScript}" --to "${order.email}" --subject "${subject}" --body "${emailBody.replace(/"/g, '\\"')}"`,
+        `bash "${sendScript}" --to "${order.email}" --subject "${subject}" --body-file "${tmpFile}"`,
         { cwd: REPO_ROOT, stdio: 'pipe' }
       );
       console.log('Email sent:', result.toString());
+      emailSent = true;
     } catch (err) {
-      console.error('Email send failed:', err.message);
+      console.error('❌ EMAIL SEND FAILED:', err.message);
+      if (err.stderr) console.error('stderr:', err.stderr.toString());
       console.error('⚠️ Itinerary is live at', url, '— send email manually via send-email.sh');
+    } finally {
+      try { fs.unlinkSync(tmpFile); } catch (_) {}
     }
   }
 
@@ -101,7 +110,11 @@ function fulfillOrder(order, itineraryData) {
     console.error('Failed to update pending.json status:', err.message);
   }
 
-  return { slug, url, filePath };
+  if (!emailSent && order.email) {
+    console.error(`\n🚨 CRITICAL: Itinerary ${slug} deployed but email to ${order.email} FAILED. Send manually!\n`);
+  }
+
+  return { slug, url, filePath, emailSent };
 }
 
 module.exports = fulfillOrder;
