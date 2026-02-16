@@ -14,6 +14,34 @@ function saveOrder(order) {
   fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 }
 
+// Wake OpenClaw so it picks up the new order
+function wakeOpenClaw(order) {
+  const token = process.env.OPENCLAW_HOOKS_TOKEN;
+  if (!token) { console.log('⚠️ No OPENCLAW_HOOKS_TOKEN, skipping wake'); return; }
+  const payload = JSON.stringify({
+    text: `New tabiji order: ${order.destination} for ${order.email}. Check orders/pending.json and fulfill it.`
+  });
+  const opts = {
+    hostname: '127.0.0.1',
+    port: 18789,
+    path: '/hooks/wake',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'Content-Length': Buffer.byteLength(payload)
+    }
+  };
+  const req = http.request(opts, (res) => {
+    let body = '';
+    res.on('data', c => body += c);
+    res.on('end', () => console.log(`Wake event [${res.statusCode}]: ${body}`));
+  });
+  req.on('error', (err) => console.error('Wake error:', err.message));
+  req.write(payload);
+  req.end();
+}
+
 // Ensure orders directory exists
 if (!fs.existsSync(ORDERS_DIR)) fs.mkdirSync(ORDERS_DIR, { recursive: true });
 
@@ -50,6 +78,7 @@ const server = http.createServer((req, res) => {
 
         saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount})`);
+        wakeOpenClaw(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ received: true, order_id: session.id }));
@@ -104,6 +133,7 @@ const server = http.createServer((req, res) => {
 
         saveOrder(order);
         console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} (free)`);
+        wakeOpenClaw(order);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true, order_id: order.id }));
@@ -133,6 +163,43 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', () => {
-  console.log(`🎌 Tabiji webhook server running on http://127.0.0.1:${PORT}`);
+// Graceful shutdown — close server so port is released before exit
+function shutdown(signal) {
+  console.log(`🎌 Received ${signal}, shutting down gracefully...`);
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(1), 3000); // force exit after 3s
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+
+// Handle port conflict: kill stale process and retry
+const { execSync } = require('child_process');
+const MAX_RETRIES = 3;
+let retries = 0;
+
+function startServer() {
+  server.listen(PORT, '127.0.0.1', () => {
+    console.log(`🎌 Tabiji webhook server running on http://127.0.0.1:${PORT}`);
+  });
+}
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE' && retries < MAX_RETRIES) {
+    retries++;
+    console.log(`⚠️ Port ${PORT} in use (attempt ${retries}/${MAX_RETRIES}). Killing stale process...`);
+    try {
+      const output = execSync(`/usr/sbin/lsof -ti :${PORT}`).toString().trim();
+      const pids = output.split('\n').filter(p => p && Number(p) !== process.pid);
+      for (const pid of pids) {
+        console.log(`🔪 Killing stale PID ${pid}`);
+        try { process.kill(Number(pid), 'SIGTERM'); } catch {}
+      }
+    } catch {}
+    setTimeout(startServer, 2000);
+  } else {
+    console.error('❌ Fatal server error:', err.message);
+    process.exit(1);
+  }
 });
+
+startServer();
