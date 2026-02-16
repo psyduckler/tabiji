@@ -636,11 +636,13 @@ ${practicalHTML}
         park: '#e8f5e8', nightlife: '#f0e8fe', attraction: '#fef9e7', art: '#fce4ec'
     };
 
-    function makeSVGIcon(cat) {
+    function makeSVGIcon(cat, num) {
         var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
         var svg = 'data:image/svg+xml,' + encodeURIComponent(
             '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
             '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
             '</svg>'
         );
         return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
@@ -659,11 +661,12 @@ ${practicalHTML}
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
+            var num = (p.num != null) ? p.num : (i + 1);
             var marker = new google.maps.Marker({
                 position: pos, map: map,
-                icon: makeSVGIcon(p.cat),
+                icon: makeSVGIcon(p.cat, num),
                 title: p.name
             });
             bounds.extend(pos);
