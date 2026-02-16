@@ -131,34 +131,80 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
   }).join('\n');
 
   // Schema.org JSON-LD
+
+  // 1. Article
   const schemaArticle = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title + ': ' + subtitle,
     description: description,
-    author: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai" },
-    publisher: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai" },
+    author: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai", logo: "https://tabiji.ai/icon-192.png" },
+    publisher: { "@type": "Organization", name: "tabiji.ai", url: "https://tabiji.ai", logo: { "@type": "ImageObject", url: "https://tabiji.ai/icon-192.png" } },
     datePublished: today,
     dateModified: today,
     mainEntityOfPage: url
   }, null, 4);
 
+  // 2. TouristTrip with richer day+place data
   const schemaTourist = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "TouristTrip",
     name: title,
     description: description,
     touristType: ["Cultural Tourism", "Food Tourism", "Urban Tourism"],
+    ...(dates ? { startDate: dates.split('–')[0]?.trim(), endDate: (dates.split('–')[1] || dates.split('-')[1] || '').trim() } : {}),
     itinerary: {
       "@type": "ItemList",
       numberOfItems: days.length,
       itemListElement: days.map(d => ({
         "@type": "ListItem",
         position: d.num,
-        name: `Day ${d.num}: ${d.neighborhoods} — ${d.title}`
+        name: `Day ${d.num}: ${d.neighborhoods} — ${d.title}`,
+        item: {
+          "@type": "TouristTrip",
+          name: d.title,
+          description: d.description || '',
+          ...(d.mapPins && d.mapPins.length ? {
+            touristAttraction: d.mapPins.map(p => ({
+              "@type": "TouristAttraction",
+              name: p.label,
+              description: p.desc || p.label,
+              geo: { "@type": "GeoCoordinates", latitude: p.lat, longitude: p.lng }
+            }))
+          } : {})
+        }
       }))
     }
   }, null, 4);
+
+  // 3. BreadcrumbList
+  const schemaBreadcrumb = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://tabiji.ai/" },
+      { "@type": "ListItem", position: 2, name: "Itineraries", item: "https://tabiji.ai/itineraries/" },
+      { "@type": "ListItem", position: 3, name: title }
+    ]
+  }, null, 4);
+
+  // 4. FAQPage from practical info (if present)
+  let schemaFAQ = '';
+  if (practicalInfo.length) {
+    const faqItems = practicalInfo.map((section, i) => ({
+      "@type": "Question",
+      name: section.title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: section.items.map(item => item.replace(/<[^>]*>/g, '')).join(' ')
+      }
+    }));
+    schemaFAQ = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqItems
+    }, null, 4);
+  }
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -490,6 +536,12 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
     <script type="application/ld+json">
     ${schemaTourist}
     </script>
+    <script type="application/ld+json">
+    ${schemaBreadcrumb}
+    </script>
+    ${schemaFAQ ? `<script type="application/ld+json">
+    ${schemaFAQ}
+    </script>` : ''}
 </head>
 <body>
 
