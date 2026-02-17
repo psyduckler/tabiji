@@ -77,7 +77,7 @@ function fulfillOrder(order, itineraryData) {
   })();
 
   const seasonClause = seasonDesc ? ` During ${seasonDesc}.` : '';
-  const heroPrompt = `Anime-style illustrated landscape of ${destination}.${seasonClause} Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Horizontal 16:9 aspect ratio, serene and inviting mood.`;
+  const heroPrompt = `Anime-style illustrated landscape of ${destination}.${seasonClause} Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Wide horizontal composition, serene and inviting mood.`;
   try {
     const apiKey = execSync('security find-generic-password -s "nano-banana-pro" -w', { stdio: 'pipe' }).toString().trim();
     execSync(
