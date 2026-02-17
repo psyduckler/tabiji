@@ -250,7 +250,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { overflow-x: hidden; }
+        html, body { overflow-x: hidden; } .page-wrapper { overflow-x: hidden; width: 100%; max-width: 100vw; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6; overflow-wrap: break-word; word-wrap: break-word;
@@ -583,7 +583,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
     ${schemaFAQ}
     </script>` : ''}
 </head>
-<body>
+<body><div class="page-wrapper">
 
 <nav>
     <a href="/" class="logo">tabiji<span>.ai</span></a>
@@ -792,7 +792,7 @@ ${mapsJS}
     }
 })();
 </script>
-</body>
+</div></body>
 </html>`;
 }
 
