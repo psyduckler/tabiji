@@ -253,7 +253,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         html, body { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            color: var(--text); background: var(--white); line-height: 1.6;
+            color: var(--text); background: var(--white); line-height: 1.6; overflow-wrap: break-word; word-wrap: break-word;
             -webkit-font-smoothing: antialiased;
         }
         nav { overflow: hidden;
@@ -332,7 +332,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             max-width: 1100px; margin: 0 auto; padding: 0 2rem;
             display: flex; gap: 3rem; align-items: flex-start;
         }
-        .content { flex: 1; min-width: 0; max-width: 800px; }
+        .content { flex: 1; min-width: 0; max-width: 800px; overflow-x: hidden; }
         .toc-sidebar {
             width: 220px; flex-shrink: 0;
             position: sticky; top: 80px;
@@ -490,7 +490,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             display: block; margin-top: 0.4rem;
             font-style: normal; font-size: 0.8rem; color: var(--earth);
         }
-        .budget-table-wrapper {
+        .budget-table-wrapper { max-width: 100%;
             overflow-x: auto; -webkit-overflow-scrolling: touch;
             margin: 1.5rem 0;
         }
