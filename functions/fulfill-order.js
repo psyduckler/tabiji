@@ -48,7 +48,36 @@ function fulfillOrder(order, itineraryData) {
   // Generate hero background image via nano-banana-pro (Gemini image gen)
   const heroPath = path.join(dir, 'hero-bg.png');
   const destination = data.destination || 'a beautiful travel destination';
-  const heroPrompt = `Anime-style illustrated landscape of ${destination}. Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Horizontal 16:9 aspect ratio, serene and inviting mood.`;
+
+  // Derive season from travel dates for seasonal hero imagery
+  const seasonDesc = (() => {
+    const startDate = order.startDate || order.start_date || (data.days && data.days[0] && data.days[0].date);
+    if (!startDate) return '';
+    const d = new Date(startDate);
+    if (isNaN(d.getTime())) return '';
+    const month = d.getMonth(); // 0-indexed
+    // Detect southern hemisphere by keywords (rough heuristic)
+    const dest = destination.toLowerCase();
+    const southern = /\b(australia|new zealand|argentina|chile|south africa|brazil|peru|bali|indonesia|patagonia|buenos aires|sydney|melbourne|cape town|queenstown|lima|santiago|rio)\b/.test(dest);
+    const seasonMonth = southern ? (month + 6) % 12 : month;
+    // Map to season + visual cues
+    if (seasonMonth >= 2 && seasonMonth <= 4) {
+      // Spring
+      const cues = dest.includes('japan') || dest.includes('tokyo') || dest.includes('kyoto') || dest.includes('osaka')
+        ? 'spring cherry blossom season, pink sakura petals floating in the air'
+        : 'springtime, fresh green foliage, blooming flowers, clear skies';
+      return cues;
+    } else if (seasonMonth >= 5 && seasonMonth <= 7) {
+      return 'summer, warm golden sunlight, lush green landscape, vibrant colors';
+    } else if (seasonMonth >= 8 && seasonMonth <= 10) {
+      return 'autumn, warm amber and red fall foliage, golden hour lighting';
+    } else {
+      return 'winter, cool blue tones, bare trees or snow-dusted landscape, cozy atmosphere';
+    }
+  })();
+
+  const seasonClause = seasonDesc ? ` During ${seasonDesc}.` : '';
+  const heroPrompt = `Anime-style illustrated landscape of ${destination}.${seasonClause} Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Horizontal 16:9 aspect ratio, serene and inviting mood.`;
   try {
     const apiKey = execSync('security find-generic-password -s "nano-banana-pro" -w', { stdio: 'pipe' }).toString().trim();
     execSync(
