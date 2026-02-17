@@ -272,7 +272,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         nav a.cta-nav:hover { background: var(--indigo-light); }
         .hero {
             position: relative;
-            padding: 7rem 2rem 3rem;
+            padding: 7rem 2rem 5rem;
             max-width: none; margin: 0 auto;
             background: url('hero-bg.png') center center / cover no-repeat;
             min-height: 420px;
@@ -538,7 +538,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         }
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 2rem; }
+            .hero { padding: 6rem 1.5rem 3.5rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }

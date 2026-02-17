@@ -101,6 +101,28 @@ function fulfillOrder(order, itineraryData) {
 
   const url = `https://tabiji.ai/i/${slug}/`;
 
+  // Poll the URL until Cloudflare Pages build is live (avoid 404 race condition)
+  const MAX_POLL_SECONDS = 180;
+  const POLL_INTERVAL_MS = 5000;
+  const pollStart = Date.now();
+  let urlLive = false;
+  console.log(`Waiting for ${url} to go live...`);
+  while ((Date.now() - pollStart) < MAX_POLL_SECONDS * 1000) {
+    try {
+      const status = execSync(`curl -s -o /dev/null -w "%{http_code}" "${url}"`, { stdio: 'pipe', timeout: 10000 }).toString().trim();
+      if (status === '200') {
+        urlLive = true;
+        const elapsed = ((Date.now() - pollStart) / 1000).toFixed(1);
+        console.log(`✅ URL is live after ${elapsed}s`);
+        break;
+      }
+    } catch (_) {}
+    execSync(`sleep ${POLL_INTERVAL_MS / 1000}`);
+  }
+  if (!urlLive) {
+    console.error(`⚠️ URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s — sending email anyway`);
+  }
+
   // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
   let emailSent = false;
   if (order.email) {
