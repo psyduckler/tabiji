@@ -45,25 +45,10 @@ function fulfillOrder(order, itineraryData) {
   const filePath = path.join(dir, 'index.html');
   fs.writeFileSync(filePath, html, 'utf8');
 
-  // Generate hero background image via nano-banana-pro (Gemini image gen)
-  const heroPath = path.join(dir, 'hero-bg.png');
-  const destination = data.destination || 'a beautiful travel destination';
-  const heroPrompt = `Anime-style illustrated landscape of ${destination}. Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Horizontal 16:9 aspect ratio, serene and inviting mood.`;
-  try {
-    const apiKey = execSync('security find-generic-password -s "nano-banana-pro" -w', { stdio: 'pipe' }).toString().trim();
-    execSync(
-      `uv run /Users/psy/.openclaw/workspace/skills/nano-banana-pro/scripts/generate_image.py --prompt "${heroPrompt.replace(/"/g, '\\"')}" --filename "${heroPath}" --resolution 2K --api-key "${apiKey}"`,
-      { cwd: REPO_ROOT, stdio: 'pipe', timeout: 120000 }
-    );
-    console.log('Hero image generated:', heroPath);
-  } catch (err) {
-    console.error('⚠️ Hero image generation failed (itinerary will render without background):', err.message);
-  }
-
   // Git commit and push
   const gitOpts = { cwd: REPO_ROOT, stdio: 'pipe' };
   try {
-    execSync(`git add "i/${slug}/"`, gitOpts);
+    execSync(`git add "i/${slug}/index.html"`, gitOpts);
     execSync(`git commit -m "Add itinerary: ${slug} (${data.destination || 'custom'})"`, gitOpts);
     execSync('git push', gitOpts);
   } catch (err) {
