@@ -35,7 +35,11 @@
             background: var(--deep-brown);
             color: var(--text);
             min-height: 100vh;
+            overflow: hidden;
+        }
+        body.unlocked {
             overflow-x: hidden;
+            overflow-y: auto;
         }
 
         /* === NAV === */
@@ -152,7 +156,10 @@
             font-size: 0.8rem;
             text-align: center;
             animation: gentle-bob 2.5s ease-in-out infinite;
+            cursor: pointer;
+            transition: color 0.2s;
         }
+        .scroll-hint:hover { color: rgba(245, 240, 232, 0.7); }
         .scroll-hint span { display: block; font-size: 1.2rem; margin-top: 0.3rem; }
         @keyframes gentle-bob {
             0%, 100% { transform: translateX(-50%) translateY(0); }
@@ -409,7 +416,7 @@
             <p>Like a cartographer charting new paths, our travel researcher is studying local insights, hidden gems, and real traveler stories to build an itinerary made just for you.</p>
             <div class="eta">📧 Check your inbox in ~10 minutes</div>
         </div>
-        <div class="scroll-hint">
+        <div class="scroll-hint" id="scroll-trigger" role="button" tabindex="0">
             See what goes into it
             <span>↓</span>
         </div>
@@ -536,8 +543,22 @@
     </div>
 
     <script>
-    // Animate craft steps on scroll
+    // Unlock scroll and smooth-scroll to content
     (function() {
+        var trigger = document.getElementById('scroll-trigger');
+        var content = document.querySelector('.content');
+
+        function unlock() {
+            document.body.classList.add('unlocked');
+            content.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        trigger.addEventListener('click', unlock);
+        trigger.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); unlock(); }
+        });
+
+        // Animate craft steps on scroll
         var steps = document.querySelectorAll('.craft-step');
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
