@@ -150,31 +150,71 @@
             max-width: 768px; margin-bottom: 3rem;
         }
 
-        /* WHY DIFFERENT */
+        /* WHY DIFFERENT — COMPARISON */
         .diff { background: var(--warm-cream); }
-        .diff-grid {
+        .comparison {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .diff-card {
-            background: var(--white);
-            border-radius: 14px; padding: 2rem;
+        @media (max-width: 700px) {
+            .comparison { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+        .compare-col {
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+        }
+        .compare-col.generic {
+            background: #f3f0ec;
             border: 1px solid var(--sand);
         }
-        .diff-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; margin-bottom: 1rem;
+        .compare-col.tabiji-col {
+            background: var(--white);
+            border: 2px solid var(--terracotta);
+            box-shadow: 0 4px 24px rgba(196,112,75,0.10);
         }
-        .diff-card:nth-child(1) .diff-icon { background: #FEF0E7; }
-        .diff-card:nth-child(2) .diff-icon { background: #E8F0E4; }
-        .diff-card:nth-child(3) .diff-icon { background: #EAE8F5; }
-        .diff-card h3 {
-            font-size: 1.1rem; font-weight: 600; color: var(--indigo);
-            margin-bottom: 0.5rem;
+        .compare-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
-        .diff-card p { font-size: 0.95rem; color: var(--text-muted); }
+        .compare-col.generic .compare-label { color: var(--text-muted); }
+        .compare-col.tabiji-col .compare-label { color: var(--terracotta); }
+        .compare-item {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text);
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .compare-item:last-child { border-bottom: none; }
+        .compare-col.generic .compare-item { color: var(--text-muted); }
+        .compare-item .source {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--earth);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+        .compare-prompt {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .compare-prompt strong {
+            color: var(--text);
+            font-style: normal;
+        }
 
         /* HOW IT WORKS */
         .steps {
@@ -480,27 +520,37 @@
     <div class="container">
         <div class="section-label">Why tabiji</div>
         <h2 class="section-title">Not another ChatGPT wrapper</h2>
-        <p class="section-desc">Most AI travel tools regurgitate the same top-10 lists. We dig deeper.</p>
-        <div class="diff-grid">
-            <div class="diff-card">
-                <div class="diff-icon">🔍</div>
-                <h3>Reddit-Backed Research</h3>
-                <p>We analyze hundreds of real traveler posts — the hidden ramen shops, the overrated tourist traps, the neighborhoods locals actually recommend.</p>
+        <p class="compare-prompt">Ask both: <strong>"Where should I eat ramen in Tokyo?"</strong></p>
+        <div class="comparison">
+            <div class="compare-col generic">
+                <div class="compare-label">🤖 Generic AI</div>
+                <div class="compare-item">1. Ichiran Ramen, Shibuya</div>
+                <div class="compare-item">2. Ippudo, Roppongi</div>
+                <div class="compare-item">3. Afuri, Ebisu</div>
+                <div class="compare-item">4. Fuunji, Shinjuku</div>
+                <div class="compare-item">5. Soranoiro, Tokyo Station</div>
+                <div class="compare-item" style="color:var(--earth); font-style:italic; font-size:0.85rem; border-bottom:none;">
+                    …the same top-10 list every tourist gets.
+                </div>
             </div>
-            <div class="diff-card">
-                <div class="diff-icon">🗺️</div>
-                <h3>Logistics That Work</h3>
-                <p>Geographically clustered, transit-optimized, with realistic timing. No "visit 12 things in one day" nonsense.</p>
+            <div class="compare-col tabiji-col">
+                <div class="compare-label">🧭 tabiji</div>
+                <div class="compare-item">
+                    <strong>Nakiryu</strong> — Michelin-starred tantanmen in a tiny Otsuka shop. Get there by 10:30am or face a 2-hour wait.
+                    <span class="source">r/JapanTravel · 1.8k upvotes</span>
+                </div>
+                <div class="compare-item">
+                    <strong>Tomita</strong> — Worth the day trip to Matsudo. Their tsukemen broth is absurdly thick. Weekdays only.
+                    <span class="source">r/ramen · 940 upvotes</span>
+                </div>
+                <div class="compare-item">
+                    <strong>Fuunji</strong> — The only "famous" one that's actually worth it. Tsukemen, not regular ramen. Eat at the counter.
+                    <span class="source">r/TokyoTravel · 2.1k upvotes</span>
+                </div>
+                <div class="compare-item" style="color:var(--terracotta); font-size:0.85rem; font-weight:600; border-bottom:none;">
+                    Real recs from real travelers — with the tips that matter.
+                </div>
             </div>
-            <div class="diff-card">
-                <div class="diff-icon">🎯</div>
-                <h3>Personalized to You</h3>
-                <p>Your budget, your pace, your interests. Foodie? History buff? Want to avoid crowds? We build around what you actually care about.</p>
-            </div>
-        </div>
-        <div class="reddit-quote">
-            "Skip Shibuya Crossing at noon — go at 2am when it's empty and magical. The Don Quijote across the street is open 24h if you need snacks."
-            <cite>— r/JapanTravel, 2.4k upvotes</cite>
         </div>
     </div>
 </section>
