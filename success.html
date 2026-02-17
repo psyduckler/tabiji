@@ -13,7 +13,7 @@
     </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>Order Confirmed — tabiji.ai</title>
+    <title>Crafting Your Journey — tabiji.ai</title>
     <style>
         :root {
             --indigo: #2D3A5C;
@@ -32,7 +32,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--warm-cream);
+            background: var(--deep-brown);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
@@ -45,10 +45,10 @@
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(254, 252, 249, 0.92);
+            background: rgba(62, 47, 35, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--sand);
+            border-bottom: 1px solid rgba(232, 223, 208, 0.15);
             padding: 0 2rem;
             height: 64px;
             display: flex;
@@ -58,196 +58,229 @@
         .nav-logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--deep-brown);
+            color: var(--warm-cream);
             text-decoration: none;
             letter-spacing: -0.02em;
         }
         .nav-logo span { color: var(--terracotta); }
-        .nav-cta {
-            background: var(--indigo);
-            color: var(--white);
-            padding: 0.6rem 1.4rem;
-            border-radius: 8px;
+        .nav-link {
+            color: rgba(245, 240, 232, 0.7);
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 600;
-            transition: background 0.2s;
+            font-weight: 500;
         }
-        .nav-cta:hover { background: var(--deep-brown); }
 
-        /* === CONFETTI === */
-        .confetti-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 99;
-            overflow: hidden;
+        /* === HERO — FULL BLEED BACKGROUND === */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('/success-bg.jpg') center/cover no-repeat;
         }
-        .confetti {
+        .hero::after {
+            content: '';
             position: absolute;
-            top: -10px;
-            width: 10px;
-            height: 10px;
-            opacity: 0;
-            animation: confetti-fall 3.5s ease-in forwards;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(62, 47, 35, 0.3) 0%,
+                rgba(62, 47, 35, 0.5) 40%,
+                rgba(62, 47, 35, 0.85) 80%,
+                var(--deep-brown) 100%
+            );
         }
-        .confetti:nth-child(odd) { border-radius: 50%; }
-        .confetti:nth-child(even) { border-radius: 2px; }
-
-        @keyframes confetti-fall {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-            80% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.5); }
-        }
-
-        /* === MAIN CONTENT === */
-        .main {
-            max-width: 720px;
-            margin: 0 auto;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 640px;
             padding: 100px 1.5rem 4rem;
         }
-
-        /* === HERO === */
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .hero-emoji {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            animation: hero-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        @keyframes hero-pop {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .hero-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fade-up 0.8s 0.3s ease forwards;
         }
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             font-weight: 700;
-            color: var(--deep-brown);
-            margin-bottom: 0.75rem;
+            color: var(--warm-cream);
+            margin-bottom: 1rem;
             letter-spacing: -0.02em;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fade-up 0.8s 0.5s ease forwards;
         }
         .hero p {
             font-size: 1.15rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 520px;
-            margin: 0 auto;
+            color: rgba(245, 240, 232, 0.8);
+            line-height: 1.7;
+            opacity: 0;
+            animation: fade-up 0.8s 0.7s ease forwards;
+        }
+        .hero .eta {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.4rem;
+            background: rgba(196, 112, 75, 0.25);
+            border: 1px solid rgba(196, 112, 75, 0.4);
+            border-radius: 24px;
+            color: var(--sand);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            animation: fade-up 0.8s 0.9s ease forwards;
         }
 
-        /* === PROGRESS STEPPER === */
-        .stepper {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 0;
-            margin-bottom: 3.5rem;
-            padding: 2rem 1rem;
-            background: var(--white);
-            border-radius: 16px;
-            border: 1px solid var(--sand);
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        /* === SCROLL HINT === */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: rgba(245, 240, 232, 0.4);
+            font-size: 0.8rem;
             text-align: center;
-            flex: 1;
-            position: relative;
+            animation: gentle-bob 2.5s ease-in-out infinite;
         }
-        .step-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
+        .scroll-hint span { display: block; font-size: 1.2rem; margin-top: 0.3rem; }
+        @keyframes gentle-bob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* === BODY CONTENT === */
+        .content {
+            background: var(--warm-cream);
             position: relative;
             z-index: 2;
         }
-        .step.completed .step-icon {
-            background: var(--sage);
-            color: white;
+        .content-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
         }
-        .step.active .step-icon {
-            background: var(--terracotta);
-            color: white;
-            animation: pulse-ring 2s ease-in-out infinite;
-        }
-        .step.pending .step-icon {
-            background: var(--sand);
-            color: var(--text-muted);
-        }
-        @keyframes pulse-ring {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 112, 75, 0.4); }
-            50% { box-shadow: 0 0 0 12px rgba(196, 112, 75, 0); }
-        }
-        .step-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.25rem;
-        }
-        .step.pending .step-label { color: var(--text-muted); }
-        .step-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        .step-connector {
-            flex: 0 0 60px;
-            height: 2px;
-            background: var(--sand);
-            margin-top: 24px;
-        }
-        .step-connector.done { background: var(--sage); }
 
-        /* === SECTION STYLING === */
-        .section {
-            margin-bottom: 3rem;
+        /* === CRAFTING PROCESS === */
+        .process-section {
+            margin-bottom: 3.5rem;
         }
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--deep-brown);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             text-align: center;
         }
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
 
-        /* === WHAT HAPPENS NEXT === */
-        .next-grid {
+        .craft-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .craft-step {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 14px;
+            padding: 1.5rem;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .craft-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .craft-step-num {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--warm-cream);
+            border: 2px solid var(--sand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .craft-step-num.active {
+            background: var(--terracotta);
+            border-color: var(--terracotta);
+            animation: pulse-soft 2s ease-in-out infinite;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 112, 75, 0.3); }
+            50% { box-shadow: 0 0 0 8px rgba(196, 112, 75, 0); }
+        }
+        .craft-step h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 0.3rem;
+        }
+        .craft-step p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .craft-step .done-check {
+            color: var(--sage);
+            font-weight: 700;
+        }
+
+        /* === WHAT YOU'LL RECEIVE === */
+        .receive-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
+            margin-bottom: 3.5rem;
         }
-        .next-card {
+        .receive-card {
             background: var(--white);
             border: 1px solid var(--sand);
             border-radius: 12px;
             padding: 1.5rem;
         }
-        .next-card .icon {
+        .receive-card .icon {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
-        .next-card h3 {
+        .receive-card h3 {
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--deep-brown);
             margin-bottom: 0.4rem;
         }
-        .next-card p {
+        .receive-card p {
             font-size: 0.85rem;
             color: var(--text-muted);
             line-height: 1.5;
         }
 
         /* === SAMPLE PREVIEW === */
+        .preview-section {
+            margin-bottom: 3.5rem;
+        }
         .preview-card {
             background: var(--white);
             border: 1px solid var(--sand);
@@ -283,9 +316,7 @@
             margin-bottom: 0.5rem;
             font-size: 0.85rem;
         }
-        .preview-day strong {
-            color: var(--sand);
-        }
+        .preview-day strong { color: var(--sand); }
         .preview-body {
             padding: 1.5rem 2rem;
             text-align: center;
@@ -307,13 +338,14 @@
         }
         .preview-link:hover { gap: 0.7rem; }
 
-        /* === TRUST SIGNALS === */
+        /* === TRUST === */
         .trust {
             text-align: center;
             padding: 2.5rem 1.5rem;
             background: var(--white);
             border-radius: 16px;
             border: 1px solid var(--sand);
+            margin-bottom: 2rem;
         }
         .trust-headline {
             font-size: 1rem;
@@ -340,7 +372,7 @@
         /* === FOOTER === */
         .page-footer {
             text-align: center;
-            padding: 2rem 0;
+            padding: 2rem 0 1rem;
             font-size: 0.85rem;
             color: var(--text-muted);
         }
@@ -352,29 +384,10 @@
 
         /* === MOBILE === */
         @media (max-width: 600px) {
-            .main { padding: 88px 1rem 3rem; }
-            .hero h1 { font-size: 1.7rem; }
+            .hero h1 { font-size: 1.9rem; }
             .hero p { font-size: 1rem; }
-            .stepper {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0;
-                padding: 1.5rem;
-            }
-            .step {
-                flex-direction: row;
-                text-align: left;
-                gap: 1rem;
-                padding: 0.5rem 0;
-            }
-            .step-icon { margin-bottom: 0; flex-shrink: 0; }
-            .step-connector {
-                width: 2px;
-                height: 24px;
-                margin: 0 0 0 23px;
-                flex: 0 0 24px;
-            }
-            .next-grid { grid-template-columns: 1fr; }
+            .content-inner { padding: 3rem 1rem; }
+            .receive-grid { grid-template-columns: 1fr; }
             .preview-mockup { padding: 1.5rem; }
             .preview-body { padding: 1.25rem; }
         }
@@ -385,97 +398,117 @@
     <!-- Nav -->
     <nav>
         <a href="/" class="nav-logo">tabiji<span>.ai</span></a>
-        <a href="/" class="nav-cta">Get Your Itinerary</a>
+        <a href="/" class="nav-link">← Back to tabiji.ai</a>
     </nav>
 
-    <!-- Confetti -->
-    <div class="confetti-container" id="confetti"></div>
-
-    <div class="main">
-
-        <!-- Hero -->
-        <div class="hero">
-            <div class="hero-emoji">✈️</div>
-            <h1>Your itinerary is on the way!</h1>
-            <p>Our AI travel researcher is crafting your personalized guide right now. Sit back — it'll land in your inbox shortly.</p>
+    <!-- Hero with background image -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🗺️</div>
+            <h1>Your journey is being crafted</h1>
+            <p>Like a cartographer charting new paths, our travel researcher is studying local insights, hidden gems, and real traveler stories to build an itinerary made just for you.</p>
+            <div class="eta">📧 Check your inbox in ~10 minutes</div>
         </div>
-
-        <!-- Progress Stepper -->
-        <div class="stepper">
-            <div class="step completed">
-                <div class="step-icon">✓</div>
-                <div>
-                    <div class="step-label">Order Received</div>
-                    <div class="step-sub">Payment confirmed</div>
-                </div>
-            </div>
-            <div class="step-connector done"></div>
-            <div class="step active">
-                <div class="step-icon">🔍</div>
-                <div>
-                    <div class="step-label">Researching</div>
-                    <div class="step-sub">Scanning real reviews</div>
-                </div>
-            </div>
-            <div class="step-connector"></div>
-            <div class="step pending">
-                <div class="step-icon">📬</div>
-                <div>
-                    <div class="step-label">Delivered</div>
-                    <div class="step-sub">~10 minutes</div>
-                </div>
-            </div>
+        <div class="scroll-hint">
+            See what goes into it
+            <span>↓</span>
         </div>
+    </section>
 
-        <!-- What Happens Next -->
-        <div class="section">
-            <h2 class="section-title">What happens next</h2>
-            <div class="next-grid">
-                <div class="next-card">
-                    <div class="icon">🔎</div>
-                    <h3>Deep Research</h3>
-                    <p>Our AI scours Reddit, travel forums, and local blogs for authentic recommendations.</p>
+    <!-- Body content -->
+    <div class="content">
+        <div class="content-inner">
+
+            <!-- Crafting Process -->
+            <div class="process-section">
+                <h2 class="section-title">The research behind your itinerary</h2>
+                <p class="section-subtitle">Every recommendation is earned, not generated. Here's what's happening right now.</p>
+
+                <div class="craft-steps">
+                    <div class="craft-step visible">
+                        <div class="craft-step-num done-check">✓</div>
+                        <div>
+                            <h3>Trip details received</h3>
+                            <p>Your destination, dates, interests, and travel style have been noted. Payment confirmed.</p>
+                        </div>
+                    </div>
+                    <div class="craft-step">
+                        <div class="craft-step-num active">🔍</div>
+                        <div>
+                            <h3>Deep research in progress</h3>
+                            <p>Scouring Reddit threads, travel forums, local blogs, and thousands of real reviews to find authentic, vetted recommendations — not tourist traps.</p>
+                        </div>
+                    </div>
+                    <div class="craft-step">
+                        <div class="craft-step-num">🧭</div>
+                        <div>
+                            <h3>Route & logistics planning</h3>
+                            <p>Mapping out efficient day-by-day routes, factoring in distances, opening hours, neighborhood flow, and the natural rhythm of each area.</p>
+                        </div>
+                    </div>
+                    <div class="craft-step">
+                        <div class="craft-step-num">✍️</div>
+                        <div>
+                            <h3>Personalized itinerary assembly</h3>
+                            <p>Weaving together restaurant picks, activities, walking routes, budget tips, and local phrases into a complete guide tailored to your style.</p>
+                        </div>
+                    </div>
+                    <div class="craft-step">
+                        <div class="craft-step-num">📬</div>
+                        <div>
+                            <h3>Delivered to your inbox</h3>
+                            <p>Your finished itinerary arrives via email within ~10 minutes, ready to explore.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="next-card">
-                    <div class="icon">🗺️</div>
-                    <h3>Custom Itinerary</h3>
-                    <p>We build a day-by-day plan tailored to your preferences and travel style.</p>
+            </div>
+
+            <!-- What You'll Receive -->
+            <h2 class="section-title" style="margin-bottom: 1.5rem;">What you'll receive</h2>
+            <div class="receive-grid">
+                <div class="receive-card">
+                    <div class="icon">📍</div>
+                    <h3>Day-by-Day Plan</h3>
+                    <p>A complete itinerary organized by day with morning, afternoon, and evening activities.</p>
                 </div>
-                <div class="next-card">
-                    <div class="icon">📧</div>
-                    <h3>Inbox Delivery</h3>
-                    <p>Your personalized itinerary arrives in your inbox within 10 minutes.</p>
+                <div class="receive-card">
+                    <div class="icon">🍜</div>
+                    <h3>Vetted Restaurants</h3>
+                    <p>Handpicked dining spots sourced from local food communities — not generic "top 10" lists.</p>
                 </div>
-                <div class="next-card">
+                <div class="receive-card">
+                    <div class="icon">💡</div>
+                    <h3>Local Tips & Phrases</h3>
+                    <p>Insider knowledge, etiquette notes, and useful phrases to navigate like a local.</p>
+                </div>
+                <div class="receive-card">
                     <div class="icon">💬</div>
                     <h3>Free Revisions</h3>
-                    <p>Reply anytime for changes — our AI concierge has you covered.</p>
+                    <p>Want to tweak something? Just reply to your email — our AI concierge will adjust your plan.</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Sample Preview -->
-        <div class="section">
-            <h2 class="section-title">Here's a taste of what's coming</h2>
-            <a href="https://tabiji.ai/d/tokyo/" style="text-decoration:none; color:inherit;">
-                <div class="preview-card">
-                    <div class="preview-mockup">
-                        <div class="preview-mockup-header">Sample Itinerary</div>
-                        <h3>🇯🇵 3 Days in Tokyo</h3>
-                        <div class="preview-day"><strong>Day 1</strong> — Shibuya, Meiji Shrine, Harajuku backstreets, Omakase dinner in Ebisu</div>
-                        <div class="preview-day"><strong>Day 2</strong> — Tsukiji outer market, TeamLab, Golden Gai night crawl</div>
-                        <div class="preview-day"><strong>Day 3</strong> — Day trip to Kamakura, sunset at Enoshima Island</div>
+            <!-- Sample Preview -->
+            <div class="preview-section">
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">A taste of what's coming</h2>
+                <a href="https://tabiji.ai/d/tokyo/" style="text-decoration:none; color:inherit;">
+                    <div class="preview-card">
+                        <div class="preview-mockup">
+                            <div class="preview-mockup-header">Sample Itinerary</div>
+                            <h3>🇯🇵 3 Days in Tokyo</h3>
+                            <div class="preview-day"><strong>Day 1</strong> — Shibuya, Meiji Shrine, Harajuku backstreets, Omakase dinner in Ebisu</div>
+                            <div class="preview-day"><strong>Day 2</strong> — Tsukiji outer market, TeamLab, Golden Gai night crawl</div>
+                            <div class="preview-day"><strong>Day 3</strong> — Day trip to Kamakura, sunset at Enoshima Island</div>
+                        </div>
+                        <div class="preview-body">
+                            <p>Each itinerary includes maps, budget tips, local phrases, and hidden gems sourced from real travelers.</p>
+                            <span class="preview-link">See the full sample itinerary <span>→</span></span>
+                        </div>
                     </div>
-                    <div class="preview-body">
-                        <p>Each itinerary includes maps, budget tips, local phrases, and hidden gems sourced from real travelers.</p>
-                        <span class="preview-link">See the full sample itinerary <span>→</span></span>
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <!-- Trust Signals -->
-        <div class="section">
+            <!-- Trust Signals -->
             <div class="trust">
                 <div class="trust-headline">✨ Powered by insights from 10,000+ real traveler reviews</div>
                 <div class="trust-destinations">
@@ -493,33 +526,27 @@
                     <span class="trust-tag">Seoul</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Footer -->
-        <div class="page-footer">
-            <a href="/">← Back to tabiji.ai</a>
-        </div>
+            <!-- Footer -->
+            <div class="page-footer">
+                <a href="/">← Back to tabiji.ai</a>
+            </div>
 
+        </div>
     </div>
 
     <script>
-    // Generate confetti on page load
+    // Animate craft steps on scroll
     (function() {
-        var container = document.getElementById('confetti');
-        var colors = ['#C4704B', '#2D3A5C', '#7A8B6F', '#8B7355', '#E8DFD0', '#F5F0E8'];
-        for (var i = 0; i < 40; i++) {
-            var el = document.createElement('div');
-            el.className = 'confetti';
-            el.style.left = Math.random() * 100 + '%';
-            el.style.width = (Math.random() * 8 + 5) + 'px';
-            el.style.height = (Math.random() * 8 + 5) + 'px';
-            el.style.background = colors[Math.floor(Math.random() * colors.length)];
-            el.style.animationDelay = (Math.random() * 1.5) + 's';
-            el.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-            container.appendChild(el);
-        }
-        // Remove confetti after animation
-        setTimeout(function() { container.remove(); }, 5000);
+        var steps = document.querySelectorAll('.craft-step');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        steps.forEach(function(step) { observer.observe(step); });
     })();
     </script>
 </body>
