@@ -76,7 +76,6 @@
         /* HERO */
         .hero {
             position: relative;
-            min-height: 100vh;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             text-align: center;
@@ -196,7 +195,21 @@
         .step p { font-size: 0.95rem; color: var(--text-muted); }
 
         /* PRICING */
-        .pricing { background: var(--warm-cream); text-align: center; }
+        .pricing {
+            position: relative;
+            background: url('/pricing-bg.png') center center / cover no-repeat;
+            text-align: center;
+        }
+        .pricing::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .pricing > * { position: relative; z-index: 1; }
+        .pricing .section-label { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
+        .pricing .section-title { color: #fff; }
+        .pricing .section-desc { color: rgba(255,255,255,0.85); }
         .price-card {
             background: var(--white); border-radius: 16px;
             padding: 2.5rem; max-width: 420px; margin: 0 auto;
