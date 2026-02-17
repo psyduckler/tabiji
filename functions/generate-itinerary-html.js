@@ -100,12 +100,14 @@ ${timeBlocksHTML}
     budgetHTML = `
     <div class="day" id="budget" style="border-top-color: var(--terracotta);">
         <h2 style="margin-bottom:1rem;">💰 Budget Breakdown</h2>
+        <div class="budget-table-wrapper">
         <table class="budget-table">
             <thead><tr><th>Category</th>${headers.map(h => `<th>${esc(h.charAt(0).toUpperCase() + h.slice(1))}</th>`).join('')}</tr></thead>
             <tbody>
 ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${headers.map(h => `<td>${esc(row[h])}</td>`).join('')}</tr>`).join('\n')}
             </tbody>
         </table>
+        </div>
     </div>`;
   }
 
@@ -248,6 +250,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6;
@@ -481,9 +484,13 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             display: block; margin-top: 0.4rem;
             font-style: normal; font-size: 0.8rem; color: var(--earth);
         }
+        .budget-table-wrapper {
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+        }
         .budget-table {
-            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
-            font-size: 0.9rem;
+            width: 100%; border-collapse: collapse;
+            font-size: 0.9rem; min-width: 480px;
         }
         .budget-table th {
             text-align: left; padding: 0.6rem 0.75rem;
@@ -539,7 +546,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 3.5rem; }
-            .content { padding: 0 1.5rem; }
+            .content-wrapper { padding: 0 1rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
             .day-map { height: 350px; }
