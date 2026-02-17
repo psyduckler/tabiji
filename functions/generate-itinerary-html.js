@@ -271,39 +271,54 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         }
         nav a.cta-nav:hover { background: var(--indigo-light); }
         .hero {
+            position: relative;
             padding: 7rem 2rem 3rem;
-            max-width: 800px; margin: 0 auto;
+            max-width: none; margin: 0 auto;
+            background: url('hero-bg.png') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
+        .hero-inner {
+            max-width: 800px; margin: 0 auto; width: 100%;
         }
         .hero-badge {
             display: inline-block;
-            background: var(--sand); color: var(--earth);
+            background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9);
             padding: 0.35rem 1rem; border-radius: 100px;
             font-size: 0.85rem; font-weight: 500;
             margin-bottom: 1.5rem;
+            backdrop-filter: blur(4px);
         }
         .hero h1 {
             font-size: clamp(2rem, 4.5vw, 3rem);
             line-height: 1.15; font-weight: 800;
-            color: var(--indigo);
+            color: #fff;
             margin-bottom: 1rem;
             letter-spacing: -0.03em;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
         }
         .hero h1 em {
             font-style: normal;
-            background: linear-gradient(135deg, var(--terracotta), var(--earth));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            color: #ffd6a0;
         }
-        .hero > p {
-            font-size: 1.1rem; color: var(--text-muted);
+        .hero > p, .hero-inner > p {
+            font-size: 1.1rem; color: rgba(255,255,255,0.85);
             max-width: 640px; margin-bottom: 1.5rem;
         }
         .hero-meta {
             display: flex; flex-wrap: wrap; gap: 1.5rem;
-            font-size: 0.9rem; color: var(--earth);
-            border-top: 1px solid var(--sand);
+            font-size: 0.9rem; color: rgba(255,255,255,0.8);
+            border-top: 1px solid rgba(255,255,255,0.2);
             padding-top: 1.5rem; margin-top: 0.5rem;
         }
-        .hero-meta strong { color: var(--indigo); }
+        .hero-meta strong { color: #fff; }
         .content-wrapper {
             max-width: 1100px; margin: 0 auto; padding: 0 2rem;
             display: flex; gap: 3rem; align-items: flex-start;
@@ -558,6 +573,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
 </nav>
 
 <section class="hero">
+  <div class="hero-inner">
     <div class="hero-badge">${countryEmoji || ''} Your Custom Itinerary</div>
     <h1>${esc(title)}: <em>${esc(subtitle)}</em></h1>
     <p>${esc(description)}</p>
@@ -568,6 +584,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         <div><strong>Pace:</strong> ${esc(pace)}</div>
         <div><strong>Best for:</strong> ${esc(bestFor)}</div>
     </div>
+  </div>
 </section>
 
 <div class="toc-mobile-sticky">
