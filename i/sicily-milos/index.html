@@ -39,6 +39,7 @@
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6;
@@ -216,7 +217,11 @@
             display: block; margin-top: 0.4rem;
             font-style: normal; font-size: 0.8rem; color: var(--earth);
         }
-        .budget-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+        .budget-table-wrapper {
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+        }
+        .budget-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .budget-table th {
             text-align: left; padding: 0.6rem 0.75rem;
             background: var(--terracotta); color: white;
@@ -264,7 +269,7 @@
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 2rem; }
-            .content { padding: 0 1.5rem; }
+            .content-wrapper { padding: 0 1rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
         }
@@ -829,7 +834,7 @@
         <h2 style="margin-bottom:1rem;">💰 7-Day Budget Breakdown (Per Person)</h2>
         <p style="color:var(--text-muted);margin-bottom:1.5rem;">Estimated costs for Sicily portion. Milos budget will vary based on accommodation and activities.</p>
 
-        <table class="budget-table">
+        <div class="budget-table-wrapper"><table class="budget-table">
             <thead>
                 <tr>
                     <th>Category</th>
@@ -869,10 +874,10 @@
                     <td><strong>€550–1,150</strong></td>
                 </tr>
             </tbody>
-        </table>
+        </table></div>
 
         <h3 style="margin-top:2rem;font-size:1.1rem;color:var(--indigo);">✈️ Flight Estimates</h3>
-        <table class="budget-table">
+        <div class="budget-table-wrapper"><table class="budget-table">
             <thead>
                 <tr>
                     <th>Route</th>
@@ -902,7 +907,7 @@
                     <td><strong>~€1,300 combined</strong></td>
                 </tr>
             </tbody>
-        </table>
+        </table></div>
 
         <div class="tip">Hotels in Taormina centro range from €150–320/night for the quality you want. Our top picks: <strong>Hotel Villa Belvedere</strong> (pool + high-speed WiFi + bay views, €200–320/night) or <strong>Hotel Villa Schuler</strong> (charming family-run, €180–280/night). Book ASAP — June is peak season.</div>
     </div>

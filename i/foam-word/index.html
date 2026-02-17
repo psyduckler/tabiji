@@ -40,6 +40,7 @@
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6;
@@ -273,8 +274,12 @@
             display: block; margin-top: 0.4rem;
             font-style: normal; font-size: 0.8rem; color: var(--earth);
         }
+        .budget-table-wrapper {
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+        }
         .budget-table {
-            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            width: 100%; border-collapse: collapse; min-width: 480px;
             font-size: 0.9rem;
         }
         .budget-table th {
@@ -331,7 +336,7 @@
         @media (max-width: 600px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 3.5rem; }
-            .content { padding: 0 1.5rem; }
+            .content-wrapper { padding: 0 1rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
             .day-map { height: 350px; }
@@ -854,7 +859,7 @@
 
     <div class="day" id="budget" style="border-top-color: var(--terracotta);">
         <h2 style="margin-bottom:1rem;">💰 Budget Breakdown</h2>
-        <table class="budget-table">
+        <div class="budget-table-wrapper"><table class="budget-table">
             <thead><tr><th>Category</th><th>Budget</th><th>Mid</th><th>Premium</th></tr></thead>
             <tbody>
                 <tr><td>Accommodation (3 nights)</td><td>$600–$1,200</td><td>$900–$1,800</td><td>$1,500–$3,000</td></tr>
@@ -865,7 +870,7 @@
                 <tr><td>Activities &amp; Park Fees</td><td>$100–$150</td><td>$150–$200</td><td>$200+</td></tr>
                 <tr><td>Total (2 people)</td><td>$1,250–$2,050</td><td>$2,250–$3,700</td><td>$3,650–$7,050</td></tr>
             </tbody>
-        </table>
+        </table></div>
     </div>
 
 

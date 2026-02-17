@@ -40,6 +40,7 @@
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6;
@@ -258,8 +259,12 @@
             display: block; margin-top: 0.4rem;
             font-style: normal; font-size: 0.8rem; color: var(--earth);
         }
+        .budget-table-wrapper {
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+        }
         .budget-table {
-            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            width: 100%; border-collapse: collapse; min-width: 480px;
             font-size: 0.9rem;
         }
         .budget-table th {
@@ -316,7 +321,7 @@
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6rem 1.5rem 2rem; }
-            .content { padding: 0 1.5rem; }
+            .content-wrapper { padding: 0 1rem; }
             .time-block { padding-left: 1rem; }
             .spot-detail + .spot-detail { margin-left: 0; margin-top: 0.3rem; }
             .day-map { height: 350px; }
@@ -718,7 +723,7 @@
     <!-- BUDGET -->
     <div class="day" id="budget" style="border-top-color: var(--terracotta);">
         <h2 style="margin-bottom:1rem;">💰 Budget Breakdown (per person, per day)</h2>
-        <table class="budget-table">
+        <div class="budget-table-wrapper"><table class="budget-table">
             <thead><tr><th>Category</th><th>Budget</th><th>Mid-Range</th><th>Splurge</th></tr></thead>
             <tbody>
                 <tr><td>🍽️ Food &amp; Drinks</td><td>$20 USD</td><td>$45 USD</td><td>$90 USD</td></tr>
@@ -727,7 +732,7 @@
                 <tr><td>🍺 Nightlife</td><td>$5 USD</td><td>$15 USD</td><td>$30 USD</td></tr>
                 <tr><td><strong>TOTAL/DAY</strong></td><td><strong>$38 USD</strong></td><td><strong>$85 USD</strong></td><td><strong>$163 USD</strong></td></tr>
             </tbody>
-        </table>
+        </table></div>
         <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">* Excludes accommodation. Budget hotels/Airbnbs in Roma or Condesa run $40–80/night. Boutique hotels $100–200/night.</p>
     </div>
 
