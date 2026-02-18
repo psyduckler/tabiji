@@ -29,8 +29,9 @@ function fulfillOrder(order, itineraryData) {
     if (match) {
       match.status = 'in-progress';
       match.claimedAt = new Date().toISOString();
+      match.claimedBy = process.pid;
       fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
-      console.log(`Claimed order ${order.id || order.orderId} (status → in-progress)`);
+      console.log(`✅ Claimed order ${order.id || order.orderId} (pid ${process.pid}, status → in-progress)`);
     }
   } catch (err) {
     if (err.message.includes('already')) throw err;
@@ -178,6 +179,20 @@ function _doFulfill(order, itineraryData) {
     throw new Error(`URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s. Itinerary deployed but NOT emailed — verify manually and resend.`);
   }
 
+  // Generate deploy token — this is the ONLY way send-email.sh will allow sending
+  const crypto = require('crypto');
+  const deployToken = crypto.randomBytes(32).toString('hex');
+  const tokenFile = path.join(REPO_ROOT, `.deploy-token-${slug}`);
+  fs.writeFileSync(tokenFile, JSON.stringify({
+    slug,
+    url,
+    token: deployToken,
+    verifiedAt: new Date().toISOString(),
+    httpStatus: 200,
+    pid: process.pid,
+  }, null, 2));
+  console.log(`🔑 Deploy token written: ${tokenFile}`);
+
   // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
   let emailSent = false;
   if (order.email) {
@@ -198,7 +213,7 @@ function _doFulfill(order, itineraryData) {
     const subject = `Your ${data.destination || ''} Itinerary is Ready!`.trim();
     try {
       const result = execSync(
-        `bash "${sendScript}" --to "${order.email}" --subject "${subject}" --body-file "${tmpFile}"`,
+        `bash "${sendScript}" --to "${order.email}" --subject "${subject}" --body-file "${tmpFile}" --deploy-token "${tokenFile}"`,
         { cwd: REPO_ROOT, stdio: 'pipe' }
       );
       console.log('Email sent:', result.toString());
