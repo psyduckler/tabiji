@@ -5,6 +5,7 @@ const generateSlug = require('./generate-slug');
 const generateItineraryHTML = require('./generate-itinerary-html');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
+const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
 
 /**
  * Fulfills an order by generating an HTML itinerary and deploying it.
@@ -13,6 +14,28 @@ const REPO_ROOT = path.resolve(__dirname, '..');
  * @returns {Object} { slug, url, filePath }
  */
 function fulfillOrder(order, itineraryData) {
+  // --- Lock check: prevent concurrent fulfillments ---
+  if (fs.existsSync(LOCK_FILE)) {
+    const lockData = JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8'));
+    const lockAge = Date.now() - new Date(lockData.ts).getTime();
+    const STALE_MS = 10 * 60 * 1000; // 10 min = stale lock
+    if (lockAge < STALE_MS) {
+      throw new Error(`Fulfillment locked by order ${lockData.orderId} (${Math.round(lockAge / 1000)}s ago). Wait or remove ${LOCK_FILE}`);
+    }
+    console.warn(`Stale lock found (${Math.round(lockAge / 1000)}s old) — removing`);
+  }
+  const lockInfo = { orderId: order.id || order.orderId, ts: new Date().toISOString(), pid: process.pid };
+  fs.writeFileSync(LOCK_FILE, JSON.stringify(lockInfo, null, 2));
+
+  // Wrap in try/finally to always release lock
+  try {
+    return _doFulfill(order, itineraryData);
+  } finally {
+    try { fs.unlinkSync(LOCK_FILE); } catch (_) {}
+  }
+}
+
+function _doFulfill(order, itineraryData) {
   // Validate: every day MUST have mapPins with lat/lng
   if (itineraryData.days && itineraryData.days.length) {
     const missingMaps = itineraryData.days.filter(d => !d.mapPins || !d.mapPins.length);
@@ -78,15 +101,24 @@ function fulfillOrder(order, itineraryData) {
 
   const seasonClause = seasonDesc ? ` During ${seasonDesc}.` : '';
   const heroPrompt = `Anime-style illustrated landscape of ${destination}.${seasonClause} Wide cinematic composition, soft atmospheric lighting, muted watercolor palette, Studio Ghibli aesthetic. Scenic vista with natural landmarks characteristic of ${destination}. No people, no text, no UI elements. Wide horizontal composition, serene and inviting mood.`;
-  try {
-    const apiKey = execSync('security find-generic-password -s "nano-banana-pro" -w', { stdio: 'pipe' }).toString().trim();
-    execSync(
-      `uv run /Users/psy/.openclaw/workspace/skills/nano-banana-pro/scripts/generate_image.py --prompt "${heroPrompt.replace(/"/g, '\\"')}" --filename "${heroPath}" --resolution 2K --api-key "${apiKey}"`,
-      { cwd: REPO_ROOT, stdio: 'pipe', timeout: 120000 }
-    );
-    console.log('Hero image generated:', heroPath);
-  } catch (err) {
-    console.error('⚠️ Hero image generation failed (itinerary will render without background):', err.message);
+  const HERO_MAX_RETRIES = 3;
+  const apiKey = execSync('security find-generic-password -s "nano-banana-pro" -w', { stdio: 'pipe' }).toString().trim();
+  for (let attempt = 1; attempt <= HERO_MAX_RETRIES; attempt++) {
+    try {
+      execSync(
+        `uv run /Users/psy/.openclaw/workspace/skills/nano-banana-pro/scripts/generate_image.py --prompt "${heroPrompt.replace(/"/g, '\\"')}" --filename "${heroPath}" --resolution 2K --api-key "${apiKey}"`,
+        { cwd: REPO_ROOT, stdio: 'pipe', timeout: 120000 }
+      );
+      console.log(`Hero image generated (attempt ${attempt}):`, heroPath);
+      break;
+    } catch (err) {
+      console.error(`⚠️ Hero gen attempt ${attempt}/${HERO_MAX_RETRIES} failed:`, err.message);
+      if (attempt === HERO_MAX_RETRIES) {
+        console.error('❌ Hero image generation failed after all retries — itinerary will render without background');
+      } else {
+        execSync('sleep 3');
+      }
+    }
   }
 
   // Git commit and push
@@ -120,7 +152,7 @@ function fulfillOrder(order, itineraryData) {
     execSync(`sleep ${POLL_INTERVAL_MS / 1000}`);
   }
   if (!urlLive) {
-    console.error(`⚠️ URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s — sending email anyway`);
+    throw new Error(`URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s. Itinerary deployed but NOT emailed — verify manually and resend.`);
   }
 
   // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
