@@ -48,6 +48,26 @@
 
 ---
 
+## 1.5. ⚠️ Itinerary Fulfillment Rules (MANDATORY)
+
+**ALL itinerary fulfillments MUST go through `functions/fulfill-order.js`.**
+
+Do NOT manually:
+- Build HTML, git push, and send email as separate steps
+- Send email without verifying the Cloudflare Pages deployment is live
+- Bypass the polling/verification logic
+
+`fulfill-order.js` handles: slug generation → HTML build → git push → **poll URL until 200** → send email → update pending.json.
+
+### Utilities
+- **`functions/wait-for-deploy.sh <url> [max_seconds] [interval_seconds]`** — standalone deploy verification. Used by fulfill-order.js internally. Also available as a safety net.
+- **`functions/send-email.sh --verify-url <url>`** — pass `--verify-url` to block email sending until the URL returns 200. Acts as a last-resort safeguard even if fulfill-order.js is bypassed.
+
+### Why?
+On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing + emailing without waiting for Cloudflare deployment. Customer received the email but the page was still 404.
+
+---
+
 ## 2. Tech Stack
 
 | Layer | Choice | Rationale |
