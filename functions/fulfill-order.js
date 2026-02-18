@@ -14,6 +14,29 @@ const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
  * @returns {Object} { slug, url, filePath }
  */
 function fulfillOrder(order, itineraryData) {
+  // --- Claim check: prevent duplicate fulfillment of same order ---
+  const pendingFile = path.join(REPO_ROOT, 'orders', 'pending.json');
+  try {
+    const pending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
+    const match = pending.find(o => o.id === order.id || o.orderId === order.orderId);
+    if (match && match.status === 'in-progress') {
+      throw new Error(`Order ${order.id || order.orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
+    }
+    if (match && match.status === 'fulfilled') {
+      throw new Error(`Order ${order.id || order.orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
+    }
+    // Claim it
+    if (match) {
+      match.status = 'in-progress';
+      match.claimedAt = new Date().toISOString();
+      fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
+      console.log(`Claimed order ${order.id || order.orderId} (status → in-progress)`);
+    }
+  } catch (err) {
+    if (err.message.includes('already')) throw err;
+    console.warn('Could not check/claim order in pending.json:', err.message);
+  }
+
   // --- Lock check: prevent concurrent fulfillments ---
   if (fs.existsSync(LOCK_FILE)) {
     const lockData = JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8'));

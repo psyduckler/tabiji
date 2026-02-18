@@ -33,7 +33,23 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# If --verify-url is set, ensure the URL returns 200 before sending
+# AUTO-DETECT: If subject looks like an itinerary email and no --verify-url given,
+# extract the URL from the body and verify it automatically.
+if [[ -z "$VERIFY_URL" && "$SUBJECT" == *"Itinerary"* ]]; then
+  # Try to find a tabiji.ai/i/ URL in the body
+  if [[ -n "$BODY_FILE" ]]; then
+    VERIFY_URL=$(grep -oE 'https://tabiji\.ai/i/[a-z0-9-]+/?' "$BODY_FILE" | head -1 || true)
+  elif [[ -n "$BODY_TEXT" ]]; then
+    VERIFY_URL=$(echo "$BODY_TEXT" | grep -oE 'https://tabiji\.ai/i/[a-z0-9-]+/?' | head -1 || true)
+  fi
+  if [[ -n "$VERIFY_URL" ]]; then
+    echo "🔒 Auto-detected itinerary URL: $VERIFY_URL — will verify before sending."
+  else
+    echo "⚠️ Itinerary email detected but no tabiji.ai URL found in body. Proceeding without verification."
+  fi
+fi
+
+# If --verify-url is set (or auto-detected), ensure the URL returns 200 before sending
 if [[ -n "$VERIFY_URL" ]]; then
   SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
   echo "🔒 Verifying $VERIFY_URL is live before sending email..."
