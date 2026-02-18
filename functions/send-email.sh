@@ -18,6 +18,8 @@ SUBJECT=""
 BODY_FILE=""
 BODY_TEXT=""
 
+VERIFY_URL=""
+
 while [[ $# -gt 0 ]]; do
   case $1 in
     --to) TO="$2"; shift 2 ;;
@@ -26,9 +28,20 @@ while [[ $# -gt 0 ]]; do
     --body) BODY_TEXT="$2"; shift 2 ;;
     --from) FROM_NAME="$2"; shift 2 ;;
     --from-email) FROM_EMAIL="$2"; shift 2 ;;
+    --verify-url) VERIFY_URL="$2"; shift 2 ;;
     *) echo "Unknown arg: $1"; exit 1 ;;
   esac
 done
+
+# If --verify-url is set, ensure the URL returns 200 before sending
+if [[ -n "$VERIFY_URL" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  echo "🔒 Verifying $VERIFY_URL is live before sending email..."
+  if ! bash "$SCRIPT_DIR/wait-for-deploy.sh" "$VERIFY_URL" 180 5; then
+    echo "❌ BLOCKED: $VERIFY_URL is not live. Email NOT sent."
+    exit 1
+  fi
+fi
 
 if [[ -z "$TO" || -z "$SUBJECT" ]]; then
   echo "Usage: send-email.sh --to EMAIL --subject SUBJECT (--body-file FILE | --body TEXT)"
