@@ -14,14 +14,18 @@ function saveOrder(order) {
   fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 }
 
-// Wake OpenClaw so it picks up the new order
+// Wake OpenClaw so it picks up the new order immediately
+// Uses /api/cron/wake which triggers the main agent's heartbeat
 function wakeOpenClaw(order) {
   const token = process.env.OPENCLAW_HOOKS_TOKEN;
   if (!token) { console.log('⚠️ No OPENCLAW_HOOKS_TOKEN, skipping wake'); return; }
-  const payload = JSON.stringify({
-    text: `New tabiji order: ${order.destination} for ${order.email}. Check orders/pending.json and fulfill it.`
+
+  // Send wake event via /hooks/wake (triggers main agent heartbeat immediately)
+  const wakePayload = JSON.stringify({
+    text: `🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount}). Check orders/pending.json and fulfill immediately.`,
+    mode: 'now'
   });
-  const opts = {
+  const wakeOpts = {
     hostname: '127.0.0.1',
     port: 18789,
     path: '/hooks/wake',
@@ -29,16 +33,16 @@ function wakeOpenClaw(order) {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
-      'Content-Length': Buffer.byteLength(payload)
+      'Content-Length': Buffer.byteLength(wakePayload)
     }
   };
-  const req = http.request(opts, (res) => {
+  const req = http.request(wakeOpts, (res) => {
     let body = '';
     res.on('data', c => body += c);
-    res.on('end', () => console.log(`Wake event [${res.statusCode}]: ${body}`));
+    res.on('end', () => console.log(`Wake [${res.statusCode}]: ${body}`));
   });
   req.on('error', (err) => console.error('Wake error:', err.message));
-  req.write(payload);
+  req.write(wakePayload);
   req.end();
 }
 
