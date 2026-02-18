@@ -14,16 +14,22 @@ const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
  * @returns {Object} { slug, url, filePath }
  */
 function fulfillOrder(order, itineraryData) {
+  // --- Normalize order ID: accept id or orderId from caller ---
+  const _orderId = order.id || order.orderId;
+  if (!_orderId) {
+    throw new Error('Order must have an "id" or "orderId" field');
+  }
+
   // --- Claim check: prevent duplicate fulfillment of same order ---
   const pendingFile = path.join(REPO_ROOT, 'orders', 'pending.json');
   try {
     const pending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
-    const match = pending.find(o => o.id === order.id || o.orderId === order.orderId);
+    const match = pending.find(o => (o.id || o.orderId) === _orderId);
     if (match && match.status === 'in-progress') {
-      throw new Error(`Order ${order.id || order.orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
+      throw new Error(`Order ${_orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
     }
     if (match && match.status === 'fulfilled') {
-      throw new Error(`Order ${order.id || order.orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
+      throw new Error(`Order ${_orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
     }
     // Claim it
     if (match) {
@@ -31,7 +37,7 @@ function fulfillOrder(order, itineraryData) {
       match.claimedAt = new Date().toISOString();
       match.claimedBy = process.pid;
       fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
-      console.log(`✅ Claimed order ${order.id || order.orderId} (pid ${process.pid}, status → in-progress)`);
+      console.log(`✅ Claimed order ${_orderId} (pid ${process.pid}, status → in-progress)`);
     }
   } catch (err) {
     if (err.message.includes('already')) throw err;
@@ -48,18 +54,18 @@ function fulfillOrder(order, itineraryData) {
     }
     console.warn(`Stale lock found (${Math.round(lockAge / 1000)}s old) — removing`);
   }
-  const lockInfo = { orderId: order.id || order.orderId, ts: new Date().toISOString(), pid: process.pid };
+  const lockInfo = { orderId: _orderId, ts: new Date().toISOString(), pid: process.pid };
   fs.writeFileSync(LOCK_FILE, JSON.stringify(lockInfo, null, 2));
 
   // Wrap in try/finally to always release lock
   try {
-    return _doFulfill(order, itineraryData);
+    return _doFulfill(order, itineraryData, _orderId);
   } finally {
     try { fs.unlinkSync(LOCK_FILE); } catch (_) {}
   }
 }
 
-function _doFulfill(order, itineraryData) {
+function _doFulfill(order, itineraryData, _orderId) {
   // Validate: every day MUST have mapPins with lat/lng
   if (itineraryData.days && itineraryData.days.length) {
     const missingMaps = itineraryData.days.filter(d => !d.mapPins || !d.mapPins.length);
@@ -231,16 +237,16 @@ function _doFulfill(order, itineraryData) {
   try {
     const pendingFile = path.join(REPO_ROOT, 'orders', 'pending.json');
     const pending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
-    const match = pending.find(o => o.id === order.id || o.orderId === order.orderId);
+    const match = pending.find(o => (o.id || o.orderId) === _orderId);
     if (match) {
       match.status = 'fulfilled';
       match.fulfilledAt = new Date().toISOString();
       match.slug = slug;
       match.url = url;
       fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
-      console.log(`Order ${order.id || order.orderId} marked fulfilled in pending.json`);
+      console.log(`Order ${_orderId} marked fulfilled in pending.json`);
     } else {
-      console.warn(`Order ${order.id || order.orderId} not found in pending.json — could not update status`);
+      console.warn(`Order ${_orderId} not found in pending.json — could not update status`);
     }
   } catch (err) {
     console.error('Failed to update pending.json status:', err.message);

@@ -1,0 +1,30 @@
+#!/bin/bash
+# Pre-commit hook: reject itinerary HTML without hero-bg.png
+# Prevents rogue sub-agents from pushing incomplete itineraries
+
+staged_html=$(git diff --cached --name-only --diff-filter=A | grep '^i/.*/index\.html$')
+
+if [ -z "$staged_html" ]; then
+  exit 0
+fi
+
+fail=0
+while IFS= read -r html_file; do
+  dir=$(dirname "$html_file")
+  slug=$(basename "$dir")
+  hero="$dir/hero-bg.png"
+  # Check if hero-bg.png is either staged or already exists
+  if ! git diff --cached --name-only | grep -q "^${hero}$" && [ ! -f "$hero" ]; then
+    echo "❌ BLOCKED: $html_file has no hero-bg.png"
+    echo "   Itinerary '$slug' must be created via fulfill-order.js (which generates hero-bg)"
+    fail=1
+  fi
+done <<< "$staged_html"
+
+if [ $fail -eq 1 ]; then
+  echo ""
+  echo "⚠️  Use fulfill-order.js to create itineraries. Manual HTML commits without hero-bg are rejected."
+  exit 1
+fi
+
+exit 0
