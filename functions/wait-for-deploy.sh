@@ -6,7 +6,7 @@
 set -euo pipefail
 
 URL="${1:?Usage: wait-for-deploy.sh <url> [max_seconds] [interval_seconds]}"
-MAX_SECONDS="${2:-180}"
+MAX_SECONDS="${2:-300}"
 INTERVAL="${3:-5}"
 
 echo "⏳ Waiting for $URL to return 200 (max ${MAX_SECONDS}s, polling every ${INTERVAL}s)..."
