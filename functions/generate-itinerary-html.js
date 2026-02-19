@@ -329,7 +329,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         }
         .hero-meta strong { color: #fff; }
         .content-wrapper {
-            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 0;
             display: flex; gap: 3rem; align-items: flex-start;
         }
         .content { flex: 1; min-width: 0; max-width: 800px; }
