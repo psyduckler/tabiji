@@ -14,35 +14,39 @@ function saveOrder(order) {
   fs.writeFileSync(PENDING_FILE, JSON.stringify(pending, null, 2));
 }
 
-// Wake OpenClaw so it picks up the new order immediately
-// Uses /api/cron/wake which triggers the main agent's heartbeat
+// Trigger OpenClaw to fulfill the order immediately
+// Uses /hooks/agent to run an isolated agent turn (not just a heartbeat)
 function wakeOpenClaw(order) {
   const token = process.env.OPENCLAW_HOOKS_TOKEN;
   if (!token) { console.log('⚠️ No OPENCLAW_HOOKS_TOKEN, skipping wake'); return; }
 
-  // Send wake event via /hooks/wake (triggers main agent heartbeat immediately)
-  const wakePayload = JSON.stringify({
-    text: `🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount}). Check orders/pending.json and fulfill immediately.`,
-    mode: 'now'
+  const agentPayload = JSON.stringify({
+    message: `🎌 NEW ORDER received. Fulfill it NOW.\n\nOrder details:\n- ID: ${order.id}\n- Destination: ${order.destination}\n- Email: ${order.email}\n- Dates: ${order.start_date} to ${order.end_date}\n- Group size: ${order.group_size}\n- Style: ${order.travel_style}\n- Dining: ${order.dining}\n- Budget: ${order.budget}\n- Requests: ${order.requests}\n- Amount: $${order.amount}\n\nIMPORTANT: Read tabiji/orders/pending.json, find this order (status: "pending"), and fulfill it using tabiji/functions/fulfill-order.js. Read tabiji/ARCHITECTURE.md section 1.5 for the fulfillment pipeline. Use model anthropic/claude-opus-4-6 if spawning a sub-agent.`,
+    name: "Tabiji Order",
+    sessionKey: `hook:tabiji-order:${order.id}`,
+    wakeMode: "now",
+    deliver: true,
+    channel: "slack",
+    model: "anthropic/claude-opus-4-6"
   });
-  const wakeOpts = {
+  const agentOpts = {
     hostname: '127.0.0.1',
     port: 18789,
-    path: '/hooks/wake',
+    path: '/hooks/agent',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
-      'Content-Length': Buffer.byteLength(wakePayload)
+      'Content-Length': Buffer.byteLength(agentPayload)
     }
   };
-  const req = http.request(wakeOpts, (res) => {
+  const req = http.request(agentOpts, (res) => {
     let body = '';
     res.on('data', c => body += c);
-    res.on('end', () => console.log(`Wake [${res.statusCode}]: ${body}`));
+    res.on('end', () => console.log(`Agent [${res.statusCode}]: ${body}`));
   });
-  req.on('error', (err) => console.error('Wake error:', err.message));
-  req.write(wakePayload);
+  req.on('error', (err) => console.error('Agent hook error:', err.message));
+  req.write(agentPayload);
   req.end();
 }
 
