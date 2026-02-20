@@ -336,7 +336,7 @@ setupChips('continentChips', selectedContinent, true);
 (function(){
   const preview = [...destinations].sort(()=>Math.random()-.5).slice(0,16);
   const track = document.getElementById('carouselTrack');
-  const html = d => `<div class="carousel-card" onclick="window.location.href='/destinations/${d.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'')}/'"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;
+  const html = d => `<div class="carousel-card" onclick="window.location.href='/destinations/${d.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'')}/'"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;
   const cards = preview.map(html).join('');
   track.innerHTML = cards + cards;
 })();
@@ -392,7 +392,7 @@ function render() {
 
   grid.innerHTML = filtered.map((d, i) => `
     <div class="card" onclick="openModal(${destinations.indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
-      <img src="https://images.unsplash.com/${d.photo}?w=600&q=80" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
+      <img src="https://images.unsplash.com/${d.photo}?w=600&q=80" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}" onerror="this.closest('.card').style.display='none'">
       <div class="card-body">
         <h2>${d.name}</h2>
         <div class="region">${d.region}</div>
