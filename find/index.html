@@ -15,6 +15,18 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--indigo:#1a365d;--terracotta:#c4704b;--cream:#faf6f1;--sand:#e8ddd3;--dark:#1a1a1a;--light-text:#6b5c4d;--green:#3a7d5c}
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
+.carousel-section{margin:36px auto 0;max-width:100%;overflow:hidden;padding:0 0 8px}
+.carousel-label{text-align:center;font-size:0.78rem;font-weight:600;color:var(--light-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+.carousel-track-wrapper{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}
+.carousel-track{display:flex;gap:16px;width:max-content;animation:carouselScroll 40s linear infinite}
+.carousel-track:hover{animation-play-state:paused}
+@keyframes carouselScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.carousel-card{flex:0 0 220px;border-radius:14px;overflow:hidden;position:relative;height:160px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:transform .2s}
+.carousel-card:hover{transform:scale(1.04)}
+.carousel-card img{width:100%;height:100%;object-fit:cover}
+.carousel-card .cc-overlay{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff}
+.carousel-card .cc-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;line-height:1.2}
+.carousel-card .cc-region{font-size:0.72rem;opacity:.85;margin-top:2px}
 .header{text-align:center;padding:32px 20px 0}
 .brand{font-family:'Playfair Display',serif;color:var(--terracotta);font-weight:700;font-size:1rem}
 h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color:var(--indigo);margin:10px 0 4px;line-height:1.15}
@@ -140,6 +152,14 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
   <div class="filter-actions">
     <button class="find-btn" onclick="findDestinations()">Find Destinations →</button>
     <button class="clear-btn" onclick="clearFilters()">Clear all</button>
+  </div>
+</div>
+
+<!-- Destination Preview Carousel -->
+<div class="carousel-section">
+  <p class="carousel-label">Popular destinations</p>
+  <div class="carousel-track-wrapper">
+    <div class="carousel-track" id="carouselTrack"></div>
   </div>
 </div>
 
@@ -311,6 +331,15 @@ setupChips('budgetChips', selectedBudget, false);
 setupChips('tripChips', selectedTrip, true);
 setupChips('travelChips', selectedTravel, true);
 setupChips('continentChips', selectedContinent, true);
+
+// Carousel
+(function(){
+  const preview = [...destinations].sort(()=>Math.random()-.5).slice(0,16);
+  const track = document.getElementById('carouselTrack');
+  const html = d => `<div class="carousel-card" onclick="window.location.href='/destinations/${d.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'')}/'"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;
+  const cards = preview.map(html).join('');
+  track.innerHTML = cards + cards;
+})();
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
