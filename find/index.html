@@ -336,7 +336,7 @@ setupChips('continentChips', selectedContinent, true);
 (function(){
   const preview = [...destinations].sort(()=>Math.random()-.5).slice(0,16);
   const track = document.getElementById('carouselTrack');
-  const html = d => `<div class="carousel-card" onclick="window.location.href='/destinations/${d.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'')}/'"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;
+  const html = (d) => {const idx = destinations.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
   const cards = preview.map(html).join('');
   track.innerHTML = cards + cards;
 })();
