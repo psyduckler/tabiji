@@ -103,16 +103,11 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
     <label>Trip Style</label>
     <div class="chips" id="tripChips">
       <button class="chip" data-value="Beach">🏖 Beach & Islands</button>
-      <button class="chip" data-value="Adventure">🧗 Adventure</button>
+      <button class="chip" data-value="Adventure">🧗 Adventure & Nature</button>
       <button class="chip" data-value="Culture">🏛 Culture & History</button>
       <button class="chip" data-value="Food">🍜 Food & Culinary</button>
       <button class="chip" data-value="Romance">💕 Romance</button>
-      <button class="chip" data-value="Nightlife">🎶 Nightlife</button>
-      <button class="chip" data-value="Wellness">🧘 Wellness</button>
-      <button class="chip" data-value="Wildlife">🦁 Wildlife & Safari</button>
-      <button class="chip" data-value="Nature">🌿 Nature</button>
-      <button class="chip" data-value="Hiking">🥾 Hiking</button>
-      <button class="chip" data-value="Photography">📸 Photography</button>
+      <button class="chip" data-value="Wellness">🧘 Wellness & Relaxation</button>
     </div>
   </div>
 
@@ -123,6 +118,7 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
       <button class="chip" data-value="offbeat">🗺 Off the beaten path</button>
       <button class="chip" data-value="luxury">✨ Luxury</button>
       <button class="chip" data-value="budget">💸 Budget backpacker</button>
+      <button class="chip" data-value="family">👨‍👩‍👧‍👦 Family-friendly</button>
       <button class="chip" data-value="photography">📷 Photography</button>
     </div>
   </div>
@@ -327,7 +323,8 @@ function shuffle(arr) {
 function findDestinations() {
   filtered = destinations.filter(d => {
     if (selectedBudget.length && !selectedBudget.includes(d.budget)) return false;
-    if (selectedTrip.length && !selectedTrip.some(t => d.vibes.some(v => v.toLowerCase().includes(t.toLowerCase())))) return false;
+    const vibeMap = {adventure:["adventure","nature","hiking","wildlife","nightlife"],wellness:["wellness","spiritual"]};
+    if (selectedTrip.length && !selectedTrip.some(t => {const expanded = vibeMap[t.toLowerCase()] || [t.toLowerCase()]; return d.vibes.some(v => expanded.some(e => v.toLowerCase().includes(e)));})) return false;
     if (selectedTravel.length && !selectedTravel.some(t => d.travel.includes(t))) return false;
     if (selectedContinent.length && !selectedContinent.includes(d.continent)) return false;
     return true;
