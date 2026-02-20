@@ -21,24 +21,34 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .subtitle{color:var(--light-text);font-size:0.95rem}
 
 /* Filters */
-.filters{max-width:720px;margin:28px auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-.filter-group{display:flex;flex-direction:column;gap:4px;min-width:150px;flex:1}
-.filter-group label{font-size:0.78rem;font-weight:600;color:var(--light-text);text-transform:uppercase;letter-spacing:0.5px}
-.filter-group select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b5c4d' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;border:2px solid var(--sand);border-radius:12px;padding:12px 36px 12px 14px;font-size:0.95rem;font-family:'Inter',sans-serif;color:var(--dark);cursor:pointer;transition:border-color .2s}
-.filter-group select:focus{outline:none;border-color:var(--indigo)}
-.filter-actions{display:flex;align-items:flex-end;gap:8px}
-.clear-btn{background:none;border:none;color:var(--terracotta);font-size:0.85rem;font-weight:600;cursor:pointer;padding:12px 8px;font-family:'Inter',sans-serif;white-space:nowrap}
+.filters{max-width:680px;margin:32px auto;padding:0 20px}
+.filter-section{margin-bottom:20px}
+.filter-section label{display:block;font-size:0.78rem;font-weight:600;color:var(--light-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 16px;border-radius:50px;border:2px solid var(--sand);background:#fff;font-size:0.88rem;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;color:var(--dark);user-select:none}
+.chip:hover{border-color:var(--indigo);background:#f0f4fa}
+.chip.active{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+.chip.active:hover{background:#2a4a7a;border-color:#2a4a7a}
+
+.filter-actions{display:flex;gap:12px;justify-content:center;margin-top:28px;align-items:center}
+.find-btn{background:var(--indigo);color:#fff;border:none;padding:16px 52px;border-radius:50px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.find-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,54,93,.25)}
+.find-btn:active{transform:translateY(0)}
+.clear-btn{background:none;border:none;color:var(--terracotta);font-size:0.9rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
 .clear-btn:hover{text-decoration:underline}
 
 /* Results */
+.results-section{display:none}
+.results-section.show{display:block}
 .results-bar{max-width:720px;margin:0 auto;padding:8px 20px;display:flex;justify-content:space-between;align-items:center}
 .results-count{font-size:0.9rem;color:var(--light-text)}
 .shuffle-btn{background:none;border:none;color:var(--indigo);font-weight:600;font-size:0.85rem;cursor:pointer;font-family:'Inter',sans-serif}
 .shuffle-btn:hover{text-decoration:underline}
 
 .grid{max-width:720px;margin:0 auto 60px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s;cursor:pointer;animation:fadeUp .4s ease both}
 .card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .card img{width:100%;height:200px;object-fit:cover}
 .card-body{padding:16px 20px 20px}
 .card-body h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--indigo);margin-bottom:2px}
@@ -47,17 +57,14 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .tag{padding:4px 10px;border-radius:16px;font-size:0.72rem;font-weight:600}
 .tag.vibe{background:#eef2ff;color:var(--indigo)}
-.tag.season{background:#f0faf4;color:var(--green)}
 .tag.budget{background:#fef3ee;color:var(--terracotta)}
 .card-meta{display:flex;gap:14px;font-size:0.8rem;color:var(--light-text)}
-.card-cta{display:inline-block;margin-top:12px;padding:8px 20px;border-radius:50px;background:var(--indigo);color:#fff;text-decoration:none;font-size:0.85rem;font-weight:600;transition:all .2s}
-.card-cta:hover{background:#2a4a7a}
 
 .empty{text-align:center;padding:60px 20px;max-width:720px;margin:0 auto}
 .empty h2{font-family:'Playfair Display',serif;color:var(--indigo);font-size:1.5rem;margin-bottom:8px}
 .empty p{color:var(--light-text)}
 
-/* Expanded card modal */
+/* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
@@ -65,11 +72,11 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .modal .card-body{padding:24px}
 .modal .card-body h2{font-size:1.5rem}
 .modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.card-cta{display:inline-block;margin-top:12px;padding:8px 20px;border-radius:50px;background:var(--indigo);color:#fff;text-decoration:none;font-size:0.85rem;font-weight:600;transition:all .2s}
+.card-cta:hover{background:#2a4a7a}
 
 @media(max-width:480px){
   .grid{grid-template-columns:1fr}
-  .filters{flex-direction:column}
-  .filter-group{min-width:100%}
 }
 </style>
 </head>
@@ -78,73 +85,78 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 <div class="header">
   <div class="brand">tabiji.ai</div>
   <h1>Find Your Perfect Destination</h1>
-  <p class="subtitle">100 destinations. Your filters. Zero decision fatigue.</p>
+  <p class="subtitle">Pick what matters to you. We'll do the rest.</p>
 </div>
 
 <div class="filters">
-  <div class="filter-group">
+  <div class="filter-section">
     <label>Budget</label>
-    <select id="fBudget" onchange="filter()">
-      <option value="">Any budget</option>
-      <option value="$">$ — Budget-friendly</option>
-      <option value="$$">$$ — Mid-range</option>
-      <option value="$$$">$$$ — Premium</option>
-      <option value="$$$$">$$$$ — Luxury</option>
-    </select>
+    <div class="chips" id="budgetChips">
+      <button class="chip" data-value="$">$ Budget</button>
+      <button class="chip" data-value="$$">$$ Mid-range</button>
+      <button class="chip" data-value="$$$">$$$ Premium</button>
+      <button class="chip" data-value="$$$$">$$$$ Luxury</button>
+    </div>
   </div>
-  <div class="filter-group">
+
+  <div class="filter-section">
     <label>Trip Style</label>
-    <select id="fTrip" onchange="filter()">
-      <option value="">Any style</option>
-      <option value="Beach">Beach & Islands</option>
-      <option value="Adventure">Adventure & Outdoors</option>
-      <option value="Culture">Culture & History</option>
-      <option value="Food">Food & Culinary</option>
-      <option value="Romance">Romance & Couples</option>
-      <option value="Nightlife">Nightlife & Party</option>
-      <option value="Wellness">Wellness & Relaxation</option>
-      <option value="Wildlife">Wildlife & Safari</option>
-    </select>
+    <div class="chips" id="tripChips">
+      <button class="chip" data-value="Beach">🏖 Beach & Islands</button>
+      <button class="chip" data-value="Adventure">🧗 Adventure</button>
+      <button class="chip" data-value="Culture">🏛 Culture & History</button>
+      <button class="chip" data-value="Food">🍜 Food & Culinary</button>
+      <button class="chip" data-value="Romance">💕 Romance</button>
+      <button class="chip" data-value="Nightlife">🎶 Nightlife</button>
+      <button class="chip" data-value="Wellness">🧘 Wellness</button>
+      <button class="chip" data-value="Wildlife">🦁 Wildlife & Safari</button>
+      <button class="chip" data-value="Nature">🌿 Nature</button>
+      <button class="chip" data-value="Hiking">🥾 Hiking</button>
+      <button class="chip" data-value="Photography">📸 Photography</button>
+    </div>
   </div>
-  <div class="filter-group">
+
+  <div class="filter-section">
     <label>Travel Style</label>
-    <select id="fTravel" onchange="filter()">
-      <option value="">Any</option>
-      <option value="solo">Solo-friendly</option>
-      <option value="offbeat">Off the beaten path</option>
-      <option value="luxury">Luxury</option>
-      <option value="budget">Budget backpacker</option>
-      <option value="photography">Photography</option>
-    </select>
+    <div class="chips" id="travelChips">
+      <button class="chip" data-value="solo">🎒 Solo-friendly</button>
+      <button class="chip" data-value="offbeat">🗺 Off the beaten path</button>
+      <button class="chip" data-value="luxury">✨ Luxury</button>
+      <button class="chip" data-value="budget">💸 Budget backpacker</button>
+      <button class="chip" data-value="photography">📷 Photography</button>
+    </div>
   </div>
-  <div class="filter-group">
+
+  <div class="filter-section">
     <label>Continent</label>
-    <select id="fContinent" onchange="filter()">
-      <option value="">Anywhere</option>
-      <option value="Europe">Europe</option>
-      <option value="Asia">Asia</option>
-      <option value="Africa">Africa</option>
-      <option value="North America">North America</option>
-      <option value="South America">South America</option>
-      <option value="Oceania">Oceania</option>
-      <option value="Middle East">Middle East</option>
-      <option value="Polar">Polar & Arctic</option>
-    </select>
+    <div class="chips" id="continentChips">
+      <button class="chip" data-value="Europe">Europe</button>
+      <button class="chip" data-value="Asia">Asia</button>
+      <button class="chip" data-value="Africa">Africa</button>
+      <button class="chip" data-value="North America">North America</button>
+      <button class="chip" data-value="South America">South America</button>
+      <button class="chip" data-value="Oceania">Oceania</button>
+      <button class="chip" data-value="Middle East">Middle East</button>
+      <button class="chip" data-value="Polar">Polar & Arctic</button>
+    </div>
   </div>
+
   <div class="filter-actions">
+    <button class="find-btn" onclick="findDestinations()">Find Destinations →</button>
     <button class="clear-btn" onclick="clearFilters()">Clear all</button>
   </div>
 </div>
 
-<div class="results-bar">
-  <span class="results-count" id="resultsCount"></span>
-  <button class="shuffle-btn" onclick="shuffleResults()">↻ Shuffle</button>
-</div>
-
-<div class="grid" id="grid"></div>
-<div class="empty" id="empty" style="display:none">
-  <h2>No destinations match</h2>
-  <p>Try loosening your filters — or embrace the unexpected.</p>
+<div class="results-section" id="resultsSection">
+  <div class="results-bar">
+    <span class="results-count" id="resultsCount"></span>
+    <button class="shuffle-btn" onclick="shuffleResults()">↻ Shuffle</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">
+    <h2>No destinations match</h2>
+    <p>Try loosening your filters — or embrace the unexpected.</p>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -185,7 +197,7 @@ const destinations=[
 {name:"Peru",region:"South America",continent:"South America",photo:"photo-1526392060635-9d6019884377",pitch:"Machu Picchu is just the headliner. Ceviche in Lima, floating islands on Titicaca, Rainbow Mountain.",budget:"$",season:"May–Sep",vibes:["Adventure","Culture","Hiking"],travel:["solo","budget"]},
 {name:"Portugal",region:"Europe",continent:"Europe",photo:"photo-1555881400-74d7acaacd8b",pitch:"Lisbon's hills, Porto's port wine, Algarve's cliffs. Europe's best-kept secret that everyone now knows about.",budget:"$$",season:"Mar–Oct",vibes:["Culture","Food","Beach"],travel:["solo","budget"]},
 {name:"Thailand",region:"Southeast Asia",continent:"Asia",photo:"photo-1528181304800-259b08848526",pitch:"Pad thai for $1, temples that sparkle, islands for every vibe. The backpacker classic that still delivers.",budget:"$",season:"Nov–Mar",vibes:["Budget","Beach","Food"],travel:["solo","budget"]},
-{name:"Costa Rica",region:"Central America",continent:"North America",photo:"photo-1519999482648-25049ddd37b1",pitch:"Sloths, surf breaks, cloud forests, and 'pura vida' as an actual lifestyle. Nature's theme park.",budget:"$$",season:"Dec–Apr",vibes:["Adventure","Nature","Surf"],travel:["solo"]},
+{name:"Costa Rica",region:"Central America",continent:"North America",photo:"photo-1519999482648-25049ddd37b1",pitch:"Sloths, surf breaks, cloud forests, and 'pura vida' as an actual lifestyle. Nature's theme park.",budget:"$$",season:"Dec–Apr",vibes:["Adventure","Nature"],travel:["solo"]},
 {name:"New Zealand",region:"Oceania",continent:"Oceania",photo:"photo-1469521669194-babb45599def",pitch:"Middle-earth is real and they have bungee jumping. Every landscape looks like a screensaver.",budget:"$$$",season:"Dec–Feb",vibes:["Adventure","Nature"],travel:["solo","photography"]},
 {name:"Mexico City",region:"Mexico",continent:"North America",photo:"photo-1585464231875-d9ef1f5ad396",pitch:"World-class food scene at street-food prices. Museums, mezcal, and neighborhoods that each feel like different cities.",budget:"$",season:"Mar–May",vibes:["Food","Culture","Urban"],travel:["solo","budget"]},
 {name:"Cape Town",region:"South Africa",continent:"Africa",photo:"photo-1580060839134-75a5edca2e99",pitch:"Table Mountain, penguins, wine country 30 minutes away. Africa's most beautiful city isn't subtle about it.",budget:"$$",season:"Nov–Mar",vibes:["Nature","Wine","Adventure"],travel:["solo","photography"]},
@@ -267,7 +279,42 @@ const destinations=[
 {name:"Bogotá",region:"Colombia",continent:"South America",photo:"photo-1568385247005-0d371d214862",pitch:"Graffiti tours, craft coffee, Andean sunsets at 8,600 feet. South America's most underrated capital.",budget:"$",season:"Dec–Mar",vibes:["Culture","Food","Urban"],travel:["solo","budget"]},
 ];
 
-let filtered = [...destinations];
+// State
+let selectedBudget = [];
+let selectedTrip = [];
+let selectedTravel = [];
+let selectedContinent = [];
+let filtered = [];
+
+// Chip toggle logic
+function setupChips(containerId, stateArr, multiSelect) {
+  const container = document.getElementById(containerId);
+  container.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.value;
+      if (multiSelect) {
+        chip.classList.toggle('active');
+        const idx = stateArr.indexOf(val);
+        if (idx >= 0) stateArr.splice(idx, 1);
+        else stateArr.push(val);
+      } else {
+        // Single select — toggle or switch
+        const wasActive = chip.classList.contains('active');
+        container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        stateArr.length = 0;
+        if (!wasActive) {
+          chip.classList.add('active');
+          stateArr.push(val);
+        }
+      }
+    });
+  });
+}
+
+setupChips('budgetChips', selectedBudget, false);
+setupChips('tripChips', selectedTrip, true);
+setupChips('travelChips', selectedTravel, true);
+setupChips('continentChips', selectedContinent, true);
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -277,32 +324,27 @@ function shuffle(arr) {
   return arr;
 }
 
-function filter() {
-  const budget = document.getElementById('fBudget').value;
-  const trip = document.getElementById('fTrip').value;
-  const travel = document.getElementById('fTravel').value;
-  const continent = document.getElementById('fContinent').value;
-
+function findDestinations() {
   filtered = destinations.filter(d => {
-    if (budget && d.budget !== budget) return false;
-    if (trip && !d.vibes.some(v => v.toLowerCase().includes(trip.toLowerCase()))) return false;
-    if (travel && !d.travel.includes(travel)) return false;
-    if (continent && d.continent !== continent) return false;
+    if (selectedBudget.length && !selectedBudget.includes(d.budget)) return false;
+    if (selectedTrip.length && !selectedTrip.some(t => d.vibes.some(v => v.toLowerCase().includes(t.toLowerCase())))) return false;
+    if (selectedTravel.length && !selectedTravel.some(t => d.travel.includes(t))) return false;
+    if (selectedContinent.length && !selectedContinent.includes(d.continent)) return false;
     return true;
   });
-
+  shuffle(filtered);
+  document.getElementById('resultsSection').classList.add('show');
   render();
-  updateURL();
+  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'});
 }
 
 function clearFilters() {
-  document.getElementById('fBudget').value = '';
-  document.getElementById('fTrip').value = '';
-  document.getElementById('fTravel').value = '';
-  document.getElementById('fContinent').value = '';
-  filtered = [...destinations];
-  render();
-  history.replaceState(null, '', window.location.pathname);
+  selectedBudget.length = 0;
+  selectedTrip.length = 0;
+  selectedTravel.length = 0;
+  selectedContinent.length = 0;
+  document.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
+  document.getElementById('resultsSection').classList.remove('show');
 }
 
 function shuffleResults() {
@@ -313,7 +355,7 @@ function shuffleResults() {
 function render() {
   const grid = document.getElementById('grid');
   const empty = document.getElementById('empty');
-  document.getElementById('resultsCount').textContent = `${filtered.length} destination${filtered.length !== 1 ? 's' : ''}`;
+  document.getElementById('resultsCount').textContent = `${filtered.length} destination${filtered.length !== 1 ? 's' : ''} found`;
 
   if (filtered.length === 0) {
     grid.innerHTML = '';
@@ -323,7 +365,7 @@ function render() {
   empty.style.display = 'none';
 
   grid.innerHTML = filtered.map((d, i) => `
-    <div class="card" onclick="openModal(${destinations.indexOf(d)})">
+    <div class="card" onclick="openModal(${destinations.indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
       <img src="https://images.unsplash.com/${d.photo}?w=600&q=80" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
       <div class="card-body">
         <h2>${d.name}</h2>
@@ -364,31 +406,6 @@ function closeModal() {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-function updateURL() {
-  const params = new URLSearchParams();
-  const b = document.getElementById('fBudget').value;
-  const t = document.getElementById('fTrip').value;
-  const tr = document.getElementById('fTravel').value;
-  const c = document.getElementById('fContinent').value;
-  if (b) params.set('budget', b);
-  if (t) params.set('trip', t);
-  if (tr) params.set('travel', tr);
-  if (c) params.set('continent', c);
-  const qs = params.toString();
-  history.replaceState(null, '', qs ? '?' + qs : window.location.pathname);
-}
-
-// Load filters from URL on init
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('budget')) document.getElementById('fBudget').value = params.get('budget');
-  if (params.get('trip')) document.getElementById('fTrip').value = params.get('trip');
-  if (params.get('travel')) document.getElementById('fTravel').value = params.get('travel');
-  if (params.get('continent')) document.getElementById('fContinent').value = params.get('continent');
-  shuffle(destinations);
-  filter();
-});
 </script>
 
 <!-- GA4 -->
