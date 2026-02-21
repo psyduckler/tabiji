@@ -382,10 +382,19 @@ function clearFilters() {
 
 function shuffleResults() {
   shuffle(filtered);
-  render();
+  visibleCount = PAGE_SIZE;
+  renderPage();
 }
 
+const PAGE_SIZE = 12;
+let visibleCount = PAGE_SIZE;
+
 function render() {
+  visibleCount = PAGE_SIZE;
+  renderPage();
+}
+
+function renderPage() {
   const grid = document.getElementById('grid');
   const empty = document.getElementById('empty');
   document.getElementById('resultsCount').textContent = `${filtered.length} destination${filtered.length !== 1 ? 's' : ''} found`;
@@ -393,11 +402,13 @@ function render() {
   if (filtered.length === 0) {
     grid.innerHTML = '';
     empty.style.display = 'block';
+    removeLoadMore();
     return;
   }
   empty.style.display = 'none';
 
-  grid.innerHTML = filtered.map((d, i) => `
+  const visible = filtered.slice(0, visibleCount);
+  grid.innerHTML = visible.map((d, i) => `
     <div class="card" onclick="openModal(${getDestinations().indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
       <img src="${photoUrl(d.photo, 600, 80)}" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
       <div class="card-body">
@@ -413,6 +424,38 @@ function render() {
       </div>
     </div>
   `).join('');
+
+  updateLoadMore();
+}
+
+function updateLoadMore() {
+  let btn = document.getElementById('loadMoreBtn');
+  const remaining = filtered.length - visibleCount;
+  if (remaining > 0) {
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = 'loadMoreBtn';
+      btn.style.cssText = 'display:block;margin:32px auto 0;padding:12px 36px;border-radius:50px;background:var(--indigo);color:#fff;border:none;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit';
+      btn.onmouseover = () => btn.style.background = '#2a4a7a';
+      btn.onmouseout = () => btn.style.background = 'var(--indigo)';
+      btn.onclick = loadMore;
+      document.getElementById('grid').insertAdjacentElement('afterend', btn);
+    }
+    btn.textContent = `Load More (${remaining} remaining)`;
+    btn.style.display = 'block';
+  } else {
+    removeLoadMore();
+  }
+}
+
+function removeLoadMore() {
+  const btn = document.getElementById('loadMoreBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadMore() {
+  visibleCount += PAGE_SIZE;
+  renderPage();
 }
 
 function openModal(idx) {
