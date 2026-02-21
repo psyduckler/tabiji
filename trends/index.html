@@ -64,22 +64,21 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 #loading{text-align:center;color:var(--light-text);padding:4rem;font-size:0.95rem}
 
 /* Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:20px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;padding:32px}
-.modal-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--sand);border:none;color:var(--dark);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
-.modal-close:hover{background:#d9d0c1}
-.modal h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--indigo);margin-bottom:6px}
-.modal .modal-trend{margin-bottom:16px}
-.modal .modal-chart{margin:16px 0 4px}
-.modal .modal-chart svg{width:100%;height:120px}
-.modal .modal-dates{font-size:0.78rem;color:var(--light-text);display:flex;justify-content:space-between;margin-bottom:16px}
-.modal .modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
-.modal .stat-box{background:var(--cream);border-radius:12px;padding:16px;text-align:center}
-.modal .stat-box .stat-label{font-size:0.72rem;color:var(--light-text);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;font-weight:600}
-.modal .stat-box .stat-value{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--indigo)}
-.modal .modal-cta{display:block;text-align:center;background:var(--terracotta);color:#fff;padding:14px;border-radius:50px;font-weight:600;font-size:0.95rem;margin-top:20px;text-decoration:none;transition:background 0.2s}
-.modal .modal-cta:hover{background:#b5633f}
+.modal{background:#fff;border-radius:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal img.modal-img{width:100%;height:280px;object-fit:cover;border-radius:20px 20px 0 0}
+.modal .card-body{padding:24px}
+.modal .card-body h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--indigo);margin-bottom:2px}
+.modal .region{color:var(--light-text);font-size:0.8rem;margin-bottom:10px}
+.modal .pitch{font-size:0.9rem;line-height:1.55;color:#444;margin-bottom:12px}
+.modal .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.modal .tag{padding:4px 10px;border-radius:16px;font-size:0.72rem;font-weight:600;background:#eef2ff;color:var(--indigo)}
+.modal .card-meta{display:flex;gap:14px;font-size:0.8rem;color:var(--light-text);margin-bottom:4px}
+.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:rgba(0,0,0,.7)}
+.card-cta{display:inline-block;margin-top:12px;padding:10px 24px;border-radius:50px;background:var(--indigo);color:#fff;text-decoration:none;font-size:0.9rem;font-weight:600;transition:all .2s}
+.card-cta:hover{background:#2a4a7a}
 
 footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);color:var(--light-text);font-size:0.85rem}
 
@@ -113,7 +112,7 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 
 <div class="header">
   <h1>📊 Destination Trends</h1>
-  <p class="subtitle">Search interest over the last 12 months · Updated <span id="updated"></span></p>
+  <p class="subtitle">Interest over the last 12 months · Updated <span id="updated"></span></p>
 </div>
 
 <div class="filters">
@@ -150,16 +149,17 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2 id="mName"></h2>
-    <div class="modal-trend" id="mTrend"></div>
-    <div class="modal-chart" id="mChart"></div>
-    <div class="modal-dates"><span id="mDateStart"></span><span id="mDateEnd"></span></div>
-    <div class="modal-stats">
-      <div class="stat-box"><div class="stat-label">Current</div><div class="stat-value" id="mCurrent"></div></div>
-      <div class="stat-box"><div class="stat-label">Peak</div><div class="stat-value" id="mPeak"></div></div>
-      <div class="stat-box"><div class="stat-label">1Y Change</div><div class="stat-value" id="mChange"></div></div>
+    <img class="modal-img" id="mImg" src="" alt="">
+    <div class="card-body">
+      <h2 id="mName"></h2>
+      <div class="region" id="mRegion"></div>
+      <p class="pitch" id="mPitch"></p>
+      <div class="tags" id="mTags"></div>
+      <div class="card-meta">
+        <span id="mSeason"></span>
+      </div>
+      <a class="card-cta" id="mCta" href="#">Plan this trip →</a>
     </div>
-    <a class="modal-cta" id="mCta" href="#">Plan this trip →</a>
   </div>
 </div>
 
@@ -184,18 +184,13 @@ function sparkline(values, color) {
   return `<svg class="sparkline" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
-function bigSparkline(values, color) {
-  const w = 460, h = 110;
-  const max = Math.max(...values, 1), min = Math.min(...values, 0);
-  const range = max - min || 1;
-  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 8) - 4}`).join(' ');
-  const fillPts = pts + ` ${w},${h} 0,${h}`;
-  const gid = 'g' + Math.random().toString(36).slice(2,8);
-  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.15"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
-    <polygon points="${fillPts}" fill="url(#${gid})"/>
-    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
+let destInfo = {}; // keyed by lowercase name from destinations.json
+
+function photoUrl(p, w, q) {
+  if (!p) return '';
+  if (p.startsWith('http')) return p;
+  if (p.startsWith('img/')) return '/find/' + p;
+  return `https://images.unsplash.com/${p}?w=${w}&q=${q}&auto=format&fit=crop`;
 }
 
 function calcVelocity(values) {
@@ -279,17 +274,25 @@ document.getElementById('search').addEventListener('input', render);
 function openModal(destName) {
   const d = allDests.find(x => x.destination === destName);
   if (!d) return;
-  const color = d.velocity > 5 ? '#3a7d5c' : d.velocity < -5 ? '#c44b4b' : '#2D3A5C';
-  const vSign = d.velocity > 0 ? '+' : '';
-  const vClass = d.velocity > 5 ? 'up' : d.velocity < -5 ? 'down' : 'flat';
-  document.getElementById('mName').textContent = d.destination;
-  document.getElementById('mTrend').innerHTML = `<span class="velocity-badge ${vClass}">${vSign}${d.velocity.toFixed(1)}%</span> <span class="trend-label ${d.trend}">${d.trend === 'rising' ? '🔥 Rising' : d.trend === 'falling' ? '📉 Falling' : '➡️ Steady'}</span>`;
-  document.getElementById('mChart').innerHTML = bigSparkline(d.values, color);
-  document.getElementById('mCurrent').textContent = d.current;
-  document.getElementById('mPeak').textContent = d.peak;
-  document.getElementById('mChange').innerHTML = `<span style="color:${d.velocity > 5 ? 'var(--green)' : d.velocity < -5 ? 'var(--red)' : 'var(--indigo)'}">${vSign}${d.velocity.toFixed(1)}%</span>`;
-  document.getElementById('mDateStart').textContent = d.dates[0] || '';
-  document.getElementById('mDateEnd').textContent = d.dates[d.dates.length - 1] || '';
+  const info = destInfo[d.rawName.toLowerCase()] || destInfo[d.destination.toLowerCase()] || null;
+  const img = document.getElementById('mImg');
+  if (info && info.photo) {
+    img.src = photoUrl(info.photo, 800, 80);
+    img.alt = info.name;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+  document.getElementById('mName').textContent = info ? info.name : d.destination;
+  document.getElementById('mRegion').textContent = info ? info.region : (d.rawName !== d.destination ? d.destination.split(', ').pop() : '');
+  document.getElementById('mPitch').textContent = info ? info.pitch : '';
+  const tags = document.getElementById('mTags');
+  if (info && info.vibes) {
+    tags.innerHTML = info.vibes.map(v => `<span class="tag">${v}</span>`).join('');
+  } else {
+    tags.innerHTML = '';
+  }
+  document.getElementById('mSeason').textContent = info && info.season ? '📅 ' + info.season : '';
   document.getElementById('mCta').href = `/plan.html?destination=${encodeURIComponent(d.rawName)}`;
   document.getElementById('modal').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -302,7 +305,13 @@ function closeModal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// Load
+// Load destination info from /find for modal photos/pitches
+fetch('/find/destinations.json')
+  .then(r => r.json())
+  .then(dests => { dests.forEach(d => { destInfo[d.name.toLowerCase()] = d; }); })
+  .catch(() => {});
+
+// Load trends
 fetch('trends-data.json')
   .then(r => r.json())
   .then(data => {
