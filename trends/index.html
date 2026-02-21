@@ -189,7 +189,7 @@ fetch('trends-data.json')
       const velocity = calcVelocity(d.values);
       return {
         rank: i + 1,
-        destination: d.destination,
+        destination: d.country && d.country !== d.destination ? `${d.destination}, ${d.country}` : d.destination,
         values: d.values,
         current: d.values[d.values.length - 1] || 0,
         peak: Math.max(...d.values),
