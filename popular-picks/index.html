@@ -98,14 +98,17 @@
             border-bottom: 2px solid var(--sand);
         }
         .picks-grid {
-            display: grid; gap: 1rem;
+            display: grid; gap: 1.25rem;
+            grid-template-columns: repeat(3, 1fr);
             margin-bottom: 2rem;
         }
+        @media (max-width: 900px) { .picks-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .picks-grid { grid-template-columns: 1fr; } }
         .pick-card {
             background: var(--white);
             border: 1px solid var(--sand);
             border-radius: 14px;
-            padding: 1.5rem 2rem;
+            overflow: hidden;
             text-decoration: none;
             color: inherit;
             transition: transform 0.15s, box-shadow 0.15s;
@@ -114,6 +117,15 @@
         .pick-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .pick-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .pick-card-body {
+            padding: 1.25rem 1.5rem 1.5rem;
         }
         .card-badge {
             display: inline-block;
@@ -181,46 +193,66 @@
     <h2>🇯🇵 Tokyo, Japan</h2>
     <div class="picks-grid">
         <a href="/popular-picks/shinjuku-cheap-restaurants/" class="pick-card">
+            <img src="shinjuku-cheap-restaurants/akiyoshi.jpg" alt="Shinjuku Cheap Restaurants" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Shinjuku</span>
             <h3>20 Best Cheap Restaurants in Shinjuku (Under ¥2,000)</h3>
             <p>From ¥300 gyudon chains to hidden tonkatsu spots that tourists walk right past.</p>
             <div class="card-meta"><span>🍽️ 20 spots</span><span>💴 Under ¥2,000</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/shibuya-ramen/" class="pick-card">
+            <img src="shibuya-ramen/afuri-shibuya.jpg" alt="Shibuya Ramen" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Shibuya</span>
             <h3>Best Ramen in Shibuya</h3>
             <p>The ramen shops Shibuya locals actually eat at — from rich tonkotsu to light shio.</p>
             <div class="card-meta"><span>🍜 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/shinjuku-izakayas/" class="pick-card">
+            <img src="shinjuku-izakayas/akiyoshi.jpg" alt="Shinjuku Izakayas" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍶 Shinjuku</span>
             <h3>Best Izakayas in Shinjuku</h3>
             <p>Golden Gai gems, Omoide Yokocho favorites, and hidden izakayas off the tourist trail.</p>
             <div class="card-meta"><span>🍶 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/asakusa-street-food/" class="pick-card">
+            <img src="asakusa-street-food/asakusa-age-manju.jpg" alt="Asakusa Street Food" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍡 Asakusa</span>
             <h3>Best Street Food in Asakusa</h3>
             <p>Nakamise-dori classics, Hoppy Street yakitori, and the snacks locals actually recommend.</p>
             <div class="card-meta"><span>🍡 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/shimokitazawa-coffee/" class="pick-card">
+            <img src="shimokitazawa-coffee/bear-pond-espresso.jpg" alt="Shimokitazawa Coffee" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">☕ Shimokitazawa</span>
             <h3>Best Coffee Shops in Shimokitazawa</h3>
             <p>Specialty roasters, retro kissaten, and cozy third-wave cafés in Tokyo's coolest neighborhood.</p>
             <div class="card-meta"><span>☕ 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/kyoto-hidden-temples/" class="pick-card">
+            <img src="kyoto-hidden-temples/adashino-nenbutsuji.jpg" alt="Kyoto Hidden Temples" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">⛩️ Kyoto</span>
             <h3>Best Hidden Temples in Kyoto</h3>
             <p>Skip the crowds and discover mossy gardens, mountain shrines, and temples most tourists never see.</p>
             <div class="card-meta"><span>⛩️ 15 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/osaka-street-food/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🐙 Osaka</span>
             <h3>Best Street Food in Osaka</h3>
             <p>A glutton's tour of takoyaki, okonomiyaki, and kushikatsu in Japan's kitchen.</p>
             <div class="card-meta"><span>🐙 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -230,22 +262,30 @@
     <h2>🇫🇷 Paris, France</h2>
     <div class="picks-grid">
         <a href="/popular-picks/paris-bakeries/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🥐 Paris</span>
             <h3>Best Bakeries & Pâtisseries in Paris</h3>
             <p>The croissants, pain au chocolat, and pastries that Parisians actually queue for.</p>
             <div class="card-meta"><span>🥐 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/le-marais-cheap-restaurants/" class="pick-card">
+            <img src="le-marais-cheap-restaurants/photos/01-as-du-fallafel-1.jpg" alt="Le Marais Cheap Restaurants" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍽️ Le Marais</span>
             <h3>Best Cheap Restaurants in Le Marais</h3>
             <p>L'As du Fallafel, hidden bistros, and market stalls — eating well without the Marais markup.</p>
             <div class="card-meta"><span>🍽️ 16 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/paris-wine-bars/" class="pick-card">
+            <img src="paris-wine-bars/au-tour-du-vin.jpg" alt="Paris Wine Bars" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍷 Paris</span>
             <h3>Best Wine Bars in Paris</h3>
             <p>Natural wine caves, cave à manger spots, and the bars Parisian wine lovers actually go to.</p>
             <div class="card-meta"><span>🍷 17 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -255,16 +295,21 @@
     <h2>🇮🇹 Rome, Italy</h2>
     <div class="picks-grid">
         <a href="/popular-picks/trastevere-pasta/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍝 Trastevere</span>
             <h3>Best Pasta in Trastevere</h3>
             <p>Cacio e pepe, carbonara, amatriciana — the trattorias where Romans actually eat.</p>
             <div class="card-meta"><span>🍝 17 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/rome-gelato/" class="pick-card">
+            <img src="rome-gelato/capriccio-carla.jpg" alt="Rome Gelato" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍦 Rome</span>
             <h3>Best Gelato in Rome</h3>
             <p>Artisan gelaterias worth the walk — and the tourist traps to avoid.</p>
             <div class="card-meta"><span>🍦 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -274,16 +319,21 @@
     <h2>🇹🇭 Bangkok, Thailand</h2>
     <div class="picks-grid">
         <a href="/popular-picks/yaowarat-street-food/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Yaowarat / Chinatown</span>
             <h3>Best Street Food in Yaowarat</h3>
             <p>The stalls, noodle shops, and seafood spots that make Bangkok's Chinatown legendary.</p>
             <div class="card-meta"><span>🍜 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/bangkok-rooftop-bars/" class="pick-card">
+            <img src="bangkok-rooftop-bars/aire-bar.jpg" alt="Bangkok Rooftop Bars" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍸 Bangkok</span>
             <h3>Best Rooftop Bars in Bangkok</h3>
             <p>Skyline views, dress codes, and honest takes on which rooftops are worth the elevator ride.</p>
             <div class="card-meta"><span>🍸 16 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -293,10 +343,13 @@
     <h2>🇹🇭 Chiang Mai, Thailand</h2>
     <div class="picks-grid">
         <a href="/popular-picks/chiang-mai-khao-soi/" class="pick-card">
+            <img src="chiang-mai-khao-soi/auntie-cats-soup-restaurant.jpg" alt="Chiang Mai Khao Soi" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Chiang Mai</span>
             <h3>Best Khao Soi in Chiang Mai</h3>
             <p>Coconut curry noodles from 60 THB street stalls to mountain village gems — the Reddit-approved khao soi map.</p>
             <div class="card-meta"><span>🍜 15 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -306,16 +359,22 @@
     <h2>🇪🇸 Barcelona, Spain</h2>
     <div class="picks-grid">
         <a href="/popular-picks/el-born-tapas/" class="pick-card">
+            <img src="el-born-tapas/alsur-cafe.jpg" alt="El Born Tapas" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍤 El Born</span>
             <h3>Best Tapas Bars in El Born</h3>
             <p>Patatas bravas, jamón, croquetas — the tapas bars locals haven't given up to tourists yet.</p>
             <div class="card-meta"><span>🍤 17 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/barcelona-brunch/" class="pick-card">
+            <img src="barcelona-brunch/brunch-cake.jpg" alt="Barcelona Brunch" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🥞 Barcelona</span>
             <h3>Best Brunch Spots in Barcelona</h3>
             <p>From Aussie-style flat whites to bottomless weekend brunch — where Barcelona does mornings right.</p>
             <div class="card-meta"><span>🥞 16 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -325,16 +384,20 @@
     <h2>🇬🇧 London, United Kingdom</h2>
     <div class="picks-grid">
         <a href="/popular-picks/soho-cheap-eats/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Soho</span>
             <h3>Best Cheap Eats in Soho</h3>
             <p>Chinatown dumplings, market food, and the hidden spots where Soho workers actually eat lunch.</p>
             <div class="card-meta"><span>🍜 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/london-pubs/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍺 London</span>
             <h3>Best Pubs in London</h3>
             <p>Historic boozers, real ale gems, riverside locals, and the Sam Smith's pubs where a pint costs £3.</p>
             <div class="card-meta"><span>🍺 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -344,22 +407,28 @@
     <h2>🇲🇽 Mexico</h2>
     <div class="picks-grid">
         <a href="/popular-picks/mexico-city-tacos/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🌮 Mexico City</span>
             <h3>Best Tacos in Mexico City</h3>
             <p>Al pastor, suadero, birria, canasta — the taquerías that chilangos swear by.</p>
             <div class="card-meta"><span>🌮 18 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/roma-condesa-coffee/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">☕ Roma & Condesa</span>
             <h3>Best Coffee Shops in Roma & Condesa</h3>
             <p>Specialty roasters, remote-work spots, and the cafés that make CDMX a coffee capital.</p>
             <div class="card-meta"><span>☕ 16 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/tulum-beach-clubs/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🏖️ Tulum</span>
             <h3>Best Beach Clubs in Tulum</h3>
             <p>Honest takes on prices, vibes, overrated spots & hidden gems along the hotel zone strip.</p>
             <div class="card-meta"><span>🏖️ 15 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -369,16 +438,21 @@
     <h2>🇮🇩 Bali, Indonesia</h2>
     <div class="picks-grid">
         <a href="/popular-picks/ubud-warungs/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍛 Ubud</span>
             <h3>Best Warungs in Ubud</h3>
             <p>Babi guling, nasi campur, and the family-run warungs that haven't been Instagrammed to death.</p>
             <div class="card-meta"><span>🍛 17 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/canggu-beach-clubs/" class="pick-card">
+            <img src="canggu-beach-clubs/atlas-beach-club.jpg" alt="Canggu Beach Clubs" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🏖️ Canggu</span>
             <h3>Best Beach Clubs in Canggu</h3>
             <p>Sunset pools, day beds, and honest takes on which clubs are worth the minimum spend.</p>
             <div class="card-meta"><span>🏖️ 15 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -388,10 +462,12 @@
     <h2>🇰🇷 Seoul, South Korea</h2>
     <div class="picks-grid">
         <a href="/popular-picks/seoul-korean-bbq/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🥩 Seoul</span>
             <h3>Best Korean BBQ in Seoul</h3>
             <p>Hanwoo beef, samgyeopsal joints, and the grills that Seoul locals actually line up for.</p>
             <div class="card-meta"><span>🥩 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -401,16 +477,20 @@
     <h2>🇵🇹 Portugal</h2>
     <div class="picks-grid">
         <a href="/popular-picks/lisbon-pastel-de-nata/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🥧 Lisbon</span>
             <h3>Best Pastéis de Nata in Lisbon</h3>
             <p>Beyond Pastéis de Belém — the pastelarias where Lisboetas get their custard tart fix.</p>
             <div class="card-meta"><span>🥧 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/porto-wine-bars/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍷 Porto</span>
             <h3>Best Wine Bars in Porto</h3>
             <p>Port cellars in Gaia, natural wine bars in Ribeira, and rooftop spots overlooking the Douro.</p>
             <div class="card-meta"><span>🍷 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -420,16 +500,22 @@
     <h2>🇹🇷 Istanbul, Turkey</h2>
     <div class="picks-grid">
         <a href="/popular-picks/istanbul-kebabs/" class="pick-card">
+            <img src="istanbul-kebabs/photo-0.jpg" alt="Istanbul Kebabs" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🥙 Istanbul</span>
             <h3>Best Kebabs in Istanbul</h3>
             <p>Döner, iskender, adana, lahmacun — the kebab spots that Istanbullus actually eat at.</p>
             <div class="card-meta"><span>🥙 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/istanbul-rooftop-restaurants/" class="pick-card">
+            <img src="istanbul-rooftop-restaurants/16-roof.jpg" alt="Istanbul Rooftop Restaurants" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍽️ Istanbul</span>
             <h3>Best Rooftop Restaurants in Istanbul</h3>
             <p>Bosphorus views, Hagia Sophia sunsets, and hidden terraces — the rooftops Reddit actually recommends.</p>
             <div class="card-meta"><span>🍽️ 15 spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -439,10 +525,13 @@
     <h2>🇻🇳 Hanoi, Vietnam</h2>
     <div class="picks-grid">
         <a href="/popular-picks/hanoi-pho/" class="pick-card">
+            <img src="hanoi-pho/photo-0.jpg" alt="Hanoi Pho" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Hanoi</span>
             <h3>Best Phở in Hanoi</h3>
             <p>The birthplace of phở — tiny sidewalk stalls and legendary shops that have served the same broth for decades.</p>
             <div class="card-meta"><span>🍜 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -452,10 +541,12 @@
     <h2>🇲🇦 Marrakech, Morocco</h2>
     <div class="picks-grid">
         <a href="/popular-picks/marrakech-street-food/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍢 Marrakech</span>
             <h3>Best Street Food in Marrakech</h3>
             <p>Jemaa el-Fnaa stalls, medina snails, tangia, and the food you didn't know you needed to try.</p>
             <div class="card-meta"><span>🍢 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -465,10 +556,13 @@
     <h2>🇦🇷 Buenos Aires, Argentina</h2>
     <div class="picks-grid">
         <a href="/popular-picks/buenos-aires-steakhouses/" class="pick-card">
+            <img src="buenos-aires-steakhouses/don-julio.jpg" alt="Buenos Aires Steakhouses" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🥩 Buenos Aires</span>
             <h3>Best Steakhouses & Parrillas in Buenos Aires</h3>
             <p>Bife de chorizo, entraña, mollejas — the parrillas where porteños actually eat asado.</p>
             <div class="card-meta"><span>🥩 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -478,10 +572,13 @@
     <h2>🇳🇱 Amsterdam, Netherlands</h2>
     <div class="picks-grid">
         <a href="/popular-picks/amsterdam-cheap-eats/" class="pick-card">
+            <img src="amsterdam-cheap-eats/albert-cuyp-market.jpg" alt="Amsterdam Cheap Eats" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍟 Amsterdam</span>
             <h3>Best Cheap Eats in Amsterdam</h3>
             <p>Indonesian rijsttafel, Surinamese roti, frites, and the budget spots tourists never find.</p>
             <div class="card-meta"><span>🍟 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -491,16 +588,20 @@
     <h2>🇺🇸 USA</h2>
     <div class="picks-grid">
         <a href="/popular-picks/new-york-pizza/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍕 NYC</span>
             <h3>Best Pizza in New York City</h3>
             <p>Dollar slices, coal-oven legends, Neapolitan newcomers — the eternal NYC pizza debate, settled by Reddit.</p>
             <div class="card-meta"><span>🍕 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
         <a href="/popular-picks/new-orleans-jazz-bars/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🎺 New Orleans</span>
             <h3>Best Jazz Bars in New Orleans</h3>
             <p>Frenchmen Street staples, historic halls, and the local spots tourists almost always miss.</p>
             <div class="card-meta"><span>🎺 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -510,10 +611,13 @@
     <h2>🇬🇷 Athens, Greece</h2>
     <div class="picks-grid">
         <a href="/popular-picks/athens-tavernas/" class="pick-card">
+            <img src="athens-tavernas/atlantikos.jpg" alt="Athens Tavernas" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍽️ Athens</span>
             <h3>Best Tavernas in Athens</h3>
             <p>Mezedes, grilled octopus, moussaka — the tavernas where Athenians eat with family on Sundays.</p>
             <div class="card-meta"><span>🍽️ 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -523,10 +627,13 @@
     <h2>🇨🇴 Cartagena, Colombia</h2>
     <div class="picks-grid">
         <a href="/popular-picks/cartagena-ceviche/" class="pick-card">
+            <img src="cartagena-ceviche/alma.jpg" alt="Cartagena Ceviche" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🦐 Cartagena</span>
             <h3>Best Ceviche & Seafood in Cartagena</h3>
             <p>Fresh ceviche, coconut rice, fried fish — from Old City restaurants to Bazurto market stalls.</p>
             <div class="card-meta"><span>🦐 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -536,10 +643,13 @@
     <h2>🇵🇪 Lima, Peru</h2>
     <div class="picks-grid">
         <a href="/popular-picks/lima-ceviche/" class="pick-card">
+            <img src="lima-ceviche/photo-0.jpg" alt="Lima Ceviche" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🐟 Lima</span>
             <h3>Best Ceviche in Lima</h3>
             <p>The world capital of ceviche — from legendary ceviquerías to market stalls with leche de tigre on tap.</p>
             <div class="card-meta"><span>🐟 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -549,10 +659,13 @@
     <h2>🇮🇳 Delhi, India</h2>
     <div class="picks-grid">
         <a href="/popular-picks/delhi-street-food/" class="pick-card">
+            <img src="delhi-street-food/al-jawahar.jpg" alt="Delhi Street Food" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍛 Delhi</span>
             <h3>Best Street Food in Delhi</h3>
             <p>Chandni Chowk chaat, Paranthe Wali Gali, Old Delhi kebabs — centuries of street food mastery.</p>
             <div class="card-meta"><span>🍛 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -562,10 +675,12 @@
     <h2>🇸🇬 Singapore</h2>
     <div class="picks-grid">
         <a href="/popular-picks/singapore-hawker-centers/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Singapore</span>
             <h3>Best Hawker Centers & Stalls in Singapore</h3>
             <p>UNESCO-listed food culture — chicken rice, laksa, char kway teow, and the stalls worth queuing for.</p>
             <div class="card-meta"><span>🍜 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -575,10 +690,13 @@
     <h2>🇯🇲 Kingston, Jamaica</h2>
     <div class="picks-grid">
         <a href="/popular-picks/kingston-jerk-chicken/" class="pick-card">
+            <img src="kingston-jerk-chicken/photo-0.jpg" alt="Kingston Jerk Chicken" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍗 Kingston</span>
             <h3>Best Jerk Chicken in Kingston</h3>
             <p>Smoky pimento wood jerk, roadside pan chicken, and the spots Kingstonians swear by.</p>
             <div class="card-meta"><span>🍗 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -588,10 +706,13 @@
     <h2>🇭🇺 Budapest, Hungary</h2>
     <div class="picks-grid">
         <a href="/popular-picks/budapest-ruin-bars/" class="pick-card">
+            <img src="budapest-ruin-bars/360-bar.jpg" alt="Budapest Ruin Bars" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍺 Budapest</span>
             <h3>Best Ruin Bars in Budapest</h3>
             <p>Abandoned buildings turned legendary bars — the ruin bar scene beyond just Szimpla Kert.</p>
             <div class="card-meta"><span>🍺 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -601,10 +722,12 @@
     <h2>🇨🇿 Prague, Czech Republic</h2>
     <div class="picks-grid">
         <a href="/popular-picks/prague-cheap-eats/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍽️ Prague</span>
             <h3>Best Cheap Eats in Prague</h3>
             <p>Svíčková, hospoda lunches, Vietnamese pho, and the budget spots away from Old Town tourist traps.</p>
             <div class="card-meta"><span>🍽️ 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -614,10 +737,13 @@
     <h2>🇪🇬 Cairo, Egypt</h2>
     <div class="picks-grid">
         <a href="/popular-picks/cairo-street-food/" class="pick-card">
+            <img src="cairo-street-food/abou-el-sid.jpg" alt="Cairo Street Food" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🧆 Cairo</span>
             <h3>Best Street Food in Cairo</h3>
             <p>Koshari, ful medames, ta'ameya, hawawshi — Egypt's legendary street food for pennies.</p>
             <div class="card-meta"><span>🧆 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -627,10 +753,12 @@
     <h2>🇲🇾 Penang, Malaysia</h2>
     <div class="picks-grid">
         <a href="/popular-picks/penang-street-food/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍜 Penang</span>
             <h3>Best Street Food in Penang</h3>
             <p>Regularly voted the world's best street food city — char kway teow, assam laksa, and nasi kandar.</p>
             <div class="card-meta"><span>🍜 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -640,10 +768,12 @@
     <h2>🇵🇭 Manila, Philippines</h2>
     <div class="picks-grid">
         <a href="/popular-picks/manila-cheap-eats/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🍛 Manila</span>
             <h3>Best Cheap Eats in Manila</h3>
             <p>Sisig, lechon, sinigang, and the carinderias and jollijeeps where Manila eats for under ₱100.</p>
             <div class="card-meta"><span>🍛 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -653,10 +783,13 @@
     <h2>🇩🇰 Copenhagen, Denmark</h2>
     <div class="picks-grid">
         <a href="/popular-picks/copenhagen-budget-food/" class="pick-card">
+            <img src="copenhagen-budget-food/absalon-community-dinner.jpg" alt="Copenhagen Budget Food" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🌭 Copenhagen</span>
             <h3>Best Budget Food in Copenhagen</h3>
             <p>Smørrebrød, pølsevogn hot dogs, street food markets — eating well in Scandinavia without going broke.</p>
             <div class="card-meta"><span>🌭 18+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -666,10 +799,12 @@
     <h2>🇨🇴 Bogotá, Colombia</h2>
     <div class="picks-grid">
         <a href="/popular-picks/bogota-arepas/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🫓 Bogotá</span>
             <h3>Best Arepas in Bogotá</h3>
             <p>Street-grilled classics, Venezuelan reina pepiada, arepa de choclo & boyacense — the real arepa spots locals swear by.</p>
             <div class="card-meta"><span>🫓 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -679,10 +814,12 @@
     <h2>🇦🇷 Buenos Aires, Argentina</h2>
     <div class="picks-grid">
         <a href="/popular-picks/buenos-aires-empanadas/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🥟 Buenos Aires</span>
             <h3>Best Empanadas in Buenos Aires</h3>
             <p>La Cocina, El Sanjuanino, El Gauchito — the empanaderías porteños actually recommend on Reddit.</p>
             <div class="card-meta"><span>🥟 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -692,10 +829,13 @@
     <h2>🇪🇸 Madrid, Spain</h2>
     <div class="picks-grid">
         <a href="/popular-picks/madrid-churros/" class="pick-card">
+            <img src="madrid-churros/1902.jpg" alt="Madrid Churros" loading="lazy">
+            <div class="pick-card-body">
             <span class="card-badge">🍫 Madrid</span>
             <h3>Best Churros in Madrid</h3>
             <p>San Ginés, Valor, Chocolat, 1902 & more — churros vs porras, chocolate tips, honest verdicts from locals.</p>
             <div class="card-meta"><span>🍫 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -705,10 +845,12 @@
     <h2>🇲🇽 Oaxaca, Mexico</h2>
     <div class="picks-grid">
         <a href="/popular-picks/oaxaca-mezcal-bars/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🥃 Oaxaca</span>
             <h3>Best Mezcal Bars in Oaxaca</h3>
             <p>Mezcaloteca, In Situ, Sabina Sabe, Expendio Tradición — the mezcalerías Reddit actually recommends.</p>
             <div class="card-meta"><span>🥃 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
@@ -718,10 +860,12 @@
     <h2>🇮🇱 Tel Aviv, Israel</h2>
     <div class="picks-grid">
         <a href="/popular-picks/tel-aviv-hummus/" class="pick-card">
+            <div class="pick-card-body">
             <span class="card-badge">🧆 Tel Aviv</span>
             <h3>Best Hummus in Tel Aviv</h3>
             <p>Abu Hassan, Shlomo & Doron, Mashawsha — the hummus spots locals line up for, backed by Reddit reviews.</p>
             <div class="card-meta"><span>🧆 15+ spots</span><span>🗺️ Interactive Map</span></div>
+                    </div>
         </a>
     </div>
 </div>
