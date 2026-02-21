@@ -78,7 +78,7 @@
       <th data-sort="name">Destination <span class="sort-arrow"></span></th>
       <th data-sort="current" style="text-align:right">Current <span class="sort-arrow"></span></th>
       <th data-sort="peak" style="text-align:right" class="hide-mobile">Peak <span class="sort-arrow"></span></th>
-      <th data-sort="velocity" style="text-align:right">4W Change <span class="sort-arrow"></span></th>
+      <th data-sort="velocity" style="text-align:right">1Y Change <span class="sort-arrow"></span></th>
       <th>Trend</th>
       <th class="hide-mobile">Last 12 Months</th>
     </tr>
@@ -103,9 +103,9 @@ function sparkline(values, color) {
 function calcVelocity(values) {
   if (values.length < 8) return 0;
   const recent = values.slice(-4).reduce((a, b) => a + b, 0) / 4;
-  const prior = values.slice(-8, -4).reduce((a, b) => a + b, 0) / 4;
-  if (prior === 0) return recent > 0 ? 100 : 0;
-  return ((recent - prior) / prior) * 100;
+  const earliest = values.slice(0, 4).reduce((a, b) => a + b, 0) / 4;
+  if (earliest === 0) return recent > 0 ? 100 : 0;
+  return ((recent - earliest) / earliest) * 100;
 }
 
 function trendClass(v) { return v > 5 ? 'rising' : v < -5 ? 'falling' : 'steady'; }
