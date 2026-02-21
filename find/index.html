@@ -164,6 +164,7 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 
 <!-- Destination Preview Carousel -->
 <!-- carousel removed -->
+<div id="carouselTrack" style="display:none"></div>
 
 <div class="results-section" id="resultsSection">
   <div class="results-bar">
@@ -196,7 +197,10 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 </div>
 
 <script>
-const destinations=[
+let destinations=[];
+async function loadDestinations(){try{const r=await fetch('destinations.json?v=3');destinations=await r.json()}catch(e){console.error(e)}}
+loadDestinations();
+const _INLINE_FALLBACK=[
 {name:"Paris",region:"France",continent:"Europe",photo:"photo-1502602898657-3e91760cbb34",pitch:"The city that invented being romantic. Every cobblestone has a story, every café has better pastries than yours.",budget:"$$$",season:"Apr–Jun, Sep–Oct",vibes:["Romance","Culture","Food"],travel:["photography"]},
 {name:"Tokyo",region:"Japan",continent:"Asia",photo:"photo-1540959733332-eab4deabeeaf",pitch:"Controlled chaos that somehow works perfectly. Vending machines on every corner, Michelin stars in basements.",budget:"$$$",season:"Mar–May, Oct–Nov",vibes:["Culture","Food","Urban"],travel:["solo","photography"]},
 {name:"Bali",region:"Indonesia",continent:"Asia",photo:"photo-1537996194471-e657df975ab4",pitch:"Rice terraces, temple ceremonies, and $3 smoothie bowls. Your yoga teacher was right about this one.",budget:"$",season:"Apr–Oct",vibes:["Beach","Wellness","Budget"],travel:["solo","budget"]},
@@ -295,6 +299,8 @@ const destinations=[
 {name:"Sahara Desert",region:"North Africa",continent:"Africa",photo:"photo-1509023464722-18d996393ca8",pitch:"Dune seas that stretch to the horizon. Camel treks, Berber camps, silence so loud you can hear the stars.",budget:"$",season:"Oct–Apr",vibes:["Desert","Adventure","Stargazing"],travel:["offbeat"]},
 {name:"Bogotá",region:"Colombia",continent:"South America",photo:"photo-1568385247005-0d371d214862",pitch:"Graffiti tours, craft coffee, Andean sunsets at 8,600 feet. South America's most underrated capital.",budget:"$",season:"Dec–Mar",vibes:["Culture","Food","Urban"],travel:["solo","budget"]},
 ];
+// Use loaded JSON if available, fallback to inline
+function getDestinations(){return destinations.length>0?destinations:_INLINE_FALLBACK}
 
 // State
 let selectedTrip = [];
@@ -331,9 +337,11 @@ setupChips('continentChips', selectedContinent, true);
 
 // Carousel
 (function(){
-  const preview = [...destinations].sort(()=>Math.random()-.5).slice(0,16);
+  const allDest = getDestinations();
+  const preview = [...allDest].filter(d=>d.photo).sort(()=>Math.random()-.5).slice(0,16);
   const track = document.getElementById('carouselTrack');
-  const html = (d) => {const idx = destinations.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
+  if(!track||!preview.length)return;
+  const html = (d) => {const idx = allDest.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
   const cards = preview.map(html).join('');
   track.innerHTML = cards + cards;
 })();
@@ -347,7 +355,7 @@ function shuffle(arr) {
 }
 
 function findDestinations() {
-  filtered = destinations.filter(d => {
+  filtered = getDestinations().filter(d => {
     const vibeMap = {adventure:["adventure","nature","hiking","wildlife","nightlife"],wellness:["wellness","spiritual"]};
     if (selectedTrip.length && !selectedTrip.some(t => {const expanded = vibeMap[t.toLowerCase()] || [t.toLowerCase()]; return d.vibes.some(v => expanded.some(e => v.toLowerCase().includes(e)));})) return false;
     if (selectedContinent.length && !selectedContinent.includes(d.continent)) return false;
@@ -384,8 +392,8 @@ function render() {
   empty.style.display = 'none';
 
   grid.innerHTML = filtered.map((d, i) => `
-    <div class="card" onclick="openModal(${destinations.indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
-      <img src="https://images.unsplash.com/${d.photo}?w=600&q=80" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}" onerror="this.closest('.card').style.display='none'">
+    <div class="card" onclick="openModal(${getDestinations().indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
+      <img src="${d.photo ? 'https://images.unsplash.com/' + d.photo + '?w=600&q=80' : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80'}" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
       <div class="card-body">
         <h2>${d.name}</h2>
         <div class="region">${d.region}</div>
@@ -402,8 +410,8 @@ function render() {
 }
 
 function openModal(idx) {
-  const d = destinations[idx];
-  document.getElementById('mImg').src = `https://images.unsplash.com/${d.photo}?w=800&q=80`;
+  const d = getDestinations()[idx];
+  document.getElementById('mImg').src = d.photo ? `https://images.unsplash.com/${d.photo}?w=800&q=80` : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
   document.getElementById('mImg').alt = d.name;
   document.getElementById('mName').textContent = d.name;
   document.getElementById('mRegion').textContent = d.region;
