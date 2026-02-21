@@ -335,13 +335,19 @@ function setupChips(containerId, stateArr, multiSelect) {
 setupChips('tripChips', selectedTrip, true);
 setupChips('continentChips', selectedContinent, true);
 
+function photoUrl(photo, w, q) {
+  if (!photo) return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=' + w + '&q=' + (q||80);
+  if (photo.startsWith('photo-')) return 'https://images.unsplash.com/' + photo + '?w=' + w + '&q=' + (q||80) + '&fit=crop&auto=format';
+  return photo;
+}
+
 // Carousel
 (function(){
   const allDest = getDestinations();
   const preview = [...allDest].filter(d=>d.photo).sort(()=>Math.random()-.5).slice(0,16);
   const track = document.getElementById('carouselTrack');
   if(!track||!preview.length)return;
-  const html = (d) => {const idx = allDest.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="https://images.unsplash.com/${d.photo}?w=440&h=320&fit=crop&auto=format" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
+  const html = (d) => {const idx = allDest.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="${photoUrl(d.photo, 440, 80)}" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
   const cards = preview.map(html).join('');
   track.innerHTML = cards + cards;
 })();
@@ -393,7 +399,7 @@ function render() {
 
   grid.innerHTML = filtered.map((d, i) => `
     <div class="card" onclick="openModal(${getDestinations().indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
-      <img src="${d.photo ? 'https://images.unsplash.com/' + d.photo + '?w=600&q=80' : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80'}" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
+      <img src="${photoUrl(d.photo, 600, 80)}" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
       <div class="card-body">
         <h2>${d.name}</h2>
         <div class="region">${d.region}</div>
@@ -411,7 +417,7 @@ function render() {
 
 function openModal(idx) {
   const d = getDestinations()[idx];
-  document.getElementById('mImg').src = d.photo ? `https://images.unsplash.com/${d.photo}?w=800&q=80` : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
+  document.getElementById('mImg').src = photoUrl(d.photo, 800, 80);
   document.getElementById('mImg').alt = d.name;
   document.getElementById('mName').textContent = d.name;
   document.getElementById('mRegion').textContent = d.region;
