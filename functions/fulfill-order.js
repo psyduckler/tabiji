@@ -201,8 +201,13 @@ function _doFulfill(order, itineraryData, _orderId) {
     execSync(`git add "i/${slug}/"`, gitOpts);
     execSync(`git commit -m "Add itinerary: ${slug} (${data.destination || 'custom'})"`, gitOpts);
     execSync('git push', gitOpts);
+    // Deploy instantly via wrangler instead of waiting for Cloudflare Pages build
+    const cfToken = execSync('security find-generic-password -s "cloudflare-pages-token" -w', { stdio: 'pipe' }).toString().trim();
+    const cfAccount = execSync('security find-generic-password -s "cloudflare-zonted-account-id" -w', { stdio: 'pipe' }).toString().trim();
+    execSync(`CLOUDFLARE_API_TOKEN="${cfToken}" CLOUDFLARE_ACCOUNT_ID="${cfAccount}" wrangler pages deploy . --project-name=tabiji --branch=main --commit-dirty=true`, { cwd: REPO_ROOT, stdio: 'pipe' });
+    console.log('✅ Wrangler deploy complete');
   } catch (err) {
-    console.error('Git push failed (itinerary still written locally):', err.message);
+    console.error('Git push or wrangler deploy failed (itinerary still written locally):', err.message);
   }
 
   const url = `https://tabiji.ai/i/${slug}/`;
