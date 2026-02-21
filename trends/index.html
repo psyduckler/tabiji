@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destination Trends — tabiji.ai</title>
+<style>
+  :root { --bg: #0a0a0f; --card: #14141f; --border: #1e1e2e; --text: #e0e0e8; --muted: #7a7a8e; --green: #22c55e; --red: #ef4444; --accent: #8b5cf6; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+  .section-title { font-size: 1.2rem; font-weight: 600; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--accent); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .dest-name { font-weight: 600; font-size: 1.05rem; }
+  .velocity { font-weight: 700; font-size: 0.95rem; padding: 2px 8px; border-radius: 6px; }
+  .velocity.up { color: var(--green); background: rgba(34,197,94,0.1); }
+  .velocity.down { color: var(--red); background: rgba(239,68,68,0.1); }
+  .velocity.flat { color: var(--muted); background: rgba(122,122,142,0.1); }
+  .sparkline { width: 100%; height: 40px; margin-top: 0.3rem; }
+  .current { color: var(--muted); font-size: 0.8rem; }
+  #loading { text-align: center; color: var(--muted); padding: 4rem; }
+  a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<h1>📊 Destination Trends</h1>
+<p class="subtitle">Search interest over the last 12 months · <a href="https://tabiji.ai">tabiji.ai</a> · Updated <span id="updated"></span></p>
+
+<div id="loading">Loading trends data…</div>
+<div id="content" style="display:none">
+  <div class="section-title">🔥 Rising Destinations</div>
+  <div class="grid" id="rising"></div>
+  <div class="section-title">📉 Falling Destinations</div>
+  <div class="grid" id="falling"></div>
+  <div class="section-title">➡️ Steady</div>
+  <div class="grid" id="steady"></div>
+</div>
+
+<script>
+function sparkline(values, color) {
+  if (!values.length) return '';
+  const w = 260, h = 36, max = Math.max(...values, 1), min = Math.min(...values, 0);
+  const range = max - min || 1;
+  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 4) - 2}`).join(' ');
+  return `<svg class="sparkline" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+function card(d) {
+  const v = d.velocity;
+  const cls = v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
+  const sign = v > 0 ? '+' : '';
+  const color = v > 0 ? '#22c55e' : v < 0 ? '#ef4444' : '#7a7a8e';
+  return `<div class="card">
+    <div class="card-header">
+      <span class="dest-name">${d.destination}</span>
+      <span class="velocity ${cls}">${sign}${v}%</span>
+    </div>
+    <div class="current">Current interest: ${d.current}/100</div>
+    ${sparkline(d.values, color)}
+  </div>`;
+}
+
+fetch('trends-data.json').then(r => r.json()).then(data => {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('updated').textContent = new Date(data.updated).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+
+  const rising = data.destinations.filter(d => d.velocity > 0);
+  const falling = data.destinations.filter(d => d.velocity < 0);
+  const steady = data.destinations.filter(d => d.velocity === 0);
+
+  document.getElementById('rising').innerHTML = rising.map(card).join('');
+  document.getElementById('falling').innerHTML = falling.map(card).join('');
+  document.getElementById('steady').innerHTML = steady.map(card).join('');
+}).catch(e => {
+  document.getElementById('loading').textContent = 'Error loading data: ' + e.message;
+});
+</script>
+</body>
+</html>
