@@ -6,6 +6,15 @@ const generateItineraryHTML = require('./generate-itinerary-html');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
+const PENDING_FILE = path.join(REPO_ROOT, 'orders', 'pending.json');
+const FULFILLED_FILE = path.join(REPO_ROOT, 'orders', 'fulfilled.json');
+
+// Atomic write helper — write to .tmp then rename to avoid corruption mid-write
+function atomicWrite(filePath, data) {
+  const tmpPath = filePath + '.tmp';
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2));
+  fs.renameSync(tmpPath, filePath);
+}
 
 /**
  * Fulfills an order by generating an HTML itinerary and deploying it.
@@ -21,9 +30,8 @@ function fulfillOrder(order, itineraryData) {
   }
 
   // --- Claim check: prevent duplicate fulfillment of same order ---
-  const pendingFile = path.join(REPO_ROOT, 'orders', 'pending.json');
   try {
-    const pending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
+    const pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8'));
     const match = pending.find(o => (o.id || o.orderId) === _orderId);
     if (match && match.status === 'in-progress') {
       throw new Error(`Order ${_orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
@@ -31,12 +39,12 @@ function fulfillOrder(order, itineraryData) {
     if (match && match.status === 'fulfilled') {
       throw new Error(`Order ${_orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
     }
-    // Claim it
+    // Claim it — atomic write to avoid race conditions
     if (match) {
       match.status = 'in-progress';
       match.claimedAt = new Date().toISOString();
       match.claimedBy = process.pid;
-      fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
+      atomicWrite(PENDING_FILE, pending);
       console.log(`✅ Claimed order ${_orderId} (pid ${process.pid}, status → in-progress)`);
     }
   } catch (err) {
@@ -233,23 +241,35 @@ function _doFulfill(order, itineraryData, _orderId) {
     }
   }
 
-  // Mark order as fulfilled in pending.json
+  // Mark order as fulfilled: update, move from pending.json → fulfilled.json
   try {
-    const pendingFile = path.join(REPO_ROOT, 'orders', 'pending.json');
-    const pending = JSON.parse(fs.readFileSync(pendingFile, 'utf8'));
-    const match = pending.find(o => (o.id || o.orderId) === _orderId);
-    if (match) {
+    const pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8'));
+    const matchIdx = pending.findIndex(o => (o.id || o.orderId) === _orderId);
+    if (matchIdx !== -1) {
+      const match = pending[matchIdx];
       match.status = 'fulfilled';
       match.fulfilledAt = new Date().toISOString();
       match.slug = slug;
+      match.itinerary_url = url;
       match.url = url;
-      fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
-      console.log(`Order ${_orderId} marked fulfilled in pending.json`);
+
+      // Remove from pending array
+      const remaining = pending.filter((_, i) => i !== matchIdx);
+
+      // Append to fulfilled.json
+      let fulfilled = [];
+      try { fulfilled = JSON.parse(fs.readFileSync(FULFILLED_FILE, 'utf8')); } catch {}
+      fulfilled.push(match);
+
+      // Atomic writes — pending first, then fulfilled (order matters for crash safety)
+      atomicWrite(PENDING_FILE, remaining);
+      atomicWrite(FULFILLED_FILE, fulfilled);
+      console.log(`✅ Order ${_orderId} moved from pending.json → fulfilled.json (slug: ${slug})`);
     } else {
       console.warn(`Order ${_orderId} not found in pending.json — could not update status`);
     }
   } catch (err) {
-    console.error('Failed to update pending.json status:', err.message);
+    console.error('Failed to move order to fulfilled.json:', err.message);
   }
 
   if (!emailSent && order.email) {
