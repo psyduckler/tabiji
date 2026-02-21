@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Your Perfect Destination | tabiji.ai</title>
-<meta name="description" content="Filter 100 destinations by budget, style, and continent. Find your next trip in seconds.">
+<meta name="description" content="Filter 100 destinations by style, continent, and travel type. Find your next trip in seconds.">
 <meta property="og:title" content="Find Your Perfect Destination | tabiji.ai">
-<meta property="og:description" content="Filter 100 destinations by budget, style, and continent.">
+<meta property="og:description" content="Filter 100 destinations by style, continent, and travel type.">
 <meta property="og:url" content="https://tabiji.ai/find/">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,7 +69,7 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .tag{padding:4px 10px;border-radius:16px;font-size:0.72rem;font-weight:600}
 .tag.vibe{background:#eef2ff;color:var(--indigo)}
-.tag.budget{background:#fef3ee;color:var(--terracotta)}
+
 .card-meta{display:flex;gap:14px;font-size:0.8rem;color:var(--light-text)}
 
 .empty{text-align:center;padding:60px 20px;max-width:720px;margin:0 auto}
@@ -129,16 +129,6 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 
 <div class="filters">
   <div class="filter-section">
-    <label>Budget</label>
-    <div class="chips" id="budgetChips">
-      <button class="chip" data-value="$">$ Budget</button>
-      <button class="chip" data-value="$$">$$ Mid-range</button>
-      <button class="chip" data-value="$$$">$$$ Premium</button>
-      <button class="chip" data-value="$$$$">$$$$ Luxury</button>
-    </div>
-  </div>
-
-  <div class="filter-section">
     <label>Trip Style</label>
     <div class="chips" id="tripChips">
       <button class="chip" data-value="Beach">🏖 Beach & Islands</button>
@@ -156,7 +146,7 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
       <button class="chip" data-value="solo">🎒 Solo-friendly</button>
       <button class="chip" data-value="offbeat">🗺 Off the beaten path</button>
       <button class="chip" data-value="luxury">✨ Luxury</button>
-      <button class="chip" data-value="budget">💸 Budget backpacker</button>
+      <button class="chip" data-value="budget">💸 Backpacker</button>
       <button class="chip" data-value="family">👨‍👩‍👧‍👦 Family-friendly</button>
       <button class="chip" data-value="photography">📷 Photography</button>
     </div>
@@ -213,7 +203,6 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
       <p class="pitch" id="mPitch"></p>
       <div class="tags" id="mTags"></div>
       <div class="card-meta">
-        <span id="mBudget"></span>
         <span id="mSeason"></span>
       </div>
       <a class="card-cta" id="mCta" href="#">Plan this trip →</a>
@@ -323,7 +312,6 @@ const destinations=[
 ];
 
 // State
-let selectedBudget = [];
 let selectedTrip = [];
 let selectedTravel = [];
 let selectedContinent = [];
@@ -354,7 +342,6 @@ function setupChips(containerId, stateArr, multiSelect) {
   });
 }
 
-setupChips('budgetChips', selectedBudget, false);
 setupChips('tripChips', selectedTrip, true);
 setupChips('travelChips', selectedTravel, true);
 setupChips('continentChips', selectedContinent, true);
@@ -378,7 +365,6 @@ function shuffle(arr) {
 
 function findDestinations() {
   filtered = destinations.filter(d => {
-    if (selectedBudget.length && !selectedBudget.includes(d.budget)) return false;
     const vibeMap = {adventure:["adventure","nature","hiking","wildlife","nightlife"],wellness:["wellness","spiritual"]};
     if (selectedTrip.length && !selectedTrip.some(t => {const expanded = vibeMap[t.toLowerCase()] || [t.toLowerCase()]; return d.vibes.some(v => expanded.some(e => v.toLowerCase().includes(e)));})) return false;
     if (selectedTravel.length && !selectedTravel.some(t => d.travel.includes(t))) return false;
@@ -392,7 +378,6 @@ function findDestinations() {
 }
 
 function clearFilters() {
-  selectedBudget.length = 0;
   selectedTrip.length = 0;
   selectedTravel.length = 0;
   selectedContinent.length = 0;
@@ -426,7 +411,6 @@ function render() {
         <p class="pitch">${d.pitch}</p>
         <div class="tags">
           ${d.vibes.map(v => `<span class="tag vibe">${v}</span>`).join('')}
-          <span class="tag budget">${d.budget}</span>
         </div>
         <div class="card-meta">
           <span>📅 ${d.season}</span>
@@ -443,7 +427,6 @@ function openModal(idx) {
   document.getElementById('mName').textContent = d.name;
   document.getElementById('mRegion').textContent = d.region;
   document.getElementById('mPitch').textContent = d.pitch;
-  document.getElementById('mBudget').textContent = '💰 ' + d.budget;
   document.getElementById('mSeason').textContent = '📅 ' + d.season;
   const tags = document.getElementById('mTags');
   tags.innerHTML = d.vibes.map(v => `<span class="tag vibe">${v}</span>`).join('');
