@@ -46,6 +46,25 @@
   #loading { text-align: center; color: var(--muted); padding: 4rem; }
   .no-results { text-align: center; color: var(--muted); padding: 3rem; font-size: 0.95rem; }
 
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; padding: 28px; }
+  .modal-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.08); border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal-close:hover { color: var(--text); background: rgba(255,255,255,.15); }
+  .modal h2 { font-size: 1.4rem; margin-bottom: 4px; }
+  .modal .modal-trend { margin-bottom: 20px; }
+  .modal .modal-chart { margin: 16px 0; }
+  .modal .modal-chart svg { width: 100%; height: 120px; }
+  .modal .modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+  .modal .stat-box { background: rgba(255,255,255,.04); border-radius: 10px; padding: 14px; text-align: center; }
+  .modal .stat-box .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .modal .stat-box .stat-value { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .modal .modal-dates { font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; margin-top: -8px; margin-bottom: 12px; }
+  .modal .modal-cta { display: block; text-align: center; background: var(--accent); color: #fff; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; margin-top: 20px; transition: opacity 0.15s; }
+  .modal .modal-cta:hover { opacity: 0.85; }
+  tbody tr { cursor: pointer; }
+
   @media (max-width: 768px) {
     body { padding: 1rem; }
     .filters { gap: 0.5rem; }
@@ -86,6 +105,23 @@
   <tbody id="tbody"></tbody>
 </table>
 <div id="no-results" class="no-results" style="display:none">No destinations match your filters.</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 id="mName"></h2>
+    <div class="modal-trend" id="mTrend"></div>
+    <div class="modal-chart" id="mChart"></div>
+    <div class="modal-dates"><span id="mDateStart"></span><span id="mDateEnd"></span></div>
+    <div class="modal-stats">
+      <div class="stat-box"><div class="stat-label">Current</div><div class="stat-value" id="mCurrent"></div></div>
+      <div class="stat-box"><div class="stat-label">Peak</div><div class="stat-value" id="mPeak"></div></div>
+      <div class="stat-box"><div class="stat-label">1Y Change</div><div class="stat-value" id="mChange"></div></div>
+    </div>
+    <a class="modal-cta" id="mCta" href="#">Plan this trip →</a>
+  </div>
+</div>
 
 <script>
 let allDests = [];
@@ -143,7 +179,7 @@ function render() {
     const vClass = d.velocity > 5 ? 'up' : d.velocity < -5 ? 'down' : 'flat';
     const vSign = d.velocity > 0 ? '+' : '';
     const color = d.velocity > 5 ? '#22c55e' : d.velocity < -5 ? '#ef4444' : '#7a7a8e';
-    return `<tr>
+    return `<tr onclick="openModal('${d.destination.replace(/'/g,"\\'")}')">
       <td class="rank">${d.rank}</td>
       <td class="name">${d.destination}</td>
       <td class="num">${d.current}</td>
@@ -179,6 +215,47 @@ document.querySelectorAll('#trend-filter .filter-btn').forEach(btn => {
 
 document.getElementById('search').addEventListener('input', render);
 
+// Modal
+function bigSparkline(values, color) {
+  const w = 500, h = 110;
+  const max = Math.max(...values, 1), min = Math.min(...values, 0);
+  const range = max - min || 1;
+  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 8) - 4}`).join(' ');
+  const fillPts = pts + ` ${w},${h} 0,${h}`;
+  const gradId = 'g' + Math.random().toString(36).slice(2,8);
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.2"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="${fillPts}" fill="url(#${gradId})"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+function openModal(destName) {
+  const d = allDests.find(x => x.destination === destName);
+  if (!d) return;
+  const color = d.velocity > 5 ? '#22c55e' : d.velocity < -5 ? '#ef4444' : '#8b5cf6';
+  const vSign = d.velocity > 0 ? '+' : '';
+  const vClass = d.velocity > 5 ? 'up' : d.velocity < -5 ? 'down' : 'flat';
+  document.getElementById('mName').textContent = d.destination;
+  document.getElementById('mTrend').innerHTML = `<span class="velocity-badge ${vClass}">${vSign}${d.velocity.toFixed(1)}%</span> <span class="trend-label ${d.trend}">${d.trend === 'rising' ? '🔥 Rising' : d.trend === 'falling' ? '📉 Falling' : '➡️ Steady'}</span>`;
+  document.getElementById('mChart').innerHTML = bigSparkline(d.values, color);
+  document.getElementById('mCurrent').textContent = d.current;
+  document.getElementById('mPeak').textContent = d.peak;
+  document.getElementById('mChange').innerHTML = `<span style="color:${d.velocity > 5 ? 'var(--green)' : d.velocity < -5 ? 'var(--red)' : 'var(--muted)'}">${vSign}${d.velocity.toFixed(1)}%</span>`;
+  document.getElementById('mDateStart').textContent = d.dates[0] || '';
+  document.getElementById('mDateEnd').textContent = d.dates[d.dates.length - 1] || '';
+  document.getElementById('mCta').href = `/plan.html?destination=${encodeURIComponent(d.rawName)}`;
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
 // Load data
 fetch('trends-data.json')
   .then(r => r.json())
@@ -190,7 +267,9 @@ fetch('trends-data.json')
       return {
         rank: i + 1,
         destination: d.country && d.country !== d.destination ? `${d.destination}, ${d.country}` : d.destination,
+        rawName: d.destination,
         values: d.values,
+        dates: d.dates || [],
         current: d.values[d.values.length - 1] || 0,
         peak: Math.max(...d.values),
         velocity,
