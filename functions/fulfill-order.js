@@ -6,14 +6,56 @@ const generateItineraryHTML = require('./generate-itinerary-html');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
+const LOCK_DIR = path.join(REPO_ROOT, '.fulfillment.lockdir'); // atomic mkdir lock
 const PENDING_FILE = path.join(REPO_ROOT, 'orders', 'pending.json');
 const FULFILLED_FILE = path.join(REPO_ROOT, 'orders', 'fulfilled.json');
+const STALE_LOCK_MS = 10 * 60 * 1000; // 10 min
 
 // Atomic write helper — write to .tmp then rename to avoid corruption mid-write
 function atomicWrite(filePath, data) {
   const tmpPath = filePath + '.tmp';
   fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2));
   fs.renameSync(tmpPath, filePath);
+}
+
+/**
+ * Acquire an atomic lock using mkdir (POSIX atomic).
+ * Returns true if lock acquired, throws if another process holds it.
+ */
+function acquireLock(orderId) {
+  try {
+    fs.mkdirSync(LOCK_DIR);
+  } catch (err) {
+    if (err.code === 'EEXIST') {
+      // Lock exists — check if stale
+      try {
+        const infoPath = path.join(LOCK_DIR, 'info.json');
+        const lockData = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
+        const lockAge = Date.now() - new Date(lockData.ts).getTime();
+        if (lockAge < STALE_LOCK_MS) {
+          throw new Error(`Fulfillment locked by order ${lockData.orderId} (pid ${lockData.pid}, ${Math.round(lockAge / 1000)}s ago). Another agent is already fulfilling.`);
+        }
+        console.warn(`Stale lock found (${Math.round(lockAge / 1000)}s old) — breaking it`);
+        fs.rmSync(LOCK_DIR, { recursive: true });
+        fs.mkdirSync(LOCK_DIR);
+      } catch (innerErr) {
+        if (innerErr.message.includes('Fulfillment locked')) throw innerErr;
+        // Couldn't read lock info — try to break and re-acquire
+        try { fs.rmSync(LOCK_DIR, { recursive: true }); } catch (_) {}
+        fs.mkdirSync(LOCK_DIR);
+      }
+    } else {
+      throw err;
+    }
+  }
+  // Write lock info
+  const infoPath = path.join(LOCK_DIR, 'info.json');
+  fs.writeFileSync(infoPath, JSON.stringify({ orderId, ts: new Date().toISOString(), pid: process.pid }));
+  return true;
+}
+
+function releaseLock() {
+  try { fs.rmSync(LOCK_DIR, { recursive: true }); } catch (_) {}
 }
 
 /**
@@ -52,23 +94,15 @@ function fulfillOrder(order, itineraryData) {
     console.warn('Could not check/claim order in pending.json:', err.message);
   }
 
-  // --- Lock check: prevent concurrent fulfillments ---
-  if (fs.existsSync(LOCK_FILE)) {
-    const lockData = JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8'));
-    const lockAge = Date.now() - new Date(lockData.ts).getTime();
-    const STALE_MS = 10 * 60 * 1000; // 10 min = stale lock
-    if (lockAge < STALE_MS) {
-      throw new Error(`Fulfillment locked by order ${lockData.orderId} (${Math.round(lockAge / 1000)}s ago). Wait or remove ${LOCK_FILE}`);
-    }
-    console.warn(`Stale lock found (${Math.round(lockAge / 1000)}s old) — removing`);
-  }
-  const lockInfo = { orderId: _orderId, ts: new Date().toISOString(), pid: process.pid };
-  fs.writeFileSync(LOCK_FILE, JSON.stringify(lockInfo, null, 2));
+  // --- Atomic lock: prevent concurrent fulfillments (mkdir is POSIX-atomic) ---
+  acquireLock(_orderId);
 
   // Wrap in try/finally to always release lock
   try {
     return _doFulfill(order, itineraryData, _orderId);
   } finally {
+    releaseLock();
+    // Clean up legacy lock file if present
     try { fs.unlinkSync(LOCK_FILE); } catch (_) {}
   }
 }
