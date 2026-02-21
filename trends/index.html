@@ -3,93 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Destination Trends — tabiji.ai</title>
+<title>Destination Trends | tabiji.ai</title>
+<meta name="description" content="Track which travel destinations are trending up or down. Real-time search interest data for 50+ destinations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #0a0a0f; --card: #14141f; --border: #1e1e2e; --text: #e0e0e8; --muted: #7a7a8e; --green: #22c55e; --red: #ef4444; --accent: #8b5cf6; --hover: #1a1a2a; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 1200px; margin: 0 auto; }
-  h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.3rem; }
-  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
-  a { color: var(--accent); text-decoration: none; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--indigo:#2D3A5C;--indigo-light:#3D4E7A;--terracotta:#c4704b;--cream:#F5F0E8;--sand:#E8DFD0;--earth:#8B7355;--white:#FEFCF9;--text:#2C2419;--text-muted:#6B5D4F;--dark:#2C2419;--light-text:#6B5D4F;--green:#3a7d5c;--red:#c44b4b}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
 
-  /* Filters */
-  .filters { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
-  .filter-group { display: flex; gap: 0.25rem; background: var(--card); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
-  .filter-btn { padding: 6px 14px; border-radius: 6px; border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.15s; }
-  .filter-btn:hover { color: var(--text); }
-  .filter-btn.active { background: var(--accent); color: #fff; }
-  .search-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text); font-size: 0.85rem; width: 200px; outline: none; }
-  .search-box:focus { border-color: var(--accent); }
-  .search-box::placeholder { color: var(--muted); }
+/* Nav */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(254,252,249,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.4rem;font-weight:700;color:var(--indigo);text-decoration:none;letter-spacing:-0.02em}
+.logo span{color:var(--terracotta)}
+nav a.cta-nav{background:var(--terracotta);color:white;padding:0.5rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:500;transition:background 0.2s}
+nav a.cta-nav:hover{background:#b5633f}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-link{color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500}
+.hamburger{display:none;background:none;border:none;font-size:1.5rem;color:var(--indigo);cursor:pointer}
 
-  /* Table */
-  table { width: 100%; border-collapse: collapse; }
-  thead th { text-align: left; padding: 12px 16px; color: var(--muted); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
-  thead th:hover { color: var(--text); }
-  thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
-  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-  tbody tr:hover { background: var(--hover); }
-  td { padding: 14px 16px; font-size: 0.95rem; }
-  td.rank { color: var(--muted); font-size: 0.85rem; width: 40px; }
-  td.name { font-weight: 600; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .velocity-badge { font-weight: 700; font-size: 0.9rem; padding: 3px 10px; border-radius: 6px; display: inline-block; }
-  .velocity-badge.up { color: var(--green); background: rgba(34,197,94,0.1); }
-  .velocity-badge.down { color: var(--red); background: rgba(239,68,68,0.1); }
-  .velocity-badge.flat { color: var(--muted); background: rgba(122,122,142,0.1); }
-  .sparkline { width: 120px; height: 32px; }
-  .trend-label { font-size: 0.8rem; font-weight: 500; padding: 3px 8px; border-radius: 4px; }
-  .trend-label.rising { color: var(--green); background: rgba(34,197,94,0.08); }
-  .trend-label.falling { color: var(--red); background: rgba(239,68,68,0.08); }
-  .trend-label.steady { color: var(--muted); background: rgba(122,122,142,0.08); }
+/* Header */
+.header{text-align:center;padding:100px 20px 0}
+h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color:var(--indigo);margin:10px 0 4px;line-height:1.15}
+.subtitle{color:var(--light-text);font-size:0.95rem}
 
-  #loading { text-align: center; color: var(--muted); padding: 4rem; }
-  .no-results { text-align: center; color: var(--muted); padding: 3rem; font-size: 0.95rem; }
+/* Filters */
+.filters{max-width:900px;margin:28px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+.search-box{background:#fff;border:2px solid var(--sand);border-radius:50px;padding:10px 18px;color:var(--dark);font-size:0.9rem;width:220px;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+.search-box:focus{border-color:var(--indigo)}
+.search-box::placeholder{color:var(--light-text)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 16px;border-radius:50px;border:2px solid var(--sand);background:#fff;font-size:0.88rem;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;color:var(--dark);user-select:none}
+.chip:hover{border-color:var(--indigo);background:#f0f4fa}
+.chip.active{background:var(--indigo);color:#fff;border-color:var(--indigo)}
 
-  /* Modal */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-  .modal-overlay.show { display: flex; }
-  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; padding: 28px; }
-  .modal-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.08); border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .modal-close:hover { color: var(--text); background: rgba(255,255,255,.15); }
-  .modal h2 { font-size: 1.4rem; margin-bottom: 4px; }
-  .modal .modal-trend { margin-bottom: 20px; }
-  .modal .modal-chart { margin: 16px 0; }
-  .modal .modal-chart svg { width: 100%; height: 120px; }
-  .modal .modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
-  .modal .stat-box { background: rgba(255,255,255,.04); border-radius: 10px; padding: 14px; text-align: center; }
-  .modal .stat-box .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-  .modal .stat-box .stat-value { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .modal .modal-dates { font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; margin-top: -8px; margin-bottom: 12px; }
-  .modal .modal-cta { display: block; text-align: center; background: var(--accent); color: #fff; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; margin-top: 20px; transition: opacity 0.15s; }
-  .modal .modal-cta:hover { opacity: 0.85; }
-  tbody tr { cursor: pointer; }
+/* Table */
+.table-wrap{max-width:1080px;margin:24px auto 60px;padding:0 20px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+thead th{text-align:left;padding:14px 18px;color:var(--light-text);font-weight:600;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;border-bottom:2px solid var(--sand);cursor:pointer;user-select:none;white-space:nowrap;background:var(--white)}
+thead th:hover{color:var(--indigo)}
+thead th .sort-arrow{margin-left:4px;font-size:0.7rem}
+tbody tr{border-bottom:1px solid #f0ece4;transition:background 0.1s;cursor:pointer}
+tbody tr:hover{background:#faf7f2}
+tbody tr:last-child{border-bottom:none}
+td{padding:14px 18px;font-size:0.95rem}
+td.rank{color:var(--light-text);font-size:0.85rem;width:40px}
+td.name{font-family:'Playfair Display',serif;font-weight:700;color:var(--indigo);font-size:1rem}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.velocity-badge{font-weight:700;font-size:0.9rem;padding:4px 12px;border-radius:50px;display:inline-block}
+.velocity-badge.up{color:var(--green);background:rgba(58,125,92,0.1)}
+.velocity-badge.down{color:var(--red);background:rgba(196,75,75,0.1)}
+.velocity-badge.flat{color:var(--light-text);background:rgba(107,93,79,0.08)}
+.sparkline{width:120px;height:32px}
+.trend-label{font-size:0.8rem;font-weight:600;padding:4px 10px;border-radius:50px}
+.trend-label.rising{color:var(--green);background:rgba(58,125,92,0.08)}
+.trend-label.falling{color:var(--red);background:rgba(196,75,75,0.08)}
+.trend-label.steady{color:var(--light-text);background:rgba(107,93,79,0.06)}
 
-  @media (max-width: 768px) {
-    body { padding: 1rem; }
-    .filters { gap: 0.5rem; }
-    .search-box { width: 100%; }
-    td, th { padding: 10px 8px; }
-    .sparkline { width: 80px; }
-    .hide-mobile { display: none; }
-  }
+.no-results{text-align:center;padding:60px 20px;color:var(--light-text);font-size:0.95rem}
+#loading{text-align:center;color:var(--light-text);padding:4rem;font-size:0.95rem}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:20px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;padding:32px}
+.modal-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--sand);border:none;color:var(--dark);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.modal-close:hover{background:#d9d0c1}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--indigo);margin-bottom:6px}
+.modal .modal-trend{margin-bottom:16px}
+.modal .modal-chart{margin:16px 0 4px}
+.modal .modal-chart svg{width:100%;height:120px}
+.modal .modal-dates{font-size:0.78rem;color:var(--light-text);display:flex;justify-content:space-between;margin-bottom:16px}
+.modal .modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.modal .stat-box{background:var(--cream);border-radius:12px;padding:16px;text-align:center}
+.modal .stat-box .stat-label{font-size:0.72rem;color:var(--light-text);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;font-weight:600}
+.modal .stat-box .stat-value{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--indigo)}
+.modal .modal-cta{display:block;text-align:center;background:var(--terracotta);color:#fff;padding:14px;border-radius:50px;font-weight:600;font-size:0.95rem;margin-top:20px;text-decoration:none;transition:background 0.2s}
+.modal .modal-cta:hover{background:#b5633f}
+
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);color:var(--light-text);font-size:0.85rem}
+
+@media(max-width:768px){
+  nav{padding:0.8rem 1.2rem}
+  .hamburger{display:block}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(254,252,249,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand);padding:1rem 1.5rem;flex-direction:column;gap:1rem}
+  .nav-links.open{display:flex}
+  .search-box{width:100%}
+  td,th{padding:10px 10px}
+  .sparkline{width:80px}
+  .hide-mobile{display:none}
+  .header{padding-top:80px}
+}
 </style>
 </head>
 <body>
-<h1>📊 Destination Trends</h1>
-<p class="subtitle">Search interest over the last 12 months · <a href="https://tabiji.ai">tabiji.ai</a> · Updated <span id="updated"></span></p>
+
+<nav>
+  <a href="/" class="logo"><img src="/logo-kanji-only.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+  <div class="nav-links">
+    <a href="/find/" class="nav-link">Explore</a>
+    <a href="/itineraries/" class="nav-link">Sample Itineraries</a>
+    <a href="/popular-picks/" class="nav-link">Popular Picks</a>
+    <a href="/trends/" class="nav-link" style="color:var(--terracotta)">Trends</a>
+    <a href="/about/" class="nav-link">About</a>
+    <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
+  </div>
+</nav>
+
+<div class="header">
+  <h1>📊 Destination Trends</h1>
+  <p class="subtitle">Search interest over the last 12 months · Updated <span id="updated"></span></p>
+</div>
 
 <div class="filters">
   <input type="text" class="search-box" id="search" placeholder="Search destinations…">
-  <div class="filter-group" id="trend-filter">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="rising">🔥 Rising</button>
-    <button class="filter-btn" data-filter="falling">📉 Falling</button>
-    <button class="filter-btn" data-filter="steady">➡️ Steady</button>
+  <div class="chips" id="trend-filter">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="rising">🔥 Rising</button>
+    <button class="chip" data-filter="falling">📉 Falling</button>
+    <button class="chip" data-filter="steady">➡️ Steady</button>
   </div>
 </div>
 
 <div id="loading">Loading trends data…</div>
+
+<div class="table-wrap">
 <table id="table" style="display:none">
   <thead>
     <tr>
@@ -104,6 +143,7 @@
   </thead>
   <tbody id="tbody"></tbody>
 </table>
+</div>
 <div id="no-results" class="no-results" style="display:none">No destinations match your filters.</div>
 
 <!-- Modal -->
@@ -123,10 +163,18 @@
   </div>
 </div>
 
+<footer>
+  <p>© 2026 tabiji.ai · <a href="/terms/" style="color:inherit;text-decoration:underline">Terms</a> · <a href="/privacy/" style="color:inherit;text-decoration:underline">Privacy</a> · <a href="/delete-data/" style="color:inherit;text-decoration:underline">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Instagram</a></p>
+</footer>
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-D7QHNRXLHJ');</script>
+
 <script>
 let allDests = [];
 let sortCol = 'velocity';
-let sortDir = -1; // descending
+let sortDir = -1;
 
 function sparkline(values, color) {
   const w = 120, h = 28;
@@ -134,6 +182,20 @@ function sparkline(values, color) {
   const range = max - min || 1;
   const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 4) - 2}`).join(' ');
   return `<svg class="sparkline" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function bigSparkline(values, color) {
+  const w = 460, h = 110;
+  const max = Math.max(...values, 1), min = Math.min(...values, 0);
+  const range = max - min || 1;
+  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 8) - 4}`).join(' ');
+  const fillPts = pts + ` ${w},${h} 0,${h}`;
+  const gid = 'g' + Math.random().toString(36).slice(2,8);
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.15"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="${fillPts}" fill="url(#${gid})"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
 }
 
 function calcVelocity(values) {
@@ -148,7 +210,7 @@ function trendClass(v) { return v > 5 ? 'rising' : v < -5 ? 'falling' : 'steady'
 
 function render() {
   const search = document.getElementById('search').value.toLowerCase();
-  const filter = document.querySelector('#trend-filter .filter-btn.active').dataset.filter;
+  const filter = document.querySelector('#trend-filter .chip.active').dataset.filter;
 
   let filtered = allDests.filter(d => {
     if (search && !d.destination.toLowerCase().includes(search)) return false;
@@ -156,7 +218,6 @@ function render() {
     return true;
   });
 
-  // Sort
   filtered.sort((a, b) => {
     let va, vb;
     if (sortCol === 'name') { va = a.destination; vb = b.destination; return sortDir * va.localeCompare(vb); }
@@ -175,10 +236,10 @@ function render() {
   }
   document.getElementById('no-results').style.display = 'none';
 
-  tbody.innerHTML = filtered.map((d, i) => {
+  tbody.innerHTML = filtered.map((d) => {
     const vClass = d.velocity > 5 ? 'up' : d.velocity < -5 ? 'down' : 'flat';
     const vSign = d.velocity > 0 ? '+' : '';
-    const color = d.velocity > 5 ? '#22c55e' : d.velocity < -5 ? '#ef4444' : '#7a7a8e';
+    const color = d.velocity > 5 ? '#3a7d5c' : d.velocity < -5 ? '#c44b4b' : '#8B7355';
     return `<tr onclick="openModal('${d.destination.replace(/'/g,"\\'")}')">
       <td class="rank">${d.rank}</td>
       <td class="name">${d.destination}</td>
@@ -191,23 +252,22 @@ function render() {
   }).join('');
 }
 
-// Sort headers
+// Sort
 document.querySelectorAll('thead th[data-sort]').forEach(th => {
   th.addEventListener('click', () => {
     const col = th.dataset.sort;
     if (sortCol === col) sortDir *= -1;
     else { sortCol = col; sortDir = col === 'name' ? 1 : -1; }
-    // Update arrows
     document.querySelectorAll('thead th .sort-arrow').forEach(s => s.textContent = '');
     th.querySelector('.sort-arrow').textContent = sortDir === 1 ? '▲' : '▼';
     render();
   });
 });
 
-// Filters
-document.querySelectorAll('#trend-filter .filter-btn').forEach(btn => {
+// Filter chips
+document.querySelectorAll('#trend-filter .chip').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('#trend-filter .filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#trend-filter .chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render();
   });
@@ -216,24 +276,10 @@ document.querySelectorAll('#trend-filter .filter-btn').forEach(btn => {
 document.getElementById('search').addEventListener('input', render);
 
 // Modal
-function bigSparkline(values, color) {
-  const w = 500, h = 110;
-  const max = Math.max(...values, 1), min = Math.min(...values, 0);
-  const range = max - min || 1;
-  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / range) * (h - 8) - 4}`).join(' ');
-  const fillPts = pts + ` ${w},${h} 0,${h}`;
-  const gradId = 'g' + Math.random().toString(36).slice(2,8);
-  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-    <defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.2"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
-    <polygon points="${fillPts}" fill="url(#${gradId})"/>
-    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
-}
-
 function openModal(destName) {
   const d = allDests.find(x => x.destination === destName);
   if (!d) return;
-  const color = d.velocity > 5 ? '#22c55e' : d.velocity < -5 ? '#ef4444' : '#8b5cf6';
+  const color = d.velocity > 5 ? '#3a7d5c' : d.velocity < -5 ? '#c44b4b' : '#2D3A5C';
   const vSign = d.velocity > 0 ? '+' : '';
   const vClass = d.velocity > 5 ? 'up' : d.velocity < -5 ? 'down' : 'flat';
   document.getElementById('mName').textContent = d.destination;
@@ -241,7 +287,7 @@ function openModal(destName) {
   document.getElementById('mChart').innerHTML = bigSparkline(d.values, color);
   document.getElementById('mCurrent').textContent = d.current;
   document.getElementById('mPeak').textContent = d.peak;
-  document.getElementById('mChange').innerHTML = `<span style="color:${d.velocity > 5 ? 'var(--green)' : d.velocity < -5 ? 'var(--red)' : 'var(--muted)'}">${vSign}${d.velocity.toFixed(1)}%</span>`;
+  document.getElementById('mChange').innerHTML = `<span style="color:${d.velocity > 5 ? 'var(--green)' : d.velocity < -5 ? 'var(--red)' : 'var(--indigo)'}">${vSign}${d.velocity.toFixed(1)}%</span>`;
   document.getElementById('mDateStart').textContent = d.dates[0] || '';
   document.getElementById('mDateEnd').textContent = d.dates[d.dates.length - 1] || '';
   document.getElementById('mCta').href = `/plan.html?destination=${encodeURIComponent(d.rawName)}`;
@@ -256,12 +302,11 @@ function closeModal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// Load data
+// Load
 fetch('trends-data.json')
   .then(r => r.json())
   .then(data => {
     document.getElementById('updated').textContent = new Date(data.updated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
     allDests = data.destinations.map((d, i) => {
       const velocity = calcVelocity(d.values);
       return {
@@ -276,14 +321,10 @@ fetch('trends-data.json')
         trend: trendClass(velocity),
       };
     });
-
-    // Default sort by velocity desc
     allDests.sort((a, b) => b.velocity - a.velocity);
     allDests.forEach((d, i) => d.rank = i + 1);
-
     document.getElementById('loading').style.display = 'none';
     document.getElementById('table').style.display = 'table';
-    // Set initial sort arrow
     document.querySelector('th[data-sort="velocity"] .sort-arrow').textContent = '▼';
     render();
   });
