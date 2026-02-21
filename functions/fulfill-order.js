@@ -71,14 +71,19 @@ function fulfillOrder(order, itineraryData) {
     throw new Error('Order must have an "id" or "orderId" field');
   }
 
+  // --- Atomic lock FIRST, then claim check (prevents race where two agents both read "pending") ---
+  acquireLock(_orderId);
+
   // --- Claim check: prevent duplicate fulfillment of same order ---
   try {
     const pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8'));
     const match = pending.find(o => (o.id || o.orderId) === _orderId);
     if (match && match.status === 'in-progress') {
+      releaseLock();
       throw new Error(`Order ${_orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
     }
     if (match && match.status === 'fulfilled') {
+      releaseLock();
       throw new Error(`Order ${_orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
     }
     // Claim it — atomic write to avoid race conditions
@@ -90,12 +95,9 @@ function fulfillOrder(order, itineraryData) {
       console.log(`✅ Claimed order ${_orderId} (pid ${process.pid}, status → in-progress)`);
     }
   } catch (err) {
-    if (err.message.includes('already')) throw err;
+    if (err.message.includes('already')) { releaseLock(); throw err; }
     console.warn('Could not check/claim order in pending.json:', err.message);
   }
-
-  // --- Atomic lock: prevent concurrent fulfillments (mkdir is POSIX-atomic) ---
-  acquireLock(_orderId);
 
   // Wrap in try/finally to always release lock
   try {
