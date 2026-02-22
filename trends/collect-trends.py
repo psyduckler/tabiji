@@ -5,6 +5,7 @@ import json, subprocess, time, requests
 from datetime import datetime
 
 DESTINATIONS = [
+    # Original 50
     "Tokyo", "Bali", "Paris", "Barcelona", "Lisbon", "Bangkok", "Rome",
     "London", "New York", "Istanbul", "Dubai", "Singapore", "Seoul",
     "Amsterdam", "Prague", "Budapest", "Marrakech", "Cape Town", "Sydney",
@@ -13,7 +14,33 @@ DESTINATIONS = [
     "Amalfi Coast", "Tulum", "Costa Rica", "Portugal", "Greece",
     "Croatia", "Colombia", "Peru", "Morocco", "Japan", "Thailand",
     "Hawaii", "Alaska", "Patagonia", "Lake Como", "Swiss Alps",
-    "Zanzibar", "Sri Lanka", "Montenegro", "Madeira"
+    "Zanzibar", "Sri Lanka", "Montenegro", "Madeira",
+    # Europe (30 new)
+    "Hallstatt", "Tromsø", "Helsinki", "Dolomites", "Valletta", "Bruges",
+    "Transylvania", "Lake Bled", "Tuscany", "Provence", "Cinque Terre",
+    "Scotland", "Azores", "Slovenia", "Lofoten", "Norway Fjords", "Faroe Islands",
+    "Isle of Skye", "Albania", "Lake Ohrid", "Copenhagen", "Belgrade", "Sintra",
+    "San Sebastian", "Romania", "Ireland", "Norway", "Vienna", "Bergen", "Tirana",
+    # Asia (25 new)
+    "Jaipur", "Tbilisi", "Cappadocia", "Luang Prabang", "Palawan", "Hokkaido",
+    "Bhutan", "Mongolia", "Uzbekistan", "Philippines", "Nepal", "Kerala",
+    "Rajasthan", "Siem Reap", "Hanoi", "Ha Long Bay", "Udaipur", "Myanmar",
+    "Azerbaijan", "Hoi An", "Georgia", "Japan Alps", "Kyrgyzstan", "Borneo", "Laos",
+    # North America (20 new)
+    "Oaxaca", "Cuba", "New Orleans", "Vancouver", "San Miguel de Allende", "Havana",
+    "Banff National Park", "Puerto Rico", "Quebec City", "Toronto",
+    "Yellowstone", "Belize", "Guatemala", "San Juan", "Barbados",
+    "Antigua", "Martinique", "Napa Valley", "Maui", "Montreal",
+    # South America (12 new)
+    "Bogotá", "Mendoza", "Easter Island", "Salar de Uyuni", "Medellín", "Atacama",
+    "Galápagos", "Rio de Janeiro", "Cusco", "Machu Picchu", "Santiago", "Ushuaia",
+    # Africa (10 new)
+    "Seychelles", "Kenya", "Rwanda", "Namibia", "Cairo", "Egypt",
+    "Serengeti", "Nairobi", "Chefchaouen", "Fez",
+    # Oceania (7 new)
+    "Queenstown", "New Zealand", "Melbourne", "Bora Bora", "Fiji", "Tasmania", "Wellington",
+    # Middle East (4 new)
+    "Wadi Rum", "Petra", "Oman", "Tel Aviv",
 ]
 
 def get_api_key():
