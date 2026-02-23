@@ -233,7 +233,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
     <meta name="twitter:title" content="${esc(title)} — tabiji.ai">
     <meta name="twitter:description" content="${esc(description)}">
     <link rel="canonical" href="${url}">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow">
     <style>
         :root {
             --indigo: #2D3A5C;
