@@ -938,10 +938,10 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Google Maps -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
 <script>
-var spots = [
+var restaurants = [
     {n:"1. Oia Castle",lat:36.4601,lng:25.3729,cat:"iconic",desc:"Iconic Viewpoint — Free"},
     {n:"2. Blue Domed Churches",lat:36.4612,lng:25.3758,cat:"iconic",desc:"Iconic Photo Spot — Free"},
     {n:"3. Oia Windmills",lat:36.4608,lng:25.3740,cat:"iconic",desc:"Iconic Viewpoint — Free"},
@@ -962,76 +962,61 @@ var spots = [
 var catColors = {iconic:"#BF360C",hike:"#2E7D32",winery:"#AD1457",restaurant:"#E65100",church:"#283593",cruise:"#1565C0",remote:"#00695C"};
 var sectionIds = ['oia-castle','blue-domes-oia','oia-windmills','catamaran-cruise','skaros-rock','wine-bar-imerovigli','firostefani','fira-cliffs','mama-thira','santo-wines','venetsanos','pyrgos-kastelli','francos-cafe','prophet-elias','akrotiri-lighthouse','megalochori'];
 
-function createIcon(color, size) {
-    return L.divIcon({
-        html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>',
-        iconSize: [size, size],
-        iconAnchor: [size/2, size/2],
-        className: ''
-    });
+function makeIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
+}
+function makeActiveIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="16" fill="'+color+'" stroke="#fff" stroke-width="3"/><circle cx="20" cy="20" r="19" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.4"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
 }
 
-var sidebarMap, mobileMap, sidebarMarkers=[], mobileMarkers=[];
+var sidebarMap, mobileMap, sidebarMarkers=[], mobileMarkers=[], sidebarInfo, mobileInfo;
 
-function buildMap(el) {
-    var map = L.map(el, {scrollWheelZoom: false}).setView([36.41, 25.40], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CARTO',
-        maxZoom: 18
-    }).addTo(map);
+function buildMap(el, isDesktop) {
+    var map = new google.maps.Map(el, {mapTypeControl:false, streetViewControl:false, fullscreenControl:true, styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]});
+    var bounds = new google.maps.LatLngBounds();
+    var infoWindow = new google.maps.InfoWindow();
     var markers = [];
-    spots.forEach(function(r) {
-        var color = catColors[r.cat] || "#283593";
-        var marker = L.marker([r.lat, r.lng], {icon: createIcon(color, 14)}).addTo(map);
-        marker.bindPopup('<strong>'+r.n+'</strong><br>'+r.desc);
+    restaurants.forEach(function(r, idx) {
+        var pos = {lat:r.lat,lng:r.lng};
+        var marker = new google.maps.Marker({position:pos, map:map, icon:makeIcon(catColors[r.cat]||"#F57F17", idx+1), title:r.n});
+        bounds.extend(pos);
+        marker.addListener('click', function() { infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker); });
         markers.push(marker);
     });
-    return {map: map, markers: markers};
+    map.fitBounds(bounds, 40);
+    if (isDesktop) { sidebarMap=map; sidebarMarkers=markers; sidebarInfo=infoWindow; }
+    else { mobileMap=map; mobileMarkers=markers; mobileInfo=infoWindow; }
 }
 
-function highlightSpot(index, mapObj) {
-    if (!mapObj) return;
-    var r = spots[index];
-    mapObj.markers.forEach(function(m, i) {
-        var c = catColors[spots[i].cat] || "#283593";
-        m.setIcon(createIcon(c, 14));
-        m.setZIndexOffset(0);
-    });
-    var color = catColors[r.cat] || "#283593";
-    mapObj.markers[index].setIcon(createIcon(color, 22));
-    mapObj.markers[index].setZIndexOffset(1000);
-    mapObj.markers[index].openPopup();
-    mapObj.map.panTo([r.lat, r.lng]);
-    if (mapObj.map.getZoom() < 13) mapObj.map.setZoom(13);
+function highlightRestaurant(index) {
+    function activate(map, markers, infoWindow) {
+        if (!map || !markers.length) return;
+        var r = restaurants[index]; var marker = markers[index];
+        markers.forEach(function(m, i) { m.setIcon(makeIcon(catColors[restaurants[i].cat]||"#F57F17", i+1)); m.setZIndex(1); });
+        marker.setIcon(makeActiveIcon(catColors[r.cat]||"#F57F17", index+1)); marker.setZIndex(100);
+        infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker);
+        map.panTo({lat:r.lat, lng:r.lng}); if (map.getZoom() < 14) map.setZoom(14);
+    }
+    activate(sidebarMap, sidebarMarkers, sidebarInfo);
+    activate(mobileMap, mobileMarkers, mobileInfo);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var sidebarEl = document.getElementById('sidebar-map');
-    var mobileEl = document.getElementById('mobile-map');
-    var sObj = null, mObj = null;
-    if (sidebarEl && sidebarEl.offsetParent !== null) sObj = buildMap(sidebarEl);
-    if (mobileEl && mobileEl.offsetParent !== null) mObj = buildMap(mobileEl);
-    // Fallback: build on resize
-    window.addEventListener('resize', function() {
-        if (!sObj && sidebarEl && sidebarEl.offsetParent !== null) { sObj = buildMap(sidebarEl); }
-        if (!mObj && mobileEl && mobileEl.offsetParent !== null) { mObj = buildMap(mobileEl); }
-    });
-
+function initRestaurantMaps() {
+    var sidebar = document.getElementById('sidebar-map');
+    var mobile = document.getElementById('mobile-map');
+    if (sidebar) buildMap(sidebar, true);
+    if (mobile) buildMap(mobile, false);
     if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    var idx = sectionIds.indexOf(entry.target.id);
-                    if (idx !== -1) {
-                        highlightSpot(idx, sObj);
-                        highlightSpot(idx, mObj);
-                    }
-                }
+                if (entry.isIntersecting) { var idx = sectionIds.indexOf(entry.target.id); if (idx !== -1) highlightRestaurant(idx); }
             });
         }, { rootMargin: '-30% 0px -50% 0px' });
         sectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
     }
-});
+}
 </script>
 
 </body>

@@ -133,7 +133,7 @@
         .map-legend { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.78rem; color: var(--text-muted); }
         .map-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
         .map-inline { display: none; margin: 1.5rem 0 2.5rem; }
-        .map-inline iframe { width: 100%; height: 350px; border: 1px solid var(--sand); border-radius: 12px; }
+        
         .restaurant-section { border-bottom: 1px solid var(--sand); padding: 2.5rem 0; }
         .restaurant-section:first-of-type { padding-top: 0; }
         .restaurant-section:last-of-type { border-bottom: none; }
@@ -240,10 +240,7 @@
 
 <aside class="map-sidebar">
     <h2>Cocktail Bar Map — BA</h2>
-    <iframe
-        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&q=cocktail+bars+Buenos+Aires+Argentina&center=-34.5960,-58.4285&zoom=13"
-        width="340" height="420" style="border:0;border-radius:12px;" allowfullscreen loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div id="sidebar-map" style="width:100%;height:100%;min-height:400px;border-radius:12px;"></div>
     <div class="map-legend">
         <span><span class="dot" style="background:#283593;"></span> World Rank</span>
         <span><span class="dot" style="background:#00695C;"></span> Hidden</span>
@@ -257,12 +254,8 @@
 <div class="content">
 
 <div class="map-inline">
-    <iframe
-        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&q=cocktail+bars+Buenos+Aires+Argentina&center=-34.5960,-58.4285&zoom=12"
-        width="100%" height="350" style="border:0;border-radius:12px;" allowfullscreen loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div id="mobile-map" style="width:100%;height:350px;border-radius:12px;"></div>
 </div>
-
 <!-- INTRO -->
 <div class="intro-section">
     <p>Buenos Aires has quietly built one of the best cocktail scenes on Earth. A city that runs on fernet-cola, late dinners, and early-morning empanadas has somehow also produced world-ranked cocktail bars that compete with London, Tokyo, and New York — at a fraction of the price.</p>
@@ -736,6 +729,86 @@
 <footer>
     <p>© 2026 tabiji.ai. All rights reserved. 旅路 — Every journey begins with a single step. · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a></p>
 </footer>
+
+<!-- Google Maps -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
+<script>
+var restaurants = [
+    {n:"1. Florería Atlántico",lat:-34.5930,lng:-58.3750,cat:"world",desc:"Retiro — World's Best Bar"},
+    {n:"2. 878 Bar",lat:-34.5980,lng:-58.4320,cat:"craft",desc:"Villa Crespo"},
+    {n:"3. Tres Monos",lat:-34.5880,lng:-58.4375,cat:"craft",desc:"Chacarita"},
+    {n:"4. Doppelgänger",lat:-34.6230,lng:-58.3850,cat:"bohemian",desc:"San Telmo"},
+    {n:"5. Verne Club",lat:-34.5980,lng:-58.4240,cat:"speakeasy",desc:"Palermo Hollywood"},
+    {n:"6. Presidente Bar",lat:-34.5870,lng:-58.3930,cat:"classic",desc:"Recoleta"},
+    {n:"7. The Harrison Speakeasy",lat:-34.5900,lng:-58.4280,cat:"speakeasy",desc:"Palermo Soho"},
+    {n:"8. Gran Bar Danzón",lat:-34.5910,lng:-58.3810,cat:"classic",desc:"Retiro"},
+    {n:"9. Kiboo",lat:-34.5890,lng:-58.4230,cat:"craft",desc:"Palermo"},
+    {n:"10. Nola",lat:-34.5885,lng:-58.4250,cat:"bohemian",desc:"Palermo"},
+    {n:"11. CoChinChina",lat:-34.5895,lng:-58.4260,cat:"craft",desc:"Palermo"},
+    {n:"12. Alvear Roof Bar",lat:-34.5860,lng:-58.3900,cat:"classic",desc:"Recoleta — Hotel bar"},
+    {n:"13. Victoria Brown",lat:-34.5905,lng:-58.4200,cat:"bohemian",desc:"Palermo"},
+    {n:"14. Rey de Copas",lat:-34.5920,lng:-58.4180,cat:"world",desc:"Palermo"},
+    {n:"15. Bar 6",lat:-34.5888,lng:-58.4265,cat:"hidden",desc:"Palermo Soho"}
+];
+var catColors = {world:"#283593",hidden:"#00695C",craft:"#AD1457",bohemian:"#2E7D32",speakeasy:"#F57F17",classic:"#6A1B9A"};
+var sectionIds = ['floreria-atlantico','878-bar','tres-monos','doppelganger','verne-club','presidente-bar','harrison-speakeasy','gran-bar-danzon','kiboo','nola','cochichina','alvear-roof','victoria-brown','rey-de-copas','bar-6'];
+
+function makeIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
+}
+function makeActiveIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="16" fill="'+color+'" stroke="#fff" stroke-width="3"/><circle cx="20" cy="20" r="19" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.4"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
+}
+
+var sidebarMap, mobileMap, sidebarMarkers=[], mobileMarkers=[], sidebarInfo, mobileInfo;
+
+function buildMap(el, isDesktop) {
+    var map = new google.maps.Map(el, {mapTypeControl:false, streetViewControl:false, fullscreenControl:true, styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]});
+    var bounds = new google.maps.LatLngBounds();
+    var infoWindow = new google.maps.InfoWindow();
+    var markers = [];
+    restaurants.forEach(function(r, idx) {
+        var pos = {lat:r.lat,lng:r.lng};
+        var marker = new google.maps.Marker({position:pos, map:map, icon:makeIcon(catColors[r.cat]||"#F57F17", idx+1), title:r.n});
+        bounds.extend(pos);
+        marker.addListener('click', function() { infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker); });
+        markers.push(marker);
+    });
+    map.fitBounds(bounds, 40);
+    if (isDesktop) { sidebarMap=map; sidebarMarkers=markers; sidebarInfo=infoWindow; }
+    else { mobileMap=map; mobileMarkers=markers; mobileInfo=infoWindow; }
+}
+
+function highlightRestaurant(index) {
+    function activate(map, markers, infoWindow) {
+        if (!map || !markers.length) return;
+        var r = restaurants[index]; var marker = markers[index];
+        markers.forEach(function(m, i) { m.setIcon(makeIcon(catColors[restaurants[i].cat]||"#F57F17", i+1)); m.setZIndex(1); });
+        marker.setIcon(makeActiveIcon(catColors[r.cat]||"#F57F17", index+1)); marker.setZIndex(100);
+        infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker);
+        map.panTo({lat:r.lat, lng:r.lng}); if (map.getZoom() < 14) map.setZoom(14);
+    }
+    activate(sidebarMap, sidebarMarkers, sidebarInfo);
+    activate(mobileMap, mobileMarkers, mobileInfo);
+}
+
+function initRestaurantMaps() {
+    var sidebar = document.getElementById('sidebar-map');
+    var mobile = document.getElementById('mobile-map');
+    if (sidebar) buildMap(sidebar, true);
+    if (mobile) buildMap(mobile, false);
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { var idx = sectionIds.indexOf(entry.target.id); if (idx !== -1) highlightRestaurant(idx); }
+            });
+        }, { rootMargin: '-30% 0px -50% 0px' });
+        sectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
+    }
+}
+</script>
 
 </body>
 </html>
