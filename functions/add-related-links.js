@@ -294,7 +294,7 @@ function parseArticleHtml(slug) {
 function getAllSlugs() {
   return fs.readdirSync(PICKS_DIR)
     .filter(d => {
-      if (d === 'index.html' || d === 'picks-metadata.json' || d === 'hero-bg.png') return false;
+      if (d === 'index.html' || d === 'picks-metadata.json' || d === 'hero-bg.png' || d === 'hero-bg.jpg') return false;
       const full = path.join(PICKS_DIR, d);
       return fs.statSync(full).isDirectory() && fs.existsSync(path.join(full, 'index.html'));
     })

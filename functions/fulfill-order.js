@@ -143,7 +143,8 @@ function _doFulfill(order, itineraryData, _orderId) {
   fs.writeFileSync(filePath, html, 'utf8');
 
   // Generate hero background image via nano-banana-pro (Gemini image gen)
-  const heroPath = path.join(dir, 'hero-bg.png');
+  const heroPathPng = path.join(dir, 'hero-bg.png');
+  const heroPath = heroPathPng; // generate as PNG, convert to JPEG below
   const destination = data.destination || 'a beautiful travel destination';
 
   // Derive season from travel dates for seasonal hero imagery
@@ -193,6 +194,18 @@ function _doFulfill(order, itineraryData, _orderId) {
         execSync('sleep 3');
       }
     }
+  }
+
+  // Convert hero PNG → JPEG (quality 85) and remove the PNG to save space
+  const heroPathJpg = path.join(dir, 'hero-bg.jpg');
+  try {
+    if (fs.existsSync(heroPathPng)) {
+      execSync(`sips --setProperty format jpeg --setProperty formatOptions 85 "${heroPathPng}" --out "${heroPathJpg}"`, { stdio: 'pipe' });
+      fs.unlinkSync(heroPathPng);
+      console.log('✅ Hero converted to JPEG and PNG removed');
+    }
+  } catch (err) {
+    console.error('⚠️ Hero PNG→JPEG conversion failed (PNG kept):', err.message);
   }
 
   // Git commit and push
