@@ -41,6 +41,36 @@ DESTINATIONS = [
     "Queenstown", "New Zealand", "Melbourne", "Bora Bora", "Fiji", "Tasmania", "Wellington",
     # Middle East (4 new)
     "Wadi Rum", "Petra", "Oman", "Tel Aviv",
+    # === Batch 3: 92 more popular destinations (Feb 2026) ===
+    # Europe (25)
+    "Berlin", "Seville", "Krakow", "Stockholm", "Dublin", "Crete",
+    "Granada", "Edinburgh", "Corsica", "Lapland", "Zermatt", "Chamonix",
+    "Kotor", "Riga", "Tallinn", "Hvar", "Plitvice Lakes", "Madrid",
+    "Sarajevo", "Sofia", "Vilnius", "Douro Valley", "Loire Valley",
+    "Scottish Highlands", "Iceland",
+    # Asia (22)
+    "Chiang Mai", "Hong Kong", "Osaka", "Nara", "Varanasi", "Agra",
+    "Kathmandu", "Busan", "Penang", "Ubud", "Sapporo", "Raja Ampat",
+    "Jeju Island", "Angkor", "Darjeeling", "Guilin", "Chengdu",
+    "Shimla", "Siargao", "Komodo National Park", "Andaman Islands", "Hampi",
+    # North America (15)
+    "Lake Tahoe", "Charleston", "Cozumel", "Telluride", "Negril",
+    "Providenciales", "Death Valley", "Harbour Island", "Lake Atitlán",
+    "Tofino", "Puerto Escondido", "Tikal", "Stowe", "Vail", "Whistler Blackcomb",
+    # South America (12)
+    "Iguazu Falls", "Quito", "Valparaiso", "Montevideo", "Bariloche",
+    "Lake Titicaca", "Paraty", "Salento", "Fernando de Noronha",
+    "La Paz", "Tayrona National Natural Park", "Sucre",
+    # Africa (8)
+    "Kruger National Park", "Madagascar", "Sahara Desert", "Kilimanjaro",
+    "Essaouira", "Dakar", "Stellenbosch", "Lake Malawi",
+    # Oceania (6)
+    "Great Barrier Reef", "Palau", "Samoa", "New Caledonia",
+    "Lord Howe Island", "Auckland",
+    # Middle East (2)
+    "Amman", "Muscat",
+    # Polar (2)
+    "Antarctica", "Svalbard",
 ]
 
 def get_api_key():
