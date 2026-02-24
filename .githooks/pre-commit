@@ -12,9 +12,17 @@ fail=0
 while IFS= read -r html_file; do
   dir=$(dirname "$html_file")
   slug=$(basename "$dir")
-  hero="$dir/hero-bg.png"
-  # Check if hero-bg.png is either staged or already exists
-  if ! git diff --cached --name-only | grep -q "^${hero}$" && [ ! -f "$hero" ]; then
+  hero_png="$dir/hero-bg.png"
+  hero_jpg="$dir/hero-bg.jpg"
+  # Check if hero-bg.png or hero-bg.jpg is either staged or already exists
+  has_hero=false
+  if git diff --cached --name-only | grep -q "^${hero_png}$" || [ -f "$hero_png" ]; then
+    has_hero=true
+  fi
+  if git diff --cached --name-only | grep -q "^${hero_jpg}$" || [ -f "$hero_jpg" ]; then
+    has_hero=true
+  fi
+  if [ "$has_hero" = false ]; then
     echo "❌ BLOCKED: $html_file has no hero-bg.png"
     echo "   Itinerary '$slug' must be created via fulfill-order.js (which generates hero-bg)"
     fail=1
