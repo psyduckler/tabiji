@@ -208,6 +208,26 @@ function _doFulfill(order, itineraryData, _orderId) {
     console.error('⚠️ Hero PNG→JPEG conversion failed (PNG kept):', err.message);
   }
 
+  // Upload hero image to Cloudflare R2 CDN and remove local copy
+  const heroLocalPath = fs.existsSync(heroPathJpg) ? heroPathJpg : (fs.existsSync(heroPathPng) ? heroPathPng : null);
+  if (heroLocalPath) {
+    try {
+      const r2Token = execSync('security find-generic-password -s "cloudflare-pages-token" -w', { stdio: 'pipe' }).toString().trim();
+      const r2Account = '9ce95ed3e1df4a7e1d2a401e116c3c6f';
+      const heroExt = heroLocalPath.endsWith('.jpg') ? 'jpg' : 'png';
+      const heroContentType = heroExt === 'jpg' ? 'image/jpeg' : 'image/png';
+      const r2Key = `i/${slug}/hero-bg.${heroExt}`;
+      execSync(
+        `curl -s -X PUT -H "Authorization: Bearer ${r2Token}" -H "Content-Type: ${heroContentType}" --data-binary @"${heroLocalPath}" "https://api.cloudflare.com/client/v4/accounts/${r2Account}/r2/buckets/tabiji-media/objects/${r2Key}"`,
+        { stdio: 'pipe', timeout: 60000 }
+      );
+      fs.unlinkSync(heroLocalPath);
+      console.log(`✅ Hero uploaded to R2: https://img.tabiji.ai/${r2Key}`);
+    } catch (err) {
+      console.error('⚠️ Hero R2 upload failed (kept locally):', err.message);
+    }
+  }
+
   // Git commit and push
   const gitOpts = { cwd: REPO_ROOT, stdio: 'pipe' };
   try {

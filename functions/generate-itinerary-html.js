@@ -283,7 +283,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             position: relative;
             padding: 7rem 2rem 5rem;
             max-width: none; margin: 0 auto;
-            background: url('hero-bg.jpg') center center / cover no-repeat;
+            background: url('https://img.tabiji.ai/i/${slug}/hero-bg.jpg') center center / cover no-repeat;
             min-height: 420px;
             display: flex; flex-direction: column; justify-content: flex-end;
         }
