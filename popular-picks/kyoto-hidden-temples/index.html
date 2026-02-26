@@ -101,8 +101,38 @@
         .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero > p { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin-bottom: 1.5rem; }
         .hero-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 0.9rem; color: var(--earth); border-top: 1px solid var(--sand); padding-top: 1.5rem; margin-top: 0.5rem; } .hero-meta strong { color: var(--indigo); }
-        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
         .content { flex: 1; min-width: 0; max-width: 800px; }
+        .map-sidebar {
+            width: 340px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px);
+        }
+        .map-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .map-legend {
+            margin-top: 1rem;
+            display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+            font-size: 0.78rem; color: var(--text-muted);
+        }
+        .map-legend .dot {
+            display: inline-block; width: 10px; height: 10px;
+            border-radius: 50%; margin-right: 4px; vertical-align: middle;
+        }
+        .map-inline {
+            display: none;
+            margin: 1.5rem 0 2.5rem;
+        }
+        @media (max-width: 900px) {
+            .map-sidebar { display: none; }
+            .map-inline { display: block; }
+            .content-wrapper { padding: 0 1.5rem; }
+        }
         .restaurant-section { border-bottom: 1px solid var(--sand); padding: 2.5rem 0; } .restaurant-section:first-of-type { padding-top: 0; } .restaurant-section:last-of-type { border-bottom: none; }
         .restaurant-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
         .restaurant-header h2 { font-size: 1.35rem; font-weight: 700; color: var(--indigo); }
@@ -166,7 +196,23 @@
 </section>
 
 <div class="content-wrapper">
+
+<aside class="map-sidebar">
+    <h2>Temple Map</h2>
+    <div id="sidebar-map" style="width:100%;height:100%;min-height:400px;border-radius:12px;"></div>
+    <div class="map-legend">
+        <span><span class="dot" style="background:#2E7D32;"></span> Arashiyama</span>
+        <span><span class="dot" style="background:#AD1457;"></span> Higashiyama</span>
+        <span><span class="dot" style="background:#1565C0;"></span> Northern Kyoto</span>
+        <span><span class="dot" style="background:#E65100;"></span> Western Kyoto</span>
+    </div>
+</aside>
+
 <div class="content">
+
+<div class="map-inline">
+    <div id="mobile-map" style="width:100%;height:350px;border-radius:12px;"></div>
+</div>
 
 <div class="intro-section">
     <p>Kyoto has over 1,600 Buddhist temples and 400 Shinto shrines. Everybody goes to the same five. Kinkaku-ji, Fushimi Inari, Kiyomizu-dera — they're beautiful, yes, but also packed with selfie sticks and tour groups at any hour.</p>
@@ -493,6 +539,80 @@
 <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initTempleMaps" async defer></script>
+<script>
+var temples = [
+    {n:"1. Ōtagi Nenbutsu-ji",lat:35.0338,lng:135.6699,area:"arashiyama",desc:"Far end of Arashiyama · ¥300"},
+    {n:"2. Shisen-dō",lat:35.0376,lng:135.7963,area:"northern",desc:"Ichijō-ji, northeast Kyoto · ¥500"},
+    {n:"3. Kōmyō-in",lat:34.9762,lng:135.7707,area:"higashiyama",desc:"Tōfuku-ji sub-temple · ¥300"},
+    {n:"4. Hōnen-in",lat:35.0124,lng:135.7926,area:"higashiyama",desc:"Near Philosopher's Path · Free"},
+    {n:"5. Shōren-in",lat:35.0034,lng:135.7829,area:"higashiyama",desc:"Higashiyama, near Chion-in · ¥500"},
+    {n:"6. Daitoku-ji",lat:35.0472,lng:135.7425,area:"northern",desc:"Kita-ku, north Kyoto · ¥400–¥600"},
+    {n:"7. Jizō-in",lat:34.9764,lng:135.7100,area:"western",desc:"Nishikyō-ku, west Kyoto · ¥500"},
+    {n:"8. Kurama-dera",lat:35.1169,lng:135.7673,area:"northern",desc:"Kurama, north of Kyoto · ¥300"},
+    {n:"9. Renge-ji",lat:35.0379,lng:135.7968,area:"northern",desc:"Ichijō-ji, near Shisen-dō · ¥500"},
+    {n:"10. Eikan-dō",lat:35.0120,lng:135.7949,area:"higashiyama",desc:"Higashiyama, Philosopher's Path · ¥600"},
+    {n:"11. Sennyu-ji",lat:34.9721,lng:135.7731,area:"higashiyama",desc:"Southeast Higashiyama · ¥500"},
+    {n:"12. Tōji-in",lat:35.0303,lng:135.7180,area:"western",desc:"Kita-ku, near Ryōan-ji · ¥500"}
+];
+var areaColors = {arashiyama:"#2E7D32",higashiyama:"#AD1457",northern:"#1565C0",western:"#E65100"};
+function makeKYIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
+}
+function makeKYActiveIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="16" fill="'+color+'" stroke="#fff" stroke-width="3"/><circle cx="20" cy="20" r="19" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.4"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
+}
+var kyoSidebarMap, kyoMobileMap, kyoSidebarMarkers=[], kyoMobileMarkers=[], kyoSidebarInfo, kyoMobileInfo;
+var kyoSectionIds = ['otagi','shisendo','komyoin','honenin','shorenin','daitokuji','jizoin','kuramadera','rengeji','eikando','sennyuji','tojiin'];
+function buildKYMap(el, isDesktop) {
+    var map = new google.maps.Map(el, {
+        mapTypeControl:false, streetViewControl:false, fullscreenControl:true,
+        styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]
+    });
+    var bounds = new google.maps.LatLngBounds();
+    var infoWindow = new google.maps.InfoWindow();
+    var markers = [];
+    temples.forEach(function(t, idx) {
+        var pos = {lat:t.lat,lng:t.lng};
+        var marker = new google.maps.Marker({position:pos, map:map, icon:makeKYIcon(areaColors[t.area]||"#1565C0", idx+1), title:t.n});
+        bounds.extend(pos);
+        marker.addListener('click', function() { infoWindow.setContent('<strong>'+t.n+'</strong><br>'+t.desc); infoWindow.open(map, marker); });
+        markers.push(marker);
+    });
+    map.fitBounds(bounds, 40);
+    if (isDesktop) { kyoSidebarMap=map; kyoSidebarMarkers=markers; kyoSidebarInfo=infoWindow; }
+    else { kyoMobileMap=map; kyoMobileMarkers=markers; kyoMobileInfo=infoWindow; }
+}
+function kyoHighlight(index) {
+    function activate(map, markers, infoWindow) {
+        if (!map || !markers.length) return;
+        var t = temples[index]; var marker = markers[index];
+        markers.forEach(function(m, i) { m.setIcon(makeKYIcon(areaColors[temples[i].area]||"#1565C0", i+1)); m.setZIndex(1); });
+        marker.setIcon(makeKYActiveIcon(areaColors[t.area]||"#1565C0", index+1)); marker.setZIndex(100);
+        infoWindow.setContent('<strong>'+t.n+'</strong><br>'+t.desc); infoWindow.open(map, marker);
+        map.panTo({lat:t.lat, lng:t.lng}); if (map.getZoom() < 13) map.setZoom(13);
+    }
+    activate(kyoSidebarMap, kyoSidebarMarkers, kyoSidebarInfo);
+    activate(kyoMobileMap, kyoMobileMarkers, kyoMobileInfo);
+}
+function initTempleMaps() {
+    var sidebar = document.getElementById('sidebar-map');
+    var mobile = document.getElementById('mobile-map');
+    if (sidebar) buildKYMap(sidebar, true);
+    if (mobile) buildKYMap(mobile, false);
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { var idx = kyoSectionIds.indexOf(entry.target.id); if (idx !== -1) kyoHighlight(idx); }
+            });
+        }, { rootMargin: '-30% 0px -50% 0px' });
+        kyoSectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
+    }
+}
+</script>
 
 </body>
 </html>

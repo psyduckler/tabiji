@@ -763,46 +763,75 @@
     <p>Know a great cat café we missed? <a href="mailto:hello@tabiji.ai" style="color: var(--terracotta); text-decoration: none;">Let us know →</a></p>
 </footer>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initCatMaps" async defer></script>
 <script>
-const cafes = [
-    { name: "Cat Playground", lat: 37.5612, lng: 126.9857, color: "#E65100", id: "cat-playground" },
-    { name: "Cat's Sarangchae", lat: 37.5615, lng: 126.9850, color: "#E65100", id: "cats-sarangchae" },
-    { name: "Roofcatme", lat: 37.5608, lng: 126.9862, color: "#E65100", id: "roofcatme" },
-    { name: "Attic Cat", lat: 37.5618, lng: 126.9845, color: "#E65100", id: "attic-cat" },
-    { name: "Cafe Gaene", lat: 37.5605, lng: 126.9855, color: "#E65100", id: "cafe-gaene" },
-    { name: "4F Hideaway", lat: 37.5620, lng: 126.9840, color: "#E65100", id: "myeongdong-hideaway" },
-    { name: "Cat Beer Cafe", lat: 37.5725, lng: 126.9430, color: "#1565C0", id: "cat-beer-cafe" },
-    { name: "Cat Cafe Library", lat: 37.5563, lng: 126.9233, color: "#1565C0", id: "cat-cafe-library" },
-    { name: "Y Cat", lat: 37.5498, lng: 126.9138, color: "#1565C0", id: "y-cat" },
-    { name: "Cat Garden", lat: 37.5780, lng: 126.8570, color: "#2E7D32", id: "cat-garden" }
+var catCafes = [
+    {n:"1. Cat Playground",lat:37.5612,lng:126.9857,color:"#E65100",id:"cat-playground",desc:"Cat Café · Myeongdong · ₩12,000–₩15,000"},
+    {n:"2. Cat's Sarangchae",lat:37.5615,lng:126.9850,color:"#E65100",id:"cats-sarangchae",desc:"Ethical · 55+ Cats · ₩15,000–₩20,000"},
+    {n:"3. Roofcatme",lat:37.5608,lng:126.9862,color:"#E65100",id:"roofcatme",desc:"Unlimited Drinks · ₩15,000–₩18,000"},
+    {n:"4. Attic Cat",lat:37.5618,lng:126.9845,color:"#E65100",id:"attic-cat",desc:"Classic Favorite · ₩10,000–₩15,000"},
+    {n:"5. Cafe Gaene",lat:37.5605,lng:126.9855,color:"#E65100",id:"cafe-gaene",desc:"Family-Friendly · ₩10,000–₩15,000"},
+    {n:"6. 4F Hideaway",lat:37.5620,lng:126.9840,color:"#E65100",id:"myeongdong-hideaway",desc:"Hidden Gem · ₩12,000–₩15,000"},
+    {n:"7. Cat Beer Cafe",lat:37.5725,lng:126.9430,color:"#1565C0",id:"cat-beer-cafe",desc:"Craft Beer + Cats · ₩8,000–₩15,000"},
+    {n:"8. Cat Cafe Library",lat:37.5563,lng:126.9233,color:"#1565C0",id:"cat-cafe-library",desc:"Books + Cats · Hongdae · ₩10,000–₩13,000"},
+    {n:"9. Y Cat",lat:37.5498,lng:126.9138,color:"#1565C0",id:"y-cat",desc:"37 Cats · Hapjeong · ₩9,000"},
+    {n:"10. Cat Garden",lat:37.5780,lng:126.8570,color:"#2E7D32",id:"cat-garden",desc:"Outdoor · Gangseo-gu · ₩10,000–₩12,000"}
 ];
-
-function initMap(id) {
-    const map = L.map(id).setView([37.5612, 126.9857], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CARTO', maxZoom: 19
-    }).addTo(map);
-    cafes.forEach((c, i) => {
-        const icon = L.divIcon({
-            className: '', iconSize: [28, 28],
-            html: `<div style="background:${c.color};color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,0.3);">${i+1}</div>`
-        });
-        L.marker([c.lat, c.lng], { icon }).addTo(map)
-            .bindPopup(`<b>${c.name}</b>`)
-            .on('click', () => document.getElementById(c.id)?.scrollIntoView({ behavior: 'smooth' }));
+function makeCCIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
+}
+function makeCCActiveIcon(color, num) {
+    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="16" fill="'+color+'" stroke="#fff" stroke-width="3"/><circle cx="20" cy="20" r="19" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.4"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="bold">'+num+'</text></svg>');
+    return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
+}
+var ccSidebarMap, ccMobileMap, ccSidebarMarkers=[], ccMobileMarkers=[], ccSidebarInfo, ccMobileInfo;
+var ccSectionIds = ['cat-playground','cats-sarangchae','roofcatme','attic-cat','cafe-gaene','myeongdong-hideaway','cat-beer-cafe','cat-cafe-library','y-cat','cat-garden'];
+function buildCCMap(el, isDesktop) {
+    var map = new google.maps.Map(el, {
+        mapTypeControl:false, streetViewControl:false, fullscreenControl:true,
+        styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]
     });
-    return map;
+    var bounds = new google.maps.LatLngBounds();
+    var infoWindow = new google.maps.InfoWindow();
+    var markers = [];
+    catCafes.forEach(function(c, idx) {
+        var pos = {lat:c.lat,lng:c.lng};
+        var marker = new google.maps.Marker({position:pos, map:map, icon:makeCCIcon(c.color, idx+1), title:c.n});
+        bounds.extend(pos);
+        marker.addListener('click', function() { infoWindow.setContent('<strong>'+c.n+'</strong><br>'+c.desc); infoWindow.open(map, marker); });
+        markers.push(marker);
+    });
+    map.fitBounds(bounds, 40);
+    if (isDesktop) { ccSidebarMap=map; ccSidebarMarkers=markers; ccSidebarInfo=infoWindow; }
+    else { ccMobileMap=map; ccMobileMarkers=markers; ccMobileInfo=infoWindow; }
 }
-let sMap, mMap;
-if (document.getElementById('sidebar-map') && window.innerWidth > 900) sMap = initMap('sidebar-map');
-function handleResize() {
-    if (window.innerWidth <= 900 && !mMap && document.getElementById('mobile-map')) mMap = initMap('mobile-map');
-    if (window.innerWidth > 900 && !sMap) sMap = initMap('sidebar-map');
+function ccHighlight(index) {
+    function activate(map, markers, infoWindow) {
+        if (!map || !markers.length) return;
+        var c = catCafes[index]; var marker = markers[index];
+        markers.forEach(function(m, i) { m.setIcon(makeCCIcon(catCafes[i].color, i+1)); m.setZIndex(1); });
+        marker.setIcon(makeCCActiveIcon(c.color, index+1)); marker.setZIndex(100);
+        infoWindow.setContent('<strong>'+c.n+'</strong><br>'+c.desc); infoWindow.open(map, marker);
+        map.panTo({lat:c.lat, lng:c.lng}); if (map.getZoom() < 13) map.setZoom(13);
+    }
+    activate(ccSidebarMap, ccSidebarMarkers, ccSidebarInfo);
+    activate(ccMobileMap, ccMobileMarkers, ccMobileInfo);
 }
-handleResize();
-window.addEventListener('resize', handleResize);
+function initCatMaps() {
+    var sidebar = document.getElementById('sidebar-map');
+    var mobile = document.getElementById('mobile-map');
+    if (sidebar) buildCCMap(sidebar, true);
+    if (mobile) buildCCMap(mobile, false);
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { var idx = ccSectionIds.indexOf(entry.target.id); if (idx !== -1) ccHighlight(idx); }
+            });
+        }, { rootMargin: '-30% 0px -50% 0px' });
+        ccSectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
+    }
+}
 </script>
 
 </body>
