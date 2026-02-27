@@ -464,24 +464,24 @@ const itineraryData = {
     }
   ],
   budgetTable: [
-    { item: "Bangkok → Chiang Rai flight", cost: "$30-60/person", notes: "AirAsia or Nok Air, book 2+ weeks ahead" },
-    { item: "Bangkok accommodation (3 nights)", cost: "$20-40/night", notes: "Boutique guesthouse in Old City" },
-    { item: "Chiang Rai accommodation (1 night)", cost: "$15-25/night", notes: "Guesthouse near Night Bazaar" },
-    { item: "Slow boat ticket (Huay Xai → LP)", cost: "$25-35/person", notes: "Buy at boat landing or via guesthouse" },
-    { item: "Pak Beng accommodation (1 night)", cost: "$5-20/night", notes: "Basic river-view guesthouse" },
-    { item: "Luang Prabang accommodation (3 nights)", cost: "$15-40/night", notes: "Old town guesthouse or boutique hotel" },
-    { item: "Luang Prabang → Bangkok flight", cost: "$80-150/person", notes: "Bangkok Airways or Lao Airlines" },
-    { item: "Laos visa on arrival", cost: "$30-42/person", notes: "Depends on nationality — bring USD cash + photos" },
-    { item: "Food (daily average)", cost: "$10-25/day for two", notes: "Street food to nice restaurants" },
-    { item: "Activities & transport", cost: "$5-15/day for two", notes: "Temples, falls, tuk-tuks" },
-    { item: "ESTIMATED TOTAL (2 people)", cost: "$1,000-1,800", notes: "Comfortably within your budget" }
+    { category: "Bangkok → Chiang Rai flight", cost: "$30-60/person", notes: "AirAsia or Nok Air, book 2+ weeks ahead" },
+    { category: "Bangkok accommodation (3 nights)", cost: "$20-40/night", notes: "Boutique guesthouse in Old City" },
+    { category: "Chiang Rai accommodation (1 night)", cost: "$15-25/night", notes: "Guesthouse near Night Bazaar" },
+    { category: "Slow boat ticket (Huay Xai → LP)", cost: "$25-35/person", notes: "Buy at boat landing or via guesthouse" },
+    { category: "Pak Beng accommodation (1 night)", cost: "$5-20/night", notes: "Basic river-view guesthouse" },
+    { category: "Luang Prabang accommodation (3 nights)", cost: "$15-40/night", notes: "Old town guesthouse or boutique hotel" },
+    { category: "Luang Prabang → Bangkok flight", cost: "$80-150/person", notes: "Bangkok Airways or Lao Airlines" },
+    { category: "Laos visa on arrival", cost: "$30-42/person", notes: "Depends on nationality — bring USD cash + photos" },
+    { category: "Food (daily average)", cost: "$10-25/day for two", notes: "Street food to nice restaurants" },
+    { category: "Activities & transport", cost: "$5-15/day for two", notes: "Temples, falls, tuk-tuks" },
+    { category: "ESTIMATED TOTAL (2 people)", cost: "$1,000-1,800", notes: "Comfortably within your budget" }
   ],
   practicalInfo: [
-    { title: "💉 Health & Vaccinations", text: "No mandatory vaccinations, but recommended: Hepatitis A & B, Typhoid, Tetanus. Malaria risk is very low in cities and tourist areas but higher in remote jungle. Mosquito repellent is essential for dengue prevention (present year-round). Drink bottled water only. Travel insurance covering medical evacuation is strongly recommended." },
-    { title: "🔌 Power & Plugs", text: "Thailand uses Types A, B, C (220V). Laos uses Types A, B, C, E, F (230V). A universal adapter covers both. Most hotels have USB charging available." },
-    { title: "🗣️ Language", text: "Thai in Thailand, Lao in Laos (mutually intelligible to some degree). English is widely spoken in Bangkok tourist areas, less so in Chiang Rai and rural Laos. In Luang Prabang, English and some French are common. Google Translate's camera feature is invaluable for menus." },
-    { title: "🙏 Cultural Etiquette", text: "Remove shoes before entering temples and homes. Don't touch people's heads. Don't point your feet at Buddha images or monks. Dress modestly at temples (cover knees and shoulders). In Laos, the traditional greeting is the 'nop' — hands pressed together at chest level. Thai equivalent: the 'wai.' Return it when received." },
-    { title: "🔒 Safety", text: "Both Thailand and Laos are very safe for travelers. Petty theft exists in crowded areas — use a money belt or front pocket. The biggest risks: traffic (especially motorbikes), dehydration in May heat, and overenthusiastic street food consumption (pace yourself). The slow boat is safe but can be crowded — guard your belongings." }
+    { title: "💉 Health & Vaccinations", items: ["No mandatory vaccinations, but recommended: Hepatitis A & B, Typhoid, Tetanus", "Malaria risk is very low in cities and tourist areas but higher in remote jungle", "Mosquito repellent is essential for dengue prevention (present year-round)", "Drink bottled water only", "Travel insurance covering medical evacuation is strongly recommended"] },
+    { title: "🔌 Power & Plugs", items: ["Thailand uses Types A, B, C (220V). Laos uses Types A, B, C, E, F (230V)", "A universal adapter covers both countries", "Most hotels have USB charging available"] },
+    { title: "🗣️ Language", items: ["Thai in Thailand, Lao in Laos (mutually intelligible to some degree)", "English is widely spoken in Bangkok tourist areas, less so in Chiang Rai and rural Laos", "In Luang Prabang, English and some French are common", "Google Translate's camera feature is invaluable for menus"] },
+    { title: "🙏 Cultural Etiquette", items: ["Remove shoes before entering temples and homes", "Don't touch people's heads or point your feet at Buddha images or monks", "Dress modestly at temples (cover knees and shoulders)", "In Laos, the traditional greeting is the 'nop' — hands pressed together at chest level. Thai equivalent: the 'wai'"] },
+    { title: "🔒 Safety", items: ["Both Thailand and Laos are very safe for travelers", "Petty theft exists in crowded areas — use a money belt or front pocket", "Biggest risks: traffic (especially motorbikes), dehydration in May heat, and overenthusiastic street food consumption", "The slow boat is safe but can be crowded — guard your belongings"] }
   ]
 };
 
