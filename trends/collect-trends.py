@@ -148,7 +148,9 @@ def main():
     results.sort(key=lambda x: x["velocity"], reverse=True)
     out = {"updated": datetime.now().isoformat(), "destinations": results}
 
-    with open("tabiji/trends/trends-data.json", "w") as f:
+    import os
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(script_dir, "trends-data.json"), "w") as f:
         json.dump(out, f, indent=2)
 
     print(f"\nDone! {len(results)} destinations saved to trends-data.json")
