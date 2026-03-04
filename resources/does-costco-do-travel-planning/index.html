@@ -89,7 +89,86 @@
         text-align: center;
     }
 }
-</style>
+
+        /* Floating TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -105,7 +184,28 @@
         </div>
     </nav>
 
-    <article class="article-container">
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#does-costco-offer-travel-planning">Does Costco Offer Travel Planning?</a></li>
+            <li><a href="#what-costco-travel-actually-includes">What Costco Travel Actually Includes</a></li>
+            <li><a href="#pros-and-cons-of-using-costco-travel">Pros and Cons of Using Costco Travel</a></li>
+            <li><a href="#costco-travel-vs-ai-travel-planners-whats-the-difference">Costco Travel vs. AI Travel Planners: What's the Difference?</a></li>
+            <li><a href="#what-real-travelers-say-about-costco-travel">What Real Travelers Say About Costco Travel</a></li>
+            <li><a href="#who-should-use-costco-travel">Who Should Use Costco Travel?</a></li>
+            <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="content-wrapper">
+<div class="article-content">
+<article class="article-container">
         <h1>Does Costco Do Travel Planning? What Costco Travel Offers (and Where AI Planners Fill the Gaps)</h1>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand);">
             <div>
@@ -115,13 +215,13 @@
         </div>
 
         <div class="article-body">
-            <h2>Does Costco Offer Travel Planning?</h2>
+            <h2 id="does-costco-offer-travel-planning">Does Costco Offer Travel Planning?</h2>
 
             <p>Yes, Costco offers travel planning through <strong>Costco Travel</strong> (costcotravel.com), a full-service online travel agency available exclusively to Costco members. Launched in 2000, Costco Travel lets members book vacation packages, cruises, hotels, rental cars, guided tours, and theme park tickets — often at below-market prices thanks to Costco's bulk purchasing power.</p>
 
             <p>However, Costco Travel is a <strong>booking platform</strong>, not a personalized trip planner. It offers pre-built vacation packages and lets you bundle flights, hotels, and cars, but it doesn't create custom day-by-day itineraries, suggest activities based on your interests, or adapt plans in real time. For travelers who want a fully planned itinerary — not just booked hotels — AI-powered travel planners like <a href="https://tabiji.ai">tabiji.ai</a> fill that gap.</p>
 
-            <h2>What Costco Travel Actually Includes</h2>
+            <h2 id="what-costco-travel-actually-includes">What Costco Travel Actually Includes</h2>
 
             <p>Costco Travel provides six core services to members:</p>
 
@@ -145,7 +245,7 @@
 
             <p>Executive Members booking a $5,000 vacation earn $100 back in rewards — effectively reducing their upgrade cost to $35.</p>
 
-            <h2>Pros and Cons of Using Costco Travel</h2>
+            <h2 id="pros-and-cons-of-using-costco-travel">Pros and Cons of Using Costco Travel</h2>
 
             <h3>What Costco Travel Does Well</h3>
 
@@ -168,7 +268,7 @@
                 <li><strong>Cancellation fees apply.</strong> Despite Costco's famously generous return policy on warehouse items, travel bookings may incur airline change fees and hotel cancellation penalties.</li>
             </ul>
 
-            <h2>Costco Travel vs. AI Travel Planners: What's the Difference?</h2>
+            <h2 id="costco-travel-vs-ai-travel-planners-whats-the-difference">Costco Travel vs. AI Travel Planners: What's the Difference?</h2>
 
             <p>The core distinction: <strong>Costco Travel is a booking engine; AI travel planners are itinerary builders.</strong> They solve different problems and actually complement each other.</p>
 
@@ -183,7 +283,7 @@
 
             <p><strong>The smart approach:</strong> Use Costco Travel to book your flights and hotel at a discount, then use an AI itinerary planner like <a href="https://tabiji.ai">tabiji.ai</a> to build your day-by-day schedule with activities, restaurants, and logistics — getting the best of both worlds.</p>
 
-            <h2>What Real Travelers Say About Costco Travel</h2>
+            <h2 id="what-real-travelers-say-about-costco-travel">What Real Travelers Say About Costco Travel</h2>
 
             <p>Reddit discussions (r/Costco, r/travel, r/TravelHacks) reveal consistent themes:</p>
 
@@ -194,7 +294,7 @@
                 <li><strong>Common gap cited:</strong> Even satisfied Costco Travel users note they still had to plan activities, dining, and day-to-day logistics separately.</li>
             </ul>
 
-            <h2>Who Should Use Costco Travel?</h2>
+            <h2 id="who-should-use-costco-travel">Who Should Use Costco Travel?</h2>
 
             <p><strong>Costco Travel is ideal if you:</strong></p>
 
@@ -216,7 +316,7 @@
                 <li>Are planning a multi-destination or complex route</li>
             </ul>
 
-            <h2>Frequently Asked Questions</h2>
+            <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 
             <h3>Can you use Costco Travel without a membership?</h3>
             <p>No. Costco Travel is exclusively available to active Costco members (Gold Star, Executive, or Business). You'll need to enter your membership number to access pricing and book.</p>
@@ -234,10 +334,25 @@
             <p>Yes. When flights are included in a Costco Travel package, you can still enter your frequent flyer number to earn miles on supported airlines.</p>
         </div>
     </article>
+</div><!-- /article-content -->
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#does-costco-offer-travel-planning">Does Costco Offer Travel Planning?</a></li>
+            <li><a href="#what-costco-travel-actually-includes">What Costco Travel Actually Includes</a></li>
+            <li><a href="#pros-and-cons-of-using-costco-travel">Pros and Cons of Using Costco Travel</a></li>
+            <li><a href="#costco-travel-vs-ai-travel-planners-whats-the-difference">Costco Travel vs. AI Travel Planners: What's the Difference?</a></li>
+            <li><a href="#what-real-travelers-say-about-costco-travel">What Real Travelers Say About Costco Travel</a></li>
+            <li><a href="#who-should-use-costco-travel">Who Should Use Costco Travel?</a></li>
+            <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+    </ul>
+</aside>
+</div><!-- /content-wrapper -->
 
     <section style="background:var(--warm-cream);padding:3rem 2rem;text-align:center;">
         <div style="max-width: 768px;margin:0 auto;">
-            <h2 style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
+            <h2 id="ready-to-skip-the-generic-recommendations" style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
             <p style="color:var(--text-muted);margin-bottom:1.5rem;">Get a personalized, Reddit-sourced travel itinerary delivered to your inbox within 24 hours.</p>
             <a href="/plan" style="display:inline-block;background:var(--terracotta);color:white;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:600;font-size:1.05rem;box-shadow:0 4px 14px rgba(196,112,75,0.3);">Get Your Free Custom Itinerary</a>
         </div>
@@ -246,5 +361,35 @@
     <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

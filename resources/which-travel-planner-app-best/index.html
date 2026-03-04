@@ -89,7 +89,86 @@
         text-align: center;
     }
 }
-</style>
+
+        /* Floating TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -105,7 +184,29 @@
         </div>
     </nav>
 
-    <article class="article-container">
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#how-to-choose-a-travel-planner-app-5-criteria-that-matter">How to Choose a Travel Planner App: 5 Criteria That Matter</a></li>
+            <li><a href="#best-ai-powered-travel-planners">Best AI-Powered Travel Planners</a></li>
+            <li><a href="#best-trip-organizers">Best Trip Organizers</a></li>
+            <li><a href="#best-booking-and-deal-finding-apps">Best Booking and Deal-Finding Apps</a></li>
+            <li><a href="#best-collaborative-and-diy-planning-tools">Best Collaborative and DIY Planning Tools</a></li>
+            <li><a href="#which-app-is-best-for-your-travel-style">Which App Is Best for Your Travel Style?</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+            <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="content-wrapper">
+<div class="article-content">
+<article class="article-container">
         <h1>Which Travel Planner App Is Best? A Category-by-Category Guide for 2026</h1>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand);">
             <div>
@@ -119,7 +220,7 @@
 
             <p>This guide evaluates 12 leading travel planner apps across five categories, based on hands-on testing and analysis of real traveler feedback from Reddit, app store reviews, and travel communities.</p>
 
-            <h2>How to Choose a Travel Planner App: 5 Criteria That Matter</h2>
+            <h2 id="how-to-choose-a-travel-planner-app-5-criteria-that-matter">How to Choose a Travel Planner App: 5 Criteria That Matter</h2>
 
             <p>Before comparing individual apps, evaluate any travel planner against these five criteria:</p>
 
@@ -131,7 +232,7 @@
                 <li><strong>Price transparency</strong> — Is the free tier genuinely useful, or does a paywall block core features?</li>
             </ol>
 
-            <h2>Best AI-Powered Travel Planners</h2>
+            <h2 id="best-ai-powered-travel-planners">Best AI-Powered Travel Planners</h2>
 
             <p>AI itinerary builders represent the fastest-growing category in travel planning. These apps generate complete day-by-day itineraries based on your destination, travel dates, interests, and budget — replacing hours of manual research with a starting plan you can customize.</p>
 
@@ -173,7 +274,7 @@
                 <li><strong>Limitation:</strong> No map integration, no booking, no offline access — you'll need to transfer plans to another app</li>
             </ul>
 
-            <h2>Best Trip Organizers</h2>
+            <h2 id="best-trip-organizers">Best Trip Organizers</h2>
 
             <p>Trip organizers don't generate plans — they help you structure and manage bookings, reservations, and logistics you've already arranged.</p>
 
@@ -197,7 +298,7 @@
                 <li><strong>Reddit consensus:</strong> Frequently cited as "much better than TripIt" for active planning, especially for road trips</li>
             </ul>
 
-            <h2>Best Booking and Deal-Finding Apps</h2>
+            <h2 id="best-booking-and-deal-finding-apps">Best Booking and Deal-Finding Apps</h2>
 
             <p>These apps specialize in finding the cheapest flights, hotels, and transportation — not building itineraries.</p>
 
@@ -226,7 +327,7 @@
                 <li><strong>Best for:</strong> Overland travelers and anyone navigating unfamiliar transit systems between cities</li>
             </ul>
 
-            <h2>Best Collaborative and DIY Planning Tools</h2>
+            <h2 id="best-collaborative-and-diy-planning-tools">Best Collaborative and DIY Planning Tools</h2>
 
             <p>Some travelers prefer general-purpose tools over dedicated travel apps. This approach offers maximum flexibility but requires more manual effort.</p>
 
@@ -247,7 +348,7 @@
                 <li><strong>Best for:</strong> Travelers who want zero learning curve with tools they already use daily</li>
             </ul>
 
-            <h2>Which App Is Best for Your Travel Style?</h2>
+            <h2 id="which-app-is-best-for-your-travel-style">Which App Is Best for Your Travel Style?</h2>
 
             <ul>
                 <li><strong>"Plan my trip for me"</strong> → <strong>Tabiji</strong> (AI itinerary) + Hopper (deals) + TripIt (organization)</li>
@@ -259,13 +360,13 @@
                 <li><strong>AI-curious explorer</strong> → <strong>Mindtrip</strong> + TripIt (organization)</li>
             </ul>
 
-            <h2>The Bottom Line</h2>
+            <h2 id="the-bottom-line">The Bottom Line</h2>
 
             <p>The best travel planner app is the one that matches your planning style. If you want AI to generate a complete itinerary from scratch, <strong><a href="https://tabiji.ai">Tabiji</a></strong> and <strong>Mindtrip</strong> deliver the most useful free outputs. If you prefer to plan manually and need organization, <strong>TripIt</strong> (for passive organization) and <strong>Wanderlog</strong> (for active planning) lead their respective categories. For finding deals, <strong>Hopper</strong> and <strong>Skyscanner</strong> remain unmatched.</p>
 
             <p>The most effective setup for most travelers in 2026: <strong>one AI planner to generate your starting itinerary + one organizer to manage bookings + one deal finder for flights and hotels.</strong> This three-app approach covers the full planning lifecycle without any single tool trying to do everything poorly.</p>
 
-            <h2>Frequently Asked Questions</h2>
+            <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 
             <h3>What is the best free travel planner app?</h3>
             <p>Wanderlog is the best free travel planner for manual itinerary building, with unlimited trips, offline access, and group collaboration at no cost. For AI-generated itineraries, <a href="https://tabiji.ai">Tabiji</a> offers free AI-powered plan creation without a paywall.</p>
@@ -280,10 +381,26 @@
             <p>Yes — ChatGPT and Google Gemini can generate solid travel itineraries when given specific prompts. However, their output is plain text without map integration, booking capabilities, or offline access. For a more structured experience, dedicated AI travel planners like <a href="https://tabiji.ai">Tabiji</a> wrap similar AI capabilities in a travel-optimized interface with editable, shareable itineraries.</p>
         </div>
     </article>
+</div><!-- /article-content -->
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#how-to-choose-a-travel-planner-app-5-criteria-that-matter">How to Choose a Travel Planner App: 5 Criteria That Matter</a></li>
+            <li><a href="#best-ai-powered-travel-planners">Best AI-Powered Travel Planners</a></li>
+            <li><a href="#best-trip-organizers">Best Trip Organizers</a></li>
+            <li><a href="#best-booking-and-deal-finding-apps">Best Booking and Deal-Finding Apps</a></li>
+            <li><a href="#best-collaborative-and-diy-planning-tools">Best Collaborative and DIY Planning Tools</a></li>
+            <li><a href="#which-app-is-best-for-your-travel-style">Which App Is Best for Your Travel Style?</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+            <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+    </ul>
+</aside>
+</div><!-- /content-wrapper -->
 
     <section style="background:var(--warm-cream);padding:3rem 2rem;text-align:center;">
         <div style="max-width: 768px;margin:0 auto;">
-            <h2 style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
+            <h2 id="ready-to-skip-the-generic-recommendations" style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
             <p style="color:var(--text-muted);margin-bottom:1.5rem;">Get a personalized, Reddit-sourced travel itinerary delivered to your inbox within 24 hours.</p>
             <a href="/plan" style="display:inline-block;background:var(--terracotta);color:white;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:600;font-size:1.05rem;box-shadow:0 4px 14px rgba(196,112,75,0.3);">Get Your Free Custom Itinerary</a>
         </div>
@@ -292,5 +409,35 @@
     <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

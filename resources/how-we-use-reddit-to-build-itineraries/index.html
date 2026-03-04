@@ -89,7 +89,86 @@
         text-align: center;
     }
 }
-</style>
+
+        /* Floating TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -105,7 +184,30 @@
         </div>
     </nav>
 
-    <article class="article-container">
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#can-ai-really-plan-a-trip-using-reddit-recommendations">Can AI Really Plan a Trip Using Reddit Recommendations?</a></li>
+            <li><a href="#why-reddit-instead-of-review-sites-like-tripadvisor">Why Reddit Instead of Review Sites Like TripAdvisor?</a></li>
+            <li><a href="#how-does-tabiji-actually-find-the-right-posts">How Does tabiji Actually Find the Right Posts?</a></li>
+            <li><a href="#how-do-you-filter-signal-from-noise">How Do You Filter Signal From Noise?</a></li>
+            <li><a href="#how-are-recommendations-turned-into-an-actual-itinerary">How Are Recommendations Turned Into an Actual Itinerary?</a></li>
+            <li><a href="#what-does-a-finished-tabiji-itinerary-look-like">What Does a Finished tabiji Itinerary Look Like?</a></li>
+            <li><a href="#how-is-this-different-from-just-asking-chatgpt">How Is This Different From Just Asking ChatGPT?</a></li>
+            <li><a href="#why-does-this-cost-only-one-dollar">Why Does This Cost Only One Dollar?</a></li>
+            <li><a href="#the-philosophy-behind-the-process">The Philosophy Behind the Process</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="content-wrapper">
+<div class="article-content">
+<article class="article-container">
         <h1>How We Use Reddit and Travel Forums to Build Your Itinerary</h1>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand);">
             <div>
@@ -117,13 +219,13 @@
         <div class="article-body">
             <p>Most AI travel planners generate itineraries from the same recycled database of tourist attractions. tabiji does something different: we build your trip from thousands of real recommendations posted by actual travelers on Reddit and travel forums — then use AI to turn that crowd-sourced knowledge into a personalized, day-by-day plan. Here's exactly how.</p>
 
-            <h2>Can AI Really Plan a Trip Using Reddit Recommendations?</h2>
+            <h2 id="can-ai-really-plan-a-trip-using-reddit-recommendations">Can AI Really Plan a Trip Using Reddit Recommendations?</h2>
 
             <p>Yes — and it produces significantly better results than traditional AI travel planning. Reddit threads contain the kind of specific, opinionated, experience-tested advice that no travel database can replicate. The challenge isn't finding the information; it's processing thousands of posts, filtering out the noise, and assembling the good stuff into a logical itinerary. That's what tabiji was built to do.</p>
 
             <p>When someone asks ChatGPT to plan a trip to Tokyo, they get a generic list: Shibuya Crossing, Senso-ji Temple, Tsukiji Market. When tabiji builds that same itinerary, it pulls from posts like a thread on r/JapanTravel with 2.4k upvotes where someone recommends visiting Shibuya at 2am to experience the crossing empty, then hitting a tiny standing-bar in Golden Gai that doesn't appear on Google Maps. That's the difference between a template and a trip worth taking.</p>
 
-            <h2>Why Reddit Instead of Review Sites Like TripAdvisor?</h2>
+            <h2 id="why-reddit-instead-of-review-sites-like-tripadvisor">Why Reddit Instead of Review Sites Like TripAdvisor?</h2>
 
             <p>Reddit recommendations are more honest, more specific, and more current than traditional review platforms. Three things make Reddit uniquely valuable as a travel data source:</p>
 
@@ -139,7 +241,7 @@
 
             <p>Subreddits like r/JapanTravel and r/foodtravel attract residents who answer tourists' questions with local knowledge that never makes it onto official tourism sites. A comment from someone who's lived in Bangkok for six years telling you which specific Chinatown stall does the best kuay jab is worth more than a hundred Yelp reviews. These voices get buried on review platforms. On Reddit, they rise to the top.</p>
 
-            <h2>How Does tabiji Actually Find the Right Posts?</h2>
+            <h2 id="how-does-tabiji-actually-find-the-right-posts">How Does tabiji Actually Find the Right Posts?</h2>
 
             <p>tabiji scans targeted subreddits and travel forums to find high-quality, destination-specific recommendations. The process starts broad and narrows quickly.</p>
 
@@ -161,7 +263,7 @@
 
             <p>When you tell tabiji you're spending five days in Lisbon and you love natural wine and street art, we don't just search "Lisbon." We match your preferences against the full spectrum of content — finding the r/solotravel comment where someone mapped out every street art alley in Mouraria, or the r/foodtravel thread debating which tasca in Alfama has the best petiscos with a natural wine list.</p>
 
-            <h2>How Do You Filter Signal From Noise?</h2>
+            <h2 id="how-do-you-filter-signal-from-noise">How Do You Filter Signal From Noise?</h2>
 
             <p>Not every Reddit post is useful. tabiji uses a multi-layered filtering system that weighs community validation, recency, specificity, and cross-referencing to separate genuine recommendations from outdated or low-quality noise.</p>
 
@@ -181,7 +283,7 @@
 
             <p>When the same hole-in-the-wall izakaya gets mentioned independently on r/JapanTravel, a Tokyo expat forum, and a food blogger's deep-dive, that convergence dramatically increases our confidence. Single mentions from credible sources still make it through, but cross-referenced recommendations form the backbone of every itinerary.</p>
 
-            <h2>How Are Recommendations Turned Into an Actual Itinerary?</h2>
+            <h2 id="how-are-recommendations-turned-into-an-actual-itinerary">How Are Recommendations Turned Into an Actual Itinerary?</h2>
 
             <p>Once we've extracted and validated hundreds of recommendations for your destination, tabiji clusters them geographically, sequences them logically, and optimizes for real-world logistics. This is where AI planning meets practical travel sense.</p>
 
@@ -201,7 +303,7 @@
 
             <p>The Reddit-sourced recommendations form a universe of possibilities. Your preferences — travel style, dietary needs, budget, interests, mobility, pace — determine which of those possibilities make it into your itinerary. Someone who tells us they're a vegetarian obsessed with architecture gets a fundamentally different Osaka itinerary than a street food fanatic who wants nightlife. Same source data, completely different trip.</p>
 
-            <h2>What Does a Finished tabiji Itinerary Look Like?</h2>
+            <h2 id="what-does-a-finished-tabiji-itinerary-look-like">What Does a Finished tabiji Itinerary Look Like?</h2>
 
             <p>You receive a day-by-day plan with specific recommendations, context for why each was included, practical logistics, and the kind of insider details that only come from real traveler experiences. Each recommendation comes with the "why" — not just "Visit Yanaka Cemetery" but "Walk through Yanaka Cemetery in the late afternoon when the light filters through the trees; one of the last old-Tokyo neighborhoods where you can feel the pace of the city slow down (consistently recommended on r/JapanTravel for travelers who want to escape the tourist circuit)."</p>
 
@@ -216,23 +318,40 @@
                 <li><strong>Practical notes</strong> — transit tips, things to book ahead, cash-only warnings, local customs</li>
             </ul>
 
-            <h2>How Is This Different From Just Asking ChatGPT?</h2>
+            <h2 id="how-is-this-different-from-just-asking-chatgpt">How Is This Different From Just Asking ChatGPT?</h2>
 
             <p>General-purpose AI models generate travel advice from training data that blends everything — guidebooks, SEO content farms, outdated blog posts, and marketing copy. They produce plausible-sounding itineraries that feel generic because they are. tabiji's AI is pointed at a curated, validated, constantly-refreshed dataset of real human recommendations. The AI isn't generating recommendations — it's organizing and personalizing recommendations that real travelers already made and other real travelers already validated.</p>
 
             <p>Think of it this way: ChatGPT is like asking a well-read friend who's never actually been to Tokyo. tabiji is like asking a hundred people who just got back.</p>
 
-            <h2>Why Does This Cost Only One Dollar?</h2>
+            <h2 id="why-does-this-cost-only-one-dollar">Why Does This Cost Only One Dollar?</h2>
 
             <p>We believe a great travel itinerary shouldn't cost $50 or require hours of your own research. That's why every tabiji itinerary is completely free. Once the system is built, the marginal cost of producing a personalized itinerary is low — and we'd rather serve a million travelers for free than a thousand at $50. You submit your trip details, and within 24 hours, you receive a complete itinerary built from the collective wisdom of thousands of real travelers.</p>
 
-            <h2>The Philosophy Behind the Process</h2>
+            <h2 id="the-philosophy-behind-the-process">The Philosophy Behind the Process</h2>
 
             <p>tabiji — 旅路 — means "journey" in Japanese. We chose that name because the best travel planning should feel like the beginning of the journey itself, not a chore you power through before the trip starts. By grounding every recommendation in real human experience — the upvoted, debated, cross-referenced opinions of people who've actually been there — we're building itineraries that feel less like an algorithm's output and more like advice from a well-traveled friend who happens to know your taste perfectly.</p>
 
             <p>The travel industry has spent decades telling you where to go. Reddit and travel forums are where travelers tell each other the truth. We just built the system that listens.</p>
         </div>
     </article>
+</div><!-- /article-content -->
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#can-ai-really-plan-a-trip-using-reddit-recommendations">Can AI Really Plan a Trip Using Reddit Recommendations?</a></li>
+            <li><a href="#why-reddit-instead-of-review-sites-like-tripadvisor">Why Reddit Instead of Review Sites Like TripAdvisor?</a></li>
+            <li><a href="#how-does-tabiji-actually-find-the-right-posts">How Does tabiji Actually Find the Right Posts?</a></li>
+            <li><a href="#how-do-you-filter-signal-from-noise">How Do You Filter Signal From Noise?</a></li>
+            <li><a href="#how-are-recommendations-turned-into-an-actual-itinerary">How Are Recommendations Turned Into an Actual Itinerary?</a></li>
+            <li><a href="#what-does-a-finished-tabiji-itinerary-look-like">What Does a Finished tabiji Itinerary Look Like?</a></li>
+            <li><a href="#how-is-this-different-from-just-asking-chatgpt">How Is This Different From Just Asking ChatGPT?</a></li>
+            <li><a href="#why-does-this-cost-only-one-dollar">Why Does This Cost Only One Dollar?</a></li>
+            <li><a href="#the-philosophy-behind-the-process">The Philosophy Behind the Process</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+    </ul>
+</aside>
+</div><!-- /content-wrapper -->
 
     <section style="background:var(--warm-cream);padding:3rem 2rem;text-align:center;">
         <div style="max-width: 768px;margin:0 auto;">
@@ -245,5 +364,35 @@
     <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

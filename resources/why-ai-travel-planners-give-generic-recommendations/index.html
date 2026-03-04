@@ -89,7 +89,86 @@
         text-align: center;
     }
 }
-</style>
+
+        /* Floating TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -105,7 +184,28 @@
         </div>
     </nav>
 
-    <article class="article-container">
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#why-do-ai-travel-planners-all-suggest-the-same-places">Why Do AI Travel Planners All Suggest the Same Places?</a></li>
+            <li><a href="#what-does-a-generic-ai-travel-itinerary-actually-look-like">What Does a "Generic" AI Travel Itinerary Actually Look Like?</a></li>
+            <li><a href="#how-do-most-ai-travel-planning-tools-actually-work-under-the">How Do Most AI Travel Planning Tools Actually Work Under the Hood?</a></li>
+            <li><a href="#what-are-real-travelers-saying-about-ai-travel-planning">What Are Real Travelers Saying About AI Travel Planning?</a></li>
+            <li><a href="#how-can-you-actually-get-non-generic-ai-travel-recommendatio">How Can You Actually Get Non-Generic AI Travel Recommendations?</a></li>
+            <li><a href="#what-should-you-look-for-in-an-ai-travel-planner">What Should You Look for in an AI Travel Planner?</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="content-wrapper">
+<div class="article-content">
+<article class="article-container">
         <h1>Why Most AI Travel Planners Give Generic Recommendations (And How to Get Real Ones)</h1>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand);">
             <div>
@@ -119,7 +219,7 @@
 
             <p>The promise of AI travel planning is personalization at scale. The reality, for most tools, is a polished version of the same "Top 10 Things to Do" listicle you'd find on page one of Google. Here's why that happens, what travelers actually think about it, and how to get recommendations that don't feel like they were written for everyone and no one.</p>
 
-            <h2>Why Do AI Travel Planners All Suggest the Same Places?</h2>
+            <h2 id="why-do-ai-travel-planners-all-suggest-the-same-places">Why Do AI Travel Planners All Suggest the Same Places?</h2>
 
             <p><strong>AI travel tools produce generic recommendations because they're built on large language models trained on broadly popular content, not curated local knowledge.</strong> The model doesn't "know" that the best ramen in Kyoto is at a shop with no English sign on a backstreet in Ichijoji. It knows that Ichiran Ramen appears in thousands of blog posts, so it recommends Ichiran Ramen.</p>
 
@@ -133,7 +233,7 @@
                 <li><strong>No local signal.</strong> The models don't distinguish between a recommendation from someone who lived in Lisbon for ten years and a recommendation from a content mill article that aggregated TripAdvisor's top results.</li>
             </ol>
 
-            <h2>What Does a "Generic" AI Travel Itinerary Actually Look Like?</h2>
+            <h2 id="what-does-a-generic-ai-travel-itinerary-actually-look-like">What Does a "Generic" AI Travel Itinerary Actually Look Like?</h2>
 
             <p><strong>A generic AI itinerary reads like a Wikipedia summary of a city's tourism page — technically accurate, completely impersonal, and indistinguishable from what any other tool would produce.</strong> Here's what the pattern typically looks like:</p>
 
@@ -158,7 +258,7 @@
 
             <p>The same pattern plays out for every destination. Ask for Barcelona and you'll get Sagrada Familia, La Boqueria, Park Güell. Ask for Paris and it's the Eiffel Tower, Louvre, Montmartre. Technically correct. Completely soulless.</p>
 
-            <h2>How Do Most AI Travel Planning Tools Actually Work Under the Hood?</h2>
+            <h2 id="how-do-most-ai-travel-planning-tools-actually-work-under-the">How Do Most AI Travel Planning Tools Actually Work Under the Hood?</h2>
 
             <p><strong>Most AI travel planners are thin wrappers around general-purpose language models like GPT-4, sometimes enhanced with a database of points of interest but rarely with curated, source-verified recommendations.</strong> Understanding the architecture explains the output.</p>
 
@@ -182,7 +282,7 @@
 
             <p>The common thread: <strong>none of these tools are designed to find the kind of recommendations that exist in Reddit threads, niche travel forums, expat communities, or local-language sources.</strong> That's where the real signal lives — buried in a comment from someone who lived in Chiang Mai for three years and knows which night market the other night markets' vendors eat at after their shifts.</p>
 
-            <h2>What Are Real Travelers Saying About AI Travel Planning?</h2>
+            <h2 id="what-are-real-travelers-saying-about-ai-travel-planning">What Are Real Travelers Saying About AI Travel Planning?</h2>
 
             <p><strong>Across Reddit's travel communities, the dominant sentiment is clear: travelers have tried AI planning tools and found the recommendations disappointingly generic.</strong> This isn't a niche complaint — it's one of the most common criticisms in r/travel, r/solotravel, and destination-specific subreddits.</p>
 
@@ -213,7 +313,7 @@
 
             <p>What travelers actually <em>want</em> is what they get from the best Reddit threads: a local or experienced traveler who says, "Skip the main tourist street. Walk two blocks east to [specific place]. Order the [specific dish]. Go on a Thursday because that's when they make it fresh."</p>
 
-            <h2>How Can You Actually Get Non-Generic AI Travel Recommendations?</h2>
+            <h2 id="how-can-you-actually-get-non-generic-ai-travel-recommendatio">How Can You Actually Get Non-Generic AI Travel Recommendations?</h2>
 
             <p><strong>The best way to get real recommendations from AI is to use tools that source from curated, experience-based content — not just LLM training data or aggregated reviews.</strong> Here's what actually works:</p>
 
@@ -249,7 +349,7 @@
 
             <p>Use a general AI tool (ChatGPT, Perplexity) for logistics — flight options, transit directions, visa requirements, packing lists — and a source-based tool like tabiji for the actual <em>what to do and where to eat</em> recommendations. Logistics don't need local knowledge. Recommendations do.</p>
 
-            <h2>What Should You Look for in an AI Travel Planner?</h2>
+            <h2 id="what-should-you-look-for-in-an-ai-travel-planner">What Should You Look for in an AI Travel Planner?</h2>
 
             <p><strong>The best AI travel planner for your trip is one that can tell you <em>where</em> its recommendations come from — and those sources should be real travelers, not just aggregated review scores.</strong> Here's a checklist:</p>
 
@@ -273,7 +373,7 @@
 
             <p>The best tools are transparent about their methodology. If a tool claims "AI-powered personalization" but can't explain how it personalizes beyond asking for your destination and dates, be skeptical.</p>
 
-            <h2>The Bottom Line</h2>
+            <h2 id="the-bottom-line">The Bottom Line</h2>
 
             <p>Most AI travel planners give generic recommendations because they're built on generic data. The technology is impressive, but the output is only as good as the input — and most tools input from the same averaged, consensus-driven sources.</p>
 
@@ -282,6 +382,21 @@
             <p>Your trip deserves better than the first page of Google, reformatted.</p>
         </div>
     </article>
+</div><!-- /article-content -->
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#why-do-ai-travel-planners-all-suggest-the-same-places">Why Do AI Travel Planners All Suggest the Same Places?</a></li>
+            <li><a href="#what-does-a-generic-ai-travel-itinerary-actually-look-like">What Does a "Generic" AI Travel Itinerary Actually Look Like?</a></li>
+            <li><a href="#how-do-most-ai-travel-planning-tools-actually-work-under-the">How Do Most AI Travel Planning Tools Actually Work Under the Hood?</a></li>
+            <li><a href="#what-are-real-travelers-saying-about-ai-travel-planning">What Are Real Travelers Saying About AI Travel Planning?</a></li>
+            <li><a href="#how-can-you-actually-get-non-generic-ai-travel-recommendatio">How Can You Actually Get Non-Generic AI Travel Recommendations?</a></li>
+            <li><a href="#what-should-you-look-for-in-an-ai-travel-planner">What Should You Look for in an AI Travel Planner?</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+    </ul>
+</aside>
+</div><!-- /content-wrapper -->
 
     <section style="background:var(--warm-cream);padding:3rem 2rem;text-align:center;">
         <div style="max-width: 768px;margin:0 auto;">
@@ -294,5 +409,35 @@
     <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

@@ -89,7 +89,86 @@
         text-align: center;
     }
 }
-</style>
+
+        /* Floating TOC */
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -105,7 +184,27 @@
         </div>
     </nav>
 
-    <article class="article-container">
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-test-same-trip-two-planners">The Test: Same Trip, Two Planners</a></li>
+            <li><a href="#what-chatgpt-gave-us">What ChatGPT Gave Us</a></li>
+            <li><a href="#what-the-reddit-sourced-ai-planner-gave-us">What the Reddit-Sourced AI Planner Gave Us</a></li>
+            <li><a href="#head-to-head-comparison">Head-to-Head Comparison</a></li>
+            <li><a href="#why-reddit-sourced-beats-generic-ai">Why Reddit-Sourced Beats Generic AI</a></li>
+            <li><a href="#the-verdict">The Verdict</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="content-wrapper">
+<div class="article-content">
+<article class="article-container">
         <h1>AI Trip Planner vs. ChatGPT: We Tested Both for a Tokyo Trip</h1>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand);">
             <div>
@@ -119,7 +218,7 @@
 
             <p>Here's exactly what happened, category by category.</p>
 
-            <h2>The Test: Same Trip, Two Planners</h2>
+            <h2 id="the-test-same-trip-two-planners">The Test: Same Trip, Two Planners</h2>
 
             <p><strong>We gave both tools identical inputs:</strong> a 7-day Tokyo trip for two travelers on a moderate budget (~$150/day excluding flights and hotel), with strong interests in food culture and traditional Japanese experiences. Arrival at Narita on a Monday morning. Departure the following Sunday evening from Haneda.</p>
 
@@ -127,7 +226,7 @@
 
             <p>Let's see what each one produced.</p>
 
-            <h2>What ChatGPT Gave Us</h2>
+            <h2 id="what-chatgpt-gave-us">What ChatGPT Gave Us</h2>
 
             <p><strong>ChatGPT produced a clean, well-organized itinerary that reads like a tourism board brochure.</strong> Every recommendation was safe, popular, and surface-level.</p>
 
@@ -149,7 +248,7 @@
 
             <p>It's not <em>wrong</em>. It's just… what you'd get from spending 10 minutes on Google.</p>
 
-            <h2>What the Reddit-Sourced AI Planner Gave Us</h2>
+            <h2 id="what-the-reddit-sourced-ai-planner-gave-us">What the Reddit-Sourced AI Planner Gave Us</h2>
 
             <p><strong>The tabiji.ai itinerary read like advice from a friend who lived in Tokyo for two years.</strong> The difference was immediately obvious in the specificity, the timing, and the food recommendations.</p>
 
@@ -193,7 +292,7 @@
 
             <p>The itinerary included 22 specific restaurant recommendations across the 7 days, each with a neighborhood, price range, and what to order. ChatGPT's plan had zero specific restaurants beyond Ichiran and "a conveyor belt sushi place."</p>
 
-            <h2>Head-to-Head Comparison</h2>
+            <h2 id="head-to-head-comparison">Head-to-Head Comparison</h2>
 
             <h3>Specificity</h3>
 
@@ -247,7 +346,7 @@
 
             <p>These aren't catastrophic, but the JR Pass mistake would cost real money — roughly $300 wasted. The tabiji itinerary, because it's built from recent traveler posts, had current pricing, correct locations, and up-to-date hours.</p>
 
-            <h2>Why Reddit-Sourced Beats Generic AI</h2>
+            <h2 id="why-reddit-sourced-beats-generic-ai">Why Reddit-Sourced Beats Generic AI</h2>
 
             <p><strong>The fundamental difference is data source, not AI capability.</strong> ChatGPT is an excellent writer and a capable reasoning engine. But when you ask it to plan a trip, it draws on a blend of travel articles, guidebooks, and web content that skews toward the generic, the popular, and the advertised.</p>
 
@@ -255,7 +354,7 @@
 
             <p>Tabiji.ai's approach is to feed this human-sourced knowledge into AI for organization and personalization — getting the best of both worlds. The AI handles structure, logistics, and day-by-day flow. The humans (thousands of them) provide the actual recommendations.</p>
 
-            <h2>The Verdict</h2>
+            <h2 id="the-verdict">The Verdict</h2>
 
             <p><strong>For a Tokyo trip, a Reddit-sourced AI planner like tabiji.ai produces a meaningfully better itinerary than ChatGPT alone.</strong> The gap is widest in three areas: restaurant specificity, timing/logistics advice, and practical tips that only come from recent experience.</p>
 
@@ -268,10 +367,24 @@
             <p><em>Planning a trip to Tokyo — or anywhere in Japan? <a href="https://tabiji.ai">tabiji.ai</a> builds free, personalized, Reddit-sourced itineraries. Your journey (旅地) starts here.</em></p>
         </div>
     </article>
+</div><!-- /article-content -->
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-test-same-trip-two-planners">The Test: Same Trip, Two Planners</a></li>
+            <li><a href="#what-chatgpt-gave-us">What ChatGPT Gave Us</a></li>
+            <li><a href="#what-the-reddit-sourced-ai-planner-gave-us">What the Reddit-Sourced AI Planner Gave Us</a></li>
+            <li><a href="#head-to-head-comparison">Head-to-Head Comparison</a></li>
+            <li><a href="#why-reddit-sourced-beats-generic-ai">Why Reddit-Sourced Beats Generic AI</a></li>
+            <li><a href="#the-verdict">The Verdict</a></li>
+            <li><a href="#ready-to-skip-the-generic-recommendations">Ready to skip the generic recommendations?</a></li>
+    </ul>
+</aside>
+</div><!-- /content-wrapper -->
 
     <section style="background:var(--warm-cream);padding:3rem 2rem;text-align:center;">
         <div style="max-width: 768px;margin:0 auto;">
-            <h2 style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
+            <h2 id="ready-to-skip-the-generic-recommendations" style="font-size:1.5rem;color:var(--indigo);margin-bottom:0.75rem;">Ready to skip the generic recommendations?</h2>
             <p style="color:var(--text-muted);margin-bottom:1.5rem;">Get a personalized, Reddit-sourced travel itinerary delivered to your inbox within 24 hours.</p>
             <a href="/plan" style="display:inline-block;background:var(--terracotta);color:white;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:600;font-size:1.05rem;box-shadow:0 4px 14px rgba(196,112,75,0.3);">Get Your Free Custom Itinerary</a>
         </div>
@@ -280,5 +393,35 @@
     <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
 </footer>
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>
