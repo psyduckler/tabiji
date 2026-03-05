@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-barcelona-costa-brava/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -344,7 +356,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -950,6 +962,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -959,11 +999,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -975,53 +1021,53 @@
     }
 
     initMap('map-day1', [
-        { lat: 41.3840, lng: 2.1761, name: 'Barcelona Cathedral', desc: 'Gothic cathedral with 13 geese in the cloister' },
-        { lat: 41.3797, lng: 2.1752, name: 'Plaça Reial', desc: 'Beautiful arcade square with Gaudí lampposts' },
-        { lat: 41.3809, lng: 2.1734, name: 'La Rambla', desc: 'Famous tree-lined pedestrian boulevard' },
-        { lat: 41.3817, lng: 2.1759, name: 'La Fonda', desc: 'Family-friendly Catalan restaurant — great value set menus' }
+        { lat: 41.3840, lng: 2.1761, name: 'Barcelona Cathedral', desc: 'Gothic cathedral with 13 geese in the cloister', cat: 'temple' },
+        { lat: 41.3797, lng: 2.1752, name: 'Plaça Reial', desc: 'Beautiful arcade square with Gaudí lampposts', cat: 'attraction' },
+        { lat: 41.3809, lng: 2.1734, name: 'La Rambla', desc: 'Famous tree-lined pedestrian boulevard', cat: 'attraction' },
+        { lat: 41.3817, lng: 2.1759, name: 'La Fonda', desc: 'Family-friendly Catalan restaurant — great value set menus', cat: 'restaurant' }
     ]);
 
     initMap('map-day2', [
-        { lat: 41.4036, lng: 2.1744, name: 'Sagrada Familia', desc: '€26 adults, free under 11 — book 9 AM slot' },
-        { lat: 41.3916, lng: 2.1650, name: 'Casa Batlló', desc: 'Gaudí\'s dragon-scaled masterpiece on Passeig de Gràcia' },
-        { lat: 41.3922, lng: 2.1648, name: 'Passeig de Gràcia', desc: 'Barcelona\'s grand boulevard — wide sidewalks for strollers' },
-        { lat: 41.3895, lng: 2.1641, name: 'Cervecería Catalana', desc: 'Popular tapas bar — patatas bravas, croquetas, tortilla' }
+        { lat: 41.4036, lng: 2.1744, name: 'Sagrada Familia', desc: '€26 adults, free under 11 — book 9 AM slot', cat: 'attraction' },
+        { lat: 41.3916, lng: 2.1650, name: 'Casa Batlló', desc: 'Gaudí\'s dragon-scaled masterpiece on Passeig de Gràcia', cat: 'attraction' },
+        { lat: 41.3922, lng: 2.1648, name: 'Passeig de Gràcia', desc: 'Barcelona\'s grand boulevard — wide sidewalks for strollers', cat: 'nightlife' },
+        { lat: 41.3895, lng: 2.1641, name: 'Cervecería Catalana', desc: 'Popular tapas bar — patatas bravas, croquetas, tortilla', cat: 'nightlife' }
     ]);
 
     initMap('map-day3', [
-        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: '€10 adults, €7 kids — mosaic benches & dragon fountain' },
-        { lat: 41.4025, lng: 2.1569, name: 'Plaça del Sol', desc: 'Gràcia\'s relaxed cafe square — let kids explore' },
-        { lat: 41.4008, lng: 2.1578, name: 'La Pepita', desc: 'Creative sandwiches & tapas — legendary pepito steak' },
-        { lat: 41.4001, lng: 2.1660, name: 'Jardins de la Sedeta', desc: 'Playground with climbing structures and shade' }
+        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: '€10 adults, €7 kids — mosaic benches & dragon fountain', cat: 'attraction' },
+        { lat: 41.4025, lng: 2.1569, name: 'Plaça del Sol', desc: 'Gràcia\'s relaxed cafe square — let kids explore', cat: 'restaurant' },
+        { lat: 41.4008, lng: 2.1578, name: 'La Pepita', desc: 'Creative sandwiches & tapas — legendary pepito steak', cat: 'restaurant' },
+        { lat: 41.4001, lng: 2.1660, name: 'Jardins de la Sedeta', desc: 'Playground with climbing structures and shade', cat: 'activity' }
     ]);
 
     initMap('map-day4', [
-        { lat: 41.3784, lng: 2.1894, name: 'Barceloneta Beach', desc: 'Main beach — lifeguards, chiringuitos, volleyball' },
-        { lat: 41.3893, lng: 2.2010, name: 'Platja de la Nova Icària', desc: 'Quieter beach with nearby playground' },
-        { lat: 41.3773, lng: 2.1867, name: 'La Mar Salada', desc: 'Excellent paella on the promenade — book ahead' },
-        { lat: 41.3853, lng: 2.1975, name: 'Port Olímpic', desc: 'Marina with Gehry\'s golden fish sculpture' }
+        { lat: 41.3784, lng: 2.1894, name: 'Barceloneta Beach', desc: 'Main beach — lifeguards, chiringuitos, volleyball', cat: 'beach' },
+        { lat: 41.3893, lng: 2.2010, name: 'Platja de la Nova Icària', desc: 'Quieter beach with nearby playground', cat: 'beach' },
+        { lat: 41.3773, lng: 2.1867, name: 'La Mar Salada', desc: 'Excellent paella on the promenade — book ahead', cat: 'restaurant' },
+        { lat: 41.3853, lng: 2.1975, name: 'Port Olímpic', desc: 'Marina with Gehry\'s golden fish sculpture', cat: 'attraction' }
     ]);
 
     initMap('map-day5', [
-        { lat: 41.7215, lng: 2.9331, name: 'Tossa de Mar - Vila Vella', desc: '12th-century walled town — free rampart walk' },
-        { lat: 41.7198, lng: 2.9339, name: 'Platja Gran', desc: 'Main beach below the old town — crystal-clear water' },
-        { lat: 41.7152, lng: 2.9289, name: 'Cala Bona', desc: 'Quiet cove — turquoise water, great snorkeling' },
-        { lat: 41.7210, lng: 2.9320, name: 'Restaurant Marina', desc: 'Fresh grilled fish & fideuà on the beach' },
-        { lat: 41.3898, lng: 2.1868, name: 'Estació del Nord', desc: 'Barcelona bus station — SARFA bus to Tossa (90 min, €12.70)' }
+        { lat: 41.7215, lng: 2.9331, name: 'Tossa de Mar - Vila Vella', desc: '12th-century walled town — free rampart walk', cat: 'attraction' },
+        { lat: 41.7198, lng: 2.9339, name: 'Platja Gran', desc: 'Main beach below the old town — crystal-clear water', cat: 'beach' },
+        { lat: 41.7152, lng: 2.9289, name: 'Cala Bona', desc: 'Quiet cove — turquoise water, great snorkeling', cat: 'activity' },
+        { lat: 41.7210, lng: 2.9320, name: 'Restaurant Marina', desc: 'Fresh grilled fish & fideuà on the beach', cat: 'beach' },
+        { lat: 41.3898, lng: 2.1868, name: 'Estació del Nord', desc: 'Barcelona bus station — SARFA bus to Tossa (90 min, €12.70)', cat: 'transport' }
     ]);
 
     initMap('map-day6', [
-        { lat: 41.3635, lng: 2.1665, name: 'Montjuïc Castle', desc: '€5 adults, free under 16 — panoramic views' },
-        { lat: 41.3681, lng: 2.1586, name: 'Jardins de Joan Brossa', desc: 'Hilltop playground with zip line & instruments' },
-        { lat: 41.3757, lng: 2.1837, name: 'L\'Aquàrium Barcelona', desc: '€25 adults, €18 kids — 80m shark tunnel' },
-        { lat: 41.3712, lng: 2.1519, name: 'Font Màgica', desc: 'Free evening light & water show — kids love it' }
+        { lat: 41.3635, lng: 2.1665, name: 'Montjuïc Castle', desc: '€5 adults, free under 16 — panoramic views', cat: 'attraction' },
+        { lat: 41.3681, lng: 2.1586, name: 'Jardins de Joan Brossa', desc: 'Hilltop playground with zip line & instruments', cat: 'attraction' },
+        { lat: 41.3757, lng: 2.1837, name: 'L\'Aquàrium Barcelona', desc: '€25 adults, €18 kids — 80m shark tunnel', cat: 'nightlife' },
+        { lat: 41.3712, lng: 2.1519, name: 'Font Màgica', desc: 'Free evening light & water show — kids love it', cat: 'attraction' }
     ]);
 
     initMap('map-day7', [
-        { lat: 41.3878, lng: 2.1868, name: 'Parc de la Ciutadella', desc: 'Central park — rowing boats, playground, fountains' },
-        { lat: 41.3874, lng: 2.1820, name: 'Museu de la Xocolata', desc: '€6 adults — chocolate sculptures, workshops for kids' },
-        { lat: 41.3836, lng: 2.1820, name: 'Santa Maria del Mar', desc: 'Stunning Gothic basilica — free entry' },
-        { lat: 41.3844, lng: 2.1845, name: 'Cal Pep', desc: 'Legendary tapas bar — go at 1 PM opening' }
+        { lat: 41.3878, lng: 2.1868, name: 'Parc de la Ciutadella', desc: 'Central park — rowing boats, playground, fountains', cat: 'attraction' },
+        { lat: 41.3874, lng: 2.1820, name: 'Museu de la Xocolata', desc: '€6 adults — chocolate sculptures, workshops for kids', cat: 'activity' },
+        { lat: 41.3836, lng: 2.1820, name: 'Santa Maria del Mar', desc: 'Stunning Gothic basilica — free entry', cat: 'temple' },
+        { lat: 41.3844, lng: 2.1845, name: 'Cal Pep', desc: 'Legendary tapas bar — go at 1 PM opening', cat: 'nightlife' }
     ]);
 })();
 </script>

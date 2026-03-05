@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-bangkok-beach/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -344,7 +356,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -919,6 +931,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -928,11 +968,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -944,53 +990,53 @@
     }
 
     initMap('map-day1', [
-        { lat: 13.7510, lng: 100.4927, name: 'Grand Palace', desc: '500 THB — arrive 8:30 AM, strict dress code' },
-        { lat: 13.7465, lng: 100.4930, name: 'Wat Pho', desc: '300 THB — 46m reclining Buddha + Thai massage' },
-        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: '100 THB — cross-river ferry, climb the spire' },
-        { lat: 13.7407, lng: 100.5086, name: 'Yaowarat (Chinatown)', desc: 'Street food heaven after 6 PM — T&K Seafood' }
+        { lat: 13.7510, lng: 100.4927, name: 'Grand Palace', desc: '500 THB — arrive 8:30 AM, strict dress code', cat: 'attraction' },
+        { lat: 13.7465, lng: 100.4930, name: 'Wat Pho', desc: '300 THB — 46m reclining Buddha + Thai massage', cat: 'spa' },
+        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: '100 THB — cross-river ferry, climb the spire', cat: 'activity' },
+        { lat: 13.7407, lng: 100.5086, name: 'Yaowarat (Chinatown)', desc: 'Street food heaven after 6 PM — T&K Seafood', cat: 'restaurant' }
     ]);
 
     initMap('map-day2', [
-        { lat: 13.7999, lng: 100.5508, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — go early before the heat' },
-        { lat: 13.8025, lng: 100.5540, name: 'Or Tor Kor Market', desc: 'Premium fresh market — sai ua sausages' },
-        { lat: 13.7448, lng: 100.5283, name: 'Jim Thompson House', desc: '200 THB — traditional Thai teak house museum' },
-        { lat: 13.7586, lng: 100.4979, name: 'Khao San Road', desc: 'Backpacker central — street food & nightlife' }
+        { lat: 13.7999, lng: 100.5508, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — go early before the heat', cat: 'shopping' },
+        { lat: 13.8025, lng: 100.5540, name: 'Or Tor Kor Market', desc: 'Premium fresh market — sai ua sausages', cat: 'attraction' },
+        { lat: 13.7448, lng: 100.5283, name: 'Jim Thompson House', desc: '200 THB — traditional Thai teak house museum', cat: 'attraction' },
+        { lat: 13.7586, lng: 100.4979, name: 'Khao San Road', desc: 'Backpacker central — street food & nightlife', cat: 'nightlife' }
     ]);
 
     initMap('map-day3', [
-        { lat: 13.5222, lng: 99.9578, name: 'Damnoen Saduak Floating Market', desc: '80km from Bangkok — arrive by 7 AM' },
-        { lat: 13.7536, lng: 100.5073, name: 'Wat Saket (Golden Mount)', desc: '50 THB — 344 steps, 360° views' },
-        { lat: 13.7217, lng: 100.5153, name: 'Sky Bar at Lebua', desc: 'Iconic rooftop — cocktails from 400 THB' },
-        { lat: 13.7282, lng: 100.5322, name: 'Silom Soi 20', desc: 'Street food alley — khao man gai 50 THB' }
+        { lat: 13.5222, lng: 99.9578, name: 'Damnoen Saduak Floating Market', desc: '80km from Bangkok — arrive by 7 AM', cat: 'attraction' },
+        { lat: 13.7536, lng: 100.5073, name: 'Wat Saket (Golden Mount)', desc: '50 THB — 344 steps, 360° views', cat: 'temple' },
+        { lat: 13.7217, lng: 100.5153, name: 'Sky Bar at Lebua', desc: 'Iconic rooftop — cocktails from 400 THB', cat: 'nightlife' },
+        { lat: 13.7282, lng: 100.5322, name: 'Silom Soi 20', desc: 'Street food alley — khao man gai 50 THB', cat: 'restaurant' }
     ]);
 
     initMap('map-day4', [
-        { lat: 13.9126, lng: 100.6068, name: 'Don Mueang Airport (DMK)', desc: 'Budget airline hub — A1 bus from Mo Chit' },
-        { lat: 8.0987, lng: 98.9860, name: 'Krabi Airport (KBV)', desc: 'Minivan to Ao Nang 150 THB' },
-        { lat: 8.0356, lng: 98.8372, name: 'Ao Nang Beach', desc: 'Longtail boat departure point for Railay' },
-        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Sunset beach — your home for 4 nights' }
+        { lat: 13.9126, lng: 100.6068, name: 'Don Mueang Airport (DMK)', desc: 'Budget airline hub — A1 bus from Mo Chit', cat: 'transport' },
+        { lat: 8.0987, lng: 98.9860, name: 'Krabi Airport (KBV)', desc: 'Minivan to Ao Nang 150 THB', cat: 'transport' },
+        { lat: 8.0356, lng: 98.8372, name: 'Ao Nang Beach', desc: 'Longtail boat departure point for Railay', cat: 'transport' },
+        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Sunset beach — your home for 4 nights', cat: 'beach' }
     ]);
 
     initMap('map-day5', [
-        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Main sunset beach' },
-        { lat: 8.0078, lng: 98.8420, name: 'Railay East', desc: 'Mangrove side — restaurants & tour shops' },
-        { lat: 8.0043, lng: 98.8365, name: 'Phra Nang Cave Beach', desc: 'Stunning cliff-enclosed beach with cave shrine' },
-        { lat: 8.0132, lng: 98.8313, name: 'Tonsai Beach', desc: 'Climbers\' hangout — bohemian backpacker vibe' },
-        { lat: 8.0090, lng: 98.8350, name: 'Muay Thai Wall (Climbing)', desc: 'Beginner-friendly climbing spot' }
+        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Main sunset beach', cat: 'beach' },
+        { lat: 8.0078, lng: 98.8420, name: 'Railay East', desc: 'Mangrove side — restaurants & tour shops', cat: 'activity' },
+        { lat: 8.0043, lng: 98.8365, name: 'Phra Nang Cave Beach', desc: 'Stunning cliff-enclosed beach with cave shrine', cat: 'beach' },
+        { lat: 8.0132, lng: 98.8313, name: 'Tonsai Beach', desc: 'Climbers\' hangout — bohemian backpacker vibe', cat: 'beach' },
+        { lat: 8.0090, lng: 98.8350, name: 'Muay Thai Wall (Climbing)', desc: 'Beginner-friendly climbing spot', cat: 'activity' }
     ]);
 
     initMap('map-day6', [
-        { lat: 7.9363, lng: 98.7726, name: 'Koh Poda', desc: 'White sand island — great snorkeling' },
-        { lat: 7.9550, lng: 98.7850, name: 'Chicken Island (Koh Kai)', desc: 'Chicken-head rock formation + sandbar' },
-        { lat: 7.9580, lng: 98.7870, name: 'Tup Island', desc: 'Sandbar "split" — walk between islands at low tide' },
-        { lat: 8.0043, lng: 98.8365, name: 'Phra Nang Cave Beach', desc: 'Return stop for swimming' }
+        { lat: 7.9363, lng: 98.7726, name: 'Koh Poda', desc: 'White sand island — great snorkeling', cat: 'activity' },
+        { lat: 7.9550, lng: 98.7850, name: 'Chicken Island (Koh Kai)', desc: 'Chicken-head rock formation + sandbar', cat: 'attraction' },
+        { lat: 7.9580, lng: 98.7870, name: 'Tup Island', desc: 'Sandbar "split" — walk between islands at low tide', cat: 'attraction' },
+        { lat: 8.0043, lng: 98.8365, name: 'Phra Nang Cave Beach', desc: 'Return stop for swimming', cat: 'beach' }
     ]);
 
     initMap('map-day7', [
-        { lat: 8.0070, lng: 98.8390, name: 'Railay Viewpoint', desc: 'Steep climb — panoramic views of both beaches' },
-        { lat: 8.0055, lng: 98.8375, name: 'Princess Lagoon', desc: 'Hidden lagoon — rope descent required' },
-        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Final swim and mango smoothie' },
-        { lat: 8.0987, lng: 98.9860, name: 'Krabi Airport', desc: 'Afternoon flights to Bangkok' }
+        { lat: 8.0070, lng: 98.8390, name: 'Railay Viewpoint', desc: 'Steep climb — panoramic views of both beaches', cat: 'beach' },
+        { lat: 8.0055, lng: 98.8375, name: 'Princess Lagoon', desc: 'Hidden lagoon — rope descent required', cat: 'attraction' },
+        { lat: 8.0103, lng: 98.8378, name: 'Railay West Beach', desc: 'Final swim and mango smoothie', cat: 'beach' },
+        { lat: 8.0987, lng: 98.9860, name: 'Krabi Airport', desc: 'Afternoon flights to Bangkok', cat: 'transport' }
     ]);
 })();
 </script>

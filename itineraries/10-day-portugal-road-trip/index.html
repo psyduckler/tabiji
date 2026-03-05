@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-portugal-road-trip/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1178,6 +1190,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1187,11 +1227,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1204,93 +1250,93 @@
 
     // Day 1: Alfama
     initMap('map-day1', [
-        { lat: 38.7139, lng: -9.1334, name: 'Castelo de São Jorge', desc: 'Hilltop castle — best panoramic views (€15)' },
-        { lat: 38.7118, lng: -9.1303, name: 'Miradouro de Santa Luzia', desc: 'Iconic viewpoint over red rooftops' },
-        { lat: 38.7155, lng: -9.1318, name: 'Miradouro da Graça', desc: 'Panoramic terrace over Alfama' },
-        { lat: 38.7100, lng: -9.1310, name: 'Tasca do Chico (Alfama)', desc: 'Authentic fado house — no cover, just order food' },
-        { lat: 38.7105, lng: -9.1315, name: 'Mesa de Frades', desc: 'Intimate fado dinner in a former chapel' }
+        { lat: 38.7139, lng: -9.1334, name: 'Castelo de São Jorge', desc: 'Hilltop castle — best panoramic views (€15)', cat: 'attraction' },
+        { lat: 38.7118, lng: -9.1303, name: 'Miradouro de Santa Luzia', desc: 'Iconic viewpoint over red rooftops', cat: 'attraction' },
+        { lat: 38.7155, lng: -9.1318, name: 'Miradouro da Graça', desc: 'Panoramic terrace over Alfama', cat: 'attraction' },
+        { lat: 38.7100, lng: -9.1310, name: 'Tasca do Chico (Alfama)', desc: 'Authentic fado house — no cover, just order food', cat: 'nightlife' },
+        { lat: 38.7105, lng: -9.1315, name: 'Mesa de Frades', desc: 'Intimate fado dinner in a former chapel', cat: 'nightlife' }
     ]);
 
     // Day 2: Belém & Time Out Market
     initMap('map-day2', [
-        { lat: 38.6976, lng: -9.2033, name: 'Pastéis de Belém', desc: 'Original pastel de nata since 1837 — €1.30 each' },
-        { lat: 38.6979, lng: -9.2069, name: 'Jerónimos Monastery', desc: 'Stunning Manueline Gothic cloisters (€10)' },
-        { lat: 38.6916, lng: -9.2160, name: 'Torre de Belém', desc: 'Iconic riverside tower (€10)' },
-        { lat: 38.7075, lng: -9.1455, name: 'Time Out Market', desc: 'Lisbon\'s best chefs under one roof' },
-        { lat: 38.7104, lng: -9.1422, name: 'A Brasileira', desc: 'Historic café — espresso beside Fernando Pessoa statue' },
-        { lat: 38.7032, lng: -9.1778, name: 'LX Factory', desc: 'Creative hub — restaurants, shops, bars' }
+        { lat: 38.6976, lng: -9.2033, name: 'Pastéis de Belém', desc: 'Original pastel de nata since 1837 — €1.30 each', cat: 'attraction' },
+        { lat: 38.6979, lng: -9.2069, name: 'Jerónimos Monastery', desc: 'Stunning Manueline Gothic cloisters (€10)', cat: 'temple' },
+        { lat: 38.6916, lng: -9.2160, name: 'Torre de Belém', desc: 'Iconic riverside tower (€10)', cat: 'attraction' },
+        { lat: 38.7075, lng: -9.1455, name: 'Time Out Market', desc: 'Lisbon\'s best chefs under one roof', cat: 'restaurant' },
+        { lat: 38.7104, lng: -9.1422, name: 'A Brasileira', desc: 'Historic café — espresso beside Fernando Pessoa statue', cat: 'restaurant' },
+        { lat: 38.7032, lng: -9.1778, name: 'LX Factory', desc: 'Creative hub — restaurants, shops, bars', cat: 'nightlife' }
     ]);
 
     // Day 3: Sintra
     initMap('map-day3', [
-        { lat: 38.7876, lng: -9.3905, name: 'Pena Palace', desc: 'Colorful hilltop Romanticist castle (€14)' },
-        { lat: 38.7965, lng: -9.3960, name: 'Quinta da Regaleira', desc: 'Mystical estate with Initiation Well (€10)' },
-        { lat: 38.7811, lng: -9.3550, name: 'Piriquita Bakery', desc: 'Sintra\'s famous travesseiros since 1862 (€2)' },
-        { lat: 38.7808, lng: -9.4990, name: 'Cabo da Roca', desc: 'Westernmost point of mainland Europe' },
-        { lat: 38.6968, lng: -9.4217, name: 'Cascais', desc: 'Charming seaside town with Boca do Inferno' }
+        { lat: 38.7876, lng: -9.3905, name: 'Pena Palace', desc: 'Colorful hilltop Romanticist castle (€14)', cat: 'attraction' },
+        { lat: 38.7965, lng: -9.3960, name: 'Quinta da Regaleira', desc: 'Mystical estate with Initiation Well (€10)', cat: 'attraction' },
+        { lat: 38.7811, lng: -9.3550, name: 'Piriquita Bakery', desc: 'Sintra\'s famous travesseiros since 1862 (€2)', cat: 'restaurant' },
+        { lat: 38.7808, lng: -9.4990, name: 'Cabo da Roca', desc: 'Westernmost point of mainland Europe', cat: 'attraction' },
+        { lat: 38.6968, lng: -9.4217, name: 'Cascais', desc: 'Charming seaside town with Boca do Inferno', cat: 'attraction' }
     ]);
 
     // Day 4: Drive to Porto
     initMap('map-day4', [
-        { lat: 39.3622, lng: -9.1571, name: 'Óbidos', desc: 'Fairy-tale walled town — ginjinha in chocolate cups' },
-        { lat: 41.1409, lng: -8.6131, name: 'Cais da Ribeira', desc: 'UNESCO riverfront — Porto\'s most iconic view' },
-        { lat: 41.1395, lng: -8.6093, name: 'Ponte Dom Luís I', desc: 'Iron bridge — walk the upper deck for views' },
-        { lat: 41.1458, lng: -8.6103, name: 'São Bento Station', desc: '20,000 blue azulejo tiles — free to visit' },
-        { lat: 41.1484, lng: -8.6050, name: 'Café Santiago', desc: 'Porto\'s most famous francesinha (€12–14)' }
+        { lat: 39.3622, lng: -9.1571, name: 'Óbidos', desc: 'Fairy-tale walled town — ginjinha in chocolate cups', cat: 'attraction' },
+        { lat: 41.1409, lng: -8.6131, name: 'Cais da Ribeira', desc: 'UNESCO riverfront — Porto\'s most iconic view', cat: 'attraction' },
+        { lat: 41.1395, lng: -8.6093, name: 'Ponte Dom Luís I', desc: 'Iron bridge — walk the upper deck for views', cat: 'attraction' },
+        { lat: 41.1458, lng: -8.6103, name: 'São Bento Station', desc: '20,000 blue azulejo tiles — free to visit', cat: 'transport' },
+        { lat: 41.1484, lng: -8.6050, name: 'Café Santiago', desc: 'Porto\'s most famous francesinha (€12–14)', cat: 'restaurant' }
     ]);
 
     // Day 5: Port Wine & Livraria Lello
     initMap('map-day5', [
-        { lat: 41.1356, lng: -8.6168, name: 'Graham\'s Port Lodge', desc: 'Best cellar tour + tasting (€18–25) — terrace views' },
-        { lat: 41.1341, lng: -8.6111, name: 'Taylor\'s Port', desc: 'Historic cellars — tour + tasting €18' },
-        { lat: 41.1469, lng: -8.6148, name: 'Livraria Lello', desc: 'World\'s most beautiful bookshop — €8 voucher entry' },
-        { lat: 41.1487, lng: -8.6089, name: 'Mercado do Bolhão', desc: 'Renovated central market — fresh produce & flowers' },
-        { lat: 41.1459, lng: -8.6139, name: 'Torre dos Clérigos', desc: '225 steps for 360° city views (€8)' },
-        { lat: 41.1489, lng: -8.6056, name: 'Café Majestic', desc: 'Art Nouveau coffee house — Porto institution' }
+        { lat: 41.1356, lng: -8.6168, name: 'Graham\'s Port Lodge', desc: 'Best cellar tour + tasting (€18–25) — terrace views', cat: 'hotel' },
+        { lat: 41.1341, lng: -8.6111, name: 'Taylor\'s Port', desc: 'Historic cellars — tour + tasting €18', cat: 'activity' },
+        { lat: 41.1469, lng: -8.6148, name: 'Livraria Lello', desc: 'World\'s most beautiful bookshop — €8 voucher entry', cat: 'shopping' },
+        { lat: 41.1487, lng: -8.6089, name: 'Mercado do Bolhão', desc: 'Renovated central market — fresh produce & flowers', cat: 'attraction' },
+        { lat: 41.1459, lng: -8.6139, name: 'Torre dos Clérigos', desc: '225 steps for 360° city views (€8)', cat: 'attraction' },
+        { lat: 41.1489, lng: -8.6056, name: 'Café Majestic', desc: 'Art Nouveau coffee house — Porto institution', cat: 'restaurant' }
     ]);
 
     // Day 6: Douro Valley
     initMap('map-day6', [
-        { lat: 41.1899, lng: -7.5451, name: 'Pinhão', desc: 'Heart of the Douro Valley — river cruise departure' },
-        { lat: 41.1618, lng: -7.5880, name: 'Quinta do Crasto', desc: 'Family estate — tour + 4 wine tasting (€20)' },
-        { lat: 41.1625, lng: -7.5335, name: 'Quinta do Bomfim (Dow\'s)', desc: 'Riverside estate — legendary vintage ports' },
-        { lat: 41.1517, lng: -7.7855, name: 'DOC Restaurant', desc: 'Michelin-quality floating restaurant on the Douro' },
-        { lat: 41.2740, lng: -8.0800, name: 'Amarante', desc: 'Picturesque riverside town — São Gonçalo pastries' }
+        { lat: 41.1899, lng: -7.5451, name: 'Pinhão', desc: 'Heart of the Douro Valley — river cruise departure', cat: 'transport' },
+        { lat: 41.1618, lng: -7.5880, name: 'Quinta do Crasto', desc: 'Family estate — tour + 4 wine tasting (€20)', cat: 'activity' },
+        { lat: 41.1625, lng: -7.5335, name: 'Quinta do Bomfim (Dow\'s)', desc: 'Riverside estate — legendary vintage ports', cat: 'attraction' },
+        { lat: 41.1517, lng: -7.7855, name: 'DOC Restaurant', desc: 'Michelin-quality floating restaurant on the Douro', cat: 'restaurant' },
+        { lat: 41.2740, lng: -8.0800, name: 'Amarante', desc: 'Picturesque riverside town — São Gonçalo pastries', cat: 'attraction' }
     ]);
 
     // Day 7: Porto to Lagos
     initMap('map-day7', [
-        { lat: 38.3840, lng: -8.8075, name: 'Comporta', desc: 'Trendy Alentejo beach — lunch stop on the drive south' },
-        { lat: 37.0920, lng: -8.6733, name: 'Ponta da Piedade', desc: 'Dramatic sea stacks and grottos — best at golden hour' },
-        { lat: 37.0880, lng: -8.6710, name: 'Praia do Camilo', desc: '200 steps down to a sheltered cliff beach' },
-        { lat: 37.1013, lng: -8.6735, name: 'Lagos Old Town', desc: 'Walkable old center inside medieval walls' },
-        { lat: 37.1008, lng: -8.6728, name: 'Casinha do Petisco', desc: 'Cataplana for 2 (€28) — book ahead' }
+        { lat: 38.3840, lng: -8.8075, name: 'Comporta', desc: 'Trendy Alentejo beach — lunch stop on the drive south', cat: 'beach' },
+        { lat: 37.0920, lng: -8.6733, name: 'Ponta da Piedade', desc: 'Dramatic sea stacks and grottos — best at golden hour', cat: 'attraction' },
+        { lat: 37.0880, lng: -8.6710, name: 'Praia do Camilo', desc: '200 steps down to a sheltered cliff beach', cat: 'beach' },
+        { lat: 37.1013, lng: -8.6735, name: 'Lagos Old Town', desc: 'Walkable old center inside medieval walls', cat: 'attraction' },
+        { lat: 37.1008, lng: -8.6728, name: 'Casinha do Petisco', desc: 'Cataplana for 2 (€28) — book ahead', cat: 'attraction' }
     ]);
 
     // Day 8: Benagil & Coast
     initMap('map-day8', [
-        { lat: 37.0877, lng: -8.4273, name: 'Benagil Cave', desc: 'Sea cave with natural skylight — kayak tour €30–40' },
-        { lat: 37.0891, lng: -8.4107, name: 'Praia da Marinha', desc: 'One of the world\'s most beautiful beaches' },
-        { lat: 37.0946, lng: -8.4713, name: 'Carvoeiro', desc: 'Picturesque beach town — Bon Bon Michelin restaurant' },
-        { lat: 37.0920, lng: -8.6733, name: 'Ponta da Piedade (sunset)', desc: 'Even more stunning at golden hour' }
+        { lat: 37.0877, lng: -8.4273, name: 'Benagil Cave', desc: 'Sea cave with natural skylight — kayak tour €30–40', cat: 'activity' },
+        { lat: 37.0891, lng: -8.4107, name: 'Praia da Marinha', desc: 'One of the world\'s most beautiful beaches', cat: 'beach' },
+        { lat: 37.0946, lng: -8.4713, name: 'Carvoeiro', desc: 'Picturesque beach town — Bon Bon Michelin restaurant', cat: 'beach' },
+        { lat: 37.0920, lng: -8.6733, name: 'Ponta da Piedade (sunset)', desc: 'Even more stunning at golden hour', cat: 'attraction' }
     ]);
 
     // Day 9: Sagres & Cape St. Vincent
     initMap('map-day9', [
-        { lat: 37.0009, lng: -8.9488, name: 'Fortaleza de Sagres', desc: 'Prince Henry\'s cliff-top fortress (€3)' },
-        { lat: 37.0227, lng: -8.9971, name: 'Cabo de São Vicente', desc: 'SW tip of Europe — lighthouse on 75m cliffs' },
-        { lat: 37.1704, lng: -8.8991, name: 'Praia do Amado', desc: 'Top surf beach — lessons from €35' },
-        { lat: 37.3188, lng: -8.8035, name: 'Aljezur', desc: 'Sleepy hillside town with Moorish castle' },
-        { lat: 37.1882, lng: -8.8640, name: 'Praia da Arrifana', desc: 'Dramatic crescent beach beneath towering cliffs' }
+        { lat: 37.0009, lng: -8.9488, name: 'Fortaleza de Sagres', desc: 'Prince Henry\'s cliff-top fortress (€3)', cat: 'attraction' },
+        { lat: 37.0227, lng: -8.9971, name: 'Cabo de São Vicente', desc: 'SW tip of Europe — lighthouse on 75m cliffs', cat: 'attraction' },
+        { lat: 37.1704, lng: -8.8991, name: 'Praia do Amado', desc: 'Top surf beach — lessons from €35', cat: 'beach' },
+        { lat: 37.3188, lng: -8.8035, name: 'Aljezur', desc: 'Sleepy hillside town with Moorish castle', cat: 'attraction' },
+        { lat: 37.1882, lng: -8.8640, name: 'Praia da Arrifana', desc: 'Dramatic crescent beach beneath towering cliffs', cat: 'beach' }
     ]);
 
     // Day 10: Faro & Departure
     initMap('map-day10', [
-        { lat: 37.0145, lng: -7.9352, name: 'Faro Old Town', desc: 'Walled Cidade Velha — Sé Cathedral views' },
-        { lat: 37.0153, lng: -7.9359, name: 'Capela dos Ossos', desc: 'Bone chapel — 1,000+ monks\' remains (€3)' },
-        { lat: 37.0128, lng: -7.9340, name: 'Mercado Municipal de Faro', desc: 'Working market — last meal in Portugal' },
-        { lat: 36.9712, lng: -7.8840, name: 'Ilha Deserta', desc: 'Pristine barrier island — ferry €5 return' },
-        { lat: 37.0193, lng: -7.9692, name: 'Faro Airport (FAO)', desc: 'Drop off rental car — allow 30 min for return' }
+        { lat: 37.0145, lng: -7.9352, name: 'Faro Old Town', desc: 'Walled Cidade Velha — Sé Cathedral views', cat: 'temple' },
+        { lat: 37.0153, lng: -7.9359, name: 'Capela dos Ossos', desc: 'Bone chapel — 1,000+ monks\' remains (€3)', cat: 'temple' },
+        { lat: 37.0128, lng: -7.9340, name: 'Mercado Municipal de Faro', desc: 'Working market — last meal in Portugal', cat: 'attraction' },
+        { lat: 36.9712, lng: -7.8840, name: 'Ilha Deserta', desc: 'Pristine barrier island — ferry €5 return', cat: 'nightlife' },
+        { lat: 37.0193, lng: -7.9692, name: 'Faro Airport (FAO)', desc: 'Drop off rental car — allow 30 min for return', cat: 'transport' }
     ]);
 })();
 </script>

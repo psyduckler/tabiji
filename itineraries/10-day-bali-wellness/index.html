@@ -61,7 +61,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
-        .hero { padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; }
+        /* HERO */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-bali-wellness/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block; background: var(--sand); color: var(--earth);
             padding: 0.35rem 1rem; border-radius: 100px;
@@ -190,7 +205,7 @@
         footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -875,6 +890,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -884,11 +927,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -900,64 +949,64 @@
     }
 
     initMap('map-day1', [
-        { lat: -8.5069, lng: 115.2625, name: 'Ubud Royal Palace', desc: 'Traditional Balinese architecture — free daytime entry' },
-        { lat: -8.5074, lng: 115.2631, name: 'Ubud Art Market', desc: 'Handmade crafts, paintings, silk — bargain to 50-60%' },
-        { lat: -8.5085, lng: 115.2602, name: 'Warung Biah Biah', desc: 'Authentic Balinese food — nasi campur IDR 35,000–50,000' }
+        { lat: -8.5069, lng: 115.2625, name: 'Ubud Royal Palace', desc: 'Traditional Balinese architecture — free daytime entry', cat: 'attraction' },
+        { lat: -8.5074, lng: 115.2631, name: 'Ubud Art Market', desc: 'Handmade crafts, paintings, silk — bargain to 50-60%', cat: 'nightlife' },
+        { lat: -8.5085, lng: 115.2602, name: 'Warung Biah Biah', desc: 'Authentic Balinese food — nasi campur IDR 35,000–50,000', cat: 'restaurant' }
     ]);
 
     initMap('map-day2', [
-        { lat: -8.5088, lng: 115.2575, name: 'Yoga Barn', desc: 'Ubud\'s most famous yoga studio — drop-in IDR 130,000' },
-        { lat: -8.4312, lng: 115.2790, name: 'Tegallalang Rice Terraces', desc: 'Iconic cascading terraces — IDR 15,000 entrance' },
-        { lat: -8.4975, lng: 115.2500, name: 'Sari Organik', desc: 'Warung in rice paddies — 20 min walk from Ubud center' }
+        { lat: -8.5088, lng: 115.2575, name: 'Yoga Barn', desc: 'Ubud\'s most famous yoga studio — drop-in IDR 130,000', cat: 'nightlife' },
+        { lat: -8.4312, lng: 115.2790, name: 'Tegallalang Rice Terraces', desc: 'Iconic cascading terraces — IDR 15,000 entrance', cat: 'attraction' },
+        { lat: -8.4975, lng: 115.2500, name: 'Sari Organik', desc: 'Warung in rice paddies — 20 min walk from Ubud center', cat: 'restaurant' }
     ]);
 
     initMap('map-day3', [
-        { lat: -8.4153, lng: 115.3154, name: 'Tirta Empul', desc: 'Sacred water purification temple — IDR 50,000' },
-        { lat: -8.4225, lng: 115.3110, name: 'Gunung Kawi', desc: '11th-century rock-carved temple — IDR 50,000, 300+ steps' },
-        { lat: -8.5077, lng: 115.2590, name: 'Locavore', desc: 'Ubud\'s top restaurant — book weeks ahead' }
+        { lat: -8.4153, lng: 115.3154, name: 'Tirta Empul', desc: 'Sacred water purification temple — IDR 50,000', cat: 'temple' },
+        { lat: -8.4225, lng: 115.3110, name: 'Gunung Kawi', desc: '11th-century rock-carved temple — IDR 50,000, 300+ steps', cat: 'temple' },
+        { lat: -8.5077, lng: 115.2590, name: 'Locavore', desc: 'Ubud\'s top restaurant — book weeks ahead', cat: 'restaurant' }
     ]);
 
     initMap('map-day4', [
-        { lat: -8.5180, lng: 115.2490, name: 'Campuhan Ridge Walk', desc: 'Free 2km ridge walk — best at sunrise' },
-        { lat: -8.5184, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '1,260+ macaques in jungle setting — IDR 80,000' },
-        { lat: -8.5055, lng: 115.2550, name: 'ARMA Museum', desc: 'Balinese art spanning centuries — IDR 80,000' },
-        { lat: -8.4975, lng: 115.2550, name: 'Neka Art Museum', desc: 'Traditional & contemporary Balinese art — IDR 75,000' }
+        { lat: -8.5180, lng: 115.2490, name: 'Campuhan Ridge Walk', desc: 'Free 2km ridge walk — best at sunrise', cat: 'attraction' },
+        { lat: -8.5184, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '1,260+ macaques in jungle setting — IDR 80,000', cat: 'temple' },
+        { lat: -8.5055, lng: 115.2550, name: 'ARMA Museum', desc: 'Balinese art spanning centuries — IDR 80,000', cat: 'spa' },
+        { lat: -8.4975, lng: 115.2550, name: 'Neka Art Museum', desc: 'Traditional & contemporary Balinese art — IDR 75,000', cat: 'attraction' }
     ]);
 
     initMap('map-day5', [
-        { lat: -8.2412, lng: 115.3754, name: 'Mount Batur', desc: 'Active volcano sunrise trek — 2 AM pickup, 2-hour hike' },
-        { lat: -8.2529, lng: 115.3948, name: 'Toya Devasya Hot Springs', desc: 'Volcanic hot springs overlooking Lake Batur — IDR 150,000' },
-        { lat: -8.5100, lng: 115.2500, name: 'Karsa Spa', desc: 'Spa in rice paddies — 2-hour treatment IDR 400,000' }
+        { lat: -8.2412, lng: 115.3754, name: 'Mount Batur', desc: 'Active volcano sunrise trek — 2 AM pickup, 2-hour hike', cat: 'activity' },
+        { lat: -8.2529, lng: 115.3948, name: 'Toya Devasya Hot Springs', desc: 'Volcanic hot springs overlooking Lake Batur — IDR 150,000', cat: 'spa' },
+        { lat: -8.5100, lng: 115.2500, name: 'Karsa Spa', desc: 'Spa in rice paddies — 2-hour treatment IDR 400,000', cat: 'spa' }
     ]);
 
     initMap('map-day6', [
-        { lat: -8.6478, lng: 115.1385, name: 'Batu Bolong Beach', desc: 'Canggu\'s main surf break — beginner-friendly waves' },
-        { lat: -8.6545, lng: 115.1260, name: 'Echo Beach', desc: 'Sunset spot — beachfront warungs with bean bags' }
+        { lat: -8.6478, lng: 115.1385, name: 'Batu Bolong Beach', desc: 'Canggu\'s main surf break — beginner-friendly waves', cat: 'beach' },
+        { lat: -8.6545, lng: 115.1260, name: 'Echo Beach', desc: 'Sunset spot — beachfront warungs with bean bags', cat: 'beach' }
     ]);
 
     initMap('map-day7', [
-        { lat: -8.6480, lng: 115.1380, name: 'Crate Café', desc: 'OG Canggu brunch — smoothie bowls IDR 65,000' },
-        { lat: -8.6500, lng: 115.1350, name: 'Finns Beach Club', desc: 'Pool, DJ, beachfront — day bed IDR 300,000–500,000' },
-        { lat: -8.6470, lng: 115.1400, name: 'Old Man\'s', desc: 'Canggu\'s most famous bar — burgers & live music' },
-        { lat: -8.6460, lng: 115.1370, name: 'Dojo Bali', desc: 'Co-working space — day pass IDR 175,000' }
+        { lat: -8.6480, lng: 115.1380, name: 'Crate Café', desc: 'OG Canggu brunch — smoothie bowls IDR 65,000', cat: 'restaurant' },
+        { lat: -8.6500, lng: 115.1350, name: 'Finns Beach Club', desc: 'Pool, DJ, beachfront — day bed IDR 300,000–500,000', cat: 'beach' },
+        { lat: -8.6470, lng: 115.1400, name: 'Old Man\'s', desc: 'Canggu\'s most famous bar — burgers & live music', cat: 'nightlife' },
+        { lat: -8.6460, lng: 115.1370, name: 'Dojo Bali', desc: 'Co-working space — day pass IDR 175,000', cat: 'spa' }
     ]);
 
     initMap('map-day8', [
-        { lat: -8.6214, lng: 115.0868, name: 'Tanah Lot', desc: 'Iconic sea temple on rock formation — IDR 60,000' },
-        { lat: -8.6530, lng: 115.1170, name: 'Pererenan Beach', desc: 'Quiet black sand beach favored by locals' },
-        { lat: -8.6520, lng: 115.1280, name: 'La Brisa', desc: 'Reclaimed fishing boat beach club — stunning sunsets' }
+        { lat: -8.6214, lng: 115.0868, name: 'Tanah Lot', desc: 'Iconic sea temple on rock formation — IDR 60,000', cat: 'temple' },
+        { lat: -8.6530, lng: 115.1170, name: 'Pererenan Beach', desc: 'Quiet black sand beach favored by locals', cat: 'beach' },
+        { lat: -8.6520, lng: 115.1280, name: 'La Brisa', desc: 'Reclaimed fishing boat beach club — stunning sunsets', cat: 'beach' }
     ]);
 
     initMap('map-day9', [
-        { lat: -8.8293, lng: 115.0849, name: 'Uluwatu Temple', desc: 'Cliff-top temple 70m above ocean — IDR 50,000' },
-        { lat: -8.8293, lng: 115.0849, name: 'Kecak Fire Dance', desc: 'Daily 6 PM — 50+ men chanting at sunset amphitheater' },
-        { lat: -8.8094, lng: 115.1028, name: 'Bingin Beach', desc: 'Hidden cliff beach — turquoise water, rustic warungs' },
-        { lat: -8.8130, lng: 115.0890, name: 'Single Fin', desc: 'Cliff-top bar — pizza, cocktails, wave views' }
+        { lat: -8.8293, lng: 115.0849, name: 'Uluwatu Temple', desc: 'Cliff-top temple 70m above ocean — IDR 50,000', cat: 'temple' },
+        { lat: -8.8293, lng: 115.0849, name: 'Kecak Fire Dance', desc: 'Daily 6 PM — 50+ men chanting at sunset amphitheater', cat: 'attraction' },
+        { lat: -8.8094, lng: 115.1028, name: 'Bingin Beach', desc: 'Hidden cliff beach — turquoise water, rustic warungs', cat: 'beach' },
+        { lat: -8.8130, lng: 115.0890, name: 'Single Fin', desc: 'Cliff-top bar — pizza, cocktails, wave views', cat: 'nightlife' }
     ]);
 
     initMap('map-day10', [
-        { lat: -8.8105, lng: 115.1010, name: 'Padang Padang Beach', desc: 'Eat Pray Love beach — cave entrance, turquoise water' },
-        { lat: -8.7481, lng: 115.1672, name: 'Ngurah Rai Airport (DPS)', desc: '30–45 min from Uluwatu — closest tourist area' }
+        { lat: -8.8105, lng: 115.1010, name: 'Padang Padang Beach', desc: 'Eat Pray Love beach — cave entrance, turquoise water', cat: 'beach' },
+        { lat: -8.7481, lng: 115.1672, name: 'Ngurah Rai Airport (DPS)', desc: '30–45 min from Uluwatu — closest tourist area', cat: 'transport' }
     ]);
 })();
 </script>

@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/5-day-tokyo-food-nightlife/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -345,7 +357,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -936,6 +948,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -945,11 +985,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -961,43 +1007,43 @@
     }
 
     initMap('map-day1', [
-        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: 'Sushi Dai, tamagoyaki, grilled scallops — arrive by 8 AM' },
-        { lat: 35.6713, lng: 139.7649, name: 'Mitsukoshi Ginza', desc: 'Depachika food basement — wagyu bento & pastries' },
-        { lat: 35.6745, lng: 139.7634, name: 'Ginza Six', desc: 'Rooftop garden with free city views' },
-        { lat: 35.6749, lng: 139.7600, name: 'Yurakucho Yakitori Alley', desc: 'Under-track izakayas — Andy\'s Shin Hinomoto, Birdland' }
+        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: 'Sushi Dai, tamagoyaki, grilled scallops — arrive by 8 AM', cat: 'restaurant' },
+        { lat: 35.6713, lng: 139.7649, name: 'Mitsukoshi Ginza', desc: 'Depachika food basement — wagyu bento & pastries', cat: 'restaurant' },
+        { lat: 35.6745, lng: 139.7634, name: 'Ginza Six', desc: 'Rooftop garden with free city views', cat: 'attraction' },
+        { lat: 35.6749, lng: 139.7600, name: 'Yurakucho Yakitori Alley', desc: 'Under-track izakayas — Andy\'s Shin Hinomoto, Birdland', cat: 'restaurant' }
     ]);
 
     initMap('map-day2', [
-        { lat: 35.6927, lng: 139.7003, name: 'Fuunji', desc: 'Tokyo\'s #1 tsukemen — arrive before 11 AM' },
-        { lat: 35.6936, lng: 139.7006, name: 'Ichiran Shinjuku', desc: 'Famous solo-booth tonkotsu ramen — open 24h' },
-        { lat: 35.6942, lng: 139.7064, name: 'Isetan Shinjuku Depachika', desc: 'Tokyo\'s best department store food basement' },
-        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Memory Lane — 60+ tiny yakitori stalls' },
-        { lat: 35.6938, lng: 139.7035, name: 'Golden Gai', desc: '200+ tiny bars — Albatross, Bar Plastic Model, Champion' }
+        { lat: 35.6927, lng: 139.7003, name: 'Fuunji', desc: 'Tokyo\'s #1 tsukemen — arrive before 11 AM', cat: 'attraction' },
+        { lat: 35.6936, lng: 139.7006, name: 'Ichiran Shinjuku', desc: 'Famous solo-booth tonkotsu ramen — open 24h', cat: 'restaurant' },
+        { lat: 35.6942, lng: 139.7064, name: 'Isetan Shinjuku Depachika', desc: 'Tokyo\'s best department store food basement', cat: 'shopping' },
+        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Memory Lane — 60+ tiny yakitori stalls', cat: 'restaurant' },
+        { lat: 35.6938, lng: 139.7035, name: 'Golden Gai', desc: '200+ tiny bars — Albatross, Bar Plastic Model, Champion', cat: 'nightlife' }
     ]);
 
     initMap('map-day3', [
-        { lat: 35.6680, lng: 139.6894, name: 'Fuglen Tokyo', desc: 'Norwegian specialty coffee in Tomigaya' },
-        { lat: 35.6676, lng: 139.6906, name: 'Camelback', desc: 'Best egg sandwich in Tokyo — 4-seat counter' },
-        { lat: 35.6580, lng: 139.7016, name: 'Shibuya Yokocho', desc: 'Regional Japanese cuisine food hall' },
-        { lat: 35.6467, lng: 139.7100, name: 'Afuri Ramen Ebisu', desc: 'The original yuzu shio ramen location' },
-        { lat: 35.6440, lng: 139.6980, name: 'Nakameguro', desc: 'Date-night neighborhood along the Meguro River' },
-        { lat: 35.6612, lng: 139.7085, name: 'SG Club', desc: 'World-famous cocktail bar by Shingo Gokan' },
-        { lat: 35.6480, lng: 139.7117, name: 'Bar Trench', desc: 'Absinthe-focused speakeasy in Ebisu' }
+        { lat: 35.6680, lng: 139.6894, name: 'Fuglen Tokyo', desc: 'Norwegian specialty coffee in Tomigaya', cat: 'restaurant' },
+        { lat: 35.6676, lng: 139.6906, name: 'Camelback', desc: 'Best egg sandwich in Tokyo — 4-seat counter', cat: 'attraction' },
+        { lat: 35.6580, lng: 139.7016, name: 'Shibuya Yokocho', desc: 'Regional Japanese cuisine food hall', cat: 'restaurant' },
+        { lat: 35.6467, lng: 139.7100, name: 'Afuri Ramen Ebisu', desc: 'The original yuzu shio ramen location', cat: 'restaurant' },
+        { lat: 35.6440, lng: 139.6980, name: 'Nakameguro', desc: 'Date-night neighborhood along the Meguro River', cat: 'attraction' },
+        { lat: 35.6612, lng: 139.7085, name: 'SG Club', desc: 'World-famous cocktail bar by Shingo Gokan', cat: 'nightlife' },
+        { lat: 35.6480, lng: 139.7117, name: 'Bar Trench', desc: 'Absinthe-focused speakeasy in Ebisu', cat: 'attraction' }
     ]);
 
     initMap('map-day4', [
-        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji & Nakamise', desc: 'Asakusa Kagetsudo melon pan, Daikokuya tempura' },
-        { lat: 35.7100, lng: 139.7952, name: 'Sometaro', desc: 'DIY monjayaki — fun couples activity' },
-        { lat: 35.7270, lng: 139.7677, name: 'Yanaka Ginza', desc: 'Old-town shopping street with menchi-katsu' },
-        { lat: 35.7106, lng: 139.7746, name: 'Ameyoko Market', desc: 'Under-track market — haggling & street food' },
-        { lat: 35.6718, lng: 139.7641, name: 'Bar High Five', desc: 'World-class bespoke cocktails in Ginza' },
-        { lat: 35.6553, lng: 139.7370, name: 'Gen Yamamoto', desc: '8-seat seasonal fruit cocktail omakase' }
+        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji & Nakamise', desc: 'Asakusa Kagetsudo melon pan, Daikokuya tempura', cat: 'shopping' },
+        { lat: 35.7100, lng: 139.7952, name: 'Sometaro', desc: 'DIY monjayaki — fun couples activity', cat: 'attraction' },
+        { lat: 35.7270, lng: 139.7677, name: 'Yanaka Ginza', desc: 'Old-town shopping street with menchi-katsu', cat: 'shopping' },
+        { lat: 35.7106, lng: 139.7746, name: 'Ameyoko Market', desc: 'Under-track market — haggling & street food', cat: 'shopping' },
+        { lat: 35.6718, lng: 139.7641, name: 'Bar High Five', desc: 'World-class bespoke cocktails in Ginza', cat: 'nightlife' },
+        { lat: 35.6553, lng: 139.7370, name: 'Gen Yamamoto', desc: '8-seat seasonal fruit cocktail omakase', cat: 'nightlife' }
     ]);
 
     initMap('map-day5', [
-        { lat: 35.6426, lng: 139.7813, name: 'Toyosu Market', desc: 'Tuna auction + Sushi Dai relocated here' },
-        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: 'Final grazing + snack shopping for home' },
-        { lat: 35.6814, lng: 139.7671, name: 'Tokyo Station', desc: 'Narita Express departure point' }
+        { lat: 35.6426, lng: 139.7813, name: 'Toyosu Market', desc: 'Tuna auction + Sushi Dai relocated here', cat: 'restaurant' },
+        { lat: 35.6654, lng: 139.7707, name: 'Tsukiji Outer Market', desc: 'Final grazing + snack shopping for home', cat: 'shopping' },
+        { lat: 35.6814, lng: 139.7671, name: 'Tokyo Station', desc: 'Narita Express departure point', cat: 'transport' }
     ]);
 })();
 </script>

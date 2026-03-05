@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-greek-island-hopping/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -344,7 +356,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1043,6 +1055,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1052,11 +1092,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1068,76 +1114,76 @@
     }
 
     initMap('map-day1', [
-        { lat: 37.9762, lng: 23.7257, name: 'Monastiraki Square', desc: 'Flea market, street food, Acropolis views' },
-        { lat: 37.9725, lng: 23.7290, name: 'Plaka', desc: 'Athens\' oldest neighborhood — narrow streets & bougainvillea' },
-        { lat: 37.9780, lng: 23.7230, name: 'Psyrri', desc: 'Nightlife & authentic tavernas' },
-        { lat: 37.9755, lng: 23.7262, name: '360 Cocktail Bar', desc: 'Rooftop cocktails with Acropolis view' }
+        { lat: 37.9762, lng: 23.7257, name: 'Monastiraki Square', desc: 'Flea market, street food, Acropolis views', cat: 'shopping' },
+        { lat: 37.9725, lng: 23.7290, name: 'Plaka', desc: 'Athens\' oldest neighborhood — narrow streets & bougainvillea', cat: 'attraction' },
+        { lat: 37.9780, lng: 23.7230, name: 'Psyrri', desc: 'Nightlife & authentic tavernas', cat: 'nightlife' },
+        { lat: 37.9755, lng: 23.7262, name: '360 Cocktail Bar', desc: 'Rooftop cocktails with Acropolis view', cat: 'nightlife' }
     ]);
 
     initMap('map-day2', [
-        { lat: 37.9715, lng: 23.7267, name: 'Acropolis', desc: 'Parthenon, Erechtheion — arrive at 8 AM' },
-        { lat: 37.9685, lng: 23.7284, name: 'Acropolis Museum', desc: 'World-class museum — original Caryatids' },
-        { lat: 37.9732, lng: 23.7280, name: 'Anafiotika', desc: 'Hidden whitewashed village on the Acropolis slopes' },
-        { lat: 37.9780, lng: 23.7210, name: 'Kostas Souvlaki', desc: 'Legendary €3 pork souvlaki — always a line' },
-        { lat: 37.9722, lng: 23.7255, name: 'Areopagus Hill', desc: 'Best free sunset viewpoint in Athens' }
+        { lat: 37.9715, lng: 23.7267, name: 'Acropolis', desc: 'Parthenon, Erechtheion — arrive at 8 AM', cat: 'attraction' },
+        { lat: 37.9685, lng: 23.7284, name: 'Acropolis Museum', desc: 'World-class museum — original Caryatids', cat: 'attraction' },
+        { lat: 37.9732, lng: 23.7280, name: 'Anafiotika', desc: 'Hidden whitewashed village on the Acropolis slopes', cat: 'hotel' },
+        { lat: 37.9780, lng: 23.7210, name: 'Kostas Souvlaki', desc: 'Legendary €3 pork souvlaki — always a line', cat: 'attraction' },
+        { lat: 37.9722, lng: 23.7255, name: 'Areopagus Hill', desc: 'Best free sunset viewpoint in Athens', cat: 'attraction' }
     ]);
 
     initMap('map-day3', [
-        { lat: 38.0194, lng: 24.0089, name: 'Rafina Port', desc: 'Ferry departure to Mykonos — arrive 45 min early' },
-        { lat: 37.4467, lng: 25.3267, name: 'Mykonos Town (Chora)', desc: 'Labyrinthine white streets & boutiques' },
-        { lat: 37.4455, lng: 25.3250, name: 'Little Venice', desc: 'Waterfront bars — arrive by 6:30 PM for sunset seats' },
-        { lat: 37.4462, lng: 25.3260, name: 'Windmills of Kato Mili', desc: 'Iconic 16th-century windmills' },
-        { lat: 37.4470, lng: 25.3265, name: 'Panagia Paraportiani', desc: 'Most photographed church in Greece' }
+        { lat: 38.0194, lng: 24.0089, name: 'Rafina Port', desc: 'Ferry departure to Mykonos — arrive 45 min early', cat: 'transport' },
+        { lat: 37.4467, lng: 25.3267, name: 'Mykonos Town (Chora)', desc: 'Labyrinthine white streets & boutiques', cat: 'shopping' },
+        { lat: 37.4455, lng: 25.3250, name: 'Little Venice', desc: 'Waterfront bars — arrive by 6:30 PM for sunset seats', cat: 'nightlife' },
+        { lat: 37.4462, lng: 25.3260, name: 'Windmills of Kato Mili', desc: 'Iconic 16th-century windmills', cat: 'attraction' },
+        { lat: 37.4470, lng: 25.3265, name: 'Panagia Paraportiani', desc: 'Most photographed church in Greece', cat: 'restaurant' }
     ]);
 
     initMap('map-day4', [
-        { lat: 37.3967, lng: 25.2685, name: 'Delos Island', desc: 'Sacred birthplace of Apollo — UNESCO site' },
-        { lat: 37.4130, lng: 25.3530, name: 'Paradise Beach', desc: 'Party beach with DJs from 4 PM' },
-        { lat: 37.4660, lng: 25.3280, name: 'Agios Sostis Beach', desc: 'Quiet locals\' beach — no sunbeds' },
-        { lat: 37.4210, lng: 25.3680, name: 'Elia Beach', desc: 'Longest beach on Mykonos' },
-        { lat: 37.4580, lng: 25.3540, name: 'Ano Mera', desc: 'Traditional village — Apostolis taverna' }
+        { lat: 37.3967, lng: 25.2685, name: 'Delos Island', desc: 'Sacred birthplace of Apollo — UNESCO site', cat: 'temple' },
+        { lat: 37.4130, lng: 25.3530, name: 'Paradise Beach', desc: 'Party beach with DJs from 4 PM', cat: 'beach' },
+        { lat: 37.4660, lng: 25.3280, name: 'Agios Sostis Beach', desc: 'Quiet locals\' beach — no sunbeds', cat: 'beach' },
+        { lat: 37.4210, lng: 25.3680, name: 'Elia Beach', desc: 'Longest beach on Mykonos', cat: 'beach' },
+        { lat: 37.4580, lng: 25.3540, name: 'Ano Mera', desc: 'Traditional village — Apostolis taverna', cat: 'hotel' }
     ]);
 
     initMap('map-day5', [
-        { lat: 37.0867, lng: 25.1483, name: 'Parikia Port', desc: 'Paros main port — ferries arrive here' },
-        { lat: 37.1250, lng: 25.2370, name: 'Naoussa', desc: 'Charming fishing village turned chic town' },
-        { lat: 37.1245, lng: 25.2350, name: 'Naoussa Old Harbor', desc: 'Venetian harbor with colorful boats' },
-        { lat: 37.1260, lng: 25.2400, name: 'Piperi Beach', desc: '5 min walk from Naoussa harbor' }
+        { lat: 37.0867, lng: 25.1483, name: 'Parikia Port', desc: 'Paros main port — ferries arrive here', cat: 'attraction' },
+        { lat: 37.1250, lng: 25.2370, name: 'Naoussa', desc: 'Charming fishing village turned chic town', cat: 'hotel' },
+        { lat: 37.1245, lng: 25.2350, name: 'Naoussa Old Harbor', desc: 'Venetian harbor with colorful boats', cat: 'attraction' },
+        { lat: 37.1260, lng: 25.2400, name: 'Piperi Beach', desc: '5 min walk from Naoussa harbor', cat: 'beach' }
     ]);
 
     initMap('map-day6', [
-        { lat: 37.1420, lng: 25.2140, name: 'Kolymbithres Beach', desc: 'Surreal granite rock formations & coves' },
-        { lat: 37.0850, lng: 25.2100, name: 'Lefkes Village', desc: 'Medieval hilltop village with marble streets' },
-        { lat: 37.0600, lng: 25.2400, name: 'Golden Beach', desc: 'Long sand beach — windsurfing hotspot' },
-        { lat: 37.1350, lng: 25.2560, name: 'Santa Maria Beach', desc: 'Shallow turquoise water — perfect for couples' }
+        { lat: 37.1420, lng: 25.2140, name: 'Kolymbithres Beach', desc: 'Surreal granite rock formations & coves', cat: 'beach' },
+        { lat: 37.0850, lng: 25.2100, name: 'Lefkes Village', desc: 'Medieval hilltop village with marble streets', cat: 'hotel' },
+        { lat: 37.0600, lng: 25.2400, name: 'Golden Beach', desc: 'Long sand beach — windsurfing hotspot', cat: 'beach' },
+        { lat: 37.1350, lng: 25.2560, name: 'Santa Maria Beach', desc: 'Shallow turquoise water — perfect for couples', cat: 'beach' }
     ]);
 
     initMap('map-day7', [
-        { lat: 37.0380, lng: 25.0780, name: 'Antiparos Town', desc: 'Tiny, laid-back whitewashed village' },
-        { lat: 37.0320, lng: 25.0770, name: 'Sifneiko Beach', desc: 'Crystal-clear shallow water, 10 min walk' },
-        { lat: 37.0150, lng: 25.0650, name: 'Cave of Antiparos', desc: '411 steps down — impressive stalactites' },
-        { lat: 37.0560, lng: 25.1200, name: 'Pounta Ferry', desc: '7-minute ferry crossing to Antiparos' }
+        { lat: 37.0380, lng: 25.0780, name: 'Antiparos Town', desc: 'Tiny, laid-back whitewashed village', cat: 'hotel' },
+        { lat: 37.0320, lng: 25.0770, name: 'Sifneiko Beach', desc: 'Crystal-clear shallow water, 10 min walk', cat: 'beach' },
+        { lat: 37.0150, lng: 25.0650, name: 'Cave of Antiparos', desc: '411 steps down — impressive stalactites', cat: 'attraction' },
+        { lat: 37.0560, lng: 25.1200, name: 'Pounta Ferry', desc: '7-minute ferry crossing to Antiparos', cat: 'attraction' }
     ]);
 
     initMap('map-day8', [
-        { lat: 36.3900, lng: 25.4320, name: 'Athinios Port', desc: 'Santorini ferry port — dramatic caldera approach' },
-        { lat: 36.4167, lng: 25.4317, name: 'Fira', desc: 'Santorini\'s capital — caldera edge walks' },
-        { lat: 36.4285, lng: 25.4300, name: 'Santo Wines', desc: 'Wine tasting with caldera views' },
-        { lat: 36.4280, lng: 25.4295, name: 'Venetsanos Winery', desc: 'Intimate tastings — Assyrtiko specialists' }
+        { lat: 36.3900, lng: 25.4320, name: 'Athinios Port', desc: 'Santorini ferry port — dramatic caldera approach', cat: 'attraction' },
+        { lat: 36.4167, lng: 25.4317, name: 'Fira', desc: 'Santorini\'s capital — caldera edge walks', cat: 'attraction' },
+        { lat: 36.4285, lng: 25.4300, name: 'Santo Wines', desc: 'Wine tasting with caldera views', cat: 'attraction' },
+        { lat: 36.4280, lng: 25.4295, name: 'Venetsanos Winery', desc: 'Intimate tastings — Assyrtiko specialists', cat: 'attraction' }
     ]);
 
     initMap('map-day9', [
-        { lat: 36.4615, lng: 25.3755, name: 'Oia', desc: 'World-famous sunset village' },
-        { lat: 36.4580, lng: 25.3720, name: 'Amoudi Bay', desc: 'Harbor below Oia — fish taverns & swimming' },
-        { lat: 36.4240, lng: 25.4310, name: 'Firostefani', desc: 'Blue dome church photo spot' },
-        { lat: 36.4340, lng: 25.4280, name: 'Imerovigli', desc: 'Highest caldera point — Skaros Rock' },
-        { lat: 36.3520, lng: 25.4030, name: 'Akrotiri', desc: 'Minoan Bronze Age city — "Greek Pompeii"' },
-        { lat: 36.3480, lng: 25.3950, name: 'Red Beach', desc: 'Dramatic red volcanic cliffs' }
+        { lat: 36.4615, lng: 25.3755, name: 'Oia', desc: 'World-famous sunset village', cat: 'hotel' },
+        { lat: 36.4580, lng: 25.3720, name: 'Amoudi Bay', desc: 'Harbor below Oia — fish taverns & swimming', cat: 'attraction' },
+        { lat: 36.4240, lng: 25.4310, name: 'Firostefani', desc: 'Blue dome church photo spot', cat: 'restaurant' },
+        { lat: 36.4340, lng: 25.4280, name: 'Imerovigli', desc: 'Highest caldera point — Skaros Rock', cat: 'attraction' },
+        { lat: 36.3520, lng: 25.4030, name: 'Akrotiri', desc: 'Minoan Bronze Age city — "Greek Pompeii"', cat: 'attraction' },
+        { lat: 36.3480, lng: 25.3950, name: 'Red Beach', desc: 'Dramatic red volcanic cliffs', cat: 'beach' }
     ]);
 
     initMap('map-day10', [
-        { lat: 36.3730, lng: 25.4820, name: 'Perissa Beach', desc: 'Black volcanic sand — beach bars & tavernas' },
-        { lat: 36.3990, lng: 25.4790, name: 'Santorini Airport (JTR)', desc: 'Small airport — arrive 2 hours early' }
+        { lat: 36.3730, lng: 25.4820, name: 'Perissa Beach', desc: 'Black volcanic sand — beach bars & tavernas', cat: 'beach' },
+        { lat: 36.3990, lng: 25.4790, name: 'Santorini Airport (JTR)', desc: 'Small airport — arrive 2 hours early', cat: 'transport' }
     ]);
 })();
 </script>

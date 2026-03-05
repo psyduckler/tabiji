@@ -56,7 +56,22 @@
         .logo span { color: var(--terracotta); }
         nav a.cta-nav { background: var(--terracotta); color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; }
         nav a.cta-nav:hover { background: #b5633f; }
-        .hero { padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; }
+        /* HERO */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/4-day-barcelona-solo/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: var(--sand); color: var(--earth); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
         .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800; color: var(--indigo); margin-bottom: 1rem; letter-spacing: -0.03em; }
         .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -132,7 +147,7 @@
         .final-cta a.cta-btn:hover { transform: translateY(-2px); }
         .final-cta .sub { margin-top: 0.75rem; font-size: 0.85rem; color: rgba(245, 240, 232, 0.6); }
         footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
-        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 3.5rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
+        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 2rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
         @media (max-width: 768px) {
@@ -632,6 +647,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -641,11 +684,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() { infoWindow.setContent(content); infoWindow.open(map, marker); });
         });
@@ -654,39 +703,39 @@
     }
 
     initMap('map-day1', [
-        { lat: 41.3839, lng: 2.1764, name: 'Plaça de Sant Felip Neri', desc: 'Quiet square with Spanish Civil War bullet holes' },
-        { lat: 41.3840, lng: 2.1761, name: 'Barcelona Cathedral', desc: '13 white geese in the cloister — free entry' },
-        { lat: 41.3830, lng: 2.1763, name: 'Temple of Augustus', desc: 'Roman columns from 1st century BC — free, hidden gem' },
-        { lat: 41.3835, lng: 2.1830, name: 'El Xampanyet', desc: 'Legendary cava bar since 1929 — €2.50/glass' },
-        { lat: 41.3844, lng: 2.1820, name: 'Bar del Pla', desc: 'Refined tapas — duck liver, truffled bikini sandwich' },
-        { lat: 41.3834, lng: 2.1814, name: 'La Vinya del Senyor', desc: 'Wine bar facing Santa Maria del Mar — 300+ wines' }
+        { lat: 41.3839, lng: 2.1764, name: 'Plaça de Sant Felip Neri', desc: 'Quiet square with Spanish Civil War bullet holes', cat: 'spa' },
+        { lat: 41.3840, lng: 2.1761, name: 'Barcelona Cathedral', desc: '13 white geese in the cloister — free entry', cat: 'temple' },
+        { lat: 41.3830, lng: 2.1763, name: 'Temple of Augustus', desc: 'Roman columns from 1st century BC — free, hidden gem', cat: 'temple' },
+        { lat: 41.3835, lng: 2.1830, name: 'El Xampanyet', desc: 'Legendary cava bar since 1929 — €2.50/glass', cat: 'nightlife' },
+        { lat: 41.3844, lng: 2.1820, name: 'Bar del Pla', desc: 'Refined tapas — duck liver, truffled bikini sandwich', cat: 'restaurant' },
+        { lat: 41.3834, lng: 2.1814, name: 'La Vinya del Senyor', desc: 'Wine bar facing Santa Maria del Mar — 300+ wines', cat: 'nightlife' }
     ]);
 
     initMap('map-day2', [
-        { lat: 41.4036, lng: 2.1744, name: 'Sagrada Familia', desc: '€26 — book 9 AM slot, allow 1.5 hours' },
-        { lat: 41.3916, lng: 2.1650, name: 'Casa Batlló', desc: '€35 — Gaudí\'s dragon-scaled masterpiece' },
-        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: '€10 — mosaic bench with best city views' },
-        { lat: 41.4005, lng: 2.1565, name: 'Bar Bodega Quimet', desc: 'Tiny bodega — house vermut on tap, €2' },
-        { lat: 41.4008, lng: 2.1578, name: 'La Pepita', desc: 'Legendary pepito steak sandwich — €12' },
-        { lat: 41.3993, lng: 2.1548, name: 'Bobby Gin', desc: '60+ gins — Gràcia nightlife starting point' }
+        { lat: 41.4036, lng: 2.1744, name: 'Sagrada Familia', desc: '€26 — book 9 AM slot, allow 1.5 hours', cat: 'attraction' },
+        { lat: 41.3916, lng: 2.1650, name: 'Casa Batlló', desc: '€35 — Gaudí\'s dragon-scaled masterpiece', cat: 'attraction' },
+        { lat: 41.4145, lng: 2.1527, name: 'Park Güell', desc: '€10 — mosaic bench with best city views', cat: 'attraction' },
+        { lat: 41.4005, lng: 2.1565, name: 'Bar Bodega Quimet', desc: 'Tiny bodega — house vermut on tap, €2', cat: 'attraction' },
+        { lat: 41.4008, lng: 2.1578, name: 'La Pepita', desc: 'Legendary pepito steak sandwich — €12', cat: 'attraction' },
+        { lat: 41.3993, lng: 2.1548, name: 'Bobby Gin', desc: '60+ gins — Gràcia nightlife starting point', cat: 'nightlife' }
     ]);
 
     initMap('map-day3', [
-        { lat: 41.3635, lng: 2.1665, name: 'Montjuïc Castle', desc: '€5 — 360° views of Barcelona and the sea' },
-        { lat: 41.3687, lng: 2.1600, name: 'Fundació Joan Miró', desc: '€15 — Modernist building, surrealist art' },
-        { lat: 41.3780, lng: 2.1880, name: 'La Cova Fumada', desc: 'Cash-only local legend — bomba croquettes €2.50' },
-        { lat: 41.3890, lng: 2.2040, name: 'Platja de la Mar Bella', desc: 'Less touristy beach — young crowd, DJ sets' },
-        { lat: 41.4189, lng: 2.1614, name: 'Bunkers del Carmel', desc: 'Best free viewpoint in Barcelona — bring a beer' },
-        { lat: 41.3833, lng: 2.1802, name: 'Paradiso', desc: 'World\'s best bars list — speakeasy behind a fridge' },
-        { lat: 41.3968, lng: 2.1917, name: 'Razzmatazz', desc: '5 rooms, 5 genres — free guest list before 1:30 AM' }
+        { lat: 41.3635, lng: 2.1665, name: 'Montjuïc Castle', desc: '€5 — 360° views of Barcelona and the sea', cat: 'nightlife' },
+        { lat: 41.3687, lng: 2.1600, name: 'Fundació Joan Miró', desc: '€15 — Modernist building, surrealist art', cat: 'attraction' },
+        { lat: 41.3780, lng: 2.1880, name: 'La Cova Fumada', desc: 'Cash-only local legend — bomba croquettes €2.50', cat: 'attraction' },
+        { lat: 41.3890, lng: 2.2040, name: 'Platja de la Mar Bella', desc: 'Less touristy beach — young crowd, DJ sets', cat: 'beach' },
+        { lat: 41.4189, lng: 2.1614, name: 'Bunkers del Carmel', desc: 'Best free viewpoint in Barcelona — bring a beer', cat: 'nightlife' },
+        { lat: 41.3833, lng: 2.1802, name: 'Paradiso', desc: 'World\'s best bars list — speakeasy behind a fridge', cat: 'nightlife' },
+        { lat: 41.3968, lng: 2.1917, name: 'Razzmatazz', desc: '5 rooms, 5 genres — free guest list before 1:30 AM', cat: 'attraction' }
     ]);
 
     initMap('map-day4', [
-        { lat: 41.3818, lng: 2.1719, name: 'Mercat de la Boqueria', desc: 'Legendary food market — go deep inside, skip the entrance' },
-        { lat: 41.3819, lng: 2.1715, name: 'Bar Pinotxo', desc: 'Stall 466 — chickpeas with blood sausage, €8' },
-        { lat: 41.3836, lng: 2.1669, name: 'MACBA', desc: '€11 — contemporary art + skater-watching from the steps' },
-        { lat: 41.3822, lng: 2.1691, name: 'Carrer dels Tallers', desc: 'Vinyl shops, vintage stores, record digger paradise' },
-        { lat: 41.3830, lng: 2.1603, name: 'Federal Café', desc: 'Aussie brunch — avocado toast & flat whites, €12–18' }
+        { lat: 41.3818, lng: 2.1719, name: 'Mercat de la Boqueria', desc: 'Legendary food market — go deep inside, skip the entrance', cat: 'shopping' },
+        { lat: 41.3819, lng: 2.1715, name: 'Bar Pinotxo', desc: 'Stall 466 — chickpeas with blood sausage, €8', cat: 'attraction' },
+        { lat: 41.3836, lng: 2.1669, name: 'MACBA', desc: '€11 — contemporary art + skater-watching from the steps', cat: 'attraction' },
+        { lat: 41.3822, lng: 2.1691, name: 'Carrer dels Tallers', desc: 'Vinyl shops, vintage stores, record digger paradise', cat: 'attraction' },
+        { lat: 41.3830, lng: 2.1603, name: 'Federal Café', desc: 'Aussie brunch — avocado toast & flat whites, €12–18', cat: 'restaurant' }
     ]);
 })();
 </script>

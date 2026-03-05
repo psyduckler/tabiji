@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-bali-adventure/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -980,6 +992,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -989,11 +1029,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1006,59 +1052,59 @@
 
     // Day 1: Seminyak & Kuta
     initMap('map-day1', [
-        { lat: -8.7236, lng: 115.1698, name: 'Ngurah Rai Airport (DPS)', desc: 'Bali\'s international airport' },
-        { lat: -8.6916, lng: 115.1563, name: 'Seminyak Beach', desc: 'Upscale beach area — sunset & La Plancha' },
-        { lat: -8.7185, lng: 115.1686, name: 'Kuta Beach', desc: 'Beginner surfing — gentle waves, sandy bottom' },
-        { lat: -8.6908, lng: 115.1581, name: 'Warung Biah Biah', desc: 'Authentic Balinese food at local prices' }
+        { lat: -8.7236, lng: 115.1698, name: 'Ngurah Rai Airport (DPS)', desc: 'Bali\'s international airport', cat: 'transport' },
+        { lat: -8.6916, lng: 115.1563, name: 'Seminyak Beach', desc: 'Upscale beach area — sunset & La Plancha', cat: 'beach' },
+        { lat: -8.7185, lng: 115.1686, name: 'Kuta Beach', desc: 'Beginner surfing — gentle waves, sandy bottom', cat: 'beach' },
+        { lat: -8.6908, lng: 115.1581, name: 'Warung Biah Biah', desc: 'Authentic Balinese food at local prices', cat: 'restaurant' }
     ]);
 
     // Day 2: Canggu & Tanah Lot
     initMap('map-day2', [
-        { lat: -8.6478, lng: 115.1320, name: 'Batu Bolong Beach', desc: 'Mellow surf break — perfect for beginners' },
-        { lat: -8.6534, lng: 115.1240, name: 'Echo Beach', desc: 'Faster reef break for intermediate surfers' },
-        { lat: -8.6500, lng: 115.1335, name: 'Crate Café', desc: 'Canggu\'s famous brunch spot' },
-        { lat: -8.6212, lng: 115.0868, name: 'Tanah Lot Temple', desc: 'Iconic sea temple — stunning sunset silhouette' }
+        { lat: -8.6478, lng: 115.1320, name: 'Batu Bolong Beach', desc: 'Mellow surf break — perfect for beginners', cat: 'beach' },
+        { lat: -8.6534, lng: 115.1240, name: 'Echo Beach', desc: 'Faster reef break for intermediate surfers', cat: 'beach' },
+        { lat: -8.6500, lng: 115.1335, name: 'Crate Café', desc: 'Canggu\'s famous brunch spot', cat: 'restaurant' },
+        { lat: -8.6212, lng: 115.0868, name: 'Tanah Lot Temple', desc: 'Iconic sea temple — stunning sunset silhouette', cat: 'temple' }
     ]);
 
     // Day 3: Ubud, Rice Terraces & Waterfalls
     initMap('map-day3', [
-        { lat: -8.4312, lng: 115.2793, name: 'Tegallalang Rice Terraces', desc: 'UNESCO subak irrigation — arrive by 8 AM' },
-        { lat: -8.4900, lng: 115.3413, name: 'Tibumana Waterfall', desc: '20m curtain waterfall with swimming hole' },
-        { lat: -8.4833, lng: 115.3340, name: 'Kanto Lampo Waterfall', desc: 'Cascading waterfall over rock formations' },
-        { lat: -8.5069, lng: 115.2624, name: 'Warung Ibu Oka', desc: 'Famous babi guling (suckling pig) — Bourdain approved' },
-        { lat: -8.5027, lng: 115.2631, name: 'Ubud Royal Palace', desc: 'Free entry — check for Legong dance performances' }
+        { lat: -8.4312, lng: 115.2793, name: 'Tegallalang Rice Terraces', desc: 'UNESCO subak irrigation — arrive by 8 AM', cat: 'attraction' },
+        { lat: -8.4900, lng: 115.3413, name: 'Tibumana Waterfall', desc: '20m curtain waterfall with swimming hole', cat: 'attraction' },
+        { lat: -8.4833, lng: 115.3340, name: 'Kanto Lampo Waterfall', desc: 'Cascading waterfall over rock formations', cat: 'attraction' },
+        { lat: -8.5069, lng: 115.2624, name: 'Warung Ibu Oka', desc: 'Famous babi guling (suckling pig) — Bourdain approved', cat: 'restaurant' },
+        { lat: -8.5027, lng: 115.2631, name: 'Ubud Royal Palace', desc: 'Free entry — check for Legong dance performances', cat: 'attraction' }
     ]);
 
     // Day 4: Rafting & Monkey Forest
     initMap('map-day4', [
-        { lat: -8.4415, lng: 115.2810, name: 'Ayung River Rafting', desc: '10km Class II–III rapids through jungle gorge' },
-        { lat: -8.5185, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '700+ macaques in lush temple forest — secure your stuff' },
-        { lat: -8.5092, lng: 115.2622, name: 'Hujan Locale', desc: 'Creative Indonesian cuisine in open-air setting' }
+        { lat: -8.4415, lng: 115.2810, name: 'Ayung River Rafting', desc: '10km Class II–III rapids through jungle gorge', cat: 'activity' },
+        { lat: -8.5185, lng: 115.2588, name: 'Sacred Monkey Forest', desc: '700+ macaques in lush temple forest — secure your stuff', cat: 'temple' },
+        { lat: -8.5092, lng: 115.2622, name: 'Hujan Locale', desc: 'Creative Indonesian cuisine in open-air setting', cat: 'attraction' }
     ]);
 
     // Day 5: Mt Batur
     initMap('map-day5', [
-        { lat: -8.2421, lng: 115.3753, name: 'Mt Batur Summit', desc: '1,717m active volcano — 2hr sunrise trek' },
-        { lat: -8.2553, lng: 115.3927, name: 'Toya Devasya Hot Springs', desc: 'Volcanic hot springs on Lake Batur shore' },
-        { lat: -8.2500, lng: 115.3750, name: 'Lake Batur', desc: 'Caldera lake — stunning from the summit' },
-        { lat: -8.7055, lng: 115.2625, name: 'Warung Mak Beng, Sanur', desc: 'Legendary fried fish — Rp 35,000, no menu' }
+        { lat: -8.2421, lng: 115.3753, name: 'Mt Batur Summit', desc: '1,717m active volcano — 2hr sunrise trek', cat: 'activity' },
+        { lat: -8.2553, lng: 115.3927, name: 'Toya Devasya Hot Springs', desc: 'Volcanic hot springs on Lake Batur shore', cat: 'spa' },
+        { lat: -8.2500, lng: 115.3750, name: 'Lake Batur', desc: 'Caldera lake — stunning from the summit', cat: 'attraction' },
+        { lat: -8.7055, lng: 115.2625, name: 'Warung Mak Beng, Sanur', desc: 'Legendary fried fish — Rp 35,000, no menu', cat: 'restaurant' }
     ]);
 
     // Day 6: Nusa Penida
     initMap('map-day6', [
-        { lat: -8.7067, lng: 115.2591, name: 'Sanur Harbor', desc: 'Fast boat departure to Nusa Penida' },
-        { lat: -8.7521, lng: 115.4446, name: 'Kelingking Beach', desc: 'Iconic T-Rex cliff formation — jaw-dropping views' },
-        { lat: -8.7386, lng: 115.4637, name: 'Angel\'s Billabong', desc: 'Natural infinity pool in the cliffs' },
-        { lat: -8.7362, lng: 115.4606, name: 'Broken Beach', desc: 'Natural rock arch over turquoise water' },
-        { lat: -8.7174, lng: 115.4486, name: 'Crystal Bay', desc: 'Best snorkeling beach — possible manta ray sightings' }
+        { lat: -8.7067, lng: 115.2591, name: 'Sanur Harbor', desc: 'Fast boat departure to Nusa Penida', cat: 'transport' },
+        { lat: -8.7521, lng: 115.4446, name: 'Kelingking Beach', desc: 'Iconic T-Rex cliff formation — jaw-dropping views', cat: 'beach' },
+        { lat: -8.7386, lng: 115.4637, name: 'Angel\'s Billabong', desc: 'Natural infinity pool in the cliffs', cat: 'attraction' },
+        { lat: -8.7362, lng: 115.4606, name: 'Broken Beach', desc: 'Natural rock arch over turquoise water', cat: 'beach' },
+        { lat: -8.7174, lng: 115.4486, name: 'Crystal Bay', desc: 'Best snorkeling beach — possible manta ray sightings', cat: 'beach' }
     ]);
 
     // Day 7: Uluwatu & Departure
     initMap('map-day7', [
-        { lat: -8.8136, lng: 115.0953, name: 'Padang Padang Beach', desc: 'Stunning cove through a cave — Eat Pray Love beach' },
-        { lat: -8.8296, lng: 115.0849, name: 'Uluwatu Temple', desc: 'Cliff-edge temple 70m above the ocean — beware monkeys' },
-        { lat: -8.8187, lng: 115.0894, name: 'Suluban Beach (Blue Point)', desc: 'Surfer beach at base of dramatic cliffs' },
-        { lat: -8.7821, lng: 115.1586, name: 'Jimbaran Beach', desc: 'Seafood dinner on the sand — Menega Café' }
+        { lat: -8.8136, lng: 115.0953, name: 'Padang Padang Beach', desc: 'Stunning cove through a cave — Eat Pray Love beach', cat: 'beach' },
+        { lat: -8.8296, lng: 115.0849, name: 'Uluwatu Temple', desc: 'Cliff-edge temple 70m above the ocean — beware monkeys', cat: 'temple' },
+        { lat: -8.8187, lng: 115.0894, name: 'Suluban Beach (Blue Point)', desc: 'Surfer beach at base of dramatic cliffs', cat: 'beach' },
+        { lat: -8.7821, lng: 115.1586, name: 'Jimbaran Beach', desc: 'Seafood dinner on the sand — Menega Café', cat: 'beach' }
     ]);
 })();
 </script>

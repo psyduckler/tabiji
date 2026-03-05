@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-costa-rica-eco/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -995,6 +1007,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1004,11 +1044,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1021,56 +1067,56 @@
 
     // Day 1: San José
     initMap('map-day1', [
-        { lat: 9.9341, lng: -84.0778, name: 'Mercado Central', desc: 'Bustling market since 1880 — casados, coffee, and churros' },
-        { lat: 9.9333, lng: -84.0802, name: 'Museo Nacional', desc: 'National Museum with butterfly garden — free for kids under 12' },
-        { lat: 9.9385, lng: -84.0691, name: 'Museo de los Niños', desc: 'Children\'s museum in a former fortress' },
-        { lat: 9.9281, lng: -84.1392, name: 'Escazú', desc: 'Upscale suburb with great restaurants' }
+        { lat: 9.9341, lng: -84.0778, name: 'Mercado Central', desc: 'Bustling market since 1880 — casados, coffee, and churros', cat: 'restaurant' },
+        { lat: 9.9333, lng: -84.0802, name: 'Museo Nacional', desc: 'National Museum with butterfly garden — free for kids under 12', cat: 'attraction' },
+        { lat: 9.9385, lng: -84.0691, name: 'Museo de los Niños', desc: 'Children\'s museum in a former fortress', cat: 'attraction' },
+        { lat: 9.9281, lng: -84.1392, name: 'Escazú', desc: 'Upscale suburb with great restaurants', cat: 'restaurant' }
     ]);
 
     // Day 2: La Fortuna Waterfall & Hot Springs
     initMap('map-day2', [
-        { lat: 10.4461, lng: -84.6571, name: 'La Fortuna Town', desc: 'Base for Arenal volcano exploration' },
-        { lat: 10.4433, lng: -84.6622, name: 'Catarata La Fortuna', desc: '70m waterfall with swimming hole — 500 steps down' },
-        { lat: 10.4717, lng: -84.7242, name: 'Tabacón Hot Springs', desc: 'Natural volcanic hot springs in tropical gardens' },
-        { lat: 10.4720, lng: -84.7250, name: 'Free River Hot Springs', desc: 'Public thermal river across from Tabacón — free' }
+        { lat: 10.4461, lng: -84.6571, name: 'La Fortuna Town', desc: 'Base for Arenal volcano exploration', cat: 'activity' },
+        { lat: 10.4433, lng: -84.6622, name: 'Catarata La Fortuna', desc: '70m waterfall with swimming hole — 500 steps down', cat: 'attraction' },
+        { lat: 10.4717, lng: -84.7242, name: 'Tabacón Hot Springs', desc: 'Natural volcanic hot springs in tropical gardens', cat: 'spa' },
+        { lat: 10.4720, lng: -84.7250, name: 'Free River Hot Springs', desc: 'Public thermal river across from Tabacón — free', cat: 'spa' }
     ]);
 
     // Day 3: Hanging Bridges & Zip-lining
     initMap('map-day3', [
-        { lat: 10.4878, lng: -84.7282, name: 'Mistico Hanging Bridges', desc: '3.1km trail with 15 bridges through rainforest canopy' },
-        { lat: 10.4750, lng: -84.7133, name: 'Sky Adventures Sky Trek', desc: '7 zip-lines spanning volcanic canyons — 750m longest' },
-        { lat: 10.4676, lng: -84.6428, name: 'Soda Viquez', desc: 'Classic soda — huge casados for ₡4,000' },
-        { lat: 10.4683, lng: -84.6435, name: 'Don Rufino', desc: 'Upscale dining — steaks and cocktails' }
+        { lat: 10.4878, lng: -84.7282, name: 'Mistico Hanging Bridges', desc: '3.1km trail with 15 bridges through rainforest canopy', cat: 'activity' },
+        { lat: 10.4750, lng: -84.7133, name: 'Sky Adventures Sky Trek', desc: '7 zip-lines spanning volcanic canyons — 750m longest', cat: 'spa' },
+        { lat: 10.4676, lng: -84.6428, name: 'Soda Viquez', desc: 'Classic soda — huge casados for ₡4,000', cat: 'attraction' },
+        { lat: 10.4683, lng: -84.6435, name: 'Don Rufino', desc: 'Upscale dining — steaks and cocktails', cat: 'nightlife' }
     ]);
 
     // Day 4: Arenal Volcano + Drive
     initMap('map-day4', [
-        { lat: 10.4626, lng: -84.7033, name: 'Arenal Volcano National Park', desc: 'Lava flow trails with volcano views — arrive early' },
-        { lat: 9.6150, lng: -84.6070, name: 'Jacó', desc: 'Beach town lunch stop — El Hicaco for seafood' },
-        { lat: 9.3925, lng: -84.1418, name: 'Manuel Antonio', desc: 'Pacific coast wildlife and beach paradise' },
-        { lat: 9.4099, lng: -84.1605, name: 'El Avión', desc: 'Restaurant in a 1954 cargo plane — ocean views' }
+        { lat: 10.4626, lng: -84.7033, name: 'Arenal Volcano National Park', desc: 'Lava flow trails with volcano views — arrive early', cat: 'activity' },
+        { lat: 9.6150, lng: -84.6070, name: 'Jacó', desc: 'Beach town lunch stop — El Hicaco for seafood', cat: 'beach' },
+        { lat: 9.3925, lng: -84.1418, name: 'Manuel Antonio', desc: 'Pacific coast wildlife and beach paradise', cat: 'beach' },
+        { lat: 9.4099, lng: -84.1605, name: 'El Avión', desc: 'Restaurant in a 1954 cargo plane — ocean views', cat: 'restaurant' }
     ]);
 
     // Day 5: Manuel Antonio National Park
     initMap('map-day5', [
-        { lat: 9.3920, lng: -84.1365, name: 'Manuel Antonio National Park', desc: 'Wildlife paradise — monkeys, sloths, beaches' },
-        { lat: 9.3895, lng: -84.1400, name: 'Playa Manuel Antonio', desc: 'White sand cove — calm water, monkeys in trees' },
-        { lat: 9.3940, lng: -84.1385, name: 'Playa Espadilla Sur', desc: 'Longer beach, less crowded' },
-        { lat: 9.4300, lng: -84.1620, name: 'Quepos', desc: 'Working town with restaurants and services' }
+        { lat: 9.3920, lng: -84.1365, name: 'Manuel Antonio National Park', desc: 'Wildlife paradise — monkeys, sloths, beaches', cat: 'beach' },
+        { lat: 9.3895, lng: -84.1400, name: 'Playa Manuel Antonio', desc: 'White sand cove — calm water, monkeys in trees', cat: 'beach' },
+        { lat: 9.3940, lng: -84.1385, name: 'Playa Espadilla Sur', desc: 'Longer beach, less crowded', cat: 'beach' },
+        { lat: 9.4300, lng: -84.1620, name: 'Quepos', desc: 'Working town with restaurants and services', cat: 'restaurant' }
     ]);
 
     // Day 6: Beaches & Catamaran
     initMap('map-day6', [
-        { lat: 9.3987, lng: -84.1517, name: 'Playa Biesanz', desc: 'Hidden cove — best snorkeling near Manuel Antonio' },
-        { lat: 9.4311, lng: -84.1647, name: 'Quepos Marina', desc: 'Departure point for catamaran cruises' },
-        { lat: 9.4130, lng: -84.1592, name: 'Café Milagro', desc: 'Excellent coffee and light lunch' }
+        { lat: 9.3987, lng: -84.1517, name: 'Playa Biesanz', desc: 'Hidden cove — best snorkeling near Manuel Antonio', cat: 'beach' },
+        { lat: 9.4311, lng: -84.1647, name: 'Quepos Marina', desc: 'Departure point for catamaran cruises', cat: 'transport' },
+        { lat: 9.4130, lng: -84.1592, name: 'Café Milagro', desc: 'Excellent coffee and light lunch', cat: 'restaurant' }
     ]);
 
     // Day 7: Morning Wildlife & Departure
     initMap('map-day7', [
-        { lat: 9.4643, lng: -84.1958, name: 'Rainmaker Conservation', desc: 'Private reserve — hanging bridges, waterfalls, birds' },
-        { lat: 9.3980, lng: -84.1430, name: 'Playa Espadilla', desc: 'Sunrise walk — scarlet macaws in almond trees' },
-        { lat: 9.9989, lng: -84.2088, name: 'SJO Airport', desc: '3–3.5 hours from Manuel Antonio via Route 27' }
+        { lat: 9.4643, lng: -84.1958, name: 'Rainmaker Conservation', desc: 'Private reserve — hanging bridges, waterfalls, birds', cat: 'attraction' },
+        { lat: 9.3980, lng: -84.1430, name: 'Playa Espadilla', desc: 'Sunrise walk — scarlet macaws in almond trees', cat: 'beach' },
+        { lat: 9.9989, lng: -84.2088, name: 'SJO Airport', desc: '3–3.5 hours from Manuel Antonio via Route 27', cat: 'transport' }
     ]);
 })();
 </script>

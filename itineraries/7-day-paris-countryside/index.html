@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-paris-countryside/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -963,6 +975,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -972,11 +1012,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -988,51 +1034,51 @@
     }
 
     initMap('map-day1', [
-        { lat: 48.8584, lng: 2.2945, name: 'Eiffel Tower', desc: 'Book summit tickets online — €26.80/adult' },
-        { lat: 48.8627, lng: 2.2876, name: 'Trocadéro', desc: 'Best Eiffel Tower photo spot' },
-        { lat: 48.8555, lng: 2.3005, name: 'Champ de Mars', desc: 'Playground & carousel at south end' },
-        { lat: 48.8570, lng: 2.3049, name: 'Rue Cler', desc: 'Charming market street — Café du Marché' }
+        { lat: 48.8584, lng: 2.2945, name: 'Eiffel Tower', desc: 'Book summit tickets online — €26.80/adult', cat: 'attraction' },
+        { lat: 48.8627, lng: 2.2876, name: 'Trocadéro', desc: 'Best Eiffel Tower photo spot', cat: 'restaurant' },
+        { lat: 48.8555, lng: 2.3005, name: 'Champ de Mars', desc: 'Playground & carousel at south end', cat: 'attraction' },
+        { lat: 48.8570, lng: 2.3049, name: 'Rue Cler', desc: 'Charming market street — Café du Marché', cat: 'restaurant' }
     ]);
 
     initMap('map-day2', [
-        { lat: 48.8606, lng: 2.3376, name: 'The Louvre', desc: 'Free under 18 — focus on 2-hour highlights route' },
-        { lat: 48.8634, lng: 2.3275, name: 'Jardin des Tuileries', desc: 'Toy sailboats, trampolines & playground' },
-        { lat: 48.8530, lng: 2.3499, name: 'Notre-Dame Cathedral', desc: 'Reopened Dec 2024 — check current hours' },
-        { lat: 48.8513, lng: 2.3571, name: 'Berthillon', desc: 'Best ice cream in Paris — salted caramel!' },
-        { lat: 48.8641, lng: 2.3050, name: 'Bateaux Mouches', desc: 'Seine cruise — €15/adult, €7/child' }
+        { lat: 48.8606, lng: 2.3376, name: 'The Louvre', desc: 'Free under 18 — focus on 2-hour highlights route', cat: 'attraction' },
+        { lat: 48.8634, lng: 2.3275, name: 'Jardin des Tuileries', desc: 'Toy sailboats, trampolines & playground', cat: 'attraction' },
+        { lat: 48.8530, lng: 2.3499, name: 'Notre-Dame Cathedral', desc: 'Reopened Dec 2024 — check current hours', cat: 'temple' },
+        { lat: 48.8513, lng: 2.3571, name: 'Berthillon', desc: 'Best ice cream in Paris — salted caramel!', cat: 'attraction' },
+        { lat: 48.8641, lng: 2.3050, name: 'Bateaux Mouches', desc: 'Seine cruise — €15/adult, €7/child', cat: 'activity' }
     ]);
 
     initMap('map-day3', [
-        { lat: 48.8867, lng: 2.3431, name: 'Sacré-Cœur Basilica', desc: 'Free entry — panoramic views from the steps' },
-        { lat: 48.8865, lng: 2.3408, name: 'Place du Tertre', desc: 'Portrait artists — caricature €20–40' },
-        { lat: 48.8853, lng: 2.3389, name: 'Le Mur des Je T\'Aime', desc: '"I love you" in 250 languages' },
-        { lat: 48.8566, lng: 2.3590, name: 'Place des Vosges', desc: 'Paris\'s oldest square — great for kids' },
-        { lat: 48.8573, lng: 2.3549, name: 'L\'As du Fallafel', desc: 'Best falafel in Europe — €8–10' },
-        { lat: 48.8716, lng: 2.3650, name: 'Canal Saint-Martin', desc: 'Chez Prune & Pink Flamingo pizza' }
+        { lat: 48.8867, lng: 2.3431, name: 'Sacré-Cœur Basilica', desc: 'Free entry — panoramic views from the steps', cat: 'temple' },
+        { lat: 48.8865, lng: 2.3408, name: 'Place du Tertre', desc: 'Portrait artists — caricature €20–40', cat: 'attraction' },
+        { lat: 48.8853, lng: 2.3389, name: 'Le Mur des Je T\'Aime', desc: '"I love you" in 250 languages', cat: 'attraction' },
+        { lat: 48.8566, lng: 2.3590, name: 'Place des Vosges', desc: 'Paris\'s oldest square — great for kids', cat: 'attraction' },
+        { lat: 48.8573, lng: 2.3549, name: 'L\'As du Fallafel', desc: 'Best falafel in Europe — €8–10', cat: 'attraction' },
+        { lat: 48.8716, lng: 2.3650, name: 'Canal Saint-Martin', desc: 'Chez Prune & Pink Flamingo pizza', cat: 'restaurant' }
     ]);
 
     initMap('map-day4', [
-        { lat: 48.8049, lng: 2.1204, name: 'Palace of Versailles', desc: 'Hall of Mirrors — €21.50/adult, free under 18' },
-        { lat: 48.8072, lng: 2.1142, name: 'Gardens of Versailles', desc: 'Rowboats €9/30min, golf carts €34/hr' },
-        { lat: 48.8132, lng: 2.1046, name: 'Marie-Antoinette\'s Estate', desc: 'Petit Trianon & hamlet village' }
+        { lat: 48.8049, lng: 2.1204, name: 'Palace of Versailles', desc: 'Hall of Mirrors — €21.50/adult, free under 18', cat: 'attraction' },
+        { lat: 48.8072, lng: 2.1142, name: 'Gardens of Versailles', desc: 'Rowboats €9/30min, golf carts €34/hr', cat: 'attraction' },
+        { lat: 48.8132, lng: 2.1046, name: 'Marie-Antoinette\'s Estate', desc: 'Petit Trianon & hamlet village', cat: 'hotel' }
     ]);
 
     initMap('map-day5', [
-        { lat: 47.6161, lng: 1.5170, name: 'Château de Chambord', desc: '440 rooms — double-helix staircase by da Vinci' },
-        { lat: 47.3247, lng: 1.0704, name: 'Château de Chenonceau', desc: 'Spanning the River Cher — hedge maze & gardens' },
-        { lat: 47.4133, lng: 0.9818, name: 'Amboise', desc: 'Charming Loire base town — riverside dining' }
+        { lat: 47.6161, lng: 1.5170, name: 'Château de Chambord', desc: '440 rooms — double-helix staircase by da Vinci', cat: 'attraction' },
+        { lat: 47.3247, lng: 1.0704, name: 'Château de Chenonceau', desc: 'Spanning the River Cher — hedge maze & gardens', cat: 'spa' },
+        { lat: 47.4133, lng: 0.9818, name: 'Amboise', desc: 'Charming Loire base town — riverside dining', cat: 'restaurant' }
     ]);
 
     initMap('map-day6', [
-        { lat: 47.4102, lng: 0.9906, name: 'Château du Clos Lucé', desc: 'Leonardo da Vinci\'s final home — 40 working invention models' },
-        { lat: 47.4133, lng: 0.9853, name: 'Château Royal d\'Amboise', desc: 'Panoramic views — Leonardo\'s burial site' },
-        { lat: 47.4781, lng: 1.1827, name: 'Château de Chaumont', desc: 'International Garden Festival — 30 creative installations' }
+        { lat: 47.4102, lng: 0.9906, name: 'Château du Clos Lucé', desc: 'Leonardo da Vinci\'s final home — 40 working invention models', cat: 'attraction' },
+        { lat: 47.4133, lng: 0.9853, name: 'Château Royal d\'Amboise', desc: 'Panoramic views — Leonardo\'s burial site', cat: 'attraction' },
+        { lat: 47.4781, lng: 1.1827, name: 'Château de Chaumont', desc: 'International Garden Festival — 30 creative installations', cat: 'attraction' }
     ]);
 
     initMap('map-day7', [
-        { lat: 47.3402, lng: 0.5132, name: 'Château de Villandry', desc: 'Spectacular Renaissance gardens — potager & water garden' },
-        { lat: 47.3900, lng: 0.6900, name: 'Tours — Place Plumereau', desc: 'Medieval square — Les Halles market' },
-        { lat: 48.3629, lng: 1.4873, name: 'Chartres Cathedral', desc: 'Optional stop — Gothic masterpiece (free entry)' }
+        { lat: 47.3402, lng: 0.5132, name: 'Château de Villandry', desc: 'Spectacular Renaissance gardens — potager & water garden', cat: 'hotel' },
+        { lat: 47.3900, lng: 0.6900, name: 'Tours — Place Plumereau', desc: 'Medieval square — Les Halles market', cat: 'activity' },
+        { lat: 48.3629, lng: 1.4873, name: 'Chartres Cathedral', desc: 'Optional stop — Gothic masterpiece (free entry)', cat: 'temple' }
     ]);
 })();
 </script>

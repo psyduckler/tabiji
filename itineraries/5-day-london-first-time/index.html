@@ -45,7 +45,22 @@
         .logo span { color: var(--terracotta); }
         nav a.cta-nav { background: var(--terracotta); color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; }
         nav a.cta-nav:hover { background: #b5633f; }
-        .hero { padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; }
+        /* HERO */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/5-day-london-first-time/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: var(--sand); color: var(--earth); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
         .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800; color: var(--indigo); margin-bottom: 1rem; letter-spacing: -0.03em; }
         .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -121,7 +136,7 @@
         .final-cta a.cta-btn:hover { transform: translateY(-2px); }
         .final-cta .sub { margin-top: 0.75rem; font-size: 0.85rem; color: rgba(245, 240, 232, 0.6); }
         footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
-        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 3.5rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
+        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 2rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
         @media (max-width: 768px) { .nav-links { display: flex; gap: 1.5rem; align-items: center; } .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; } .nav-links.open { display: flex; } nav a.cta-nav { text-align: center; } }
@@ -593,6 +608,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -602,11 +645,18 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
-            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;"><strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() { infoWindow.setContent(content); infoWindow.open(map, marker); });
         });
         if (pins.length > 1) map.fitBounds(bounds, 40);
@@ -614,44 +664,44 @@
     }
 
     initMap('map-day1', [
-        { lat: 51.5007, lng: -0.1246, name: 'Big Ben & Houses of Parliament', desc: 'Iconic clock tower — best photo from Westminster Bridge' },
-        { lat: 51.4993, lng: -0.1273, name: 'Westminster Abbey', desc: '£27 — 1,000 years of coronations' },
-        { lat: 51.5014, lng: -0.1419, name: 'Buckingham Palace', desc: 'Changing of the Guard — Mon/Wed/Fri/Sun 11 AM' },
-        { lat: 51.5033, lng: -0.1195, name: 'London Eye', desc: '£36 — skip it, Tate Modern view is free' },
-        { lat: 51.5076, lng: -0.0994, name: 'Tate Modern', desc: 'Free — Level 10 viewing gallery has the best panorama' }
+        { lat: 51.5007, lng: -0.1246, name: 'Big Ben & Houses of Parliament', desc: 'Iconic clock tower — best photo from Westminster Bridge', cat: 'restaurant' },
+        { lat: 51.4993, lng: -0.1273, name: 'Westminster Abbey', desc: '£27 — 1,000 years of coronations', cat: 'attraction' },
+        { lat: 51.5014, lng: -0.1419, name: 'Buckingham Palace', desc: 'Changing of the Guard — Mon/Wed/Fri/Sun 11 AM', cat: 'attraction' },
+        { lat: 51.5033, lng: -0.1195, name: 'London Eye', desc: '£36 — skip it, Tate Modern view is free', cat: 'attraction' },
+        { lat: 51.5076, lng: -0.0994, name: 'Tate Modern', desc: 'Free — Level 10 viewing gallery has the best panorama', cat: 'attraction' }
     ]);
 
     initMap('map-day2', [
-        { lat: 51.5194, lng: -0.1270, name: 'British Museum', desc: 'Free — Rosetta Stone, Egyptian mummies, Parthenon Marbles' },
-        { lat: 51.5117, lng: -0.1240, name: 'Covent Garden', desc: 'Street performers, markets & Flat Iron steak (£12)' },
-        { lat: 51.5133, lng: -0.1312, name: 'Neal\'s Yard', desc: 'Hidden rainbow courtyard — photo spot' },
-        { lat: 51.5107, lng: -0.1304, name: 'Soho & Chinatown', desc: 'Berwick Street Market, restaurants & nightlife' },
-        { lat: 51.5098, lng: -0.1263, name: 'Leicester Square / TKTS', desc: 'Half-price same-day West End tickets' },
-        { lat: 51.5077, lng: -0.1231, name: 'Gordon\'s Wine Bar', desc: 'London\'s oldest wine bar — candlelit cave, £6–9/glass' }
+        { lat: 51.5194, lng: -0.1270, name: 'British Museum', desc: 'Free — Rosetta Stone, Egyptian mummies, Parthenon Marbles', cat: 'attraction' },
+        { lat: 51.5117, lng: -0.1240, name: 'Covent Garden', desc: 'Street performers, markets & Flat Iron steak (£12)', cat: 'attraction' },
+        { lat: 51.5133, lng: -0.1312, name: 'Neal\'s Yard', desc: 'Hidden rainbow courtyard — photo spot', cat: 'restaurant' },
+        { lat: 51.5107, lng: -0.1304, name: 'Soho & Chinatown', desc: 'Berwick Street Market, restaurants & nightlife', cat: 'nightlife' },
+        { lat: 51.5098, lng: -0.1263, name: 'Leicester Square / TKTS', desc: 'Half-price same-day West End tickets', cat: 'attraction' },
+        { lat: 51.5077, lng: -0.1231, name: 'Gordon\'s Wine Bar', desc: 'London\'s oldest wine bar — candlelit cave, £6–9/glass', cat: 'nightlife' }
     ]);
 
     initMap('map-day3', [
-        { lat: 51.5081, lng: -0.0759, name: 'Tower of London', desc: '£33.60 — Crown Jewels & Beefeater tours' },
-        { lat: 51.5055, lng: -0.0754, name: 'Tower Bridge', desc: 'Free to cross — Glass Floor £12.30' },
-        { lat: 51.5055, lng: -0.0910, name: 'Borough Market', desc: '1,000-year-old food market — Kappacasein raclette, Bread Ahead' },
-        { lat: 51.5243, lng: -0.0792, name: 'Brick Lane', desc: 'Street art, curry houses & vintage shops' },
-        { lat: 51.5234, lng: -0.0777, name: 'Boxpark Shoreditch', desc: 'Shipping container food court — Baba G\'s burgers' }
+        { lat: 51.5081, lng: -0.0759, name: 'Tower of London', desc: '£33.60 — Crown Jewels & Beefeater tours', cat: 'activity' },
+        { lat: 51.5055, lng: -0.0754, name: 'Tower Bridge', desc: 'Free to cross — Glass Floor £12.30', cat: 'attraction' },
+        { lat: 51.5055, lng: -0.0910, name: 'Borough Market', desc: '1,000-year-old food market — Kappacasein raclette, Bread Ahead', cat: 'restaurant' },
+        { lat: 51.5243, lng: -0.0792, name: 'Brick Lane', desc: 'Street art, curry houses & vintage shops', cat: 'shopping' },
+        { lat: 51.5234, lng: -0.0777, name: 'Boxpark Shoreditch', desc: 'Shipping container food court — Baba G\'s burgers', cat: 'restaurant' }
     ]);
 
     initMap('map-day4', [
-        { lat: 51.5392, lng: -0.1426, name: 'Camden Market', desc: 'Food stalls, vintage & alternative culture' },
-        { lat: 51.5313, lng: -0.1570, name: 'Regent\'s Park', desc: '410 acres — boating lake & Open Air Theatre' },
-        { lat: 51.5390, lng: -0.1616, name: 'Primrose Hill', desc: 'Free panoramic London views — perfect picnic spot' },
-        { lat: 51.5115, lng: -0.1985, name: 'Portobello Road', desc: 'Antiques & vintage market — best on Saturdays' },
-        { lat: 51.5074, lng: -0.1920, name: 'The Churchill Arms', desc: 'Flower-covered pub — excellent Thai food £10–13' }
+        { lat: 51.5392, lng: -0.1426, name: 'Camden Market', desc: 'Food stalls, vintage & alternative culture', cat: 'shopping' },
+        { lat: 51.5313, lng: -0.1570, name: 'Regent\'s Park', desc: '410 acres — boating lake & Open Air Theatre', cat: 'attraction' },
+        { lat: 51.5390, lng: -0.1616, name: 'Primrose Hill', desc: 'Free panoramic London views — perfect picnic spot', cat: 'attraction' },
+        { lat: 51.5115, lng: -0.1985, name: 'Portobello Road', desc: 'Antiques & vintage market — best on Saturdays', cat: 'shopping' },
+        { lat: 51.5074, lng: -0.1920, name: 'The Churchill Arms', desc: 'Flower-covered pub — excellent Thai food £10–13', cat: 'temple' }
     ]);
 
     initMap('map-day5', [
-        { lat: 51.1789, lng: -1.8262, name: 'Stonehenge', desc: '5,000-year-old stone circle — £22, book ahead' },
-        { lat: 51.3811, lng: -2.3590, name: 'Roman Baths, Bath', desc: '2,000-year-old bathing complex — £18' },
-        { lat: 51.3885, lng: -2.3684, name: 'Royal Crescent', desc: 'Iconic Georgian architecture — free exterior views' },
-        { lat: 51.3833, lng: -2.3541, name: 'Pulteney Bridge', desc: 'Shops on both sides — like a mini Ponte Vecchio' },
-        { lat: 51.3815, lng: -2.3590, name: 'Sally Lunn\'s', desc: 'Oldest house in Bath — famous Bath Bun £4.50' }
+        { lat: 51.1789, lng: -1.8262, name: 'Stonehenge', desc: '5,000-year-old stone circle — £22, book ahead', cat: 'attraction' },
+        { lat: 51.3811, lng: -2.3590, name: 'Roman Baths, Bath', desc: '2,000-year-old bathing complex — £18', cat: 'attraction' },
+        { lat: 51.3885, lng: -2.3684, name: 'Royal Crescent', desc: 'Iconic Georgian architecture — free exterior views', cat: 'attraction' },
+        { lat: 51.3833, lng: -2.3541, name: 'Pulteney Bridge', desc: 'Shops on both sides — like a mini Ponte Vecchio', cat: 'attraction' },
+        { lat: 51.3815, lng: -2.3590, name: 'Sally Lunn\'s', desc: 'Oldest house in Bath — famous Bath Bun £4.50', cat: 'attraction' }
     ]);
 })();
 </script>

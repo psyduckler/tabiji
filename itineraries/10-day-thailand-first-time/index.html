@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-thailand-first-time/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1066,6 +1078,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1075,11 +1115,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1092,76 +1138,76 @@
 
     // Day 1: Grand Palace, Wat Pho, Wat Arun, Khao San
     initMap('map-day1', [
-        { lat: 13.7510, lng: 100.4927, name: 'Grand Palace', desc: 'Thailand\'s most sacred site — ฿500, dress code enforced' },
-        { lat: 13.7463, lng: 100.4930, name: 'Wat Pho', desc: '46m Reclining Buddha + traditional Thai massage school' },
-        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: 'Temple of Dawn — ฿100, climb for river views' },
-        { lat: 13.7588, lng: 100.4974, name: 'Khao San Road', desc: 'Backpacker hub — street food, ฿100 pad thai, fruit shakes' }
+        { lat: 13.7510, lng: 100.4927, name: 'Grand Palace', desc: 'Thailand\'s most sacred site — ฿500, dress code enforced', cat: 'temple' },
+        { lat: 13.7463, lng: 100.4930, name: 'Wat Pho', desc: '46m Reclining Buddha + traditional Thai massage school', cat: 'spa' },
+        { lat: 13.7437, lng: 100.4888, name: 'Wat Arun', desc: 'Temple of Dawn — ฿100, climb for river views', cat: 'activity' },
+        { lat: 13.7588, lng: 100.4974, name: 'Khao San Road', desc: 'Backpacker hub — street food, ฿100 pad thai, fruit shakes', cat: 'nightlife' }
     ]);
 
     // Day 2: Chinatown, Flower Market, Rooftop
     initMap('map-day2', [
-        { lat: 13.7404, lng: 100.5091, name: 'Pak Khlong Talat', desc: 'Bangkok\'s biggest flower market — best in early morning' },
-        { lat: 13.7389, lng: 100.5100, name: 'Yaowarat (Chinatown)', desc: 'Best street food street in the world' },
-        { lat: 13.7369, lng: 100.5134, name: 'Wat Traimit', desc: 'World\'s largest solid gold Buddha — 5.5 tons' },
-        { lat: 13.7210, lng: 100.5140, name: 'Sky Bar at Lebua', desc: 'Iconic rooftop bar from The Hangover II' }
+        { lat: 13.7404, lng: 100.5091, name: 'Pak Khlong Talat', desc: 'Bangkok\'s biggest flower market — best in early morning', cat: 'attraction' },
+        { lat: 13.7389, lng: 100.5100, name: 'Yaowarat (Chinatown)', desc: 'Best street food street in the world', cat: 'restaurant' },
+        { lat: 13.7369, lng: 100.5134, name: 'Wat Traimit', desc: 'World\'s largest solid gold Buddha — 5.5 tons', cat: 'temple' },
+        { lat: 13.7210, lng: 100.5140, name: 'Sky Bar at Lebua', desc: 'Iconic rooftop bar from The Hangover II', cat: 'nightlife' }
     ]);
 
     // Day 3: Chatuchak, Jim Thompson, Siam
     initMap('map-day3', [
-        { lat: 13.7999, lng: 100.5504, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — world\'s largest outdoor market' },
-        { lat: 13.7488, lng: 100.5275, name: 'Jim Thompson House', desc: 'Teak wood museum — ฿200, guided tours in English' },
-        { lat: 13.7461, lng: 100.5347, name: 'Siam Paragon / MBK', desc: 'Shopping district with incredible food courts (฿40–80 meals)' },
-        { lat: 13.7376, lng: 100.5603, name: 'Terminal 21', desc: 'Themed shopping mall — best food court in Bangkok' }
+        { lat: 13.7999, lng: 100.5504, name: 'Chatuchak Weekend Market', desc: '15,000+ stalls — world\'s largest outdoor market', cat: 'shopping' },
+        { lat: 13.7488, lng: 100.5275, name: 'Jim Thompson House', desc: 'Teak wood museum — ฿200, guided tours in English', cat: 'activity' },
+        { lat: 13.7461, lng: 100.5347, name: 'Siam Paragon / MBK', desc: 'Shopping district with incredible food courts (฿40–80 meals)', cat: 'shopping' },
+        { lat: 13.7376, lng: 100.5603, name: 'Terminal 21', desc: 'Themed shopping mall — best food court in Bangkok', cat: 'shopping' }
     ]);
 
     // Day 4: Chiang Mai arrival
     initMap('map-day4', [
-        { lat: 18.7883, lng: 98.9853, name: 'Wat Chedi Luang', desc: '14th-century pagoda — Monk Chat program available' },
-        { lat: 18.7888, lng: 98.9817, name: 'Wat Phra Singh', desc: 'Chiang Mai\'s most revered temple — classic Lanna style' },
-        { lat: 18.7942, lng: 98.9790, name: 'Wat Chiang Man', desc: 'Oldest temple in Chiang Mai — 1296 AD' },
-        { lat: 18.7394, lng: 98.9847, name: 'Night Bazaar', desc: 'Daily night market — crafts, textiles, and khao soi' }
+        { lat: 18.7883, lng: 98.9853, name: 'Wat Chedi Luang', desc: '14th-century pagoda — Monk Chat program available', cat: 'temple' },
+        { lat: 18.7888, lng: 98.9817, name: 'Wat Phra Singh', desc: 'Chiang Mai\'s most revered temple — classic Lanna style', cat: 'temple' },
+        { lat: 18.7942, lng: 98.9790, name: 'Wat Chiang Man', desc: 'Oldest temple in Chiang Mai — 1296 AD', cat: 'temple' },
+        { lat: 18.7394, lng: 98.9847, name: 'Night Bazaar', desc: 'Daily night market — crafts, textiles, and khao soi', cat: 'nightlife' }
     ]);
 
     // Day 5: Doi Suthep, Wat Umong, Nimman
     initMap('map-day5', [
-        { lat: 18.8049, lng: 98.9218, name: 'Wat Phra That Doi Suthep', desc: 'Mountain temple — 306 steps, panoramic views' },
-        { lat: 18.7788, lng: 98.9623, name: 'Wat Umong', desc: 'Forest temple with ancient tunnels — peaceful' },
-        { lat: 18.7969, lng: 98.9675, name: 'Nimmanhaemin Road', desc: 'Trendy cafes, boutiques, and Ristr8to coffee' }
+        { lat: 18.8049, lng: 98.9218, name: 'Wat Phra That Doi Suthep', desc: 'Mountain temple — 306 steps, panoramic views', cat: 'temple' },
+        { lat: 18.7788, lng: 98.9623, name: 'Wat Umong', desc: 'Forest temple with ancient tunnels — peaceful', cat: 'temple' },
+        { lat: 18.7969, lng: 98.9675, name: 'Nimmanhaemin Road', desc: 'Trendy cafes, boutiques, and Ristr8to coffee', cat: 'shopping' }
     ]);
 
     // Day 6: Elephant Sanctuary & Cooking Class
     initMap('map-day6', [
-        { lat: 18.8833, lng: 98.8700, name: 'Elephant Nature Park', desc: 'Gold standard ethical elephant sanctuary' },
-        { lat: 18.8050, lng: 98.9800, name: 'Thai Farm Cooking School', desc: 'Cooking class with market tour — ฿1,000–1,500' }
+        { lat: 18.8833, lng: 98.8700, name: 'Elephant Nature Park', desc: 'Gold standard ethical elephant sanctuary', cat: 'attraction' },
+        { lat: 18.8050, lng: 98.9800, name: 'Thai Farm Cooking School', desc: 'Cooking class with market tour — ฿1,000–1,500', cat: 'activity' }
     ]);
 
     // Day 7: Krabi & Railay
     initMap('map-day7', [
-        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang Beach', desc: 'Your base for southern islands — restaurants, nightlife' },
-        { lat: 8.0104, lng: 98.8383, name: 'Railay Beach', desc: 'Accessible only by boat — stunning limestone karsts' },
-        { lat: 8.0065, lng: 98.8345, name: 'Phra Nang Cave Beach', desc: 'One of the world\'s most beautiful beaches' }
+        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang Beach', desc: 'Your base for southern islands — restaurants, nightlife', cat: 'beach' },
+        { lat: 8.0104, lng: 98.8383, name: 'Railay Beach', desc: 'Accessible only by boat — stunning limestone karsts', cat: 'beach' },
+        { lat: 8.0065, lng: 98.8345, name: 'Phra Nang Cave Beach', desc: 'One of the world\'s most beautiful beaches', cat: 'beach' }
     ]);
 
     // Day 8: Phi Phi Islands
     initMap('map-day8', [
-        { lat: 7.6806, lng: 98.7648, name: 'Maya Bay', desc: 'Famous "The Beach" location — reopened with visitor caps' },
-        { lat: 7.6844, lng: 98.7543, name: 'Pileh Lagoon', desc: 'Emerald-green lagoon — swimming and kayaking highlight' },
-        { lat: 7.7350, lng: 98.7681, name: 'Bamboo Island', desc: 'Pristine white sand and excellent snorkeling' },
-        { lat: 7.7394, lng: 98.7699, name: 'Monkey Beach', desc: 'Wild monkeys — keep distance, don\'t feed them' }
+        { lat: 7.6806, lng: 98.7648, name: 'Maya Bay', desc: 'Famous "The Beach" location — reopened with visitor caps', cat: 'beach' },
+        { lat: 7.6844, lng: 98.7543, name: 'Pileh Lagoon', desc: 'Emerald-green lagoon — swimming and kayaking highlight', cat: 'activity' },
+        { lat: 7.7350, lng: 98.7681, name: 'Bamboo Island', desc: 'Pristine white sand and excellent snorkeling', cat: 'activity' },
+        { lat: 7.7394, lng: 98.7699, name: 'Monkey Beach', desc: 'Wild monkeys — keep distance, don\'t feed them', cat: 'beach' }
     ]);
 
     // Day 9: 4 Islands
     initMap('map-day9', [
-        { lat: 7.9492, lng: 98.8249, name: 'Tup Island', desc: 'Connected to Chicken Island by sandbar at low tide' },
-        { lat: 7.9336, lng: 98.8125, name: 'Chicken Island (Koh Kai)', desc: 'Named for chicken-head rock formation' },
-        { lat: 7.9555, lng: 98.8055, name: 'Poda Island', desc: 'Excellent snorkeling and long white beach' },
-        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang', desc: 'Night market and massage — ฿300 for 1 hour' }
+        { lat: 7.9492, lng: 98.8249, name: 'Tup Island', desc: 'Connected to Chicken Island by sandbar at low tide', cat: 'attraction' },
+        { lat: 7.9336, lng: 98.8125, name: 'Chicken Island (Koh Kai)', desc: 'Named for chicken-head rock formation', cat: 'attraction' },
+        { lat: 7.9555, lng: 98.8055, name: 'Poda Island', desc: 'Excellent snorkeling and long white beach', cat: 'beach' },
+        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang', desc: 'Night market and massage — ฿300 for 1 hour', cat: 'spa' }
     ]);
 
     // Day 10: Departure
     initMap('map-day10', [
-        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang', desc: 'Final morning swim and breakfast' },
-        { lat: 8.1012, lng: 98.9862, name: 'Krabi Airport (KBV)', desc: 'Shared shuttle from Ao Nang — ฿150, 30 min' }
+        { lat: 8.0370, lng: 98.8315, name: 'Ao Nang', desc: 'Final morning swim and breakfast', cat: 'attraction' },
+        { lat: 8.1012, lng: 98.9862, name: 'Krabi Airport (KBV)', desc: 'Shared shuttle from Ao Nang — ฿150, 30 min', cat: 'transport' }
     ]);
 })();
 </script>

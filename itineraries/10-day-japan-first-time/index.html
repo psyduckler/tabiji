@@ -69,9 +69,20 @@
 
         /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-japan-first-time/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -381,7 +392,7 @@
 
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1127,6 +1138,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1136,11 +1175,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1153,86 +1198,86 @@
 
     // Day 1: Arrival + Shinjuku & Shibuya
     initMap('map-day1', [
-        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest pedestrian scramble' },
-        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — book online for sunset slot' },
-        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Tiny yakitori stalls — the essential first-night experience' },
-        { lat: 35.6938, lng: 139.7035, name: 'Kabukicho & Golden Gai', desc: 'Neon district & 200+ tiny bars' }
+        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest pedestrian scramble', cat: 'attraction' },
+        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — book online for sunset slot', cat: 'attraction' },
+        { lat: 35.6932, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Tiny yakitori stalls — the essential first-night experience', cat: 'restaurant' },
+        { lat: 35.6938, lng: 139.7035, name: 'Kabukicho & Golden Gai', desc: 'Neon district & 200+ tiny bars', cat: 'nightlife' }
     ]);
 
     // Day 2: Asakusa, Akihabara & Ueno
     initMap('map-day2', [
-        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — arrive by 8 AM' },
-        { lat: 35.7135, lng: 139.7965, name: 'Nakamise-dori', desc: 'Traditional shopping street with ningyo-yaki pastries' },
-        { lat: 35.7186, lng: 139.7745, name: 'Ueno Park', desc: 'Tokyo National Museum, Nature Science Museum & Ameyoko' },
-        { lat: 35.6984, lng: 139.7710, name: 'Akihabara', desc: 'Electronics & anime district — Yodobashi Camera, retro game shops' }
+        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — arrive by 8 AM', cat: 'temple' },
+        { lat: 35.7135, lng: 139.7965, name: 'Nakamise-dori', desc: 'Traditional shopping street with ningyo-yaki pastries', cat: 'shopping' },
+        { lat: 35.7186, lng: 139.7745, name: 'Ueno Park', desc: 'Tokyo National Museum, Nature Science Museum & Ameyoko', cat: 'shopping' },
+        { lat: 35.6984, lng: 139.7710, name: 'Akihabara', desc: 'Electronics & anime district — Yodobashi Camera, retro game shops', cat: 'attraction' }
     ]);
 
     // Day 3: Harajuku, Meiji Shrine & TeamLab
     initMap('map-day3', [
-        { lat: 35.6764, lng: 139.6993, name: 'Meiji Shrine', desc: 'Serene forested shrine — free entry, allow 45–60 min' },
-        { lat: 35.6705, lng: 139.7027, name: 'Takeshita-dori & Harajuku', desc: 'Quirky fashion, crêpe stands & pop culture' },
-        { lat: 35.6680, lng: 139.7120, name: 'Omotesando', desc: 'Tokyo\'s Champs-Élysées — flagship stores & architecture' },
-        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: 'Immersive digital art at Azabudai Hills — book 30 days ahead' },
-        { lat: 35.6467, lng: 139.7100, name: 'Ebisu / Afuri Ramen', desc: 'Yuzu shio ramen — local favorite' }
+        { lat: 35.6764, lng: 139.6993, name: 'Meiji Shrine', desc: 'Serene forested shrine — free entry, allow 45–60 min', cat: 'temple' },
+        { lat: 35.6705, lng: 139.7027, name: 'Takeshita-dori & Harajuku', desc: 'Quirky fashion, crêpe stands & pop culture', cat: 'shopping' },
+        { lat: 35.6680, lng: 139.7120, name: 'Omotesando', desc: 'Tokyo\'s Champs-Élysées — flagship stores & architecture', cat: 'attraction' },
+        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: 'Immersive digital art at Azabudai Hills — book 30 days ahead', cat: 'attraction' },
+        { lat: 35.6467, lng: 139.7100, name: 'Ebisu / Afuri Ramen', desc: 'Yuzu shio ramen — local favorite', cat: 'restaurant' }
     ]);
 
     // Day 4: Hakone / Kamakura
     initMap('map-day4', [
-        { lat: 35.2326, lng: 139.1070, name: 'Hakone-Yumoto', desc: 'Gateway to Hakone — hot springs & nature' },
-        { lat: 35.2434, lng: 139.0208, name: 'Owakudani', desc: 'Volcanic valley — try the black eggs' },
-        { lat: 35.2044, lng: 139.0326, name: 'Lake Ashi & Hakone Shrine', desc: 'Pirate ship cruise & iconic torii gate' },
-        { lat: 35.3167, lng: 139.5356, name: 'Kamakura Great Buddha', desc: '13m bronze statue from 1252 (alternative day trip)' },
-        { lat: 35.3222, lng: 139.5487, name: 'Hase-dera Temple', desc: 'Ocean views & thousands of Jizo statues' }
+        { lat: 35.2326, lng: 139.1070, name: 'Hakone-Yumoto', desc: 'Gateway to Hakone — hot springs & nature', cat: 'spa' },
+        { lat: 35.2434, lng: 139.0208, name: 'Owakudani', desc: 'Volcanic valley — try the black eggs', cat: 'attraction' },
+        { lat: 35.2044, lng: 139.0326, name: 'Lake Ashi & Hakone Shrine', desc: 'Pirate ship cruise & iconic torii gate', cat: 'activity' },
+        { lat: 35.3167, lng: 139.5356, name: 'Kamakura Great Buddha', desc: '13m bronze statue from 1252 (alternative day trip)', cat: 'attraction' },
+        { lat: 35.3222, lng: 139.5487, name: 'Hase-dera Temple', desc: 'Ocean views & thousands of Jizo statues', cat: 'temple' }
     ]);
 
     // Day 5: Eastern Kyoto — Fushimi Inari & Higashiyama
     initMap('map-day5', [
-        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari Taisha', desc: '10,000+ vermilion torii gates — arrive by 7 AM' },
-        { lat: 34.9949, lng: 135.7850, name: 'Kiyomizu-dera Temple', desc: 'Iconic hilltop temple with city views' },
-        { lat: 34.9990, lng: 135.7808, name: 'Ninenzaka & Sannenzaka', desc: 'Preserved Edo-period lanes with tea houses' },
-        { lat: 35.0036, lng: 135.7786, name: 'Yasaka Shrine & Gion', desc: 'Geisha district — spot geiko on Hanamikoji-dori' },
-        { lat: 35.0050, lng: 135.7649, name: 'Nishiki Market', desc: 'Kyoto\'s Kitchen — 400m of food stalls' }
+        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari Taisha', desc: '10,000+ vermilion torii gates — arrive by 7 AM', cat: 'temple' },
+        { lat: 34.9949, lng: 135.7850, name: 'Kiyomizu-dera Temple', desc: 'Iconic hilltop temple with city views', cat: 'temple' },
+        { lat: 34.9990, lng: 135.7808, name: 'Ninenzaka & Sannenzaka', desc: 'Preserved Edo-period lanes with tea houses', cat: 'attraction' },
+        { lat: 35.0036, lng: 135.7786, name: 'Yasaka Shrine & Gion', desc: 'Geisha district — spot geiko on Hanamikoji-dori', cat: 'temple' },
+        { lat: 35.0050, lng: 135.7649, name: 'Nishiki Market', desc: 'Kyoto\'s Kitchen — 400m of food stalls', cat: 'restaurant' }
     ]);
 
     // Day 6: Western Kyoto — Arashiyama & Golden Pavilion
     initMap('map-day6', [
-        { lat: 35.0173, lng: 135.6715, name: 'Arashiyama Bamboo Grove', desc: 'Towering bamboo — arrive by 8 AM' },
-        { lat: 35.0154, lng: 135.6745, name: 'Tenryu-ji Temple', desc: 'UNESCO site with beautiful garden' },
-        { lat: 35.0394, lng: 135.7293, name: 'Kinkaku-ji (Golden Pavilion)', desc: 'Gold-leaf Zen temple reflected in mirror pond' },
-        { lat: 35.0345, lng: 135.7184, name: 'Ryoan-ji', desc: 'Famous minimalist rock garden' },
-        { lat: 35.0046, lng: 135.7706, name: 'Pontocho Alley', desc: 'Atmospheric riverside dining lane' }
+        { lat: 35.0173, lng: 135.6715, name: 'Arashiyama Bamboo Grove', desc: 'Towering bamboo — arrive by 8 AM', cat: 'attraction' },
+        { lat: 35.0154, lng: 135.6745, name: 'Tenryu-ji Temple', desc: 'UNESCO site with beautiful garden', cat: 'temple' },
+        { lat: 35.0394, lng: 135.7293, name: 'Kinkaku-ji (Golden Pavilion)', desc: 'Gold-leaf Zen temple reflected in mirror pond', cat: 'temple' },
+        { lat: 35.0345, lng: 135.7184, name: 'Ryoan-ji', desc: 'Famous minimalist rock garden', cat: 'attraction' },
+        { lat: 35.0046, lng: 135.7706, name: 'Pontocho Alley', desc: 'Atmospheric riverside dining lane', cat: 'restaurant' }
     ]);
 
     // Day 7: Central Kyoto
     initMap('map-day7', [
-        { lat: 35.0142, lng: 135.7479, name: 'Nijo Castle', desc: 'UNESCO site with nightingale floors' },
-        { lat: 34.9996, lng: 135.7815, name: 'Gion Tea Ceremony', desc: 'English-language tea ceremony experiences' },
-        { lat: 35.0270, lng: 135.7983, name: 'Philosopher\'s Path', desc: '2km canal-side walk between temples' },
-        { lat: 35.0254, lng: 135.7984, name: 'Ginkaku-ji (Silver Pavilion)', desc: 'Zen temple with stunning moss garden' },
-        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari at Night', desc: 'Illuminated torii gates — eerie and beautiful' }
+        { lat: 35.0142, lng: 135.7479, name: 'Nijo Castle', desc: 'UNESCO site with nightingale floors', cat: 'attraction' },
+        { lat: 34.9996, lng: 135.7815, name: 'Gion Tea Ceremony', desc: 'English-language tea ceremony experiences', cat: 'activity' },
+        { lat: 35.0270, lng: 135.7983, name: 'Philosopher\'s Path', desc: '2km canal-side walk between temples', cat: 'temple' },
+        { lat: 35.0254, lng: 135.7984, name: 'Ginkaku-ji (Silver Pavilion)', desc: 'Zen temple with stunning moss garden', cat: 'temple' },
+        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari at Night', desc: 'Illuminated torii gates — eerie and beautiful', cat: 'attraction' }
     ]);
 
     // Day 8: Nara day trip
     initMap('map-day8', [
-        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'World\'s largest bronze Buddha in largest wooden building' },
-        { lat: 34.6813, lng: 135.8430, name: 'Nara Park', desc: '1,200 wild sika deer — they bow for crackers' },
-        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha Shrine', desc: 'Thousands of stone and bronze lanterns' },
-        { lat: 34.6846, lng: 135.8350, name: 'Isuien Garden', desc: 'Meiji-era garden with Todai-ji backdrop' },
-        { lat: 34.6813, lng: 135.8290, name: 'Hiraso', desc: 'Kakinoha-zushi — Nara\'s signature persimmon leaf sushi' }
+        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'World\'s largest bronze Buddha in largest wooden building', cat: 'temple' },
+        { lat: 34.6813, lng: 135.8430, name: 'Nara Park', desc: '1,200 wild sika deer — they bow for crackers', cat: 'attraction' },
+        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha Shrine', desc: 'Thousands of stone and bronze lanterns', cat: 'temple' },
+        { lat: 34.6846, lng: 135.8350, name: 'Isuien Garden', desc: 'Meiji-era garden with Todai-ji backdrop', cat: 'attraction' },
+        { lat: 34.6813, lng: 135.8290, name: 'Hiraso', desc: 'Kakinoha-zushi — Nara\'s signature persimmon leaf sushi', cat: 'restaurant' }
     ]);
 
     // Day 9: Osaka Food & Culture
     initMap('map-day9', [
-        { lat: 34.6873, lng: 135.5262, name: 'Osaka Castle', desc: 'Reconstructed 16th-century castle with panoramic views' },
-        { lat: 34.6523, lng: 135.5063, name: 'Shinsekai', desc: 'Retro district — best kushikatsu in Japan' },
-        { lat: 34.6687, lng: 135.5013, name: 'Dotonbori', desc: 'Neon-drenched food paradise — takoyaki, okonomiyaki, gyoza' },
-        { lat: 34.6686, lng: 135.5033, name: 'Glico Running Man', desc: 'Iconic Osaka photo spot on the canal' }
+        { lat: 34.6873, lng: 135.5262, name: 'Osaka Castle', desc: 'Reconstructed 16th-century castle with panoramic views', cat: 'attraction' },
+        { lat: 34.6523, lng: 135.5063, name: 'Shinsekai', desc: 'Retro district — best kushikatsu in Japan', cat: 'restaurant' },
+        { lat: 34.6687, lng: 135.5013, name: 'Dotonbori', desc: 'Neon-drenched food paradise — takoyaki, okonomiyaki, gyoza', cat: 'restaurant' },
+        { lat: 34.6686, lng: 135.5033, name: 'Glico Running Man', desc: 'Iconic Osaka photo spot on the canal', cat: 'restaurant' }
     ]);
 
     // Day 10: Kuromon Market & Departure
     initMap('map-day10', [
-        { lat: 34.6624, lng: 135.5068, name: 'Kuromon Market', desc: 'Osaka\'s Kitchen — fresh seafood, wagyu skewers, uni' },
-        { lat: 34.6466, lng: 135.3900, name: 'Kansai Airport (KIX)', desc: 'Nankai Rapi:t from Namba — 35 min' }
+        { lat: 34.6624, lng: 135.5068, name: 'Kuromon Market', desc: 'Osaka\'s Kitchen — fresh seafood, wagyu skewers, uni', cat: 'restaurant' },
+        { lat: 34.6466, lng: 135.3900, name: 'Kansai Airport (KIX)', desc: 'Nankai Rapi:t from Namba — 35 min', cat: 'transport' }
     ]);
 })();
 </script>

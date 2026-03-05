@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-colombia-adventure/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -990,6 +1002,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -999,11 +1039,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1016,58 +1062,58 @@
 
     // Day 1: Bogotá — La Candelaria
     initMap('map-day1', [
-        { lat: 4.5981, lng: -74.0758, name: 'Plaza Bolívar', desc: 'Heart of colonial Bogotá — cathedral, congress, and palace' },
-        { lat: 4.6018, lng: -74.0719, name: 'Museo del Oro', desc: '55,000+ pre-Columbian gold artifacts — COP 5,000' },
-        { lat: 4.6013, lng: -74.0726, name: 'Museo Botero', desc: 'Free — Botero, Picasso, Dalí, and Monet' },
-        { lat: 4.5986, lng: -74.0756, name: 'La Puerta Falsa', desc: 'Open since 1816 — Bogotá\'s best ajiaco' }
+        { lat: 4.5981, lng: -74.0758, name: 'Plaza Bolívar', desc: 'Heart of colonial Bogotá — cathedral, congress, and palace', cat: 'temple' },
+        { lat: 4.6018, lng: -74.0719, name: 'Museo del Oro', desc: '55,000+ pre-Columbian gold artifacts — COP 5,000', cat: 'attraction' },
+        { lat: 4.6013, lng: -74.0726, name: 'Museo Botero', desc: 'Free — Botero, Picasso, Dalí, and Monet', cat: 'attraction' },
+        { lat: 4.5986, lng: -74.0756, name: 'La Puerta Falsa', desc: 'Open since 1816 — Bogotá\'s best ajiaco', cat: 'attraction' }
     ]);
 
     // Day 2: Monserrate & Zipaquirá
     initMap('map-day2', [
-        { lat: 4.6057, lng: -74.0556, name: 'Cerro de Monserrate', desc: '3,152m peak — panoramic views of Bogotá' },
-        { lat: 5.0228, lng: -73.9873, name: 'Salt Cathedral of Zipaquirá', desc: 'Underground church 200m deep in a salt mine — COP 65,000' },
-        { lat: 4.8757, lng: -74.0492, name: 'Andrés Carne de Res', desc: 'Restaurant/nightclub fever dream in Chía — book ahead' }
+        { lat: 4.6057, lng: -74.0556, name: 'Cerro de Monserrate', desc: '3,152m peak — panoramic views of Bogotá', cat: 'attraction' },
+        { lat: 5.0228, lng: -73.9873, name: 'Salt Cathedral of Zipaquirá', desc: 'Underground church 200m deep in a salt mine — COP 65,000', cat: 'temple' },
+        { lat: 4.8757, lng: -74.0492, name: 'Andrés Carne de Res', desc: 'Restaurant/nightclub fever dream in Chía — book ahead', cat: 'nightlife' }
     ]);
 
     // Day 3: Cocora Valley & Salento
     initMap('map-day3', [
-        { lat: 4.6380, lng: -75.5709, name: 'Cocora Valley', desc: '60m wax palm trees in cloud forest — iconic Colombia' },
-        { lat: 4.6372, lng: -75.5685, name: 'Cocora Valley Trailhead', desc: 'Start of the 4–5 hour loop hike' },
-        { lat: 4.6374, lng: -75.5688, name: 'Salento', desc: 'Colorful mountain village — trout, tejo, and aguardiente' }
+        { lat: 4.6380, lng: -75.5709, name: 'Cocora Valley', desc: '60m wax palm trees in cloud forest — iconic Colombia', cat: 'attraction' },
+        { lat: 4.6372, lng: -75.5685, name: 'Cocora Valley Trailhead', desc: 'Start of the 4–5 hour loop hike', cat: 'activity' },
+        { lat: 4.6374, lng: -75.5688, name: 'Salento', desc: 'Colorful mountain village — trout, tejo, and aguardiente', cat: 'hotel' }
     ]);
 
     // Day 4: Coffee Farm & Filandia
     initMap('map-day4', [
-        { lat: 4.6350, lng: -75.5680, name: 'Finca El Ocaso', desc: 'Coffee farm tour — seed to cup, COP 30,000' },
-        { lat: 4.6760, lng: -75.6540, name: 'Filandia', desc: 'Quieter pueblo with artisan basket weavers' },
-        { lat: 4.6748, lng: -75.6557, name: 'Mirador de Filandia', desc: 'Panoramic views of coffee-covered mountains' },
-        { lat: 4.6755, lng: -75.6535, name: 'Helena Adentro', desc: 'Top specialty coffee shop in the region' }
+        { lat: 4.6350, lng: -75.5680, name: 'Finca El Ocaso', desc: 'Coffee farm tour — seed to cup, COP 30,000', cat: 'activity' },
+        { lat: 4.6760, lng: -75.6540, name: 'Filandia', desc: 'Quieter pueblo with artisan basket weavers', cat: 'shopping' },
+        { lat: 4.6748, lng: -75.6557, name: 'Mirador de Filandia', desc: 'Panoramic views of coffee-covered mountains', cat: 'restaurant' },
+        { lat: 4.6755, lng: -75.6535, name: 'Helena Adentro', desc: 'Top specialty coffee shop in the region', cat: 'restaurant' }
     ]);
 
     // Day 5: Cartagena Walled City
     initMap('map-day5', [
-        { lat: 10.4236, lng: -75.5480, name: 'Torre del Reloj', desc: 'Clock Tower — gateway to the walled city' },
-        { lat: 10.4240, lng: -75.5510, name: 'Plaza Santo Domingo', desc: 'Botero sculpture, restaurants, and colonial charm' },
-        { lat: 10.4225, lng: -75.5502, name: 'San Pedro Claver', desc: 'Beautiful colonial church and museum — COP 15,000' },
-        { lat: 10.4295, lng: -75.5443, name: 'Las Bóvedas', desc: 'Former dungeons, now artisan shops on the sea wall' },
-        { lat: 10.4267, lng: -75.5458, name: 'Café del Mar', desc: 'Sunset cocktails on the city wall' },
-        { lat: 10.4213, lng: -75.5482, name: 'Café Havana', desc: 'Live salsa every night in Getsemaní' }
+        { lat: 10.4236, lng: -75.5480, name: 'Torre del Reloj', desc: 'Clock Tower — gateway to the walled city', cat: 'attraction' },
+        { lat: 10.4240, lng: -75.5510, name: 'Plaza Santo Domingo', desc: 'Botero sculpture, restaurants, and colonial charm', cat: 'restaurant' },
+        { lat: 10.4225, lng: -75.5502, name: 'San Pedro Claver', desc: 'Beautiful colonial church and museum — COP 15,000', cat: 'temple' },
+        { lat: 10.4295, lng: -75.5443, name: 'Las Bóvedas', desc: 'Former dungeons, now artisan shops on the sea wall', cat: 'shopping' },
+        { lat: 10.4267, lng: -75.5458, name: 'Café del Mar', desc: 'Sunset cocktails on the city wall', cat: 'nightlife' },
+        { lat: 10.4213, lng: -75.5482, name: 'Café Havana', desc: 'Live salsa every night in Getsemaní', cat: 'restaurant' }
     ]);
 
     // Day 6: Rosario Islands
     initMap('map-day6', [
-        { lat: 10.4220, lng: -75.5530, name: 'Muelle de los Pegasos', desc: 'Boat departure dock for island tours' },
-        { lat: 10.1780, lng: -75.7530, name: 'Islas del Rosario', desc: 'Coral reefs, snorkeling, turquoise Caribbean water' },
-        { lat: 10.2270, lng: -75.6200, name: 'Playa Blanca', desc: 'White sand beach on Isla Barú' },
-        { lat: 10.1830, lng: -75.7700, name: 'Isla Grande', desc: 'Mangroves, bioluminescent lagoon, quiet beaches' }
+        { lat: 10.4220, lng: -75.5530, name: 'Muelle de los Pegasos', desc: 'Boat departure dock for island tours', cat: 'transport' },
+        { lat: 10.1780, lng: -75.7530, name: 'Islas del Rosario', desc: 'Coral reefs, snorkeling, turquoise Caribbean water', cat: 'activity' },
+        { lat: 10.2270, lng: -75.6200, name: 'Playa Blanca', desc: 'White sand beach on Isla Barú', cat: 'beach' },
+        { lat: 10.1830, lng: -75.7700, name: 'Isla Grande', desc: 'Mangroves, bioluminescent lagoon, quiet beaches', cat: 'beach' }
     ]);
 
     // Day 7: Getsemaní & Departure
     initMap('map-day7', [
-        { lat: 10.4210, lng: -75.5100, name: 'Castillo San Felipe de Barajas', desc: 'Largest Spanish fort in the Americas — COP 33,000' },
-        { lat: 10.4205, lng: -75.5490, name: 'Getsemaní Street Art', desc: 'Vibrant murals covering every wall' },
-        { lat: 10.4198, lng: -75.5478, name: 'Plaza de la Trinidad', desc: 'Heart of Getsemaní — nightly local gathering' },
-        { lat: 10.4425, lng: -75.5130, name: 'Rafael Núñez Airport (CTG)', desc: '15 min from walled city by Uber' }
+        { lat: 10.4210, lng: -75.5100, name: 'Castillo San Felipe de Barajas', desc: 'Largest Spanish fort in the Americas — COP 33,000', cat: 'spa' },
+        { lat: 10.4205, lng: -75.5490, name: 'Getsemaní Street Art', desc: 'Vibrant murals covering every wall', cat: 'attraction' },
+        { lat: 10.4198, lng: -75.5478, name: 'Plaza de la Trinidad', desc: 'Heart of Getsemaní — nightly local gathering', cat: 'attraction' },
+        { lat: 10.4425, lng: -75.5130, name: 'Rafael Núñez Airport (CTG)', desc: '15 min from walled city by Uber', cat: 'transport' }
     ]);
 })();
 </script>

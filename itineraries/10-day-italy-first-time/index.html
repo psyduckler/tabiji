@@ -37,7 +37,22 @@
         .logo span { color: var(--terracotta); }
         nav a.cta-nav { background: var(--terracotta); color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; }
         nav a.cta-nav:hover { background: #b5633f; }
-        .hero { padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; }
+        /* HERO */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/10-day-italy-first-time/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: var(--sand); color: var(--earth); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
         .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800; color: var(--indigo); margin-bottom: 1rem; letter-spacing: -0.03em; }
         .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -113,7 +128,7 @@
         .final-cta a.cta-btn:hover { transform: translateY(-2px); }
         .final-cta .sub { margin-top: 0.75rem; font-size: 0.85rem; color: rgba(245, 240, 232, 0.6); }
         footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
-        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 3.5rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
+        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 2rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
         @media (max-width: 768px) {
@@ -789,6 +804,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -798,11 +841,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -815,81 +864,81 @@
 
     // Day 1: Pantheon, Piazza Navona, Trevi, Trastevere
     initMap('map-day1', [
-        { lat: 41.8986, lng: 12.4769, name: 'Pantheon', desc: '2,000-year-old temple — free + €5 reservation' },
-        { lat: 41.8992, lng: 12.4731, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of Four Rivers — baroque square' },
-        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Throw a coin — visit at sunset or after 9 PM' },
-        { lat: 41.8893, lng: 12.4696, name: 'Trastevere', desc: 'Best dinner neighborhood — Da Enzo al 29' }
+        { lat: 41.8986, lng: 12.4769, name: 'Pantheon', desc: '2,000-year-old temple — free + €5 reservation', cat: 'temple' },
+        { lat: 41.8992, lng: 12.4731, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of Four Rivers — baroque square', cat: 'nightlife' },
+        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Throw a coin — visit at sunset or after 9 PM', cat: 'attraction' },
+        { lat: 41.8893, lng: 12.4696, name: 'Trastevere', desc: 'Best dinner neighborhood — Da Enzo al 29', cat: 'attraction' }
     ]);
 
     // Day 2: Colosseum, Forum, Monti
     initMap('map-day2', [
-        { lat: 41.8902, lng: 12.4922, name: 'Colosseum', desc: '€18 combined ticket — book earliest slot (8:30 AM)' },
-        { lat: 41.8925, lng: 12.4853, name: 'Roman Forum', desc: 'Center of Roman public life for 1,000+ years' },
-        { lat: 41.8894, lng: 12.4874, name: 'Palatine Hill', desc: 'Panoramic views over Forum & Circus Maximus' },
-        { lat: 41.8943, lng: 12.4908, name: 'Monti', desc: 'Rome\'s trendiest neighborhood — supplì & pasta' },
-        { lat: 41.8956, lng: 12.4825, name: 'Vittoriano', desc: 'Glass elevator to rooftop panoramic views — €12' }
+        { lat: 41.8902, lng: 12.4922, name: 'Colosseum', desc: '€18 combined ticket — book earliest slot (8:30 AM)', cat: 'attraction' },
+        { lat: 41.8925, lng: 12.4853, name: 'Roman Forum', desc: 'Center of Roman public life for 1,000+ years', cat: 'attraction' },
+        { lat: 41.8894, lng: 12.4874, name: 'Palatine Hill', desc: 'Panoramic views over Forum & Circus Maximus', cat: 'attraction' },
+        { lat: 41.8943, lng: 12.4908, name: 'Monti', desc: 'Rome\'s trendiest neighborhood — supplì & pasta', cat: 'attraction' },
+        { lat: 41.8956, lng: 12.4825, name: 'Vittoriano', desc: 'Glass elevator to rooftop panoramic views — €12', cat: 'attraction' }
     ]);
 
     // Day 3: Vatican
     initMap('map-day3', [
-        { lat: 41.9065, lng: 12.4536, name: 'Vatican Museums', desc: '7 km of galleries — Sistine Chapel, Raphael Rooms' },
-        { lat: 41.9022, lng: 12.4539, name: 'St. Peter\'s Basilica', desc: 'Free entry — climb the dome for best Rome view' },
-        { lat: 41.9031, lng: 12.4663, name: 'Castel Sant\'Angelo', desc: 'Hadrian\'s mausoleum — rooftop views of St. Peter\'s' },
-        { lat: 41.9071, lng: 12.4461, name: 'Pizzarium Bonci', desc: 'Rome\'s best pizza al taglio — €3–5/slice' }
+        { lat: 41.9065, lng: 12.4536, name: 'Vatican Museums', desc: '7 km of galleries — Sistine Chapel, Raphael Rooms', cat: 'temple' },
+        { lat: 41.9022, lng: 12.4539, name: 'St. Peter\'s Basilica', desc: 'Free entry — climb the dome for best Rome view', cat: 'activity' },
+        { lat: 41.9031, lng: 12.4663, name: 'Castel Sant\'Angelo', desc: 'Hadrian\'s mausoleum — rooftop views of St. Peter\'s', cat: 'attraction' },
+        { lat: 41.9071, lng: 12.4461, name: 'Pizzarium Bonci', desc: 'Rome\'s best pizza al taglio — €3–5/slice', cat: 'restaurant' }
     ]);
 
     // Day 4: Borghese, Spanish Steps, Gelato
     initMap('map-day4', [
-        { lat: 41.9142, lng: 12.4921, name: 'Galleria Borghese', desc: 'Bernini, Caravaggio, Canova — book weeks ahead' },
-        { lat: 41.9102, lng: 12.4836, name: 'Pincio Terrace', desc: 'Panoramic views over Piazza del Popolo' },
-        { lat: 41.9060, lng: 12.4828, name: 'Spanish Steps', desc: 'Iconic staircase + Via Condotti shopping' },
-        { lat: 41.8978, lng: 12.4747, name: 'Fatamorgana Gelato', desc: 'All-natural creative flavors — €2.50–4.50' },
-        { lat: 41.8762, lng: 12.4783, name: 'Testaccio', desc: 'Rome\'s most authentic food neighborhood' }
+        { lat: 41.9142, lng: 12.4921, name: 'Galleria Borghese', desc: 'Bernini, Caravaggio, Canova — book weeks ahead', cat: 'attraction' },
+        { lat: 41.9102, lng: 12.4836, name: 'Pincio Terrace', desc: 'Panoramic views over Piazza del Popolo', cat: 'attraction' },
+        { lat: 41.9060, lng: 12.4828, name: 'Spanish Steps', desc: 'Iconic staircase + Via Condotti shopping', cat: 'spa' },
+        { lat: 41.8978, lng: 12.4747, name: 'Fatamorgana Gelato', desc: 'All-natural creative flavors — €2.50–4.50', cat: 'restaurant' },
+        { lat: 41.8762, lng: 12.4783, name: 'Testaccio', desc: 'Rome\'s most authentic food neighborhood', cat: 'attraction' }
     ]);
 
     // Day 5: Florence arrival
     initMap('map-day5', [
-        { lat: 43.7731, lng: 11.2560, name: 'Duomo (Cathedral)', desc: 'Brunelleschi\'s Dome — 463 steps, timed entry €30' },
-        { lat: 43.7733, lng: 11.2550, name: 'Baptistery', desc: 'Ghiberti\'s Gates of Paradise — bronze doors' },
-        { lat: 43.7769, lng: 11.2536, name: 'San Lorenzo / Mercato Centrale', desc: 'Leather market + food hall — lampredotto €5' },
-        { lat: 43.7629, lng: 11.2650, name: 'Piazzale Michelangelo', desc: 'Best panoramic view of Florence — sunset spot' }
+        { lat: 43.7731, lng: 11.2560, name: 'Duomo (Cathedral)', desc: 'Brunelleschi\'s Dome — 463 steps, timed entry €30', cat: 'temple' },
+        { lat: 43.7733, lng: 11.2550, name: 'Baptistery', desc: 'Ghiberti\'s Gates of Paradise — bronze doors', cat: 'attraction' },
+        { lat: 43.7769, lng: 11.2536, name: 'San Lorenzo / Mercato Centrale', desc: 'Leather market + food hall — lampredotto €5', cat: 'shopping' },
+        { lat: 43.7629, lng: 11.2650, name: 'Piazzale Michelangelo', desc: 'Best panoramic view of Florence — sunset spot', cat: 'attraction' }
     ]);
 
     // Day 6: Uffizi, Ponte Vecchio, Oltrarno
     initMap('map-day6', [
-        { lat: 43.7677, lng: 11.2553, name: 'Uffizi Gallery', desc: 'Botticelli, Leonardo, Caravaggio — €25 timed entry' },
-        { lat: 43.7680, lng: 11.2531, name: 'Ponte Vecchio', desc: 'Medieval bridge with goldsmith shops since 1593' },
-        { lat: 43.7651, lng: 11.2500, name: 'Palazzo Pitti', desc: 'Medici palace + Boboli Gardens — €16' },
-        { lat: 43.7663, lng: 11.2465, name: 'Santo Spirito', desc: 'Local piazza — flea market, aperitivo bars' }
+        { lat: 43.7677, lng: 11.2553, name: 'Uffizi Gallery', desc: 'Botticelli, Leonardo, Caravaggio — €25 timed entry', cat: 'attraction' },
+        { lat: 43.7680, lng: 11.2531, name: 'Ponte Vecchio', desc: 'Medieval bridge with goldsmith shops since 1593', cat: 'attraction' },
+        { lat: 43.7651, lng: 11.2500, name: 'Palazzo Pitti', desc: 'Medici palace + Boboli Gardens — €16', cat: 'attraction' },
+        { lat: 43.7663, lng: 11.2465, name: 'Santo Spirito', desc: 'Local piazza — flea market, aperitivo bars', cat: 'nightlife' }
     ]);
 
     // Day 7: Tuscan day trip
     initMap('map-day7', [
-        { lat: 43.4677, lng: 11.0434, name: 'San Gimignano', desc: 'Medieval Manhattan — 14 towers, world-champion gelato' },
-        { lat: 43.3188, lng: 11.3308, name: 'Siena', desc: 'Gothic city — Piazza del Campo, stunning Duomo' },
-        { lat: 43.4840, lng: 11.1204, name: 'Chianti Region', desc: 'Wine tastings with lunch — €30–60 at vineyards' }
+        { lat: 43.4677, lng: 11.0434, name: 'San Gimignano', desc: 'Medieval Manhattan — 14 towers, world-champion gelato', cat: 'restaurant' },
+        { lat: 43.3188, lng: 11.3308, name: 'Siena', desc: 'Gothic city — Piazza del Campo, stunning Duomo', cat: 'attraction' },
+        { lat: 43.4840, lng: 11.1204, name: 'Chianti Region', desc: 'Wine tastings with lunch — €30–60 at vineyards', cat: 'attraction' }
     ]);
 
     // Day 8: To Amalfi/Positano
     initMap('map-day8', [
-        { lat: 40.8518, lng: 14.2681, name: 'Naples Centrale', desc: 'Transfer to Circumvesuviana train' },
-        { lat: 40.6263, lng: 14.3754, name: 'Sorrento', desc: 'Transfer point — SITA bus or ferry to coast' },
-        { lat: 40.6281, lng: 14.4843, name: 'Positano', desc: 'Pastel houses cascading to the sea — iconic Amalfi' }
+        { lat: 40.8518, lng: 14.2681, name: 'Naples Centrale', desc: 'Transfer to Circumvesuviana train', cat: 'attraction' },
+        { lat: 40.6263, lng: 14.3754, name: 'Sorrento', desc: 'Transfer point — SITA bus or ferry to coast', cat: 'attraction' },
+        { lat: 40.6281, lng: 14.4843, name: 'Positano', desc: 'Pastel houses cascading to the sea — iconic Amalfi', cat: 'attraction' }
     ]);
 
     // Day 9: Path of Gods, Ravello
     initMap('map-day9', [
-        { lat: 40.6372, lng: 14.5275, name: 'Bomerano (Trail Start)', desc: 'Path of the Gods starts here — 7.8 km cliff walk' },
-        { lat: 40.6325, lng: 14.4959, name: 'Nocelle (Trail End)', desc: 'End point — 1,700 steps down to Positano' },
-        { lat: 40.6492, lng: 14.6119, name: 'Ravello', desc: 'Villa Rufolo gardens + Terrace of Infinity' },
-        { lat: 40.6340, lng: 14.6027, name: 'Amalfi Town', desc: '9th-century Duomo — Trattoria da Gemma' }
+        { lat: 40.6372, lng: 14.5275, name: 'Bomerano (Trail Start)', desc: 'Path of the Gods starts here — 7.8 km cliff walk', cat: 'attraction' },
+        { lat: 40.6325, lng: 14.4959, name: 'Nocelle (Trail End)', desc: 'End point — 1,700 steps down to Positano', cat: 'attraction' },
+        { lat: 40.6492, lng: 14.6119, name: 'Ravello', desc: 'Villa Rufolo gardens + Terrace of Infinity', cat: 'hotel' },
+        { lat: 40.6340, lng: 14.6027, name: 'Amalfi Town', desc: '9th-century Duomo — Trattoria da Gemma', cat: 'restaurant' }
     ]);
 
     // Day 10: Atrani & departure
     initMap('map-day10', [
-        { lat: 40.6364, lng: 14.6077, name: 'Atrani', desc: 'Italy\'s smallest town — beach, café, photogenic piazza' },
-        { lat: 40.6340, lng: 14.6027, name: 'Amalfi', desc: 'SITA bus connection to Sorrento' },
-        { lat: 40.8841, lng: 14.2908, name: 'Naples Airport (NAP)', desc: 'Alibus from Naples Centrale — 20 min, €5' }
+        { lat: 40.6364, lng: 14.6077, name: 'Atrani', desc: 'Italy\'s smallest town — beach, café, photogenic piazza', cat: 'beach' },
+        { lat: 40.6340, lng: 14.6027, name: 'Amalfi', desc: 'SITA bus connection to Sorrento', cat: 'attraction' },
+        { lat: 40.8841, lng: 14.2908, name: 'Naples Airport (NAP)', desc: 'Alibus from Naples Centrale — 20 min, €5', cat: 'transport' }
     ]);
 })();
 </script>

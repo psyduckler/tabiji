@@ -69,9 +69,20 @@
 
         /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/3-day-austin-sxsw-solo/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -380,7 +391,7 @@
 
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -511,7 +522,7 @@
 <body>
 
 <nav>
-    <a href="/" class="logo">tabiji<span>.ai</span></a>
+    <a href="/" class="logo"><img src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
         <a href="/find/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Explore</a>
@@ -972,6 +983,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -981,11 +1020,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -998,36 +1043,36 @@
 
     // Day 1: South Congress & BBQ & Rainey Street
     initMap('map-day1', [
-        { lat: 30.2484, lng: -97.7500, name: "Jo's Coffee", desc: "Iconic 'I love you so much' mural + iced turbo" },
-        { lat: 30.2488, lng: -97.7504, name: "Allen's Boots", desc: "Classic Texas boot shop on SoCo" },
-        { lat: 30.2642, lng: -97.7680, name: "Franklin Barbecue", desc: "#1 BBQ in Texas — arrive by 9 AM" },
-        { lat: 30.2536, lng: -97.7507, name: "la Barbecue", desc: "World-class BBQ, shorter lines than Franklin" },
-        { lat: 30.2590, lng: -97.7727, name: "Barton Springs Pool", desc: "Natural 68°F spring-fed pool — $5 entry" },
-        { lat: 30.2588, lng: -97.7393, name: "Rainey Street", desc: "Bungalow bars, patios, and food trucks" },
-        { lat: 30.2586, lng: -97.7389, name: "Banger's Sausage House", desc: "100+ craft beers & live music on the patio" }
+        { lat: 30.2484, lng: -97.7500, name: "Jo's Coffee", desc: "Iconic 'I love you so much' mural + iced turbo", cat: 'restaurant' },
+        { lat: 30.2488, lng: -97.7504, name: "Allen's Boots", desc: "Classic Texas boot shop on SoCo", cat: 'attraction' },
+        { lat: 30.2642, lng: -97.7680, name: "Franklin Barbecue", desc: "#1 BBQ in Texas — arrive by 9 AM", cat: 'nightlife' },
+        { lat: 30.2536, lng: -97.7507, name: "la Barbecue", desc: "World-class BBQ, shorter lines than Franklin", cat: 'nightlife' },
+        { lat: 30.2590, lng: -97.7727, name: "Barton Springs Pool", desc: "Natural 68°F spring-fed pool — $5 entry", cat: 'attraction' },
+        { lat: 30.2588, lng: -97.7393, name: "Rainey Street", desc: "Bungalow bars, patios, and food trucks", cat: 'nightlife' },
+        { lat: 30.2586, lng: -97.7389, name: "Banger's Sausage House", desc: "100+ craft beers & live music on the patio", cat: 'attraction' }
     ]);
 
     // Day 2: East Austin & Red River
     initMap('map-day2', [
-        { lat: 30.2658, lng: -97.7280, name: "Paperboy", desc: "Elevated breakfast sandwiches on fresh focaccia" },
-        { lat: 30.2564, lng: -97.7328, name: "Cenote", desc: "Beautiful garden coffee shop + chilaquiles" },
-        { lat: 30.2680, lng: -97.7310, name: "Micklethwait Craft Meats", desc: "Best ribs in Austin per Reddit" },
-        { lat: 30.2677, lng: -97.7366, name: "Mohawk", desc: "Indoor/outdoor venue — SXSW showcase hub" },
-        { lat: 30.2688, lng: -97.7369, name: "Stubb's BBQ", desc: "Legendary venue + amphitheater + brisket" },
-        { lat: 30.2672, lng: -97.7365, name: "Cheer Up Charlies", desc: "LGBTQ+ bar with amazing outdoor stage" },
-        { lat: 30.2660, lng: -97.7355, name: "Empire Control Room", desc: "Two rooms, eclectic bookings, great sound" }
+        { lat: 30.2658, lng: -97.7280, name: "Paperboy", desc: "Elevated breakfast sandwiches on fresh focaccia", cat: 'attraction' },
+        { lat: 30.2564, lng: -97.7328, name: "Cenote", desc: "Beautiful garden coffee shop + chilaquiles", cat: 'restaurant' },
+        { lat: 30.2680, lng: -97.7310, name: "Micklethwait Craft Meats", desc: "Best ribs in Austin per Reddit", cat: 'attraction' },
+        { lat: 30.2677, lng: -97.7366, name: "Mohawk", desc: "Indoor/outdoor venue — SXSW showcase hub", cat: 'attraction' },
+        { lat: 30.2688, lng: -97.7369, name: "Stubb's BBQ", desc: "Legendary venue + amphitheater + brisket", cat: 'attraction' },
+        { lat: 30.2672, lng: -97.7365, name: "Cheer Up Charlies", desc: "LGBTQ+ bar with amazing outdoor stage", cat: 'nightlife' },
+        { lat: 30.2660, lng: -97.7355, name: "Empire Control Room", desc: "Two rooms, eclectic bookings, great sound", cat: 'attraction' }
     ]);
 
     // Day 3: Downtown & 6th Street
     initMap('map-day3', [
-        { lat: 30.2747, lng: -97.7404, name: "Texas State Capitol", desc: "Free tours — taller than the US Capitol" },
-        { lat: 30.2613, lng: -97.7449, name: "Congress Ave Bridge", desc: "1.5M bats emerge at sunset Mar–Oct" },
-        { lat: 30.2604, lng: -97.7567, name: "Terry Black's BBQ", desc: "Best no-wait BBQ in Austin" },
-        { lat: 30.2672, lng: -97.7392, name: "Maggie Mae's", desc: "Multiple stages + rooftop on 6th St" },
-        { lat: 30.2665, lng: -97.7420, name: "Elephant Room", desc: "Basement jazz club — Austin's best secret" },
-        { lat: 30.2497, lng: -97.7504, name: "Continental Club", desc: "Legendary venue since 1955 — honky-tonk & blues" },
-        { lat: 30.2680, lng: -97.7430, name: "Firehouse Lounge", desc: "Speakeasy behind a bookshelf door" },
-        { lat: 30.2670, lng: -97.7380, name: "Midnight Cowboy", desc: "Reservation-only speakeasy in former brothel" }
+        { lat: 30.2747, lng: -97.7404, name: "Texas State Capitol", desc: "Free tours — taller than the US Capitol", cat: 'activity' },
+        { lat: 30.2613, lng: -97.7449, name: "Congress Ave Bridge", desc: "1.5M bats emerge at sunset Mar–Oct", cat: 'attraction' },
+        { lat: 30.2604, lng: -97.7567, name: "Terry Black's BBQ", desc: "Best no-wait BBQ in Austin", cat: 'attraction' },
+        { lat: 30.2672, lng: -97.7392, name: "Maggie Mae's", desc: "Multiple stages + rooftop on 6th St", cat: 'attraction' },
+        { lat: 30.2665, lng: -97.7420, name: "Elephant Room", desc: "Basement jazz club — Austin's best secret", cat: 'attraction' },
+        { lat: 30.2497, lng: -97.7504, name: "Continental Club", desc: "Legendary venue since 1955 — honky-tonk & blues", cat: 'attraction' },
+        { lat: 30.2680, lng: -97.7430, name: "Firehouse Lounge", desc: "Speakeasy behind a bookshelf door", cat: 'attraction' },
+        { lat: 30.2670, lng: -97.7380, name: "Midnight Cowboy", desc: "Reservation-only speakeasy in former brothel", cat: 'attraction' }
     ]);
 })();
 </script>

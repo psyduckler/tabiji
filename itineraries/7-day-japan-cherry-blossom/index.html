@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-japan-cherry-blossom/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1003,6 +1015,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1012,11 +1052,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1029,60 +1075,60 @@
 
     // Day 1: Shinjuku Gyoen
     initMap('map-day1', [
-        { lat: 35.6852, lng: 139.7100, name: 'Shinjuku Gyoen', desc: '1,000+ cherry trees, 65+ varieties — Japan\'s best sakura garden' },
-        { lat: 35.6938, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Yakitori alley — essential first-night atmosphere' },
-        { lat: 35.6926, lng: 139.6951, name: 'Fuunji', desc: 'Top-tier tsukemen — expect 20-min queue (~¥1,000)' }
+        { lat: 35.6852, lng: 139.7100, name: 'Shinjuku Gyoen', desc: '1,000+ cherry trees, 65+ varieties — Japan\'s best sakura garden', cat: 'attraction' },
+        { lat: 35.6938, lng: 139.6983, name: 'Omoide Yokocho', desc: 'Yakitori alley — essential first-night atmosphere', cat: 'restaurant' },
+        { lat: 35.6926, lng: 139.6951, name: 'Fuunji', desc: 'Top-tier tsukemen — expect 20-min queue (~¥1,000)', cat: 'attraction' }
     ]);
 
     // Day 2: Chidorigafuchi
     initMap('map-day2', [
-        { lat: 35.6910, lng: 139.7500, name: 'Chidorigafuchi', desc: 'Iconic moat boat ride under sakura tunnel — arrive by 9 AM' },
-        { lat: 35.6852, lng: 139.7528, name: 'Imperial Palace East Gardens', desc: 'Free entry — cherry trees along stone walls' },
-        { lat: 35.6940, lng: 139.7440, name: 'Kitanomaru Park', desc: 'Underrated sakura spot — far fewer tourists' },
-        { lat: 35.6940, lng: 139.7438, name: 'Yasukuni Shrine', desc: 'Home of Tokyo\'s official benchmark cherry tree' },
-        { lat: 35.6955, lng: 139.7570, name: 'Bondy Curry (Jimbocho)', desc: 'Famous butter-rich Japanese curry — ~¥1,200' }
+        { lat: 35.6910, lng: 139.7500, name: 'Chidorigafuchi', desc: 'Iconic moat boat ride under sakura tunnel — arrive by 9 AM', cat: 'attraction' },
+        { lat: 35.6852, lng: 139.7528, name: 'Imperial Palace East Gardens', desc: 'Free entry — cherry trees along stone walls', cat: 'attraction' },
+        { lat: 35.6940, lng: 139.7440, name: 'Kitanomaru Park', desc: 'Underrated sakura spot — far fewer tourists', cat: 'activity' },
+        { lat: 35.6940, lng: 139.7438, name: 'Yasukuni Shrine', desc: 'Home of Tokyo\'s official benchmark cherry tree', cat: 'temple' },
+        { lat: 35.6955, lng: 139.7570, name: 'Bondy Curry (Jimbocho)', desc: 'Famous butter-rich Japanese curry — ~¥1,200', cat: 'restaurant' }
     ]);
 
     // Day 3: Ueno & Meguro River
     initMap('map-day3', [
-        { lat: 35.7146, lng: 139.7734, name: 'Ueno Park', desc: '800+ cherry trees — Tokyo\'s most famous hanami party spot' },
-        { lat: 35.7227, lng: 139.7679, name: 'Yanaka Cemetery', desc: 'Hidden gem — sakura-lined path, far fewer crowds' },
-        { lat: 35.7222, lng: 139.7665, name: 'Kayaba Coffee', desc: 'Restored 1916 building — excellent craft coffee' },
-        { lat: 35.6437, lng: 139.6988, name: 'Meguro River', desc: '800 cherry trees with pink lanterns — Tokyo\'s trendiest yozakura' }
+        { lat: 35.7146, lng: 139.7734, name: 'Ueno Park', desc: '800+ cherry trees — Tokyo\'s most famous hanami party spot', cat: 'nightlife' },
+        { lat: 35.7227, lng: 139.7679, name: 'Yanaka Cemetery', desc: 'Hidden gem — sakura-lined path, far fewer crowds', cat: 'attraction' },
+        { lat: 35.7222, lng: 139.7665, name: 'Kayaba Coffee', desc: 'Restored 1916 building — excellent craft coffee', cat: 'restaurant' },
+        { lat: 35.6437, lng: 139.6988, name: 'Meguro River', desc: '800 cherry trees with pink lanterns — Tokyo\'s trendiest yozakura', cat: 'attraction' }
     ]);
 
     // Day 4: Kyoto — Philosopher's Path
     initMap('map-day4', [
-        { lat: 35.0103, lng: 135.7867, name: 'Keage Incline', desc: 'Abandoned railway with 90 cherry trees — incredibly photogenic' },
-        { lat: 35.0113, lng: 135.7923, name: 'Nanzen-ji Temple', desc: 'Climb the Sanmon gate for views — ¥500' },
-        { lat: 35.0270, lng: 135.7983, name: 'Philosopher\'s Path', desc: '2km sakura-lined canal — petals turn the water pink' },
-        { lat: 35.0270, lng: 135.7984, name: 'Ginkaku-ji', desc: 'Silver Pavilion — Zen temple at path\'s north end (¥500)' },
-        { lat: 35.0037, lng: 135.7785, name: 'Shirakawa-dori (Gion)', desc: 'Weeping cherry trees over canal — most beautiful street in Japan at dusk' }
+        { lat: 35.0103, lng: 135.7867, name: 'Keage Incline', desc: 'Abandoned railway with 90 cherry trees — incredibly photogenic', cat: 'restaurant' },
+        { lat: 35.0113, lng: 135.7923, name: 'Nanzen-ji Temple', desc: 'Climb the Sanmon gate for views — ¥500', cat: 'activity' },
+        { lat: 35.0270, lng: 135.7983, name: 'Philosopher\'s Path', desc: '2km sakura-lined canal — petals turn the water pink', cat: 'attraction' },
+        { lat: 35.0270, lng: 135.7984, name: 'Ginkaku-ji', desc: 'Silver Pavilion — Zen temple at path\'s north end (¥500)', cat: 'temple' },
+        { lat: 35.0037, lng: 135.7785, name: 'Shirakawa-dori (Gion)', desc: 'Weeping cherry trees over canal — most beautiful street in Japan at dusk', cat: 'attraction' }
     ]);
 
     // Day 5: Arashiyama & Ninna-ji
     initMap('map-day5', [
-        { lat: 35.0173, lng: 135.6715, name: 'Arashiyama Bamboo Grove', desc: 'Arrive by 8 AM — bamboo + cherry blossoms' },
-        { lat: 35.0154, lng: 135.6745, name: 'Tenryu-ji Temple', desc: 'UNESCO site with garden — ¥500' },
-        { lat: 35.0149, lng: 135.6780, name: 'Togetsukyo Bridge', desc: 'Sakura reflected in the Katsura River' },
-        { lat: 35.0312, lng: 135.7131, name: 'Ninna-ji Temple', desc: 'Late-blooming Omuro sakura at eye level — your safety net if you miss peak' },
-        { lat: 35.0332, lng: 135.7313, name: 'Hirano Shrine', desc: 'Kyoto\'s oldest sakura festival (since 985 AD) — 400 trees, free entry' }
+        { lat: 35.0173, lng: 135.6715, name: 'Arashiyama Bamboo Grove', desc: 'Arrive by 8 AM — bamboo + cherry blossoms', cat: 'attraction' },
+        { lat: 35.0154, lng: 135.6745, name: 'Tenryu-ji Temple', desc: 'UNESCO site with garden — ¥500', cat: 'temple' },
+        { lat: 35.0149, lng: 135.6780, name: 'Togetsukyo Bridge', desc: 'Sakura reflected in the Katsura River', cat: 'attraction' },
+        { lat: 35.0312, lng: 135.7131, name: 'Ninna-ji Temple', desc: 'Late-blooming Omuro sakura at eye level — your safety net if you miss peak', cat: 'temple' },
+        { lat: 35.0332, lng: 135.7313, name: 'Hirano Shrine', desc: 'Kyoto\'s oldest sakura festival (since 985 AD) — 400 trees, free entry', cat: 'temple' }
     ]);
 
     // Day 6: Daigo-ji & Maruyama Park
     initMap('map-day6', [
-        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari Taisha', desc: '10,000+ torii gates — arrive by 7 AM' },
-        { lat: 34.9511, lng: 135.8214, name: 'Daigo-ji Temple', desc: 'Site of Hideyoshi\'s legendary 1598 hanami — 700 cherry trees' },
-        { lat: 34.9949, lng: 135.7850, name: 'Kiyomizu-dera', desc: 'Sea of pink blossoms from the wooden stage — ¥400' },
-        { lat: 35.0036, lng: 135.7807, name: 'Maruyama Park', desc: 'Famous weeping cherry tree illuminated at night — Kyoto\'s best yozakura' }
+        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari Taisha', desc: '10,000+ torii gates — arrive by 7 AM', cat: 'temple' },
+        { lat: 34.9511, lng: 135.8214, name: 'Daigo-ji Temple', desc: 'Site of Hideyoshi\'s legendary 1598 hanami — 700 cherry trees', cat: 'temple' },
+        { lat: 34.9949, lng: 135.7850, name: 'Kiyomizu-dera', desc: 'Sea of pink blossoms from the wooden stage — ¥400', cat: 'attraction' },
+        { lat: 35.0036, lng: 135.7807, name: 'Maruyama Park', desc: 'Famous weeping cherry tree illuminated at night — Kyoto\'s best yozakura', cat: 'attraction' }
     ]);
 
     // Day 7: Nara
     initMap('map-day7', [
-        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'Giant Buddha + cherry tree approach — ¥600' },
-        { lat: 34.6813, lng: 135.8430, name: 'Nara Park', desc: '1,700 cherry trees + free-roaming deer' },
-        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha Shrine', desc: 'Stone lanterns + forest approach with sakura — ¥500' },
-        { lat: 34.6813, lng: 135.8290, name: 'Hiraso', desc: 'Kakinoha-zushi — Nara\'s signature persimmon leaf sushi' }
+        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'Giant Buddha + cherry tree approach — ¥600', cat: 'temple' },
+        { lat: 34.6813, lng: 135.8430, name: 'Nara Park', desc: '1,700 cherry trees + free-roaming deer', cat: 'attraction' },
+        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha Shrine', desc: 'Stone lanterns + forest approach with sakura — ¥500', cat: 'temple' },
+        { lat: 34.6813, lng: 135.8290, name: 'Hiraso', desc: 'Kakinoha-zushi — Nara\'s signature persimmon leaf sushi', cat: 'restaurant' }
     ]);
 })();
 </script>

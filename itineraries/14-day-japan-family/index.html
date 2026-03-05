@@ -49,7 +49,22 @@
         .logo span { color: var(--terracotta); }
         nav a.cta-nav { background: var(--terracotta); color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; }
         nav a.cta-nav:hover { background: #b5633f; }
-        .hero { padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; }
+        /* HERO */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/14-day-japan-family/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: var(--sand); color: var(--earth); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
         .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800; color: var(--indigo); margin-bottom: 1rem; letter-spacing: -0.03em; }
         .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -125,7 +140,7 @@
         .final-cta a.cta-btn:hover { transform: translateY(-2px); }
         .final-cta .sub { margin-top: 0.75rem; font-size: 0.85rem; color: rgba(245, 240, 232, 0.6); }
         footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
-        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 3.5rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
+        @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 2rem; } .content { padding: 0 1.5rem; } .time-block { padding-left: 1rem; } .day-map { height: 350px; } }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
         @media (max-width: 768px) { .nav-links { display: flex; gap: 1.5rem; align-items: center; } .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; } .nav-links.open { display: flex; } nav a.cta-nav { text-align: center; } }
@@ -863,6 +878,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -872,11 +915,18 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
-            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;"><strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
+            var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
+                '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() { infoWindow.setContent(content); infoWindow.open(map, marker); });
         });
         if (pins.length > 1) map.fitBounds(bounds, 40);
@@ -884,81 +934,81 @@
     }
 
     initMap('map-day1', [
-        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest crossing — kids love the chaos' },
-        { lat: 35.6590, lng: 139.7006, name: 'Hachiko Statue', desc: 'Faithful dog statue — tell kids the story first' },
-        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — ¥2,000/adult, ¥900/child' }
+        { lat: 35.6595, lng: 139.7004, name: 'Shibuya Crossing', desc: 'World\'s busiest crossing — kids love the chaos', cat: 'attraction' },
+        { lat: 35.6590, lng: 139.7006, name: 'Hachiko Statue', desc: 'Faithful dog statue — tell kids the story first', cat: 'attraction' },
+        { lat: 35.6584, lng: 139.7022, name: 'Shibuya Sky', desc: 'Observation deck — ¥2,000/adult, ¥900/child', cat: 'attraction' }
     ]);
 
     initMap('map-day2', [
-        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — omikuji fortunes ¥100' },
-        { lat: 35.7164, lng: 139.7722, name: 'Ueno Zoo', desc: '¥600/adult, free under 12 — pandas & petting zoo' },
-        { lat: 35.7101, lng: 139.8107, name: 'Tokyo Skytree', desc: 'World\'s tallest tower — glass floor panels' }
+        { lat: 35.7148, lng: 139.7967, name: 'Senso-ji Temple', desc: 'Tokyo\'s oldest temple — omikuji fortunes ¥100', cat: 'temple' },
+        { lat: 35.7164, lng: 139.7722, name: 'Ueno Zoo', desc: '¥600/adult, free under 12 — pandas & petting zoo', cat: 'attraction' },
+        { lat: 35.7101, lng: 139.8107, name: 'Tokyo Skytree', desc: 'World\'s tallest tower — glass floor panels', cat: 'attraction' }
     ]);
 
     initMap('map-day3', [
-        { lat: 35.6329, lng: 139.8804, name: 'Tokyo Disneyland', desc: 'Pooh\'s Hunny Hunt, Pirates, Buzz Lightyear' },
-        { lat: 35.6267, lng: 139.8850, name: 'Tokyo DisneySea', desc: 'Alternative for older kids — Soaring ride' }
+        { lat: 35.6329, lng: 139.8804, name: 'Tokyo Disneyland', desc: 'Pooh\'s Hunny Hunt, Pirates, Buzz Lightyear', cat: 'attraction' },
+        { lat: 35.6267, lng: 139.8850, name: 'Tokyo DisneySea', desc: 'Alternative for older kids — Soaring ride', cat: 'attraction' }
     ]);
 
     initMap('map-day4', [
-        { lat: 35.6984, lng: 139.7710, name: 'Akihabara', desc: 'Anime, gaming, gachapon paradise' },
-        { lat: 35.6580, lng: 139.7310, name: 'Super Potato', desc: 'Retro game shop with playable arcade' },
-        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: '¥3,800/adult, ¥1,000/child — immersive digital art' }
+        { lat: 35.6984, lng: 139.7710, name: 'Akihabara', desc: 'Anime, gaming, gachapon paradise', cat: 'attraction' },
+        { lat: 35.6580, lng: 139.7310, name: 'Super Potato', desc: 'Retro game shop with playable arcade', cat: 'beach' },
+        { lat: 35.6610, lng: 139.7380, name: 'TeamLab Borderless', desc: '¥3,800/adult, ¥1,000/child — immersive digital art', cat: 'attraction' }
     ]);
 
     initMap('map-day5', [
-        { lat: 35.2326, lng: 139.1070, name: 'Hakone-Yumoto', desc: 'Gateway station — Romance Car arrives here' },
-        { lat: 35.2434, lng: 139.0208, name: 'Owakudani', desc: 'Volcanic valley — black eggs ¥500 for 5' },
-        { lat: 35.2044, lng: 139.0326, name: 'Lake Ashi Pirate Ship', desc: 'Cross the lake with Mt. Fuji views' },
-        { lat: 35.2277, lng: 139.0569, name: 'Hakone Yuryo', desc: 'Family private onsen — ¥4,500/hour' }
+        { lat: 35.2326, lng: 139.1070, name: 'Hakone-Yumoto', desc: 'Gateway station — Romance Car arrives here', cat: 'transport' },
+        { lat: 35.2434, lng: 139.0208, name: 'Owakudani', desc: 'Volcanic valley — black eggs ¥500 for 5', cat: 'attraction' },
+        { lat: 35.2044, lng: 139.0326, name: 'Lake Ashi Pirate Ship', desc: 'Cross the lake with Mt. Fuji views', cat: 'attraction' },
+        { lat: 35.2277, lng: 139.0569, name: 'Hakone Yuryo', desc: 'Family private onsen — ¥4,500/hour', cat: 'spa' }
     ]);
 
     initMap('map-day6', [
-        { lat: 35.0050, lng: 135.7649, name: 'Nishiki Market', desc: 'Kyoto\'s Kitchen — tamagoyaki & mochi' },
-        { lat: 35.0036, lng: 135.7786, name: 'Gion District', desc: 'Spot geiko on Hanamikoji-dori 5:30-6:30 PM' }
+        { lat: 35.0050, lng: 135.7649, name: 'Nishiki Market', desc: 'Kyoto\'s Kitchen — tamagoyaki & mochi', cat: 'restaurant' },
+        { lat: 35.0036, lng: 135.7786, name: 'Gion District', desc: 'Spot geiko on Hanamikoji-dori 5:30-6:30 PM', cat: 'attraction' }
     ]);
 
     initMap('map-day7', [
-        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari', desc: '10,000+ torii gates — arrive by 8 AM' },
-        { lat: 35.0154, lng: 135.6745, name: 'Arashiyama Bamboo Grove', desc: 'Towering bamboo stalks' },
-        { lat: 35.0119, lng: 135.6790, name: 'Iwatayama Monkey Park', desc: '#1 kid activity in Kyoto — feed wild macaques' }
+        { lat: 34.9671, lng: 135.7727, name: 'Fushimi Inari', desc: '10,000+ torii gates — arrive by 8 AM', cat: 'attraction' },
+        { lat: 35.0154, lng: 135.6745, name: 'Arashiyama Bamboo Grove', desc: 'Towering bamboo stalks', cat: 'attraction' },
+        { lat: 35.0119, lng: 135.6790, name: 'Iwatayama Monkey Park', desc: '#1 kid activity in Kyoto — feed wild macaques', cat: 'attraction' }
     ]);
 
     initMap('map-day8', [
-        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'Giant Buddha + nostril-crawl pillar' },
-        { lat: 34.6813, lng: 135.8430, name: 'Nara Park Deer', desc: '1,200 wild deer that bow for crackers' },
-        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha', desc: 'Thousands of stone lanterns' },
-        { lat: 34.6820, lng: 135.8272, name: 'Nakatanidou', desc: 'Mesmerizing mochi-pounding performance' }
+        { lat: 34.6890, lng: 135.8398, name: 'Todai-ji Temple', desc: 'Giant Buddha + nostril-crawl pillar', cat: 'temple' },
+        { lat: 34.6813, lng: 135.8430, name: 'Nara Park Deer', desc: '1,200 wild deer that bow for crackers', cat: 'attraction' },
+        { lat: 34.6811, lng: 135.8497, name: 'Kasuga-taisha', desc: 'Thousands of stone lanterns', cat: 'temple' },
+        { lat: 34.6820, lng: 135.8272, name: 'Nakatanidou', desc: 'Mesmerizing mochi-pounding performance', cat: 'attraction' }
     ]);
 
     initMap('map-day9', [
-        { lat: 35.0394, lng: 135.7293, name: 'Kinkaku-ji', desc: 'Golden Pavilion — calligraphy souvenir ticket' },
-        { lat: 35.0030, lng: 135.7790, name: 'Ninja Dojo Kyoto', desc: '¥6,000/person — shuriken & sword training' }
+        { lat: 35.0394, lng: 135.7293, name: 'Kinkaku-ji', desc: 'Golden Pavilion — calligraphy souvenir ticket', cat: 'shopping' },
+        { lat: 35.0030, lng: 135.7790, name: 'Ninja Dojo Kyoto', desc: '¥6,000/person — shuriken & sword training', cat: 'attraction' }
     ]);
 
     initMap('map-day10', [
-        { lat: 34.6873, lng: 135.5262, name: 'Osaka Castle', desc: 'Samurai museum + panoramic views — free under 15' },
-        { lat: 34.6687, lng: 135.5013, name: 'Dotonbori', desc: 'Neon food paradise — takoyaki & okonomiyaki' }
+        { lat: 34.6873, lng: 135.5262, name: 'Osaka Castle', desc: 'Samurai museum + panoramic views — free under 15', cat: 'attraction' },
+        { lat: 34.6687, lng: 135.5013, name: 'Dotonbori', desc: 'Neon food paradise — takoyaki & okonomiyaki', cat: 'restaurant' }
     ]);
 
     initMap('map-day11', [
-        { lat: 34.6656, lng: 135.4323, name: 'Universal Studios Japan', desc: 'Super Nintendo World + Harry Potter' }
+        { lat: 34.6656, lng: 135.4323, name: 'Universal Studios Japan', desc: 'Super Nintendo World + Harry Potter', cat: 'attraction' }
     ]);
 
     initMap('map-day12', [
-        { lat: 34.8226, lng: 135.4348, name: 'Cup Noodles Museum Ikeda', desc: 'Make your own cup noodles — ¥500' },
-        { lat: 34.6523, lng: 135.5063, name: 'Shinsekai', desc: 'Retro district — Tsutenkaku Tower & game arcades' },
-        { lat: 34.6493, lng: 135.5133, name: 'Tennoji Zoo', desc: '¥500/adult, free under 15' }
+        { lat: 34.8226, lng: 135.4348, name: 'Cup Noodles Museum Ikeda', desc: 'Make your own cup noodles — ¥500', cat: 'attraction' },
+        { lat: 34.6523, lng: 135.5063, name: 'Shinsekai', desc: 'Retro district — Tsutenkaku Tower & game arcades', cat: 'attraction' },
+        { lat: 34.6493, lng: 135.5133, name: 'Tennoji Zoo', desc: '¥500/adult, free under 15', cat: 'attraction' }
     ]);
 
     initMap('map-day13', [
-        { lat: 34.8394, lng: 134.6939, name: 'Himeji Castle', desc: 'Japan\'s most spectacular original castle' },
-        { lat: 34.8373, lng: 134.6926, name: 'Koko-en Garden', desc: '9 distinct garden styles + tea house' }
+        { lat: 34.8394, lng: 134.6939, name: 'Himeji Castle', desc: 'Japan\'s most spectacular original castle', cat: 'attraction' },
+        { lat: 34.8373, lng: 134.6926, name: 'Koko-en Garden', desc: '9 distinct garden styles + tea house', cat: 'attraction' }
     ]);
 
     initMap('map-day14', [
-        { lat: 34.6624, lng: 135.5068, name: 'Kuromon Market', desc: 'Farewell food — strawberries, tamagoyaki, snacks' },
-        { lat: 34.6466, lng: 135.3900, name: 'Kansai Airport (KIX)', desc: 'Nankai Rapi:t from Namba — 35 min' }
+        { lat: 34.6624, lng: 135.5068, name: 'Kuromon Market', desc: 'Farewell food — strawberries, tamagoyaki, snacks', cat: 'restaurant' },
+        { lat: 34.6466, lng: 135.3900, name: 'Kansai Airport (KIX)', desc: 'Nankai Rapi:t from Namba — 35 min', cat: 'transport' }
     ]);
 })();
 </script>

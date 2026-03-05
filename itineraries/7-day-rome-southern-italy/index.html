@@ -64,10 +64,22 @@
             transition: background 0.2s;
         }
         nav a.cta-nav:hover { background: #b5633f; }
+        /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/7-day-rome-southern-italy/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -348,7 +360,7 @@
         }
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1047,6 +1059,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1056,11 +1096,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1073,71 +1119,71 @@
 
     // Day 1: Trastevere
     initMap('map-day1', [
-        { lat: 41.8898, lng: 12.4764, name: 'Da Enzo al 29', desc: 'Best cacio e pepe in Trastevere — arrive early' },
-        { lat: 41.8893, lng: 12.4700, name: 'Supplizio', desc: 'Rome\'s best supplì — try the cacio e pepe version (€2.50)' },
-        { lat: 41.8886, lng: 12.4690, name: 'Forno La Renella', desc: 'Neighborhood bakery since 1951 — pizza bianca by weight' },
-        { lat: 41.8883, lng: 12.4648, name: 'Gianicolo Hill', desc: 'Best free sunset panorama in Rome' },
-        { lat: 41.8880, lng: 12.4680, name: 'Freni e Frizioni', desc: 'Aperitivo in a former garage — spritz + buffet €10–12' }
+        { lat: 41.8898, lng: 12.4764, name: 'Da Enzo al 29', desc: 'Best cacio e pepe in Trastevere — arrive early', cat: 'attraction' },
+        { lat: 41.8893, lng: 12.4700, name: 'Supplizio', desc: 'Rome\'s best supplì — try the cacio e pepe version (€2.50)', cat: 'attraction' },
+        { lat: 41.8886, lng: 12.4690, name: 'Forno La Renella', desc: 'Neighborhood bakery since 1951 — pizza bianca by weight', cat: 'restaurant' },
+        { lat: 41.8883, lng: 12.4648, name: 'Gianicolo Hill', desc: 'Best free sunset panorama in Rome', cat: 'attraction' },
+        { lat: 41.8880, lng: 12.4680, name: 'Freni e Frizioni', desc: 'Aperitivo in a former garage — spritz + buffet €10–12', cat: 'attraction' }
     ]);
 
     // Day 2: Testaccio & Jewish Ghetto
     initMap('map-day2', [
-        { lat: 41.8756, lng: 12.4753, name: 'Mercato Testaccio', desc: 'Rome\'s best food market — Mordi e Vai for legendary sandwiches' },
-        { lat: 41.8828, lng: 12.4785, name: 'Knights of Malta Keyhole', desc: 'Peek through for a framed view of St. Peter\'s dome' },
-        { lat: 41.8836, lng: 12.4799, name: 'Giardino degli Aranci', desc: 'Orange Garden — panoramic views' },
-        { lat: 41.8915, lng: 12.4775, name: 'Nonna Betta', desc: 'Best carciofi alla giudia in the Jewish Ghetto (€8)' },
-        { lat: 41.8761, lng: 12.4758, name: 'Felice a Testaccio', desc: 'Theatrical tableside cacio e pepe — book ahead' },
-        { lat: 41.8770, lng: 12.4761, name: 'Trapizzino', desc: 'Pizza pockets stuffed with Roman classics (€3.50–5)' }
+        { lat: 41.8756, lng: 12.4753, name: 'Mercato Testaccio', desc: 'Rome\'s best food market — Mordi e Vai for legendary sandwiches', cat: 'shopping' },
+        { lat: 41.8828, lng: 12.4785, name: 'Knights of Malta Keyhole', desc: 'Peek through for a framed view of St. Peter\'s dome', cat: 'attraction' },
+        { lat: 41.8836, lng: 12.4799, name: 'Giardino degli Aranci', desc: 'Orange Garden — panoramic views', cat: 'attraction' },
+        { lat: 41.8915, lng: 12.4775, name: 'Nonna Betta', desc: 'Best carciofi alla giudia in the Jewish Ghetto (€8)', cat: 'attraction' },
+        { lat: 41.8761, lng: 12.4758, name: 'Felice a Testaccio', desc: 'Theatrical tableside cacio e pepe — book ahead', cat: 'attraction' },
+        { lat: 41.8770, lng: 12.4761, name: 'Trapizzino', desc: 'Pizza pockets stuffed with Roman classics (€3.50–5)', cat: 'restaurant' }
     ]);
 
     // Day 3: Campo de' Fiori & Centro Storico
     initMap('map-day3', [
-        { lat: 41.8956, lng: 12.4722, name: 'Campo de\' Fiori Market', desc: 'Morning market — produce, porchetta, spices' },
-        { lat: 41.8960, lng: 12.4735, name: 'Antico Forno Roscioli', desc: 'Best pizza bianca in Rome — by weight' },
-        { lat: 41.8986, lng: 12.4769, name: 'Pantheon', desc: '2,000-year-old dome — free entry, reservation required' },
-        { lat: 41.8983, lng: 12.4761, name: 'Sant\'Eustachio Il Caffè', desc: 'Rome\'s best espresso since 1938 (€2.50)' },
-        { lat: 41.8950, lng: 12.4740, name: 'Roscioli Salumeria', desc: 'World-class carbonara and charcuterie — book 3–5 days ahead' },
-        { lat: 41.9009, lng: 12.4733, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of the Four Rivers' },
-        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Toss a coin — best in late afternoon light' },
-        { lat: 41.8989, lng: 12.4780, name: 'Armando al Pantheon', desc: 'Family trattoria since 1961 — try the gricia (€11)' }
+        { lat: 41.8956, lng: 12.4722, name: 'Campo de\' Fiori Market', desc: 'Morning market — produce, porchetta, spices', cat: 'attraction' },
+        { lat: 41.8960, lng: 12.4735, name: 'Antico Forno Roscioli', desc: 'Best pizza bianca in Rome — by weight', cat: 'restaurant' },
+        { lat: 41.8986, lng: 12.4769, name: 'Pantheon', desc: '2,000-year-old dome — free entry, reservation required', cat: 'attraction' },
+        { lat: 41.8983, lng: 12.4761, name: 'Sant\'Eustachio Il Caffè', desc: 'Rome\'s best espresso since 1938 (€2.50)', cat: 'attraction' },
+        { lat: 41.8950, lng: 12.4740, name: 'Roscioli Salumeria', desc: 'World-class carbonara and charcuterie — book 3–5 days ahead', cat: 'attraction' },
+        { lat: 41.9009, lng: 12.4733, name: 'Piazza Navona', desc: 'Bernini\'s Fountain of the Four Rivers', cat: 'attraction' },
+        { lat: 41.9009, lng: 12.4833, name: 'Trevi Fountain', desc: 'Toss a coin — best in late afternoon light', cat: 'attraction' },
+        { lat: 41.8989, lng: 12.4780, name: 'Armando al Pantheon', desc: 'Family trattoria since 1961 — try the gricia (€11)', cat: 'restaurant' }
     ]);
 
     // Day 4: Naples
     initMap('map-day4', [
-        { lat: 40.8498, lng: 14.2650, name: 'Napoli Centrale Station', desc: 'Arrive from Rome — 1h10 by Frecciarossa' },
-        { lat: 40.8496, lng: 14.2623, name: 'L\'Antica Pizzeria da Michele', desc: 'Since 1870 — margherita €5, marinara €4. Queue early.' },
-        { lat: 40.8514, lng: 14.2556, name: 'Sorbillo', desc: 'Legendary pizza on Via dei Tribunali — pizza fritta €5' },
-        { lat: 40.8482, lng: 14.2659, name: 'Attanasio', desc: 'Best sfogliatella in Naples — crispy ricotta pastry (€1.50)' },
-        { lat: 40.8488, lng: 14.2529, name: 'Scaturchio', desc: 'Historic pasticceria — pastiera napoletana (€3.50)' },
-        { lat: 40.8507, lng: 14.2569, name: 'Naples Underground', desc: 'Greek-Roman tunnels 40m beneath the streets (€12)' },
-        { lat: 40.8437, lng: 14.2487, name: 'Trattoria da Nennella', desc: 'Chaotic, hilarious — full meal with wine ~€12–15' }
+        { lat: 40.8498, lng: 14.2650, name: 'Napoli Centrale Station', desc: 'Arrive from Rome — 1h10 by Frecciarossa', cat: 'transport' },
+        { lat: 40.8496, lng: 14.2623, name: 'L\'Antica Pizzeria da Michele', desc: 'Since 1870 — margherita €5, marinara €4. Queue early.', cat: 'attraction' },
+        { lat: 40.8514, lng: 14.2556, name: 'Sorbillo', desc: 'Legendary pizza on Via dei Tribunali — pizza fritta €5', cat: 'restaurant' },
+        { lat: 40.8482, lng: 14.2659, name: 'Attanasio', desc: 'Best sfogliatella in Naples — crispy ricotta pastry (€1.50)', cat: 'restaurant' },
+        { lat: 40.8488, lng: 14.2529, name: 'Scaturchio', desc: 'Historic pasticceria — pastiera napoletana (€3.50)', cat: 'attraction' },
+        { lat: 40.8507, lng: 14.2569, name: 'Naples Underground', desc: 'Greek-Roman tunnels 40m beneath the streets (€12)', cat: 'attraction' },
+        { lat: 40.8437, lng: 14.2487, name: 'Trattoria da Nennella', desc: 'Chaotic, hilarious — full meal with wine ~€12–15', cat: 'restaurant' }
     ]);
 
     // Day 5: Pompeii & Naples
     initMap('map-day5', [
-        { lat: 40.7489, lng: 14.4849, name: 'Pompeii Archaeological Park', desc: 'Frozen Roman city — allow 3–4 hours (€18)' },
-        { lat: 40.8571, lng: 14.2458, name: 'Pizzeria Starita', desc: 'Famous pizza fritta — featured in L\'Oro di Napoli (€5)' },
-        { lat: 40.8280, lng: 14.2476, name: 'Castel dell\'Ovo', desc: 'Naples\' oldest castle — free entry, Vesuvius views' },
-        { lat: 40.8275, lng: 14.2478, name: 'Zi Teresa', desc: 'Seafood since 1890 — vongole €14, harbor views' }
+        { lat: 40.7489, lng: 14.4849, name: 'Pompeii Archaeological Park', desc: 'Frozen Roman city — allow 3–4 hours (€18)', cat: 'attraction' },
+        { lat: 40.8571, lng: 14.2458, name: 'Pizzeria Starita', desc: 'Famous pizza fritta — featured in L\'Oro di Napoli (€5)', cat: 'restaurant' },
+        { lat: 40.8280, lng: 14.2476, name: 'Castel dell\'Ovo', desc: 'Naples\' oldest castle — free entry, Vesuvius views', cat: 'attraction' },
+        { lat: 40.8275, lng: 14.2478, name: 'Zi Teresa', desc: 'Seafood since 1890 — vongole €14, harbor views', cat: 'restaurant' }
     ]);
 
     // Day 6: Positano & Amalfi Coast
     initMap('map-day6', [
-        { lat: 40.6281, lng: 14.4850, name: 'Positano - Spiaggia Grande', desc: 'Main beach — pastel cascading village above' },
-        { lat: 40.6291, lng: 14.4852, name: 'La Zagara', desc: 'Lemon-grove café — granita €5, delizia al limone €7' },
-        { lat: 40.6239, lng: 14.4962, name: 'Da Adolfo', desc: 'Beach restaurant by boat — grilled mozzarella on lemon leaves' },
-        { lat: 40.6293, lng: 14.4868, name: 'Franco\'s Bar (Le Sirenuse)', desc: 'Famous sunset terrace — cocktails €18–22' },
-        { lat: 40.6288, lng: 14.4857, name: 'Next2', desc: 'Upscale seafood — scialatielli ai frutti di mare (€22)' }
+        { lat: 40.6281, lng: 14.4850, name: 'Positano - Spiaggia Grande', desc: 'Main beach — pastel cascading village above', cat: 'hotel' },
+        { lat: 40.6291, lng: 14.4852, name: 'La Zagara', desc: 'Lemon-grove café — granita €5, delizia al limone €7', cat: 'restaurant' },
+        { lat: 40.6239, lng: 14.4962, name: 'Da Adolfo', desc: 'Beach restaurant by boat — grilled mozzarella on lemon leaves', cat: 'beach' },
+        { lat: 40.6293, lng: 14.4868, name: 'Franco\'s Bar (Le Sirenuse)', desc: 'Famous sunset terrace — cocktails €18–22', cat: 'nightlife' },
+        { lat: 40.6288, lng: 14.4857, name: 'Next2', desc: 'Upscale seafood — scialatielli ai frutti di mare (€22)', cat: 'restaurant' }
     ]);
 
     // Day 7: Ravello & Amalfi
     initMap('map-day7', [
-        { lat: 40.6491, lng: 14.6120, name: 'Villa Rufolo', desc: 'Gardens that inspired Wagner — coastline panorama (€10)' },
-        { lat: 40.6456, lng: 14.6104, name: 'Villa Cimbrone', desc: 'Terrace of Infinity — "most beautiful view in the world" (€10)' },
-        { lat: 40.6487, lng: 14.6114, name: 'Profumi della Costiera', desc: 'Limoncello tasting — free tasting, bottles from €8' },
-        { lat: 40.6340, lng: 14.6027, name: 'Amalfi Duomo', desc: 'Stunning Arab-Norman cathedral (€3)' },
-        { lat: 40.6350, lng: 14.6040, name: 'Trattoria Il Mulino', desc: 'Local spot — scialatielli alla colatura di alici (€14)' },
-        { lat: 40.6363, lng: 14.6084, name: 'Atrani', desc: 'Italy\'s smallest municipality — tiny beach village' }
+        { lat: 40.6491, lng: 14.6120, name: 'Villa Rufolo', desc: 'Gardens that inspired Wagner — coastline panorama (€10)', cat: 'hotel' },
+        { lat: 40.6456, lng: 14.6104, name: 'Villa Cimbrone', desc: 'Terrace of Infinity — "most beautiful view in the world" (€10)', cat: 'hotel' },
+        { lat: 40.6487, lng: 14.6114, name: 'Profumi della Costiera', desc: 'Limoncello tasting — free tasting, bottles from €8', cat: 'attraction' },
+        { lat: 40.6340, lng: 14.6027, name: 'Amalfi Duomo', desc: 'Stunning Arab-Norman cathedral (€3)', cat: 'temple' },
+        { lat: 40.6350, lng: 14.6040, name: 'Trattoria Il Mulino', desc: 'Local spot — scialatielli alla colatura di alici (€14)', cat: 'restaurant' },
+        { lat: 40.6363, lng: 14.6084, name: 'Atrani', desc: 'Italy\'s smallest municipality — tiny beach village', cat: 'hotel' }
     ]);
 })();
 </script>

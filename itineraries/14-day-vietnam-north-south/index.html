@@ -69,9 +69,20 @@
 
         /* HERO */
         .hero {
-            padding: 7rem 2rem 5rem;
-            max-width: 800px; margin: 0 auto;
+            position: relative;
+            padding: 7rem 2rem 3rem;
+            max-width: none; margin: 0 auto 2rem;
+            background: url('https://img.tabiji.ai/itineraries/14-day-vietnam-north-south/hero-bg.jpg') center center / cover no-repeat;
+            min-height: 420px;
+            display: flex; flex-direction: column; justify-content: flex-end;
         }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,20,35,0.55) 0%, rgba(20,20,35,0.45) 60%, rgba(20,20,35,0.65) 100%);
+            z-index: 0;
+        }
+        .hero > * { position: relative; z-index: 1; }
         .hero-badge {
             display: inline-block;
             background: var(--sand); color: var(--earth);
@@ -380,7 +391,7 @@
 
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
-            .hero { padding: 6rem 1.5rem 3.5rem; }
+            .hero { padding: 6rem 1.5rem 2rem; }
             .content { padding: 0 1.5rem; }
             .time-block { padding-left: 1rem; }
             .day-map { height: 350px; }
@@ -1298,6 +1309,34 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc"></script>
 <script>
 (function() {
+    
+    var colors = {
+        restaurant: '#C4704B', attraction: '#2D3A5C', activity: '#5B8C5A',
+        transport: '#7B6B8D', nightlife: '#B8860B', shopping: '#8B4513',
+        hotel: '#2D3A5C', temple: '#2D3A5C', spa: '#5B8C5A', beach: '#5B8C5A'
+    };
+    var catBgColors = {
+        restaurant: '#FFF0E8', attraction: '#E8EBF2', activity: '#EBF2EB',
+        transport: '#F0ECF2', nightlife: '#FFF5DC', shopping: '#F5EDE5',
+        hotel: '#E8EBF2', temple: '#E8EBF2', spa: '#EBF2EB', beach: '#EBF2EB'
+    };
+    var catLabels = {
+        restaurant: 'Restaurant', attraction: 'Attraction', activity: 'Activity',
+        transport: 'Transport', nightlife: 'Nightlife', shopping: 'Shopping',
+        hotel: 'Hotel', temple: 'Temple', spa: 'Spa', beach: 'Beach'
+    };
+    function makeSVGIcon(cat, num) {
+        var c = colors[cat] || '#2D3A5C';
+        var label = (num != null) ? num : '';
+        var svg = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28">' +
+            '<circle cx="14" cy="14" r="11" fill="' + c + '" stroke="white" stroke-width="3"/>' +
+            (label !== '' ? '<text x="14" y="18" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial,sans-serif" fill="white">' + label + '</text>' : '') +
+            '</svg>'
+        );
+        return { url: svg, scaledSize: new google.maps.Size(28, 28), anchor: new google.maps.Point(14, 14) };
+    }
+
     function initMap(id, pins) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1307,11 +1346,17 @@
         });
         var bounds = new google.maps.LatLngBounds();
         var infoWindow = new google.maps.InfoWindow();
-        pins.forEach(function(p) {
+        pins.forEach(function(p, i) {
             var pos = { lat: p.lat, lng: p.lng };
-            var marker = new google.maps.Marker({ position: pos, map: map, title: p.name });
+            var num = (p.num != null) ? p.num : (i + 1);
+            var marker = new google.maps.Marker({
+                position: pos, map: map,
+                icon: makeSVGIcon(p.cat, num),
+                title: p.name
+            });
             bounds.extend(pos);
             var content = '<div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:0.85rem;line-height:1.4;max-width:220px;">' +
+                '<span style="display:inline-block;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.15rem 0.5rem;border-radius:100px;margin-bottom:0.3rem;background:' + (catBgColors[p.cat]||'#eee') + ';color:' + (colors[p.cat]||'#333') + ';">' + (catLabels[p.cat]||'Place') + '</span><br>' +
                 '<strong style="color:#2D3A5C;">' + p.name + '</strong><br>' + p.desc + '</div>';
             marker.addListener('click', function() {
                 infoWindow.setContent(content);
@@ -1324,118 +1369,118 @@
 
     // Day 1: Arrival in Hanoi
     initMap('map-day1', [
-        { lat: 21.0288, lng: 105.8525, name: 'Hoan Kiem Lake', desc: 'Heart of Hanoi — Huc Bridge & Ngoc Son Temple' },
-        { lat: 21.0340, lng: 105.8500, name: 'Old Quarter', desc: '36 streets of street food, bia hoi & chaos' },
-        { lat: 21.0365, lng: 105.8498, name: 'Phở Bát Đàn', desc: 'Legendary beef pho — 50,000 VND' },
-        { lat: 21.0128, lng: 105.8472, name: 'Bún Chả Hương Liên', desc: 'The Obama bun cha spot — 50,000 VND' },
-        { lat: 21.0325, lng: 105.8535, name: 'Bia Hơi Corner (Tạ Hiện)', desc: 'Draft beer from 5,000 VND on tiny plastic stools' }
+        { lat: 21.0288, lng: 105.8525, name: 'Hoan Kiem Lake', desc: 'Heart of Hanoi — Huc Bridge & Ngoc Son Temple', cat: 'temple' },
+        { lat: 21.0340, lng: 105.8500, name: 'Old Quarter', desc: '36 streets of street food, bia hoi & chaos', cat: 'restaurant' },
+        { lat: 21.0365, lng: 105.8498, name: 'Phở Bát Đàn', desc: 'Legendary beef pho — 50,000 VND', cat: 'restaurant' },
+        { lat: 21.0128, lng: 105.8472, name: 'Bún Chả Hương Liên', desc: 'The Obama bun cha spot — 50,000 VND', cat: 'restaurant' },
+        { lat: 21.0325, lng: 105.8535, name: 'Bia Hơi Corner (Tạ Hiện)', desc: 'Draft beer from 5,000 VND on tiny plastic stools', cat: 'attraction' }
     ]);
 
     // Day 2: Hanoi Deep Dive
     initMap('map-day2', [
-        { lat: 21.0274, lng: 105.8355, name: 'Temple of Literature', desc: 'Vietnam\'s first university (1070) — 30,000 VND' },
-        { lat: 21.0368, lng: 105.8344, name: 'Ho Chi Minh Mausoleum', desc: 'Free entry — closed Mon & Fri, no shorts' },
-        { lat: 21.0350, lng: 105.8342, name: 'One Pillar Pagoda', desc: 'Iconic single-pillar Buddhist temple' },
-        { lat: 21.0330, lng: 105.8530, name: 'Café Giảng', desc: 'Original egg coffee since 1946 — 35,000 VND' },
-        { lat: 21.0340, lng: 105.8465, name: 'Train Street', desc: 'Trains pass meters from front doors — ~3:30 PM & 7:30 PM' },
-        { lat: 21.0540, lng: 105.8366, name: 'Trấn Quốc Pagoda', desc: 'Oldest Buddhist temple in Hanoi (6th century)' }
+        { lat: 21.0274, lng: 105.8355, name: 'Temple of Literature', desc: 'Vietnam\'s first university (1070) — 30,000 VND', cat: 'temple' },
+        { lat: 21.0368, lng: 105.8344, name: 'Ho Chi Minh Mausoleum', desc: 'Free entry — closed Mon & Fri, no shorts', cat: 'attraction' },
+        { lat: 21.0350, lng: 105.8342, name: 'One Pillar Pagoda', desc: 'Iconic single-pillar Buddhist temple', cat: 'temple' },
+        { lat: 21.0330, lng: 105.8530, name: 'Café Giảng', desc: 'Original egg coffee since 1946 — 35,000 VND', cat: 'restaurant' },
+        { lat: 21.0340, lng: 105.8465, name: 'Train Street', desc: 'Trains pass meters from front doors — ~3:30 PM & 7:30 PM', cat: 'attraction' },
+        { lat: 21.0540, lng: 105.8366, name: 'Trấn Quốc Pagoda', desc: 'Oldest Buddhist temple in Hanoi (6th century)', cat: 'temple' }
     ]);
 
     // Day 3: Ha Long Bay Cruise
     initMap('map-day3', [
-        { lat: 20.9101, lng: 107.1839, name: 'Ha Long Bay', desc: 'UNESCO — thousands of limestone karsts' },
-        { lat: 20.9040, lng: 107.1430, name: 'Sung Sot Cave', desc: 'Surprise Cave — largest grotto in Ha Long Bay' },
-        { lat: 20.8200, lng: 107.0900, name: 'Lan Ha Bay', desc: 'Less crowded alternative — better for backpackers' }
+        { lat: 20.9101, lng: 107.1839, name: 'Ha Long Bay', desc: 'UNESCO — thousands of limestone karsts', cat: 'attraction' },
+        { lat: 20.9040, lng: 107.1430, name: 'Sung Sot Cave', desc: 'Surprise Cave — largest grotto in Ha Long Bay', cat: 'attraction' },
+        { lat: 20.8200, lng: 107.0900, name: 'Lan Ha Bay', desc: 'Less crowded alternative — better for backpackers', cat: 'attraction' }
     ]);
 
     // Day 4: Ha Long Bay morning + return
     initMap('map-day4', [
-        { lat: 20.9200, lng: 107.1700, name: 'Titov Island', desc: '400+ steps for panoramic views + beach' },
-        { lat: 20.9101, lng: 107.1839, name: 'Ha Long Bay', desc: 'Sunrise over the karsts — unforgettable' },
-        { lat: 21.0288, lng: 105.8525, name: 'Hanoi (return)', desc: 'Arrive back ~3-4 PM' }
+        { lat: 20.9200, lng: 107.1700, name: 'Titov Island', desc: '400+ steps for panoramic views + beach', cat: 'beach' },
+        { lat: 20.9101, lng: 107.1839, name: 'Ha Long Bay', desc: 'Sunrise over the karsts — unforgettable', cat: 'attraction' },
+        { lat: 21.0288, lng: 105.8525, name: 'Hanoi (return)', desc: 'Arrive back ~3-4 PM', cat: 'attraction' }
     ]);
 
     // Day 5: Ninh Binh
     initMap('map-day5', [
-        { lat: 20.2159, lng: 105.9396, name: 'Tam Coc', desc: 'Sampan boat through 3 cave grottos — 150,000 VND' },
-        { lat: 20.2150, lng: 105.9330, name: 'Mua Cave Viewpoint', desc: '500 steps to best panorama in northern Vietnam — 100,000 VND' },
-        { lat: 20.2200, lng: 105.9350, name: 'Bich Dong Pagoda', desc: '15th-century pagoda in a limestone cliff — free' },
-        { lat: 20.2508, lng: 105.9757, name: 'Ninh Binh Town', desc: 'Bus hub — 2h from Hanoi' }
+        { lat: 20.2159, lng: 105.9396, name: 'Tam Coc', desc: 'Sampan boat through 3 cave grottos — 150,000 VND', cat: 'attraction' },
+        { lat: 20.2150, lng: 105.9330, name: 'Mua Cave Viewpoint', desc: '500 steps to best panorama in northern Vietnam — 100,000 VND', cat: 'attraction' },
+        { lat: 20.2200, lng: 105.9350, name: 'Bich Dong Pagoda', desc: '15th-century pagoda in a limestone cliff — free', cat: 'temple' },
+        { lat: 20.2508, lng: 105.9757, name: 'Ninh Binh Town', desc: 'Bus hub — 2h from Hanoi', cat: 'attraction' }
     ]);
 
     // Day 6: Fly to Hue
     initMap('map-day6', [
-        { lat: 16.4015, lng: 107.7028, name: 'Perfume River', desc: 'Hue\'s scenic lifeline — beautiful evening walks' },
-        { lat: 16.4690, lng: 107.5966, name: 'Phu Bai Airport (HUI)', desc: '15 min Grab to city center' },
-        { lat: 16.4695, lng: 107.5788, name: 'Dong Ba Market', desc: 'Hue\'s largest traditional market — bún bò Huế here' },
-        { lat: 16.4637, lng: 107.5909, name: 'Trường Tiền Bridge', desc: 'Iconic bridge — stunning LED lights at night' }
+        { lat: 16.4015, lng: 107.7028, name: 'Perfume River', desc: 'Hue\'s scenic lifeline — beautiful evening walks', cat: 'attraction' },
+        { lat: 16.4690, lng: 107.5966, name: 'Phu Bai Airport (HUI)', desc: '15 min Grab to city center', cat: 'transport' },
+        { lat: 16.4695, lng: 107.5788, name: 'Dong Ba Market', desc: 'Hue\'s largest traditional market — bún bò Huế here', cat: 'attraction' },
+        { lat: 16.4637, lng: 107.5909, name: 'Trường Tiền Bridge', desc: 'Iconic bridge — stunning LED lights at night', cat: 'attraction' }
     ]);
 
     // Day 7: Hue Imperial City
     initMap('map-day7', [
-        { lat: 16.4698, lng: 107.5784, name: 'Imperial Citadel', desc: 'Nguyen Dynasty fortress — 200,000 VND' },
-        { lat: 16.4536, lng: 107.5470, name: 'Thiên Mụ Pagoda', desc: 'Iconic 7-story tower over Perfume River — free' },
-        { lat: 16.4576, lng: 107.5789, name: 'Tomb of Tự Đức', desc: 'Most beautiful royal tomb — 150,000 VND' },
-        { lat: 16.4025, lng: 107.5891, name: 'Tomb of Khải Định', desc: 'Ornate Vietnamese-European fusion — 150,000 VND' },
-        { lat: 16.4637, lng: 107.5909, name: 'Madam Thu Restaurant', desc: 'Local institution for Hue specialties' }
+        { lat: 16.4698, lng: 107.5784, name: 'Imperial Citadel', desc: 'Nguyen Dynasty fortress — 200,000 VND', cat: 'attraction' },
+        { lat: 16.4536, lng: 107.5470, name: 'Thiên Mụ Pagoda', desc: 'Iconic 7-story tower over Perfume River — free', cat: 'temple' },
+        { lat: 16.4576, lng: 107.5789, name: 'Tomb of Tự Đức', desc: 'Most beautiful royal tomb — 150,000 VND', cat: 'attraction' },
+        { lat: 16.4025, lng: 107.5891, name: 'Tomb of Khải Định', desc: 'Ornate Vietnamese-European fusion — 150,000 VND', cat: 'attraction' },
+        { lat: 16.4637, lng: 107.5909, name: 'Madam Thu Restaurant', desc: 'Local institution for Hue specialties', cat: 'restaurant' }
     ]);
 
     // Day 8: Hai Van Pass to Hoi An
     initMap('map-day8', [
-        { lat: 16.4698, lng: 107.5784, name: 'Hue (departure)', desc: 'Start the Hai Van Pass ride by 8 AM' },
-        { lat: 16.3278, lng: 107.9529, name: 'Lang Co Beach', desc: 'White sand crescent — swim & coffee stop' },
-        { lat: 16.1967, lng: 108.1320, name: 'Hai Van Pass Summit', desc: 'French bunkers, 360° coastal views — the highlight' },
-        { lat: 16.0678, lng: 108.2208, name: 'Da Nang (lunch stop)', desc: 'Mì quảng noodles at Ông Hai — 40,000 VND' },
-        { lat: 15.8801, lng: 108.3380, name: 'Hoi An', desc: 'Arrive late afternoon — lanterns at dusk' }
+        { lat: 16.4698, lng: 107.5784, name: 'Hue (departure)', desc: 'Start the Hai Van Pass ride by 8 AM', cat: 'transport' },
+        { lat: 16.3278, lng: 107.9529, name: 'Lang Co Beach', desc: 'White sand crescent — swim & coffee stop', cat: 'beach' },
+        { lat: 16.1967, lng: 108.1320, name: 'Hai Van Pass Summit', desc: 'French bunkers, 360° coastal views — the highlight', cat: 'attraction' },
+        { lat: 16.0678, lng: 108.2208, name: 'Da Nang (lunch stop)', desc: 'Mì quảng noodles at Ông Hai — 40,000 VND', cat: 'attraction' },
+        { lat: 15.8801, lng: 108.3380, name: 'Hoi An', desc: 'Arrive late afternoon — lanterns at dusk', cat: 'attraction' }
     ]);
 
     // Day 9: Hoi An Ancient Town
     initMap('map-day9', [
-        { lat: 15.8772, lng: 108.3389, name: 'Japanese Covered Bridge', desc: 'Hoi An icon — on the 20,000 VND note' },
-        { lat: 15.8775, lng: 108.3400, name: 'Fujian Assembly Hall', desc: 'Ornate Chinese temple & woodwork' },
-        { lat: 15.8780, lng: 108.3375, name: 'Central Market', desc: 'Vibrant morning market on the river' },
-        { lat: 15.8770, lng: 108.3395, name: 'Tan Ky Ancient House', desc: '200-year-old merchant house' },
-        { lat: 15.8755, lng: 108.3370, name: 'Nguyen Hoang Night Market', desc: 'Silk lanterns, cao lầu & river lantern floating' }
+        { lat: 15.8772, lng: 108.3389, name: 'Japanese Covered Bridge', desc: 'Hoi An icon — on the 20,000 VND note', cat: 'attraction' },
+        { lat: 15.8775, lng: 108.3400, name: 'Fujian Assembly Hall', desc: 'Ornate Chinese temple & woodwork', cat: 'temple' },
+        { lat: 15.8780, lng: 108.3375, name: 'Central Market', desc: 'Vibrant morning market on the river', cat: 'attraction' },
+        { lat: 15.8770, lng: 108.3395, name: 'Tan Ky Ancient House', desc: '200-year-old merchant house', cat: 'attraction' },
+        { lat: 15.8755, lng: 108.3370, name: 'Nguyen Hoang Night Market', desc: 'Silk lanterns, cao lầu & river lantern floating', cat: 'nightlife' }
     ]);
 
     // Day 10: Hoi An Countryside
     initMap('map-day10', [
-        { lat: 15.8980, lng: 108.3390, name: 'Tra Que Vegetable Village', desc: '300-year-old organic herb village' },
-        { lat: 15.8780, lng: 108.3375, name: 'Central Market (cooking class)', desc: 'Market tour + hands-on cooking — $20-30' },
-        { lat: 15.8770, lng: 108.3360, name: 'Bánh Mì Phượng', desc: 'Bourdain\'s best bánh mì — 30,000 VND' }
+        { lat: 15.8980, lng: 108.3390, name: 'Tra Que Vegetable Village', desc: '300-year-old organic herb village', cat: 'hotel' },
+        { lat: 15.8780, lng: 108.3375, name: 'Central Market (cooking class)', desc: 'Market tour + hands-on cooking — $20-30', cat: 'activity' },
+        { lat: 15.8770, lng: 108.3360, name: 'Bánh Mì Phượng', desc: 'Bourdain\'s best bánh mì — 30,000 VND', cat: 'attraction' }
     ]);
 
     // Day 11: Hoi An Beach Day
     initMap('map-day11', [
-        { lat: 15.8922, lng: 108.3680, name: 'An Bang Beach', desc: 'One of Vietnam\'s best beaches — 4km from town' },
-        { lat: 15.8590, lng: 108.3350, name: 'Cam Thanh Coconut Village', desc: 'Basket boat rides through palm waterways — 150,000 VND' },
-        { lat: 15.8775, lng: 108.3395, name: 'Morning Glory Restaurant', desc: 'Upscale street food — white rose dumplings' }
+        { lat: 15.8922, lng: 108.3680, name: 'An Bang Beach', desc: 'One of Vietnam\'s best beaches — 4km from town', cat: 'beach' },
+        { lat: 15.8590, lng: 108.3350, name: 'Cam Thanh Coconut Village', desc: 'Basket boat rides through palm waterways — 150,000 VND', cat: 'hotel' },
+        { lat: 15.8775, lng: 108.3395, name: 'Morning Glory Restaurant', desc: 'Upscale street food — white rose dumplings', cat: 'restaurant' }
     ]);
 
     // Day 12: Fly to HCMC
     initMap('map-day12', [
-        { lat: 16.0544, lng: 108.2022, name: 'Da Nang Airport (DAD)', desc: '30 min from Hoi An — fly to HCMC' },
-        { lat: 10.7769, lng: 106.7009, name: 'Notre-Dame Cathedral', desc: 'French colonial red brick — under renovation' },
-        { lat: 10.7797, lng: 106.6994, name: 'Central Post Office', desc: 'Eiffel-designed interior — free, send a postcard' },
-        { lat: 10.7769, lng: 106.6953, name: 'Independence Palace', desc: 'Where the Vietnam War ended — 65,000 VND' },
-        { lat: 10.7673, lng: 106.6930, name: 'Bui Vien Street', desc: 'Backpacker strip — bia tươi from 10,000 VND' }
+        { lat: 16.0544, lng: 108.2022, name: 'Da Nang Airport (DAD)', desc: '30 min from Hoi An — fly to HCMC', cat: 'transport' },
+        { lat: 10.7769, lng: 106.7009, name: 'Notre-Dame Cathedral', desc: 'French colonial red brick — under renovation', cat: 'temple' },
+        { lat: 10.7797, lng: 106.6994, name: 'Central Post Office', desc: 'Eiffel-designed interior — free, send a postcard', cat: 'attraction' },
+        { lat: 10.7769, lng: 106.6953, name: 'Independence Palace', desc: 'Where the Vietnam War ended — 65,000 VND', cat: 'attraction' },
+        { lat: 10.7673, lng: 106.6930, name: 'Bui Vien Street', desc: 'Backpacker strip — bia tươi from 10,000 VND', cat: 'nightlife' }
     ]);
 
     // Day 13: Cu Chi & Saigon
     initMap('map-day13', [
-        { lat: 11.1425, lng: 106.4623, name: 'Cu Chi Tunnels (Ben Duoc)', desc: '250km tunnel network — 110,000 VND entry' },
-        { lat: 10.7795, lng: 106.6922, name: 'War Remnants Museum', desc: 'Essential & confronting — 40,000 VND' },
-        { lat: 10.7723, lng: 106.6905, name: 'Bánh Mì Huynh Hoa', desc: 'Saigon\'s most famous bánh mì — 47,000 VND' },
-        { lat: 10.7620, lng: 106.7010, name: 'District 4 (street food)', desc: 'Cơm tấm & bánh tráng trộn territory' }
+        { lat: 11.1425, lng: 106.4623, name: 'Cu Chi Tunnels (Ben Duoc)', desc: '250km tunnel network — 110,000 VND entry', cat: 'attraction' },
+        { lat: 10.7795, lng: 106.6922, name: 'War Remnants Museum', desc: 'Essential & confronting — 40,000 VND', cat: 'attraction' },
+        { lat: 10.7723, lng: 106.6905, name: 'Bánh Mì Huynh Hoa', desc: 'Saigon\'s most famous bánh mì — 47,000 VND', cat: 'attraction' },
+        { lat: 10.7620, lng: 106.7010, name: 'District 4 (street food)', desc: 'Cơm tấm & bánh tráng trộn territory', cat: 'restaurant' }
     ]);
 
     // Day 14: Markets & Departure
     initMap('map-day14', [
-        { lat: 10.7722, lng: 106.6980, name: 'Ben Thanh Market', desc: 'Saigon\'s iconic market since 1912 — haggle hard' },
-        { lat: 10.7551, lng: 106.6525, name: 'Bình Tây Market (Chinatown)', desc: 'Real wholesale market — less touristy' },
-        { lat: 10.7560, lng: 106.6548, name: 'Thiên Hậu Temple', desc: 'Ornate Chinese temple (1760) — spiral incense' },
-        { lat: 10.7800, lng: 106.7000, name: 'The Workshop Coffee', desc: 'Specialty Vietnamese coffee — rooftop vibes' },
-        { lat: 10.8188, lng: 106.6519, name: 'Tan Son Nhat Airport (SGN)', desc: 'Allow 45-60 min from District 1 — Saigon traffic' }
+        { lat: 10.7722, lng: 106.6980, name: 'Ben Thanh Market', desc: 'Saigon\'s iconic market since 1912 — haggle hard', cat: 'attraction' },
+        { lat: 10.7551, lng: 106.6525, name: 'Bình Tây Market (Chinatown)', desc: 'Real wholesale market — less touristy', cat: 'activity' },
+        { lat: 10.7560, lng: 106.6548, name: 'Thiên Hậu Temple', desc: 'Ornate Chinese temple (1760) — spiral incense', cat: 'temple' },
+        { lat: 10.7800, lng: 106.7000, name: 'The Workshop Coffee', desc: 'Specialty Vietnamese coffee — rooftop vibes', cat: 'activity' },
+        { lat: 10.8188, lng: 106.6519, name: 'Tan Son Nhat Airport (SGN)', desc: 'Allow 45-60 min from District 1 — Saigon traffic', cat: 'transport' }
     ]);
 })();
 </script>
