@@ -250,11 +250,12 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        html { overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text); background: var(--white); line-height: 1.6; overflow-wrap: break-word; word-wrap: break-word;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; max-width: 100vw;
         }
         nav { overflow: hidden;
             position: fixed; top: 0; width: 100%; z-index: 100;
