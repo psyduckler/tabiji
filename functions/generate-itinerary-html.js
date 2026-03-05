@@ -359,7 +359,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
         }
         .toc-mobile-sticky {
             display: none;
-            position: sticky; top: 0; z-index: 99;
+            position: sticky; top: 58px; z-index: 99;
             background: rgba(254, 252, 249, 0.92);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--sand);
