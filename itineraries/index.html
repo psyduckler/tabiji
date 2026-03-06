@@ -96,67 +96,61 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        .filter-bar {
-            max-width: 800px; margin: 0 auto;
-            padding: 0 2rem 2rem;
-            display: flex; flex-wrap: wrap; gap: 0.5rem;
-            justify-content: center;
-        }
-        .filter-btn {
-            background: var(--white); border: 1px solid var(--sand);
-            padding: 0.4rem 1rem; border-radius: 100px;
-            font-size: 0.85rem; color: var(--text-muted);
-            cursor: pointer; transition: all 0.15s;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--indigo); color: white; border-color: var(--indigo);
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
         .region-section {
-            max-width: 800px; margin: 0 auto;
-            padding: 0 2rem 1rem;
+            margin-bottom: 1rem;
         }
         .region-title {
             font-size: 1.4rem; font-weight: 700;
-            color: var(--indigo); margin: 2rem 0 1rem;
+            color: var(--indigo); margin: 2.5rem 0 1.25rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--sand);
         }
-        .itinerary-grid {
-            display: grid; gap: 1rem;
-            margin-bottom: 1rem;
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
-        .itinerary-card {
-            background: var(--white);
-            border: 1px solid var(--sand);
+        .showcase-card {
             border-radius: 14px;
-            padding: 1.75rem;
+            overflow: hidden;
+            border: 1px solid var(--sand);
+            background: var(--white);
             text-decoration: none;
             color: inherit;
-            transition: transform 0.15s, box-shadow 0.15s;
-            display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .itinerary-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        .showcase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         }
-        .card-badge {
-            display: inline-block;
-            background: var(--sand); color: var(--earth);
-            padding: 0.2rem 0.65rem; border-radius: 100px;
-            font-size: 0.78rem; font-weight: 500;
-            margin-bottom: 0.6rem;
+        .showcase-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
-        .itinerary-card h2 {
-            font-size: 1.2rem; font-weight: 700;
-            color: var(--indigo); margin-bottom: 0.4rem;
+        .showcase-card-body {
+            padding: 1.25rem 1.5rem;
         }
-        .itinerary-card p {
-            font-size: 0.92rem; color: var(--text-muted);
+        .showcase-card-body h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--indigo);
+            margin-bottom: 0.25rem;
         }
-        .card-meta {
-            margin-top: 0.75rem;
-            font-size: 0.82rem; color: var(--earth);
-            display: flex; gap: 1.25rem; flex-wrap: wrap;
+        .showcase-card-body p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .showcase-card-body .card-meta {
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--earth);
+            display: flex; gap: 1rem; flex-wrap: wrap;
         }
         .cta-section {
             max-width: 800px; margin: 2rem auto 0;
@@ -193,8 +187,8 @@
         @media (max-width: 768px) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6.5rem 1.5rem 3rem; }
-            .region-section { padding: 0 1.5rem 1rem; }
-            .filter-bar { padding: 0 1.5rem 1.5rem; }
+            .container { padding: 0 1.25rem; }
+            .showcase-grid { grid-template-columns: 1fr; gap: 1rem; }
             .hamburger { display: block; }
             .nav-links {
                 display: none;
@@ -231,33 +225,43 @@
     <div class="count">23 free itineraries and counting</div>
 </section>
 
+<div class="container">
+
 <!-- Japan -->
 <div class="region-section">
     <h2 class="region-title">🇯🇵 Japan</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-japan-first-time/" class="itinerary-card">
-            <span class="card-badge">First-Timers</span>
-            <h2>10 Day Japan Itinerary for First-Time Visitors</h2>
-            <p>The complete Golden Route: Tokyo, Hakone, Kyoto, Nara, and Osaka — with day-by-day breakdowns, budget estimates, and JR Pass advice.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-japan-first-time/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-japan-first-time/hero-bg.jpg" alt="Japan" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days in Japan — First-Timers</h3>
+                <p>Tokyo, Hakone, Kyoto, Nara & Osaka — the Golden Route</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+            </div>
         </a>
-        <a href="/itineraries/7-day-japan-cherry-blossom/" class="itinerary-card">
-            <span class="card-badge">Seasonal</span>
-            <h2>7 Day Japan Cherry Blossom Itinerary (Spring 2026)</h2>
-            <p>Tokyo and Kyoto hanami spots, sakura forecasts, bloom timing, and day-by-day planning for the perfect spring trip.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🌸 Spring</span></div>
+        <a href="/itineraries/7-day-japan-cherry-blossom/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-japan-cherry-blossom/hero-bg.jpg" alt="Japan Cherry Blossom" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Japan — Cherry Blossom</h3>
+                <p>Sakura season in Tokyo & Kyoto with bloom timing</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🌸 Spring</span></div>
+            </div>
         </a>
-        <a href="/itineraries/14-day-japan-family/" class="itinerary-card">
-            <span class="card-badge">Family</span>
-            <h2>14 Day Japan Family Adventure</h2>
-            <p>Tokyo Disney, Universal Studios Osaka, Nara deer park, kid-friendly activities, stroller tips, and budget advice for families.</p>
-            <div class="card-meta"><span>📅 14 Days</span><span>👨‍👩‍👧 Family</span></div>
+        <a href="/itineraries/14-day-japan-family/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/14-day-japan-family/hero-bg.jpg" alt="Japan Family" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>14 Days in Japan — Family Adventure</h3>
+                <p>Disney, Universal, Nara deer park & kid-friendly tips</p>
+                <div class="card-meta"><span>📅 14 Days</span><span>👨‍👩‍👧 Family</span></div>
+            </div>
         </a>
-        <a href="/itineraries/5-day-tokyo-food-nightlife/" class="itinerary-card">
-            <span class="card-badge">Couples</span>
-            <h2>5 Day Tokyo Food & Nightlife Guide</h2>
-            <p>Tsukiji, ramen districts, izakayas, Golden Gai, Shibuya nightlife, craft cocktails, and hidden gems for food lovers.</p>
-            <div class="card-meta"><span>📅 5 Days</span><span>🍜 Food & Nightlife</span></div>
+        <a href="/itineraries/5-day-tokyo-food-nightlife/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/5-day-tokyo-food-nightlife/hero-bg.jpg" alt="Tokyo Food & Nightlife" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>5 Days in Tokyo — Food & Nightlife</h3>
+                <p>Ramen, izakayas, Golden Gai & craft cocktails</p>
+                <div class="card-meta"><span>📅 5 Days</span><span>🍜 Food & Nightlife</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -265,56 +269,22 @@
 <!-- Italy -->
 <div class="region-section">
     <h2 class="region-title">🇮🇹 Italy</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-italy-first-time/" class="itinerary-card">
-            <span class="card-badge">First-Timers</span>
-            <h2>10 Day Italy Itinerary for First-Time Visitors</h2>
-            <p>Rome, Florence, and the Amalfi Coast day-by-day with train tips, budget breakdowns, and real traveler advice.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-italy-first-time/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-italy-first-time/hero-bg.jpg" alt="Italy" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days in Italy — First-Timers</h3>
+                <p>Rome, Florence & the Amalfi Coast day-by-day</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+            </div>
         </a>
-        <a href="/itineraries/7-day-rome-southern-italy/" class="itinerary-card">
-            <span class="card-badge">Food Tour</span>
-            <h2>7 Day Rome & Southern Italy Food Tour</h2>
-            <p>Trastevere, Testaccio, Naples pizza, Pompeii, and the Amalfi Coast — day-by-day with restaurant picks and real prices.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🍝 Food Tour</span></div>
-        </a>
-    </div>
-</div>
-
-<!-- Thailand -->
-<div class="region-section">
-    <h2 class="region-title">🇹🇭 Thailand</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-thailand-first-time/" class="itinerary-card">
-            <span class="card-badge">First-Timers</span>
-            <h2>10 Day Thailand Itinerary for First-Time Visitors</h2>
-            <p>Bangkok, Chiang Mai, and Southern Islands day-by-day with budget breakdowns, scam warnings, and insider tips.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
-        </a>
-        <a href="/itineraries/7-day-bangkok-beach/" class="itinerary-card">
-            <span class="card-badge">Beach</span>
-            <h2>7 Day Bangkok & Beach Combo</h2>
-            <p>3 days of temples, markets, and street food + 4 days on Railay Beach. All for $30-50/day with real budget tips.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🏖️ Beach</span></div>
-        </a>
-    </div>
-</div>
-
-<!-- Bali -->
-<div class="region-section">
-    <h2 class="region-title">🇮🇩 Bali</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-bali-wellness/" class="itinerary-card">
-            <span class="card-badge">Wellness</span>
-            <h2>10 Day Bali Wellness & Culture Retreat</h2>
-            <p>Ubud yoga and rice terraces, Canggu surf and beach clubs, Uluwatu cliff temples — day-by-day with budgets and real tips.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>🧘 Wellness</span></div>
-        </a>
-        <a href="/itineraries/7-day-bali-adventure/" class="itinerary-card">
-            <span class="card-badge">Adventure</span>
-            <h2>7 Day Bali Adventure Itinerary</h2>
-            <p>Mt Batur sunrise trek, white water rafting, surfing lessons, rice terraces, waterfall chasing, and Nusa Penida day trip.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🏔️ Adventure</span></div>
+        <a href="/itineraries/7-day-rome-southern-italy/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-rome-southern-italy/hero-bg.jpg" alt="Rome & Southern Italy" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Rome & Southern Italy</h3>
+                <p>Trastevere, Naples pizza, Pompeii & the Amalfi Coast</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🍝 Food Tour</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -322,18 +292,22 @@
 <!-- France -->
 <div class="region-section">
     <h2 class="region-title">🇫🇷 France</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/5-day-paris-romantic/" class="itinerary-card">
-            <span class="card-badge">Couples</span>
-            <h2>5 Day Paris Romantic Getaway</h2>
-            <p>Eiffel Tower, Seine cruise, Montmartre, wine bars, Versailles day trip, and the best patisseries for couples.</p>
-            <div class="card-meta"><span>📅 5 Days</span><span>💕 Romantic</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/5-day-paris-romantic/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/5-day-paris-romantic/hero-bg.jpg" alt="Paris Romantic" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>5 Days in Paris — Romantic Getaway</h3>
+                <p>Eiffel Tower, Seine cruise, Montmartre & wine bars</p>
+                <div class="card-meta"><span>📅 5 Days</span><span>💕 Romantic</span></div>
+            </div>
         </a>
-        <a href="/itineraries/7-day-paris-countryside/" class="itinerary-card">
-            <span class="card-badge">Family</span>
-            <h2>7 Day Paris & French Countryside Family Trip</h2>
-            <p>4 days in Paris + 3 days exploring Loire Valley châteaux and Normandy. Kid-friendly with budget breakdowns.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+        <a href="/itineraries/7-day-paris-countryside/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-paris-countryside/hero-bg.jpg" alt="Paris & French Countryside" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Paris & French Countryside</h3>
+                <p>Paris + Loire Valley châteaux & Normandy for families</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -341,18 +315,68 @@
 <!-- Spain -->
 <div class="region-section">
     <h2 class="region-title">🇪🇸 Spain</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/4-day-barcelona-solo/" class="itinerary-card">
-            <span class="card-badge">Solo</span>
-            <h2>4 Day Barcelona Long Weekend</h2>
-            <p>Gothic Quarter, El Born, tapas crawl, Montjuïc, and nightlife — an efficient day-by-day route for solo travelers.</p>
-            <div class="card-meta"><span>📅 4 Days</span><span>🎒 Solo</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/4-day-barcelona-solo/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/4-day-barcelona-solo/hero-bg.jpg" alt="Barcelona" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>4 Days in Barcelona — Solo</h3>
+                <p>Gothic Quarter, tapas crawl, Montjuïc & nightlife</p>
+                <div class="card-meta"><span>📅 4 Days</span><span>🎒 Solo</span></div>
+            </div>
         </a>
-        <a href="/itineraries/7-day-barcelona-costa-brava/" class="itinerary-card">
-            <span class="card-badge">Family</span>
-            <h2>7 Day Barcelona & Costa Brava Family Trip</h2>
-            <p>Sagrada Familia, Park Güell, beach days, Tossa de Mar, and kid-friendly restaurants — all planned for families.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+        <a href="/itineraries/7-day-barcelona-costa-brava/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-barcelona-costa-brava/hero-bg.jpg" alt="Barcelona & Costa Brava" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Barcelona & Costa Brava</h3>
+                <p>Sagrada Familia, Park Güell, beach days & Tossa de Mar</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>👨‍👩‍👧 Family</span></div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Thailand -->
+<div class="region-section">
+    <h2 class="region-title">🇹🇭 Thailand</h2>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-thailand-first-time/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-thailand-first-time/hero-bg.jpg" alt="Thailand" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days in Thailand — First-Timers</h3>
+                <p>Bangkok, Chiang Mai & Southern Islands with budget tips</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>⭐ First-Timers</span></div>
+            </div>
+        </a>
+        <a href="/itineraries/7-day-bangkok-beach/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-bangkok-beach/hero-bg.jpg" alt="Bangkok & Beach" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Bangkok & Beach</h3>
+                <p>Temples & street food + Railay Beach on $30-50/day</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🏖️ Beach</span></div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Indonesia -->
+<div class="region-section">
+    <h2 class="region-title">🇮🇩 Indonesia</h2>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-bali-wellness/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-bali-wellness/hero-bg.jpg" alt="Bali Wellness" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days in Bali — Wellness & Culture</h3>
+                <p>Ubud yoga, rice terraces, Canggu surf & Uluwatu temples</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>🧘 Wellness</span></div>
+            </div>
+        </a>
+        <a href="/itineraries/7-day-bali-adventure/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-bali-adventure/hero-bg.jpg" alt="Bali Adventure" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Bali — Adventure</h3>
+                <p>Mt Batur trek, rafting, surfing & Nusa Penida day trip</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🏔️ Adventure</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -360,12 +384,14 @@
 <!-- Greece -->
 <div class="region-section">
     <h2 class="region-title">🇬🇷 Greece</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-greek-island-hopping/" class="itinerary-card">
-            <span class="card-badge">Island Hopping</span>
-            <h2>10 Day Greek Island Hopping Itinerary</h2>
-            <p>Athens → Mykonos → Paros → Santorini with ferry logistics, beach guides, sunset spots, and real tavern picks.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>⛴️ Island Hopping</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-greek-island-hopping/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-greek-island-hopping/hero-bg.jpg" alt="Greek Islands" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days Greek Island Hopping</h3>
+                <p>Athens → Mykonos → Paros → Santorini with ferry tips</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>⛴️ Island Hopping</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -373,25 +399,29 @@
 <!-- Portugal -->
 <div class="region-section">
     <h2 class="region-title">🇵🇹 Portugal</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/10-day-portugal-road-trip/" class="itinerary-card">
-            <span class="card-badge">Road Trip</span>
-            <h2>10 Day Portugal Road Trip</h2>
-            <p>Lisbon, Sintra, Porto, Douro Valley, and the Algarve coast — day-by-day with driving tips, toll advice, and local picks.</p>
-            <div class="card-meta"><span>📅 10 Days</span><span>🚗 Road Trip</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/10-day-portugal-road-trip/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/10-day-portugal-road-trip/hero-bg.jpg" alt="Portugal Road Trip" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>10 Days in Portugal — Road Trip</h3>
+                <p>Lisbon, Sintra, Porto, Douro Valley & the Algarve coast</p>
+                <div class="card-meta"><span>📅 10 Days</span><span>🚗 Road Trip</span></div>
+            </div>
         </a>
     </div>
 </div>
 
-<!-- UK -->
+<!-- United Kingdom -->
 <div class="region-section">
     <h2 class="region-title">🇬🇧 United Kingdom</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/5-day-london-first-time/" class="itinerary-card">
-            <span class="card-badge">First-Timers</span>
-            <h2>5 Day London Itinerary for First-Time Visitors</h2>
-            <p>Free museums, Borough Market, Camden, day trip to Bath & Stonehenge. Budget breakdowns and Oyster card tips.</p>
-            <div class="card-meta"><span>📅 5 Days</span><span>⭐ First-Timers</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/5-day-london-first-time/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/5-day-london-first-time/hero-bg.jpg" alt="London" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>5 Days in London — First-Timers</h3>
+                <p>Free museums, Borough Market, Camden & Bath day trip</p>
+                <div class="card-meta"><span>📅 5 Days</span><span>⭐ First-Timers</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -399,12 +429,14 @@
 <!-- Vietnam -->
 <div class="region-section">
     <h2 class="region-title">🇻🇳 Vietnam</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/14-day-vietnam-north-south/" class="itinerary-card">
-            <span class="card-badge">Epic Trip</span>
-            <h2>14 Day Vietnam North to South</h2>
-            <p>Hanoi to Ho Chi Minh City: street food, Ha Long Bay, Hue, Hoi An, Cu Chi tunnels — day-by-day with real prices and transport tips.</p>
-            <div class="card-meta"><span>📅 14 Days</span><span>🛵 North to South</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/14-day-vietnam-north-south/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/14-day-vietnam-north-south/hero-bg.jpg" alt="Vietnam" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>14 Days in Vietnam — North to South</h3>
+                <p>Hanoi to HCMC: Ha Long Bay, Hue, Hoi An & street food</p>
+                <div class="card-meta"><span>📅 14 Days</span><span>🛵 North to South</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -412,12 +444,14 @@
 <!-- Colombia -->
 <div class="region-section">
     <h2 class="region-title">🇨🇴 Colombia</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/7-day-colombia-adventure/" class="itinerary-card">
-            <span class="card-badge">Adventure</span>
-            <h2>7 Day Colombia: Bogotá to Cartagena Adventure</h2>
-            <p>Bogotá, Coffee Region, and Cartagena day-by-day with budget breakdowns, safety tips, and insider advice.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🌴 Adventure</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/7-day-colombia-adventure/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-colombia-adventure/hero-bg.jpg" alt="Colombia" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Colombia — Bogotá to Cartagena</h3>
+                <p>Coffee Region, colonial streets & Caribbean coast</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🌴 Adventure</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -425,12 +459,14 @@
 <!-- Costa Rica -->
 <div class="region-section">
     <h2 class="region-title">🇨🇷 Costa Rica</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/7-day-costa-rica-eco/" class="itinerary-card">
-            <span class="card-badge">Eco-Adventure</span>
-            <h2>7 Day Costa Rica Eco-Adventure</h2>
-            <p>San José, Arenal, and Manuel Antonio day-by-day with budget breakdowns, 4x4 rental tips, and family-friendly advice.</p>
-            <div class="card-meta"><span>📅 7 Days</span><span>🌿 Eco-Adventure</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/7-day-costa-rica-eco/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/7-day-costa-rica-eco/hero-bg.jpg" alt="Costa Rica" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>7 Days in Costa Rica — Eco-Adventure</h3>
+                <p>Arenal volcano, Manuel Antonio & rainforest wildlife</p>
+                <div class="card-meta"><span>📅 7 Days</span><span>🌿 Eco-Adventure</span></div>
+            </div>
         </a>
     </div>
 </div>
@@ -438,34 +474,42 @@
 <!-- Mexico -->
 <div class="region-section">
     <h2 class="region-title">🇲🇽 Mexico</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/5-day-mexico-city-food-art/" class="itinerary-card">
-            <span class="card-badge">Food & Art</span>
-            <h2>5 Day Mexico City Art & Food Guide</h2>
-            <p>Roma & Condesa, Frida Kahlo museum, lucha libre, mezcal bars, and the best street food markets for couples.</p>
-            <div class="card-meta"><span>📅 5 Days</span><span>🎨 Art & Food</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/5-day-mexico-city-food-art/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/5-day-mexico-city-food-art/hero-bg.jpg" alt="Mexico City" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>5 Days in Mexico City — Art & Food</h3>
+                <p>Roma, Condesa, Frida Kahlo, lucha libre & mezcal bars</p>
+                <div class="card-meta"><span>📅 5 Days</span><span>🎨 Art & Food</span></div>
+            </div>
         </a>
-        <a href="/itineraries/cdmx-may-2026/" class="itinerary-card">
-            <span class="card-badge">Custom</span>
-            <h2>5 Day Mexico City Itinerary</h2>
-            <p>A personalized Mexico City itinerary packed with foodie experiences, adventure day trips, and relaxation spots.</p>
-            <div class="card-meta"><span>📅 5 Days</span><span>🌮 Custom</span></div>
+        <a href="/itineraries/cdmx-may-2026/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/cdmx-may-2026/hero-bg.jpg" alt="Mexico City Custom" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>5 Days in Mexico City — Custom</h3>
+                <p>Foodie adventures, day trips & hidden relaxation spots</p>
+                <div class="card-meta"><span>📅 5 Days</span><span>🌮 Custom</span></div>
+            </div>
         </a>
     </div>
 </div>
 
-<!-- USA -->
+<!-- United States -->
 <div class="region-section">
     <h2 class="region-title">🇺🇸 United States</h2>
-    <div class="itinerary-grid">
-        <a href="/itineraries/3-day-austin-sxsw-solo/" class="itinerary-card">
-            <span class="card-badge">Solo</span>
-            <h2>3-Day Austin SXSW Solo Itinerary</h2>
-            <p>Best BBQ joints, live music venues, free unofficial shows, and nightlife on 6th St & Rainey St. Reddit-sourced tips.</p>
-            <div class="card-meta"><span>📅 3 Days</span><span>🎸 SXSW</span></div>
+    <div class="showcase-grid">
+        <a href="/itineraries/3-day-austin-sxsw-solo/" class="showcase-card">
+            <img class="showcase-card-img" src="https://img.tabiji.ai/itineraries/3-day-austin-sxsw-solo/hero-bg.jpg" alt="Austin SXSW" loading="lazy">
+            <div class="showcase-card-body">
+                <h3>3 Days in Austin — SXSW Solo</h3>
+                <p>BBQ, live music, free shows & 6th St nightlife</p>
+                <div class="card-meta"><span>📅 3 Days</span><span>🎸 SXSW</span></div>
+            </div>
         </a>
     </div>
 </div>
+
+</div><!-- /.container -->
 
 <!-- CTA -->
 <section class="cta-section">
