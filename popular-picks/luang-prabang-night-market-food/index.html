@@ -271,8 +271,18 @@
 <nav>
     <a href="/">tabiji.ai</a>
     <div class="nav-links">
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/popular-picks/laos/">Laos</a>
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/find/">Destination Finder</a>
+                <a href="/trends/">Travel Trends</a>
+                <a href="/spin/">Spin the Globe</a><a href="/owl/">Travel Guide Game 🎮</a>
+            </div>
+        </div>
+        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
+        <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
+        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
+        <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
     </div>
 </nav>
 
@@ -726,7 +736,7 @@
 <!-- /RELATED_ATTRACTIONS -->
 
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/resources/" style="color: inherit; text-decoration: underline;">Resources</a> · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
+    <p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a></p>
 </footer>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
@@ -801,6 +811,13 @@ function initRestaurantMaps() {
         sectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
     }
 }
+
+
+// Close Explore dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    var dd = document.querySelector('.nav-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
 </script>
 
 </body>

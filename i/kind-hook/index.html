@@ -353,6 +353,56 @@
             display: none; background: none; border: none;
             font-size: 1.5rem; color: var(--indigo); cursor: pointer;
         }
+
+/* Explore dropdown */
+.nav-dropdown {
+    position: relative;
+}
+.nav-dropdown-toggle {
+    background: none;
+    border: none;
+    color: var(--indigo);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+.nav-dropdown-toggle::after {
+    content: ' ▾';
+    font-size: 1.1rem;
+}
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(254, 252, 249, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    z-index: 200;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+}
+.nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1.2rem;
+    color: var(--indigo);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+.nav-dropdown-menu a:hover {
+    background: rgba(0,0,0,0.04);
+}
         @media (max-width: 768px) {
             .nav-links { display: flex; gap: 1.5rem; align-items: center; }
             .hamburger { display: block; }
@@ -364,6 +414,30 @@
                 padding: 1rem 1.5rem; flex-direction: column; gap: 1rem;
             }
             .nav-links.open { display: flex; }
+
+    /* Mobile: dropdown items inline indented */
+    .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        background: none;
+        backdrop-filter: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        min-width: 0;
+        padding-left: 1rem;
+    }
+    .nav-dropdown-menu a {
+        padding: 0.35rem 0;
+        font-size: 0.85rem;
+        color: var(--indigo);
+        opacity: 0.8;
+    }
+    .nav-dropdown-menu a:hover {
+        background: none;
+        opacity: 1;
+    }
             nav a.cta-nav { text-align: center; }
         }
     </style>
@@ -374,6 +448,17 @@
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/find/">Destination Finder</a>
+                <a href="/trends/">Travel Trends</a>
+                <a href="/spin/">Spin the Globe</a><a href="/owl/">Travel Guide Game 🎮</a>
+            </div>
+        </div>
+        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
+        <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
+        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
         <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
     </div>
 </nav>
@@ -809,7 +894,7 @@
     <p>Itineraries built from real traveler intelligence — not generic blog fluff.</p>
     <div class="dest-links">
     </div>
-    <p style="margin-top:1rem;">© 2026 tabiji.ai · <a href="/resources/" style="color: inherit; text-decoration: underline;">Resources</a> · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p>
+    <p style="margin-top:1rem;">© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a></p>
 </footer>
 
 <script>
@@ -937,6 +1022,13 @@ function initMaps() {
         });
     }
 })();
+
+
+// Close Explore dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    var dd = document.querySelector('.nav-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
 </script>
 </body>
 </html>

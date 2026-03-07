@@ -55,7 +55,81 @@
         @media(max-width:900px){.map-sidebar{display:none}.map-inline{display:block}.content-wrapper{padding:0 1.5rem}}
         @media(max-width:768px){nav{padding:0.8rem 1.2rem}.hero{padding:6rem 1.5rem 2rem}.restaurant-section{padding:2rem 0}}
         .nav-links{display:flex;gap:1.5rem;align-items:center}.hamburger{display:none;background:none;border:none;font-size:1.5rem;color:var(--indigo);cursor:pointer}
-        @media(max-width:768px){.hamburger{display:block}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(254,252,249,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand);padding:1rem 1.5rem;flex-direction:column;gap:1rem}.nav-links.open{display:flex}nav a.cta-nav{text-align:center}}
+
+/* Explore dropdown */
+.nav-dropdown {
+    position: relative;
+}
+.nav-dropdown-toggle {
+    background: none;
+    border: none;
+    color: var(--indigo);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+.nav-dropdown-toggle::after {
+    content: ' ▾';
+    font-size: 1.1rem;
+}
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(254, 252, 249, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    z-index: 200;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+}
+.nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1.2rem;
+    color: var(--indigo);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+.nav-dropdown-menu a:hover {
+    background: rgba(0,0,0,0.04);
+}
+        @media(max-width:768px){.hamburger{display:block}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(254,252,249,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand);padding:1rem 1.5rem;flex-direction:column;gap:1rem}.nav-links.open{display:flex}
+
+    /* Mobile: dropdown items inline indented */
+    .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        background: none;
+        backdrop-filter: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        min-width: 0;
+        padding-left: 1rem;
+    }
+    .nav-dropdown-menu a {
+        padding: 0.35rem 0;
+        font-size: 0.85rem;
+        color: var(--indigo);
+        opacity: 0.8;
+    }
+    .nav-dropdown-menu a:hover {
+        background: none;
+        opacity: 1;
+    }nav a.cta-nav{text-align:center}}
     .logo{position:relative}.logo .owl-fly{display:none}.logo:hover .owl-default{display:none}.logo:hover .owl-fly{display:inline}</style>
 </head>
 <body>
@@ -63,12 +137,17 @@
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
-        <a href="/find/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Explore</a>
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/find/">Destination Finder</a>
+                <a href="/trends/">Travel Trends</a>
+                <a href="/spin/">Spin the Globe</a><a href="/owl/">Travel Guide Game 🎮</a>
+            </div>
+        </div>
         <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
         <a href="/popular-picks/" style="color:var(--terracotta);text-decoration:none;font-size:0.9rem;font-weight:600;">Popular Picks</a>
-        <a href="/trends/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Trends</a>
         <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
-        <a href="/owl/" style="text-decoration:none;font-size:1.2rem;line-height:1;" title="Play the Tabiji Travel Guide">🎮</a>
         <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
     </div>
 </nav>
@@ -269,7 +348,7 @@
     </div>
 </section>
 
-<footer><p>© 2026 tabiji.ai · <a href="/resources/" style="color: inherit; text-decoration: underline;">Resources</a> · <a href="/terms/" style="color:inherit;text-decoration:underline;">Terms of Service</a> · <a href="/privacy/" style="color:inherit;text-decoration:underline;">Privacy Policy</a> · <a href="/delete-data/" style="color:inherit;text-decoration:underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Instagram</a> · <a href="/spin/" style="color:inherit;text-decoration:none;">🌍</a></p></footer>
+<footer><p>© 2026 tabiji.ai <a href="/terms/" style="color:inherit;text-decoration:underline;">Terms of Service</a> · <a href="/privacy/" style="color:inherit;text-decoration:underline;">Privacy Policy</a> · <a href="/delete-data/" style="color:inherit;text-decoration:underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Instagram</a></p></footer>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
 <script>
@@ -295,6 +374,13 @@ var sectionIds=['inoichi','gion-duck','gokkei','takayasu','arajin','menbaka','mu
 function buildMap(el,d){var map=new google.maps.Map(el,{mapTypeControl:false,streetViewControl:false,fullscreenControl:true,styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]});var b=new google.maps.LatLngBounds();var iw=new google.maps.InfoWindow();var ms=[];restaurants.forEach(function(r,i){var p={lat:r.lat,lng:r.lng};var m=new google.maps.Marker({position:p,map:map,icon:makeIcon(catColors[r.cat]||"#2E7D32",i+1),title:r.n});b.extend(p);m.addListener('click',function(){iw.setContent('<strong>'+r.n+'</strong><br>'+r.desc);iw.open(map,m)});ms.push(m)});map.fitBounds(b,40);if(d){sidebarMap=map;sidebarMarkers=ms;sidebarInfo=iw}else{mobileMap=map;mobileMarkers=ms;mobileInfo=iw}}
 function highlightRestaurant(i){function a(map,ms,iw){if(!map||!ms.length)return;var r=restaurants[i],m=ms[i];ms.forEach(function(mk,j){mk.setIcon(makeIcon(catColors[restaurants[j].cat]||"#2E7D32",j+1));mk.setZIndex(1)});m.setIcon(makeActiveIcon(catColors[r.cat]||"#2E7D32",i+1));m.setZIndex(100);iw.setContent('<strong>'+r.n+'</strong><br>'+r.desc);iw.open(map,m);map.panTo({lat:r.lat,lng:r.lng});if(map.getZoom()<14)map.setZoom(14)}a(sidebarMap,sidebarMarkers,sidebarInfo);a(mobileMap,mobileMarkers,mobileInfo)}
 function initRestaurantMaps(){var sb=document.getElementById('sidebar-map'),mb=document.getElementById('mobile-map');if(sb)buildMap(sb,true);if(mb)buildMap(mb,false);if('IntersectionObserver'in window){var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=sectionIds.indexOf(e.target.id);if(i!==-1)highlightRestaurant(i)}})},{rootMargin:'-30% 0px -50% 0px'});sectionIds.forEach(function(id){var el=document.getElementById(id);if(el)obs.observe(el)})}}
+
+
+// Close Explore dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    var dd = document.querySelector('.nav-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
 </script>
 </body>
 </html>

@@ -89,7 +89,81 @@
         @media (max-width: 768px) { nav { padding: 0.8rem 1.2rem; } .hero { padding: 6rem 1.5rem 2rem; } .restaurant-section { padding: 2rem 0; } }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
-        @media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; } .nav-links.open { display: flex; } nav a.cta-nav { text-align: center; } }
+
+/* Explore dropdown */
+.nav-dropdown {
+    position: relative;
+}
+.nav-dropdown-toggle {
+    background: none;
+    border: none;
+    color: var(--indigo);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+.nav-dropdown-toggle::after {
+    content: ' ▾';
+    font-size: 1.1rem;
+}
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(254, 252, 249, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    z-index: 200;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+}
+.nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1.2rem;
+    color: var(--indigo);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+.nav-dropdown-menu a:hover {
+    background: rgba(0,0,0,0.04);
+}
+        @media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; } .nav-links.open { display: flex; }
+
+    /* Mobile: dropdown items inline indented */
+    .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        background: none;
+        backdrop-filter: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        min-width: 0;
+        padding-left: 1rem;
+    }
+    .nav-dropdown-menu a {
+        padding: 0.35rem 0;
+        font-size: 0.85rem;
+        color: var(--indigo);
+        opacity: 0.8;
+    }
+    .nav-dropdown-menu a:hover {
+        background: none;
+        opacity: 1;
+    } nav a.cta-nav { text-align: center; } }
     </style>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},{"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},{"@type":"ListItem","position":3,"name":"Best Grilled Fish in Da Nang","item":"https://tabiji.ai/popular-picks/da-nang-grilled-fish/"}]}
@@ -100,12 +174,17 @@
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
-        <a href="/find/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Explore</a>
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/find/">Destination Finder</a>
+                <a href="/trends/">Travel Trends</a>
+                <a href="/spin/">Spin the Globe</a><a href="/owl/">Travel Guide Game 🎮</a>
+            </div>
+        </div>
         <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
         <a href="/popular-picks/" style="color:var(--terracotta);text-decoration:none;font-size:0.9rem;font-weight:600;">Popular Picks</a>
-        <a href="/trends/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Trends</a>
         <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
-        <a href="/owl/" style="text-decoration:none;font-size:1.2rem;line-height:1;" title="Play the Tabiji Travel Guide">🎮</a>
         <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
     </div>
 </nav>
@@ -260,7 +339,7 @@
         <a href="/popular-picks/singapore-hawker-centers/" style="background:#FEFCF9;border:1px solid #E8DFD0;border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform 0.15s,box-shadow 0.15s;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''"><img src="https://img.tabiji.ai/popular-picks/singapore-hawker-centers/photo-0.jpg" alt="Best Hawker Centers in Singapore" loading="lazy" style="width:100%;height:180px;object-fit:cover;display:block;"><div style="padding:1.25rem 1.5rem 1.5rem;"><span style="display:inline-block;background:#E8DFD0;color:#8B7355;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.78rem;font-weight:500;margin-bottom:0.5rem;">🍜 Singapore</span><h3 style="font-size:1.15rem;font-weight:700;color:#2D3A5C;margin-bottom:0.35rem;">Best Hawker Centers in Singapore</h3><p style="font-size:0.9rem;color:#6B5D4F;">Southeast Asia's best street food under one roof — Michelin-starred and dirt cheap.</p></div></a>
     </div>
 </section>
-<footer><p>© 2026 tabiji.ai · <a href="/resources/" style="color: inherit; text-decoration: underline;">Resources</a> · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="/spin/" style="color: inherit; text-decoration: none;">🌍</a></p></footer>
+<footer><p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a></p></footer>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
 <script>
 var restaurants=[{n:"1. Bé Mặn",lat:16.0685,lng:108.2445,cat:"beachfront",desc:"Beachfront Grill — 120k–500k VND"},{n:"2. Bà Rô",lat:16.1050,lng:108.2280,cat:"local",desc:"Local Legend — 80k–300k VND"},{n:"3. Lão Đại",lat:16.0600,lng:108.2100,cat:"local",desc:"Local Favorite — 60k–250k VND"},{n:"4. Eo Biển",lat:16.1100,lng:108.2350,cat:"seafood",desc:"Fresh Catch — 100k–400k VND"},{n:"5. Châu Sơn",lat:16.0550,lng:108.2200,cat:"grilled",desc:"Garlic Butter King — 150k–500k VND"},{n:"6. Phương 2",lat:16.0850,lng:108.1500,cat:"local",desc:"Zero Tourists — 80k–300k VND"},{n:"7. Mỹ Hạnh",lat:16.0720,lng:108.2420,cat:"premium",desc:"Michelin Selected — 190k–2.3M VND"},{n:"8. Bé Anh",lat:16.0750,lng:108.2400,cat:"seafood",desc:"Crowd Pleaser — 70k–500k VND"},{n:"9. Tự Do 2",lat:16.0300,lng:108.2350,cat:"seafood",desc:"Hidden Gem — 80k–350k VND"},{n:"10. Cá Chuồn Cồ",lat:16.0350,lng:108.2500,cat:"grilled",desc:"Flying Fish — 100k–1M VND"},{n:"11. Muối Biển",lat:16.0400,lng:108.2480,cat:"seafood",desc:"Family Friendly — 68k–900k VND"},{n:"12. Làng Cá",lat:16.0700,lng:108.2430,cat:"beachfront",desc:"Beachfront — 90k–1.9M VND"}];
@@ -272,6 +351,13 @@ var sectionIds=['be-man','ba-ro','lao-dai','eo-bien','chau-son','phuong-2','my-h
 function buildMap(el,isDesktop){var map=new google.maps.Map(el,{mapTypeControl:false,streetViewControl:false,fullscreenControl:true,styles:[{featureType:"poi",stylers:[{visibility:"off"}]}]});var bounds=new google.maps.LatLngBounds();var infoWindow=new google.maps.InfoWindow();var markers=[];restaurants.forEach(function(r,idx){var pos={lat:r.lat,lng:r.lng};var marker=new google.maps.Marker({position:pos,map:map,icon:makeIcon(catColors[r.cat]||"#2E7D32",idx+1),title:r.n});bounds.extend(pos);marker.addListener('click',function(){infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc);infoWindow.open(map,marker);});markers.push(marker);});map.fitBounds(bounds,40);if(isDesktop){sidebarMap=map;sidebarMarkers=markers;sidebarInfo=infoWindow;}else{mobileMap=map;mobileMarkers=markers;mobileInfo=infoWindow;}}
 function highlightRestaurant(index){function activate(map,markers,infoWindow){if(!map||!markers.length)return;var r=restaurants[index];var marker=markers[index];markers.forEach(function(m,i){m.setIcon(makeIcon(catColors[restaurants[i].cat]||"#2E7D32",i+1));m.setZIndex(1);});marker.setIcon(makeActiveIcon(catColors[r.cat]||"#2E7D32",index+1));marker.setZIndex(100);infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc);infoWindow.open(map,marker);map.panTo({lat:r.lat,lng:r.lng});if(map.getZoom()<15)map.setZoom(15);}activate(sidebarMap,sidebarMarkers,sidebarInfo);activate(mobileMap,mobileMarkers,mobileInfo);}
 function initRestaurantMaps(){var sidebar=document.getElementById('sidebar-map');var mobile=document.getElementById('mobile-map');if(sidebar)buildMap(sidebar,true);if(mobile)buildMap(mobile,false);if('IntersectionObserver' in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){var idx=sectionIds.indexOf(entry.target.id);if(idx!==-1)highlightRestaurant(idx);}});},{rootMargin:'-30% 0px -50% 0px'});sectionIds.forEach(function(id){var el=document.getElementById(id);if(el)observer.observe(el);});}}
+
+
+// Close Explore dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    var dd = document.querySelector('.nav-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
 </script>
 </body>
 </html>
