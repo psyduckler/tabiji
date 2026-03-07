@@ -378,24 +378,24 @@ body {
 }
 
 .destination-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
 .destination-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .destination-card.top-pick {
     border-color: #00ff88;
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.25);
 }
 
 .destination-card.top-pick .card-badge {
@@ -406,124 +406,83 @@ body {
     display: none;
     background: #00ff88;
     color: #0a0a0a;
-    padding: 4px 12px;
-    font-size: 10px;
+    padding: 6px 14px;
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.card-header {
-    display: flex;
-    gap: 15px;
-    padding: 15px;
-    align-items: center;
+.card-photo-wrapper {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: #1a1a2e;
 }
 
-.card-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
+.card-photo {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: #30363d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    flex-shrink: 0;
+    transition: transform 0.3s ease;
 }
 
-.card-info {
-    flex: 1;
+.destination-card:hover .card-photo {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 16px;
 }
 
 .card-destination-name {
     color: #f0883e;
     font-size: 18px;
-    margin-bottom: 4px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.card-continent {
+    color: #6e7681;
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .card-tagline {
-    color: #8b949e;
-    font-size: 12px;
-    font-style: italic;
-    margin-bottom: 8px;
+    color: #c9d1d9;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 12px;
 }
 
 .card-tags {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .card-tag {
-    background: rgba(88, 166, 255, 0.2);
+    background: rgba(88, 166, 255, 0.15);
     color: #58a6ff;
-    padding: 2px 8px;
-    font-size: 10px;
-    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 11px;
+    border-radius: 20px;
+    border: 1px solid rgba(88, 166, 255, 0.2);
 }
 
-.card-details {
-    padding: 0 15px 15px;
-    display: none;
-}
-
-.destination-card.expanded .card-details {
-    display: block;
-}
-
-.expand-btn {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    border: none;
-    border-top: 1px solid #30363d;
+.card-season {
     color: #8b949e;
-    padding: 10px;
-    font-family: 'Courier New', Consolas, monospace;
     font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.expand-btn:hover {
-    background: rgba(0, 255, 136, 0.1);
-    color: #00ff88;
-}
-
-.trip-section {
-    margin-bottom: 15px;
-}
-
-.trip-section-title {
-    color: #58a6ff;
-    font-size: 12px;
-    margin-bottom: 6px;
-}
-
-.trip-section-content {
-    color: #e6edf3;
-    font-size: 12px;
-    padding-left: 10px;
-    line-height: 1.5;
-}
-
-.trip-item {
     margin-bottom: 4px;
 }
 
-.trip-item::before {
-    content: '◆ ';
+.card-budget {
     color: #00ff88;
-}
-
-.tabiji-comment {
-    background: rgba(88, 166, 255, 0.1);
-    border-left: 2px solid #58a6ff;
-    padding: 10px 15px;
-    margin-top: 15px;
-    color: #58a6ff;
-    font-style: italic;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 /* Action buttons */
@@ -766,20 +725,6 @@ body {
         padding: 3px 10px;
     }
 
-    .card-header {
-        flex-direction: row;
-        padding: 12px;
-        gap: 12px;
-        text-align: left;
-    }
-
-    .card-image {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-        border-radius: 8px;
-    }
-
     .card-destination-name {
         font-size: 15px;
         margin-bottom: 2px;
@@ -799,39 +744,20 @@ body {
         padding: 2px 6px;
     }
 
-    .card-details {
-        padding: 0 12px 12px;
+    .card-photo-wrapper {
+        height: 150px;
     }
 
-    .trip-section {
-        margin-bottom: 12px;
-    }
-
-    .trip-section-title {
-        font-size: 11px;
-        margin-bottom: 5px;
-    }
-
-    .trip-section-content {
-        font-size: 12px;
-        padding-left: 8px;
-        line-height: 1.4;
-    }
-
-    .trip-item {
-        margin-bottom: 3px;
-    }
-
-    .tabiji-comment {
-        padding: 10px 12px;
-        font-size: 11px;
-        margin-top: 12px;
-    }
-
-    .expand-btn {
+    .card-body {
         padding: 12px;
-        font-size: 11px;
-        min-height: 44px;
+    }
+
+    .card-destination-name {
+        font-size: 16px;
+    }
+
+    .card-tagline {
+        font-size: 12px;
     }
 
     /* Action buttons mobile */

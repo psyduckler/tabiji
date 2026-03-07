@@ -297,22 +297,27 @@ function findBestDestinations() {
         // Vibe match (most important)
         if (dest.vibes.includes(vibe)) score += 3;
 
-        // Energy match
-        if (dest.energy === energy) score += 2;
-        else if (dest.energy === 'medium' || energy === 'medium') score += 1;
-
         // Budget match
         if (dest.budget === budget) score += 2;
         else if ((dest.budget === 'mid' && budget !== 'high') || budget === 'mid') score += 1;
 
-        // Duration match
-        if (dest.idealDuration && dest.idealDuration.includes(duration)) score += 2;
+        // Energy → vibe mapping
+        if (energy === 'high' && (dest.originalVibes.includes('Adventure') || dest.originalVibes.includes('Nightlife') || dest.originalVibes.includes('City'))) score += 2;
+        if (energy === 'low' && (dest.originalVibes.includes('Relaxation') || dest.originalVibes.includes('Beach') || dest.originalVibes.includes('Romantic'))) score += 2;
+        if (energy === 'medium') score += 1;
 
         // Priority bonuses
-        if (priority === 'food' && dest.vibes.includes('foodie')) score += 2;
-        if (priority === 'nature' && dest.vibes.includes('nature')) score += 2;
-        if (priority === 'local' && dest.vibes.includes('culture')) score += 1;
-        if (priority === 'photos') score += 1;
+        if (priority === 'food' && (dest.originalVibes.includes('City') || dest.originalVibes.includes('Cultural'))) score += 2;
+        if (priority === 'nature' && (dest.originalVibes.includes('Nature') || dest.originalVibes.includes('Hiking'))) score += 3;
+        if (priority === 'local' && (dest.originalVibes.includes('Cultural') || dest.originalVibes.includes('Unfrequented'))) score += 2;
+        if (priority === 'photos' && (dest.originalVibes.includes('Nature') || dest.originalVibes.includes('Romantic') || dest.originalVibes.includes('Beach'))) score += 2;
+
+        // Duration bonuses
+        if (duration === 'extended' && dest.travel.includes('adventure')) score += 1;
+        if (duration === 'weekend' && dest.originalVibes.includes('City')) score += 1;
+
+        // Small random factor to vary results
+        score += Math.random() * 0.5;
 
         return { ...dest, score };
     });
@@ -321,65 +326,29 @@ function findBestDestinations() {
     return scored.slice(0, 3);
 }
 
-// Build destination card HTML
+// Build destination card HTML (photo card format)
 function buildDestinationCard(dest, index) {
     const isTopPick = index === 0;
-    const durationLabel = {
-        'weekend': '3-4 days',
-        'week': '5-7 days',
-        'extended': '2+ weeks'
-    };
+    const seasonIcon = dest.season ? '📅' : '';
 
     return `
-        <div class="destination-card ${isTopPick ? 'top-pick expanded' : ''}" data-id="${dest.id}">
-            <div class="card-badge">Top Pick</div>
-            <div class="card-header">
-                <div class="card-image">${dest.icon}</div>
-                <div class="card-info">
-                    <div class="card-destination-name">${dest.name}</div>
-                    <div class="card-tagline">"${dest.tagline}"</div>
-                    <div class="card-tags">
-                        ${dest.vibes.map(v => `<span class="card-tag">${v}</span>`).join('')}
-                        <span class="card-tag">${dest.idealDuration.map(d => durationLabel[d]).join(' / ')}</span>
-                    </div>
-                </div>
+        <div class="destination-card ${isTopPick ? 'top-pick' : ''}" data-id="${dest.id}">
+            ${isTopPick ? '<div class="card-badge">Top Pick</div>' : ''}
+            <div class="card-photo-wrapper">
+                <img class="card-photo" src="${dest.photo}" alt="${dest.name}" loading="lazy" onerror="this.style.display='none'">
             </div>
-            <div class="card-details">
-                <div class="trip-section">
-                    <div class="trip-section-title">[ THINGS TO DO ]</div>
-                    <div class="trip-section-content">
-                        ${dest.activities.slice(0, 3).map(a => `<div class="trip-item">${a}</div>`).join('')}
-                    </div>
+            <div class="card-body">
+                <div class="card-destination-name">${dest.name}, ${dest.region}</div>
+                <div class="card-continent">${dest.continent}</div>
+                <div class="card-tagline">${dest.tagline}</div>
+                <div class="card-tags">
+                    ${dest.originalVibes.map(v => `<span class="card-tag">${v}</span>`).join('')}
                 </div>
-                <div class="trip-section">
-                    <div class="trip-section-title">[ THINGS TO EAT ]</div>
-                    <div class="trip-section-content">
-                        ${dest.food.slice(0, 2).map(f => `<div class="trip-item">${f}</div>`).join('')}
-                    </div>
-                </div>
-                <div class="trip-section">
-                    <div class="trip-section-title">[ WHERE TO STAY ]</div>
-                    <div class="trip-section-content">${dest.stay}</div>
-                </div>
-                <div class="tabiji-comment">
-                    Tabiji's Wisdom: "${dest.tabijiComment}"
-                </div>
+                ${dest.season ? `<div class="card-season">${seasonIcon} ${dest.season}</div>` : ''}
+                <div class="card-budget">${dest.budgetLabel}</div>
             </div>
-            <button class="expand-btn" onclick="toggleCard('${dest.id}')">
-                ${isTopPick ? '▲ Show less' : '▼ Show details'}
-            </button>
         </div>
     `;
-}
-
-// Toggle card expansion
-function toggleCard(destId) {
-    const card = document.querySelector(`.destination-card[data-id="${destId}"]`);
-    const btn = card.querySelector('.expand-btn');
-    const isExpanded = card.classList.contains('expanded');
-
-    card.classList.toggle('expanded');
-    btn.textContent = isExpanded ? '▼ Show details' : '▲ Show less';
 }
 
 // Share results
