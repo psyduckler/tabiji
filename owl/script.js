@@ -346,6 +346,9 @@ function buildDestinationCard(dest, index) {
                 </div>
                 ${dest.season ? `<div class="card-season">${seasonIcon} ${dest.season}</div>` : ''}
                 <div class="card-budget">${dest.budgetLabel}</div>
+                <a class="plan-trip-btn" href="/plan/?destination=${encodeURIComponent(dest.name + ', ' + dest.region)}" onclick="if(typeof gtag==='function')gtag('event','plan_trip_click',{event_category:'owl_quiz',destination:dest.name})">
+                    ✈️ Plan Trip
+                </a>
             </div>
         </div>
     `;
