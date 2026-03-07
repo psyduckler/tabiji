@@ -105,10 +105,78 @@ document.addEventListener('click', function(e) {
             border: 1px solid rgba(255,255,255,0.2);
         }
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
         }
+        .content-wrapper {
+            display: flex;
+            gap: 2.5rem;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .toc-sidebar {
+            width: 200px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+            padding-top: 1.5rem;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; }
+        .toc-sidebar li { margin-bottom: 0.15rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 56px; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown { max-height: 60vh; overflow-y: auto; }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 1.2rem 1rem; }
+        .toc-mobile-dropdown li { margin-bottom: 0.3rem; }
+        .toc-mobile-dropdown a {
+            color: var(--earth); text-decoration: none; font-size: 0.9rem;
+            padding: 0.3rem 0; display: block;
+        }
+        .toc-mobile-dropdown a.active { color: var(--terracotta); font-weight: 600; }
+        .main-content { flex: 1; min-width: 0; }
         .region-section {
             margin-bottom: 1rem;
         }
@@ -246,6 +314,9 @@ document.addEventListener('click', function(e) {
             nav { padding: 0.8rem 1.2rem; }
             .hero { padding: 6.5rem 1.5rem 3rem; }
             .container { padding: 0 1.25rem; }
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0 1.25rem; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
             .showcase-grid { grid-template-columns: 1fr; gap: 1rem; }
             .hamburger { display: block; }
             .nav-links {
@@ -313,10 +384,61 @@ document.addEventListener('click', function(e) {
     <div class="count">29 free itineraries and counting</div>
 </section>
 
-<div class="container">
+<!-- Mobile TOC -->
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="document.getElementById('toc-mobile').classList.toggle('open')">
+        <span class="toc-active-label" id="toc-active-label">Countries</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#japan">🇯🇵 Japan</a></li>
+            <li><a href="#italy">🇮🇹 Italy</a></li>
+            <li><a href="#france">🇫🇷 France</a></li>
+            <li><a href="#spain">🇪🇸 Spain</a></li>
+            <li><a href="#thailand">🇹🇭 Thailand</a></li>
+            <li><a href="#indonesia">🇮🇩 Indonesia</a></li>
+            <li><a href="#greece">🇬🇷 Greece</a></li>
+            <li><a href="#iceland">🇮🇸 Iceland</a></li>
+            <li><a href="#portugal">🇵🇹 Portugal</a></li>
+            <li><a href="#uk">🇬🇧 United Kingdom</a></li>
+            <li><a href="#vietnam">🇻🇳 Vietnam</a></li>
+            <li><a href="#colombia">🇨🇴 Colombia</a></li>
+            <li><a href="#costa-rica">🇨🇷 Costa Rica</a></li>
+            <li><a href="#mexico">🇲🇽 Mexico</a></li>
+            <li><a href="#usa">🇺🇸 United States</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+<!-- Sticky TOC Sidebar -->
+<aside class="toc-sidebar" id="toc-sidebar">
+    <h2>Countries</h2>
+    <ul>
+        <li><a href="#japan">🇯🇵 Japan</a></li>
+        <li><a href="#italy">🇮🇹 Italy</a></li>
+        <li><a href="#france">🇫🇷 France</a></li>
+        <li><a href="#spain">🇪🇸 Spain</a></li>
+        <li><a href="#thailand">🇹🇭 Thailand</a></li>
+        <li><a href="#indonesia">🇮🇩 Indonesia</a></li>
+        <li><a href="#greece">🇬🇷 Greece</a></li>
+        <li><a href="#iceland">🇮🇸 Iceland</a></li>
+        <li><a href="#portugal">🇵🇹 Portugal</a></li>
+        <li><a href="#uk">🇬🇧 United Kingdom</a></li>
+        <li><a href="#vietnam">🇻🇳 Vietnam</a></li>
+        <li><a href="#colombia">🇨🇴 Colombia</a></li>
+        <li><a href="#costa-rica">🇨🇷 Costa Rica</a></li>
+        <li><a href="#mexico">🇲🇽 Mexico</a></li>
+        <li><a href="#usa">🇺🇸 United States</a></li>
+    </ul>
+</aside>
+
+<div class="main-content">
 
 <!-- Japan -->
-<div class="region-section">
+<div class="region-section" id="japan">
     <h2 class="region-title">🇯🇵 Japan</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-japan-first-time/" class="showcase-card">
@@ -363,7 +485,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Italy -->
-<div class="region-section">
+<div class="region-section" id="italy">
     <h2 class="region-title">🇮🇹 Italy</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-italy-first-time/" class="showcase-card">
@@ -410,7 +532,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- France -->
-<div class="region-section">
+<div class="region-section" id="france">
     <h2 class="region-title">🇫🇷 France</h2>
     <div class="showcase-grid">
         <a href="/itineraries/5-day-paris-romantic/" class="showcase-card">
@@ -433,7 +555,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Spain -->
-<div class="region-section">
+<div class="region-section" id="spain">
     <h2 class="region-title">🇪🇸 Spain</h2>
     <div class="showcase-grid">
         <a href="/itineraries/4-day-barcelona-solo/" class="showcase-card">
@@ -456,7 +578,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Thailand -->
-<div class="region-section">
+<div class="region-section" id="thailand">
     <h2 class="region-title">🇹🇭 Thailand</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-thailand-first-time/" class="showcase-card">
@@ -479,7 +601,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Indonesia -->
-<div class="region-section">
+<div class="region-section" id="indonesia">
     <h2 class="region-title">🇮🇩 Indonesia</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-bali-wellness/" class="showcase-card">
@@ -502,7 +624,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Greece -->
-<div class="region-section">
+<div class="region-section" id="greece">
     <h2 class="region-title">🇬🇷 Greece</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-greek-island-hopping/" class="showcase-card">
@@ -517,7 +639,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Iceland -->
-<div class="region-section">
+<div class="region-section" id="iceland">
     <h2 class="region-title">🇮🇸 Iceland</h2>
     <div class="showcase-grid">
         <a href="/itineraries/5-day-iceland-golden-circle/" class="showcase-card">
@@ -540,7 +662,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Portugal -->
-<div class="region-section">
+<div class="region-section" id="portugal">
     <h2 class="region-title">🇵🇹 Portugal</h2>
     <div class="showcase-grid">
         <a href="/itineraries/10-day-portugal-road-trip/" class="showcase-card">
@@ -555,7 +677,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- United Kingdom -->
-<div class="region-section">
+<div class="region-section" id="uk">
     <h2 class="region-title">🇬🇧 United Kingdom</h2>
     <div class="showcase-grid">
         <a href="/itineraries/5-day-london-first-time/" class="showcase-card">
@@ -570,7 +692,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Vietnam -->
-<div class="region-section">
+<div class="region-section" id="vietnam">
     <h2 class="region-title">🇻🇳 Vietnam</h2>
     <div class="showcase-grid">
         <a href="/itineraries/14-day-vietnam-north-south/" class="showcase-card">
@@ -585,7 +707,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Colombia -->
-<div class="region-section">
+<div class="region-section" id="colombia">
     <h2 class="region-title">🇨🇴 Colombia</h2>
     <div class="showcase-grid">
         <a href="/itineraries/7-day-colombia-adventure/" class="showcase-card">
@@ -600,7 +722,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Costa Rica -->
-<div class="region-section">
+<div class="region-section" id="costa-rica">
     <h2 class="region-title">🇨🇷 Costa Rica</h2>
     <div class="showcase-grid">
         <a href="/itineraries/7-day-costa-rica-eco/" class="showcase-card">
@@ -615,7 +737,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- Mexico -->
-<div class="region-section">
+<div class="region-section" id="mexico">
     <h2 class="region-title">🇲🇽 Mexico</h2>
     <div class="showcase-grid">
         <a href="/itineraries/5-day-mexico-city-food-art/" class="showcase-card">
@@ -638,7 +760,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <!-- United States -->
-<div class="region-section">
+<div class="region-section" id="usa">
     <h2 class="region-title">🇺🇸 United States</h2>
     <div class="showcase-grid">
         <a href="/itineraries/3-day-austin-sxsw-solo/" class="showcase-card">
@@ -652,7 +774,8 @@ document.addEventListener('click', function(e) {
     </div>
 </div>
 
-</div><!-- /.container -->
+</div><!-- /.main-content -->
+</div><!-- /.content-wrapper -->
 
 <!-- CTA -->
 <section class="cta-section">
@@ -665,5 +788,41 @@ document.addEventListener('click', function(e) {
     <p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a></p>
 </footer>
 
+<script>
+(function(){
+    var sections = document.querySelectorAll('.region-section[id]');
+    var tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+    var mobileLabel = document.getElementById('toc-active-label');
+    var mobileToc = document.getElementById('toc-mobile');
+
+    function onScroll(){
+        var scrollY = window.scrollY + 120;
+        var current = '';
+        sections.forEach(function(s){
+            if(s.offsetTop <= scrollY) current = s.id;
+        });
+        tocLinks.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        if(current && mobileLabel){
+            var activeLink = document.querySelector('.toc-sidebar a.active');
+            if(activeLink) mobileLabel.textContent = activeLink.textContent;
+        }
+    }
+
+    // Smooth scroll + close mobile TOC on click
+    tocLinks.forEach(function(a){
+        a.addEventListener('click', function(e){
+            e.preventDefault();
+            var target = document.querySelector(this.getAttribute('href'));
+            if(target) window.scrollTo({top: target.offsetTop - 80, behavior: 'smooth'});
+            if(mobileToc) mobileToc.classList.remove('open');
+        });
+    });
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    onScroll();
+})();
+</script>
 </body>
 </html>
