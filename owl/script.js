@@ -197,7 +197,6 @@ async function goBack() {
 
 // Surprise me - random answers
 async function surpriseMe() {
-    if (typeof gtag === 'function') gtag('event', 'surprise_me', { event_category: 'owl_quiz' });
     // Fill in remaining answers randomly
     QUESTION_ORDER.forEach(key => {
         if (!state.answers[key]) {
@@ -253,7 +252,6 @@ async function handleChoice(choice, stateKey, nextStep) {
 
     // Save answer
     state.answers[stateKey] = choice.value;
-    if (typeof gtag === 'function') gtag('event', 'question_answered', { event_category: 'owl_quiz', question: stateKey, answer: choice.value });
     state.currentStep++;
 
     // Clear choices
@@ -386,11 +384,10 @@ function toggleCard(destId) {
 
 // Share results
 function shareResults() {
-    if (typeof gtag === 'function') gtag('event', 'share_clicked', { event_category: 'owl_quiz' });
     const destinations = findBestDestinations();
     const topPick = destinations[0];
 
-    const shareText = `Tabiji the Wise Travel Owl recommends: ${topPick.name}! "${topPick.tagline}" - Try it yourself at https://tabiji.ai/owl/`;
+    const shareText = `Tabiji the Wise Travel Owl recommends: ${topPick.name}! "${topPick.tagline}" - Try it yourself at https://tabiji.ai`;
 
     if (navigator.share) {
         navigator.share({
@@ -429,7 +426,6 @@ function showToast(message) {
 
 // Show the trip result
 async function showResult() {
-    if (typeof gtag === 'function') gtag('event', 'result_shown', { event_category: 'owl_quiz' });
     setExpression('thinking');
     await typeText("The winds whisper to me...\n\n*ruffles feathers*\n\nYes. I see your path.", dialogueText);
 
@@ -491,7 +487,6 @@ function restart() {
 
 // Start the game
 async function startGame() {
-    if (typeof gtag === 'function') gtag('event', 'quiz_start', { event_category: 'owl_quiz' });
     setExpression('neutral');
     const intro = DIALOGUE_FLOW.find(d => d.id === 'intro');
     await runDialogueStep(intro);
