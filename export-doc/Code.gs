@@ -25,11 +25,12 @@ function doPost(e) {
       return jsonResponse({ error: 'Itinerary not found' }, 404);
     }
     
-    var html = response.getContentText();
+    var html = response.getContentText('UTF-8');
     var itinerary = parseItinerary(html, url);
     
-    // Create & format the Google Doc
-    var doc = DocumentApp.create(itinerary.title + ' — tabiji.ai');
+    // Create the Google Doc — named as destination slug
+    var docTitle = slug + '-itinerary';
+    var doc = DocumentApp.create(docTitle);
     formatDocument(doc.getBody(), itinerary);
     doc.saveAndClose();
     
@@ -224,7 +225,7 @@ function formatDocument(body, itinerary) {
   // Source link
   if (itinerary.sourceUrl) {
     var srcP = body.appendParagraph('');
-    srcP.appendText('🔗 ').setFontSize(9);
+    srcP.appendText('\uD83D\uDD17 ').setFontSize(9);
     srcP.appendText(itinerary.sourceUrl).setLinkUrl(itinerary.sourceUrl).setForegroundColor(C.terracotta).setFontSize(9);
     srcP.setSpacingAfter(6);
   }
@@ -241,7 +242,7 @@ function formatDocument(body, itinerary) {
   
   // ── Before You Go ──
   if (itinerary.quickRef.length > 0) {
-    var qrH = body.appendParagraph('⚡ Before You Go');
+    var qrH = body.appendParagraph('\u26A1 Before You Go');
     qrH.setHeading(DocumentApp.ParagraphHeading.HEADING2);
     qrH.setForegroundColor(C.indigo);
     
@@ -285,7 +286,7 @@ function formatDocument(body, itinerary) {
     // Time blocks
     day.timeBlocks.forEach(function(tb) {
       if (tb.label) {
-        var tlP = body.appendParagraph('⏰ ' + tb.label);
+        var tlP = body.appendParagraph('\u23F0 ' + tb.label);
         tlP.setBold(true);
         tlP.setForegroundColor(C.earth);
         tlP.setFontSize(10);
@@ -294,7 +295,7 @@ function formatDocument(body, itinerary) {
       
       tb.activities.forEach(function(act) {
         // Activity name
-        var actH = body.appendParagraph('→ ' + act.name);
+        var actH = body.appendParagraph('\u2192 ' + act.name);
         actH.setHeading(DocumentApp.ParagraphHeading.HEADING3);
         actH.setForegroundColor(C.terracotta);
         
@@ -344,7 +345,7 @@ function formatDocument(body, itinerary) {
         
         // Reddit tips
         act.redditTips.forEach(function(rt) {
-          var rtP = body.appendParagraph('💬 ' + rt);
+          var rtP = body.appendParagraph('\uD83D\uDCAC ' + rt);
           rtP.setForegroundColor(C.earth);
           rtP.setFontSize(9);
           rtP.setItalic(true);
@@ -360,16 +361,16 @@ function formatDocument(body, itinerary) {
   body.appendHorizontalRule();
   
   // Editable notes section
-  var notesH = body.appendParagraph('✏️ Your Notes');
+  var notesH = body.appendParagraph('\u270F\uFE0F Your Notes');
   notesH.setHeading(DocumentApp.ParagraphHeading.HEADING2);
   notesH.setForegroundColor(C.indigo);
   
   var noteHints = [
-    '🏨 Accommodation details & confirmation numbers',
-    '✈️ Flight info & boarding passes',
-    '📋 Packing list',
-    '🍽️ Restaurant reservations',
-    '📝 Personal notes & ideas'
+    '\uD83C\uDFE8 Accommodation details & confirmation numbers',
+    '\u2708\uFE0F Flight info & boarding passes',
+    '\uD83D\uDCCB Packing list',
+    '\uD83C\uDF7D\uFE0F Restaurant reservations',
+    '\uD83D\uDCDD Personal notes & ideas'
   ];
   noteHints.forEach(function(hint) {
     var item = body.appendListItem(hint);
@@ -392,18 +393,26 @@ function formatDocument(body, itinerary) {
 
 function strip(html) {
   if (!html) return '';
-  return html
+  var text = html
     .replace(/<br\s*\/?>/gi, ' ')
     .replace(/<cite>[\s\S]*?<\/cite>/gi, '')
-    .replace(/<[^>]+>/g, '')
+    .replace(/<[^>]+>/g, '');
+  // Decode HTML entities (run twice for double-encoded like &amp;amp;)
+  text = decodeEntities(text);
+  text = decodeEntities(text);
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+function decodeEntities(text) {
+  return text
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&nbsp;/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .replace(/&#(\d+);/g, function(m, n) { return String.fromCharCode(parseInt(n)); })
+    .replace(/&#x([0-9a-f]+);/gi, function(m, n) { return String.fromCharCode(parseInt(n, 16)); });
 }
 
 /** Test from the script editor */
