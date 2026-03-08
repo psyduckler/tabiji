@@ -30,6 +30,8 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--white); color: var(--text); }
+
+        /* Nav */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; position: fixed; top: 0; left: 0; right: 0; background: rgba(254,252,249,0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--sand); }
         .logo { text-decoration: none; font-size: 1.3rem; font-weight: 700; color: var(--indigo); }
         .logo span { color: var(--terracotta); }
@@ -44,13 +46,22 @@
         .nav-dropdown.open .nav-dropdown-menu { display: block; }
         .nav-dropdown-menu a { display: block; padding: 0.5rem 1.2rem; color: var(--indigo); text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; transition: background 0.15s; }
         .nav-dropdown-menu a:hover { background: rgba(0,0,0,0.04); }
-        @media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254,252,249,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; } .nav-links.open { display: flex; } .nav-dropdown-menu { position: static; transform: none; background: none; backdrop-filter: none; border: none; border-radius: 0; box-shadow: none; padding: 0; min-width: 0; padding-left: 1rem; } .nav-dropdown-menu a { padding: 0.35rem 0; font-size: 0.85rem; color: var(--indigo); opacity: 0.8; } nav a.cta-nav { text-align: center; } }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254,252,249,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; }
+            .nav-links.open { display: flex; }
+            .nav-dropdown-menu { position: static; transform: none; background: none; backdrop-filter: none; border: none; border-radius: 0; box-shadow: none; padding: 0; min-width: 0; padding-left: 1rem; }
+            .nav-dropdown-menu a { padding: 0.35rem 0; font-size: 0.85rem; color: var(--indigo); opacity: 0.8; }
+            nav a.cta-nav { text-align: center; }
+        }
+        /* Hero */
         .hero { padding: 8rem 2rem 4rem; text-align: center; background: linear-gradient(135deg, var(--warm-cream) 0%, var(--white) 100%); margin-bottom: 2rem; }
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); color: var(--indigo); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1rem; }
         .hero .subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2rem; line-height: 1.6; }
         .hero .data-badges { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .hero .data-badge { background: white; border: 1px solid var(--sand); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; color: var(--earth); }
-        .toc-mobile-sticky { display: none; position: sticky; top: 65px; z-index: 99; background: rgba(254,252,249,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        /* TOC */
+        .toc-mobile-sticky { display: none; position: sticky; top: 0; z-index: 99; background: rgba(254,252,249,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
         .toc-mobile-toggle { width: 100%; padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 600; color: var(--indigo); }
         .toc-mobile-toggle .toc-chevron { transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth); }
         .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
@@ -59,6 +70,7 @@
         .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
         .toc-mobile-dropdown a { display: block; padding: 0.55rem 1.2rem; color: var(--earth); text-decoration: none; font-size: 0.9rem; transition: background 0.15s, color 0.15s; }
         .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        /* Content layout */
         .content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 3rem; align-items: flex-start; }
         .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
         .toc-sidebar { padding-top: 2rem; width: 220px; flex-shrink: 0; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
@@ -68,13 +80,19 @@
         .toc-sidebar a { color: var(--earth); text-decoration: none; font-size: 0.85rem; display: block; padding: 0.25rem 0 0.25rem 0.75rem; border-left: 2px solid transparent; line-height: 1.3; transition: color 0.2s; }
         .toc-sidebar a:hover { color: var(--terracotta); }
         .toc-sidebar a.active { color: var(--terracotta); border-left-color: var(--terracotta); font-weight: 600; }
-        @media (max-width: 900px) { .content-wrapper { flex-direction: column; gap: 0; padding: 0 1.25rem; } .toc-sidebar { display: none; } .toc-mobile-sticky { display: block; } }
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0 1.25rem; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+        /* TL;DR */
         .tldr { background: var(--warm-cream); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; }
         .tldr h2 { font-size: 1.3rem; color: var(--indigo); margin-bottom: 1rem; }
         .tldr-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; }
         .tldr-rank { background: var(--terracotta); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
         .tldr-text { font-size: 1.05rem; line-height: 1.6; }
         .tldr-text strong { color: var(--indigo); }
+        /* Destination cards */
         .dest-card { background: white; border: 1px solid var(--sand); border-radius: 16px; overflow: hidden; margin-bottom: 3rem; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
         .dest-card-hero { position: relative; height: 320px; overflow: hidden; }
         .dest-card-hero img { width: 100%; height: 100%; object-fit: cover; }
@@ -89,12 +107,16 @@
         .dest-card-body h3:first-of-type { margin-top: 0; }
         .dest-card-body p { font-size: 1rem; line-height: 1.7; color: var(--text); margin-bottom: 1rem; }
         .dest-card-body a { color: var(--terracotta); text-decoration: underline; }
+        /* Reddit quotes */
         .reddit-quote { background: var(--warm-cream); border-left: 3px solid var(--terracotta); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0 1.5rem; font-style: italic; color: var(--text-muted); }
         .reddit-quote .attribution { font-style: normal; font-size: 0.85rem; margin-top: 0.5rem; color: var(--earth); }
+        /* Skip if */
         .skip-if { background: #FFF8F0; border: 1px solid #F0DCC8; border-radius: 8px; padding: 1rem 1.25rem; margin-top: 1rem; font-size: 0.95rem; }
         .skip-if strong { color: var(--terracotta); }
+        /* Tabiji link */
         .tabiji-link { display: inline-block; background: var(--indigo); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem; transition: background 0.2s; }
         .tabiji-link:hover { background: var(--indigo-light); }
+        /* Where NOT to go */
         .avoid-section { margin: 3rem 0; }
         .avoid-section h2 { font-size: 1.6rem; color: var(--warning-red); margin-bottom: 1.5rem; }
         .avoid-card { background: var(--warning-bg); border: 1px solid #EACACA; border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
@@ -102,6 +124,7 @@
         .avoid-card p { font-size: 1rem; line-height: 1.7; color: var(--text); margin-bottom: 0.75rem; }
         .avoid-card .go-instead { background: white; border-radius: 8px; padding: 0.75rem 1rem; margin-top: 0.75rem; font-size: 0.9rem; }
         .avoid-card .go-instead strong { color: var(--sage); }
+        /* Comparison table */
         .comparison-section { margin: 3rem 0; }
         .comparison-section h2 { font-size: 1.6rem; color: var(--indigo); margin-bottom: 1.5rem; }
         .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--sand); }
@@ -113,19 +136,28 @@
         .crowd-low { color: var(--sage); font-weight: 600; }
         .crowd-med { color: var(--earth); font-weight: 600; }
         .crowd-high { color: var(--terracotta); font-weight: 600; }
+        /* Month links */
         .month-nav { margin: 3rem 0; padding: 2rem; background: var(--warm-cream); border-radius: 12px; text-align: center; }
         .month-nav h3 { color: var(--indigo); margin-bottom: 1rem; font-size: 1.1rem; }
         .month-links { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
         .month-links a { padding: 0.4rem 0.9rem; border: 1px solid var(--sand); border-radius: 20px; text-decoration: none; color: var(--earth); font-size: 0.85rem; transition: all 0.2s; background: white; }
         .month-links a:hover { border-color: var(--terracotta); color: var(--terracotta); }
         .month-links a.active { background: var(--terracotta); color: white; border-color: var(--terracotta); }
+        /* Footer */
         footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--sand); background: var(--white); }
         .logo-footer { font-size: 1.2rem; font-weight: 700; color: var(--indigo); margin-bottom: 0.5rem; }
         footer p { color: var(--text-muted); font-size: 0.85rem; }
+        /* Section headers */
         .section-header { font-size: 1.6rem; color: var(--indigo); margin: 3rem 0 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+        /* Country info strip */
         .country-info { display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 0.75rem 0; margin-bottom: 1rem; border-bottom: 1px solid var(--sand); font-size: 0.85rem; color: var(--text-muted); }
         .country-info span { display: inline-flex; align-items: center; gap: 0.3rem; }
-        @media (max-width: 600px) { .dest-data-grid { grid-template-columns: repeat(2, 1fr); } .dest-card-hero { height: 220px; } .dest-card-body { padding: 1.25rem; } .hero { padding: 7rem 1.25rem 2.5rem; } }
+        @media (max-width: 600px) {
+            .dest-data-grid { grid-template-columns: repeat(2, 1fr); }
+            .dest-card-hero { height: 220px; }
+            .dest-card-body { padding: 1.25rem; }
+            .hero { padding: 7rem 1.25rem 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -158,6 +190,7 @@
         <div class="data-badges">
             <span class="data-badge">📊 Open-Meteo Weather Data</span>
             <span class="data-badge">💬 Real Reddit Quotes</span>
+            <span class="data-badge">📈 Search Trend Data</span>
             <span class="data-badge">✈️ Avg Flight Costs</span>
         </div>
     </section>
@@ -238,18 +271,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">9°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">10</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$1100</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">9°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">10</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$1100</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 ¥ (JPY)</span><span>🗣️ Japanese</span><span>🚗 Drives left</span><span>📞 +81</span><span>🕐 UTC+9</span></div>
+                    <div class="country-info">
+                        <span>💱 JPY (¥)</span>
+                        <span>🗣️ Japanese</span>
+                        <span>🚗 Drives left</span>
+                        <span>📞 +81</span>
+                        <span>🕐 UTC+9</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is the sweet spot for cherry blossoms in Kyoto. The season typically begins in the last week of March, meaning you can catch the stunning first bloom without the insane crowds and peak prices of early April. The weather is cool and crisp (avg 9°C), perfect for walking between temples and gardens. The Higashiyama Hanatouro festival also runs in early March, with thousands of lanterns illuminating the streets.</p>
-                    <div class="reddit-quote">"We aimed for the last week of March and hit it perfectly. The Philosopher's Path was just starting to bloom, and it was magical. It was busy, but nothing like the horror stories you hear about Golden Week or mid-April."<div class="attribution">— r/JapanTravel</span></div>
+
+                    <div class="reddit-quote">
+                        "We aimed for the last week of March and hit it perfectly. The Philosopher's Path was just starting to bloom, and it was magical. It was busy, but nothing like the horror stories you hear about Golden Week or mid-April."
+                        <div class="attribution">— r/JapanTravel</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>Check the cherry blossom forecast religiously as it gets closer. For early blooms, check out the weeping cherry tree at Maruyama Park, which often blooms before the others. To escape the crowds, rent a bike and cycle along the Kamo River, which is lined with cherry trees.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You need guaranteed full bloom. The exact timing varies each year. If you want peak bloom, early to mid-April is a safer (but far more crowded and expensive) bet.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You need guaranteed full bloom. The exact timing varies each year. If you want peak bloom, early to mid-April is a safer (but far more crowded and expensive) bet.
+                    </div>
                 </div>
             </div>
 
@@ -262,18 +322,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">22°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">5</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$700</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">22°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">5</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$700</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 د.م. (MAD)</span><span>🗣️ Arabic, Berber</span><span>🚗 Drives right</span><span>📞 +212</span><span>🕐 UTC+1</span></div>
+                    <div class="country-info">
+                        <span>💱 MAD (د.م.)</span>
+                        <span>🗣️ Arabic, Berber</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +212</span>
+                        <span>🕐 UTC+1</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March in Marrakech is springtime perfection. The weather is pleasantly warm (22-25°C) but not yet scorching hot, making it ideal for exploring the labyrinthine souks of the medina and relaxing on riad rooftops. The gardens, like the Jardin Majorelle, are in full bloom, and it's the best time for day trips to the Atlas Mountains before the summer haze obscures the views.</p>
-                    <div class="reddit-quote">"March was perfect. Warm enough for a t-shirt during the day, but cool enough at night to sleep comfortably. We did a day trip to the Ourika Valley and the contrast between the green valley and the snow-capped Atlas peaks was incredible."<div class="attribution">— r/morocco</div></div>
+
+                    <div class="reddit-quote">
+                        "March was perfect. Warm enough for a t-shirt during the day, but cool enough at night to sleep comfortably. We did a day trip to the Ourika Valley and the contrast between the green valley and the snow-capped Atlas peaks was incredible."
+                        <div class="attribution">— r/morocco</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
-                    <p>Stay in a traditional riad within the medina for an authentic experience. For a break from the city's chaos, take a cooking class at a place like La Maison Arabe. When shopping in the souks, be prepared to haggle—it's part of the culture. A good rule of thumb is to offer about a third of the initial asking price and meet somewhere in the middle.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You are easily overwhelmed by crowds and noise. The medina is an intense, full-on sensory experience that can be exhausting for some travelers.</div>
+                    <p>Stay in a traditional riad within the medina for an authentic experience. For a break from the city's chaos, take a cooking class at a place like La Maison Arabe. When shopping in the souks, be prepared to haggle — it's part of the culture. A good rule of thumb is to offer about a third of the initial asking price and meet somewhere in the middle.</p>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You are easily overwhelmed by crowds and noise. The medina is an intense, full-on sensory experience that can be exhausting for some travelers.
+                    </div>
                 </div>
             </div>
 
@@ -286,21 +373,48 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">15°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">8</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$1300</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">15°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">8</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$1300</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (NZD)</span><span>🗣️ English, Māori</span><span>🚗 Drives left</span><span>📞 +64</span><span>🕐 UTC+13</span></div>
+                    <div class="country-info">
+                        <span>💱 NZD ($)</span>
+                        <span>🗣️ English, Māori</span>
+                        <span>🚗 Drives left</span>
+                        <span>📞 +64</span>
+                        <span>🕐 UTC+13</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is the beginning of autumn in New Zealand and is considered by many locals to be the best month to visit. The weather is still warm and settled, but the intense summer heat and crowds have dissipated. The landscape, especially in regions like Central Otago on the South Island, is ablaze with stunning autumn colors. It's the perfect time for hiking the Great Walks with fewer people on the trails.</p>
-                    <div class="reddit-quote">"Honestly, March is the secret best month. Still feels like summer but it's way more chilled out. The water is at its warmest for swimming, and the weather is generally super stable. It's prime road trip season."<div class="attribution">— r/newzealand</div></div>
+
+                    <div class="reddit-quote">
+                        "Honestly, March is the secret best month. Still feels like summer but it's way more chilled out. The water is at its warmest for swimming, and the weather is generally super stable. It's prime road trip season."
+                        <div class="attribution">— r/newzealand</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>Focus on the South Island. While the North is great, the South is where the dramatic landscapes are. Rent a campervan for the ultimate freedom to explore. The drive from Queenstown to Glenorchy is consistently rated one of the most scenic in the world. For incredible fall colors, visit Arrowtown near Queenstown.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You're looking for a party scene. While Queenstown has nightlife, New Zealand is primarily a destination for nature lovers and outdoor adventurers.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You're looking for a party scene. While Queenstown has nightlife, New Zealand is primarily a destination for nature lovers and outdoor adventurers.
+                    </div>
                 </div>
             </div>
-            
+
             <!-- 4. Mendoza, Argentina -->
             <div class="dest-card" id="mendoza">
                 <div class="dest-card-hero">
@@ -310,18 +424,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">20°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">4</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$1200</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">20°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">4</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$1200</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (ARS)</span><span>🗣️ Spanish</span><span>🚗 Drives right</span><span>📞 +54</span><span>🕐 UTC-3</span></div>
+                    <div class="country-info">
+                        <span>💱 ARS ($)</span>
+                        <span>🗣️ Spanish</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +54</span>
+                        <span>🕐 UTC-3</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
-                    <p>March is harvest time in Argentina's premier wine region. The vineyards are lush and full of grapes, and the city comes alive with the Fiesta Nacional de la Vendimia (National Grape Harvest Festival) during the first week of the month. The weather is idyllic autumn—warm, sunny days and cool, comfortable evenings, perfect for cycling between bodegas and enjoying long, leisurely lunches with the Andes as a backdrop.</p>
-                    <div class="reddit-quote">"Going during the harvest is amazing. Some wineries let you participate. The whole region is buzzing. Rent bikes in Maipú and just cruise from one tasting room to another. It's the best way to do it."<div class="attribution">— r/argentina</div></div>
+                    <p>March is harvest time in Argentina's premier wine region. The vineyards are lush and full of grapes, and the city comes alive with the Fiesta Nacional de la Vendimia (National Grape Harvest Festival) during the first week of the month. The weather is idyllic autumn — warm, sunny days and cool, comfortable evenings, perfect for cycling between bodegas and enjoying long, leisurely lunches with the Andes as a backdrop.</p>
+
+                    <div class="reddit-quote">
+                        "Going during the harvest is amazing. Some wineries let you participate. The whole region is buzzing. Rent bikes in Maipú and just cruise from one tasting room to another. It's the best way to do it."
+                        <div class="attribution">— r/argentina</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>The Uco Valley has the most spectacular scenery and highest-quality wineries, but it's best explored with a driver as things are spread out. For a more DIY experience, the Luján de Cuyo and Maipú regions are closer to the city and easily accessible by bike or bus. Book wine tastings and lunches in advance, especially in March.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You don't like wine. While Mendoza has other attractions like hiking and rafting, its entire culture and economy revolves around the wine industry.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You don't like wine. While Mendoza has other attractions like hiking and rafting, its entire culture and economy revolves around the wine industry.
+                    </div>
                 </div>
             </div>
 
@@ -334,18 +475,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">28°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">1</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$500</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">28°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">1</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$500</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (COP)</span><span>🗣️ Spanish</span><span>🚗 Drives right</span><span>📞 +57</span><span>🕐 UTC-5</span></div>
+                    <div class="country-info">
+                        <span>💱 COP ($)</span>
+                        <span>🗣️ Spanish</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +57</span>
+                        <span>🕐 UTC-5</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is part of the short dry season on Colombia's Caribbean coast. You get all the heat and sunshine (average 28°C) but with significantly less humidity and almost no rain, making it much more pleasant for exploring the vibrant, colorful streets of the walled city. The peak holiday crowds from January have left, but the city is still lively, especially with the Cartagena International Film Festival taking place mid-month.</p>
-                    <div class="reddit-quote">"The heat in Cartagena is no joke, but in March the humidity is manageable. We loved just wandering around Getsemaní, grabbing street food, and watching the sunset from the city walls. It's an incredibly photogenic city."<div class="attribution">— r/colombia</div></div>
+
+                    <div class="reddit-quote">
+                        "The heat in Cartagena is no joke, but in March the humidity is manageable. We loved just wandering around Getsemaní, grabbing street food, and watching the sunset from the city walls. It's an incredibly photogenic city."
+                        <div class="attribution">— r/colombia</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>Stay in the Getsemaní neighborhood, just outside the main walled city. It's more affordable, has a cooler, more local vibe with amazing street art and cafes, and is only a 10-minute walk from the historic center. Take a day trip to the Rosario Islands for beautiful beaches, as the city beaches are not the main attraction.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You can't handle the heat. Even in the dry season, it is very hot and sunny. This is a city for slow strolls, rooftop pools, and finding shade in a courtyard cafe.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You can't handle the heat. Even in the dry season, it is very hot and sunny. This is a city for slow strolls, rooftop pools, and finding shade in a courtyard cafe.
+                    </div>
                 </div>
             </div>
 
@@ -358,18 +526,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">22°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">0</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$900</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">22°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">0</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$900</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 £ (EGP)</span><span>🗣️ Arabic</span><span>🚗 Drives right</span><span>📞 +20</span><span>🕐 UTC+2</span></div>
+                    <div class="country-info">
+                        <span>💱 EGP (£)</span>
+                        <span>🗣️ Arabic</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +20</span>
+                        <span>🕐 UTC+2</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March offers a perfect balance for Egypt. The weather in cultural centers like Luxor and Aswan is warm but not unbearably hot, ideal for temple exploration. Simultaneously, on the Red Sea coast (Sharm el-Sheikh, Hurghada), the temperatures are perfect for beach time and diving, with water temperatures becoming more comfortable. You avoid both the winter chill and the scorching summer heat.</p>
-                    <div class="reddit-quote">"We did a Nile cruise and then a week in Hurghada in March. It was the perfect combo. We weren't sweating to death at the temples, and the beach weather was amazing. The diving in the Red Sea is out of this world."<div class="attribution">— r/egypt</div></div>
+
+                    <div class="reddit-quote">
+                        "We did a Nile cruise and then a week in Hurghada in March. It was the perfect combo. We weren't sweating to death at the temples, and the beach weather was amazing. The diving in the Red Sea is out of this world."
+                        <div class="attribution">— r/egypt</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>For a world-class diving experience away from the mega-resorts of Hurghada, head south to Marsa Alam, known for its healthier reefs and sightings of dolphins, dugongs, and sharks. If you're combining with a Nile trip, a dahabiya (a traditional sailing boat) offers a much more intimate and relaxed experience than a large cruise ship.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You're only looking for a beach holiday. The main draw of an Egypt trip is its unparalleled ancient history, which is best combined with the coast.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You're only looking for a beach holiday. The main draw of an Egypt trip is its unparalleled ancient history, which is best combined with the coast.
+                    </div>
                 </div>
             </div>
 
@@ -382,18 +577,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">26°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">3</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$400</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-high">High</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">26°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">3</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$400</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-high">High</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (MXN)</span><span>🗣️ Spanish</span><span>🚗 Drives right</span><span>📞 +52</span><span>🕐 UTC-5</span></div>
+                    <div class="country-info">
+                        <span>💱 MXN ($)</span>
+                        <span>🗣️ Spanish</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +52</span>
+                        <span>🕐 UTC-5</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is peak season in Cancún for a reason. The weather is at its absolute best: dry, sunny, and perfectly hot without the oppressive humidity of summer. It's the heart of spring break season, meaning the city's nightlife and party scene is at its most energetic. If you're looking for that classic, high-energy, sun-drenched beach vacation, March is the time to go.</p>
-                    <div class="reddit-quote">"If you're going for Spring Break, there's no other time. The energy is wild. If you're NOT going for Spring Break, maybe avoid the second and third week of March. But the weather is genuinely perfect."<div class="attribution">— r/cancun</div></div>
+
+                    <div class="reddit-quote">
+                        "If you're going for Spring Break, there's no other time. The energy is wild. If you're NOT going for Spring Break, maybe avoid the second and third week of March. But the weather is genuinely perfect."
+                        <div class="attribution">— r/cancun</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
-                    <p>To escape the spring break madness, consider staying in Playa Mujeres, a quieter area just north of the main Hotel Zone, or take a day trip to the more tranquil Isla Mujeres. Book everything—flights, hotels, and even restaurant reservations—far in advance as this is the busiest month of the year.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You are looking for a quiet, relaxing, or budget-friendly trip. March is the most crowded and expensive month to visit Cancún.</div>
+                    <p>To escape the spring break madness, consider staying in Playa Mujeres, a quieter area just north of the main Hotel Zone, or take a day trip to the more tranquil Isla Mujeres. Book everything — flights, hotels, and even restaurant reservations — far in advance as this is the busiest month of the year.</p>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You are looking for a quiet, relaxing, or budget-friendly trip. March is the most crowded and expensive month to visit Cancún.
+                    </div>
                 </div>
             </div>
 
@@ -406,18 +628,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">24°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">7</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$600</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-high">High</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">24°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">7</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$600</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-high">High</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (USD)</span><span>🗣️ English</span><span>🚗 Drives right</span><span>📞 +1</span><span>🕐 UTC-10</span></div>
+                    <div class="country-info">
+                        <span>💱 USD ($)</span>
+                        <span>🗣️ English</span>
+                        <span>🚗 Drives right</span>
+                        <span>📞 +1</span>
+                        <span>🕐 UTC-10</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is a great shoulder month in Hawaii. The winter rainy season is ending, and the big North Shore waves are still pumping, making it the last chance to see major surf competitions. It's also prime whale watching season, as humpback whales are still in the waters around Maui and the Big Island before migrating north. The spring break crowds are present but often concentrated in specific areas like Waikiki.</p>
-                    <div class="reddit-quote">"We went to Maui in March and the whale watching was spectacular. You could see them breaching from the shore. The weather was great, a few quick showers but mostly sun. It felt less crowded than when we went in July."<div class="attribution">— r/hawaiitravel</div></div>
+
+                    <div class="reddit-quote">
+                        "We went to Maui in March and the whale watching was spectacular. You could see them breaching from the shore. The weather was great, a few quick showers but mostly sun. It felt less crowded than when we went in July."
+                        <div class="attribution">— r/hawaiitravel</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>For the best whale watching, take a boat tour from Lahaina on Maui. If you're a surfer, head to Oahu's North Shore. For a less-crowded experience, focus on the island of Kauai, known for its stunning natural beauty and more laid-back vibe. No matter which island, book rental cars early as they can sell out.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You're on a very tight budget. While March is slightly cheaper than peak winter, Hawaii is an expensive destination year-round.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You're on a very tight budget. While March is slightly cheaper than peak winter, Hawaii is an expensive destination year-round.
+                    </div>
                 </div>
             </div>
 
@@ -430,18 +679,45 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">21°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">5</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$1000</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">21°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">5</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$1000</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 R (ZAR)</span><span>🗣️ Afrikaans, English</span><span>🚗 Drives left</span><span>📞 +27</span><span>🕐 UTC+2</span></div>
+                    <div class="country-info">
+                        <span>💱 ZAR (R)</span>
+                        <span>🗣️ Afrikaans, English</span>
+                        <span>🚗 Drives left</span>
+                        <span>📞 +27</span>
+                        <span>🕐 UTC+2</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
-                    <p>March is late summer/early autumn in Cape Town, and the weather is fantastic—warm, sunny, and with less of the infamous "Cape Doctor" wind that blows in mid-summer. It's a great time for outdoor activities like hiking Table Mountain or Lion's Head, visiting the beaches of Clifton and Camps Bay, and exploring the nearby Winelands as the grape harvest begins.</p>
-                    <div class="reddit-quote">"March is my favorite month in Cape Town. The crazy holiday season is over, but the weather is still beautiful. The sunsets are epic, and it's perfect for driving Chapman's Peak Drive without all the traffic."<div class="attribution">— r/capetown</div></div>
+                    <p>March is late summer/early autumn in Cape Town, and the weather is fantastic — warm, sunny, and with less of the infamous "Cape Doctor" wind that blows in mid-summer. It's a great time for outdoor activities like hiking Table Mountain or Lion's Head, visiting the beaches of Clifton and Camps Bay, and exploring the nearby Winelands as the grape harvest begins.</p>
+
+                    <div class="reddit-quote">
+                        "March is my favorite month in Cape Town. The crazy holiday season is over, but the weather is still beautiful. The sunsets are epic, and it's perfect for driving Chapman's Peak Drive without all the traffic."
+                        <div class="attribution">— r/capetown</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
                     <p>Hike Lion's Head for sunrise or sunset for an unforgettable 360-degree view of the city. For a unique experience, visit the penguin colony at Boulders Beach. Instead of just staying in the city, rent a car and explore the Cape Peninsula and the charming towns of the Winelands like Franschhoek and Stellenbosch.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You want to go on a traditional safari. While there are game reserves near Cape Town, the prime safari destination, Kruger National Park, is on the other side of the country and has its own distinct weather patterns.</div>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You want to go on a traditional safari. While there are game reserves near Cape Town, the prime safari destination, Kruger National Park, is on the other side of the country and has its own distinct weather patterns.
+                    </div>
                 </div>
             </div>
 
@@ -454,42 +730,75 @@
                 </div>
                 <div class="dest-card-body">
                     <div class="dest-data-grid">
-                        <div class="dest-data-item"><div class="data-value">27°C</div><div class="data-label">Avg Temp</div></div>
-                        <div class="dest-data-item"><div class="data-value">14</div><div class="data-label">Rain Days</div></div>
-                        <div class="dest-data-item"><div class="data-value">~$1400</div><div class="data-label">Avg Flight (RT)</div></div>
-                        <div class="dest-data-item"><div class="data-value crowd-med">Medium</div><div class="data-label">Crowd Level</div></div>
+                        <div class="dest-data-item">
+                            <div class="data-value">27°C</div>
+                            <div class="data-label">Avg Temp</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">14</div>
+                            <div class="data-label">Rain Days</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value">~$1400</div>
+                            <div class="data-label">Avg Flight (RT)</div>
+                        </div>
+                        <div class="dest-data-item">
+                            <div class="data-value crowd-med">Medium</div>
+                            <div class="data-label">Crowd Level</div>
+                        </div>
                     </div>
-                    <div class="country-info"><span>💱 $ (AUD)</span><span>🗣️ English</span><span>🚗 Drives left</span><span>📞 +61</span><span>🕐 UTC+10</span></div>
+                    <div class="country-info">
+                        <span>💱 AUD ($)</span>
+                        <span>🗣️ English</span>
+                        <span>🚗 Drives left</span>
+                        <span>📞 +61</span>
+                        <span>🕐 UTC+10</span>
+                    </div>
+
                     <h3>Why March Specifically</h3>
                     <p>March is at the tail end of the wet season, but it's a fantastic time for marine life. The water is warm (around 28°C), and the visibility is often excellent after the rains have cleared the air. It's the annual coral spawning season, a spectacular underwater event. It's also a shoulder season, so you'll find lower prices and fewer crowds than in the peak dry season.</p>
-                    <div class="reddit-quote">"We went in late March and got lucky with the weather. The water was so warm and the reef was so alive. The boat wasn't packed, which was great. Just be prepared for the possibility of a tropical shower in the afternoon."<div class="attribution">— r/australia</div></div>
+
+                    <div class="reddit-quote">
+                        "We went in late March and got lucky with the weather. The water was so warm and the reef was so alive. The boat wasn't packed, which was great. Just be prepared for the possibility of a tropical shower in the afternoon."
+                        <div class="attribution">— r/australia</div>
+                    </div>
+
                     <h3>Insider Tip</h3>
-                    <p>Base yourself in Port Douglas for a more laid-back vibe than Cairns. Choose a tour operator with a permit to visit the outer reef, as this is where you'll find the most pristine coral and abundant marine life. Be aware of stinger (jellyfish) season—you will need to wear a protective lycra suit, which all tour operators provide.</p>
-                    <div class="skip-if"><strong>Skip if:</strong> You need guaranteed perfect weather. It's still the end of the wet season, so you could encounter rain and the occasional cyclone risk, though it's less likely than in Jan/Feb.</div>
+                    <p>Base yourself in Port Douglas for a more laid-back vibe than Cairns. Choose a tour operator with a permit to visit the outer reef, as this is where you'll find the most pristine coral and abundant marine life. Be aware of stinger (jellyfish) season — you will need to wear a protective lycra suit, which all tour operators provide.</p>
+
+                    <div class="skip-if">
+                        <strong>Skip if:</strong> You need guaranteed perfect weather. It's still the end of the wet season, so you could encounter rain and the occasional cyclone risk, though it's less likely than in Jan/Feb.
+                    </div>
                 </div>
             </div>
 
             <!-- WHERE NOT TO GO -->
             <div class="avoid-section" id="where-not-to-go">
                 <h2>🚫 Where NOT to Go in March</h2>
-                <p style="margin-bottom:1.5rem;color:var(--text-muted);font-size:1.05rem;">These destinations are better saved for other months. Here's why March doesn't work.</p>
+                <p style="margin-bottom:1.5rem;color:var(--text-muted);font-size:1.05rem;">These destinations are better saved for other months. Here's why March specifically doesn't work.</p>
 
                 <div class="avoid-card">
                     <h3>🌧️ Amazon Rainforest (e.g., Brazil, Peru)</h3>
                     <p>March is one of the wettest months in the Amazon basin. River levels are extremely high, which can be good for boat travel, but many hiking trails are flooded and inaccessible. The constant, heavy rainfall and peak mosquito season can make for a less comfortable and more challenging jungle experience.</p>
-                    <div class="go-instead"><strong>Go instead:</strong> June–October. This is the dry season, with lower water levels, more accessible trails, and fewer mosquitoes.</div>
+                    <div class="go-instead">
+                        <strong>Go instead:</strong> June–October. This is the dry season, with lower water levels, more accessible trails, and fewer mosquitoes.
+                    </div>
                 </div>
 
                 <div class="avoid-card">
                     <h3>☀️ The Philippines</h3>
                     <p>While the weather is generally dry, March is the beginning of the hot season. Temperatures and humidity climb to uncomfortable levels, especially in inland and urban areas. It's also peak season due to Holy Week holidays, leading to crowded beaches, sold-out transport, and inflated prices, particularly in popular spots like Palawan and Boracay.</p>
-                    <div class="go-instead"><strong>Go instead:</strong> December–February. The cool, dry season offers much more pleasant temperatures for exploring and lower crowds outside of the Christmas period.</div>
+                    <div class="go-instead">
+                        <strong>Go instead:</strong> December–February. The cool, dry season offers much more pleasant temperatures for exploring and lower crowds outside of the Christmas period.
+                    </div>
                 </div>
 
                 <div class="avoid-card">
-                    <h3>🌬️ The Netherlands & Belgium</h3>
+                    <h3>🌬️ The Netherlands &amp; Belgium</h3>
                     <p>March is a notoriously unpredictable and often unpleasant weather month. It can be cold, wet, and relentlessly windy. While the tulip season in the Netherlands officially begins, the fields are rarely in full, spectacular bloom until mid-to-late April. You're likely to get all the shoulder-season crowds with none of the peak-season rewards.</p>
-                    <div class="go-instead"><strong>Go instead:</strong> Mid-April to May. This is when you'll find the perfect combination of pleasant spring weather, fewer crowds than summer, and the iconic tulip fields in full bloom.</div>
+                    <div class="go-instead">
+                        <strong>Go instead:</strong> Mid-April to May. This is when you'll find the perfect combination of pleasant spring weather, fewer crowds than summer, and the iconic tulip fields in full bloom.
+                    </div>
                 </div>
             </div>
 
@@ -509,20 +818,90 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td><strong>Kyoto, Japan</strong></td><td>9°C / 48°F</td><td>10</td><td>~$1100</td><td class="crowd-med">Medium</td><td>Cherry blossoms, culture</td></tr>
-                            <tr><td><strong>Marrakech, Morocco</strong></td><td>22°C / 72°F</td><td>5</td><td>~$700</td><td class="crowd-med">Medium</td><td>Spring weather, souks, gardens</td></tr>
-                            <tr><td><strong>New Zealand</strong></td><td>15°C / 59°F</td><td>8</td><td>~$1300</td><td class="crowd-med">Medium</td><td>Autumn colors, hiking, road trips</td></tr>
-                            <tr><td><strong>Mendoza, Argentina</strong></td><td>20°C / 68°F</td><td>4</td><td>~$1200</td><td class="crowd-med">Medium</td><td>Wine harvest, food, scenery</td></tr>
-                            <tr><td><strong>Cartagena, Colombia</strong></td><td>28°C / 82°F</td><td>1</td><td>~$500</td><td class="crowd-med">Medium</td><td>Dry weather, history, vibrant streets</td></tr>
-                            <tr><td><strong>Egypt (Red Sea)</strong></td><td>22°C / 72°F</td><td>0</td><td>~$900</td><td class="crowd-med">Medium</td><td>Diving, history, perfect weather</td></tr>
-                            <tr><td><strong>Cancún, Mexico</strong></td><td>26°C / 79°F</td><td>3</td><td>~$400</td><td class="crowd-high">High</td><td>Spring break, nightlife, beaches</td></tr>
-                            <tr><td><strong>Hawaii, USA</strong></td><td>24°C / 75°F</td><td>7</td><td>~$600</td><td class="crowd-high">High</td><td>Whale watching, surfing</td></tr>
-                            <tr><td><strong>Cape Town, South Africa</strong></td><td>21°C / 70°F</td><td>5</td><td>~$1000</td><td class="crowd-med">Medium</td><td>Late summer sun, hiking, wine</td></tr>
-                            <tr><td><strong>Great Barrier Reef</strong></td><td>27°C / 81°F</td><td>14</td><td>~$1400</td><td class="crowd-med">Medium</td><td>Marine life, diving, warm water</td></tr>
+                            <tr>
+                                <td><strong>Kyoto, Japan</strong></td>
+                                <td>9°C / 48°F</td>
+                                <td>10</td>
+                                <td>~$1100</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Cherry blossoms, culture</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Marrakech, Morocco</strong></td>
+                                <td>22°C / 72°F</td>
+                                <td>5</td>
+                                <td>~$700</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Spring weather, souks, gardens</td>
+                            </tr>
+                            <tr>
+                                <td><strong>New Zealand</strong></td>
+                                <td>15°C / 59°F</td>
+                                <td>8</td>
+                                <td>~$1300</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Autumn colors, hiking, road trips</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mendoza, Argentina</strong></td>
+                                <td>20°C / 68°F</td>
+                                <td>4</td>
+                                <td>~$1200</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Wine harvest, food, scenery</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cartagena, Colombia</strong></td>
+                                <td>28°C / 82°F</td>
+                                <td>1</td>
+                                <td>~$500</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Dry weather, history, vibrant streets</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Egypt (Red Sea)</strong></td>
+                                <td>22°C / 72°F</td>
+                                <td>0</td>
+                                <td>~$900</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Diving, history, perfect weather</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cancún, Mexico</strong></td>
+                                <td>26°C / 79°F</td>
+                                <td>3</td>
+                                <td>~$400</td>
+                                <td class="crowd-high">High</td>
+                                <td>Spring break, nightlife, beaches</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hawaii, USA</strong></td>
+                                <td>24°C / 75°F</td>
+                                <td>7</td>
+                                <td>~$600</td>
+                                <td class="crowd-high">High</td>
+                                <td>Whale watching, surfing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cape Town, South Africa</strong></td>
+                                <td>21°C / 70°F</td>
+                                <td>5</td>
+                                <td>~$1000</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Late summer sun, hiking, wine</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Great Barrier Reef</strong></td>
+                                <td>27°C / 81°F</td>
+                                <td>14</td>
+                                <td>~$1400</td>
+                                <td class="crowd-med">Medium</td>
+                                <td>Marine life, diving, warm water</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem;">Weather data: Open-Meteo Historical API (Mar 2025 forecast). Flight prices: approximate round-trip from major US hubs. Crowd levels: editorial assessment.</p>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem;">Weather data: Open-Meteo Historical API (March 2025). Flight prices: approximate round-trip from major US hubs, based on aggregated search data. Crowd levels: editorial assessment based on traveler reports.</p>
             </div>
 
             <!-- Month Navigation -->
@@ -544,6 +923,7 @@
                 </div>
             </div>
 
+            <!-- CTA -->
             <div style="text-align:center;margin:3rem 0;padding:2rem;background:var(--warm-cream);border-radius:12px;">
                 <h3 style="color:var(--indigo);margin-bottom:0.75rem;font-size:1.3rem;">Found your March destination?</h3>
                 <p style="color:var(--text-muted);margin-bottom:1.25rem;">Get a free custom itinerary built from Reddit recommendations, local tips, and real traveler data.</p>
@@ -558,6 +938,7 @@
         <p style="margin-top:0.5rem;"><a href="/about/" style="color:var(--earth);text-decoration:none;">About</a> · <a href="/plan" style="color:var(--earth);text-decoration:none;">Get an Itinerary</a></p>
     </footer>
 
+    <!-- TOC active state tracking -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const sections = document.querySelectorAll('[id]');
@@ -573,7 +954,7 @@
         }, { rootMargin: '-20% 0px -70% 0px' });
         sections.forEach(section => observer.observe(section));
     });
-    document.addEventListener("click",function(e){document.querySelectorAll(".nav-dropdown.open").forEach(function(d){if(!d.contains(e.target))d.classList.remove("open")})});
     </script>
+<script>document.addEventListener("click",function(e){document.querySelectorAll(".nav-dropdown.open").forEach(function(d){if(!d.contains(e.target))d.classList.remove("open")})});</script>
 </body>
 </html>
