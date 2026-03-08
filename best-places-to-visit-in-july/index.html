@@ -1042,26 +1042,48 @@
     </script>
 
     <!-- Google Trends: lazy-load embeds on scroll to prevent rate-limiting -->
-    <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/4356_RC01/embed_loader.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var loaderReady = false;
+        var loaderScript = document.createElement('script');
+        loaderScript.src = 'https://ssl.gstatic.com/trends_nrtr/4356_RC01/embed_loader.js';
+        loaderScript.onload = function() { loaderReady = true; };
+        document.head.appendChild(loaderScript);
+
+        var queue = [];
+        function renderTrend(el) {
+            var keyword = el.getAttribute('data-trend-keyword');
+            var query = el.getAttribute('data-trend-query');
+            if (!keyword) return;
+            el.removeAttribute('data-trend-keyword');
+            // Inject a script tag INSIDE the container so renderExploreWidget places the iframe here
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.textContent = 'trends.embed.renderExploreWidget("TIMESERIES",' +
+                '{"comparisonItem":[{"keyword":"' + keyword.replace(/"/g, '\\"') + '","geo":"US","time":"today 12-m"}],"category":0,"property":""},' +
+                '{"exploreQuery":"' + query + '","guestPath":"https://trends.google.com:443/trends/embed/"});';
+            el.appendChild(s);
+        }
+
         var trendsObserver = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    var el = entry.target;
-                    var keyword = el.getAttribute('data-trend-keyword');
-                    var query = el.getAttribute('data-trend-query');
-                    if (keyword && typeof trends !== 'undefined') {
-                        trends.embed.renderExploreWidget("TIMESERIES",
-                            {"comparisonItem":[{"keyword":keyword,"geo":"US","time":"today 12-m"}],"category":0,"property":""},
-                            {"exploreQuery":query,"guestPath":"https://trends.google.com:443/trends/embed/"}
-                        );
-                        el.removeAttribute('data-trend-keyword');
-                        trendsObserver.unobserve(el);
+                    trendsObserver.unobserve(entry.target);
+                    if (loaderReady) {
+                        renderTrend(entry.target);
+                    } else {
+                        queue.push(entry.target);
                     }
                 }
             });
         }, { rootMargin: '200px 0px' });
+
+        // Process queued items once loader is ready
+        loaderScript.addEventListener('load', function() {
+            queue.forEach(function(el) { renderTrend(el); });
+            queue = [];
+        });
+
         document.querySelectorAll('.trends-container[data-trend-keyword]').forEach(function(el) {
             trendsObserver.observe(el);
         });
