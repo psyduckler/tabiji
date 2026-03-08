@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D7QHNRXLHJ');
+    </script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
+    <title>Compare Destinations — Which Should You Visit? | tabiji.ai</title>
+    <meta name="description" content="Data-backed destination comparisons built from Reddit discussions, real costs, weather data, and traveler preferences. No fluff — just honest verdicts.">
+    <meta property="og:title" content="Compare Destinations — tabiji.ai">
+    <meta property="og:description" content="Side-by-side destination comparisons backed by real traveler data from Reddit.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tabiji.ai/compare/">
+    <link rel="canonical" href="https://tabiji.ai/compare/">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Compare Destinations",
+        "description": "Data-backed destination comparisons built from Reddit discussions, real costs, and traveler preferences.",
+        "url": "https://tabiji.ai/compare/",
+        "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"}
+    }
+    </script>
+
+    <style>
+        :root {
+            --indigo: #2D3A5C;
+            --indigo-light: #3D4E7A;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --earth-light: #A6906F;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text); background: var(--white); line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--indigo); text-decoration: none; letter-spacing: -0.02em; }
+        .logo span { color: var(--terracotta); }
+        .logo{position:relative}.logo .owl-fly{display:none}.logo:hover .owl-default{display:none}.logo:hover .owl-fly{display:inline}
+        nav a.cta-nav {
+            background: var(--terracotta); color: white;
+            padding: 0.5rem 1.2rem; border-radius: 8px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            transition: background 0.2s;
+        }
+        nav a.cta-nav:hover { background: #b5633f; }
+        .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-links a { color: var(--indigo); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-toggle {
+            background: none; border: none; cursor: pointer;
+            color: var(--indigo); font-size: 0.9rem; font-weight: 500; font-family: inherit;
+        }
+        .nav-dropdown-toggle::after { content: ' ▾'; font-size: 0.7em; }
+        .nav-dropdown-menu {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: var(--white); border: 1px solid var(--sand); border-radius: 8px;
+            padding: 0.5rem 0; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .nav-dropdown.open .nav-dropdown-menu { display: block; }
+        .nav-dropdown-menu a {
+            display: block; padding: 0.5rem 1rem; color: var(--text);
+            text-decoration: none; font-size: 0.85rem;
+        }
+        .nav-dropdown-menu a:hover { background: var(--warm-cream); }
+        .hamburger { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--indigo); }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 100%; left: 0; right: 0; background: var(--white);
+                border-bottom: 1px solid var(--sand); padding: 1rem 2rem; gap: 0.8rem;
+            }
+            .nav-links.open { display: flex; }
+            .nav-dropdown-menu {
+                position: static; box-shadow: none; border: none;
+                padding-left: 1rem; margin-top: 0.3rem;
+            }
+            .nav-dropdown-menu a { font-size: 0.85rem; padding: 0.3rem 0; }
+        }
+
+        .hero {
+            position: relative;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            line-height: 1.15; font-weight: 800;
+            color: #fff; margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.1rem; color: rgba(255,255,255,0.8);
+            max-width: 600px; margin-bottom: 1.5rem;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        .section-label {
+            display: inline-block;
+            background: var(--warm-cream); color: var(--earth);
+            padding: 0.3rem 0.8rem; border-radius: 100px;
+            font-size: 0.8rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .compare-card {
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 12px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .compare-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .compare-card-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .compare-card-vs {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--terracotta);
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        .compare-card-image::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0) 100%);
+        }
+        .compare-card-body { padding: 1.2rem; }
+        .compare-card-body h2 {
+            font-size: 1.2rem; font-weight: 700;
+            margin-bottom: 0.5rem; color: var(--indigo);
+        }
+        .compare-card-body p {
+            font-size: 0.9rem; color: var(--text-muted);
+            margin-bottom: 0.8rem;
+        }
+        .compare-card-tags {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+        }
+        .compare-card-tags span {
+            background: var(--warm-cream);
+            color: var(--earth);
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .coming-soon {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--warm-cream);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .coming-soon h3 {
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--indigo); margin-bottom: 0.5rem;
+        }
+        .coming-soon p {
+            font-size: 0.9rem; color: var(--text-muted); max-width: 500px; margin: 0 auto;
+        }
+        .coming-soon-list {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            justify-content: center; margin-top: 1rem;
+        }
+        .coming-soon-list span {
+            background: var(--white);
+            border: 1px solid var(--sand);
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            margin-top: 4rem; padding: 2rem;
+            border-top: 1px solid var(--sand);
+            text-align: center;
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        footer a { color: var(--earth); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        section { padding: 3rem 0; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">tabiji<span>.ai</span> <span class="owl-default">🦉</span><span class="owl-fly">🪽</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/find/">Destination Finder</a>
+                <a href="/compare/">Compare Destinations</a>
+                <a href="/trends/">Travel Trends</a>
+                <a href="/spin/">Spin the Globe</a>
+                <a href="/resources/">Resources</a>
+                <a href="/owl/">Travel Guide Game 🎮</a>
+            </div>
+        </div>
+        <a href="/itineraries/">Sample Itineraries</a>
+        <a href="/popular-picks/">Popular Picks</a>
+        <a href="/about/">About</a>
+        <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Compare Destinations</h1>
+    <p>Side-by-side comparisons backed by Reddit discussions, real costs, weather data, and traveler preferences. No fluff — just honest verdicts.</p>
+</section>
+
+<section>
+    <div class="container">
+        <div class="section-label">Live Comparisons</div>
+
+        <div class="compare-grid">
+
+            <a href="/compare/tokyo-vs-kyoto/" class="compare-card">
+                <div class="compare-card-image" style="background: linear-gradient(90deg, url('') 0% 48%, transparent 48% 52%, url('') 52% 100%); background-color: var(--indigo);">
+                    <div style="position:absolute;inset:0;display:flex;">
+                        <div style="flex:1;background:url('https://img.tabiji.ai/compare/tokyo-vs-kyoto/tokyo-shibuya.jpg') center/cover;"></div>
+                        <div style="flex:1;background:url('https://img.tabiji.ai/compare/tokyo-vs-kyoto/kyoto-fushimi.jpg') center/cover;"></div>
+                    </div>
+                    <div class="compare-card-vs">VS</div>
+                </div>
+                <div class="compare-card-body">
+                    <h2>Tokyo vs Kyoto</h2>
+                    <p>Neon-lit metropolis or temple-studded cultural capital? Reddit's take on Japan's most debated choice.</p>
+                    <div class="compare-card-tags">
+                        <span>🇯🇵 Japan</span>
+                        <span>💰 Budget breakdown</span>
+                        <span>🚅 2h15m apart</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="coming-soon">
+            <h3>More Comparisons Coming Soon</h3>
+            <p>We're building data-backed comparisons for the destinations travelers debate most.</p>
+            <div class="coming-soon-list">
+                <span>Bali vs Thailand</span>
+                <span>Paris vs Rome</span>
+                <span>Iceland vs Norway</span>
+                <span>Barcelona vs Lisbon</span>
+                <span>Vietnam vs Thailand</span>
+                <span>Kyoto vs Osaka</span>
+                <span>Greece vs Croatia</span>
+                <span>Portugal vs Spain</span>
+                <span>Seoul vs Tokyo</span>
+                <span>Mexico City vs Buenos Aires</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 <a href="/">tabiji.ai</a> — AI-powered travel itineraries built from real traveler intel.</p>
+</footer>
+
+</body>
+</html>
