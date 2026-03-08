@@ -120,3 +120,760 @@
         ]
     }
     </script>
+    <style>
+        :root {
+            --indigo: #2D3A5C; --indigo-light: #3D4E7A; --warm-cream: #F5F0E8;
+            --sand: #E8DFD0; --earth: #8B7355; --earth-light: #A6906F;
+            --terracotta: #C4704B; --deep-brown: #3E2F23; --sage: #7A8B6F;
+            --white: #FEFCF9; --text: #2C2419; --text-muted: #6B5D4F;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; color: var(--text); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(254, 252, 249, 0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--indigo); text-decoration: none; letter-spacing: -0.02em; }
+        .logo span { color: var(--terracotta); }
+        .logo{position:relative}.logo .owl-fly{display:none}.logo:hover .owl-default{display:none}.logo:hover .owl-fly{display:inline}
+        nav a.cta-nav { background: var(--terracotta); color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; }
+        nav a.cta-nav:hover { background: #b5633f; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--indigo); cursor: pointer; }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-toggle { background: none; border: none; color: var(--indigo); font-size: 0.9rem; font-weight: 500; cursor: pointer; padding: 0; font-family: inherit; }
+        .nav-dropdown-toggle::after { content: ' \u25be'; font-size: 1.1rem; }
+        .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 0.5rem); left: 50%; transform: translateX(-50%); background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border: 1px solid var(--sand); border-radius: 10px; padding: 0.5rem 0; min-width: 200px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); z-index: 200; }
+        .nav-dropdown.open .nav-dropdown-menu { display: block; }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1.2rem; color: var(--indigo); text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; transition: background 0.15s; }
+        .nav-dropdown-menu a:hover { background: rgba(0,0,0,0.04); }
+        .hero { padding: 7rem 2rem 3rem; max-width: 800px; margin: 0 auto; }
+        .hero-badge { display: inline-block; background: var(--sand); color: var(--earth); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
+        .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800; color: var(--indigo); margin-bottom: 1rem; letter-spacing: -0.03em; }
+        .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--terracotta), var(--earth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero > p { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin-bottom: 1.5rem; }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 0.9rem; color: var(--earth); border-top: 1px solid var(--sand); padding-top: 1.5rem; margin-top: 0.5rem; }
+        .hero-meta strong { color: var(--indigo); }
+        .content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem; display: flex; gap: 3rem; align-items: flex-start; }
+        .verdict-box { background: linear-gradient(135deg, rgba(45, 58, 92, 0.06), rgba(196, 112, 75, 0.06)); border: 1px solid var(--sand); border-radius: 16px; padding: 2rem; margin-bottom: 3rem; }
+        .verdict-box h2 { font-size: 1.1rem; font-weight: 700; color: var(--terracotta); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .verdict-box p { font-size: 1.05rem; color: var(--text); line-height: 1.7; }
+        .verdict-box p strong { color: var(--indigo); }
+        .comparison-section { margin-bottom: 3rem; }
+        .comparison-section > h2 { font-size: 1.5rem; font-weight: 700; color: var(--indigo); margin-bottom: 1.5rem; }
+        .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--sand); font-size: 0.92rem; }
+        .comparison-table thead th { background: var(--indigo); color: white; padding: 0.85rem 1rem; font-weight: 600; text-align: left; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .comparison-table thead th:first-child { width: 22%; }
+        .comparison-table thead th:nth-child(2), .comparison-table thead th:nth-child(3) { width: 32%; }
+        .comparison-table thead th:last-child { width: 14%; text-align: center; }
+        .comparison-table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--sand); vertical-align: top; }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody tr:nth-child(even) { background: rgba(245, 240, 232, 0.3); }
+        .comparison-table tbody td:first-child { font-weight: 600; color: var(--indigo); }
+        .comparison-table tbody td:last-child { text-align: center; }
+        .edge-thailand { color: var(--indigo); font-weight: 700; }
+        .edge-cambodia { color: var(--terracotta); font-weight: 700; }
+        .edge-tie { color: var(--earth); font-weight: 600; }
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+        .photo-grid img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; }
+        .photo-grid .caption { font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 0.3rem; }
+        .deep-dive { border-top: 1px solid var(--sand); padding-top: 2.5rem; margin-top: 2.5rem; }
+        .deep-dive h2 { font-size: 1.5rem; font-weight: 700; color: var(--indigo); margin-bottom: 1.25rem; }
+        .deep-dive h3 { font-size: 1.1rem; font-weight: 600; color: var(--indigo); margin: 1.5rem 0 0.75rem; }
+        .deep-dive p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.7; }
+        .deep-dive a { color: var(--terracotta); text-decoration: none; font-weight: 500; }
+        .deep-dive a:hover { text-decoration: underline; }
+        .reddit-quote { border-left: 3px solid var(--sand); padding: 0.75rem 1rem; margin: 1rem 0; font-size: 0.9rem; color: var(--text-muted); font-style: italic; background: rgba(245, 240, 232, 0.3); border-radius: 0 8px 8px 0; }
+        .reddit-quote .source { display: block; margin-top: 0.5rem; font-style: normal; font-size: 0.8rem; color: var(--earth); }
+        .reddit-quote .source a { color: var(--terracotta); text-decoration: none; }
+        .reddit-quote .source a:hover { text-decoration: underline; }
+        .tabiji-verdict { margin-top: 1.25rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, rgba(45, 58, 92, 0.05), rgba(196, 112, 75, 0.05)); border-radius: 10px; font-size: 0.95rem; color: var(--indigo); }
+        .tabiji-verdict strong { color: var(--terracotta); }
+        .weather-grid { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; font-size: 0.85rem; margin: 1.5rem 0; }
+        .weather-grid .wg-header { background: var(--indigo); color: white; padding: 0.6rem 0.75rem; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .weather-grid .wg-cell { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(232, 223, 208, 0.5); }
+        .weather-grid .wg-month { font-weight: 600; color: var(--indigo); background: rgba(245, 240, 232, 0.4); }
+        .weather-grid .wg-highlight { background: rgba(196, 112, 75, 0.08); }
+        .cost-table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; font-size: 0.9rem; margin: 1.5rem 0; }
+        .cost-table th { background: var(--indigo); color: white; padding: 0.75rem 1rem; font-weight: 600; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .cost-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--sand); }
+        .cost-table tr:last-child td { border-bottom: none; }
+        .cost-table tr:nth-child(even) { background: rgba(245, 240, 232, 0.3); }
+        .cost-table td:first-child { font-weight: 600; color: var(--indigo); }
+        .cost-table .total-row td { font-weight: 700; background: rgba(196, 112, 75, 0.08); color: var(--indigo); }
+        .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+        .decision-card { border: 2px solid var(--sand); border-radius: 14px; padding: 1.5rem; }
+        .decision-card.thailand-card { border-color: var(--indigo); }
+        .decision-card.cambodia-card { border-color: var(--terracotta); }
+        .decision-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+        .decision-card.thailand-card h3 { color: var(--indigo); }
+        .decision-card.cambodia-card h3 { color: var(--terracotta); }
+        .decision-card ul { list-style: none; padding: 0; }
+        .decision-card ul li { padding: 0.4rem 0; font-size: 0.92rem; color: var(--text-muted); padding-left: 1.5rem; position: relative; }
+        .decision-card.thailand-card ul li::before { content: '\U0001F1F9\U0001F1ED'; position: absolute; left: 0; }
+        .decision-card.cambodia-card ul li::before { content: '\U0001F1F0\U0001F1ED'; position: absolute; left: 0; }
+        .section-img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px; margin: 1.5rem 0; }
+        .faq-section { padding-top: 2.5rem; border-top: 1px solid var(--sand); margin-top: 2.5rem; }
+        .faq-section h2 { font-size: 1.5rem; font-weight: 700; color: var(--indigo); margin-bottom: 2rem; }
+        .faq-item { border-bottom: 1px solid var(--sand); padding: 1.5rem 0; }
+        .faq-item:first-of-type { padding-top: 0; }
+        .faq-item:last-of-type { border-bottom: none; }
+        .faq-item h3 { font-size: 1.05rem; font-weight: 600; color: var(--indigo); margin-bottom: 0.5rem; }
+        .faq-item p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+        .cta-section { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, rgba(45, 58, 92, 0.04), rgba(196, 112, 75, 0.04)); border-radius: 16px; margin-top: 3rem; }
+        .cta-section h2 { font-size: 1.5rem; color: var(--indigo); margin-bottom: 0.75rem; }
+        .cta-section p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .cta-buttons a { display: inline-block; padding: 0.75rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .cta-buttons a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .cta-btn-thailand { background: var(--indigo); color: white; }
+        .cta-btn-cambodia { background: var(--terracotta); color: white; }
+        footer { margin-top: 3rem; padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--sand); color: var(--text-muted); font-size: 0.85rem; }
+        footer a { color: var(--terracotta); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            nav { padding: 0.8rem 1.2rem; }
+            .hamburger { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(254, 252, 249, 0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; }
+            .nav-links.open { display: flex; }
+            .nav-dropdown-menu { position: static; transform: none; background: none; backdrop-filter: none; border: none; border-radius: 0; box-shadow: none; padding: 0; min-width: 0; padding-left: 1rem; }
+            .nav-dropdown-menu a { padding: 0.35rem 0; font-size: 0.85rem; opacity: 0.8; }
+            .nav-dropdown-menu a:hover { background: none; opacity: 1; }
+            nav a.cta-nav { text-align: center; }
+            .hero { padding: 6rem 1.5rem 2rem; }
+            .content-wrapper { padding: 0 1.5rem 2rem; flex-direction: column; gap: 0; }
+            .comparison-table { font-size: 0.8rem; }
+            .comparison-table thead th, .comparison-table tbody td { padding: 0.6rem 0.5rem; }
+            .photo-grid { grid-template-columns: 1fr; }
+            .photo-grid img { height: 200px; }
+            .decision-grid { grid-template-columns: 1fr; }
+            .weather-grid { font-size: 0.78rem; }
+            .section-img { height: 200px; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
+        .toc-sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 80px; padding-top: 7rem; max-height: calc(100vh - 100px); overflow-y: auto; }
+        .toc-sidebar h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a { color: var(--earth); text-decoration: none; font-size: 0.85rem; transition: color 0.2s, border-color 0.2s; display: block; padding: 0.25rem 0 0.25rem 0.75rem; border-left: 2px solid transparent; line-height: 1.3; }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active { color: var(--terracotta); border-left-color: var(--terracotta); font-weight: 600; }
+        .toc-mobile-sticky { display: none; position: sticky; top: 0; z-index: 99; background: rgba(254, 252, 249, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .toc-mobile-toggle { width: 100%; padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 600; color: var(--indigo); }
+        .toc-mobile-toggle .toc-active-label { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem; }
+        .toc-mobile-toggle .toc-chevron { transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth); }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; border-top: 1px solid var(--sand); }
+        .toc-mobile-sticky.open .toc-mobile-dropdown { max-height: 60vh; overflow-y: auto; }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a { display: block; padding: 0.55rem 1.2rem; color: var(--earth); text-decoration: none; font-size: 0.9rem; transition: background 0.15s, color 0.15s; }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active { color: var(--terracotta); font-weight: 600; background: rgba(196, 112, 75, 0.06); }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/compare/">🆚 Compare Destinations</a>
+                <a href="/find/">🔍 Destination Finder</a>
+                <a href="/spin/">🌎 Spin the Globe</a>
+                <a href="/resources/">📚 Resources</a>
+                <a href="/owl/">🧭 Tabiji Travel Agency</a>
+                <a href="/trends/">📊 Travel Trends</a>
+            </div>
+        </div>
+        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
+        <a href="/popular-picks/" style="color:var(--terracotta);text-decoration:none;font-size:0.9rem;font-weight:600;">Popular Picks</a>
+        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
+        <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
+    </div>
+</nav>
+
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-history-and-culture">🛕 Temples, History & Culture</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#beaches-and-islands">🏝️ Beaches & Islands</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+
+        </ul>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">🆚 Country Comparison — Southeast Asia</div>
+    <h1>Thailand vs Cambodia: <em>Which Should You Visit?</em></h1>
+    <p>A data-backed comparison based on Reddit discussions, real costs, and traveler preferences — not recycled travel blog filler.</p>
+    <div class="hero-meta">
+        <div><strong>Updated:</strong> March 2026</div>
+        <div><strong>Sources:</strong> r/ThailandTourism, r/cambodia, r/travel</div>
+        <div><strong>Data:</strong> Open-Meteo, Numbeo</div>
+    </div>
+</section>
+
+<div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-history-and-culture">🛕 Temples, History & Culture</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#beaches-and-islands">🏝️ Beaches & Islands</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+
+    </ul>
+</aside>
+<div class="article-content">
+
+    <!-- PHOTO GRID -->
+    <div class="photo-grid">
+        <div>
+            <img src="https://img.tabiji.ai/compare/thailand-vs-cambodia/bangkok-grand-palace.jpg" alt="Grand Palace and Wat Phra Kaew in Bangkok, Thailand — glittering spires and golden stupas" loading="lazy">
+            <div class="caption">Grand Palace, Bangkok</div>
+        </div>
+        <div>
+            <img src="https://img.tabiji.ai/compare/thailand-vs-cambodia/angkor-wat.jpg" alt="Angkor Wat at sunrise in Siem Reap, Cambodia — the world's largest religious monument reflected in still water" loading="lazy">
+            <div class="caption">Angkor Wat, Siem Reap</div>
+        </div>
+    </div>
+
+    <!-- TL;DR VERDICT -->
+    <div class="verdict-box">
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
+        <p><strong>Visit Thailand</strong> if you want world-class beaches, incredible food diversity, developed tourist infrastructure, legendary nightlife, and a country you can explore for weeks without running out of things to do.</p>
+        <p><strong>Visit Cambodia</strong> if you want Angkor Wat (a genuine wonder of the world), raw and authentic Southeast Asian culture, fewer tourists, cheaper prices, and a country that rewards adventurous travelers willing to go off the beaten path.</p>
+        <p><strong>If you have 2+ weeks:</strong> combine both. Bangkok to Siem Reap is a 1-hour flight ($60–100) or a cheap overland bus. Most seasoned Southeast Asia travelers say <strong>Thailand for the full package, Cambodia for the soul</strong>.</p>
+    </div>
+    <!-- QUICK COMPARISON TABLE -->
+    <div class="comparison-section">
+        <h2 id="quick-comparison">Quick Comparison</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>🇹🇭 Thailand</th>
+                    <th>🇰🇭 Cambodia</th>
+                    <th>Edge</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Daily Budget (mid-range)</td>
+                    <td>$30–50/day</td>
+                    <td>$20–40/day</td>
+                    <td><span class="edge-cambodia">Cambodia</span></td>
+                </tr>
+                <tr>
+                    <td>Food Scene</td>
+                    <td>World-famous street food, Michelin restaurants, every cuisine</td>
+                    <td>Underrated Khmer cuisine — amok, lok lak, great BBQ</td>
+                    <td><span class="edge-thailand">Thailand</span></td>
+                </tr>
+                <tr>
+                    <td>Temples & History</td>
+                    <td>40,000+ temples, Grand Palace, Ayutthaya ruins</td>
+                    <td>Angkor Wat (world's largest temple complex), Khmer Empire ruins</td>
+                    <td><span class="edge-cambodia">Cambodia</span></td>
+                </tr>
+                <tr>
+                    <td>Beaches</td>
+                    <td>3,000+ km coastline — Phuket, Koh Samui, Koh Lipe, Krabi</td>
+                    <td>Koh Rong, Koh Rong Samloem — less developed, fewer options</td>
+                    <td><span class="edge-thailand">Thailand</span></td>
+                </tr>
+                <tr>
+                    <td>Nightlife</td>
+                    <td>Bangkok, Phuket, Koh Phangan (Full Moon Party)</td>
+                    <td>Pub Street (Siem Reap), Phnom Penh — small but fun</td>
+                    <td><span class="edge-thailand">Thailand</span></td>
+                </tr>
+                <tr>
+                    <td>Infrastructure</td>
+                    <td>Excellent — BTS/MRT, domestic flights, modern roads</td>
+                    <td>Developing — improving fast but still basic outside cities</td>
+                    <td><span class="edge-thailand">Thailand</span></td>
+                </tr>
+                <tr>
+                    <td>Crowds</td>
+                    <td>Very touristy, especially islands and Bangkok</td>
+                    <td>Less crowded (except Angkor Wat)</td>
+                    <td><span class="edge-cambodia">Cambodia</span></td>
+                </tr>
+                <tr>
+                    <td>Authenticity</td>
+                    <td>Tourist infrastructure can feel commercial</td>
+                    <td>Raw, less polished, more genuine local interactions</td>
+                    <td><span class="edge-cambodia">Cambodia</span></td>
+                </tr>
+                <tr>
+                    <td>Visa</td>
+                    <td>60-day visa-exempt (free)</td>
+                    <td>30-day visa on arrival ($30)</td>
+                    <td><span class="edge-thailand">Thailand</span></td>
+                </tr>
+                <tr>
+                    <td>Best For</td>
+                    <td>First-timers, beach lovers, foodies, party seekers</td>
+                    <td>History buffs, budget travelers, off-the-beaten-path adventurers</td>
+                    <td><span class="edge-tie">—</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 1. FOOD & DINING -->
+    <section class="deep-dive">
+        <h2 id="food-and-dining">🍜 Food & Dining</h2>
+        <p>Thai food is globally legendary for a reason. The balance of spicy, sour, sweet, and salty is unmatched. Bangkok alone has hundreds of Michelin-recognized restaurants, plus thousands of street stalls serving pad thai for 40–60 baht ($1.10–1.70), som tum (papaya salad) for 40 baht, and khao pad (fried rice) for 50 baht. Chiang Mai's night markets serve northern Thai specialties like khao soi (coconut curry noodles) for 50–80 baht. The food scene ranges from $1 street meals to $200 fine dining — and the cheap food is often better.</p>
+        <p>Khmer cuisine is seriously underrated. <strong>Fish amok</strong> (coconut curry steamed in banana leaf) is Cambodia's national dish and genuinely excellent. <strong>Lok lak</strong> (peppery stir-fried beef with lime dipping sauce) is addictive. Street BBQ — skewers of pork, chicken, or fish grilled over charcoal — costs $0.50–1.50 and is everywhere in Phnom Penh and Siem Reap. Prahok (fermented fish paste) is polarizing but recently received UNESCO recognition. Meals at local restaurants run $2–5; Western food in tourist areas is $5–15.</p>
+
+        <div class="reddit-quote">
+            "Thailand is where you go for the best food of your life. Cambodia is where you go and discover food you never knew existed. Both are incredible, but Thailand's street food scene is genuinely unmatched anywhere in the world."
+            <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1qdkave/what_country_gave_you_the_most_value_for_the/">r/travel user</a></span>
+        </div>
+
+        <h3>Price comparison</h3>
+        <p>Street food in both countries is absurdly cheap by Western standards. Thailand edges ahead on variety and consistency — you can eat incredibly well for $5–10/day if you stick to street food and local restaurants. Cambodia is slightly cheaper at the bottom end ($0.50 draft beers on Pub Street, $1–3 local meals), but imported and Western food costs more because Cambodia imports much of its packaged goods. A burger and fries in Siem Reap might cost $8–12, vs $5–8 in Bangkok.</p>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Thailand wins on food — not even close. The depth, variety, and quality of Thai cuisine at every price point is extraordinary. But don't sleep on Cambodia's Khmer food; fish amok and lok lak are genuinely world-class dishes.
+        </div>
+    </section>
+
+    <!-- 2. TEMPLES & CULTURE -->
+    <section class="deep-dive">
+        <h2 id="temples-history-and-culture">🛕 Temples, History & Culture</h2>
+
+        <img src="https://img.tabiji.ai/compare/thailand-vs-cambodia/angkor-wat.jpg" alt="Angkor Wat temple complex at sunrise — the crown jewel of the Khmer Empire" class="section-img" loading="lazy">
+
+        <p>This is Cambodia's knockout category. <strong>Angkor Wat</strong> is, without exaggeration, one of the most awe-inspiring places on Earth. The world's largest religious monument, built in the 12th century, is just the centerpiece of an archaeological park spanning 400+ square kilometers with dozens of temples — Bayon (the one with the giant stone faces), Ta Prohm (the "Tomb Raider temple" with trees growing through the ruins), and Banteay Srei (intricate pink sandstone carvings). A 1-day pass costs $37, a 3-day pass $62, and a 7-day pass $72. Most travelers recommend at least 2–3 days to explore properly.</p>
+        <p>Cambodia's modern history is equally powerful. The <strong>Killing Fields</strong> (Choeung Ek) and <strong>S-21 (Tuol Sleng)</strong> in Phnom Penh document the Khmer Rouge genocide (1975–1979) — sobering, essential, and deeply moving. The <strong>Royal Palace</strong> and <strong>Silver Pagoda</strong> in Phnom Penh showcase Cambodia's royal heritage.</p>
+        <p>Thailand has culture in abundance too — the Grand Palace and Wat Phra Kaew in Bangkok are stunning, Ayutthaya's ancient ruins (1h from Bangkok) rival Angkor in some ways, and Chiang Mai has over 300 temples. Thailand was never colonized, giving it an unbroken cultural continuity that's unique in Southeast Asia. But for sheer "wow factor" — Angkor Wat is in a league of its own.</p>
+
+        <div class="reddit-quote">
+            "Cambodia is usually just an add-on to a Vietnam or Thailand trip for 3–5 days, and people often only see Siem Reap. But if you go deeper — Battambang, Kampot, the countryside — it's one of the most rewarding countries in Southeast Asia."
+            <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1qdkave/what_country_gave_you_the_most_value_for_the/">r/travel user</a></span>
+        </div>
+
+        <div class="reddit-quote">
+            "Thailand has never been colonized, which means its culture has developed uninterrupted for centuries. The country is full of temples — estimated to be over 40,000."
+            <span class="source">— Seasoned Southeast Asia traveler</span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Cambodia wins for "bucket list" historical impact — Angkor Wat is a once-in-a-lifetime sight and the Killing Fields are important to witness. Thailand offers more breadth (40,000+ temples, royal palaces, living traditions like Songkran) but Cambodia's concentrated intensity is unmatched.
+        </div>
+    </section>
+    <!-- 3. COST COMPARISON -->
+    <section class="deep-dive">
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
+        <p>Both countries are budget-friendly by global standards, but they differ in how they're cheap. Cambodia has a lower floor — $0.50 beers, $1 meals, $8 guesthouse rooms. Thailand offers better <em>value</em> — for a few dollars more, you get noticeably higher quality. Here's a detailed daily breakdown:</p>
+
+        <table class="cost-table">
+            <thead>
+                <tr>
+                    <th>Expense</th>
+                    <th>🇹🇭 Thailand</th>
+                    <th>🇰🇭 Cambodia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hostel dorm</td>
+                    <td>$5–12/night</td>
+                    <td>$4–10/night</td>
+                </tr>
+                <tr>
+                    <td>Mid-range hotel</td>
+                    <td>$25–60/night</td>
+                    <td>$15–40/night</td>
+                </tr>
+                <tr>
+                    <td>Street food meal</td>
+                    <td>$1–3</td>
+                    <td>$1–3</td>
+                </tr>
+                <tr>
+                    <td>Restaurant meal</td>
+                    <td>$3–8</td>
+                    <td>$3–7</td>
+                </tr>
+                <tr>
+                    <td>Draft beer</td>
+                    <td>$1.50–3</td>
+                    <td>$0.50–2</td>
+                </tr>
+                <tr>
+                    <td>Local transport (tuk-tuk)</td>
+                    <td>$2–5 per ride</td>
+                    <td>$1–3 per ride</td>
+                </tr>
+                <tr>
+                    <td>SIM card (tourist)</td>
+                    <td>$5–10 (30 days)</td>
+                    <td>$3–5 (30 days)</td>
+                </tr>
+                <tr>
+                    <td>Major attraction</td>
+                    <td>Grand Palace: $16</td>
+                    <td>Angkor Wat: $37/day</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Daily total (mid-range)</td>
+                    <td>$30–50</td>
+                    <td>$20–40</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><strong>The hidden Cambodia expense:</strong> Angkor Wat's ticket price ($37/day, $62 for 3 days, $72 for 7 days) is steep for Southeast Asia, and transport around the sprawling temple complex adds $15–25/day for a tuk-tuk driver. A 3-day Angkor exploration easily costs $120–150 in tickets and transport alone. In Thailand, many top attractions (temples, markets, beaches) are free or very cheap.</p>
+
+        <p><strong>Currency note:</strong> Cambodia uses both the US dollar and Cambodian riel (4,100 KHR ≈ $1 USD). Prices are quoted in USD everywhere, which is convenient but means less room for exchange-rate advantages. Thailand uses the Thai baht (≈ 35 THB per $1 USD as of early 2026).</p>
+
+        <div class="reddit-quote">
+            "Cambodia is cheaper on paper but Thailand gives you more bang for your buck. In Cambodia, a $15 hotel room is basic. In Thailand, a $20 room is actually nice with a pool."
+            <span class="source">— <a href="https://www.reddit.com/r/cambodia/comments/squw1d/is_cambodia_cheaper_or_more_expensive_than/">r/cambodia user</a></span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Cambodia is 15–25% cheaper day-to-day, especially for accommodation and drinks. But Thailand's value-for-money is often better — you get more quality per dollar. Budget backpackers will stretch further in Cambodia; mid-range travelers may prefer Thailand's infrastructure.
+        </div>
+    </section>
+
+    <!-- 4. GETTING AROUND -->
+    <section class="deep-dive">
+        <h2 id="getting-around">🚃 Getting Around</h2>
+        <p>Thailand's transport infrastructure is outstanding. Bangkok's BTS Skytrain and MRT subway are clean, air-conditioned, and cover most of the city (20–60 baht per ride / $0.55–1.70). Grab (the Southeast Asian Uber) works seamlessly. Long-distance buses are comfortable and cheap ($10–20 for 6–12 hour journeys), and domestic flights between Bangkok, Chiang Mai, Phuket, and Koh Samui run $30–80 on AirAsia or Nok Air. Island ferries are well-organized. Thailand even has a basic rail network connecting major cities.</p>
+        <p>Cambodia's transport is... improving. There's no rail network for tourists, no subway, and roads outside major cities range from decent to terrible. Getting around relies on <strong>tuk-tuks</strong> ($1–5 per ride in cities), <strong>Grab</strong> (works in Phnom Penh and Siem Reap), and <strong>long-distance buses</strong> via operators like Giant Ibis ($10–18 for Phnom Penh to Siem Reap, ~6 hours). Domestic flights connect Phnom Penh and Siem Reap ($50–80). Renting a motorbike is common but roads are chaotic — only recommended for experienced riders.</p>
+
+        <div class="reddit-quote">
+            "I spent a year in Thailand and the infrastructure is just so much better — trains, flights, buses all work smoothly. Cambodia is more of an adventure getting around, which some people love and some find exhausting."
+            <span class="source">— <a href="https://www.reddit.com/r/cambodia/comments/utfmtc/hows_cambodia_compared_to_thailand/">r/cambodia user</a></span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Thailand wins decisively on transport. Getting around is easy, cheap, and comfortable. Cambodia requires more patience and planning, but that's part of the adventure. Budget extra time for overland travel in Cambodia.
+        </div>
+    </section>
+
+    <!-- 5. BEST TIME TO VISIT -->
+    <section class="deep-dive">
+        <h2 id="best-time-to-visit">☀️ Best Time to Visit</h2>
+        <p>Both countries sit in the tropics with similar weather patterns — hot year-round with distinct wet and dry seasons. Here's a monthly breakdown:</p>
+
+        <div class="weather-grid">
+            <div class="wg-header">Month</div>
+            <div class="wg-header">🇹🇭 Bangkok</div>
+            <div class="wg-header">🇰🇭 Siem Reap</div>
+
+            <div class="wg-cell wg-month wg-highlight">Nov ⭐</div>
+            <div class="wg-cell wg-highlight">31°C / 22°C · 30mm</div>
+            <div class="wg-cell wg-highlight">31°C / 22°C · 100mm</div>
+
+            <div class="wg-cell wg-month wg-highlight">Dec ⭐</div>
+            <div class="wg-cell wg-highlight">31°C / 21°C · 10mm</div>
+            <div class="wg-cell wg-highlight">30°C / 21°C · 25mm</div>
+
+            <div class="wg-cell wg-month wg-highlight">Jan ⭐</div>
+            <div class="wg-cell wg-highlight">32°C / 22°C · 10mm</div>
+            <div class="wg-cell wg-highlight">31°C / 20°C · 5mm</div>
+
+            <div class="wg-cell wg-month wg-highlight">Feb ⭐</div>
+            <div class="wg-cell wg-highlight">33°C / 24°C · 20mm</div>
+            <div class="wg-cell wg-highlight">33°C / 22°C · 10mm</div>
+
+            <div class="wg-cell wg-month">Mar</div>
+            <div class="wg-cell">34°C / 26°C · 30mm</div>
+            <div class="wg-cell">35°C / 24°C · 40mm</div>
+
+            <div class="wg-cell wg-month">Apr 🔥</div>
+            <div class="wg-cell">36°C / 27°C · 70mm</div>
+            <div class="wg-cell">36°C / 26°C · 75mm</div>
+
+            <div class="wg-cell wg-month">May</div>
+            <div class="wg-cell">34°C / 26°C · 200mm</div>
+            <div class="wg-cell">34°C / 25°C · 160mm</div>
+
+            <div class="wg-cell wg-month">Jun</div>
+            <div class="wg-cell">33°C / 26°C · 150mm</div>
+            <div class="wg-cell">33°C / 25°C · 180mm</div>
+
+            <div class="wg-cell wg-month">Jul</div>
+            <div class="wg-cell">33°C / 26°C · 160mm</div>
+            <div class="wg-cell">32°C / 25°C · 200mm</div>
+
+            <div class="wg-cell wg-month">Aug</div>
+            <div class="wg-cell">33°C / 25°C · 200mm</div>
+            <div class="wg-cell">32°C / 25°C · 210mm</div>
+
+            <div class="wg-cell wg-month">Sep 🌧️</div>
+            <div class="wg-cell">32°C / 25°C · 320mm</div>
+            <div class="wg-cell">31°C / 24°C · 280mm</div>
+
+            <div class="wg-cell wg-month">Oct</div>
+            <div class="wg-cell">32°C / 25°C · 240mm</div>
+            <div class="wg-cell">30°C / 24°C · 230mm</div>
+        </div>
+
+        <p><em>Data: Open-Meteo archive, 2024 daily averages. Temperatures are daily highs/lows in Celsius. Rainfall is monthly totals.</em></p>
+
+        <h3>Best season: November–February</h3>
+        <p>Both countries are at their best from November through February — the "cool" dry season with temperatures of 25–33°C, low humidity, and virtually no rain. This is peak tourist season, so expect higher prices and more crowds, but the weather is unbeatable.</p>
+
+        <h3>Avoid: April (scorching) and September–October (flooding)</h3>
+        <p><strong>April</strong> is the hottest month in both countries — 36°C+ with crushing humidity. It's also when Thailand celebrates <strong>Songkran</strong> (Thai New Year water festival, April 13–15), which is an incredible experience if you can handle the heat. <strong>September–October</strong> brings the heaviest monsoon rains — some areas flood, and Cambodia's roads can become impassable.</p>
+
+        <p><strong>Shoulder season tip:</strong> June–October is rainy but also means fewer tourists and much lower prices. For Angkor Wat specifically, the rainy season is actually spectacular — the moat is full (better reflections), the grounds are lush green, and the temples are way less crowded. Just pack a rain jacket.</p>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> November–February is peak season for a reason — comfortable weather, no rain, perfect conditions. If you're budget-conscious and flexible, the rainy season (June–October) offers great deals and a different, equally beautiful experience.
+        </div>
+    </section>
+    <!-- 6. WHERE TO STAY -->
+    <section class="deep-dive">
+        <h2 id="where-to-stay">🏨 Where to Stay</h2>
+
+        <h3>Thailand — Key destinations</h3>
+        <p><strong>Bangkok</strong> — Most travelers start here. Stay in <strong>Sukhumvit</strong> (near BTS, great restaurants, modern vibe), <strong>Khao San Road area</strong> (budget backpacker hub, chaotic, loud), or <strong>Silom/Sathorn</strong> (business district, rooftop bars, riverside). Mid-range: $25–60/night. Hostels: $5–12.</p>
+        <p><strong>Chiang Mai</strong> — The cultural heart of northern Thailand. Stay in the <strong>Old City</strong> (within the moat, walking distance to temples, night markets) or <strong>Nimman</strong> (trendy, cafés, digital nomad hub). Significantly cheaper than Bangkok — good hotels from $15–35/night.</p>
+        <p><strong>Thai Islands</strong> — <strong>Koh Samui</strong> (upscale resorts + budget options), <strong>Koh Phangan</strong> (Full Moon Party, backpacker vibe), <strong>Koh Lipe</strong> (pristine beaches, more remote), <strong>Phuket</strong> (massive tourism infrastructure, beaches from party to peaceful). Prices vary wildly — $10 beach bungalow to $500 luxury resort.</p>
+
+        <h3>Cambodia — Key destinations</h3>
+        <p><strong>Siem Reap</strong> — Gateway to Angkor Wat and the most touristed city. Stay near <strong>Pub Street</strong> for nightlife and restaurants, or further out for better value and peaceful boutique hotels with pools (from $12–25/night). Some stunning colonial-style hotels for $40–80/night.</p>
+        <p><strong>Phnom Penh</strong> — The capital is grittier and less tourist-oriented. Stay along the <strong>Riverside</strong> (Sisowath Quay) for a walkable strip of restaurants and bars, or in <strong>BKK1</strong> (Boeung Keng Kang 1) — the expat neighborhood with excellent cafés and restaurants. Mid-range: $15–35/night.</p>
+        <p><strong>Kampot</strong> — Charming riverside town famous for pepper farms and Bokor National Park. Increasingly popular with travelers looking for a quieter alternative. Beautiful boutique guesthouses from $10–30/night.</p>
+
+        <div class="reddit-quote">
+            "You can get a decent air-conditioned guesthouse room in Siem Reap for under $15 with a pool. Try finding that in Thailand outside of Chiang Mai."
+            <span class="source">— Experienced backpacker</span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Thailand has vastly more accommodation options at every price point, with better quality at mid-range budgets. Cambodia wins on ultra-budget stays — your dollar goes further in Siem Reap and Kampot than almost anywhere in Thailand outside Chiang Mai.
+        </div>
+    </section>
+
+    <!-- 7. BEACHES & ISLANDS -->
+    <section class="deep-dive">
+        <h2 id="beaches-and-islands">🏝️ Beaches & Islands</h2>
+
+        <img src="https://img.tabiji.ai/compare/thailand-vs-cambodia/koh-rong-beach.jpg" alt="Pristine white sand beach on Koh Rong island, Cambodia — turquoise water and untouched coastline" class="section-img" loading="lazy">
+
+        <p>This is Thailand's strongest category. With over <strong>3,000 km of coastline</strong> and hundreds of islands, Thailand's beach game is world-class. The Andaman coast (Phuket, Krabi, Koh Lanta, Koh Lipe) offers dramatic limestone cliffs, crystal-clear water, and some of the world's best diving. The Gulf coast (Koh Samui, Koh Phangan, Koh Tao) is warmer, calmer, and great for snorkeling. Island-hopping infrastructure is excellent — ferries, speedboats, and flights make it easy to string multiple islands together.</p>
+        <p>Cambodia has <strong>Koh Rong</strong> and <strong>Koh Rong Samloem</strong> — two genuinely beautiful islands with white sand beaches and clear water. They're less developed than Thai islands, which is part of their charm: fewer crowds, cheaper bungalows, a more Robinson Crusoe vibe. <strong>Kep</strong> is a quiet coastal town famous for its crab market. But be warned: <strong>Sihanoukville</strong> (the mainland gateway to Koh Rong) has been largely overtaken by Chinese casino development and is not the beach town it once was. Most travelers recommend heading straight to the islands.</p>
+
+        <div class="reddit-quote">
+            "Thailand's beaches are world-class and that's not even debatable. Cambodia has Koh Rong which is beautiful, but it's basically two islands vs Thailand's hundreds. If beaches are your priority, this isn't a contest."
+            <span class="source">— <a href="https://www.reddit.com/r/cambodia/comments/utfmtc/hows_cambodia_compared_to_thailand/">r/travel user</a></span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Thailand wins overwhelmingly on beaches. If beach time is your main goal, Thailand is the obvious choice. Cambodia's Koh Rong offers something Thailand's popular islands can't — genuine seclusion and untouched beauty — but the options are limited.
+        </div>
+    </section>
+
+    <!-- 8. DAY TRIPS -->
+    <section class="deep-dive">
+        <h2 id="day-trips">🎒 Day Trips</h2>
+
+        <h3>From Bangkok, Thailand</h3>
+        <p><strong>Ayutthaya</strong> (1.5h) — Ancient capital ruins, UNESCO World Heritage. The budget Angkor Wat — smaller but still impressive.<br>
+        <strong>Kanchanaburi</strong> (2.5h) — Bridge over the River Kwai, Erawan National Park (stunning turquoise waterfalls), Death Railway.<br>
+        <strong>Floating Markets</strong> (1–2h) — Damnoen Saduak or Amphawa. Tourist-oriented but a quintessential Thai experience.<br>
+        <strong>Khao Yai National Park</strong> (3h) — Jungle trekking, waterfalls, wildlife. Thailand's most accessible national park.</p>
+
+        <h3>From Chiang Mai, Thailand</h3>
+        <p><strong>Doi Inthanon</strong> (1.5h) — Thailand's highest peak, pagodas above the clouds, hill tribe villages.<br>
+        <strong>Chiang Rai</strong> (3h) — White Temple (Wat Rong Khun), Blue Temple, Golden Triangle viewpoint.</p>
+
+        <h3>From Siem Reap, Cambodia</h3>
+        <p><strong>Tonle Sap Lake</strong> (30min) — Southeast Asia's largest freshwater lake with floating villages. Visit Kompong Khleang for a more authentic experience than the touristy Chong Kneas.<br>
+        <strong>Kulen Mountain</strong> (1.5h) — Sacred mountain with a reclining Buddha, waterfalls, and the River of 1,000 Lingas. Entry: $20.<br>
+        <strong>Battambang</strong> (3h) — Cambodia's second city. Bamboo train, colonial architecture, nearby temples, and an excellent circus (Phare).</p>
+
+        <h3>From Phnom Penh, Cambodia</h3>
+        <p><strong>Koh Dach (Silk Island)</strong> (30min) — Weaving villages, cycling, and a glimpse of rural Cambodian life just outside the capital.<br>
+        <strong>Oudong</strong> (1h) — Former royal capital with hilltop stupas and panoramic views.</p>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> Thailand has more day trip variety, especially from Bangkok and Chiang Mai. Cambodia's day trips are rewarding but fewer in number. Tonle Sap's floating villages and Kulen Mountain are worth the effort.
+        </div>
+    </section>
+
+    <!-- 9. WHY NOT BOTH -->
+    <section class="deep-dive">
+        <h2 id="why-not-both">🔀 Why Not Both?</h2>
+
+        <img src="https://img.tabiji.ai/compare/thailand-vs-cambodia/thai-street-food.jpg" alt="Thai street food stall in Bangkok — wok-fried noodles and grilled skewers" class="section-img" loading="lazy">
+
+        <p>Here's the truth most experienced Southeast Asia travelers will tell you: <strong>Thailand and Cambodia complement each other perfectly</strong>. Thailand gives you the polished, comfortable, food-and-beach experience. Cambodia gives you the raw, history-rich, adventure-travel experience. Together they're the ultimate Southeast Asia combo — and getting between them is easy and cheap.</p>
+
+        <h3>Getting between them</h3>
+        <p><strong>By air:</strong> Bangkok → Siem Reap: 1 hour, $60–100 on AirAsia or Cambodia Angkor Air. Bangkok → Phnom Penh: 1h15m, $70–120. Flights run multiple times daily.</p>
+        <p><strong>By bus:</strong> Bangkok → Siem Reap via the Poipet border: ~8–10 hours, $10–25 depending on class. Giant Ibis and Nattakan are reliable operators. The border crossing can be slow (1–2 hours with visa on arrival processing), so budget extra time.</p>
+
+        <h3>Suggested combo itineraries</h3>
+        <p><strong>10 days:</strong> 4 days Bangkok (Grand Palace, street food, nightlife) → fly → 3 days Siem Reap (Angkor Wat) → 3 days Thai Islands (Koh Samui or Phuket)<br>
+        <strong>14 days:</strong> 3 days Bangkok → 2 days Chiang Mai → fly → 3 days Siem Reap → 2 days Phnom Penh → fly back → 4 days Thai Islands<br>
+        <strong>21 days:</strong> 5 days Bangkok + Ayutthaya → 4 days Chiang Mai + Chiang Rai → fly → 4 days Siem Reap + Battambang → 3 days Phnom Penh + Kampot → fly back → 5 days island hopping</p>
+
+        <div class="reddit-quote">
+            "I did Thailand and Cambodia in the same trip — 10 days Thailand, 5 days Cambodia. Best decision I made. They feel like completely different worlds despite being neighbors. Fly Bangkok to Siem Reap, it's dirt cheap."
+            <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1h4acbz/should_i_combine_thailand_and_cambodia_or_is/">r/travel user</a></span>
+        </div>
+
+        <div class="tabiji-verdict">
+            <strong>tabiji verdict:</strong> If you have 2+ weeks, absolutely do both. The 1-hour flight between Bangkok and Siem Reap makes it a no-brainer. Thailand for the food, beaches, and infrastructure; Cambodia for Angkor Wat, history, and raw authenticity. They pair perfectly.
+        </div>
+    </section>
+    <!-- DECISION FRAMEWORK -->
+    <section class="deep-dive">
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
+        <div class="decision-grid">
+            <div class="decision-card thailand-card">
+                <h3>Choose Thailand If…</h3>
+                <ul>
+                    <li>World-class beaches are a priority</li>
+                    <li>You want the best street food on Earth</li>
+                    <li>You prefer developed tourist infrastructure</li>
+                    <li>Nightlife and party scenes matter to you</li>
+                    <li>It's your first time in Southeast Asia</li>
+                    <li>You want easy island hopping</li>
+                    <li>You're planning a honeymoon or romantic trip</li>
+                    <li>You want variety — cities, mountains, beaches</li>
+                    <li>Scuba diving or water sports are on your list</li>
+                </ul>
+            </div>
+            <div class="decision-card cambodia-card">
+                <h3>Choose Cambodia If…</h3>
+                <ul>
+                    <li>Angkor Wat is on your bucket list</li>
+                    <li>History and archaeology fascinate you</li>
+                    <li>You want fewer tourists and more authenticity</li>
+                    <li>Budget is your top priority ($20–30/day)</li>
+                    <li>You like off-the-beaten-path adventure</li>
+                    <li>You want to understand Khmer culture and history</li>
+                    <li>You're already familiar with Southeast Asia</li>
+                    <li>You prefer smaller, more intimate destinations</li>
+                    <li>You enjoy the journey as much as the destination</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h3>Is Thailand or Cambodia better for first-time visitors to Southeast Asia?</h3>
+            <p>Thailand is the easier first trip. Tourism infrastructure is more developed — English signage is everywhere, the BTS/MRT in Bangkok is world-class, and accommodation ranges from $5 hostels to $500 resorts. Cambodia is more raw and adventurous, which seasoned travelers love, but it requires more flexibility and tolerance for imperfect roads, power outages, and less English. Reddit consensus: start with Thailand, then add Cambodia on a return trip or as a 4–5 day side trip.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How far apart are Thailand and Cambodia?</h3>
+            <p>Bangkok to Siem Reap is about 400 km — a 1-hour flight ($60–100) or 8–10 hour bus via the Poipet border ($10–25). Bangkok to Phnom Penh is about 660 km — a 1h15m flight ($70–120). The border crossing is straightforward but can take 1–2 hours for visa processing. Most travelers fly between the two countries.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Is it worth visiting both on the same trip?</h3>
+            <p>Absolutely, if you have 2+ weeks. A popular combo: 7–10 days Thailand (Bangkok + Chiang Mai or islands) plus 4–5 days Cambodia (Siem Reap for Angkor Wat + maybe Phnom Penh). The cheap, short flight between Bangkok and Siem Reap makes it a no-brainer. If you only have 10 days, most travelers recommend picking one country and exploring it properly rather than rushing both.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Which is cheaper, Thailand or Cambodia?</h3>
+            <p>Cambodia is slightly cheaper on paper — $0.50 beers, $1 meals, $8 guestrooms. A mid-range day runs $20–40 vs Thailand's $30–50. But Thailand often offers better value: for a few dollars more, quality jumps significantly. The biggest Cambodia expense is Angkor Wat ($37/day pass + $15–25 transport). Budget backpackers stretch further in Cambodia; mid-range travelers often prefer Thailand's price-to-quality ratio.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Is Cambodia safe for tourists?</h3>
+            <p>Yes, generally safe. Siem Reap is very tourist-friendly with minimal crime. Phnom Penh requires more awareness — phone snatching from motorbikes is the main risk, so keep valuables in a front bag and avoid displaying expensive phones. Avoid Sihanoukville's downtown casino area; go straight to Koh Rong instead. Scams are less common than in heavily touristy parts of Thailand, but always confirm prices upfront for tuk-tuks and tours.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>What is the best time to visit Thailand and Cambodia?</h3>
+            <p>November through February — the cool, dry season with comfortable 25–33°C temperatures and virtually no rain. Peak tourist season, so prices are higher and popular spots get crowded. March–May is scorching hot (36°C+). The rainy season (May–October in Thailand, June–November in Cambodia) means lower prices and fewer tourists, but expect afternoon downpours and some flooding. April's Songkran festival in Thailand is worth braving the heat for.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Do I need a visa for Thailand and Cambodia?</h3>
+            <p>Thailand offers 60-day visa-exempt entry for most Western nationalities — completely free, no application needed. Cambodia requires a tourist visa: $30 on arrival at airports and land borders (bring a passport photo and cash), or apply for an e-visa online before your trip. Cambodia's visa is valid for 30 days, extendable once for another 30 days at a local travel agent for a small fee.</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>Ready to plan your Southeast Asia trip?</h2>
+        <p>Get a free custom itinerary for Thailand, Cambodia, or both — built from real traveler insights, not generic templates.</p>
+        <div class="cta-buttons">
+            <a href="/plan" class="cta-btn-thailand">Plan Your Thailand Trip →</a>
+            <a href="/plan" class="cta-btn-cambodia">Plan Your Cambodia Trip →</a>
+        </div>
+    </div>
+
+</div><!-- /article-content -->
+</div><!-- /content-wrapper -->
+
+<footer>
+    <p>© 2026 <a href="/">tabiji.ai</a> — AI-powered travel itineraries built from real traveler insights.</p>
+    <p style="margin-top:0.5rem"><a href="/popular-picks/">Popular Picks</a> · <a href="/itineraries/">Sample Itineraries</a> · <a href="/about/">About</a> · <a href="/plan">Get Your Free Itinerary</a></p>
+</footer>
+
+<script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
+</body>
+</html>
