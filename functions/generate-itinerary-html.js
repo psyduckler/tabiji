@@ -878,7 +878,7 @@ ${mapsJS}
   </div>
 </div>
 <script>
-var EXPORT_API='https://script.google.com/macros/s/AKfycbxpizcUue1UpEIcZrvUYWUBbvJ6L5tJ3-cwvD6uEqwUl25eAlh1zmQtSIoMESf3iAlS/exec';
+var EXPORT_API='https://script.google.com/macros/s/AKfycbwisEgM3k14bSlEYY-YuNaHSqEIhOdjwfZmJ5o1RxnuCY90943fXtYYpQaziCDG56AE/exec';
 function getSlug(){var m=window.location.pathname.match(/\\/i\\/([^\\/]+)/);return m?m[1]:'';}
 function openExportModal(){document.getElementById('exportModal').classList.add('active');document.getElementById('exportEmail').focus();document.getElementById('exportForm').classList.remove('hide');document.getElementById('exportSuccess').classList.remove('show');document.getElementById('exportError').style.display='none';document.getElementById('exportSubmit').disabled=false;document.getElementById('exportSubmit').textContent='Create My Google Doc';}
 function closeExportModal(){document.getElementById('exportModal').classList.remove('active');}

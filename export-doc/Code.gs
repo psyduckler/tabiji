@@ -72,10 +72,20 @@ function parseItinerary(html, sourceUrl) {
     subtitle: '',
     intro: '',
     sourceUrl: sourceUrl || '',
+    heroUrl: '',
     quickRef: [],
     days: [],
     tips: []
   };
+  
+  // Hero background image
+  var heroMatch = html.match(/hero-bg\.jpg[^"']*/i);
+  if (heroMatch) {
+    var slugMatch = sourceUrl.match(/\/i\/([^\/]+)/);
+    if (slugMatch) {
+      result.heroUrl = 'https://img.tabiji.ai/i/' + slugMatch[1] + '/hero-bg.jpg';
+    }
+  }
   
   // Title from <h1> (preferred, shorter) or <title> (fallback, truncated)
   var h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
@@ -206,6 +216,25 @@ function formatDocument(body, itinerary) {
     muted: '#6B5D4F',
     light: '#AAAAAA'
   };
+  
+  // ── Hero Image ──
+  if (itinerary.heroUrl) {
+    try {
+      var imgBlob = UrlFetchApp.fetch(itinerary.heroUrl, { muteHttpExceptions: true }).getBlob();
+      var img = body.appendImage(imgBlob);
+      // Scale to page width (468pt is standard Google Doc content width)
+      var width = img.getWidth();
+      var height = img.getHeight();
+      if (width > 468) {
+        img.setWidth(468);
+        img.setHeight(Math.round(height * (468 / width)));
+      }
+      // Round corners effect not available in Docs, but the image looks great full-width
+      body.appendParagraph('').setSpacingAfter(8);
+    } catch (e) {
+      Logger.log('Hero image failed: ' + e.message);
+    }
+  }
   
   // ── Title ──
   var title = body.appendParagraph(itinerary.title);
