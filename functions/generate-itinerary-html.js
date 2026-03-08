@@ -257,7 +257,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden; max-width: 100vw;
         }
-        nav { overflow: hidden;
+        nav { overflow: visible;
             position: fixed; top: 0; width: 100%; z-index: 100;
             background: rgba(254, 252, 249, 0.92);
             backdrop-filter: blur(20px);
@@ -626,7 +626,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
             }
             .nav-links.open { display: flex !important; }
             nav a.cta-nav { text-align: center; }
-            nav { overflow: hidden; padding: 0.8rem 1.2rem; }
+            nav { overflow: visible; padding: 0.8rem 1.2rem; }
             .export-nav span { display: none; }
             .export-modal { padding: 1.5rem; }
             .hero { padding: 6rem 1.5rem 3.5rem; }
