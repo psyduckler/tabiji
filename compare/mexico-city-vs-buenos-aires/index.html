@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -487,7 +488,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -513,6 +585,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-tacos-vs-steak-and-both-are-right">🌮 Food: Tacos vs Steak (and Both Are Right)</a></li>
+            <li><a href="#neighborhoods-and-walkability">🚶 Neighborhoods & Walkability</a></li>
+            <li><a href="#safety">🛡️ Safety</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#culture-history-and-arts">🎭 Culture, History & Arts</a></li>
+            <li><a href="#best-time-to-visit">🌤️ Best Time to Visit</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 City Comparison — Latin America</div>
@@ -526,6 +621,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-tacos-vs-steak-and-both-are-right">🌮 Food: Tacos vs Steak (and Both Are Right)</a></li>
+            <li><a href="#neighborhoods-and-walkability">🚶 Neighborhoods & Walkability</a></li>
+            <li><a href="#safety">🛡️ Safety</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#culture-history-and-arts">🎭 Culture, History & Arts</a></li>
+            <li><a href="#best-time-to-visit">🌤️ Best Time to Visit</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -541,7 +655,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Mexico City</strong> if you want Latin America's most intense, layered, historically rich megacity experience — Aztec ruins beneath a cathedral, the world's best tacos steps from your door, world-class contemporary art and cuisine, and a city that never, ever sleeps.</p>
         <p><strong>Visit Buenos Aires</strong> if you want European sophistication transplanted to South America — walkable tree-lined barrios, tango milongas, extraordinarily good steak and Malbec, Belle Époque architecture, and a café culture so developed that psychoanalysis became a local obsession.</p>
         <p><strong>The real answer: Reddit is right — you should try to do both.</strong> Mexico City and Buenos Aires are separated by a 10-hour flight that costs $400–700 round-trip. Together, they offer the full range of what Latin America can be. Reddit consensus: <strong>CDMX for food variety and things to do, BA for European vibes, walkability, and that extraordinary beef.</strong></p>
@@ -549,7 +663,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -646,7 +760,7 @@
 
     <!-- 1. FOOD -->
     <section class="deep-dive">
-        <h2>🌮 Food: Tacos vs Steak (and Both Are Right)</h2>
+        <h2 id="food-tacos-vs-steak-and-both-are-right">🌮 Food: Tacos vs Steak (and Both Are Right)</h2>
         <p>This is the matchup everyone talks about, and the honest answer is that both cities offer some of the world's most extraordinary food — just in very different directions.</p>
 
         <h3>Mexico City: The World Capital of Tacos</h3>
@@ -669,7 +783,7 @@
 
     <!-- 2. WALKABILITY & NEIGHBORHOODS -->
     <section class="deep-dive">
-        <h2>🚶 Neighborhoods & Walkability</h2>
+        <h2 id="neighborhoods-and-walkability">🚶 Neighborhoods & Walkability</h2>
 
         <img src="https://img.tabiji.ai/compare/mexico-city-vs-buenos-aires/buenos-aires-recoleta.jpg?v=1" alt="Recoleta neighborhood in Buenos Aires — elegant Belle Époque architecture and tree-lined streets" class="section-img" loading="lazy">
 
@@ -692,7 +806,7 @@
 
     <!-- 3. SAFETY -->
     <section class="deep-dive">
-        <h2>🛡️ Safety</h2>
+        <h2 id="safety">🛡️ Safety</h2>
         <p>Safety is the question most travelers ask first about both cities, and the honest answer is: both require basic street awareness, neither is inherently dangerous for tourists who stay in tourist areas, and millions of visitors enjoy both cities without incident.</p>
 
         <h3>Mexico City Safety Reality</h3>
@@ -713,7 +827,7 @@
 
     <!-- 4. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Both cities are outstanding value for North American and European travelers. The Buenos Aires calculation is complicated by Argentina's dual exchange rate situation — exchanging USD at the informal "blue dollar" rate (significantly better than the official bank rate) makes BA one of the cheapest major cities in the world for dollar holders.</p>
 
         <table class="cost-table">
@@ -792,7 +906,7 @@
 
     <!-- 5. CULTURE & ARTS -->
     <section class="deep-dive">
-        <h2>🎭 Culture, History & Arts</h2>
+        <h2 id="culture-history-and-arts">🎭 Culture, History & Arts</h2>
 
         <h3>Mexico City: 3,000 Years of History in One Place</h3>
         <p>Mexico City sits on top of Tenochtitlán, the Aztec capital that was, at its peak in 1519, one of the world's five largest cities. The Templo Mayor — the main Aztec temple — was discovered in 1978 and is still being actively excavated in the middle of downtown, two blocks from the Zócalo. The Museo del Templo Mayor displays extraordinary Aztec artifacts. The Museo Nacional de Antropología in Chapultepec Park houses the world's finest collection of pre-Columbian art and artifacts, including the Aztec Sun Stone (often misnamed the "Aztec Calendar"). It's Mexico City's single finest museum and genuinely one of the world's great museums.</p>
@@ -809,7 +923,7 @@
 
     <!-- 6. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>🌤️ Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">🌤️ Best Time to Visit</h2>
         <p>These two cities are in different hemispheres (Mexico City: Northern Hemisphere, subtropical; Buenos Aires: Southern Hemisphere, temperate), with very different seasonal patterns. Here's the real climate data:</p>
 
         <div class="weather-grid">
@@ -879,7 +993,7 @@
 
     <!-- 7. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚇 Getting Around</h2>
+        <h2 id="getting-around">🚇 Getting Around</h2>
 
         <h3>Mexico City Metro: The World's Cheapest Big-City Subway</h3>
         <p>Mexico City's Metro is 12 lines, 195 stations, and costs approximately ₩7 (roughly $0.30 USD) per ride — one of the cheapest metro systems in the world. It runs from 5am to midnight daily and is efficient, if crowded. Google Maps gives accurate transit directions for CDMX. Uber and DiDi ride-hailing are cheap ($3–8 for most intra-city trips), safe, and preferred over street taxis. The Metrobús (BRT bus rapid transit) covers major corridors including Reforma. Walking between Roma, Condesa, and Polanco is pleasant and takes 15–25 minutes between neighborhoods.</p>
@@ -894,7 +1008,7 @@
 
     <!-- 8. WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Why Not Both?</h2>
+        <h2 id="why-not-both">🔀 Why Not Both?</h2>
         <p>Flights between Mexico City and Buenos Aires take 9–11 hours and cost $300–600 one way on LATAM, Aerolíneas Argentinas, or Aeromexico — not trivial, but manageable as part of a longer Latin America trip. Many travelers combine CDMX with a Pacific coast visit (Puerto Vallarta, Oaxaca), then fly to BA and extend into Patagonia or Uruguay. A 3-week Latin America trip can comfortably include both megacities.</p>
 
         <div class="reddit-quote">
@@ -916,7 +1030,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card card-a">
                 <h3>Choose Mexico City If…</h3>
@@ -951,7 +1065,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Mexico City or Buenos Aires better for first-time Latin America travelers?</h3>
@@ -1004,6 +1118,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1012,5 +1127,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

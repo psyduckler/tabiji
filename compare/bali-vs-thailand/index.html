@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -489,7 +490,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -515,6 +587,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#beaches-crystal-clear-vs-perfect-surf">🏖️ Beaches: Crystal Clear vs Perfect Surf</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#culture-and-temples">⛩️ Culture & Temples</a></li>
+            <li><a href="#full-cost-comparison">💰 Full Cost Comparison</a></li>
+            <li><a href="#weather-and-best-time-to-visit">🌦️ Weather & Best Time to Visit</a></li>
+            <li><a href="#where-to-stay-neighborhoods-guide">🏨 Where to Stay: Neighborhoods Guide</a></li>
+            <li><a href="#getting-there-and-getting-around">✈️ Getting There & Getting Around</a></li>
+            <li><a href="#why-not-both-the-combo-trip">🔀 Why Not Both? The Combo Trip</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 Island vs Country Comparison — Southeast Asia</div>
@@ -528,6 +623,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#beaches-crystal-clear-vs-perfect-surf">🏖️ Beaches: Crystal Clear vs Perfect Surf</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#culture-and-temples">⛩️ Culture & Temples</a></li>
+            <li><a href="#full-cost-comparison">💰 Full Cost Comparison</a></li>
+            <li><a href="#weather-and-best-time-to-visit">🌦️ Weather & Best Time to Visit</a></li>
+            <li><a href="#where-to-stay-neighborhoods-guide">🏨 Where to Stay: Neighborhoods Guide</a></li>
+            <li><a href="#getting-there-and-getting-around">✈️ Getting There & Getting Around</a></li>
+            <li><a href="#why-not-both-the-combo-trip">🔀 Why Not Both? The Combo Trip</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -543,7 +657,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Bali</strong> if you want a singular, deeply spiritual island experience — Hindu temples woven into daily life, lush rice terraces, world-class surf, and the world's best digital nomad scene (Canggu/Ubud).</p>
         <p><strong>Visit Thailand</strong> if you want more variety in one trip — jungle trekking in Chiang Mai, Bangkok's street food madness, crystal-clear island beaches, and a country that does everything from backpacker chaos to luxury resorts.</p>
         <p><strong>The honest Reddit consensus:</strong> Thailand wins on breadth and beaches. Bali wins on depth and culture. If you have 2+ weeks, <strong>combine both</strong> — DPS to BKK flights run $50–150 on budget airlines. Most experienced Southeast Asia travelers call Bali + Thailand the perfect combo.</p>
@@ -551,7 +665,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -642,7 +756,7 @@
 
     <!-- 1. BEACHES -->
     <section class="deep-dive">
-        <h2>🏖️ Beaches: Crystal Clear vs Perfect Surf</h2>
+        <h2 id="beaches-crystal-clear-vs-perfect-surf">🏖️ Beaches: Crystal Clear vs Perfect Surf</h2>
         <p>This is one of the most important distinctions between the two destinations, and it trips up a lot of first-timers. <strong>Bali's beaches are primarily surf beaches</strong> — beautiful, dramatic, sun-kissed, but often not ideal for swimming due to strong currents and rough surf. Seminyak, Canggu, and Kuta are gorgeous for watching sunsets and surfing, while Uluwatu (Padang Padang, Bingin) draws world-class surfers. If you want swimming, head to Sanur or Nusa Dua on the calmer east/south coast, or island-hop to Nusa Penida and Nusa Lembongan.</p>
         <p>Thailand's island game is simply in another league for swimmers. The Gulf of Thailand (Koh Tao, Koh Phangan, Koh Samui) and Andaman coast (Phi Phi, Krabi, Phuket, Koh Lanta) offer crystal-clear turquoise water, white sand beaches, and some of the world's best snorkeling and diving. Koh Tao is particularly legendary — it's one of the cheapest and best places on Earth to get a PADI diving certification (~$350 USD for the full Open Water course).</p>
 
@@ -663,7 +777,7 @@
 
     <!-- 2. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍜 Food & Dining</h2>
+        <h2 id="food-and-dining">🍜 Food & Dining</h2>
 
         <img src="https://img.tabiji.ai/compare/bali-vs-thailand/thailand-phi-phi.jpg?v=1" alt="Thailand's incredible street food and coastal dining scenes" class="section-img" loading="lazy">
 
@@ -720,7 +834,7 @@
 
     <!-- 3. CULTURE & TEMPLES -->
     <section class="deep-dive">
-        <h2>⛩️ Culture & Temples</h2>
+        <h2 id="culture-and-temples">⛩️ Culture & Temples</h2>
         <p>Bali's biggest competitive advantage is its culture — specifically, its Hindu identity in the midst of Muslim Indonesia. The island has over 20,000 temples (pura), and Balinese Hinduism is utterly unique: daily offerings (canang sari) on every doorstep, elaborate cremation ceremonies (ngaben), Kecak fire dances at Uluwatu, and elaborate odalan (temple anniversary) festivals that happen constantly. The most iconic temples — Tanah Lot (sea temple on a rock), Uluwatu (clifftop), Tirta Empul (holy spring), Besakih (mother temple on Mount Agung) — are jaw-dropping.</p>
         <p>Thailand's Buddhist temple culture is equally impressive but different in character. Bangkok alone has over 400 temples: Wat Phra Kaew (Emerald Buddha), Wat Pho (giant reclining Buddha, best Thai massage school), Wat Arun (Temple of Dawn, photogenic on the Chao Phraya River). Chiang Mai has 300+ temples including Doi Suthep, perched above the city. Ancient capitals Ayutthaya and Sukhothai (both UNESCO-listed) are accessible as day trips. Thailand's temple culture is geographically diverse; Bali's is more concentrated and intimate.</p>
 
@@ -740,7 +854,7 @@
 
     <!-- 4. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Full Cost Comparison</h2>
+        <h2 id="full-cost-comparison">💰 Full Cost Comparison</h2>
         <p>Both destinations are among Southeast Asia's best values, but costs vary significantly depending on your travel style. Bali's accommodation sweet spot (private villas) is slightly cheaper; Thailand's budget travel (hostels, guesthouses, overnight buses) is more developed.</p>
 
         <table class="cost-table">
@@ -825,7 +939,7 @@
 
     <!-- 5. WEATHER -->
     <section class="deep-dive">
-        <h2>🌦️ Weather & Best Time to Visit</h2>
+        <h2 id="weather-and-best-time-to-visit">🌦️ Weather & Best Time to Visit</h2>
         <p>Bali and Thailand are both tropical, but their seasons work differently — and getting the timing wrong can significantly impact your experience.</p>
 
         <div class="weather-grid">
@@ -897,7 +1011,7 @@
 
     <!-- 6. WHERE TO STAY -->
     <section class="deep-dive">
-        <h2>🏨 Where to Stay: Neighborhoods Guide</h2>
+        <h2 id="where-to-stay-neighborhoods-guide">🏨 Where to Stay: Neighborhoods Guide</h2>
 
         <h3>Bali areas</h3>
         <p><strong>Canggu</strong> — The digital nomad capital of the world. Rice paddy views from co-working spaces, excellent surf breaks (Echo Beach, Batu Bolong), dozens of cafes, healthy food, buzzing nightlife in a more relaxed setting than Kuta. Base yourself here for a week-long stay if you're young and social.</p>
@@ -924,7 +1038,7 @@
 
     <!-- 7. GETTING THERE & AROUND -->
     <section class="deep-dive">
-        <h2>✈️ Getting There &amp; Getting Around</h2>
+        <h2 id="getting-there-and-getting-around">✈️ Getting There &amp; Getting Around</h2>
         <p>Both destinations are well-served by international flights, but Thailand wins on air connectivity — Bangkok's Suvarnabhumi Airport (BKK) is one of Asia's major hubs with direct flights from virtually everywhere. Bali's Ngurah Rai International Airport (DPS) requires a connection through Singapore, Kuala Lumpur, or a regional hub for most travelers from the US and Europe.</p>
 
         <h3>Getting around Bali</h3>
@@ -945,7 +1059,7 @@
 
     <!-- 8. WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Why Not Both? The Combo Trip</h2>
+        <h2 id="why-not-both-the-combo-trip">🔀 Why Not Both? The Combo Trip</h2>
         <p>Here's what experienced Southeast Asia travelers keep saying: <strong>Bali and Thailand are complementary, not competing</strong>. Many combine them into a 2–4 week trip that covers both countries. The logic: Bali gives you a singular, deep island experience (culture, temples, surf, villas). Thailand gives you breadth (cities, mountains, diverse islands, street food). Together they cover almost everything Southeast Asia offers.</p>
 
         <div class="reddit-quote">
@@ -965,7 +1079,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card bali-card">
                 <h3>Choose Bali If…</h3>
@@ -1000,7 +1114,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Bali or Thailand better for first-time Southeast Asia travelers?</h3>
@@ -1053,6 +1167,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1061,5 +1176,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

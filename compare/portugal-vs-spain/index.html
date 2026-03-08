@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -487,7 +488,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -513,6 +585,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cities">🏙️ Cities</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#beaches-and-nature">🌊 Beaches & Nature</a></li>
+            <li><a href="#getting-around">🚂 Getting Around</a></li>
+            <li><a href="#culture-and-nightlife">🎭 Culture & Nightlife</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 Country Comparison — Iberian Peninsula</div>
@@ -526,6 +621,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cities">🏙️ Cities</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#beaches-and-nature">🌊 Beaches & Nature</a></li>
+            <li><a href="#getting-around">🚂 Getting Around</a></li>
+            <li><a href="#culture-and-nightlife">🎭 Culture & Nightlife</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -541,7 +655,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Portugal</strong> if you want better value for money, a more relaxed pace, the soulful melancholy of Fado music, extraordinary bacalhau-based cuisine, Lisbon's hills and trams, Porto's wine country, and a country that feels less overrun by mass tourism despite being firmly on the map.</p>
         <p><strong>Visit Spain</strong> if you want more sheer scale — Barcelona's Gaudí masterpieces and nightlife, Madrid's world-class museums and late-late culture, Seville's flamenco and Moorish architecture, San Sebastián's Michelin-starred pintxos scene, and the Mediterranean beaches of the Costa Brava or Balearic Islands.</p>
         <p><strong>Both share the Iberian Peninsula, the euro, right-hand driving, and a warm Atlantic/Mediterranean climate.</strong> Reddit's consistent verdict: <strong>Portugal for first-timers who want authentic Europe without the crowds; Spain for those who want variety and scale.</strong> Doing both is genuinely easy — the Lisbon-to-Seville-to-Granada-to-Barcelona circuit is one of Europe's greatest road trips.</p>
@@ -549,7 +663,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -628,7 +742,7 @@
 
     <!-- 1. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍽️ Food & Dining</h2>
+        <h2 id="food-and-dining">🍽️ Food & Dining</h2>
         <p>Both countries have world-class food cultures, and this is genuinely a tie — just in very different ways. Calling one "better" would be like choosing between jazz and classical music.</p>
         <p><strong>Portuguese cuisine</strong> is one of Europe's most underrated. Bacalhau (salt cod) is the national obsession — the saying goes there are 365 ways to cook it, one for each day of the year. It's true, and every single one of them is worth trying. But Portugal's greatness goes far beyond bacalhau: petiscos (Portuguese tapas) of croquetes and pataniscas, charcoal-grilled sardines with potatoes and salad, fresh clams in a copper cataplana, the revelatory simplicity of a bifanas (pork sandwich) with mustard and beer. The pastéis de nata (custard tarts) from Pastéis de Belém in Lisbon are, objectively, one of the best things humans have ever put in their mouths. And the wines — Vinho Verde, Douro reds, Alentejo — are world-class and criminally underpriced.</p>
         <p><strong>Spanish cuisine</strong> has greater international recognition but is equally rewarding. The tapas culture in Andalusia (where you get a free tapa with every drink — still!), San Sebastián's pintxos scene with the highest concentration of Michelin stars per capita on Earth, Valencia's original paella (nothing like what the world exports), Madrid's cocido madrileño and late-night callos, Basque Country's whole tradition of nueva cocina that changed fine dining globally. The variety is staggering — Spain is a culinary federation of distinct regional traditions.</p>
@@ -653,7 +767,7 @@
 
     <!-- 2. CITIES -->
     <section class="deep-dive">
-        <h2>🏙️ Cities</h2>
+        <h2 id="cities">🏙️ Cities</h2>
 
         <img src="https://img.tabiji.ai/compare/portugal-vs-spain/lisbon.jpg?v=1" alt="Lisbon yellow tram on colorful historic streets" class="section-img" loading="lazy">
 
@@ -686,7 +800,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Portugal is consistently cheaper than Spain, which is itself cheaper than most of Western Europe. Here's what you'll actually spend in both countries in 2025/2026:</p>
 
         <table class="cost-table">
@@ -766,7 +880,7 @@
 
     <!-- 4. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>☀️ Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">☀️ Best Time to Visit</h2>
         <p>Both countries share a broadly Mediterranean/Atlantic climate, but Spain's size means its regions vary dramatically — from the wet Basque Country to the arid Andalusian interior. Lisbon and Madrid are the weather benchmarks for each country. Here's real 2024–2025 Open-Meteo climate data:</p>
 
         <div class="weather-grid">
@@ -837,7 +951,7 @@
 
     <!-- 5. BEACHES & NATURE -->
     <section class="deep-dive">
-        <h2>🌊 Beaches & Nature</h2>
+        <h2 id="beaches-and-nature">🌊 Beaches & Nature</h2>
 
         <img src="https://img.tabiji.ai/compare/portugal-vs-spain/barcelona.jpg?v=1" alt="Barcelona Spain Sagrada Familia aerial view" class="section-img" loading="lazy">
 
@@ -858,7 +972,7 @@
 
     <!-- 6. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚂 Getting Around</h2>
+        <h2 id="getting-around">🚂 Getting Around</h2>
         <p>Both countries have good infrastructure, but Spain's size and investment in high-speed rail (AVE) makes it a different proposition from compact Portugal.</p>
 
         <h3>Portugal</h3>
@@ -879,7 +993,7 @@
 
     <!-- 7. CULTURE & NIGHTLIFE -->
     <section class="deep-dive">
-        <h2>🎭 Culture & Nightlife</h2>
+        <h2 id="culture-and-nightlife">🎭 Culture & Nightlife</h2>
         <p>Both countries have deeply distinctive cultural identities, but Spain's is more internationally recognized — largely because of flamenco, Gaudí, Picasso, and the world's love affair with Spanish food and language.</p>
         <p><strong>Portugal's Fado</strong> is one of music's great national traditions — a melancholic, deeply personal song form (the Portuguese concept of saudade, meaning longing for something absent, is embedded in every note). Experiencing Fado in Alfama, Lisbon — in a tiny restaurant where the fadista sings over classical guitars — is one of Europe's most moving cultural experiences. Unlike flamenco, which has become somewhat commercialized for tourists, authentic Fado is still performed in neighborhood houses for local audiences.</p>
         <p><strong>Spain's flamenco</strong> is spectacular and deserves its global reputation. In Seville and Granada it can still be experienced authentically — the Sacromonte cave district in Granada and the barrio of Triana in Seville have genuine flamenco communities. In Madrid and Barcelona, most tablaos are tourist shows, but good ones (Corral de la Morería in Madrid, El Tablao de Carmen in Barcelona) are absolutely worth attending.</p>
@@ -892,7 +1006,7 @@
 
     <!-- 8. WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Why Not Both?</h2>
+        <h2 id="why-not-both">🔀 Why Not Both?</h2>
         <p>Unlike Greece and Croatia, combining Portugal and Spain is genuinely easy — they share the Iberian Peninsula and have no practical borders. A bus from Lisbon to Seville takes 4 hours (€15–25 on FlixBus or Rede Expressos). Lisbon to Madrid is 6 hours by bus or a 45-minute flight. Porto to Vigo (first Spanish city over the border) is 1.5 hours by train.</p>
 
         <div class="reddit-quote">
@@ -913,7 +1027,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card portugal-card">
                 <h3>Choose Portugal If…</h3>
@@ -948,7 +1062,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Portugal or Spain better for a first visit to Iberia?</h3>
@@ -1001,6 +1115,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1009,5 +1124,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

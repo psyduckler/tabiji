@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -487,7 +488,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -513,6 +585,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#beaches">🏖️ Beaches</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#history-and-culture">🏛️ History & Culture</a></li>
+            <li><a href="#getting-around">🚢 Getting Around</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#can-you-do-both">🔀 Can You Do Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 Country Comparison — Mediterranean Europe</div>
@@ -526,6 +621,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#beaches">🏖️ Beaches</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">☀️ Best Time to Visit</a></li>
+            <li><a href="#history-and-culture">🏛️ History & Culture</a></li>
+            <li><a href="#getting-around">🚢 Getting Around</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#can-you-do-both">🔀 Can You Do Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -541,7 +655,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Greece</strong> if you want sandy beaches, ancient history, world-class food, 6,000+ islands to explore, and the most iconic Mediterranean landscapes on Earth — Santorini's caldera, Mykonos's windmills, Crete's gorges.</p>
         <p><strong>Visit Croatia</strong> if you want dramatic rocky coastline, crystal-clear Adriatic water, medieval walled cities (Dubrovnik is genuinely one of Europe's most beautiful), and a more compact, easy-to-navigate island-hopping circuit.</p>
         <p><strong>Both use the euro, both drive on the right, both are Schengen Area.</strong> Greece is generally 10–20% cheaper and has a far more distinctive food culture. Croatia wins on dramatic scenery and fewer crowds outside Dubrovnik. <strong>If you can only pick one for a first Mediterranean trip, Reddit leans Greece — more variety, better food, warmer beaches.</strong></p>
@@ -549,7 +663,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -628,7 +742,7 @@
 
     <!-- 1. BEACHES -->
     <section class="deep-dive">
-        <h2>🏖️ Beaches</h2>
+        <h2 id="beaches">🏖️ Beaches</h2>
         <p>This is the heart of the Greece vs Croatia debate for most travelers — and the answer isn't as simple as "Greece wins." It depends what you mean by "beach."</p>
         <p>Greece has more variety in a single category than most countries have in their entire landscape. The Cyclades deliver the classic postcard Med experience: sandy beaches with turquoise water, dramatic cliffs, whitewashed villages above the shore. <strong>Naxos</strong> has enormous stretches of golden sand that feel uncrowded even in August. <strong>Elafonisi</strong> in Crete has pink-tinged sand in shallow, warm water. <strong>Myrtos</strong> in Kefalonia is regularly voted Europe's most beautiful beach. The Ionian Islands — Lefkada, Zakynthos, Corfu — have some of the bluest water you'll ever see.</p>
         <p>Croatia's beaches are almost all pebbly or rocky — you'll want water shoes unless you specifically research sandy spots (Zlatni Rat near Bol is the exception). But the trade-off is extraordinary water clarity and dramatic settings: pine-fringed coves, cliffside bars, and swimming in water so transparent you can count the sea urchins 10 meters below. Croatian beaches are often shaded by pine trees, which Greece's typically aren't, making afternoons more comfortable.</p>
@@ -652,7 +766,7 @@
 
     <!-- 2. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍽️ Food & Dining</h2>
+        <h2 id="food-and-dining">🍽️ Food & Dining</h2>
 
         <img src="https://img.tabiji.ai/compare/greece-vs-croatia/santorini.jpg?v=1" alt="Santorini Greece cliffside view" class="section-img" loading="lazy">
 
@@ -675,7 +789,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Both countries use the euro, so there's no currency complexity. Overall, Greece runs about 10–20% cheaper than Croatia — mostly because Croatian accommodation prices, especially in Dubrovnik, have risen dramatically since the Game of Thrones "King's Landing" era. Here's what real travelers actually spend:</p>
 
         <table class="cost-table">
@@ -755,7 +869,7 @@
 
     <!-- 4. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>☀️ Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">☀️ Best Time to Visit</h2>
         <p>Both countries are summer-dominated destinations, but their shoulder seasons work differently. Greece's mild winters mean Athens and Crete are actually pleasant year-round. Croatia's rainy season (November–March) is dramatically wetter — especially the Dalmatian coast, which gets most of its annual rainfall concentrated into winter months. Here's real 2024–2025 climate data:</p>
 
         <div class="weather-grid">
@@ -826,7 +940,7 @@
 
     <!-- 5. HISTORY & CULTURE -->
     <section class="deep-dive">
-        <h2>🏛️ History & Culture</h2>
+        <h2 id="history-and-culture">🏛️ History & Culture</h2>
         <p>If ancient history is your primary interest, Greece isn't just better — it's in a different category. This is the birthplace of Western democracy, philosophy, theatre, and the Olympic Games. The Acropolis remains one of humanity's greatest architectural achievements. Delphi, where ancient Greeks sought the oracle's wisdom, sits in a mountain setting of vertiginous beauty. Olympia (where the Games were born), Epidaurus (still-used ancient theatre with perfect acoustics), Mycenae (Bronze Age palace with Lion Gate and Treasury of Atreus) — the list is genuinely staggering. Greece has 17 UNESCO World Heritage Sites. The National Archaeological Museum in Athens contains finds that make the British Museum look like a local gallery.</p>
         <p>Croatia's history is a different, equally fascinating story — the crossroads of Roman, Venetian, Ottoman, and Austro-Hungarian empires. Diocletian's Palace in Split is one of the best-preserved Roman structures in the world (and it's an entire neighborhood people still live in). Dubrovnik's medieval walls and baroque architecture are genuinely spectacular. The island of Korčula claims — possibly falsely — to be Marco Polo's birthplace. Croatia's inland regions have 10 UNESCO World Heritage Sites.</p>
 
@@ -842,7 +956,7 @@
 
     <!-- 6. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚢 Getting Around</h2>
+        <h2 id="getting-around">🚢 Getting Around</h2>
         <p>Getting around both countries involves a mix of ferries, buses, and rental cars. The key difference: Croatia's Dalmatian Coast is more linear and compact; Greece's islands are spread across multiple sea groups with varying ferry connections.</p>
 
         <h3>Greece</h3>
@@ -863,7 +977,7 @@
 
     <!-- 7. WHERE TO STAY -->
     <section class="deep-dive">
-        <h2>🏨 Where to Stay</h2>
+        <h2 id="where-to-stay">🏨 Where to Stay</h2>
 
         <h3>Best bases in Greece</h3>
         <p><strong>Athens (2–3 nights)</strong> — Base for seeing the Acropolis, National Museum, and neighborhoods like Monastiraki, Plaka, and Exarcheia. Stay near Syntagma or Monastiraki for metro access to Piraeus. Wide price range; more affordable than the islands.</p>
@@ -884,7 +998,7 @@
 
     <!-- 8. WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Can You Do Both?</h2>
+        <h2 id="can-you-do-both">🔀 Can You Do Both?</h2>
 
         <img src="https://img.tabiji.ai/compare/greece-vs-croatia/dubrovnik.jpg?v=1" alt="Dubrovnik old town walls Croatia aerial view" class="section-img" loading="lazy">
 
@@ -908,7 +1022,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card greece-card">
                 <h3>Choose Greece If…</h3>
@@ -943,7 +1057,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Greece or Croatia better for beaches?</h3>
@@ -996,6 +1110,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1004,5 +1119,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

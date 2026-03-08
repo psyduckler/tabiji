@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -487,7 +488,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -513,6 +585,30 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#architecture-and-iconic-sights">🏛️ Architecture & Iconic Sights</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#weather-and-beaches">🏖️ Weather & Beaches</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#nightlife-and-culture">🎵 Nightlife & Culture</a></li>
+            <li><a href="#safety-and-practical-tips">🛡️ Safety & Practical Tips</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 City Comparison — Southern Europe</div>
@@ -526,6 +622,26 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#architecture-and-iconic-sights">🏛️ Architecture & Iconic Sights</a></li>
+            <li><a href="#food-and-dining">🍽️ Food & Dining</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#weather-and-beaches">🏖️ Weather & Beaches</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#nightlife-and-culture">🎵 Nightlife & Culture</a></li>
+            <li><a href="#safety-and-practical-tips">🛡️ Safety & Practical Tips</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -541,7 +657,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Barcelona</strong> if you want iconic architecture (Gaudí's Sagrada Família and Park Güell), urban beaches within walking distance of the city center, world-class nightlife, and a buzzing cosmopolitan atmosphere. Barcelona is a full-package Mediterranean city that delivers on every front — at a price.</p>
         <p><strong>Visit Lisbon</strong> if you want authentic European charm without the tourist saturation, 30–40% lower prices, melancholic fado music drifting from Alfama's hilltop bars, and easier access to Sintra's fairytale palaces. Lisbon feels like Barcelona did before mass tourism arrived — genuine, warm, and surprising.</p>
         <p><strong>Reddit's verdict:</strong> Lisbon consistently wins for authenticity, value, and the feeling of "discovering" somewhere real. Barcelona wins for beaches, Gaudí, and scale. The best trip? <strong>Do both</strong> — they're 2 hours apart by plane, and together they make one of Europe's greatest city-pair itineraries.</p>
@@ -549,7 +665,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -640,7 +756,7 @@
 
     <!-- 1. ARCHITECTURE & SIGHTS -->
     <section class="deep-dive">
-        <h2>🏛️ Architecture & Iconic Sights</h2>
+        <h2 id="architecture-and-iconic-sights">🏛️ Architecture & Iconic Sights</h2>
         <p>This is where Barcelona's knockout punch lands. No city in the world has architecture quite like Antoni Gaudí's Barcelona — a series of UNESCO-listed buildings so strange, so organic, and so beautiful that they've become the defining reason millions of people visit Spain each year.</p>
 
         <h3>Barcelona's architectural giants</h3>
@@ -669,7 +785,7 @@
 
     <!-- 2. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍽️ Food & Dining</h2>
+        <h2 id="food-and-dining">🍽️ Food & Dining</h2>
 
         <h3>Barcelona: Catalan cuisine and world-class range</h3>
         <p>Barcelona's food scene is one of the best in Europe — and not just at the high end. The city has genuine depth at every level: <strong>La Boqueria market</strong> (get there before 10am to avoid tourist crowds; best stalls are deeper in the market, not at the entrance), <strong>El Born neighborhood</strong> for excellent tapas bars at reasonable prices (€1.50–2.50 per tapa), <strong>Barceloneta</strong> for seafood and paella (be careful — many tourist traps on the waterfront, but the back streets have excellent local spots). The menú del día is your best value tool — most restaurants offer a 3-course lunch with wine for €12–16 Monday through Friday. Avoid Las Ramblas restaurants entirely. The Gràcia neighborhood has the best balance of quality, authenticity, and price.</p>
@@ -696,7 +812,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Both cities use euros and are accessible for European travelers, but Lisbon is meaningfully cheaper across every category. Here's a detailed 2026 breakdown:</p>
 
         <table class="cost-table">
@@ -785,7 +901,7 @@
 
     <!-- 4. WEATHER & BEACHES -->
     <section class="deep-dive">
-        <h2>🏖️ Weather & Beaches</h2>
+        <h2 id="weather-and-beaches">🏖️ Weather & Beaches</h2>
         <p>Both cities enjoy exceptional Mediterranean (Barcelona) and Atlantic (Lisbon) climates — among the best in Europe for year-round sunshine. Here's real Open-Meteo data for 2024:</p>
 
         <div class="weather-grid">
@@ -854,7 +970,7 @@
 
     <!-- 5. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚇 Getting Around</h2>
+        <h2 id="getting-around">🚇 Getting Around</h2>
 
         <h3>Barcelona: Excellent metro, but everything costs</h3>
         <p>Barcelona's metro has 11 lines and covers the city efficiently. A single ticket costs €2.55, but the T-Casual card (10 trips, €12.45, valid on metro, buses, and suburban trains) is better value. The TMB app handles routing and ticket purchase. Most major attractions are walkable from central neighborhoods (Gothic Quarter, Eixample, Born). The L2 and L3 lines are most useful for tourists. Airport: Metro L9 Sud to the city center costs €5.90 and takes 35 min; the Aerobús express bus is faster (35 min, €5.90 single/€10.20 return) and more comfortable.</p>
@@ -874,7 +990,7 @@
 
     <!-- 6. DAY TRIPS -->
     <section class="deep-dive">
-        <h2>🎒 Day Trips</h2>
+        <h2 id="day-trips">🎒 Day Trips</h2>
 
         <img src="https://img.tabiji.ai/compare/barcelona-vs-lisbon/lisbon-alfama-tram.jpg?v=1" alt="Lisbon's Alfama district — the city's oldest and most characterful neighborhood" class="section-img" loading="lazy">
 
@@ -902,7 +1018,7 @@
 
     <!-- 7. NIGHTLIFE & CULTURE -->
     <section class="deep-dive">
-        <h2>🎵 Nightlife & Culture</h2>
+        <h2 id="nightlife-and-culture">🎵 Nightlife & Culture</h2>
 
         <h3>Barcelona: The Mediterranean party capital</h3>
         <p>Barcelona's nightlife is arguably the best in Southern Europe. The city operates on Spanish late-night schedules: dinner at 9–10pm, drinks at midnight, clubs at 2am, sleep at 6am. The main scenes: <strong>Gràcia</strong> for neighborhood bars and a local vibe, <strong>Barceloneta</strong> for beach clubs and tourist-friendly party zones, <strong>El Born</strong> for craft cocktails and hip wine bars, and the <strong>Eixample</strong> for the Gayxample neighborhood (one of Europe's best LGBTQ+ scenes). Major clubs: Razzmatazz (5 rooms, different music, very good), Pacha Barcelona (beach location, international DJs), Sala Apolo (smaller, great indie/electronic). Club entry runs €15–25; drinks €10–15. The beach chiringuito (beach bar) scene in summer is magnificent for afternoon-into-evening parties.</p>
@@ -922,7 +1038,7 @@
 
     <!-- 8. SAFETY & PRACTICAL TIPS -->
     <section class="deep-dive">
-        <h2>🛡️ Safety & Practical Tips</h2>
+        <h2 id="safety-and-practical-tips">🛡️ Safety & Practical Tips</h2>
 
         <h3>Barcelona: Pickpocket capital of Europe</h3>
         <p>Barcelona consistently ranks as one of Europe's worst cities for pickpocketing. The hot spots: Las Ramblas (avoid keeping anything in pockets here), La Boqueria market (bag-snatching at the entrance), Barceloneta beach (phone theft while swimming), and the Gothic Quarter metro stations. Essential safety measures: use anti-theft bags or neck pouches, carry a cheap day-use phone and leave your real one at the hotel, never put your phone on a restaurant table outdoors, and be extremely skeptical of "distractions" — a common tactic is one person bumping into you while another takes your bag. That said, violent crime is very rare — pickpockets are professionals, not violent criminals.</p>
@@ -986,7 +1102,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card card-a">
                 <h3>Choose Barcelona If…</h3>
@@ -1021,7 +1137,7 @@
 
     <!-- WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Why Not Both?</h2>
+        <h2 id="why-not-both">🔀 Why Not Both?</h2>
         <p>Barcelona and Lisbon are 2 hours apart by plane (flights from €30–80 if booked in advance), making them one of Europe's great city-pair combinations. Here's how to structure a trip that includes both:</p>
 
         <h3>Suggested itineraries</h3>
@@ -1043,7 +1159,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Barcelona or Lisbon better to visit?</h3>
@@ -1096,6 +1212,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1104,5 +1221,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

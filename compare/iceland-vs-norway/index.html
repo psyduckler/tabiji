@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -487,7 +488,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -513,6 +585,30 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#landscapes-and-nature">🌋 Landscapes & Nature</a></li>
+            <li><a href="#northern-lights">🌌 Northern Lights</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚗 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">🌤️ Best Time to Visit</a></li>
+            <li><a href="#food-and-drink">🍽️ Food & Drink</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#cities-and-culture">🏙️ Cities & Culture</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#practical-information">📋 Practical Information</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 Country Comparison — Northern Europe</div>
@@ -526,6 +622,26 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#landscapes-and-nature">🌋 Landscapes & Nature</a></li>
+            <li><a href="#northern-lights">🌌 Northern Lights</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚗 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">🌤️ Best Time to Visit</a></li>
+            <li><a href="#food-and-drink">🍽️ Food & Drink</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#cities-and-culture">🏙️ Cities & Culture</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#practical-information">📋 Practical Information</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -541,7 +657,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Iceland</strong> if you want a truly otherworldly experience — volcanic landscapes, geothermal hot springs, midnight sun, Northern Lights, and the sensation of being on another planet entirely. Iceland is a bucket-list destination unlike anywhere else on Earth.</p>
         <p><strong>Visit Norway</strong> if you want world-class fjords, charming cities like Bergen and Oslo, more diverse travel options, and a significantly more affordable trip. Norway offers a broader range of experiences — city life, hiking, fjord cruises, and Northern Lights — with better infrastructure and lower costs than Iceland.</p>
         <p><strong>Budget travelers:</strong> Norway wins decisively. Iceland is one of the most expensive countries in Europe — a week of mid-range travel easily hits $2,000–3,000 per person. Norway is also pricey but markedly cheaper, especially for accommodation and transport. Reddit consensus: <strong>Iceland for adventure seekers, Norway for better value and more variety</strong>.</p>
@@ -549,7 +665,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -640,7 +756,7 @@
 
     <!-- 1. LANDSCAPES & NATURE -->
     <section class="deep-dive">
-        <h2>🌋 Landscapes & Nature</h2>
+        <h2 id="landscapes-and-nature">🌋 Landscapes & Nature</h2>
         <p>This is the heart of the Iceland vs Norway debate. Both countries deliver some of Europe's most dramatic scenery, but in completely different ways.</p>
 
         <p><strong>Iceland</strong> is genuinely unlike anywhere else on Earth. The island sits atop the Mid-Atlantic Ridge, where the Eurasian and North American tectonic plates meet — meaning active volcanoes, geysers, lava fields, and geothermal activity are everywhere. The famous <strong>Golden Circle</strong> alone covers Þingvellir National Park (where you can snorkel between tectonic plates), Geysir (the namesake of all geysers), and Gullfoss waterfall. The South Coast is jaw-dropping: Seljalandsfoss and Skógafoss waterfalls, Reynisfjara black sand beach, and the glacier lagoons at Jökulsárlón. In winter, the landscape turns monochrome and haunting. In summer, it glows green under the midnight sun. Nowhere else combines glaciers, volcanoes, geysers, waterfalls, and Arctic tundra in such a small area.</p>
@@ -666,7 +782,7 @@
 
     <!-- 2. NORTHERN LIGHTS -->
     <section class="deep-dive">
-        <h2>🌌 Northern Lights</h2>
+        <h2 id="northern-lights">🌌 Northern Lights</h2>
         <p>Both Iceland and Norway are world-class Northern Lights destinations, which is one of the main reasons travelers choose between them in winter. Here's how they compare:</p>
 
         <h3>Iceland for Northern Lights</h3>
@@ -687,7 +803,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Iceland is expensive. Not "Northern Europe expensive" — more like "Switzerland expensive." Norway is also pricey, but Iceland consistently beats it for eye-watering costs. Here's a real 2026 budget breakdown:</p>
 
         <table class="cost-table">
@@ -766,7 +882,7 @@
 
     <!-- 4. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚗 Getting Around</h2>
+        <h2 id="getting-around">🚗 Getting Around</h2>
 
         <h3>Iceland: Car or bust</h3>
         <p>Iceland's most celebrated attractions — the Golden Circle, South Coast, Snæfellsnes Peninsula, Westfjords — are only accessible by car. The Ring Road (Route 1) encircles the entire island at 1,332km and can be driven in 7–10 days with stops. Reykjavik has decent bus service for city travel, but organized tours are the only option for those without a car — and they're expensive (Golden Circle tours start at 10,000 ISK/$72). Renting a basic 2WD car for the Ring Road is fine in summer; the highland F-roads require a proper 4WD and are only open June–September. <strong>Always check road conditions at road.is before driving.</strong> Weather can close roads without warning.</p>
@@ -786,7 +902,7 @@
 
     <!-- 5. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>🌤️ Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">🌤️ Best Time to Visit</h2>
         <p>Iceland and Norway have dramatically different seasonal experiences. Here's real climate data from Open-Meteo:</p>
 
         <div class="weather-grid">
@@ -856,7 +972,7 @@
 
     <!-- 6. FOOD & DRINK -->
     <section class="deep-dive">
-        <h2>🍽️ Food & Drink</h2>
+        <h2 id="food-and-drink">🍽️ Food & Drink</h2>
 
         <h3>Iceland's food scene</h3>
         <p>Icelandic cuisine is honest, ingredient-focused, and improving rapidly. Traditional dishes include <strong>skyr</strong> (a thick Icelandic dairy product, higher protein than Greek yogurt, excellent for breakfast), <strong>langoustine</strong> (Icelandic lobster, remarkably sweet and fresh), <strong>lamb</strong> (Icelandic sheep roam freely on volcanic hillsides and are truly exceptional quality), <strong>plokkfiskur</strong> (fish stew), and <strong>harðfiskur</strong> (dried fish with butter, an acquired taste). Reykjavik has a genuinely excellent restaurant scene — several places have received international recognition — but at savage prices. A main course in a mid-range Reykjavik restaurant runs 4,000–7,000 ISK ($29–51). The Bonus and Nettó supermarkets are your best friends for budget eating, but even groceries cost 30–50% more than mainland Europe.</p>
@@ -876,7 +992,7 @@
 
     <!-- 7. WHERE TO STAY -->
     <section class="deep-dive">
-        <h2>🏨 Where to Stay</h2>
+        <h2 id="where-to-stay">🏨 Where to Stay</h2>
 
         <img src="https://img.tabiji.ai/compare/iceland-vs-norway/iceland-blue-lagoon.jpg?v=1" alt="Iceland's Blue Lagoon geothermal spa — milky turquoise waters surrounded by lava fields" class="section-img" loading="lazy">
 
@@ -901,7 +1017,7 @@
 
     <!-- 8. CITIES & CULTURE -->
     <section class="deep-dive">
-        <h2>🏙️ Cities & Culture</h2>
+        <h2 id="cities-and-culture">🏙️ Cities & Culture</h2>
 
         <h3>Reykjavik, Iceland</h3>
         <p>With a population of just 130,000, Reykjavik is one of the world's smallest capitals — but it punches far above its weight. The city has an impressive arts scene, excellent restaurants and bars (the nightlife is legendary — Icelanders party hard on weekends), and a compact, walkable city center. Hallgrímskirkja church is the iconic landmark. The Harpa Concert Hall is one of Europe's most beautiful modern buildings. The Viking World Museum and Settlement Museum offer genuine archaeological depth. The Laugavegur bar strip comes alive on Friday and Saturday nights — bars fill at midnight and stay busy until 5am. <strong>Bonus:</strong> Reykjavik is only 30 minutes from the Blue Lagoon and 2 hours from most Golden Circle attractions.</p>
@@ -916,7 +1032,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card card-a">
                 <h3>Choose Iceland If…</h3>
@@ -951,7 +1067,7 @@
 
     <!-- PRACTICAL INFO -->
     <section class="deep-dive">
-        <h2>📋 Practical Information</h2>
+        <h2 id="practical-information">📋 Practical Information</h2>
 
         <h3>Country basics</h3>
         <table class="cost-table">
@@ -1013,7 +1129,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Iceland or Norway better to visit?</h3>
@@ -1066,6 +1182,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1074,5 +1191,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

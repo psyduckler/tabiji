@@ -229,7 +229,8 @@
         .hero-meta strong { color: var(--indigo); }
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
         /* TL;DR VERDICT */
         .verdict-box {
@@ -463,7 +464,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -489,6 +561,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 City Comparison — Japan</div>
@@ -502,6 +597,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#why-not-both">🔀 Why Not Both?</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -517,7 +631,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Tokyo</strong> if you want non-stop energy, world-class food diversity, cutting-edge pop culture, and the best public transit system on Earth.</p>
         <p><strong>Visit Kyoto</strong> if you want 2,000+ temples, traditional Japanese culture, bamboo groves, and a slower, more contemplative pace.</p>
         <p><strong>First-timers to Japan: do both</strong> — they're just 2 hours 15 minutes apart by Shinkansen (¥13,320 / ~$89). If you can only pick one city for 5 days, Reddit overwhelmingly says <strong>Kyoto for culture lovers, Tokyo for city lovers</strong>.</p>
@@ -525,7 +639,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -604,7 +718,7 @@
 
     <!-- 1. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍜 Food & Dining</h2>
+        <h2 id="food-and-dining">🍜 Food & Dining</h2>
         <p>Tokyo holds the world record for the most Michelin-starred restaurants — over 200 at last count — and that's just the tip of the iceberg. From ¥400 gyudon bowls at Yoshinoya to ¥50,000 omakase counters, the city's food scene is staggeringly deep. Every regional Japanese cuisine is represented, plus world-class Italian, French, Chinese, Indian, and more. Areas like <a href="/popular-picks/shinjuku-cheap-restaurants/">Shinjuku</a> and <a href="/popular-picks/shibuya-ramen/">Shibuya</a> alone have thousands of restaurants competing for your stomach.</p>
         <p>Kyoto's food scene is more focused but equally remarkable. This is the home of kaiseki (multi-course seasonal cuisine), the best tofu in Japan, world-class matcha desserts, and an intimate izakaya culture you won't find in Tokyo's sprawl. Check our guides to <a href="/popular-picks/kyoto-ramen/">Kyoto's ramen scene</a>, <a href="/popular-picks/kyoto-kaiseki/">kaiseki restaurants</a>, <a href="/popular-picks/kyoto-matcha-desserts/">matcha desserts</a>, and <a href="/popular-picks/kyoto-sake-bars/">sake bars</a>. Nishiki Market alone is worth a half-day of grazing.</p>
 
@@ -623,7 +737,7 @@
 
     <!-- 2. TEMPLES & CULTURE -->
     <section class="deep-dive">
-        <h2>⛩️ Temples, Shrines & Culture</h2>
+        <h2 id="temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</h2>
 
         <img src="https://img.tabiji.ai/compare/tokyo-vs-kyoto/kyoto-arashiyama.jpg" alt="Arashiyama Bamboo Grove in Kyoto" class="section-img" loading="lazy">
 
@@ -654,7 +768,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Both cities are surprisingly affordable for developed-world destinations, but Kyoto edges out as the cheaper option — especially for accommodation. Here's a detailed daily budget breakdown based on 2025/2026 real prices:</p>
 
         <table class="cost-table">
@@ -723,7 +837,7 @@
 
     <!-- 4. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚃 Getting Around</h2>
+        <h2 id="getting-around">🚃 Getting Around</h2>
         <p>Tokyo's metro system is, frankly, one of the best things humans have ever built. Thirteen subway lines plus JR lines, private railways, and the monorail cover virtually every corner of the city. Trains run every 2–5 minutes, are clean, punctual to the second, and well-signed in English. A Suica/Pasmo IC card is all you need. Day pass: ¥600 (Tokyo Metro) or ¥900 (including Toei lines). Google Maps handles routing perfectly.</p>
         <p>Kyoto's transit is… fine. The city has two subway lines (Karasuma and Tozai), but most tourists rely on the bus system, which covers the spread-out temple districts. Buses cost a flat ¥230 per ride, with a ¥700 day pass. The problem: buses get <em>packed</em> during peak season, routes can be confusing, and traffic slows everything down. You'll spend noticeably more time waiting and traveling in Kyoto. Many experienced travelers recommend renting a bicycle in Kyoto — the city is flat and cycling is genuinely the fastest way between many attractions.</p>
 
@@ -739,7 +853,7 @@
 
     <!-- 5. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>🌸 Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
         <p>Both cities share similar weather patterns, but Kyoto's inland basin location makes its summers hotter and more humid, and its winters slightly colder. Here's real 2024 weather data from Open-Meteo:</p>
 
         <div class="weather-grid">
@@ -810,7 +924,7 @@
 
     <!-- 6. WHERE TO STAY -->
     <section class="deep-dive">
-        <h2>🏨 Where to Stay</h2>
+        <h2 id="where-to-stay">🏨 Where to Stay</h2>
 
         <h3>Tokyo neighborhoods</h3>
         <p><strong>Shinjuku</strong> — The most popular base for tourists. Massive station hub, Golden Gai, Kabukicho, department stores, parks. Great metro access everywhere. Budget to luxury options.</p>
@@ -834,7 +948,7 @@
 
     <!-- 7. DAY TRIPS -->
     <section class="deep-dive">
-        <h2>🎒 Day Trips</h2>
+        <h2 id="day-trips">🎒 Day Trips</h2>
         <p>Both cities are excellent bases for day trips, but Kyoto arguably unlocks more of Japan's bucket-list destinations within easy reach.</p>
 
         <h3>From Tokyo</h3>
@@ -861,7 +975,7 @@
 
     <!-- 8. WHY NOT BOTH -->
     <section class="deep-dive">
-        <h2>🔀 Why Not Both?</h2>
+        <h2 id="why-not-both">🔀 Why Not Both?</h2>
 
         <img src="https://img.tabiji.ai/compare/tokyo-vs-kyoto/tokyo-golden-gai.jpg" alt="Golden Gai in Shinjuku, Tokyo — tiny bars packed into narrow alleys" class="section-img" loading="lazy">
 
@@ -891,7 +1005,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card tokyo-card">
                 <h3>Choose Tokyo If…</h3>
@@ -926,7 +1040,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Tokyo or Kyoto better for first-time visitors to Japan?</h3>
@@ -974,6 +1088,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -982,5 +1097,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

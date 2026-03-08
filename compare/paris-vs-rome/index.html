@@ -255,7 +255,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -505,7 +506,78 @@
             .decision-grid { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -531,6 +603,32 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#practical-travel-info">🗂️ Practical Travel Info</a></li>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining-croissants-vs-carbonara">🍕 Food & Dining: Croissants vs Carbonara</a></li>
+            <li><a href="#history-museums-and-iconic-sights">🏛️ History, Museums & Iconic Sights</a></li>
+            <li><a href="#real-cost-comparison">💰 Real Cost Comparison</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#weather-and-best-time-to-visit">🌤️ Weather & Best Time to Visit</a></li>
+            <li><a href="#where-to-stay-neighborhood-guide">🏨 Where to Stay: Neighborhood Guide</a></li>
+            <li><a href="#day-trips-and-beyond">🎒 Day Trips & Beyond</a></li>
+            <li><a href="#cultural-etiquette-and-language">🤝 Cultural Etiquette & Language</a></li>
+            <li><a href="#safety-scams-and-staying-smart">🔒 Safety, Scams & Staying Smart</a></li>
+            <li><a href="#why-not-both-combining-paris-and-rome">✈️ Why Not Both? Combining Paris & Rome</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 City Comparison — Europe</div>
@@ -544,6 +642,28 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#practical-travel-info">🗂️ Practical Travel Info</a></li>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining-croissants-vs-carbonara">🍕 Food & Dining: Croissants vs Carbonara</a></li>
+            <li><a href="#history-museums-and-iconic-sights">🏛️ History, Museums & Iconic Sights</a></li>
+            <li><a href="#real-cost-comparison">💰 Real Cost Comparison</a></li>
+            <li><a href="#getting-around">🚇 Getting Around</a></li>
+            <li><a href="#weather-and-best-time-to-visit">🌤️ Weather & Best Time to Visit</a></li>
+            <li><a href="#where-to-stay-neighborhood-guide">🏨 Where to Stay: Neighborhood Guide</a></li>
+            <li><a href="#day-trips-and-beyond">🎒 Day Trips & Beyond</a></li>
+            <li><a href="#cultural-etiquette-and-language">🤝 Cultural Etiquette & Language</a></li>
+            <li><a href="#safety-scams-and-staying-smart">🔒 Safety, Scams & Staying Smart</a></li>
+            <li><a href="#why-not-both-combining-paris-and-rome">✈️ Why Not Both? Combining Paris & Rome</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -559,7 +679,7 @@
 
     <!-- PRACTICAL INFO CARDS -->
     <div class="practical-cards-section" style="margin-bottom:3rem;">
-        <h2 style="font-size:1.5rem;font-weight:700;color:var(--indigo);margin-bottom:1.5rem;">🗂️ Practical Travel Info</h2>
+        <h2 id="practical-travel-info" style="font-size:1.5rem;font-weight:700;color:var(--indigo);margin-bottom:1.5rem;">🗂️ Practical Travel Info</h2>
         <div class="decision-grid">
             <div class="decision-card" style="border-color:var(--indigo);padding:1.5rem;">
                 <h3 style="color:var(--indigo);font-size:1.1rem;font-weight:700;margin-bottom:1rem;">🗼 Paris, France</h3>
@@ -596,7 +716,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Paris</strong> if you want the world's greatest museum (Louvre), an unmatched café and patisserie culture, the most romantic city atmosphere on Earth, and a city that's as much about the experience of being there as the specific sights.</p>
         <p><strong>Visit Rome</strong> if you want 2,000+ years of Western civilization at your feet — the Colosseum, Roman Forum, Vatican, Pantheon — combined with the world's most enthusiastic food culture (pasta al amatriciana, pizza al taglio, gelato at €1.50/scoop) at significantly lower prices.</p>
         <p><strong>Reddit's honest take:</strong> "Paris is more expensive and more beautiful. Rome is cheaper and more ancient. Neither will disappoint. If you're choosing for the first time and history is your thing, Rome. If you want the quintessential romantic European city experience, Paris."</p>
@@ -604,7 +724,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -695,7 +815,7 @@
 
     <!-- 1. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍕 Food & Dining: Croissants vs Carbonara</h2>
+        <h2 id="food-and-dining-croissants-vs-carbonara">🍕 Food & Dining: Croissants vs Carbonara</h2>
 
         <img src="https://img.tabiji.ai/compare/paris-vs-rome/food-rome-pasta.jpg?v=1" alt="Cacio e pepe pasta — Rome's iconic dish of pecorino, black pepper, and fresh pasta at a Roman trattoria" class="section-img" loading="lazy">
 
@@ -723,7 +843,7 @@
 
     <!-- 2. HISTORY & SIGHTS -->
     <section class="deep-dive">
-        <h2>🏛️ History, Museums & Iconic Sights</h2>
+        <h2 id="history-museums-and-iconic-sights">🏛️ History, Museums & Iconic Sights</h2>
 
         <img src="https://img.tabiji.ai/compare/paris-vs-rome/colosseum-arena-floor.jpg?v=1" alt="Colosseum arena floor view — looking down into the newly restored wooden arena of the Flavian Amphitheatre in Rome" class="section-img" loading="lazy">
 
@@ -751,7 +871,7 @@
 
     <!-- 3. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Real Cost Comparison</h2>
+        <h2 id="real-cost-comparison">💰 Real Cost Comparison</h2>
         <p>Paris is significantly more expensive than Rome — roughly 20–35% across most categories. This is one of the clearest differences between the two cities and heavily influences which one makes sense for your budget.</p>
 
         <table class="cost-table">
@@ -851,7 +971,7 @@
 
     <!-- 4. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚇 Getting Around</h2>
+        <h2 id="getting-around">🚇 Getting Around</h2>
         <p>Paris has one of Europe's finest metro systems — 16 lines, clean, frequent (every 2–5 minutes), easy to navigate with English signage. The RER suburban trains extend to Versailles, the airports, and beyond. Cycling infrastructure has improved dramatically in recent years with Vélib' bike-share stations everywhere. Buses and trams fill the gaps. Within central Paris, many tourists walk between arrondissements — the Marais to the Île de la Cité to Saint-Germain is 30 minutes on foot and one of the great urban walks.</p>
         <p>Rome has only two main metro lines (A and B, crossing at Termini station) that cover the most important areas but miss many neighborhoods. Buses and trams do the heavy lifting, and they're less predictable. The real secret: <strong>Rome's historic center is extremely compact and walkable</strong>. The Colosseum to the Pantheon to Campo de' Fiori to Trastevere can be done in a single wandering afternoon on foot. Cobblestones are hard on rolling suitcases — pack accordingly. Traffic in central Rome is chaotic; scooters are everywhere.</p>
 
@@ -867,7 +987,7 @@
 
     <!-- 5. WEATHER -->
     <section class="deep-dive">
-        <h2>🌤️ Weather & Best Time to Visit</h2>
+        <h2 id="weather-and-best-time-to-visit">🌤️ Weather & Best Time to Visit</h2>
         <p>Paris and Rome have very different climates — Paris is northern European oceanic (grey winters, warm summers, rain year-round), while Rome has a Mediterranean climate (hot dry summers, mild winters, most rain in fall and spring). This makes Rome the winner for comfort in most seasons.</p>
 
         <div class="weather-grid">
@@ -944,7 +1064,7 @@
 
     <!-- 6. WHERE TO STAY -->
     <section class="deep-dive">
-        <h2>🏨 Where to Stay: Neighborhood Guide</h2>
+        <h2 id="where-to-stay-neighborhood-guide">🏨 Where to Stay: Neighborhood Guide</h2>
 
         <h3>Paris neighborhoods</h3>
         <p><strong>Le Marais (3rd–4th arrondissement)</strong> — The most vibrant area in central Paris. LGBTQ+ friendly, Jewish Quarter with falafel on Rue des Rosiers, excellent galleries (Centre Pompidou), hip cafes, easy walking to the Louvre and Notre-Dame. Great for first-timers who want central and walkable.</p>
@@ -970,7 +1090,7 @@
 
     <!-- 7. DAY TRIPS -->
     <section class="deep-dive">
-        <h2>🎒 Day Trips & Beyond</h2>
+        <h2 id="day-trips-and-beyond">🎒 Day Trips & Beyond</h2>
 
         <img src="https://img.tabiji.ai/compare/paris-vs-rome/pompeii-ruins.jpg?v=1" alt="Pompeii ruins — the ancient Roman city's main street with cobblestones and columns, frozen in time by the eruption of Mount Vesuvius in 79 AD" class="section-img" loading="lazy">
 
@@ -1000,7 +1120,7 @@
 
     <!-- 8. CULTURAL ETIQUETTE & LANGUAGE -->
     <section class="deep-dive">
-        <h2>🤝 Cultural Etiquette & Language</h2>
+        <h2 id="cultural-etiquette-and-language">🤝 Cultural Etiquette & Language</h2>
 
         <img src="https://img.tabiji.ai/compare/paris-vs-rome/trastevere-neighborhood.jpg?v=1" alt="Trastevere neighborhood Rome — golden-hour light on ancient cobblestone streets and ochre buildings in Rome's most charming quarter" class="section-img" loading="lazy">
 
@@ -1028,7 +1148,7 @@
 
     <!-- 9. SAFETY & SCAMS -->
     <section class="deep-dive">
-        <h2>🔒 Safety, Scams & Staying Smart</h2>
+        <h2 id="safety-scams-and-staying-smart">🔒 Safety, Scams & Staying Smart</h2>
         <p>Both Paris and Rome are generally safe for tourists — comparable to any major European city. The primary risks are opportunistic theft, pickpocketing, and tourist-targeted scams, not violent crime. Being aware of the specific hotspots and tricks will save you significant stress.</p>
 
         <h3>Paris safety & scams</h3>
@@ -1059,7 +1179,7 @@
 
     <!-- 10. WHY NOT BOTH? -->
     <section class="deep-dive">
-        <h2>✈️ Why Not Both? Combining Paris &amp; Rome</h2>
+        <h2 id="why-not-both-combining-paris-and-rome">✈️ Why Not Both? Combining Paris &amp; Rome</h2>
         <p>The most common question after all this comparison: "Can I just do both?" Yes, and many first-time Europe visitors do exactly that — combining Paris and Rome in a single 10–14 day trip is one of the most classic European itineraries, and for good reason. Here's how to do it practically.</p>
 
         <h3>Getting between Paris and Rome</h3>
@@ -1099,7 +1219,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card paris-card">
                 <h3>Choose Paris If…</h3>
@@ -1134,7 +1254,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Is Paris or Rome better for first-time visitors to Europe?</h3>
@@ -1197,6 +1317,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1205,5 +1326,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>

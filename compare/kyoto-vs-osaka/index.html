@@ -239,7 +239,8 @@
 
         /* CONTENT */
         .content-wrapper {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem;
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem;
+            display: flex; gap: 3rem; align-items: flex-start;
         }
 
         /* TL;DR VERDICT */
@@ -511,7 +512,78 @@
             .transit-box { grid-template-columns: 1fr; }
             .weather-grid { font-size: 0.78rem; }
             .section-img { height: 200px; }
+            .content-wrapper { flex-direction: column; gap: 0; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        
         }
+        .toc-sidebar {
+            width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            padding-top: 7rem;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent;
+            line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta);
+            font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none;
+            position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown {
+            max-height: 60vh; overflow-y: auto;
+        }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600;
+            background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
@@ -537,6 +609,29 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏘️ Where to Stay</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#vibe-and-local-culture">🎭 Vibe & Local Culture</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-badge">🆚 City Comparison — Japan / Kansai</div>
@@ -550,6 +645,25 @@
 </section>
 
 <div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+            <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+            <li><a href="#quick-comparison">Quick Comparison</a></li>
+            <li><a href="#food-and-dining">🍜 Food & Dining</a></li>
+            <li><a href="#temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</a></li>
+            <li><a href="#getting-around">🚃 Getting Around</a></li>
+            <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+            <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+            <li><a href="#where-to-stay">🏘️ Where to Stay</a></li>
+            <li><a href="#day-trips">🎒 Day Trips</a></li>
+            <li><a href="#vibe-and-local-culture">🎭 Vibe & Local Culture</a></li>
+            <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+            <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+
 
     <!-- PHOTO GRID -->
     <div class="photo-grid">
@@ -565,7 +679,7 @@
 
     <!-- TL;DR VERDICT -->
     <div class="verdict-box">
-        <h2>⚡ The TL;DR Verdict</h2>
+        <h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2>
         <p><strong>Visit Kyoto</strong> if you want ancient Japan at its most beautiful — 17 UNESCO World Heritage Sites, 2,000+ temples and shrines, bamboo groves, geisha districts, and the most photogenic streets in the country.</p>
         <p><strong>Visit Osaka</strong> if you want the most fun, food-obsessed, and affordable city in Japan — where locals greet each other with <em>mōkarimakka</em> ("are you making money?"), takoyaki is a way of life, and the nightlife runs until 4am.</p>
         <p><strong>The real answer:</strong> They're only 30 minutes apart by local train. You don't have to choose. Reddit's near-unanimous advice: <strong>stay in Osaka, day-trip to Kyoto</strong> — you get the best of both cities without paying Kyoto's premium accommodation prices or missing Osaka's legendary nightlife.</p>
@@ -573,7 +687,7 @@
 
     <!-- QUICK COMPARISON TABLE -->
     <div class="comparison-section">
-        <h2>Quick Comparison</h2>
+        <h2 id="quick-comparison">Quick Comparison</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -652,7 +766,7 @@
 
     <!-- 1. FOOD & DINING -->
     <section class="deep-dive">
-        <h2>🍜 Food & Dining</h2>
+        <h2 id="food-and-dining">🍜 Food & Dining</h2>
         <p>Osaka is Japan's undisputed street food capital, and possibly one of the great food cities on Earth. The Osakan philosophy of <em>kuidaore</em> — "eat yourself to ruin" — runs deep. Dotonbori is the epicenter: takoyaki (octopus balls) sizzling in cast-iron molds, okonomiyaki (savory pancakes) topped with bonito flakes that flutter in the steam, kushikatsu (deep-fried skewers) dipped in communal sauce (no double-dipping — a sacred Osaka law), and plates of buttery doteyaki beef tendon stew. Street food here costs ¥200–500 per item. You can eat extraordinarily well for ¥1,500–2,000 at a standing counter.</p>
         <p>Kyoto's food scene is more refined and more expensive — but equally worth it. This is the home of kaiseki (multi-course seasonal cuisine), Japan's highest culinary art form. A kaiseki lunch at a mid-range restaurant runs ¥3,000–6,000; dinner can reach ¥20,000+. The tofu cuisine here (yudofu — simmered tofu eaten with dipping sauce) is a product of the city's Buddhist temple culture. Nishiki Market — the "Kitchen of Kyoto," a narrow covered arcade with 400+ food stalls — is worth two hours of dedicated eating. Matcha desserts in Kyoto are the best in Japan; even a simple matcha soft serve from a stall near Fushimi Inari costs just ¥400 and will ruin all other ice cream forever.</p>
 
@@ -672,7 +786,7 @@
 
     <!-- 2. TEMPLES, SHRINES & CULTURE -->
     <section class="deep-dive">
-        <h2>⛩️ Temples, Shrines & Culture</h2>
+        <h2 id="temples-shrines-and-culture">⛩️ Temples, Shrines & Culture</h2>
 
         <img src="https://img.tabiji.ai/compare/kyoto-vs-osaka/osaka-castle.jpg?v=1" alt="Osaka Castle surrounded by cherry blossom trees in spring" class="section-img" loading="lazy">
 
@@ -699,7 +813,7 @@
 
     <!-- 3. GETTING AROUND -->
     <section class="deep-dive">
-        <h2>🚃 Getting Around</h2>
+        <h2 id="getting-around">🚃 Getting Around</h2>
         <p>Transit is one of the clearest wins for Osaka. The city has an excellent 8-line subway system plus the JR Loop Line that circles the city — comprehensive coverage, easy-to-understand maps in English, and frequent trains. A single ride costs ¥180–380. The Osaka Amazing Pass (¥2,200/day or ¥3,000/2 days) covers unlimited subway travel plus free entry to 40 attractions including Osaka Castle and the Umeda Sky Building — extraordinary value.</p>
         <p>Kyoto's transit is more complicated. The city has just two subway lines (Karasuma running north-south, Tozai running east-west) that don't reach most of the major temples. Visitors rely heavily on the bus system — flat rate ¥260/ride, ¥700/day pass — which covers all the main sights but gets extremely crowded. Buses can be slow due to tourist foot traffic, especially around Arashiyama and Fushimi Inari. Many experienced Kyoto travelers recommend renting a bicycle (¥800–1,500/day) — the city is relatively flat and cycling is genuinely the fastest way between eastern temple clusters. Kyoto Sightseeing Card (¥1,800/day) covers unlimited subway and bus travel.</p>
 
@@ -740,7 +854,7 @@
 
     <!-- 4. COST COMPARISON -->
     <section class="deep-dive">
-        <h2>💰 Cost Comparison</h2>
+        <h2 id="cost-comparison">💰 Cost Comparison</h2>
         <p>Osaka is noticeably cheaper than Kyoto, especially for accommodation. Kyoto's status as a top-tier tourist destination drives up hotel prices, and the hotel tax (¥200–10,000/night depending on room price, increasing from March 2026) adds up on longer stays. Temple entry fees (¥500–1,000 per major temple) are another Kyoto-specific cost — visiting 3–4 temples a day can add ¥2,000–4,000 to your budget. Osaka's main attractions cost little or are free-with-pass.</p>
 
         <table class="cost-table">
@@ -809,7 +923,7 @@
 
     <!-- 5. BEST TIME TO VISIT -->
     <section class="deep-dive">
-        <h2>🌸 Best Time to Visit</h2>
+        <h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
         <p>Kyoto and Osaka share similar weather as neighboring Kansai cities, though Kyoto's landlocked basin location makes its summers slightly hotter and its winters slightly colder. Both cities shine brightest during cherry blossom season (late March–early April) and fall foliage (mid-November–early December). Here's real 2024 data from Open-Meteo:</p>
 
         <div class="weather-grid">
@@ -881,7 +995,7 @@
 
     <!-- 6. NEIGHBORHOODS -->
     <section class="deep-dive">
-        <h2>🏘️ Where to Stay</h2>
+        <h2 id="where-to-stay">🏘️ Where to Stay</h2>
 
         <h3>Kyoto neighborhoods</h3>
         <p><strong>Gion / Higashiyama:</strong> The postcard-perfect historic district. Hanamikoji Street, machiya townhouses, walking distance to Kiyomizudera and Yasaka Shrine. The most atmospheric place to stay in Japan — also the most expensive and limited on hotels. Book months ahead.</p>
@@ -907,7 +1021,7 @@
 
     <!-- 7. DAY TRIPS -->
     <section class="deep-dive">
-        <h2>🎒 Day Trips</h2>
+        <h2 id="day-trips">🎒 Day Trips</h2>
         <p>Both cities are superb bases for Kansai exploration. The excellent train network means most major Kansai destinations are within 30–60 minutes.</p>
 
         <h3>From Kyoto</h3>
@@ -929,7 +1043,7 @@
 
     <!-- 8. VIBE & LOCAL CULTURE -->
     <section class="deep-dive">
-        <h2>🎭 Vibe & Local Culture</h2>
+        <h2 id="vibe-and-local-culture">🎭 Vibe & Local Culture</h2>
         <p>Kyoto and Osaka have strikingly different civic personalities, and understanding this changes how you plan your trip. Kyoto people are famous throughout Japan for their refined politeness and the concept of <em>tatemae</em> (the "front" used to conceal actual feelings). The running joke is that a Kyoto person who offers you <em>bubuzuke</em> (rice-porridge soup) is actually telling you you've overstayed your welcome. The city's 1,000+ years as the imperial capital left a deep cultural formality. Streets are quieter at night; service industry workers are professionally warm but reserve; the city has an academic, contemplative atmosphere befitting Japan's second-most prestigious university.</p>
         <p>Osaka is, bluntly, the opposite. Osakans are nationally famous for being Japan's most outgoing, talkative, and food-obsessed people. The local greeting <em>mōkarimakka</em> ("making money?") reflects the city's centuries as Japan's merchant capital. Comedians, stand-up comedy (manzai), punchlines, and puns are cultural currency. Strangers will start conversations with you at ramen counters. The city wears its personality loudly.</p>
 
@@ -950,7 +1064,7 @@
 
     <!-- DECISION FRAMEWORK -->
     <section class="deep-dive">
-        <h2>🎯 The Decision Framework</h2>
+        <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
         <div class="decision-grid">
             <div class="decision-card kyoto-card">
                 <h3>Stay in Kyoto If…</h3>
@@ -985,7 +1099,7 @@
 
     <!-- FAQ -->
     <section class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
+        <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
 
         <div class="faq-item">
             <h3>Should I stay in Kyoto or Osaka?</h3>
@@ -1033,6 +1147,7 @@
         </div>
     </div>
 
+</div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 
 <footer>
@@ -1041,5 +1156,33 @@
 </footer>
 
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
+<script>
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>
