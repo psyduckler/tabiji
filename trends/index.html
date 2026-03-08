@@ -8,6 +8,51 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  color: var(--terracotta);
+  font-weight: 500;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 320px;
+  background-color: #3E2F23;
+  color: #fff;
+  text-align: left;
+  border-radius: 8px;
+  padding: 12px 16px;
+  position: absolute;
+  z-index: 1;
+  bottom: 140%;
+  left: 50%;
+  margin-left: -160px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #3E2F23 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--indigo:#2D3A5C;--indigo-light:#3D4E7A;--terracotta:#c4704b;--cream:#F5F0E8;--sand:#E8DFD0;--earth:#8B7355;--white:#FEFCF9;--text:#2C2419;--text-muted:#6B5D4F;--dark:#2C2419;--light-text:#6B5D4F;--green:#3a7d5c;--red:#c44b4b}
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
@@ -199,24 +244,11 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 
 <div class="header">
   <h1>📊 Popular Travel Destinations 2026</h1>
-  <p class="subtitle">Interest over the last 12 months · Updated <span id="updated"></span></p>
-</div>
-
-<div style="background: linear-gradient(135deg, #F5F0E8, #E8DFD0); border-radius: 12px; padding: 24px 28px; margin: 0 auto 24px; max-width: 900px; border-left: 4px solid #C4704B;">
-  <div style="font-weight: 700; color: #2D3A5C; font-size: 1rem; margin-bottom: 8px;">📊 How we analyzed trends</div>
-  <p style="margin: 0; color: #3E2F23; line-height: 1.7; font-size: 0.95rem;">
-    We track <strong>Google search interest</strong> for 158 popular travel destinations over the last 12 months using the Google Trends API. Each destination is scored 0–100 relative to its own peak popularity. The <strong>1-year change</strong> compares current interest to the same period last year — rising destinations are gaining search momentum, falling ones are cooling off. Data updates weekly.
+  <p class="subtitle">Interest over the last 12 months · Updated <span id="updated"></span> · 
+    <span class="tooltip">Our Methodology
+      <span class="tooltiptext">We track Google search interest for 158 popular travel destinations over the last 12 months using the Google Trends API. Each destination is scored 0–100 relative to its own peak popularity. The 1-year change compares current interest to the same period last year — rising destinations are gaining search momentum, falling ones are cooling off. Data updates weekly.</span>
+    </span>
   </p>
-</div>
-
-<div class="filters">
-  <input type="text" class="search-box" id="search" placeholder="Search destinations…">
-  <div class="chips" id="trend-filter">
-    <button class="chip active" data-filter="all">All</button>
-    <button class="chip" data-filter="rising">🔥 Rising</button>
-    <button class="chip" data-filter="falling">📉 Falling</button>
-    <button class="chip" data-filter="steady">➡️ Steady</button>
-  </div>
 </div>
 
 <div class="month-cards">
@@ -234,6 +266,16 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
     <a href="/best-places-to-visit-in-october/" class="month-card coming">🎃 October<span>Coming Soon</span></a>
     <a href="/best-places-to-visit-in-november/" class="month-card live">🍁 November<span>Read Guide →</span></a>
     <a href="/best-places-to-visit-in-december/" class="month-card coming">❄️ December<span>Coming Soon</span></a>
+  </div>
+</div>
+
+<div class="filters">
+  <input type="text" class="search-box" id="search" placeholder="Search destinations…">
+  <div class="chips" id="trend-filter">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="rising">🔥 Rising</button>
+    <button class="chip" data-filter="falling">📉 Falling</button>
+    <button class="chip" data-filter="steady">➡️ Steady</button>
   </div>
 </div>
 
