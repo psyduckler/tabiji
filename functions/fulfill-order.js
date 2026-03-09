@@ -3,6 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const generateSlug = require('./generate-slug');
 const generateItineraryHTML = require('./generate-itinerary-html');
+const addDayPhotos = require('./day-photos');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const LOCK_FILE = path.join(REPO_ROOT, '.fulfillment.lock');
@@ -233,6 +234,22 @@ function _doFulfill(order, itineraryData, _orderId) {
     } catch (err) {
       console.error('⚠️ Hero R2 upload failed (kept locally):', err.message);
     }
+  }
+
+  // Generate day photos — SerpAPI search for each day's best attraction (fast mode by default)
+  console.log('\n📷 Starting day photo generation...');
+  console.log(`📷 Data has ${(data.days || []).length} days, destination: "${data.destination || 'unknown'}"`);
+  try {
+    const dayPhotoResults = addDayPhotos(slug, data, { fast: true });
+    console.log(`📷 Day photos: ${dayPhotoResults.added} added, ${dayPhotoResults.skipped} skipped`);
+    if (dayPhotoResults.details) {
+      dayPhotoResults.details.forEach(d => {
+        console.log(`📷   Day ${d.day}: ${d.status}${d.attraction ? ' — ' + d.attraction : ''}${d.reason ? ' (' + d.reason + ')' : ''}`);
+      });
+    }
+  } catch (err) {
+    console.error('⚠️ Day photo generation failed (non-fatal):', err.message);
+    console.error('⚠️ Stack:', err.stack);
   }
 
   // Git commit and push

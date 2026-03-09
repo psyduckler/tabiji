@@ -304,12 +304,31 @@ function addDayPhotos(slug, itineraryData, opts = {}) {
 
   const results = { added: 0, skipped: 0, details: [] };
 
+  // Fallback: if days data is sparse, extract attractions from the HTML
+  const html = fs.readFileSync(htmlPath, 'utf8');
+  function extractAttractionsFromHTML(dayNum) {
+    // Match h3 headings within the day section
+    const dayRegex = new RegExp(`id="day-${dayNum}"[\\s\\S]*?(?=id="day-${dayNum + 1}"|<footer|$)`);
+    const section = html.match(dayRegex);
+    if (!section) return [];
+    const h3s = section[0].match(/<h3>(.*?)<\/h3>/g);
+    if (!h3s) return [];
+    return h3s.map(h => h.replace(/<[^>]+>/g, '').trim()).filter(h => h && !h.includes('undefined'));
+  }
+
   for (const day of days) {
     const dayNum = day.num;
     console.log(`\n📷 Day ${dayNum}: Finding photo...`);
 
-    // 1. Pick best attraction
-    const attraction = pickBestAttraction(day, destination);
+    // 1. Pick best attraction (fall back to HTML extraction if data is sparse)
+    let attraction = pickBestAttraction(day, destination);
+    if (!attraction) {
+      const htmlAttractions = extractAttractionsFromHTML(dayNum);
+      if (htmlAttractions.length > 0) {
+        attraction = htmlAttractions[0]; // Use first h3 from the day section
+        console.log(`  📄 Extracted from HTML: ${attraction}`);
+      }
+    }
     if (!attraction) {
       console.log(`  ⏭ No attractions found for day ${dayNum}, skipping`);
       results.skipped++;
