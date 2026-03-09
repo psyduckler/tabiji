@@ -288,7 +288,8 @@ function injectDayPhoto(htmlPath, dayNum, imgUrl, altText) {
  * @param {Object} itineraryData - Full itinerary data with days array
  * @returns {Object} { added: number, skipped: number, details: [] }
  */
-function addDayPhotos(slug, itineraryData) {
+function addDayPhotos(slug, itineraryData, opts = {}) {
+  const fastMode = opts.fast !== false; // Default: fast mode ON (skip vision scoring)
   const destination = itineraryData.destination || 'travel destination';
   const days = itineraryData.days || [];
   const htmlPath = path.join(REPO_ROOT, 'i', slug, 'index.html');
@@ -328,12 +329,14 @@ function addDayPhotos(slug, itineraryData) {
     }
     console.log(`  🔍 Found ${images.length} candidate images`);
 
-    // 3. Download candidates
+    // 3. Download candidates (fast mode: top 2 only, skip vision scoring)
+    const maxDownloads = fastMode ? 2 : images.length;
     const downloaded = [];
-    for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < Math.min(maxDownloads, images.length); i++) {
       const dlPath = path.join(tmpDir, `day${dayNum}-candidate-${i}.jpg`);
       if (downloadImage(images[i].url, dlPath)) {
         downloaded.push({ index: i, path: dlPath, url: images[i].url });
+        if (fastMode) break; // In fast mode, use first successful download
       }
     }
     if (downloaded.length === 0) {
@@ -344,16 +347,22 @@ function addDayPhotos(slug, itineraryData) {
     }
     console.log(`  ⬇️ Downloaded ${downloaded.length} photos`);
 
-    // 4. Vision score
-    const bestIdx = visionScore(downloaded.map(d => d.path), attraction, destination);
-    if (bestIdx === -1) {
-      console.log(`  ⏭ Vision scoring failed for day ${dayNum}, skipping`);
-      results.skipped++;
-      results.details.push({ day: dayNum, attraction, status: 'skipped', reason: 'vision scoring failed' });
-      continue;
+    // 4. Vision score (skipped in fast mode — SerpAPI ranking is good enough)
+    let winner;
+    if (fastMode) {
+      winner = downloaded[0];
+      console.log(`  ⚡ Fast mode: using top SerpAPI result`);
+    } else {
+      const bestIdx = visionScore(downloaded.map(d => d.path), attraction, destination);
+      if (bestIdx === -1) {
+        console.log(`  ⏭ Vision scoring failed for day ${dayNum}, skipping`);
+        results.skipped++;
+        results.details.push({ day: dayNum, attraction, status: 'skipped', reason: 'vision scoring failed' });
+        continue;
+      }
+      winner = downloaded.find(d => d.index === bestIdx) || downloaded[0];
+      console.log(`  🏆 Winner: candidate ${bestIdx + 1}`);
     }
-    const winner = downloaded.find(d => d.index === bestIdx) || downloaded[0];
-    console.log(`  🏆 Winner: candidate ${bestIdx + 1}`);
 
     // 5. Optimize
     const optimizedPath = path.join(tmpDir, `day${dayNum}-final.jpg`);
