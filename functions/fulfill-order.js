@@ -143,8 +143,8 @@ function _doFulfill(order, itineraryData, _orderId) {
   fs.writeFileSync(filePath, html, 'utf8');
 
   // Generate hero background image via nano-banana-pro (Gemini image gen)
-  const heroPathPng = path.join(dir, 'hero-bg.png');
-  const heroPath = heroPathPng; // generate as PNG, convert to JPEG below
+  // Generate directly as 1K JPEG — no PNG→JPEG conversion needed
+  const heroPath = path.join(dir, 'hero-bg.jpg');
   const destination = data.destination || 'a beautiful travel destination';
 
   // Derive season from travel dates for seasonal hero imagery
@@ -181,7 +181,7 @@ function _doFulfill(order, itineraryData, _orderId) {
   for (let attempt = 1; attempt <= HERO_MAX_RETRIES; attempt++) {
     try {
       execSync(
-        `uv run /Users/psy/.openclaw/workspace/skills/nano-banana-pro/scripts/generate_image.py --prompt "${heroPrompt.replace(/"/g, '\\"')}" --filename "${heroPath}" --resolution 2K --api-key "${apiKey}"`,
+        `uv run /Users/psy/.openclaw/workspace/skills/nano-banana-pro/scripts/generate_image.py --prompt "${heroPrompt.replace(/"/g, '\\"')}" --filename "${heroPath}" --resolution 1K --api-key "${apiKey}"`,
         { cwd: REPO_ROOT, stdio: 'pipe', timeout: 120000 }
       );
       console.log(`Hero image generated (attempt ${attempt}):`, heroPath);
@@ -196,29 +196,15 @@ function _doFulfill(order, itineraryData, _orderId) {
     }
   }
 
-  // Convert hero PNG → JPEG (quality 85) and remove the PNG to save space
-  const heroPathJpg = path.join(dir, 'hero-bg.jpg');
-  try {
-    if (fs.existsSync(heroPathPng)) {
-      execSync(`sips --setProperty format jpeg --setProperty formatOptions 85 "${heroPathPng}" --out "${heroPathJpg}"`, { stdio: 'pipe' });
-      fs.unlinkSync(heroPathPng);
-      console.log('✅ Hero converted to JPEG and PNG removed');
-    }
-  } catch (err) {
-    console.error('⚠️ Hero PNG→JPEG conversion failed (PNG kept):', err.message);
-  }
-
   // Upload hero image to Cloudflare R2 CDN and remove local copy
-  const heroLocalPath = fs.existsSync(heroPathJpg) ? heroPathJpg : (fs.existsSync(heroPathPng) ? heroPathPng : null);
+  const heroLocalPath = fs.existsSync(heroPath) ? heroPath : null;
   if (heroLocalPath) {
     try {
       const r2Token = execSync('security find-generic-password -s "cloudflare-pages-token" -w', { stdio: 'pipe' }).toString().trim();
       const r2Account = '9ce95ed3e1df4a7e1d2a401e116c3c6f';
-      const heroExt = heroLocalPath.endsWith('.jpg') ? 'jpg' : 'png';
-      const heroContentType = heroExt === 'jpg' ? 'image/jpeg' : 'image/png';
-      const r2Key = `i/${slug}/hero-bg.${heroExt}`;
+      const r2Key = `i/${slug}/hero-bg.jpg`;
       execSync(
-        `curl -s -X PUT -H "Authorization: Bearer ${r2Token}" -H "Content-Type: ${heroContentType}" --data-binary @"${heroLocalPath}" "https://api.cloudflare.com/client/v4/accounts/${r2Account}/r2/buckets/tabiji-media/objects/${r2Key}"`,
+        `curl -s -X PUT -H "Authorization: Bearer ${r2Token}" -H "Content-Type: image/jpeg" --data-binary @"${heroLocalPath}" "https://api.cloudflare.com/client/v4/accounts/${r2Account}/r2/buckets/tabiji-media/objects/${r2Key}"`,
         { stdio: 'pipe', timeout: 60000 }
       );
       fs.unlinkSync(heroLocalPath);
