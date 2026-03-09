@@ -75,27 +75,48 @@ function fulfillOrder(order, itineraryData) {
   acquireLock(_orderId);
 
   // --- Claim check: prevent duplicate fulfillment of same order ---
+  // Check BOTH pending.json AND fulfilled.json — an order that was already
+  // fulfilled and moved to fulfilled.json won't appear in pending anymore,
+  // so a late-starting sub-agent would skip the check entirely.
   try {
+    // 1. Check fulfilled.json first — if order already there, hard abort
+    try {
+      const fulfilled = JSON.parse(fs.readFileSync(FULFILLED_FILE, 'utf8'));
+      const alreadyDone = fulfilled.find(o => (o.id || o.orderId) === _orderId);
+      if (alreadyDone) {
+        releaseLock();
+        throw new Error(`Order ${_orderId} was already fulfilled (slug: ${alreadyDone.slug}, at: ${alreadyDone.fulfilledAt}). Aborting to prevent duplicate email.`);
+      }
+    } catch (fulfilledErr) {
+      if (fulfilledErr.message.includes('already fulfilled')) throw fulfilledErr;
+      // fulfilled.json might not exist yet — that's fine, continue
+    }
+
+    // 2. Check pending.json for status
     const pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8'));
     const match = pending.find(o => (o.id || o.orderId) === _orderId);
     if (match && match.status === 'in-progress') {
       releaseLock();
-      throw new Error(`Order ${_orderId} is already being fulfilled (status: in-progress). Aborting to prevent duplicate.`);
+      throw new Error(`Order ${_orderId} is already being fulfilled (status: in-progress, claimed by pid ${match.claimedBy} at ${match.claimedAt}). Aborting to prevent duplicate.`);
     }
     if (match && match.status === 'fulfilled') {
       releaseLock();
       throw new Error(`Order ${_orderId} is already fulfilled (slug: ${match.slug}). Aborting.`);
     }
-    // Claim it — atomic write to avoid race conditions
-    if (match) {
-      match.status = 'in-progress';
-      match.claimedAt = new Date().toISOString();
-      match.claimedBy = process.pid;
-      atomicWrite(PENDING_FILE, pending);
-      console.log(`✅ Claimed order ${_orderId} (pid ${process.pid}, status → in-progress)`);
+    if (!match) {
+      // Order not in pending.json — it was likely already fulfilled and moved out.
+      // This is NOT a warning, it's a hard stop.
+      releaseLock();
+      throw new Error(`Order ${_orderId} not found in pending.json — likely already fulfilled and moved to fulfilled.json. Aborting to prevent duplicate.`);
     }
+    // Claim it — atomic write to avoid race conditions
+    match.status = 'in-progress';
+    match.claimedAt = new Date().toISOString();
+    match.claimedBy = process.pid;
+    atomicWrite(PENDING_FILE, pending);
+    console.log(`✅ Claimed order ${_orderId} (pid ${process.pid}, status → in-progress)`);
   } catch (err) {
-    if (err.message.includes('already')) { releaseLock(); throw err; }
+    if (err.message.includes('already') || err.message.includes('not found in pending')) { releaseLock(); throw err; }
     console.warn('Could not check/claim order in pending.json:', err.message);
   }
 
