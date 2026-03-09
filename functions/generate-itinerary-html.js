@@ -55,8 +55,8 @@ function generateItineraryHTML(data) {
         inner += `            <div class="meal-card">
                 <div class="meal-type">${esc(meal.type)}</div>
                 <div class="meal-name">${esc(meal.name)}</div>
-                <div class="meal-desc">${meal.description}</div>
-                <div class="meal-meta">${meal.meta}</div>
+                ${(meal.description && meal.description !== 'undefined') ? `<div class="meal-desc">${meal.description}</div>` : ''}
+                ${(meal.meta && meal.meta !== 'undefined') ? `<div class="meal-meta">${meal.meta}</div>` : ''}
             </div>\n`;
       });
 
@@ -85,7 +85,7 @@ function generateItineraryHTML(data) {
             <span class="day-neighborhoods">${esc(day.neighborhoods)}</span>
         </div>
         <h2>${esc(day.title)}</h2>
-        ${day.description ? `<p style="color:var(--text-muted);margin-bottom:2rem;">${day.description}</p>` : ''}
+        ${(day.description && day.description !== 'undefined') ? `<p style="color:var(--text-muted);margin-bottom:2rem;">${day.description}</p>` : ''}
 
 ${timeBlocksHTML}
 
