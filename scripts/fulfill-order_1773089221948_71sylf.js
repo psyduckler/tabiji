@@ -245,3 +245,76 @@ const itineraryData = {
         { lat: 35.2379, lng: 139.0651, label: 'Gora Area', num: 6, cat: 'attraction', desc: 'Mountain town with ryokan and onsen' }
       ]
     },
+    {
+      num: 6, date: '2026-05-02',
+      neighborhoods: 'Koganei · Kichijoji · Haneda',
+      title: 'Ghibli Dreams, Edo Architecture & Farewell Flight',
+      description: "Your final day weaves two hidden gems before catching your evening flight. The Edo-Tokyo Open Air Architectural Museum — a Ghibli inspiration — and the Ghibli Museum in Mitaka, then a smooth transit to Haneda for your 19:40 departure. A fitting farewell to a country that prizes both preservation and imagination.",
+      timeBlocks: [
+        {
+          label: 'Morning',
+          activities: [
+            { title: 'Edo-Tokyo Open Air Architectural Museum', description: "This open-air museum in Koganei Park preserves 30 historic buildings from the Edo to Showa periods — relocated and restored. Miyazaki Hayao drew direct inspiration from its buildings for Spirited Away (the bathhouse, the mysterious town). Walk through a recreated Showa-era shopping street, a Meiji-era farmhouse, and a grand Western-style residence.", details: ['400 yen · Open 9:30am-5:30pm · Closed Mon (May 2 = Sat, open)', 'Musashi-Koganei Station (JR Chuo Line from Shinjuku, 30 min) → bus 5 min', 'The Showa-era shopping street directly inspired Spirited Away', 'The De Lalande House has a cafe serving tea in a restored Western interior', 'Allow 1.5-2 hours · Mostly outdoors'] }
+          ],
+          meals: [
+            { type: 'Brunch', name: 'Musashino Udon at the Museum', description: "The museum's cafe serves handmade musashino udon — thick wheat noodles in dashi broth. Ask for the kombu-dashi (kelp-only) version for vegetarian. Simple, filling, and traditional.", meta: '800-1,200 yen · Inside museum grounds' }
+          ]
+        },
+        {
+          label: 'Afternoon',
+          activities: [
+            { title: 'Ghibli Museum — Mitaka', description: "A short train ride to Mitaka for the magical Ghibli Museum designed by Miyazaki himself. The building is a work of art — spiral staircases, stained glass, a rooftop garden with a life-size Robot Soldier from Laputa. Inside: original animation cels, a mini-cinema with exclusive short films, and the Cat Bus room. Tickets MUST be pre-purchased online months ahead.", details: ['1,000 yen · TICKETS MUST BE PRE-BOOKED (sell out months ahead, especially Golden Week)', 'Mitaka Station (JR Chuo Line) → walk 15 min through Inokashira Park or take shuttle bus', 'Timed entry slots: book the earliest available', 'No photos inside the museum (exterior and rooftop OK)', 'Allow 1.5-2 hours · The rooftop garden with Robot Soldier is a must'] },
+            { title: 'Inokashira Park Stroll', description: "The walk from Mitaka Station to the Ghibli Museum passes through Inokashira Park — a serene lakeside park with swan boats, ancient trees, and a small shrine on an island. In late spring, the greenery is lush and peaceful.", details: ['Free · Always open', 'The lake path is a 15 min gentle walk to/from Ghibli Museum', 'Swan boat rental 700 yen/30 min if you have time'] }
+          ],
+          meals: [
+            { type: 'Lunch', name: 'Straw Hat Cafe (Ghibli Museum)', description: "The museum's rooftop cafe serves simple, wholesome meals inspired by the food in Ghibli films. Hot dogs, sandwiches, and seasonal desserts. Vegetarian options vary — check the daily menu.", meta: '800-1,500 yen · Inside museum · Limited veggie options' }
+          ],
+          tips: [
+            { type: 'tip', text: "CRITICAL: Ghibli Museum tickets sell out months in advance, especially during Golden Week. Check the official Ghibli Museum website the moment tickets for May 2026 go on sale (usually 3 months ahead). If sold out, the Edo-Tokyo Open Air Museum alone is worth the morning — it's the actual Spirited Away inspiration." },
+            { type: 'tip', text: "Timing for Haneda: Your flight is 19:40. Leave Mitaka/Kichijoji by 4pm at the latest. JR Chuo to Shinagawa (40 min), then Keikyu to Haneda (18 min). Arrive airport by 5pm for 2+ hour buffer." }
+          ]
+        },
+        {
+          label: 'Evening',
+          activities: [
+            { title: 'Transit to Haneda Airport', description: "Leave Mitaka/Kichijoji by 4pm. JR Chuo Line to Shinagawa (40 min), transfer to Keikyu Line to Haneda Terminal 3 (18 min). Arrive by 5pm for your 19:40 flight — giving you a comfortable 2.5 hour buffer for check-in, security, and last-minute omiyage (souvenir) shopping.", details: ['Mitaka → Shinagawa (JR Chuo + Yamanote, ~40 min)', 'Shinagawa → Haneda Terminal 3 (Keikyu, 18 min)', 'Airport shopping: Tokyo Banana, matcha KitKats, mochi — all in the departure hall', 'Duty-free: Japanese whisky, sake, and craft snacks'] }
+          ],
+          meals: [
+            { type: 'Dinner', name: 'Haneda Airport Terminal 3 Restaurants', description: "Haneda's international terminal has excellent dining on the 4th floor. Setagaya ramen has a veggie option, or try the curry house for vegetable curry. Eat before security for more options.", meta: '1,000-2,000 yen · Terminal 3, 4th floor food court' }
+          ]
+        }
+      ],
+      mapPins: [
+        { lat: 35.7145, lng: 139.5073, label: 'Edo-Tokyo Open Air Museum', num: 1, cat: 'attraction', desc: 'Spirited Away inspiration — 30 historic buildings' },
+        { lat: 35.6963, lng: 139.5704, label: 'Ghibli Museum', num: 2, cat: 'attraction', desc: 'Miyazaki\'s magical museum — pre-book essential' },
+        { lat: 35.6997, lng: 139.5721, label: 'Inokashira Park', num: 3, cat: 'attraction', desc: 'Serene lakeside park en route to Ghibli Museum' },
+        { lat: 35.5494, lng: 139.7798, label: 'Haneda Airport', num: 4, cat: 'transport', desc: 'Departure — 19:40 flight, arrive by 5pm' }
+      ]
+    }
+  ],
+
+  budgetTable: [
+    { category: 'Accommodation (per night)', budget: '¥7,000–10,000', midrange: '¥12,000–20,000', luxury: '¥25,000–50,000' },
+    { category: 'Meals (per couple/day)', budget: '¥3,000–5,000', midrange: '¥6,000–10,000', luxury: '¥15,000–30,000' },
+    { category: 'Transport', budget: '¥2,000–3,000/day', midrange: '¥3,000–5,000/day', luxury: '¥5,000–10,000/day' },
+    { category: 'Activities', budget: '¥1,000–3,000/day', midrange: '¥3,000–6,000/day', luxury: '¥6,000–15,000/day' },
+    { category: 'Hakone Ryokan (1 night)', budget: '¥8,000–12,000pp', midrange: '¥15,000–25,000pp', luxury: '¥30,000–60,000pp' },
+    { category: '6-Day Total (couple)', budget: '¥100,000–150,000 ($670–1,000)', midrange: '¥200,000–350,000 ($1,350–2,350)', luxury: '¥400,000+ ($2,700+)' }
+  ],
+
+  practicalInfo: [
+    { title: '✈️ Getting There', items: ['Haneda Airport (HND) is 30 min from central Tokyo', 'Keikyu Line to Shinagawa: 18 min, 300 yen', 'Monorail to Hamamatsucho: 13 min, 500 yen', 'International Terminal 3 — follow signs for transit'] },
+    { title: '🏨 Where to Stay', items: ['Budget: Shinagawa/Meguro hostels (3,500-5,000 yen/night pp)', 'Mid-range: Business hotels near Shinjuku or Shibuya (8,000-12,000 yen)', 'Hakone night: Budget ryokan with onsen (8,000-15,000 yen pp with meals)', 'Book Golden Week accommodation EARLY — prices surge and availability drops'] },
+    { title: '🌡️ Weather', items: ['Late April: 15-22°C (59-72°F), pleasant spring weather', 'Occasional rain — pack a light waterproof layer', 'Hakone is 3-5°C cooler than Tokyo', 'UV is moderate — sunscreen recommended for outdoor days'] },
+    { title: '💳 Money', items: ['Japan is increasingly cashless, but carry 10,000-20,000 yen cash', 'IC cards (Suica/Pasmo) work at most convenience stores and vending machines', '7-Eleven and post office ATMs accept international cards', 'Tipping is NOT customary and can cause confusion'] },
+    { title: '📱 Connectivity', items: ['Buy a travel eSIM before arrival (Ubigi, Airalo, IIJmio)', 'Free WiFi at stations, konbini, and most hotels', 'Download offline Google Maps for Tokyo, Kamakura, and Hakone', 'Useful apps: Suica (Apple Wallet), HappyCow, Google Translate camera mode'] }
+  ]
+};
+
+try {
+  const result = fulfillOrder(order, itineraryData);
+  console.log('✅ Fulfilled:', JSON.stringify(result, null, 2));
+} catch (err) {
+  console.error('❌ Error:', err.message);
+  process.exit(1);
+}
