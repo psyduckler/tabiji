@@ -85,7 +85,7 @@ function generateItineraryHTML(data) {
             <span class="day-neighborhoods">${esc(day.neighborhoods)}</span>
         </div>
         <h2>${esc(day.title)}</h2>
-        <p style="color:var(--text-muted);margin-bottom:2rem;">${day.description}</p>
+        ${day.description ? `<p style="color:var(--text-muted);margin-bottom:2rem;">${day.description}</p>` : ''}
 
 ${timeBlocksHTML}
 
