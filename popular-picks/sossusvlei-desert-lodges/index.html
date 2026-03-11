@@ -195,7 +195,6 @@
                 <a href="/resources/">📚 Resources</a>
                 <a href="/owl/">🧭 Tabiji Travel Agency</a>
                 <a href="/trends/">📊 Travel Trends</a>
-                <a href="/api/">🔌 API</a>
             </div>
         </div>
         <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
@@ -570,7 +569,7 @@
 </section>
 <!-- /RELATED_ATTRACTIONS -->
 <footer>
-    <p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+    <p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a></p>
 </footer>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initLodgeMaps" async defer></script>
@@ -623,103 +622,6 @@ function highlightLodge(index) {
         var r = lodges[index]; var marker = markers[index];
         markers.forEach(function(m, i) { m.setIcon(makeIcon(catColors[lodges[i].cat]||"#E65100", i+1)); m.setZIndex(1); });
         marker.setIcon(makeActiveIcon(catColors[r.cat]||"#E65100", index+1)); marker.setZIndex(100);
-        infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker);
-        map.panTo({lat:r.lat, lng:r.lng}); if (map.getZoom() < 10) map.setZoom(10);
-    }
-    activate(sidebarMap, sidebarMarkers, sidebarInfo);
-    activate(mobileMap, mobileMarkers, mobileInfo);
-}
-function initLodgeMaps() {
-    var sidebar = document.getElementById('sidebar-map');
-    var mobile = document.getElementById('mobile-map');
-    if (sidebar) buildMap(sidebar, true);
-    if (mobile) buildMap(mobile, false);
-    if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) { var idx = sectionIds.indexOf(entry.target.id); if (idx !== -1) highlightLodge(idx); }
-            });
-        }, { rootMargin: '-30% 0px -50% 0px' });
-        sectionIds.forEach(function(id) { var el = document.getElementById(id); if (el) observer.observe(el); });
-    }
-}
-document.addEventListener('click', function(e) {
-    var dd = document.querySelector('.nav-dropdown');
-    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
-});
-</script>
-
-</body>
-</html>;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.78rem;font-weight:500;margin-bottom:0.5rem;">🐘 Botswana</span>
-                <h3 style="font-size:1.1rem;font-weight:700;color:#2D3A5C;margin-bottom:0.35rem;">Best Safari Camps in Chobe</h3>
-                <p style="font-size:0.9rem;color:#6B5D4F;">The world's highest elephant density — the best camps for wildlife in Chobe National Park.</p>
-                <div style="margin-top:0.75rem;font-size:0.8rem;color:#8B7355;display:flex;gap:1.2rem;flex-wrap:wrap;"><span>🗺️ Interactive Map</span></div>
-            </div>
-        </a>
-        <a href="/popular-picks/kruger-safari-lodges/" style="background:#FEFCF9;border:1px solid #E8DFD0;border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform 0.15s,box-shadow 0.15s;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-            <img src="https://img.tabiji.ai/popular-picks/kruger-safari-lodges/photo-0.jpg" alt="Best Safari Lodges in Kruger" loading="lazy" style="width:100%;height:180px;object-fit:cover;display:block;">
-            <div style="padding:1.25rem 1.5rem 1.5rem;">
-                <span style="display:inline-block;background:#E8DFD0;color:#8B7355;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.78rem;font-weight:500;margin-bottom:0.5rem;">🦁 South Africa</span>
-                <h3 style="font-size:1.1rem;font-weight:700;color:#2D3A5C;margin-bottom:0.35rem;">Best Safari Lodges in Kruger</h3>
-                <p style="font-size:0.9rem;color:#6B5D4F;">From Sabi Sands luxury to budget-friendly rest camps — Reddit's guide to Kruger National Park.</p>
-                <div style="margin-top:0.75rem;font-size:0.8rem;color:#8B7355;display:flex;gap:1.2rem;flex-wrap:wrap;"><span>🗺️ Interactive Map</span></div>
-            </div>
-        </a>
-    </div>
-</section>
-<!-- /RELATED RECOMMENDATIONS -->
-
-<footer>
-    <p>© 2026 tabiji.ai <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
-</footer>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initLodgeMaps" async defer></script>
-<script>
-var lodges = [
-    {n:"1. &Beyond Sossusvlei",lat:-24.753,lng:15.853,cat:"ultra-luxury",desc:"Ultra-Luxury &mdash; ~$1,200&ndash;2,500/person"},
-    {n:"2. Little Kulala",lat:-24.695,lng:15.850,cat:"luxury",desc:"Luxury &mdash; ~$800&ndash;1,800/person"},
-    {n:"3. Sossus Dune Lodge",lat:-24.471,lng:15.827,cat:"inside-gate",desc:"Inside Gate &mdash; ~$150&ndash;300/person"},
-    {n:"4. Sossusvlei Lodge",lat:-24.470,lng:15.810,cat:"mid-range",desc:"Mid-Range &mdash; ~$120&ndash;250/person"},
-    {n:"5. Le Mirage Resort",lat:-24.570,lng:15.790,cat:"mid-range",desc:"Mid-Range+ &mdash; ~$180&ndash;350/person"},
-    {n:"6. Hoodia Desert Lodge",lat:-24.530,lng:15.800,cat:"luxury",desc:"Luxury Boutique &mdash; ~$350&ndash;700/person"},
-    {n:"7. Desert Homestead",lat:-24.520,lng:15.840,cat:"mid-range",desc:"Mid-Range &mdash; ~$100&ndash;200/person"},
-    {n:"8. Dead Valley Lodge",lat:-24.485,lng:15.825,cat:"luxury",desc:"Luxury &mdash; ~$500&ndash;1,000/person"},
-    {n:"9. Desert Grace",lat:-24.460,lng:15.795,cat:"mid-range",desc:"Mid-Range &mdash; ~$130&ndash;280/person"},
-    {n:"10. Zannier Sonop",lat:-24.820,lng:16.020,cat:"ultra-luxury",desc:"Ultra-Luxury &mdash; ~$2,000&ndash;3,500/person"}
-];
-var catColors = {"ultra-luxury":"#C62828","luxury":"#AD1457","mid-range":"#E65100","inside-gate":"#1565C0"};
-function makeIcon(color, num) {
-    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
-    return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
-}
-function makeActiveIcon(color, num) {
-    var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="16" fill="'+color+'" stroke="#fff" stroke-width="3"/><circle cx="20" cy="20" r="19" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.4"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="bold">'+num+'</text></svg>');
-    return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
-}
-var sidebarMap, mobileMap, sidebarMarkers=[], mobileMarkers=[], sidebarInfo, mobileInfo;
-var sectionIds = ['andbeyond-sossusvlei', 'little-kulala', 'sossus-dune-lodge', 'sossusvlei-lodge', 'le-mirage', 'hoodia-desert-lodge', 'desert-homestead', 'dead-valley-lodge', 'desert-grace', 'zannier-sonop'];
-function buildMap(el, isDesktop) {
-    var map = new google.maps.Map(el, { mapTypeControl:false, streetViewControl:false, fullscreenControl:true, styles:[{featureType:"poi",stylers:[{visibility:"off"}]}] });
-    var bounds = new google.maps.LatLngBounds();
-    var infoWindow = new google.maps.InfoWindow();
-    var markers = [];
-    lodges.forEach(function(r, idx) {
-        var pos = {lat:r.lat,lng:r.lng};
-        var marker = new google.maps.Marker({position:pos, map:map, icon:makeIcon(catColors[r.cat]||"#2E7D32", idx+1), title:r.n});
-        bounds.extend(pos);
-        marker.addListener('click', function() { infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker); });
-        markers.push(marker);
-    });
-    map.fitBounds(bounds, {left: 20, right: 20, top: 20, bottom: 20});
-    if (isDesktop) { sidebarMap=map; sidebarMarkers=markers; sidebarInfo=infoWindow; }
-    else { mobileMap=map; mobileMarkers=markers; mobileInfo=infoWindow; }
-}
-function highlightLodge(index) {
-    function activate(map, markers, infoWindow) {
-        if (!map || !markers.length) return;
-        var r = lodges[index]; var marker = markers[index];
-        markers.forEach(function(m, i) { m.setIcon(makeIcon(catColors[lodges[i].cat]||"#2E7D32", i+1)); m.setZIndex(1); });
-        marker.setIcon(makeActiveIcon(catColors[r.cat]||"#2E7D32", index+1)); marker.setZIndex(100);
         infoWindow.setContent('<strong>'+r.n+'</strong><br>'+r.desc); infoWindow.open(map, marker);
         map.panTo({lat:r.lat, lng:r.lng}); if (map.getZoom() < 10) map.setZoom(10);
     }
