@@ -1,0 +1,43 @@
+# tabiji.ai
+
+> Free AI-curated travel data API — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, and trending travel data for 706+ destinations. No API key required.
+
+## API Documentation
+- [API Docs](https://tabiji.ai/api/): Full endpoint documentation with examples
+- [OpenAPI Spec](https://tabiji.ai/api/openapi.json): Machine-readable API specification (OpenAPI 3.1)
+- [agents.json](https://tabiji.ai/.well-known/agents.json): AI agent workflow definitions
+
+## Endpoints
+
+### Destinations
+- [All Destinations](https://tabiji.ai/api/v1/destinations.json): 706 destinations with budget, season, vibes, travel styles, and pitch
+- [Single Destination](https://tabiji.ai/api/v1/destinations/{slug}.json): Full details for one destination (e.g., `tokyo.json`, `paris.json`)
+
+### Popular Picks (Restaurant & Attraction Guides)
+- [All Picks](https://tabiji.ai/api/v1/picks.json): 345 curated "best of" guides covering 3,600+ places
+- [Single Picks Guide](https://tabiji.ai/api/v1/picks/{slug}.json): Full guide with all places, Google ratings, hours, maps links, "what to order" tips, Reddit quotes, and insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
+
+### Itineraries
+- [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): 324 day-by-day travel itineraries
+- [Single Itinerary](https://tabiji.ai/api/v1/itineraries/{slug}.json): Full itinerary with day-by-day activities, times, tips, and logistics
+
+### Comparisons
+- [All Comparisons](https://tabiji.ai/api/v1/compare.json): 50 head-to-head destination comparisons
+- [Single Comparison](https://tabiji.ai/api/v1/compare/{slug}.json): Full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `bali-vs-thailand.json`)
+
+## Data Fields
+
+### Place Object (in Picks)
+Each place includes: name, position, cuisineTags, googleRating, reviewCount, priceRange, address, googleMapsUrl, openingHours (weekly grid), phone, website, photo, whatToOrder, redditQuotes (with source), insiderTip
+
+### Itinerary Day Object
+Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)
+
+### Destination Object
+Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch
+
+## What Makes This Data Unique
+Unlike generic travel APIs, tabiji data is curated from real traveler discussions (Reddit, forums) and enriched with Google Places data (ratings, hours, maps links). Every pick includes "what to order" recommendations and actual traveler quotes. Itineraries are time-blocked daily plans with real logistics, not just lists of places.
+
+## Usage
+No authentication required. All endpoints return static JSON files served via Cloudflare CDN. CORS is permissive — call from any origin. Free for non-commercial use.

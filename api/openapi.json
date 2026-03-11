@@ -1,0 +1,503 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "tabiji.ai API",
+    "version": "1.0.0",
+    "description": "Free REST API for AI-curated travel data — 706 destinations, 3,755 restaurant picks with Google ratings and Reddit quotes, 324 day-by-day itineraries, and 50 destination comparisons. No API key required.",
+    "contact": {
+      "name": "tabiji.ai",
+      "url": "https://tabiji.ai",
+      "email": "hello@tabiji.ai"
+    },
+    "license": {
+      "name": "Free for non-commercial use",
+      "url": "https://tabiji.ai/api/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://tabiji.ai/api/v1",
+      "description": "Production (Cloudflare Pages CDN)"
+    }
+  ],
+  "paths": {
+    "/index.json": {
+      "get": {
+        "operationId": "getApiIndex",
+        "summary": "API metadata and endpoint list",
+        "description": "Returns API metadata including version, stats, and a list of all available endpoints.",
+        "tags": ["Meta"],
+        "responses": {
+          "200": {
+            "description": "API index",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiIndex" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/destinations.json": {
+      "get": {
+        "operationId": "listDestinations",
+        "summary": "List all destinations",
+        "description": "Returns all 706 destinations with budget level, best season, vibes, travel styles, and a one-line pitch.",
+        "tags": ["Destinations"],
+        "responses": {
+          "200": {
+            "description": "List of destinations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DestinationList" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/destinations/{slug}.json": {
+      "get": {
+        "operationId": "getDestination",
+        "summary": "Get a single destination",
+        "description": "Returns full details for a destination. Slug is the city name lowercased with spaces replaced by hyphens.",
+        "tags": ["Destinations"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Destination slug (e.g., 'tokyo', 'new-york', 'buenos-aires')",
+            "schema": { "type": "string" },
+            "example": "tokyo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destination detail",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DestinationDetail" }
+              }
+            }
+          },
+          "404": { "description": "Destination not found" }
+        }
+      }
+    },
+    "/picks.json": {
+      "get": {
+        "operationId": "listPicks",
+        "summary": "List all picks guides",
+        "description": "Returns all 345 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
+        "tags": ["Picks"],
+        "responses": {
+          "200": {
+            "description": "List of picks guides",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PicksList" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/picks/{slug}.json": {
+      "get": {
+        "operationId": "getPicksGuide",
+        "summary": "Get a full picks guide",
+        "description": "Returns a complete picks guide with all places, Google ratings, opening hours, maps links, 'what to order' tips, Reddit quotes, and insider tips.",
+        "tags": ["Picks"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Picks guide slug (e.g., 'amsterdam-brunch', 'tokyo-ramen', 'paris-wine-bars')",
+            "schema": { "type": "string" },
+            "example": "amsterdam-brunch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full picks guide with places",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PicksDetail" }
+              }
+            }
+          },
+          "404": { "description": "Guide not found" }
+        }
+      }
+    },
+    "/itineraries.json": {
+      "get": {
+        "operationId": "listItineraries",
+        "summary": "List all itineraries",
+        "description": "Returns all 324 day-by-day travel itineraries with summary metadata.",
+        "tags": ["Itineraries"],
+        "responses": {
+          "200": {
+            "description": "List of itineraries",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ItineraryList" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/itineraries/{slug}.json": {
+      "get": {
+        "operationId": "getItinerary",
+        "summary": "Get a full itinerary",
+        "description": "Returns a complete day-by-day itinerary with activities, times, descriptions, tips, and logistics.",
+        "tags": ["Itineraries"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Itinerary slug (e.g., 'itineraries-5-day-tokyo-food-nightlife', 'bach-wave')",
+            "schema": { "type": "string" },
+            "example": "itineraries-5-day-tokyo-food-nightlife"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full itinerary with day-by-day details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ItineraryDetail" }
+              }
+            }
+          },
+          "404": { "description": "Itinerary not found" }
+        }
+      }
+    },
+    "/compare.json": {
+      "get": {
+        "operationId": "listComparisons",
+        "summary": "List all destination comparisons",
+        "description": "Returns all 50 head-to-head destination comparisons with summary data.",
+        "tags": ["Comparisons"],
+        "responses": {
+          "200": {
+            "description": "List of comparisons",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ComparisonList" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compare/{slug}.json": {
+      "get": {
+        "operationId": "getComparison",
+        "summary": "Get a full comparison",
+        "description": "Returns a complete head-to-head comparison with all categories, Reddit quotes, verdict, and FAQs.",
+        "tags": ["Comparisons"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Comparison slug (e.g., 'bali-vs-thailand', 'barcelona-vs-lisbon')",
+            "schema": { "type": "string" },
+            "example": "bali-vs-thailand"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full comparison",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ComparisonDetail" }
+              }
+            }
+          },
+          "404": { "description": "Comparison not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiIndex": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "description": { "type": "string" },
+          "baseUrl": { "type": "string", "format": "uri" },
+          "documentation": { "type": "string", "format": "uri" },
+          "lastUpdated": { "type": "string", "format": "date-time" },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "destinations": { "type": "integer" },
+              "picksGuides": { "type": "integer" },
+              "totalPlaces": { "type": "integer" },
+              "itineraries": { "type": "integer" },
+              "comparisons": { "type": "integer" }
+            }
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "description": { "type": "string" },
+                "method": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "DestinationSummary": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string", "example": "tokyo" },
+          "name": { "type": "string", "example": "Tokyo" },
+          "region": { "type": "string", "example": "Japan" },
+          "continent": { "type": "string", "example": "Asia" },
+          "budget": { "type": "string", "example": "$$$" },
+          "season": { "type": "string", "example": "Mar–May, Oct–Nov" },
+          "vibes": { "type": "array", "items": { "type": "string" }, "example": ["City", "Cultural", "Nightlife"] },
+          "photo": { "type": "string", "example": "https://img.tabiji.ai/find/img/tokyo.webp" },
+          "pitch": { "type": "string", "example": "Controlled chaos that somehow works perfectly." }
+        }
+      },
+      "DestinationList": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "integer", "example": 706 },
+          "destinations": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DestinationSummary" }
+          }
+        }
+      },
+      "DestinationDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/DestinationSummary" },
+          {
+            "type": "object",
+            "properties": {
+              "travelStyles": { "type": "array", "items": { "type": "string" }, "example": ["solo", "photography"] },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        ]
+      },
+      "PicksSummary": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string", "example": "amsterdam-brunch" },
+          "title": { "type": "string", "example": "12 Best Brunch Spots in Amsterdam 2026" },
+          "city": { "type": "string", "example": "Amsterdam" },
+          "category": { "type": "string", "example": "Brunch Spots" },
+          "placeCount": { "type": "integer", "example": 12 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      },
+      "PicksList": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "integer" },
+          "totalPlaces": { "type": "integer" },
+          "picks": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PicksSummary" }
+          }
+        }
+      },
+      "Place": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "Little Collins" },
+          "position": { "type": "integer", "example": 1 },
+          "cuisineTags": { "type": "array", "items": { "type": "string" }, "example": ["Antipodean Brunch"] },
+          "googleRating": { "type": "number", "example": 4.5 },
+          "reviewCount": { "type": "integer", "example": 1859 },
+          "priceRange": { "type": "string", "example": "€15–€25/person" },
+          "address": { "type": "string", "example": "De Pijp" },
+          "googleMapsUrl": { "type": "string", "format": "uri" },
+          "openingHours": {
+            "type": "object",
+            "additionalProperties": { "type": "string" },
+            "example": { "Mon": "9:00 AM – 4:00 PM", "Tue": "9:00 AM – 4:00 PM" }
+          },
+          "phone": { "type": "string" },
+          "website": { "type": "string", "format": "uri" },
+          "photo": { "type": "string", "format": "uri" },
+          "whatToOrder": { "type": "string", "example": "The cilbir (Turkish-style poached eggs)..." },
+          "redditQuotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": { "type": "string" },
+                "source": { "type": "string" }
+              }
+            }
+          },
+          "insiderTip": { "type": "string" }
+        }
+      },
+      "PicksDetail": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "city": { "type": "string" },
+          "category": { "type": "string" },
+          "heroImage": { "type": "string", "format": "uri" },
+          "placeCount": { "type": "integer" },
+          "url": { "type": "string", "format": "uri" },
+          "places": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Place" }
+          }
+        }
+      },
+      "ItinerarySummary": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string" },
+          "title": { "type": "string" },
+          "destination": { "type": "string" },
+          "duration": { "type": "string" },
+          "tripType": { "type": "array", "items": { "type": "string" } },
+          "url": { "type": "string", "format": "uri" },
+          "dayCount": { "type": "integer" }
+        }
+      },
+      "ItineraryList": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "integer" },
+          "itineraries": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ItinerarySummary" }
+          }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "string", "example": "☀️ Morning" },
+          "name": { "type": "string", "example": "Tsukiji Outer Market" },
+          "description": { "type": "string" },
+          "details": { "type": "array", "items": { "type": "string" } },
+          "tips": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "ItineraryDay": {
+        "type": "object",
+        "properties": {
+          "dayLabel": { "type": "string", "example": "Day 1 · Mar 5 (Wed)" },
+          "neighborhoods": { "type": "string", "example": "Tsukiji · Ginza" },
+          "title": { "type": "string", "example": "Market Morning & Ginza Glamour" },
+          "description": { "type": "string" },
+          "activities": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Activity" }
+          }
+        }
+      },
+      "ItineraryDetail": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "destination": { "type": "string" },
+          "duration": { "type": "string" },
+          "tripType": { "type": "array", "items": { "type": "string" } },
+          "heroImage": { "type": "string", "format": "uri" },
+          "url": { "type": "string", "format": "uri" },
+          "dayCount": { "type": "integer" },
+          "days": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ItineraryDay" }
+          }
+        }
+      },
+      "ComparisonSummary": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string", "example": "bali-vs-thailand" },
+          "title": { "type": "string", "example": "Bali vs Thailand: Which Should You Visit?" },
+          "destination1": { "type": "string", "example": "Bali" },
+          "destination2": { "type": "string", "example": "Thailand" },
+          "categoryCount": { "type": "integer", "example": 9 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      },
+      "ComparisonList": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "integer" },
+          "comparisons": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ComparisonSummary" }
+          }
+        }
+      },
+      "ComparisonCategory": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "example": "🏖️ Beaches: Crystal Clear vs Perfect Surf" },
+          "summary": { "type": "string" },
+          "redditQuotes": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "FAQ": {
+        "type": "object",
+        "properties": {
+          "question": { "type": "string" },
+          "answer": { "type": "string" }
+        }
+      },
+      "ComparisonDetail": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "destination1": { "type": "string" },
+          "destination2": { "type": "string" },
+          "heroImage": { "type": "string", "format": "uri" },
+          "url": { "type": "string", "format": "uri" },
+          "categoryCount": { "type": "integer" },
+          "categories": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ComparisonCategory" }
+          },
+          "verdict": { "type": "string" },
+          "faqs": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FAQ" }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    { "name": "Meta", "description": "API metadata and status" },
+    { "name": "Destinations", "description": "706 travel destinations worldwide" },
+    { "name": "Picks", "description": "Curated 'best of' guides — restaurants, cafes, bars, attractions" },
+    { "name": "Itineraries", "description": "Day-by-day travel itineraries" },
+    { "name": "Comparisons", "description": "Head-to-head destination comparisons" }
+  ]
+}

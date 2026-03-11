@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
+    <meta name="description" content="Free REST API for AI-curated travel data — 706 destinations, 3600+ restaurant picks, 300+ itineraries, and 50+ destination comparisons. No API key required.">
+    <meta property="og:title" content="Tabiji API — Free Travel Data API">
+    <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tabiji.ai/api/">
+    <meta property="og:image" content="https://img.tabiji.ai/owl-logo.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="canonical" href="https://tabiji.ai/api/">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --dark: #1a1a2e;
+            --dark-2: #16213e;
+            --dark-3: #0f1525;
+            --accent: #e94560;
+            --accent-soft: #e9456020;
+            --light: #f5f5f0;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --code-bg: #f8f8f2;
+            --code-text: #1a1a2e;
+            --border: #2a2a4a;
+            --success: #4ecdc4;
+            --link: #7ec8e3;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--dark-3);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%);
+            padding: 80px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .hero .tagline {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+
+        .hero .stats {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero .stat {
+            text-align: center;
+        }
+
+        .hero .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .hero .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid var(--accent);
+        }
+
+        /* Nav links */
+        .api-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .api-links a {
+            color: var(--link);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .api-links a:hover {
+            background: var(--border);
+            border-color: var(--link);
+        }
+
+        /* Content sections */
+        .content {
+            padding: 60px 0;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        h2 + p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin: 32px 0 12px;
+        }
+
+        /* Endpoint cards */
+        .endpoint {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .method {
+            background: var(--success);
+            color: var(--dark);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .endpoint-url {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--link);
+        }
+
+        .endpoint-desc {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .example-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .example-link {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--link);
+            text-decoration: none;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+
+        .example-link:hover { text-decoration: underline; }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+        }
+
+        p code, li code {
+            background: var(--dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        /* Data source section */
+        .data-source {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .data-source h3 {
+            margin-top: 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        td code {
+            background: var(--dark-2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--accent);
+            font-size: 0.85em;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero { padding: 48px 0 40px; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero .stats { gap: 20px; }
+            .hero .stat-value { font-size: 1.4rem; }
+            .endpoint-header { flex-direction: column; align-items: flex-start; }
+            pre { padding: 14px; font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="container">
+        <img src="https://img.tabiji.ai/owl-logo.png" alt="tabiji owl" class="logo">
+        <div class="badge">🆓 No API Key Required</div>
+        <h1>tabiji <span>API</span></h1>
+        <p class="tagline">Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and more. Built from real traveler discussions on Reddit.</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">706</div>
+                <div class="stat-label">Destinations</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">3,755</div>
+                <div class="stat-label">Places</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">345</div>
+                <div class="stat-label">Picks Guides</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">324</div>
+                <div class="stat-label">Itineraries</div>
+            </div>
+        </div>
+
+        <div class="api-links">
+            <a href="/api/openapi.json">📄 OpenAPI Spec</a>
+            <a href="/llms.txt">🤖 llms.txt</a>
+            <a href="/.well-known/agents.json">🔧 agents.json</a>
+            <a href="https://github.com/psyduckler/tabiji">⭐ GitHub</a>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container">
+
+        <!-- Base URL -->
+        <section>
+            <h2>Base URL</h2>
+            <p>All endpoints return static JSON files. No authentication needed.</p>
+            <pre>https://tabiji.ai/api/v1/</pre>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 12px;">
+                Hosted on Cloudflare Pages with generous rate limits and global CDN. CORS headers are permissive by default — call from any origin.
+            </p>
+        </section>
+
+        <!-- Destinations -->
+        <section>
+            <h2>Destinations</h2>
+            <p>706 travel destinations with budget level, best season, vibes, and travel styles.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/destinations.json</span>
+                </div>
+                <p class="endpoint-desc">List all 706 destinations with summary data.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/destinations.json">https://tabiji.ai/api/v1/destinations.json</a>
+                <div class="example-label">Response (truncated)</div>
+<pre>{
+  "count": 706,
+  "destinations": [
+    {
+      "slug": "bogota",
+      "name": "Bogotá",
+      "region": "Colombia",
+      "continent": "South America",
+      "budget": "$",
+      "season": "Dec–Mar",
+      "vibes": ["Adventure", "City", "Unfrequented"],
+      "photo": "https://img.tabiji.ai/find/img/bogota.webp",
+      "pitch": "Graffiti tours, craft coffee, Andean sunsets..."
+    },
+    ...
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/destinations/{slug}.json</span>
+                </div>
+                <p class="endpoint-desc">Get full details for a single destination. Slug is the city name, lowercased with spaces→hyphens.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/destinations/tokyo.json">https://tabiji.ai/api/v1/destinations/tokyo.json</a>
+<pre>{
+  "slug": "tokyo",
+  "name": "Tokyo",
+  "region": "Japan",
+  "continent": "Asia",
+  "budget": "$$$",
+  "season": "Mar–May, Oct–Nov",
+  "vibes": ["City", "Cultural", "Family", "Nightlife"],
+  "travelStyles": ["solo", "photography"],
+  "pitch": "Controlled chaos that somehow works perfectly..."
+}</pre>
+            </div>
+        </section>
+
+        <!-- Popular Picks -->
+        <section>
+            <h2>Popular Picks</h2>
+            <p>345 curated "best of" guides — restaurants, cafés, bars, attractions — with Google ratings, hours, maps links, "what to order" tips, and real Reddit quotes.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/picks.json</span>
+                </div>
+                <p class="endpoint-desc">List all picks guides with summary metadata.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/picks.json">https://tabiji.ai/api/v1/picks.json</a>
+<pre>{
+  "count": 345,
+  "totalPlaces": 3640,
+  "picks": [
+    {
+      "slug": "amsterdam-brunch",
+      "title": "12 Best Brunch Spots in Amsterdam 2026",
+      "city": "Amsterdam",
+      "category": "Brunch Spots",
+      "placeCount": 12,
+      "url": "https://tabiji.ai/popular-picks/amsterdam-brunch/"
+    },
+    ...
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/picks/{slug}.json</span>
+                </div>
+                <p class="endpoint-desc">Full picks guide with all places, ratings, hours, contact info, "what to order," Reddit quotes, and insider tips.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/picks/amsterdam-brunch.json">https://tabiji.ai/api/v1/picks/amsterdam-brunch.json</a>
+<pre>{
+  "slug": "amsterdam-brunch",
+  "title": "12 Best Brunch Spots in Amsterdam 2026",
+  "city": "Amsterdam",
+  "category": "Brunch Spots",
+  "placeCount": 12,
+  "places": [
+    {
+      "name": "Little Collins",
+      "position": 1,
+      "cuisineTags": ["Antipodean Brunch"],
+      "googleRating": 4.5,
+      "reviewCount": 1859,
+      "priceRange": "€15–€25/person",
+      "address": "De Pijp",
+      "googleMapsUrl": "https://maps.google.com/...",
+      "openingHours": {
+        "Mon": "9:00 AM – 4:00 PM",
+        "Tue": "9:00 AM – 4:00 PM",
+        ...
+      },
+      "website": "http://www.littlecollins.nl/",
+      "photo": "https://img.tabiji.ai/popular-picks/...",
+      "whatToOrder": "The cilbir (Turkish-style poached eggs)...",
+      "redditQuotes": [
+        {
+          "text": "Little Collins was the first to bring...",
+          "source": "— r/Amsterdam"
+        }
+      ],
+      "insiderTip": "The undisputed king of Amsterdam brunch..."
+    },
+    ...
+  ]
+}</pre>
+            </div>
+        </section>
+
+        <!-- Itineraries -->
+        <section>
+            <h2>Itineraries</h2>
+            <p>324 day-by-day travel itineraries with activities, restaurants, transport tips, and accommodation suggestions.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/itineraries.json</span>
+                </div>
+                <p class="endpoint-desc">List all itineraries with summary metadata.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/itineraries.json">https://tabiji.ai/api/v1/itineraries.json</a>
+<pre>{
+  "count": 324,
+  "itineraries": [
+    {
+      "slug": "itineraries-5-day-tokyo-food-nightlife",
+      "title": "5 Day Tokyo Food & Nightlife Guide (2026)",
+      "destination": "Tokyo",
+      "duration": "5 days",
+      "tripType": ["Food Tourism", "Nightlife"],
+      "url": "https://tabiji.ai/itineraries/5-day-tokyo-food-nightlife/",
+      "dayCount": 9
+    },
+    ...
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/itineraries/{slug}.json</span>
+                </div>
+                <p class="endpoint-desc">Full itinerary with day-by-day activities, tips, and details.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/itineraries/itineraries-5-day-tokyo-food-nightlife.json">https://tabiji.ai/api/v1/itineraries/itineraries-5-day-tokyo-food-nightlife.json</a>
+<pre>{
+  "slug": "itineraries-5-day-tokyo-food-nightlife",
+  "title": "5 Day Tokyo Food & Nightlife Guide (2026)",
+  "destination": "Tokyo",
+  "duration": "5 days",
+  "days": [
+    {
+      "dayLabel": "Day 1",
+      "title": "Tsukiji & Ginza",
+      "activities": [
+        {
+          "time": "☀️ Morning",
+          "name": "Tsukiji Outer Market",
+          "description": "Start your Tokyo food journey...",
+          "tips": ["Arrive before 9am for the best stalls"]
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}</pre>
+            </div>
+        </section>
+
+        <!-- Compare -->
+        <section>
+            <h2>Comparisons</h2>
+            <p>50 head-to-head destination comparisons with category breakdowns, Reddit quotes, and verdicts.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/compare.json</span>
+                </div>
+                <p class="endpoint-desc">List all destination comparisons.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/compare.json">https://tabiji.ai/api/v1/compare.json</a>
+<pre>{
+  "count": 50,
+  "comparisons": [
+    {
+      "slug": "bali-vs-thailand",
+      "title": "Bali vs Thailand: Which Should You Visit?",
+      "destination1": "Bali",
+      "destination2": "Thailand",
+      "categoryCount": 9,
+      "url": "https://tabiji.ai/compare/bali-vs-thailand/"
+    },
+    ...
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/compare/{slug}.json</span>
+                </div>
+                <p class="endpoint-desc">Full comparison with all categories, Reddit quotes, verdict, and FAQs.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/compare/bali-vs-thailand.json">https://tabiji.ai/api/v1/compare/bali-vs-thailand.json</a>
+<pre>{
+  "slug": "bali-vs-thailand",
+  "title": "Bali vs Thailand: Which Should You Visit?",
+  "destination1": "Bali",
+  "destination2": "Thailand",
+  "categories": [
+    {
+      "title": "🏖️ Beaches: Crystal Clear vs Perfect Surf",
+      "summary": "Bali's beaches are primarily surf beaches...",
+      "redditQuotes": ["Bali is more famous for surfing..."]
+    },
+    ...
+  ],
+  "verdict": "Visit Bali if you want a singular, deeply spiritual...",
+  "faqs": [
+    {
+      "question": "Is Bali or Thailand better for first-timers?",
+      "answer": "Thailand is generally considered the better first choice..."
+    }
+  ]
+}</pre>
+            </div>
+        </section>
+
+        <!-- Data source info -->
+        <section>
+            <h2>About the Data</h2>
+            <p>What makes tabiji data different from generic travel APIs.</p>
+
+            <div class="data-source">
+                <h3>🗣️ Reddit-Sourced, AI-Curated</h3>
+                <p>Every recommendation in tabiji is sourced from real traveler discussions on Reddit, travel forums, and food blogs. We don't scrape hotel booking sites or regurgitate Tripadvisor — we find what <em>actual travelers</em> recommend to each other.</p>
+                <ul>
+                    <li><strong>Real quotes:</strong> Every pick includes actual Reddit quotes from travelers who've been there</li>
+                    <li><strong>"What to order":</strong> Not just "go here" — we tell you exactly what to eat when you arrive</li>
+                    <li><strong>Google Places enrichment:</strong> Ratings, review counts, opening hours, phone numbers, and direct Google Maps links</li>
+                    <li><strong>Insider tips:</strong> The tabiji verdict — our honest take on each place, including when to skip it</li>
+                    <li><strong>Day-by-day itineraries:</strong> Not just lists of places — time-blocked daily plans with transport tips and real logistics</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Rate limits -->
+        <section>
+            <h2>Rate Limits & CORS</h2>
+            <p>Everything you need to know about using the API.</p>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Authentication</td>
+                    <td>None required — completely free and open</td>
+                </tr>
+                <tr>
+                    <td>Rate Limits</td>
+                    <td>Cloudflare Pages free tier — generous and CDN-cached globally. No hard limit for reasonable use.</td>
+                </tr>
+                <tr>
+                    <td>CORS</td>
+                    <td>Permissive by default — call from any origin</td>
+                </tr>
+                <tr>
+                    <td>Format</td>
+                    <td>JSON (pretty-printed, UTF-8)</td>
+                </tr>
+                <tr>
+                    <td>Caching</td>
+                    <td>CDN-cached globally via Cloudflare. Data updates periodically.</td>
+                </tr>
+                <tr>
+                    <td>License</td>
+                    <td>Free for non-commercial use. Attribution appreciated.</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Machine-readable -->
+        <section>
+            <h2>Machine-Readable Specs</h2>
+            <p>For AI agents and developer tools.</p>
+
+            <table>
+                <tr>
+                    <th>File</th>
+                    <th>URL</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>OpenAPI 3.1</td>
+                    <td><code><a href="/api/openapi.json" style="color: var(--link); text-decoration: none;">/api/openapi.json</a></code></td>
+                    <td>Full API specification for code generators and agent frameworks</td>
+                </tr>
+                <tr>
+                    <td>llms.txt</td>
+                    <td><code><a href="/llms.txt" style="color: var(--link); text-decoration: none;">/llms.txt</a></code></td>
+                    <td>LLM-friendly API discovery (llmstxt.org)</td>
+                </tr>
+                <tr>
+                    <td>agents.json</td>
+                    <td><code><a href="/.well-known/agents.json" style="color: var(--link); text-decoration: none;">/.well-known/agents.json</a></code></td>
+                    <td>AI agent workflow definitions</td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>Built with 🦉 by <a href="https://tabiji.ai">tabiji.ai</a> — AI-curated travel, powered by real traveler wisdom.</p>
+        <p style="margin-top: 8px;">Questions? <a href="mailto:hello@tabiji.ai">hello@tabiji.ai</a></p>
+    </div>
+</footer>
+
+</body>
+</html>

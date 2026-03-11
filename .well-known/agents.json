@@ -1,0 +1,151 @@
+{
+  "$schema": "https://specs.openagents.com/agents-json/0.1/schema.json",
+  "version": "0.1",
+  "name": "tabiji.ai Travel API",
+  "description": "Free AI-curated travel data — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, and destination comparisons for 706+ destinations worldwide. No API key required.",
+  "url": "https://tabiji.ai",
+  "logo": "https://img.tabiji.ai/owl-logo.png",
+  "contactEmail": "hello@tabiji.ai",
+  "openapi": "https://tabiji.ai/api/openapi.json",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text"],
+  "defaultOutputModes": ["text"],
+  "skills": [
+    {
+      "id": "find-restaurants",
+      "name": "Find Restaurants & Places",
+      "description": "Find the best restaurants, cafes, bars, or attractions in any city. Returns curated picks with Google ratings, opening hours, 'what to order' tips, and real Reddit quotes.",
+      "tags": ["restaurants", "food", "travel", "bars", "cafes", "attractions"],
+      "examples": [
+        "Find the best ramen in Tokyo",
+        "Best brunch spots in Amsterdam",
+        "Top wine bars in Paris",
+        "Where to eat in Bangkok"
+      ],
+      "inputModes": ["text"],
+      "outputModes": ["text"],
+      "steps": [
+        {
+          "id": "search-picks",
+          "description": "Search all picks guides for matching city or category",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/picks.json"
+          }
+        },
+        {
+          "id": "get-guide",
+          "description": "Fetch the full guide with all places and details",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/picks/{slug}.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "plan-trip",
+      "name": "Plan a Trip",
+      "description": "Get a detailed day-by-day travel itinerary for any destination, including activities, restaurants, transport tips, and time-blocked daily schedules.",
+      "tags": ["itinerary", "travel", "planning", "trip"],
+      "examples": [
+        "Plan a 5-day trip to Tokyo",
+        "Bali itinerary for couples",
+        "Weekend trip to Barcelona",
+        "3-day food tour of Osaka"
+      ],
+      "inputModes": ["text"],
+      "outputModes": ["text"],
+      "steps": [
+        {
+          "id": "search-itineraries",
+          "description": "Search all itineraries for matching destination or trip type",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/itineraries.json"
+          }
+        },
+        {
+          "id": "get-itinerary",
+          "description": "Fetch the full day-by-day itinerary",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/itineraries/{slug}.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compare-destinations",
+      "name": "Compare Destinations",
+      "description": "Compare two travel destinations head-to-head across multiple categories including beaches, food, culture, cost, weather, and accommodation. Includes Reddit quotes and a final verdict.",
+      "tags": ["compare", "travel", "destinations", "decision"],
+      "examples": [
+        "Bali vs Thailand",
+        "Barcelona vs Lisbon",
+        "Japan vs Korea",
+        "Costa Rica vs Colombia"
+      ],
+      "inputModes": ["text"],
+      "outputModes": ["text"],
+      "steps": [
+        {
+          "id": "search-comparisons",
+          "description": "Search available comparisons",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/compare.json"
+          }
+        },
+        {
+          "id": "get-comparison",
+          "description": "Fetch the full comparison with categories and verdict",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/compare/{slug}.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "discover-destinations",
+      "name": "Discover Destinations",
+      "description": "Browse and filter 706 travel destinations by continent, budget, season, vibes, and travel style to find your perfect trip.",
+      "tags": ["destinations", "travel", "discover", "explore"],
+      "examples": [
+        "Budget-friendly destinations in Asia",
+        "Best places to visit in summer",
+        "Romantic destinations in Europe",
+        "Adventure travel destinations"
+      ],
+      "inputModes": ["text"],
+      "outputModes": ["text"],
+      "steps": [
+        {
+          "id": "list-destinations",
+          "description": "Get all destinations with filter metadata",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/destinations.json"
+          }
+        },
+        {
+          "id": "get-destination",
+          "description": "Get details for a specific destination",
+          "endpoint": {
+            "method": "GET",
+            "url": "https://tabiji.ai/api/v1/destinations/{slug}.json"
+          }
+        }
+      ]
+    }
+  ],
+  "provider": {
+    "organization": "tabiji.ai",
+    "url": "https://tabiji.ai"
+  }
+}
