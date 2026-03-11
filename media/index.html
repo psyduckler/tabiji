@@ -637,10 +637,7 @@ document.addEventListener('click', function(e) {
                 ✅ Got it! We'll be in touch within 24 hours.
             </div>
 
-            <form action="https://formsubmit.co/hello@tabiji.ai" method="POST">
-                <input type="hidden" name="_subject" value="New Tabiji Media Studio Inquiry">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://tabiji.ai/media/?thanks=1">
+            <form id="media-form" onsubmit="return submitForm(event)">
 
                 <div class="form-row">
                     <div class="form-group">
@@ -705,14 +702,50 @@ document.addEventListener('click', function(e) {
 </footer>
 
 <script>
-// Show thank-you banner if redirected back after form submit
-if (window.location.search.includes('thanks=1')) {
-    var banner = document.getElementById('thanks-banner');
-    if (banner) banner.classList.add('visible');
-    // Scroll to form
-    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-    // Clean the URL
-    window.history.replaceState({}, '', '/media/');
+async function submitForm(e) {
+    e.preventDefault();
+    var form = document.getElementById('media-form');
+    var btn = form.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    
+    var data = new FormData(form);
+    var platforms = [];
+    form.querySelectorAll('input[name="platforms"]:checked').forEach(function(cb) { platforms.push(cb.value); });
+    
+    var body = {
+        name: data.get('name'),
+        email: data.get('email'),
+        brand: data.get('brand'),
+        website: data.get('website') || '',
+        platforms: platforms.join(', '),
+        volume: data.get('volume') || '',
+        goals: data.get('goals')
+    };
+    
+    try {
+        var res = await fetch('https://tabiji.ai/api/media-inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (res.ok) {
+            var banner = document.getElementById('thanks-banner');
+            if (banner) banner.classList.add('visible');
+            form.reset();
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // Fallback: open mailto
+            window.location.href = 'mailto:hello@tabiji.ai?subject=Media Studio Inquiry&body=' + 
+                encodeURIComponent('Name: ' + body.name + '\nEmail: ' + body.email + '\nBrand: ' + body.brand + '\nPlatforms: ' + body.platforms + '\nVolume: ' + body.volume + '\nGoals: ' + body.goals);
+        }
+    } catch(err) {
+        window.location.href = 'mailto:hello@tabiji.ai?subject=Media Studio Inquiry&body=' + 
+            encodeURIComponent('Name: ' + body.name + '\nEmail: ' + body.email + '\nBrand: ' + body.brand + '\nPlatforms: ' + body.platforms + '\nVolume: ' + body.volume + '\nGoals: ' + body.goals);
+    }
+    btn.disabled = false;
+    btn.textContent = 'Get Started →';
+    return false;
 }
 
 // Smooth scroll for hero CTA
