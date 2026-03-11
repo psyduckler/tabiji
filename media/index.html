@@ -218,39 +218,27 @@ document.addEventListener('click', function(e) {
         }
 
         .video-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.25rem; margin-bottom: 2rem;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem; margin-bottom: 2rem; max-width: 960px; margin-left: auto; margin-right: auto;
         }
-        .video-card {
-            background: white; border-radius: 14px; padding: 1.25rem 1.5rem;
-            border: 1px solid var(--sand);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            transition: transform 0.15s, box-shadow 0.15s;
+        .video-embed {
+            border-radius: 14px; overflow: hidden; background: var(--warm-cream);
+            border: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
-        .video-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-        .video-card-top {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 0.75rem;
+        .video-embed iframe {
+            width: 100%; aspect-ratio: 9/16; border: none; display: block;
         }
-        .platform-badges {
-            display: flex; gap: 0.4rem; flex-wrap: wrap;
+        .video-embed .embed-label {
+            padding: 0.75rem 1rem; font-size: 0.8rem; font-weight: 600;
+            color: var(--text); line-height: 1.35; text-align: center;
         }
-        .badge {
-            font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.55rem;
-            border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em;
+        .video-embed .embed-platform {
+            display: inline-block; font-size: 0.65rem; font-weight: 700;
+            padding: 0.15rem 0.45rem; border-radius: 20px; text-transform: uppercase;
+            letter-spacing: 0.06em; margin-right: 0.35rem; vertical-align: middle;
         }
-        .badge-ig { background: #FCE4EC; color: #B71C6B; }
-        .badge-yt { background: #FFEBEE; color: #C62828; }
-        .badge-trending {
-            background: rgba(196,112,75,0.15); color: var(--terracotta);
-        }
-        .views-label {
-            font-size: 0.85rem; font-weight: 700; color: var(--indigo); white-space: nowrap;
-        }
-        .video-card h4 {
-            font-size: 0.95rem; font-weight: 600; color: var(--text);
-            line-height: 1.4;
-        }
+        .embed-platform.ig { background: #FCE4EC; color: #B71C6B; }
+        .embed-platform.yt { background: #FFEBEE; color: #C62828; }
 
         .proof-ctas {
             display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
@@ -434,6 +422,10 @@ document.addEventListener('click', function(e) {
             .contact-form { padding: 1.75rem 1.25rem; }
             .section { padding: 3rem 1.5rem; }
             .proof-inner { padding: 3rem 1.5rem; }
+            .video-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .video-grid { grid-template-columns: 1fr; max-width: 320px; }
         }
     </style>
 </head>
@@ -542,62 +534,35 @@ document.addEventListener('click', function(e) {
         </div>
 
         <div class="video-grid">
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-ig">Instagram</span>
-                    </div>
-                    <span class="views-label">5.7K views</span>
-                </div>
-                <h4>"The scam EVERY tourist falls for in Paris"</h4>
+            <!-- Paris Scam — IG only (top performer) -->
+            <div class="video-embed">
+                <iframe src="https://www.instagram.com/reel/DVmybcpFIGN/embed" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform ig">Instagram</span> Paris Scam</div>
             </div>
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-yt">YouTube</span>
-                        <span class="badge badge-ig">Instagram</span>
-                    </div>
-                    <span class="views-label">5.6K + 3K</span>
-                </div>
-                <h4>"The scam EVERY tourist falls for in Bali"</h4>
+            <!-- Bali Scam — YT (5.5K views) -->
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/C48p27KXjFQ" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform yt">YouTube</span> Bali Scam</div>
             </div>
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-yt">YouTube</span>
-                    </div>
-                    <span class="views-label">2.9K views</span>
-                </div>
-                <h4>"The scam EVERY tourist falls for in Prague"</h4>
+            <!-- Prague Taxi Scam — YT -->
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/EkhLYvs-dDY" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform yt">YouTube</span> Prague Scam</div>
             </div>
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-yt">YouTube</span>
-                        <span class="badge badge-trending">Trending</span>
-                    </div>
-                    <span class="views-label">2.3K views</span>
-                </div>
-                <h4>"Don't be this person in Chiang Mai"</h4>
+            <!-- Chiang Mai — YT (trending) -->
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/J8rARJwtG40" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform yt">YouTube</span> Chiang Mai</div>
             </div>
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-yt">YouTube</span>
-                    </div>
-                    <span class="views-label">2.1K views</span>
-                </div>
-                <h4>"The #1 Mistake Tourists Make in Hoi An"</h4>
+            <!-- Hoi An — YT -->
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/20zWCOpItfo" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform yt">YouTube</span> Hoi An</div>
             </div>
-            <div class="video-card">
-                <div class="video-card-top">
-                    <div class="platform-badges">
-                        <span class="badge badge-yt">YouTube</span>
-                        <span class="badge badge-trending">Trending</span>
-                    </div>
-                    <span class="views-label">2.1K views</span>
-                </div>
-                <h4>"The #1 Mistake Tourists Make in Koh Phi Phi"</h4>
+            <!-- Koh Phi Phi — YT (trending) -->
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/E3fNepjCCdU" allowfullscreen loading="lazy"></iframe>
+                <div class="embed-label"><span class="embed-platform yt">YouTube</span> Koh Phi Phi</div>
             </div>
         </div>
 
