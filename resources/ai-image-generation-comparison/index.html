@@ -117,10 +117,18 @@
         }
 
         /* Spec table */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--sand);
+        }
         .spec-table {
             width: 100%;
+            min-width: 520px;
             border-collapse: collapse;
-            margin: 1.5rem 0 2rem;
             font-size: 0.95rem;
         }
         .spec-table th, .spec-table td {
@@ -135,10 +143,15 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            white-space: nowrap;
         }
         .spec-table td { color: var(--text); }
         .spec-table tr:last-child td { border-bottom: none; }
         .spec-table .winner { background: rgba(122, 139, 111, 0.08); font-weight: 600; }
+        @media (max-width: 640px) {
+            .spec-table { font-size: 0.85rem; }
+            .spec-table th, .spec-table td { padding: 0.5rem 0.65rem; }
+        }
 
         /* Verdict box */
         .verdict-box {
@@ -222,6 +235,11 @@
             .content-wrapper { flex-direction: column; gap: 0; padding: 0 1.25rem; }
             .toc-sidebar { display: none; }
             .toc-mobile-sticky { display: block; }
+            .article-container { padding: 5.5rem 0.5rem 2rem; }
+            .article-container h1 { font-size: 1.5rem; }
+            .article-body p, .article-body li { font-size: 0.95rem; }
+            .comparison-card .card-label { font-size: 0.75rem; padding: 0.4rem 0.5rem; }
+            .verdict-box { padding: 1rem 1.25rem; }
         }
 
         .img-caption {
@@ -319,7 +337,7 @@
 
             <h2 id="the-models">The Three Models</h2>
 
-            <table class="spec-table">
+            <div class="table-wrap"><table class="spec-table">
                 <thead>
                     <tr><th>Feature</th><th>Nano Banana 2</th><th>MiniMax image-01</th><th>CogView-4</th></tr>
                 </thead>
@@ -332,7 +350,7 @@
                     <tr><td><strong>API Style</strong></td><td>generate_content with IMAGE modality</td><td>POST /v1/image_generation</td><td>POST /images/generations</td></tr>
                     <tr><td><strong>Generation Speed</strong></td><td>~8–15 seconds</td><td>~10–20 seconds</td><td>~15–25 seconds</td></tr>
                 </tbody>
-            </table>
+            </table></div>
 
             <h2 id="test-1-fushimi-inari">Test 1: Fushimi Inari Torii Gates</h2>
 
@@ -482,7 +500,7 @@
 
             <h2 id="pricing">Pricing Comparison</h2>
 
-            <table class="spec-table">
+            <div class="table-wrap"><table class="spec-table">
                 <thead>
                     <tr><th>Cost Factor</th><th>Nano Banana 2</th><th>MiniMax image-01</th><th>CogView-4</th></tr>
                 </thead>
@@ -494,13 +512,13 @@
                     <tr><td><strong>Rate limits</strong></td><td>Moderate</td><td>Moderate</td><td>Generous</td></tr>
                     <tr><td><strong>API complexity</strong></td><td>Moderate (Gemini SDK)</td><td>Simple REST</td><td>Simple REST</td></tr>
                 </tbody>
-            </table>
+            </table></div>
 
             <p>Nano Banana 2 wins on price-to-quality ratio. It costs the same or less than CogView-4 while producing dramatically better results for our use case. MiniMax is roughly 2x the cost with no quality advantage for vintage photography.</p>
 
             <h2 id="scorecard">Final Scorecard</h2>
 
-            <table class="spec-table">
+            <div class="table-wrap"><table class="spec-table">
                 <thead>
                     <tr><th>Category</th><th>Nano Banana 2</th><th>MiniMax</th><th>CogView-4</th></tr>
                 </thead>
@@ -517,7 +535,7 @@
                     <tr><td><strong>Price-to-Quality</strong></td><td class="winner">10/10</td><td>5/10</td><td>3/10</td></tr>
                     <tr style="background: var(--warm-cream);"><td><strong>Overall</strong></td><td class="winner"><strong>8.8/10</strong></td><td><strong>5.9/10</strong></td><td><strong>3.6/10</strong></td></tr>
                 </tbody>
-            </table>
+            </table></div>
 
             <h2 id="verdict">The Verdict</h2>
 
