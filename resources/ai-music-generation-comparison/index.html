@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniMax Music 2.0 vs 2.5 vs 2.5+: AI Music Generation for Travel Reels Compared — tabiji.ai</title>
+    <meta name="description" content="We tested 3 MiniMax Music API models on the same prompts, explored Suno, Udio, Veo 3 audio, and Pixabay royalty-free — here's everything we learned about AI music for short-form travel video.">
+    <link rel="canonical" href="https://tabiji.ai/resources/ai-music-generation-comparison/">
+    <meta property="og:title" content="MiniMax Music 2.0 vs 2.5 vs 2.5+: AI Music Generation for Travel Reels Compared">
+    <meta property="og:description" content="We tested 3 MiniMax Music API models on the same prompts, explored Suno, Udio, Veo 3 audio, and Pixabay royalty-free — here's everything we learned about AI music for short-form travel video.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://tabiji.ai/resources/ai-music-generation-comparison/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Article","headline":"MiniMax Music 2.0 vs 2.5 vs 2.5+: AI Music Generation for Travel Reels Compared","author":{"@type":"Organization","name":"Tabiji"},"datePublished":"2026-03-11","publisher":{"@type":"Organization","name":"tabiji.ai","url":"https://tabiji.ai"}}
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-D7QHNRXLHJ');</script>
+    <style>
+        :root{--indigo:#2D3A5C;--warm-cream:#F5F0E8;--sand:#E8DFD0;--earth:#8B7355;--terracotta:#C4704B;--deep-brown:#3E2F23;--sage:#7A8B6F;--white:#FEFCF9;--text:#2C2419;--text-muted:#6B5D4F}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--white);color:var(--text)}
+        nav{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2rem;position:fixed;top:0;left:0;right:0;background:rgba(254,252,249,0.95);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid var(--sand)}
+        .logo{text-decoration:none;font-size:1.3rem;font-weight:700;color:var(--indigo);position:relative}.logo span{color:var(--terracotta)}.logo .owl-fly{display:none}.logo:hover .owl-default{display:none}.logo:hover .owl-fly{display:inline}
+        .cta-nav{background:var(--terracotta);color:white;padding:0.55rem 1.25rem;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:600}
+        .nav-links{display:flex;gap:1.5rem;align-items:center}
+        .hamburger{display:none;background:none;border:none;font-size:1.5rem;color:var(--indigo);cursor:pointer}
+        .nav-dropdown{position:relative}.nav-dropdown-toggle{background:none;border:none;color:var(--indigo);font-size:0.9rem;font-weight:500;cursor:pointer;padding:0;font-family:inherit}.nav-dropdown-toggle::after{content:' ▾'}
+        .nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 0.5rem);left:50%;transform:translateX(-50%);background:rgba(254,252,249,0.98);backdrop-filter:blur(20px);border:1px solid var(--sand);border-radius:10px;padding:0.5rem 0;min-width:200px;box-shadow:0 4px 16px rgba(0,0,0,0.08);z-index:200}
+        .nav-dropdown.open .nav-dropdown-menu{display:block}
+        .nav-dropdown-menu a{display:block;padding:0.5rem 1.2rem;color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;white-space:nowrap}.nav-dropdown-menu a:hover{background:rgba(0,0,0,0.04)}
+        @media(max-width:768px){.hamburger{display:block}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(254,252,249,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand);padding:1rem 1.5rem;flex-direction:column;gap:1rem}.nav-links.open{display:flex}.nav-dropdown-menu{position:static;transform:none;background:none;border:none;box-shadow:none;padding-left:1rem}.nav-dropdown-menu a{padding:0.35rem 0;font-size:0.85rem;opacity:0.8}nav a.cta-nav{text-align:center}}
+        .article-container{max-width:720px;margin:0 auto;padding:7rem 2rem 3rem}
+        .article-container h1{font-size:clamp(1.8rem,4vw,2.5rem);color:var(--indigo);line-height:1.25;letter-spacing:-0.02em;margin-bottom:1.5rem}
+        .article-body h2{font-size:1.4rem;color:var(--indigo);font-weight:700;margin:2.5rem 0 1rem}
+        .article-body h3{font-size:1.15rem;color:var(--indigo);font-weight:600;margin:2rem 0 0.75rem}
+        .article-body p{margin-bottom:1.25rem;font-size:1.05rem;line-height:1.75}
+        .article-body ul,.article-body ol{margin:1rem 0 1.5rem 1.5rem}
+        .article-body li{margin-bottom:0.5rem;font-size:1.05rem;line-height:1.7}
+        .article-body a{color:var(--terracotta);text-decoration:underline}
+        .article-body blockquote{background:var(--warm-cream);border-left:3px solid var(--terracotta);padding:1rem 1.5rem;border-radius:0 8px 8px 0;margin:1.5rem 0;font-style:italic;color:var(--text-muted)}
+        .article-body strong{color:var(--indigo)}
+        .article-body code{background:var(--warm-cream);padding:0.15rem 0.4rem;border-radius:4px;font-size:0.9rem;color:var(--deep-brown);font-family:'SF Mono','Fira Code',monospace}
+        .article-body pre{background:#1e1e2e;color:#cdd6f4;padding:1.25rem 1.5rem;border-radius:10px;overflow-x:auto;margin:1.25rem 0 1.5rem;font-size:0.85rem;line-height:1.6;font-family:'SF Mono','Fira Code',monospace}
+        .article-body pre code{background:none;padding:0;color:inherit;font-size:inherit}
+        footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--sand)}
+        .logo-footer{font-size:1.2rem;font-weight:700;color:var(--indigo);margin-bottom:0.5rem}
+        footer p{color:var(--text-muted);font-size:0.85rem}
+        .article-meta{font-size:0.9rem;color:var(--text-muted);margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--sand)}
+        .audio-player{background:var(--warm-cream);border:1px solid var(--sand);border-radius:10px;padding:1rem 1.25rem;margin:0.75rem 0}
+        .audio-player .player-label{font-size:0.85rem;font-weight:600;color:var(--indigo);margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
+        .model-badge{display:inline-block;background:var(--indigo);color:white;padding:0.1rem 0.6rem;border-radius:20px;font-size:0.7rem;font-weight:700}
+        .model-badge.winner{background:var(--sage)}.model-badge.mid{background:var(--earth)}.model-badge.low{background:var(--terracotta)}
+        .audio-player audio{width:100%;height:36px}
+        .audio-group{margin:1.5rem 0 2rem}
+        .audio-group-title{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem}
+        .table-wrap{width:100%;overflow-x:auto;margin:1.5rem 0 2rem;border-radius:10px;border:1px solid var(--sand)}
+        .spec-table{width:100%;min-width:520px;border-collapse:collapse;font-size:0.95rem}
+        .spec-table th,.spec-table td{padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--sand)}
+        .spec-table th{background:var(--warm-cream);color:var(--indigo);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}
+        .spec-table tr:last-child td{border-bottom:none}
+        .spec-table .winner{background:rgba(122,139,111,0.08);font-weight:600}
+        @media(max-width:640px){.spec-table{font-size:0.85rem}.spec-table th,.spec-table td{padding:0.5rem 0.65rem}}
+        .verdict-box{background:var(--warm-cream);border:2px solid var(--sage);border-radius:12px;padding:1.5rem 2rem;margin:2rem 0}
+        .verdict-box h3{color:var(--sage);margin-bottom:0.75rem;font-size:1.1rem}
+        .verdict-box p{margin-bottom:0.75rem}.verdict-box p:last-child{margin-bottom:0}
+        .toc-sidebar{padding-top:7rem;width:220px;flex-shrink:0;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto}
+        .toc-sidebar h2{font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em}
+        .toc-sidebar ul{list-style:none;padding:0;margin:0}.toc-sidebar li{margin-bottom:0.4rem}
+        .toc-sidebar a{color:var(--earth);text-decoration:none;font-size:0.85rem;display:block;padding:0.25rem 0 0.25rem 0.75rem;border-left:2px solid transparent;line-height:1.3}
+        .toc-sidebar a:hover{color:var(--terracotta)}.toc-sidebar a.active{color:var(--terracotta);border-left-color:var(--terracotta);font-weight:600}
+        .toc-mobile-sticky{display:none;position:sticky;top:0;z-index:99;background:rgba(254,252,249,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--sand)}
+        .toc-mobile-toggle{width:100%;padding:0.7rem 1.2rem;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;font-size:0.9rem;font-weight:600;color:var(--indigo)}
+        .toc-mobile-toggle .toc-active-label{flex:1;text-align:left}.toc-mobile-toggle .toc-chevron{font-size:0.7rem;color:var(--earth);transition:transform 0.25s}
+        .toc-mobile-sticky.open .toc-chevron{transform:rotate(180deg)}
+        .toc-mobile-dropdown{max-height:0;overflow:hidden;transition:max-height 0.3s;border-top:1px solid var(--sand)}
+        .toc-mobile-sticky.open .toc-mobile-dropdown{max-height:60vh;overflow-y:auto}
+        .toc-mobile-dropdown ul{list-style:none;padding:0.5rem 0;margin:0}
+        .toc-mobile-dropdown a{display:block;padding:0.55rem 1.2rem;color:var(--earth);text-decoration:none;font-size:0.9rem}.toc-mobile-dropdown a:hover{background:var(--warm-cream);color:var(--terracotta)}
+        .content-wrapper{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;gap:3rem;align-items:flex-start}
+        .content-wrapper .article-content{flex:1;min-width:0;max-width:780px}
+        .content-wrapper .article-content .article-container{max-width:none;padding-left:0;padding-right:0}
+        @media(max-width:900px){.content-wrapper{flex-direction:column;gap:0;padding:0 1.25rem}.toc-sidebar{display:none}.toc-mobile-sticky{display:block}.article-container{padding:5.5rem 0.5rem 2rem}.article-container h1{font-size:1.5rem}.article-body p,.article-body li{font-size:0.95rem}.verdict-box{padding:1rem 1.25rem}}
+        .pipeline-flow{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin:1.25rem 0 1.75rem;padding:1rem;background:var(--warm-cream);border-radius:10px}
+        .pipeline-step{background:var(--indigo);color:white;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.8rem;font-weight:600;white-space:nowrap}
+        .pipeline-arrow{color:var(--earth);font-size:1rem;font-weight:700}
+        .gotcha-box{background:#FFF8F0;border:1px solid #F0D0B0;border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1.25rem 0}
+        .gotcha-box .gotcha-title{font-size:0.85rem;font-weight:700;color:var(--terracotta);margin-bottom:0.35rem}
+        .gotcha-box p{font-size:0.95rem;margin-bottom:0}
+    </style>
+</head>
+<body>
+    <nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/compare/">🆚 Compare Destinations</a><a href="/find/">🔍 Destination Finder</a><a href="/spin/">🌎 Spin the Globe</a><a href="/resources/">📚 Resources</a><a href="/owl/">🧭 Tabiji Travel Agency</a><a href="/trends/">📊 Travel Trends</a>
+            </div>
+        </div>
+        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
+        <a href="/popular-picks/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Popular Picks</a>
+        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
+        <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
+    </div>
+</nav>
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+        <span class="toc-active-label">🎵 Contents</span><span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#why">Why AI Music?</a></li><li><a href="#minimax-models">MiniMax Models</a></li><li><a href="#test-1-warm">Test 1: Warm Cinematic</a></li><li><a href="#test-2-festival">Test 2: Festival Energy</a></li><li><a href="#test-3-vintage">Test 3: Vintage Kyoto</a></li><li><a href="#native-video-audio">Native Video Audio</a></li><li><a href="#alternatives">Alternatives</a></li><li><a href="#production-pipeline">Production Pipeline</a></li><li><a href="#gotchas">Gotchas</a></li><li><a href="#code">Code</a></li><li><a href="#scorecard">Scorecard</a></li><li><a href="#verdict">Verdict</a></li>
+        </ul>
+    </div>
+</div>
+<div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+        <li><a href="#why">Why AI Music?</a></li><li><a href="#minimax-models">MiniMax Models</a></li><li><a href="#test-1-warm">Test 1: Warm Cinematic</a></li><li><a href="#test-2-festival">Test 2: Festival Energy</a></li><li><a href="#test-3-vintage">Test 3: Vintage Kyoto</a></li><li><a href="#native-video-audio">Native Video Audio</a></li><li><a href="#alternatives">Alternatives</a></li><li><a href="#production-pipeline">Production Pipeline</a></li><li><a href="#gotchas">Gotchas</a></li><li><a href="#code">Code Snippets</a></li><li><a href="#scorecard">Scorecard</a></li><li><a href="#verdict">Verdict</a></li>
+    </ul>
+</aside>
+<div class="article-content">
+<div class="article-container">
+    <h1>MiniMax Music 2.0 vs 2.5 vs 2.5+: Everything We Learned About AI Music for Travel Reels</h1>
+    <div class="article-meta">Published March 11, 2026 · By the tabiji.ai team · <a href="/resources/ai-image-generation-comparison/">See also: AI Image Generation Compared</a></div>
+    <div class="article-body">
+
+        <p>We produce dozens of Instagram Reels and YouTube Shorts every week at <a href="/">tabiji.ai</a> — AI-generated travel videos that need background music. Licensing real tracks doesn't scale. Royalty-free libraries get repetitive. So we went all-in on <strong>AI-generated music</strong>.</p>
+        <p>After months of production use — generating hundreds of tracks across three MiniMax Music API models, testing native video audio from Veo 3 and Z.AI, downloading royalty-free Pixabay libraries, and building a trending Instagram audio pipeline — here's everything we've learned about AI music generation for short-form travel video content.</p>
+        <p>Every audio sample on this page was generated fresh by the API on the same day with identical prompts. Press play and hear for yourself.</p>
+
+        <h2 id="why">Why AI Music for Travel Reels?</h2>
+        <p>Short-form video needs background music. Every Reel, every Short, every TikTok. When you're producing 4–10 videos per day through an automated pipeline, your options are:</p>
+        <ul>
+            <li><strong>Licensed music</strong> — expensive at scale, rights management nightmare, can't automate</li>
+            <li><strong>Royalty-free libraries</strong> — free/cheap but limited variety. Your audience hears the same 20 tracks on repeat.</li>
+            <li><strong>AI-generated music</strong> — unique per video, ~$0.01/track, fully automatable via API, infinite variety</li>
+        </ul>
+        <p>We chose option three. The <strong>MiniMax Music API</strong> became the backbone of our audio pipeline — it's the only service we found that combines decent quality, true API access, instrumental mode, and a price point that rounds to zero.</p>
+
+        <h2 id="minimax-models">The MiniMax Music Models</h2>
+        <p>MiniMax offers three music generation models. They look similar on paper, but in practice they behave very differently.</p>
+        <div class="table-wrap"><table class="spec-table">
+            <thead><tr><th>Feature</th><th>Music 2.0</th><th>Music 2.5</th><th>Music 2.5+</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Model ID</strong></td><td>music-2.0</td><td>music-2.5</td><td>music-2.5+</td></tr>
+                <tr><td><strong>Cost per track</strong></td><td>~$0.01</td><td>~$0.01</td><td>~$0.01</td></tr>
+                <tr><td><strong>Requires lyrics</strong></td><td>Yes (always)</td><td>Yes (always)</td><td class="winner">No (optional)</td></tr>
+                <tr><td><strong>is_instrumental</strong></td><td>Not supported</td><td>Broken (error)</td><td class="winner">Works perfectly</td></tr>
+                <tr><td><strong>Output duration</strong></td><td>20–65s</td><td>20–50s</td><td>60–192s</td></tr>
+                <tr><td><strong>Vocal tendency</strong></td><td>Always vocal</td><td>Usually vocal</td><td class="winner">Pure instrumental</td></tr>
+                <tr><td><strong>Quality (travel bgm)</strong></td><td>5/10</td><td>6/10</td><td class="winner">8/10</td></tr>
+                <tr><td><strong>Our usage</strong></td><td>Retro/vocal vibes</td><td>Don't use</td><td class="winner">All production</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>Music 2.0 — The Original (Vocals Required)</h3>
+        <p>The first MiniMax music model we used. It <strong>always requires a lyrics field</strong> — you cannot generate without one. It doesn't support <code>is_instrumental: true</code> at all. Pass the parameter and it gets ignored; the track will still have vocals.</p>
+        <p>To get something <em>close</em> to instrumental, we pass placeholder lyrics like <code>"la la la"</code>. The model interprets this as a wordless vocal melody — humming, "la la" singing, or vocalizations layered on top. For some use cases (retro vibes, dreamy atmospheric) this sounds pleasant. For clean background music behind text overlays, it's a problem.</p>
+
+        <h3>Music 2.5 — The Middle Child (Skip It)</h3>
+        <p>Music 2.5 improves on 2.0 slightly — the instrumentation is more refined and the mix is better. But <strong><code>is_instrumental: true</code> doesn't work on this model</strong>. Sending it returns a <code>2013: invalid params, lyrics is required</code> error. You still need to pass lyrics, which means you still get vocals.</p>
+        <p><strong>If you want instrumental, use 2.5+. If you want vocals, use 2.0.</strong> There's no reason to use 2.5.</p>
+
+        <h3>Music 2.5+ — The Production Choice</h3>
+        <p>This is the one. Music 2.5+ is the only MiniMax model where <code>is_instrumental: true</code> actually works. Set it, and you get <strong>pure instrumental music</strong> — no vocals, no humming, no "la la." Just clean music.</p>
+        <p>Quality is noticeably better: richer instrumentation, better stereo separation, more dynamic range. Tracks are also longer (60–192s vs 20–65s), giving you more material to trim from. At ~$0.01 per generation, it's essentially free.</p>
+
+        <h2 id="test-1-warm">Test 1: Warm Cinematic Travel Music</h2>
+        <p><strong>The prompt:</strong> "warm cinematic travel background music, acoustic guitar and soft piano, golden hour sunset vibes, dreamy and nostalgic"</p>
+        <p>Same prompt, all three models. Music 2.0 and 2.5 got placeholder lyrics (<code>"la la la"</code>) since they require them. Music 2.5+ used <code>is_instrumental: true</code>.</p>
+
+        <div class="audio-group">
+            <div class="audio-group-title">🎧 Prompt 1: Warm Cinematic Travel</div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.0 — "la la la" placeholder lyrics <span class="model-badge low">Vocal</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.0-warm.mp3" type="audio/mpeg"></audio>
+            </div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.5 — "la la la" placeholder lyrics <span class="model-badge mid">Vocal</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.5-warm.mp3" type="audio/mpeg"></audio>
+            </div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.5+ — is_instrumental: true <span class="model-badge winner">Instrumental ✓</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.5-plus-warm.mp3" type="audio/mpeg"></audio>
+            </div>
+        </div>
+
+        <p>The difference is immediately obvious. Music 2.0 produces a vocal track — you can hear the "la la la" rendered as a dreamy sung melody. It has a certain lo-fi charm, but it's not background music — it demands attention. Music 2.5 is similar but slightly more polished. Music 2.5+ is the only one producing clean, vocal-free instrumental that can sit behind video content without competing for attention.</p>
+
+        <h2 id="test-2-festival">Test 2: Japanese Festival Energy</h2>
+        <p><strong>The prompt:</strong> "upbeat Japanese festival drums and shamisen, energetic travel montage, fast tempo"</p>
+        <p>A completely different mood — to test how each model handles cultural instrumentation and high-energy requests.</p>
+
+        <div class="audio-group">
+            <div class="audio-group-title">🥁 Prompt 2: Japanese Festival Drums</div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.0 — "la la la" placeholder lyrics <span class="model-badge low">Vocal</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.0-festival.mp3" type="audio/mpeg"></audio>
+            </div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.5 — "la la la" placeholder lyrics <span class="model-badge mid">Vocal</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.5-festival.mp3" type="audio/mpeg"></audio>
+            </div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.5+ — is_instrumental: true <span class="model-badge winner">Instrumental ✓</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/resources/ai-music-generation-comparison/samples/minimax-2.5-plus-festival.mp3" type="audio/mpeg"></audio>
+            </div>
+        </div>
+
+        <p>This test reveals another key difference: <strong>duration</strong>. Music 2.0 and 2.5 generated ~20-second clips, while Music 2.5+ gave us ~100 seconds — five times more material to work with. For our pipeline where we trim to 8–15 seconds, more source material means more options for finding the perfect segment.</p>
+        <p>All three models handle the shamisen/taiko request reasonably well — the cultural instrumentation comes through. But only 2.5+ keeps it purely instrumental.</p>
+
+        <h2 id="test-3-vintage">Test 3: Vintage Kyoto (Real Production Sample)</h2>
+        <p>This is a track we actually used in production — generated for our "POV: traveling in Kyoto in the 1970s" vintage Reel series.</p>
+        <p><strong>The prompt:</strong> "Lo-fi ambient, Rhodes piano, shakuhachi flute, vinyl crackle, tape hiss, 65 BPM, no drums"</p>
+
+        <div class="audio-group">
+            <div class="audio-group-title">🎬 Production Sample: Vintage Kyoto Reel</div>
+            <div class="audio-player">
+                <div class="player-label">Music 2.0 — from our vintage Kyoto Reel <span class="model-badge low">Vocal</span></div>
+                <audio controls preload="none"><source src="https://img.tabiji.ai/tmp/vintage-kyoto/music-2.0.mp3" type="audio/mpeg"></audio>
+            </div>
+        </div>
+
+        <p>Even when prompted for "lo-fi ambient" with specific instruments, Music 2.0 layers vocals on top. You can hear vocalizations weaving through the Rhodes and shakuhachi — pleasant, but not what we needed for a video with text overlays. This is exactly why we switched to Music 2.5+ for all production work.</p>
+
+        <h2 id="native-video-audio">Native Video Audio: Veo 3, Z.AI CogVideoX, MiniMax Hailuo</h2>
+        <p>Before settling on a separate music generation step, we tested whether the video generation models themselves could produce usable audio.</p>
+
+        <h3>Google Veo 3 — Decent SFX, Not Music</h3>
+        <p>Veo 3 has a <code>generate_audio</code> parameter that produces synchronized audio for generated video. The sound effects are surprisingly good — ambient street noise, wind, water, footsteps. For establishing shots (a busy market, a temple garden), it adds atmosphere.</p>
+        <p>But it's not <em>music</em>. You can't prompt Veo 3 for "acoustic guitar background" and get anything usable. The audio generation is tuned for environmental ambience, not composed tracks. We disable it for most Reels and add music separately via MiniMax.</p>
+
+        <h3>Z.AI CogVideoX-3 — Synthetic and Unusable</h3>
+        <p>CogVideoX-3 claims "AI SFX audio" in its docs. In practice, the quality is mediocre — it sounds synthetic, thin, and obviously AI-generated. We tested it on several clips and never produced audio we'd want in a published video. Never used in production.</p>
+
+        <h3>MiniMax Hailuo I2V — No Audio At All</h3>
+        <p>MiniMax's video model (Hailuo) generates video only — no audio output whatsoever. This is actually why we built the music pipeline: we needed something to pair with Hailuo's otherwise excellent video generation. Music 2.5+ is the natural companion.</p>
+
+        <div class="table-wrap"><table class="spec-table">
+            <thead><tr><th>Model</th><th>Audio Output</th><th>Music Quality</th><th>Our Usage</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Veo 3</strong></td><td>SFX + ambience</td><td>N/A (not music)</td><td>Disabled for Reels</td></tr>
+                <tr><td><strong>CogVideoX-3</strong></td><td>AI SFX</td><td>2/10</td><td>Never used</td></tr>
+                <tr><td><strong>Hailuo I2V</strong></td><td>None</td><td>N/A</td><td>Paired with Music 2.5+</td></tr>
+            </tbody>
+        </table></div>
+
+        <blockquote>Bottom line: no video generation model produces music you'd actually want in a published Reel. Use a dedicated music model.</blockquote>
+
+        <h2 id="alternatives">Alternatives We Explored (But Didn't Use)</h2>
+
+        <h3>Suno AI &amp; Udio — Amazing Music, No API</h3>
+        <p>Let's address the elephant in the room. <strong>Suno AI</strong> and <strong>Udio</strong> produce genuinely incredible AI music — full songs with complex arrangements, multiple instruments, emotional dynamics. In a blind test, they'd probably beat MiniMax on raw quality.</p>
+        <p>The problem: <strong>neither has a public API</strong> (as of March 2026). Both are web-only interfaces. You can't script them, can't integrate them into a pipeline, can't generate 50 tracks programmatically overnight. For one-off projects they're fantastic. For automated Reel production at scale, they're useless.</p>
+        <p>When (if) they launch APIs, we'll re-evaluate immediately.</p>
+
+        <h3>Pixabay Royalty-Free Library — Our Fallback</h3>
+        <p>We downloaded 21 royalty-free tracks from Pixabay, organized by mood:</p>
+        <ul>
+            <li><strong>adventure</strong> — upbeat, driving rhythm, travel montage energy</li>
+            <li><strong>dreamy</strong> — ambient pads, soft piano, golden hour</li>
+            <li><strong>tropical</strong> — ukulele, steel drums, island vibes</li>
+            <li><strong>cinematic</strong> — orchestral swells, dramatic builds</li>
+            <li><strong>cultural</strong> — region-specific instruments (Japanese, Middle Eastern, etc.)</li>
+        </ul>
+        <p><strong>Pros:</strong> Zero latency (no API call), zero cost, predictable quality. When MiniMax's API has issues, we fall back to these. Our one-thing-video skill uses them by default.</p>
+        <p><strong>Cons:</strong> Only 21 tracks. After a week of 4 Reels/day, your audience has heard each one multiple times. No variety.</p>
+
+        <h3>Trending Instagram Audio Pipeline</h3>
+        <p>We also built a completely different system: <strong>download trending Instagram audio via YouTube search</strong>, then categorize it by mood using Gemini Flash audio analysis.</p>
+        <p>The pipeline: identify trending audio on Instagram → search YouTube for the track → extract audio with <code>yt-dlp</code> → analyze mood with Gemini 2.5 Flash → rename and categorize. We downloaded 19 tracks this way at ~$0.007 per track (Gemini audio analysis cost).</p>
+        <p>This is for <em>licensed/trending</em> audio, not AI-generated — a different use case entirely. When a Reel needs to ride a trending sound for algorithmic reach, this pipeline delivers. For original background music at scale, MiniMax is better.</p>
+
+        <h2 id="production-pipeline">Our Production Pipeline</h2>
+        <p>Here's how we actually use AI music across our different Reel formats:</p>
+
+        <div class="table-wrap"><table class="spec-table">
+            <thead><tr><th>Reel Format</th><th>Music Source</th><th>Typical Prompt Style</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Budget Reels</strong><br><em>"What $X/day gets you in..."</em></td><td class="winner">MiniMax Music 2.5+ instrumental</td><td>Destination-mood based</td></tr>
+                <tr><td><strong>Scam Alert Reels</strong><br><em>"Don't fall for this in..."</em></td><td class="winner">MiniMax Music 2.5+ instrumental</td><td>Tension, suspense, minor key</td></tr>
+                <tr><td><strong>Tourist Mistake Reels</strong></td><td class="winner">MiniMax Music 2.5+ instrumental</td><td>Dramatic reveal, cinematic</td></tr>
+                <tr><td><strong>One Thing Reels</strong><br><em>"The one thing you can't miss"</em></td><td>Pixabay library (mood-based)</td><td>Pre-categorized by mood</td></tr>
+                <tr><td><strong>Wrong Answers Only</strong></td><td class="winner">MiniMax Music 2.5+ instrumental</td><td>Cultural mood matching</td></tr>
+                <tr><td><strong>Vintage POV</strong><br><em>"POV: traveling in 1972"</em></td><td>MiniMax Music 2.5+ or 2.0</td><td>Lo-fi, Rhodes, vinyl crackle</td></tr>
+            </tbody>
+        </table></div>
+
+        <p>The standard pipeline looks like this:</p>
+
+        <div class="pipeline-flow">
+            <span class="pipeline-step">Destination + Mood</span>
+            <span class="pipeline-arrow">→</span>
+            <span class="pipeline-step">Music 2.5+ Generate</span>
+            <span class="pipeline-arrow">→</span>
+            <span class="pipeline-step">FFmpeg Trim (8–15s)</span>
+            <span class="pipeline-arrow">→</span>
+            <span class="pipeline-step">FFmpeg Mux with Video</span>
+            <span class="pipeline-arrow">→</span>
+            <span class="pipeline-step">Publish</span>
+        </div>
+
+        <p>Total music cost per Reel: <strong>~$0.01</strong>. At 4–10 Reels per day, that's $0.04–$0.10/day for all music. Essentially free.</p>
+
+        <h2 id="gotchas">Key Learnings &amp; Gotchas</h2>
+
+        <div class="gotcha-box">
+            <div class="gotcha-title">⚠️ Music 2.0 requires the lyrics field</div>
+            <p>You <em>cannot</em> generate with Music 2.0 without lyrics. Pass placeholder like <code>"la la la"</code> for instrumental-ish output. The model will still vocalize it.</p>
+        </div>
+
+        <div class="gotcha-box">
+            <div class="gotcha-title">⚠️ Music 2.5 is_instrumental is broken</div>
+            <p>Sending <code>is_instrumental: true</code> to Music 2.5 returns error <code>2013: invalid params, lyrics is required</code>. Only Music 2.5+ supports true instrumental mode.</p>
+        </div>
+
+        <div class="gotcha-box">
+            <div class="gotcha-title">⚠️ MiniMax Music is a MUSIC model, not a foley model</div>
+            <p>Even when prompted for "ambient coffee shop sounds" or "ocean waves," the model produces <em>melodic musical compositions</em> inspired by the prompt — not sound effects. If you need foley/ambience, use a different tool.</p>
+        </div>
+
+        <div class="gotcha-box">
+            <div class="gotcha-title">⚠️ Generated tracks are 60–192s but you only need 8–15s</div>
+            <p>Always trim with FFmpeg. The first 8–15 seconds are usually the best part. Don't use the whole track — it wasn't composed for short-form structure.</p>
+        </div>
+
+        <div class="gotcha-box">
+            <div class="gotcha-title">💡 FFmpeg muxing command we use in production</div>
+            <p>Trim music to fit video, add 2-second fade-out:</p>
+        </div>
+
+<pre><code>ffmpeg -i video.mp4 -i music.mp3 \
+  -filter_complex "[1:a]atrim=0:12,afade=t=out:st=10:d=2[a]" \
+  -map 0:v -map "[a]" \
+  -c:v copy -c:a aac -shortest output.mp4</code></pre>
+
+        <p>This trims the music to 12 seconds, applies a 2-second fade-out starting at the 10-second mark, copies the video stream untouched, and encodes audio as AAC. The <code>-shortest</code> flag ensures the output matches the shorter of the two streams.</p>
+
+        <h2 id="code">How We Use It (Code)</h2>
+        <p>Our CLI wrapper for the MiniMax Music API:</p>
+
+<pre><code># Generate instrumental background music (Music 2.5+)
+python3 scripts/minimax-video.py music \
+  "warm cinematic travel, acoustic guitar, golden hour" \
+  -m music-2.5+ --instrumental \
+  -o /tmp/my-track.mp3
+
+# Generate with vocals (Music 2.0, requires lyrics)
+python3 scripts/minimax-video.py music \
+  "dreamy lo-fi travel vibes, soft and nostalgic" \
+  -m music-2.0 -l "la la la, la la la" \
+  -o /tmp/vocal-track.mp3</code></pre>
+
+        <p>The underlying API call is straightforward:</p>
+
+<pre><code>curl -X POST "https://api.minimax.io/v1/music_generation" \
+  -H "Authorization: Bearer $MINIMAX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "music-2.5+",
+    "prompt": "warm cinematic travel background music",
+    "is_instrumental": true
+  }'</code></pre>
+
+        <p>The response includes a task ID. Poll for completion, then download the mp3 from the returned URL. Our CLI handles the polling automatically.</p>
+
+        <p>Full pipeline in a shell script (what our cron jobs actually run):</p>
+
+<pre><code>#!/bin/bash
+# Generate music → trim → mux with video → publish
+
+# 1. Generate instrumental track
+python3 scripts/minimax-video.py music \
+  "$MOOD_PROMPT" -m music-2.5+ --instrumental \
+  -o /tmp/reel-music.mp3
+
+# 2. Trim to 12s with fade-out
+ffmpeg -y -i /tmp/reel-music.mp3 \
+  -af "atrim=0:12,afade=t=out:st=10:d=2" \
+  /tmp/reel-music-trimmed.mp3
+
+# 3. Mux with video
+ffmpeg -y -i /tmp/reel-video.mp4 -i /tmp/reel-music-trimmed.mp3 \
+  -map 0:v -map 1:a -c:v copy -c:a aac -shortest \
+  /tmp/reel-final.mp4
+
+# 4. Publish
+bash ~/tabiji/functions/publish-reel.sh \
+  /tmp/reel-final.mp4 "$CAPTION"</code></pre>
+
+        <h2 id="scorecard">Final Scorecard</h2>
+
+        <div class="table-wrap"><table class="spec-table">
+            <thead><tr><th>Category</th><th>Music 2.0</th><th>Music 2.5</th><th>Music 2.5+</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Instrumental Quality</strong></td><td>N/A (always vocal)</td><td>N/A (always vocal)</td><td class="winner">8/10</td></tr>
+                <tr><td><strong>Vocal Quality</strong></td><td class="winner">6/10</td><td>6.5/10</td><td>N/A (instrumental)</td></tr>
+                <tr><td><strong>Prompt Adherence</strong></td><td>6/10</td><td>6.5/10</td><td class="winner">8/10</td></tr>
+                <tr><td><strong>Cultural Instruments</strong></td><td>5/10</td><td>6/10</td><td class="winner">7/10</td></tr>
+                <tr><td><strong>Stereo Separation</strong></td><td>4/10</td><td>5/10</td><td class="winner">7/10</td></tr>
+                <tr><td><strong>Dynamic Range</strong></td><td>4/10</td><td>5/10</td><td class="winner">7/10</td></tr>
+                <tr><td><strong>API Reliability</strong></td><td>7/10</td><td>5/10 (broken params)</td><td class="winner">9/10</td></tr>
+                <tr><td><strong>Output Duration</strong></td><td>20–65s</td><td>20–50s</td><td class="winner">60–192s</td></tr>
+                <tr><td><strong>Cost Efficiency</strong></td><td class="winner">10/10</td><td class="winner">10/10</td><td class="winner">10/10</td></tr>
+                <tr style="background:var(--warm-cream);"><td><strong>Overall (for travel bgm)</strong></td><td>5/10</td><td>5.5/10</td><td class="winner"><strong>8/10</strong></td></tr>
+            </tbody>
+        </table></div>
+
+        <h2 id="verdict">The Verdict</h2>
+
+        <div class="verdict-box">
+            <h3>🏆 Winner: MiniMax Music 2.5+ (Instrumental Mode)</h3>
+            <p>For automated travel video production, Music 2.5+ is the only real option. It's the only model with working instrumental mode, the only one producing long enough tracks for flexible trimming, and the only one with consistently clean output suitable for background music.</p>
+            <p>At ~$0.01 per track, cost is literally not a factor. We generate hundreds of tracks per month and the total bill is under $5. The quality isn't Suno-level, but it doesn't need to be — it's background music for 8-second Reels, not a Spotify release.</p>
+        </div>
+
+        <div class="verdict-box" style="border-color:var(--earth);">
+            <h3>🥈 Music 2.0: Niche Use for Retro/Vocal Vibes</h3>
+            <p>Music 2.0 still has a role when you <em>want</em> vocals or a lo-fi vocal texture. Our vintage POV Reels sometimes benefit from the dreamy "la la la" quality — it adds a human, nostalgic warmth that pure instrumentals lack. Use it intentionally, not as a workaround.</p>
+        </div>
+
+        <div class="verdict-box" style="border-color:var(--terracotta);">
+            <h3>🥉 Music 2.5: Skip It Entirely</h3>
+            <p>It's slightly better than 2.0 but with broken instrumental mode and no compelling advantage over either sibling. Save yourself the confusion.</p>
+        </div>
+
+        <h3>What We'd Change</h3>
+        <p>If we could wave a magic wand:</p>
+        <ul>
+            <li><strong>Suno or Udio API access</strong> — would replace MiniMax overnight for quality-critical content</li>
+            <li><strong>Shorter generation option</strong> — 8–15 second tracks purpose-built for Reels, so we don't need to trim 192 seconds down to 12</li>
+            <li><strong>Mood-to-prompt templates</strong> — a standardized mapping from destination + mood → optimal music prompt (we're building this internally)</li>
+            <li><strong>Better foley/SFX model</strong> — MiniMax Music generates music even when you want ambient sounds. A separate foley model for coffee shop ambience, rain, market chatter would be valuable.</li>
+        </ul>
+
+        <p>For now, <strong>MiniMax Music 2.5+ with <code>is_instrumental: true</code></strong> is the best tool for the job. It's cheap, reliable, automatable, and good enough. In the world of AI-generated short-form video, "good enough at scale" beats "perfect but manual" every time.</p>
+
+        <hr style="border:none;border-top:1px solid var(--sand);margin:3rem 0;">
+        <p style="text-align:center;color:var(--text-muted);font-size:0.95rem;">All audio samples on this page were generated from identical prompts via the MiniMax Music API on March 11, 2026. No post-processing was applied — these are raw API outputs. The vintage Kyoto sample was generated on March 10, 2026 during actual Reel production.</p>
+
+    </div>
+</div>
+</div>
+</div>
+
+    <footer>
+        <div class="logo-footer">tabiji<span style="color:var(--terracotta);">.ai</span></div>
+        <p>Free AI-powered travel itineraries built from real traveler experiences</p>
+        <p style="margin-top:0.75rem;"><a href="/resources/" style="color:var(--terracotta);text-decoration:none;">← Back to Resources</a></p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var sections = document.querySelectorAll('h2[id]');
+        var tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(function(a) { a.classList.remove('active'); });
+                    document.querySelectorAll('a[href="#' + entry.target.id + '"]').forEach(function(a) { a.classList.add('active'); });
+                }
+            });
+        }, { rootMargin: '-80px 0px -80% 0px' });
+        sections.forEach(function(s) { observer.observe(s); });
+    });
+    </script>
+</body>
+</html>
