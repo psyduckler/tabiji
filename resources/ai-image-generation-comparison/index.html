@@ -88,7 +88,7 @@
             --sage: #7A8B6F; --white: #FEFCF9; --text: #2C2419; --text-muted: #6B5D4F;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { overflow-x: hidden; }
+        html, body { overflow-x: clip; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--white); color: var(--text); }
         img, video { max-width: 100%; height: auto; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; position: fixed; top: 0; left: 0; right: 0; background: rgba(254,252,249,0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--sand); }
@@ -268,7 +268,8 @@
         .toc-sidebar a:hover { color: var(--terracotta); }
         .toc-sidebar a.active { color: var(--terracotta); border-left-color: var(--terracotta); font-weight: 600; }
 
-        .toc-mobile-sticky { display: none; position: sticky; top: 0; z-index: 99; background: rgba(254, 252, 249, 0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .toc-mobile-wrapper { display: none; }
+        .toc-mobile-sticky { position: sticky; top: 56px; z-index: 99; background: rgba(254, 252, 249, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
         .toc-mobile-toggle { width: 100%; padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 600; color: var(--indigo); }
         .toc-mobile-toggle .toc-active-label { flex: 1; text-align: left; }
         .toc-mobile-toggle .toc-chevron { transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth); }
@@ -283,26 +284,29 @@
         .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
         .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
         @media (max-width: 900px) {
-            .content-wrapper { flex-direction: column; gap: 0; padding: 0 1rem; }
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0; max-width: 100vw; overflow-x: hidden; }
             .toc-sidebar { display: none; }
-            .toc-mobile-sticky { display: block; }
-            .article-container { padding: 5rem 0.75rem 2rem; }
-            .article-hero { margin-left: -0.75rem; margin-right: -0.75rem; border-radius: 0; }
-            .article-container h1 { font-size: 1.4rem; line-height: 1.3; }
+            .toc-mobile-wrapper { display: block; }
+            .article-content { max-width: 100%; width: 100%; }
+            .article-container { padding: 5rem 1rem 2rem; max-width: 100%; overflow-x: hidden; }
+            .article-hero { margin-left: -1rem; margin-right: -1rem; border-radius: 0; }
+            .article-container h1 { font-size: 1.4rem; line-height: 1.3; word-wrap: break-word; overflow-wrap: break-word; }
             .article-body h2 { font-size: 1.2rem; margin: 2rem 0 0.75rem; }
             .article-body h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
             .article-body p, .article-body li { font-size: 0.95rem; line-height: 1.7; }
             .article-body blockquote { padding: 0.75rem 1rem; font-size: 0.95rem; margin: 1rem 0; }
+            .article-body pre { max-width: 100%; overflow-x: auto; }
             .comparison-grid { grid-template-columns: 1fr !important; gap: 1rem; }
             .comparison-grid.two-col { grid-template-columns: 1fr !important; }
-            .comparison-card .card-label { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
+            .comparison-card .card-label { font-size: 0.85rem; padding: 0.6rem 0.75rem; }
             .spec-table { min-width: 420px; font-size: 0.85rem; }
             .spec-table th, .spec-table td { padding: 0.5rem 0.65rem; }
+            .table-wrap { max-width: 100%; }
             .verdict-box { padding: 1rem 1.25rem; }
         }
         @media (max-width: 480px) {
-            .article-container { padding: 4.5rem 0.5rem 1.5rem; }
-            .article-hero { margin-left: -0.5rem; margin-right: -0.5rem; }
+            .article-container { padding: 4.5rem 0.75rem 1.5rem; }
+            .article-hero { margin-left: -0.75rem; margin-right: -0.75rem; }
             .article-container h1 { font-size: 1.25rem; }
             .article-body p, .article-body li { font-size: 0.9rem; }
             .spec-table { min-width: 360px; font-size: 0.8rem; }
@@ -417,29 +421,31 @@
     </div>
 </nav>
 
-<div class="toc-mobile-sticky" id="toc-mobile">
-    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
-        <span class="toc-active-label">📑 Contents</span>
-        <span class="toc-chevron">▼</span>
-    </button>
-    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
-        <ul>
-            <li><a href="#why-we-ran-this-test">Why We Ran This Test</a></li>
-            <li><a href="#the-models">The Three Models</a></li>
-            <li><a href="#test-1-fushimi-inari">Test 1: Fushimi Inari Torii Gates</a></li>
-            <li><a href="#test-2-kinkakuji">Test 2: Kinkaku-ji Golden Pavilion</a></li>
-            <li><a href="#test-3-arashiyama">Test 3: Arashiyama Bamboo Grove</a></li>
-            <li><a href="#test-4-gion-bw">Test 4: Gion Evening — The B&amp;W Test</a></li>
-            <li><a href="#prompt-engineering">How Better Prompts Changed Everything</a></li>
-            <li><a href="#pricing">Pricing Comparison</a></li>
-            <li><a href="#scorecard">Final Scorecard</a></li>
-            <li><a href="#full-reels">Full Reels: Side by Side</a></li>
-            <li><a href="#verdict">The Verdict</a></li>
-            <li><a href="#recommendations">Which Should You Use?</a></li>
-            <li><a href="#broader-landscape">Broader Market</a></li>
-            <li><a href="#how-to-use">Code Examples</a></li>
-            <li><a href="#related">Related Resources</a></li>
-        </ul>
+<div class="toc-mobile-wrapper">
+    <div class="toc-mobile-sticky" id="toc-mobile">
+        <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+            <span class="toc-active-label">📑 Contents</span>
+            <span class="toc-chevron">▼</span>
+        </button>
+        <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+            <ul>
+                <li><a href="#why-we-ran-this-test" onclick="closeMobileToc()">Why We Ran This Test</a></li>
+                <li><a href="#the-models" onclick="closeMobileToc()">The Three Models</a></li>
+                <li><a href="#test-1-fushimi-inari" onclick="closeMobileToc()">Test 1: Fushimi Inari Torii Gates</a></li>
+                <li><a href="#test-2-kinkakuji" onclick="closeMobileToc()">Test 2: Kinkaku-ji Golden Pavilion</a></li>
+                <li><a href="#test-3-arashiyama" onclick="closeMobileToc()">Test 3: Arashiyama Bamboo Grove</a></li>
+                <li><a href="#test-4-gion-bw" onclick="closeMobileToc()">Test 4: Gion Evening — The B&amp;W Test</a></li>
+                <li><a href="#prompt-engineering" onclick="closeMobileToc()">How Better Prompts Changed Everything</a></li>
+                <li><a href="#pricing" onclick="closeMobileToc()">Pricing Comparison</a></li>
+                <li><a href="#scorecard" onclick="closeMobileToc()">Final Scorecard</a></li>
+                <li><a href="#full-reels" onclick="closeMobileToc()">Full Reels: Side by Side</a></li>
+                <li><a href="#verdict" onclick="closeMobileToc()">The Verdict</a></li>
+                <li><a href="#recommendations" onclick="closeMobileToc()">Which Should You Use?</a></li>
+                <li><a href="#broader-landscape" onclick="closeMobileToc()">Broader Market</a></li>
+                <li><a href="#how-to-use" onclick="closeMobileToc()">Code Examples</a></li>
+                <li><a href="#related" onclick="closeMobileToc()">Related Resources</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
