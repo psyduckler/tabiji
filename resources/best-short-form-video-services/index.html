@@ -105,6 +105,70 @@
         .nav-dropdown-menu a { display: block; padding: 0.5rem 1.2rem; color: var(--indigo); text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; transition: background 0.15s; }
         .nav-dropdown-menu a:hover { background: rgba(0,0,0,0.04); }
 
+        /* Floating TOC */
+        .toc-sidebar {
+            padding-top: 7rem; width: 220px; flex-shrink: 0;
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 100px); overflow-y: auto;
+        }
+        .toc-sidebar h2 {
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .toc-sidebar li { margin-bottom: 0.4rem; }
+        .toc-sidebar a {
+            color: var(--earth); text-decoration: none; font-size: 0.85rem;
+            transition: color 0.2s, border-color 0.2s;
+            display: block; padding: 0.25rem 0 0.25rem 0.75rem;
+            border-left: 2px solid transparent; line-height: 1.3;
+        }
+        .toc-sidebar a:hover { color: var(--terracotta); }
+        .toc-sidebar a.active {
+            color: var(--terracotta); border-left-color: var(--terracotta); font-weight: 600;
+        }
+        .toc-mobile-sticky {
+            display: none; position: sticky; top: 0; z-index: 99;
+            background: rgba(254, 252, 249, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-mobile-toggle {
+            width: 100%; padding: 0.7rem 1.2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600; color: var(--indigo);
+        }
+        .toc-mobile-toggle .toc-active-label {
+            flex: 1; text-align: left; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; margin-right: 0.5rem;
+        }
+        .toc-mobile-toggle .toc-chevron {
+            transition: transform 0.25s ease; font-size: 0.7rem; color: var(--earth);
+        }
+        .toc-mobile-sticky.open .toc-chevron { transform: rotate(180deg); }
+        .toc-mobile-dropdown {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            border-top: 1px solid var(--sand);
+        }
+        .toc-mobile-sticky.open .toc-mobile-dropdown { max-height: 60vh; overflow-y: auto; }
+        .toc-mobile-dropdown ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .toc-mobile-dropdown a {
+            display: block; padding: 0.55rem 1.2rem;
+            color: var(--earth); text-decoration: none;
+            font-size: 0.9rem; transition: background 0.15s, color 0.15s;
+        }
+        .toc-mobile-dropdown a:hover { background: var(--warm-cream); color: var(--terracotta); }
+        .toc-mobile-dropdown a.active {
+            color: var(--terracotta); font-weight: 600; background: rgba(196, 112, 75, 0.06);
+        }
+        .content-wrapper {
+            max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+            display: flex; gap: 3rem; align-items: flex-start;
+        }
+        .content-wrapper .article-content { flex: 1; min-width: 0; max-width: 780px; }
+        .content-wrapper .article-content .article-container { max-width: none; padding-left: 0; padding-right: 0; }
+
         /* Article */
         .article-container { max-width: 780px; margin: 0 auto; padding: 7rem 2rem 3rem; }
         .article-container h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--indigo); line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
@@ -142,6 +206,11 @@
         footer a { color: inherit; text-decoration: underline; }
         footer a:hover { color: var(--terracotta); }
 
+        @media (max-width: 900px) {
+            .content-wrapper { flex-direction: column; gap: 0; padding: 0 1.25rem; }
+            .toc-sidebar { display: none; }
+            .toc-mobile-sticky { display: block; }
+        }
         @media (max-width: 768px) {
             .nav-links { display: flex; gap: 1.5rem; align-items: center; }
             .hamburger { display: block; }
@@ -185,6 +254,38 @@
     </div>
 </nav>
 
+<div class="toc-mobile-sticky" id="toc-mobile">
+    <button class="toc-mobile-toggle" aria-expanded="false" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open');this.setAttribute('aria-expanded',this.closest('.toc-mobile-sticky').classList.contains('open'))">
+        <span class="toc-active-label">📑 Contents</span>
+        <span class="toc-chevron">▼</span>
+    </button>
+    <div class="toc-mobile-dropdown" id="toc-mobile-dropdown">
+        <ul>
+            <li><a href="#the-big-three">The Big Three: TikTok vs Reels vs Shorts</a></li>
+            <li><a href="#platform-comparison">Platform Comparison Table</a></li>
+            <li><a href="#emerging-platforms">Emerging Platforms in 2026</a></li>
+            <li><a href="#diy-vs-agency-vs-ai">DIY vs Agency vs AI Production</a></li>
+            <li><a href="#how-ai-video-production-works">How AI Video Production Works</a></li>
+            <li><a href="#which-platforms">Which Platforms Should You Be On?</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-wrapper">
+<aside class="toc-sidebar">
+    <h2>Contents</h2>
+    <ul>
+        <li><a href="#the-big-three">The Big Three: TikTok vs Reels vs Shorts</a></li>
+        <li><a href="#platform-comparison">Platform Comparison Table</a></li>
+        <li><a href="#emerging-platforms">Emerging Platforms in 2026</a></li>
+        <li><a href="#diy-vs-agency-vs-ai">DIY vs Agency vs AI Production</a></li>
+        <li><a href="#how-ai-video-production-works">How AI Video Production Works</a></li>
+        <li><a href="#which-platforms">Which Platforms Should You Be On?</a></li>
+        <li><a href="#the-bottom-line">The Bottom Line</a></li>
+    </ul>
+</aside>
+<div class="article-content">
 <div class="article-container">
     <h1>Top Short-Form Video Services &amp; Platforms in 2026</h1>
     <p class="article-meta">Updated March 2026 · 12 min read</p>
@@ -195,7 +296,7 @@
 
         <p>This guide covers two things: the <strong>platforms</strong> where short-form video lives, and the <strong>services</strong> that can create it for you. Whether you're deciding where to post or looking for someone to produce your content, this is the comparison you need.</p>
 
-        <h2>The Big Three: TikTok vs Instagram Reels vs YouTube Shorts</h2>
+        <h2 id="the-big-three">The Big Three: TikTok vs Instagram Reels vs YouTube Shorts</h2>
 
         <p>These three platforms account for the vast majority of short-form video consumption globally. Each has distinct strengths, audience demographics, and monetization models.</p>
 
@@ -242,7 +343,7 @@
 
         </div>
 
-        <h2>Platform Comparison: TikTok vs Instagram Reels vs YouTube Shorts (2026)</h2>
+        <h2 id="platform-comparison">Platform Comparison: TikTok vs Instagram Reels vs YouTube Shorts (2026)</h2>
 
         <table class="comparison-table">
             <thead>
@@ -311,7 +412,7 @@
             </tbody>
         </table>
 
-        <h2>Emerging Short-Form Video Platforms in 2026</h2>
+        <h2 id="emerging-platforms">Emerging Short-Form Video Platforms in 2026</h2>
 
         <p>Beyond the big three, several platforms are carving out niches in short-form video:</p>
 
@@ -327,7 +428,7 @@
         <h3>Lemon8</h3>
         <p>ByteDance's lifestyle-focused app blends Instagram's aesthetic with TikTok's algorithm. It's growing in travel, food, and wellness niches, particularly in the US and Southeast Asia. Still early, but worth watching for lifestyle brands.</p>
 
-        <h2>Short-Form Video Production: DIY vs Agency vs AI</h2>
+        <h2 id="diy-vs-agency-vs-ai">Short-Form Video Production: DIY vs Agency vs AI</h2>
 
         <p>Knowing where to post is only half the equation. The harder question for most brands is: <strong>who creates the content?</strong></p>
 
@@ -346,7 +447,7 @@
             <strong>💡 Tabiji Media Studio</strong> is an AI-powered short-form video production service built for brands. We use Google Veo 3, Gemini, and MiniMax to create scroll-stopping TikTok, Instagram Reels, and YouTube Shorts content — delivered in 24–48 hours, starting at $500/month. <a href="/media/">Learn more about Tabiji Media Studio →</a>
         </div>
 
-        <h2>How AI Video Production Works</h2>
+        <h2 id="how-ai-video-production-works">How AI Video Production Works</h2>
 
         <p>AI video production has evolved rapidly since 2024. Here's how modern AI video services like Tabiji Media Studio work:</p>
 
@@ -359,7 +460,7 @@
 
         <p>The key advantage is speed and cost. A traditional production agency might deliver 4–8 videos per month for $5,000+. An AI video production service can deliver 20–50+ videos at a fraction of the cost, with 24–48 hour turnaround.</p>
 
-        <h2>Which Platforms Should Your Brand Be On?</h2>
+        <h2 id="which-platforms">Which Platforms Should Your Brand Be On?</h2>
 
         <p>The honest answer: <strong>all of them</strong>, if you can manage the volume. In 2026, the cost of repurposing a single short-form video across TikTok, Reels, Shorts, and Pinterest is near zero. The hard part is creating the content in the first place.</p>
 
@@ -373,7 +474,7 @@
             <li><strong>Add LinkedIn</strong> if you sell B2B. The short-form video space on LinkedIn is still early and under-competed.</li>
         </ul>
 
-        <h2>The Bottom Line</h2>
+        <h2 id="the-bottom-line">The Bottom Line</h2>
 
         <p>Short-form video in 2026 isn't optional — it's the primary way people discover brands, products, and ideas. The platforms keep evolving (longer max lengths, better monetization, AI-native tools), but the fundamentals haven't changed: create content that hooks in the first second, deliver value quickly, and post consistently.</p>
 
@@ -385,10 +486,42 @@
 
     </div>
 </div>
+</div><!-- /article-content -->
+</div><!-- /content-wrapper -->
 
 <footer>
     <p>© 2026 tabiji.ai &nbsp;·&nbsp; <a href="/terms/">Terms of Service</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/delete-data/">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener">X</a> · <a href="/api/">API</a></p>
 </footer>
 
+<script>
+// TOC active state tracking
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-sidebar a, .toc-mobile-dropdown a');
+const mobileLabel = document.querySelector('.toc-active-label');
+function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 120) current = section.id;
+    });
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            if (mobileLabel && link.closest('.toc-mobile-dropdown')) {
+                mobileLabel.textContent = link.textContent;
+            }
+        }
+    });
+}
+window.addEventListener('scroll', updateTOC, { passive: true });
+updateTOC();
+// Mobile TOC: close on click
+document.querySelectorAll('.toc-mobile-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('toc-mobile').classList.remove('open');
+    });
+});
+</script>
 </body>
 </html>
