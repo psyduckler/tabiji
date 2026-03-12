@@ -795,10 +795,56 @@ def build_dashboard(countries_data, state_dept, fcdo, cdc, gdacs):
         '/alerts/'
     )
     page += build_css()
+
+    # Map-specific CSS
+    page += '''
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #alertMap {
+            width: 100%; height: 480px; border-radius: 12px;
+            border: 1px solid var(--sand); margin-top: 1.5rem;
+            z-index: 1;
+        }
+        .map-container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+        .map-legend {
+            display: flex; gap: 1rem; justify-content: center;
+            margin-top: 0.75rem; flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+        .legend-dot {
+            width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+        }
+        .map-tooltip {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 0.85rem; padding: 0.5rem 0.75rem; border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: none;
+        }
+        .map-tooltip .tt-country { font-weight: 700; font-size: 0.95rem; }
+        .map-tooltip .tt-level { margin-top: 0.2rem; }
+        .leaflet-popup-content-wrapper { border-radius: 8px; }
+        @media (max-width: 640px) {
+            #alertMap { height: 300px; }
+        }
+    </style>
+'''
+
     page += '''</head>
 <body>
 '''
     page += build_nav()
+
+    # Build the map data JSON — country name → {level, slug, levelText}
+    map_data = {}
+    for name, data in countries_data.items():
+        map_data[name] = {
+            'level': data.get('us_level', 0),
+            'slug': data['slug'],
+            'lt': data.get('us_level_text', get_level_label(data.get('us_level', 0))) if data.get('us_level') else 'No US advisory',
+        }
+    map_data_json = json.dumps(map_data, ensure_ascii=False)
 
     page += f'''
 <section class="hero">
@@ -830,6 +876,17 @@ def build_dashboard(countries_data, state_dept, fcdo, cdc, gdacs):
     </div>
 </section>
 
+<div class="map-container">
+    <div id="alertMap"></div>
+    <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Level 1: Normal Precautions</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div> Level 2: Increased Caution</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Level 3: Reconsider Travel</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Level 4: Do Not Travel</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> No Data</div>
+    </div>
+</div>
+
 <div class="controls">
     <input type="text" class="search-input" placeholder="Search countries..." id="searchInput" oninput="filterCards()">
     <button class="filter-btn" onclick="toggleFilter('all')" id="filter-all">All</button>
@@ -856,11 +913,240 @@ def build_dashboard(countries_data, state_dept, fcdo, cdc, gdacs):
 '''
     page += build_footer()
 
-    # Client-side filtering/sorting JS
-    page += '''
+    # Client-side filtering/sorting JS + Leaflet map
+    page += f'''
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
+// Advisory data for map
+const advisoryData = {map_data_json};
+
+// GeoJSON country name → our advisory name mapping
+const geoNameMap = {{
+    "United States of America": "United States",
+    "Russian Federation": "Russia",
+    "Republic of Korea": "South Korea",
+    "Dem. Rep. Korea": "North Korea",
+    "Democratic Republic of the Congo": "Democratic Republic of the Congo",
+    "Dem. Rep. Congo": "Democratic Republic of the Congo",
+    "Republic of the Congo": "Republic of the Congo",
+    "Congo": "Republic of the Congo",
+    "Czech Republic": "Czech Republic",
+    "Czechia": "Czech Republic",
+    "Bosnia and Herz.": "Bosnia and Herzegovina",
+    "Bosnia and Herzegovina": "Bosnia and Herzegovina",
+    "Dominican Rep.": "Dominican Republic",
+    "Central African Rep.": "Central African Republic",
+    "Eq. Guinea": "Equatorial Guinea",
+    "eSwatini": "Eswatini",
+    "S. Sudan": "South Sudan",
+    "Solomon Is.": "Solomon Islands",
+    "Côte d\'Ivoire": "Cote d\'Ivoire",
+    "Ivory Coast": "Cote d\'Ivoire",
+    "Lao PDR": "Laos",
+    "Kyrgyzstan": "The Kyrgyz Republic",
+    "Myanmar": "Burma (Myanmar)",
+    "Brunei Darussalam": "Brunei",
+    "Brunei": "Brunei",
+    "Macedonia": "North Macedonia",
+    "N. Macedonia": "North Macedonia",
+    "Timor-Leste": "East Timor",
+    "W. Sahara": "Western Sahara",
+    "Fr. S. Antarctic Lands": "",
+    "Falkland Is.": "Falkland Islands",
+    "Turkiye": "Turkey",
+    "Türkiye": "Turkey",
+    "Taiwan": "Taiwan",
+    "Palestine": "Palestinian Territories",
+    "Somaliland": "Somalia",
+    "N. Cyprus": "Cyprus",
+    "Kosovo": "Kosovo",
+}};
+
+function getLevel(name) {{
+    // Try direct match first
+    if (advisoryData[name]) return advisoryData[name];
+    // Try mapped name
+    const mapped = geoNameMap[name];
+    if (mapped && advisoryData[mapped]) return advisoryData[mapped];
+    // Try fuzzy match
+    const lower = name.toLowerCase();
+    for (const [k, v] of Object.entries(advisoryData)) {{
+        if (k.toLowerCase() === lower) return v;
+        if (k.toLowerCase().includes(lower) || lower.includes(k.toLowerCase())) return v;
+    }}
+    return null;
+}}
+
+const levelColors = {{ 1: '#22c55e', 2: '#eab308', 3: '#f97316', 4: '#ef4444' }};
+const levelLabels = {{ 1: 'Exercise Normal Precautions', 2: 'Exercise Increased Caution', 3: 'Reconsider Travel', 4: 'Do Not Travel' }};
+
+// Initialize map
+const map = L.map('alertMap', {{
+    center: [25, 10],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 6,
+    zoomControl: true,
+    attributionControl: false,
+    worldCopyJump: true,
+}});
+
+// Subtle base tile layer
+L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_nolabels/{{z}}/{{x}}/{{y}}@2x.png', {{
+    subdomains: 'abcd',
+    maxZoom: 19,
+}}).addTo(map);
+
+// Labels on top (added after polygons)
+const labelsPane = map.createPane('labels');
+labelsPane.style.zIndex = 650;
+labelsPane.style.pointerEvents = 'none';
+L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_only_labels/{{z}}/{{x}}/{{y}}@2x.png', {{
+    subdomains: 'abcd',
+    maxZoom: 19,
+    pane: 'labels',
+}}).addTo(map);
+
+// Load world TopoJSON
+fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+    .then(r => r.json())
+    .then(topo => {{
+        const countries = topojson.feature(topo, topo.objects.countries);
+
+        // We need a mapping from numeric country IDs to names
+        // world-atlas uses ISO 3166-1 numeric codes; we'll use the built-in names
+        // Actually world-atlas@2 doesn't include names, so we'll load a separate names file
+        fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+            .then(r => r.json())
+            .then(() => {{
+                // Use a name lookup from the Natural Earth dataset embedded in the topojson
+                // world-atlas includes country names via a separate TSV
+                fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                    .then(r => r.json())
+                    .then(data => {{
+                        // The names are not in the topojson itself for world-atlas@2
+                        // Use a separate lookup
+                        loadCountryNames(countries);
+                    }});
+            }});
+    }});
+
+// Country ID → Name lookup (ISO 3166-1 numeric)
+const countryIdNames = {{}};
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json')
+    .then(r => r.json())
+    .then(topo => {{
+        // Try to get names from properties
+        const features = topojson.feature(topo, topo.objects.countries).features;
+        // world-atlas@2 doesn't have names in properties, just ids
+        // Load separate name mapping
+        return fetch('https://unpkg.com/i18n-iso-countries@7/langs/en.json');
+    }})
+    .catch(() => null);
+
+function loadCountryNames(countriesGeoJSON) {{
+    // Use a hardcoded numeric ID → name map (ISO 3166-1 numeric)
+    // This is the reliable approach
+    const idMap = {{
+        "4":"Afghanistan","8":"Albania","12":"Algeria","24":"Angola","32":"Argentina",
+        "36":"Australia","40":"Austria","50":"Bangladesh","56":"Belgium","64":"Bhutan",
+        "68":"Bolivia","70":"Bosnia and Herzegovina","72":"Botswana","76":"Brazil",
+        "96":"Brunei","100":"Bulgaria","104":"Myanmar","108":"Burundi","112":"Belarus",
+        "116":"Cambodia","120":"Cameroon","124":"Canada","140":"Central African Republic",
+        "144":"Sri Lanka","148":"Chad","152":"Chile","156":"China","170":"Colombia",
+        "178":"Republic of the Congo","180":"Democratic Republic of the Congo",
+        "188":"Costa Rica","191":"Croatia","192":"Cuba","196":"Cyprus","203":"Czech Republic",
+        "204":"Benin","208":"Denmark","214":"Dominican Republic","218":"Ecuador",
+        "818":"Egypt","222":"El Salvador","226":"Equatorial Guinea","232":"Eritrea",
+        "233":"Estonia","231":"Ethiopia","238":"Falkland Islands","242":"Fiji",
+        "246":"Finland","250":"France","266":"Gabon","270":"Gambia","268":"Georgia",
+        "276":"Germany","288":"Ghana","300":"Greece","304":"Greenland","320":"Guatemala",
+        "324":"Guinea","328":"Guyana","332":"Haiti","340":"Honduras","348":"Hungary",
+        "352":"Iceland","356":"India","360":"Indonesia","364":"Iran","368":"Iraq",
+        "372":"Ireland","376":"Israel","380":"Italy","384":"Ivory Coast","388":"Jamaica",
+        "392":"Japan","400":"Jordan","398":"Kazakhstan","404":"Kenya","408":"North Korea",
+        "410":"South Korea","414":"Kuwait","417":"Kyrgyzstan","418":"Laos","422":"Lebanon",
+        "426":"Lesotho","430":"Liberia","434":"Libya","440":"Lithuania","442":"Luxembourg",
+        "450":"Madagascar","454":"Malawi","458":"Malaysia","466":"Mali","478":"Mauritania",
+        "484":"Mexico","496":"Mongolia","498":"Moldova","499":"Montenegro","504":"Morocco",
+        "508":"Mozambique","512":"Oman","516":"Namibia","524":"Nepal","528":"Netherlands",
+        "540":"New Caledonia","554":"New Zealand","558":"Nicaragua","562":"Niger",
+        "566":"Nigeria","578":"Norway","586":"Pakistan","591":"Panama",
+        "598":"Papua New Guinea","600":"Paraguay","604":"Peru","608":"Philippines",
+        "616":"Poland","620":"Portugal","630":"Puerto Rico","634":"Qatar","642":"Romania",
+        "643":"Russia","646":"Rwanda","682":"Saudi Arabia","686":"Senegal","688":"Serbia",
+        "694":"Sierra Leone","702":"Singapore","703":"Slovakia","705":"Slovenia",
+        "706":"Somalia","710":"South Africa","716":"Zimbabwe","724":"Spain",
+        "728":"South Sudan","729":"Sudan","740":"Suriname","748":"Eswatini","752":"Sweden",
+        "756":"Switzerland","760":"Syria","762":"Tajikistan","764":"Thailand",
+        "768":"Togo","780":"Trinidad and Tobago","788":"Tunisia","792":"Turkey",
+        "795":"Turkmenistan","800":"Uganda","804":"Ukraine","784":"United Arab Emirates",
+        "826":"United Kingdom","834":"Tanzania","840":"United States of America",
+        "854":"Burkina Faso","858":"Uruguay","860":"Uzbekistan","862":"Venezuela",
+        "704":"Vietnam","732":"Western Sahara","887":"Yemen","894":"Zambia",
+        "807":"North Macedonia","-99":"N. Cyprus","275":"Palestine","Kosovo":"Kosovo"
+    }};
+
+    L.geoJSON(countriesGeoJSON, {{
+        style: function(feature) {{
+            const id = String(feature.id);
+            const name = idMap[id] || '';
+            const info = getLevel(name);
+            const level = info ? info.level : 0;
+            const color = levelColors[level] || '#d1d5db';
+            return {{
+                fillColor: color,
+                fillOpacity: level === 4 ? 0.7 : level === 3 ? 0.55 : level ? 0.4 : 0.15,
+                weight: 0.8,
+                color: '#fff',
+                opacity: 0.8,
+            }};
+        }},
+        onEachFeature: function(feature, layer) {{
+            const id = String(feature.id);
+            const name = idMap[id] || 'Unknown';
+            const info = getLevel(name);
+
+            if (info) {{
+                const level = info.level;
+                const color = levelColors[level] || '#94a3b8';
+                const label = info.lt || 'No advisory';
+                layer.bindTooltip(
+                    '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                    '<div class="tt-level" style="color:' + color + ';">Level ' + level + ': ' + label + '</div></div>',
+                    {{ sticky: true, className: 'map-tooltip' }}
+                );
+                layer.on('click', function() {{
+                    window.location.href = '/alerts/' + info.slug + '/';
+                }});
+                layer.on('mouseover', function(e) {{
+                    e.target.setStyle({{ weight: 2, color: '#2D3A5C', fillOpacity: 0.8 }});
+                }});
+                layer.on('mouseout', function(e) {{
+                    const l = info.level;
+                    e.target.setStyle({{
+                        weight: 0.8, color: '#fff',
+                        fillOpacity: l === 4 ? 0.7 : l === 3 ? 0.55 : l ? 0.4 : 0.15
+                    }});
+                }});
+            }} else {{
+                layer.bindTooltip(
+                    '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                    '<div class="tt-level" style="color:#94a3b8;">No data</div></div>',
+                    {{ sticky: true, className: 'map-tooltip' }}
+                );
+            }}
+
+            // Cursor pointer for clickable countries
+            layer.on('mouseover', function() {{ this._path.style.cursor = info ? 'pointer' : 'default'; }});
+        }}
+    }}).addTo(map);
+}}
+
+// Filter/sort controls
 let activeFilter = 'all';
-function toggleFilter(f) {
+function toggleFilter(f) {{
     activeFilter = f;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (f === 'all') document.getElementById('filter-all').classList.add('active');
@@ -868,10 +1154,10 @@ function toggleFilter(f) {
     else if (f === 'disaster') document.getElementById('filter-disaster').classList.add('active');
     else document.getElementById('filter-' + f).classList.add('active');
     filterCards();
-}
-function filterCards() {
+}}
+function filterCards() {{
     const q = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.country-card').forEach(card => {
+    document.querySelectorAll('.country-card').forEach(card => {{
         const name = card.dataset.name;
         const level = parseInt(card.dataset.level);
         const cdc = card.dataset.cdc === '1';
@@ -882,20 +1168,20 @@ function filterCards() {
         if (activeFilter === 'disaster' && !disaster) show = false;
         if (typeof activeFilter === 'number' && level !== activeFilter) show = false;
         card.style.display = show ? '' : 'none';
-    });
-}
-function sortCards() {
+    }});
+}}
+function sortCards() {{
     const grid = document.getElementById('countryGrid');
     const cards = [...grid.querySelectorAll('.country-card')];
     const sort = document.getElementById('sortSelect').value;
-    cards.sort((a, b) => {
+    cards.sort((a, b) => {{
         if (sort === 'level-desc') return parseInt(b.dataset.level) - parseInt(a.dataset.level);
         if (sort === 'level-asc') return parseInt(a.dataset.level) - parseInt(b.dataset.level);
         if (sort === 'name-asc') return a.dataset.name.localeCompare(b.dataset.name);
         if (sort === 'name-desc') return b.dataset.name.localeCompare(a.dataset.name);
-    });
+    }});
     cards.forEach(c => grid.appendChild(c));
-}
+}}
 toggleFilter('all');
 </script>
 </body>
