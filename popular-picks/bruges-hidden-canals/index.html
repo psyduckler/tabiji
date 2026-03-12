@@ -942,18 +942,18 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initRestaurantMaps" async defer></script>
 <script>
 var restaurants = [
-    {n:"1. The Chocolate Line",lat:51.2035,lng:3.2265,cat:"modern",desc:"Creative Pralines \u2014 \u20ac35\u201360/box"},
-    {n:"2. Dumon",lat:51.2088,lng:3.2253,cat:"artisan",desc:"Family Artisan \u2014 \u20ac25\u201345/box"},
-    {n:"3. Depla",lat:51.2042,lng:3.2270,cat:"artisan",desc:"Artisanal Truffles \u2014 \u20ac20\u201340/box"},
-    {n:"4. Pralinette",lat:51.2060,lng:3.2270,cat:"artisan",desc:"Pralines & Workshop \u2014 \u20ac25\u201350/box"},
-    {n:"5. Spegelaere",lat:51.2105,lng:3.2210,cat:"classic",desc:"Traditional Family \u2014 \u20ac20\u201340/box"},
-    {n:"6. BbyB",lat:51.2075,lng:3.2245,cat:"modern",desc:"Designer Pralines \u2014 \u20ac35\u201355/box"},
-    {n:"7. Sukerbuyc",lat:51.2018,lng:3.2265,cat:"artisan",desc:"Handmade Artisan \u2014 \u20ac20\u201340/box"},
-    {n:"8. Van Oost",lat:51.2055,lng:3.2275,cat:"classic",desc:"Classic Pralines \u2014 \u20ac20\u201340/box"},
-    {n:"9. Old Chocolate House",lat:51.2045,lng:3.2268,cat:"experience",desc:"Hot Chocolate \u2014 \u20ac5\u20138/cup"},
-    {n:"10. Choco-Story",lat:51.2095,lng:3.2262,cat:"experience",desc:"Museum & Tasting \u2014 \u20ac12"}
+    {n:"1. Bonifacius Bridge",lat:51.1995,lng:3.2240,cat:"scenic",desc:"Romantic Bridge View"},
+    {n:"2. Minnewater (Lake of Love)",lat:51.1960,lng:3.2190,cat:"park",desc:"Peaceful Lake & Swans"},
+    {n:"3. Groenerei Canal",lat:51.2020,lng:3.2200,cat:"scenic",desc:"Medieval Architecture"},
+    {n:"4. Langerei Canal",lat:51.2050,lng:3.2180,cat:"scenic",desc:"Quiet Canal Walk"},
+    {n:"5. Coupure Canal",lat:51.2080,lng:3.2150,cat:"quiet",desc:"Tree-lined Canal"},
+    {n:"6. St. Janshospitaal",lat:51.2010,lng:3.2280,cat:"historic",desc:"Historic Hospital Canal"},
+    {n:"7. Augustijnenrei",lat:51.2035,lng:3.2300,cat:"quiet",desc:"12th Century Canal"},
+    {n:"8. Papegaai Canal",lat:51.2065,lng:3.2220,cat:"quiet",desc:"Hidden Residential Canal"},
+    {n:"9. Bloedput Canal",lat:51.2095,lng:3.2245,cat:"quiet",desc:"Historic Canal"},
+    {n:"10. St. Anna's Canal",lat:51.2120,lng:3.2170,cat:"quiet",desc:"Sint-Annarei Quiet Walk"}
 ];
-var catColors = {artisan:"#AD1457",modern:"#E65100",classic:"#4E342E",experience:"#00695C"};
+var catColors = {scenic:"#2E7D32",historic:"#1565C0",park:"#6A1B9A",quiet:"#AD1457"};
 function makeIcon(color, num) {
     var svg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="14" y="14" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="bold">'+num+'</text></svg>');
     return {url:svg, scaledSize:new google.maps.Size(28,28), anchor:new google.maps.Point(14,14)};
@@ -963,7 +963,7 @@ function makeActiveIcon(color, num) {
     return {url:svg, scaledSize:new google.maps.Size(40,40), anchor:new google.maps.Point(20,20)};
 }
 var sidebarMap, mobileMap, sidebarMarkers=[], mobileMarkers=[], sidebarInfo, mobileInfo;
-var sectionIds = ['the-chocolate-line','dumon','depla','pralinette','spegelaere','bbyb','sukerbuyc','van-oost','old-chocolate-house','choco-story'];
+var sectionIds = ['bonifacius-bridge','minnewater-park','groenerei','langerei','coupure','st-janshospitaal','augustijnenrei','papegaai','bloedput','st-annas-canal'];
 function buildMap(el, isDesktop) {
     var map = new google.maps.Map(el, {
         mapTypeControl:false, streetViewControl:false, fullscreenControl:true,
