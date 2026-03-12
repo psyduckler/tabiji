@@ -916,7 +916,6 @@ def build_dashboard(countries_data, state_dept, fcdo, cdc, gdacs):
     # Client-side filtering/sorting JS + Leaflet map
     page += f'''
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
 // Advisory data for map
 const advisoryData = {map_data_json};
@@ -981,7 +980,7 @@ function getLevel(name) {{
 const levelColors = {{ 1: '#22c55e', 2: '#eab308', 3: '#f97316', 4: '#ef4444' }};
 const levelLabels = {{ 1: 'Exercise Normal Precautions', 2: 'Exercise Increased Caution', 3: 'Reconsider Travel', 4: 'Do Not Travel' }};
 
-// Initialize map — constrain to single world view to prevent polygon streaking
+// Initialize map — constrain to prevent panning past edges
 const map = L.map('alertMap', {{
     center: [25, 10],
     zoom: 2,
@@ -990,165 +989,71 @@ const map = L.map('alertMap', {{
     zoomControl: true,
     attributionControl: false,
     worldCopyJump: false,
-    maxBounds: [[-85, -180], [85, 180]],
-    maxBoundsViscosity: 1.0,
+    maxBounds: [[-85, -200], [85, 200]],
+    maxBoundsViscosity: 0.8,
 }});
 
-// Subtle base tile layer (English labels via @2x variant)
+// Clean base tiles — no labels (we add our own via the country colors)
 L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_nolabels/{{z}}/{{x}}/{{y}}@2x.png', {{
     subdomains: 'abcd',
     maxZoom: 19,
-    noWrap: true,
-    bounds: [[-85, -180], [85, 180]],
 }}).addTo(map);
 
-// English-only labels on top
-const labelsPane = map.createPane('labels');
-labelsPane.style.zIndex = 650;
-labelsPane.style.pointerEvents = 'none';
-L.tileLayer('https://cartodb-basemaps-{{s}}.global.ssl.fastly.net/light_only_labels/{{z}}/{{x}}/{{y}}.png', {{
-    subdomains: 'abcd',
-    maxZoom: 19,
-    pane: 'labels',
-    noWrap: true,
-    bounds: [[-85, -180], [85, 180]],
-}}).addTo(map);
-
-// Load world TopoJSON
-fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+// Load Natural Earth GeoJSON (handles antimeridian correctly — no streaks)
+fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson')
     .then(r => r.json())
-    .then(topo => {{
-        const countries = topojson.feature(topo, topo.objects.countries);
+    .then(geojson => {{
+        L.geoJSON(geojson, {{
+            style: function(feature) {{
+                const name = feature.properties.NAME || feature.properties.NAME_EN || '';
+                const info = getLevel(name);
+                const level = info ? info.level : 0;
+                const color = levelColors[level] || '#d1d5db';
+                return {{
+                    fillColor: color,
+                    fillOpacity: level === 4 ? 0.7 : level === 3 ? 0.55 : level ? 0.4 : 0.15,
+                    weight: 0.8,
+                    color: '#fff',
+                    opacity: 0.8,
+                }};
+            }},
+            onEachFeature: function(feature, layer) {{
+                const name = feature.properties.NAME_EN || feature.properties.NAME || 'Unknown';
+                const info = getLevel(name);
 
-        // We need a mapping from numeric country IDs to names
-        // world-atlas uses ISO 3166-1 numeric codes; we'll use the built-in names
-        // Actually world-atlas@2 doesn't include names, so we'll load a separate names file
-        fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
-            .then(r => r.json())
-            .then(() => {{
-                // Use a name lookup from the Natural Earth dataset embedded in the topojson
-                // world-atlas includes country names via a separate TSV
-                fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-                    .then(r => r.json())
-                    .then(data => {{
-                        // The names are not in the topojson itself for world-atlas@2
-                        // Use a separate lookup
-                        loadCountryNames(countries);
+                if (info) {{
+                    const level = info.level;
+                    const color = levelColors[level] || '#94a3b8';
+                    const label = info.lt || 'No advisory';
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:' + color + ';">Level ' + level + ': ' + label + '</div></div>',
+                        {{ sticky: true, className: 'map-tooltip' }}
+                    );
+                    layer.on('click', function() {{
+                        window.location.href = '/alerts/' + info.slug + '/';
                     }});
-            }});
-    }});
-
-// Country ID → Name lookup (ISO 3166-1 numeric)
-const countryIdNames = {{}};
-fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json')
-    .then(r => r.json())
-    .then(topo => {{
-        // Try to get names from properties
-        const features = topojson.feature(topo, topo.objects.countries).features;
-        // world-atlas@2 doesn't have names in properties, just ids
-        // Load separate name mapping
-        return fetch('https://unpkg.com/i18n-iso-countries@7/langs/en.json');
-    }})
-    .catch(() => null);
-
-function loadCountryNames(countriesGeoJSON) {{
-    // Use a hardcoded numeric ID → name map (ISO 3166-1 numeric)
-    // This is the reliable approach
-    const idMap = {{
-        "4":"Afghanistan","8":"Albania","12":"Algeria","24":"Angola","32":"Argentina",
-        "36":"Australia","40":"Austria","50":"Bangladesh","56":"Belgium","64":"Bhutan",
-        "68":"Bolivia","70":"Bosnia and Herzegovina","72":"Botswana","76":"Brazil",
-        "96":"Brunei","100":"Bulgaria","104":"Myanmar","108":"Burundi","112":"Belarus",
-        "116":"Cambodia","120":"Cameroon","124":"Canada","140":"Central African Republic",
-        "144":"Sri Lanka","148":"Chad","152":"Chile","156":"China","170":"Colombia",
-        "178":"Republic of the Congo","180":"Democratic Republic of the Congo",
-        "188":"Costa Rica","191":"Croatia","192":"Cuba","196":"Cyprus","203":"Czech Republic",
-        "204":"Benin","208":"Denmark","214":"Dominican Republic","218":"Ecuador",
-        "818":"Egypt","222":"El Salvador","226":"Equatorial Guinea","232":"Eritrea",
-        "233":"Estonia","231":"Ethiopia","238":"Falkland Islands","242":"Fiji",
-        "246":"Finland","250":"France","266":"Gabon","270":"Gambia","268":"Georgia",
-        "276":"Germany","288":"Ghana","300":"Greece","304":"Greenland","320":"Guatemala",
-        "324":"Guinea","328":"Guyana","332":"Haiti","340":"Honduras","348":"Hungary",
-        "352":"Iceland","356":"India","360":"Indonesia","364":"Iran","368":"Iraq",
-        "372":"Ireland","376":"Israel","380":"Italy","384":"Ivory Coast","388":"Jamaica",
-        "392":"Japan","400":"Jordan","398":"Kazakhstan","404":"Kenya","408":"North Korea",
-        "410":"South Korea","414":"Kuwait","417":"Kyrgyzstan","418":"Laos","422":"Lebanon",
-        "426":"Lesotho","430":"Liberia","434":"Libya","440":"Lithuania","442":"Luxembourg",
-        "450":"Madagascar","454":"Malawi","458":"Malaysia","466":"Mali","478":"Mauritania",
-        "484":"Mexico","496":"Mongolia","498":"Moldova","499":"Montenegro","504":"Morocco",
-        "508":"Mozambique","512":"Oman","516":"Namibia","524":"Nepal","528":"Netherlands",
-        "540":"New Caledonia","554":"New Zealand","558":"Nicaragua","562":"Niger",
-        "566":"Nigeria","578":"Norway","586":"Pakistan","591":"Panama",
-        "598":"Papua New Guinea","600":"Paraguay","604":"Peru","608":"Philippines",
-        "616":"Poland","620":"Portugal","630":"Puerto Rico","634":"Qatar","642":"Romania",
-        "643":"Russia","646":"Rwanda","682":"Saudi Arabia","686":"Senegal","688":"Serbia",
-        "694":"Sierra Leone","702":"Singapore","703":"Slovakia","705":"Slovenia",
-        "706":"Somalia","710":"South Africa","716":"Zimbabwe","724":"Spain",
-        "728":"South Sudan","729":"Sudan","740":"Suriname","748":"Eswatini","752":"Sweden",
-        "756":"Switzerland","760":"Syria","762":"Tajikistan","764":"Thailand",
-        "768":"Togo","780":"Trinidad and Tobago","788":"Tunisia","792":"Turkey",
-        "795":"Turkmenistan","800":"Uganda","804":"Ukraine","784":"United Arab Emirates",
-        "826":"United Kingdom","834":"Tanzania","840":"United States of America",
-        "854":"Burkina Faso","858":"Uruguay","860":"Uzbekistan","862":"Venezuela",
-        "704":"Vietnam","732":"Western Sahara","887":"Yemen","894":"Zambia",
-        "807":"North Macedonia","-99":"N. Cyprus","275":"Palestine","Kosovo":"Kosovo"
-    }};
-
-    L.geoJSON(countriesGeoJSON, {{
-        style: function(feature) {{
-            const id = String(feature.id);
-            const name = idMap[id] || '';
-            const info = getLevel(name);
-            const level = info ? info.level : 0;
-            const color = levelColors[level] || '#d1d5db';
-            return {{
-                fillColor: color,
-                fillOpacity: level === 4 ? 0.7 : level === 3 ? 0.55 : level ? 0.4 : 0.15,
-                weight: 0.8,
-                color: '#fff',
-                opacity: 0.8,
-            }};
-        }},
-        onEachFeature: function(feature, layer) {{
-            const id = String(feature.id);
-            const name = idMap[id] || 'Unknown';
-            const info = getLevel(name);
-
-            if (info) {{
-                const level = info.level;
-                const color = levelColors[level] || '#94a3b8';
-                const label = info.lt || 'No advisory';
-                layer.bindTooltip(
-                    '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
-                    '<div class="tt-level" style="color:' + color + ';">Level ' + level + ': ' + label + '</div></div>',
-                    {{ sticky: true, className: 'map-tooltip' }}
-                );
-                layer.on('click', function() {{
-                    window.location.href = '/alerts/' + info.slug + '/';
-                }});
-                layer.on('mouseover', function(e) {{
-                    e.target.setStyle({{ weight: 2, color: '#2D3A5C', fillOpacity: 0.8 }});
-                }});
-                layer.on('mouseout', function(e) {{
-                    const l = info.level;
-                    e.target.setStyle({{
-                        weight: 0.8, color: '#fff',
-                        fillOpacity: l === 4 ? 0.7 : l === 3 ? 0.55 : l ? 0.4 : 0.15
+                    layer.on('mouseover', function(e) {{
+                        e.target.setStyle({{ weight: 2, color: '#2D3A5C', fillOpacity: 0.8 }});
                     }});
-                }});
-            }} else {{
-                layer.bindTooltip(
-                    '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
-                    '<div class="tt-level" style="color:#94a3b8;">No data</div></div>',
-                    {{ sticky: true, className: 'map-tooltip' }}
-                );
+                    layer.on('mouseout', function(e) {{
+                        const l = info.level;
+                        e.target.setStyle({{
+                            weight: 0.8, color: '#fff',
+                            fillOpacity: l === 4 ? 0.7 : l === 3 ? 0.55 : l ? 0.4 : 0.15
+                        }});
+                    }});
+                }} else {{
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:#94a3b8;">No data</div></div>',
+                        {{ sticky: true, className: 'map-tooltip' }}
+                    );
+                }}
+                layer.on('mouseover', function() {{ this._path.style.cursor = info ? 'pointer' : 'default'; }});
             }}
-
-            // Cursor pointer for clickable countries
-            layer.on('mouseover', function() {{ this._path.style.cursor = info ? 'pointer' : 'default'; }});
-        }}
-    }}).addTo(map);
-}}
+        }}).addTo(map);
+    }});
 
 // Filter/sort controls
 let activeFilter = 'all';
