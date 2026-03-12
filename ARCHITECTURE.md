@@ -404,4 +404,52 @@ R2_BUCKET                → Cloudflare R2 binding
 
 ---
 
-*Document authored by Psy. Last updated: 2026-02-09.*
+## 2.0 — AEO (Answer Engine Optimization) Pattern
+
+All popular-picks pages MUST include these two AEO elements. This ensures AI assistants (ChatGPT, Gemini, Perplexity) can extract and cite our content.
+
+### 2.0.1 Answer-First Blocks
+
+Every section's first sentence must be a **self-contained, citable fact** containing: name, key differentiator, price, and location.
+
+**Intro paragraph:** Add a bold `<p><strong>...</strong></p>` as the first paragraph inside `.intro-section`, before the existing descriptive text. This summary should cover: price range across all options, top recommendation, key qualifiers (season, location, etc).
+
+**Each pick's description (`.what-to-order` div):** The first sentence after the `<strong>` label must include the place name, what makes it notable, price, and rating. Example:
+
+```
+❌ Before: "Book a 2–3 day trip with overnight island camping. The trust coordinates..."
+✅ After: "The Okavango Kopano Mokoro Community Trust is the most affordable mokoro experience in the delta at $35–$65/day, with community-employed polers operating from Boro Village near Maun. Book a 2–3 day trip with overnight island camping..."
+```
+
+### 2.0.2 Agent Brief JSON-LD (TouristTrip)
+
+Add a `<script type="application/ld+json">` block with `@type: TouristTrip` before `<style>`. Fields via `additionalProperty`:
+
+- `totalOptions` — number of picks on the page
+- `priceRangeUSD` — min–max across all picks
+- `bestBudgetOption` — name + price + rating
+- `bestLuxuryOption` — name + price + rating (if applicable)
+- `bestOverall` — highest rated with most reviews
+- `topPick` — #1 pick with details
+- `sourcesAnalyzed` — "80+ Reddit posts" etc
+- `lastVerified` — "2026-03" (update on each verification pass)
+
+### 2.0.3 Post-Creation Script
+
+After creating a new popular-picks page, run the AEO upgrade as a post-processing step:
+```bash
+python3 ~/tabiji/scripts/aeo-upgrade-popular-picks.py --slug <new-page-slug>
+```
+This handles both the answer-first rewrites (via Gemini Flash) and JSON-LD injection automatically.
+
+### 2.0.4 Enrichment Pipeline (Full)
+
+For any new popular-picks page, the complete post-creation pipeline is:
+1. `python3 ~/tabiji/functions/enrich-popular-picks.py <slug>` — Google Places data (ratings, hours, phone, Maps links)
+2. `python3 ~/tabiji/scripts/aeo-upgrade-popular-picks.py --slug <slug>` — AEO answer-first + JSON-LD
+3. `node ~/tabiji/functions/add-related-links.js` — cross-links to related picks
+4. Git commit + push
+
+---
+
+*Document authored by Psy. Last updated: 2026-03-12.*
