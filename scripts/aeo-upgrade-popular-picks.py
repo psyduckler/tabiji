@@ -373,7 +373,7 @@ def apply_changes(html, meta, picks, rewrites, jsonld):
         if '"TouristTrip"' not in modified:
             jsonld_str = json.dumps(jsonld, indent=8, ensure_ascii=False)
             # Insert before <style> tag
-            style_match = re.search(r'\n    <style>', modified)
+            style_match = re.search(r'\n\s*<style>', modified)
             if style_match:
                 injection = f"""    <script type="application/ld+json">
     {jsonld_str}
