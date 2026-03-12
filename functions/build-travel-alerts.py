@@ -981,7 +981,7 @@ function getLevel(name) {{
 const levelColors = {{ 1: '#22c55e', 2: '#eab308', 3: '#f97316', 4: '#ef4444' }};
 const levelLabels = {{ 1: 'Exercise Normal Precautions', 2: 'Exercise Increased Caution', 3: 'Reconsider Travel', 4: 'Do Not Travel' }};
 
-// Initialize map
+// Initialize map — constrain to single world view to prevent polygon streaking
 const map = L.map('alertMap', {{
     center: [25, 10],
     zoom: 2,
@@ -989,23 +989,29 @@ const map = L.map('alertMap', {{
     maxZoom: 6,
     zoomControl: true,
     attributionControl: false,
-    worldCopyJump: true,
+    worldCopyJump: false,
+    maxBounds: [[-85, -180], [85, 180]],
+    maxBoundsViscosity: 1.0,
 }});
 
-// Subtle base tile layer
+// Subtle base tile layer (English labels via @2x variant)
 L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_nolabels/{{z}}/{{x}}/{{y}}@2x.png', {{
     subdomains: 'abcd',
     maxZoom: 19,
+    noWrap: true,
+    bounds: [[-85, -180], [85, 180]],
 }}).addTo(map);
 
-// Labels on top (added after polygons)
+// English-only labels on top
 const labelsPane = map.createPane('labels');
 labelsPane.style.zIndex = 650;
 labelsPane.style.pointerEvents = 'none';
-L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_only_labels/{{z}}/{{x}}/{{y}}@2x.png', {{
+L.tileLayer('https://cartodb-basemaps-{{s}}.global.ssl.fastly.net/light_only_labels/{{z}}/{{x}}/{{y}}.png', {{
     subdomains: 'abcd',
     maxZoom: 19,
     pane: 'labels',
+    noWrap: true,
+    bounds: [[-85, -180], [85, 180]],
 }}).addTo(map);
 
 // Load world TopoJSON
