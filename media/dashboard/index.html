@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabiji Media Studio — Client Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── DESIGN SYSTEM ── */
+    :root {
+      --indigo: #2D3A5C;
+      --indigo-light: #3D4E7A;
+      --warm-cream: #F5F0E8;
+      --sand: #E8DFD0;
+      --earth: #8B7355;
+      --terracotta: #C4704B;
+      --sage: #7A8B6F;
+      --white: #FEFCF9;
+      --text: #2C2419;
+      --text-muted: #6B5D4F;
+      --sidebar-w: 240px;
+      --topbar-h: 64px;
+      --success: #3D9970;
+      --warning: #E6A817;
+      --radius: 12px;
+      --shadow-sm: 0 1px 4px rgba(44,36,25,0.07);
+      --shadow-md: 0 4px 16px rgba(44,36,25,0.10);
+      --shadow-lg: 0 8px 32px rgba(44,36,25,0.14);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--warm-cream);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP NAV (matches media page) ── */
+    .topnav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--topbar-h);
+      background: rgba(254,252,249,0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--sand);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem 0 0;
+    }
+    .topnav-left {
+      display: flex; align-items: center; gap: 0;
+      width: var(--sidebar-w); flex-shrink: 0;
+      padding: 0 1.5rem;
+      border-right: 1px solid var(--sand);
+      height: 100%;
+    }
+    .logo {
+      font-size: 1.3rem; font-weight: 800; color: var(--indigo);
+      text-decoration: none; letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--terracotta); }
+    .logo-badge {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--terracotta);
+      background: rgba(196,112,75,0.12);
+      border: 1px solid rgba(196,112,75,0.25);
+      border-radius: 4px; padding: 1px 5px;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .topnav-center {
+      flex: 1; display: flex; align-items: center; padding: 0 1.5rem;
+    }
+    .biz-name {
+      font-size: 0.9rem; font-weight: 600; color: var(--indigo);
+    }
+    .biz-plan {
+      font-size: 0.75rem; color: var(--text-muted);
+      background: var(--sand); border-radius: 20px;
+      padding: 2px 8px; margin-left: 8px; font-weight: 500;
+    }
+    .topnav-right {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .btn-request {
+      background: var(--terracotta); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; letter-spacing: -0.01em;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-request:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(196,112,75,0.4); }
+    .notif-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: none; border: 1px solid var(--sand);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; position: relative;
+      transition: background 0.15s;
+    }
+    .notif-btn:hover { background: var(--sand); }
+    .notif-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; background: var(--terracotta);
+      border-radius: 50%; border: 2px solid var(--white);
+    }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--terracotta));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── LAYOUT ── */
+    .app-shell {
+      display: flex; padding-top: var(--topbar-h); min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--white);
+      border-right: 1px solid var(--sand);
+      position: fixed; top: var(--topbar-h); bottom: 0; left: 0;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+      z-index: 100;
+    }
+    .sidebar-nav {
+      flex: 1; padding: 1.25rem 0.75rem;
+    }
+    .nav-section-label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-muted);
+      padding: 0 0.75rem; margin-bottom: 0.5rem; margin-top: 1.25rem;
+    }
+    .nav-section-label:first-child { margin-top: 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.6rem 0.75rem; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 500; color: var(--text-muted);
+      cursor: pointer; transition: all 0.15s; text-decoration: none;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: var(--warm-cream); color: var(--indigo); }
+    .nav-item.active {
+      background: rgba(45,58,92,0.08); color: var(--indigo); font-weight: 600;
+    }
+    .nav-icon { font-size: 1.05rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-badge {
+      margin-left: auto; background: var(--terracotta); color: white;
+      font-size: 0.65rem; font-weight: 700; border-radius: 20px;
+      padding: 1px 6px; min-width: 18px; text-align: center;
+    }
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--sand);
+      font-size: 0.72rem; color: var(--text-muted); text-align: center;
+    }
+    .sidebar-footer a {
+      color: var(--terracotta); text-decoration: none; font-weight: 600;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1; min-width: 0;
+      padding: 2rem;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.75rem;
+    }
+    .page-title {
+      font-size: 1.4rem; font-weight: 800; color: var(--indigo);
+      letter-spacing: -0.03em;
+    }
+    .page-sub {
+      font-size: 0.875rem; color: var(--text-muted); margin-top: 2px;
+    }
+
+    /* ── VIEW SYSTEM ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── FILTER TABS ── */
+    .filter-tabs {
+      display: flex; gap: 0.35rem;
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: 10px; padding: 4px;
+      width: fit-content;
+    }
+    .filter-tab {
+      padding: 0.4rem 0.9rem; border-radius: 7px;
+      font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
+      cursor: pointer; transition: all 0.15s; border: none; background: none;
+    }
+    .filter-tab:hover { color: var(--indigo); }
+    .filter-tab.active {
+      background: var(--indigo); color: white; font-weight: 600;
+    }
+    .filter-count {
+      font-size: 0.72rem; opacity: 0.7; margin-left: 3px;
+    }
+
+    /* ── VIDEO GRID ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .video-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid var(--sand);
+      overflow: hidden; cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      box-shadow: var(--shadow-sm);
+    }
+    .video-card:hover {
+      transform: translateY(-3px); box-shadow: var(--shadow-md);
+    }
+    .video-thumb {
+      width: 100%; aspect-ratio: 9/16;
+      max-height: 200px; object-fit: cover;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-emoji { font-size: 3rem; opacity: 0.85; }
+    .play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.2);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .video-card:hover .play-overlay { opacity: 1; }
+    .play-btn-circle {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; padding-left: 3px;
+    }
+    .duration-badge {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.65); color: white;
+      font-size: 0.72rem; font-weight: 600; border-radius: 4px;
+      padding: 2px 6px; letter-spacing: 0.02em;
+    }
+    .video-card-body { padding: 0.875rem; }
+    .video-title {
+      font-size: 0.875rem; font-weight: 700; color: var(--indigo);
+      letter-spacing: -0.01em; line-height: 1.3;
+      margin-bottom: 0.4rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .video-meta {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .video-date { font-size: 0.75rem; color: var(--text-muted); }
+    .status-badge {
+      font-size: 0.68rem; font-weight: 700; border-radius: 20px;
+      padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .status-draft { background: rgba(107,93,79,0.1); color: var(--text-muted); }
+    .status-ready { background: rgba(230,168,23,0.15); color: #B8860B; }
+    .status-published { background: rgba(61,153,112,0.12); color: var(--success); }
+    .video-platforms {
+      display: flex; gap: 4px; margin-top: 0.5rem;
+    }
+    .platform-icon-sm {
+      width: 22px; height: 22px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .pi-tiktok { background: #000; color: white; }
+    .pi-instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; }
+    .pi-youtube { background: #FF0000; color: white; }
+    .pi-x { background: #000; color: white; }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--indigo); letter-spacing: -0.04em; margin-top: 0.2rem; }
+    .stat-delta { font-size: 0.75rem; color: var(--success); font-weight: 600; margin-top: 0.2rem; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(44,36,25,0.45); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 16px;
+      box-shadow: var(--shadow-lg); max-width: 700px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      animation: slideUp 0.22s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: none; }
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--sand);
+    }
+    .modal-title { font-size: 1.05rem; font-weight: 800; color: var(--indigo); letter-spacing: -0.02em; }
+    .modal-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--sand); background: none;
+      cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: var(--warm-cream); }
+    .modal-body { padding: 1.5rem; }
+
+    /* ── PUBLISH MODAL ── */
+    .video-preview-mock {
+      width: 100%; background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      border-radius: 10px; aspect-ratio: 16/9; max-height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; margin-bottom: 1.25rem; position: relative; overflow: hidden;
+    }
+    .video-preview-mock::after {
+      content: '▶';
+      position: absolute; font-size: 2.5rem; color: rgba(255,255,255,0.85);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label {
+      display: block; font-size: 0.78rem; font-weight: 700; color: var(--indigo);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%; border: 1px solid var(--sand); border-radius: 8px;
+      padding: 0.6rem 0.9rem; font-size: 0.875rem; font-family: inherit;
+      color: var(--text); background: var(--white);
+      transition: border-color 0.15s;
+    }
+    .form-input:focus { outline: none; border-color: var(--indigo); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      background: rgba(45,58,92,0.08); color: var(--indigo);
+      font-size: 0.75rem; font-weight: 600; border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* Platform toggles */
+    .platform-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .platform-row {
+      display: flex; align-items: center; gap: 0.875rem;
+      background: var(--warm-cream); border: 1px solid var(--sand);
+      border-radius: 10px; padding: 0.875rem 1rem;
+    }
+    .platform-row.selected {
+      border-color: var(--indigo); background: rgba(45,58,92,0.04);
+    }
+    .platform-logo {
+      width: 36px; height: 36px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; flex-shrink: 0;
+    }
+    .pl-tiktok { background: #000; color: white; }
+    .pl-instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: white; }
+    .pl-youtube { background: #FF0000; color: white; }
+    .pl-x { background: #000; color: white; letter-spacing: -0.05em; }
+    .platform-info { flex: 1; }
+    .platform-name { font-size: 0.9rem; font-weight: 700; color: var(--indigo); }
+    .platform-acct { font-size: 0.78rem; color: var(--text-muted); margin-top: 1px; }
+    .connected-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(61,153,112,0.12); color: var(--success);
+      font-size: 0.72rem; font-weight: 700; border-radius: 20px;
+      padding: 3px 9px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .connected-badge::before { content: '●'; font-size: 0.55rem; }
+    .connect-btn {
+      background: none; border: 1px solid var(--sand); border-radius: 8px;
+      padding: 0.35rem 0.875rem; font-size: 0.8rem; font-weight: 600;
+      color: var(--indigo); cursor: pointer; font-family: inherit;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .connect-btn:hover { border-color: var(--indigo); background: var(--warm-cream); }
+    .toggle-check {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--sand); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; flex-shrink: 0;
+    }
+    .toggle-check.checked { background: var(--indigo); border-color: var(--indigo); color: white; font-size: 0.75rem; }
+
+    /* Schedule */
+    .schedule-row {
+      display: flex; gap: 0.75rem; align-items: center;
+    }
+    .schedule-opt {
+      flex: 1; border: 1px solid var(--sand); border-radius: 8px;
+      padding: 0.65rem 0.875rem; cursor: pointer; text-align: center;
+      font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+      transition: all 0.15s;
+    }
+    .schedule-opt.selected { border-color: var(--indigo); color: var(--indigo); background: rgba(45,58,92,0.04); }
+    .datetime-input {
+      border: 1px solid var(--sand); border-radius: 8px;
+      padding: 0.65rem 0.875rem; font-size: 0.82rem;
+      font-family: inherit; color: var(--text); background: var(--white);
+      flex: 2; display: none;
+    }
+    .datetime-input.visible { display: block; }
+
+    /* Publish button states */
+    .btn-publish {
+      width: 100%; padding: 0.875rem; border-radius: 10px;
+      background: var(--indigo); color: white;
+      border: none; font-size: 1rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; letter-spacing: -0.01em;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-publish:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,58,92,0.3); }
+    .btn-publish:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-publish.loading { background: var(--indigo-light); }
+    .btn-publish.success { background: var(--success); }
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white; border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .success-msg {
+      margin-top: 0.875rem; padding: 0.75rem 1rem;
+      background: rgba(61,153,112,0.1); border: 1px solid rgba(61,153,112,0.25);
+      border-radius: 8px; font-size: 0.875rem; color: var(--success); font-weight: 600;
+      display: none; align-items: center; gap: 0.5rem;
+    }
+    .success-msg.visible { display: flex; }
+    .success-link { color: var(--success); font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
+
+    /* ── CONNECTED ACCOUNTS VIEW ── */
+    .accounts-list { display: flex; flex-direction: column; gap: 1rem; }
+    .account-card {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .account-platform-logo {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900; flex-shrink: 0;
+    }
+    .account-info { flex: 1; }
+    .account-name { font-size: 1rem; font-weight: 700; color: var(--indigo); }
+    .account-handle { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+    .account-status { font-size: 0.78rem; margin-top: 4px; }
+    .acct-connected { color: var(--success); font-weight: 600; }
+    .acct-disconnected { color: var(--text-muted); }
+    .account-actions { display: flex; gap: 0.5rem; align-items: center; }
+    .btn-disconnect {
+      background: none; border: 1px solid rgba(196,112,75,0.3);
+      border-radius: 7px; padding: 0.4rem 0.875rem;
+      font-size: 0.8rem; font-weight: 600; color: var(--terracotta);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-disconnect:hover { background: rgba(196,112,75,0.07); border-color: var(--terracotta); }
+    .btn-connect-acct {
+      background: var(--indigo); border: none;
+      border-radius: 7px; padding: 0.4rem 0.875rem;
+      font-size: 0.8rem; font-weight: 600; color: white;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-connect-acct:hover { background: var(--indigo-light); }
+    .permissions-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .perm-pill {
+      font-size: 0.68rem; background: rgba(45,58,92,0.07); color: var(--indigo);
+      border-radius: 20px; padding: 2px 7px; font-weight: 500;
+    }
+
+    /* ── ANALYTICS VIEW ── */
+    .analytics-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .date-range-select {
+      border: 1px solid var(--sand); border-radius: 8px; padding: 0.4rem 0.875rem;
+      font-size: 0.82rem; font-family: inherit; color: var(--indigo); font-weight: 600;
+      background: var(--white); cursor: pointer;
+    }
+    .analytics-total-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.75rem;
+    }
+    .analytics-big-card {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .analytics-big-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--text-muted);
+    }
+    .analytics-big-value {
+      font-size: 2.4rem; font-weight: 800; color: var(--indigo);
+      letter-spacing: -0.05em; margin: 0.3rem 0 0;
+    }
+    .analytics-big-delta { font-size: 0.8rem; color: var(--success); font-weight: 600; margin-top: 2px; }
+    .analytics-breakdown { margin-bottom: 1.75rem; }
+    .analytics-section-title {
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.875rem;
+    }
+    .platform-breakdown-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.875rem;
+    }
+    .platform-breakdown-card {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: 10px; padding: 1rem 1.25rem; box-shadow: var(--shadow-sm);
+    }
+    .pb-logo { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .pb-name { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .pb-views { font-size: 1.5rem; font-weight: 800; color: var(--indigo); letter-spacing: -0.04em; margin-top: 0.25rem; }
+    .pb-stats { display: flex; gap: 0.75rem; margin-top: 0.4rem; }
+    .pb-stat { font-size: 0.75rem; color: var(--text-muted); }
+    .pb-stat strong { color: var(--indigo); font-weight: 700; }
+    .top-videos-table {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .table-row {
+      display: grid; grid-template-columns: 1fr 120px 100px 100px 100px;
+      padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--sand);
+      align-items: center; font-size: 0.85rem;
+    }
+    .table-row:last-child { border-bottom: none; }
+    .table-header { background: rgba(245,240,232,0.7); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .table-row .vid-name { font-weight: 600; color: var(--indigo); }
+    .table-row .vid-views { font-weight: 700; color: var(--indigo); }
+    .table-row .vid-likes, .table-row .vid-shares { color: var(--text-muted); font-weight: 500; }
+
+    /* ── PUBLISH VIEW ── */
+    .publish-queue { display: flex; flex-direction: column; gap: 1rem; }
+    .queue-card {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); padding: 1.25rem;
+      display: flex; align-items: center; gap: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .queue-thumb {
+      width: 80px; height: 80px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; flex-shrink: 0;
+    }
+    .queue-info { flex: 1; }
+    .queue-title { font-size: 0.95rem; font-weight: 700; color: var(--indigo); }
+    .queue-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+    .queue-actions { display: flex; gap: 0.5rem; }
+    .btn-pub-now {
+      background: var(--terracotta); color: white; border: none;
+      border-radius: 8px; padding: 0.5rem 1rem;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .btn-pub-now:hover { background: #b35e3a; }
+    .btn-preview {
+      background: none; border: 1px solid var(--sand);
+      border-radius: 8px; padding: 0.5rem 0.875rem;
+      font-size: 0.82rem; font-weight: 600; color: var(--indigo);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-preview:hover { border-color: var(--indigo); }
+
+    /* ── SETTINGS VIEW ── */
+    .settings-section {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;
+    }
+    .settings-section-header {
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--sand);
+      font-size: 0.9rem; font-weight: 700; color: var(--indigo);
+    }
+    .settings-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.875rem 1.5rem; border-bottom: 1px solid var(--sand);
+      font-size: 0.875rem;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row-label { font-weight: 500; color: var(--text); }
+    .settings-row-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    .toggle-switch {
+      width: 42px; height: 24px; background: var(--sand); border-radius: 12px;
+      position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+    }
+    .toggle-switch.on { background: var(--indigo); }
+    .toggle-switch::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: white; transition: transform 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch.on::after { transform: translateX(18px); }
+
+    /* ── OAUTH MODAL ── */
+    .oauth-modal {
+      text-align: center; padding: 2rem;
+    }
+    .oauth-logo { font-size: 3rem; margin-bottom: 1rem; }
+    .oauth-title { font-size: 1.1rem; font-weight: 800; color: var(--indigo); margin-bottom: 0.5rem; }
+    .oauth-sub { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+    .oauth-redirect-bar {
+      background: var(--warm-cream); border: 1px solid var(--sand);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      font-size: 0.8rem; color: var(--text-muted); font-family: monospace;
+      margin-bottom: 1.25rem; text-align: left;
+    }
+    .oauth-progress {
+      height: 4px; background: var(--sand); border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden;
+    }
+    .oauth-progress-bar {
+      height: 100%; background: var(--terracotta); border-radius: 4px;
+      width: 0; transition: width 2s ease;
+    }
+    .oauth-perms { text-align: left; margin-bottom: 1.25rem; }
+    .oauth-perms-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .oauth-perm {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; color: var(--text); padding: 0.3rem 0;
+    }
+    .oauth-perm::before { content: '✓'; color: var(--success); font-weight: 700; font-size: 0.8rem; }
+    .btn-oauth {
+      width: 100%; padding: 0.875rem; background: #000; color: white;
+      border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: opacity 0.15s;
+    }
+    .btn-oauth:hover { opacity: 0.85; }
+
+    /* ── NOTIFICATION DROPDOWN ── */
+    .notif-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      width: 300px; background: var(--white);
+      border: 1px solid var(--sand); border-radius: 12px;
+      box-shadow: var(--shadow-lg); display: none; z-index: 300;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-header {
+      padding: 0.875rem 1rem; font-size: 0.82rem; font-weight: 700;
+      color: var(--indigo); border-bottom: 1px solid var(--sand);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .notif-clear { font-size: 0.72rem; color: var(--terracotta); cursor: pointer; font-weight: 600; }
+    .notif-item {
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--sand);
+      font-size: 0.82rem; display: flex; gap: 0.75rem; align-items: flex-start;
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-icon-sm { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .notif-text { color: var(--text); line-height: 1.4; }
+    .notif-time { color: var(--text-muted); font-size: 0.72rem; margin-top: 2px; }
+
+    /* ── REQUEST VIDEO MODAL ── */
+    .req-video-form { padding: 0; }
+    .plan-hint {
+      background: rgba(61,153,112,0.08); border: 1px solid rgba(61,153,112,0.2);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: var(--success); font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+    .btn-submit-req {
+      width: 100%; padding: 0.875rem; background: var(--terracotta); color: white;
+      border: none; border-radius: 10px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; margin-top: 0.5rem;
+      transition: all 0.15s;
+    }
+    .btn-submit-req:hover { background: #b35e3a; transform: translateY(-1px); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .analytics-total-strip { grid-template-columns: 1fr; }
+      .table-row { grid-template-columns: 1fr 80px 80px; }
+      .table-row .vid-likes, .table-row .vid-shares { display: none; }
+    }
+    @media (max-width: 680px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+      .sidebar.mobile-open { transform: none; }
+      .main { margin-left: 0; padding: 1.25rem; }
+      .topnav-left { width: auto; border-right: none; padding: 0 1rem; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      .video-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    }
+
+    /* ── EMPTY STATES ── */
+    .empty-state {
+      text-align: center; padding: 4rem 2rem; color: var(--text-muted);
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.6; }
+    .empty-title { font-size: 1rem; font-weight: 700; color: var(--indigo); margin-bottom: 0.4rem; }
+    .empty-sub { font-size: 0.875rem; }
+
+    /* ── MISC ── */
+    .divider { border: none; border-top: 1px solid var(--sand); margin: 1.25rem 0; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .mt-05 { margin-top: 0.5rem; }
+    .mt-1 { margin-top: 1rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-muted { color: var(--text-muted); }
+    .notif-wrapper { position: relative; }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <div class="topnav-left">
+    <a href="/media/" class="logo">tabiji<span>.ai</span></a>
+    <span class="logo-badge">Studio</span>
+  </div>
+  <div class="topnav-center">
+    <span class="biz-name">Wanderlust Travel Co.</span>
+    <span class="biz-plan">Growth Plan</span>
+  </div>
+  <div class="topnav-right">
+    <button class="btn-request" onclick="openModal('requestModal')">+ Request Video</button>
+    <div class="notif-wrapper">
+      <button class="notif-btn" onclick="toggleNotif(this)">
+        🔔
+        <span class="notif-dot"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header">
+          Notifications
+          <span class="notif-clear" onclick="clearNotifs()">Clear all</span>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon-sm">✅</div>
+          <div>
+            <div class="notif-text">"Rome in 3 Days" published to all platforms successfully.</div>
+            <div class="notif-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon-sm">🎬</div>
+          <div>
+            <div class="notif-text">New video ready: "Budget Guide: Bangkok Under $50/day"</div>
+            <div class="notif-time">Yesterday at 3:12 PM</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon-sm">📊</div>
+          <div>
+            <div class="notif-text">"Hidden Gems of Kyoto" hit 12K views on TikTok!</div>
+            <div class="notif-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="avatar" title="Wanderlust Travel Co.">WT</div>
+  </div>
+</nav>
+
+<!-- ══ APP SHELL ══ -->
+<div class="app-shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <button class="nav-item active" onclick="showView('dashboard', this)">
+        <span class="nav-icon">🏠</span> Dashboard
+      </button>
+      <button class="nav-item" onclick="showView('videos', this)">
+        <span class="nav-icon">🎬</span> Videos
+        <span class="nav-badge">10</span>
+      </button>
+      <button class="nav-item" onclick="showView('publish', this)">
+        <span class="nav-icon">🚀</span> Publish
+        <span class="nav-badge">2</span>
+      </button>
+
+      <div class="nav-section-label">Manage</div>
+      <button class="nav-item" onclick="showView('accounts', this)">
+        <span class="nav-icon">🔗</span> Connected Accounts
+      </button>
+      <button class="nav-item" onclick="showView('analytics', this)">
+        <span class="nav-icon">📊</span> Analytics
+      </button>
+
+      <div class="nav-section-label">Account</div>
+      <button class="nav-item" onclick="showView('settings', this)">
+        <span class="nav-icon">⚙️</span> Settings
+      </button>
+      <button class="nav-item" onclick="window.open('/media/', '_blank')">
+        <span class="nav-icon">↗</span> tabiji.ai
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      Powered by <a href="https://tabiji.ai/media/" target="_blank">tabiji.ai</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- ════ DASHBOARD VIEW ════ -->
+    <div id="view-dashboard" class="view active">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-sub">Welcome back, Wanderlust Travel Co. — here's your content overview.</div>
+        </div>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-card">
+          <div class="stat-label">Total Videos</div>
+          <div class="stat-value">10</div>
+          <div class="stat-delta">↑ +3 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Views</div>
+          <div class="stat-value">78.2K</div>
+          <div class="stat-delta">↑ +18% vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Published</div>
+          <div class="stat-value">7</div>
+          <div class="stat-delta">Across 3 platforms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Ready to Publish</div>
+          <div class="stat-value">2</div>
+          <div class="stat-delta" style="color:var(--warning)">Action needed</div>
+        </div>
+      </div>
+
+      <!-- Recent Videos -->
+      <div class="flex-between" style="margin-bottom:1rem">
+        <div style="font-size:0.9rem;font-weight:700;color:var(--indigo)">Recent Videos</div>
+        <button class="connect-btn" onclick="showView('videos', document.querySelector('[onclick*=videos]'))">View all →</button>
+      </div>
+      <div class="video-grid" id="dashRecentGrid"></div>
+    </div>
+
+    <!-- ════ VIDEOS VIEW ════ -->
+    <div id="view-videos" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Video Library</div>
+          <div class="page-sub">All your AI-generated travel videos in one place.</div>
+        </div>
+        <button class="btn-request" onclick="openModal('requestModal')">+ Request Video</button>
+      </div>
+
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" onclick="filterVideos('all', this)">All <span class="filter-count">10</span></button>
+        <button class="filter-tab" onclick="filterVideos('draft', this)">Drafts <span class="filter-count">2</span></button>
+        <button class="filter-tab" onclick="filterVideos('ready', this)">Ready <span class="filter-count">2</span></button>
+        <button class="filter-tab" onclick="filterVideos('published', this)">Published <span class="filter-count">6</span></button>
+      </div>
+
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+
+    <!-- ════ PUBLISH VIEW ════ -->
+    <div id="view-publish" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Publish Queue</div>
+          <div class="page-sub">Videos ready to go — select platforms and schedule.</div>
+        </div>
+      </div>
+
+      <div class="publish-queue" id="publishQueue"></div>
+    </div>
+
+    <!-- ════ CONNECTED ACCOUNTS VIEW ════ -->
+    <div id="view-accounts" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Connected Accounts</div>
+          <div class="page-sub">Manage your social platform connections for publishing.</div>
+        </div>
+      </div>
+
+      <div class="accounts-list">
+
+        <!-- TikTok -->
+        <div class="account-card" id="tiktok-card">
+          <div class="account-platform-logo" style="background:#000;color:white;font-size:1.2rem">TT</div>
+          <div class="account-info">
+            <div class="account-name">TikTok</div>
+            <div class="account-handle" id="tiktok-handle">@wanderlust_travel</div>
+            <div class="account-status" id="tiktok-status">
+              <span class="acct-connected">● Connected</span>
+            </div>
+            <div class="permissions-pills">
+              <span class="perm-pill">video.publish</span>
+              <span class="perm-pill">video.upload</span>
+              <span class="perm-pill">user.info.basic</span>
+            </div>
+          </div>
+          <div class="account-actions" id="tiktok-actions">
+            <button class="btn-disconnect" onclick="disconnectPlatform('tiktok')">Disconnect</button>
+          </div>
+        </div>
+
+        <!-- Instagram -->
+        <div class="account-card" id="instagram-card">
+          <div class="account-platform-logo pl-instagram" style="font-size:1.2rem">IG</div>
+          <div class="account-info">
+            <div class="account-name">Instagram</div>
+            <div class="account-handle" id="instagram-handle">@wanderlust.travel.co</div>
+            <div class="account-status" id="instagram-status">
+              <span class="acct-connected">● Connected</span>
+            </div>
+            <div class="permissions-pills">
+              <span class="perm-pill">instagram_basic</span>
+              <span class="perm-pill">instagram_content_publish</span>
+            </div>
+          </div>
+          <div class="account-actions" id="instagram-actions">
+            <button class="btn-disconnect" onclick="disconnectPlatform('instagram')">Disconnect</button>
+          </div>
+        </div>
+
+        <!-- YouTube -->
+        <div class="account-card" id="youtube-card">
+          <div class="account-platform-logo pl-youtube" style="font-size:1.2rem;font-size:0.75rem;font-weight:800">YT</div>
+          <div class="account-info">
+            <div class="account-name">YouTube</div>
+            <div class="account-handle" id="youtube-handle">Wanderlust Travel Co.</div>
+            <div class="account-status" id="youtube-status">
+              <span class="acct-connected">● Connected</span>
+            </div>
+            <div class="permissions-pills">
+              <span class="perm-pill">youtube.upload</span>
+              <span class="perm-pill">youtube.readonly</span>
+            </div>
+          </div>
+          <div class="account-actions" id="youtube-actions">
+            <button class="btn-disconnect" onclick="disconnectPlatform('youtube')">Disconnect</button>
+          </div>
+        </div>
+
+        <!-- X / Twitter -->
+        <div class="account-card" id="x-card">
+          <div class="account-platform-logo pl-x" style="font-size:1rem;letter-spacing:0">𝕏</div>
+          <div class="account-info">
+            <div class="account-name">X (Twitter)</div>
+            <div class="account-handle" id="x-handle" style="color:var(--text-muted)">Not connected</div>
+            <div class="account-status" id="x-status">
+              <span class="acct-disconnected">○ Not connected</span>
+            </div>
+          </div>
+          <div class="account-actions" id="x-actions">
+            <button class="btn-connect-acct" onclick="connectPlatform('x')">Connect X</button>
+          </div>
+        </div>
+
+        <!-- Pinterest -->
+        <div class="account-card" id="pinterest-card">
+          <div class="account-platform-logo" style="background:#E60023;color:white;font-size:1rem;font-weight:900">P</div>
+          <div class="account-info">
+            <div class="account-name">Pinterest</div>
+            <div class="account-handle" id="pinterest-handle" style="color:var(--text-muted)">Not connected</div>
+            <div class="account-status" id="pinterest-status">
+              <span class="acct-disconnected">○ Not connected</span>
+            </div>
+          </div>
+          <div class="account-actions" id="pinterest-actions">
+            <button class="btn-connect-acct" onclick="connectPlatform('pinterest')">Connect Pinterest</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════ ANALYTICS VIEW ════ -->
+    <div id="view-analytics" class="view">
+      <div class="analytics-header">
+        <div>
+          <div class="page-title">Analytics</div>
+          <div class="page-sub">Performance across all published videos and platforms.</div>
+        </div>
+        <select class="date-range-select">
+          <option>Last 30 days</option>
+          <option>Last 7 days</option>
+          <option>Last 90 days</option>
+          <option>All time</option>
+        </select>
+      </div>
+
+      <div class="analytics-total-strip">
+        <div class="analytics-big-card">
+          <div class="analytics-big-label">Total Views</div>
+          <div class="analytics-big-value">78.2K</div>
+          <div class="analytics-big-delta">↑ +18% vs last period</div>
+        </div>
+        <div class="analytics-big-card">
+          <div class="analytics-big-label">Total Likes</div>
+          <div class="analytics-big-value">6.4K</div>
+          <div class="analytics-big-delta">↑ +24% vs last period</div>
+        </div>
+        <div class="analytics-big-card">
+          <div class="analytics-big-label">Total Shares</div>
+          <div class="analytics-big-value">1.8K</div>
+          <div class="analytics-big-delta">↑ +31% vs last period</div>
+        </div>
+      </div>
+
+      <div class="analytics-breakdown">
+        <div class="analytics-section-title">Platform Breakdown</div>
+        <div class="platform-breakdown-grid">
+          <div class="platform-breakdown-card">
+            <div class="pb-logo" style="color:#000">TT</div>
+            <div class="pb-name">TikTok</div>
+            <div class="pb-views">42.1K</div>
+            <div class="pb-stats">
+              <div class="pb-stat">❤️ <strong>3.8K</strong></div>
+              <div class="pb-stat">↗ <strong>1.1K</strong></div>
+            </div>
+          </div>
+          <div class="platform-breakdown-card">
+            <div class="pb-logo" style="background:linear-gradient(135deg,#f09433,#dc2743);-webkit-background-clip:text;-webkit-text-fill-color:transparent">IG</div>
+            <div class="pb-name">Instagram</div>
+            <div class="pb-views">24.7K</div>
+            <div class="pb-stats">
+              <div class="pb-stat">❤️ <strong>2.1K</strong></div>
+              <div class="pb-stat">↗ <strong>512</strong></div>
+            </div>
+          </div>
+          <div class="platform-breakdown-card">
+            <div class="pb-logo" style="color:#FF0000">▶</div>
+            <div class="pb-name">YouTube</div>
+            <div class="pb-views">11.4K</div>
+            <div class="pb-stats">
+              <div class="pb-stat">👍 <strong>480</strong></div>
+              <div class="pb-stat">↗ <strong>198</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="analytics-section-title">Top Performing Videos</div>
+        <div class="top-videos-table">
+          <div class="table-row table-header">
+            <div>Video</div>
+            <div>Status</div>
+            <div>Views</div>
+            <div class="vid-likes">Likes</div>
+            <div class="vid-shares">Shares</div>
+          </div>
+          <div class="table-row">
+            <div class="vid-name">Rome in 3 Days</div>
+            <div><span class="status-badge status-published">Published</span></div>
+            <div class="vid-views">45.2K</div>
+            <div class="vid-likes text-muted">3.9K</div>
+            <div class="vid-shares text-muted">1.1K</div>
+          </div>
+          <div class="table-row">
+            <div class="vid-name">Hidden Gems of Kyoto</div>
+            <div><span class="status-badge status-published">Published</span></div>
+            <div class="vid-views">12.4K</div>
+            <div class="vid-likes text-muted">1.2K</div>
+            <div class="vid-shares text-muted">340</div>
+          </div>
+          <div class="table-row">
+            <div class="vid-name">Paris Street Food Tour</div>
+            <div><span class="status-badge status-published">Published</span></div>
+            <div class="vid-views">8.2K</div>
+            <div class="vid-likes text-muted">742</div>
+            <div class="vid-shares text-muted">189</div>
+          </div>
+          <div class="table-row">
+            <div class="vid-name">Iceland Northern Lights</div>
+            <div><span class="status-badge status-published">Published</span></div>
+            <div class="vid-views">7.1K</div>
+            <div class="vid-likes text-muted">610</div>
+            <div class="vid-shares text-muted">143</div>
+          </div>
+          <div class="table-row">
+            <div class="vid-name">Morocco Desert Camel Trek</div>
+            <div><span class="status-badge status-published">Published</span></div>
+            <div class="vid-views">5.3K</div>
+            <div class="vid-likes text-muted">390</div>
+            <div class="vid-shares text-muted">87</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ SETTINGS VIEW ════ -->
+    <div id="view-settings" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Settings</div>
+          <div class="page-sub">Manage your account preferences and notifications.</div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-header">Business Profile</div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Business Name</div><div class="settings-row-sub">Displayed across your dashboard</div></div>
+          <input class="form-input" style="width:240px" value="Wanderlust Travel Co.">
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Plan</div><div class="settings-row-sub">Growth — 10 videos/month</div></div>
+          <button class="btn-request" onclick="">Upgrade Plan</button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Contact Email</div><div class="settings-row-sub">For delivery notifications</div></div>
+          <input class="form-input" style="width:240px" value="hello@wanderlusttravel.co">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-header">Notifications</div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Video Ready Alerts</div><div class="settings-row-sub">Get notified when a new video is delivered</div></div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Publish Success Alerts</div><div class="settings-row-sub">Notify when a video is successfully published</div></div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Performance Milestones</div><div class="settings-row-sub">Celebrate 10K views, viral hits, etc.</div></div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Weekly Digest Email</div><div class="settings-row-sub">Summary of performance every Monday</div></div>
+          <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-header">Publishing Defaults</div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Auto-Publish</div><div class="settings-row-sub">Publish new videos immediately when ready</div></div>
+          <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-row-label">Default Caption Template</div><div class="settings-row-sub">Pre-fill publish captions with your brand voice</div></div>
+          <button class="connect-btn">Edit Template</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Publish / Video Detail Modal -->
+<div class="modal-overlay" id="publishModal" onclick="if(event.target===this)closeModal('publishModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="publishModalTitle">Video Details</div>
+      <button class="modal-close" onclick="closeModal('publishModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="video-preview-mock" id="publishModalEmoji" style="font-size:4rem"></div>
+
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input class="form-input" id="modalTitle" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input form-textarea" id="modalDesc"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tags-row" id="modalTags"></div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-label" style="margin-bottom:0.75rem">Publish to...</div>
+      <div class="platform-list">
+        <div class="platform-row selected" id="pr-tiktok" onclick="togglePlatformRow(this)">
+          <div class="toggle-check checked" id="tc-tiktok">✓</div>
+          <div class="platform-logo pl-tiktok">TT</div>
+          <div class="platform-info">
+            <div class="platform-name">TikTok</div>
+            <div class="platform-acct">@wanderlust_travel <span class="connected-badge">Connected</span></div>
+          </div>
+        </div>
+        <div class="platform-row selected" id="pr-instagram" onclick="togglePlatformRow(this)">
+          <div class="toggle-check checked" id="tc-instagram">✓</div>
+          <div class="platform-logo pl-instagram">IG</div>
+          <div class="platform-info">
+            <div class="platform-name">Instagram Reels</div>
+            <div class="platform-acct">@wanderlust.travel.co <span class="connected-badge">Connected</span></div>
+          </div>
+        </div>
+        <div class="platform-row selected" id="pr-youtube" onclick="togglePlatformRow(this)">
+          <div class="toggle-check checked" id="tc-youtube">✓</div>
+          <div class="platform-logo pl-youtube" style="font-size:0.7rem;font-weight:800">YT</div>
+          <div class="platform-info">
+            <div class="platform-name">YouTube Shorts</div>
+            <div class="platform-acct">Wanderlust Travel Co. <span class="connected-badge">Connected</span></div>
+          </div>
+        </div>
+        <div class="platform-row" id="pr-x" onclick="togglePlatformRow(this)">
+          <div class="toggle-check" id="tc-x"></div>
+          <div class="platform-logo pl-x" style="font-size:1rem">𝕏</div>
+          <div class="platform-info">
+            <div class="platform-name">X (Twitter)</div>
+            <div class="platform-acct" style="color:var(--text-muted)">Not connected —
+              <span style="color:var(--terracotta);font-weight:600;cursor:pointer" onclick="event.stopPropagation();connectPlatform('x')">Connect now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-label" style="margin-bottom:0.75rem">Schedule</div>
+      <div class="schedule-row">
+        <div class="schedule-opt selected" onclick="selectSchedule(this, 'now')">🚀 Publish Now</div>
+        <div class="schedule-opt" onclick="selectSchedule(this, 'schedule')">📅 Schedule</div>
+        <input type="datetime-local" class="datetime-input" id="datetimeInput">
+      </div>
+
+      <hr class="divider">
+
+      <button class="btn-publish" id="publishBtn" onclick="doPublish()">
+        Publish Now
+      </button>
+      <div class="success-msg" id="successMsg">
+        ✅ Published successfully!
+        <a class="success-link" onclick="window.open('https://tiktok.com/@wanderlust_travel','_blank')">View on TikTok ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Request Video Modal -->
+<div class="modal-overlay" id="requestModal" onclick="if(event.target===this)closeModal('requestModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Request a New Video</div>
+      <button class="modal-close" onclick="closeModal('requestModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="plan-hint">✓ Growth Plan — 10 videos/month. You have 3 requests remaining this month.</div>
+      <div class="form-group">
+        <label class="form-label">Destination / Topic</label>
+        <input class="form-input" placeholder="e.g. 'Hidden cafés in Lisbon' or 'Budget Japan travel tips'">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Video Style</label>
+        <select class="form-input">
+          <option>Cinematic — scenic, atmospheric</option>
+          <option>Fast-paced — trending TikTok style</option>
+          <option>Listicle — Top 5 / Top 10 format</option>
+          <option>Budget Guide — cost breakdown</option>
+          <option>Day-in-the-Life — immersive POV</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Platforms</label>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem">
+          <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked> TikTok</label>
+          <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked> Instagram Reels</label>
+          <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked> YouTube Shorts</label>
+          <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer"><input type="checkbox"> X / Twitter</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea class="form-input form-textarea" placeholder="Any specific angles, hooks, or requirements? Mention any brand voice guidelines..."></textarea>
+      </div>
+      <button class="btn-submit-req" onclick="submitVideoRequest()">Submit Request →</button>
+    </div>
+  </div>
+</div>
+
+<!-- OAuth / Connect Modal -->
+<div class="modal-overlay" id="oauthModal" onclick="if(event.target===this)closeModal('oauthModal')">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <div class="modal-title" id="oauthTitle">Connect Account</div>
+      <button class="modal-close" onclick="closeModal('oauthModal')">✕</button>
+    </div>
+    <div class="oauth-modal">
+      <div class="oauth-logo" id="oauthLogo">🎵</div>
+      <div class="oauth-title" id="oauthHeading">Connect Your TikTok Account</div>
+      <div class="oauth-sub" id="oauthSub">Authorize Tabiji Media Studio to publish videos on your behalf. You can revoke access at any time.</div>
+      <div class="oauth-redirect-bar" id="oauthUrl">https://www.tiktok.com/auth/authorize?client_key=...</div>
+      <div class="oauth-progress"><div class="oauth-progress-bar" id="oauthProgressBar"></div></div>
+      <div class="oauth-perms">
+        <div class="oauth-perms-title">Permissions Requested</div>
+        <div class="oauth-perm" id="oauthPerm1">Publish videos to your account</div>
+        <div class="oauth-perm" id="oauthPerm2">View basic profile information</div>
+        <div class="oauth-perm" id="oauthPerm3">View video performance analytics</div>
+      </div>
+      <button class="btn-oauth" id="oauthBtn" onclick="triggerOAuth()">
+        <span id="oauthBtnIcon">🎵</span>
+        <span id="oauthBtnText">Continue with TikTok</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Disconnect Confirm Modal -->
+<div class="modal-overlay" id="disconnectModal" onclick="if(event.target===this)closeModal('disconnectModal')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">Disconnect Account</div>
+      <button class="modal-close" onclick="closeModal('disconnectModal')">✕</button>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:2rem">
+      <div style="font-size:2.5rem;margin-bottom:1rem" id="disconnectEmoji">⚠️</div>
+      <div style="font-size:1rem;font-weight:700;color:var(--indigo);margin-bottom:0.5rem" id="disconnectTitle">Disconnect TikTok?</div>
+      <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem" id="disconnectSub">You won't be able to publish to TikTok until you reconnect.</div>
+      <div style="display:flex;gap:0.75rem">
+        <button onclick="closeModal('disconnectModal')" style="flex:1;padding:0.75rem;border:1px solid var(--sand);border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;background:none;color:var(--text);font-family:inherit">Cancel</button>
+        <button onclick="confirmDisconnect()" style="flex:1;padding:0.75rem;border:none;border-radius:8px;font-size:0.9rem;font-weight:700;cursor:pointer;background:var(--terracotta);color:white;font-family:inherit">Yes, Disconnect</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Request Submitted Modal -->
+<div class="modal-overlay" id="requestedModal" onclick="if(event.target===this)closeModal('requestedModal')">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-body" style="text-align:center;padding:2.5rem">
+      <div style="font-size:3rem;margin-bottom:1rem">🎬</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--indigo);margin-bottom:0.5rem">Request Submitted!</div>
+      <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.5">Your video request is in the queue. Our AI will create your video within <strong>24–48 hours</strong>. You'll receive an email notification when it's ready.</div>
+      <button onclick="closeModal('requestedModal')" style="padding:0.75rem 2rem;background:var(--indigo);color:white;border:none;border-radius:8px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit">Got it ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ DATA ══
+const videos = [
+  {
+    id: 1, title: "Rome in 3 Days", emoji: "🏛️", duration: "0:58",
+    date: "Mar 10, 2026", status: "published",
+    platforms: ["tiktok","instagram","youtube"],
+    desc: "The ultimate 3-day Rome itinerary — Colosseum at sunrise, Vatican secrets, and the best carbonara you've ever had. A cinematic guide for first-timers.",
+    tags: ["#Rome","#Italy","#EuropeanTravel","#RomeItinerary","#TravelTok"],
+    views: "45.2K"
+  },
+  {
+    id: 2, title: "Hidden Gems of Kyoto", emoji: "⛩️", duration: "0:47",
+    date: "Mar 8, 2026", status: "published",
+    platforms: ["tiktok","instagram"],
+    desc: "Skip the tourist traps. These 5 hidden spots in Kyoto will take your breath away — bamboo groves, secret shrines, and a matcha shop locals actually use.",
+    tags: ["#Kyoto","#Japan","#JapanTravel","#HiddenGems","#TravelJapan"],
+    views: "12.4K"
+  },
+  {
+    id: 3, title: "Budget Guide: Bangkok Under $50/day", emoji: "🇹🇭", duration: "1:02",
+    date: "Mar 12, 2026", status: "ready",
+    platforms: [],
+    desc: "Eat like royalty, sleep in style, and explore the best of Bangkok — all for under $50 a day. Here's your complete budget breakdown.",
+    tags: ["#Bangkok","#Thailand","#BudgetTravel","#ThailandTravel","#BackpackingAsia"],
+    views: null
+  },
+  {
+    id: 4, title: "Paris Street Food Tour", emoji: "🥐", duration: "0:52",
+    date: "Mar 5, 2026", status: "published",
+    platforms: ["instagram"],
+    desc: "From croissants at dawn to crepes at midnight — the ultimate Paris street food guide. 8 must-try spots beyond the tourist trail.",
+    tags: ["#Paris","#France","#ParisFood","#StreetFood","#FoodieTravel"],
+    views: "8.2K"
+  },
+  {
+    id: 5, title: "Bali Temple Sunrise", emoji: "🌅", duration: "0:38",
+    date: "Mar 13, 2026", status: "draft",
+    platforms: [],
+    desc: "Captured at Pura Lempuyang at 5am — the Gate of Heaven with Agung volcano in the background. Pure magic.",
+    tags: ["#Bali","#Indonesia","#BaliSunrise","#TravelBali"],
+    views: null
+  },
+  {
+    id: 6, title: "Iceland Northern Lights", emoji: "🌌", duration: "0:44",
+    date: "Feb 28, 2026", status: "published",
+    platforms: ["tiktok","youtube"],
+    desc: "Chasing the Aurora Borealis across Iceland's Snæfellsnes Peninsula. Tips on the best spots, when to go, and how to photograph them.",
+    tags: ["#Iceland","#NorthernLights","#AuroraBorealis","#IcelandTravel"],
+    views: "7.1K"
+  },
+  {
+    id: 7, title: "Morocco Desert Camel Trek", emoji: "🐪", duration: "0:55",
+    date: "Feb 22, 2026", status: "published",
+    platforms: ["tiktok","instagram","youtube"],
+    desc: "Spending a night in a luxury Sahara camp — camels at sunset, star-filled skies, and traditional Berber music. Worth every dirham.",
+    tags: ["#Morocco","#Sahara","#AfricaTravel","#MoroccoTravel","#Camel"],
+    views: "5.3K"
+  },
+  {
+    id: 8, title: "Vietnam Street Food: Hoi An", emoji: "🍜", duration: "0:49",
+    date: "Feb 18, 2026", status: "published",
+    platforms: ["instagram","youtube"],
+    desc: "Hoi An is a street food paradise. From Cao Lầu to White Rose dumplings, here's everything you need to eat in the lantern city.",
+    tags: ["#Vietnam","#HoiAn","#StreetFood","#VietnamFood","#AsiaTravel"],
+    views: "4.1K"
+  },
+  {
+    id: 9, title: "Santorini at Golden Hour", emoji: "🏔️", duration: "0:41",
+    date: "Mar 11, 2026", status: "ready",
+    platforms: [],
+    desc: "Oia's famous blue domes at golden hour are even more stunning than the photos. Here's exactly where to stand and when to go.",
+    tags: ["#Santorini","#Greece","#GreekIslands","#GoldenHour","#MediterraneanTravel"],
+    views: null
+  },
+  {
+    id: 10, title: "Tokyo 24-Hour Challenge", emoji: "🗼", duration: "1:05",
+    date: "Mar 13, 2026", status: "draft",
+    platforms: [],
+    desc: "Can you see everything Tokyo has to offer in just 24 hours? We tried — from Shibuya crossing at dawn to Shinjuku nightlife.",
+    tags: ["#Tokyo","#Japan","#TokyoTravel","#24Hours","#JapanVlog"],
+    views: null
+  }
+];
+
+const thumbColors = {
+  1: "linear-gradient(135deg,#8B7355,#C4704B)",
+  2: "linear-gradient(135deg,#2D3A5C,#7A8B6F)",
+  3: "linear-gradient(135deg,#C4704B,#E8A87C)",
+  4: "linear-gradient(135deg,#3D4E7A,#8B7355)",
+  5: "linear-gradient(135deg,#7A8B6F,#2D3A5C)",
+  6: "linear-gradient(135deg,#1a1a2e,#3D4E7A)",
+  7: "linear-gradient(135deg,#C4704B,#8B5E3C)",
+  8: "linear-gradient(135deg,#2D3A5C,#C4704B)",
+  9: "linear-gradient(135deg,#F5B08A,#C4704B)",
+  10: "linear-gradient(135deg,#1a1a2e,#C4704B)"
+};
+
+// ══ PLATFORM ICONS ══
+function platformIcons(platforms) {
+  const icons = { tiktok:'TT', instagram:'IG', youtube:'▶' };
+  const cls = { tiktok:'pi-tiktok', instagram:'pi-instagram', youtube:'pi-youtube' };
+  return platforms.map(p => `<span class="platform-icon-sm ${cls[p]}">${icons[p]}</span>`).join('');
+}
+
+// ══ RENDER CARD ══
+function renderCard(v) {
+  return `
+    <div class="video-card" onclick="openVideo(${v.id})" data-status="${v.status}">
+      <div class="video-thumb" style="background:${thumbColors[v.id]}">
+        <div class="thumb-bg"><span class="thumb-emoji">${v.emoji}</span></div>
+        <div class="play-overlay"><div class="play-btn-circle">▶</div></div>
+        <span class="duration-badge">${v.duration}</span>
+      </div>
+      <div class="video-card-body">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">
+          <span class="video-date">${v.date}</span>
+          <span class="status-badge status-${v.status}">${v.status === 'ready' ? 'Ready' : v.status.charAt(0).toUpperCase()+v.status.slice(1)}</span>
+        </div>
+        ${v.platforms.length ? `<div class="video-platforms">${platformIcons(v.platforms)}</div>` : ''}
+        ${v.views ? `<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.4rem">👁 ${v.views} views</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ══ INIT GRIDS ══
+function initGrids() {
+  document.getElementById('videoGrid').innerHTML = videos.map(renderCard).join('');
+  document.getElementById('dashRecentGrid').innerHTML = videos.slice(0, 4).map(renderCard).join('');
+  renderPublishQueue();
+}
+
+// ══ FILTER ══
+function filterVideos(status, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('#videoGrid .video-card');
+  cards.forEach(c => {
+    c.style.display = (status === 'all' || c.dataset.status === status) ? '' : 'none';
+  });
+}
+
+// ══ PUBLISH QUEUE ══
+function renderPublishQueue() {
+  const readyVids = videos.filter(v => v.status === 'ready');
+  const el = document.getElementById('publishQueue');
+  if (!readyVids.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-title">All caught up!</div><div class="empty-sub">No videos waiting to be published.</div></div>`;
+    return;
+  }
+  el.innerHTML = readyVids.map(v => `
+    <div class="queue-card">
+      <div class="queue-thumb" style="background:${thumbColors[v.id]}">
+        <span style="font-size:2rem">${v.emoji}</span>
+      </div>
+      <div class="queue-info">
+        <div class="queue-title">${v.title}</div>
+        <div class="queue-meta">Created ${v.date} · ${v.duration} · Ready to publish</div>
+      </div>
+      <div class="queue-actions">
+        <button class="btn-preview" onclick="openVideo(${v.id})">Preview</button>
+        <button class="btn-pub-now" onclick="quickPublish(${v.id}, this)">Publish Now</button>
+      </div>
+    </div>`).join('');
+}
+
+// ══ NAV ══
+function showView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+// ══ OPEN VIDEO ══
+let currentVideo = null;
+function openVideo(id) {
+  currentVideo = videos.find(v => v.id === id);
+  const v = currentVideo;
+  document.getElementById('publishModalTitle').textContent = v.title;
+  document.getElementById('publishModalEmoji').textContent = v.emoji;
+  document.getElementById('publishModalEmoji').style.background = thumbColors[v.id];
+  document.getElementById('modalTitle').value = v.title;
+  document.getElementById('modalDesc').value = v.desc;
+  document.getElementById('modalTags').innerHTML = v.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  // reset publish states
+  const btn = document.getElementById('publishBtn');
+  btn.textContent = v.status === 'published' ? 'Re-publish' : 'Publish Now';
+  btn.className = 'btn-publish';
+  btn.disabled = false;
+  btn.innerHTML = v.status === 'published' ? 'Re-publish' : 'Publish Now';
+  document.getElementById('successMsg').classList.remove('visible');
+  // reset platform checkboxes to match video platforms
+  ['tiktok','instagram','youtube','x'].forEach(p => {
+    const row = document.getElementById('pr-' + p);
+    const chk = document.getElementById('tc-' + p);
+    if (v.platforms.includes(p) || (v.status !== 'published')) {
+      row.classList.add('selected');
+      chk.classList.add('checked');
+      chk.textContent = '✓';
+    }
+  });
+  openModal('publishModal');
+}
+
+// ══ TOGGLE PLATFORM ROW ══
+function togglePlatformRow(row) {
+  const id = row.id.replace('pr-','');
+  const chk = document.getElementById('tc-' + id);
+  const isSelected = row.classList.toggle('selected');
+  chk.classList.toggle('checked', isSelected);
+  chk.textContent = isSelected ? '✓' : '';
+}
+
+// ══ SCHEDULE ══
+function selectSchedule(el, mode) {
+  document.querySelectorAll('.schedule-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const dt = document.getElementById('datetimeInput');
+  dt.classList.toggle('visible', mode === 'schedule');
+}
+
+// ══ PUBLISH ══
+function doPublish() {
+  const btn = document.getElementById('publishBtn');
+  const selected = Array.from(document.querySelectorAll('.platform-row.selected')).map(r => r.id.replace('pr-',''));
+  if (!selected.length) { alert('Please select at least one platform.'); return; }
+  // Loading state
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.innerHTML = '<div class="spinner"></div> Publishing...';
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.classList.add('success');
+    btn.innerHTML = '✅ Published!';
+    document.getElementById('successMsg').classList.add('visible');
+    // Update mock data
+    if (currentVideo) {
+      currentVideo.status = 'published';
+      currentVideo.platforms = [...new Set([...currentVideo.platforms, ...selected])];
+      initGrids();
+    }
+  }, 2200);
+}
+
+// ══ QUICK PUBLISH ══
+function quickPublish(id, btn) {
+  btn.disabled = true;
+  btn.textContent = '⏳ Publishing...';
+  setTimeout(() => {
+    btn.textContent = '✅ Published!';
+    btn.style.background = 'var(--success)';
+    const v = videos.find(x => x.id === id);
+    if (v) { v.status = 'published'; v.platforms = ['tiktok','instagram','youtube']; }
+    setTimeout(() => { initGrids(); renderPublishQueue(); }, 900);
+  }, 2000);
+}
+
+// ══ MODALS ══
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ══ REQUEST VIDEO ══
+function submitVideoRequest() {
+  closeModal('requestModal');
+  setTimeout(() => openModal('requestedModal'), 200);
+}
+
+// ══ NOTIFICATIONS ══
+function toggleNotif(btn) {
+  const dd = document.getElementById('notifDropdown');
+  dd.classList.toggle('open');
+}
+function clearNotifs() {
+  document.getElementById('notifDropdown').innerHTML =
+    '<div class="notif-header">Notifications</div><div style="padding:1.5rem;text-align:center;font-size:0.85rem;color:var(--text-muted)">No new notifications</div>';
+  document.querySelector('.notif-dot').style.display = 'none';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.notif-wrapper')) {
+    document.getElementById('notifDropdown').classList.remove('open');
+  }
+});
+
+// ══ CONNECTED ACCOUNTS ══
+let pendingDisconnect = null;
+const platformConfig = {
+  tiktok: { name: 'TikTok', emoji: '🎵', handle: '@wanderlust_travel' },
+  instagram: { name: 'Instagram', emoji: '📸', handle: '@wanderlust.travel.co' },
+  youtube: { name: 'YouTube', emoji: '▶️', handle: 'Wanderlust Travel Co.' },
+  x: { name: 'X (Twitter)', emoji: '𝕏', handle: '@wanderlustco' },
+  pinterest: { name: 'Pinterest', emoji: '📌', handle: 'wanderlusttravel' }
+};
+
+function disconnectPlatform(platform) {
+  pendingDisconnect = platform;
+  const cfg = platformConfig[platform];
+  document.getElementById('disconnectTitle').textContent = `Disconnect ${cfg.name}?`;
+  document.getElementById('disconnectSub').textContent = `You won't be able to publish to ${cfg.name} until you reconnect.`;
+  document.getElementById('disconnectEmoji').textContent = '⚠️';
+  openModal('disconnectModal');
+}
+
+function confirmDisconnect() {
+  const platform = pendingDisconnect;
+  if (!platform) return;
+  closeModal('disconnectModal');
+  const card = document.getElementById(platform + '-card');
+  const status = document.getElementById(platform + '-status');
+  const handle = document.getElementById(platform + '-handle');
+  const actions = document.getElementById(platform + '-actions');
+  status.innerHTML = '<span class="acct-disconnected">○ Not connected</span>';
+  handle.textContent = 'Not connected';
+  handle.style.color = 'var(--text-muted)';
+  actions.innerHTML = `<button class="btn-connect-acct" onclick="connectPlatform('${platform}')">Connect ${platformConfig[platform].name}</button>`;
+  // Remove perm pills
+  const pills = card.querySelector('.permissions-pills');
+  if (pills) pills.remove();
+  pendingDisconnect = null;
+}
+
+let oauthTarget = null;
+function connectPlatform(platform) {
+  oauthTarget = platform;
+  const cfg = platformConfig[platform];
+  document.getElementById('oauthTitle').textContent = `Connect ${cfg.name}`;
+  document.getElementById('oauthLogo').textContent = cfg.emoji;
+  document.getElementById('oauthHeading').textContent = `Connect Your ${cfg.name} Account`;
+  document.getElementById('oauthSub').textContent = `Authorize Tabiji Media Studio to publish videos on your behalf. You can revoke access at any time from ${cfg.name} settings.`;
+  const urlMap = {
+    tiktok: 'https://www.tiktok.com/auth/authorize?client_key=aw6q83h0x1v04yvr&response_type=code&scope=video.publish,user.info.basic&redirect_uri=https://tabiji.ai/media/callback',
+    x: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=tabiji_media&scope=tweet.write',
+    pinterest: 'https://www.pinterest.com/oauth/?client_id=1551415&scope=boards:write,pins:write&response_type=code'
+  };
+  document.getElementById('oauthUrl').textContent = urlMap[platform] || `https://${platform}.com/oauth/authorize?client_id=tabiji_media`;
+  document.getElementById('oauthBtn').style.background = platform === 'tiktok' ? '#000' : platform === 'x' ? '#000' : '#E60023';
+  document.getElementById('oauthBtnText').textContent = `Continue with ${cfg.name}`;
+  document.getElementById('oauthBtnIcon').textContent = cfg.emoji;
+  document.getElementById('oauthProgressBar').style.width = '0';
+  openModal('oauthModal');
+}
+
+function triggerOAuth() {
+  const btn = document.getElementById('oauthBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Redirecting...';
+  const bar = document.getElementById('oauthProgressBar');
+  bar.style.width = '0';
+  setTimeout(() => { bar.style.width = '60%'; }, 100);
+  setTimeout(() => { bar.style.width = '90%'; }, 1200);
+  setTimeout(() => {
+    bar.style.width = '100%';
+    btn.innerHTML = '✅ Connected!';
+    btn.style.background = 'var(--success)';
+    setTimeout(() => {
+      closeModal('oauthModal');
+      // Update card
+      if (oauthTarget) {
+        const cfg = platformConfig[oauthTarget];
+        const status = document.getElementById(oauthTarget + '-status');
+        const handle = document.getElementById(oauthTarget + '-handle');
+        const actions = document.getElementById(oauthTarget + '-actions');
+        if (status) status.innerHTML = '<span class="acct-connected">● Connected</span>';
+        if (handle) { handle.textContent = cfg.handle; handle.style.color = ''; }
+        if (actions) actions.innerHTML = `<button class="btn-disconnect" onclick="disconnectPlatform('${oauthTarget}')">Disconnect</button>`;
+      }
+      btn.disabled = false;
+    }, 700);
+  }, 2500);
+}
+
+// ══ INIT ══
+initGrids();
+</script>
+</body>
+</html>
