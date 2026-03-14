@@ -38,13 +38,19 @@ def replace_or_insert(text: str, start: str, end: str, content: str, fallback_pa
     marker_re = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
     if marker_re.search(text):
         updated = marker_re.sub(block, text, count=1)
-        return updated, updated != text
-    if fallback_pattern and fallback_repl is not None:
+    elif fallback_pattern and fallback_repl is not None:
         fallback_re = re.compile(fallback_pattern, re.DOTALL)
         if fallback_re.search(text):
             updated = fallback_re.sub(fallback_repl, text, count=1)
-            return updated, updated != text
-    return text, False
+        else:
+            return text, False
+    else:
+        return text, False
+    # Remove stray duplicate end markers left by earlier runs
+    dup = f"{end}\n{end}"
+    while dup in updated:
+        updated = updated.replace(dup, end)
+    return updated, updated != text
 
 
 def nav_partial_for(path: Path) -> str:

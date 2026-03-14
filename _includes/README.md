@@ -10,7 +10,7 @@ What it manages:
 
 - `shared-head` → global shell assets
 - `nav` → main site nav or export nav, depending on page family
-- `footer` → one canonical homepage-style footer used everywhere
+- `footer` → one canonical footer (`footer-default.html`) used everywhere
 
 Guardrails:
 
