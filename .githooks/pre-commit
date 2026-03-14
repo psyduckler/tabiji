@@ -1,8 +1,15 @@
 #!/bin/bash
-# Pre-commit hook: reject itinerary HTML without hero-bg.png
-# Prevents rogue sub-agents from pushing incomplete itineraries
+set -euo pipefail
 
-staged_html=$(git diff --cached --name-only --diff-filter=A | grep '^i/.*/index\.html$')
+# Refresh managed nav/footer/head blocks before every commit.
+python3 scripts/build-partials.py
+
+git add _includes assets/shared-shell.css assets/shared-shell.js scripts/build-partials.py
+
+git ls-files '*.html' | xargs git add --
+
+# Reject new itinerary HTML without hero-bg assets.
+staged_html=$(git diff --cached --name-only --diff-filter=A | grep '^i/.*/index\.html$' || true)
 
 if [ -z "$staged_html" ]; then
   exit 0
@@ -14,7 +21,6 @@ while IFS= read -r html_file; do
   slug=$(basename "$dir")
   hero_png="$dir/hero-bg.png"
   hero_jpg="$dir/hero-bg.jpg"
-  # Check if hero-bg.png or hero-bg.jpg is either staged or already exists
   has_hero=false
   if git diff --cached --name-only | grep -q "^${hero_png}$" || [ -f "$hero_png" ]; then
     has_hero=true
@@ -23,7 +29,7 @@ while IFS= read -r html_file; do
     has_hero=true
   fi
   if [ "$has_hero" = false ]; then
-    echo "❌ BLOCKED: $html_file has no hero-bg.png"
+    echo "❌ BLOCKED: $html_file has no hero-bg asset"
     echo "   Itinerary '$slug' must be created via fulfill-order.js (which generates hero-bg)"
     fail=1
   fi
