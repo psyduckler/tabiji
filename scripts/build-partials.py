@@ -55,7 +55,9 @@ def replace_or_insert(text: str, start: str, end: str, content: str, fallback_pa
 
 def nav_partial_for(path: Path) -> str:
     parts = path.relative_to(ROOT).parts
-    if parts[0] in {"i", "itineraries"}:
+    # Export nav only belongs on generated itinerary detail pages under /i/*.
+    # Section index pages like /itineraries/ should keep the normal site nav.
+    if parts[0] == "i":
         return PARTIALS["nav-export"]
     return PARTIALS["nav-main"]
 

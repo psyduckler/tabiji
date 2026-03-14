@@ -12,6 +12,7 @@ import json
 import os
 import re
 import html
+import ssl
 from datetime import datetime, timezone
 from collections import defaultdict
 from pathlib import Path
@@ -138,7 +139,13 @@ def fetch_url(url, timeout=30):
         req = urllib.request.Request(url, headers={
             'User-Agent': 'tabiji.ai/1.0 (travel alerts aggregator)'
         })
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        context = ssl.create_default_context()
+        try:
+            import certifi  # type: ignore
+            context.load_verify_locations(certifi.where())
+        except Exception:
+            pass
+        with urllib.request.urlopen(req, timeout=timeout, context=context) as resp:
             return resp.read().decode('utf-8', errors='replace')
     except Exception as e:
         print(f"  ⚠️  Failed to fetch {url}: {e}")
@@ -446,52 +453,6 @@ def build_css():
             color: var(--text); background: var(--white); line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            background: rgba(254, 252, 249, 0.92);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--sand);
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--indigo); text-decoration: none; letter-spacing: -0.02em; }
-        .logo span { color: var(--terracotta); }
-        .logo { position: relative; }
-        .logo .owl-fly { display: none; }
-        .logo:hover .owl-default { display: none; }
-        .logo:hover .owl-fly { display: inline; }
-        nav a.cta-nav {
-            background: var(--terracotta); color: white;
-            padding: 0.5rem 1.2rem; border-radius: 8px;
-            text-decoration: none; font-size: 0.9rem; font-weight: 500;
-            transition: background 0.2s;
-        }
-        nav a.cta-nav:hover { background: #b5633f; }
-        .hamburger {
-            display: none; background: none; border: none; font-size: 1.5rem;
-            cursor: pointer; color: var(--indigo);
-        }
-        .nav-links {
-            display: flex; align-items: center; gap: 1.5rem;
-        }
-        .nav-links a { color: var(--indigo); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
-        .nav-dropdown { position: relative; }
-        .nav-dropdown-toggle {
-            background: none; border: none; color: var(--indigo);
-            font-size: 0.9rem; font-weight: 500; cursor: pointer; padding: 0.25rem 0;
-        }
-        .nav-dropdown-menu {
-            display: none; position: absolute; top: 100%; left: 0;
-            background: white; border: 1px solid var(--sand); border-radius: 8px;
-            padding: 0.5rem 0; min-width: 220px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 200;
-        }
-        .nav-dropdown.open .nav-dropdown-menu { display: block; }
-        .nav-dropdown-menu a {
-            display: block; padding: 0.5rem 1rem; color: var(--text);
-            text-decoration: none; font-size: 0.85rem;
-        }
-        .nav-dropdown-menu a:hover { background: var(--warm-cream); }
         .hero {
             padding: 7rem 2rem 2rem;
             max-width: 900px; margin: 0 auto;
@@ -651,14 +612,6 @@ def build_css():
         footer a { color: var(--terracotta); text-decoration: none; }
         footer a:hover { text-decoration: underline; }
         @media (max-width: 640px) {
-            .hamburger { display: block; }
-            .nav-links {
-                display: none; flex-direction: column;
-                position: absolute; top: 100%; left: 0; right: 0;
-                background: white; border-bottom: 1px solid var(--sand);
-                padding: 1rem; gap: 0.75rem;
-            }
-            .nav-links.open { display: flex; }
             .hero h1 { font-size: 1.7rem; }
             .stats-bar { gap: 1rem; }
             .controls { flex-direction: column; }
