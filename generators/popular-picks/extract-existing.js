@@ -90,7 +90,7 @@ function detectVertical(slug, html, heroBadge = '', picks = []) {
   return 'mixed';
 }
 
-function detectCategory(slug, vertical, html) {
+function detectCategory(slug, vertical) {
   const lower = slug.toLowerCase();
   if (vertical === 'lodging') return 'lodging';
   if (vertical === 'shopping') return 'shopping';
@@ -113,7 +113,55 @@ function inferPlaceType(vertical, cuisine = '') {
   return 'restaurant';
 }
 
-function extractSections(html, verticalHint = 'restaurants-food') {
+function extractQuotes(block = '') {
+  return [...block.matchAll(/<div class="reddit-quote">\s*"([\s\S]*?)"\s*<span class="source">([\s\S]*?)<\/span>/g)].map((m) => ({
+    quote: decodeBasicEntities(stripTags(m[1])),
+    source: decodeBasicEntities(stripTags(m[2])),
+  }));
+}
+
+function buildGenericSection(sectionId, rank, name, block, opts = {}) {
+  const verticalHint = opts.verticalHint || 'restaurants-food';
+  const cuisine = decodeBasicEntities(stripTags(matchOne(block, opts.cuisineRegex || /<span class="cuisine-tag [^"]+">(.*?)<\/span>/s) || ''));
+  const rating = matchOne(block, /<span class="google-rating"><span class="star">★<\/span> ([0-9.]+)/);
+  const reviewCount = matchOne(block, /· ([0-9,]+) reviews/);
+  const priceRangeLocal = decodeBasicEntities(stripTags(matchOne(block, /<span>[^<]*[₵$¥£€₩¥][^<]*<\/span>/s) || matchOne(block, /<span>[💴💰]\s*(.*?)<\/span>/s) || '')).replace(/^[^₵$¥£€₩¥0-9]+/, '');
+  const address = decodeBasicEntities(stripTags(matchOne(block, opts.addressRegex || /<span>📍 (.*?)<\/span>/s) || ''));
+  const googleMapsUrl = decodeBasicEntities(matchOne(block, /<a href="([^"]+)" target="_blank" rel="noopener">📌 Google Maps →<\/a>/));
+  const phone = decodeBasicEntities(matchOne(block, /tel:([^"]+)/));
+  const website = decodeBasicEntities(matchOne(block, /🌐 <a href="([^"]+)"/));
+  const photo = decodeBasicEntities(matchOne(block, opts.photoRegex || /<img[^>]+src="([^"]+)"/));
+  const whatToOrder = decodeBasicEntities(stripTags(matchOne(block, opts.whatRegex || /<div class="what-to-order">\s*<strong>What to order:<\/strong>(.*?)<\/div>/s) || matchOne(block, /<div class="what-to-expect">\s*<strong>What to expect:<\/strong>(.*?)<\/div>/s) || '')).replace(/^What to (order|expect):\s*/i, '').trim();
+  const verdict = decodeBasicEntities(stripTags(matchOne(block, opts.verdictRegex || /<div class="tabiji-verdict">\s*<strong>tabiji verdict:<\/strong>(.*?)<\/div>/s) || /<div class="verdict">\s*<strong>The Verdict:<\/strong>(.*?)<\/div>/s || ''));
+  const quotes = extractQuotes(block);
+
+  return {
+    sectionId,
+    rank,
+    name,
+    placeType: inferPlaceType(verticalHint, cuisine),
+    neighborhood: address || null,
+    address: address || null,
+    priceRangeLocal: priceRangeLocal || null,
+    googleRating: rating ? Number(rating) : null,
+    reviewCount: reviewCount ? Number(reviewCount.replace(/,/g, '')) : null,
+    googleMapsUrl: googleMapsUrl || null,
+    website: website || null,
+    phone: phone || null,
+    photo: photo || null,
+    cuisineTags: cuisine ? [cuisine] : [],
+    whyItMadeTheList: verdict || `${name} appears as a featured pick in the existing HTML page.`,
+    whatToOrder: whatToOrder || `${name} is a featured pick in this guide.`,
+    insiderTip: verdict || `${name} is worth reviewing manually after extraction.`,
+    redditQuotes: quotes,
+    hoursNote: parseHours(block),
+    editorialFlags: {
+      openNow: /🕐 Open now/.test(block) ? true : /🕐 Closed now/.test(block) ? false : undefined,
+    },
+  };
+}
+
+function extractRestaurantSections(html, verticalHint = 'restaurants-food') {
   const regex = /<section class="restaurant-section" id="([^"]+)">([\s\S]*?)(?=<section class="restaurant-section"|<section class="faq-section")/g;
   const sections = [];
   let match;
@@ -122,48 +170,54 @@ function extractSections(html, verticalHint = 'restaurants-food') {
     const block = match[2];
     const rank = Number(matchOne(block, /<h2><span class="restaurant-number">(\d+)<\/span>/));
     const name = decodeBasicEntities(stripTags(matchOne(block, /<h2><span class="restaurant-number">\d+<\/span>(.*?)<\/h2>/s) || ''));
-    const cuisine = decodeBasicEntities(stripTags(matchOne(block, /<span class="cuisine-tag [^"]+">(.*?)<\/span>/s) || ''));
-    const rating = matchOne(block, /<span class="google-rating"><span class="star">★<\/span> ([0-9.]+)/);
-    const reviewCount = matchOne(block, /· ([0-9,]+) reviews/);
-    const priceRangeLocal = decodeBasicEntities(stripTags(matchOne(block, /<span>[^<]*[₵$¥£€][^<]*<\/span>/s) || matchOne(block, /<span>[💴💰]\s*(.*?)<\/span>/s) || '')).replace(/^[^₵$¥£€0-9]+/, '');
-    const address = decodeBasicEntities(stripTags(matchOne(block, /<span>📍 (.*?)<\/span>/s) || ''));
-    const googleMapsUrl = decodeBasicEntities(matchOne(block, /<a href="([^"]+)" target="_blank" rel="noopener">📌 Google Maps →<\/a>/));
-    const phone = decodeBasicEntities(matchOne(block, /tel:([^"]+)/));
-    const website = decodeBasicEntities(matchOne(block, /🌐 <a href="([^"]+)"/));
-    const photo = decodeBasicEntities(matchOne(block, /<img src="([^"]+)"/));
-    const whatToOrder = decodeBasicEntities(stripTags(matchOne(block, /<div class="what-to-order">\s*<strong>What to order:<\/strong>(.*?)<\/div>/s) || '')).replace(/^What to order:\s*/i, '').trim();
-    const verdict = decodeBasicEntities(stripTags(matchOne(block, /<div class="tabiji-verdict">\s*<strong>tabiji verdict:<\/strong>(.*?)<\/div>/s) || ''));
-    const quotes = [...block.matchAll(/<div class="reddit-quote">\s*"([\s\S]*?)"\s*<span class="source">([\s\S]*?)<\/span>/g)].map((m) => ({
-      quote: decodeBasicEntities(stripTags(m[1])),
-      source: decodeBasicEntities(stripTags(m[2])),
-    }));
-
-    sections.push({
-      sectionId,
-      rank,
-      name,
-      placeType: inferPlaceType(verticalHint, cuisine),
-      neighborhood: address || null,
-      address: address || null,
-      priceRangeLocal: priceRangeLocal || null,
-      googleRating: rating ? Number(rating) : null,
-      reviewCount: reviewCount ? Number(reviewCount.replace(/,/g, '')) : null,
-      googleMapsUrl: googleMapsUrl || null,
-      website: website || null,
-      phone: phone || null,
-      photo: photo || null,
-      cuisineTags: cuisine ? [cuisine] : [],
-      whyItMadeTheList: verdict || `${name} appears as a featured pick in the existing HTML page.`,
-      whatToOrder: whatToOrder || `${name} is a featured pick in this guide.`,
-      insiderTip: verdict || `${name} is worth reviewing manually after extraction.`,
-      redditQuotes: quotes,
-      hoursNote: parseHours(block),
-      editorialFlags: {
-        openNow: /🕐 Open now/.test(block) ? true : /🕐 Closed now/.test(block) ? false : undefined,
-      },
-    });
+    sections.push(buildGenericSection(sectionId, rank, name, block, { verticalHint }));
   }
   return sections;
+}
+
+function extractPickSections(html, verticalHint = 'restaurants-food') {
+  const regex = /<section class="pick-section" id="([^"]+)">([\s\S]*?)(?=<section class="pick-section"|<section class="faq-section")/g;
+  const sections = [];
+  let match;
+  while ((match = regex.exec(html))) {
+    const sectionId = match[1];
+    const block = match[2];
+    const rank = Number(matchOne(block, /<div class="pick-number"[^>]*>(\d+)<\/div>/));
+    const name = decodeBasicEntities(stripTags(matchOne(block, /<h2>(.*?)<small>/s) || matchOne(block, /<h2>(.*?)<\/h2>/s) || ''));
+    sections.push(buildGenericSection(sectionId, rank, name, block, {
+      verticalHint,
+      cuisineRegex: /<div class="pick-meta">[\s\S]*?<span>(.*?)<\/span>/s,
+      photoRegex: /<img class="pick-img" src="([^"]+)"/,
+      verdictRegex: /<div class="verdict">\s*<strong>The Verdict:<\/strong>(.*?)<\/div>/s,
+    }));
+  }
+  return sections;
+}
+
+function extractStaySections(html, verticalHint = 'lodging') {
+  const regex = /<section class="stay-section" id="([^"]+)">([\s\S]*?)(?=<section class="stay-section"|<section class="faq-section")/g;
+  const sections = [];
+  let match;
+  while ((match = regex.exec(html))) {
+    const sectionId = match[1];
+    const block = match[2];
+    const rank = Number(matchOne(block, /<h2><span class="stay-number">(\d+)<\/span>/));
+    const name = decodeBasicEntities(stripTags(matchOne(block, /<h2><span class="stay-number">\d+<\/span>(.*?)<\/h2>/s) || ''));
+    sections.push(buildGenericSection(sectionId, rank, name, block, {
+      verticalHint,
+      cuisineRegex: /<span class="style-tag [^"]+">(.*?)<\/span>/s,
+      addressRegex: /<span>📍 (.*?)<\/span>/s,
+      whatRegex: /<div class="what-to-expect">\s*<strong>What to expect:<\/strong>(.*?)<\/div>/s,
+    }));
+  }
+  return sections;
+}
+
+function extractSections(html, verticalHint = 'restaurants-food') {
+  if (/class="restaurant-section"/.test(html)) return extractRestaurantSections(html, verticalHint);
+  if (/class="pick-section"/.test(html)) return extractPickSections(html, verticalHint);
+  if (/class="stay-section"/.test(html)) return extractStaySections(html, verticalHint);
+  return [];
 }
 
 function buildSourceJson(html, slug) {
@@ -175,16 +229,23 @@ function buildSourceJson(html, slug) {
   const heroBadge = stripTags(matchOne(html, /<div class="hero-badge">([\s\S]*?)<\/div>/s) || '');
   let sections = extractSections(html);
   const vertical = detectVertical(slug, html, heroBadge, sections);
-  const category = detectCategory(slug, vertical, html);
+  const category = detectCategory(slug, vertical);
   sections = extractSections(html, vertical);
 
   const heroDek = stripTags(matchOne(html, /<p class="subtitle">([\s\S]*?)<\/p>/s) || matchOne(html, /<div class="hero">[\s\S]*?<p>([\s\S]*?)<\/p>/s) || '');
   const heroMeta = [...html.matchAll(/<div class="hero-meta">([\s\S]*?)<\/div>/g)][0];
-  const heroMetaSpans = heroMeta ? [...heroMeta[1].matchAll(/<span[^>]*>([\s\S]*?)<\/span>/g)].map((m) => stripTags(m[1])) : [];
-  const introSectionMatch = html.match(/<section class="intro-section">([\s\S]*?)<\/section>/);
-  const introStrong = introSectionMatch ? stripTags(matchOne(introSectionMatch[1], /<p><strong>([\s\S]*?)<\/strong><\/p>/s) || '') : '';
-  const introBody = introSectionMatch ? [...introSectionMatch[1].matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => stripTags(m[1])).filter(Boolean).slice(1) : [];
-  const methodology = stripTags(matchOne(html, /<section class="methodology-section">[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<\/section>/s) || '');
+  const heroMetaHtml = heroMeta?.[1] || '';
+  const heroMetaSpans = heroMetaHtml
+    ? (() => {
+        const spans = [...heroMetaHtml.matchAll(/<span[^>]*>([\s\S]*?)<\/span>/g)].map((m) => stripTags(m[1]));
+        if (spans.length) return spans;
+        return [...heroMetaHtml.matchAll(/<div[^>]*><strong>(.*?)<\/strong>\s*(.*?)<\/div>/g)].map((m) => `${stripTags(m[1])} ${stripTags(m[2])}`);
+      })()
+    : [];
+  const introSectionMatch = html.match(/<(section|div) class="intro-section">([\s\S]*?)<\/(section|div)>/);
+  const introStrong = introSectionMatch ? stripTags(matchOne(introSectionMatch[2], /<p><strong>([\s\S]*?)<\/strong><\/p>/s) || '') : '';
+  const introBody = introSectionMatch ? [...introSectionMatch[2].matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => stripTags(m[1])).filter(Boolean).slice(introStrong ? 1 : 0) : [];
+  const methodology = stripTags(matchOne(html, /How we built this list[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/s) || matchOne(html, /<section class="methodology-section">[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<\/section>/s) || '');
   const canonical = matchOne(html, /<link rel="canonical" href="([^"]+)">/i) || `https://tabiji.ai/popular-picks/${slug}/`;
   const canonicalPath = canonical.replace('https://tabiji.ai', '');
   const ogImage = matchOne(html, /<meta property="og:image" content="([^"]+)">/i);
@@ -224,7 +285,7 @@ function buildSourceJson(html, slug) {
       title: stripTags(matchOne(html, /<h1[^>]*>(.*?)<\/h1>/i) || itemListName),
       dek: heroDek,
       badge: heroBadge,
-      metaSpans: heroMetaSpans,
+      metaSpans: heroMetaSpans || [],
     },
     intro: {
       answerFirst: introStrong || article.description || '',
@@ -252,7 +313,7 @@ function buildSourceJson(html, slug) {
     picks: sections,
     faq,
     related: {
-      manual: [...html.matchAll(/<a href="\/popular-picks\/([^"/]+)\/">/g)].map((m) => m[1]).filter((value) => value !== slug).slice(0, 12),
+      manual: [...html.matchAll(/<a href="\/popular-picks\/([^"/]+)\/"/g)].map((m) => m[1]).filter((value) => value !== slug).slice(0, 12),
       topics: [],
     },
     provenance: {
@@ -262,7 +323,7 @@ function buildSourceJson(html, slug) {
     },
     verification: {
       lastVerified: tripProps.lastVerified || ((matchOne(html, /<meta property="article:modified_time" content="(\d{4}-\d{2})/i) || '').slice(0, 7)) || '2026-03',
-      pipelineVersion: 'html-backfill-v2',
+      pipelineVersion: 'html-backfill-v3',
       reviewedByHuman: false,
     },
     publishing: {
@@ -314,4 +375,14 @@ if (require.main === module) {
   console.log(`Extracted ${slug} -> ${output}`);
 }
 
-module.exports = { extractExisting, buildSourceJson, extractSections, extractJsonLdBlocks, detectVertical, detectCategory };
+module.exports = {
+  extractExisting,
+  buildSourceJson,
+  extractSections,
+  extractJsonLdBlocks,
+  detectVertical,
+  detectCategory,
+  extractRestaurantSections,
+  extractPickSections,
+  extractStaySections,
+};
