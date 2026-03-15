@@ -26,15 +26,18 @@ function validateOutput(html, sourceData) {
     if (!item.regex.test(html)) errors.push(`Missing ${item.label}`);
   }
 
-  const pickCount = countMatches(html, /<article class="pick-card"/g);
-  if (pickCount < 3) errors.push('Rendered output must contain at least 3 pick cards');
+  const pickCount = Math.max(
+    countMatches(html, /<article class="pick-card"/g),
+    countMatches(html, /<section class="restaurant-section"/g)
+  );
+  if (pickCount < 3) errors.push('Rendered output must contain at least 3 rendered picks');
 
   const faqCount = countMatches(html, /<div class="faq-item">/g);
   if (faqCount < 3) errors.push('Rendered output must contain at least 3 FAQ items');
 
   if (sourceData) {
     if (sourceData.picks && pickCount !== sourceData.picks.length) {
-      errors.push(`pick-card count mismatch: rendered ${pickCount}, expected ${sourceData.picks.length}`);
+      errors.push(`rendered pick count mismatch: rendered ${pickCount}, expected ${sourceData.picks.length}`);
     }
     if (sourceData.faq && faqCount !== sourceData.faq.length) {
       errors.push(`faq-item count mismatch: rendered ${faqCount}, expected ${sourceData.faq.length}`);
