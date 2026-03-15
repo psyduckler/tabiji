@@ -35,8 +35,8 @@ function renderMeta(data) {
     `<meta name="twitter:title" content="${escapeHtml(seo.twitterTitle || seo.ogTitle || seo.metaTitle)}">`,
     `<meta name="twitter:description" content="${escapeHtml(seo.twitterDescription || seo.ogDescription || seo.metaDescription)}">`,
     heroImage ? `<meta name="twitter:image" content="${escapeHtml(heroImage)}">` : '',
-    `<meta property="article:published_time" content="${escapeHtml(seo.publishedTime)}">`,
-    `<meta property="article:modified_time" content="${escapeHtml(seo.modifiedTime)}">`
+    seo.publishedTime && seo.publishedTime !== 'null' ? `<meta property="article:published_time" content="${escapeHtml(seo.publishedTime)}">` : '',
+    seo.modifiedTime && seo.modifiedTime !== 'null' ? `<meta property="article:modified_time" content="${escapeHtml(seo.modifiedTime)}">` : ''
   ].filter(Boolean).join('\n    ');
 }
 
