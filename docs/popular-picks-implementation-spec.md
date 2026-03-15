@@ -15,6 +15,17 @@ It defines:
 
 This is the spec the generator should be built against.
 
+## Reality check from Psy's feedback
+
+A few constraints need to stay explicit so the implementation does not become fake certainty:
+
+- There is no existing magic template to inherit. The Popular Picks renderer has to be built for real, and the hardest part is preserving the current page behavior without copying accidental mess.
+- Reddit research quality is not a solved automation problem. The system can standardize structure, but it should not pretend to automate local judgment, disagreement detection, or quote taste.
+- Photo sourcing is fragile. The data model and renderer must tolerate missing images and support fallback workflows instead of assuming every place gets a clean hero photo.
+- Enrichment timing is a tradeoff. Doing Places enrichment earlier improves data quality, but it shifts cost forward. The pipeline should make that choice explicit.
+- Existing HTML backfill matters. We should support extraction from old pages so the 36 missing API JSONs do not require re-research.
+- IndexNow / GSC submission is a downstream publishing step, not a prerequisite for proving the renderer.
+
 ## 1. Scope
 
 This spec applies only to `/popular-picks/` pages.
