@@ -5,13 +5,13 @@ const { writeText } = require('./utils');
 const { buildSourceJson } = require('./extract-existing');
 const { validateSource } = require('./validate-source');
 
-function backfillOne(htmlFile, outputFile) {
+function backfillOne(htmlFile, outputFile, options = {}) {
   const html = fs.readFileSync(htmlFile, 'utf8');
   const slug = path.basename(path.dirname(htmlFile));
   const sourceJson = buildSourceJson(html, slug);
-  const validation = validateSource(sourceJson);
+  const validation = validateSource(sourceJson, { mode: options.mode || 'backfill' });
   writeText(outputFile, `${JSON.stringify(sourceJson, null, 2)}\n`);
-  return { slug, outputFile, validation };
+  return { slug, outputFile, validation, sourceJson };
 }
 
 function walkPopularPicks(rootDir) {
@@ -28,8 +28,9 @@ if (require.main === module) {
   const repoRoot = process.argv[2];
   const slug = process.argv[3];
   const all = process.argv.includes('--all');
+  const publishMode = process.argv.includes('--publish');
   if (!repoRoot || (!slug && !all)) {
-    console.error('Usage: node generators/popular-picks/backfill-json.js <repo-root> <slug|--all>');
+    console.error('Usage: node generators/popular-picks/backfill-json.js <repo-root> <slug|--all> [--publish]');
     process.exit(1);
   }
 
@@ -49,7 +50,7 @@ if (require.main === module) {
       continue;
     }
     const out = path.join(outputRoot, `${path.basename(path.dirname(htmlFile))}.json`);
-    const result = backfillOne(htmlFile, out);
+    const result = backfillOne(htmlFile, out, { mode: publishMode ? 'publish' : 'backfill' });
     const errorCount = result.validation.errors.length;
     const warningCount = result.validation.warnings.length;
     if (errorCount) {
@@ -57,7 +58,7 @@ if (require.main === module) {
       result.validation.errors.forEach((msg) => console.error(`  - ${msg}`));
       failed += 1;
     } else {
-      console.log(`OK ${result.slug}: wrote ${out} (${warningCount} warning(s))`);
+      console.log(`OK ${result.slug}: wrote ${out} (${warningCount} warning(s), vertical=${result.sourceJson.taxonomy.vertical})`);
       ok += 1;
     }
   }

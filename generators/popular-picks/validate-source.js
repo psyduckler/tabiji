@@ -20,7 +20,13 @@ function isValidUrl(value) {
   }
 }
 
-function validateSource(data) {
+function isNonFoodVertical(vertical = '') {
+  return ['activities', 'nature-outdoors', 'shopping', 'lodging', 'mixed', 'destination-overview'].includes(vertical);
+}
+
+function validateSource(data, options = {}) {
+  const mode = options.mode || 'publish';
+  const backfillMode = mode === 'backfill';
   const errors = [];
   const warnings = [];
 
@@ -58,18 +64,23 @@ function validateSource(data) {
     errors.push('intro.body must contain at least 1 paragraph');
   }
 
-  if (!Array.isArray(data?.picks) || data.picks.length < 3) {
-    errors.push('At least 3 picks are required');
+  if (!Array.isArray(data?.picks) || data.picks.length < 1) {
+    errors.push('At least 1 pick is required');
+  } else if (data.picks.length < 3) {
+    (backfillMode ? warnings : errors).push('At least 3 picks are recommended/required for publish-ready pages');
   }
 
-  if (!Array.isArray(data?.faq) || data.faq.length < 3) {
-    errors.push('At least 3 FAQ items are required');
+  if (!Array.isArray(data?.faq) || data.faq.length < 1) {
+    (backfillMode ? warnings : errors).push('At least 1 FAQ item is required');
+  } else if (data.faq.length < 3) {
+    (backfillMode ? warnings : errors).push('At least 3 FAQ items are recommended/required for publish-ready pages');
   }
 
   if (!/^\d{4}-\d{2}$/.test(data?.verification?.lastVerified || '')) {
     errors.push('verification.lastVerified must be YYYY-MM');
   }
 
+  const nonFood = isNonFoodVertical(data?.taxonomy?.vertical || '');
   const seenRanks = new Set();
   const seenNames = new Set();
   (data.picks || []).forEach((pick, index) => {
@@ -94,7 +105,7 @@ function validateSource(data) {
     }
 
     if (!isNonEmptyString(pick.priceRangeLocal) && !isNonEmptyString(pick.priceRangeUSD)) {
-      errors.push(`Pick #${expectedRank} must include priceRangeLocal or priceRangeUSD`);
+      (backfillMode || nonFood ? warnings : errors).push(`Pick #${expectedRank} is missing priceRangeLocal/priceRangeUSD`);
     }
 
     if (pick.googleRating != null && (typeof pick.googleRating !== 'number' || pick.googleRating < 0 || pick.googleRating > 5)) {
@@ -136,22 +147,24 @@ function validateSource(data) {
 
   if (!data?.map?.enabled) warnings.push('Map section is disabled');
   if ((data?.related?.manual || []).length < 3) warnings.push('Related manual links has fewer than 3 entries');
+  if (backfillMode && data?.provenance?.importedFromHtml) warnings.push('Backfill-mode validation: extracted HTML source is not publish-ready until reviewed');
 
-  return { errors, warnings };
+  return { errors, warnings, mode };
 }
 
 if (require.main === module) {
   const filePath = process.argv[2];
+  const backfill = process.argv.includes('--backfill');
   if (!filePath) {
-    console.error('Usage: node validate-source.js <file.json>');
+    console.error('Usage: node validate-source.js <file.json> [--backfill]');
     process.exit(1);
   }
 
-  const result = validateSource(loadJson(path.resolve(filePath)));
+  const result = validateSource(loadJson(path.resolve(filePath)), { mode: backfill ? 'backfill' : 'publish' });
   for (const warning of result.warnings) console.warn(`WARN: ${warning}`);
   for (const error of result.errors) console.error(`ERROR: ${error}`);
   if (result.errors.length) process.exit(1);
-  console.log(`OK: ${path.basename(filePath)} passed with ${result.warnings.length} warning(s)`);
+  console.log(`OK: ${path.basename(filePath)} passed in ${result.mode} mode with ${result.warnings.length} warning(s)`);
 }
 
-module.exports = { validateSource, loadJson };
+module.exports = { validateSource, loadJson, isNonFoodVertical };

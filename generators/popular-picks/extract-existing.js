@@ -64,9 +64,7 @@ function extractFaqFromJsonLd(blocks = []) {
 
 function extractSummaryFromTouristTrip(blocks = []) {
   const trip = blocks.find((block) => block['@type'] === 'TouristTrip');
-  const props = Object.fromEntries(
-    (trip?.additionalProperty || []).map((item) => [item.name, item.value])
-  );
+  const props = Object.fromEntries((trip?.additionalProperty || []).map((item) => [item.name, item.value]));
   return props;
 }
 
@@ -79,7 +77,43 @@ function pickAddressLocality(item) {
   return item?.item?.address?.addressLocality || null;
 }
 
-function extractSections(html) {
+function detectVertical(slug, html, heroBadge = '', picks = []) {
+  const text = `${slug} ${heroBadge} ${html.slice(0, 4000)}`.toLowerCase();
+  const names = picks.map((pick) => `${pick.name} ${(pick.cuisineTags || []).join(' ')}`.toLowerCase()).join(' ');
+  const combined = `${text} ${names}`;
+  if (/(restaurant|restaurants|shawarma|coffee|cafe|brunch|eat|food|jollof|ramen|yatai)/.test(slug.toLowerCase())) return 'restaurants-food';
+  if (/(hotel|stay|stays|hostel|villa|resort|ryokan|hanok)/.test(combined)) return 'lodging';
+  if (/(hiking|snorkeling|dive|beach|trek|trail|climb|safari|kayak|surf|pool)/.test(combined)) return 'activities';
+  if (/(shop|shopping|market|souvenir|mall|boutique)/.test(combined)) return 'shopping';
+  if (/(country|region|island|guide to|where to go|best of)/.test(combined) && picks.length < 5) return 'destination-overview';
+  if (/(restaurant|shawarma|coffee|cafe|brunch|eat|food|jollof|ramen|yatai)/.test(combined)) return 'restaurants-food';
+  return 'mixed';
+}
+
+function detectCategory(slug, vertical, html) {
+  const lower = slug.toLowerCase();
+  if (vertical === 'lodging') return 'lodging';
+  if (vertical === 'shopping') return 'shopping';
+  if (vertical === 'activities') return 'activities';
+  if (vertical === 'destination-overview') return 'destination';
+  if (lower.includes('coffee')) return 'coffee shops';
+  if (lower.includes('shawarma')) return 'shawarma';
+  if (lower.includes('restaurants')) return 'restaurants';
+  if (lower.includes('jollof')) return 'jollof rice';
+  return 'restaurants/food';
+}
+
+function inferPlaceType(vertical, cuisine = '') {
+  if (vertical === 'lodging') return 'lodging';
+  if (vertical === 'activities') return 'activity';
+  if (vertical === 'shopping') return 'shop';
+  if (/coffee|cafe/i.test(cuisine)) return 'cafe';
+  if (/bar|pub|rooftop/i.test(cuisine)) return 'bar';
+  if (/market/i.test(cuisine)) return 'market';
+  return 'restaurant';
+}
+
+function extractSections(html, verticalHint = 'restaurants-food') {
   const regex = /<section class="restaurant-section" id="([^"]+)">([\s\S]*?)(?=<section class="restaurant-section"|<section class="faq-section")/g;
   const sections = [];
   let match;
@@ -91,8 +125,7 @@ function extractSections(html) {
     const cuisine = decodeBasicEntities(stripTags(matchOne(block, /<span class="cuisine-tag [^"]+">(.*?)<\/span>/s) || ''));
     const rating = matchOne(block, /<span class="google-rating"><span class="star">★<\/span> ([0-9.]+)/);
     const reviewCount = matchOne(block, /· ([0-9,]+) reviews/);
-    const priceRangeLocal = decodeBasicEntities(stripTags(matchOne(block, /<span>[^<]*₵[^<]*<\/span>/s) || matchOne(block, /<span>[💴💰]\s*(.*?)<\/span>/s) || ''))
-      .replace(/^[^₵$¥£0-9]+/, '');
+    const priceRangeLocal = decodeBasicEntities(stripTags(matchOne(block, /<span>[^<]*[₵$¥£€][^<]*<\/span>/s) || matchOne(block, /<span>[💴💰]\s*(.*?)<\/span>/s) || '')).replace(/^[^₵$¥£€0-9]+/, '');
     const address = decodeBasicEntities(stripTags(matchOne(block, /<span>📍 (.*?)<\/span>/s) || ''));
     const googleMapsUrl = decodeBasicEntities(matchOne(block, /<a href="([^"]+)" target="_blank" rel="noopener">📌 Google Maps →<\/a>/));
     const phone = decodeBasicEntities(matchOne(block, /tel:([^"]+)/));
@@ -109,7 +142,7 @@ function extractSections(html) {
       sectionId,
       rank,
       name,
-      placeType: 'restaurant',
+      placeType: inferPlaceType(verticalHint, cuisine),
       neighborhood: address || null,
       address: address || null,
       priceRangeLocal: priceRangeLocal || null,
@@ -139,9 +172,12 @@ function buildSourceJson(html, slug) {
   const itemList = extractItemListFromJsonLd(jsonLd);
   const faq = extractFaqFromJsonLd(jsonLd);
   const tripProps = extractSummaryFromTouristTrip(jsonLd);
-  const sections = extractSections(html);
-
   const heroBadge = stripTags(matchOne(html, /<div class="hero-badge">([\s\S]*?)<\/div>/s) || '');
+  let sections = extractSections(html);
+  const vertical = detectVertical(slug, html, heroBadge, sections);
+  const category = detectCategory(slug, vertical, html);
+  sections = extractSections(html, vertical);
+
   const heroDek = stripTags(matchOne(html, /<p class="subtitle">([\s\S]*?)<\/p>/s) || matchOne(html, /<div class="hero">[\s\S]*?<p>([\s\S]*?)<\/p>/s) || '');
   const heroMeta = [...html.matchAll(/<div class="hero-meta">([\s\S]*?)<\/div>/g)][0];
   const heroMetaSpans = heroMeta ? [...heroMeta[1].matchAll(/<span[^>]*>([\s\S]*?)<\/span>/g)].map((m) => stripTags(m[1])) : [];
@@ -159,13 +195,13 @@ function buildSourceJson(html, slug) {
   return {
     slug,
     pageType: 'popular-picks',
-    status: 'published',
+    status: 'reviewed',
     taxonomy: {
       city: city || null,
       country: itemList[0]?.item?.address?.addressCountry || null,
       countryCode: itemList[0]?.item?.address?.addressCountry || null,
-      category: 'restaurants/food',
-      vertical: 'restaurants-food',
+      category,
+      vertical,
       badgeEmoji: heroBadge.split(' ')[0] || '🍽️',
     },
     seo: {
@@ -197,7 +233,7 @@ function buildSourceJson(html, slug) {
     },
     summary: {
       totalOptions: sections.length,
-      priceRangeLocal: tripProps.priceRangeUSD || null,
+      priceRangeLocal: tripProps.priceRangeLocal || null,
       priceRangeUSD: tripProps.priceRangeUSD || null,
       bestBudgetOption: tripProps.bestBudgetOption || null,
       bestLuxuryOption: tripProps.bestLuxuryOption || null,
@@ -226,7 +262,7 @@ function buildSourceJson(html, slug) {
     },
     verification: {
       lastVerified: tripProps.lastVerified || ((matchOne(html, /<meta property="article:modified_time" content="(\d{4}-\d{2})/i) || '').slice(0, 7)) || '2026-03',
-      pipelineVersion: 'html-backfill-v1',
+      pipelineVersion: 'html-backfill-v2',
       reviewedByHuman: false,
     },
     publishing: {
@@ -278,4 +314,4 @@ if (require.main === module) {
   console.log(`Extracted ${slug} -> ${output}`);
 }
 
-module.exports = { extractExisting, buildSourceJson, extractSections, extractJsonLdBlocks };
+module.exports = { extractExisting, buildSourceJson, extractSections, extractJsonLdBlocks, detectVertical, detectCategory };
