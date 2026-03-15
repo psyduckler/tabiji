@@ -28,21 +28,25 @@ function renderSchema(data) {
     description: data.seo.metaDescription,
     url: canonical,
     numberOfItems: data.picks.length,
-    itemListElement: data.picks.map((pick) => ({
+    itemListElement: data.picks.map((pick) => {
+      const foodTypes = new Set(['Restaurant', 'CafeOrCoffeeShop', 'BarOrPub']);
+      const resolvedType = (() => {
+        const typeMap = { restaurant: 'Restaurant', cafe: 'CafeOrCoffeeShop', bar: 'BarOrPub', market: 'LocalBusiness' };
+        return typeMap[pick.placeType] || 'LocalBusiness';
+      })();
+      return ({
       '@type': 'ListItem',
       position: pick.rank,
       item: {
-        '@type': (() => {
-          const typeMap = { restaurant: 'Restaurant', cafe: 'CafeOrCoffeeShop', bar: 'BarOrPub', market: 'LocalBusiness' };
-          return typeMap[pick.placeType] || 'LocalBusiness';
-        })(),
+        '@type': resolvedType,
         name: pick.name,
-        ...(pick.cuisineTags?.[0] ? { servesCuisine: pick.cuisineTags.join(' / ') } : {}),
+        ...(pick.cuisineTags?.[0] && foodTypes.has(resolvedType) ? { servesCuisine: pick.cuisineTags.join(' / ') } : {}),
         ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),
         ...(pick.priceRangeLocal ? { priceRange: pick.priceRangeLocal } : {}),
         ...(pick.googleMapsUrl ? { url: pick.googleMapsUrl } : {})
       }
-    }))
+    });
+  })
   };
 
   const faq = {
@@ -67,7 +71,7 @@ function renderSchema(data) {
       data.summary.bestLuxuryOption ? { '@type': 'PropertyValue', name: 'bestLuxuryOption', value: data.summary.bestLuxuryOption } : null,
       data.summary.bestOverall ? { '@type': 'PropertyValue', name: 'bestOverall', value: data.summary.bestOverall } : null,
       { '@type': 'PropertyValue', name: 'topPick', value: data.summary.topPick },
-      { '@type': 'PropertyValue', name: 'sourcesAnalyzed', value: data.summary.sourcesAnalyzed },
+      (data.summary.sourcesAnalyzed && !/Extracted/i.test(data.summary.sourcesAnalyzed)) ? { '@type': 'PropertyValue', name: 'sourcesAnalyzed', value: data.summary.sourcesAnalyzed } : null,
       { '@type': 'PropertyValue', name: 'lastVerified', value: data.verification.lastVerified }
     ].filter(Boolean)
   };
