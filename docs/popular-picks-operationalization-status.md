@@ -77,3 +77,12 @@ The right standard is:
 - review diff before merge
 
 That is now a practical workflow, not a hypothetical one.
+
+## Review lessons now folded into policy
+
+Psy's merge edits clarified a few recurring standards that should be treated as system rules:
+
+- suppress null/empty date meta tags on hub pages
+- strip synthetic `whatToOrder` lead-in prose instead of padding generated copy
+- on non-food pages, suppress filler `whatToOrder` text rather than forcing restaurant-style recommendation language
+- prefer omission over obviously templated filler
