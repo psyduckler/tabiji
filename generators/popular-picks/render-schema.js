@@ -32,7 +32,10 @@ function renderSchema(data) {
       '@type': 'ListItem',
       position: pick.rank,
       item: {
-        '@type': 'Restaurant',
+        '@type': (() => {
+          const typeMap = { restaurant: 'Restaurant', cafe: 'CafeOrCoffeeShop', bar: 'BarOrPub', market: 'LocalBusiness' };
+          return typeMap[pick.placeType] || 'LocalBusiness';
+        })(),
         name: pick.name,
         ...(pick.cuisineTags?.[0] ? { servesCuisine: pick.cuisineTags.join(' / ') } : {}),
         ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),

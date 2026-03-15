@@ -6,7 +6,7 @@ function countMatches(html, regex) {
   return (html.match(regex) || []).length;
 }
 
-function validateOutput(html) {
+function validateOutput(html, sourceData) {
   const errors = [];
   const warnings = [];
 
@@ -31,6 +31,15 @@ function validateOutput(html) {
 
   const faqCount = countMatches(html, /<div class="faq-item">/g);
   if (faqCount < 3) errors.push('Rendered output must contain at least 3 FAQ items');
+
+  if (sourceData) {
+    if (sourceData.picks && pickCount !== sourceData.picks.length) {
+      errors.push(`pick-card count mismatch: rendered ${pickCount}, expected ${sourceData.picks.length}`);
+    }
+    if (sourceData.faq && faqCount !== sourceData.faq.length) {
+      errors.push(`faq-item count mismatch: rendered ${faqCount}, expected ${sourceData.faq.length}`);
+    }
+  }
 
   if (html.length > 250000) warnings.push('HTML output is unusually large');
   if (!/Generated from structured source data\./.test(html)) warnings.push('Footer marker missing');
