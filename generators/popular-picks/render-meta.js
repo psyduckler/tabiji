@@ -2,7 +2,9 @@ const { escapeHtml } = require('./utils');
 
 function absoluteUrl(value = '') {
   if (!value) return '';
-  if (/^https?:\/\//i.test(value)) return value;
+  if (/^https?:\/\//i.test(value)) {
+    return value.replace('https://tabiji.ai/popular-picks/', 'https://img.tabiji.ai/popular-picks/');
+  }
   return `https://tabiji.ai${value.startsWith('/') ? value : `/${value}`}`;
 }
 
@@ -26,6 +28,8 @@ function renderMeta(data) {
     '<meta property="og:type" content="article">',
     `<meta property="og:url" content="${escapeHtml(canonical)}">`,
     heroImage ? `<meta property="og:image" content="${escapeHtml(heroImage)}">` : '',
+    heroImage ? '<meta property="og:image:width" content="1200">' : '',
+    heroImage ? '<meta property="og:image:height" content="675">' : '',
     '<meta property="og:site_name" content="tabiji.ai">',
     '<meta name="twitter:card" content="summary_large_image">',
     `<meta name="twitter:title" content="${escapeHtml(seo.twitterTitle || seo.ogTitle || seo.metaTitle)}">`,
