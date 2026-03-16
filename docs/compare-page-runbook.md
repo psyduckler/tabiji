@@ -211,6 +211,21 @@ Before opening a PR, verify ALL of the following:
 - [ ] All images have descriptive `alt` text
 - [ ] Images optimized (800px wide, JPEG ~80%)
 
+### Build Script (MANDATORY)
+- [ ] Page HTML rendered via `python3 generators/compare/build_compare.py build` — NOT hand-written
+- [ ] Structured JSON exists in `compare-data/{slug}.json`
+- [ ] `python3 generators/compare/build_compare.py validate` passes with 0 errors
+
+**⚠️ Do NOT hand-write compare page HTML.** The canonical build pipeline is:
+
+1. Create `compare-data/{slug}.json` with all content blocks (extract from a reference page for the schema)
+2. Run `python3 generators/compare/build_compare.py build` to render HTML
+3. Run `python3 generators/compare/build_compare.py validate` to verify
+
+To extract a reference JSON from an existing page: `python3 generators/compare/build_compare.py extract`
+
+The build script ensures correct layout order (toc-sidebar → article-content → methodology-box inside article-content). Hand-written HTML breaks the flex layout.
+
 ---
 
 ## 6. API JSON Format
