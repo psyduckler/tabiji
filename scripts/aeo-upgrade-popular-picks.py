@@ -250,16 +250,17 @@ def build_quick_answer_cards(meta, picks):
             break
     add_card('Best budget', 'Best value if price matters more than hype.', cheapest)
 
-    late_score = lambda p: score_pick(p, keywords=('24 hours', 'until 3am', 'until 2am', 'late-night', 'late night', 'post-club', 'midnight', 'dawn', 'night owl', 'night market', '4am', '5am', 'open 24 hours'))
+    late_score = lambda p: score_pick(p, keywords=('24 hours', 'until 3am', 'until 2am', 'late-night', 'late night', 'post-club', 'midnight', 'dawn', 'night owl', 'night market', '4am', '5am', 'open 24 hours', 'after dark', 'evening', 'open late'))
     add_card('Best late-night', 'Most useful when your timing is the real constraint.', best_unused(late_score))
 
-    first_timer_score = lambda p: score_pick(p, keywords=('first-timer', 'first timer', 'accessible', 'safe bet', 'stress-free', 'intro', 'introduction', 'tourist-friendly', 'beginner', 'can\'t go wrong'))
+    first_timer_score = lambda p: score_pick(p, keywords=('first-timer', 'first timer', 'accessible', 'safe bet', 'stress-free', 'intro', 'introduction', 'tourist-friendly', 'beginner', 'can\'t go wrong', 'easy', 'welcoming', 'family-friendly', 'well-known', 'classic', 'iconic', 'famous'))
     add_card('Best for first-timers', 'Good fit when you want the easiest, most approachable starting point.', best_unused(first_timer_score))
 
-    local_score = lambda p: score_pick(p, keywords=('local', 'locals', 'resident', 'residents', 'under the tourist radar', 'under the radar', 'hidden gem', 'insider', 'off the tourist trail', 'local\'s local', 'where romans eat', 'where locals go'), anti_keywords=('touristy', 'touristy', 'world famous', 'instagram', 'chain'))
+    local_score = lambda p: score_pick(p, keywords=('local', 'locals', 'resident', 'residents', 'under the tourist radar', 'under the radar', 'hidden gem', 'insider', 'off the tourist trail', 'local\'s local', 'where locals go', 'neighborhood', 'artisan', 'craft', 'independent', 'family-run', 'hole in the wall'), anti_keywords=('touristy', 'world famous', 'instagram', 'chain', 'franchise'))
     add_card('Best local favorite', 'The pick with the strongest locals-actually-go-here signal.', best_unused(local_score))
 
-    splurge_score = lambda p: score_pick(p, keywords=('luxury', 'splurge', 'high-end', 'exclusive', 'special occasion', 'private wing', 'premium', 'heritage luxury')) + (pick_numeric_price(p) / 1000 if pick_numeric_price(p) != float('inf') else 0)
+    # Cap price contribution at 500 so extreme outliers ($3500+) don't dominate the score
+    splurge_score = lambda p: score_pick(p, keywords=('luxury', 'splurge', 'high-end', 'exclusive', 'special occasion', 'private wing', 'premium', 'heritage luxury', 'boutique', 'designer', 'world-class', 'award-winning', 'michelin')) + (min(pick_numeric_price(p), 500) / 500 if pick_numeric_price(p) != float('inf') else 0)
     add_card('Best splurge', 'Worth the premium if you care more about the experience ceiling than value.', best_unused(splurge_score))
 
     return cards[:4]
