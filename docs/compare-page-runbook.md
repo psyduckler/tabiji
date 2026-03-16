@@ -4,7 +4,7 @@ _The definitive guide to building compare pages on tabiji.ai. Follow this exactl
 
 ## Reference Page
 
-**`tokyo-vs-kyoto`** is the gold standard. Every new compare page must match its structure, tone, and quality bar. When in doubt, open `compare/tokyo-vs-kyoto/index.html` and copy the pattern.
+**`tokyo-vs-kyoto`** is the current reference implementation. New compare pages should match its structure, tone, and quality bar. When in doubt, open `compare/tokyo-vs-kyoto/index.html` and study the pattern — but always verify against `main` for the latest production shell, since details can evolve.
 
 ---
 
@@ -106,7 +106,7 @@ img.tabiji.ai/compare/{slug}/{image-name}.jpg
 
 ### CSS
 
-Copy the `<style>` block from `tokyo-vs-kyoto` verbatim. The design system is inline per page (no shared stylesheet). Key CSS classes:
+Match the current production CSS from `tokyo-vs-kyoto` (the design system is inline per page, no shared stylesheet). Verify against `main` before copying — styles may have been updated since this runbook was written. Key CSS classes:
 
 - `.hero`, `.hero-badge`, `.hero-meta`
 - `.toc-sidebar` (sticky sidebar with Contents links)
@@ -159,7 +159,7 @@ For each new compare page:
 - Upload to R2: `img.tabiji.ai/compare/{slug}/{descriptive-name}.jpg`
 
 ### Step 4: Write the Page
-- Start from `tokyo-vs-kyoto/index.html` as template
+- Use `tokyo-vs-kyoto/index.html` as the reference for structure and required sections (verify against `main` for latest)
 - Replace all content — do NOT leave any Tokyo/Kyoto references
 - Write in tabiji voice: opinionated, data-backed, traveler-to-traveler (not guidebook corporate)
 - Every claim should trace back to Reddit, a data source, or personal research
@@ -281,4 +281,4 @@ Priority rebuilds: `paris-vs-rome`, `barcelona-vs-lisbon`, `iceland-vs-norway`, 
 - **Don't use generic verdicts.** "Both are great!" is not a verdict. Pick a side or explain the specific tradeoff.
 - **Don't forget R2 image upload.** Images go to R2, not the git repo. Dead image links = broken page.
 - **Don't skip Reddit research.** The whole brand promise is "Reddit-backed, not AI filler." If you can't find Reddit threads about this comparison, it might not be a good compare page.
-- **Don't hardcode wrong API keys.** Google Maps key for all tabiji pages: `AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc`
+- **Don't hardcode wrong API keys.** Use the standard Tabiji Google Maps API key already used by existing pages. Check the production `tokyo-vs-kyoto` page or project config for the current key — don't guess or use a different one.
