@@ -5,7 +5,9 @@ Tabiji API v1 — Static JSON API Builder
 Reads all tabiji data sources (destinations, popular-picks, itineraries, compare)
 and generates static JSON files for a free REST API hosted on Cloudflare Pages.
 
-Usage: python3 api/build-api.py
+Usage:
+  python3 -m pip install -r api/requirements.txt
+  python3 api/build-api.py
 """
 
 import json
@@ -17,10 +19,14 @@ from datetime import datetime, timezone
 
 try:
     from bs4 import BeautifulSoup
-except ImportError:
-    print("Installing beautifulsoup4...")
-    os.system("pip3 install --break-system-packages beautifulsoup4")
-    from bs4 import BeautifulSoup
+except ImportError as exc:
+    print(
+        "Missing dependency: beautifulsoup4\n"
+        "Install API build dependencies first:\n"
+        "  python3 -m pip install -r api/requirements.txt",
+        file=sys.stderr,
+    )
+    raise SystemExit(1) from exc
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
