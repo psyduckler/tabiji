@@ -291,7 +291,7 @@ def render_page(data: Dict) -> str:
 <!-- @include:footer:start -->
 {shell['footerHtml']}
 <!-- @include:footer:end -->
-{''.join(shell['scripts'])}
+{chr(10).join(shell['scripts'])}
 </body>
 </html>
 """
