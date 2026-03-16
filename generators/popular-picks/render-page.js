@@ -11,6 +11,13 @@ function renderRichTextParagraphs(items = []) {
   return items.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
 }
 
+function firstNonEmpty(...values) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return '';
+}
+
 function normalizeIntroText(text = '') {
   return String(text)
     .toLowerCase()
@@ -221,10 +228,117 @@ function stripWhatToOrderLead(text) {
   return match ? match[1].trim() : text;
 }
 
+function firstSentenceClean(text = '') {
+  const sentence = firstSentence(text).replace(/^[\s"'“”‘’]+|[\s"'“”‘’]+$/g, '').trim();
+  return sentence || text.trim();
+}
+
+function buildVerdictText(pick) {
+  return firstNonEmpty(firstSentenceClean(pick.insiderTip), firstSentenceClean(pick.whyItMadeTheList), firstSentenceClean(stripWhatToOrderLead(pick.whatToOrder)));
+}
+
+function buildBestForText(pick, data, firstTag) {
+  if (pick.whyItMadeTheList) {
+    const text = pick.whyItMadeTheList;
+    const patterns = [
+      /best\s+(?:for|pick for)\s+([^.;]+)/i,
+      /ideal\s+for\s+([^.;]+)/i,
+      /worth\s+it\s+for\s+([^.;]+)/i,
+      /the\s+spot\s+for\s+([^.;]+)/i,
+    ];
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) return match[1].trim().replace(/^the\s+/i, '');
+    }
+  }
+  const location = firstNonEmpty(pick.neighborhood, pick.address, data.taxonomy.city);
+  if (pick.priceRangeLocal && location) return `${firstTag} in ${location} with a ${pick.priceRangeLocal} spend range`;
+  if (location) return `${firstTag} in ${location}`;
+  return firstTag;
+}
+
+function buildStrengths(pick, firstTag) {
+  const strengths = [];
+  if (pick.googleRating && pick.reviewCount) strengths.push(`${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} Google reviews`);
+  else if (pick.googleRating) strengths.push(`${pick.googleRating}★ Google rating`);
+  if (firstTag) strengths.push(firstTag);
+  if (pick.address) strengths.push(pick.address);
+  if (pick.hoursNote && /open 24 hours/i.test(pick.hoursNote)) strengths.push('Open 24 hours');
+  return strengths.slice(0, 3);
+}
+
+function buildLimitations(pick) {
+  const limitationText = firstNonEmpty(pick.whyItMadeTheList, pick.insiderTip);
+  const patterns = [
+    /check recent reviews before booking[^.;]*/i,
+    /book ahead[^.;]*/i,
+    /worth the splurge[^.;]*/i,
+    /more formal than[^.;]*/i,
+    /polarizing[^.;]*/i,
+    /won't know the menu until it arrives[^.;]*/i,
+    /just be prepared:?\s*([^.;]+)/i,
+    /however,?\s*([^.;]+)/i,
+    /but\s+([^.;]+)/i,
+  ];
+  for (const pattern of patterns) {
+    const match = limitationText.match(pattern);
+    if (match) {
+      return (match[1] || match[0]).replace(/^[:\s-]+/, '').trim();
+    }
+  }
+  if (pick.priceRangeLocal) return `Price band: ${pick.priceRangeLocal}`;
+  if (pick.hoursNote) return 'Check hours before you go';
+  return 'No major drawbacks called out in the source copy';
+}
+
+function renderComparisonRow(label, value) {
+  if (!value) return '';
+  return `<div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`;
+}
+
+function renderQuickAnswer(data) {
+  const firstThree = data.picks.slice(0, 3).map((pick) => `
+            <li><strong>${escapeHtml(pick.name)}:</strong> ${escapeHtml(buildVerdictText(pick))}</li>`).join('');
+  const summaryRows = [
+    ['Best overall', data.summary?.bestOverall || data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
+    ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter(Boolean)[0] || 'Varies by pick'],
+    ['Top-ranked pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
+    ['Last verified', data.summary?.lastVerifiedLabel || 'See page metadata'],
+  ].filter(([, value]) => value);
+
+  return `
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
+            <dl class="quick-answer-grid">
+              ${summaryRows.map(([label, value]) => renderComparisonRow(label, value)).join('')}
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">${firstThree}</ul>
+          </div>
+        </section>`;
+}
+
 function renderPick(pick, data, mapData) {
   const mapQuery = buildPickMapQuery(pick, data);
   const hours = parseHoursNote(pick.hoursNote);
   const firstTag = (pick.cuisineTags || [])[0] || pick.placeType || 'Restaurant';
+  const verdictText = buildVerdictText(pick);
+  const bestForText = buildBestForText(pick, data, firstTag);
+  const strengths = buildStrengths(pick, firstTag);
+  const limitations = buildLimitations(pick);
+  const valueSignal = firstNonEmpty(
+    pick.priceRangeLocal ? `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}` : '',
+    pick.googleRating && pick.reviewCount ? `${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} reviews` : '',
+    pick.googleRating ? `${pick.googleRating}★ Google rating` : ''
+  );
+  const whyItMadeTheList = firstNonEmpty(pick.whyItMadeTheList, pick.insiderTip);
+  const orderNote = pick.whatToOrder && !pick.whatToOrder.includes('is a featured pick in this guide')
+    ? stripWhatToOrderLead(pick.whatToOrder)
+    : '';
   const quoteBlocks = (pick.redditQuotes || []).map((quote) => `
     <div class="reddit-quote">
         "${escapeHtml(quote.quote)}"
@@ -258,6 +372,20 @@ function renderPick(pick, data, mapData) {
         ${pick.address ? `<span>📍 ${escapeHtml(pick.address)}</span>` : ''}
         ${pick.googleMapsUrl ? `<a href="${escapeHtml(pick.googleMapsUrl)}" target="_blank" rel="noopener">📌 Google Maps →</a>` : ''}
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> ${escapeHtml(verdictText)}
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        ${renderComparisonRow('Best for', bestForText)}
+        ${renderComparisonRow('Strengths', strengths.join(' · '))}
+        ${renderComparisonRow('Limitations', limitations)}
+        ${renderComparisonRow('Price / value', valueSignal)}
+        ${renderComparisonRow('Why it made the list', whyItMadeTheList)}
+        ${renderComparisonRow('What to order', orderNote)}
+      </dl>
+    </div>
     ${hours.length ? `
     <div class="shop-hours">
         <details>
@@ -270,12 +398,7 @@ function renderPick(pick, data, mapData) {
     ${contactRow ? `<div class="shop-contact">${contactRow}</div>` : ''}
 
     ${pick.photo ? `<img src="${escapeHtml(absoluteUrl(pick.photo))}" alt="${escapeHtml(pick.name)} in ${escapeHtml(pick.neighborhood || pick.address || '')}" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">` : ''}
-${(pick.whatToOrder && !pick.whatToOrder.includes('is a featured pick in this guide')) ? `<div class="what-to-order">
-        <strong>What to order:</strong> ${escapeHtml(stripWhatToOrderLead(pick.whatToOrder))}</div>` : ''}
     ${quoteBlocks}
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> ${escapeHtml(pick.insiderTip)}
-    </div>
 </section>`;
 }
 
@@ -328,7 +451,16 @@ function renderPage(data) {
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -341,18 +473,19 @@ function renderPage(data) {
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 </head>
 <body>
@@ -369,6 +502,8 @@ function renderPage(data) {
     </aside>
 
     <main class="content">
+      ${renderQuickAnswer(data)}
+
       <section class="intro-section">
         <p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
         ${renderRichTextParagraphs(introBody)}

@@ -332,7 +332,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -345,18 +354,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -434,6 +444,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>London&#39;s diverse brunch scene, ranging from approximately £6 to £15+, offers everything from classic British fry-ups to globally-inspired dishes. Dishoom, with its Indian-inflected breakfast menu, stands out as a top recommendation for a unique and flavorful brunch experience in multiple locations across London.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Dishoom</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>£14–£22/person</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Dishoom</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Dishoom:</strong> Dishoom is the runaway winner of every London brunch poll on Reddit — and for good reason.</li>
+            <li><strong>The Breakfast Club:</strong> Love it or hate the queue, The Breakfast Club has become a London brunch institution for a reason — the pancakes are genuinely excellent, the vibe is fun, and the menu covers all the American diner classics.</li>
+            <li><strong>26 Grains:</strong> Tucked into the charming courtyard of Neal&#39;s Yard in Covent Garden, 26 Grains is the antidote to stodgy hotel buffets and overpriced avocado toast.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>London&#39;s diverse brunch scene, ranging from approximately £6 to £15+, offers everything from classic British fry-ups to globally-inspired dishes. Dishoom, with its Indian-inflected breakfast menu, stands out as a top recommendation for a unique and flavorful brunch experience in multiple locations across London.</strong></p>
         <p>London&#39;s brunch scene is one of the best in Europe — a wild mix of Indian-inflected morning classics, Australian café culture, Parisian brasserie grandeur, and East End caff institutions that have barely changed since the postwar years. Whether you want a £5.90 bacon naan roll with bottomless chai, a beautifully composed grain bowl, or a fry-up served by someone who calls you &quot;love&quot; and means it, London has you covered.</p><p>We analyzed hundreds of Reddit posts from r/london, r/LondonFood, r/uktravel, and r/visitlondon to find the spots that actual Londoners and returning travelers recommend again and again. No PR lists, no sponsored content — just the places that keep coming up in real conversations about where to go on a Sunday morning.</p>
@@ -488,6 +516,20 @@
         <span>📍 Covent Garden, Shoreditch, King&#39;s Cross &amp; more</span>
         <a href="https://maps.google.com/?cid=11256896404490944630&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Dishoom is the runaway winner of every London brunch poll on Reddit — and for good reason.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Indian Breakfast in Covent Garden, Shoreditch, King&#39;s Cross &amp; more with a £14–£22/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 28,419 Google reviews · Indian Breakfast · Covent Garden, Shoreditch, King&#39;s Cross &amp; more</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>book ahead</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£14–£22/person · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Dishoom is the runaway winner of every London brunch poll on Reddit — and for good reason. The Bombay café concept (inspired by the old Irani cafés of Mumbai) is executed impeccably, and the breakfast menu is a genuine masterpiece. The bacon naan roll has achieved genuine London-icon status. The queue can be brutal on weekends without a reservation, so book ahead. Covent Garden and Carnaby Street branches tend to have the most walk-in availability on weekdays.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Dishoom, an Indian breakfast spot with multiple locations including Covent Garden, Shoreditch, and King&#39;s Cross, offers a bacon naan roll for £5.90. This London icon features streaky bacon, cream cheese, and chilli jam folded into a soft naan. The Kejriwal (fried egg on toast with green chillies) is equally legendary. The full Dishoom breakfast (around £15) includes Irani chai, eggs your way, sausage, bacon, and black daal. Bottomless chai comes with breakfast orders.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -500,8 +542,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442074209320">+442074209320</a></span><span>🌐 <a href="https://www.dishoom.com/covent-garden/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=Yext&amp;utm_content=D1-CoventGarden&amp;y_source=1_MjMwNDkyMDMtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/dishoom.jpg" alt="Dishoom in Covent Garden, Shoreditch, King&#39;s Cross &amp; more" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Dishoom, an Indian breakfast spot with multiple locations including Covent Garden, Shoreditch, and King&#39;s Cross, offers a bacon naan roll for £5.90. This London icon features streaky bacon, cream cheese, and chilli jam folded into a soft naan. The Kejriwal (fried egg on toast with green chillies) is equally legendary. The full Dishoom breakfast (around £15) includes Irani chai, eggs your way, sausage, bacon, and black daal. Bottomless chai comes with breakfast orders.</div>
     
     <div class="reddit-quote">
         "Dishoom brunch is better than their lunch/dinner stuff. I forget the name of the roll with Bacon — but it&#39;s a slapper."
@@ -515,9 +555,6 @@
         "Dishoom, specifically for the bacon naan and bottomless chai. I&#39;ve also had nice breakfasts at Balthazar."
         <span class="source">— r/LondonTravel · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Dishoom is the runaway winner of every London brunch poll on Reddit — and for good reason. The Bombay café concept (inspired by the old Irani cafés of Mumbai) is executed impeccably, and the breakfast menu is a genuine masterpiece. The bacon naan roll has achieved genuine London-icon status. The queue can be brutal on weekends without a reservation, so book ahead. Covent Garden and Carnaby Street branches tend to have the most walk-in availability on weekdays.
-    </div>
 </section>
 <section class="restaurant-section" id="breakfast-club" data-map-name="2. The Breakfast Club" data-map-cta-url="https://maps.google.com/?cid=9747327299585346240&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Breakfast Club, Soho, Spitalfields, Battersea &amp; more, London, GB" data-map-lat="51.5147408" data-map-lng="-0.135402">
     <div class="restaurant-header">
@@ -529,6 +566,20 @@
         <span>💴 £10–£18/person</span>
         <span>📍 Soho, Spitalfields, Battersea &amp; more</span>
         <a href="https://maps.google.com/?cid=9747327299585346240&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Love it or hate the queue, The Breakfast Club has become a London brunch institution for a reason — the pancakes are genuinely excellent, the vibe is fun, and the menu covers all the American diner classics.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>American Diner in Soho, Spitalfields, Battersea &amp; more with a £10–£18/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 4,199 Google reviews · American Diner · Soho, Spitalfields, Battersea &amp; more</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £10–£18/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£10–£18/person · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Love it or hate the queue, The Breakfast Club has become a London brunch institution for a reason — the pancakes are genuinely excellent, the vibe is fun, and the menu covers all the American diner classics. Reddit opinion is split: some think the wait isn&#39;t worth it; others swear by it for off-peak visits. Our advice: go on a Tuesday morning and skip the weekend madness. Multiple locations across London mean you&#39;re rarely far from one.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The Breakfast Club, an American diner with locations in Soho, Spitalfields, and Battersea, is known for its American pancakes stacked high with bacon and maple syrup. The Huevos Rancheros and Full Monty are also Reddit staples. For something sweet, the French toast with seasonal fruit is outstanding. Note: no reservations taken, so arrive early or expect to queue, especially on weekends.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -542,8 +593,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442074342571">+442074342571</a></span><span>🌐 <a href="http://www.thebreakfastclubcafes.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/breakfast-club.jpg" alt="The Breakfast Club in Soho, Spitalfields, Battersea &amp; more" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The Breakfast Club, an American diner with locations in Soho, Spitalfields, and Battersea, is known for its American pancakes stacked high with bacon and maple syrup. The Huevos Rancheros and Full Monty are also Reddit staples. For something sweet, the French toast with seasonal fruit is outstanding. Note: no reservations taken, so arrive early or expect to queue, especially on weekends.</div>
     
     <div class="reddit-quote">
         "There&#39;s definitely no point in lining up for it, but if you can slip in when it&#39;s quiet then they do excellent pancakes. It&#39;s actually worth going along in the evening for a few beers too."
@@ -557,9 +606,6 @@
         "Go to Dishoom instead for a breakfast that&#39;s a bit different, or just a greasy spoon. The Breakfast Club has a 1.5hr queue on Sunday mornings — that&#39;s people who value hype over substance."
         <span class="source">— r/london (dissenting voice, but they still recommend it off-peak) · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Love it or hate the queue, The Breakfast Club has become a London brunch institution for a reason — the pancakes are genuinely excellent, the vibe is fun, and the menu covers all the American diner classics. Reddit opinion is split: some think the wait isn&#39;t worth it; others swear by it for off-peak visits. Our advice: go on a Tuesday morning and skip the weekend madness. Multiple locations across London mean you&#39;re rarely far from one.
-    </div>
 </section>
 <section class="restaurant-section" id="26-grains" data-map-name="3. 26 Grains" data-map-cta-url="https://maps.google.com/?cid=14180264630658732048&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="26 Grains, Covent Garden, Neal&#39;s Yard, London, GB" data-map-lat="51.5143846" data-map-lng="-0.1262916">
     <div class="restaurant-header">
@@ -571,6 +617,20 @@
         <span>💴 £8–£16/person</span>
         <span>📍 Covent Garden, Neal&#39;s Yard</span>
         <a href="https://maps.google.com/?cid=14180264630658732048&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Tucked into the charming courtyard of Neal&#39;s Yard in Covent Garden, 26 Grains is the antidote to stodgy hotel buffets and overpriced avocado toast.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Grain Bowls &amp; Porridge in Covent Garden, Neal&#39;s Yard with a £8–£16/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 1,394 Google reviews · Grain Bowls &amp; Porridge · Covent Garden, Neal&#39;s Yard</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £8–£16/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£8–£16/person · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Tucked into the charming courtyard of Neal&#39;s Yard in Covent Garden, 26 Grains is the antidote to stodgy hotel buffets and overpriced avocado toast. The place is built around Scandinavian grain culture — think Nordic wellness meets London café scene — and the result is genuinely exciting. If you think porridge is boring, 26 Grains will change your mind. Hidden location means it&#39;s less crowded than it deserves to be.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>26 Grains, a grain bowl and porridge spot in Covent Garden&#39;s Neal&#39;s Yard, elevates oats to an art form with its seasonal porridge. Toppings rotate with the seasons but typically include bee pollen, seasonal fruit, and interesting syrups. The grain bowls with soft-boiled eggs and fermented vegetables are equally compelling. The coffee is excellent.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -584,8 +644,6 @@
     <div class="shop-contact"><span>🌐 <a href="http://www.26grains.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/26-grains.jpg" alt="26 Grains in Covent Garden, Neal&#39;s Yard" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> 26 Grains, a grain bowl and porridge spot in Covent Garden&#39;s Neal&#39;s Yard, elevates oats to an art form with its seasonal porridge. Toppings rotate with the seasons but typically include bee pollen, seasonal fruit, and interesting syrups. The grain bowls with soft-boiled eggs and fermented vegetables are equally compelling. The coffee is excellent.</div>
     
     <div class="reddit-quote">
         "26 grains — their porridge is extraordinary. I still think about it."
@@ -599,9 +657,6 @@
         "26 Grains, in Neal&#39;s Yard — excellent for a creative breakfast that goes way beyond avocado toast."
         <span class="source">— r/london · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Tucked into the charming courtyard of Neal&#39;s Yard in Covent Garden, 26 Grains is the antidote to stodgy hotel buffets and overpriced avocado toast. The place is built around Scandinavian grain culture — think Nordic wellness meets London café scene — and the result is genuinely exciting. If you think porridge is boring, 26 Grains will change your mind. Hidden location means it&#39;s less crowded than it deserves to be.
-    </div>
 </section>
 <section class="restaurant-section" id="regency-cafe" data-map-name="4. Regency Cafe" data-map-cta-url="https://maps.google.com/?cid=11509084665895654194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Regency Cafe, Westminster, Regency Street, London, GB" data-map-lat="51.4937725" data-map-lng="-0.132194">
     <div class="restaurant-header">
@@ -613,6 +668,20 @@
         <span>💴 £8–£14/person</span>
         <span>📍 Westminster, Regency Street</span>
         <a href="https://maps.google.com/?cid=11509084665895654194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Regency Cafe is a time capsule — the black-and-white tiled walls, the hand-painted menus, the staff calling your number like a football score announcement.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Classic British Caff in Westminster, Regency Street with a £8–£14/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 4,654 Google reviews · Classic British Caff · Westminster, Regency Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it hasn&#39;t sold out: they still won&#39;t give you oat milk for your tea, and the fry-up is still cooked exactly as it should be</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£8–£14/person · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Regency Cafe is a time capsule — the black-and-white tiled walls, the hand-painted menus, the staff calling your number like a football score announcement. It&#39;s been here since 1946 and serves one of the finest fry-ups in London at honest prices. Yes, it&#39;s now somewhat famous on Instagram, but it hasn&#39;t sold out: they still won&#39;t give you oat milk for your tea, and the fry-up is still cooked exactly as it should be. An essential London experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Regency Cafe, a classic British caff in Westminster on Regency Street, serves a full English breakfast starting around £8.95. The full English includes bacon, two eggs, sausage, beans, toast, mushrooms, and black pudding. Everything is cooked properly on a proper grill and served by staff who have zero time for nonsense. Strong builder&#39;s tea is essentially mandatory.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -626,8 +695,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442078216596">+442078216596</a></span><span>🌐 <a href="https://regencycafe.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/regency-cafe.jpg" alt="Regency Cafe in Westminster, Regency Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Regency Cafe, a classic British caff in Westminster on Regency Street, serves a full English breakfast starting around £8.95. The full English includes bacon, two eggs, sausage, beans, toast, mushrooms, and black pudding. Everything is cooked properly on a proper grill and served by staff who have zero time for nonsense. Strong builder&#39;s tea is essentially mandatory.</div>
     
     <div class="reddit-quote">
         "The Regency Cafe in Westminster is an obvious choice — popular with the influencer crowd now, but still a proper English breakfast. Everything is as it should be."
@@ -641,9 +708,6 @@
         "Go early, it gets busy. The Regency hasn&#39;t changed in decades and that&#39;s exactly the point."
         <span class="source">— r/london · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Regency Cafe is a time capsule — the black-and-white tiled walls, the hand-painted menus, the staff calling your number like a football score announcement. It&#39;s been here since 1946 and serves one of the finest fry-ups in London at honest prices. Yes, it&#39;s now somewhat famous on Instagram, but it hasn&#39;t sold out: they still won&#39;t give you oat milk for your tea, and the fry-up is still cooked exactly as it should be. An essential London experience.
-    </div>
 </section>
 <section class="restaurant-section" id="granger-co" data-map-name="5. Granger &amp; Co" data-map-cta-url="https://maps.google.com/?cid=17073116558062234726&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Granger &amp; Co, Notting Hill, King&#39;s Cross, Clerkenwell, London, GB" data-map-lat="51.5145986" data-map-lng="-0.1977545">
     <div class="restaurant-header">
@@ -655,6 +719,20 @@
         <span>💴 £14–£24/person</span>
         <span>📍 Notting Hill, King&#39;s Cross, Clerkenwell</span>
         <a href="https://maps.google.com/?cid=17073116558062234726&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Bill Granger brought Sydney café culture to London and London never looked back.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Australian Brunch in Notting Hill, King&#39;s Cross, Clerkenwell with a £14–£24/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 3,428 Google reviews · Australian Brunch · Notting Hill, King&#39;s Cross, Clerkenwell</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Notting Hill has the best atmosphere on a Saturday morning</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£14–£24/person · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Bill Granger brought Sydney café culture to London and London never looked back. The ricotta hotcakes are genuinely world-class — light, slightly tangy, with a banana-honeycomb combination that shouldn&#39;t work as well as it does. Granger &amp; Co popularized the avocado toast craze in London and has the quality to show it wasn&#39;t just a trend. Multiple locations, but Notting Hill has the best atmosphere on a Saturday morning.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Granger &amp; Co, an Australian brunch spot with locations in Notting Hill, King&#39;s Cross, and Clerkenwell, is famous for its ricotta hotcakes with banana and honeycomb butter. The sweetcorn fritters with roast tomato and crispy bacon are equally brilliant. For something savoury, the smashed avocado with feta and seeds set the London brunch standard for years.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -668,8 +746,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442072299111">+442072299111</a></span><span>🌐 <a href="http://www.grangerandco.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/granger-co.jpg" alt="Granger &amp; Co in Notting Hill, King&#39;s Cross, Clerkenwell" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Granger &amp; Co, an Australian brunch spot with locations in Notting Hill, King&#39;s Cross, and Clerkenwell, is famous for its ricotta hotcakes with banana and honeycomb butter. The sweetcorn fritters with roast tomato and crispy bacon are equally brilliant. For something savoury, the smashed avocado with feta and seeds set the London brunch standard for years.</div>
     
     <div class="reddit-quote">
         "Granger &amp; Co for ricotta hotcakes. The Notting Hill location is the original London one and has a lovely buzz on weekend mornings."
@@ -683,9 +759,6 @@
         "The ricotta hotcakes at Granger are basically perfect. Never had better in London. Book ahead for weekends at Notting Hill."
         <span class="source">— r/LondonFood · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Bill Granger brought Sydney café culture to London and London never looked back. The ricotta hotcakes are genuinely world-class — light, slightly tangy, with a banana-honeycomb combination that shouldn&#39;t work as well as it does. Granger &amp; Co popularized the avocado toast craze in London and has the quality to show it wasn&#39;t just a trend. Multiple locations, but Notting Hill has the best atmosphere on a Saturday morning.
-    </div>
 </section>
 <section class="restaurant-section" id="riding-house-cafe" data-map-name="6. Riding House Cafe" data-map-cta-url="https://maps.google.com/?cid=16958792684444862723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riding House Cafe, Fitzrovia, near Oxford Circus, London, GB" data-map-lat="51.5157157" data-map-lng="-0.1383335">
     <div class="restaurant-header">
@@ -697,6 +770,20 @@
         <span>💴 £12–£22/person</span>
         <span>📍 Fitzrovia, near Oxford Circus</span>
         <a href="https://maps.google.com/?cid=16958792684444862723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Riding House Cafe occupies the sweet spot between neighbourhood café and destination restaurant — the kind of place you want as your local.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Modern European in Fitzrovia, near Oxford Circus with a £12–£22/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 3,936 Google reviews · Modern European · Fitzrovia, near Oxford Circus</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £12–£22/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£12–£22/person · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Riding House Cafe occupies the sweet spot between neighbourhood café and destination restaurant — the kind of place you want as your local. The large, light-filled dining room makes it perfect for lingering weekend brunches, and the all-day menu means you can roll up anytime. It&#39;s not trying to reinvent the wheel; it&#39;s just doing classic brunch dishes very well. Book for weekends; walk-ins possible on weekdays.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Riding House Cafe, a Modern European spot in Fitzrovia near Oxford Circus, is known for its consistently praised eggs benedict. The eggs benedict are praised for perfectly poached eggs and excellent hollandaise. The smoked salmon bagel is a brunch staple done well, and the pancakes with seasonal compote are worth ordering. The Bloody Mary cocktail is one of the better versions in central London.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -710,8 +797,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442079270840">+442079270840</a></span><span>🌐 <a href="https://www.riding.house/restaurant/fitzrovia" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/riding-house-cafe.jpg" alt="Riding House Cafe in Fitzrovia, near Oxford Circus" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Riding House Cafe, a Modern European spot in Fitzrovia near Oxford Circus, is known for its consistently praised eggs benedict. The eggs benedict are praised for perfectly poached eggs and excellent hollandaise. The smoked salmon bagel is a brunch staple done well, and the pancakes with seasonal compote are worth ordering. The Bloody Mary cocktail is one of the better versions in central London.</div>
     
     <div class="reddit-quote">
         "I&#39;ve always liked Riding House Cafe in Fitzrovia though it&#39;s perhaps a little simple for your budget. Good eggs, great coffee, and a lovely room."
@@ -725,9 +810,6 @@
         "Riding House Cafe is great for weekend brunch — book ahead. Very Fitzrovia: stylish without being pretentious, and the food is consistently good."
         <span class="source">— r/london · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Riding House Cafe occupies the sweet spot between neighbourhood café and destination restaurant — the kind of place you want as your local. The large, light-filled dining room makes it perfect for lingering weekend brunches, and the all-day menu means you can roll up anytime. It&#39;s not trying to reinvent the wheel; it&#39;s just doing classic brunch dishes very well. Book for weekends; walk-ins possible on weekdays.
-    </div>
 </section>
 <section class="restaurant-section" id="e-pellicci" data-map-name="7. E. Pellicci" data-map-cta-url="https://maps.google.com/?cid=11411418402021041647&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="E. Pellicci, Bethnal Green, Bethnal Green Road, London, GB" data-map-lat="51.5264757" data-map-lng="-0.06342919999999999">
     <div class="restaurant-header">
@@ -739,6 +821,20 @@
         <span>💴 £7–£14/person</span>
         <span>📍 Bethnal Green, Bethnal Green Road</span>
         <a href="https://maps.google.com/?cid=11411418402021041647&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> E.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Italian British Caff in Bethnal Green, Bethnal Green Road with a £7–£14/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.8★ from 2,938 Google reviews · Italian British Caff · Bethnal Green, Bethnal Green Road</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £7–£14/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£7–£14/person · 4.8★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>E. Pellicci is one of the few places in London where the building, the food, and the people running it are all Grade II listed in terms of historical value. The 1946 art deco interior — Vitrolite panels, marquetry, the whole thing — is a genuine architectural treasure. The Pellicci family has run it since 1900. The Kray twins were regulars. The fry-up is excellent. This is living East London history, and it&#39;s open for breakfast.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>E. Pellicci, an Italian British caff in Bethnal Green on Bethnal Green Road, serves a generously portioned full English breakfast. The full English is perfectly executed, generously portioned, and served with genuine warmth by the Pellicci family (who have owned this place since 1900). The Italian dishes like pasta and minestrone appear at lunch but the morning is all about the fry-up. The tea comes in proper mugs and the bread is slightly too white and absolutely correct.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -752,8 +848,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442077394873">+442077394873</a></span><span>🌐 <a href="http://epellicci.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/e-pellicci.jpg" alt="E. Pellicci in Bethnal Green, Bethnal Green Road" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> E. Pellicci, an Italian British caff in Bethnal Green on Bethnal Green Road, serves a generously portioned full English breakfast. The full English is perfectly executed, generously portioned, and served with genuine warmth by the Pellicci family (who have owned this place since 1900). The Italian dishes like pasta and minestrone appear at lunch but the morning is all about the fry-up. The tea comes in proper mugs and the bread is slightly too white and absolutely correct.</div>
     
     <div class="reddit-quote">
         "E. Pellicci is one of those London experiences you have to do at least once. Grade II listed interior, family&#39;s been running it since 1900, and the fry-up is brilliant. It&#39;s living history."
@@ -767,9 +861,6 @@
         "Best breakfast with atmosphere: E. Pellicci. The art deco Vitrolite interior is Grade II listed for a reason. Kray twins used to eat here."
         <span class="source">— r/london · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> E. Pellicci is one of the few places in London where the building, the food, and the people running it are all Grade II listed in terms of historical value. The 1946 art deco interior — Vitrolite panels, marquetry, the whole thing — is a genuine architectural treasure. The Pellicci family has run it since 1900. The Kray twins were regulars. The fry-up is excellent. This is living East London history, and it&#39;s open for breakfast.
-    </div>
 </section>
 <section class="restaurant-section" id="duck-waffle" data-map-name="8. Duck &amp; Waffle" data-map-cta-url="https://maps.google.com/?cid=12962508908589623868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Duck &amp; Waffle, City, Heron Tower, Bishopsgate, London, GB" data-map-lat="51.5162529" data-map-lng="-0.0811942">
     <div class="restaurant-header">
@@ -781,6 +872,20 @@
         <span>💴 £18–£35/person</span>
         <span>📍 City, Heron Tower, Bishopsgate</span>
         <a href="https://maps.google.com/?cid=12962508908589623868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Duck &amp; Waffle is the answer to &quot;where do I take someone to impress them at brunch?&quot; The 40th floor of Heron Tower gives you panoramic views of the City skyline, and unlike many view-restaurants, the food is genuinely excellent.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Splurge Brunch · 40th Floor in City, Heron Tower, Bishopsgate with a £18–£35/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 16,092 Google reviews · Splurge Brunch · 40th Floor · City, Heron Tower, Bishopsgate</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>extraordinary</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£18–£35/person · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Duck &amp; Waffle is the answer to &quot;where do I take someone to impress them at brunch?&quot; The 40th floor of Heron Tower gives you panoramic views of the City skyline, and unlike many view-restaurants, the food is genuinely excellent. The signature dish — duck leg confit on a Belgian waffle with duck egg and mustard maple syrup — is one of London&#39;s most iconic restaurant dishes. Go for 7am on a weekend for the sunrise view and shorter queues. Pricey but extraordinary.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Duck &amp; Waffle, a splurge-worthy brunch spot on the 40th floor of the Heron Tower in the City on Bishopsgate, offers its signature duck and waffle dish. The duck and waffle is a Belgian waffle topped with a slow-braised duck leg confit, fried duck egg, and mustard maple syrup. It&#39;s extraordinary. The full English with a City skyline view is also spectacular. Duck &amp; Waffle is open 24/7, so you can do this at 6am for truly unforgettable breakfast views over London.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -794,8 +899,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442036407310">+442036407310</a></span><span>🌐 <a href="https://duckandwaffle.com/london/?utm_source=gbp&amp;utm_medium=organic&amp;utm_campaign=london_gbp" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/duck-waffle.jpg" alt="Duck &amp; Waffle in City, Heron Tower, Bishopsgate" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Duck &amp; Waffle, a splurge-worthy brunch spot on the 40th floor of the Heron Tower in the City on Bishopsgate, offers its signature duck and waffle dish. The duck and waffle is a Belgian waffle topped with a slow-braised duck leg confit, fried duck egg, and mustard maple syrup. It&#39;s extraordinary. The full English with a City skyline view is also spectacular. Duck &amp; Waffle is open 24/7, so you can do this at 6am for truly unforgettable breakfast views over London.</div>
     
     <div class="reddit-quote">
         "Duck &amp; Waffle if you want a splurge brunch with genuinely incredible views. 40th floor, open 24/7, and the food is actually good — not just trading on the view."
@@ -809,9 +912,6 @@
         "The actual duck and waffle dish is genuinely one of the best things I&#39;ve eaten in London. Not just a gimmick. The combination of flavors is brilliant."
         <span class="source">— r/LondonFood · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Duck &amp; Waffle is the answer to &quot;where do I take someone to impress them at brunch?&quot; The 40th floor of Heron Tower gives you panoramic views of the City skyline, and unlike many view-restaurants, the food is genuinely excellent. The signature dish — duck leg confit on a Belgian waffle with duck egg and mustard maple syrup — is one of London&#39;s most iconic restaurant dishes. Go for 7am on a weekend for the sunrise view and shorter queues. Pricey but extraordinary.
-    </div>
 </section>
 <section class="restaurant-section" id="balthazar" data-map-name="9. Balthazar" data-map-cta-url="https://maps.google.com/?cid=12701030474849664750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Balthazar, Covent Garden, Russell Street, London, GB" data-map-lat="51.512397899999996" data-map-lng="-0.1213613">
     <div class="restaurant-header">
@@ -823,6 +923,20 @@
         <span>💴 £18–£30/person</span>
         <span>📍 Covent Garden, Russell Street</span>
         <a href="https://maps.google.com/?cid=12701030474849664750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Balthazar is the London outpost of the legendary New York brasserie, and it matches the original in terms of atmosphere and quality.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>French Brasserie in Covent Garden, Russell Street with a £18–£30/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 4,837 Google reviews · French Brasserie · Covent Garden, Russell Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>genuinely special</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£18–£30/person · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Balthazar is the London outpost of the legendary New York brasserie, and it matches the original in terms of atmosphere and quality. The dining room — all red leather banquettes, dark wood, and vintage mirrors — is one of the most beautiful in London. Weekend brunch here feels like a proper occasion: unhurried, well-staffed, and with a menu that spans classic French brasserie and American diner dishes. Not cheap, but genuinely special.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Balthazar, a French brasserie in Covent Garden on Russell Street, is known for its classic eggs benedict or florentine. The hollandaise is classic and properly made. The Balthazar smoked salmon with crème fraîche and blinis is a weekend-brunch treat. The French toast with crispy bacon is exceptional. For a proper splurge, the plateau de fruits de mer (seafood platter) at weekend brunch is a rare London treat. The pastry basket is dangerous — order it anyway.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -836,8 +950,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442033011155">+442033011155</a></span><span>🌐 <a href="https://balthazarlondon.com/?utm_source=LocalGoogle&amp;utm_medium=Organic" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/balthazar.jpg" alt="Balthazar in Covent Garden, Russell Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Balthazar, a French brasserie in Covent Garden on Russell Street, is known for its classic eggs benedict or florentine. The hollandaise is classic and properly made. The Balthazar smoked salmon with crème fraîche and blinis is a weekend-brunch treat. The French toast with crispy bacon is exceptional. For a proper splurge, the plateau de fruits de mer (seafood platter) at weekend brunch is a rare London treat. The pastry basket is dangerous — order it anyway.</div>
     
     <div class="reddit-quote">
         "I&#39;ve had nice breakfasts at Balthazar. Beautiful room, proper French brasserie atmosphere, and the food is consistently excellent."
@@ -851,9 +963,6 @@
         "Balthazar is the New York brasserie transferred to Covent Garden and it works brilliantly. One of the most beautiful dining rooms in London."
         <span class="source">— r/LondonFood · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Balthazar is the London outpost of the legendary New York brasserie, and it matches the original in terms of atmosphere and quality. The dining room — all red leather banquettes, dark wood, and vintage mirrors — is one of the most beautiful in London. Weekend brunch here feels like a proper occasion: unhurried, well-staffed, and with a menu that spans classic French brasserie and American diner dishes. Not cheap, but genuinely special.
-    </div>
 </section>
 <section class="restaurant-section" id="caravan" data-map-name="10. Caravan" data-map-cta-url="https://maps.google.com/?cid=341806801821102402&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Caravan, King&#39;s Cross, Granary Square, London, GB" data-map-lat="51.5357396" data-map-lng="-0.12534969999999998">
     <div class="restaurant-header">
@@ -865,6 +974,20 @@
         <span>💴 £12–£22/person</span>
         <span>📍 King&#39;s Cross, Granary Square</span>
         <a href="https://maps.google.com/?cid=341806801821102402&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Caravan pioneered the serious-coffee-plus-creative-brunch concept in London when it opened in Exmouth Market in 2010, and the King&#39;s Cross outpost at Granary Square is its best yet.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Coffee Roasters &amp; Brunch in King&#39;s Cross, Granary Square with a £12–£22/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 5,289 Google reviews · Coffee Roasters &amp; Brunch · King&#39;s Cross, Granary Square</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £12–£22/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£12–£22/person · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Caravan pioneered the serious-coffee-plus-creative-brunch concept in London when it opened in Exmouth Market in 2010, and the King&#39;s Cross outpost at Granary Square is its best yet. The converted Victorian grain warehouse space is spectacular, the outdoor terrace overlooking the canal is one of London&#39;s best alfresco spots, and the food — genuinely influenced by ingredients from around the world — sets a high bar. The coffee is among the city&#39;s finest.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Caravan, a coffee roasters and brunch spot in King&#39;s Cross on Granary Square, is known for its corn fritters. The corn fritters are crispy on the outside, soft and sweet inside, served with avocado, poached egg, and jalapeño crème fraîche. The spiced lamb flatbread is another Reddit staple. Caravan roasts its own coffee in-house, and the flat white is among London&#39;s best. The granola with compote and yoghurt is the sleeper hit for lighter appetites.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -878,8 +1001,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442071017661">+442071017661</a></span><span>🌐 <a href="https://caravanandco.com/pages/kings-cross?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gbp&amp;utm_content=kings-cross" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/caravan.jpg" alt="Caravan in King&#39;s Cross, Granary Square" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Caravan, a coffee roasters and brunch spot in King&#39;s Cross on Granary Square, is known for its corn fritters. The corn fritters are crispy on the outside, soft and sweet inside, served with avocado, poached egg, and jalapeño crème fraîche. The spiced lamb flatbread is another Reddit staple. Caravan roasts its own coffee in-house, and the flat white is among London&#39;s best. The granola with compote and yoghurt is the sleeper hit for lighter appetites.</div>
     
     <div class="reddit-quote">
         "Caravan at King&#39;s Cross for coffee and brunch. They roast their own beans and the corn fritters are honestly one of my favourite dishes in London."
@@ -893,9 +1014,6 @@
         "If you&#39;re visiting King&#39;s Cross or the British Library area, Caravan is the brunch spot. Really strong coffee and creative, well-executed food."
         <span class="source">— r/visitlondon · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Caravan pioneered the serious-coffee-plus-creative-brunch concept in London when it opened in Exmouth Market in 2010, and the King&#39;s Cross outpost at Granary Square is its best yet. The converted Victorian grain warehouse space is spectacular, the outdoor terrace overlooking the canal is one of London&#39;s best alfresco spots, and the food — genuinely influenced by ingredients from around the world — sets a high bar. The coffee is among the city&#39;s finest.
-    </div>
 </section>
 <section class="restaurant-section" id="black-penny" data-map-name="11. Black Penny" data-map-cta-url="https://maps.google.com/?cid=12772059667501705794&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Black Penny, Covent Garden, Great Queen Street, London, GB" data-map-lat="51.5152479" data-map-lng="-0.12168009999999999">
     <div class="restaurant-header">
@@ -907,6 +1025,20 @@
         <span>💴 £10–£18/person</span>
         <span>📍 Covent Garden, Great Queen Street</span>
         <a href="https://maps.google.com/?cid=12772059667501705794&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Black Penny sits in a sweet spot: serious enough about coffee and ingredients to satisfy Speciality Coffee devotees, but warm and welcoming enough to not feel intimidating.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Hearty Breakfast &amp; Coffee in Covent Garden, Great Queen Street with a £10–£18/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 1,475 Google reviews · Hearty Breakfast &amp; Coffee · Covent Garden, Great Queen Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>warm and welcoming enough to not feel intimidating</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£10–£18/person · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Black Penny sits in a sweet spot: serious enough about coffee and ingredients to satisfy Speciality Coffee devotees, but warm and welcoming enough to not feel intimidating. The Covent Garden location is airy and well-designed, the staff are genuinely friendly, and the food is hearty without being excessive. A reliable choice for solo brunchers or groups who want good food without theatrical fuss. Gets busy at peak times but moves quickly.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Black Penny, a hearty breakfast and coffee spot in Covent Garden on Great Queen Street, serves a properly assembled full breakfast. The Black Penny full breakfast is a properly assembled fry-up with sourdough toast that&#39;s served in a beautiful café setting. The avocado on sourdough with poached eggs is excellent (no shame). The flat white is consistently praised. For something sweet, the French toast with seasonal toppings rotates throughout the week. Morning pastries are worth arriving early for.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -920,8 +1052,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+442072422580">+442072422580</a></span><span>🌐 <a href="https://www.theblackpenny.com/locations/covent-garden?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=googlemybusiness" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/london-brunch/black-penny.jpg" alt="Black Penny in Covent Garden, Great Queen Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Black Penny, a hearty breakfast and coffee spot in Covent Garden on Great Queen Street, serves a properly assembled full breakfast. The Black Penny full breakfast is a properly assembled fry-up with sourdough toast that&#39;s served in a beautiful café setting. The avocado on sourdough with poached eggs is excellent (no shame). The flat white is consistently praised. For something sweet, the French toast with seasonal toppings rotates throughout the week. Morning pastries are worth arriving early for.</div>
     
     <div class="reddit-quote">
         "Black Penny is very good for a coffee and hearty breakfast. For a chain I find WatchHouse surprisingly good too, but Black Penny has the edge for food."
@@ -934,9 +1064,6 @@
     <div class="reddit-quote">
         "Good tip on Black Penny — they also do really good cocktails at brunch if you want to go that route on a weekend. No reservations but they&#39;re worth the short wait."
         <span class="source">— r/LondonFood · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Black Penny sits in a sweet spot: serious enough about coffee and ingredients to satisfy Speciality Coffee devotees, but warm and welcoming enough to not feel intimidating. The Covent Garden location is airy and well-designed, the staff are genuinely friendly, and the food is hearty without being excessive. A reliable choice for solo brunchers or groups who want good food without theatrical fuss. Gets busy at peak times but moves quickly.
     </div>
 </section>
       </section>

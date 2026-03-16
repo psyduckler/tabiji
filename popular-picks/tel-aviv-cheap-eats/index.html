@@ -342,7 +342,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -355,18 +364,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -444,6 +454,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>While Tel Aviv is known for expensive dining, budget-friendly street food, priced around ₪15-25, offers the best culinary experiences. From falafel to hummus, the magic lies in the no-frills counters where locals perfect their dishes, with Abu Hassan being a top recommendation for its legendary hummus.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Arepa&#39;s — 4.8★ (13 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>105</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Abu Hassan (Ali Karavan)</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Abu Hassan (Ali Karavan):</strong> The undisputed king of hummus in Tel Aviv.</li>
+            <li><strong>HaKosem (הקוסם):</strong> HaKosem does everything well — falafel, sabich, shawarma, hummus.</li>
+            <li><strong>Frishman Sabich (סביח פרישמן):</strong> A Tel Aviv institution.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>While Tel Aviv is known for expensive dining, budget-friendly street food, priced around ₪15-25, offers the best culinary experiences. From falafel to hummus, the magic lies in the no-frills counters where locals perfect their dishes, with Abu Hassan being a top recommendation for its legendary hummus.</strong></p>
         <p>Tel Aviv is notoriously expensive — one of the priciest cities in the world for dining out. But the street food? That&#39;s where the magic lives. Falafel pitas for ₪15, legendary hummus plates for ₪25, and sabich that&#39;ll change your entire understanding of eggplant — all served at no-frills counters by people who&#39;ve been perfecting one dish for decades.</p><p>We dug through hundreds of Reddit posts from r/telaviv, r/Israel, r/travel, and r/TravelIsrael to find the spots that locals and budget-conscious travelers swear by. These aren&#39;t the ₪80 tourist traps on the boardwalk — these are the places where Tel Avivians actually eat.</p>
@@ -498,6 +526,20 @@
         <span>📍 Jaffa, HaDolphin St</span>
         <a href="https://maps.google.com/?cid=11811105144308314136&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The undisputed king of hummus in Tel Aviv.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Hummus in Jaffa, HaDolphin St</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 2,837 Google reviews · Hummus · Jaffa, HaDolphin St</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.6★ from 2,837 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The undisputed king of hummus in Tel Aviv. It&#39;s in Jaffa, slightly off the tourist path, and closes by early afternoon (sometimes noon). No menu — just hummus, masabacha, and ful. This is what hummus is supposed to taste like.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The masabacha — warm hummus with whole chickpeas swimming in olive oil and lemon. Also get the ful (fava beans). Order both and share. Bring cash.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -510,8 +552,6 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/abu-hassan.jpg" alt="Abu Hassan (Ali Karavan) in Jaffa, HaDolphin St" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The masabacha — warm hummus with whole chickpeas swimming in olive oil and lemon. Also get the ful (fava beans). Order both and share. Bring cash.</div>
     
     <div class="reddit-quote">
         "Abu Hassan is the best hummus I&#39;ve ever had. Go early — they literally close when they run out. The masabacha is life-changing."
@@ -520,9 +560,6 @@
     <div class="reddit-quote">
         "Don&#39;t miss Abu Hassan, the go-to place for a plate of creamy chickpea goodness. For a real local experience, order the masabacha."
         <span class="source">— r/Israel · local restaurants thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The undisputed king of hummus in Tel Aviv. It&#39;s in Jaffa, slightly off the tourist path, and closes by early afternoon (sometimes noon). No menu — just hummus, masabacha, and ful. This is what hummus is supposed to taste like.
     </div>
 </section>
 <section class="restaurant-section" id="hakosem" data-map-name="2. HaKosem (הקוסם)" data-map-cta-url="https://maps.google.com/?cid=10274547913365375062&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="HaKosem (הקוסם), City Center, Shlomo HaMelech St, Tel Aviv, IL" data-map-lat="32.0763896" data-map-lng="34.7766843">
@@ -536,6 +573,20 @@
         <span>📍 City Center, Shlomo HaMelech St</span>
         <a href="https://maps.google.com/?cid=10274547913365375062&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> HaKosem does everything well — falafel, sabich, shawarma, hummus.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Falafel / Sabich in City Center, Shlomo HaMelech St</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 6,119 Google reviews · Falafel / Sabich · City Center, Shlomo HaMelech St</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.5★ from 6,119 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>HaKosem does everything well — falafel, sabich, shawarma, hummus. It&#39;s centrally located, perpetually packed, and deserves every bit of hype. The sabich here converted many falafel loyalists.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The sabich is the sleeper hit — fried eggplant, egg, tahini, and amba in a fresh pita. The falafel and shawarma are also excellent. Save room for their creamy hummus on the side.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -548,8 +599,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97235252033">+97235252033</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/hakosem.jpg" alt="HaKosem (הקוסם) in City Center, Shlomo HaMelech St" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The sabich is the sleeper hit — fried eggplant, egg, tahini, and amba in a fresh pita. The falafel and shawarma are also excellent. Save room for their creamy hummus on the side.</div>
     
     <div class="reddit-quote">
         "The best dish at Hakosem is the Sabich. It starts with a pita baked on site, warm and fresh, full of strongly flavored tahini equipped with lemon."
@@ -558,9 +607,6 @@
     <div class="reddit-quote">
         "Thanks to their creamy hummus dishes, sensational shawarma, and salads chopped to perfection, it&#39;s no surprise Hakosem&#39;s always bustling with customers."
         <span class="source">— r/Israel · best restaurants thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> HaKosem does everything well — falafel, sabich, shawarma, hummus. It&#39;s centrally located, perpetually packed, and deserves every bit of hype. The sabich here converted many falafel loyalists.
     </div>
 </section>
 <section class="restaurant-section" id="frishman-sabich" data-map-name="3. Frishman Sabich (סביח פרישמן)" data-map-cta-url="https://maps.google.com/?cid=2942555013514027343&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Frishman Sabich (סביח פרישמן), City Center, Frishman St, Tel Aviv, IL" data-map-lat="32.0796071" data-map-lng="34.773411599999996">
@@ -574,6 +620,20 @@
         <span>📍 City Center, Frishman St</span>
         <a href="https://maps.google.com/?cid=2942555013514027343&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A Tel Aviv institution.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Sabich in City Center, Frishman St</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 2,254 Google reviews · Sabich · City Center, Frishman St</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.6★ from 2,254 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A Tel Aviv institution. The line is always there, and it moves fast. This is THE place to try sabich if you&#39;ve never had it. Right next to Frishman Falafel if you want a side-by-side comparison.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The sabich — obviously. Warm pita with roasted eggplant, hard-boiled egg, potato, tahini, amba, and herbs. One of those &quot;just trust the process&quot; orders.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -586,8 +646,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+972547955945">+972547955945</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/frishman-sabich.jpg" alt="Frishman Sabich (סביח פרישמן) in City Center, Frishman St" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The sabich — obviously. Warm pita with roasted eggplant, hard-boiled egg, potato, tahini, amba, and herbs. One of those &quot;just trust the process&quot; orders.</div>
     
     <div class="reddit-quote">
         "One of the best Sabich spots in Tel Aviv. The Iraqi inspired vegetarian street snack consists of a warm pita filled with roasted eggplant, potato, hard boiled egg, creamy tahini, and unique herbs and spices."
@@ -596,9 +654,6 @@
     <div class="reddit-quote">
         "My last night in Tel Aviv, and Sabich Frishman is right around the corner. Just had to stop. Still amazing."
         <span class="source">— r/Israel · budget food thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A Tel Aviv institution. The line is always there, and it moves fast. This is THE place to try sabich if you&#39;ve never had it. Right next to Frishman Falafel if you want a side-by-side comparison.
     </div>
 </section>
 <section class="restaurant-section" id="miznon" data-map-name="4. Miznon (מזנון)" data-map-cta-url="https://maps.google.com/?cid=2518514747073679367&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Miznon (מזנון), Multiple — Ibn Gvirol, King George, Tel Aviv, IL" data-map-lat="32.073836899999996" data-map-lng="34.781627199999996">
@@ -612,12 +667,24 @@
         <span>📍 Multiple — Ibn Gvirol, King George</span>
         <a href="https://maps.google.com/?cid=2518514747073679367&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> On the pricier end of &quot;cheap eats&quot; but still reasonable.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Pita Bar in Multiple — Ibn Gvirol, King George</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 953 Google reviews · Pita Bar · Multiple — Ibn Gvirol, King George</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>still reasonable</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4★ from 953 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>On the pricier end of &quot;cheap eats&quot; but still reasonable. Eyal Shani&#39;s concept turned the humble pita into a culinary event. The cauliflower is as good as everyone says. Loud, chaotic, electric — quintessential Tel Aviv energy.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The whole roasted cauliflower in a pita is iconic. The steak pita and ratatouille are also incredible. Free pita and tahini while you wait.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>🌐 <a href="https://www.miznon.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/miznon.jpg" alt="Miznon (מזנון) in Multiple — Ibn Gvirol, King George" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The whole roasted cauliflower in a pita is iconic. The steak pita and ratatouille are also incredible. Free pita and tahini while you wait.</div>
     
     <div class="reddit-quote">
         "At Miznon, celebrity Chef Eyal Shani is redefining the pita. Just about anything you can fit in a pita is on offer here — minute steak, shakshuka, chicken liver, kebabs. The cauliflower is legendary."
@@ -626,9 +693,6 @@
     <div class="reddit-quote">
         "Miznon is the Mecca of Israeli street food. Loud, lively, and the free pita and tahini nibbles alone are worth it."
         <span class="source">— r/travel · Israel food thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> On the pricier end of &quot;cheap eats&quot; but still reasonable. Eyal Shani&#39;s concept turned the humble pita into a culinary event. The cauliflower is as good as everyone says. Loud, chaotic, electric — quintessential Tel Aviv energy.
     </div>
 </section>
 <section class="restaurant-section" id="mifgash-haosher" data-map-name="5. Mifgash HaOsher (מפגש האושר)" data-map-cta-url="https://maps.google.com/?cid=8796537594875768350&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mifgash HaOsher (מפגש האושר), King George St 105, Tel Aviv, IL" data-map-lat="32.0779468" data-map-lng="34.7779958">
@@ -642,12 +706,24 @@
         <span>📍 King George St 105</span>
         <a href="https://maps.google.com/?cid=8796537594875768350&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Sometimes the simplest things are the best.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Falafel in King George St 105 with a 105 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 664 Google reviews · Falafel · King George St 105</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 105</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>105 · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Sometimes the simplest things are the best. Two items on the menu. Perfectly executed falafel. Dirt cheap. The energy inside is infectious — the owners beam with pride. Israeli street food at its purest.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Falafel in a pita — crispy outside, soft inside — with their insanely fresh salad and tahini. Also try the &quot;salad&quot; (a pita-less rendition with fried eggplant and bulgur wheat).</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>📞 <a href="tel:+972544289765">+972544289765</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/mifgash-haosher.jpg" alt="Mifgash HaOsher (מפגש האושר) in King George St 105" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Falafel in a pita — crispy outside, soft inside — with their insanely fresh salad and tahini. Also try the &quot;salad&quot; (a pita-less rendition with fried eggplant and bulgur wheat).</div>
     
     <div class="reddit-quote">
         "Mifgash Haosher features two dishes, salad and falafel. The crispy on the outside, soft on the inside falafel is served with an insanely fresh salad and topped with tahini. The real deal."
@@ -656,9 +732,6 @@
     <div class="reddit-quote">
         "This is the place for sabich, but also the best &#39;salad&#39; — a pita-less rendition with fried eggplant, bulgur wheat, tahini, and curry-seasoned spices."
         <span class="source">— r/Israel · budget food thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Sometimes the simplest things are the best. Two items on the menu. Perfectly executed falafel. Dirt cheap. The energy inside is infectious — the owners beam with pride. Israeli street food at its purest.
     </div>
 </section>
 <section class="restaurant-section" id="sabich-tchernichovsky" data-map-name="6. Sabich Tchernichovsky" data-map-cta-url="https://maps.google.com/?cid=2073385308632361422&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sabich Tchernichovsky, Tchernichovsky St, Tel Aviv, IL" data-map-lat="32.070339000000004" data-map-lng="34.7703656">
@@ -672,6 +745,20 @@
         <span>📍 Tchernichovsky St</span>
         <a href="https://maps.google.com/?cid=2073385308632361422&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Less famous than Frishman Sabich but equally beloved by locals.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Sabich in Tchernichovsky St</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,387 Google reviews · Sabich · Tchernichovsky St</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>equally beloved by locals</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.7★ from 1,387 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Less famous than Frishman Sabich but equally beloved by locals. The attention to detail shows — every ingredient is fresh and balanced. At ₪18, this is arguably the best deal in all of Tel Aviv.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The sabich — fresh eggplant, hard-boiled egg, potato, and tahini in perfect balance. At ₪18 per pita, possibly the best value meal in Tel Aviv.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -684,15 +771,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+972505306654">+972505306654</a></span><span>🌐 <a href="https://sabichtshernechovski.co.il/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/sabich-tchernichovsky.jpg" alt="Sabich Tchernichovsky in Tchernichovsky St" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The sabich — fresh eggplant, hard-boiled egg, potato, and tahini in perfect balance. At ₪18 per pita, possibly the best value meal in Tel Aviv.</div>
     
     <div class="reddit-quote">
         "An extreme focus and attention to detail is paid to each dish. Fresh eggplant, hard-boiled egg, potato and tahini come together perfectly. At only NIS 18 per pita, you can&#39;t go wrong!"
         <span class="source">— r/telaviv · must-visit restaurants</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Less famous than Frishman Sabich but equally beloved by locals. The attention to detail shows — every ingredient is fresh and balanced. At ₪18, this is arguably the best deal in all of Tel Aviv.
     </div>
 </section>
 <section class="restaurant-section" id="falafel-gabay" data-map-name="7. Falafel Gabay" data-map-cta-url="https://maps.google.com/?cid=8215836702816213197&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Falafel Gabay, Carmel Market area, Tel Aviv, IL" data-map-lat="32.076993" data-map-lng="34.770033">
@@ -706,6 +788,20 @@
         <span>📍 Carmel Market area</span>
         <a href="https://maps.google.com/?cid=8215836702816213197&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A Carmel Market institution with Moroccan flair.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Falafel / Shawarma in Carmel Market area</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,793 Google reviews · Falafel / Shawarma · Carmel Market area</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.5★ from 1,793 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A Carmel Market institution with Moroccan flair. The line is part of the experience — grab the free pickled vegetables while you wait, then sit at the communal tables and share the moment with strangers. Very old-school Tel Aviv.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Falafel in a pita with the amazing pickles. The shawarma is also stellar. Grab some stuffed peppers and fresh hummus while you&#39;re at it.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -718,15 +814,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97236297060">+97236297060</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/falafel-gabay.jpg" alt="Falafel Gabay in Carmel Market area" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Falafel in a pita with the amazing pickles. The shawarma is also stellar. Grab some stuffed peppers and fresh hummus while you&#39;re at it.</div>
     
     <div class="reddit-quote">
         "The menu features falafel, stuffed peppers, fresh hummus, and amazing shawarma. While there may be a bit of a line, it&#39;s well worth the wait. Grab a pita and try the amazing pickles."
         <span class="source">— r/telaviv · food recommendations</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A Carmel Market institution with Moroccan flair. The line is part of the experience — grab the free pickled vegetables while you wait, then sit at the communal tables and share the moment with strangers. Very old-school Tel Aviv.
     </div>
 </section>
 <section class="restaurant-section" id="dr-shakshuka" data-map-name="8. Dr. Shakshuka" data-map-cta-url="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dr. Shakshuka, Jaffa Flea Market, Tel Aviv, IL" data-map-lat="32.0544381" data-map-lng="34.7564172">
@@ -740,6 +831,20 @@
         <span>📍 Jaffa Flea Market</span>
         <a href="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The name says it all — Bino Gabso earned his doctorate in shakshuka.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Shakshuka / Tripolitan in Jaffa Flea Market</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.5★ from 4,287 Google reviews · Shakshuka / Tripolitan · Jaffa Flea Market</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>absolutely worth it</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>3.5★ from 4,287 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The name says it all — Bino Gabso earned his doctorate in shakshuka. Located in the atmospheric Jaffa Flea Market, this is where you come for the definitive version of Israel&#39;s favorite egg dish. Slightly pricier than pure street food but absolutely worth it.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The signature shakshuka — baked eggs in rich tomato sauce. Try it with mushrooms or shawarma mixed in. Comes in a sizzling cast-iron pan with bread for dipping.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -752,8 +857,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97235186560">+97235186560</a></span><span>🌐 <a href="https://www.doctorshakshuka.co.il/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/dr-shakshuka.jpg" alt="Dr. Shakshuka in Jaffa Flea Market" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The signature shakshuka — baked eggs in rich tomato sauce. Try it with mushrooms or shawarma mixed in. Comes in a sizzling cast-iron pan with bread for dipping.</div>
     
     <div class="reddit-quote">
         "For many years, people have flocked to this restaurant for authentic Tripolitan food and the signature shakshuka. The rendition with mushrooms is incredible."
@@ -762,9 +865,6 @@
     <div class="reddit-quote">
         "Dr. Shakshuka in the Jaffa Flea Market is a must. Bino Gabso has been doing this forever. The Tripolitan food is legit."
         <span class="source">— r/travel · Israel food recommendations</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The name says it all — Bino Gabso earned his doctorate in shakshuka. Located in the atmospheric Jaffa Flea Market, this is where you come for the definitive version of Israel&#39;s favorite egg dish. Slightly pricier than pure street food but absolutely worth it.
     </div>
 </section>
 <section class="restaurant-section" id="jasmino" data-map-name="9. Jasmino" data-map-cta-url="https://maps.google.com/?cid=11988385805125250287&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jasmino, Allenby St, Tel Aviv, IL" data-map-lat="32.0647136" data-map-lng="34.7726274">
@@ -778,6 +878,20 @@
         <span>📍 Allenby St</span>
         <a href="https://maps.google.com/?cid=11988385805125250287&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Jasmino is where you go after midnight when the Allenby nightlife crowd gets hungry.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Charcoal Grill in Allenby St</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 3,135 Google reviews · Charcoal Grill · Allenby St</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.7★ from 3,135 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Jasmino is where you go after midnight when the Allenby nightlife crowd gets hungry. Charcoal-grilled everything in a pita — simple, smoky, satisfying. The late-night energy is half the experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The charcoal-grilled kebab or housemade sausage in a pita with salad, hot peppers, grilled onions, and tahini. The spicy veal heart is for the adventurous.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -790,15 +904,10 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.facebook.com/pages/%D7%92%D7%A1%D7%9E%D7%99%D7%A0%D7%95/194222690996080" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/jasmino.jpg" alt="Jasmino in Allenby St" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The charcoal-grilled kebab or housemade sausage in a pita with salad, hot peppers, grilled onions, and tahini. The spicy veal heart is for the adventurous.</div>
     
     <div class="reddit-quote">
         "An authentic initiative that feels like a breath of fresh air. Simple, sensational charcoal grilled options in grab-and-go pitas — kebabs, chicken, housemade sausage, and spicy veal heart."
         <span class="source">— r/telaviv · food recommendations</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Jasmino is where you go after midnight when the Allenby nightlife crowd gets hungry. Charcoal-grilled everything in a pita — simple, smoky, satisfying. The late-night energy is half the experience.
     </div>
 </section>
 <section class="restaurant-section" id="arepas" data-map-name="10. Arepa&#39;s" data-map-cta-url="https://maps.google.com/?cid=8139756115927172072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Arepa&#39;s, Carmel Market, Tel Aviv, IL" data-map-lat="32.069540599999996" data-map-lng="34.7698197">
@@ -812,19 +921,28 @@
         <span>📍 Carmel Market</span>
         <a href="https://maps.google.com/?cid=8139756115927172072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A wild card in a city dominated by Middle Eastern food.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Venezuelan in Carmel Market</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.8★ from 13 Google reviews · Venezuelan · Carmel Market</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.8★ from 13 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A wild card in a city dominated by Middle Eastern food. Venezuelan arepas in the middle of the Carmel Market? It works. The diversity of fillings means everyone finds something, and watching it cooked fresh right in front of you adds to the charm.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Corn maize pockets stuffed with shredded beef, black beans, avocado, and melted cheese. Also try the griddle breads with chicken. Everything is cooked fresh in front of you.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>🌐 <a href="https://food.walla.co.il/item/2800427" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/arepas.jpg" alt="Arepa&#39;s in Carmel Market" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Corn maize pockets stuffed with shredded beef, black beans, avocado, and melted cheese. Also try the griddle breads with chicken. Everything is cooked fresh in front of you.</div>
     
     <div class="reddit-quote">
         "Deep in the Carmel Market, a little hub of Venezuelan cuisine. Corn maize pockets of shredded beef, black beans, avocado and cheese — that melt-in-your-mouth crispy finish keeps you coming back."
         <span class="source">— r/telaviv · must-visit restaurants</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A wild card in a city dominated by Middle Eastern food. Venezuelan arepas in the middle of the Carmel Market? It works. The diversity of fillings means everyone finds something, and watching it cooked fresh right in front of you adds to the charm.
     </div>
 </section>
 <section class="restaurant-section" id="shmuel-kebabs" data-map-name="11. Shmuel Kebabs" data-map-cta-url="https://maps.google.com/?cid=15494973536887955247&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shmuel Kebabs, Carmel Market area, Tel Aviv, IL" data-map-lat="32.068773199999995" data-map-lng="34.7690084">
@@ -838,6 +956,20 @@
         <span>📍 Carmel Market area</span>
         <a href="https://maps.google.com/?cid=15494973536887955247&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If the falafel-hummus-sabich circuit starts blurring together, Shmuel&#39;s lamb kebabs are the reset button.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kebabs in Carmel Market area</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 1,015 Google reviews · Kebabs · Carmel Market area</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.6★ from 1,015 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If the falafel-hummus-sabich circuit starts blurring together, Shmuel&#39;s lamb kebabs are the reset button. Stylish little spot near the Carmel Market chaos — great escape with a glass of Arak and perfectly grilled meat.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Lamb kebabs grilled to perfection — get them in a pita or on a plate with rice, salad, and tahini. Don&#39;t refuse the chaser of Arak they offer.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -850,15 +982,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97236311650">+97236311650</a></span><span>🌐 <a href="https://www.facebook.com/shmuel.carmelmarket" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/shmuel-kebabs.jpg" alt="Shmuel Kebabs in Carmel Market area" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Lamb kebabs grilled to perfection — get them in a pita or on a plate with rice, salad, and tahini. Don&#39;t refuse the chaser of Arak they offer.</div>
     
     <div class="reddit-quote">
         "Featuring lamb kebabs grilled to perfection, Shmuel Kebabs is a carnivore&#39;s dream. The cute and charming staff offering a chaser of Arak to wash everything down will steal your heart."
         <span class="source">— r/telaviv · must-visit restaurants</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If the falafel-hummus-sabich circuit starts blurring together, Shmuel&#39;s lamb kebabs are the reset button. Stylish little spot near the Carmel Market chaos — great escape with a glass of Arak and perfectly grilled meat.
     </div>
 </section>
 <section class="restaurant-section" id="shawarma-bino" data-map-name="12. Shawarma Bino" data-map-cta-url="https://maps.google.com/?cid=14055219310460577738&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawarma Bino, Jaffa, Tel Aviv, IL" data-map-lat="32.0546913" data-map-lng="34.756223600000006">
@@ -872,6 +999,20 @@
         <span>📍 Jaffa</span>
         <a href="https://maps.google.com/?cid=14055219310460577738&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most opinionated shawarma in Tel Aviv — and rightly so.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Shawarma in Jaffa</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.3★ from 114 Google reviews · Shawarma · Jaffa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>3.3★ from 114 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most opinionated shawarma in Tel Aviv — and rightly so. Bino knows what works and won&#39;t let you mess it up. The lamb-veal combo with that secret seasoning is absolutely elite. In Jaffa, pair it with a visit to Abu Hassan.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The lamb shawarma in a pita — layers of lamb, veal, and succulent fat with secret seasoning. Get it with chuma pepper, red eggplant salad, and chopped onion. Don&#39;t try to customize — eat it their way.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -884,15 +1025,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97236822842">+97236822842</a></span><span>🌐 <a href="https://israelbusinessguide.com/catalog/tel-aviv/shawarma__/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/tel-aviv-cheap-eats/shawarma-bino.jpg" alt="Shawarma Bino in Jaffa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The lamb shawarma in a pita — layers of lamb, veal, and succulent fat with secret seasoning. Get it with chuma pepper, red eggplant salad, and chopped onion. Don&#39;t try to customize — eat it their way.</div>
     
     <div class="reddit-quote">
         "Layers of lamb meat, veal meat and succulent lamb fat soak into the warm pita. If you try to alter the order, be ready to receive the cold shoulder — the Bino Shawarma should be eaten exactly as is."
         <span class="source">— r/Israel · local restaurants thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most opinionated shawarma in Tel Aviv — and rightly so. Bino knows what works and won&#39;t let you mess it up. The lamb-veal combo with that secret seasoning is absolutely elite. In Jaffa, pair it with a visit to Abu Hassan.
     </div>
 </section>
       </section>
