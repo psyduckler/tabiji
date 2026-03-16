@@ -19,7 +19,7 @@ function validateOutput(html, sourceData) {
     { label: 'ItemList schema', regex: /"@type":\s*"ItemList"/i },
     { label: 'TouristTrip schema', regex: /"@type":\s*"TouristTrip"/i },
     { label: 'intro section', regex: /<section class="[^"]*intro-section[^"]*">\s*<p><strong>/i },
-    { label: 'related recommendations', regex: /Related Recommendations/i }
+    { label: 'related popular picks', regex: /Related Popular Picks/i }
   ];
 
   for (const item of requiredPatterns) {
@@ -33,7 +33,9 @@ function validateOutput(html, sourceData) {
   if (pickCount < 3) errors.push('Rendered output must contain at least 3 rendered picks');
 
   const faqCount = countMatches(html, /<div class="faq-item">/g);
+  const relatedLinkCount = countMatches(html, /<li><a href="\/popular-picks\//g);
   if (faqCount < 3) warnings.push('Rendered output has fewer than 3 FAQ items');
+  if (relatedLinkCount < 5) errors.push(`Rendered output must contain at least 5 related popular picks links (found ${relatedLinkCount})`);
 
   if (sourceData) {
     if (sourceData.picks && pickCount !== sourceData.picks.length) {

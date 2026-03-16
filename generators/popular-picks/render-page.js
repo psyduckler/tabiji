@@ -415,6 +415,36 @@ function renderIntentLinkSections(data) {
       </section>`).join('');
 }
 
+function buildRelatedPopularPickLinks(data, limit = 5) {
+  const inventory = getSiteInventory();
+  const tokens = buildIntentTokens(data);
+  const manualLinks = (data.related?.manual || []).map((slug) => {
+    const entry = inventory.popularPicks.find((item) => item.slug === slug);
+    return entry || {
+      type: 'popular-picks',
+      slug,
+      url: `/popular-picks/${slug}/`,
+      title: titleFromSlug(slug),
+      searchText: normalizeIntroText(slug),
+    };
+  });
+  const excluded = new Set([data.slug, ...manualLinks.map((entry) => entry.slug)]);
+  const candidates = inventory.popularPicks.filter((entry) => !excluded.has(entry.slug));
+  const strictMatches = pickTopEntries(candidates, data, tokens, {
+    limit: Math.max(limit * 2, 10),
+    minScore: 1,
+    requireLocation: true,
+  });
+  const remainingCandidates = candidates.filter((entry) => !strictMatches.some((match) => match.url === entry.url));
+  const broadMatches = pickTopEntries(remainingCandidates, data, tokens, { limit: Math.max(limit * 2, 10), minScore: 1 });
+  const fillerMatches = remainingCandidates
+    .filter((entry) => !broadMatches.some((match) => match.url === entry.url))
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .slice(0, limit);
+
+  return uniqueBy([...manualLinks, ...strictMatches, ...broadMatches, ...fillerMatches], (entry) => entry.url).slice(0, limit);
+}
+
 function renderMapPanel(mapData, mapPicks, mobile = false) {
   if (!mapData.enabled || !mapPicks.length) return '';
   const firstPick = mapPicks[0];
@@ -625,8 +655,8 @@ function renderPage(data) {
   const mapData = buildDerivedMap(data);
   const mapPicks = buildMapPicks(data.picks, data, mapData);
   const introBody = dedupeIntroBody(data.intro.answerFirst, data.intro.body);
-  const relatedLinks = (data.related.manual || []).map((slug) => `
-        <li><a href="/popular-picks/${escapeHtml(slug)}/">${escapeHtml(slug.replace(/-/g, ' '))}</a></li>`).join('');
+  const relatedLinks = buildRelatedPopularPickLinks(data, 5).map((entry) => `
+        <li><a href="${escapeHtml(entry.url)}">${escapeHtml(entry.title)}</a></li>`).join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -748,7 +778,7 @@ function renderPage(data) {
       ${renderIntentLinkSections(data)}
 
       <section class="related-section">
-        <h2>Related Recommendations</h2>
+        <h2>Related Popular Picks</h2>
         <ul class="related">${relatedLinks}</ul>
       </section>
     </main>
