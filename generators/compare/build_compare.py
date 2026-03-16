@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import html
 import json
 import re
 import sys
@@ -292,10 +293,123 @@ def render_page(data: Dict) -> str:
 <!-- @include:footer:start -->
 {shell['footerHtml']}
 <!-- @include:footer:end -->
-{''.join(shell['scripts'])}
+{chr(10).join(shell['scripts'])}
 </body>
 </html>
 """
+
+
+def text_content(value: str) -> str:
+    value = re.sub(r"<[^>]+>", " ", value or "")
+    value = html.unescape(value)
+    value = value.replace("\xa0", " ")
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def has_meaningful_text(value: str, min_len: int = 8) -> bool:
+    text = text_content(value)
+    return len(text) >= min_len and text not in {"—", "-", "Tie", "Depends"}
+
+
+def compare_winner_aliases(data: Dict) -> set[str]:
+    destination1 = data["destinations"]["destination1"]
+    destination2 = data["destinations"]["destination2"]
+    aliases = {destination1, destination2, "Tie", "Depends", "—", "-"}
+    tokens = [destination1, destination2]
+    for name in tokens:
+        parts = name.split()
+        aliases.add(parts[-1])
+        aliases.add(name.replace(" ", ""))
+        if len(parts) > 1:
+            aliases.add(parts[0])
+        if len(name) <= 5:
+            aliases.add(name.upper())
+    hardcoded = {
+        "Mexico City": {"CDMX"},
+        "Buenos Aires": {"BA"},
+        "Guadalajara": {"GDL"},
+        "Hong Kong": {"HK"},
+        "New Zealand": {"NZ"},
+        "South Korea": {"Korea"},
+    }
+    aliases.update(hardcoded.get(destination1, set()))
+    aliases.update(hardcoded.get(destination2, set()))
+    return aliases
+
+
+def validate_compare_content(data: Dict) -> List[str]:
+    errors = []
+    content = data.get("content", {})
+    verdict_html = content.get("verdictHtml", "")
+    cta_html = content.get("ctaHtml", "")
+    comparison_html = content.get("comparisonHtml", "")
+
+    placeholder_patterns = [
+        (r"better if you want\s*\.", "verdict summary contains an empty 'better if you want' clause"),
+        (r"<li><strong>Choose [^:]+:</strong>\s*</li>", "verdict takeaways contain an empty choose bullet"),
+        (r"<div class=\"verdict-card\">\s*<h3>[^<]+</h3>\s*<p>\s*</p>\s*</div>", "verdict cards contain empty body copy"),
+        (r"Who this matters for:</strong>[^<]* between\s+and\s+\.", "deep-dive winner note contains placeholder destination text"),
+    ]
+    for pattern, message in placeholder_patterns:
+        if re.search(pattern, verdict_html) or any(re.search(pattern, block) for block in content.get("deepDiveHtml", [])):
+            errors.append(message)
+
+    if not has_meaningful_text(verdict_html, min_len=40):
+        errors.append("verdictHtml must contain meaningful text")
+
+    verdict_cards = re.findall(r'<div class="verdict-card">([\s\S]*?)</div>', verdict_html)
+    if len(verdict_cards) < 2:
+        errors.append("verdictHtml must contain at least two verdict cards")
+    for idx, card in enumerate(verdict_cards, start=1):
+        if not has_meaningful_text(card, min_len=20):
+            errors.append(f"verdict card {idx} must contain meaningful text")
+
+    comparison_rows = re.findall(r"<tr>([\s\S]*?)</tr>", comparison_html)
+    if len(comparison_rows) < 4:
+        errors.append("comparisonHtml must contain at least 4 table rows")
+    valid_winners = compare_winner_aliases(data)
+    for idx, row in enumerate(comparison_rows[1:], start=1):
+        cells = [text_content(cell) for cell in re.findall(r"<t[dh][^>]*>([\s\S]*?)</t[dh]>", row)]
+        if len(cells) != 4:
+            errors.append(f"comparison row {idx} must contain exactly 4 cells")
+            continue
+        if any(not cell for cell in cells[:3]):
+            errors.append(f"comparison row {idx} contains empty required cells")
+        winner = cells[3]
+        if winner not in valid_winners:
+            errors.append(f"comparison row {idx} has invalid winner value: {winner}")
+
+    if not has_meaningful_text(cta_html, min_len=30):
+        errors.append("ctaHtml must contain meaningful text")
+    cta_links = re.findall(r"<a [^>]*>([\s\S]*?)</a>", cta_html)
+    if len(cta_links) < 2:
+        errors.append("ctaHtml must contain at least two CTA links")
+    for idx, label in enumerate(cta_links, start=1):
+        if len(text_content(label)) < 8:
+            errors.append(f"CTA link {idx} text is too short")
+
+    for idx, question in enumerate(content.get("faqItems", []), start=1):
+        if len(question.get("question", "").strip()) < 10:
+            errors.append(f"faq item {idx} question is too short")
+        if len(question.get("answer", "").strip()) < 30:
+            errors.append(f"faq item {idx} answer is too short")
+
+    for idx, block in enumerate(content.get("deepDiveHtml", []), start=1):
+        if not has_meaningful_text(block, min_len=120):
+            errors.append(f"deep-dive section {idx} lacks meaningful text")
+        winner_block = re.search(r'<div class="section-winner">([\s\S]*?)</div>', block)
+        if not winner_block:
+            continue
+        winner_html = winner_block.group(1)
+        winner_items = [text_content(item) for item in re.findall(r"<li>([\s\S]*?)</li>", winner_html)]
+        if len(winner_items) < 3:
+            errors.append(f"deep-dive section {idx} must contain 3 winner bullets")
+            continue
+        for bullet_idx, item in enumerate(winner_items[:3], start=1):
+            if item.endswith(":") or item.endswith("between and ."):
+                errors.append(f"deep-dive section {idx} winner bullet {bullet_idx} contains placeholder text")
+
+    return errors
 
 
 def validate_source(data: Dict) -> List[str]:
@@ -322,6 +436,7 @@ def validate_source(data: Dict) -> List[str]:
     for field in ["styleCss", "navHtml", "footerHtml"]:
         if not str(shell.get(field, "")).strip():
             errors.append(f"shell.{field} is required")
+    errors.extend(validate_compare_content(data))
     return errors
 
 
