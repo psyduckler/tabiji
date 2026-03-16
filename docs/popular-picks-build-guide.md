@@ -275,11 +275,16 @@ python3 api/build-api.py
 
 This creates/updates `api/v1/picks/<slug>.json` and the master `api/v1/picks.json`.
 
-### Country Hub Page
-Add a card to the relevant country hub page (e.g., `popular-picks/japan/index.html`). Match the existing card format:
+### Country Hub Page (MANDATORY)
+**Every new page MUST be linked from its country hub page.** This is not optional — without it, the page has no internal links and won't get crawled properly.
+
+1. Find the country hub: `popular-picks/<country>/index.html` (e.g., `popular-picks/japan/index.html`)
+2. Find the correct city section (or create one if the city isn't listed yet)
+3. Add a card inside the city's `<div class="picks-grid">`, matching the existing format:
+
 ```html
 <a href="/popular-picks/<slug>/" class="pick-card">
-  <img src="https://img.tabiji.ai/popular-picks/<slug>/photo-0.jpg" alt="TITLE" loading="lazy">
+  <img src="<heroImage URL from JSON>" alt="TITLE" loading="lazy">
   <div class="pick-card-body">
     <span class="card-badge">🍽️ City</span>
     <h3>TITLE</h3>
@@ -288,6 +293,12 @@ Add a card to the relevant country hub page (e.g., `popular-picks/japan/index.ht
   </div>
 </a>
 ```
+
+**Use the actual hero image URL** from the JSON's `seo.heroImage` field — don't guess filenames like `photo-0.jpg`.
+
+4. `git add` the country hub page along with the other files in Step 10.
+
+If no country hub page exists yet, note it in your output — but this is rare (most countries already have one).
 
 ### Main Hub Page
 If the page fits a country section on `popular-picks/index.html`, add it there too.
@@ -318,7 +329,22 @@ gh pr create --title "feat: add <slug> popular picks" --body "New popular picks 
 
 ---
 
-## Step 11: Verify
+## Step 11: Submit for Indexing
+
+After git push, submit the new URL for faster indexing:
+
+```bash
+INDEXNOW_KEY=$(security find-generic-password -s indexnow-key -w)
+curl -s -X POST "https://api.indexnow.org/IndexNow" \
+  -H "Content-Type: application/json" \
+  -d "{\"host\":\"tabiji.ai\",\"key\":\"$INDEXNOW_KEY\",\"keyLocation\":\"https://tabiji.ai/$INDEXNOW_KEY.txt\",\"urlList\":[\"https://tabiji.ai/popular-picks/<slug>/\"]}"
+```
+
+This notifies Bing/Yandex immediately. Google picks up from the sitemap.
+
+---
+
+## Step 12: Verify
 
 After deploy (~30 seconds on Cloudflare):
 1. Visit `https://tabiji.ai/popular-picks/<slug>/` — page loads, photos show, map works
