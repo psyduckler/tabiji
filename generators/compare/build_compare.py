@@ -277,10 +277,9 @@ def render_page(data: Dict) -> str:
 <!-- @include:nav:end -->
 {content['tocMobileHtml']}
 {content['heroHtml']}
-<div class=\"content-wrapper\">
+<div class=\"content-wrapper\">{content['methodologyHtml']}
 {content['tocSidebarHtml']}
 <div class=\"article-content\">
-{content['methodologyHtml']}
 {content['photoGridHtml']}
 {content['verdictHtml']}
 {content['comparisonHtml']}
@@ -292,7 +291,7 @@ def render_page(data: Dict) -> str:
 <!-- @include:footer:start -->
 {shell['footerHtml']}
 <!-- @include:footer:end -->
-{''.join(shell['scripts'])}
+{chr(10).join(shell['scripts'])}
 </body>
 </html>
 """

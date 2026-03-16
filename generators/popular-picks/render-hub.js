@@ -97,7 +97,9 @@ function renderHubPage(data) {
       .main-content { min-width:0; }
       .city-section { margin-bottom:3rem; }
       .city-section h2 { font-size:1.75rem; color:var(--indigo); margin-bottom:1rem; }
-      .picks-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
+      .picks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+      @media (max-width:900px) { .picks-grid { grid-template-columns:repeat(2,1fr); } }
+      @media (max-width:560px) { .picks-grid { grid-template-columns:1fr; } }
       .pick-card { background:#FEFCF9; border:1px solid var(--sand); border-radius:14px; overflow:hidden; display:block; transition:transform .15s, box-shadow .15s; }
       .pick-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.08); }
       .pick-card img { width:100%; height:180px; object-fit:cover; display:block; }
@@ -129,7 +131,7 @@ function renderHubPage(data) {
     <h1>${escapeHtml(data.hero.title || data.seo.h1)}</h1>
     <p>${escapeHtml(data.hero.dek || '')}</p>
     ${Array.isArray(data.hero.meta) && data.hero.meta.length ? `<div class="hero-meta">${data.hero.meta.map((item) => `<div>${escapeHtml(item)}</div>`).join('')}</div>` : ''}
-    ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager"><figcaption class="hero-caption">Start with the strongest Taiwan picks so far: Taipei dim sum, beef noodle soup, and the Shilin night market stalls worth the detour.</figcaption></figure>` : ''}
+    ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager">${data.hero.caption ? `<figcaption class="hero-caption">${escapeHtml(data.hero.caption)}</figcaption>` : ''}</figure>` : ''}
   </section>
 
   ${renderToc(data)}
