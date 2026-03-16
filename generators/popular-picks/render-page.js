@@ -6,6 +6,65 @@ const { renderSchema } = require('./render-schema');
 const { loadJson, validateSource } = require('./validate-source');
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc';
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
+
+let siteInventoryCache = null;
+
+function readTextIfExists(filePath) {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return '';
+  }
+}
+
+function titleFromSlug(slug = '') {
+  return String(slug)
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function extractHtmlTitle(filePath, fallbackSlug = '') {
+  const html = readTextIfExists(filePath);
+  if (!html) return titleFromSlug(fallbackSlug);
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  if (h1) return h1[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const title = html.match(/<title>([\s\S]*?)<\/title>/i);
+  if (title) return title[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  return titleFromSlug(fallbackSlug);
+}
+
+function loadDirectoryEntries(dirPath, type, urlPrefix) {
+  if (!fs.existsSync(dirPath)) return [];
+  return fs.readdirSync(dirPath, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => {
+      const slug = entry.name;
+      const htmlPath = path.join(dirPath, slug, 'index.html');
+      if (!fs.existsSync(htmlPath)) return null;
+      return {
+        type,
+        slug,
+        url: `${urlPrefix}/${slug}/`,
+        title: extractHtmlTitle(htmlPath, slug),
+        searchText: normalizeIntroText(`${slug} ${extractHtmlTitle(htmlPath, slug)}`),
+      };
+    })
+    .filter(Boolean);
+}
+
+function getSiteInventory() {
+  if (siteInventoryCache) return siteInventoryCache;
+  siteInventoryCache = {
+    destinations: loadDirectoryEntries(path.join(REPO_ROOT, 'destinations'), 'destination', '/destinations'),
+    itineraries: loadDirectoryEntries(path.join(REPO_ROOT, 'itineraries'), 'itinerary', '/itineraries'),
+    compares: loadDirectoryEntries(path.join(REPO_ROOT, 'compare'), 'compare', '/compare'),
+    popularPicks: loadDirectoryEntries(path.join(REPO_ROOT, 'popular-picks'), 'popular-picks', '/popular-picks'),
+  };
+  return siteInventoryCache;
+}
 
 function renderRichTextParagraphs(items = []) {
   return items.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
@@ -199,6 +258,161 @@ function buildMapPicks(picks, data, mapData) {
       ctaUrl: pick.googleMapsUrl || mapData.ctaUrl,
       mapQuery: buildPickMapQuery(pick, data),
     }));
+}
+
+function uniqueBy(items, keyFn) {
+  const seen = new Set();
+  const result = [];
+  for (const item of items) {
+    const key = keyFn(item);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    result.push(item);
+  }
+  return result;
+}
+
+function buildIntentTokens(data) {
+  const city = firstNonEmpty(data.taxonomy?.city, '');
+  const country = firstNonEmpty(data.taxonomy?.country, '');
+  const category = firstNonEmpty(data.taxonomy?.category, '');
+  const slugParts = String(data.slug || '').split('-').filter(Boolean);
+  const slugPhrases = [];
+  if (slugParts.length >= 2) slugPhrases.push(slugParts.slice(0, 2).join(' '));
+  if (slugParts.length >= 3) slugPhrases.push(slugParts.slice(0, 3).join(' '));
+  const cuisineTokens = uniqueBy((data.picks || []).flatMap((pick) => (pick.cuisineTags || []).map((tag) => normalizeIntroText(tag))).filter(Boolean), (value) => value)
+    .flatMap((value) => value.split(' '))
+    .filter((token) => token.length >= 4);
+  return uniqueBy([
+    meaningfulToken(city),
+    meaningfulToken(country),
+    meaningfulToken(category),
+    ...slugPhrases.map((value) => meaningfulToken(value)),
+    ...cuisineTokens,
+  ].filter(Boolean), (value) => value);
+}
+
+function meaningfulToken(value = '') {
+  const normalized = normalizeIntroText(value);
+  return normalized.length >= 4 ? normalized : '';
+}
+
+function countTokenMatches(searchText = '', tokens = []) {
+  return tokens.reduce((count, token) => count + (searchText.includes(token) ? 1 : 0), 0);
+}
+
+function scoreEntry(entry, data, tokens, options = {}) {
+  if (!entry || !entry.url || entry.slug === data.slug) return -Infinity;
+  const text = entry.searchText || '';
+  let score = countTokenMatches(text, tokens);
+  const cityToken = meaningfulToken(data.taxonomy?.city || '');
+  const countryToken = meaningfulToken(data.taxonomy?.country || '');
+  const categoryToken = meaningfulToken(data.taxonomy?.category || '');
+  const slugText = normalizeIntroText(entry.slug || '');
+  const locationMatched = Boolean((cityToken && text.includes(cityToken)) || (countryToken && text.includes(countryToken)));
+
+  if (cityToken && text.includes(cityToken)) score += 4;
+  if (countryToken && text.includes(countryToken)) score += 2;
+  if (categoryToken && text.includes(categoryToken)) score += 1;
+  if (options.requireCity && cityToken && !text.includes(cityToken)) return -Infinity;
+  if (options.requireCountry && countryToken && !text.includes(countryToken)) return -Infinity;
+  if (options.requireLocation && !locationMatched) return -Infinity;
+  if (options.excludeCategory && categoryToken && text.includes(categoryToken)) score -= 2;
+  if (slugText.includes(normalizeIntroText(data.slug))) score -= 3;
+  return score;
+}
+
+function pickTopEntries(entries, data, tokens, options = {}) {
+  return entries
+    .map((entry) => ({ entry, score: scoreEntry(entry, data, tokens, options) }))
+    .filter(({ score }) => Number.isFinite(score) && score >= (options.minScore ?? 1))
+    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
+    .slice(0, options.limit || 3)
+    .map(({ entry }) => entry);
+}
+
+function buildIntentLinks(data) {
+  const inventory = getSiteInventory();
+  const tokens = buildIntentTokens(data);
+  const citySlug = slugify(data.taxonomy?.city || '');
+  const countrySlug = slugify(data.taxonomy?.country || '');
+  const slugParts = String(data.slug || '').split('-').filter(Boolean);
+  const locationPhrases = uniqueBy([
+    meaningfulToken(data.taxonomy?.city || ''),
+    meaningfulToken(data.taxonomy?.country || ''),
+    meaningfulToken(citySlug.replace(/-/g, ' ')),
+    meaningfulToken(countrySlug.replace(/-/g, ' ')),
+    ...(slugParts.length >= 2 ? [meaningfulToken(slugParts.slice(0, 2).join(' '))] : []),
+    ...(slugParts.length >= 3 ? [meaningfulToken(slugParts.slice(0, 3).join(' '))] : []),
+  ].filter(Boolean), (value) => value);
+  const manualPopularPicks = new Set((data.related?.manual || []).map((slug) => `/popular-picks/${slug}/`));
+
+  const directLocationEntries = (entries) => uniqueBy(entries.filter((entry) => locationPhrases.some((phrase) => (entry.searchText || '').includes(phrase))), (entry) => entry.url);
+
+  const destinationMatches = uniqueBy([
+    ...[citySlug, countrySlug].map((slug) => inventory.destinations.find((entry) => entry.slug === slug)).filter(Boolean),
+    ...directLocationEntries(inventory.destinations),
+  ], (entry) => entry.url).slice(0, 2);
+
+  const hubMatches = uniqueBy([
+    ...[citySlug, countrySlug].map((slug) => inventory.popularPicks.find((entry) => entry.slug === slug && entry.slug !== data.slug)).filter(Boolean),
+    ...directLocationEntries(inventory.popularPicks.filter((entry) => entry.slug !== data.slug && !manualPopularPicks.has(entry.url))),
+  ], (entry) => entry.url)
+    .filter((entry) => !entry.slug.includes('-') || entry.slug === citySlug || entry.slug === countrySlug)
+    .slice(0, 2);
+
+  const itineraryMatches = pickTopEntries(inventory.itineraries, data, tokens, { limit: 3, minScore: 2, requireLocation: true });
+  const compareMatches = pickTopEntries(inventory.compares, data, tokens, { limit: 3, minScore: 3, requireLocation: true });
+  const adjacentPopularPicks = pickTopEntries(
+    inventory.popularPicks.filter((entry) => !manualPopularPicks.has(entry.url) && entry.slug !== citySlug && entry.slug !== countrySlug),
+    data,
+    tokens,
+    { limit: 4, minScore: 2, requireLocation: true, excludeCategory: true }
+  );
+
+  return [
+    {
+      key: 'destinations',
+      title: `Plan ${data.taxonomy?.city || data.taxonomy?.country || 'this destination'}`,
+      description: 'Broader destination guides and country hubs for travelers still shaping the trip around this pick list.',
+      links: uniqueBy([...destinationMatches, ...hubMatches], (entry) => entry.url).slice(0, 4),
+    },
+    {
+      key: 'itineraries',
+      title: 'Turn these picks into an itinerary',
+      description: 'Day-by-day routes that match the same destination and traveler intent.',
+      links: itineraryMatches,
+    },
+    {
+      key: 'compares',
+      title: 'Compare nearby options',
+      description: 'Compare pages for travelers deciding between this destination and close alternatives.',
+      links: compareMatches,
+    },
+    {
+      key: 'adjacent',
+      title: `More ${data.taxonomy?.city || data.taxonomy?.country || 'travel'} picks`,
+      description: 'Adjacent topical guides in the same city so readers can keep drilling into the trip they are already planning.',
+      links: adjacentPopularPicks,
+    },
+  ].filter((section) => section.links.length);
+}
+
+function renderIntentLinkSections(data) {
+  const sections = buildIntentLinks(data);
+  if (!sections.length) return '';
+  return sections.map((section) => `
+      <section class="related-section intent-section">
+        <h2>${escapeHtml(section.title)}</h2>
+        <p class="related-intro">${escapeHtml(section.description)}</p>
+        <div class="intent-grid">
+          ${section.links.map((link) => `
+            <a class="intent-card" href="${escapeHtml(link.url)}">
+              <span class="intent-type">${escapeHtml(link.type.replace(/-/g, ' '))}</span>
+              <strong>${escapeHtml(link.title)}</strong>
+            </a>`).join('')}
+        </div>
+      </section>`).join('');
 }
 
 function renderMapPanel(mapData, mapPicks, mobile = false) {
@@ -496,7 +710,12 @@ function renderPage(data) {
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
+      .related-intro { color:var(--text-muted); margin:.25rem 0 1rem; }
       ul.related { padding-left:1.2rem; margin:0; }
+      .intent-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:.9rem; }
+      .intent-card { display:block; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; padding:1rem; color:var(--text); }
+      .intent-card:hover { border-color:var(--terracotta); transform:translateY(-1px); }
+      .intent-type { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; font-weight:700; color:var(--earth); margin-bottom:.45rem; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
       @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
@@ -537,6 +756,8 @@ function renderPage(data) {
         <h2>Frequently Asked Questions</h2>
         ${data.faq.map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p></div>`).join('')}
       </section>
+
+      ${renderIntentLinkSections(data)}
 
       <section class="related-section">
         <h2>Related Recommendations</h2>
