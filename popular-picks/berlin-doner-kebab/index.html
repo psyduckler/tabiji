@@ -335,9 +335,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -362,7 +365,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -410,13 +413,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Berlin&#39;s döner shops, generally costing around the same price, offer a wide range of options, with Imren Grill standing out as a top recommendation for its beef/lamb döner. This guide highlights the best döner experiences based on Berlin residents&#39; and seasoned visitors&#39; recommendations, ensuring you find a döner worth crossing town for.</strong></p>
-        <p>Berlin&#39;s döner scene offers a wide range of options, but the best döner shops, costing around the same price, are worth crossing town for. Imren Grill, known for its beef/lamb döner, stands out as a top recommendation. This guide highlights the best döner experiences based on Berlin residents&#39; and seasoned visitors&#39; recommendations.</p><p>Berlin is the döner capital of the world — and that&#39;s not hyperbole. With over 1,600 döner shops across the city, the humble kebab is Berlin&#39;s de facto national dish. But with that many options, finding the truly great ones means navigating a sea of mediocre corner-shop döners.</p><p>We analyzed hundreds of Reddit posts from r/berlin, r/berlinsocialclub, r/askberliners, and r/doener to find the shops that Berlin residents and seasoned visitors recommend over and over. These are the döners worth crossing town for.</p>
+        <p>Berlin is the döner capital of the world — and that&#39;s not hyperbole. With over 1,600 döner shops across the city, the humble kebab is Berlin&#39;s de facto national dish. But with that many options, finding the truly great ones means navigating a sea of mediocre corner-shop döners.</p><p>We analyzed hundreds of Reddit posts from r/berlin, r/berlinsocialclub, r/askberliners, and r/doener to find the shops that Berlin residents and seasoned visitors recommend over and over. These are the döners worth crossing town for.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Döner Map</h2>
-      <iframe src="https://www.google.com/maps?q=D%C3%B6ner%20Kebab%20in%20Berlin&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Imren Grill</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Döner Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -430,7 +434,7 @@
         <a href="#tadim">3. Tadim</a>
       </li>
       <li>
-        <a href="#mustafas-gemuse-kebap">4. Mustafa&#39;s Gemüse Kebap</a>
+        <a href="#mustafas-gemuse-kebap">4. Mustafa's Gemüse Kebap</a>
       </li>
       <li>
         <a href="#tekbir">5. Tekbir</a>
@@ -438,7 +442,7 @@
       <li>
         <a href="#pamfilya">6. Pamfilya</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/D%C3%B6ner%20Kebab%20in%20Berlin" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17801368214477792757&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -450,7 +454,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="imren-grill">
+<section class="restaurant-section" id="imren-grill" data-map-name="1. Imren Grill" data-map-cta-url="https://maps.google.com/?cid=17801368214477792757&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Imren Grill, Neukölln, Karl-Marx-Straße, Berlin, DE" data-map-lat="52.482101" data-map-lng="13.4339543">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Imren Grill</h2>
         <span class="cuisine-tag tag-regional">Beef/Lamb Döner</span>
@@ -488,7 +492,7 @@
         <strong>tabiji verdict:</strong> The Reddit consensus is clear: Imren is God Tier. The beef/lamb yaprak is carved fresh from the spit, the seasoning is intense and distinctive, and that sesame sauce ties everything together. This is the döner that Berlin locals will fight over.
     </div>
 </section>
-<section class="restaurant-section" id="ruyam-gemuse-kebab">
+<section class="restaurant-section" id="ruyam-gemuse-kebab" data-map-name="2. Rüyam Gemüse Kebab" data-map-cta-url="https://maps.google.com/?cid=2352829588484378761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rüyam Gemüse Kebab, Kreuzberg, Hauptstraße / Mehringdamm, Berlin, DE" data-map-lat="52.484503" data-map-lng="13.3523488">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Rüyam Gemüse Kebab</h2>
         <span class="cuisine-tag tag-regional">Gemüse Döner</span>
@@ -526,7 +530,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; secret weapon against Mustafa&#39;s tourist queue. Rüyam delivers the same roasted-vegetable-laden gemüse döner experience with better sauces and a fraction of the wait. If you only try one gemüse döner in Berlin, make it this one.
     </div>
 </section>
-<section class="restaurant-section" id="tadim">
+<section class="restaurant-section" id="tadim" data-map-name="3. Tadim" data-map-cta-url="https://maps.google.com/?cid=3424674262289626668&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tadim, Kreuzberg, Adalbertstraße (near Kottbusser Tor), Berlin, DE" data-map-lat="52.4997229" data-map-lng="13.417742299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Tadim</h2>
         <span class="cuisine-tag tag-regional">Veal Döner</span>
@@ -564,7 +568,7 @@
         <strong>tabiji verdict:</strong> The purist&#39;s döner. No flashy roasted vegetables or gourmet pretensions — just perfectly executed basics. The homemade bread is the real star, and the veal is consistently high quality. A Kotti institution.
     </div>
 </section>
-<section class="restaurant-section" id="mustafas-gemuse-kebap">
+<section class="restaurant-section" id="mustafas-gemuse-kebap" data-map-name="4. Mustafa&#39;s Gemüse Kebap" data-map-cta-url="https://maps.google.com/?cid=12192612194353454383&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mustafa&#39;s Gemüse Kebap, Kreuzberg, Mehringdamm, Berlin, DE" data-map-lat="52.493485" data-map-lng="13.3885619">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Mustafa&#39;s Gemüse Kebap</h2>
         <span class="cuisine-tag tag-regional">Gemüse Döner</span>
@@ -602,7 +606,7 @@
         <strong>tabiji verdict:</strong> The one that started it all. Mustafa&#39;s is genuinely excellent — the roasted vegetables and sauce combination is outstanding. But the 1-3 hour queue has turned it into a tourist attraction. Visit for the history, but know that Rüyam delivers a nearly identical experience in a fraction of the time.
     </div>
 </section>
-<section class="restaurant-section" id="tekbir">
+<section class="restaurant-section" id="tekbir" data-map-name="5. Tekbir" data-map-cta-url="https://maps.google.com/?cid=1398156689177870442&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tekbir, Kreuzberg, near Kottbusser Tor, Berlin, DE" data-map-lat="52.4989004" data-map-lng="13.4218127">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Tekbir</h2>
         <span class="cuisine-tag tag-regional">Beef/Lamb Döner</span>
@@ -636,7 +640,7 @@
         <strong>tabiji verdict:</strong> If you love the heavy, intensely-seasoned meat style of Imren but don&#39;t want to trek to Neukölln, Tekbir in Kreuzberg is the answer. A true neighborhood classic that the locals swear by.
     </div>
 </section>
-<section class="restaurant-section" id="pamfilya">
+<section class="restaurant-section" id="pamfilya" data-map-name="6. Pamfilya" data-map-cta-url="https://maps.google.com/?cid=9414198761911637931&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pamfilya, Wedding, Müllerstraße, Berlin, DE" data-map-lat="52.546287" data-map-lng="13.3584278">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Pamfilya</h2>
         <span class="cuisine-tag tag-regional">Veal Döner</span>
@@ -670,7 +674,7 @@
         <strong>tabiji verdict:</strong> The upscale döner experience. Pamfilya proves that döner can be a sit-down restaurant meal without losing its soul. The veal is top-tier and the bread is freshly made. Worth the trip to Wedding.
     </div>
 </section>
-<section class="restaurant-section" id="kwa">
+<section class="restaurant-section" id="kwa" data-map-name="7. Kebap with Attitude (KWA)" data-map-cta-url="https://maps.google.com/?cid=9014352874526255648&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kebap with Attitude (KWA), Mitte, Torstraße, Berlin, DE" data-map-lat="52.527210800000006" data-map-lng="13.3990791">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Kebap with Attitude (KWA)</h2>
         <span class="cuisine-tag tag-regional">Gourmet Döner</span>
@@ -704,7 +708,7 @@
         <strong>tabiji verdict:</strong> The döner for people who think döner can&#39;t be fine dining. KWA charges double the street price but delivers ingredients you can taste the difference in. Controversial? Yes. Worth trying once? Absolutely.
     </div>
 </section>
-<section class="restaurant-section" id="voner">
+<section class="restaurant-section" id="voner" data-map-name="8. Vöner" data-map-cta-url="https://maps.google.com/?cid=15759411797465909348&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vöner, Friedrichshain, Boxhagener Straße, Berlin, DE" data-map-lat="52.506713999999995" data-map-lng="13.4686933">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Vöner</h2>
         <span class="cuisine-tag tag-regional">Vegan Döner</span>
@@ -738,7 +742,7 @@
         <strong>tabiji verdict:</strong> Proof that vegan döner doesn&#39;t have to be an afterthought. Vöner&#39;s seitan is legitimately good — seasoned right, textured well, and wrapped in proper bread with proper sauces. A Berlin institution that even meat-lovers respect.
     </div>
 </section>
-<section class="restaurant-section" id="hasir">
+<section class="restaurant-section" id="hasir" data-map-name="9. Hasir" data-map-cta-url="https://maps.google.com/?cid=11943487455487135675&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hasir, Kreuzberg, Adalbertstraße (original location), Berlin, DE" data-map-lat="52.500874499999995" data-map-lng="13.4192135">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Hasir</h2>
         <span class="cuisine-tag tag-regional">Historic Döner</span>
@@ -772,7 +776,7 @@
         <strong>tabiji verdict:</strong> Visit for the history — Hasir claims to have invented the Berlin döner as we know it. The food is solid if not spectacular, but eating at the place where it all allegedly started has its own appeal. A full restaurant experience, not a street-stand.
     </div>
 </section>
-<section class="restaurant-section" id="doyum">
+<section class="restaurant-section" id="doyum" data-map-name="10. Doyum" data-map-cta-url="https://maps.google.com/?cid=4013108535566074948&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Doyum, Kreuzberg, Admiralstraße, Berlin, DE" data-map-lat="52.4982593" data-map-lng="13.417338899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Doyum</h2>
         <span class="cuisine-tag tag-regional">Traditional Döner</span>
@@ -806,7 +810,7 @@
         <strong>tabiji verdict:</strong> The quiet overachiever. Doyum doesn&#39;t have the fame of its Kreuzberg neighbors but delivers a consistently great döner alongside excellent Turkish restaurant dishes. A local favorite that flies under the radar.
     </div>
 </section>
-<section class="restaurant-section" id="et-dunyasi">
+<section class="restaurant-section" id="et-dunyasi" data-map-name="11. Et Dünyası" data-map-cta-url="https://www.google.com/maps/search/Et+D%C3%BCnyasi+Kreuzberg+Berlin" data-map-query="Et Dünyası, Kreuzberg, Skalitzer Straße, Berlin, DE" data-map-lat="52.567085" data-map-lng="13.362131999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Et Dünyası</h2>
         <span class="cuisine-tag tag-regional">Beef Döner</span>
@@ -832,7 +836,7 @@
         <strong>tabiji verdict:</strong> A Kreuzberg deep cut for beef döner enthusiasts. Not famous, not trendy, just excellent quality yaprak döner from a shop that takes their meat seriously. The kind of place residents keep to themselves.
     </div>
 </section>
-<section class="restaurant-section" id="ege-gemusekebap">
+<section class="restaurant-section" id="ege-gemusekebap" data-map-name="12. Ege Gemüsekebap" data-map-cta-url="https://www.google.com/maps/search/Ege+Gem%C3%BCsekebap+Kreuzberg+Berlin" data-map-query="Ege Gemüsekebap, Kreuzberg, Mehringdamm area, Berlin, DE" data-map-lat="52.459167699999995" data-map-lng="13.384719">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Ege Gemüsekebap</h2>
         <span class="cuisine-tag tag-regional">Gemüse Döner</span>
@@ -876,9 +880,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Döner Map</h2>
-      <iframe src="https://www.google.com/maps?q=D%C3%B6ner%20Kebab%20in%20Berlin&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Imren Grill</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Döner Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -892,7 +897,7 @@
         <a href="#tadim">3. Tadim</a>
       </li>
       <li>
-        <a href="#mustafas-gemuse-kebap">4. Mustafa&#39;s Gemüse Kebap</a>
+        <a href="#mustafas-gemuse-kebap">4. Mustafa's Gemüse Kebap</a>
       </li>
       <li>
         <a href="#tekbir">5. Tekbir</a>
@@ -900,7 +905,7 @@
       <li>
         <a href="#pamfilya">6. Pamfilya</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/D%C3%B6ner%20Kebab%20in%20Berlin" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17801368214477792757&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -911,5 +916,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Döner Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/D%C3%B6ner%20Kebab%20in%20Berlin","picks":[{"anchorId":"imren-grill","rank":1,"name":"Imren Grill","label":"1. Imren Grill","lat":52.482101,"lng":13.4339543,"ctaUrl":"https://maps.google.com/?cid=17801368214477792757&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Imren Grill, Neukölln, Karl-Marx-Straße, Berlin, DE"},{"anchorId":"ruyam-gemuse-kebab","rank":2,"name":"Rüyam Gemüse Kebab","label":"2. Rüyam Gemüse Kebab","lat":52.484503,"lng":13.3523488,"ctaUrl":"https://maps.google.com/?cid=2352829588484378761&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rüyam Gemüse Kebab, Kreuzberg, Hauptstraße / Mehringdamm, Berlin, DE"},{"anchorId":"tadim","rank":3,"name":"Tadim","label":"3. Tadim","lat":52.4997229,"lng":13.417742299999999,"ctaUrl":"https://maps.google.com/?cid=3424674262289626668&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tadim, Kreuzberg, Adalbertstraße (near Kottbusser Tor), Berlin, DE"},{"anchorId":"mustafas-gemuse-kebap","rank":4,"name":"Mustafa's Gemüse Kebap","label":"4. Mustafa's Gemüse Kebap","lat":52.493485,"lng":13.3885619,"ctaUrl":"https://maps.google.com/?cid=12192612194353454383&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mustafa's Gemüse Kebap, Kreuzberg, Mehringdamm, Berlin, DE"},{"anchorId":"tekbir","rank":5,"name":"Tekbir","label":"5. Tekbir","lat":52.4989004,"lng":13.4218127,"ctaUrl":"https://maps.google.com/?cid=1398156689177870442&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tekbir, Kreuzberg, near Kottbusser Tor, Berlin, DE"},{"anchorId":"pamfilya","rank":6,"name":"Pamfilya","label":"6. Pamfilya","lat":52.546287,"lng":13.3584278,"ctaUrl":"https://maps.google.com/?cid=9414198761911637931&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pamfilya, Wedding, Müllerstraße, Berlin, DE"},{"anchorId":"kwa","rank":7,"name":"Kebap with Attitude (KWA)","label":"7. Kebap with Attitude (KWA)","lat":52.527210800000006,"lng":13.3990791,"ctaUrl":"https://maps.google.com/?cid=9014352874526255648&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kebap with Attitude (KWA), Mitte, Torstraße, Berlin, DE"},{"anchorId":"voner","rank":8,"name":"Vöner","label":"8. Vöner","lat":52.506713999999995,"lng":13.4686933,"ctaUrl":"https://maps.google.com/?cid=15759411797465909348&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vöner, Friedrichshain, Boxhagener Straße, Berlin, DE"},{"anchorId":"hasir","rank":9,"name":"Hasir","label":"9. Hasir","lat":52.500874499999995,"lng":13.4192135,"ctaUrl":"https://maps.google.com/?cid=11943487455487135675&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hasir, Kreuzberg, Adalbertstraße (original location), Berlin, DE"},{"anchorId":"doyum","rank":10,"name":"Doyum","label":"10. Doyum","lat":52.4982593,"lng":13.417338899999999,"ctaUrl":"https://maps.google.com/?cid=4013108535566074948&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Doyum, Kreuzberg, Admiralstraße, Berlin, DE"},{"anchorId":"et-dunyasi","rank":11,"name":"Et Dünyası","label":"11. Et Dünyası","lat":52.567085,"lng":13.362131999999999,"ctaUrl":"https://www.google.com/maps/search/Et+D%C3%BCnyasi+Kreuzberg+Berlin","mapQuery":"Et Dünyası, Kreuzberg, Skalitzer Straße, Berlin, DE"},{"anchorId":"ege-gemusekebap","rank":12,"name":"Ege Gemüsekebap","label":"12. Ege Gemüsekebap","lat":52.459167699999995,"lng":13.384719,"ctaUrl":"https://www.google.com/maps/search/Ege+Gem%C3%BCsekebap+Kreuzberg+Berlin","mapQuery":"Ege Gemüsekebap, Kreuzberg, Mehringdamm area, Berlin, DE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

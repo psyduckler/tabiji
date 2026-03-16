@@ -372,9 +372,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -399,7 +402,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -447,13 +450,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Penang&#39;s best night noodle stalls, showcasing the city&#39;s unique Chinese, Malay, and Indian heritage, range from RM5-18 per dish, with Lorong Selamat Char Kway Teow being a top recommendation for its wok hei. These stalls reach their peak intensity after sunset, offering an unparalleled culinary experience. We dug through Reddit and other sources to find where actual Penangites and seasoned Malaysia visitors eat their noodles at night, focusing on legendary single-item stalls.</strong></p>
-        <p>Penang&#39;s best night noodle stalls range from RM5-18 per dish, with Lorong Selamat Char Kway Teow being a top recommendation for its wok hei. These stalls showcase Penang&#39;s unique Chinese, Malay, and Indian heritage, reaching their peak intensity after sunset.</p><p>Penang&#39;s hawker food has been called the best in Southeast Asia, the best in Malaysia, and the best in the world depending on who you ask. The claims aren&#39;t exaggerated. The city&#39;s unique Chinese, Malay, and Indian heritage has produced a noodle culture that can&#39;t be replicated anywhere else — and that reaches its peak intensity after sunset when the hawker stalls fire up their charcoal and carbon-steel woks.</p><p>We dug through r/malaysia, r/Penang, and r/solotravel to find where actual Penangites and seasoned Malaysia visitors eat their noodles at night. The tourist hawker centres have their place. The legendary single-item stalls — where a family has been cooking one dish for 40 years — are where you need to be.</p>
+        <p>Penang&#39;s hawker food has been called the best in Southeast Asia, the best in Malaysia, and the best in the world depending on who you ask. The claims aren&#39;t exaggerated. The city&#39;s unique Chinese, Malay, and Indian heritage has produced a noodle culture that can&#39;t be replicated anywhere else — and that reaches its peak intensity after sunset when the hawker stalls fire up their charcoal and carbon-steel woks.</p><p>We dug through r/malaysia, r/Penang, and r/solotravel to find where actual Penangites and seasoned Malaysia visitors eat their noodles at night. The tourist hawker centres have their place. The legendary single-item stalls — where a family has been cooking one dish for 40 years — are where you need to be.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Night Noodle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Night%20Noodle%20Stalls%20in%20Penang%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Lorong Selamat Char Kway Teow</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Night Noodle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -475,7 +479,7 @@
       <li>
         <a href="#kimberley-street">6. Kimberley Street Night Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Night%20Noodle%20Stalls%20in%20Penang%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16926019041639800981&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -487,7 +491,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="lorong-selamat">
+<section class="restaurant-section" id="lorong-selamat" data-map-name="1. Lorong Selamat Char Kway Teow" data-map-cta-url="https://maps.google.com/?cid=16926019041639800981&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lorong Selamat Char Kway Teow, Lorong Selamat, Georgetown, Penang, Penang, MY" data-map-lat="5.417051100000001" data-map-lng="100.32458969999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Lorong Selamat Char Kway Teow</h2>
         <span class="cuisine-tag tag-regional">The CKT Benchmark</span>
@@ -529,7 +533,7 @@
         <strong>tabiji verdict:</strong> The single most recommended hawker stall in Penang across every Reddit thread, food guide, and documentary ever made about Malaysian food. The queue is always there, the auntie never rushes, and every plate is cooked individually over high flame. Go early, queue with patience, and eat the best Char Kway Teow in the world.
     </div>
 </section>
-<section class="restaurant-section" id="gurney-drive">
+<section class="restaurant-section" id="gurney-drive" data-map-name="2. Gurney Drive Hawker Centre" data-map-cta-url="https://maps.google.com/?cid=10268048705906099704&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gurney Drive Hawker Centre, Gurney Drive (Persiaran Gurney), Georgetown, Penang, MY" data-map-lat="5.4402265" data-map-lng="100.3087316">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Gurney Drive Hawker Centre</h2>
         <span class="cuisine-tag tag-regional">The Tourist-Friendly Classic</span>
@@ -567,7 +571,7 @@
         <strong>tabiji verdict:</strong> Penang&#39;s most famous hawker stretch — and for good reason. Yes, it&#39;s been discovered by tourists. Yes, the prices are slightly higher than neighbourhood stalls. None of that changes the fact that the food is excellent and the seafront setting for an evening meal is wonderful. The Pasembur stall is legitimately special.
     </div>
 </section>
-<section class="restaurant-section" id="sri-bahari">
+<section class="restaurant-section" id="sri-bahari" data-map-name="3. Sri Bahari Road Prawn Mee" data-map-cta-url="https://maps.google.com/?cid=11327194309136956745&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sri Bahari Road Prawn Mee, Sri Bahari Road, Georgetown, Penang, Penang, MY" data-map-lat="5.4209836" data-map-lng="100.3321527">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sri Bahari Road Prawn Mee</h2>
         <span class="cuisine-tag tag-regional">Hokkien Prawn Mee Benchmark</span>
@@ -605,7 +609,7 @@
         <strong>tabiji verdict:</strong> Penang Hokkien Prawn Mee is not what most visitors expect from the name — it&#39;s a rich, rust-coloured prawn and pork broth that&#39;s closer to French bisque than Singapore&#39;s version. Sri Bahari Road is where the benchmark is set. Order the large prawns, eat the pork ribs, drink the broth.
     </div>
 </section>
-<section class="restaurant-section" id="air-itam-laksa">
+<section class="restaurant-section" id="air-itam-laksa" data-map-name="4. Air Itam Laksa" data-map-cta-url="https://maps.google.com/?cid=9887731196897813307&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Air Itam Laksa, Air Itam Village, Penang (near Kek Lok Si Temple), Penang, MY" data-map-lat="5.4013" data-map-lng="100.27810000000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Air Itam Laksa</h2>
         <span class="cuisine-tag tag-regional">The Real Assam Laksa</span>
@@ -647,7 +651,7 @@
         <strong>tabiji verdict:</strong> The most challenging and most rewarding noodle on this list. Penang Assam Laksa is not universally loved on first encounter — the sour tamarind, the pungent shrimp paste, the flaked mackerel. But Air Itam is where the dish reaches its highest expression. CNN named it one of the 50 best foods in the world. Trust them on this one.
     </div>
 </section>
-<section class="restaurant-section" id="new-lane">
+<section class="restaurant-section" id="new-lane" data-map-name="5. New Lane (Lorong Baru) Hawker Stalls" data-map-cta-url="https://maps.google.com/?cid=15438744223944432663&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="New Lane (Lorong Baru) Hawker Stalls, Lorong Baru (New Lane), Georgetown, Penang, Penang, MY" data-map-lat="5.4148035" data-map-lng="100.3265211">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>New Lane (Lorong Baru) Hawker Stalls</h2>
         <span class="cuisine-tag tag-regional">Georgetown Night Classic</span>
@@ -685,7 +689,7 @@
         <strong>tabiji verdict:</strong> The best late-night option on this list — opens at 7pm and runs to 1am, giving you time to eat elsewhere first and return for the full New Lane atmosphere. The fried oyster (Oh Chien) stall here is one of the best in Georgetown. Atmospheric, lively, and genuinely excellent food.
     </div>
 </section>
-<section class="restaurant-section" id="kimberley-street">
+<section class="restaurant-section" id="kimberley-street" data-map-name="6. Kimberley Street Night Market" data-map-cta-url="https://maps.google.com/?cid=8802649315153449929&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kimberley Street Night Market, Kimberley Street, Georgetown, Penang, Penang, MY" data-map-lat="5.4163993" data-map-lng="100.33268179999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Kimberley Street Night Market</h2>
         <span class="cuisine-tag tag-regional">Heritage Street Hawker</span>
@@ -719,7 +723,7 @@
         <strong>tabiji verdict:</strong> Kimberley Street at night is the most atmospheric version of Penang hawker culture — the UNESCO heritage shophouses create a setting that&#39;s genuinely beautiful. The food quality matches the setting. The Chee Cheong Fun with prawn paste is the distinctive must-order.
     </div>
 </section>
-<section class="restaurant-section" id="padang-brown">
+<section class="restaurant-section" id="padang-brown" data-map-name="7. Padang Brown Food Court" data-map-cta-url="https://maps.google.com/?cid=2412120797759587627&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Padang Brown Food Court, Padang Brown, Georgetown, Penang, Penang, MY" data-map-lat="5.4142505" data-map-lng="100.31694549999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Padang Brown Food Court</h2>
         <span class="cuisine-tag tag-regional">Local Midnight Canteen</span>
@@ -753,7 +757,7 @@
         <strong>tabiji verdict:</strong> Penang&#39;s true late-night institution — for 3am Hokkien Mee after everything else is closed. The clientele is taxi drivers, night shift workers, and travellers who&#39;ve stayed out too late. The Hokkien Mee at midnight is somehow better than it has any right to be.
     </div>
 </section>
-<section class="restaurant-section" id="swatow-lane">
+<section class="restaurant-section" id="swatow-lane" data-map-name="8. Swatow Lane Duck Noodles" data-map-cta-url="https://maps.google.com/?cid=8460930296486007770&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Swatow Lane Duck Noodles, Swatow Lane, Georgetown, Penang, Penang, MY" data-map-lat="5.4199587" data-map-lng="100.32677079999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Swatow Lane Duck Noodles</h2>
         <span class="cuisine-tag tag-regional">Teochew Duck Specialist</span>
@@ -787,7 +791,7 @@
         <strong>tabiji verdict:</strong> The quieter option for those seeking a more refined noodle experience. The Teochew duck broth here is clean, clear, and deeply satisfying — a contrast to the intense prawn and tamarind flavours elsewhere on this list. The offal-forward full bowl is for adventurous eaters; the pure duck version works for everyone.
     </div>
 </section>
-<section class="restaurant-section" id="jit-seng">
+<section class="restaurant-section" id="jit-seng" data-map-name="9. Jit Seng Char Kway Teow" data-map-cta-url="https://maps.google.com/?cid=16557007231311235675&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jit Seng Char Kway Teow, Near Penang Road, Georgetown, Penang, MY" data-map-lat="5.4155489999999995" data-map-lng="100.3204112">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Jit Seng Char Kway Teow</h2>
         <span class="cuisine-tag tag-regional">Queue-Less Alternative</span>
@@ -821,7 +825,7 @@
         <strong>tabiji verdict:</strong> The smart backup when Lorong Selamat sells out (and it will). The wok hei at Jit Seng is the real thing — charred, smoky, with properly fresh cockles. Shorter queue, same fundamental commitment to quality. No shame in eating here.
     </div>
 </section>
-<section class="restaurant-section" id="old-green-house">
+<section class="restaurant-section" id="old-green-house" data-map-name="10. Old Green House (Carnavon Street)" data-map-cta-url="https://maps.google.com/?cid=316382894206378576&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Old Green House (Carnavon Street), Carnavon Street, Georgetown, Penang, Penang, MY" data-map-lat="5.4143358" data-map-lng="100.3351733">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Old Green House (Carnavon Street)</h2>
         <span class="cuisine-tag tag-regional">Heritage Kopitiam</span>
@@ -855,7 +859,7 @@
         <strong>tabiji verdict:</strong> The palate cleanser on this list. After the wok-smoked CKT and the sour Assam Laksa, the clean broth noodles at Old Green House restore equilibrium. The heritage kopitiam setting is beautiful and the Penang White Coffee is as good as it gets.
     </div>
 </section>
-<section class="restaurant-section" id="kwong-kow">
+<section class="restaurant-section" id="kwong-kow" data-map-name="11. Kedai Kopi Kwong Kow Hokkien Mee" data-map-cta-url="https://maps.google.com/?cid=13384537316713737636&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kedai Kopi Kwong Kow Hokkien Mee, Campbell Street, Georgetown, Penang, Penang, MY" data-map-lat="5.4135784" data-map-lng="100.3159955">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Kedai Kopi Kwong Kow Hokkien Mee</h2>
         <span class="cuisine-tag tag-regional">Campbell Street Classic</span>
@@ -889,7 +893,7 @@
         <strong>tabiji verdict:</strong> For CKT and soup Hokkien Mee veterans who want to understand the full range of Penang noodle culture. The dry-style Hokkien Mee at Kwong Kow is a different noodle experience — the concentrated prawn sauce is addictive in a completely different way from the broth version.
     </div>
 </section>
-<section class="restaurant-section" id="chai-leng-park">
+<section class="restaurant-section" id="chai-leng-park" data-map-name="12. Chai Leng Park Hawker Centre" data-map-cta-url="https://maps.google.com/?cid=18229890189615832963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chai Leng Park Hawker Centre, Chai Leng Park, Butterworth, mainland Penang, Penang, MY" data-map-lat="5.3864021" data-map-lng="100.39178369999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Chai Leng Park Hawker Centre</h2>
         <span class="cuisine-tag tag-regional">Mainland Penang Secret</span>
@@ -923,7 +927,7 @@
         <strong>tabiji verdict:</strong> The most adventurous pick on this list — requires a ferry across to Butterworth. The reward is completely untouristy hawker food at local prices with zero competition for seats. The ferry ride at sunset is a bonus. For travelers who want to see where actual Penang residents eat on weekdays.
     </div>
 </section>
-<section class="restaurant-section" id="pulau-tikus">
+<section class="restaurant-section" id="pulau-tikus" data-map-name="13. Pulau Tikus Hawker Centre" data-map-cta-url="https://maps.google.com/?cid=3169902652031496640&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pulau Tikus Hawker Centre, Pulau Tikus, Georgetown, Penang, Penang, MY" data-map-lat="5.4304966" data-map-lng="100.31176260000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Pulau Tikus Hawker Centre</h2>
         <span class="cuisine-tag tag-regional">Residential Georgetown</span>
@@ -957,7 +961,7 @@
         <strong>tabiji verdict:</strong> The real neighbourhood Penang experience — no travel guides direct tourists here, which makes it all the better. The Curry Mee at the long-running stall is exceptional, and eating among local Penang families rather than other tourists is its own kind of value.
     </div>
 </section>
-<section class="restaurant-section" id="line-clear">
+<section class="restaurant-section" id="line-clear" data-map-name="14. Nasi Kandar Line Clear" data-map-cta-url="https://maps.google.com/?cid=13341344907057123393&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nasi Kandar Line Clear, Penang Road (near Campbell Street), Georgetown, Penang, MY" data-map-lat="5.4197524" data-map-lng="100.33247469999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Nasi Kandar Line Clear</h2>
         <span class="cuisine-tag tag-regional">Midnight Indian-Muslim Institution</span>
@@ -995,7 +999,7 @@
         <strong>tabiji verdict:</strong> Technically Nasi Kandar rather than noodles, but Line Clear is too important to leave off a Penang night eating guide. Open 24 hours, at its best at midnight when the curries have been building flavour since morning. The definitive final stop of a Penang eating night.
     </div>
 </section>
-<section class="restaurant-section" id="ah-leng">
+<section class="restaurant-section" id="ah-leng" data-map-name="15. Kedai Kopi Ah Leng Chicken Feet Noodles" data-map-cta-url="https://maps.google.com/?cid=14800789958166624051&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kedai Kopi Ah Leng Chicken Feet Noodles, Georgetown, Penang (multiple locations), Penang, MY" data-map-lat="5.412450499999999" data-map-lng="100.319476">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Kedai Kopi Ah Leng Chicken Feet Noodles</h2>
         <span class="cuisine-tag tag-regional">For the Adventurous</span>
@@ -1047,9 +1051,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Night Noodle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Night%20Noodle%20Stalls%20in%20Penang%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Lorong Selamat Char Kway Teow</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Night Noodle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1071,7 +1076,7 @@
       <li>
         <a href="#kimberley-street">6. Kimberley Street Night Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Night%20Noodle%20Stalls%20in%20Penang%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16926019041639800981&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1082,5 +1087,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Night Noodle Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Night%20Noodle%20Stalls%20in%20Penang%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"lorong-selamat","rank":1,"name":"Lorong Selamat Char Kway Teow","label":"1. Lorong Selamat Char Kway Teow","lat":5.417051100000001,"lng":100.32458969999999,"ctaUrl":"https://maps.google.com/?cid=16926019041639800981&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lorong Selamat Char Kway Teow, Lorong Selamat, Georgetown, Penang, Penang, MY"},{"anchorId":"gurney-drive","rank":2,"name":"Gurney Drive Hawker Centre","label":"2. Gurney Drive Hawker Centre","lat":5.4402265,"lng":100.3087316,"ctaUrl":"https://maps.google.com/?cid=10268048705906099704&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gurney Drive Hawker Centre, Gurney Drive (Persiaran Gurney), Georgetown, Penang, MY"},{"anchorId":"sri-bahari","rank":3,"name":"Sri Bahari Road Prawn Mee","label":"3. Sri Bahari Road Prawn Mee","lat":5.4209836,"lng":100.3321527,"ctaUrl":"https://maps.google.com/?cid=11327194309136956745&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sri Bahari Road Prawn Mee, Sri Bahari Road, Georgetown, Penang, Penang, MY"},{"anchorId":"air-itam-laksa","rank":4,"name":"Air Itam Laksa","label":"4. Air Itam Laksa","lat":5.4013,"lng":100.27810000000001,"ctaUrl":"https://maps.google.com/?cid=9887731196897813307&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Air Itam Laksa, Air Itam Village, Penang (near Kek Lok Si Temple), Penang, MY"},{"anchorId":"new-lane","rank":5,"name":"New Lane (Lorong Baru) Hawker Stalls","label":"5. New Lane (Lorong Baru) Hawker Stalls","lat":5.4148035,"lng":100.3265211,"ctaUrl":"https://maps.google.com/?cid=15438744223944432663&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"New Lane (Lorong Baru) Hawker Stalls, Lorong Baru (New Lane), Georgetown, Penang, Penang, MY"},{"anchorId":"kimberley-street","rank":6,"name":"Kimberley Street Night Market","label":"6. Kimberley Street Night Market","lat":5.4163993,"lng":100.33268179999999,"ctaUrl":"https://maps.google.com/?cid=8802649315153449929&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kimberley Street Night Market, Kimberley Street, Georgetown, Penang, Penang, MY"},{"anchorId":"padang-brown","rank":7,"name":"Padang Brown Food Court","label":"7. Padang Brown Food Court","lat":5.4142505,"lng":100.31694549999999,"ctaUrl":"https://maps.google.com/?cid=2412120797759587627&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Padang Brown Food Court, Padang Brown, Georgetown, Penang, Penang, MY"},{"anchorId":"swatow-lane","rank":8,"name":"Swatow Lane Duck Noodles","label":"8. Swatow Lane Duck Noodles","lat":5.4199587,"lng":100.32677079999999,"ctaUrl":"https://maps.google.com/?cid=8460930296486007770&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Swatow Lane Duck Noodles, Swatow Lane, Georgetown, Penang, Penang, MY"},{"anchorId":"jit-seng","rank":9,"name":"Jit Seng Char Kway Teow","label":"9. Jit Seng Char Kway Teow","lat":5.4155489999999995,"lng":100.3204112,"ctaUrl":"https://maps.google.com/?cid=16557007231311235675&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jit Seng Char Kway Teow, Near Penang Road, Georgetown, Penang, MY"},{"anchorId":"old-green-house","rank":10,"name":"Old Green House (Carnavon Street)","label":"10. Old Green House (Carnavon Street)","lat":5.4143358,"lng":100.3351733,"ctaUrl":"https://maps.google.com/?cid=316382894206378576&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Old Green House (Carnavon Street), Carnavon Street, Georgetown, Penang, Penang, MY"},{"anchorId":"kwong-kow","rank":11,"name":"Kedai Kopi Kwong Kow Hokkien Mee","label":"11. Kedai Kopi Kwong Kow Hokkien Mee","lat":5.4135784,"lng":100.3159955,"ctaUrl":"https://maps.google.com/?cid=13384537316713737636&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kedai Kopi Kwong Kow Hokkien Mee, Campbell Street, Georgetown, Penang, Penang, MY"},{"anchorId":"chai-leng-park","rank":12,"name":"Chai Leng Park Hawker Centre","label":"12. Chai Leng Park Hawker Centre","lat":5.3864021,"lng":100.39178369999999,"ctaUrl":"https://maps.google.com/?cid=18229890189615832963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chai Leng Park Hawker Centre, Chai Leng Park, Butterworth, mainland Penang, Penang, MY"},{"anchorId":"pulau-tikus","rank":13,"name":"Pulau Tikus Hawker Centre","label":"13. Pulau Tikus Hawker Centre","lat":5.4304966,"lng":100.31176260000001,"ctaUrl":"https://maps.google.com/?cid=3169902652031496640&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pulau Tikus Hawker Centre, Pulau Tikus, Georgetown, Penang, Penang, MY"},{"anchorId":"line-clear","rank":14,"name":"Nasi Kandar Line Clear","label":"14. Nasi Kandar Line Clear","lat":5.4197524,"lng":100.33247469999999,"ctaUrl":"https://maps.google.com/?cid=13341344907057123393&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nasi Kandar Line Clear, Penang Road (near Campbell Street), Georgetown, Penang, MY"},{"anchorId":"ah-leng","rank":15,"name":"Kedai Kopi Ah Leng Chicken Feet Noodles","label":"15. Kedai Kopi Ah Leng Chicken Feet Noodles","lat":5.412450499999999,"lng":100.319476,"ctaUrl":"https://maps.google.com/?cid=14800789958166624051&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kedai Kopi Ah Leng Chicken Feet Noodles, Georgetown, Penang (multiple locations), Penang, MY"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

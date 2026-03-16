@@ -405,9 +405,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -432,7 +435,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -484,9 +487,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Rooftop Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Restaurants%20in%20Istanbul%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Mikla</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -508,7 +512,7 @@
       <li>
         <a href="#rooftail">6. Rooftail Galata</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Restaurants%20in%20Istanbul%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9559446162359508734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -520,7 +524,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="mikla">
+<section class="restaurant-section" id="mikla" data-map-name="1. Mikla" data-map-cta-url="https://maps.google.com/?cid=9559446162359508734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mikla, Marmara Pera Hotel rooftop, Beyoğlu, Istanbul, TR" data-map-lat="41.0310369" data-map-lng="28.9741962">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Mikla</h2>
         <span class="cuisine-tag tag-regional">Fine Dining</span>
@@ -557,7 +561,7 @@
         <strong>tabiji verdict:</strong> The gold standard of Istanbul rooftop dining. Not cheap, but the combination of innovative Anatolian cuisine, impeccable service, and that panoramic view across both continents is genuinely special. Book well ahead and request a terrace table at sunset.
     </div>
 </section>
-<section class="restaurant-section" id="seven-hills">
+<section class="restaurant-section" id="seven-hills" data-map-name="2. Seven Hills Restaurant" data-map-cta-url="https://maps.google.com/?cid=15231512255602351114&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Seven Hills Restaurant, Sultanahmet, between Blue Mosque &amp; Hagia Sophia, Istanbul, TR" data-map-lat="41.0063995" data-map-lng="28.979704299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Seven Hills Restaurant</h2>
         <span class="cuisine-tag tag-regional">Iconic View</span>
@@ -594,7 +598,7 @@
         <strong>tabiji verdict:</strong> The view alone is worth the visit — genuinely one of the best restaurant views anywhere in the world. Food is solid traditional Turkish (not groundbreaking). Go for afternoon mezze and drinks rather than a full dinner. The drinks markup is steep but you&#39;re paying for the scenery.
     </div>
 </section>
-<section class="restaurant-section" id="neolokal">
+<section class="restaurant-section" id="neolokal" data-map-name="3. Neolokal" data-map-cta-url="https://maps.google.com/?cid=14731075723973632860&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Neolokal, Salt Galata building rooftop, Karaköy, Istanbul, TR" data-map-lat="41.0238362" data-map-lng="28.9734027">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Neolokal</h2>
         <span class="cuisine-tag tag-regional">Modern Turkish</span>
@@ -627,7 +631,7 @@
         <strong>tabiji verdict:</strong> For food-focused travelers who care more about what&#39;s on the plate than the skyline behind it. Neolokal is about rediscovering Anatolian ingredients in a contemporary setting. The Salt Galata building itself is worth visiting — the restaurant is the cherry on top.
     </div>
 </section>
-<section class="restaurant-section" id="360-istanbul">
+<section class="restaurant-section" id="360-istanbul" data-map-name="4. 360 Istanbul" data-map-cta-url="https://maps.google.com/?cid=12671948076327042192&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="360 Istanbul, İstiklal Caddesi, Beyoğlu, Istanbul, TR" data-map-lat="41.0326567" data-map-lng="28.976666">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>360 Istanbul</h2>
         <span class="cuisine-tag tag-regional">Premium Lounge</span>
@@ -664,7 +668,7 @@
         <strong>tabiji verdict:</strong> The panoramic view is legitimately impressive — you can see both continents from one table. The food is good but not revelatory. Best visited for sunset cocktails or a pre-dinner drink, then move on to a more food-focused spot for the main event.
     </div>
 </section>
-<section class="restaurant-section" id="balkon">
+<section class="restaurant-section" id="balkon" data-map-name="5. Balkon" data-map-cta-url="https://maps.google.com/?cid=18188253660137769903&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Balkon, Asmalı Mescit, near Şişhane, Istanbul, TR" data-map-lat="41.029807999999996" data-map-lng="28.9739337">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Balkon</h2>
         <span class="cuisine-tag tag-regional">Budget Favorite</span>
@@ -705,7 +709,7 @@
         <strong>tabiji verdict:</strong> The clear Reddit champion — mentioned in nearly every rooftop thread. Not fancy, not trying to be. Just honest prices, a killer view, and WiFi. The fact that a 10-upvote comment basically says &quot;thank me later&quot; tells you everything. Go.
     </div>
 </section>
-<section class="restaurant-section" id="rooftail">
+<section class="restaurant-section" id="rooftail" data-map-name="6. Rooftail Galata" data-map-cta-url="https://maps.google.com/?cid=13620568592288996576&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rooftail Galata, Galata, Beyoğlu, Istanbul, TR" data-map-lat="41.025940399999996" data-map-lng="28.979288699999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Rooftail Galata</h2>
         <span class="cuisine-tag tag-regional">Date Night</span>
@@ -730,7 +734,7 @@
         <strong>tabiji verdict:</strong> The best value-for-money rooftop in the Galata neighborhood, according to a 9-upvote local recommendation. Not the biggest view, but the atmosphere and cocktails punch above their weight. Perfect for a date night without the fine-dining price tag.
     </div>
 </section>
-<section class="restaurant-section" id="16-roof">
+<section class="restaurant-section" id="16-roof" data-map-name="7. 16 Roof" data-map-cta-url="https://maps.google.com/?cid=7009383196351359074&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="16 Roof, Beyoğlu, Istanbul, TR" data-map-lat="41.040425" data-map-lng="28.997314700000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>16 Roof</h2>
         <span class="cuisine-tag tag-regional">Stylish Chill</span>
@@ -763,7 +767,7 @@
         <strong>tabiji verdict:</strong> Part of a local&#39;s &quot;go-to three&quot; for rooftop drinks. Less well-known to tourists than 360 or Mikla, which means fewer selfie sticks and more actual atmosphere. A strong option for the Beyoğlu bar-hop circuit.
     </div>
 </section>
-<section class="restaurant-section" id="leb-i-derya">
+<section class="restaurant-section" id="leb-i-derya" data-map-name="8. Leb-i Derya" data-map-cta-url="https://maps.google.com/?cid=13206774080956425336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Leb-i Derya, İstiklal Caddesi, Beyoğlu, Istanbul, TR" data-map-lat="41.0287554" data-map-lng="28.976317200000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Leb-i Derya</h2>
         <span class="cuisine-tag tag-regional">Classic Rooftop</span>
@@ -796,7 +800,7 @@
         <strong>tabiji verdict:</strong> A rooftop that Istanbul residents actually go to — which tells you more than any review. The food is consistently good (not experimental, just well-executed Turkish-Med), the cocktails are strong, and the terrace has that effortlessly cool Istanbul energy.
     </div>
 </section>
-<section class="restaurant-section" id="eleos">
+<section class="restaurant-section" id="eleos" data-map-name="9. Eleos Beyoğlu" data-map-cta-url="https://maps.google.com/?cid=17308503836487158956&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Eleos Beyoğlu, İstiklal Caddesi, Beyoğlu, Istanbul, TR" data-map-lat="41.029395199999996" data-map-lng="28.975391700000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Eleos Beyoğlu</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -829,7 +833,7 @@
         <strong>tabiji verdict:</strong> The &quot;hard to find&quot; factor is a feature, not a bug. While tourists pack the obvious rooftops, Eleos quietly serves some of the best seafood mezze in Beyoğlu with views to match. Ask for the terrace table and order the calamari.
     </div>
 </section>
-<section class="restaurant-section" id="golden-horn">
+<section class="restaurant-section" id="golden-horn" data-map-name="10. Golden Horn Terrace" data-map-cta-url="https://maps.google.com/?cid=15745171483427636650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Golden Horn Terrace, Hotel rooftop, Sultanahmet area, Istanbul, TR" data-map-lat="41.0072391" data-map-lng="28.973790299999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Golden Horn Terrace</h2>
         <span class="cuisine-tag tag-regional">Panoramic View</span>
@@ -866,7 +870,7 @@
         <strong>tabiji verdict:</strong> When two separate Redditors call a hotel rooftop restaurant their &quot;favorite place in Istanbul&quot; and specifically praise the food — not just the view — that&#39;s worth paying attention to. A strong pick if you&#39;re staying in or near Sultanahmet.
     </div>
 </section>
-<section class="restaurant-section" id="beatrice">
+<section class="restaurant-section" id="beatrice" data-map-name="11. Beatrice at Adahan Decamondo" data-map-cta-url="https://maps.google.com/?cid=8029495491001115912&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Beatrice at Adahan Decamondo, Adahan Decamondo Hotel, Beyoğlu/Pera, Istanbul, TR" data-map-lat="41.029123999999996" data-map-lng="28.973268">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Beatrice at Adahan Decamondo</h2>
         <span class="cuisine-tag tag-regional">Boutique Hidden Gem</span>
@@ -899,7 +903,7 @@
         <strong>tabiji verdict:</strong> The kind of place you&#39;d never find on your own — a boutique hotel rooftop in Pera that&#39;s more about atmosphere and food than spectacle. The Baklava Cheesecake alone might be worth the trip. An excellent pick for couples or food-curious travelers.
     </div>
 </section>
-<section class="restaurant-section" id="klein-garten">
+<section class="restaurant-section" id="klein-garten" data-map-name="12. Klein Garten" data-map-cta-url="https://maps.google.com/?cid=16871052033402199787&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Klein Garten, Beyoğlu, Istanbul, TR" data-map-lat="41.031703" data-map-lng="28.974966">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Klein Garten</h2>
         <span class="cuisine-tag tag-regional">Popular &amp; Social</span>
@@ -928,7 +932,7 @@
         <strong>tabiji verdict:</strong> If you want to experience Istanbul&#39;s rooftop scene the way young locals do — buzzy, social, good drinks — Klein Garten is your spot. More bar-with-food than restaurant-with-bar, but that&#39;s exactly what some nights call for.
     </div>
 </section>
-<section class="restaurant-section" id="aga-kapisi">
+<section class="restaurant-section" id="aga-kapisi" data-map-name="13. Ağa Kapısı" data-map-cta-url="https://maps.google.com/?cid=17691998295553289245&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ağa Kapısı, Near Süleymaniye Mosque, Fatih, Istanbul, TR" data-map-lat="41.017434" data-map-lng="28.964571999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Ağa Kapısı</h2>
         <span class="cuisine-tag tag-regional">Ultra Budget</span>
@@ -965,7 +969,7 @@
         <strong>tabiji verdict:</strong> The most honest entry on this list. No pretension, no cocktail menu, no dress code — just an epic panoramic view, a glass of Ottoman şerbet, and a few lira off your wallet. When an Istanbul local says &quot;I came here to push Ağa Kapısı,&quot; you listen. The best rooftop experience in Istanbul might cost less than a cappuccino.
     </div>
 </section>
-<section class="restaurant-section" id="terrace-41">
+<section class="restaurant-section" id="terrace-41" data-map-name="14. Terrace 41" data-map-cta-url="https://maps.google.com/?cid=4540618039925832491&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Terrace 41, Istanbul (Beyoğlu area), Istanbul, TR" data-map-lat="41.033342" data-map-lng="28.980867099999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Terrace 41</h2>
         <span class="cuisine-tag tag-regional">Garden Rooftop</span>
@@ -990,7 +994,7 @@
         <strong>tabiji verdict:</strong> For travelers who want the rooftop experience but not the rooftop intensity. The greenery creates a garden atmosphere that softens the urban edge. A good pick for a leisurely afternoon that doesn&#39;t need to impress anyone.
     </div>
 </section>
-<section class="restaurant-section" id="sunset-grill">
+<section class="restaurant-section" id="sunset-grill" data-map-name="15. Sunset Grill &amp; Bar" data-map-cta-url="https://maps.google.com/?cid=4901295934192005262&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sunset Grill &amp; Bar, Ulus, above Ortaköy, Istanbul, TR" data-map-lat="41.0639906" data-map-lng="29.0331258">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Sunset Grill &amp; Bar</h2>
         <span class="cuisine-tag tag-regional">Luxury Hilltop</span>
@@ -1041,9 +1045,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Rooftop Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Restaurants%20in%20Istanbul%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Mikla</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1065,7 +1070,7 @@
       <li>
         <a href="#rooftail">6. Rooftail Galata</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Restaurants%20in%20Istanbul%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9559446162359508734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1076,5 +1081,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Rooftop Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Rooftop%20Restaurants%20in%20Istanbul%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"mikla","rank":1,"name":"Mikla","label":"1. Mikla","lat":41.0310369,"lng":28.9741962,"ctaUrl":"https://maps.google.com/?cid=9559446162359508734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mikla, Marmara Pera Hotel rooftop, Beyoğlu, Istanbul, TR"},{"anchorId":"seven-hills","rank":2,"name":"Seven Hills Restaurant","label":"2. Seven Hills Restaurant","lat":41.0063995,"lng":28.979704299999998,"ctaUrl":"https://maps.google.com/?cid=15231512255602351114&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Seven Hills Restaurant, Sultanahmet, between Blue Mosque & Hagia Sophia, Istanbul, TR"},{"anchorId":"neolokal","rank":3,"name":"Neolokal","label":"3. Neolokal","lat":41.0238362,"lng":28.9734027,"ctaUrl":"https://maps.google.com/?cid=14731075723973632860&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Neolokal, Salt Galata building rooftop, Karaköy, Istanbul, TR"},{"anchorId":"360-istanbul","rank":4,"name":"360 Istanbul","label":"4. 360 Istanbul","lat":41.0326567,"lng":28.976666,"ctaUrl":"https://maps.google.com/?cid=12671948076327042192&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"360 Istanbul, İstiklal Caddesi, Beyoğlu, Istanbul, TR"},{"anchorId":"balkon","rank":5,"name":"Balkon","label":"5. Balkon","lat":41.029807999999996,"lng":28.9739337,"ctaUrl":"https://maps.google.com/?cid=18188253660137769903&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Balkon, Asmalı Mescit, near Şişhane, Istanbul, TR"},{"anchorId":"rooftail","rank":6,"name":"Rooftail Galata","label":"6. Rooftail Galata","lat":41.025940399999996,"lng":28.979288699999998,"ctaUrl":"https://maps.google.com/?cid=13620568592288996576&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rooftail Galata, Galata, Beyoğlu, Istanbul, TR"},{"anchorId":"16-roof","rank":7,"name":"16 Roof","label":"7. 16 Roof","lat":41.040425,"lng":28.997314700000004,"ctaUrl":"https://maps.google.com/?cid=7009383196351359074&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"16 Roof, Beyoğlu, Istanbul, TR"},{"anchorId":"leb-i-derya","rank":8,"name":"Leb-i Derya","label":"8. Leb-i Derya","lat":41.0287554,"lng":28.976317200000004,"ctaUrl":"https://maps.google.com/?cid=13206774080956425336&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Leb-i Derya, İstiklal Caddesi, Beyoğlu, Istanbul, TR"},{"anchorId":"eleos","rank":9,"name":"Eleos Beyoğlu","label":"9. Eleos Beyoğlu","lat":41.029395199999996,"lng":28.975391700000003,"ctaUrl":"https://maps.google.com/?cid=17308503836487158956&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Eleos Beyoğlu, İstiklal Caddesi, Beyoğlu, Istanbul, TR"},{"anchorId":"golden-horn","rank":10,"name":"Golden Horn Terrace","label":"10. Golden Horn Terrace","lat":41.0072391,"lng":28.973790299999997,"ctaUrl":"https://maps.google.com/?cid=15745171483427636650&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Golden Horn Terrace, Hotel rooftop, Sultanahmet area, Istanbul, TR"},{"anchorId":"beatrice","rank":11,"name":"Beatrice at Adahan Decamondo","label":"11. Beatrice at Adahan Decamondo","lat":41.029123999999996,"lng":28.973268,"ctaUrl":"https://maps.google.com/?cid=8029495491001115912&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Beatrice at Adahan Decamondo, Adahan Decamondo Hotel, Beyoğlu/Pera, Istanbul, TR"},{"anchorId":"klein-garten","rank":12,"name":"Klein Garten","label":"12. Klein Garten","lat":41.031703,"lng":28.974966,"ctaUrl":"https://maps.google.com/?cid=16871052033402199787&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Klein Garten, Beyoğlu, Istanbul, TR"},{"anchorId":"aga-kapisi","rank":13,"name":"Ağa Kapısı","label":"13. Ağa Kapısı","lat":41.017434,"lng":28.964571999999997,"ctaUrl":"https://maps.google.com/?cid=17691998295553289245&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ağa Kapısı, Near Süleymaniye Mosque, Fatih, Istanbul, TR"},{"anchorId":"terrace-41","rank":14,"name":"Terrace 41","label":"14. Terrace 41","lat":41.033342,"lng":28.980867099999994,"ctaUrl":"https://maps.google.com/?cid=4540618039925832491&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Terrace 41, Istanbul (Beyoğlu area), Istanbul, TR"},{"anchorId":"sunset-grill","rank":15,"name":"Sunset Grill & Bar","label":"15. Sunset Grill & Bar","lat":41.0639906,"lng":29.0331258,"ctaUrl":"https://maps.google.com/?cid=4901295934192005262&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sunset Grill & Bar, Ulus, above Ortaköy, Istanbul, TR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

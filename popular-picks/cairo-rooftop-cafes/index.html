@@ -328,11 +328,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -357,9 +352,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -384,16 +382,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},{"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},{"@type":"ListItem","position":3,"name":"Best Rooftop Cafes in Cairo","item":"https://tabiji.ai/popular-picks/cairo-rooftop-cafes/"}]}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -436,13 +430,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Cairo&#39;s rooftop cafes offer experiences ranging from EGP 50 to 2,000 per person, with 9 Pyramids Lounge being a top recommendation for its stunning views. These rooftops provide a unique perspective on the city, whether you&#39;re seeking budget-friendly options or luxurious terraces.</strong></p>
-        <p>Cairo&#39;s rooftop cafes, ranging from EGP 50 to 2,000 per person, offer a diverse experience, with 9 Pyramids Lounge being a top recommendation for its stunning views. Whether you&#39;re seeking budget-friendly options or luxurious terraces, Cairo&#39;s rooftop scene provides a unique perspective on this vibrant city.</p><p>Cairo wasn&#39;t built for subtlety. It&#39;s a city of 22 million people, endless honking, ancient pyramids visible from Pizza Hut, and minarets echoing the call to prayer across a skyline that stretches to the horizon. The best way to take it all in? Get above it.</p><p>Cairo&#39;s rooftop scene ranges from five-star hotel terraces overlooking the Nile to scrappy downtown walkups where a Turkish coffee costs less than a dollar and the views are worth millions. We combed through hundreds of Reddit posts from r/Egypt, r/CAIRO, r/travel, and r/solotravel to find the rooftops that residents, expats, and experienced travelers actually recommend.</p>
+        <p>Cairo wasn&#39;t built for subtlety. It&#39;s a city of 22 million people, endless honking, ancient pyramids visible from Pizza Hut, and minarets echoing the call to prayer across a skyline that stretches to the horizon. The best way to take it all in? Get above it.</p><p>Cairo&#39;s rooftop scene ranges from five-star hotel terraces overlooking the Nile to scrappy downtown walkups where a Turkish coffee costs less than a dollar and the views are worth millions. We combed through hundreds of Reddit posts from r/Egypt, r/CAIRO, r/travel, and r/solotravel to find the rooftops that residents, expats, and experienced travelers actually recommend.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Rooftop Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cairo%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Cairo Tower Restaurant (برج القاهرة)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -453,7 +448,7 @@
         <a href="#nine-pyramids-lounge">2. 9 Pyramids Lounge</a>
       </li>
       <li>
-        <a href="#crimson">3. Crimson Bar &amp; Grill</a>
+        <a href="#crimson">3. Crimson Bar & Grill</a>
       </li>
       <li>
         <a href="#kempinski-rooftop">4. The RoofTop at Kempinski Nile Hotel</a>
@@ -464,7 +459,7 @@
       <li>
         <a href="#fairmont-sky-pool">6. Fairmont Nile City — Sky Pool</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cairo%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17648218829760861860&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -476,7 +471,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="cairo-tower">
+<section class="restaurant-section" id="cairo-tower" data-map-name="1. Cairo Tower Restaurant (برج القاهرة)" data-map-cta-url="https://maps.google.com/?cid=17648218829760861860&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cairo Tower Restaurant (برج القاهرة), Zamalek, Gezira Island, Cairo, EG" data-map-lat="30.0459316" data-map-lng="31.224301899999993">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Cairo Tower Restaurant (برج القاهرة)</h2>
         <span class="cuisine-tag tag-regional">Landmark</span>
@@ -506,7 +501,7 @@
         <strong>tabiji verdict:</strong> Cairo&#39;s most iconic elevated viewpoint, period. The food is mediocre and overpriced — everyone on Reddit agrees — but the 360° revolving panorama is genuinely breathtaking. Come for sunset, order the cheapest thing on the menu, and soak it in. The entry fee doubles as food credit, which softens the blow.
     </div>
 </section>
-<section class="restaurant-section" id="nine-pyramids-lounge">
+<section class="restaurant-section" id="nine-pyramids-lounge" data-map-name="2. 9 Pyramids Lounge" data-map-cta-url="https://maps.google.com/?cid=6023485540628994221&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="9 Pyramids Lounge, Giza, near the Pyramids, Cairo, EG" data-map-lat="29.9677783" data-map-lng="31.1319209">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>9 Pyramids Lounge</h2>
         <span class="cuisine-tag tag-regional">Pyramid View</span>
@@ -544,7 +539,7 @@
         <strong>tabiji verdict:</strong> The &quot;pinch me, is this real?&quot; rooftop. You&#39;re literally sipping coffee with the Great Pyramids filling your entire field of vision. Friday and Saturday nights during the Sound &amp; Light Show are pure magic. It&#39;s touristy, yes, but some things are popular for a reason.
     </div>
 </section>
-<section class="restaurant-section" id="crimson">
+<section class="restaurant-section" id="crimson" data-map-name="3. Crimson Bar &amp; Grill" data-map-cta-url="https://maps.google.com/?cid=1132265426548463568&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Crimson Bar &amp; Grill, Zamalek, Cairo, EG" data-map-lat="30.0707225" data-map-lng="31.222342899999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Crimson Bar &amp; Grill</h2>
         <span class="cuisine-tag tag-regional">Nile View</span>
@@ -582,7 +577,7 @@
         <strong>tabiji verdict:</strong> Zamalek&#39;s most polished rooftop lounge. The Nile views from the terrace are stunning, the cocktails are well-crafted, and the atmosphere strikes the right balance between sophisticated and relaxed. One of the few Cairo rooftops where you can actually get a proper drink. Not cheap, but you&#39;re paying for the full package.
     </div>
 </section>
-<section class="restaurant-section" id="kempinski-rooftop">
+<section class="restaurant-section" id="kempinski-rooftop" data-map-name="4. The RoofTop at Kempinski Nile Hotel" data-map-cta-url="https://maps.google.com/?cid=6471557006648838520&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The RoofTop at Kempinski Nile Hotel, Garden City, Cairo, EG" data-map-lat="30.038680399999997" data-map-lng="31.2305878">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>The RoofTop at Kempinski Nile Hotel</h2>
         <span class="cuisine-tag tag-regional">Hotel Rooftop</span>
@@ -620,7 +615,7 @@
         <strong>tabiji verdict:</strong> The luxury pick. Eleven floors above the Nile with a gorgeous pool, proper cocktails, and five-star service. The views over the river and Cairo&#39;s skyline are superb at sunset. Yes, it&#39;s pricey — but open to non-guests, which is the real pro tip.
     </div>
 </section>
-<section class="restaurant-section" id="topkapii">
+<section class="restaurant-section" id="topkapii" data-map-name="5. Topkapii Rooftop" data-map-cta-url="https://maps.google.com/?cid=17726083963784160451&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Topkapii Rooftop, Downtown Cairo, Cairo, EG" data-map-lat="30.0502464" data-map-lng="31.2392767">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Topkapii Rooftop</h2>
         <span class="cuisine-tag tag-regional">Downtown</span>
@@ -654,7 +649,7 @@
         <strong>tabiji verdict:</strong> Downtown Cairo&#39;s best-kept elevated secret. No minimum charge means students, artists, and budget travelers can enjoy 12-story views for the price of a coffee. Two floors with totally different vibes — calm white downstairs, colorful and photogenic upstairs. The kind of place you come back to every day.
     </div>
 </section>
-<section class="restaurant-section" id="fairmont-sky-pool">
+<section class="restaurant-section" id="fairmont-sky-pool" data-map-name="6. Fairmont Nile City — Sky Pool" data-map-cta-url="https://maps.google.com/?cid=4575098262885493500&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fairmont Nile City — Sky Pool, Ramlet Boulaq, Cairo, EG" data-map-lat="30.071790099999994" data-map-lng="31.2277359">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Fairmont Nile City — Sky Pool</h2>
         <span class="cuisine-tag tag-regional">Hotel Rooftop</span>
@@ -680,7 +675,7 @@
         <strong>tabiji verdict:</strong> Cairo&#39;s highest hotel rooftop experience. The 25th-floor Sky Pool is jaw-dropping — you can see the pyramids on a clear day from 25 stories up. The dual concept (pool bar above, oriental restaurant below) means you can make an entire evening of it. The most expensive option on this list, but also the most dramatic.
     </div>
 </section>
-<section class="restaurant-section" id="estro">
+<section class="restaurant-section" id="estro" data-map-name="7. Estro — A Sicilian Rooftop" data-map-cta-url="https://maps.google.com/?cid=10535311889514094880&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Estro — A Sicilian Rooftop, Maadi, Cairo, EG" data-map-lat="29.9582676" data-map-lng="31.269208499999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Estro — A Sicilian Rooftop</h2>
         <span class="cuisine-tag tag-regional">Lounge</span>
@@ -714,7 +709,7 @@
         <strong>tabiji verdict:</strong> Cairo&#39;s most unexpected rooftop — a genuine Sicilian restaurant nine floors above Maadi. The food is actually good (not &quot;good for Cairo&quot; — genuinely good Italian). The little bar corner for Aperitivo before dinner is a nice touch. Maadi is quieter and more expat-friendly than downtown.
     </div>
 </section>
-<section class="restaurant-section" id="best-view-pyramids">
+<section class="restaurant-section" id="best-view-pyramids" data-map-name="8. Best View Pyramids Hotel" data-map-cta-url="https://maps.google.com/?cid=16710962646331449306&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Best View Pyramids Hotel, Giza, Pyramids area, Cairo, EG" data-map-lat="29.973594499999994" data-map-lng="31.1419799">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Best View Pyramids Hotel</h2>
         <span class="cuisine-tag tag-regional">Pyramid View</span>
@@ -740,7 +735,7 @@
         <strong>tabiji verdict:</strong> The name is not false advertising. The rooftop view is arguably the best unobstructed pyramid panorama you can get from a cafe. More affordable than 9 Pyramids Lounge, with a similar wow factor. No need to be a hotel guest — just walk up.
     </div>
 </section>
-<section class="restaurant-section" id="kemet-rooftop">
+<section class="restaurant-section" id="kemet-rooftop" data-map-name="9. Kemet Rooftop" data-map-cta-url="https://maps.google.com/?cid=14690568382488835370&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kemet Rooftop, Sherif Street, Downtown, Cairo, EG" data-map-lat="30.0500559" data-map-lng="31.242069700000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Kemet Rooftop</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -774,7 +769,7 @@
         <strong>tabiji verdict:</strong> The art-kid favorite. Super affordable, packed with character, and on one of downtown&#39;s most charming streets. No minimum charge, no pretension — just Cairo&#39;s young creative class reading, studying, and dreaming on a rooftop.
     </div>
 </section>
-<section class="restaurant-section" id="carlton-roof-garden">
+<section class="restaurant-section" id="carlton-roof-garden" data-map-name="10. Carlton Roof Garden" data-map-cta-url="https://maps.google.com/?cid=13567826128159312003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Carlton Roof Garden, Downtown Cairo, Cairo, EG" data-map-lat="30.0531426" data-map-lng="31.2407925">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Carlton Roof Garden</h2>
         <span class="cuisine-tag tag-regional">Downtown</span>
@@ -812,7 +807,7 @@
         <strong>tabiji verdict:</strong> A dive-bar-on-a-rooftop in the best possible way. No fancy cocktails, no Instagram lighting — just a classic Cairo hotel roof where locals and in-the-know travelers have been hanging out for decades. The views of downtown&#39;s crumbling Art Deco buildings are genuinely beautiful.
     </div>
 </section>
-<section class="restaurant-section" id="mazeeg-balad">
+<section class="restaurant-section" id="mazeeg-balad" data-map-name="11. Mazeeg Balad (مزيچ بلد)" data-map-cta-url="https://maps.google.com/?cid=2538065947144145795&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mazeeg Balad (مزيچ بلد), Champollion Street, Downtown, Cairo, EG" data-map-lat="30.048132999999996" data-map-lng="31.2365003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Mazeeg Balad (مزيچ بلد)</h2>
         <span class="cuisine-tag tag-regional">Upscale</span>
@@ -838,7 +833,7 @@
         <strong>tabiji verdict:</strong> Downtown&#39;s date-night rooftop. Champollion Street is one of Cairo&#39;s most atmospheric blocks — historic buildings and city lights sparkling below. A step up from the budget downtown spots without hotel-rooftop prices. The sweet spot between atmosphere and affordability.
     </div>
 </section>
-<section class="restaurant-section" id="three-roof">
+<section class="restaurant-section" id="three-roof" data-map-name="12. 3roof (عروف)" data-map-cta-url="https://maps.google.com/?cid=9496568928132798238&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="3roof (عروف), Downtown Cairo, Cairo, EG" data-map-lat="30.0545774" data-map-lng="31.242422">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>3roof (عروف)</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -890,9 +885,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Rooftop Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cairo%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Cairo Tower Restaurant (برج القاهرة)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -903,7 +899,7 @@
         <a href="#nine-pyramids-lounge">2. 9 Pyramids Lounge</a>
       </li>
       <li>
-        <a href="#crimson">3. Crimson Bar &amp; Grill</a>
+        <a href="#crimson">3. Crimson Bar & Grill</a>
       </li>
       <li>
         <a href="#kempinski-rooftop">4. The RoofTop at Kempinski Nile Hotel</a>
@@ -914,7 +910,7 @@
       <li>
         <a href="#fairmont-sky-pool">6. Fairmont Nile City — Sky Pool</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cairo%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17648218829760861860&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -925,5 +921,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Rooftop Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Rooftop%20Cafes%20in%20Cairo","picks":[{"anchorId":"cairo-tower","rank":1,"name":"Cairo Tower Restaurant (برج القاهرة)","label":"1. Cairo Tower Restaurant (برج القاهرة)","lat":30.0459316,"lng":31.224301899999993,"ctaUrl":"https://maps.google.com/?cid=17648218829760861860&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cairo Tower Restaurant (برج القاهرة), Zamalek, Gezira Island, Cairo, EG"},{"anchorId":"nine-pyramids-lounge","rank":2,"name":"9 Pyramids Lounge","label":"2. 9 Pyramids Lounge","lat":29.9677783,"lng":31.1319209,"ctaUrl":"https://maps.google.com/?cid=6023485540628994221&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"9 Pyramids Lounge, Giza, near the Pyramids, Cairo, EG"},{"anchorId":"crimson","rank":3,"name":"Crimson Bar & Grill","label":"3. Crimson Bar & Grill","lat":30.0707225,"lng":31.222342899999997,"ctaUrl":"https://maps.google.com/?cid=1132265426548463568&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Crimson Bar & Grill, Zamalek, Cairo, EG"},{"anchorId":"kempinski-rooftop","rank":4,"name":"The RoofTop at Kempinski Nile Hotel","label":"4. The RoofTop at Kempinski Nile Hotel","lat":30.038680399999997,"lng":31.2305878,"ctaUrl":"https://maps.google.com/?cid=6471557006648838520&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The RoofTop at Kempinski Nile Hotel, Garden City, Cairo, EG"},{"anchorId":"topkapii","rank":5,"name":"Topkapii Rooftop","label":"5. Topkapii Rooftop","lat":30.0502464,"lng":31.2392767,"ctaUrl":"https://maps.google.com/?cid=17726083963784160451&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Topkapii Rooftop, Downtown Cairo, Cairo, EG"},{"anchorId":"fairmont-sky-pool","rank":6,"name":"Fairmont Nile City — Sky Pool","label":"6. Fairmont Nile City — Sky Pool","lat":30.071790099999994,"lng":31.2277359,"ctaUrl":"https://maps.google.com/?cid=4575098262885493500&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fairmont Nile City — Sky Pool, Ramlet Boulaq, Cairo, EG"},{"anchorId":"estro","rank":7,"name":"Estro — A Sicilian Rooftop","label":"7. Estro — A Sicilian Rooftop","lat":29.9582676,"lng":31.269208499999994,"ctaUrl":"https://maps.google.com/?cid=10535311889514094880&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Estro — A Sicilian Rooftop, Maadi, Cairo, EG"},{"anchorId":"best-view-pyramids","rank":8,"name":"Best View Pyramids Hotel","label":"8. Best View Pyramids Hotel","lat":29.973594499999994,"lng":31.1419799,"ctaUrl":"https://maps.google.com/?cid=16710962646331449306&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Best View Pyramids Hotel, Giza, Pyramids area, Cairo, EG"},{"anchorId":"kemet-rooftop","rank":9,"name":"Kemet Rooftop","label":"9. Kemet Rooftop","lat":30.0500559,"lng":31.242069700000002,"ctaUrl":"https://maps.google.com/?cid=14690568382488835370&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kemet Rooftop, Sherif Street, Downtown, Cairo, EG"},{"anchorId":"carlton-roof-garden","rank":10,"name":"Carlton Roof Garden","label":"10. Carlton Roof Garden","lat":30.0531426,"lng":31.2407925,"ctaUrl":"https://maps.google.com/?cid=13567826128159312003&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Carlton Roof Garden, Downtown Cairo, Cairo, EG"},{"anchorId":"mazeeg-balad","rank":11,"name":"Mazeeg Balad (مزيچ بلد)","label":"11. Mazeeg Balad (مزيچ بلد)","lat":30.048132999999996,"lng":31.2365003,"ctaUrl":"https://maps.google.com/?cid=2538065947144145795&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mazeeg Balad (مزيچ بلد), Champollion Street, Downtown, Cairo, EG"},{"anchorId":"three-roof","rank":12,"name":"3roof (عروف)","label":"12. 3roof (عروف)","lat":30.0545774,"lng":31.242422,"ctaUrl":"https://maps.google.com/?cid=9496568928132798238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"3roof (عروف), Downtown Cairo, Cairo, EG"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

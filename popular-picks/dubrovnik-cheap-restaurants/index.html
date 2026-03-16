@@ -328,9 +328,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -355,7 +358,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -407,9 +410,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Restaurants%20in%20Dubrovnik&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pantarul</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -431,7 +435,7 @@
       <li>
         <a href="#lucin-kantun">6. Lucin Kantun</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Dubrovnik" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14383491666595164788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -443,7 +447,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="pantarul">
+<section class="restaurant-section" id="pantarul" data-map-name="1. Pantarul" data-map-cta-url="https://maps.google.com/?cid=14383491666595164788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pantarul, Lapad Peninsula, Dubrovnik, HR" data-map-lat="42.654306899999995" data-map-lng="18.077546899999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Pantarul</h2>
         <span class="cuisine-tag tag-regional">Modern Croatian</span>
@@ -481,7 +485,7 @@
         <strong>tabiji verdict:</strong> The single most recommended restaurant in Dubrovnik across all of Reddit. Not technically &quot;cheap&quot; by global standards, but for Dubrovnik it&#39;s a revelation — genuinely excellent modern Croatian cooking at prices 30–40% below comparable Old Town restaurants. The Lapad location means fewer tourists and more locals. Reserve ahead, especially in summer.
     </div>
 </section>
-<section class="restaurant-section" id="taj-mahal">
+<section class="restaurant-section" id="taj-mahal" data-map-name="2. Taj Mahal" data-map-cta-url="https://maps.google.com/?cid=6752237764530247183&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taj Mahal, Old Town (Nikole Gučetića), Dubrovnik, HR" data-map-lat="42.6404375" data-map-lng="18.108831">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Taj Mahal</h2>
         <span class="cuisine-tag tag-regional">Bosnian Cuisine</span>
@@ -519,7 +523,7 @@
         <strong>tabiji verdict:</strong> Despite the confusing name (it&#39;s Bosnian, not Indian), this is one of the best values inside Old Town. While most Old Town restaurants serve mediocre overpriced seafood, Taj Mahal stands out by doing something different — hearty Bosnian cuisine with generous portions. Redditors who visited twice in a single trip says everything you need to know.
     </div>
 </section>
-<section class="restaurant-section" id="barba">
+<section class="restaurant-section" id="barba" data-map-name="3. Barba" data-map-cta-url="https://maps.google.com/?cid=2659369241486943142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Barba, Old Town (Boškovićeva), Dubrovnik, HR" data-map-lat="42.64146890000001" data-map-lng="18.109923600000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Barba</h2>
         <span class="cuisine-tag tag-regional">Seafood Street Food</span>
@@ -557,7 +561,7 @@
         <strong>tabiji verdict:</strong> The best quick bite in Old Town, period. No table service, no frills, just excellent seafood wraps and burgers at prices that are genuinely reasonable by Dubrovnik standards. The octopus burger has become something of a legend among backpackers. Expect a queue in peak season — it&#39;s worth the wait.
     </div>
 </section>
-<section class="restaurant-section" id="konoba-dubrava">
+<section class="restaurant-section" id="konoba-dubrava" data-map-name="4. Konoba Dubrava" data-map-cta-url="https://maps.google.com/?cid=2988334142558415185&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Konoba Dubrava, Brgat (hillside above Dubrovnik), Dubrovnik, HR" data-map-lat="42.642953299999995" data-map-lng="18.1291097">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Konoba Dubrava</h2>
         <span class="cuisine-tag tag-regional">Traditional Croatian / Peka</span>
@@ -595,7 +599,7 @@
         <strong>tabiji verdict:</strong> The peka experience you came to Croatia for. Yes, you need a car or taxi to reach Brgat (15 minutes uphill from Old Town), and yes, you need to call ahead. But the payoff — tender meat slow-roasted in a centuries-old tradition, served in a rustic hillside konoba with views — is one of Dubrovnik&#39;s great culinary moments. The &quot;donuts&quot; (uštipci) and local cheese appetizers are also legendary.
     </div>
 </section>
-<section class="restaurant-section" id="nishta">
+<section class="restaurant-section" id="nishta" data-map-name="5. Nishta" data-map-cta-url="https://maps.google.com/?cid=12168340350567533483&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nishta, Old Town (Prijeko), Dubrovnik, HR" data-map-lat="42.6418612" data-map-lng="18.108661299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Nishta</h2>
         <span class="cuisine-tag tag-regional">Vegan / Vegetarian</span>
@@ -621,7 +625,7 @@
         <strong>tabiji verdict:</strong> A genuine lifesaver for vegetarians and vegans navigating Croatia&#39;s meat-and-fish-heavy cuisine — but honestly, even carnivores should consider it for the value alone. At half the price of surrounding Old Town restaurants, the creative plant-based dishes are a breath of fresh air. Small space, so arrive early or expect to wait.
     </div>
 </section>
-<section class="restaurant-section" id="lucin-kantun">
+<section class="restaurant-section" id="lucin-kantun" data-map-name="6. Lucin Kantun" data-map-cta-url="https://maps.google.com/?cid=16515567384751692138&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lucin Kantun, Old Town, Dubrovnik, HR" data-map-lat="42.641764699999996" data-map-lng="18.108383099999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Lucin Kantun</h2>
         <span class="cuisine-tag tag-regional">Croatian Seafood</span>
@@ -663,7 +667,7 @@
         <strong>tabiji verdict:</strong> One of the few Old Town restaurants that consistently earns its price tag. The black risotto is genuinely world-class, and the intimate setting in a quiet corner of Old Town makes it feel like a local secret (even though it isn&#39;t anymore). Book ahead in peak season — this is the romantic dinner spot in Dubrovnik.
     </div>
 </section>
-<section class="restaurant-section" id="dalmatino">
+<section class="restaurant-section" id="dalmatino" data-map-name="7. Dalmatino" data-map-cta-url="https://maps.google.com/?cid=11078005523655198959&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dalmatino, Old Town (Miha Pracata), Dubrovnik, HR" data-map-lat="42.6416882" data-map-lng="18.109606799999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Dalmatino</h2>
         <span class="cuisine-tag tag-regional">Dalmatian Cuisine</span>
@@ -697,7 +701,7 @@
         <strong>tabiji verdict:</strong> Dalmatino punches above its weight in Old Town. While it&#39;s not the cheapest option, the consistent quality and fair-for-Dubrovnik pricing make it a reliable choice. Redditors specifically praise the &quot;price to quality ratio&quot; — which, in a city where those two things rarely align, is high praise indeed.
     </div>
 </section>
-<section class="restaurant-section" id="sandwich-bar-pile">
+<section class="restaurant-section" id="sandwich-bar-pile" data-map-name="8. Sandwich Bar Pile" data-map-cta-url="https://maps.google.com/?cid=8909309147692302008&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sandwich Bar Pile, Just outside Pile Gate, Dubrovnik, HR" data-map-lat="42.6424576" data-map-lng="18.104593500000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Sandwich Bar Pile</h2>
         <span class="cuisine-tag tag-regional">Budget Sandwiches</span>
@@ -735,7 +739,7 @@
         <strong>tabiji verdict:</strong> The ultimate budget hack in Dubrovnik. When every other restaurant near the walls charges €15+ for a forgettable salad, this unassuming takeaway window sells loaded sandwiches for the price of a bottle of water inside Old Town. Not glamorous, not Instagram-worthy — just genuinely good fuel for a day of exploring. Every budget traveler in Dubrovnik should know about this place.
     </div>
 </section>
-<section class="restaurant-section" id="tabasco-pizzeria">
+<section class="restaurant-section" id="tabasco-pizzeria" data-map-name="9. Tabasco Pizzeria" data-map-cta-url="https://maps.google.com/?cid=3432115226469041817&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tabasco Pizzeria, Ploče (near Old Town), Dubrovnik, HR" data-map-lat="42.6427703" data-map-lng="18.111517799999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Tabasco Pizzeria</h2>
         <span class="cuisine-tag tag-regional">Pizza</span>
@@ -773,7 +777,7 @@
         <strong>tabiji verdict:</strong> No-frills pizza at Dubrovnik&#39;s lowest restaurant prices. The jumbo pizzas for two are legitimately the best deal in the Ploče area. Just east of Old Town, it&#39;s close enough to walk to after sightseeing but far enough to escape the tourist markup. Not the best pizza of your life, but easily the best value.
     </div>
 </section>
-<section class="restaurant-section" id="kopun">
+<section class="restaurant-section" id="kopun" data-map-name="10. Kopun" data-map-cta-url="https://maps.google.com/?cid=11364174436243554028&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kopun, Old Town (Poljana Ruđera Boškovića), Dubrovnik, HR" data-map-lat="42.6394792" data-map-lng="18.1095462">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Kopun</h2>
         <span class="cuisine-tag tag-regional">Historical Dubrovnik Cuisine</span>
@@ -822,9 +826,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Restaurants%20in%20Dubrovnik&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pantarul</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -846,7 +851,7 @@
       <li>
         <a href="#lucin-kantun">6. Lucin Kantun</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Dubrovnik" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14383491666595164788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -857,5 +862,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Dubrovnik","picks":[{"anchorId":"pantarul","rank":1,"name":"Pantarul","label":"1. Pantarul","lat":42.654306899999995,"lng":18.077546899999998,"ctaUrl":"https://maps.google.com/?cid=14383491666595164788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pantarul, Lapad Peninsula, Dubrovnik, HR"},{"anchorId":"taj-mahal","rank":2,"name":"Taj Mahal","label":"2. Taj Mahal","lat":42.6404375,"lng":18.108831,"ctaUrl":"https://maps.google.com/?cid=6752237764530247183&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taj Mahal, Old Town (Nikole Gučetića), Dubrovnik, HR"},{"anchorId":"barba","rank":3,"name":"Barba","label":"3. Barba","lat":42.64146890000001,"lng":18.109923600000002,"ctaUrl":"https://maps.google.com/?cid=2659369241486943142&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Barba, Old Town (Boškovićeva), Dubrovnik, HR"},{"anchorId":"konoba-dubrava","rank":4,"name":"Konoba Dubrava","label":"4. Konoba Dubrava","lat":42.642953299999995,"lng":18.1291097,"ctaUrl":"https://maps.google.com/?cid=2988334142558415185&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Konoba Dubrava, Brgat (hillside above Dubrovnik), Dubrovnik, HR"},{"anchorId":"nishta","rank":5,"name":"Nishta","label":"5. Nishta","lat":42.6418612,"lng":18.108661299999998,"ctaUrl":"https://maps.google.com/?cid=12168340350567533483&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nishta, Old Town (Prijeko), Dubrovnik, HR"},{"anchorId":"lucin-kantun","rank":6,"name":"Lucin Kantun","label":"6. Lucin Kantun","lat":42.641764699999996,"lng":18.108383099999998,"ctaUrl":"https://maps.google.com/?cid=16515567384751692138&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lucin Kantun, Old Town, Dubrovnik, HR"},{"anchorId":"dalmatino","rank":7,"name":"Dalmatino","label":"7. Dalmatino","lat":42.6416882,"lng":18.109606799999998,"ctaUrl":"https://maps.google.com/?cid=11078005523655198959&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dalmatino, Old Town (Miha Pracata), Dubrovnik, HR"},{"anchorId":"sandwich-bar-pile","rank":8,"name":"Sandwich Bar Pile","label":"8. Sandwich Bar Pile","lat":42.6424576,"lng":18.104593500000004,"ctaUrl":"https://maps.google.com/?cid=8909309147692302008&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sandwich Bar Pile, Just outside Pile Gate, Dubrovnik, HR"},{"anchorId":"tabasco-pizzeria","rank":9,"name":"Tabasco Pizzeria","label":"9. Tabasco Pizzeria","lat":42.6427703,"lng":18.111517799999998,"ctaUrl":"https://maps.google.com/?cid=3432115226469041817&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tabasco Pizzeria, Ploče (near Old Town), Dubrovnik, HR"},{"anchorId":"kopun","rank":10,"name":"Kopun","label":"10. Kopun","lat":42.6394792,"lng":18.1095462,"ctaUrl":"https://maps.google.com/?cid=11364174436243554028&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kopun, Old Town (Poljana Ruđera Boškovića), Dubrovnik, HR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

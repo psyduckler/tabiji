@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Aplaya the Beach Bar",
-        "servesCuisine": "Beachfront Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 1, White Beach",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Epic Boracay",
-        "servesCuisine": "Beach Party",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 2, D'Mall Beachfront",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Spider House Resort",
-        "servesCuisine": "Cliffside",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Diniwid Beach (past Station 1)",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Exit Bar",
-        "servesCuisine": "Budget-Friendly",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 2, Beachfront",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Hello Sailor",
-        "servesCuisine": "Craft Cocktails",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 1, Beachfront",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "OM Bar",
-        "servesCuisine": "Party Vibes",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 2, Beachfront",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Paraw Beach Club",
-        "servesCuisine": "Relaxed Vibes",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 1, White Beach",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Wave Bar & Lounge",
-        "servesCuisine": "Resort Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Henann Regency, Station 2",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Nigi Nigi Nu Noos",
-        "servesCuisine": "Chill Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 2, White Beach",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Red Pirates Pub",
-        "servesCuisine": "Budget Chill",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Station 3, White Beach",
@@ -225,7 +215,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Pelican Sky Bar",
-        "servesCuisine": "Rooftop",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "The Tides Hotel, Station 2",
@@ -312,11 +301,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -341,9 +325,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -368,24 +355,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {"@type": "ListItem","position": 1,"name": "Home","item": "https://tabiji.ai/"},
-                {"@type": "ListItem","position": 2,"name": "Popular Picks","item": "https://tabiji.ai/popular-picks/"},
-                {"@type": "ListItem","position": 3,"name": "Best Sunset Bars in Boracay","item": "https://tabiji.ai/popular-picks/boracay-sunset-bars/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -428,13 +403,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Boracay&#39;s sunset bars range from ₱100 to ₱600 per drink, with Aplaya the Beach Bar being a top recommendation for its signature cocktails. White Beach&#39;s west-facing location provides a stunning backdrop, and the right bar enhances the experience, offering everything from lively parties to quiet cliffside views.</strong></p>
-        <p>Boracay&#39;s sunset bars offer experiences ranging from budget-friendly beers to craft cocktails, generally costing between ₱100 and ₱600 per drink, with Aplaya the Beach Bar being a top recommendation for its signature cocktails and beachfront beanbags. White Beach&#39;s west-facing location guarantees spectacular sunsets, but the right bar enhances the experience, whether you seek a lively party, a quiet cliffside view, or a panoramic rooftop.</p><p>Boracay&#39;s White Beach faces due west — meaning every evening, the entire 4-kilometer stretch of powdery sand turns into a front-row seat for some of the most spectacular sunsets in Southeast Asia. The sky explodes in oranges, pinks, and purples as traditional paraw sailboats drift across the horizon.</p><p>But where you watch makes all the difference. We analyzed dozens of Reddit posts from r/Philippines, r/boracay, r/travel, and r/solotravel to find the bars where actual travelers and Boracay regulars love to catch golden hour — whether you want a buzzy beach party, a quiet cliffside perch, or a rooftop cocktail with panoramic views.</p>
+        <p>Boracay&#39;s White Beach faces due west — meaning every evening, the entire 4-kilometer stretch of powdery sand turns into a front-row seat for some of the most spectacular sunsets in Southeast Asia. The sky explodes in oranges, pinks, and purples as traditional paraw sailboats drift across the horizon.</p><p>But where you watch makes all the difference. We analyzed dozens of Reddit posts from r/Philippines, r/boracay, r/travel, and r/solotravel to find the bars where actual travelers and Boracay regulars love to catch golden hour — whether you want a buzzy beach party, a quiet cliffside perch, or a rooftop cocktail with panoramic views.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Sunset Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Boracay%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Aplaya the Beach Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Sunset Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -456,7 +432,7 @@
       <li>
         <a href="#om-bar">6. OM Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Boracay%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18035416672816775749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -468,7 +444,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="aplaya">
+<section class="restaurant-section" id="aplaya" data-map-name="1. Aplaya the Beach Bar" data-map-cta-url="https://maps.google.com/?cid=18035416672816775749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Aplaya the Beach Bar, Station 1, White Beach, Boracay, PH" data-map-lat="11.964081" data-map-lng="121.92301939999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Aplaya the Beach Bar</h2>
         <span class="cuisine-tag tag-regional">Beachfront Bar</span>
@@ -506,7 +482,7 @@
         <strong>tabiji verdict:</strong> The Station 1 golden child. Aplaya nails the balance between chill sunset drinks and lively evening energy. The beachfront location at Station 1 means you get the best sunset angle on White Beach. Pricier than average but worth it for the ambiance.
     </div>
 </section>
-<section class="restaurant-section" id="epic">
+<section class="restaurant-section" id="epic" data-map-name="2. Epic Boracay" data-map-cta-url="https://maps.google.com/?cid=8925661095225121382&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Epic Boracay, Station 2, D&#39;Mall Beachfront, Boracay, PH" data-map-lat="11.9614236" data-map-lng="121.9247587">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Epic Boracay</h2>
         <span class="cuisine-tag tag-regional">Beach Party</span>
@@ -544,7 +520,7 @@
         <strong>tabiji verdict:</strong> Epic&#39;s happy hour is one of the best deals on White Beach — BOGO cocktails timed perfectly for sunset. Station 2 location means it&#39;s easy to stumble into from D&#39;Mall. Gets lively after dark with fire dancers and DJ sets.
     </div>
 </section>
-<section class="restaurant-section" id="spider-house">
+<section class="restaurant-section" id="spider-house" data-map-name="3. Spider House Resort" data-map-cta-url="https://maps.google.com/?cid=10495159727069880886&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spider House Resort, Diniwid Beach (past Station 1), Boracay, PH" data-map-lat="11.9762953" data-map-lng="121.91166769999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Spider House Resort</h2>
         <span class="cuisine-tag tag-regional">Cliffside</span>
@@ -574,7 +550,7 @@
         <strong>tabiji verdict:</strong> The consensus pick for Boracay&#39;s best sunset experience. Spider House isn&#39;t on White Beach — it&#39;s perched on the rocky cliffs of Diniwid, one beach north. The multi-level wooden platforms feel like a treehouse over the ocean. Worth the 10-minute walk from Station 1. Arrive by 4:30 PM for the best spots.
     </div>
 </section>
-<section class="restaurant-section" id="exit-bar">
+<section class="restaurant-section" id="exit-bar" data-map-name="4. Exit Bar" data-map-cta-url="https://maps.google.com/?cid=13188497498866301122&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Exit Bar, Station 2, Beachfront, Boracay, PH" data-map-lat="11.962015" data-map-lng="121.92420030000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Exit Bar</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -612,7 +588,7 @@
         <strong>tabiji verdict:</strong> Exit Bar is the backpacker favorite for a reason — drinks are dirt cheap, the vibe is social, and the beachfront location still delivers gorgeous sunsets. Not fancy, not trying to be. Just cold drinks, live music, and good company in the sand.
     </div>
 </section>
-<section class="restaurant-section" id="hello-sailor">
+<section class="restaurant-section" id="hello-sailor" data-map-name="5. Hello Sailor" data-map-cta-url="https://maps.google.com/?cid=4251084487126206204&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hello Sailor, Station 1, Beachfront, Boracay, PH" data-map-lat="11.9683383" data-map-lng="121.9195515">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Hello Sailor</h2>
         <span class="cuisine-tag tag-regional">Craft Cocktails</span>
@@ -650,7 +626,7 @@
         <strong>tabiji verdict:</strong> If you care about what&#39;s in your glass, Hello Sailor is your spot. Best cocktail program on the island, hands down. Station 1 location means excellent sunset views too. More intimate and refined than the big party bars — perfect for a sundowner with someone special.
     </div>
 </section>
-<section class="restaurant-section" id="om-bar">
+<section class="restaurant-section" id="om-bar" data-map-name="6. OM Bar" data-map-cta-url="https://maps.google.com/?cid=4221251108006493103&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="OM Bar, Station 2, Beachfront, Boracay, PH" data-map-lat="11.958857199999999" data-map-lng="121.92623069999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>OM Bar</h2>
         <span class="cuisine-tag tag-regional">Party Vibes</span>
@@ -688,7 +664,7 @@
         <strong>tabiji verdict:</strong> OM is Station 2&#39;s party headquarters. The dual music setup — chill beats on the beach, high-energy inside — means you can calibrate your vibe as the night progresses. Start with sunset cocktails on the sand, end up dancing by midnight.
     </div>
 </section>
-<section class="restaurant-section" id="paraw-beach-club">
+<section class="restaurant-section" id="paraw-beach-club" data-map-name="7. Paraw Beach Club" data-map-cta-url="https://maps.google.com/?cid=18175515421806850276&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Paraw Beach Club, Station 1, White Beach, Boracay, PH" data-map-lat="11.967143199999999" data-map-lng="121.92046909999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Paraw Beach Club</h2>
         <span class="cuisine-tag tag-regional">Relaxed Vibes</span>
@@ -726,7 +702,7 @@
         <strong>tabiji verdict:</strong> Paraw Beach Club is pure relaxation. No pretension, no DJ sets — just comfy sofas in the sand at Station 1 with the best view money can buy. Named after the traditional paraw sailboats that make Boracay sunsets so photogenic. Great for families and couples.
     </div>
 </section>
-<section class="restaurant-section" id="wave-bar">
+<section class="restaurant-section" id="wave-bar" data-map-name="8. Wave Bar &amp; Lounge" data-map-cta-url="https://maps.google.com/?cid=2683124256606648343&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wave Bar &amp; Lounge, Henann Regency, Station 2, Boracay, PH" data-map-lat="11.958274" data-map-lng="121.9264526">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Wave Bar &amp; Lounge</h2>
         <span class="cuisine-tag tag-regional">Resort Bar</span>
@@ -764,7 +740,7 @@
         <strong>tabiji verdict:</strong> The polished resort option. Wave Bar at Henann Regency delivers consistent quality — good cocktails, attentive service, and the fire dance shows are genuinely entertaining. Less indie character than standalone bars, but you trade that for comfort and reliability.
     </div>
 </section>
-<section class="restaurant-section" id="nigi-nigi">
+<section class="restaurant-section" id="nigi-nigi" data-map-name="9. Nigi Nigi Nu Noos" data-map-cta-url="https://maps.google.com/?cid=1807583479180003878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nigi Nigi Nu Noos, Station 2, White Beach, Boracay, PH" data-map-lat="11.9560516" data-map-lng="121.92781869999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Nigi Nigi Nu Noos</h2>
         <span class="cuisine-tag tag-regional">Chill Bar</span>
@@ -794,7 +770,7 @@
         <strong>tabiji verdict:</strong> Nigi Nigi is the anti-party bar. If you want to watch the sunset with your feet in the sand, a cold beer in hand, and zero pressure to be seen or heard — this is your spot. Old-school Boracay vibes in an island that&#39;s rapidly changing.
     </div>
 </section>
-<section class="restaurant-section" id="red-pirates">
+<section class="restaurant-section" id="red-pirates" data-map-name="10. Red Pirates Pub" data-map-cta-url="https://maps.google.com/?cid=8402516283728002044&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Red Pirates Pub, Station 3, White Beach, Boracay, PH" data-map-lat="11.9487221" data-map-lng="121.9314565">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Red Pirates Pub</h2>
         <span class="cuisine-tag tag-regional">Budget Chill</span>
@@ -824,7 +800,7 @@
         <strong>tabiji verdict:</strong> Station 3&#39;s beloved reggae bar. Red Pirates is where you go when you want the Boracay of 10 years ago — before the Instagram crowd arrived. Cheap drinks, live music, and a diverse mix of locals, expats, and travelers who prefer conversation over bottle service.
     </div>
 </section>
-<section class="restaurant-section" id="pelican-sky-bar">
+<section class="restaurant-section" id="pelican-sky-bar" data-map-name="11. Pelican Sky Bar" data-map-cta-url="https://maps.google.com/?cid=7119781452854541139&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pelican Sky Bar, The Tides Hotel, Station 2, Boracay, PH" data-map-lat="11.9622856" data-map-lng="121.9255245">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Pelican Sky Bar</h2>
         <span class="cuisine-tag tag-regional">Rooftop</span>
@@ -880,9 +856,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Sunset Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Boracay%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Aplaya the Beach Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Sunset Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -904,7 +881,7 @@
       <li>
         <a href="#om-bar">6. OM Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Boracay%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18035416672816775749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -915,5 +892,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Sunset Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Sunset%20Bars%20in%20Boracay","picks":[{"anchorId":"aplaya","rank":1,"name":"Aplaya the Beach Bar","label":"1. Aplaya the Beach Bar","lat":11.964081,"lng":121.92301939999999,"ctaUrl":"https://maps.google.com/?cid=18035416672816775749&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Aplaya the Beach Bar, Station 1, White Beach, Boracay, PH"},{"anchorId":"epic","rank":2,"name":"Epic Boracay","label":"2. Epic Boracay","lat":11.9614236,"lng":121.9247587,"ctaUrl":"https://maps.google.com/?cid=8925661095225121382&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Epic Boracay, Station 2, D'Mall Beachfront, Boracay, PH"},{"anchorId":"spider-house","rank":3,"name":"Spider House Resort","label":"3. Spider House Resort","lat":11.9762953,"lng":121.91166769999998,"ctaUrl":"https://maps.google.com/?cid=10495159727069880886&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spider House Resort, Diniwid Beach (past Station 1), Boracay, PH"},{"anchorId":"exit-bar","rank":4,"name":"Exit Bar","label":"4. Exit Bar","lat":11.962015,"lng":121.92420030000001,"ctaUrl":"https://maps.google.com/?cid=13188497498866301122&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Exit Bar, Station 2, Beachfront, Boracay, PH"},{"anchorId":"hello-sailor","rank":5,"name":"Hello Sailor","label":"5. Hello Sailor","lat":11.9683383,"lng":121.9195515,"ctaUrl":"https://maps.google.com/?cid=4251084487126206204&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hello Sailor, Station 1, Beachfront, Boracay, PH"},{"anchorId":"om-bar","rank":6,"name":"OM Bar","label":"6. OM Bar","lat":11.958857199999999,"lng":121.92623069999999,"ctaUrl":"https://maps.google.com/?cid=4221251108006493103&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"OM Bar, Station 2, Beachfront, Boracay, PH"},{"anchorId":"paraw-beach-club","rank":7,"name":"Paraw Beach Club","label":"7. Paraw Beach Club","lat":11.967143199999999,"lng":121.92046909999999,"ctaUrl":"https://maps.google.com/?cid=18175515421806850276&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Paraw Beach Club, Station 1, White Beach, Boracay, PH"},{"anchorId":"wave-bar","rank":8,"name":"Wave Bar & Lounge","label":"8. Wave Bar & Lounge","lat":11.958274,"lng":121.9264526,"ctaUrl":"https://maps.google.com/?cid=2683124256606648343&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wave Bar & Lounge, Henann Regency, Station 2, Boracay, PH"},{"anchorId":"nigi-nigi","rank":9,"name":"Nigi Nigi Nu Noos","label":"9. Nigi Nigi Nu Noos","lat":11.9560516,"lng":121.92781869999997,"ctaUrl":"https://maps.google.com/?cid=1807583479180003878&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nigi Nigi Nu Noos, Station 2, White Beach, Boracay, PH"},{"anchorId":"red-pirates","rank":10,"name":"Red Pirates Pub","label":"10. Red Pirates Pub","lat":11.9487221,"lng":121.9314565,"ctaUrl":"https://maps.google.com/?cid=8402516283728002044&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Red Pirates Pub, Station 3, White Beach, Boracay, PH"},{"anchorId":"pelican-sky-bar","rank":11,"name":"Pelican Sky Bar","label":"11. Pelican Sky Bar","lat":11.9622856,"lng":121.9255245,"ctaUrl":"https://maps.google.com/?cid=7119781452854541139&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pelican Sky Bar, The Tides Hotel, Station 2, Boracay, PH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

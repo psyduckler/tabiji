@@ -427,11 +427,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -456,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -483,7 +481,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -535,9 +533,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Taverna Map</h2>
-      <iframe src="https://www.google.com/maps?q=Athens%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. To Steki tou Ilia (Το Στέκι του Ηλία)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Taverna Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -559,7 +558,7 @@
       <li>
         <a href="#karamanlidika">6. Karamanlidika tou Fani (Καραμανλίδικα του Φανή)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Athens%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=661517747575539069&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -571,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="steki-tou-ilia">
+<section class="restaurant-section" id="steki-tou-ilia" data-map-name="1. To Steki tou Ilia (Το Στέκι του Ηλία)" data-map-cta-url="https://maps.google.com/?cid=661517747575539069&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="To Steki tou Ilia (Το Στέκι του Ηλία), Thissio, near Temple of Hephaestus, Athens, GR" data-map-lat="37.9769636" data-map-lng="23.7158974">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>To Steki tou Ilia (Το Στέκι του Ηλία)</h2>
         <span class="cuisine-tag tag-regional">Grilled Meat</span>
@@ -595,7 +594,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/rozalia.jpg" alt="To Steki tou Ilia (Το Στέκι του Ηλία) in Thissio, near Temple of Hephaestus" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> To Steki tou Ilia (Το Στέκι του Ηλία) is a grilled meat taverna near the Temple of Hephaestus in Thissio, offering a simple, perfect menu at an unspecified price. What to order: Lamb chops (paidakia) — sold by the kilo and grilled to perfection over charcoal. Add a Greek salad, tzatziki, and house wine by the carafe. That&#39;s the whole menu, and it&#39;s all you need.</div>
+        <strong>What to order:</strong> Lamb chops (paidakia) — sold by the kilo and grilled to perfection over charcoal. Add a Greek salad, tzatziki, and house wine by the carafe. That&#39;s the whole menu, and it&#39;s all you need.</div>
     
     <div class="reddit-quote">
         "Το Στέκι Του Ηλία near the temple of Hephaestus if you want to try a traditional Greek taverna in the center of Athens."
@@ -609,7 +608,7 @@
         <strong>tabiji verdict:</strong> The single most recommended taverna on Reddit for Athens. Two locations on the same street in Thissio — both packed with locals. The lamb chops are legendary, the setting under the trees is magical, and the bill is shockingly cheap. Go early or wait.
     </div>
 </section>
-<section class="restaurant-section" id="oikonomou">
+<section class="restaurant-section" id="oikonomou" data-map-name="2. Taverna Oikonomou (Ταβέρνα Οικονόμου)" data-map-cta-url="https://maps.google.com/?cid=11874269181754107956&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taverna Oikonomou (Ταβέρνα Οικονόμου), Ano Petralona, Athens, GR" data-map-lat="37.9697362" data-map-lng="23.7131996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Taverna Oikonomou (Ταβέρνα Οικονόμου)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -633,7 +632,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/taverna-oikonomou.jpg" alt="Taverna Oikonomou (Ταβέρνα Οικονόμου) in Ano Petralona" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Taverna Oikonomou (Ταβέρνα Οικονόμου) is a traditional taverna in Ano Petralona, offering grandma-style home cooking at its finest for an unspecified price. What to order: Whatever&#39;s on the daily menu — it changes based on what&#39;s fresh. Think moussaka, gemista (stuffed tomatoes), stewed lamb, and seasonal greens.</div>
+        <strong>What to order:</strong> Whatever&#39;s on the daily menu — it changes based on what&#39;s fresh. Think moussaka, gemista (stuffed tomatoes), stewed lamb, and seasonal greens.</div>
     
     <div class="reddit-quote">
         "Taverna Oikonomou and Ama Lachei are my favorites. Ordinarily spend 25-30 EUR per person (without wine / alcohol)."
@@ -647,7 +646,7 @@
         <strong>tabiji verdict:</strong> The quintessential &quot;yiayia&#39;s kitchen&quot; experience. No menu gimmicks — just whatever they cooked today, served in a courtyard under a vine-covered pergola. The kind of place where you point at the pot and trust the process. Peak Athens.
     </div>
 </section>
-<section class="restaurant-section" id="klimataria">
+<section class="restaurant-section" id="klimataria" data-map-name="3. Klimataria (Κλιματαριά)" data-map-cta-url="https://maps.google.com/?cid=10877394892407678292&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Klimataria (Κλιματαριά), Psyrri, Athens, GR" data-map-lat="37.9806001" data-map-lng="23.724632300000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Klimataria (Κλιματαριά)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -671,7 +670,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/klimataria.jpg" alt="Klimataria (Κλιματαριά) in Psyrri" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Klimataria (Κλιματαριά) is a traditional taverna in Psyrri, known for its authentic atmosphere and live rebetiko music some evenings, at an unspecified price. What to order: Start with saganaki and dolmadakia, then go for the slow-cooked lamb kleftiko or the pastitsio. House retsina wine is the authentic choice.</div>
+        <strong>What to order:</strong> Start with saganaki and dolmadakia, then go for the slow-cooked lamb kleftiko or the pastitsio. House retsina wine is the authentic choice.</div>
     
     <div class="reddit-quote">
         "Klimataria is the only taverna in downtown Athens I&#39;ve seen actual Greek people eat at 🤷🏼‍♂️"
@@ -685,7 +684,7 @@
         <strong>tabiji verdict:</strong> Open since 1927 and still drawing locals — that tells you everything. In the heart of Psyrri but somehow untouched by the tourist tide. The live rebetiko music on weekends makes this feel like stepping into old Athens. A rare find.
     </div>
 </section>
-<section class="restaurant-section" id="mavro-provato">
+<section class="restaurant-section" id="mavro-provato" data-map-name="4. Mavro Provato (Μαύρο Πρόβατο)" data-map-cta-url="https://maps.google.com/?cid=13890429177360917690&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mavro Provato (Μαύρο Πρόβατο), Pangrati, Athens, GR" data-map-lat="37.971509" data-map-lng="23.7450926">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Mavro Provato (Μαύρο Πρόβατο)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -709,7 +708,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/mavro-provato.jpg" alt="Mavro Provato (Μαύρο Πρόβατο) in Pangrati" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Mavro Provato (Μαύρο Πρόβατο) is a traditional taverna in Pangrati, offering a family-style dining experience with a focus on Greek wines for an unspecified price. What to order: Grilled meats, slow-cooked dishes of the day, and generous mezedes. Their wine list focuses on small Greek producers. Share a few plates family-style.</div>
+        <strong>What to order:</strong> Grilled meats, slow-cooked dishes of the day, and generous mezedes. Their wine list focuses on small Greek producers. Share a few plates family-style.</div>
     
     <div class="reddit-quote">
         "My two go to Athens restaurants for great traditional food are Mavro Provato (Black Sheep) in Pagrati. The food is always delicious and affordable — dinner for 2 with a bottle of wine for around 40 euro."
@@ -723,7 +722,7 @@
         <strong>tabiji verdict:</strong> &quot;Black Sheep&quot; in the residential Pangrati neighborhood — far from any tourist trail. Dinner for two with wine for €40 is remarkable value. The kind of spot where the waiter knows every regular by name. Worth the walk from the center.
     </div>
 </section>
-<section class="restaurant-section" id="rozalia">
+<section class="restaurant-section" id="rozalia" data-map-name="5. Rozalia (Ροζαλία)" data-map-cta-url="https://maps.google.com/?cid=3761049077075376932&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rozalia (Ροζαλία), Exarchia, Athens, GR" data-map-lat="37.9860763" data-map-lng="23.7351831">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Rozalia (Ροζαλία)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -747,7 +746,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/rozalia.jpg" alt="Rozalia (Ροζαλία) in Exarchia" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Rozalia (Ροζαλία) is a traditional taverna in Exarchia, a great spot to enjoy classic Greek dishes with a carafe of house wine for an unspecified price. What to order: Gemista (stuffed peppers and tomatoes), grilled octopus, fava bean puree, and whatever daily special they&#39;re running. Wash it down with a carafe of house wine.</div>
+        <strong>What to order:</strong> Gemista (stuffed peppers and tomatoes), grilled octopus, fava bean puree, and whatever daily special they&#39;re running. Wash it down with a carafe of house wine.</div>
     
     <div class="reddit-quote">
         "Our favorite place we went is Rozalia. Not expensive, great service. Pretty interior. Lunch with drinks was 24 euro for both of us."
@@ -761,7 +760,7 @@
         <strong>tabiji verdict:</strong> A beautiful vine-covered courtyard in the heart of bohemian Exarchia. Lunch for two under €25 is almost unheard of in a European capital. Some call it &quot;touristy for Exarchia&quot; — but when locals are still eating there daily, that label doesn&#39;t stick.
     </div>
 </section>
-<section class="restaurant-section" id="karamanlidika">
+<section class="restaurant-section" id="karamanlidika" data-map-name="6. Karamanlidika tou Fani (Καραμανλίδικα του Φανή)" data-map-cta-url="https://maps.google.com/?cid=5999494582262053925&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Karamanlidika tou Fani (Καραμανλίδικα του Φανή), Near Central Market (Varvakeios), Athens, GR" data-map-lat="37.9802444" data-map-lng="23.7256423">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Karamanlidika tou Fani (Καραμανλίδικα του Φανή)</h2>
         <span class="cuisine-tag tag-regional">Deli / Mezedes</span>
@@ -785,7 +784,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/karamanlidika.jpg" alt="Karamanlidika tou Fani (Καραμανλίδικα του Φανή) in Near Central Market (Varvakeios)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Karamanlidika tou Fani (Καραμανλίδικα του Φανή) is a deli/mezedes spot near the Central Market (Varvakeios), perfect for sharing cured meats and meze platters at an unspecified price. What to order: Pastourma (cured beef), soutzouki, loukaniko sausages, and their selection of cured meats with warm bread. The meze platters are perfect for sharing. Try the pastourma omelette.</div>
+        <strong>What to order:</strong> Pastourma (cured beef), soutzouki, loukaniko sausages, and their selection of cured meats with warm bread. The meze platters are perfect for sharing. Try the pastourma omelette.</div>
     
     <div class="reddit-quote">
         "We only had one night in Athens so only one dinner but we absolutely loved Karamanlidika."
@@ -799,7 +798,7 @@
         <strong>tabiji verdict:</strong> Part deli, part taverna — a concept unique to Athens. The cured meats and pastourma trace back to Constantinople-era Greek traditions. Two locations: the original near the Central Market is the one to visit. A delicious history lesson.
     </div>
 </section>
-<section class="restaurant-section" id="diporto">
+<section class="restaurant-section" id="diporto" data-map-name="7. Diporto (Δίπορτο)" data-map-cta-url="https://maps.google.com/?cid=3472634211369894957&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Diporto (Δίπορτο), Central Market (Varvakeios), basement level, Athens, GR" data-map-lat="37.980747799999996" data-map-lng="23.7258382">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Diporto (Δίπορτο)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -823,7 +822,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/diporto.jpg" alt="Diporto (Δίπορτο) in Central Market (Varvakeios), basement level" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Diporto (Δίπορτο) is a traditional taverna in the basement of Central Market (Varvakeios), offering a no-frills, cash-only experience with whatever they&#39;ve cooked for the day at an unspecified price. What to order: You don&#39;t order — you eat what they cooked. Usually chickpeas, grilled fish, or bean stew. Wine comes from the barrel. No menu, no sign, no fuss. Cash only.</div>
+        <strong>What to order:</strong> You don&#39;t order — you eat what they cooked. Usually chickpeas, grilled fish, or bean stew. Wine comes from the barrel. No menu, no sign, no fuss. Cash only.</div>
     
     <div class="reddit-quote">
         "Traditional taverna: Diporto — a hidden gem, might be hard to get a table but if you want a taverna it deserves a try."
@@ -837,7 +836,7 @@
         <strong>tabiji verdict:</strong> The most legendary hidden taverna in Athens. No sign outside — just descend the stairs into a basement below the Central Market. Barrel wine, communal seating, and food that hasn&#39;t changed in decades. Not for everyone, but if you want raw authenticity, nothing beats this.
     </div>
 </section>
-<section class="restaurant-section" id="tzitzikas">
+<section class="restaurant-section" id="tzitzikas" data-map-name="8. Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας)" data-map-cta-url="https://maps.google.com/?cid=7181348896418074561&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας), Syntagma Square, Athens, GR" data-map-lat="37.975313899999996" data-map-lng="23.7327028">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας)</h2>
         <span class="cuisine-tag tag-regional">Modern Greek</span>
@@ -861,7 +860,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/tzitzikas.jpg" alt="Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας) in Syntagma Square" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας) is a modern Greek taverna in Syntagma Square, featuring a great selection of Greek wines by the glass at an unspecified price. What to order: The meze sampler plate to start, then saganaki, grilled halloumi, and any of the regional Greek dishes on the daily board. Great selection of Greek wines by the glass.</div>
+        <strong>What to order:</strong> The meze sampler plate to start, then saganaki, grilled halloumi, and any of the regional Greek dishes on the daily board. Great selection of Greek wines by the glass.</div>
     
     <div class="reddit-quote">
         "Tzitzikas &amp; Mermigas in Syntagma is fabulous and great value for money."
@@ -871,7 +870,7 @@
         <strong>tabiji verdict:</strong> &quot;The Cicada and the Ant&quot; — named after the Aesop fable. Yes, it&#39;s right on Syntagma and popular with tourists, but locals eat here too. The modern take on traditional mezedes is consistently excellent. A rare quality-in-the-center exception.
     </div>
 </section>
-<section class="restaurant-section" id="olympion">
+<section class="restaurant-section" id="olympion" data-map-name="9. Olympion Tavern" data-map-cta-url="https://maps.google.com/?cid=4029165386695424213&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Olympion Tavern, Pangrati / Mets area, Athens, GR" data-map-lat="37.966598999999995" data-map-lng="23.7345725">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Olympion Tavern</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -895,7 +894,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/olympion-tavern.jpg" alt="Olympion Tavern in Pangrati / Mets area" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Olympion Tavern is a traditional taverna in the Pangrati / Mets area, known for its massive portions and absurdly low prices on daily specials, at an unspecified price. What to order: The daily specials — home-cooked casseroles, moussaka, pastitsio, or whatever seasonal dish they&#39;re running. Portions are massive and the price is absurdly low.</div>
+        <strong>What to order:</strong> The daily specials — home-cooked casseroles, moussaka, pastitsio, or whatever seasonal dish they&#39;re running. Portions are massive and the price is absurdly low.</div>
     
     <div class="reddit-quote">
         "Olympion Tavern. Wouldn&#39;t call it a hidden gem, we also weren&#39;t the only tourists there but it&#39;s tasty, cheap classic homecooked style food near Pangrati area. Went twice and both were the best meals we had in Athens."
@@ -905,7 +904,7 @@
         <strong>tabiji verdict:</strong> Walking distance from the Panathenaic Stadium but worlds away from the tourist strip. Cheap, honest, home-cooked food — the kind of place where you go back the next night. The Pangrati neighborhood itself is a delight to explore.
     </div>
 </section>
-<section class="restaurant-section" id="ama-lachei">
+<section class="restaurant-section" id="ama-lachei" data-map-name="10. Ama Lachei (Άμα Λάχει)" data-map-cta-url="https://maps.google.com/?cid=14793132763730180315&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ama Lachei (Άμα Λάχει), Exarchia, Athens, GR" data-map-lat="37.9879594" data-map-lng="23.736964699999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Ama Lachei (Άμα Λάχει)</h2>
         <span class="cuisine-tag tag-regional">Cretan / Greek</span>
@@ -929,7 +928,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/ama-lachei.jpg" alt="Ama Lachei (Άμα Λάχει) in Exarchia" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Ama Lachei (Άμα Λάχει) is a Cretan/Greek taverna in Exarchia, specializing in Cretan cuisine and free-flowing Cretan raki at an unspecified price. What to order: Cretan specialties — dakos salad, kaltsounia (cheese pies), apaki (smoked pork), and lamb with stamnagathi (wild greens). The Cretan raki flows freely.</div>
+        <strong>What to order:</strong> Cretan specialties — dakos salad, kaltsounia (cheese pies), apaki (smoked pork), and lamb with stamnagathi (wild greens). The Cretan raki flows freely.</div>
     
     <div class="reddit-quote">
         "Taverna Oikonomou and Ama Lachei are my favorites."
@@ -943,7 +942,7 @@
         <strong>tabiji verdict:</strong> A Cretan taverna in bohemian Exarchia — bringing the flavors of Greece&#39;s largest island to the capital. The name means &quot;if we&#39;re lucky&quot; and you will be if you score a courtyard table. Cretan cuisine is arguably Greece&#39;s best regional food.
     </div>
 </section>
-<section class="restaurant-section" id="oineas">
+<section class="restaurant-section" id="oineas" data-map-name="11. Oineas (Οινέας)" data-map-cta-url="https://maps.google.com/?cid=7367504231103959809&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Oineas (Οινέας), Psyrri / Kerameikos border, Athens, GR" data-map-lat="37.992531199999995" data-map-lng="23.6849027">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Oineas (Οινέας)</h2>
         <span class="cuisine-tag tag-regional">Modern Taverna</span>
@@ -959,7 +958,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/oineas.jpg" alt="Oineas (Οινέας) in Psyrri / Kerameikos border" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Oineas (Οινέας) is a modern taverna on the Psyrri / Kerameikos border, updating Greek classics and offering a good Greek wine list with lesser-known labels, at an unspecified price. What to order: Updated Greek classics — their moussaka deconstruction, slow-cooked pork belly, and seasonal vegetable dishes. Good Greek wine list with lesser-known labels.</div>
+        <strong>What to order:</strong> Updated Greek classics — their moussaka deconstruction, slow-cooked pork belly, and seasonal vegetable dishes. Good Greek wine list with lesser-known labels.</div>
     
     <div class="reddit-quote">
         "Check out Taverna Klimataria in Psyrri or Oineas in Kerameikos — they are beloved by locals, serve hearty traditional dishes, and have that cozy, authentic vibe."
@@ -969,7 +968,7 @@
         <strong>tabiji verdict:</strong> The bridge between traditional taverna and modern Greek restaurant. Elevated takes on classic dishes without the pretension or the price tag of fine dining. Beautiful courtyard seating in a quiet Psyrri side street.
     </div>
 </section>
-<section class="restaurant-section" id="atlantikos">
+<section class="restaurant-section" id="atlantikos" data-map-name="12. Atlantikos (Ατλαντικός)" data-map-cta-url="https://maps.google.com/?cid=15945608946746429379&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Atlantikos (Ατλαντικός), Psyrri / Gazi, Athens, GR" data-map-lat="37.9774124" data-map-lng="23.722941499999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Atlantikos (Ατλαντικός)</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -993,7 +992,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/atlantikos.jpg" alt="Atlantikos (Ατλαντικός) in Psyrri / Gazi" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Atlantikos (Ατλαντικός) is a seafood taverna in Psyrri / Gazi, the place to go for fresh grilled fish of the day at an unspecified price. What to order: Fresh grilled fish of the day (priced by the kilo), grilled octopus, shrimp saganaki, and fried calamari. Ask the waiter what came in fresh — they&#39;ll steer you right.</div>
+        <strong>What to order:</strong> Fresh grilled fish of the day (priced by the kilo), grilled octopus, shrimp saganaki, and fried calamari. Ask the waiter what came in fresh — they&#39;ll steer you right.</div>
     
     <div class="reddit-quote">
         "Atlantikos at Psirri / Gazi (I recommend their annex site) or one of the seafood tavernas in the Varvakios Central Municipal Market."
@@ -1003,7 +1002,7 @@
         <strong>tabiji verdict:</strong> Athens isn&#39;t famous for seafood like the islands, but Atlantikos proves you don&#39;t need a ferry to eat excellent fish. The annex location is the local favorite — more relaxed, same quality. Fair prices for genuinely fresh catch.
     </div>
 </section>
-<section class="restaurant-section" id="thanasis">
+<section class="restaurant-section" id="thanasis" data-map-name="13. O Thanasis (Ο Θανάσης)" data-map-cta-url="https://maps.google.com/?cid=17086774354170479504&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="O Thanasis (Ο Θανάσης), Monastiraki Square, Athens, GR" data-map-lat="37.9762894" data-map-lng="23.726486299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>O Thanasis (Ο Θανάσης)</h2>
         <span class="cuisine-tag tag-regional">Souvlaki / Kebab</span>
@@ -1027,7 +1026,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/o-thanasis.jpg" alt="O Thanasis (Ο Θανάσης) in Monastiraki Square" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> O Thanasis (Ο Θανάσης) is a souvlaki/kebab spot in Monastiraki Square, famous for its massive merida kebab at an unspecified price. What to order: The merida kebab — a massive plate of grilled kebab with pita, onions, tomatoes, and optional yogurt on the side. Skip the gyros, come for the kebab.</div>
+        <strong>What to order:</strong> The merida kebab — a massive plate of grilled kebab with pita, onions, tomatoes, and optional yogurt on the side. Skip the gyros, come for the kebab.</div>
     
     <div class="reddit-quote">
         "Taverna O Thanasis in Monastiraki. Don&#39;t miss it for the merida kebab with or without yogurt."
@@ -1037,7 +1036,7 @@
         <strong>tabiji verdict:</strong> The controversial pick. Right on Monastiraki Square — yes, tourist central. Reddit is split: some call it a trap, others call it the best kebab in Athens. The truth? The merida kebab is legitimately great and has been since 1964. Just go with realistic expectations.
     </div>
 </section>
-<section class="restaurant-section" id="kuzina">
+<section class="restaurant-section" id="kuzina" data-map-name="14. Kuzina (Κουζίνα)" data-map-cta-url="https://maps.google.com/?cid=9689957748281989684&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kuzina (Κουζίνα), Thissio, Adrianou Street, Athens, GR" data-map-lat="37.9764194" data-map-lng="23.7220694">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Kuzina (Κουζίνα)</h2>
         <span class="cuisine-tag tag-regional">Modern Greek</span>
@@ -1061,7 +1060,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/kuzina.jpg" alt="Kuzina (Κουζίνα) in Thissio, Adrianou Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Kuzina (Κουζίνα) is a modern Greek restaurant on Adrianou Street in Thissio, offering excellent cocktails and creative mezedes with rooftop tables boasting Acropolis views, at an unspecified price. What to order: Rooftop table with Acropolis view if you can get one. Their updated moussaka, risotto with Greek saffron, and creative mezedes are all standouts. Excellent cocktails too.</div>
+        <strong>What to order:</strong> Rooftop table with Acropolis view if you can get one. Their updated moussaka, risotto with Greek saffron, and creative mezedes are all standouts. Excellent cocktails too.</div>
     
     <div class="reddit-quote">
         "Greek bistrot-taverna: Kuzina, Taratsa."
@@ -1071,7 +1070,7 @@
         <strong>tabiji verdict:</strong> Modern Greek cuisine with one of the best Acropolis views in the city. Yes, it&#39;s on touristy Adrianou Street, but the food is chef-driven and genuinely creative. The rooftop terrace at sunset is unforgettable. Reserve ahead.
     </div>
 </section>
-<section class="restaurant-section" id="vyrinis">
+<section class="restaurant-section" id="vyrinis" data-map-name="15. Vyrinis (Βυρίνης)" data-map-cta-url="https://maps.google.com/?cid=12902955535508344516&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vyrinis (Βυρίνης), Pangrati, Athens, GR" data-map-lat="37.967371199999995" data-map-lng="23.7428113">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Vyrinis (Βυρίνης)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -1095,7 +1094,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/vyrinis.jpg" alt="Vyrinis (Βυρίνης) in Pangrati" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Vyrinis (Βυρίνης) is a traditional taverna in Pangrati, serving classic taverna fare and daily specials at an unspecified price. What to order: Classic taverna fare — grilled meats, stewed dishes, horta (wild greens), and thick-cut fried potatoes. The daily specials board is your best friend.</div>
+        <strong>What to order:</strong> Classic taverna fare — grilled meats, stewed dishes, horta (wild greens), and thick-cut fried potatoes. The daily specials board is your best friend.</div>
     
     <div class="reddit-quote">
         "In Pangrati there&#39;s a tavern called Vyrinis that is great."
@@ -1105,7 +1104,7 @@
         <strong>tabiji verdict:</strong> Deep in residential Pangrati — you will be the only tourist. That&#39;s the point. Vyrinis is where Greek families go for Sunday lunch. The prices reflect the neighborhood, not the tourist markup. Combine with a stroll around the Pangrati plateia.
     </div>
 </section>
-<section class="restaurant-section" id="giantes">
+<section class="restaurant-section" id="giantes" data-map-name="16. Giantes (Γίγαντες)" data-map-cta-url="https://maps.google.com/?cid=5438285399515908929&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Giantes (Γίγαντες), Exarchia, Athens, GR" data-map-lat="37.985496499999996" data-map-lng="23.735937099999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Giantes (Γίγαντες)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -1129,7 +1128,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/giantes.jpg" alt="Giantes (Γίγαντες) in Exarchia" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Giantes (Γίγαντες) is a traditional taverna in Exarchia, known for its namesake dish, giantes plaki (giant baked beans), at an unspecified price. What to order: Giantes plaki (giant baked beans — their namesake dish), grilled meats, and seasonal vegetable plates. Simple taverna classics done well. Barrel wine is the move.</div>
+        <strong>What to order:</strong> Giantes plaki (giant baked beans — their namesake dish), grilled meats, and seasonal vegetable plates. Simple taverna classics done well. Barrel wine is the move.</div>
     
     <div class="reddit-quote">
         "Giantes in Exarcheia, Rozalia also in Exarcheia... You&#39;ll find better restaurants generally in Psyrri, Exarcheia, Thisseio, and some in Pangrati than you will in Monastiraki/Plaka."
@@ -1139,7 +1138,7 @@
         <strong>tabiji verdict:</strong> Named after the giant beans that are a Greek taverna staple. Another Exarchia gem with a laid-back neighborhood vibe. The outdoor seating on the square is perfect for people-watching in Athens&#39; most countercultural district.
     </div>
 </section>
-<section class="restaurant-section" id="spitjack">
+<section class="restaurant-section" id="spitjack" data-map-name="17. Spitjack" data-map-cta-url="https://maps.google.com/?cid=11778548376631870641&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spitjack, Monastiraki, Athens, GR" data-map-lat="37.974031599999996" data-map-lng="23.732581999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Spitjack</h2>
         <span class="cuisine-tag tag-regional">Rotisserie / Modern</span>
@@ -1163,7 +1162,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/spitjack.jpg" alt="Spitjack in Monastiraki" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Spitjack is a rotisserie/modern restaurant in Monastiraki, the place to go for perfectly seasoned, slow-roasted rotisserie chicken at an unspecified price. What to order: Rotisserie chicken — slow-roasted and perfectly seasoned. The pork belly is also incredible. Side of roasted potatoes and a simple salad. That&#39;s the play.</div>
+        <strong>What to order:</strong> Rotisserie chicken — slow-roasted and perfectly seasoned. The pork belly is also incredible. Side of roasted potatoes and a simple salad. That&#39;s the play.</div>
     
     <div class="reddit-quote">
         "Spitjack — Rotisserie chickens, slow roasted pork belly. OMG this place is a MUST visit every time I go to Athens."
@@ -1173,7 +1172,7 @@
         <strong>tabiji verdict:</strong> Not a traditional taverna — more of a modern rotisserie joint. But when a place inspires this kind of devotion from repeat visitors, it earns its spot. The rotisserie chicken is simple perfection. Great for a quick, satisfying meal between sightseeing.
     </div>
 </section>
-<section class="restaurant-section" id="varoulko">
+<section class="restaurant-section" id="varoulko" data-map-name="18. Varoulko Seaside (Βαρούλκο)" data-map-cta-url="https://maps.google.com/?cid=12758406692952552641&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Varoulko Seaside (Βαρούλκο), Mikrolimano, Piraeus, Athens, GR" data-map-lat="37.937288099999996" data-map-lng="23.6585093">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Varoulko Seaside (Βαρούλκο)</h2>
         <span class="cuisine-tag tag-regional">Seafood / Fine Dining</span>
@@ -1197,7 +1196,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/athens-tavernas/varoulko.jpg" alt="Varoulko Seaside (Βαρούλκο) in Mikrolimano, Piraeus" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Varoulko Seaside (Βαρούλκο) is a seafood/fine dining restaurant in Mikrolimano, Piraeus, guaranteeing fresh fish daily with creative seafood preparations by Chef Lazarou at an unspecified price. What to order: The tasting menu for the full experience, or à la carte: grilled fresh catch, octopus carpaccio, and any of Chef Lazarou&#39;s creative seafood preparations. Guaranteed fresh fish daily.</div>
+        <strong>What to order:</strong> The tasting menu for the full experience, or à la carte: grilled fresh catch, octopus carpaccio, and any of Chef Lazarou&#39;s creative seafood preparations. Guaranteed fresh fish daily.</div>
     
     <div class="reddit-quote">
         "Varoulko. Michelin starred chef, very good food, guaranteed fresh fish. It is a bit pricey, but probably the best game in town."
@@ -1225,9 +1224,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Taverna Map</h2>
-      <iframe src="https://www.google.com/maps?q=Athens%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. To Steki tou Ilia (Το Στέκι του Ηλία)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Taverna Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1249,7 +1249,7 @@
       <li>
         <a href="#karamanlidika">6. Karamanlidika tou Fani (Καραμανλίδικα του Φανή)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Athens%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=661517747575539069&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1260,5 +1260,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Taverna Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Tavernas%20in%20Athens","picks":[{"anchorId":"steki-tou-ilia","rank":1,"name":"To Steki tou Ilia (Το Στέκι του Ηλία)","label":"1. To Steki tou Ilia (Το Στέκι του Ηλία)","lat":37.9769636,"lng":23.7158974,"ctaUrl":"https://maps.google.com/?cid=661517747575539069&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"To Steki tou Ilia (Το Στέκι του Ηλία), Thissio, near Temple of Hephaestus, Athens, GR"},{"anchorId":"oikonomou","rank":2,"name":"Taverna Oikonomou (Ταβέρνα Οικονόμου)","label":"2. Taverna Oikonomou (Ταβέρνα Οικονόμου)","lat":37.9697362,"lng":23.7131996,"ctaUrl":"https://maps.google.com/?cid=11874269181754107956&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taverna Oikonomou (Ταβέρνα Οικονόμου), Ano Petralona, Athens, GR"},{"anchorId":"klimataria","rank":3,"name":"Klimataria (Κλιματαριά)","label":"3. Klimataria (Κλιματαριά)","lat":37.9806001,"lng":23.724632300000003,"ctaUrl":"https://maps.google.com/?cid=10877394892407678292&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Klimataria (Κλιματαριά), Psyrri, Athens, GR"},{"anchorId":"mavro-provato","rank":4,"name":"Mavro Provato (Μαύρο Πρόβατο)","label":"4. Mavro Provato (Μαύρο Πρόβατο)","lat":37.971509,"lng":23.7450926,"ctaUrl":"https://maps.google.com/?cid=13890429177360917690&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mavro Provato (Μαύρο Πρόβατο), Pangrati, Athens, GR"},{"anchorId":"rozalia","rank":5,"name":"Rozalia (Ροζαλία)","label":"5. Rozalia (Ροζαλία)","lat":37.9860763,"lng":23.7351831,"ctaUrl":"https://maps.google.com/?cid=3761049077075376932&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rozalia (Ροζαλία), Exarchia, Athens, GR"},{"anchorId":"karamanlidika","rank":6,"name":"Karamanlidika tou Fani (Καραμανλίδικα του Φανή)","label":"6. Karamanlidika tou Fani (Καραμανλίδικα του Φανή)","lat":37.9802444,"lng":23.7256423,"ctaUrl":"https://maps.google.com/?cid=5999494582262053925&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Karamanlidika tou Fani (Καραμανλίδικα του Φανή), Near Central Market (Varvakeios), Athens, GR"},{"anchorId":"diporto","rank":7,"name":"Diporto (Δίπορτο)","label":"7. Diporto (Δίπορτο)","lat":37.980747799999996,"lng":23.7258382,"ctaUrl":"https://maps.google.com/?cid=3472634211369894957&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Diporto (Δίπορτο), Central Market (Varvakeios), basement level, Athens, GR"},{"anchorId":"tzitzikas","rank":8,"name":"Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας)","label":"8. Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας)","lat":37.975313899999996,"lng":23.7327028,"ctaUrl":"https://maps.google.com/?cid=7181348896418074561&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tzitzikas kai Mermigas (Τζιτζίκας και Μέρμηγκας), Syntagma Square, Athens, GR"},{"anchorId":"olympion","rank":9,"name":"Olympion Tavern","label":"9. Olympion Tavern","lat":37.966598999999995,"lng":23.7345725,"ctaUrl":"https://maps.google.com/?cid=4029165386695424213&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Olympion Tavern, Pangrati / Mets area, Athens, GR"},{"anchorId":"ama-lachei","rank":10,"name":"Ama Lachei (Άμα Λάχει)","label":"10. Ama Lachei (Άμα Λάχει)","lat":37.9879594,"lng":23.736964699999998,"ctaUrl":"https://maps.google.com/?cid=14793132763730180315&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ama Lachei (Άμα Λάχει), Exarchia, Athens, GR"},{"anchorId":"oineas","rank":11,"name":"Oineas (Οινέας)","label":"11. Oineas (Οινέας)","lat":37.992531199999995,"lng":23.6849027,"ctaUrl":"https://maps.google.com/?cid=7367504231103959809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Oineas (Οινέας), Psyrri / Kerameikos border, Athens, GR"},{"anchorId":"atlantikos","rank":12,"name":"Atlantikos (Ατλαντικός)","label":"12. Atlantikos (Ατλαντικός)","lat":37.9774124,"lng":23.722941499999997,"ctaUrl":"https://maps.google.com/?cid=15945608946746429379&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Atlantikos (Ατλαντικός), Psyrri / Gazi, Athens, GR"},{"anchorId":"thanasis","rank":13,"name":"O Thanasis (Ο Θανάσης)","label":"13. O Thanasis (Ο Θανάσης)","lat":37.9762894,"lng":23.726486299999998,"ctaUrl":"https://maps.google.com/?cid=17086774354170479504&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"O Thanasis (Ο Θανάσης), Monastiraki Square, Athens, GR"},{"anchorId":"kuzina","rank":14,"name":"Kuzina (Κουζίνα)","label":"14. Kuzina (Κουζίνα)","lat":37.9764194,"lng":23.7220694,"ctaUrl":"https://maps.google.com/?cid=9689957748281989684&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kuzina (Κουζίνα), Thissio, Adrianou Street, Athens, GR"},{"anchorId":"vyrinis","rank":15,"name":"Vyrinis (Βυρίνης)","label":"15. Vyrinis (Βυρίνης)","lat":37.967371199999995,"lng":23.7428113,"ctaUrl":"https://maps.google.com/?cid=12902955535508344516&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vyrinis (Βυρίνης), Pangrati, Athens, GR"},{"anchorId":"giantes","rank":16,"name":"Giantes (Γίγαντες)","label":"16. Giantes (Γίγαντες)","lat":37.985496499999996,"lng":23.735937099999997,"ctaUrl":"https://maps.google.com/?cid=5438285399515908929&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Giantes (Γίγαντες), Exarchia, Athens, GR"},{"anchorId":"spitjack","rank":17,"name":"Spitjack","label":"17. Spitjack","lat":37.974031599999996,"lng":23.732581999999997,"ctaUrl":"https://maps.google.com/?cid=11778548376631870641&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spitjack, Monastiraki, Athens, GR"},{"anchorId":"varoulko","rank":18,"name":"Varoulko Seaside (Βαρούλκο)","label":"18. Varoulko Seaside (Βαρούλκο)","lat":37.937288099999996,"lng":23.6585093,"ctaUrl":"https://maps.google.com/?cid=12758406692952552641&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Varoulko Seaside (Βαρούλκο), Mikrolimano, Piraeus, Athens, GR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

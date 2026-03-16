@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Goundens",
-        "servesCuisine": "Legend",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Umbilo / Congella",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Hollywood Bets",
-        "servesCuisine": "Takeaway",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Springfield / Greyville (multiple branches)",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Oriental",
-        "servesCuisine": "Classic",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Durban North (Mackeurtan Avenue)",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Cane Cutters",
-        "servesCuisine": "Classic",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Berea / Durban North",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "La Mercy Beach Hotel",
-        "servesCuisine": "Coastal",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "La Mercy, North Coast",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Britannia Hotel (Capsicum)",
-        "servesCuisine": "Hotel Restaurant",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Umgeni Road",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Panaji's",
-        "servesCuisine": "Classic",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Durban North",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Curry O's",
-        "servesCuisine": "Beachfront",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Near uShaka / Point",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Bilaals",
-        "servesCuisine": "Beachfront",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "North Beach / Umhlanga (The Pearls)",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Westbrook Bakery",
-        "servesCuisine": "Coastal",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Westbrook Beach, North Coast",
@@ -225,7 +215,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Food Xpress",
-        "servesCuisine": "Hidden Gem",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Overport",
@@ -307,11 +296,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -336,9 +320,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -363,39 +350,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Bunny Chow in Durban",
-                        "item": "https://tabiji.ai/popular-picks/durban-bunny-chow/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -442,9 +402,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Bunny Chow Map</h2>
-      <iframe src="https://www.google.com/maps?q=Durban%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Goundens</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bunny Chow Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -466,7 +427,7 @@
       <li>
         <a href="#britannia">6. Britannia Hotel (Capsicum)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Durban%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13635162768531885183&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -478,7 +439,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="goundens">
+<section class="restaurant-section" id="goundens" data-map-name="1. Goundens" data-map-cta-url="https://maps.google.com/?cid=13635162768531885183&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Goundens, Umbilo / Congella, Durban, ZA" data-map-lat="-29.873136199999998" data-map-lng="30.993031699999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Goundens</h2>
         <span class="cuisine-tag tag-regional">Legend</span>
@@ -520,7 +481,7 @@
         <strong>tabiji verdict:</strong> The undisputed heavyweight champion of Durban bunny chow. When Redditors are asked &quot;where&#39;s the best bunny?&quot; Goundens comes up more than any other name. It&#39;s won multiple awards and has a near-religious following. The Umbilo Road location isn&#39;t fancy — it&#39;s a proper takeaway joint — but the mutton curry is on another level. Worth the drive from anywhere in Durban.
     </div>
 </section>
-<section class="restaurant-section" id="hollywoodbets">
+<section class="restaurant-section" id="hollywoodbets" data-map-name="2. Hollywood Bets" data-map-cta-url="https://maps.google.com/?cid=13552640570252573650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hollywood Bets, Springfield / Greyville (multiple branches), Durban, ZA" data-map-lat="-29.809395499999997" data-map-lng="30.989410900000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Hollywood Bets</h2>
         <span class="cuisine-tag tag-regional">Takeaway</span>
@@ -558,7 +519,7 @@
         <strong>tabiji verdict:</strong> The most unexpected entry on this list — yes, the betting chain makes fantastic bunny chow. Their central kitchen model means the quality stays consistent, and the Springfield branch has literally won local awards. It&#39;s not a restaurant experience — grab a takeaway and head to Blue Lagoon or the beach. Budget-friendly and reliably good.
     </div>
 </section>
-<section class="restaurant-section" id="oriental">
+<section class="restaurant-section" id="oriental" data-map-name="3. Oriental" data-map-cta-url="https://maps.google.com/?cid=1899889045364745445&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Oriental, Durban North (Mackeurtan Avenue), Durban, ZA" data-map-lat="-29.7774067" data-map-lng="31.0444587">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Oriental</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -600,7 +561,7 @@
         <strong>tabiji verdict:</strong> A Durban institution that keeps popping up in recommendations. The Durban North location on Mackeurtan Avenue is the go-to — it&#39;s consistently mentioned by locals for reliable, well-spiced mutton bunnies. Not as hyped as Goundens, but many regulars argue it&#39;s just as good. Solid choice if you&#39;re in the northern suburbs.
     </div>
 </section>
-<section class="restaurant-section" id="cane-cutters">
+<section class="restaurant-section" id="cane-cutters" data-map-name="4. Cane Cutters" data-map-cta-url="https://maps.google.com/?cid=2265942330386783666&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cane Cutters, Berea / Durban North, Durban, ZA" data-map-lat="-29.725112099999997" data-map-lng="31.070012400000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Cane Cutters</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -638,7 +599,7 @@
         <strong>tabiji verdict:</strong> An award-winning bunny chow spot that impresses even non-South Africans. Cane Cutters is more of a proper restaurant compared to the takeaway joints dominating this list — you can actually sit down and have a meal. The bunny is excellent and the wider menu means your non-bunny-eating companions won&#39;t go hungry. A safe, quality bet.
     </div>
 </section>
-<section class="restaurant-section" id="la-mercy">
+<section class="restaurant-section" id="la-mercy" data-map-name="5. La Mercy Beach Hotel" data-map-cta-url="https://maps.google.com/?cid=11748338495136178208&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Mercy Beach Hotel, La Mercy, North Coast, Durban, ZA" data-map-lat="-29.644166700000003" data-map-lng="31.1319444">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>La Mercy Beach Hotel</h2>
         <span class="cuisine-tag tag-regional">Coastal</span>
@@ -668,7 +629,7 @@
         <strong>tabiji verdict:</strong> The insider&#39;s pick. While Goundens gets all the headlines, the Bunny Chow Hunter community quietly rates La Mercy Beach Hotel as one of the best — &quot;the closest thing to home-cooked&quot; is the highest compliment a Durban bunny can receive. It&#39;s a drive up the North Coast, but combine it with a beach day and you&#39;ve got a perfect Durban outing.
     </div>
 </section>
-<section class="restaurant-section" id="britannia">
+<section class="restaurant-section" id="britannia" data-map-name="6. Britannia Hotel (Capsicum)" data-map-cta-url="https://maps.google.com/?cid=12930330288754736017&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Britannia Hotel (Capsicum), Umgeni Road, Durban, ZA" data-map-lat="-29.812056899999998" data-map-lng="31.018814499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Britannia Hotel (Capsicum)</h2>
         <span class="cuisine-tag tag-regional">Hotel Restaurant</span>
@@ -706,7 +667,7 @@
         <strong>tabiji verdict:</strong> A Durban institution tucked inside the Britannia Hotel on Umgeni Road. Yes, the area around it is &quot;a bit dodgy&quot; as Redditors note — but there&#39;s safe inside parking and the food is proper. The Capsicum restaurant serves everything from bunnies to biryanis and has been around for decades. An authentic Durban experience, rough edges and all.
     </div>
 </section>
-<section class="restaurant-section" id="panajis">
+<section class="restaurant-section" id="panajis" data-map-name="7. Panaji&#39;s" data-map-cta-url="https://maps.google.com/?cid=11403048635806595205&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Panaji&#39;s, Durban North, Durban, ZA" data-map-lat="-29.784396299999994" data-map-lng="31.040299299999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Panaji&#39;s</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -744,7 +705,7 @@
         <strong>tabiji verdict:</strong> The homemade bread makes all the difference here. While most bunny spots use standard bakery bread, Panaji&#39;s bakes their own — and the result is a fluffier, sturdier shell that holds up better to the curry. Portions are generous (multiple Redditors confirm the &quot;bigger than average&quot; claim). A Durban North favorite that&#39;s quietly building a loyal following.
     </div>
 </section>
-<section class="restaurant-section" id="curry-os">
+<section class="restaurant-section" id="curry-os" data-map-name="8. Curry O&#39;s" data-map-cta-url="https://maps.google.com/?cid=4917984202731757689&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Curry O&#39;s, Near uShaka / Point, Durban, ZA" data-map-lat="-29.8711467" data-map-lng="31.047861999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Curry O&#39;s</h2>
         <span class="cuisine-tag tag-regional">Beachfront</span>
@@ -782,7 +743,7 @@
         <strong>tabiji verdict:</strong> The beachfront bunny chow spot with a cult following. Located near uShaka, it&#39;s perfectly positioned for tourists and beach-goers. The passionate defense from u/Ok-Problem-9859 — &quot;disappointed&quot; by everything else — is the kind of loyalty that signals something special. Great for a casual bunny after a day at the beach.
     </div>
 </section>
-<section class="restaurant-section" id="bilaals">
+<section class="restaurant-section" id="bilaals" data-map-name="9. Bilaals" data-map-cta-url="https://maps.google.com/?cid=1126106903929218654&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bilaals, North Beach / Umhlanga (The Pearls), Durban, ZA" data-map-lat="-29.725581799999997" data-map-lng="31.0873671">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bilaals</h2>
         <span class="cuisine-tag tag-regional">Beachfront</span>
@@ -820,7 +781,7 @@
         <strong>tabiji verdict:</strong> The beachfront bunny with two great locations. The North Beach spot puts you right on Durban&#39;s Golden Mile, while the Pearls branch in Umhlanga is more upmarket. u/Careful_Technology33 is literally willing to bet money on Bilaals being the best — that&#39;s conviction. Great for visitors staying in the beachfront or Umhlanga area.
     </div>
 </section>
-<section class="restaurant-section" id="westbrook">
+<section class="restaurant-section" id="westbrook" data-map-name="10. Westbrook Bakery" data-map-cta-url="https://maps.google.com/?cid=5561729741426723302&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Westbrook Bakery, Westbrook Beach, North Coast, Durban, ZA" data-map-lat="-29.593475899999998" data-map-lng="31.1629541">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Westbrook Bakery</h2>
         <span class="cuisine-tag tag-regional">Coastal</span>
@@ -858,7 +819,7 @@
         <strong>tabiji verdict:</strong> The prawn bunny specialist. Being a bakery first means the bread is consistently fresh and perfectly baked — a critical but often overlooked component of great bunny chow. The North Coast location makes it a great pit stop if you&#39;re driving between Durban and Ballito. Their prawn bunny is the one to get; it&#39;s what the Bunny Chow Hunters specifically recommend.
     </div>
 </section>
-<section class="restaurant-section" id="food-xpress">
+<section class="restaurant-section" id="food-xpress" data-map-name="11. Food Xpress" data-map-cta-url="https://maps.google.com/?cid=11556338245327767068&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Food Xpress, Overport, Durban, ZA" data-map-lat="-29.836673" data-map-lng="30.9986115">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Food Xpress</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -910,9 +871,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Bunny Chow Map</h2>
-      <iframe src="https://www.google.com/maps?q=Durban%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Goundens</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bunny Chow Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -934,7 +896,7 @@
       <li>
         <a href="#britannia">6. Britannia Hotel (Capsicum)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Durban%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13635162768531885183&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -945,5 +907,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Bunny Chow Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Bunny%20Chow%20in%20Durban","picks":[{"anchorId":"goundens","rank":1,"name":"Goundens","label":"1. Goundens","lat":-29.873136199999998,"lng":30.993031699999996,"ctaUrl":"https://maps.google.com/?cid=13635162768531885183&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Goundens, Umbilo / Congella, Durban, ZA"},{"anchorId":"hollywoodbets","rank":2,"name":"Hollywood Bets","label":"2. Hollywood Bets","lat":-29.809395499999997,"lng":30.989410900000003,"ctaUrl":"https://maps.google.com/?cid=13552640570252573650&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hollywood Bets, Springfield / Greyville (multiple branches), Durban, ZA"},{"anchorId":"oriental","rank":3,"name":"Oriental","label":"3. Oriental","lat":-29.7774067,"lng":31.0444587,"ctaUrl":"https://maps.google.com/?cid=1899889045364745445&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Oriental, Durban North (Mackeurtan Avenue), Durban, ZA"},{"anchorId":"cane-cutters","rank":4,"name":"Cane Cutters","label":"4. Cane Cutters","lat":-29.725112099999997,"lng":31.070012400000003,"ctaUrl":"https://maps.google.com/?cid=2265942330386783666&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cane Cutters, Berea / Durban North, Durban, ZA"},{"anchorId":"la-mercy","rank":5,"name":"La Mercy Beach Hotel","label":"5. La Mercy Beach Hotel","lat":-29.644166700000003,"lng":31.1319444,"ctaUrl":"https://maps.google.com/?cid=11748338495136178208&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Mercy Beach Hotel, La Mercy, North Coast, Durban, ZA"},{"anchorId":"britannia","rank":6,"name":"Britannia Hotel (Capsicum)","label":"6. Britannia Hotel (Capsicum)","lat":-29.812056899999998,"lng":31.018814499999998,"ctaUrl":"https://maps.google.com/?cid=12930330288754736017&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Britannia Hotel (Capsicum), Umgeni Road, Durban, ZA"},{"anchorId":"panajis","rank":7,"name":"Panaji's","label":"7. Panaji's","lat":-29.784396299999994,"lng":31.040299299999997,"ctaUrl":"https://maps.google.com/?cid=11403048635806595205&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Panaji's, Durban North, Durban, ZA"},{"anchorId":"curry-os","rank":8,"name":"Curry O's","label":"8. Curry O's","lat":-29.8711467,"lng":31.047861999999995,"ctaUrl":"https://maps.google.com/?cid=4917984202731757689&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Curry O's, Near uShaka / Point, Durban, ZA"},{"anchorId":"bilaals","rank":9,"name":"Bilaals","label":"9. Bilaals","lat":-29.725581799999997,"lng":31.0873671,"ctaUrl":"https://maps.google.com/?cid=1126106903929218654&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bilaals, North Beach / Umhlanga (The Pearls), Durban, ZA"},{"anchorId":"westbrook","rank":10,"name":"Westbrook Bakery","label":"10. Westbrook Bakery","lat":-29.593475899999998,"lng":31.1629541,"ctaUrl":"https://maps.google.com/?cid=5561729741426723302&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Westbrook Bakery, Westbrook Beach, North Coast, Durban, ZA"},{"anchorId":"food-xpress","rank":11,"name":"Food Xpress","label":"11. Food Xpress","lat":-29.836673,"lng":30.9986115,"ctaUrl":"https://maps.google.com/?cid=11556338245327767068&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Food Xpress, Overport, Durban, ZA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -323,11 +323,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -352,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -379,39 +377,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Hygge Cafés in Copenhagen",
-                        "item": "https://tabiji.ai/popular-picks/copenhagen-hygge-cafes/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -454,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Copenhagen&#39;s hygge cafés, known for cozy contentment, range from 40-95 DKK, with Coffee Collective being a top recommendation. The city&#39;s café scene reflects this deeply, from world-class specialty roasters to candlelit book cafés and canal-side espresso bars, offering a taste of hygge in every cup.</strong></p>
-        <p>Copenhagen&#39;s hygge cafés, ranging from 40-95 DKK, offer cozy contentment; Coffee Collective is a top recommendation for experiencing this feeling. The city&#39;s café scene reflects this deeply, from world-class specialty roasters to candlelit book cafés and canal-side espresso bars.</p><p>Copenhagen practically invented the concept of hygge — that untranslatable Danish feeling of cozy contentment, candlelight, and warm drinks on cold days. The city&#39;s café scene reflects this deeply, from world-class specialty roasters to candlelit book cafés and canal-side espresso bars.</p><p>We analyzed hundreds of Reddit posts from r/copenhagen, r/Coffee, r/pourover, r/travel, and r/espresso to find the cafés that locals and coffee obsessives actually recommend. These are the spots where hygge isn&#39;t a marketing gimmick — it&#39;s just how they do things.</p>
+        <p>Copenhagen practically invented the concept of hygge — that untranslatable Danish feeling of cozy contentment, candlelight, and warm drinks on cold days. The city&#39;s café scene reflects this deeply, from world-class specialty roasters to candlelit book cafés and canal-side espresso bars.</p><p>We analyzed hundreds of Reddit posts from r/copenhagen, r/Coffee, r/pourover, r/travel, and r/espresso to find the cafés that locals and coffee obsessives actually recommend. These are the spots where hygge isn&#39;t a marketing gimmick — it&#39;s just how they do things.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Coffee Collective</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -471,7 +443,7 @@
         <a href="#prolog-coffee">2. Prolog Coffee Bar</a>
       </li>
       <li>
-        <a href="#darcys-kaffe">3. Darcy&#39;s Kaffe</a>
+        <a href="#darcys-kaffe">3. Darcy's Kaffe</a>
       </li>
       <li>
         <a href="#paludan-bogcafe">4. Paludan Bogcafé</a>
@@ -482,7 +454,7 @@
       <li>
         <a href="#roast-coffee">6. Roast Coffee</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11532806542363042620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -494,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="coffee-collective">
+<section class="restaurant-section" id="coffee-collective" data-map-name="1. Coffee Collective" data-map-cta-url="https://maps.google.com/?cid=11532806542363042620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Coffee Collective, Multiple locations (Jægersborggade, Godthåbsvej, Bernikow), Copenhagen, DK" data-map-lat="55.693661" data-map-lng="12.5422628">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Coffee Collective</h2>
         <span class="cuisine-tag tag-regional">Roastery &amp; Café</span>
@@ -531,7 +503,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Copenhagen coffee. Multiple locations means you&#39;re never far from one, but the Jægersborggade spot is the most hygge — cozy interior, beautiful street, and some of the best beans in Scandinavia. They also run Collective Bakery next door in Nørrebro.
     </div>
 </section>
-<section class="restaurant-section" id="prolog-coffee">
+<section class="restaurant-section" id="prolog-coffee" data-map-name="2. Prolog Coffee Bar" data-map-cta-url="https://maps.google.com/?cid=5193245832572638633&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Prolog Coffee Bar, Vesterbro (Meatpacking District) &amp; Østerbro, Copenhagen, DK" data-map-lat="55.6682905" data-map-lng="12.557530799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Prolog Coffee Bar</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -568,7 +540,7 @@
         <strong>tabiji verdict:</strong> If Coffee Collective is the gateway, Prolog is the deep dive. Serious third-wave coffee nerds consistently rank this as Copenhagen&#39;s best. The Meatpacking District location doubles as their roastery — you can watch the process while sipping. Not the coziest interior, but the coffee speaks for itself.
     </div>
 </section>
-<section class="restaurant-section" id="darcys-kaffe">
+<section class="restaurant-section" id="darcys-kaffe" data-map-name="3. Darcy&#39;s Kaffe" data-map-cta-url="https://maps.google.com/?cid=15283669808552154823&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Darcy&#39;s Kaffe, Nørrebro, Copenhagen, DK" data-map-lat="55.685320499999996" data-map-lng="12.5532861">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Darcy&#39;s Kaffe</h2>
         <span class="cuisine-tag tag-regional">Cozy Neighborhood Café</span>
@@ -601,7 +573,7 @@
         <strong>tabiji verdict:</strong> Peak hygge. If you want to understand what cozy Danish café culture actually feels like — not the Instagram version — Darcy&#39;s is it. Tiny, intimate, genuinely warm. The kind of place where the barista knows your name by your third visit.
     </div>
 </section>
-<section class="restaurant-section" id="paludan-bogcafe">
+<section class="restaurant-section" id="paludan-bogcafe" data-map-name="4. Paludan Bogcafé" data-map-cta-url="https://maps.google.com/?cid=15921597667749287560&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Paludan Bogcafé, Central Copenhagen (Latin Quarter), Copenhagen, DK" data-map-lat="55.680371199999996" data-map-lng="12.573260399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Paludan Bogcafé</h2>
         <span class="cuisine-tag tag-regional">Book Café</span>
@@ -638,7 +610,7 @@
         <strong>tabiji verdict:</strong> Copenhagen&#39;s quintessential book café. Shelves of books, café tables, and an antiquarian bookshop downstairs — it&#39;s the kind of place you enter for a coffee and leave three hours later with a second-hand novel. Gets busy, especially on weekends, but that&#39;s because it&#39;s genuinely beloved by locals and students alike.
     </div>
 </section>
-<section class="restaurant-section" id="bastard-cafe">
+<section class="restaurant-section" id="bastard-cafe" data-map-name="5. Bastard Café" data-map-cta-url="https://maps.google.com/?cid=6044961354219084615&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bastard Café, Central Copenhagen (Huset KBH), Copenhagen, DK" data-map-lat="55.6764665" data-map-lng="12.574768599999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Bastard Café</h2>
         <span class="cuisine-tag tag-regional">Boardgame Café</span>
@@ -671,7 +643,7 @@
         <strong>tabiji verdict:</strong> A classic r/copenhagen recommendation for good reason. Boardgames + beer + fries = peak hygge for groups. Located inside Huset KBH, a cultural center, so there&#39;s often events happening upstairs too. Perfect for rainy Copenhagen evenings. They&#39;re also opening a Nørrebro branch.
     </div>
 </section>
-<section class="restaurant-section" id="roast-coffee">
+<section class="restaurant-section" id="roast-coffee" data-map-name="6. Roast Coffee" data-map-cta-url="https://maps.google.com/?cid=17463679772509105637&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Roast Coffee, Vesterport Station &amp; Studiestræde, Copenhagen, DK" data-map-lat="55.675725099999994" data-map-lng="12.562403300000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Roast Coffee</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -704,7 +676,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re a latte or flat white person, this is your Copenhagen destination. The Vesterport Station location is convenient and the quality is remarkably consistent. Not the most atmospheric of spots, but the coffee quality makes up for it. Also near Islands Brygge Harbour Bath if you&#39;re combining activities.
     </div>
 </section>
-<section class="restaurant-section" id="la-cabra">
+<section class="restaurant-section" id="la-cabra" data-map-name="7. La Cabra" data-map-cta-url="https://maps.google.com/?cid=6834479848365058875&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cabra, Central Copenhagen, Copenhagen, DK" data-map-lat="55.6815858" data-map-lng="12.579039799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Cabra</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -737,7 +709,7 @@
         <strong>tabiji verdict:</strong> The Noma of Copenhagen coffee. La Cabra started in Aarhus and brought their meticulous approach to the capital. The interior is minimalist-Scandinavian — clean lines, natural light, quiet focus on the cup. Not the coziest in the traditional hygge sense, but deeply satisfying if you care about coffee as craft.
     </div>
 </section>
-<section class="restaurant-section" id="democratic-coffee">
+<section class="restaurant-section" id="democratic-coffee" data-map-name="8. Democratic Coffee" data-map-cta-url="https://maps.google.com/?cid=12549930299908209262&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Democratic Coffee, Central Copenhagen (Krystalgade, by the library), Copenhagen, DK" data-map-lat="55.6808616" data-map-lng="12.573463199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Democratic Coffee</h2>
         <span class="cuisine-tag tag-regional">Cozy City Center Café</span>
@@ -774,7 +746,7 @@
         <strong>tabiji verdict:</strong> Connected to Copenhagen&#39;s central library in Krystalgade — grab a book, order their famous almond croissant, and you&#39;ve got a perfect hygge afternoon. The location is wonderfully central and the vibe is relaxed-intellectual. One of the most underrated cozy spots in the city.
     </div>
 </section>
-<section class="restaurant-section" id="parterre">
+<section class="restaurant-section" id="parterre" data-map-name="9. Parterre" data-map-cta-url="https://maps.google.com/?cid=11326565571878972349&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Parterre, Christianshavn, Copenhagen, DK" data-map-lat="55.6753034" data-map-lng="12.5960618">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Parterre</h2>
         <span class="cuisine-tag tag-regional">Canal Café</span>
@@ -807,7 +779,7 @@
         <strong>tabiji verdict:</strong> Canal-side coffee in Christianshavn — one of Copenhagen&#39;s most charming neighborhoods. Parterre is small, cozy, and has that effortless hygge quality that bigger cafés try (and fail) to manufacture. Best on a crisp morning with a canal view and a warm cup. Combine with a Christianshavn walk.
     </div>
 </section>
-<section class="restaurant-section" id="atelier-september">
+<section class="restaurant-section" id="atelier-september" data-map-name="10. Atelier September" data-map-cta-url="https://maps.google.com/?cid=13539046528336546848&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Atelier September, Central Copenhagen (Gothersgade), Copenhagen, DK" data-map-lat="55.6873916" data-map-lng="12.5849268">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Atelier September</h2>
         <span class="cuisine-tag tag-regional">Brunch &amp; Coffee</span>
@@ -840,7 +812,7 @@
         <strong>tabiji verdict:</strong> The most Instagrammable café on this list, but it backs it up with substance. Run by Frederik Bille Brahe (who also runs Apollo Bar), it has that effortless Copenhagen cool — high ceilings, natural light, beautiful food. More stylish than cozy in the candle-lit sense, but undeniably atmospheric.
     </div>
 </section>
-<section class="restaurant-section" id="impact-roasters">
+<section class="restaurant-section" id="impact-roasters" data-map-name="11. Impact Roasters" data-map-cta-url="https://maps.google.com/?cid=3936541482673717123&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Impact Roasters, Valby (below Valby Langgade Station), Copenhagen, DK" data-map-lat="55.666954" data-map-lng="12.5042919">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Impact Roasters</h2>
         <span class="cuisine-tag tag-regional">Social Enterprise Roastery</span>
@@ -873,7 +845,7 @@
         <strong>tabiji verdict:</strong> A bit off the tourist path in Valby, but worth the trip if you care about great coffee and social impact. Impact Roasters is a social enterprise that trains refugees as baristas while serving genuinely exceptional Ethiopian beans. The kind of place that makes you feel good about your coffee habit in every way.
     </div>
 </section>
-<section class="restaurant-section" id="the-living-room">
+<section class="restaurant-section" id="the-living-room" data-map-name="12. The Living Room" data-map-cta-url="https://maps.google.com/?cid=16107335277235513688&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Living Room, Central Copenhagen (Latin Quarter), Copenhagen, DK" data-map-lat="55.678556199999996" data-map-lng="12.569170399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>The Living Room</h2>
         <span class="cuisine-tag tag-regional">Café &amp; Cocktail Bar</span>
@@ -924,9 +896,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Coffee Collective</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -937,7 +910,7 @@
         <a href="#prolog-coffee">2. Prolog Coffee Bar</a>
       </li>
       <li>
-        <a href="#darcys-kaffe">3. Darcy&#39;s Kaffe</a>
+        <a href="#darcys-kaffe">3. Darcy's Kaffe</a>
       </li>
       <li>
         <a href="#paludan-bogcafe">4. Paludan Bogcafé</a>
@@ -948,7 +921,7 @@
       <li>
         <a href="#roast-coffee">6. Roast Coffee</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11532806542363042620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -959,5 +932,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Hygge%20Caf%C3%A9s%20in%20Copenhagen","picks":[{"anchorId":"coffee-collective","rank":1,"name":"Coffee Collective","label":"1. Coffee Collective","lat":55.693661,"lng":12.5422628,"ctaUrl":"https://maps.google.com/?cid=11532806542363042620&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Coffee Collective, Multiple locations (Jægersborggade, Godthåbsvej, Bernikow), Copenhagen, DK"},{"anchorId":"prolog-coffee","rank":2,"name":"Prolog Coffee Bar","label":"2. Prolog Coffee Bar","lat":55.6682905,"lng":12.557530799999999,"ctaUrl":"https://maps.google.com/?cid=5193245832572638633&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Prolog Coffee Bar, Vesterbro (Meatpacking District) & Østerbro, Copenhagen, DK"},{"anchorId":"darcys-kaffe","rank":3,"name":"Darcy's Kaffe","label":"3. Darcy's Kaffe","lat":55.685320499999996,"lng":12.5532861,"ctaUrl":"https://maps.google.com/?cid=15283669808552154823&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Darcy's Kaffe, Nørrebro, Copenhagen, DK"},{"anchorId":"paludan-bogcafe","rank":4,"name":"Paludan Bogcafé","label":"4. Paludan Bogcafé","lat":55.680371199999996,"lng":12.573260399999999,"ctaUrl":"https://maps.google.com/?cid=15921597667749287560&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Paludan Bogcafé, Central Copenhagen (Latin Quarter), Copenhagen, DK"},{"anchorId":"bastard-cafe","rank":5,"name":"Bastard Café","label":"5. Bastard Café","lat":55.6764665,"lng":12.574768599999999,"ctaUrl":"https://maps.google.com/?cid=6044961354219084615&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bastard Café, Central Copenhagen (Huset KBH), Copenhagen, DK"},{"anchorId":"roast-coffee","rank":6,"name":"Roast Coffee","label":"6. Roast Coffee","lat":55.675725099999994,"lng":12.562403300000001,"ctaUrl":"https://maps.google.com/?cid=17463679772509105637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Roast Coffee, Vesterport Station & Studiestræde, Copenhagen, DK"},{"anchorId":"la-cabra","rank":7,"name":"La Cabra","label":"7. La Cabra","lat":55.6815858,"lng":12.579039799999999,"ctaUrl":"https://maps.google.com/?cid=6834479848365058875&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cabra, Central Copenhagen, Copenhagen, DK"},{"anchorId":"democratic-coffee","rank":8,"name":"Democratic Coffee","label":"8. Democratic Coffee","lat":55.6808616,"lng":12.573463199999999,"ctaUrl":"https://maps.google.com/?cid=12549930299908209262&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Democratic Coffee, Central Copenhagen (Krystalgade, by the library), Copenhagen, DK"},{"anchorId":"parterre","rank":9,"name":"Parterre","label":"9. Parterre","lat":55.6753034,"lng":12.5960618,"ctaUrl":"https://maps.google.com/?cid=11326565571878972349&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Parterre, Christianshavn, Copenhagen, DK"},{"anchorId":"atelier-september","rank":10,"name":"Atelier September","label":"10. Atelier September","lat":55.6873916,"lng":12.5849268,"ctaUrl":"https://maps.google.com/?cid=13539046528336546848&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Atelier September, Central Copenhagen (Gothersgade), Copenhagen, DK"},{"anchorId":"impact-roasters","rank":11,"name":"Impact Roasters","label":"11. Impact Roasters","lat":55.666954,"lng":12.5042919,"ctaUrl":"https://maps.google.com/?cid=3936541482673717123&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Impact Roasters, Valby (below Valby Langgade Station), Copenhagen, DK"},{"anchorId":"the-living-room","rank":12,"name":"The Living Room","label":"12. The Living Room","lat":55.678556199999996,"lng":12.569170399999999,"ctaUrl":"https://maps.google.com/?cid=16107335277235513688&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Living Room, Central Copenhagen (Latin Quarter), Copenhagen, DK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Spa Lei (스파레이)",
-        "servesCuisine": "Women-Only",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Seocho-gu, near Sinsa Station",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Sparex Good Morning City (스파렉스)",
-        "servesCuisine": "Mega Jjimjilbang",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Dongdaemun, Good Morning City B3",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Club K Spa (클럽K)",
-        "servesCuisine": "Co-ed Spa",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gangnam-gu",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Spa 5 / Lotte Boseok Sauna (롯데보석사우나)",
-        "servesCuisine": "Traditional",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gangnam-gu, Seolleung-ro",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Spa 1899 Donginbi (스파1899)",
-        "servesCuisine": "Luxury Spa",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Daechi-dong, Gangnam-gu",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "The Spa in Garden 5 (가든파이브 스파)",
-        "servesCuisine": "Mega Jjimjilbang",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Songpa-gu, Garden 5 Mall 10F",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Riverside Spa Land (리버사이드 스파랜드)",
-        "servesCuisine": "Mega Jjimjilbang",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gwangjin-gu, near Gangbyeon Station",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Sulwhasoo Balance Spa (설화수 밸런스 스파)",
-        "servesCuisine": "Luxury Spa",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gangnam-gu, Dosan-daero",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Cimer at Paradise City (씨메르)",
-        "servesCuisine": "Resort Spa",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Incheon, Paradise City Resort",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Siloam Sauna Gwangjin (실로암사우나)",
-        "servesCuisine": "Classic Jjimjilbang",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gwangjin-gu, Yongmasan-ro",
@@ -296,11 +286,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -325,9 +310,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -352,39 +340,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Jjimjilbangs in Gangnam",
-                        "item": "https://tabiji.ai/popular-picks/gangnam-jjimjilbangs/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -427,13 +388,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Gangnam&#39;s jjimjilbangs offer experiences ranging from budget-friendly (₩12,000) to ultra-luxe (₩350,000), with Spa Lei being a top recommendation for its women-only facilities and traditional Korean body scrubs. Whether you want a full-body scrub from an expert ajumma, a night of sleeping on heated jade floors, or a ginseng-infused spa treatment, there&#39;s a jjimjilbang for you in Gangnam.</strong></p>
-        <p>Gangnam&#39;s jjimjilbangs range from budget-friendly (₩12,000) to ultra-luxe (₩350,000), with Spa Lei being a top recommendation for its infrared dry room and traditional Korean body scrubs. Whether you want a full-body scrub from an expert ajumma, a night of sleeping on heated jade floors, or a ginseng-infused spa treatment, there&#39;s a jjimjilbang for you in Gangnam.</p><p>Gangnam&#39;s bathhouse scene ranges from ultra-luxe beauty spas to no-frills local jjimjilbangs where Korean families spend their weekends. Whether you want a full-body scrub from an expert ajumma, a night of sleeping on heated jade floors, or a ginseng-infused spa treatment, there&#39;s a jjimjilbang for you.</p><p>We analyzed hundreds of Reddit posts from r/koreatravel, r/seoul, and r/Living_in_Korea to find the bathhouses that actual Seoul residents and repeat visitors recommend. Skip the tourist traps — these are the ones worth stripping down for.</p>
+        <p>Gangnam&#39;s bathhouse scene ranges from ultra-luxe beauty spas to no-frills local jjimjilbangs where Korean families spend their weekends. Whether you want a full-body scrub from an expert ajumma, a night of sleeping on heated jade floors, or a ginseng-infused spa treatment, there&#39;s a jjimjilbang for you.</p><p>We analyzed hundreds of Reddit posts from r/koreatravel, r/seoul, and r/Living_in_Korea to find the bathhouses that actual Seoul residents and repeat visitors recommend. Skip the tourist traps — these are the ones worth stripping down for.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Jjimjilbang Map</h2>
-      <iframe src="https://www.google.com/maps?q=Seoul%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Spa Lei (스파레이)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Jjimjilbang Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -455,7 +417,7 @@
       <li>
         <a href="#garden-5">6. The Spa in Garden 5 (가든파이브 스파)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Seoul%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9953759382508353515&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -467,7 +429,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="spa-lei">
+<section class="restaurant-section" id="spa-lei" data-map-name="1. Spa Lei (스파레이)" data-map-cta-url="https://maps.google.com/?cid=9953759382508353515&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spa Lei (스파레이), Seocho-gu, near Sinsa Station, Seoul, KR" data-map-lat="37.5179489" data-map-lng="127.0181942">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Spa Lei (스파레이)</h2>
         <span class="cuisine-tag tag-regional">Women-Only</span>
@@ -504,7 +466,7 @@
         <strong>tabiji verdict:</strong> The undisputed queen of Seoul jjimjilbangs for women. Three levels of spa baths, saunas, massage rooms, and lounges — all in a serene, well-maintained environment. English signage and foreigner-friendly staff make this the safest first jjimjilbang experience. Worth every won.
     </div>
 </section>
-<section class="restaurant-section" id="sparex">
+<section class="restaurant-section" id="sparex" data-map-name="2. Sparex Good Morning City (스파렉스)" data-map-cta-url="https://maps.google.com/?cid=3195202856165606688&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sparex Good Morning City (스파렉스), Dongdaemun, Good Morning City B3, Seoul, KR" data-map-lat="37.5668728" data-map-lng="127.0072811">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Sparex Good Morning City (스파렉스)</h2>
         <span class="cuisine-tag tag-regional">Mega Jjimjilbang</span>
@@ -545,7 +507,7 @@
         <strong>tabiji verdict:</strong> The Reddit darling. Not technically in Gangnam, but easily accessible by subway and worth the 30-minute ride. Sparex delivers the quintessential jjimjilbang experience — massive, clean, affordable, and open 24/7. The gold standard for first-timers of any gender.
     </div>
 </section>
-<section class="restaurant-section" id="club-k">
+<section class="restaurant-section" id="club-k" data-map-name="3. Club K Spa (클럽K)" data-map-cta-url="https://maps.google.com/?cid=4007709537958763013&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Club K Spa (클럽K), Gangnam-gu, Seoul, KR" data-map-lat="37.5067648" data-map-lng="127.04808460000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Club K Spa (클럽K)</h2>
         <span class="cuisine-tag tag-regional">Co-ed Spa</span>
@@ -578,7 +540,7 @@
         <strong>tabiji verdict:</strong> The go-to jjimjilbang for people actually staying in Gangnam. Nothing flashy, but solid facilities and a surprisingly nice lounge area. If you want the authentic local experience without trekking across Seoul, Club K delivers.
     </div>
 </section>
-<section class="restaurant-section" id="spa-5">
+<section class="restaurant-section" id="spa-5" data-map-name="4. Spa 5 / Lotte Boseok Sauna (롯데보석사우나)" data-map-cta-url="https://maps.google.com/?cid=12885908009397413183&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spa 5 / Lotte Boseok Sauna (롯데보석사우나), Gangnam-gu, Seolleung-ro, Seoul, KR" data-map-lat="37.504099" data-map-lng="127.05196399999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Spa 5 / Lotte Boseok Sauna (롯데보석사우나)</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -611,7 +573,7 @@
         <strong>tabiji verdict:</strong> Also known as Golden Rose, GM Spa, or Spa 5 — this Gangnam basement bathhouse has gone through several name changes but the quality remains. Below street level on Seolleung-ro, it&#39;s a genuine local jjimjilbang with friendly English-speaking staff. The real deal.
     </div>
 </section>
-<section class="restaurant-section" id="spa-1899">
+<section class="restaurant-section" id="spa-1899" data-map-name="5. Spa 1899 Donginbi (스파1899)" data-map-cta-url="https://maps.google.com/?cid=3597387846924172996&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spa 1899 Donginbi (스파1899), Daechi-dong, Gangnam-gu, Seoul, KR" data-map-lat="37.5065686" data-map-lng="127.06536120000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Spa 1899 Donginbi (스파1899)</h2>
         <span class="cuisine-tag tag-regional">Luxury Spa</span>
@@ -644,7 +606,7 @@
         <strong>tabiji verdict:</strong> This isn&#39;t a traditional jjimjilbang — it&#39;s a premium treatment spa operated by Korea&#39;s most famous ginseng brand. Think of it as the Gangnam luxury tier. Perfect for a special occasion or if you want to experience Korea&#39;s ginseng culture at its finest. Book in advance.
     </div>
 </section>
-<section class="restaurant-section" id="garden-5">
+<section class="restaurant-section" id="garden-5" data-map-name="6. The Spa in Garden 5 (가든파이브 스파)" data-map-cta-url="https://maps.google.com/?cid=6500888069042089977&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Spa in Garden 5 (가든파이브 스파), Songpa-gu, Garden 5 Mall 10F, Seoul, KR" data-map-lat="37.4775778" data-map-lng="127.12499829999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>The Spa in Garden 5 (가든파이브 스파)</h2>
         <span class="cuisine-tag tag-regional">Mega Jjimjilbang</span>
@@ -677,7 +639,7 @@
         <strong>tabiji verdict:</strong> Located on the 10th floor of a shopping mall (yes, really), Garden 5&#39;s spa surprises with its Roman-inspired interiors and variety of themed rooms. A bit tricky to find — look for the &quot;Tool&quot; building entrance. Great combo with a shopping trip, and the private shower stalls help first-timers ease into the nude bathing culture.
     </div>
 </section>
-<section class="restaurant-section" id="riverside">
+<section class="restaurant-section" id="riverside" data-map-name="7. Riverside Spa Land (리버사이드 스파랜드)" data-map-cta-url="https://maps.google.com/?cid=16702115844647129837&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riverside Spa Land (리버사이드 스파랜드), Gwangjin-gu, near Gangbyeon Station, Seoul, KR" data-map-lat="37.5348073" data-map-lng="127.09154969999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Riverside Spa Land (리버사이드 스파랜드)</h2>
         <span class="cuisine-tag tag-regional">Mega Jjimjilbang</span>
@@ -710,7 +672,7 @@
         <strong>tabiji verdict:</strong> The everything-and-the-kitchen-sink jjimjilbang. Karaoke, PC room, gym, nail shop, restaurant — you could spend an entire day here without getting bored. Near Dongseoul Bus Terminal, so convenient if you&#39;re traveling to/from other Korean cities. The sulfur spa alone is worth the visit.
     </div>
 </section>
-<section class="restaurant-section" id="sulwhasoo">
+<section class="restaurant-section" id="sulwhasoo" data-map-name="8. Sulwhasoo Balance Spa (설화수 밸런스 스파)" data-map-cta-url="https://maps.google.com/?cid=17485735383555577419&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sulwhasoo Balance Spa (설화수 밸런스 스파), Gangnam-gu, Dosan-daero, Seoul, KR" data-map-lat="37.523553799999995" data-map-lng="127.0354599">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Sulwhasoo Balance Spa (설화수 밸런스 스파)</h2>
         <span class="cuisine-tag tag-regional">Luxury Spa</span>
@@ -743,7 +705,7 @@
         <strong>tabiji verdict:</strong> Korea&#39;s answer to a European luxury spa — powered by one of K-beauty&#39;s most iconic brands. This isn&#39;t where you go for the naked communal bath experience; it&#39;s where you go for world-class skincare treatments in Gangnam&#39;s poshest neighborhood. Splurge-worthy for beauty enthusiasts.
     </div>
 </section>
-<section class="restaurant-section" id="cimer">
+<section class="restaurant-section" id="cimer" data-map-name="9. Cimer at Paradise City (씨메르)" data-map-cta-url="https://maps.google.com/?cid=10257351507338459225&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cimer at Paradise City (씨메르), Incheon, Paradise City Resort, Seoul, KR" data-map-lat="37.4355897" data-map-lng="126.45704049999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Cimer at Paradise City (씨메르)</h2>
         <span class="cuisine-tag tag-regional">Resort Spa</span>
@@ -780,7 +742,7 @@
         <strong>tabiji verdict:</strong> Technically in Incheon, not Gangnam — but Reddit keeps recommending it as the best spa in all of Korea, so we couldn&#39;t leave it out. Multiple indoor/outdoor pools, resort-class luxury, and serious jjimjilbang facilities. Pricey (₩50,000–₩70,000) but a genuinely world-class experience. Perfect on your first or last day if flying through Incheon Airport.
     </div>
 </section>
-<section class="restaurant-section" id="siloam">
+<section class="restaurant-section" id="siloam" data-map-name="10. Siloam Sauna Gwangjin (실로암사우나)" data-map-cta-url="https://maps.google.com/?cid=16457052187760524086&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Siloam Sauna Gwangjin (실로암사우나), Gwangjin-gu, Yongmasan-ro, Seoul, KR" data-map-lat="37.5690015" data-map-lng="127.08555849999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Siloam Sauna Gwangjin (실로암사우나)</h2>
         <span class="cuisine-tag tag-regional">Classic Jjimjilbang</span>
@@ -831,9 +793,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Jjimjilbang Map</h2>
-      <iframe src="https://www.google.com/maps?q=Seoul%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Spa Lei (스파레이)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Jjimjilbang Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -855,7 +818,7 @@
       <li>
         <a href="#garden-5">6. The Spa in Garden 5 (가든파이브 스파)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Seoul%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9953759382508353515&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -866,5 +829,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Jjimjilbang Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Jjimjilbangs%20in%20Gangnam","picks":[{"anchorId":"spa-lei","rank":1,"name":"Spa Lei (스파레이)","label":"1. Spa Lei (스파레이)","lat":37.5179489,"lng":127.0181942,"ctaUrl":"https://maps.google.com/?cid=9953759382508353515&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spa Lei (스파레이), Seocho-gu, near Sinsa Station, Seoul, KR"},{"anchorId":"sparex","rank":2,"name":"Sparex Good Morning City (스파렉스)","label":"2. Sparex Good Morning City (스파렉스)","lat":37.5668728,"lng":127.0072811,"ctaUrl":"https://maps.google.com/?cid=3195202856165606688&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sparex Good Morning City (스파렉스), Dongdaemun, Good Morning City B3, Seoul, KR"},{"anchorId":"club-k","rank":3,"name":"Club K Spa (클럽K)","label":"3. Club K Spa (클럽K)","lat":37.5067648,"lng":127.04808460000001,"ctaUrl":"https://maps.google.com/?cid=4007709537958763013&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Club K Spa (클럽K), Gangnam-gu, Seoul, KR"},{"anchorId":"spa-5","rank":4,"name":"Spa 5 / Lotte Boseok Sauna (롯데보석사우나)","label":"4. Spa 5 / Lotte Boseok Sauna (롯데보석사우나)","lat":37.504099,"lng":127.05196399999998,"ctaUrl":"https://maps.google.com/?cid=12885908009397413183&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spa 5 / Lotte Boseok Sauna (롯데보석사우나), Gangnam-gu, Seolleung-ro, Seoul, KR"},{"anchorId":"spa-1899","rank":5,"name":"Spa 1899 Donginbi (스파1899)","label":"5. Spa 1899 Donginbi (스파1899)","lat":37.5065686,"lng":127.06536120000001,"ctaUrl":"https://maps.google.com/?cid=3597387846924172996&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spa 1899 Donginbi (스파1899), Daechi-dong, Gangnam-gu, Seoul, KR"},{"anchorId":"garden-5","rank":6,"name":"The Spa in Garden 5 (가든파이브 스파)","label":"6. The Spa in Garden 5 (가든파이브 스파)","lat":37.4775778,"lng":127.12499829999999,"ctaUrl":"https://maps.google.com/?cid=6500888069042089977&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Spa in Garden 5 (가든파이브 스파), Songpa-gu, Garden 5 Mall 10F, Seoul, KR"},{"anchorId":"riverside","rank":7,"name":"Riverside Spa Land (리버사이드 스파랜드)","label":"7. Riverside Spa Land (리버사이드 스파랜드)","lat":37.5348073,"lng":127.09154969999999,"ctaUrl":"https://maps.google.com/?cid=16702115844647129837&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Riverside Spa Land (리버사이드 스파랜드), Gwangjin-gu, near Gangbyeon Station, Seoul, KR"},{"anchorId":"sulwhasoo","rank":8,"name":"Sulwhasoo Balance Spa (설화수 밸런스 스파)","label":"8. Sulwhasoo Balance Spa (설화수 밸런스 스파)","lat":37.523553799999995,"lng":127.0354599,"ctaUrl":"https://maps.google.com/?cid=17485735383555577419&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sulwhasoo Balance Spa (설화수 밸런스 스파), Gangnam-gu, Dosan-daero, Seoul, KR"},{"anchorId":"cimer","rank":9,"name":"Cimer at Paradise City (씨메르)","label":"9. Cimer at Paradise City (씨메르)","lat":37.4355897,"lng":126.45704049999999,"ctaUrl":"https://maps.google.com/?cid=10257351507338459225&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cimer at Paradise City (씨메르), Incheon, Paradise City Resort, Seoul, KR"},{"anchorId":"siloam","rank":10,"name":"Siloam Sauna Gwangjin (실로암사우나)","label":"10. Siloam Sauna Gwangjin (실로암사우나)","lat":37.5690015,"lng":127.08555849999999,"ctaUrl":"https://maps.google.com/?cid=16457052187760524086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Siloam Sauna Gwangjin (실로암사우나), Gwangjin-gu, Yongmasan-ro, Seoul, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

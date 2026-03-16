@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tour A — The Lagoon Classic",
-        "servesCuisine": "Tour A",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Bacuit Archipelago",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tour C — Secret Beach & Hidden Beach",
-        "servesCuisine": "Tour C",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Matinloc & Tapiutan Area",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Combined A+C Tour",
-        "servesCuisine": "Combo Tour",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Bacuit Archipelago",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tour B — Caves, Snorkeling & Snake Island",
-        "servesCuisine": "Tour B",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Pinagbuyutan & Snake Island",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tour D — The Crowd-Free Hidden Gem",
-        "servesCuisine": "Tour D",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Cadlao Island & Nat-Nat Beach",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Private Boat Tour",
-        "servesCuisine": "Private Tour",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Fully Customizable",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Speedboat Island-Hopping",
-        "servesCuisine": "Speedboat",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Fully Customizable",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tao Philippines Expedition",
-        "servesCuisine": "Premium Expedition",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "El Nido → Coron (or reverse)",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Big Dream Boatman",
-        "servesCuisine": "Expedition",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "El Nido → Coron (3D2N)",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "El Nido Paradise & Budget Expeditions",
-        "servesCuisine": "Budget Expedition",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "El Nido → Coron (3D2N)",
@@ -225,7 +215,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Dos Hermanos Tours",
-        "servesCuisine": "Local Operator",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "El Nido town",
@@ -241,7 +230,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Kayak the Lagoons — Self-Guided",
-        "servesCuisine": "Kayaking",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Big Lagoon & Small Lagoon",
@@ -326,11 +314,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -355,9 +338,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -382,7 +368,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -434,9 +420,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Island-Hopping Map</h2>
-      <iframe src="https://www.google.com/maps?q=El%20Nido%2C%20Palawan%20activities&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Tour A — The Lagoon Classic</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Island-Hopping Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -444,13 +431,13 @@
         <a href="#tour-a">1. Tour A — The Lagoon Classic</a>
       </li>
       <li>
-        <a href="#tour-c">2. Tour C — Secret Beach &amp; Hidden Beach</a>
+        <a href="#tour-c">2. Tour C — Secret Beach & Hidden Beach</a>
       </li>
       <li>
         <a href="#combo-ac">3. Combined A+C Tour</a>
       </li>
       <li>
-        <a href="#tour-b">4. Tour B — Caves, Snorkeling &amp; Snake Island</a>
+        <a href="#tour-b">4. Tour B — Caves, Snorkeling & Snake Island</a>
       </li>
       <li>
         <a href="#tour-d">5. Tour D — The Crowd-Free Hidden Gem</a>
@@ -458,7 +445,7 @@
       <li>
         <a href="#private-boat">6. Private Boat Tour</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/El%20Nido%2C%20Palawan%20activities" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=763989226199222301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -470,7 +457,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="tour-a">
+<section class="restaurant-section" id="tour-a" data-map-name="1. Tour A — The Lagoon Classic" data-map-cta-url="https://maps.google.com/?cid=763989226199222301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tour A — The Lagoon Classic, Bacuit Archipelago, El Nido, Palawan" data-map-lat="11.1648125" data-map-lng="119.39856250000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Tour A — The Lagoon Classic</h2>
         <span class="cuisine-tag tag-regional">Tour A</span>
@@ -503,7 +490,7 @@
         <strong>tabiji verdict:</strong> The undisputed #1. If you do only one tour in El Nido, this is it. Big Lagoon alone is worth the trip — kayaking through jade-green water flanked by towering karst cliffs is genuinely jaw-dropping. It gets crowded (especially midday), so go early or book private to get ahead of the flotilla.
     </div>
 </section>
-<section class="restaurant-section" id="tour-c">
+<section class="restaurant-section" id="tour-c" data-map-name="2. Tour C — Secret Beach &amp; Hidden Beach" data-map-cta-url="https://maps.google.com/?cid=6189094986936824474&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tour C — Secret Beach &amp; Hidden Beach, Matinloc &amp; Tapiutan Area, El Nido, Palawan" data-map-lat="11.177598699999999" data-map-lng="119.2811042">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Tour C — Secret Beach &amp; Hidden Beach</h2>
         <span class="cuisine-tag tag-regional">Tour C</span>
@@ -532,7 +519,7 @@
         <strong>tabiji verdict:</strong> The consensus second choice after Tour A. Secret Beach is pure magic — swimming through a small opening in the rock to find a hidden cove on the other side is one of those moments you&#39;ll never forget. Can get very crowded though, especially the swimming entrance. If you have two days for island-hopping, A + C is the Reddit-approved combo.
     </div>
 </section>
-<section class="restaurant-section" id="combo-ac">
+<section class="restaurant-section" id="combo-ac" data-map-name="3. Combined A+C Tour" data-map-cta-url="https://maps.google.com/?cid=10706370140507022029&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Combined A+C Tour, Bacuit Archipelago, El Nido, Palawan" data-map-lat="11.1648125" data-map-lng="119.39856250000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Combined A+C Tour</h2>
         <span class="cuisine-tag tag-regional">Combo Tour</span>
@@ -569,7 +556,7 @@
         <strong>tabiji verdict:</strong> The best option if you only have one day and want to hit all the highlights. Requires a private or semi-private boat (joiner tours don&#39;t offer combos). It can feel a bit rushed, but with an early start and smart prioritization — Big Lagoon, Secret Lagoon, Secret Beach — you&#39;ll get the absolute best of El Nido in a single day.
     </div>
 </section>
-<section class="restaurant-section" id="tour-b">
+<section class="restaurant-section" id="tour-b" data-map-name="4. Tour B — Caves, Snorkeling &amp; Snake Island" data-map-cta-url="https://maps.google.com/?cid=2682430342124118336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tour B — Caves, Snorkeling &amp; Snake Island, Pinagbuyutan &amp; Snake Island, El Nido, Palawan" data-map-lat="11.0844807" data-map-lng="119.352553">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tour B — Caves, Snorkeling &amp; Snake Island</h2>
         <span class="cuisine-tag tag-regional">Tour B</span>
@@ -598,7 +585,7 @@
         <strong>tabiji verdict:</strong> The underrated third option. Tour B doesn&#39;t have the lagoon drama of A or the secret spots of C, but Snake Island&#39;s sandbar is incredibly photogenic and the snorkeling is arguably the best of all four tours. Entalula Beach is gorgeous and less mobbed than Seven Commandos. Great for snorkel-lovers who&#39;ve already done A and C.
     </div>
 </section>
-<section class="restaurant-section" id="tour-d">
+<section class="restaurant-section" id="tour-d" data-map-name="5. Tour D — The Crowd-Free Hidden Gem" data-map-cta-url="https://maps.google.com/?cid=5286507534649477568&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tour D — The Crowd-Free Hidden Gem, Cadlao Island &amp; Nat-Nat Beach, El Nido, Palawan" data-map-lat="11.205713399999999" data-map-lng="119.3638993">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Tour D — The Crowd-Free Hidden Gem</h2>
         <span class="cuisine-tag tag-regional">Tour D</span>
@@ -635,7 +622,7 @@
         <strong>tabiji verdict:</strong> The contrarian pick. Tour D is dismissed as the &quot;worst&quot; by most guides, but experienced El Nido travelers know the real secret: it&#39;s the least crowded. If you&#39;ve done A and C already and want a peaceful day on the water with beautiful scenery minus the boat traffic jams, Tour D is a genuine delight. Cadlao Lagoon is underrated.
     </div>
 </section>
-<section class="restaurant-section" id="private-boat">
+<section class="restaurant-section" id="private-boat" data-map-name="6. Private Boat Tour" data-map-cta-url="https://maps.google.com/?cid=4477510348289895461&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Private Boat Tour, Fully Customizable, El Nido, Palawan" data-map-lat="11.181562099999999" data-map-lng="119.3915559">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Private Boat Tour</h2>
         <span class="cuisine-tag tag-regional">Private Tour</span>
@@ -676,7 +663,7 @@
         <strong>tabiji verdict:</strong> The Reddit consensus is clear — if your budget allows, private is the way to go. You&#39;ll arrive at spots before the joiner tour flotilla, skip the stops that don&#39;t interest you, and spend more time at the ones that do. For groups of 3-6, the per-person cost is surprisingly reasonable. Book through your hotel or walk Calle Hama the day before.
     </div>
 </section>
-<section class="restaurant-section" id="speedboat">
+<section class="restaurant-section" id="speedboat" data-map-name="7. Speedboat Island-Hopping" data-map-cta-url="https://maps.google.com/?cid=10369541533202196540&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Speedboat Island-Hopping, Fully Customizable, El Nido, Palawan" data-map-lat="11.1802788" data-map-lng="119.38890680000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Speedboat Island-Hopping</h2>
         <span class="cuisine-tag tag-regional">Speedboat</span>
@@ -713,7 +700,7 @@
         <strong>tabiji verdict:</strong> The premium option for those who want to see everything in one day. At ₱19,000-₱26,000 per boat (split among your group), it&#39;s a splurge — but you&#39;ll cover in one day what takes 2-3 days on a bangka. Ideal for groups of 4-8 splitting the cost. You&#39;ll also beat the crowds to every stop since speedboats arrive 30+ minutes before traditional boats.
     </div>
 </section>
-<section class="restaurant-section" id="tao-philippines">
+<section class="restaurant-section" id="tao-philippines" data-map-name="8. Tao Philippines Expedition" data-map-cta-url="https://maps.google.com/?cid=3660173021391659479&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tao Philippines Expedition, El Nido → Coron (or reverse), El Nido, Palawan" data-map-lat="11.1650348" data-map-lng="119.3985356">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Tao Philippines Expedition</h2>
         <span class="cuisine-tag tag-regional">Premium Expedition</span>
@@ -750,7 +737,7 @@
         <strong>tabiji verdict:</strong> The ultimate Philippines island experience — and one of the best multi-day adventures in all of Southeast Asia. Tao pioneered the El Nido-Coron expedition and remains the gold standard. It&#39;s expensive, but every traveler we found who did it called it the highlight of their entire Philippines trip. Book months in advance — they sell out fast. If you have the time and budget, this is life-changing stuff.
     </div>
 </section>
-<section class="restaurant-section" id="big-dream-boatman">
+<section class="restaurant-section" id="big-dream-boatman" data-map-name="9. Big Dream Boatman" data-map-cta-url="https://maps.google.com/?cid=166824157819642146&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Big Dream Boatman, El Nido → Coron (3D2N), El Nido, Palawan" data-map-lat="11.999572299999999" data-map-lng="120.20164899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Big Dream Boatman</h2>
         <span class="cuisine-tag tag-regional">Expedition</span>
@@ -787,7 +774,7 @@
         <strong>tabiji verdict:</strong> The sweet spot between price and experience for the El Nido–Coron route. Not as luxe as Tao but still excellent food, great crew, and you&#39;ll see islands that day-trippers never reach. The 3D2N format is perfect for most travelers — long enough to feel like an adventure, short enough to fit into a Philippines itinerary.
     </div>
 </section>
-<section class="restaurant-section" id="el-nido-paradise">
+<section class="restaurant-section" id="el-nido-paradise" data-map-name="10. El Nido Paradise &amp; Budget Expeditions" data-map-cta-url="https://maps.google.com/?cid=4477510348289895461&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Nido Paradise &amp; Budget Expeditions, El Nido → Coron (3D2N), El Nido, Palawan" data-map-lat="11.181562099999999" data-map-lng="119.3915559">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>El Nido Paradise &amp; Budget Expeditions</h2>
         <span class="cuisine-tag tag-regional">Budget Expedition</span>
@@ -828,7 +815,7 @@
         <strong>tabiji verdict:</strong> The backpacker&#39;s dream. These expeditions deliver 90% of the Tao experience at 50-60% of the price. El Nido Paradise and Castaway by Outpost get the best reviews for food quality. Check recent reviews before booking — quality can vary between trips depending on weather and crew. Most people say it&#39;s the highlight of their Philippines trip regardless of which operator they choose.
     </div>
 </section>
-<section class="restaurant-section" id="dos-hermanos">
+<section class="restaurant-section" id="dos-hermanos" data-map-name="11. Dos Hermanos Tours" data-map-cta-url="https://maps.google.com/?cid=7887842272747396883&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dos Hermanos Tours, El Nido town, El Nido, Palawan" data-map-lat="11.180774999999999" data-map-lng="119.38433739999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Dos Hermanos Tours</h2>
         <span class="cuisine-tag tag-regional">Local Operator</span>
@@ -865,7 +852,7 @@
         <strong>tabiji verdict:</strong> The standout operator recommendation from Reddit. While most tour companies in El Nido are interchangeable (they all follow the same government-regulated routes), Dos Hermanos distinguishes itself with better food, drone photography included, and a family-run personal touch. If you want a joiner tour but want the best possible version of it, book with Dos Hermanos.
     </div>
 </section>
-<section class="restaurant-section" id="kayak-lagoons">
+<section class="restaurant-section" id="kayak-lagoons" data-map-name="12. Kayak the Lagoons — Self-Guided" data-map-cta-url="https://maps.google.com/?cid=4964054703445339182&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kayak the Lagoons — Self-Guided, Big Lagoon &amp; Small Lagoon, El Nido, Palawan" data-map-lat="11.155477399999999" data-map-lng="119.32238600000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Kayak the Lagoons — Self-Guided</h2>
         <span class="cuisine-tag tag-regional">Kayaking</span>
@@ -912,9 +899,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Island-Hopping Map</h2>
-      <iframe src="https://www.google.com/maps?q=El%20Nido%2C%20Palawan%20activities&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Tour A — The Lagoon Classic</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Island-Hopping Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -922,13 +910,13 @@
         <a href="#tour-a">1. Tour A — The Lagoon Classic</a>
       </li>
       <li>
-        <a href="#tour-c">2. Tour C — Secret Beach &amp; Hidden Beach</a>
+        <a href="#tour-c">2. Tour C — Secret Beach & Hidden Beach</a>
       </li>
       <li>
         <a href="#combo-ac">3. Combined A+C Tour</a>
       </li>
       <li>
-        <a href="#tour-b">4. Tour B — Caves, Snorkeling &amp; Snake Island</a>
+        <a href="#tour-b">4. Tour B — Caves, Snorkeling & Snake Island</a>
       </li>
       <li>
         <a href="#tour-d">5. Tour D — The Crowd-Free Hidden Gem</a>
@@ -936,7 +924,7 @@
       <li>
         <a href="#private-boat">6. Private Boat Tour</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/El%20Nido%2C%20Palawan%20activities" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=763989226199222301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -947,5 +935,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Island-Hopping Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Island-Hopping%20Tours%20in%20El%20Nido","picks":[{"anchorId":"tour-a","rank":1,"name":"Tour A — The Lagoon Classic","label":"1. Tour A — The Lagoon Classic","lat":11.1648125,"lng":119.39856250000001,"ctaUrl":"https://maps.google.com/?cid=763989226199222301&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tour A — The Lagoon Classic, Bacuit Archipelago, El Nido, Palawan"},{"anchorId":"tour-c","rank":2,"name":"Tour C — Secret Beach & Hidden Beach","label":"2. Tour C — Secret Beach & Hidden Beach","lat":11.177598699999999,"lng":119.2811042,"ctaUrl":"https://maps.google.com/?cid=6189094986936824474&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tour C — Secret Beach & Hidden Beach, Matinloc & Tapiutan Area, El Nido, Palawan"},{"anchorId":"combo-ac","rank":3,"name":"Combined A+C Tour","label":"3. Combined A+C Tour","lat":11.1648125,"lng":119.39856250000001,"ctaUrl":"https://maps.google.com/?cid=10706370140507022029&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Combined A+C Tour, Bacuit Archipelago, El Nido, Palawan"},{"anchorId":"tour-b","rank":4,"name":"Tour B — Caves, Snorkeling & Snake Island","label":"4. Tour B — Caves, Snorkeling & Snake Island","lat":11.0844807,"lng":119.352553,"ctaUrl":"https://maps.google.com/?cid=2682430342124118336&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tour B — Caves, Snorkeling & Snake Island, Pinagbuyutan & Snake Island, El Nido, Palawan"},{"anchorId":"tour-d","rank":5,"name":"Tour D — The Crowd-Free Hidden Gem","label":"5. Tour D — The Crowd-Free Hidden Gem","lat":11.205713399999999,"lng":119.3638993,"ctaUrl":"https://maps.google.com/?cid=5286507534649477568&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tour D — The Crowd-Free Hidden Gem, Cadlao Island & Nat-Nat Beach, El Nido, Palawan"},{"anchorId":"private-boat","rank":6,"name":"Private Boat Tour","label":"6. Private Boat Tour","lat":11.181562099999999,"lng":119.3915559,"ctaUrl":"https://maps.google.com/?cid=4477510348289895461&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Private Boat Tour, Fully Customizable, El Nido, Palawan"},{"anchorId":"speedboat","rank":7,"name":"Speedboat Island-Hopping","label":"7. Speedboat Island-Hopping","lat":11.1802788,"lng":119.38890680000002,"ctaUrl":"https://maps.google.com/?cid=10369541533202196540&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Speedboat Island-Hopping, Fully Customizable, El Nido, Palawan"},{"anchorId":"tao-philippines","rank":8,"name":"Tao Philippines Expedition","label":"8. Tao Philippines Expedition","lat":11.1650348,"lng":119.3985356,"ctaUrl":"https://maps.google.com/?cid=3660173021391659479&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tao Philippines Expedition, El Nido → Coron (or reverse), El Nido, Palawan"},{"anchorId":"big-dream-boatman","rank":9,"name":"Big Dream Boatman","label":"9. Big Dream Boatman","lat":11.999572299999999,"lng":120.20164899999999,"ctaUrl":"https://maps.google.com/?cid=166824157819642146&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Big Dream Boatman, El Nido → Coron (3D2N), El Nido, Palawan"},{"anchorId":"el-nido-paradise","rank":10,"name":"El Nido Paradise & Budget Expeditions","label":"10. El Nido Paradise & Budget Expeditions","lat":11.181562099999999,"lng":119.3915559,"ctaUrl":"https://maps.google.com/?cid=4477510348289895461&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Nido Paradise & Budget Expeditions, El Nido → Coron (3D2N), El Nido, Palawan"},{"anchorId":"dos-hermanos","rank":11,"name":"Dos Hermanos Tours","label":"11. Dos Hermanos Tours","lat":11.180774999999999,"lng":119.38433739999999,"ctaUrl":"https://maps.google.com/?cid=7887842272747396883&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dos Hermanos Tours, El Nido town, El Nido, Palawan"},{"anchorId":"kayak-lagoons","rank":12,"name":"Kayak the Lagoons — Self-Guided","label":"12. Kayak the Lagoons — Self-Guided","lat":11.155477399999999,"lng":119.32238600000001,"ctaUrl":"https://maps.google.com/?cid=4964054703445339182&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kayak the Lagoons — Self-Guided, Big Lagoon & Small Lagoon, El Nido, Palawan"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

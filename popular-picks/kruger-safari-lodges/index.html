@@ -345,9 +345,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -372,7 +375,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -420,13 +423,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Kruger National Park and its surrounding private reserves offer safari experiences ranging from R1,000 to R100,000+ per night, with MalaMala Main Camp being a top recommendation for its exclusive traversing rights. The Greater Kruger ecosystem promises a transformative safari adventure for every budget, from SANParks bungalows to ultra-luxury suites.</strong></p>
-        <p>Kruger National Park and its surrounding private reserves offer safari experiences ranging from R1,000 to R100,000+ per night, with MalaMala Main Camp being a top recommendation for its exclusive traversing rights. Whether you opt for a budget-friendly bungalow or an ultra-luxury suite, the Greater Kruger ecosystem promises a transformative safari adventure.</p><p>Kruger National Park is the crown jewel of African safaris — nearly 2 million hectares of untamed wilderness bordering private reserves like Sabi Sands and Timbavati. The question isn&#39;t whether to go, it&#39;s where to stay . And the range is staggering: from R1,000 SANParks bungalows to R80,000-a-night suites with private plunge pools and leopards wandering past your deck.</p><p>We dug through Reddit&#39;s safari communities to find the lodges that repeat visitors and South African locals actually recommend — not sponsored listicles. The consensus is clear: the Greater Kruger ecosystem offers something at every budget, and the experience is transformative regardless of what you spend.</p>
+        <p>Kruger National Park is the crown jewel of African safaris — nearly 2 million hectares of untamed wilderness bordering private reserves like Sabi Sands and Timbavati. The question isn&#39;t whether to go, it&#39;s where to stay . And the range is staggering: from R1,000 SANParks bungalows to R80,000-a-night suites with private plunge pools and leopards wandering past your deck.</p><p>We dug through Reddit&#39;s safari communities to find the lodges that repeat visitors and South African locals actually recommend — not sponsored listicles. The consensus is clear: the Greater Kruger ecosystem offers something at every budget, and the experience is transformative regardless of what you spend.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Lodge Map</h2>
-      <iframe src="https://www.google.com/maps?q=Safari%20Lodges%20in%20Kruger&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. MalaMala Main Camp</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Lodge Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -448,7 +452,7 @@
       <li>
         <a href="#inyati">6. Inyati Game Lodge</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Safari%20Lodges%20in%20Kruger" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16910420784195009940&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -460,7 +464,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="malamala">
+<section class="restaurant-section" id="malamala" data-map-name="1. MalaMala Main Camp" data-map-cta-url="https://maps.google.com/?cid=16910420784195009940&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="MalaMala Main Camp, Sabi Sands Game Reserve, Greater Kruger, ZA" data-map-lat="-24.9320533" data-map-lng="31.514161499999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>MalaMala Main Camp</h2>
         <span class="cuisine-tag tag-regional">Ultra-Luxury · Sabi Sands</span>
@@ -493,7 +497,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Kruger-area safari lodges. MalaMala&#39;s massive exclusive traversing area means you&#39;re rarely competing with other vehicles, and the density of predators — especially leopards and lions along the Sand River — is unmatched. Yes, it&#39;s eye-wateringly expensive, but Reddit&#39;s safari community consistently ranks it as objectively the best game viewing in South Africa. If budget permits, this is the one.
     </div>
 </section>
-<section class="restaurant-section" id="londolozi">
+<section class="restaurant-section" id="londolozi" data-map-name="2. Londolozi Varty Camp" data-map-cta-url="https://maps.google.com/?cid=14276612109967105275&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Londolozi Varty Camp, Sabi Sands Game Reserve, Greater Kruger, ZA" data-map-lat="-24.7961082" data-map-lng="31.500810700000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Londolozi Varty Camp</h2>
         <span class="cuisine-tag tag-regional">Luxury · Sabi Sands</span>
@@ -526,7 +530,7 @@
         <strong>tabiji verdict:</strong> Londolozi inspires the kind of loyalty that borders on obsession. Multiple Redditors describe returning year after year — one is doing 10 nights on their fourth trip. The guides are legendary, the leopard sightings are world-class, and five different camp styles mean there&#39;s a Londolozi for every luxury budget. Varty Camp is the sweet spot: the original lodge, excellent game viewing, and slightly less than Granite Suites pricing.
     </div>
 </section>
-<section class="restaurant-section" id="singita">
+<section class="restaurant-section" id="singita" data-map-name="3. Singita Lebombo Lodge" data-map-cta-url="https://maps.google.com/?cid=12482369537664299143&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Singita Lebombo Lodge, Singita Concession, Kruger National Park, Greater Kruger, ZA" data-map-lat="-24.452241599999997" data-map-lng="31.978066000000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Singita Lebombo Lodge</h2>
         <span class="cuisine-tag tag-regional">Ultra-Luxury · Kruger Concession</span>
@@ -555,7 +559,7 @@
         <strong>tabiji verdict:</strong> The pinnacle of luxury safari. Singita Lebombo is architecturally stunning — glass-walled suites hovering above the river — and the concession inside Kruger proper means you get the authentic national park feel with private reserve exclusivity. It&#39;s the most expensive option on this list, but the &quot;overall experience&quot; (as multiple Redditors note) is unmatched. For honeymoons and once-in-a-lifetime splurges.
     </div>
 </section>
-<section class="restaurant-section" id="leopard-hills">
+<section class="restaurant-section" id="leopard-hills" data-map-name="4. Leopard Hills Private Game Reserve" data-map-cta-url="https://maps.google.com/?cid=13091738117757774392&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Leopard Hills Private Game Reserve, Sabi Sands Game Reserve (western sector), Greater Kruger, ZA" data-map-lat="-24.792531500000003" data-map-lng="31.368076799999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Leopard Hills Private Game Reserve</h2>
         <span class="cuisine-tag tag-regional">Luxury · Sabi Sands</span>
@@ -592,7 +596,7 @@
         <strong>tabiji verdict:</strong> The &quot;elephants drinking from your plunge pool&quot; lodge. Leopard Hills delivers the quintessential luxury safari Instagram moment — glass-walled suites, heated pools, and wildlife wandering through camp. It&#39;s slightly more affordable than MalaMala and Londolozi while still being firmly in luxury territory. The western Sabi Sands location means slightly less diverse traversing than MalaMala, but the lodge experience itself is exceptional.
     </div>
 </section>
-<section class="restaurant-section" id="nottens">
+<section class="restaurant-section" id="nottens" data-map-name="5. Nottens Bush Camp" data-map-cta-url="https://maps.google.com/?cid=11694283229806717538&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nottens Bush Camp, Sabi Sands Game Reserve, Greater Kruger, ZA" data-map-lat="-24.894538299999997" data-map-lng="31.5376524">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Nottens Bush Camp</h2>
         <span class="cuisine-tag tag-regional">Mid-Range · Sabi Sands</span>
@@ -625,7 +629,7 @@
         <strong>tabiji verdict:</strong> The romantic&#39;s choice. Nottens strips away the modern glitz — no electricity in rooms, candlelight everywhere — and replaces it with genuine bush atmosphere. At 8 rooms, it&#39;s tiny compared to most Sabi Sands lodges, meaning your game drives feel private and the staff know your name. Multiple Redditors call it &quot;incredible&quot; without the incredible price tag of MalaMala or Singita. The best value-to-experience ratio in Sabi Sands for couples.
     </div>
 </section>
-<section class="restaurant-section" id="inyati">
+<section class="restaurant-section" id="inyati" data-map-name="6. Inyati Game Lodge" data-map-cta-url="https://maps.google.com/?cid=2727609017459361567&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Inyati Game Lodge, Sabi Sands Game Reserve, Greater Kruger, ZA" data-map-lat="-24.772518899999998" data-map-lng="31.387680699999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Inyati Game Lodge</h2>
         <span class="cuisine-tag tag-regional">Mid-Range · Sabi Sands</span>
@@ -662,7 +666,7 @@
         <strong>tabiji verdict:</strong> The &quot;Magnificent 7&quot; lodge. Inyati&#39;s selling point is simple: excellent game viewing at a price that won&#39;t bankrupt you. It&#39;s not trying to be Singita — the rooms are comfortable rather than opulent — but the guides are top-tier and the Sand River location delivers the sightings. One Redditor saw all Big 5 plus cheetah and wild dogs in three nights. That&#39;s the kind of result that makes Inyati regulars out of first-timers.
     </div>
 </section>
-<section class="restaurant-section" id="elephant-plains">
+<section class="restaurant-section" id="elephant-plains" data-map-name="7. Elephant Plains Game Lodge" data-map-cta-url="https://maps.google.com/?cid=1796791174186381651&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Elephant Plains Game Lodge, Sabi Sands Game Reserve, Greater Kruger, ZA" data-map-lat="-24.7434619" data-map-lng="31.478254">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Elephant Plains Game Lodge</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly · Sabi Sands</span>
@@ -691,7 +695,7 @@
         <strong>tabiji verdict:</strong> The Sabi Sands gateway drug. Elephant Plains proves you don&#39;t need to spend R50,000/night to experience world-class game viewing. It&#39;s the cheapest lodge in Sabi Sands and the animals don&#39;t check your room rate — the Big 5 sightings are the same as at MalaMala. The catch: it books out 7-11 months in advance. Set a calendar reminder and grab a cancellation if you can. Repeat visitors are obsessive about this place.
     </div>
 </section>
-<section class="restaurant-section" id="kambaku">
+<section class="restaurant-section" id="kambaku" data-map-name="8. Kambaku Safari Lodge" data-map-cta-url="https://maps.google.com/?cid=11659465403255168485&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kambaku Safari Lodge, Timbavati Private Nature Reserve, Greater Kruger, ZA" data-map-lat="-24.3634967" data-map-lng="31.2642684">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Kambaku Safari Lodge</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly · Timbavati</span>
@@ -728,7 +732,7 @@
         <strong>tabiji verdict:</strong> The solo traveler&#39;s best friend. Most safari lodges punish solo travelers with brutal single supplements (sometimes 50-100% extra). Kambaku doesn&#39;t, which makes it the Reddit community&#39;s go-to recommendation for anyone traveling alone. The Timbavati location delivers excellent leopard sightings, and it&#39;s fully recovered from the 2023 floods. Budget-friendly without feeling budget.
     </div>
 </section>
-<section class="restaurant-section" id="ngala">
+<section class="restaurant-section" id="ngala" data-map-name="9. AndBeyond Ngala Safari Lodge" data-map-cta-url="https://maps.google.com/?cid=13616489898467391158&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="AndBeyond Ngala Safari Lodge, Timbavati Private Nature Reserve, Greater Kruger, ZA" data-map-lat="-24.3813421" data-map-lng="31.321842699999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>AndBeyond Ngala Safari Lodge</h2>
         <span class="cuisine-tag tag-regional">Luxury · Timbavati</span>
@@ -765,7 +769,7 @@
         <strong>tabiji verdict:</strong> The treehouse lodge. AndBeyond is one of Africa&#39;s most trusted luxury safari brands, and Ngala delivers their signature blend of incredible food, warm service, and excellent guiding. The treehouse sleepover — sleeping on a platform in the open bush — is the kind of experience people travel halfway around the world for. Book the Safari Lodge over Tented Camp for better value; both share the same traversing area.
     </div>
 </section>
-<section class="restaurant-section" id="kapama">
+<section class="restaurant-section" id="kapama" data-map-name="10. Kapama Private Game Reserve" data-map-cta-url="https://maps.google.com/?cid=12448235856915045586&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kapama Private Game Reserve, Hoedspruit, Greater Kruger Area, Greater Kruger, ZA" data-map-lat="-24.429375" data-map-lng="31.0134571">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Kapama Private Game Reserve</h2>
         <span class="cuisine-tag tag-regional">Family-Friendly · Hoedspruit</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> The family safari. Kapama&#39;s fenced reserve and children&#39;s programs make it the top choice for families with kids. It&#39;s close to Hoedspruit airport (easy access), the Big 5 are virtually guaranteed, and the lodge experience is polished. Purists note it&#39;s a fenced reserve — the animals can&#39;t migrate naturally like in unfenced Sabi Sands. But for families and first-timers who want a reliable, comfortable safari experience, it&#39;s hard to beat.
     </div>
 </section>
-<section class="restaurant-section" id="satara">
+<section class="restaurant-section" id="satara" data-map-name="11. Satara Rest Camp" data-map-cta-url="https://maps.google.com/?cid=16215830239462704019&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Satara Rest Camp, Central Kruger National Park, Greater Kruger, ZA" data-map-lat="-24.3930124" data-map-lng="31.7798085">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Satara Rest Camp</h2>
         <span class="cuisine-tag tag-regional">SANParks · Self-Drive</span>
@@ -835,7 +839,7 @@
         <strong>tabiji verdict:</strong> The cat highway base camp. Satara is the consensus #1 pick for self-drive Kruger — the surrounding open savanna is lion and cheetah territory, and the &quot;big cat highway&quot; (the road between Satara and Orpen) delivers sightings that rival any private reserve. At a fraction of the cost. Book the morning bush walks — they&#39;re better than the drives, according to regulars. Self-catering means you&#39;ll braai your own dinner under the stars. This is the authentic Kruger experience.
     </div>
 </section>
-<section class="restaurant-section" id="lower-sabie">
+<section class="restaurant-section" id="lower-sabie" data-map-name="12. Lower Sabie Rest Camp" data-map-cta-url="https://maps.google.com/?cid=11313816144935602341&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lower Sabie Rest Camp, Southern Kruger National Park, Greater Kruger, ZA" data-map-lat="-25.11986" data-map-lng="31.915378999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Lower Sabie Rest Camp</h2>
         <span class="cuisine-tag tag-regional">SANParks · Self-Drive</span>
@@ -890,9 +894,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Lodge Map</h2>
-      <iframe src="https://www.google.com/maps?q=Safari%20Lodges%20in%20Kruger&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. MalaMala Main Camp</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Lodge Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -914,7 +919,7 @@
       <li>
         <a href="#inyati">6. Inyati Game Lodge</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Safari%20Lodges%20in%20Kruger" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16910420784195009940&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -925,5 +930,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Lodge Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Safari%20Lodges%20in%20Kruger","picks":[{"anchorId":"malamala","rank":1,"name":"MalaMala Main Camp","label":"1. MalaMala Main Camp","lat":-24.9320533,"lng":31.514161499999997,"ctaUrl":"https://maps.google.com/?cid=16910420784195009940&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"MalaMala Main Camp, Sabi Sands Game Reserve, Greater Kruger, ZA"},{"anchorId":"londolozi","rank":2,"name":"Londolozi Varty Camp","label":"2. Londolozi Varty Camp","lat":-24.7961082,"lng":31.500810700000002,"ctaUrl":"https://maps.google.com/?cid=14276612109967105275&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Londolozi Varty Camp, Sabi Sands Game Reserve, Greater Kruger, ZA"},{"anchorId":"singita","rank":3,"name":"Singita Lebombo Lodge","label":"3. Singita Lebombo Lodge","lat":-24.452241599999997,"lng":31.978066000000002,"ctaUrl":"https://maps.google.com/?cid=12482369537664299143&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Singita Lebombo Lodge, Singita Concession, Kruger National Park, Greater Kruger, ZA"},{"anchorId":"leopard-hills","rank":4,"name":"Leopard Hills Private Game Reserve","label":"4. Leopard Hills Private Game Reserve","lat":-24.792531500000003,"lng":31.368076799999997,"ctaUrl":"https://maps.google.com/?cid=13091738117757774392&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Leopard Hills Private Game Reserve, Sabi Sands Game Reserve (western sector), Greater Kruger, ZA"},{"anchorId":"nottens","rank":5,"name":"Nottens Bush Camp","label":"5. Nottens Bush Camp","lat":-24.894538299999997,"lng":31.5376524,"ctaUrl":"https://maps.google.com/?cid=11694283229806717538&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nottens Bush Camp, Sabi Sands Game Reserve, Greater Kruger, ZA"},{"anchorId":"inyati","rank":6,"name":"Inyati Game Lodge","label":"6. Inyati Game Lodge","lat":-24.772518899999998,"lng":31.387680699999997,"ctaUrl":"https://maps.google.com/?cid=2727609017459361567&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Inyati Game Lodge, Sabi Sands Game Reserve, Greater Kruger, ZA"},{"anchorId":"elephant-plains","rank":7,"name":"Elephant Plains Game Lodge","label":"7. Elephant Plains Game Lodge","lat":-24.7434619,"lng":31.478254,"ctaUrl":"https://maps.google.com/?cid=1796791174186381651&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Elephant Plains Game Lodge, Sabi Sands Game Reserve, Greater Kruger, ZA"},{"anchorId":"kambaku","rank":8,"name":"Kambaku Safari Lodge","label":"8. Kambaku Safari Lodge","lat":-24.3634967,"lng":31.2642684,"ctaUrl":"https://maps.google.com/?cid=11659465403255168485&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kambaku Safari Lodge, Timbavati Private Nature Reserve, Greater Kruger, ZA"},{"anchorId":"ngala","rank":9,"name":"AndBeyond Ngala Safari Lodge","label":"9. AndBeyond Ngala Safari Lodge","lat":-24.3813421,"lng":31.321842699999994,"ctaUrl":"https://maps.google.com/?cid=13616489898467391158&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"AndBeyond Ngala Safari Lodge, Timbavati Private Nature Reserve, Greater Kruger, ZA"},{"anchorId":"kapama","rank":10,"name":"Kapama Private Game Reserve","label":"10. Kapama Private Game Reserve","lat":-24.429375,"lng":31.0134571,"ctaUrl":"https://maps.google.com/?cid=12448235856915045586&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kapama Private Game Reserve, Hoedspruit, Greater Kruger Area, Greater Kruger, ZA"},{"anchorId":"satara","rank":11,"name":"Satara Rest Camp","label":"11. Satara Rest Camp","lat":-24.3930124,"lng":31.7798085,"ctaUrl":"https://maps.google.com/?cid=16215830239462704019&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Satara Rest Camp, Central Kruger National Park, Greater Kruger, ZA"},{"anchorId":"lower-sabie","rank":12,"name":"Lower Sabie Rest Camp","label":"12. Lower Sabie Rest Camp","lat":-25.11986,"lng":31.915378999999998,"ctaUrl":"https://maps.google.com/?cid=11313816144935602341&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lower Sabie Rest Camp, Southern Kruger National Park, Greater Kruger, ZA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

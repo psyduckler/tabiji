@@ -328,11 +328,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -357,9 +352,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -384,39 +382,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Bánh Mì in Hội An",
-                        "item": "https://tabiji.ai/popular-picks/hoi-an-banh-mi/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -459,13 +430,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Hội An&#39;s bánh mì scene boasts a symphony of flavors, with prices ranging from 10,000 to 50,000 VND, and Bánh Mì Phượng stands out as a top recommendation due to its Anthony Bourdain-approved status. These sandwiches are a must-try in this ancient Vietnamese town, distinguished by their crispy baguettes, bold fillings, fresh herbs, and secret sauces.</strong></p>
-        <p>Hội An&#39;s bánh mì scene offers a symphony of flavors ranging from 10,000 to 50,000 VND, with Bánh Mì Phượng being a top recommendation due to its Anthony Bourdain-approved status and classic fillings. These sandwiches stand out with crispy baguettes, bold fillings, fresh herbs, and secret sauces, making them a must-try in this ancient Vietnamese town.</p><p>Hội An isn&#39;t just a pretty ancient town with lanterns — it&#39;s ground zero for Vietnam&#39;s greatest sandwich. The bánh mì here is different: crispier baguettes toasted over charcoal, bolder fillings, herbs plucked from nearby Trà Quế village, and secret sauces passed down through generations. Anthony Bourdain called it &quot;a symphony in a sandwich&quot; and he wasn&#39;t exaggerating.</p><p>We analyzed hundreds of Reddit posts across r/VietNam, r/vietnamesefoodie, r/solotravel, r/travel, and r/streetfood to find the spots that actual travelers and Vietnam residents recommend over and over. From the Bourdain-famous icons to the charcoal-toasted locals-only stalls — these are the bánh mì worth your time in Hội An.</p>
+        <p>Hội An isn&#39;t just a pretty ancient town with lanterns — it&#39;s ground zero for Vietnam&#39;s greatest sandwich. The bánh mì here is different: crispier baguettes toasted over charcoal, bolder fillings, herbs plucked from nearby Trà Quế village, and secret sauces passed down through generations. Anthony Bourdain called it &quot;a symphony in a sandwich&quot; and he wasn&#39;t exaggerating.</p><p>We analyzed hundreds of Reddit posts across r/VietNam, r/vietnamesefoodie, r/solotravel, r/travel, and r/streetfood to find the spots that actual travelers and Vietnam residents recommend over and over. From the Bourdain-famous icons to the charcoal-toasted locals-only stalls — these are the bánh mì worth your time in Hội An.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Bánh Mì Map</h2>
-      <iframe src="https://www.google.com/maps?q=Qu%E1%BA%A3ng%20Nam%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bánh Mì Phượng</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bánh Mì Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -487,7 +459,7 @@
       <li>
         <a href="#banh-mi-bich">6. Bánh Mì Bích</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Qu%E1%BA%A3ng%20Nam%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15137967760032164311&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -499,7 +471,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="banh-mi-phuong">
+<section class="restaurant-section" id="banh-mi-phuong" data-map-name="1. Bánh Mì Phượng" data-map-cta-url="https://maps.google.com/?cid=15137967760032164311&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Phượng, 2B Phan Chu Trinh, Old Town, Quảng Nam, VN" data-map-lat="15.878499000000001" data-map-lng="108.3320488">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Bánh Mì Phượng</h2>
         <span class="cuisine-tag tag-regional">Bourdain Famous</span>
@@ -541,7 +513,7 @@
         <strong>tabiji verdict:</strong> The most famous bánh mì in Vietnam for a reason. Yes, it&#39;s touristy and lines can be brutal — but the sandwich delivers. The pâté is outrageously good and they load it on. Pro tip: skip the ground-floor line and go upstairs to sit down — you&#39;ll be served right away. Note: there was a food poisoning incident in 2023, but the shop has since reopened with improved safety measures and recent reviews are positive.
     </div>
 </section>
-<section class="restaurant-section" id="madam-khanh">
+<section class="restaurant-section" id="madam-khanh" data-map-name="2. Madam Khanh — The Bánh Mì Queen" data-map-cta-url="https://maps.google.com/?cid=4798232737550115239&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Madam Khanh — The Bánh Mì Queen, 115 Trần Cao Vân, Quảng Nam, VN" data-map-lat="15.880597299999998" data-map-lng="108.3279338">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Madam Khanh — The Bánh Mì Queen</h2>
         <span class="cuisine-tag tag-regional">Legendary</span>
@@ -583,7 +555,7 @@
         <strong>tabiji verdict:</strong> The eternal rival to Phượng — and many Redditors actually prefer her. Founded by Nguyễn Thị Lộc with 30+ years of experience, the Queen earns her title. The bread is crispier, the portions more balanced (you won&#39;t feel stuffed), and it&#39;s cheaper at 20,000 VND. The atmosphere is more homey — you&#39;re basically sitting in her kitchen. If Phượng is the flashy celebrity, Madam Khanh is the quiet legend.
     </div>
 </section>
-<section class="restaurant-section" id="phi-banh-mi">
+<section class="restaurant-section" id="phi-banh-mi" data-map-name="3. Phi Bánh Mì" data-map-cta-url="https://maps.google.com/?cid=3080085994863547249&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phi Bánh Mì, 88 Thái Phiên, Quảng Nam, VN" data-map-lat="15.881942800000001" data-map-lng="108.3267453">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Phi Bánh Mì</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -625,7 +597,7 @@
         <strong>tabiji verdict:</strong> The &quot;if you know, you know&quot; pick. Run by Chef Đỗ Văn Phi, this is where you go when you want incredible bánh mì without the soul-crushing queues of Phượng or the Queen. The pet iguana is a bonus. Uses Trà Quế herbs, slow-cooked pork belly, and everything feels personal and freshly made. Reddit loves this place — and for good reason.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-lanh">
+<section class="restaurant-section" id="banh-mi-lanh" data-map-name="4. Bánh Mì Lanh" data-map-cta-url="https://maps.google.com/?cid=16985261519780933967&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Lanh, 430 Cửa Đại, Quảng Nam, VN" data-map-lat="15.8798049" data-map-lng="108.3436431">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Bánh Mì Lanh</h2>
         <span class="cuisine-tag tag-regional">Charcoal-Toasted</span>
@@ -663,7 +635,7 @@
         <strong>tabiji verdict:</strong> This is the &quot;how locals actually eat&quot; pick. Tucked away on Cửa Đại road, away from Old Town crowds, Bánh Mì Lanh still uses a charcoal stove toasting method that gives the bread a smoky finish you won&#39;t find at the tourist spots. Mostly locals grabbing quick bites. The pâté is exceptional. Go here if you want the authentic, unhyped experience.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-pho-co">
+<section class="restaurant-section" id="banh-mi-pho-co" data-map-name="5. Bánh Mì Phố Cổ" data-map-cta-url="https://maps.google.com/?cid=15137967760032164311&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Phố Cổ, Corner of Lê Lợi &amp; Trần Hưng Đạo, Quảng Nam, VN" data-map-lat="15.8797393" data-map-lng="108.3285616">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Bánh Mì Phố Cổ</h2>
         <span class="cuisine-tag tag-regional">Breakfast Spot</span>
@@ -697,7 +669,7 @@
         <strong>tabiji verdict:</strong> The early bird&#39;s reward. Phố Cổ means &quot;Old Town&quot; and this corner stall earns its name. The house-made egg oil sauce creates a rich, fatty layer that contrasts beautifully with the bird&#39;s eye chili heat. Opens early, closes late-morning — the bread is at its absolute freshest. A perfect quick breakfast before exploring the ancient town.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-bich">
+<section class="restaurant-section" id="banh-mi-bich" data-map-name="6. Bánh Mì Bích" data-map-cta-url="https://maps.google.com/?cid=10227406269859745869&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Bích, 51 Phan Chu Trinh, Quảng Nam, VN" data-map-lat="15.878388999999999" data-map-lng="108.3295345">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Bánh Mì Bích</h2>
         <span class="cuisine-tag tag-regional">Pâté Specialist</span>
@@ -731,7 +703,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re a pâté person, this is your pilgrimage. Located on the same street as Phượng but without the queue, Bích focuses on doing one thing perfectly: a secret heirloom pâté recipe that&#39;s been sustaining this family business for generations. Served in charming paper bags — a more &quot;boutique&quot; feel than the usual newspaper wrap.
     </div>
 </section>
-<section class="restaurant-section" id="le-hoi-vegan">
+<section class="restaurant-section" id="le-hoi-vegan" data-map-name="7. Le Hoi Vegan (Bánh Mì Chay)" data-map-cta-url="https://maps.google.com/?cid=11524026561227759493&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Hoi Vegan (Bánh Mì Chay), 3 Nguyễn Huệ, Quảng Nam, VN" data-map-lat="15.878649800000002" data-map-lng="108.3312787">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Le Hoi Vegan (Bánh Mì Chay)</h2>
         <span class="cuisine-tag tag-regional">Vegan</span>
@@ -765,7 +737,7 @@
         <strong>tabiji verdict:</strong> Proof that you don&#39;t need pork to have a banger of a sandwich. This HappyCow-recognized stall treats &quot;vegan&quot; as a feature, not an afterthought. The rice oil sauce is the secret weapon — it recreates the savory richness you&#39;d expect from traditional fillings. The lady running it is an absolute gem. Even committed carnivores leave impressed.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-sum">
+<section class="restaurant-section" id="banh-mi-sum" data-map-name="8. Bánh Mì Sum" data-map-cta-url="https://maps.google.com/?cid=14939938129392442631&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Sum, 149 Trần Hưng Đạo, Quảng Nam, VN" data-map-lat="15.879738199999998" data-map-lng="108.32419589999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Bánh Mì Sum</h2>
         <span class="cuisine-tag tag-regional">Spicy &amp; Bold</span>
@@ -799,7 +771,7 @@
         <strong>tabiji verdict:</strong> The hidden gem tucked in a quiet alley, popular with locals avoiding the Phan Chu Trinh crowds. The flavor profile is more intense here than most — if you like your bánh mì with a spicy kick, Sum delivers. A great example of a local business competing with the big names through sheer flavor.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-minh-thu">
+<section class="restaurant-section" id="banh-mi-minh-thu" data-map-name="9. Bánh Mì Minh Thu" data-map-cta-url="https://maps.google.com/?cid=4226858599556964992&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Minh Thu, 161 Lý Thường Kiệt, Quảng Nam, VN" data-map-lat="15.883047399999999" data-map-lng="108.3287232">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bánh Mì Minh Thu</h2>
         <span class="cuisine-tag tag-regional">Roasted Pork</span>
@@ -833,7 +805,7 @@
         <strong>tabiji verdict:</strong> No-frills, taste-first. Minh Thu proves that simple ingredients done right create the most memorable bánh mì. The roasted pork marinade is the hero here — deeply savory with a subtle sweetness that doesn&#39;t overpower the crispy baguette. A local&#39;s local spot.
     </div>
 </section>
-<section class="restaurant-section" id="all-day-banh-mi">
+<section class="restaurant-section" id="all-day-banh-mi" data-map-name="10. All Day Bánh Mì" data-map-cta-url="https://maps.google.com/?cid=11415042268692240363&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="All Day Bánh Mì, 25 Công Nữ Ngọc Hoa, Quảng Nam, VN" data-map-lat="15.876963700000001" data-map-lng="108.32512059999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>All Day Bánh Mì</h2>
         <span class="cuisine-tag tag-regional">Modern / AC</span>
@@ -867,7 +839,7 @@
         <strong>tabiji verdict:</strong> For when the Hội An heat is melting you. Yes, you&#39;re paying a premium for air conditioning and indoor seating, but the sandwiches are genuinely big and satisfying. A modern take that respects the tradition while adding comfort. Perfect for travelers who need a sit-down break from the Old Town heat.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-than">
+<section class="restaurant-section" id="banh-mi-than" data-map-name="11. Bánh Mì Thẩn" data-map-cta-url="https://maps.google.com/?cid=2462662531678581922&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Thẩn, 27 Đường 18 Tháng 8, Quảng Nam, VN" data-map-lat="15.8775008" data-map-lng="108.3209493">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Bánh Mì Thẩn</h2>
         <span class="cuisine-tag tag-regional">Ultra Budget</span>
@@ -901,7 +873,7 @@
         <strong>tabiji verdict:</strong> The everyday local&#39;s choice — quick service, straightforward fillings, no unnecessary extras, and prices that make the famous spots look like luxury dining. Opens at 6 AM and closes by 11 AM — a morning-only operation that speaks to its authenticity. If you want to eat like a local, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="banh-mi-tam-hoa">
+<section class="restaurant-section" id="banh-mi-tam-hoa" data-map-name="12. Bánh Mì Tam Hoa" data-map-cta-url="https://maps.google.com/?cid=13660647631681989838&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bánh Mì Tam Hoa, 44 Thái Phiên, Quảng Nam, VN" data-map-lat="15.881796300000001" data-map-lng="108.3277873">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Bánh Mì Tam Hoa</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -953,9 +925,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Bánh Mì Map</h2>
-      <iframe src="https://www.google.com/maps?q=Qu%E1%BA%A3ng%20Nam%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bánh Mì Phượng</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bánh Mì Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -977,7 +950,7 @@
       <li>
         <a href="#banh-mi-bich">6. Bánh Mì Bích</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Qu%E1%BA%A3ng%20Nam%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15137967760032164311&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -988,5 +961,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Bánh Mì Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/B%C3%A1nh%20M%C3%AC%20in%20H%E1%BB%99i%20An","picks":[{"anchorId":"banh-mi-phuong","rank":1,"name":"Bánh Mì Phượng","label":"1. Bánh Mì Phượng","lat":15.878499000000001,"lng":108.3320488,"ctaUrl":"https://maps.google.com/?cid=15137967760032164311&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Phượng, 2B Phan Chu Trinh, Old Town, Quảng Nam, VN"},{"anchorId":"madam-khanh","rank":2,"name":"Madam Khanh — The Bánh Mì Queen","label":"2. Madam Khanh — The Bánh Mì Queen","lat":15.880597299999998,"lng":108.3279338,"ctaUrl":"https://maps.google.com/?cid=4798232737550115239&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Madam Khanh — The Bánh Mì Queen, 115 Trần Cao Vân, Quảng Nam, VN"},{"anchorId":"phi-banh-mi","rank":3,"name":"Phi Bánh Mì","label":"3. Phi Bánh Mì","lat":15.881942800000001,"lng":108.3267453,"ctaUrl":"https://maps.google.com/?cid=3080085994863547249&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phi Bánh Mì, 88 Thái Phiên, Quảng Nam, VN"},{"anchorId":"banh-mi-lanh","rank":4,"name":"Bánh Mì Lanh","label":"4. Bánh Mì Lanh","lat":15.8798049,"lng":108.3436431,"ctaUrl":"https://maps.google.com/?cid=16985261519780933967&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Lanh, 430 Cửa Đại, Quảng Nam, VN"},{"anchorId":"banh-mi-pho-co","rank":5,"name":"Bánh Mì Phố Cổ","label":"5. Bánh Mì Phố Cổ","lat":15.8797393,"lng":108.3285616,"ctaUrl":"https://maps.google.com/?cid=15137967760032164311&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Phố Cổ, Corner of Lê Lợi & Trần Hưng Đạo, Quảng Nam, VN"},{"anchorId":"banh-mi-bich","rank":6,"name":"Bánh Mì Bích","label":"6. Bánh Mì Bích","lat":15.878388999999999,"lng":108.3295345,"ctaUrl":"https://maps.google.com/?cid=10227406269859745869&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Bích, 51 Phan Chu Trinh, Quảng Nam, VN"},{"anchorId":"le-hoi-vegan","rank":7,"name":"Le Hoi Vegan (Bánh Mì Chay)","label":"7. Le Hoi Vegan (Bánh Mì Chay)","lat":15.878649800000002,"lng":108.3312787,"ctaUrl":"https://maps.google.com/?cid=11524026561227759493&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Hoi Vegan (Bánh Mì Chay), 3 Nguyễn Huệ, Quảng Nam, VN"},{"anchorId":"banh-mi-sum","rank":8,"name":"Bánh Mì Sum","label":"8. Bánh Mì Sum","lat":15.879738199999998,"lng":108.32419589999999,"ctaUrl":"https://maps.google.com/?cid=14939938129392442631&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Sum, 149 Trần Hưng Đạo, Quảng Nam, VN"},{"anchorId":"banh-mi-minh-thu","rank":9,"name":"Bánh Mì Minh Thu","label":"9. Bánh Mì Minh Thu","lat":15.883047399999999,"lng":108.3287232,"ctaUrl":"https://maps.google.com/?cid=4226858599556964992&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Minh Thu, 161 Lý Thường Kiệt, Quảng Nam, VN"},{"anchorId":"all-day-banh-mi","rank":10,"name":"All Day Bánh Mì","label":"10. All Day Bánh Mì","lat":15.876963700000001,"lng":108.32512059999999,"ctaUrl":"https://maps.google.com/?cid=11415042268692240363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"All Day Bánh Mì, 25 Công Nữ Ngọc Hoa, Quảng Nam, VN"},{"anchorId":"banh-mi-than","rank":11,"name":"Bánh Mì Thẩn","label":"11. Bánh Mì Thẩn","lat":15.8775008,"lng":108.3209493,"ctaUrl":"https://maps.google.com/?cid=2462662531678581922&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Thẩn, 27 Đường 18 Tháng 8, Quảng Nam, VN"},{"anchorId":"banh-mi-tam-hoa","rank":12,"name":"Bánh Mì Tam Hoa","label":"12. Bánh Mì Tam Hoa","lat":15.881796300000001,"lng":108.3277873,"ctaUrl":"https://maps.google.com/?cid=13660647631681989838&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bánh Mì Tam Hoa, 44 Thái Phiên, Quảng Nam, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -299,9 +299,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -326,7 +329,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -374,13 +377,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Post-hike cafes near Bukhansan range from ₩5,000 to ₩15,000 per person, with Bukhansan Lounge being a top recommendation for its bingsu and views. These cafes offer a perfect way to relax and enjoy the mountain scenery after a hike.</strong></p>
-        <p>Hiking near Bukhansan in Seoul offers a delightful post-hike ritual at cafes ranging from ₩5,000 to ₩15,000 per person, with Bukhansan Lounge being a top recommendation for its bingsu and views. These cafes provide a perfect blend of relaxation and stunning mountain scenery after a day on the trails.</p><p>Bukhansan National Park is Seoul&#39;s backyard mountain — 836 meters of granite peaks, ancient fortresses, and forested trails just a subway ride from the city center. And in true Korean fashion, the hiking experience doesn&#39;t end at the trailhead. The neighborhoods ringing Bukhansan — Ui-dong, Eunpyeong, Buam-dong, Pyeongchang-dong — are dotted with cafés purpose-built for the post-hike ritual: sit down, catch your breath, and stare at the mountain you just conquered over an iced Americano.</p><p>We combed through Reddit threads, travel blogs, and Korean hiking communities to find the cafés that hikers and Seoul residents keep coming back to. These aren&#39;t random coffee chains — they&#39;re places where the view, the vibe, and the recovery all come together.</p>
+        <p>Bukhansan National Park is Seoul&#39;s backyard mountain — 836 meters of granite peaks, ancient fortresses, and forested trails just a subway ride from the city center. And in true Korean fashion, the hiking experience doesn&#39;t end at the trailhead. The neighborhoods ringing Bukhansan — Ui-dong, Eunpyeong, Buam-dong, Pyeongchang-dong — are dotted with cafés purpose-built for the post-hike ritual: sit down, catch your breath, and stare at the mountain you just conquered over an iced Americano.</p><p>We combed through Reddit threads, travel blogs, and Korean hiking communities to find the cafés that hikers and Seoul residents keep coming back to. These aren&#39;t random coffee chains — they&#39;re places where the view, the vibe, and the recovery all come together.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hiking%20Trail%20Caf%C3%A9s%20near%20Bukhansan&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pointvill (포인트빌)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -402,7 +406,7 @@
       <li>
         <a href="#the-piano">6. The Piano (더피아노)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hiking%20Trail%20Caf%C3%A9s%20near%20Bukhansan" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Pointvill+%ED%8F%AC%EC%9D%B8%ED%8A%B8%EB%B9%8C+Goyang" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -414,7 +418,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="pointvill">
+<section class="restaurant-section" id="pointvill" data-map-name="1. Pointvill (포인트빌)" data-map-cta-url="https://www.google.com/maps/search/Pointvill+%ED%8F%AC%EC%9D%B8%ED%8A%B8%EB%B9%8C+Goyang" data-map-query="Pointvill (포인트빌), Deogyang-gu, Goyang (west Bukhansan), Gyeonggi-do, KR" data-map-lat="37.668270799999995" data-map-lng="126.9495139">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Pointvill (포인트빌)</h2>
         <span class="cuisine-tag tag-regional">Mountain View</span>
@@ -444,7 +448,7 @@
         <strong>tabiji verdict:</strong> The undisputed champion for Bukhansan views. The massive garden with scattered tables makes it feel like a private mountain retreat, not a café. It&#39;s technically in Goyang (not Seoul), so reaching it requires a car or bus — but that&#39;s also why it stays relatively uncrowded on weekdays. Worth the detour after a west-side hike.
     </div>
 </section>
-<section class="restaurant-section" id="starbucks-bukhansan">
+<section class="restaurant-section" id="starbucks-bukhansan" data-map-name="2. Starbucks The Bukhansan (스타벅스 더북한산)" data-map-cta-url="https://maps.google.com/?cid=11734260958916316209&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Starbucks The Bukhansan (스타벅스 더북한산), Eunpyeong-gu, Seoul, Gyeonggi-do, KR" data-map-lat="37.655426899999995" data-map-lng="126.9475286">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Starbucks The Bukhansan (스타벅스 더북한산)</h2>
         <span class="cuisine-tag tag-regional">Rooftop</span>
@@ -482,7 +486,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s a Starbucks — but this isn&#39;t your average chain outpost. One of only five &quot;The&quot; Starbucks locations in Korea, this 1,100-square-meter behemoth was built specifically to frame Bukhansan through floor-to-ceiling glass. The rooftop terrace with 66 seats is genuinely spectacular. 253 seats total means you&#39;ll almost always find space even on weekends. Take bus 34 from Gupabal Station.
     </div>
 </section>
-<section class="restaurant-section" id="sanmotoonge">
+<section class="restaurant-section" id="sanmotoonge" data-map-name="3. Sanmotoonge (산모퉁이)" data-map-cta-url="https://maps.google.com/?cid=10918127454640788203&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sanmotoonge (산모퉁이), Buam-dong, Jongno-gu, Gyeonggi-do, KR" data-map-lat="37.5954147" data-map-lng="126.96795759999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sanmotoonge (산모퉁이)</h2>
         <span class="cuisine-tag tag-regional">K-Drama Famous</span>
@@ -516,7 +520,7 @@
         <strong>tabiji verdict:</strong> The most famous mountain café in Seoul — partly for the views, partly for Coffee Prince nostalgia. It&#39;s not right on a Bukhansan trail, but it sits on the slopes nearby, making it a perfect stop if you&#39;re hiking Inwangsan or exploring the Buam-dong neighborhood. The terrace view is genuinely worth the uphill walk from Changuimun Gate. Gets crowded on weekends.
     </div>
 </section>
-<section class="restaurant-section" id="yeonjiwon">
+<section class="restaurant-section" id="yeonjiwon" data-map-name="4. Yeonjiwon (연지원)" data-map-cta-url="https://www.google.com/maps/search/Yeonjiwon+%EC%97%B0%EC%A7%80%EC%9B%90+Jingwansa+Seoul" data-map-query="Yeonjiwon (연지원), Jingwansa Temple, Eunpyeong-gu, Gyeonggi-do, KR" data-map-lat="37.638323799999995" data-map-lng="126.94621509999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Yeonjiwon (연지원)</h2>
         <span class="cuisine-tag tag-regional">Traditional Tea</span>
@@ -542,7 +546,7 @@
         <strong>tabiji verdict:</strong> The most spiritually grounding café on this list. Tucked inside the grounds of a major Buddhist temple on Bukhansan&#39;s northern slope, Yeonjiwon feels a world apart from Seoul. Nothing about it screams &quot;cafe&quot; — it&#39;s a tea house in the truest sense, where monks and hikers sit side by side in quiet appreciation. Pair with the Bukhanseong Fortress trail nearby. Open year-round.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-sanare">
+<section class="restaurant-section" id="cafe-sanare" data-map-name="5. Cafe Sanare" data-map-cta-url="https://maps.google.com/?cid=16808634145849589439&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Sanare, Gangbuk-gu, Seoul, Gyeonggi-do, KR" data-map-lat="37.6667819" data-map-lng="127.0105181">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Cafe Sanare</h2>
         <span class="cuisine-tag tag-regional">Garden Café</span>
@@ -580,7 +584,7 @@
         <strong>tabiji verdict:</strong> A photographer&#39;s dream café. Cafe Sanare went semi-viral on Reddit for its jaw-dropping autumn views — the glass walls dissolve the boundary between indoors and forest, making you feel immersed in the foliage. It&#39;s on the eastern slopes near Gangbuk-gu, reachable after an Ui-dong area hike. The greenery and natural light are genuinely calming after a tough climb.
     </div>
 </section>
-<section class="restaurant-section" id="the-piano">
+<section class="restaurant-section" id="the-piano" data-map-name="6. The Piano (더피아노)" data-map-cta-url="https://www.google.com/maps/search/The+Piano+%EB%8D%94%ED%94%BC%EC%95%84%EB%85%B8+Pyeongchang-dong+Seoul" data-map-query="The Piano (더피아노), Pyeongchang-dong, Jongno-gu, Gyeonggi-do, KR" data-map-lat="37.6172311" data-map-lng="126.9747926">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>The Piano (더피아노)</h2>
         <span class="cuisine-tag tag-regional">Garden Café</span>
@@ -606,7 +610,7 @@
         <strong>tabiji verdict:</strong> Pyeongchang-dong is one of Seoul&#39;s wealthiest neighborhoods, and The Piano reflects that — this feels more like a private garden estate that happens to serve coffee. Built against the mountainside with a rock garden, it offers sweeping city views alongside mountain greenery. Pricier than other spots on this list, but you&#39;re paying for an atmosphere that&#39;s hard to replicate. Best after a hike on Bukhansan&#39;s southern trails.
     </div>
 </section>
-<section class="restaurant-section" id="bukhansan-lounge">
+<section class="restaurant-section" id="bukhansan-lounge" data-map-name="7. Bukhansan Lounge" data-map-cta-url="https://maps.google.com/?cid=7051455424269679379&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bukhansan Lounge, Ui-dong, Gangbuk-gu, Gyeonggi-do, KR" data-map-lat="37.6582013" data-map-lng="127.00238089999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Bukhansan Lounge</h2>
         <span class="cuisine-tag tag-regional">Bingsu &amp; Views</span>
@@ -640,7 +644,7 @@
         <strong>tabiji verdict:</strong> The go-to café if you&#39;re exiting Bukhansan via the Ui-dong entrance — which is the most popular trailhead for Baegundae Peak. The mountain views through the large windows are spectacular, and the bingsu is exactly what you need after sweating up 836 meters. Being right near Bukhansan Ui Station (Ui-Sinseol Line) means easy subway access. Gets busy on weekends after 2pm.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-relax">
+<section class="restaurant-section" id="cafe-relax" data-map-name="8. Cafe Relax" data-map-cta-url="https://maps.google.com/?cid=15947372657586458072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Relax, Gangbuk-gu, Seoul (near Bukhansan Ui Station), Gyeonggi-do, KR" data-map-lat="37.6695107" data-map-lng="127.0081157">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Cafe Relax</h2>
         <span class="cuisine-tag tag-regional">Valley / Nature</span>
@@ -674,7 +678,7 @@
         <strong>tabiji verdict:</strong> The most unique experience on this list. Cafe Relax is a converted private home with six distinct halls, a stream running alongside it, and ever-changing seasonal scenery. The no-kids zone and family zone split is clever — choose your vibe. In summer, feet-in-the-stream with an iced coffee after a Bukhansan hike is peak Korean café culture. About 800m from Bukhansan Ui Station. Plenty of parking if you&#39;re driving.
     </div>
 </section>
-<section class="restaurant-section" id="hakrim-dabang">
+<section class="restaurant-section" id="hakrim-dabang" data-map-name="9. Hakrim Dabang (학림다방)" data-map-cta-url="https://maps.google.com/?cid=9482721362727026456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hakrim Dabang (학림다방), Daehak-ro, Jongno-gu, Gyeonggi-do, KR" data-map-lat="37.5818924" data-map-lng="127.0016664">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Hakrim Dabang (학림다방)</h2>
         <span class="cuisine-tag tag-regional">Classic Dabang</span>
@@ -726,9 +730,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hiking%20Trail%20Caf%C3%A9s%20near%20Bukhansan&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pointvill (포인트빌)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -750,7 +755,7 @@
       <li>
         <a href="#the-piano">6. The Piano (더피아노)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hiking%20Trail%20Caf%C3%A9s%20near%20Bukhansan" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Pointvill+%ED%8F%AC%EC%9D%B8%ED%8A%B8%EB%B9%8C+Goyang" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -761,5 +766,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Hiking%20Trail%20Caf%C3%A9s%20near%20Bukhansan","picks":[{"anchorId":"pointvill","rank":1,"name":"Pointvill (포인트빌)","label":"1. Pointvill (포인트빌)","lat":37.668270799999995,"lng":126.9495139,"ctaUrl":"https://www.google.com/maps/search/Pointvill+%ED%8F%AC%EC%9D%B8%ED%8A%B8%EB%B9%8C+Goyang","mapQuery":"Pointvill (포인트빌), Deogyang-gu, Goyang (west Bukhansan), Gyeonggi-do, KR"},{"anchorId":"starbucks-bukhansan","rank":2,"name":"Starbucks The Bukhansan (스타벅스 더북한산)","label":"2. Starbucks The Bukhansan (스타벅스 더북한산)","lat":37.655426899999995,"lng":126.9475286,"ctaUrl":"https://maps.google.com/?cid=11734260958916316209&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Starbucks The Bukhansan (스타벅스 더북한산), Eunpyeong-gu, Seoul, Gyeonggi-do, KR"},{"anchorId":"sanmotoonge","rank":3,"name":"Sanmotoonge (산모퉁이)","label":"3. Sanmotoonge (산모퉁이)","lat":37.5954147,"lng":126.96795759999999,"ctaUrl":"https://maps.google.com/?cid=10918127454640788203&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sanmotoonge (산모퉁이), Buam-dong, Jongno-gu, Gyeonggi-do, KR"},{"anchorId":"yeonjiwon","rank":4,"name":"Yeonjiwon (연지원)","label":"4. Yeonjiwon (연지원)","lat":37.638323799999995,"lng":126.94621509999999,"ctaUrl":"https://www.google.com/maps/search/Yeonjiwon+%EC%97%B0%EC%A7%80%EC%9B%90+Jingwansa+Seoul","mapQuery":"Yeonjiwon (연지원), Jingwansa Temple, Eunpyeong-gu, Gyeonggi-do, KR"},{"anchorId":"cafe-sanare","rank":5,"name":"Cafe Sanare","label":"5. Cafe Sanare","lat":37.6667819,"lng":127.0105181,"ctaUrl":"https://maps.google.com/?cid=16808634145849589439&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Sanare, Gangbuk-gu, Seoul, Gyeonggi-do, KR"},{"anchorId":"the-piano","rank":6,"name":"The Piano (더피아노)","label":"6. The Piano (더피아노)","lat":37.6172311,"lng":126.9747926,"ctaUrl":"https://www.google.com/maps/search/The+Piano+%EB%8D%94%ED%94%BC%EC%95%84%EB%85%B8+Pyeongchang-dong+Seoul","mapQuery":"The Piano (더피아노), Pyeongchang-dong, Jongno-gu, Gyeonggi-do, KR"},{"anchorId":"bukhansan-lounge","rank":7,"name":"Bukhansan Lounge","label":"7. Bukhansan Lounge","lat":37.6582013,"lng":127.00238089999999,"ctaUrl":"https://maps.google.com/?cid=7051455424269679379&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bukhansan Lounge, Ui-dong, Gangbuk-gu, Gyeonggi-do, KR"},{"anchorId":"cafe-relax","rank":8,"name":"Cafe Relax","label":"8. Cafe Relax","lat":37.6695107,"lng":127.0081157,"ctaUrl":"https://maps.google.com/?cid=15947372657586458072&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Relax, Gangbuk-gu, Seoul (near Bukhansan Ui Station), Gyeonggi-do, KR"},{"anchorId":"hakrim-dabang","rank":9,"name":"Hakrim Dabang (학림다방)","label":"9. Hakrim Dabang (학림다방)","lat":37.5818924,"lng":127.0016664,"ctaUrl":"https://maps.google.com/?cid=9482721362727026456&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hakrim Dabang (학림다방), Daehak-ro, Jongno-gu, Gyeonggi-do, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

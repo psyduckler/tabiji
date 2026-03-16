@@ -398,9 +398,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -425,7 +428,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -473,13 +476,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Canggu&#39;s beach clubs range from ultra-budget (Rp 25,000) to splurge-worthy (Rp 1,000,000+), with Potato Head offering the best overall experience for its curated crowd and stunning architecture. Choose wisely, as some clubs can be overpriced tourist traps.</strong></p>
-        <p>Canggu&#39;s beach clubs range from ultra-budget (Rp 25,000) to splurge-worthy (Rp 1,000,000+), but Potato Head offers the best experience with its curated crowd and stunning architecture. Be aware that some clubs can be overpriced tourist traps, so choose wisely.</p><p>Canggu&#39;s beach club scene is a minefield. Instagram makes every place look amazing. The reality? Some are overpriced tourist traps with watered-down cocktails and a DJ playing the same Kygo remix for the fifth year running.</p><p>We combed through hundreds of Reddit posts from r/bali, r/digitalnomad, and r/travel to find out which beach clubs actual visitors and Bali residents recommend — and which ones they tell you to avoid. Spoiler: Reddit has very strong opinions about Finns.</p>
+        <p>Canggu&#39;s beach club scene is a minefield. Instagram makes every place look amazing. The reality? Some are overpriced tourist traps with watered-down cocktails and a DJ playing the same Kygo remix for the fifth year running.</p><p>We combed through hundreds of Reddit posts from r/bali, r/digitalnomad, and r/travel to find out which beach clubs actual visitors and Bali residents recommend — and which ones they tell you to avoid. Spoiler: Reddit has very strong opinions about Finns.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Beach Club Map</h2>
-      <iframe src="https://www.google.com/maps?q=Beach%20Clubs%20in%20Canggu%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Potato Head Beach Club</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Beach Club Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -501,7 +505,7 @@
       <li>
         <a href="#the-lawn">6. The Lawn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Beach%20Clubs%20in%20Canggu%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1989935839513447758&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -513,7 +517,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="potato-head">
+<section class="restaurant-section" id="potato-head" data-map-name="1. Potato Head Beach Club" data-map-cta-url="https://maps.google.com/?cid=1989935839513447758&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Potato Head Beach Club, Petitenget, between Canggu &amp; Seminyak, Bali, ID" data-map-lat="-8.6794353" data-map-lng="115.1499342">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Potato Head Beach Club</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -554,7 +558,7 @@
         <strong>tabiji verdict:</strong> The best all-round beach club in Canggu — if you time it right. Arrive at opening (10–11 AM), grab a daybed, and you&#39;ll have a chill morning before the crowds roll in around 3 PM. The architecture alone is worth seeing.
     </div>
 </section>
-<section class="restaurant-section" id="la-brisa">
+<section class="restaurant-section" id="la-brisa" data-map-name="2. La Brisa" data-map-cta-url="https://maps.google.com/?cid=9696986360290393129&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Brisa, Echo Beach, Canggu, Bali, ID" data-map-lat="-8.654172899999999" data-map-lng="115.1258092">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>La Brisa</h2>
         <span class="cuisine-tag tag-regional">Bohemian</span>
@@ -591,7 +595,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s most consistently recommended Canggu beach club. The driftwood-and-fishing-boat design is genuinely beautiful (not just Instagram-bait), the sunset is unbeatable, and the seafood is better than most beach clubs bother to serve.
     </div>
 </section>
-<section class="restaurant-section" id="finns">
+<section class="restaurant-section" id="finns" data-map-name="3. Finns Beach Club" data-map-cta-url="https://maps.google.com/?cid=5301785636077416799&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Finns Beach Club, Berawa Beach, Canggu, Bali, ID" data-map-lat="-8.6667652" data-map-lng="115.13939839999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Finns Beach Club</h2>
         <span class="cuisine-tag tag-regional">Party Scene</span>
@@ -632,7 +636,7 @@
         <strong>tabiji verdict:</strong> The most polarizing beach club in Bali. Reddit either loves it or calls it unprintable things. The truth: if you want a big, loud pool party with influencer energy, Finns delivers exactly that. If you want a relaxing beach day, run the other direction. Know what you&#39;re getting into.
     </div>
 </section>
-<section class="restaurant-section" id="mari">
+<section class="restaurant-section" id="mari" data-map-name="4. Mari Beach Club" data-map-cta-url="https://maps.google.com/?cid=9091358831423299221&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mari Beach Club, Canggu, Bali, ID" data-map-lat="-8.6734074" data-map-lng="115.14641630000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Mari Beach Club</h2>
         <span class="cuisine-tag tag-regional">Chill Vibes</span>
@@ -665,7 +669,7 @@
         <strong>tabiji verdict:</strong> Recommended by the same Redditor who called Finns unprintable things — and that&#39;s a pretty strong endorsement. A solid pick for people who want beach club energy without the chaos.
     </div>
 </section>
-<section class="restaurant-section" id="mano">
+<section class="restaurant-section" id="mano" data-map-name="5. Mano Beach Club" data-map-cta-url="https://maps.google.com/?cid=4536468640728712818&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mano Beach Club, Canggu, Bali, ID" data-map-lat="-8.6818168" data-map-lng="115.1514832">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mano Beach Club</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -702,7 +706,7 @@
         <strong>tabiji verdict:</strong> The beach club for people who don&#39;t really like beach clubs. Small, quiet, genuinely relaxing. The anti-Finns. If that sounds like exactly what you want, you&#39;ve found your spot.
     </div>
 </section>
-<section class="restaurant-section" id="the-lawn">
+<section class="restaurant-section" id="the-lawn" data-map-name="6. The Lawn" data-map-cta-url="https://maps.google.com/?cid=15982257162559947760&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Lawn, Batu Bolong, Canggu, Bali, ID" data-map-lat="-8.6585236" data-map-lng="115.12961670000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>The Lawn</h2>
         <span class="cuisine-tag tag-regional">Chill Vibes</span>
@@ -731,7 +735,7 @@
         <strong>tabiji verdict:</strong> The most approachable beach club in Canggu. No pretense, no velvet ropes, just grass, sand, cocktails, and one of the best sunset spots on the Batu Bolong strip. Perfect first-day-in-Canggu pick.
     </div>
 </section>
-<section class="restaurant-section" id="atlas">
+<section class="restaurant-section" id="atlas" data-map-name="7. Atlas Beach Club" data-map-cta-url="https://maps.google.com/?cid=7329666125605426441&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Atlas Beach Club, Berawa, Canggu, Bali, ID" data-map-lat="-8.665529" data-map-lng="115.13812370000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Atlas Beach Club</h2>
         <span class="cuisine-tag tag-regional">Mega Party</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> Even more polarizing than Finns. Reddit residents tend to avoid it, but if you want the absolute biggest, loudest pool party in Bali, Atlas is the current champion. Go on a weekend night for peak spectacle. Go literally anywhere else for relaxation.
     </div>
 </section>
-<section class="restaurant-section" id="alternative">
+<section class="restaurant-section" id="alternative" data-map-name="8. Alternative Beach Club" data-map-cta-url="https://maps.google.com/?cid=13895522365897572064&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Alternative Beach Club, Canggu, Bali, ID" data-map-lat="-8.654237" data-map-lng="115.1332413">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Alternative Beach Club</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -801,7 +805,7 @@
         <strong>tabiji verdict:</strong> Proof you don&#39;t need a Rp 500,000 minimum spend to have a great beach day in Canggu. Smaller and scrappier than the big names, but the vibe is more genuine because of it.
     </div>
 </section>
-<section class="restaurant-section" id="w-bali">
+<section class="restaurant-section" id="w-bali" data-map-name="9. W Bali — Woobar" data-map-cta-url="https://maps.google.com/?cid=12278639940375449838&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="W Bali — Woobar, Seminyak (border of Canggu), Bali, ID" data-map-lat="-8.6774649" data-map-lng="115.14936049999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>W Bali — Woobar</h2>
         <span class="cuisine-tag tag-regional">Hotel Luxury</span>
@@ -830,7 +834,7 @@
         <strong>tabiji verdict:</strong> The underrated pick on this list. Same Redditor recommends it twice across different threads — that&#39;s a pattern worth noting. Hotel-level quality without the beach-club mob. Check their events calendar for themed nights.
     </div>
 </section>
-<section class="restaurant-section" id="echo-beach">
+<section class="restaurant-section" id="echo-beach" data-map-name="10. Echo Beach Warungs" data-map-cta-url="https://maps.google.com/?cid=18155843290809962434&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Echo Beach Warungs, Echo Beach, Canggu, Bali, ID" data-map-lat="-8.6537322" data-map-lng="115.1237781">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Echo Beach Warungs</h2>
         <span class="cuisine-tag tag-regional">Ultra Budget</span>
@@ -863,7 +867,7 @@
         <strong>tabiji verdict:</strong> The most honest &quot;beach club&quot; experience in Canggu. No entry fee, no minimum spend, no DJ — just sand between your toes, a cold Bintang, and one of the best sunsets on Earth. Sometimes the best beach club is no beach club at all.
     </div>
 </section>
-<section class="restaurant-section" id="como">
+<section class="restaurant-section" id="como" data-map-name="11. COMO Beach Club" data-map-cta-url="https://maps.google.com/?cid=10118547850414008794&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="COMO Beach Club, Canggu, Bali, ID" data-map-lat="-8.6558175" data-map-lng="115.1262935">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>COMO Beach Club</h2>
         <span class="cuisine-tag tag-regional">Family-Friendly</span>
@@ -896,7 +900,7 @@
         <strong>tabiji verdict:</strong> Traveling with kids and want a beach club that isn&#39;t a rave? COMO is your answer. Clean, calm, and nobody will give you side-eye for having a toddler.
     </div>
 </section>
-<section class="restaurant-section" id="ku-de-ta">
+<section class="restaurant-section" id="ku-de-ta" data-map-name="12. Ku De Ta" data-map-cta-url="https://maps.google.com/?cid=10462192764958974826&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ku De Ta, Seminyak (short ride from Canggu), Bali, ID" data-map-lat="-8.6871361" data-map-lng="115.15475019999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Ku De Ta</h2>
         <span class="cuisine-tag tag-regional">OG Premium</span>
@@ -929,7 +933,7 @@
         <strong>tabiji verdict:</strong> The original Bali beach club, but the scene has moved on. Still fine for a sunset cocktail if you&#39;re in Seminyak, but don&#39;t make a special trip from Canggu. The newer spots outshine it.
     </div>
 </section>
-<section class="restaurant-section" id="sand-bar">
+<section class="restaurant-section" id="sand-bar" data-map-name="13. Sand Bar" data-map-cta-url="https://maps.google.com/?cid=3263515711498269842&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sand Bar, Batu Bolong Beach, Canggu, Bali, ID" data-map-lat="-8.659448" data-map-lng="115.1303181">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Sand Bar</h2>
         <span class="cuisine-tag tag-regional">Surfer Chill</span>
@@ -958,7 +962,7 @@
         <strong>tabiji verdict:</strong> Canggu&#39;s soul lives here. When the beach clubs feel too much, Sand Bar reminds you that all you really need is a cold drink, warm sand, and a sunset. The surfer-watching is free.
     </div>
 </section>
-<section class="restaurant-section" id="berawa-bars">
+<section class="restaurant-section" id="berawa-bars" data-map-name="14. Berawa Beach Bars" data-map-cta-url="https://maps.google.com/?cid=5301785636077416799&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Berawa Beach Bars, Berawa Beach, Canggu, Bali, ID" data-map-lat="-8.6667652" data-map-lng="115.13939839999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Berawa Beach Bars</h2>
         <span class="cuisine-tag tag-regional">Budget Beach</span>
@@ -987,7 +991,7 @@
         <strong>tabiji verdict:</strong> The irony of Berawa Beach: you can pay Rp 500,000 minimum at Finns, or walk 100 meters down the same beach and pay Rp 30,000 for a Bintang on a beanbag watching the same sunset. We know which one we&#39;d pick.
     </div>
 </section>
-<section class="restaurant-section" id="mauri">
+<section class="restaurant-section" id="mauri" data-map-name="15. Mauri Beach Club" data-map-cta-url="https://maps.google.com/?cid=9091358831423299221&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mauri Beach Club, Canggu, Bali, ID" data-map-lat="-8.6734074" data-map-lng="115.14641630000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Mauri Beach Club</h2>
         <span class="cuisine-tag tag-regional">Relaxed</span>
@@ -1038,9 +1042,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Beach Club Map</h2>
-      <iframe src="https://www.google.com/maps?q=Beach%20Clubs%20in%20Canggu%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Potato Head Beach Club</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Beach Club Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1062,7 +1067,7 @@
       <li>
         <a href="#the-lawn">6. The Lawn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Beach%20Clubs%20in%20Canggu%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1989935839513447758&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1073,5 +1078,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Beach Club Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Beach%20Clubs%20in%20Canggu%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"potato-head","rank":1,"name":"Potato Head Beach Club","label":"1. Potato Head Beach Club","lat":-8.6794353,"lng":115.1499342,"ctaUrl":"https://maps.google.com/?cid=1989935839513447758&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Potato Head Beach Club, Petitenget, between Canggu & Seminyak, Bali, ID"},{"anchorId":"la-brisa","rank":2,"name":"La Brisa","label":"2. La Brisa","lat":-8.654172899999999,"lng":115.1258092,"ctaUrl":"https://maps.google.com/?cid=9696986360290393129&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Brisa, Echo Beach, Canggu, Bali, ID"},{"anchorId":"finns","rank":3,"name":"Finns Beach Club","label":"3. Finns Beach Club","lat":-8.6667652,"lng":115.13939839999999,"ctaUrl":"https://maps.google.com/?cid=5301785636077416799&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Finns Beach Club, Berawa Beach, Canggu, Bali, ID"},{"anchorId":"mari","rank":4,"name":"Mari Beach Club","label":"4. Mari Beach Club","lat":-8.6734074,"lng":115.14641630000001,"ctaUrl":"https://maps.google.com/?cid=9091358831423299221&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mari Beach Club, Canggu, Bali, ID"},{"anchorId":"mano","rank":5,"name":"Mano Beach Club","label":"5. Mano Beach Club","lat":-8.6818168,"lng":115.1514832,"ctaUrl":"https://maps.google.com/?cid=4536468640728712818&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mano Beach Club, Canggu, Bali, ID"},{"anchorId":"the-lawn","rank":6,"name":"The Lawn","label":"6. The Lawn","lat":-8.6585236,"lng":115.12961670000001,"ctaUrl":"https://maps.google.com/?cid=15982257162559947760&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Lawn, Batu Bolong, Canggu, Bali, ID"},{"anchorId":"atlas","rank":7,"name":"Atlas Beach Club","label":"7. Atlas Beach Club","lat":-8.665529,"lng":115.13812370000001,"ctaUrl":"https://maps.google.com/?cid=7329666125605426441&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Atlas Beach Club, Berawa, Canggu, Bali, ID"},{"anchorId":"alternative","rank":8,"name":"Alternative Beach Club","label":"8. Alternative Beach Club","lat":-8.654237,"lng":115.1332413,"ctaUrl":"https://maps.google.com/?cid=13895522365897572064&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Alternative Beach Club, Canggu, Bali, ID"},{"anchorId":"w-bali","rank":9,"name":"W Bali — Woobar","label":"9. W Bali — Woobar","lat":-8.6774649,"lng":115.14936049999999,"ctaUrl":"https://maps.google.com/?cid=12278639940375449838&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"W Bali — Woobar, Seminyak (border of Canggu), Bali, ID"},{"anchorId":"echo-beach","rank":10,"name":"Echo Beach Warungs","label":"10. Echo Beach Warungs","lat":-8.6537322,"lng":115.1237781,"ctaUrl":"https://maps.google.com/?cid=18155843290809962434&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Echo Beach Warungs, Echo Beach, Canggu, Bali, ID"},{"anchorId":"como","rank":11,"name":"COMO Beach Club","label":"11. COMO Beach Club","lat":-8.6558175,"lng":115.1262935,"ctaUrl":"https://maps.google.com/?cid=10118547850414008794&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"COMO Beach Club, Canggu, Bali, ID"},{"anchorId":"ku-de-ta","rank":12,"name":"Ku De Ta","label":"12. Ku De Ta","lat":-8.6871361,"lng":115.15475019999998,"ctaUrl":"https://maps.google.com/?cid=10462192764958974826&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ku De Ta, Seminyak (short ride from Canggu), Bali, ID"},{"anchorId":"sand-bar","rank":13,"name":"Sand Bar","label":"13. Sand Bar","lat":-8.659448,"lng":115.1303181,"ctaUrl":"https://maps.google.com/?cid=3263515711498269842&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sand Bar, Batu Bolong Beach, Canggu, Bali, ID"},{"anchorId":"berawa-bars","rank":14,"name":"Berawa Beach Bars","label":"14. Berawa Beach Bars","lat":-8.6667652,"lng":115.13939839999999,"ctaUrl":"https://maps.google.com/?cid=5301785636077416799&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Berawa Beach Bars, Berawa Beach, Canggu, Bali, ID"},{"anchorId":"mauri","rank":15,"name":"Mauri Beach Club","label":"15. Mauri Beach Club","lat":-8.6734074,"lng":115.14641630000001,"ctaUrl":"https://maps.google.com/?cid=9091358831423299221&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mauri Beach Club, Canggu, Bali, ID"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

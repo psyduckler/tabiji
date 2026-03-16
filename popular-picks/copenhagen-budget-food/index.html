@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Reffen Street Food",
-        "servesCuisine": "Street Food Market",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Refshaleøen",
@@ -427,11 +426,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -456,9 +450,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -483,39 +480,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Budget Food in Copenhagen",
-                        "item": "https://tabiji.ai/popular-picks/copenhagen-budget-food/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -558,13 +528,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Copenhagen&#39;s best budget eats, generally costing between 35-160 kr, offer a delicious way to experience the city without breaking the bank, with Reffen Street Food standing out for its diverse and affordable options. This guide, curated from Reddit recommendations, highlights spots favored by locals and savvy travelers for delicious meals.</strong></p>
-        <p>Copenhagen&#39;s best budget eats, generally costing under 150 kr, can be found beyond the tourist traps, with Reffen Street Food being a top recommendation for its diverse and affordable options. This guide, curated from Reddit recommendations, highlights spots favored by locals and savvy travelers for delicious meals without breaking the bank.</p><p>Copenhagen is famously expensive — but it doesn&#39;t have to destroy your wallet. Beyond the Nyhavn tourist traps and overpriced Strøget restaurants, there&#39;s a thriving scene of street food markets, ethnic eateries, community kitchens, and bakeries where locals actually eat.</p><p>We analyzed hundreds of Reddit posts from r/copenhagen, r/Denmark, r/travel, and r/solotravel to find the spots that actual Copenhagen residents and budget-savvy travelers recommend again and again. These are the places where you eat well for under 150 kr.</p>
+        <p>Copenhagen is famously expensive — but it doesn&#39;t have to destroy your wallet. Beyond the Nyhavn tourist traps and overpriced Strøget restaurants, there&#39;s a thriving scene of street food markets, ethnic eateries, community kitchens, and bakeries where locals actually eat.</p><p>We analyzed hundreds of Reddit posts from r/copenhagen, r/Denmark, r/travel, and r/solotravel to find the spots that actual Copenhagen residents and budget-savvy travelers recommend again and again. These are the places where you eat well for under 150 kr.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Budget Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Reffen Street Food</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Budget Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -586,7 +557,7 @@
       <li>
         <a href="#arbejdermuseet">6. Arbejdermuseet (Workers Museum) Café</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15917900653273586336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +569,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="reffen">
+<section class="restaurant-section" id="reffen" data-map-name="1. Reffen Street Food" data-map-cta-url="https://maps.google.com/?cid=15917900653273586336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Reffen Street Food, Refshaleøen, Copenhagen, DK" data-map-lat="55.693633299999995" data-map-lng="12.608231799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Reffen Street Food</h2>
         <span class="cuisine-tag tag-regional">Street Food Market</span>
@@ -636,7 +607,7 @@
         <strong>tabiji verdict:</strong> Copenhagen&#39;s biggest street food market with 50+ stalls. Not the absolute cheapest option, but the best variety-to-price ratio in the city. Take the free Havnebussen (harbor bus 991/992) for a scenic ride there. Open seasonally — check dates before visiting in winter.
     </div>
 </section>
-<section class="restaurant-section" id="dop">
+<section class="restaurant-section" id="dop" data-map-name="2. DØP – Den Økologiske Pølsemand" data-map-cta-url="https://maps.google.com/?cid=952336939292039598&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="DØP – Den Økologiske Pølsemand, Strøget, Indre By (multiple carts), Copenhagen, DK" data-map-lat="55.681250999999996" data-map-lng="12.5760794">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>DØP – Den Økologiske Pølsemand</h2>
         <span class="cuisine-tag tag-regional">Organic Hot Dog</span>
@@ -670,7 +641,7 @@
         <strong>tabiji verdict:</strong> The quintessential Copenhagen street food experience. While regular pølsevogn (hot dog carts) are fine, DØP uses organic, free-range meat and it genuinely tastes better. Under 75 kr for a filling snack right on the pedestrian street.
     </div>
 </section>
-<section class="restaurant-section" id="grisen">
+<section class="restaurant-section" id="grisen" data-map-name="3. Grisen" data-map-cta-url="https://maps.google.com/?cid=806389459940252652&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Grisen, Near the Lakes, Nørrebro side, Copenhagen, DK" data-map-lat="55.6922789" data-map-lng="12.568399399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Grisen</h2>
         <span class="cuisine-tag tag-regional">Danish Pork Sandwich</span>
@@ -704,7 +675,7 @@
         <strong>tabiji verdict:</strong> Denmark&#39;s answer to the Philly cheesesteak — except it&#39;s roast pork with crackling. A deeply satisfying, uniquely Danish meal for around 100 kr. The kind of place locals are genuinely proud of.
     </div>
 </section>
-<section class="restaurant-section" id="hija-de-sanchez">
+<section class="restaurant-section" id="hija-de-sanchez" data-map-name="4. Hija de Sánchez" data-map-cta-url="https://maps.google.com/?cid=4880132497233514840&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hija de Sánchez, Torvehallerne &amp; Kødbyen, Indre By / Vesterbro, Copenhagen, DK" data-map-lat="55.6689187" data-map-lng="12.558519299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Hija de Sánchez</h2>
         <span class="cuisine-tag tag-regional">Mexican Tacos</span>
@@ -730,7 +701,7 @@
         <strong>tabiji verdict:</strong> Founded by a former Noma chef, these are legitimately world-class tacos. Not the cheapest on this list, but the quality justifies the price. The Torvehallerne stall is easier to hit; the Kødbyen location has a bigger menu and seating.
     </div>
 </section>
-<section class="restaurant-section" id="absalon">
+<section class="restaurant-section" id="absalon" data-map-name="5. Absalon Community Dinner" data-map-cta-url="https://maps.google.com/?cid=5963226342340834784&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Absalon Community Dinner, Sønder Boulevard, Vesterbro, Copenhagen, DK" data-map-lat="55.6653981" data-map-lng="12.550297899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Absalon Community Dinner</h2>
         <span class="cuisine-tag tag-regional">Community Dinner</span>
@@ -764,7 +735,7 @@
         <strong>tabiji verdict:</strong> The best deal in Copenhagen, hands down. A full dinner for 50 kr on weeknights in a gorgeous former church. It&#39;s communal dining — you sit with strangers and share the experience. Uniquely Copenhagen and impossible to beat on value.
     </div>
 </section>
-<section class="restaurant-section" id="arbejdermuseet">
+<section class="restaurant-section" id="arbejdermuseet" data-map-name="6. Arbejdermuseet (Workers Museum) Café" data-map-cta-url="https://maps.google.com/?cid=1541002589647452499&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Arbejdermuseet (Workers Museum) Café, Rømersgade, Indre By (near Torvehallerne), Copenhagen, DK" data-map-lat="55.684941699999996" data-map-lng="12.5701915">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Arbejdermuseet (Workers Museum) Café</h2>
         <span class="cuisine-tag tag-regional">Smørrebrød</span>
@@ -798,7 +769,7 @@
         <strong>tabiji verdict:</strong> Want to try proper smørrebrød without the 200+ kr per piece prices at fancy restaurants? The Workers Museum café serves authentic, beautifully made open sandwiches at prices actual Danish workers can afford. Visit the museum too — it&#39;s fascinating.
     </div>
 </section>
-<section class="restaurant-section" id="torvehallerne">
+<section class="restaurant-section" id="torvehallerne" data-map-name="7. Torvehallerne" data-map-cta-url="https://maps.google.com/?cid=8319535972432306747&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Torvehallerne, Frederiksborggade, Indre By (Nørreport), Copenhagen, DK" data-map-lat="55.6837848" data-map-lng="12.568928">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Torvehallerne</h2>
         <span class="cuisine-tag tag-regional">Food Hall</span>
@@ -836,7 +807,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s touristy. But Torvehallerne is also where locals genuinely shop and snack. The food trucks outside are the budget move; inside is more about grazing. Go for lunch, not dinner. Combine with the nearby Workers Museum for a budget culture-and-food day.
     </div>
 </section>
-<section class="restaurant-section" id="kebab-norrebro">
+<section class="restaurant-section" id="kebab-norrebro" data-map-name="8. Kebab &amp; Durum Shops (Nørrebrogade)" data-map-cta-url="https://maps.google.com/?cid=7014423208068228337&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kebab &amp; Durum Shops (Nørrebrogade), Nørrebrogade &amp; surrounding streets, Nørrebro, Copenhagen, DK" data-map-lat="55.697212" data-map-lng="12.544279099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Kebab &amp; Durum Shops (Nørrebrogade)</h2>
         <span class="cuisine-tag tag-regional">Middle Eastern</span>
@@ -870,7 +841,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of budget eating in Copenhagen. When 129 Redditors upvote a single word — &quot;Durum&quot; — you know it&#39;s the truth. Nørrebro&#39;s kebab shops are where students, locals, and late-night revelers all converge. No specific shop because they&#39;re all good — just walk down Nørrebrogade and follow your nose.
     </div>
 </section>
-<section class="restaurant-section" id="ramen-to-biiru">
+<section class="restaurant-section" id="ramen-to-biiru" data-map-name="9. Ramen to Biiru" data-map-cta-url="https://maps.google.com/?cid=16251376592392519750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ramen to Biiru, Griffenfeldsgade, Nørrebro, Copenhagen, DK" data-map-lat="55.6878567" data-map-lng="12.554041900000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Ramen to Biiru</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -904,7 +875,7 @@
         <strong>tabiji verdict:</strong> One of the best ramen spots in Scandinavia, and surprisingly affordable by Copenhagen standards. A filling, warming bowl for under 150 kr is a real win. No reservations — expect a short wait at peak times.
     </div>
 </section>
-<section class="restaurant-section" id="pho-hanoi">
+<section class="restaurant-section" id="pho-hanoi" data-map-name="10. Pho Hanoi" data-map-cta-url="https://maps.google.com/?cid=74514367272417976&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pho Hanoi, Near Vesterport Station, Indre By, Copenhagen, DK" data-map-lat="55.6744105" data-map-lng="12.562562699999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Pho Hanoi</h2>
         <span class="cuisine-tag tag-regional">Vietnamese</span>
@@ -938,7 +909,7 @@
         <strong>tabiji verdict:</strong> A huge, warming bowl of pho for 120 kr in central Copenhagen is genuinely hard to beat. Perfect for cold Danish weather. The portions are notably generous — multiple Redditors emphasize how big they are.
     </div>
 </section>
-<section class="restaurant-section" id="la-neta">
+<section class="restaurant-section" id="la-neta" data-map-name="11. La Neta" data-map-cta-url="https://maps.google.com/?cid=6180639753414337476&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Neta, Studiestræde &amp; Nørrebrogade, Indre By / Nørrebro, Copenhagen, DK" data-map-lat="55.6883333" data-map-lng="12.559166699999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>La Neta</h2>
         <span class="cuisine-tag tag-regional">Mexican</span>
@@ -972,7 +943,7 @@
         <strong>tabiji verdict:</strong> Copenhagen&#39;s best casual taco joint. More accessible and cheaper than Hija de Sánchez, with multiple locations. The vibe is fun and casual — order at the counter, grab a seat, and enjoy authentic tacos that rival what you&#39;d find in Mexico City.
     </div>
 </section>
-<section class="restaurant-section" id="tommis">
+<section class="restaurant-section" id="tommis" data-map-name="12. Tommis Burger Joint" data-map-cta-url="https://maps.google.com/?cid=13394739925327646265&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tommis Burger Joint, Kødbyen (Meatpacking District), Vesterbro, Copenhagen, DK" data-map-lat="55.6682667" data-map-lng="12.5580631">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Tommis Burger Joint</h2>
         <span class="cuisine-tag tag-regional">Burgers</span>
@@ -1006,7 +977,7 @@
         <strong>tabiji verdict:</strong> An Icelandic chain that&#39;s become a Copenhagen institution. The Kødbyen location puts you in the heart of the Meatpacking District&#39;s nightlife and restaurant scene. Honest burgers at honest prices — no gourmet pretension, just good meat on a bun.
     </div>
 </section>
-<section class="restaurant-section" id="ban-geaw">
+<section class="restaurant-section" id="ban-geaw" data-map-name="13. Ban Geaw" data-map-cta-url="https://maps.google.com/?cid=3740881923885894618&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ban Geaw, Halmtorvet, Vesterbro, Copenhagen, DK" data-map-lat="55.672720299999995" data-map-lng="12.5570033">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Ban Geaw</h2>
         <span class="cuisine-tag tag-regional">Thai</span>
@@ -1040,7 +1011,7 @@
         <strong>tabiji verdict:</strong> Don&#39;t judge this book by its cover. Ban Geaw looks unassuming, but the food is some of the best Thai in Copenhagen. The Halmtorvet location means you can combine it with exploring Vesterbro and Kødbyen. A local secret hiding in plain sight.
     </div>
 </section>
-<section class="restaurant-section" id="favori-bageri">
+<section class="restaurant-section" id="favori-bageri" data-map-name="14. Favori Bageri" data-map-cta-url="https://maps.google.com/?cid=8237967538490463171&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Favori Bageri, Nordvest, Copenhagen, DK" data-map-lat="55.702044699999995" data-map-lng="12.533837499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Favori Bageri</h2>
         <span class="cuisine-tag tag-regional">Bakery / Middle Eastern</span>
@@ -1074,7 +1045,7 @@
         <strong>tabiji verdict:</strong> A filling meal for 50 kr in Copenhagen? It exists, and it&#39;s delicious. This Turkish-style bakery in Nordvest is a bit off the tourist track, but that&#39;s exactly why the prices are real. The bread alone is worth the trip.
     </div>
 </section>
-<section class="restaurant-section" id="lagkagehuset">
+<section class="restaurant-section" id="lagkagehuset" data-map-name="15. Lagkagehuset (Ole &amp; Steen)" data-map-cta-url="https://maps.google.com/?cid=17791987860863973245&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lagkagehuset (Ole &amp; Steen), Everywhere (30+ locations), Copenhagen, DK" data-map-lat="55.672526399999995" data-map-lng="12.591498999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Lagkagehuset (Ole &amp; Steen)</h2>
         <span class="cuisine-tag tag-regional">Danish Bakery</span>
@@ -1108,7 +1079,7 @@
         <strong>tabiji verdict:</strong> Denmark&#39;s most popular bakery chain — and it&#39;s actually good, not just convenient. The pastries are baked fresh daily and cost a fraction of what you&#39;d pay at a sit-down café. Your cheapest quality breakfast option in Copenhagen.
     </div>
 </section>
-<section class="restaurant-section" id="nihao-yao">
+<section class="restaurant-section" id="nihao-yao" data-map-name="16. Nihao Yao" data-map-cta-url="https://maps.google.com/?cid=4478758961981784876&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nihao Yao, Rantzausgade, Nørrebro, Copenhagen, DK" data-map-lat="55.6874653" data-map-lng="12.5473307">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Nihao Yao</h2>
         <span class="cuisine-tag tag-regional">Chinese Stir-Fry</span>
@@ -1142,7 +1113,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re strategic, Nihao Yao is one of the best value meals in the city — the portions are genuinely massive enough to split or save half. Located on Rantzausgade, Nørrebro&#39;s most charming food street.
     </div>
 </section>
-<section class="restaurant-section" id="jagger">
+<section class="restaurant-section" id="jagger" data-map-name="17. Jagger" data-map-cta-url="https://maps.google.com/?cid=2559050687733774992&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jagger, Istedgade, Vesterbro, Copenhagen, DK" data-map-lat="55.6697561" data-map-lng="12.5549108">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Jagger</h2>
         <span class="cuisine-tag tag-regional">Burgers</span>
@@ -1176,7 +1147,7 @@
         <strong>tabiji verdict:</strong> Vesterbro&#39;s favorite neighborhood burger joint. The Istedgade location puts you in Copenhagen&#39;s grittiest, most interesting street — packed with bars, vintage shops, and character. A solid burger and beer for under 150 kr total.
     </div>
 </section>
-<section class="restaurant-section" id="china-box">
+<section class="restaurant-section" id="china-box" data-map-name="18. China Box" data-map-cta-url="https://maps.google.com/?cid=3101136054850530471&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="China Box, Near Nørreport, Indre By, Copenhagen, DK" data-map-lat="55.681858899999995" data-map-lng="12.5745039">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>China Box</h2>
         <span class="cuisine-tag tag-regional">Chinese Fast Food</span>
@@ -1228,9 +1199,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Budget Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Reffen Street Food</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Budget Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1252,7 +1224,7 @@
       <li>
         <a href="#arbejdermuseet">6. Arbejdermuseet (Workers Museum) Café</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15917900653273586336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1263,5 +1235,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Budget Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Budget%20Eats%20in%20Copenhagen","picks":[{"anchorId":"reffen","rank":1,"name":"Reffen Street Food","label":"1. Reffen Street Food","lat":55.693633299999995,"lng":12.608231799999999,"ctaUrl":"https://maps.google.com/?cid=15917900653273586336&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Reffen Street Food, Refshaleøen, Copenhagen, DK"},{"anchorId":"dop","rank":2,"name":"DØP – Den Økologiske Pølsemand","label":"2. DØP – Den Økologiske Pølsemand","lat":55.681250999999996,"lng":12.5760794,"ctaUrl":"https://maps.google.com/?cid=952336939292039598&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"DØP – Den Økologiske Pølsemand, Strøget, Indre By (multiple carts), Copenhagen, DK"},{"anchorId":"grisen","rank":3,"name":"Grisen","label":"3. Grisen","lat":55.6922789,"lng":12.568399399999999,"ctaUrl":"https://maps.google.com/?cid=806389459940252652&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Grisen, Near the Lakes, Nørrebro side, Copenhagen, DK"},{"anchorId":"hija-de-sanchez","rank":4,"name":"Hija de Sánchez","label":"4. Hija de Sánchez","lat":55.6689187,"lng":12.558519299999999,"ctaUrl":"https://maps.google.com/?cid=4880132497233514840&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hija de Sánchez, Torvehallerne & Kødbyen, Indre By / Vesterbro, Copenhagen, DK"},{"anchorId":"absalon","rank":5,"name":"Absalon Community Dinner","label":"5. Absalon Community Dinner","lat":55.6653981,"lng":12.550297899999999,"ctaUrl":"https://maps.google.com/?cid=5963226342340834784&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Absalon Community Dinner, Sønder Boulevard, Vesterbro, Copenhagen, DK"},{"anchorId":"arbejdermuseet","rank":6,"name":"Arbejdermuseet (Workers Museum) Café","label":"6. Arbejdermuseet (Workers Museum) Café","lat":55.684941699999996,"lng":12.5701915,"ctaUrl":"https://maps.google.com/?cid=1541002589647452499&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Arbejdermuseet (Workers Museum) Café, Rømersgade, Indre By (near Torvehallerne), Copenhagen, DK"},{"anchorId":"torvehallerne","rank":7,"name":"Torvehallerne","label":"7. Torvehallerne","lat":55.6837848,"lng":12.568928,"ctaUrl":"https://maps.google.com/?cid=8319535972432306747&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Torvehallerne, Frederiksborggade, Indre By (Nørreport), Copenhagen, DK"},{"anchorId":"kebab-norrebro","rank":8,"name":"Kebab & Durum Shops (Nørrebrogade)","label":"8. Kebab & Durum Shops (Nørrebrogade)","lat":55.697212,"lng":12.544279099999999,"ctaUrl":"https://maps.google.com/?cid=7014423208068228337&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kebab & Durum Shops (Nørrebrogade), Nørrebrogade & surrounding streets, Nørrebro, Copenhagen, DK"},{"anchorId":"ramen-to-biiru","rank":9,"name":"Ramen to Biiru","label":"9. Ramen to Biiru","lat":55.6878567,"lng":12.554041900000001,"ctaUrl":"https://maps.google.com/?cid=16251376592392519750&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ramen to Biiru, Griffenfeldsgade, Nørrebro, Copenhagen, DK"},{"anchorId":"pho-hanoi","rank":10,"name":"Pho Hanoi","label":"10. Pho Hanoi","lat":55.6744105,"lng":12.562562699999999,"ctaUrl":"https://maps.google.com/?cid=74514367272417976&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pho Hanoi, Near Vesterport Station, Indre By, Copenhagen, DK"},{"anchorId":"la-neta","rank":11,"name":"La Neta","label":"11. La Neta","lat":55.6883333,"lng":12.559166699999999,"ctaUrl":"https://maps.google.com/?cid=6180639753414337476&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Neta, Studiestræde & Nørrebrogade, Indre By / Nørrebro, Copenhagen, DK"},{"anchorId":"tommis","rank":12,"name":"Tommis Burger Joint","label":"12. Tommis Burger Joint","lat":55.6682667,"lng":12.5580631,"ctaUrl":"https://maps.google.com/?cid=13394739925327646265&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tommis Burger Joint, Kødbyen (Meatpacking District), Vesterbro, Copenhagen, DK"},{"anchorId":"ban-geaw","rank":13,"name":"Ban Geaw","label":"13. Ban Geaw","lat":55.672720299999995,"lng":12.5570033,"ctaUrl":"https://maps.google.com/?cid=3740881923885894618&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ban Geaw, Halmtorvet, Vesterbro, Copenhagen, DK"},{"anchorId":"favori-bageri","rank":14,"name":"Favori Bageri","label":"14. Favori Bageri","lat":55.702044699999995,"lng":12.533837499999999,"ctaUrl":"https://maps.google.com/?cid=8237967538490463171&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Favori Bageri, Nordvest, Copenhagen, DK"},{"anchorId":"lagkagehuset","rank":15,"name":"Lagkagehuset (Ole & Steen)","label":"15. Lagkagehuset (Ole & Steen)","lat":55.672526399999995,"lng":12.591498999999999,"ctaUrl":"https://maps.google.com/?cid=17791987860863973245&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lagkagehuset (Ole & Steen), Everywhere (30+ locations), Copenhagen, DK"},{"anchorId":"nihao-yao","rank":16,"name":"Nihao Yao","label":"16. Nihao Yao","lat":55.6874653,"lng":12.5473307,"ctaUrl":"https://maps.google.com/?cid=4478758961981784876&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nihao Yao, Rantzausgade, Nørrebro, Copenhagen, DK"},{"anchorId":"jagger","rank":17,"name":"Jagger","label":"17. Jagger","lat":55.6697561,"lng":12.5549108,"ctaUrl":"https://maps.google.com/?cid=2559050687733774992&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jagger, Istedgade, Vesterbro, Copenhagen, DK"},{"anchorId":"china-box","rank":18,"name":"China Box","label":"18. China Box","lat":55.681858899999995,"lng":12.5745039,"ctaUrl":"https://maps.google.com/?cid=3101136054850530471&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"China Box, Near Nørreport, Indre By, Copenhagen, DK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

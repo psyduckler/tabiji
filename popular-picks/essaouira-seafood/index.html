@@ -299,11 +299,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -328,9 +323,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -355,24 +353,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},
-            {"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},
-            {"@type":"ListItem","position":3,"name":"Best Seafood in Essaouira Port","item":"https://tabiji.ai/popular-picks/essaouira-seafood/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -415,13 +401,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>For seafood in Essaouira, prices range from 40-450 MAD per person, with the Port Fish Grill Stalls providing the best value. Essaouira&#39;s seafood scene is fueled by daily fresh catches from the Atlantic, making it a must-visit for seafood lovers, though caution is advised regarding tourist traps near the medina entrance.</strong></p>
-        <p>For seafood in Essaouira, expect to pay between 40-450 MAD per person, with the Port Fish Grill Stalls offering the best value due to their fresh catches and customizable grilling experience. Essaouira&#39;s seafood scene thrives on the daily influx of fresh catches from the Atlantic, making it a must-visit for seafood lovers, but be wary of tourist traps near the medina entrance.</p><p>Essaouira sits where the Atlantic never stops moving — constant wind, crashing surf, and one of Morocco&#39;s most active fishing ports. When boats come in daily loaded with sardines, sea bream, langoustines, and crab, the city&#39;s seafood scene is among the best-value in the entire Mediterranean/Atlantic region.</p><p>But Essaouira has a trap: the grillades nearest the medina entrance are notorious tourist traps. Stale fish at inflated prices, aggressive touts, and portions that disappoint. The genuinely great experiences require knowing where to walk — and Reddit travelers who&#39;ve navigated this before have mapped it all out.</p>
+        <p>Essaouira sits where the Atlantic never stops moving — constant wind, crashing surf, and one of Morocco&#39;s most active fishing ports. When boats come in daily loaded with sardines, sea bream, langoustines, and crab, the city&#39;s seafood scene is among the best-value in the entire Mediterranean/Atlantic region.</p><p>But Essaouira has a trap: the grillades nearest the medina entrance are notorious tourist traps. Stale fish at inflated prices, aggressive touts, and portions that disappoint. The genuinely great experiences require knowing where to walk — and Reddit travelers who&#39;ve navigated this before have mapped it all out.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Seafood Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bab%20Sbaa%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Port Fish Grill Stalls (Grillades du Port)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Seafood Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -443,7 +430,7 @@
       <li>
         <a href="#fish-burger">6. Fish Burger</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bab%20Sbaa%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=10696679420465660511&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -455,7 +442,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="port-grill-stalls">
+<section class="restaurant-section" id="port-grill-stalls" data-map-name="1. Port Fish Grill Stalls (Grillades du Port)" data-map-cta-url="https://maps.google.com/?cid=10696679420465660511&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Port Fish Grill Stalls (Grillades du Port), Outside Bab Sbaa, Essaouira Port, Bab Sbaa, MA" data-map-lat="31.514168299999998" data-map-lng="-9.7683327">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Port Fish Grill Stalls (Grillades du Port)</h2>
         <span class="cuisine-tag tag-regional">Port Grill</span>
@@ -493,7 +480,7 @@
         <strong>tabiji verdict:</strong> The most authentic seafood experience in Essaouira — full stop. The key is walking past the tourist-facing stalls at the medina entrance and heading deeper into the port area near Bab Sbaa where the fishing boats actually dock. Agree on price before you hand over anything. Arrive by 12:30 for the freshest fish.
     </div>
 </section>
-<section class="restaurant-section" id="chez-sam">
+<section class="restaurant-section" id="chez-sam" data-map-name="2. Chez Sam" data-map-cta-url="https://maps.google.com/?cid=15061346359345689939&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Sam, Inside Essaouira Port (marina entrance), Bab Sbaa, MA" data-map-lat="31.5113615" data-map-lng="-9.7691219">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Chez Sam</h2>
         <span class="cuisine-tag tag-regional">Classic Institution</span>
@@ -531,7 +518,7 @@
         <strong>tabiji verdict:</strong> Essaouira&#39;s most storied seafood restaurant — it&#39;s been serving fishermen and travelers for decades. The location inside the actual port (not by it — inside it) is unbeatable. Serves alcohol, has reliable quality, and works for both lunch and dinner unlike the grill stalls which close mid-afternoon.
     </div>
 </section>
-<section class="restaurant-section" id="the-loft">
+<section class="restaurant-section" id="the-loft" data-map-name="3. The Loft" data-map-cta-url="https://maps.google.com/?cid=1490676297452560074&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Loft, Essaouira Medina (near Skala), Bab Sbaa, MA" data-map-lat="31.5125088" data-map-lng="-9.771217199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>The Loft</h2>
         <span class="cuisine-tag tag-regional">Medina Institution</span>
@@ -569,7 +556,7 @@
         <strong>tabiji verdict:</strong> The pick for a proper dinner in the medina without the inflated riad pricing. The retro-decorated space is genuinely charming and the fish pastilla (a dish you won&#39;t easily find elsewhere) is worth ordering even if it sounds odd. Gets busy in the evening — arrive by 7pm or book ahead.
     </div>
 </section>
-<section class="restaurant-section" id="taros">
+<section class="restaurant-section" id="taros" data-map-name="4. Taros Café" data-map-cta-url="https://maps.google.com/?cid=7315039272027782835&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taros Café, Place Moulay Hassan, Essaouira, Bab Sbaa, MA" data-map-lat="31.5121762" data-map-lng="-9.7720863">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Taros Café</h2>
         <span class="cuisine-tag tag-regional">Rooftop Bar + Restaurant</span>
@@ -607,7 +594,7 @@
         <strong>tabiji verdict:</strong> The best place in Essaouira to combine a meal with a drink and a view. The rooftop over the main square is genuinely one of the city&#39;s iconic spots — come for sunset with seafood brochettes and a Moroccan rosé and you won&#39;t regret it. The food is good but secondary to the experience here.
     </div>
 </section>
-<section class="restaurant-section" id="la-table-madada">
+<section class="restaurant-section" id="la-table-madada" data-map-name="5. La Table by Madada" data-map-cta-url="https://maps.google.com/?cid=13626150545344000005&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Table by Madada, Rue Youssef el Fassi, Medina, Bab Sbaa, MA" data-map-lat="31.511343399999994" data-map-lng="-9.7707841">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>La Table by Madada</h2>
         <span class="cuisine-tag tag-regional">Upscale French-Moroccan</span>
@@ -645,7 +632,7 @@
         <strong>tabiji verdict:</strong> Essaouira&#39;s benchmark for upscale dining — French technique applied to Atlantic catches with real skill. At 200–450 MAD it&#39;s a splurge by local standards but genuinely excellent and still a fraction of European fine dining prices. If you&#39;re celebrating something, this is the place.
     </div>
 </section>
-<section class="restaurant-section" id="fish-burger">
+<section class="restaurant-section" id="fish-burger" data-map-name="6. Fish Burger" data-map-cta-url="https://www.google.com/maps/place/Fishburger+Essaouira/@31.5140212,-9.7735138,17z/" data-map-query="Fish Burger, Near Skala Wall, Essaouira, Bab Sbaa, MA" data-map-lat="31.514168299999998" data-map-lng="-9.7683327">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Fish Burger</h2>
         <span class="cuisine-tag tag-snack">Modern Seafood Snacks</span>
@@ -683,7 +670,7 @@
         <strong>tabiji verdict:</strong> A genuinely new idea in a city that can feel stuck in its culinary traditions. The sardine burger is surprisingly excellent and the price is almost laughably low. Don&#39;t go expecting a restaurant — it&#39;s a street-side snack spot — but it&#39;s one of the most interesting things happening in Essaouira&#39;s food scene right now.
     </div>
 </section>
-<section class="restaurant-section" id="port-oysters">
+<section class="restaurant-section" id="port-oysters" data-map-name="7. Port Oyster Vendors" data-map-cta-url="https://maps.google.com/?cid=12037831943727342165&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Port Oyster Vendors, Along the port waterfront, Bab Sbaa, MA" data-map-lat="41.1008833" data-map-lng="-72.3621752">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Port Oyster Vendors</h2>
         <span class="cuisine-tag tag-regional">Fresh Oysters</span>
@@ -721,7 +708,7 @@
         <strong>tabiji verdict:</strong> Possibly the best pure value food experience in Morocco. Atlantic oysters shucked to order at the port for 50 cents each. This is the kind of thing you come to Essaouira for — no menu, no waiter, just a fisherman with a knife and the ocean behind him. Go in the morning when the catch is freshest.
     </div>
 </section>
-<section class="restaurant-section" id="medina-fish-souk">
+<section class="restaurant-section" id="medina-fish-souk" data-map-name="8. Hidden Medina Fish Souk" data-map-cta-url="https://maps.google.com/?cid=12037831943727342165&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hidden Medina Fish Souk, Near Souk Jdid (Rue Souk Jedid area), Bab Sbaa, MA" data-map-lat="31.5144996" data-map-lng="-9.768163">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Hidden Medina Fish Souk</h2>
         <span class="cuisine-tag tag-regional">Local Secret</span>
@@ -759,7 +746,7 @@
         <strong>tabiji verdict:</strong> The insider alternative to the port grill stalls — same concept, lower prices, fewer tourists, better atmosphere. The semi-hidden square is genuinely hard to find on a first visit (look for the entrances off Souk Jdid), which is why most visitors miss it entirely. Worth the detour.
     </div>
 </section>
-<section class="restaurant-section" id="umia">
+<section class="restaurant-section" id="umia" data-map-name="9. Umia" data-map-cta-url="https://maps.google.com/?cid=2282693517694102481&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Umia, Near the Skala de la Ville, Bab Sbaa, MA" data-map-lat="31.5132136" data-map-lng="-9.772523099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Umia</h2>
         <span class="cuisine-tag tag-regional">Contemporary Moroccan</span>
@@ -797,7 +784,7 @@
         <strong>tabiji verdict:</strong> The choice for a proper dinner that shows what Moroccan seafood cuisine can be when it&#39;s taken seriously. Not as formal as La Table by Madada but more creative than most medina restaurants. The candlelit atmosphere makes it the better dinner date option in Essaouira.
     </div>
 </section>
-<section class="restaurant-section" id="chalet-plage">
+<section class="restaurant-section" id="chalet-plage" data-map-name="10. Chalet de la Plage" data-map-cta-url="https://maps.google.com/?cid=12013054149575418405&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chalet de la Plage, Essaouira Beach (Boulevard Mohammed V), Bab Sbaa, MA" data-map-lat="31.510198700000004" data-map-lng="-9.769767">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Chalet de la Plage</h2>
         <span class="cuisine-tag tag-regional">Beach Classic</span>
@@ -853,9 +840,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Seafood Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bab%20Sbaa%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Port Fish Grill Stalls (Grillades du Port)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Seafood Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -877,7 +865,7 @@
       <li>
         <a href="#fish-burger">6. Fish Burger</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bab%20Sbaa%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=10696679420465660511&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -888,5 +876,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Seafood Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Seafood%20in%20Essaouira%20Port","picks":[{"anchorId":"port-grill-stalls","rank":1,"name":"Port Fish Grill Stalls (Grillades du Port)","label":"1. Port Fish Grill Stalls (Grillades du Port)","lat":31.514168299999998,"lng":-9.7683327,"ctaUrl":"https://maps.google.com/?cid=10696679420465660511&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Port Fish Grill Stalls (Grillades du Port), Outside Bab Sbaa, Essaouira Port, Bab Sbaa, MA"},{"anchorId":"chez-sam","rank":2,"name":"Chez Sam","label":"2. Chez Sam","lat":31.5113615,"lng":-9.7691219,"ctaUrl":"https://maps.google.com/?cid=15061346359345689939&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Sam, Inside Essaouira Port (marina entrance), Bab Sbaa, MA"},{"anchorId":"the-loft","rank":3,"name":"The Loft","label":"3. The Loft","lat":31.5125088,"lng":-9.771217199999999,"ctaUrl":"https://maps.google.com/?cid=1490676297452560074&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Loft, Essaouira Medina (near Skala), Bab Sbaa, MA"},{"anchorId":"taros","rank":4,"name":"Taros Café","label":"4. Taros Café","lat":31.5121762,"lng":-9.7720863,"ctaUrl":"https://maps.google.com/?cid=7315039272027782835&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taros Café, Place Moulay Hassan, Essaouira, Bab Sbaa, MA"},{"anchorId":"la-table-madada","rank":5,"name":"La Table by Madada","label":"5. La Table by Madada","lat":31.511343399999994,"lng":-9.7707841,"ctaUrl":"https://maps.google.com/?cid=13626150545344000005&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Table by Madada, Rue Youssef el Fassi, Medina, Bab Sbaa, MA"},{"anchorId":"fish-burger","rank":6,"name":"Fish Burger","label":"6. Fish Burger","lat":31.514168299999998,"lng":-9.7683327,"ctaUrl":"https://www.google.com/maps/place/Fishburger+Essaouira/@31.5140212,-9.7735138,17z/","mapQuery":"Fish Burger, Near Skala Wall, Essaouira, Bab Sbaa, MA"},{"anchorId":"port-oysters","rank":7,"name":"Port Oyster Vendors","label":"7. Port Oyster Vendors","lat":41.1008833,"lng":-72.3621752,"ctaUrl":"https://maps.google.com/?cid=12037831943727342165&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Port Oyster Vendors, Along the port waterfront, Bab Sbaa, MA"},{"anchorId":"medina-fish-souk","rank":8,"name":"Hidden Medina Fish Souk","label":"8. Hidden Medina Fish Souk","lat":31.5144996,"lng":-9.768163,"ctaUrl":"https://maps.google.com/?cid=12037831943727342165&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hidden Medina Fish Souk, Near Souk Jdid (Rue Souk Jedid area), Bab Sbaa, MA"},{"anchorId":"umia","rank":9,"name":"Umia","label":"9. Umia","lat":31.5132136,"lng":-9.772523099999999,"ctaUrl":"https://maps.google.com/?cid=2282693517694102481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Umia, Near the Skala de la Ville, Bab Sbaa, MA"},{"anchorId":"chalet-plage","rank":10,"name":"Chalet de la Plage","label":"10. Chalet de la Plage","lat":31.510198700000004,"lng":-9.769767,"ctaUrl":"https://maps.google.com/?cid=12013054149575418405&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chalet de la Plage, Essaouira Beach (Boulevard Mohammed V), Bab Sbaa, MA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

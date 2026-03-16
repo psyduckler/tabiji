@@ -427,11 +427,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -456,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -483,39 +481,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Ph\u1edf in Hanoi",
-                        "item": "https://tabiji.ai/popular-picks/hanoi-pho/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -558,13 +529,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Hanoi&#39;s phở scene features bowls ranging from ₫35,000 to ₫90,000, with Phở Gia Truyền Bát Đàn being a top recommendation for its pure, no-frills perfection. Hanoi-style phở emphasizes a clear, aromatic broth simmered for hours, setting it apart from its southern counterpart and making it a must-try culinary experience. We analyzed hundreds of Reddit posts from r/VietNam, r/hanoi, r/travel, and r/JapanTravelTips to find the phở spots that actual Hanoi residents and repeat visitors recommend over and over.</strong></p>
-        <p>Hanoi&#39;s phở scene offers bowls ranging from ₫35,000 to ₫90,000, with Phở Gia Truyền Bát Đàn being a top recommendation for its pure, no-frills perfection. Hanoi-style phở, unlike its southern counterpart, emphasizes a clear, aromatic broth simmered for hours, making it a must-try culinary experience.</p><p>Hanoi is the birthplace of phở — and the city takes its national dish very seriously. Unlike the sweeter, herb-loaded southern version, Hanoi-style phở is all about the broth: clear, aromatic, simmered for hours with beef bones, charred ginger, star anise, and cinnamon. The noodles are flat and silky. The garnishes are minimal. The experience is pure.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/hanoi, r/travel, and r/JapanTravelTips to find the phở spots that actual Hanoi residents and repeat visitors recommend over and over. Skip the tourist traps — these are the bowls worth your morning.</p>
+        <p>Hanoi is the birthplace of phở — and the city takes its national dish very seriously. Unlike the sweeter, herb-loaded southern version, Hanoi-style phở is all about the broth: clear, aromatic, simmered for hours with beef bones, charred ginger, star anise, and cinnamon. The noodles are flat and silky. The garnishes are minimal. The experience is pure.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/hanoi, r/travel, and r/JapanTravelTips to find the phở spots that actual Hanoi residents and repeat visitors recommend over and over. Skip the tourist traps — these are the bowls worth your morning.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Phở Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanoi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Phở Gia Truyền Bát Đàn</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Phở Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -586,7 +558,7 @@
       <li>
         <a href="#tu-lun">6. Phở Tư Lùn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanoi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=423869191187880331&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="bat-dan">
+<section class="restaurant-section" id="bat-dan" data-map-name="1. Phở Gia Truyền Bát Đàn" data-map-cta-url="https://maps.google.com/?cid=423869191187880331&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Gia Truyền Bát Đàn, 49 Bát Đàn, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0336237" data-map-lng="105.8465147">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Phở Gia Truyền Bát Đàn</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -636,7 +608,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Hanoi phở. Operating since the 1970s, Bát Đàn serves self-service style — queue up, grab a tray, find a tiny stool. The broth is the purest expression of northern phở you&#39;ll find. Go early (before 8 AM) to avoid the line.
     </div>
 </section>
-<section class="restaurant-section" id="pho-10">
+<section class="restaurant-section" id="pho-10" data-map-name="2. Phở 10 Lý Quốc Sư" data-map-cta-url="https://maps.google.com/?cid=17916388403015504363&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở 10 Lý Quốc Sư, 10 Lý Quốc Sư, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.030496199999998" data-map-lng="105.8487892">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Phở 10 Lý Quốc Sư</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -674,7 +646,7 @@
         <strong>tabiji verdict:</strong> The most tourist-accessible famous phở in the Old Quarter. Slightly more polished than Bát Đàn — you&#39;ll get a proper seat and table. The broth is excellent, the beef is generous, and the quẩy is a must. Expect a wait at peak hours.
     </div>
 </section>
-<section class="restaurant-section" id="pho-thin">
+<section class="restaurant-section" id="pho-thin" data-map-name="3. Phở Thìn Lò Đúc" data-map-cta-url="https://maps.google.com/?cid=13312038084087786748&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Thìn Lò Đúc, 13 Lò Đúc, Hai Bà Trưng, Hanoi, VN" data-map-lat="21.018110999999998" data-map-lng="105.855301">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Phở Thìn Lò Đúc</h2>
         <span class="cuisine-tag tag-regional">Stir-Fried Beef Phở</span>
@@ -712,7 +684,7 @@
         <strong>tabiji verdict:</strong> The most controversial phở in Hanoi. The stir-fried beef technique is genuinely unique and worth experiencing once — it&#39;s not traditional phở, it&#39;s its own thing. But at ₫70,000–₫90,000, it&#39;s nearly double the price of local spots. Locals are divided. Go for the experience, manage expectations on the broth.
     </div>
 </section>
-<section class="restaurant-section" id="khoi-hoi">
+<section class="restaurant-section" id="khoi-hoi" data-map-name="4. Phở Bò Khôi Hói" data-map-cta-url="https://maps.google.com/?cid=6032385912400342479&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Bò Khôi Hói, 50 Hàng Vai, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0357335" data-map-lng="105.84618309999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Phở Bò Khôi Hói</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -750,7 +722,7 @@
         <strong>tabiji verdict:</strong> A local favorite that tourists rarely find. Recommended by a 15-year Hanoi resident alongside Bát Đàn as the two best in the Old Quarter. The vibe is pure street-side Hanoi — tiny stools, big flavors.
     </div>
 </section>
-<section class="restaurant-section" id="pho-thin-bo-ho">
+<section class="restaurant-section" id="pho-thin-bo-ho" data-map-name="5. Phở Thìn Bờ Hồ" data-map-cta-url="https://maps.google.com/?cid=13701122881885430643&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Thìn Bờ Hồ, Đinh Tiên Hoàng, Hoàn Kiếm (lakeside), Hanoi, VN" data-map-lat="21.0302419" data-map-lng="105.8565462">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Phở Thìn Bờ Hồ</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -788,7 +760,7 @@
         <strong>tabiji verdict:</strong> Not to be confused with Phở Thìn Lò Đúc — this is a completely different restaurant near Hoàn Kiếm Lake. Traditional-style phở with excellent broth. The lakeside location makes it a perfect early morning stop before exploring the Old Quarter.
     </div>
 </section>
-<section class="restaurant-section" id="tu-lun">
+<section class="restaurant-section" id="tu-lun" data-map-name="6. Phở Tư Lùn" data-map-cta-url="https://maps.google.com/?cid=10573862001389999103&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Tư Lùn, Ấu Triệu, Hoàn Kiếm (near Cathedral), Hanoi, VN" data-map-lat="21.028885" data-map-lng="105.848626">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Phở Tư Lùn</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -826,7 +798,7 @@
         <strong>tabiji verdict:</strong> Near St. Joseph&#39;s Cathedral — easy to combine with sightseeing. Reddit users rave about this as a life-changing bowl. The brisket cut is the move here. Less famous than Bát Đàn but arguably just as good.
     </div>
 </section>
-<section class="restaurant-section" id="pho-suong">
+<section class="restaurant-section" id="pho-suong" data-map-name="7. Phở Sướng" data-map-cta-url="https://maps.google.com/?cid=2672331725228036959&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Sướng, 24B Trung Yên, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0334599" data-map-lng="105.85214619999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Phở Sướng</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -860,7 +832,7 @@
         <strong>tabiji verdict:</strong> A hidden gem tucked away on a quiet alley near the Old Quarter. The broth is outstanding — clear, clean, and deeply beefy. Less crowded than the big-name spots, which is a huge plus at breakfast time.
     </div>
 </section>
-<section class="restaurant-section" id="manh-cuong">
+<section class="restaurant-section" id="manh-cuong" data-map-name="8. Phở Mạnh Cường" data-map-cta-url="https://maps.google.com/?cid=2476425694563319523&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Mạnh Cường, Hàng Muối, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0339734" data-map-lng="105.85479319999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Phở Mạnh Cường</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -894,7 +866,7 @@
         <strong>tabiji verdict:</strong> A local&#39;s regular spot — the kind of place a Hanoian goes to every morning without thinking twice. No English menu, no tourist crowd, just honest phở at honest prices. If you want to eat like a local, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="pho-ly-quoc-su">
+<section class="restaurant-section" id="pho-ly-quoc-su" data-map-name="9. Phở Lý Quốc Sư (Cathedral)" data-map-cta-url="https://maps.google.com/?cid=17916388403015504363&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Lý Quốc Sư (Cathedral), Lý Quốc Sư, Hoàn Kiếm (near Cathedral), Hanoi, VN" data-map-lat="21.030496199999998" data-map-lng="105.8487892">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Phở Lý Quốc Sư (Cathedral)</h2>
         <span class="cuisine-tag tag-regional">Famous / Tourist</span>
@@ -928,7 +900,7 @@
         <strong>tabiji verdict:</strong> The controversial pick. One of Hanoi&#39;s most famous phở spots — always packed with tourists and featured in every guidebook. But long-term residents consistently say there are better bowls for less money. Decent phở, but the wait-to-quality ratio is not great. If there&#39;s no line, go for it. If there&#39;s a queue, walk to Tư Lùn instead.
     </div>
 </section>
-<section class="restaurant-section" id="tu-hung">
+<section class="restaurant-section" id="tu-hung" data-map-name="10. Phở Tư Hùng" data-map-cta-url="https://maps.google.com/?cid=11844368301099372004&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Tư Hùng, Yên Phụ, Tây Hồ, Hanoi, VN" data-map-lat="21.0553722" data-map-lng="105.8355813">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Phở Tư Hùng</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -962,7 +934,7 @@
         <strong>tabiji verdict:</strong> Out in the Tây Hồ (West Lake) district — away from the Old Quarter tourist circuit. This is where a local goes every single morning. If you&#39;re staying near West Lake or want to combine with a lakeside walk, this is your phở spot. Zero tourists.
     </div>
 </section>
-<section class="restaurant-section" id="man-gam-cau">
+<section class="restaurant-section" id="man-gam-cau" data-map-name="11. Phở Mặn Gầm Cầu" data-map-cta-url="https://maps.google.com/?cid=1366071503630757724&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Mặn Gầm Cầu, Gầm Cầu, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0390695" data-map-lng="105.8480601">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Phở Mặn Gầm Cầu</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -996,7 +968,7 @@
         <strong>tabiji verdict:</strong> The name literally means &quot;salty phở under the bridge&quot; — and that tells you everything about the vibe. Gritty, authentic, cheap. The slightly saltier broth is a distinctive twist that sets it apart from the competition. A local-approved Old Quarter pick.
     </div>
 </section>
-<section class="restaurant-section" id="pho-ga-nguyet">
+<section class="restaurant-section" id="pho-ga-nguyet" data-map-name="12. Phở Gà Nguyệt" data-map-cta-url="https://maps.google.com/?cid=5936599318829522866&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Gà Nguyệt, Lãn Ông, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0301175" data-map-lng="105.8476362">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Phở Gà Nguyệt</h2>
         <span class="cuisine-tag tag-regional">Phở Gà (Chicken)</span>
@@ -1030,7 +1002,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re phở bò&#39;d out (is that possible?), switch to chicken. Phở gà is Hanoi&#39;s lighter, cleaner alternative — and Nguyệt does it beautifully. The free-range chicken has actual flavor, and the broth is delicate and aromatic. A perfect second bowl of the day.
     </div>
 </section>
-<section class="restaurant-section" id="pho-cuon">
+<section class="restaurant-section" id="pho-cuon" data-map-name="13. Phở Cuốn Hưng Bền" data-map-cta-url="https://maps.google.com/?cid=4163347753587867196&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Cuốn Hưng Bền, Ngũ Xã, Ba Đình, Hanoi, VN" data-map-lat="21.044715699999998" data-map-lng="105.8412237">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Phở Cuốn Hưng Bền</h2>
         <span class="cuisine-tag tag-regional">Phở Cuốn (Rolled)</span>
@@ -1064,7 +1036,7 @@
         <strong>tabiji verdict:</strong> Not soup — phở cuốn is fresh phở noodle sheets rolled like spring rolls with stir-fried beef. Ngũ Xã street is THE phở cuốn strip in Hanoi. A unique Hanoi-only dish you can&#39;t get anywhere else. Perfect as a lunch or snack between bowls of soup phở.
     </div>
 </section>
-<section class="restaurant-section" id="pho-vui">
+<section class="restaurant-section" id="pho-vui" data-map-name="14. Phở Vui" data-map-cta-url="https://maps.google.com/?cid=6140656625544074138&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Vui, Hàng Giấy, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.035242999999998" data-map-lng="105.85121590000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Phở Vui</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -1098,7 +1070,7 @@
         <strong>tabiji verdict:</strong> Follow the Redditor&#39;s golden rule: look for the big bubbling pot of bone broth. Phở Vui has it front and center. A solid neighborhood phở spot in the Old Quarter that doesn&#39;t get the tourist traffic of Bát Đàn or Lý Quốc Sư. Authentic, cheap, no-fuss.
     </div>
 </section>
-<section class="restaurant-section" id="luong-van-can">
+<section class="restaurant-section" id="luong-van-can" data-map-name="15. Phở Bò 26 Lương Văn Can" data-map-cta-url="https://maps.google.com/?cid=12415549703230439121&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Bò 26 Lương Văn Can, 26 Lương Văn Can, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0332883" data-map-lng="105.85010799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Phở Bò 26 Lương Văn Can</h2>
         <span class="cuisine-tag tag-regional">Phở Bò / Phở Gà</span>
@@ -1132,7 +1104,7 @@
         <strong>tabiji verdict:</strong> A dual-threat spot that does both beef and chicken phở well, plus great bánh cuốn. Perfect if you&#39;re with a group and people want different things. The Lương Văn Can location is prime Old Quarter — walkable from everywhere.
     </div>
 </section>
-<section class="restaurant-section" id="pho-quynh">
+<section class="restaurant-section" id="pho-quynh" data-map-name="16. Phở Quỳnh" data-map-cta-url="https://maps.google.com/?cid=2599608821432014836&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Quỳnh, Phạm Ngũ Lão area, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.037339300000003" data-map-lng="105.8518036">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Phở Quỳnh</h2>
         <span class="cuisine-tag tag-regional">Phở Bò</span>
@@ -1166,7 +1138,7 @@
         <strong>tabiji verdict:</strong> A consistent performer that flies under the radar compared to the big names. The broth is the star here — deep, aromatic, and clearly made from real bones simmered for hours. Good for a reliable bowl without the famous-spot queue.
     </div>
 </section>
-<section class="restaurant-section" id="pho-chieu">
+<section class="restaurant-section" id="pho-chieu" data-map-name="17. Phở Chiều" data-map-cta-url="https://maps.google.com/?cid=1554467693362737254&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Chiều, Various locations, Đống Đa, Hanoi, VN" data-map-lat="21.014913" data-map-lng="105.82340149999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Phở Chiều</h2>
         <span class="cuisine-tag tag-regional">Afternoon Phở</span>
@@ -1200,7 +1172,7 @@
         <strong>tabiji verdict:</strong> &quot;Chiều&quot; means afternoon — and that&#39;s the whole concept. Most Hanoi phở shops close by 10–11 AM. If you slept in or want phở for dinner, this is your lifeline. The quality holds up even in non-traditional hours. A rare evening phở option in a breakfast-obsessed city.
     </div>
 </section>
-<section class="restaurant-section" id="pho-thin-original">
+<section class="restaurant-section" id="pho-thin-original" data-map-name="18. Phở Thìn 13 Lò Đúc (The Story)" data-map-cta-url="https://maps.google.com/?cid=13312038084087786748&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Thìn 13 Lò Đúc (The Story), 13 Lò Đúc, Hai Bà Trưng, Hanoi, VN" data-map-lat="21.018110999999998" data-map-lng="105.855301">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Phở Thìn 13 Lò Đúc (The Story)</h2>
         <span class="cuisine-tag tag-regional">Stir-Fried Beef Phở</span>
@@ -1252,9 +1224,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Phở Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanoi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Phở Gia Truyền Bát Đàn</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Phở Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1276,7 +1249,7 @@
       <li>
         <a href="#tu-lun">6. Phở Tư Lùn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanoi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=423869191187880331&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1287,5 +1260,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Phở Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ph%E1%BB%9F%20Spots%20in%20Hanoi","picks":[{"anchorId":"bat-dan","rank":1,"name":"Phở Gia Truyền Bát Đàn","label":"1. Phở Gia Truyền Bát Đàn","lat":21.0336237,"lng":105.8465147,"ctaUrl":"https://maps.google.com/?cid=423869191187880331&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Gia Truyền Bát Đàn, 49 Bát Đàn, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-10","rank":2,"name":"Phở 10 Lý Quốc Sư","label":"2. Phở 10 Lý Quốc Sư","lat":21.030496199999998,"lng":105.8487892,"ctaUrl":"https://maps.google.com/?cid=17916388403015504363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở 10 Lý Quốc Sư, 10 Lý Quốc Sư, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-thin","rank":3,"name":"Phở Thìn Lò Đúc","label":"3. Phở Thìn Lò Đúc","lat":21.018110999999998,"lng":105.855301,"ctaUrl":"https://maps.google.com/?cid=13312038084087786748&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Thìn Lò Đúc, 13 Lò Đúc, Hai Bà Trưng, Hanoi, VN"},{"anchorId":"khoi-hoi","rank":4,"name":"Phở Bò Khôi Hói","label":"4. Phở Bò Khôi Hói","lat":21.0357335,"lng":105.84618309999999,"ctaUrl":"https://maps.google.com/?cid=6032385912400342479&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Bò Khôi Hói, 50 Hàng Vai, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-thin-bo-ho","rank":5,"name":"Phở Thìn Bờ Hồ","label":"5. Phở Thìn Bờ Hồ","lat":21.0302419,"lng":105.8565462,"ctaUrl":"https://maps.google.com/?cid=13701122881885430643&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Thìn Bờ Hồ, Đinh Tiên Hoàng, Hoàn Kiếm (lakeside), Hanoi, VN"},{"anchorId":"tu-lun","rank":6,"name":"Phở Tư Lùn","label":"6. Phở Tư Lùn","lat":21.028885,"lng":105.848626,"ctaUrl":"https://maps.google.com/?cid=10573862001389999103&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Tư Lùn, Ấu Triệu, Hoàn Kiếm (near Cathedral), Hanoi, VN"},{"anchorId":"pho-suong","rank":7,"name":"Phở Sướng","label":"7. Phở Sướng","lat":21.0334599,"lng":105.85214619999999,"ctaUrl":"https://maps.google.com/?cid=2672331725228036959&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Sướng, 24B Trung Yên, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"manh-cuong","rank":8,"name":"Phở Mạnh Cường","label":"8. Phở Mạnh Cường","lat":21.0339734,"lng":105.85479319999999,"ctaUrl":"https://maps.google.com/?cid=2476425694563319523&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Mạnh Cường, Hàng Muối, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-ly-quoc-su","rank":9,"name":"Phở Lý Quốc Sư (Cathedral)","label":"9. Phở Lý Quốc Sư (Cathedral)","lat":21.030496199999998,"lng":105.8487892,"ctaUrl":"https://maps.google.com/?cid=17916388403015504363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Lý Quốc Sư (Cathedral), Lý Quốc Sư, Hoàn Kiếm (near Cathedral), Hanoi, VN"},{"anchorId":"tu-hung","rank":10,"name":"Phở Tư Hùng","label":"10. Phở Tư Hùng","lat":21.0553722,"lng":105.8355813,"ctaUrl":"https://maps.google.com/?cid=11844368301099372004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Tư Hùng, Yên Phụ, Tây Hồ, Hanoi, VN"},{"anchorId":"man-gam-cau","rank":11,"name":"Phở Mặn Gầm Cầu","label":"11. Phở Mặn Gầm Cầu","lat":21.0390695,"lng":105.8480601,"ctaUrl":"https://maps.google.com/?cid=1366071503630757724&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Mặn Gầm Cầu, Gầm Cầu, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-ga-nguyet","rank":12,"name":"Phở Gà Nguyệt","label":"12. Phở Gà Nguyệt","lat":21.0301175,"lng":105.8476362,"ctaUrl":"https://maps.google.com/?cid=5936599318829522866&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Gà Nguyệt, Lãn Ông, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-cuon","rank":13,"name":"Phở Cuốn Hưng Bền","label":"13. Phở Cuốn Hưng Bền","lat":21.044715699999998,"lng":105.8412237,"ctaUrl":"https://maps.google.com/?cid=4163347753587867196&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Cuốn Hưng Bền, Ngũ Xã, Ba Đình, Hanoi, VN"},{"anchorId":"pho-vui","rank":14,"name":"Phở Vui","label":"14. Phở Vui","lat":21.035242999999998,"lng":105.85121590000001,"ctaUrl":"https://maps.google.com/?cid=6140656625544074138&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Vui, Hàng Giấy, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"luong-van-can","rank":15,"name":"Phở Bò 26 Lương Văn Can","label":"15. Phở Bò 26 Lương Văn Can","lat":21.0332883,"lng":105.85010799999999,"ctaUrl":"https://maps.google.com/?cid=12415549703230439121&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Bò 26 Lương Văn Can, 26 Lương Văn Can, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-quynh","rank":16,"name":"Phở Quỳnh","label":"16. Phở Quỳnh","lat":21.037339300000003,"lng":105.8518036,"ctaUrl":"https://maps.google.com/?cid=2599608821432014836&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Quỳnh, Phạm Ngũ Lão area, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"pho-chieu","rank":17,"name":"Phở Chiều","label":"17. Phở Chiều","lat":21.014913,"lng":105.82340149999999,"ctaUrl":"https://maps.google.com/?cid=1554467693362737254&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Chiều, Various locations, Đống Đa, Hanoi, VN"},{"anchorId":"pho-thin-original","rank":18,"name":"Phở Thìn 13 Lò Đúc (The Story)","label":"18. Phở Thìn 13 Lò Đúc (The Story)","lat":21.018110999999998,"lng":105.855301,"ctaUrl":"https://maps.google.com/?cid=13312038084087786748&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Thìn 13 Lò Đúc (The Story), 13 Lò Đúc, Hai Bà Trưng, Hanoi, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

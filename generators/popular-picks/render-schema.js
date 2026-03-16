@@ -7,6 +7,8 @@ function renderJsonLd(obj) {
 function renderSchema(data) {
   const canonical = absoluteUrl(data.seo.canonicalPath);
   const heroImage = absoluteUrl(data.seo.heroImage || '');
+  const publishedDate = typeof data?.seo?.publishedTime === 'string' ? data.seo.publishedTime.slice(0, 10) : undefined;
+  const modifiedDate = typeof data?.seo?.modifiedTime === 'string' ? data.seo.modifiedTime.slice(0, 10) : undefined;
 
   const article = {
     '@context': 'https://schema.org',
@@ -15,8 +17,8 @@ function renderSchema(data) {
     description: data.seo.metaDescription,
     author: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
     publisher: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
-    datePublished: data.seo.publishedTime.slice(0, 10),
-    dateModified: data.seo.modifiedTime.slice(0, 10),
+    ...(publishedDate ? { datePublished: publishedDate } : {}),
+    ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     mainEntityOfPage: canonical,
     ...(heroImage ? { image: heroImage } : {})
   };

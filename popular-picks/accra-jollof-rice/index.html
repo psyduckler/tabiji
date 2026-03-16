@@ -215,7 +215,8 @@
           "addressLocality": "Various locations, Accra",
           "addressCountry": "GH"
         },
-        "priceRange": "₵10–₵25/person"
+        "priceRange": "₵10–₵25/person",
+        "url": "https://maps.google.com/?cid=17064419086946307647&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
       }
     }
   ]
@@ -317,9 +318,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -344,7 +348,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -396,9 +400,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Jollof Map</h2>
-      <iframe src="https://www.google.com/maps?q=Jollof%20Rice%20in%20Accra&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Buka Restaurant</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Jollof Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -420,7 +425,7 @@
       <li>
         <a href="#crossroads-bar">6. Crossroads Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Jollof%20Rice%20in%20Accra" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Buka+Restaurant+Osu+Accra+Ghana" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -432,7 +437,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="buka-restaurant">
+<section class="restaurant-section" id="buka-restaurant" data-map-name="1. Buka Restaurant" data-map-cta-url="https://maps.google.com/?q=Buka+Restaurant+Osu+Accra+Ghana" data-map-query="Buka Restaurant, Osu, Accra, Accra, GH" data-map-lat="5.5649961999999995" data-map-lng="-0.18271389999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Buka Restaurant</h2>
         <span class="cuisine-tag tag-regional">Local Restaurant</span>
@@ -462,7 +467,7 @@
         <strong>tabiji verdict:</strong> The safe, tourist-friendly pick that still delivers authentic flavor. Not the cheapest, but the quality and consistency are reliable. If you&#39;re visiting Accra for the first time and want one guaranteed great jollof experience in a comfortable setting, Buka is your answer.
     </div>
 </section>
-<section class="restaurant-section" id="asanka-local">
+<section class="restaurant-section" id="asanka-local" data-map-name="2. Asanka Local" data-map-cta-url="https://maps.google.com/?q=Asanka+Local+Osu+Accra+Ghana" data-map-query="Asanka Local, Osu, Accra, Accra, GH" data-map-lat="5.5596681" data-map-lng="-0.1786446">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Asanka Local</h2>
         <span class="cuisine-tag tag-regional">Traditional Chop Bar</span>
@@ -488,7 +493,7 @@
         <strong>tabiji verdict:</strong> Better value than Buka with equally authentic food. The setting is more &quot;real&quot; — less polished but more genuine. If you want the chop bar experience without the full street food commitment, Asanka Local is the sweet spot.
     </div>
 </section>
-<section class="restaurant-section" id="nervana-lounge">
+<section class="restaurant-section" id="nervana-lounge" data-map-name="3. Nervana Lounge (Dadesen)" data-map-cta-url="https://maps.google.com/?q=Nervana+Lounge+Dzorwulu+Accra+Ghana" data-map-query="Nervana Lounge (Dadesen), Dzorwulu, Accra, Accra, GH" data-map-lat="5.609291400000001" data-map-lng="-0.20062729999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Nervana Lounge (Dadesen)</h2>
         <span class="cuisine-tag tag-regional">Traditional Dadesen</span>
@@ -514,7 +519,7 @@
         <strong>tabiji verdict:</strong> The most interesting jollof cooking method on this list. The dadesen technique produces a noticeably different rice — smokier, with better texture throughout. Worth the trip to Dzorwulu, especially on weekends when the live music creates the perfect atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="805-restaurant">
+<section class="restaurant-section" id="805-restaurant" data-map-name="4. 805 Restaurant" data-map-cta-url="https://maps.google.com/?q=805+Restaurant+Osu+Accra+Ghana" data-map-query="805 Restaurant, Osu, Accra, Accra, GH" data-map-lat="5.5595783" data-map-lng="-0.1834278">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>805 Restaurant</h2>
         <span class="cuisine-tag tag-regional">Upscale Ghanaian</span>
@@ -540,7 +545,7 @@
         <strong>tabiji verdict:</strong> Not the most authentic jollof on this list, but easily the best overall dining experience. Come here when you want the atmosphere, service, and cocktails to match the food. The jollof is solid — just not the star when the whole production is this polished.
     </div>
 </section>
-<section class="restaurant-section" id="azmera-restaurant">
+<section class="restaurant-section" id="azmera-restaurant" data-map-name="5. Azmera Restaurant" data-map-cta-url="https://maps.google.com/?q=Azmera+Restaurant+East+Legon+Accra+Ghana" data-map-query="Azmera Restaurant, East Legon, Accra, Accra, GH" data-map-lat="5.6057748" data-map-lng="-0.18831789999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Azmera Restaurant</h2>
         <span class="cuisine-tag tag-regional">Local Restaurant</span>
@@ -562,7 +567,7 @@
         <strong>tabiji verdict:</strong> A solid neighborhood pick in East Legon. If you&#39;re staying in this part of Accra, Azmera saves you the trip to Osu while still delivering quality jollof. Less famous but consistently good.
     </div>
 </section>
-<section class="restaurant-section" id="crossroads-bar">
+<section class="restaurant-section" id="crossroads-bar" data-map-name="6. Crossroads Bar" data-map-cta-url="https://maps.google.com/?q=Crossroads+Bar+Osu+Accra+Ghana" data-map-query="Crossroads Bar, Osu (off Oxford Street), Accra, Accra, GH" data-map-lat="5.566869" data-map-lng="-0.1825009">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Crossroads Bar</h2>
         <span class="cuisine-tag tag-regional">Bar &amp; Local Food</span>
@@ -584,7 +589,7 @@
         <strong>tabiji verdict:</strong> A no-frills, genuinely local experience in the heart of Osu&#39;s nightlife strip. The spicy green sauce with jollof is a unique touch you won&#39;t find at fancier spots. Best for casual evenings when you want good food with drinks and atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="urban-eats">
+<section class="restaurant-section" id="urban-eats" data-map-name="7. Urban Eats" data-map-cta-url="https://maps.google.com/?q=Urban+Eats+Spintex+Accra+Ghana" data-map-query="Urban Eats, Spintex Road, Accra, Accra, GH" data-map-lat="5.6070825" data-map-lng="-0.2065795">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Urban Eats</h2>
         <span class="cuisine-tag tag-regional">Jollof Specialist</span>
@@ -606,7 +611,7 @@
         <strong>tabiji verdict:</strong> When a restaurant stakes its entire existence on one dish, you pay attention. Urban Eats delivers what it promises — exceptional jollof, every single time. The portions-to-price ratio is excellent. Best for takeaway or delivery if you&#39;re in the Spintex area.
     </div>
 </section>
-<section class="restaurant-section" id="fridays">
+<section class="restaurant-section" id="fridays" data-map-name="8. Fridays Bar &amp; Restaurant" data-map-cta-url="https://maps.google.com/?q=Fridays+Bar+Restaurant+Sakumono+Accra+Ghana" data-map-query="Fridays Bar &amp; Restaurant, B-C Line Street, Sakumono, Accra, GH" data-map-lat="5.6210362" data-map-lng="-0.0612996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Fridays Bar &amp; Restaurant</h2>
         <span class="cuisine-tag tag-regional">Bar &amp; Local Food</span>
@@ -628,7 +633,7 @@
         <strong>tabiji verdict:</strong> Worth the trip outside central Accra if you&#39;re heading toward Tema or want to escape the tourist spots. The jollof queue doesn&#39;t lie — locals don&#39;t wait in line for mediocre rice. Great value and authentic neighborhood vibes.
     </div>
 </section>
-<section class="restaurant-section" id="labadi-beach">
+<section class="restaurant-section" id="labadi-beach" data-map-name="9. Labadi Beach (Akwaaba Restaurant)" data-map-cta-url="https://maps.google.com/?q=Labadi+Beach+Accra+Ghana" data-map-query="Labadi Beach (Akwaaba Restaurant), La Pleasure Beach, Accra, Accra, GH" data-map-lat="5.5639807" data-map-lng="-0.1379924">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Labadi Beach (Akwaaba Restaurant)</h2>
         <span class="cuisine-tag tag-regional">Beachside</span>
@@ -650,7 +655,7 @@
         <strong>tabiji verdict:</strong> Not the best jollof on this list by pure flavor — but the experience of eating jollof rice on a West African beach at sunset is something you&#39;ll remember forever. Come on a weekday for peace, or join the weekend energy for the full Accra beach scene.
     </div>
 </section>
-<section class="restaurant-section" id="street-jollof">
+<section class="restaurant-section" id="street-jollof" data-map-name="10. Street Jollof (Osu, Labadi &amp; Teshie)" data-map-cta-url="https://maps.google.com/?cid=17064419086946307647&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Street Jollof (Osu, Labadi &amp; Teshie), Various locations, Accra, Accra, GH" data-map-lat="5.5568124999999995" data-map-lng="-0.1836875">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Street Jollof (Osu, Labadi &amp; Teshie)</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -659,7 +664,7 @@
     <div class="restaurant-details">
         <span>💴 ₵10–₵25/person</span>
         <span>📍 Various locations, Accra</span>
-        
+        <a href="https://maps.google.com/?cid=17064419086946307647&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
     
     
@@ -706,9 +711,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Jollof Map</h2>
-      <iframe src="https://www.google.com/maps?q=Jollof%20Rice%20in%20Accra&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Buka Restaurant</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Jollof Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -730,7 +736,7 @@
       <li>
         <a href="#crossroads-bar">6. Crossroads Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Jollof%20Rice%20in%20Accra" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Buka+Restaurant+Osu+Accra+Ghana" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -741,5 +747,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Jollof Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Jollof%20Rice%20in%20Accra","picks":[{"anchorId":"buka-restaurant","rank":1,"name":"Buka Restaurant","label":"1. Buka Restaurant","lat":5.5649961999999995,"lng":-0.18271389999999998,"ctaUrl":"https://maps.google.com/?q=Buka+Restaurant+Osu+Accra+Ghana","mapQuery":"Buka Restaurant, Osu, Accra, Accra, GH"},{"anchorId":"asanka-local","rank":2,"name":"Asanka Local","label":"2. Asanka Local","lat":5.5596681,"lng":-0.1786446,"ctaUrl":"https://maps.google.com/?q=Asanka+Local+Osu+Accra+Ghana","mapQuery":"Asanka Local, Osu, Accra, Accra, GH"},{"anchorId":"nervana-lounge","rank":3,"name":"Nervana Lounge (Dadesen)","label":"3. Nervana Lounge (Dadesen)","lat":5.609291400000001,"lng":-0.20062729999999998,"ctaUrl":"https://maps.google.com/?q=Nervana+Lounge+Dzorwulu+Accra+Ghana","mapQuery":"Nervana Lounge (Dadesen), Dzorwulu, Accra, Accra, GH"},{"anchorId":"805-restaurant","rank":4,"name":"805 Restaurant","label":"4. 805 Restaurant","lat":5.5595783,"lng":-0.1834278,"ctaUrl":"https://maps.google.com/?q=805+Restaurant+Osu+Accra+Ghana","mapQuery":"805 Restaurant, Osu, Accra, Accra, GH"},{"anchorId":"azmera-restaurant","rank":5,"name":"Azmera Restaurant","label":"5. Azmera Restaurant","lat":5.6057748,"lng":-0.18831789999999998,"ctaUrl":"https://maps.google.com/?q=Azmera+Restaurant+East+Legon+Accra+Ghana","mapQuery":"Azmera Restaurant, East Legon, Accra, Accra, GH"},{"anchorId":"crossroads-bar","rank":6,"name":"Crossroads Bar","label":"6. Crossroads Bar","lat":5.566869,"lng":-0.1825009,"ctaUrl":"https://maps.google.com/?q=Crossroads+Bar+Osu+Accra+Ghana","mapQuery":"Crossroads Bar, Osu (off Oxford Street), Accra, Accra, GH"},{"anchorId":"urban-eats","rank":7,"name":"Urban Eats","label":"7. Urban Eats","lat":5.6070825,"lng":-0.2065795,"ctaUrl":"https://maps.google.com/?q=Urban+Eats+Spintex+Accra+Ghana","mapQuery":"Urban Eats, Spintex Road, Accra, Accra, GH"},{"anchorId":"fridays","rank":8,"name":"Fridays Bar & Restaurant","label":"8. Fridays Bar & Restaurant","lat":5.6210362,"lng":-0.0612996,"ctaUrl":"https://maps.google.com/?q=Fridays+Bar+Restaurant+Sakumono+Accra+Ghana","mapQuery":"Fridays Bar & Restaurant, B-C Line Street, Sakumono, Accra, GH"},{"anchorId":"labadi-beach","rank":9,"name":"Labadi Beach (Akwaaba Restaurant)","label":"9. Labadi Beach (Akwaaba Restaurant)","lat":5.5639807,"lng":-0.1379924,"ctaUrl":"https://maps.google.com/?q=Labadi+Beach+Accra+Ghana","mapQuery":"Labadi Beach (Akwaaba Restaurant), La Pleasure Beach, Accra, Accra, GH"},{"anchorId":"street-jollof","rank":10,"name":"Street Jollof (Osu, Labadi & Teshie)","label":"10. Street Jollof (Osu, Labadi & Teshie)","lat":5.5568124999999995,"lng":-0.1836875,"ctaUrl":"https://maps.google.com/?cid=17064419086946307647&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Street Jollof (Osu, Labadi & Teshie), Various locations, Accra, Accra, GH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

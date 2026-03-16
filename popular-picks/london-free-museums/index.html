@@ -419,9 +419,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -446,7 +449,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -498,9 +501,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Museum Map</h2>
-      <iframe src="https://www.google.com/maps?q=Free%20Museums%20in%20London&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. British Museum</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Museum Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -514,7 +518,7 @@
         <a href="#tate-modern">3. Tate Modern</a>
       </li>
       <li>
-        <a href="#va-museum">4. Victoria and Albert Museum (V&amp;A)</a>
+        <a href="#va-museum">4. Victoria and Albert Museum (V&A)</a>
       </li>
       <li>
         <a href="#national-gallery">5. National Gallery</a>
@@ -522,7 +526,7 @@
       <li>
         <a href="#science-museum">6. Science Museum</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Free%20Museums%20in%20London" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3436696222068785831&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -534,7 +538,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="british-museum">
+<section class="restaurant-section" id="british-museum" data-map-name="1. British Museum" data-map-cta-url="https://maps.google.com/?cid=3436696222068785831&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="British Museum, Great Russell Street, Bloomsbury, WC1B 3DG, London, GB" data-map-lat="51.5194133" data-map-lng="-0.1269566">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>British Museum</h2>
         <span class="cuisine-tag tag-regional">History &amp; Archaeology</span>
@@ -571,7 +575,7 @@
         <strong>tabiji verdict:</strong> The crown jewel of London&#39;s free museums and, arguably, the greatest museum in the world. Eight million objects spanning two million years of human history, all free. The Great Court alone is architecturally stunning. Go early on a weekday morning — it gets packed by midday. The Egyptian and Assyrian galleries are the star attractions, but the lesser-visited rooms (Japanese, Korean, African) are equally extraordinary.
     </div>
 </section>
-<section class="restaurant-section" id="natural-history-museum">
+<section class="restaurant-section" id="natural-history-museum" data-map-name="2. Natural History Museum" data-map-cta-url="https://maps.google.com/?cid=8914844151054820548&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Natural History Museum, Cromwell Road, South Kensington, SW7 5BD, London, GB" data-map-lat="51.496714999999995" data-map-lng="-0.17636720000000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Natural History Museum</h2>
         <span class="cuisine-tag tag-regional">Natural Science</span>
@@ -608,7 +612,7 @@
         <strong>tabiji verdict:</strong> The building alone is worth visiting — a Romanesque cathedral to nature, with terracotta tiles depicting plants and animals across every surface. The blue whale skeleton suspended in Hintze Hall is breathtaking. Best for families, but adults will love the Minerals gallery and the Wildlife Garden (seasonal). Book timed tickets online — the weekend queues without them are brutal.
     </div>
 </section>
-<section class="restaurant-section" id="tate-modern">
+<section class="restaurant-section" id="tate-modern" data-map-name="3. Tate Modern" data-map-cta-url="https://maps.google.com/?cid=2304839309186538471&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tate Modern, Bankside, SE1 9TG, London, GB" data-map-lat="51.507595300000006" data-map-lng="-0.0993564">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Tate Modern</h2>
         <span class="cuisine-tag tag-regional">Modern &amp; Contemporary Art</span>
@@ -641,7 +645,7 @@
         <strong>tabiji verdict:</strong> London&#39;s temple of modern art, housed in the magnificent former Bankside Power Station. The Turbine Hall is one of the most dramatic exhibition spaces on Earth — and the free permanent collection includes Picasso, Matisse, Rothko, Warhol, and Giacometti. The 10th-floor viewing terrace is a local secret: panoramic London views, completely free. Walk across the Millennium Bridge at sunset for the full experience.
     </div>
 </section>
-<section class="restaurant-section" id="va-museum">
+<section class="restaurant-section" id="va-museum" data-map-name="4. Victoria and Albert Museum (V&amp;A)" data-map-cta-url="https://maps.google.com/?cid=11436620009305892127&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Victoria and Albert Museum (V&amp;A), Cromwell Road, South Kensington, SW7 2RL, London, GB" data-map-lat="51.4966392" data-map-lng="-0.17218">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Victoria and Albert Museum (V&amp;A)</h2>
         <span class="cuisine-tag tag-regional">Art &amp; Design</span>
@@ -678,7 +682,7 @@
         <strong>tabiji verdict:</strong> The world&#39;s greatest museum of art and design, and perpetually underrated compared to its South Kensington neighbours. The Cast Courts are jaw-dropping — a room full of full-size replicas of the world&#39;s greatest sculptures and architectural details. The fashion galleries, Islamic art collection, and medieval rooms are world-class. The courtyard garden is one of London&#39;s loveliest hidden spaces. Could easily spend two full days here.
     </div>
 </section>
-<section class="restaurant-section" id="national-gallery">
+<section class="restaurant-section" id="national-gallery" data-map-name="5. National Gallery" data-map-cta-url="https://maps.google.com/?cid=4805205997576757428&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="National Gallery, Trafalgar Square, WC2N 5DN, London, GB" data-map-lat="51.508928999999995" data-map-lng="-0.128299">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>National Gallery</h2>
         <span class="cuisine-tag tag-regional">Western Painting</span>
@@ -711,7 +715,7 @@
         <strong>tabiji verdict:</strong> One of the greatest painting collections on the planet, right on Trafalgar Square — and free. Over 2,300 works spanning the 13th to 20th century, from da Vinci to Van Gogh. It does get queues on weekends (book timed tickets online), but Friday late openings until 9 PM are blissfully quiet. The Impressionist rooms alone are worth the visit. Combine with the National Portrait Gallery next door.
     </div>
 </section>
-<section class="restaurant-section" id="science-museum">
+<section class="restaurant-section" id="science-museum" data-map-name="6. Science Museum" data-map-cta-url="https://maps.google.com/?cid=2437941248506864350&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Science Museum, Exhibition Road, South Kensington, SW7 2DD, London, GB" data-map-lat="51.4972216" data-map-lng="-0.1767283">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Science Museum</h2>
         <span class="cuisine-tag tag-regional">Science &amp; Technology</span>
@@ -744,7 +748,7 @@
         <strong>tabiji verdict:</strong> Overshadowed by the Natural History Museum next door, but the Science Museum is phenomenal in its own right. The Making the Modern World gallery — with Stephenson&#39;s Rocket, an actual Apollo capsule, and Crick &amp; Watson&#39;s DNA model — is a walk through human ingenuity. Less crowded than NHM, especially on weekdays. The adults-only Science Museum Lates (last Wednesday of the month) are a blast.
     </div>
 </section>
-<section class="restaurant-section" id="national-portrait-gallery">
+<section class="restaurant-section" id="national-portrait-gallery" data-map-name="7. National Portrait Gallery" data-map-cta-url="https://maps.google.com/?cid=12946859173256643170&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="National Portrait Gallery, St Martin&#39;s Place, WC2H 0HE, London, GB" data-map-lat="51.5094236" data-map-lng="-0.1281216">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>National Portrait Gallery</h2>
         <span class="cuisine-tag tag-regional">Portraiture</span>
@@ -777,7 +781,7 @@
         <strong>tabiji verdict:</strong> The quieter, more intimate sibling to the National Gallery — and many Redditors actually prefer it. A walk through British history via the faces of the people who shaped it, from Tudor monarchs to contemporary musicians. The 2023 renovation added brilliant new spaces. Far less crowded than the National Gallery next door, and the rooftop restaurant has one of central London&#39;s best views.
     </div>
 </section>
-<section class="restaurant-section" id="imperial-war-museum">
+<section class="restaurant-section" id="imperial-war-museum" data-map-name="8. Imperial War Museum" data-map-cta-url="https://maps.google.com/?cid=18362615529115988871&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Imperial War Museum, Lambeth Road, SE1 6HZ, London, GB" data-map-lat="51.4958366" data-map-lng="-0.10865839999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Imperial War Museum</h2>
         <span class="cuisine-tag tag-regional">War &amp; Conflict</span>
@@ -810,7 +814,7 @@
         <strong>tabiji verdict:</strong> Don&#39;t let the name put you off — this isn&#39;t a glorification of war, it&#39;s a deeply thoughtful exploration of conflict and its human cost. The Holocaust Exhibition is world-class and genuinely moving. The WWI galleries are immersive and powerful. Far less touristy than central London museums despite being just south of the Thames. The surrounding Geraldine Mary Harmsworth Park is lovely for a post-visit decompress.
     </div>
 </section>
-<section class="restaurant-section" id="tate-britain">
+<section class="restaurant-section" id="tate-britain" data-map-name="9. Tate Britain" data-map-cta-url="https://maps.google.com/?cid=17663075481774205088&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tate Britain, Millbank, SW1P 4RG, London, GB" data-map-lat="51.4910621" data-map-lng="-0.1277886">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Tate Britain</h2>
         <span class="cuisine-tag tag-regional">British Art</span>
@@ -843,7 +847,7 @@
         <strong>tabiji verdict:</strong> The original Tate, and massively overshadowed by its younger sibling across the river. This is where British art lives — from Tudor portraits to contemporary installations. The Turner galleries are transcendent, especially the later seascapes. Take the Tate Boat (£8) between here and Tate Modern for a lovely Thames commute. Often blissfully uncrowded even on weekends.
     </div>
 </section>
-<section class="restaurant-section" id="wallace-collection">
+<section class="restaurant-section" id="wallace-collection" data-map-name="10. Wallace Collection" data-map-cta-url="https://maps.google.com/?cid=13915386685744399731&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wallace Collection, Hertford House, Manchester Square, W1U 3BN, London, GB" data-map-lat="51.517323000000005" data-map-lng="-0.1530885">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Wallace Collection</h2>
         <span class="cuisine-tag tag-regional">Fine Art &amp; Armour</span>
@@ -880,7 +884,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s favourite hidden gem, and with good reason. A world-class art collection — Rembrandt, Titian, Velázquez, Hals — displayed in a gorgeous 18th-century townhouse near Oxford Street. The European armour collection rivals the Met. And it&#39;s almost always empty. The glass-roofed courtyard restaurant is one of London&#39;s loveliest lunch spots. If you visit one lesser-known museum, make it this one.
     </div>
 </section>
-<section class="restaurant-section" id="sir-john-soanes-museum">
+<section class="restaurant-section" id="sir-john-soanes-museum" data-map-name="11. Sir John Soane&#39;s Museum" data-map-cta-url="https://maps.google.com/?cid=15819988570470001561&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sir John Soane&#39;s Museum, 13 Lincoln&#39;s Inn Fields, WC2A 3BP, London, GB" data-map-lat="51.517038199999995" data-map-lng="-0.11746989999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Sir John Soane&#39;s Museum</h2>
         <span class="cuisine-tag tag-regional">Eccentric House Museum</span>
@@ -917,7 +921,7 @@
         <strong>tabiji verdict:</strong> One of London&#39;s most magical experiences. The former home of architect John Soane, left exactly as he arranged it in the 1830s — every wall, nook, and ceiling crammed with antiquities, casts, paintings, and architectural models. The Picture Room reveal (ask a guide to fold open the walls) is genuinely astonishing. Tiny and quirky — the polar opposite of the British Museum, and equally unforgettable.
     </div>
 </section>
-<section class="restaurant-section" id="wellcome-collection">
+<section class="restaurant-section" id="wellcome-collection" data-map-name="12. Wellcome Collection" data-map-cta-url="https://maps.google.com/?cid=17100638855097942922&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wellcome Collection, 183 Euston Road, NW1 2BE, London, GB" data-map-lat="51.5259047" data-map-lng="-0.13387849999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Wellcome Collection</h2>
         <span class="cuisine-tag tag-regional">Medicine &amp; Art</span>
@@ -950,7 +954,7 @@
         <strong>tabiji verdict:</strong> Where medicine meets art meets philosophy — and the result is surprisingly gripping. Henry Wellcome&#39;s collection of medical curiosities is fascinating and sometimes unsettling (Napoleon&#39;s toothbrush, anyone?). The temporary exhibitions are consistently some of the most thought-provoking in London. The café and reading room are lovely spaces to linger. Right by Euston station, making it an easy add-on to a Bloomsbury day.
     </div>
 </section>
-<section class="restaurant-section" id="national-maritime-museum">
+<section class="restaurant-section" id="national-maritime-museum" data-map-name="13. National Maritime Museum" data-map-cta-url="https://maps.google.com/?cid=14615349832239595038&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="National Maritime Museum, Romney Road, Greenwich, SE10 9NF, London, GB" data-map-lat="51.4810058" data-map-lng="-0.005226199999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>National Maritime Museum</h2>
         <span class="cuisine-tag tag-regional">Maritime History</span>
@@ -983,7 +987,7 @@
         <strong>tabiji verdict:</strong> Worth the trip to Greenwich (take the DLR or the Thames Clipper for a scenic journey). The world&#39;s largest maritime museum, with Nelson&#39;s Trafalgar uniform, the Great Map, and fascinating polar exploration galleries. The adjacent Queen&#39;s House is a gorgeous Inigo Jones masterpiece — also free. Make a day of it: museum, Queen&#39;s House, Greenwich Park, Cutty Sark, and a pint at the Trafalgar Tavern by the river.
     </div>
 </section>
-<section class="restaurant-section" id="horniman-museum">
+<section class="restaurant-section" id="horniman-museum" data-map-name="14. Horniman Museum" data-map-cta-url="https://maps.google.com/?cid=1322939555985742237&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Horniman Museum, 100 London Road, Forest Hill, SE23 3PQ, London, GB" data-map-lat="51.4419283" data-map-lng="-0.0619967">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Horniman Museum</h2>
         <span class="cuisine-tag tag-regional">Natural History &amp; Ethnography</span>
@@ -1016,7 +1020,7 @@
         <strong>tabiji verdict:</strong> A beloved south London institution that feels nothing like the big central museums. The overstuffed walrus is an icon — a Victorian taxidermist who&#39;d never seen one alive just kept filling it until it looked like a hairy beanbag. The ethnography collection and musical instrument gallery are genuinely world-class. The gardens have stunning views over London. Perfect for families, but adults without kids will love it too.
     </div>
 </section>
-<section class="restaurant-section" id="museum-of-london">
+<section class="restaurant-section" id="museum-of-london" data-map-name="15. London Museum" data-map-cta-url="https://maps.google.com/?cid=16153077719195360173&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="London Museum, West Smithfield, EC1A 9DD (new location from 2026), London, GB" data-map-lat="51.5183438" data-map-lng="-0.10453169999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>London Museum</h2>
         <span class="cuisine-tag tag-regional">London History</span>
@@ -1041,7 +1045,7 @@
         <strong>tabiji verdict:</strong> Relocated to the magnificent former Smithfield Market building as the newly rebranded London Museum, this is the definitive telling of London&#39;s story — from mammoth bones found under Trafalgar Square to the Blitz, the Swinging Sixties, and modern multicultural London. The new venue is spectacular. A must for anyone who wants to understand the city beyond the tourist highlights.
     </div>
 </section>
-<section class="restaurant-section" id="design-museum">
+<section class="restaurant-section" id="design-museum" data-map-name="16. Design Museum" data-map-cta-url="https://maps.google.com/?cid=12569867610224080166&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Design Museum, 224-238 Kensington High Street, W8 6AG, London, GB" data-map-lat="51.4998973" data-map-lng="-0.20024399999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Design Museum</h2>
         <span class="cuisine-tag tag-regional">Design &amp; Architecture</span>
@@ -1092,9 +1096,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Museum Map</h2>
-      <iframe src="https://www.google.com/maps?q=Free%20Museums%20in%20London&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. British Museum</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Museum Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1108,7 +1113,7 @@
         <a href="#tate-modern">3. Tate Modern</a>
       </li>
       <li>
-        <a href="#va-museum">4. Victoria and Albert Museum (V&amp;A)</a>
+        <a href="#va-museum">4. Victoria and Albert Museum (V&A)</a>
       </li>
       <li>
         <a href="#national-gallery">5. National Gallery</a>
@@ -1116,7 +1121,7 @@
       <li>
         <a href="#science-museum">6. Science Museum</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Free%20Museums%20in%20London" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3436696222068785831&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1127,5 +1132,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Museum Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Free%20Museums%20in%20London","picks":[{"anchorId":"british-museum","rank":1,"name":"British Museum","label":"1. British Museum","lat":51.5194133,"lng":-0.1269566,"ctaUrl":"https://maps.google.com/?cid=3436696222068785831&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"British Museum, Great Russell Street, Bloomsbury, WC1B 3DG, London, GB"},{"anchorId":"natural-history-museum","rank":2,"name":"Natural History Museum","label":"2. Natural History Museum","lat":51.496714999999995,"lng":-0.17636720000000003,"ctaUrl":"https://maps.google.com/?cid=8914844151054820548&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Natural History Museum, Cromwell Road, South Kensington, SW7 5BD, London, GB"},{"anchorId":"tate-modern","rank":3,"name":"Tate Modern","label":"3. Tate Modern","lat":51.507595300000006,"lng":-0.0993564,"ctaUrl":"https://maps.google.com/?cid=2304839309186538471&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tate Modern, Bankside, SE1 9TG, London, GB"},{"anchorId":"va-museum","rank":4,"name":"Victoria and Albert Museum (V&A)","label":"4. Victoria and Albert Museum (V&A)","lat":51.4966392,"lng":-0.17218,"ctaUrl":"https://maps.google.com/?cid=11436620009305892127&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Victoria and Albert Museum (V&A), Cromwell Road, South Kensington, SW7 2RL, London, GB"},{"anchorId":"national-gallery","rank":5,"name":"National Gallery","label":"5. National Gallery","lat":51.508928999999995,"lng":-0.128299,"ctaUrl":"https://maps.google.com/?cid=4805205997576757428&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"National Gallery, Trafalgar Square, WC2N 5DN, London, GB"},{"anchorId":"science-museum","rank":6,"name":"Science Museum","label":"6. Science Museum","lat":51.4972216,"lng":-0.1767283,"ctaUrl":"https://maps.google.com/?cid=2437941248506864350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Science Museum, Exhibition Road, South Kensington, SW7 2DD, London, GB"},{"anchorId":"national-portrait-gallery","rank":7,"name":"National Portrait Gallery","label":"7. National Portrait Gallery","lat":51.5094236,"lng":-0.1281216,"ctaUrl":"https://maps.google.com/?cid=12946859173256643170&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"National Portrait Gallery, St Martin's Place, WC2H 0HE, London, GB"},{"anchorId":"imperial-war-museum","rank":8,"name":"Imperial War Museum","label":"8. Imperial War Museum","lat":51.4958366,"lng":-0.10865839999999999,"ctaUrl":"https://maps.google.com/?cid=18362615529115988871&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Imperial War Museum, Lambeth Road, SE1 6HZ, London, GB"},{"anchorId":"tate-britain","rank":9,"name":"Tate Britain","label":"9. Tate Britain","lat":51.4910621,"lng":-0.1277886,"ctaUrl":"https://maps.google.com/?cid=17663075481774205088&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tate Britain, Millbank, SW1P 4RG, London, GB"},{"anchorId":"wallace-collection","rank":10,"name":"Wallace Collection","label":"10. Wallace Collection","lat":51.517323000000005,"lng":-0.1530885,"ctaUrl":"https://maps.google.com/?cid=13915386685744399731&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wallace Collection, Hertford House, Manchester Square, W1U 3BN, London, GB"},{"anchorId":"sir-john-soanes-museum","rank":11,"name":"Sir John Soane's Museum","label":"11. Sir John Soane's Museum","lat":51.517038199999995,"lng":-0.11746989999999999,"ctaUrl":"https://maps.google.com/?cid=15819988570470001561&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sir John Soane's Museum, 13 Lincoln's Inn Fields, WC2A 3BP, London, GB"},{"anchorId":"wellcome-collection","rank":12,"name":"Wellcome Collection","label":"12. Wellcome Collection","lat":51.5259047,"lng":-0.13387849999999998,"ctaUrl":"https://maps.google.com/?cid=17100638855097942922&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wellcome Collection, 183 Euston Road, NW1 2BE, London, GB"},{"anchorId":"national-maritime-museum","rank":13,"name":"National Maritime Museum","label":"13. National Maritime Museum","lat":51.4810058,"lng":-0.005226199999999999,"ctaUrl":"https://maps.google.com/?cid=14615349832239595038&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"National Maritime Museum, Romney Road, Greenwich, SE10 9NF, London, GB"},{"anchorId":"horniman-museum","rank":14,"name":"Horniman Museum","label":"14. Horniman Museum","lat":51.4419283,"lng":-0.0619967,"ctaUrl":"https://maps.google.com/?cid=1322939555985742237&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Horniman Museum, 100 London Road, Forest Hill, SE23 3PQ, London, GB"},{"anchorId":"museum-of-london","rank":15,"name":"London Museum","label":"15. London Museum","lat":51.5183438,"lng":-0.10453169999999999,"ctaUrl":"https://maps.google.com/?cid=16153077719195360173&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"London Museum, West Smithfield, EC1A 9DD (new location from 2026), London, GB"},{"anchorId":"design-museum","rank":16,"name":"Design Museum","label":"16. Design Museum","lat":51.4998973,"lng":-0.20024399999999998,"ctaUrl":"https://maps.google.com/?cid=12569867610224080166&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Design Museum, 224-238 Kensington High Street, W8 6AG, London, GB"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

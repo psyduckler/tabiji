@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Jumbo Seafood (珍宝海鲜)",
-        "servesCuisine": "Chili Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "East Coast Seafood Centre",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Long Beach Seafood (龙海鲜)",
-        "servesCuisine": "Black Pepper Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "East Coast Seafood Centre / Dempsey",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Eng Seng Restaurant (永成餐室)",
-        "servesCuisine": "Chili Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "247 Joo Chiat Place",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "No Signboard Seafood (无招牌海鲜)",
-        "servesCuisine": "White Pepper Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Geylang / multiple locations",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Hua Yu Wee Seafood (华友味)",
-        "servesCuisine": "Seafood",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "462 Upper East Coast Road",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Roland Restaurant",
-        "servesCuisine": "OG Chili Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Marine Parade, Block 89",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Keng Eng Kee Seafood (KEK / 琼荣记)",
-        "servesCuisine": "Zi Char",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Alexandra Village / Tampines SAFRA",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Mellben Seafood (明辉海鲜)",
-        "servesCuisine": "Crab Bee Hoon",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Ang Mo Kio (OG) / Toa Payoh",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Red House Seafood (红屋海鲜)",
-        "servesCuisine": "Chili Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "East Coast / Robertson Quay / Esplanade",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Chin Huat Live Seafood (振发活海鲜)",
-        "servesCuisine": "Chili Crab",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Sunset Way, Clementi",
@@ -225,7 +215,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "East Coast Lagoon Food Village",
-        "servesCuisine": "Hawker",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "East Coast Park, near Carpark E1",
@@ -241,7 +230,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Ban Leong Wah Hoe (万隆华虎)",
-        "servesCuisine": "Zi Char",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Casuarina Road, Upper Thomson",
@@ -323,11 +311,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -352,9 +335,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -379,24 +365,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},
-            {"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},
-            {"@type":"ListItem","position":3,"name":"Best Chili Crab in East Coast Singapore","item":"https://tabiji.ai/popular-picks/east-coast-singapore-chili-crab/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -443,9 +417,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Chili Crab Map</h2>
-      <iframe src="https://www.google.com/maps?q=Singapore%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Jumbo Seafood (珍宝海鲜)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Chili Crab Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -467,7 +442,7 @@
       <li>
         <a href="#roland">6. Roland Restaurant</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Singapore%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11216230066759522293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -479,7 +454,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="jumbo-seafood">
+<section class="restaurant-section" id="jumbo-seafood" data-map-name="1. Jumbo Seafood (珍宝海鲜)" data-map-cta-url="https://maps.google.com/?cid=11216230066759522293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jumbo Seafood (珍宝海鲜), East Coast Seafood Centre, Singapore, SG" data-map-lat="1.3051669" data-map-lng="103.930673">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Jumbo Seafood (珍宝海鲜)</h2>
         <span class="cuisine-tag tag-regional">Chili Crab</span>
@@ -521,7 +496,7 @@
         <strong>tabiji verdict:</strong> The most recommended chili crab on Reddit by a wide margin. Yes, it&#39;s touristy. Yes, it&#39;s expensive. But the sauce is consistently excellent, the crabs are fresh and meaty, and the East Coast Park location — with sea breezes and a post-dinner beach walk — is unbeatable. Book ahead or expect a 30-minute wait.
     </div>
 </section>
-<section class="restaurant-section" id="long-beach">
+<section class="restaurant-section" id="long-beach" data-map-name="2. Long Beach Seafood (龙海鲜)" data-map-cta-url="https://maps.google.com/?cid=1343145265529722027&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Long Beach Seafood (龙海鲜), East Coast Seafood Centre / Dempsey, Singapore, SG" data-map-lat="1.3059056" data-map-lng="103.8119806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Long Beach Seafood (龙海鲜)</h2>
         <span class="cuisine-tag tag-regional">Black Pepper Crab</span>
@@ -559,7 +534,7 @@
         <strong>tabiji verdict:</strong> The inventors of black pepper crab — a dish that rivals chili crab in local hearts. The East Coast Seafood Centre location sits right next to Jumbo, making it easy to compare. Come here specifically for the black pepper; their chili crab is good but Jumbo edges them out on that front.
     </div>
 </section>
-<section class="restaurant-section" id="eng-seng">
+<section class="restaurant-section" id="eng-seng" data-map-name="3. Eng Seng Restaurant (永成餐室)" data-map-cta-url="https://maps.google.com/?cid=3322165585692858260&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Eng Seng Restaurant (永成餐室), 247 Joo Chiat Place, Singapore, SG" data-map-lat="1.3385775" data-map-lng="103.94098149999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Eng Seng Restaurant (永成餐室)</h2>
         <span class="cuisine-tag tag-regional">Chili Crab</span>
@@ -597,7 +572,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; choice. No air-con, no tablecloths, no fuss — just exceptionally good crab at fair prices. Located in the heart of Joo Chiat, one of Singapore&#39;s most charming Peranakan neighborhoods. Come early or prepare to wait. The black pepper crab here is genuinely among the best on the island.
     </div>
 </section>
-<section class="restaurant-section" id="no-signboard">
+<section class="restaurant-section" id="no-signboard" data-map-name="4. No Signboard Seafood (无招牌海鲜)" data-map-cta-url="https://maps.google.com/?cid=13386836470060926368&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="No Signboard Seafood (无招牌海鲜), Geylang / multiple locations, Singapore, SG" data-map-lat="1.3128969" data-map-lng="103.8827264">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>No Signboard Seafood (无招牌海鲜)</h2>
         <span class="cuisine-tag tag-regional">White Pepper Crab</span>
@@ -635,7 +610,7 @@
         <strong>tabiji verdict:</strong> The name comes from their original Geylang stall — so famous they never needed a sign. The Geylang location is the most authentic (outdoor, old-school), while Esplanade is fancier. Their chili crab has more kick than Jumbo&#39;s sweeter version. But the real draw is the white pepper crab — a must-try variation.
     </div>
 </section>
-<section class="restaurant-section" id="hua-yu-wee">
+<section class="restaurant-section" id="hua-yu-wee" data-map-name="5. Hua Yu Wee Seafood (华友味)" data-map-cta-url="https://maps.google.com/?cid=17500420607801860067&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hua Yu Wee Seafood (华友味), 462 Upper East Coast Road, Singapore, SG" data-map-lat="1.3146801" data-map-lng="103.9414907">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Hua Yu Wee Seafood (华友味)</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -673,7 +648,7 @@
         <strong>tabiji verdict:</strong> The hidden gem on this list. Hua Yu Wee operates out of a heritage bungalow on Upper East Coast Road with a garden dining area that feels worlds away from the big seafood restaurants. The crab is excellent, the prices are friendlier, and the atmosphere is unique. Perfect for couples or small groups who want something more intimate.
     </div>
 </section>
-<section class="restaurant-section" id="roland">
+<section class="restaurant-section" id="roland" data-map-name="6. Roland Restaurant" data-map-cta-url="https://maps.google.com/?cid=17895882828437752699&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Roland Restaurant, Marine Parade, Block 89, Singapore, SG" data-map-lat="1.3011283" data-map-lng="103.9065943">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Roland Restaurant</h2>
         <span class="cuisine-tag tag-regional">OG Chili Crab</span>
@@ -715,7 +690,7 @@
         <strong>tabiji verdict:</strong> If you want to eat where chili crab history lives, this is it. Roland is the direct descendant of the Cher family who reportedly invented the dish in 1956. It sits atop a carpark in Marine Parade — zero pretension, maximum heritage. The 2-for-$88 deal is genuinely excellent value when available.
     </div>
 </section>
-<section class="restaurant-section" id="keng-eng-kee">
+<section class="restaurant-section" id="keng-eng-kee" data-map-name="7. Keng Eng Kee Seafood (KEK / 琼荣记)" data-map-cta-url="https://maps.google.com/?cid=12655696888150317020&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Keng Eng Kee Seafood (KEK / 琼荣记), Alexandra Village / Tampines SAFRA, Singapore, SG" data-map-lat="1.3445861" data-map-lng="103.9416782">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Keng Eng Kee Seafood (KEK / 琼荣记)</h2>
         <span class="cuisine-tag tag-regional">Zi Char</span>
@@ -753,7 +728,7 @@
         <strong>tabiji verdict:</strong> KEK is a zi char powerhouse — their chili crab is excellent but it&#39;s one star in a constellation of great dishes. Come with a group and order broadly: the moonlight hor fun, coffee pork ribs, and sambal kangkong are all must-haves. The Alexandra Village location is the original and best. Further from East Coast, but absolutely worth the trip.
     </div>
 </section>
-<section class="restaurant-section" id="mellben">
+<section class="restaurant-section" id="mellben" data-map-name="8. Mellben Seafood (明辉海鲜)" data-map-cta-url="https://maps.google.com/?cid=2510686286504271482&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mellben Seafood (明辉海鲜), Ang Mo Kio (OG) / Toa Payoh, Singapore, SG" data-map-lat="1.3686044" data-map-lng="103.83694799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Mellben Seafood (明辉海鲜)</h2>
         <span class="cuisine-tag tag-regional">Crab Bee Hoon</span>
@@ -791,7 +766,7 @@
         <strong>tabiji verdict:</strong> Mellben&#39;s crab bee hoon is legendary — rich, milky vermicelli that soaks up all the crab flavour. Their chili crab is very good too, though the real star is that bee hoon. The Ang Mo Kio location is further from East Coast but it&#39;s the original and best. Come with a big group and prepare for a wait.
     </div>
 </section>
-<section class="restaurant-section" id="red-house">
+<section class="restaurant-section" id="red-house" data-map-name="9. Red House Seafood (红屋海鲜)" data-map-cta-url="https://maps.google.com/?cid=1311240432026391050&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Red House Seafood (红屋海鲜), East Coast / Robertson Quay / Esplanade, Singapore, SG" data-map-lat="1.2890481" data-map-lng="103.85563529999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Red House Seafood (红屋海鲜)</h2>
         <span class="cuisine-tag tag-regional">Chili Crab</span>
@@ -829,7 +804,7 @@
         <strong>tabiji verdict:</strong> A solid all-rounder that sits in the shadow of Jumbo and Long Beach at the East Coast Seafood Centre. Red House doesn&#39;t generate the same buzz, but it delivers consistently good crab with shorter queues. The Robertson Quay location is nicer for ambience; the East Coast original is more old-school.
     </div>
 </section>
-<section class="restaurant-section" id="chin-huat">
+<section class="restaurant-section" id="chin-huat" data-map-name="10. Chin Huat Live Seafood (振发活海鲜)" data-map-cta-url="https://maps.google.com/?cid=11954766764077154624&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chin Huat Live Seafood (振发活海鲜), Sunset Way, Clementi, Singapore, SG" data-map-lat="1.3222771" data-map-lng="103.7695981">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Chin Huat Live Seafood (振发活海鲜)</h2>
         <span class="cuisine-tag tag-regional">Chili Crab</span>
@@ -867,7 +842,7 @@
         <strong>tabiji verdict:</strong> The highest-upvoted single recommendation in our entire research (64 upvotes). Chin Huat is in Sunset Way — far from East Coast, deep in the heartlands — but the quality justifies the journey. Picking your own live crab guarantees freshness. A locals-only gem that tourists rarely find.
     </div>
 </section>
-<section class="restaurant-section" id="east-coast-lagoon">
+<section class="restaurant-section" id="east-coast-lagoon" data-map-name="11. East Coast Lagoon Food Village" data-map-cta-url="https://maps.google.com/?cid=7853980947918247856&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="East Coast Lagoon Food Village, East Coast Park, near Carpark E1, Singapore, SG" data-map-lat="1.3069298999999999" data-map-lng="103.9349594">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>East Coast Lagoon Food Village</h2>
         <span class="cuisine-tag tag-regional">Hawker</span>
@@ -905,7 +880,7 @@
         <strong>tabiji verdict:</strong> The budget option — and arguably the most authentic Singapore dining experience. Open-air hawker centre right on the beach, serving crab alongside dozens of other hawker stalls. The crab won&#39;t blow your mind like Jumbo or Eng Seng, but the atmosphere is pure Singapore: sea breeze, cold beers, satay smoke, and chili crab sauce on your fingers. Perfect for a casual evening.
     </div>
 </section>
-<section class="restaurant-section" id="ban-leong-wah-hoe">
+<section class="restaurant-section" id="ban-leong-wah-hoe" data-map-name="12. Ban Leong Wah Hoe (万隆华虎)" data-map-cta-url="https://maps.google.com/?cid=8364570389141796292&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ban Leong Wah Hoe (万隆华虎), Casuarina Road, Upper Thomson, Singapore, SG" data-map-lat="1.3766121999999998" data-map-lng="103.8280645">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Ban Leong Wah Hoe (万隆华虎)</h2>
         <span class="cuisine-tag tag-regional">Zi Char</span>
@@ -961,9 +936,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Chili Crab Map</h2>
-      <iframe src="https://www.google.com/maps?q=Singapore%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Jumbo Seafood (珍宝海鲜)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Chili Crab Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -985,7 +961,7 @@
       <li>
         <a href="#roland">6. Roland Restaurant</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Singapore%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11216230066759522293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -996,5 +972,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Chili Crab Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Chili%20Crab%20in%20East%20Coast%20Singapore","picks":[{"anchorId":"jumbo-seafood","rank":1,"name":"Jumbo Seafood (珍宝海鲜)","label":"1. Jumbo Seafood (珍宝海鲜)","lat":1.3051669,"lng":103.930673,"ctaUrl":"https://maps.google.com/?cid=11216230066759522293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jumbo Seafood (珍宝海鲜), East Coast Seafood Centre, Singapore, SG"},{"anchorId":"long-beach","rank":2,"name":"Long Beach Seafood (龙海鲜)","label":"2. Long Beach Seafood (龙海鲜)","lat":1.3059056,"lng":103.8119806,"ctaUrl":"https://maps.google.com/?cid=1343145265529722027&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Long Beach Seafood (龙海鲜), East Coast Seafood Centre / Dempsey, Singapore, SG"},{"anchorId":"eng-seng","rank":3,"name":"Eng Seng Restaurant (永成餐室)","label":"3. Eng Seng Restaurant (永成餐室)","lat":1.3385775,"lng":103.94098149999999,"ctaUrl":"https://maps.google.com/?cid=3322165585692858260&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Eng Seng Restaurant (永成餐室), 247 Joo Chiat Place, Singapore, SG"},{"anchorId":"no-signboard","rank":4,"name":"No Signboard Seafood (无招牌海鲜)","label":"4. No Signboard Seafood (无招牌海鲜)","lat":1.3128969,"lng":103.8827264,"ctaUrl":"https://maps.google.com/?cid=13386836470060926368&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"No Signboard Seafood (无招牌海鲜), Geylang / multiple locations, Singapore, SG"},{"anchorId":"hua-yu-wee","rank":5,"name":"Hua Yu Wee Seafood (华友味)","label":"5. Hua Yu Wee Seafood (华友味)","lat":1.3146801,"lng":103.9414907,"ctaUrl":"https://maps.google.com/?cid=17500420607801860067&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hua Yu Wee Seafood (华友味), 462 Upper East Coast Road, Singapore, SG"},{"anchorId":"roland","rank":6,"name":"Roland Restaurant","label":"6. Roland Restaurant","lat":1.3011283,"lng":103.9065943,"ctaUrl":"https://maps.google.com/?cid=17895882828437752699&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Roland Restaurant, Marine Parade, Block 89, Singapore, SG"},{"anchorId":"keng-eng-kee","rank":7,"name":"Keng Eng Kee Seafood (KEK / 琼荣记)","label":"7. Keng Eng Kee Seafood (KEK / 琼荣记)","lat":1.3445861,"lng":103.9416782,"ctaUrl":"https://maps.google.com/?cid=12655696888150317020&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Keng Eng Kee Seafood (KEK / 琼荣记), Alexandra Village / Tampines SAFRA, Singapore, SG"},{"anchorId":"mellben","rank":8,"name":"Mellben Seafood (明辉海鲜)","label":"8. Mellben Seafood (明辉海鲜)","lat":1.3686044,"lng":103.83694799999999,"ctaUrl":"https://maps.google.com/?cid=2510686286504271482&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mellben Seafood (明辉海鲜), Ang Mo Kio (OG) / Toa Payoh, Singapore, SG"},{"anchorId":"red-house","rank":9,"name":"Red House Seafood (红屋海鲜)","label":"9. Red House Seafood (红屋海鲜)","lat":1.2890481,"lng":103.85563529999999,"ctaUrl":"https://maps.google.com/?cid=1311240432026391050&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Red House Seafood (红屋海鲜), East Coast / Robertson Quay / Esplanade, Singapore, SG"},{"anchorId":"chin-huat","rank":10,"name":"Chin Huat Live Seafood (振发活海鲜)","label":"10. Chin Huat Live Seafood (振发活海鲜)","lat":1.3222771,"lng":103.7695981,"ctaUrl":"https://maps.google.com/?cid=11954766764077154624&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chin Huat Live Seafood (振发活海鲜), Sunset Way, Clementi, Singapore, SG"},{"anchorId":"east-coast-lagoon","rank":11,"name":"East Coast Lagoon Food Village","label":"11. East Coast Lagoon Food Village","lat":1.3069298999999999,"lng":103.9349594,"ctaUrl":"https://maps.google.com/?cid=7853980947918247856&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"East Coast Lagoon Food Village, East Coast Park, near Carpark E1, Singapore, SG"},{"anchorId":"ban-leong-wah-hoe","rank":12,"name":"Ban Leong Wah Hoe (万隆华虎)","label":"12. Ban Leong Wah Hoe (万隆华虎)","lat":1.3766121999999998,"lng":103.8280645,"ctaUrl":"https://maps.google.com/?cid=8364570389141796292&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ban Leong Wah Hoe (万隆华虎), Casuarina Road, Upper Thomson, Singapore, SG"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

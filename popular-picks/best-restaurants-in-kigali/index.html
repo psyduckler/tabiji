@@ -291,11 +291,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -320,9 +315,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -347,24 +345,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": "Best Restaurants in Kigali", "item": "https://tabiji.ai/popular-picks/best-restaurants-in-kigali/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -411,9 +397,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rwanda%20restaurants&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Meza Malonga</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -421,7 +408,7 @@
         <a href="#meza-malonga">1. Meza Malonga</a>
       </li>
       <li>
-        <a href="#heaven-restaurant">2. Heaven Restaurant &amp; Boutique Hotel</a>
+        <a href="#heaven-restaurant">2. Heaven Restaurant & Boutique Hotel</a>
       </li>
       <li>
         <a href="#repub-lounge">3. Repub Lounge</a>
@@ -433,9 +420,9 @@
         <a href="#boho">5. Boho Restaurant</a>
       </li>
       <li>
-        <a href="#14th-avenue">6. 14th Avenue Wine Bar &amp; Restaurant</a>
+        <a href="#14th-avenue">6. 14th Avenue Wine Bar & Restaurant</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rwanda%20restaurants" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14393473694540695788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -447,7 +434,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="meza-malonga">
+<section class="restaurant-section" id="meza-malonga" data-map-name="1. Meza Malonga" data-map-cta-url="https://maps.google.com/?cid=14393473694540695788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Meza Malonga, Lake Ruhondo (~2h from Kigali), Rwanda, RW" data-map-lat="-1.4953625" data-map-lng="29.7422656">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Meza Malonga</h2>
         <span class="cuisine-tag tag-regional">Pan-African Fine Dining</span>
@@ -477,7 +464,7 @@
         <strong>tabiji verdict:</strong> This is the #1 for a reason. Chef Dieuveil Malonga (Congolese, trained in Europe) is redefining what African fine dining means. Yes, it&#39;s ~2 hours from Kigali near Lake Ruhondo — make it a day trip or combine with gorilla trekking. The tasting menu is a genuine once-in-a-lifetime experience. Book weeks ahead.
     </div>
 </section>
-<section class="restaurant-section" id="heaven-restaurant">
+<section class="restaurant-section" id="heaven-restaurant" data-map-name="2. Heaven Restaurant &amp; Boutique Hotel" data-map-cta-url="https://maps.google.com/?cid=3691514570440995943&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Heaven Restaurant &amp; Boutique Hotel, Kiyovu, Kigali, Rwanda, RW" data-map-lat="-1.9468667999999998" data-map-lng="30.064962299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Heaven Restaurant &amp; Boutique Hotel</h2>
         <span class="cuisine-tag tag-regional">Modern Rwandan / International</span>
@@ -507,7 +494,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended restaurant in Kigali across every thread. Beautiful terrace, solid modern Rwandan food, and a boutique hotel attached if you&#39;re looking for a stay. Brunch here is practically a Kigali rite of passage. Not the cheapest, but the setting alone is worth it.
     </div>
 </section>
-<section class="restaurant-section" id="repub-lounge">
+<section class="restaurant-section" id="repub-lounge" data-map-name="3. Repub Lounge" data-map-cta-url="https://maps.google.com/?cid=1098637268448377200&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Repub Lounge, Kimihurura, Kigali, Rwanda, RW" data-map-lat="-1.9522083000000001" data-map-lng="30.081549100000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Repub Lounge</h2>
         <span class="cuisine-tag tag-regional">Rwandan / African Fusion</span>
@@ -537,7 +524,7 @@
         <strong>tabiji verdict:</strong> Where to go for your first authentic Rwandan meal in Kigali. The vibe hits the sweet spot — trendy enough for a date, relaxed enough for a solo dinner. The food is consistently good and the prices are fair. Multiple Redditors called it their go-to.
     </div>
 </section>
-<section class="restaurant-section" id="khana-khazana">
+<section class="restaurant-section" id="khana-khazana" data-map-name="4. Khana Khazana Kiyovu" data-map-cta-url="https://maps.google.com/?cid=1894491731245115967&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Khana Khazana Kiyovu, Kiyovu, Kigali, Rwanda, RW" data-map-lat="-1.9472867999999999" data-map-lng="30.066065499999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Khana Khazana Kiyovu</h2>
         <span class="cuisine-tag tag-regional">Indian</span>
@@ -567,7 +554,7 @@
         <strong>tabiji verdict:</strong> The most enthusiastic single-restaurant endorsement we found in any Kigali thread. When someone who lived in India says it&#39;s the best Indian food they&#39;ve had outside India — you listen. Excellent value too. A must-visit even if Indian food isn&#39;t your usual pick.
     </div>
 </section>
-<section class="restaurant-section" id="boho">
+<section class="restaurant-section" id="boho" data-map-name="5. Boho Restaurant" data-map-cta-url="https://maps.google.com/?cid=7257718392743286750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Boho Restaurant, Kiyovu, Kigali, Rwanda, RW" data-map-lat="-1.9478886999999998" data-map-lng="30.078766299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Boho Restaurant</h2>
         <span class="cuisine-tag tag-regional">International / Fusion</span>
@@ -593,7 +580,7 @@
         <strong>tabiji verdict:</strong> The &quot;vibe&quot; pick. When Kigali locals want a stylish night out with food that matches, this is where they go. The fusion menu is creative without being try-hard, and the cocktail program is genuinely impressive by any city&#39;s standards. Perfect for a date or a group celebration.
     </div>
 </section>
-<section class="restaurant-section" id="14th-avenue">
+<section class="restaurant-section" id="14th-avenue" data-map-name="6. 14th Avenue Wine Bar &amp; Restaurant" data-map-cta-url="https://maps.google.com/?cid=9844242987528292626&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="14th Avenue Wine Bar &amp; Restaurant, Kiyovu, Kigali, Rwanda, RW" data-map-lat="-1.9478943999999996" data-map-lng="30.078442499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>14th Avenue Wine Bar &amp; Restaurant</h2>
         <span class="cuisine-tag tag-regional">European / Wine Bar</span>
@@ -623,7 +610,7 @@
         <strong>tabiji verdict:</strong> Kigali&#39;s answer to a European wine bar. Yes, it&#39;s on the expensive side for Rwanda, and yes, some locals call it a &quot;flex restaurant.&quot; But the wine cellar is serious, the food is polished, and the private dining setup is Kigali&#39;s best for special occasions. If you want to splurge in the city proper, this is the move.
     </div>
 </section>
-<section class="restaurant-section" id="inka-steak">
+<section class="restaurant-section" id="inka-steak" data-map-name="7. Inka Steakhouse" data-map-cta-url="https://maps.google.com/?cid=2044345171486182445&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Inka Steakhouse, Kicukiro, Kigali, Rwanda, RW" data-map-lat="-1.9608708" data-map-lng="30.095308000000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Inka Steakhouse</h2>
         <span class="cuisine-tag tag-regional">Steakhouse</span>
@@ -649,7 +636,7 @@
         <strong>tabiji verdict:</strong> Simple premise, excellent execution. When you want a proper steak in Kigali, Inka is the unanimous pick. Not trying to be fancy — just really good grilled meat at fair prices. The Kicukiro location means you&#39;ll need transport, but it&#39;s worth the ride.
     </div>
 </section>
-<section class="restaurant-section" id="poivre-noir">
+<section class="restaurant-section" id="poivre-noir" data-map-name="8. Poivre Noir" data-map-cta-url="https://maps.google.com/?cid=16629428656485556439&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Poivre Noir, Kimihurura, Kigali, Rwanda, RW" data-map-lat="-1.9496578000000002" data-map-lng="30.0801619">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Poivre Noir</h2>
         <span class="cuisine-tag tag-regional">French Bistro</span>
@@ -675,7 +662,7 @@
         <strong>tabiji verdict:</strong> Kigali&#39;s French connection. The kind of neighborhood bistro you&#39;d expect in a Parisian arrondissement, except with tropical weather and better prices. The burgers are as praised as the French classics. A reliable, cozy spot for any occasion.
     </div>
 </section>
-<section class="restaurant-section" id="pili-pili">
+<section class="restaurant-section" id="pili-pili" data-map-name="9. Pili Pili" data-map-cta-url="https://maps.google.com/?cid=325998789840069750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pili Pili, Nyarutarama, Kigali, Rwanda, RW" data-map-lat="-1.9313129999999998" data-map-lng="30.110263699999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Pili Pili</h2>
         <span class="cuisine-tag tag-regional">Pizza / BBQ / International</span>
@@ -701,7 +688,7 @@
         <strong>tabiji verdict:</strong> The most-reviewed restaurant in Kigali for a reason — it&#39;s the crowd-pleaser. Nearly 3,000 Google reviews says something. Not fine dining, not trying to be. Just solid pizza, BBQ, and a great social atmosphere. Perfect for families, groups, or when you just want a chill meal without fuss.
     </div>
 </section>
-<section class="restaurant-section" id="afrika-bite">
+<section class="restaurant-section" id="afrika-bite" data-map-name="10. Afrika Bite" data-map-cta-url="https://maps.google.com/?cid=17882523475646658975&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Afrika Bite, Kimihurura, Kigali, Rwanda, RW" data-map-lat="-1.9517084" data-map-lng="30.0818405">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Afrika Bite</h2>
         <span class="cuisine-tag tag-regional">Authentic Rwandan</span>
@@ -745,9 +732,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rwanda%20restaurants&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Meza Malonga</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -755,7 +743,7 @@
         <a href="#meza-malonga">1. Meza Malonga</a>
       </li>
       <li>
-        <a href="#heaven-restaurant">2. Heaven Restaurant &amp; Boutique Hotel</a>
+        <a href="#heaven-restaurant">2. Heaven Restaurant & Boutique Hotel</a>
       </li>
       <li>
         <a href="#repub-lounge">3. Repub Lounge</a>
@@ -767,9 +755,9 @@
         <a href="#boho">5. Boho Restaurant</a>
       </li>
       <li>
-        <a href="#14th-avenue">6. 14th Avenue Wine Bar &amp; Restaurant</a>
+        <a href="#14th-avenue">6. 14th Avenue Wine Bar & Restaurant</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rwanda%20restaurants" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14393473694540695788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -780,5 +768,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Restaurants%20in%20Kigali","picks":[{"anchorId":"meza-malonga","rank":1,"name":"Meza Malonga","label":"1. Meza Malonga","lat":-1.4953625,"lng":29.7422656,"ctaUrl":"https://maps.google.com/?cid=14393473694540695788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Meza Malonga, Lake Ruhondo (~2h from Kigali), Rwanda, RW"},{"anchorId":"heaven-restaurant","rank":2,"name":"Heaven Restaurant & Boutique Hotel","label":"2. Heaven Restaurant & Boutique Hotel","lat":-1.9468667999999998,"lng":30.064962299999998,"ctaUrl":"https://maps.google.com/?cid=3691514570440995943&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Heaven Restaurant & Boutique Hotel, Kiyovu, Kigali, Rwanda, RW"},{"anchorId":"repub-lounge","rank":3,"name":"Repub Lounge","label":"3. Repub Lounge","lat":-1.9522083000000001,"lng":30.081549100000004,"ctaUrl":"https://maps.google.com/?cid=1098637268448377200&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Repub Lounge, Kimihurura, Kigali, Rwanda, RW"},{"anchorId":"khana-khazana","rank":4,"name":"Khana Khazana Kiyovu","label":"4. Khana Khazana Kiyovu","lat":-1.9472867999999999,"lng":30.066065499999997,"ctaUrl":"https://maps.google.com/?cid=1894491731245115967&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Khana Khazana Kiyovu, Kiyovu, Kigali, Rwanda, RW"},{"anchorId":"boho","rank":5,"name":"Boho Restaurant","label":"5. Boho Restaurant","lat":-1.9478886999999998,"lng":30.078766299999998,"ctaUrl":"https://maps.google.com/?cid=7257718392743286750&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Boho Restaurant, Kiyovu, Kigali, Rwanda, RW"},{"anchorId":"14th-avenue","rank":6,"name":"14th Avenue Wine Bar & Restaurant","label":"6. 14th Avenue Wine Bar & Restaurant","lat":-1.9478943999999996,"lng":30.078442499999998,"ctaUrl":"https://maps.google.com/?cid=9844242987528292626&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"14th Avenue Wine Bar & Restaurant, Kiyovu, Kigali, Rwanda, RW"},{"anchorId":"inka-steak","rank":7,"name":"Inka Steakhouse","label":"7. Inka Steakhouse","lat":-1.9608708,"lng":30.095308000000003,"ctaUrl":"https://maps.google.com/?cid=2044345171486182445&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Inka Steakhouse, Kicukiro, Kigali, Rwanda, RW"},{"anchorId":"poivre-noir","rank":8,"name":"Poivre Noir","label":"8. Poivre Noir","lat":-1.9496578000000002,"lng":30.0801619,"ctaUrl":"https://maps.google.com/?cid=16629428656485556439&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Poivre Noir, Kimihurura, Kigali, Rwanda, RW"},{"anchorId":"pili-pili","rank":9,"name":"Pili Pili","label":"9. Pili Pili","lat":-1.9313129999999998,"lng":30.110263699999997,"ctaUrl":"https://maps.google.com/?cid=325998789840069750&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pili Pili, Nyarutarama, Kigali, Rwanda, RW"},{"anchorId":"afrika-bite","rank":10,"name":"Afrika Bite","label":"10. Afrika Bite","lat":-1.9517084,"lng":30.0818405,"ctaUrl":"https://maps.google.com/?cid=17882523475646658975&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Afrika Bite, Kimihurura, Kigali, Rwanda, RW"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -446,9 +446,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -473,7 +476,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -521,13 +524,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Buenos Aires steakhouses range from ARS 6,000–60,000 ($6–60 USD), with Don Julio being a top recommendation due to its world-renowned status and grass-fed cattle. To help you navigate the city&#39;s parrilla scene, we&#39;ve analyzed recommendations from local residents and repeat visitors on Reddit to highlight the steakhouses worth your time. Buenos Aires is the steak capital of the world — a city where the parrilla (grill) is practically sacred and beef isn&#39;t just food, it&#39;s identity.</strong></p>
-        <p>Buenos Aires boasts steakhouses ranging from ARS 6,000–60,000 ($6–60 USD), with Don Julio being a top recommendation due to its world-renowned status and grass-fed cattle. To help you navigate the city&#39;s parrilla scene, we&#39;ve analyzed recommendations from local residents and repeat visitors on Reddit to highlight the steakhouses worth your time.</p><p>Buenos Aires is the steak capital of the world — a city where the parrilla (grill) is practically sacred and beef isn&#39;t just food, it&#39;s identity. But with hundreds of steakhouses competing for your appetite, separating the truly great from the tourist traps takes local knowledge.</p><p>We analyzed hundreds of Reddit posts from r/BuenosAires, r/argentina, r/steak, r/finedining, and r/travel to find the parrillas that actual residents and repeat visitors recommend over and over. From the world-famous Don Julio to the neighborhood bodegones where porteños actually eat — these are the steakhouses worth your time.</p>
+        <p>Buenos Aires is the steak capital of the world — a city where the parrilla (grill) is practically sacred and beef isn&#39;t just food, it&#39;s identity. But with hundreds of steakhouses competing for your appetite, separating the truly great from the tourist traps takes local knowledge.</p><p>We analyzed hundreds of Reddit posts from r/BuenosAires, r/argentina, r/steak, r/finedining, and r/travel to find the parrillas that actual residents and repeat visitors recommend over and over. From the world-famous Don Julio to the neighborhood bodegones where porteños actually eat — these are the steakhouses worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Parrilla Map</h2>
-      <iframe src="https://www.google.com/maps?q=Steakhouses%20%26%20Parrillas%20in%20Buenos%20Aires&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Don Julio</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Parrilla Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -549,7 +553,7 @@
       <li>
         <a href="#el-pobre-luis">6. El Pobre Luis</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Steakhouses%20%26%20Parrillas%20in%20Buenos%20Aires" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6868543431240214617&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -561,7 +565,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="don-julio">
+<section class="restaurant-section" id="don-julio" data-map-name="1. Don Julio" data-map-cta-url="https://maps.google.com/?cid=6868543431240214617&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Don Julio, Palermo Soho, Guatemala 4699, Buenos Aires, AR" data-map-lat="-34.5863164" data-map-lng="-58.424268899999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Don Julio</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -599,7 +603,7 @@
         <strong>tabiji verdict:</strong> The world&#39;s most famous parrilla for a reason — the beef quality is genuinely elite. But it&#39;s controversial: locals think it&#39;s overpriced and the wait can be brutal (1-2 hours at dinner). Go for lunch to skip the chaos. If you can only do one fancy steakhouse, this is the one. If you want better value, keep reading.
     </div>
 </section>
-<section class="restaurant-section" id="fogon-asado">
+<section class="restaurant-section" id="fogon-asado" data-map-name="2. Fogón Asado" data-map-cta-url="https://maps.google.com/?cid=11444119487857320308&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fogón Asado, Palermo, Buenos Aires, AR" data-map-lat="-34.588548599999996" data-map-lng="-58.4335611">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Fogón Asado</h2>
         <span class="cuisine-tag tag-regional">Asado Experience</span>
@@ -637,7 +641,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s surprise #1 pick over Don Julio. This is an asado experience, not just a meal — a multi-course journey through Argentine grilling with wine pairings. More touristy than a neighborhood parrilla, but genuinely phenomenal. Book ahead.
     </div>
 </section>
-<section class="restaurant-section" id="la-cabrera">
+<section class="restaurant-section" id="la-cabrera" data-map-name="3. La Cabrera" data-map-cta-url="https://maps.google.com/?cid=11565776114449552325&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cabrera, Palermo Soho, Cabrera 5099, Buenos Aires, AR" data-map-lat="-34.589089799999996" data-map-lng="-58.4332083">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>La Cabrera</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -671,7 +675,7 @@
         <strong>tabiji verdict:</strong> The original Palermo Soho steakhouse that put the neighborhood on the map. The side dishes are a feast unto themselves. Quality has dipped slightly according to some Redditors, but the early-bird discount makes it an incredible value play. Go early, save 30%.
     </div>
 </section>
-<section class="restaurant-section" id="la-carniceria">
+<section class="restaurant-section" id="la-carniceria" data-map-name="4. La Carnicería" data-map-cta-url="https://maps.google.com/?cid=2142012938576447328&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Carnicería, Palermo Hollywood, Buenos Aires, AR" data-map-lat="-34.5828588" data-map-lng="-58.423649100000006">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>La Carnicería</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -709,7 +713,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s best-kept secret in Palermo. Same quality tier as Don Julio at roughly half the price, with a fraction of the wait. If you want premium steak without the hype tax, this is your spot. Multiple Redditors rank it #1 in the city.
     </div>
 </section>
-<section class="restaurant-section" id="parrilla-pena">
+<section class="restaurant-section" id="parrilla-pena" data-map-name="5. Parrilla Peña" data-map-cta-url="https://maps.google.com/?cid=9292897202349173970&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Parrilla Peña, Recoleta, Rodríguez Peña 682, Buenos Aires, AR" data-map-lat="-34.601032499999995" data-map-lng="-58.39158">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Parrilla Peña</h2>
         <span class="cuisine-tag tag-regional">Bodegón</span>
@@ -747,7 +751,7 @@
         <strong>tabiji verdict:</strong> The quintessential neighborhood parrilla — no frills, no tourists, just excellent grilled meat at prices that&#39;ll make you question why anyone waits 2 hours at Don Julio. This is where porteños actually eat. Come hungry.
     </div>
 </section>
-<section class="restaurant-section" id="el-pobre-luis">
+<section class="restaurant-section" id="el-pobre-luis" data-map-name="6. El Pobre Luis" data-map-cta-url="https://maps.google.com/?cid=5734007618285484365&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Pobre Luis, Belgrano, Arribeños 2393, Buenos Aires, AR" data-map-lat="-34.5553424" data-map-lng="-58.4522461">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>El Pobre Luis</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -781,7 +785,7 @@
         <strong>tabiji verdict:</strong> A Belgrano institution near Chinatown that&#39;s beloved by locals. The achuras (offal) here are world-class — especially the mollejas. It gets packed, so expect a wait, but that&#39;s a good sign. Worth the trek from the tourist zones.
     </div>
 </section>
-<section class="restaurant-section" id="la-brigada">
+<section class="restaurant-section" id="la-brigada" data-map-name="7. La Brigada" data-map-cta-url="https://maps.google.com/?cid=8674908515674877566&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Brigada, San Telmo, Estados Unidos 465, Buenos Aires, AR" data-map-lat="-34.6183676" data-map-lng="-58.3726222">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Brigada</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -815,7 +819,7 @@
         <strong>tabiji verdict:</strong> The iconic San Telmo parrilla — the spoon-cutting-steak trick is theatrical but the meat genuinely is tender. More touristy than it used to be, and some Redditors call it a tourist trap. But the quality is still solid, and the football-memorabilia atmosphere is uniquely Argentine. Go for lunch on a weekday.
     </div>
 </section>
-<section class="restaurant-section" id="el-desnivel">
+<section class="restaurant-section" id="el-desnivel" data-map-name="8. El Desnivel" data-map-cta-url="https://maps.google.com/?cid=15300043204249920826&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Desnivel, San Telmo, Defensa 855, Buenos Aires, AR" data-map-lat="-34.617872999999996" data-map-lng="-58.37182000000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>El Desnivel</h2>
         <span class="cuisine-tag tag-regional">Bodegón</span>
@@ -849,7 +853,7 @@
         <strong>tabiji verdict:</strong> The ultimate budget parrilla in San Telmo. Yes, it&#39;s touristy — it&#39;s right on Defensa street near the Sunday market. But the portions are enormous, the prices are rock-bottom, and the cantina vibes are genuinely fun. Perfect for your first steak in Buenos Aires when you don&#39;t want to blow the budget.
     </div>
 </section>
-<section class="restaurant-section" id="calden-del-soho">
+<section class="restaurant-section" id="calden-del-soho" data-map-name="9. Calden del Soho" data-map-cta-url="https://maps.google.com/?cid=8056681280865463319&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Calden del Soho, Palermo Soho, Buenos Aires, AR" data-map-lat="-34.5906478" data-map-lng="-58.427046999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Calden del Soho</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -883,7 +887,7 @@
         <strong>tabiji verdict:</strong> A local favorite hiding in plain sight in Palermo Soho. Multiple Redditors prefer it over both Don Julio and La Cabrera — same neighborhood, better prices, no wait. If you want a great steak without the production, this is your no-brainer pick.
     </div>
 </section>
-<section class="restaurant-section" id="los-talas">
+<section class="restaurant-section" id="los-talas" data-map-name="10. Los Talas del Entrerriano" data-map-cta-url="https://maps.google.com/?cid=6672112931534452720&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Los Talas del Entrerriano, José León Suárez (outside CABA), Buenos Aires, AR" data-map-lat="-34.5191257" data-map-lng="-58.5697075">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Los Talas del Entrerriano</h2>
         <span class="cuisine-tag tag-regional">Asado</span>
@@ -921,7 +925,7 @@
         <strong>tabiji verdict:</strong> The pilgrimage pick. It&#39;s outside the city in José León Suárez — a 40-minute Uber ride — but Argentine Redditors consistently call it the best parrilla in greater Buenos Aires. &quot;Pueblo-style&quot; grilling with unbeatable value. Take a local friend if you can. Not for the faint-hearted tourist.
     </div>
 </section>
-<section class="restaurant-section" id="el-ferroviario">
+<section class="restaurant-section" id="el-ferroviario" data-map-name="11. El Ferroviario" data-map-cta-url="https://maps.google.com/?cid=799024370128085&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Ferroviario, Liniers, Buenos Aires, AR" data-map-lat="-34.6370332" data-map-lng="-58.520686999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>El Ferroviario</h2>
         <span class="cuisine-tag tag-regional">Bodegón</span>
@@ -959,7 +963,7 @@
         <strong>tabiji verdict:</strong> Deep in the working-class neighborhood of Liniers — far from the tourist circuit. Locals love it for authentic, no-nonsense asado at rock-bottom prices. The neighborhood is &quot;rough around the edges&quot; (Redditors&#39; words), so go during lunch and take an Uber. Worth it for the adventurous eater.
     </div>
 </section>
-<section class="restaurant-section" id="la-choza">
+<section class="restaurant-section" id="la-choza" data-map-name="12. La Choza de Gascón" data-map-cta-url="https://maps.google.com/?cid=10084296538855539032&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Choza de Gascón, Palermo, Gascón 1400, Buenos Aires, AR" data-map-lat="-34.5899518" data-map-lng="-58.42218450000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>La Choza de Gascón</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -993,7 +997,7 @@
         <strong>tabiji verdict:</strong> A Palermo parrilla that&#39;s managed to stay under the tourist radar. The vibe is relaxed and local, the patio is lovely, and the meat is excellent. A great &quot;Tuesday night steak&quot; spot — the kind of place you&#39;d become a regular at if you lived here.
     </div>
 </section>
-<section class="restaurant-section" id="rio-alba">
+<section class="restaurant-section" id="rio-alba" data-map-name="13. Río Alba" data-map-cta-url="https://maps.google.com/?cid=13473126207569419012&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Río Alba, Palermo, Cerviño 4499, Buenos Aires, AR" data-map-lat="-34.575855" data-map-lng="-58.420941400000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Río Alba</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -1027,7 +1031,7 @@
         <strong>tabiji verdict:</strong> The &quot;better Don Julio&quot; according to multiple Redditors — same neighborhood, same quality, far fewer tourists, and friendlier service. If you want the premium Palermo steakhouse experience without the circus, Río Alba delivers.
     </div>
 </section>
-<section class="restaurant-section" id="lo-de-jesus">
+<section class="restaurant-section" id="lo-de-jesus" data-map-name="14. Lo de Jesús" data-map-cta-url="https://maps.google.com/?cid=10490192836544938180&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lo de Jesús, Palermo, Buenos Aires, AR" data-map-lat="-34.5905139" data-map-lng="-58.43123119999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Lo de Jesús</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -1061,7 +1065,7 @@
         <strong>tabiji verdict:</strong> The upscale pick that locals actually respect. Lo de Jesús bridges the gap between a neighborhood parrilla and a fine-dining steakhouse — quality cuts, proper wine service, and an atmosphere that feels like a special occasion without the Don Julio price tag.
     </div>
 </section>
-<section class="restaurant-section" id="la-malbequeria">
+<section class="restaurant-section" id="la-malbequeria" data-map-name="15. La Malbequería" data-map-cta-url="https://maps.google.com/?cid=5963486532733606255&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Malbequería, Palermo, Buenos Aires, AR" data-map-lat="-34.5904447" data-map-lng="-58.431154799999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>La Malbequería</h2>
         <span class="cuisine-tag tag-regional">Parrilla</span>
@@ -1095,7 +1099,7 @@
         <strong>tabiji verdict:</strong> The wine lover&#39;s parrilla. If you care as much about your Malbec as your bife, La Malbequería is the perfect marriage. Slightly touristy but in the best way — the wine education alone is worth the visit.
     </div>
 </section>
-<section class="restaurant-section" id="boliche-de-nico">
+<section class="restaurant-section" id="boliche-de-nico" data-map-name="16. El Boliche de Nico" data-map-cta-url="https://maps.google.com/?cid=4910783675114392275&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Boliche de Nico, Villa Ortúzar, Av. de los Incas &amp; Mariano Acha, Buenos Aires, AR" data-map-lat="-34.579616699999995" data-map-lng="-58.47169350000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>El Boliche de Nico</h2>
         <span class="cuisine-tag tag-regional">Bodegón</span>
@@ -1129,7 +1133,7 @@
         <strong>tabiji verdict:</strong> A bright red corner bodegón in the charming neighborhood of Villa Ortúzar. Zero tourists, all locals. The kind of place where the waiter knows everyone by name and the parrillada could feed a small army. This is the real Buenos Aires.
     </div>
 </section>
-<section class="restaurant-section" id="cabana-las-lilas">
+<section class="restaurant-section" id="cabana-las-lilas" data-map-name="17. Cabaña Las Lilas" data-map-cta-url="https://maps.google.com/?cid=4997785835424196702&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cabaña Las Lilas, Puerto Madero, Alicia Moreau de Justo 516, Buenos Aires, AR" data-map-lat="-34.6038114" data-map-lng="-58.36689690000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Cabaña Las Lilas</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -1163,7 +1167,7 @@
         <strong>tabiji verdict:</strong> The grand dame of Buenos Aires steakhouses on the Puerto Madero waterfront. Is it touristy? Absolutely. But they raise their own cattle and the setting is gorgeous. Best for a special occasion or when you want white-tablecloth service with your bife. Not where locals go for a casual steak.
     </div>
 </section>
-<section class="restaurant-section" id="secretito">
+<section class="restaurant-section" id="secretito" data-map-name="18. SecreTiTo" data-map-cta-url="https://maps.google.com/?cid=11269808887542101216&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="SecreTiTo, Las Cañitas, Buenos Aires, AR" data-map-lat="-34.5741504" data-map-lng="-58.432753">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>SecreTiTo</h2>
         <span class="cuisine-tag tag-regional">Bodegón</span>
@@ -1219,9 +1223,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Parrilla Map</h2>
-      <iframe src="https://www.google.com/maps?q=Steakhouses%20%26%20Parrillas%20in%20Buenos%20Aires&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Don Julio</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Parrilla Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1243,7 +1248,7 @@
       <li>
         <a href="#el-pobre-luis">6. El Pobre Luis</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Steakhouses%20%26%20Parrillas%20in%20Buenos%20Aires" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6868543431240214617&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1254,5 +1259,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Parrilla Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Steakhouses%20%26%20Parrillas%20in%20Buenos%20Aires","picks":[{"anchorId":"don-julio","rank":1,"name":"Don Julio","label":"1. Don Julio","lat":-34.5863164,"lng":-58.424268899999994,"ctaUrl":"https://maps.google.com/?cid=6868543431240214617&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Don Julio, Palermo Soho, Guatemala 4699, Buenos Aires, AR"},{"anchorId":"fogon-asado","rank":2,"name":"Fogón Asado","label":"2. Fogón Asado","lat":-34.588548599999996,"lng":-58.4335611,"ctaUrl":"https://maps.google.com/?cid=11444119487857320308&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fogón Asado, Palermo, Buenos Aires, AR"},{"anchorId":"la-cabrera","rank":3,"name":"La Cabrera","label":"3. La Cabrera","lat":-34.589089799999996,"lng":-58.4332083,"ctaUrl":"https://maps.google.com/?cid=11565776114449552325&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cabrera, Palermo Soho, Cabrera 5099, Buenos Aires, AR"},{"anchorId":"la-carniceria","rank":4,"name":"La Carnicería","label":"4. La Carnicería","lat":-34.5828588,"lng":-58.423649100000006,"ctaUrl":"https://maps.google.com/?cid=2142012938576447328&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Carnicería, Palermo Hollywood, Buenos Aires, AR"},{"anchorId":"parrilla-pena","rank":5,"name":"Parrilla Peña","label":"5. Parrilla Peña","lat":-34.601032499999995,"lng":-58.39158,"ctaUrl":"https://maps.google.com/?cid=9292897202349173970&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Parrilla Peña, Recoleta, Rodríguez Peña 682, Buenos Aires, AR"},{"anchorId":"el-pobre-luis","rank":6,"name":"El Pobre Luis","label":"6. El Pobre Luis","lat":-34.5553424,"lng":-58.4522461,"ctaUrl":"https://maps.google.com/?cid=5734007618285484365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Pobre Luis, Belgrano, Arribeños 2393, Buenos Aires, AR"},{"anchorId":"la-brigada","rank":7,"name":"La Brigada","label":"7. La Brigada","lat":-34.6183676,"lng":-58.3726222,"ctaUrl":"https://maps.google.com/?cid=8674908515674877566&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Brigada, San Telmo, Estados Unidos 465, Buenos Aires, AR"},{"anchorId":"el-desnivel","rank":8,"name":"El Desnivel","label":"8. El Desnivel","lat":-34.617872999999996,"lng":-58.37182000000001,"ctaUrl":"https://maps.google.com/?cid=15300043204249920826&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Desnivel, San Telmo, Defensa 855, Buenos Aires, AR"},{"anchorId":"calden-del-soho","rank":9,"name":"Calden del Soho","label":"9. Calden del Soho","lat":-34.5906478,"lng":-58.427046999999995,"ctaUrl":"https://maps.google.com/?cid=8056681280865463319&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Calden del Soho, Palermo Soho, Buenos Aires, AR"},{"anchorId":"los-talas","rank":10,"name":"Los Talas del Entrerriano","label":"10. Los Talas del Entrerriano","lat":-34.5191257,"lng":-58.5697075,"ctaUrl":"https://maps.google.com/?cid=6672112931534452720&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Los Talas del Entrerriano, José León Suárez (outside CABA), Buenos Aires, AR"},{"anchorId":"el-ferroviario","rank":11,"name":"El Ferroviario","label":"11. El Ferroviario","lat":-34.6370332,"lng":-58.520686999999995,"ctaUrl":"https://maps.google.com/?cid=799024370128085&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Ferroviario, Liniers, Buenos Aires, AR"},{"anchorId":"la-choza","rank":12,"name":"La Choza de Gascón","label":"12. La Choza de Gascón","lat":-34.5899518,"lng":-58.42218450000001,"ctaUrl":"https://maps.google.com/?cid=10084296538855539032&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Choza de Gascón, Palermo, Gascón 1400, Buenos Aires, AR"},{"anchorId":"rio-alba","rank":13,"name":"Río Alba","label":"13. Río Alba","lat":-34.575855,"lng":-58.420941400000004,"ctaUrl":"https://maps.google.com/?cid=13473126207569419012&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Río Alba, Palermo, Cerviño 4499, Buenos Aires, AR"},{"anchorId":"lo-de-jesus","rank":14,"name":"Lo de Jesús","label":"14. Lo de Jesús","lat":-34.5905139,"lng":-58.43123119999999,"ctaUrl":"https://maps.google.com/?cid=10490192836544938180&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lo de Jesús, Palermo, Buenos Aires, AR"},{"anchorId":"la-malbequeria","rank":15,"name":"La Malbequería","label":"15. La Malbequería","lat":-34.5904447,"lng":-58.431154799999995,"ctaUrl":"https://maps.google.com/?cid=5963486532733606255&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Malbequería, Palermo, Buenos Aires, AR"},{"anchorId":"boliche-de-nico","rank":16,"name":"El Boliche de Nico","label":"16. El Boliche de Nico","lat":-34.579616699999995,"lng":-58.47169350000001,"ctaUrl":"https://maps.google.com/?cid=4910783675114392275&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Boliche de Nico, Villa Ortúzar, Av. de los Incas & Mariano Acha, Buenos Aires, AR"},{"anchorId":"cabana-las-lilas","rank":17,"name":"Cabaña Las Lilas","label":"17. Cabaña Las Lilas","lat":-34.6038114,"lng":-58.36689690000001,"ctaUrl":"https://maps.google.com/?cid=4997785835424196702&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cabaña Las Lilas, Puerto Madero, Alicia Moreau de Justo 516, Buenos Aires, AR"},{"anchorId":"secretito","rank":18,"name":"SecreTiTo","label":"18. SecreTiTo","lat":-34.5741504,"lng":-58.432753,"ctaUrl":"https://maps.google.com/?cid=11269808887542101216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"SecreTiTo, Las Cañitas, Buenos Aires, AR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

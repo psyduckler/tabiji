@@ -355,11 +355,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -384,9 +379,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -411,24 +409,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": "Best Pizza in Naples", "item": "https://tabiji.ai/popular-picks/best-pizza-naples/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -471,13 +457,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Neapolitan pizza, ranging from €3-€18 across these top spots, is an absolute must-try, with Starita standing out for its unique fried-then-baked style. Naples, the birthplace of pizza, offers an unparalleled experience with its soft, charred dough, San Marzano tomatoes, and fresh mozzarella di bufala, making it a pizza pilgrimage for any serious foodie.</strong></p>
-        <p>Neapolitan pizza, ranging from €3-€18, is a must-try, with Starita being a top recommendation for its traditional fried-then-baked pizza. Naples is the birthplace of pizza, boasting soft, charred dough, San Marzano tomatoes, and fresh mozzarella di bufala, making it an unparalleled pizza destination.</p><p>Naples didn&#39;t just invent pizza — it is pizza. The soft, charred, impossibly light dough. The San Marzano tomatoes from the slopes of Vesuvius. The fresh mozzarella di bufala from Campania. This is where it all started, and despite what the rest of the world has done with the format, nowhere else comes close.</p><p>But which pizzeria in Naples is actually the best? That question starts fights. We analyzed hundreds of Reddit posts from r/napoli, r/ItalyTravel, r/travel, and r/Pizza — including one legendary post from a resident who ate at 50+ pizzerias in Naples — to find the spots that Neapolitan locals and seasoned travelers recommend again and again. The honest truth? Almost every pizzeria in Naples is good. But these 15 are exceptional.</p>
+        <p>Naples didn&#39;t just invent pizza — it is pizza. The soft, charred, impossibly light dough. The San Marzano tomatoes from the slopes of Vesuvius. The fresh mozzarella di bufala from Campania. This is where it all started, and despite what the rest of the world has done with the format, nowhere else comes close.</p><p>But which pizzeria in Naples is actually the best? That question starts fights. We analyzed hundreds of Reddit posts from r/napoli, r/ItalyTravel, r/travel, and r/Pizza — including one legendary post from a resident who ate at 50+ pizzerias in Naples — to find the spots that Neapolitan locals and seasoned travelers recommend again and again. The honest truth? Almost every pizzeria in Naples is good. But these 15 are exceptional.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Pizza Map</h2>
-      <iframe src="https://www.google.com/maps?q=Naples%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Starita</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Pizza Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -494,12 +481,12 @@
         <a href="#sorbillo">4. Sorbillo</a>
       </li>
       <li>
-        <a href="#da-michele">5. L&#39;Antica Pizzeria da Michele</a>
+        <a href="#da-michele">5. L'Antica Pizzeria da Michele</a>
       </li>
       <li>
         <a href="#concettina-ai-tre-santi">6. Concettina ai Tre Santi</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Naples%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2197116873067032358&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -511,7 +498,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="starita">
+<section class="restaurant-section" id="starita" data-map-name="1. Starita" data-map-cta-url="https://maps.google.com/?cid=2197116873067032358&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Starita, Materdei, Naples, Naples, IT" data-map-lat="40.8559311" data-map-lng="14.246415800000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Starita</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -553,7 +540,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; favorite. While tourists queue at Da Michele, Neapolitans go to Starita. The montanara alone is worth the trip to Materdei — a pizza that gets fried, then finished in the wood oven, creating a texture you won&#39;t find anywhere else. The person who ate at 50+ Naples pizzerias rated it &quot;great&quot; and specifically praised the montanara. Multiple locals named it their #1 unprompted. That&#39;s the highest endorsement there is.
     </div>
 </section>
-<section class="restaurant-section" id="diego-vitagliano">
+<section class="restaurant-section" id="diego-vitagliano" data-map-name="2. Diego Vitagliano" data-map-cta-url="https://maps.google.com/?cid=17014282752462957933&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Diego Vitagliano, Santa Lucia &amp; Bagnoli, Naples, Naples, IT" data-map-lat="40.8322776" data-map-lng="14.2486886">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Diego Vitagliano</h2>
         <span class="cuisine-tag tag-regional">Contemporary</span>
@@ -591,7 +578,7 @@
         <strong>tabiji verdict:</strong> Diego Vitagliano is Naples&#39; contemporary pizza king. The person who systematically ate at 50+ pizzerias placed both his locations in the &quot;excellent&quot; top tier — the only pizzaiolo to earn two spots there. His marinara sbagliata flips tradition on its head, and the tasting menu at Bagnoli is a culinary experience, not just a meal. If you want to see where Neapolitan pizza is heading, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="cinquanta-kalo">
+<section class="restaurant-section" id="cinquanta-kalo" data-map-name="3. 50 Kalò" data-map-cta-url="https://maps.google.com/?cid=2519669216971214380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="50 Kalò, Mergellina, Naples, Naples, IT" data-map-lat="40.828371800000006" data-map-lng="14.220257499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>50 Kalò</h2>
         <span class="cuisine-tag tag-regional">Contemporary</span>
@@ -633,7 +620,7 @@
         <strong>tabiji verdict:</strong> Ciro Salvo&#39;s 50 Kalò is the pizza that converts skeptics. The Mergellina waterfront location is beautiful, the dough is absurdly light (his 24-hour fermentation is famous), and the wait is more pleasant than most — there&#39;s literally a cocktail bar across the street. Multiple Redditors independently called it the best pizza of their lives. The 50-pizzeria reviewer placed it in the &quot;great&quot; tier. It&#39;s expensive by Naples standards but worth every cent.
     </div>
 </section>
-<section class="restaurant-section" id="sorbillo">
+<section class="restaurant-section" id="sorbillo" data-map-name="4. Sorbillo" data-map-cta-url="https://maps.google.com/?cid=13619709253352858852&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sorbillo, Via dei Tribunali, Naples, Naples, IT" data-map-lat="40.8503854" data-map-lng="14.255302799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Sorbillo</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -675,7 +662,7 @@
         <strong>tabiji verdict:</strong> Sorbillo is divisive — some call it the best in Naples, others call it a tourist trap. The truth is somewhere in between: the original Via dei Tribunali location genuinely serves excellent pizza at absurd prices (€4 margherita), but the queues are brutal and some of the satellite locations don&#39;t live up to the name. A local tip: the smaller Sorbillo just beside the main one has shorter lines and is mostly locals. Skip the seafront one entirely.
     </div>
 </section>
-<section class="restaurant-section" id="da-michele">
+<section class="restaurant-section" id="da-michele" data-map-name="5. L&#39;Antica Pizzeria da Michele" data-map-cta-url="https://maps.google.com/?cid=6535452230733379138&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="L&#39;Antica Pizzeria da Michele, Forcella, Naples, Naples, IT" data-map-lat="40.849756299999996" data-map-lng="14.2633002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>L&#39;Antica Pizzeria da Michele</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -717,7 +704,7 @@
         <strong>tabiji verdict:</strong> Here&#39;s the real talk: Da Michele is the most famous pizzeria in the world. It&#39;s also the most controversial in Naples. The &quot;Eat Pray Love&quot; effect turned it into a permanent tourist queue, and locals increasingly avoid it. The 50-pizzeria reviewer rated it merely &quot;good,&quot; saying &quot;it&#39;s fine, not sure what the big deal is.&quot; But — and this matters — the dough at the original location is still genuinely excellent when it&#39;s made right. If you go: arrive at 11 AM on a weekday, walk straight in, and judge for yourself. Don&#39;t wait an hour for it.
     </div>
 </section>
-<section class="restaurant-section" id="concettina-ai-tre-santi">
+<section class="restaurant-section" id="concettina-ai-tre-santi" data-map-name="6. Concettina ai Tre Santi" data-map-cta-url="https://maps.google.com/?cid=1451387620367571562&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Concettina ai Tre Santi, Rione Sanità, Naples, Naples, IT" data-map-lat="40.8574657" data-map-lng="14.2521604">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Concettina ai Tre Santi</h2>
         <span class="cuisine-tag tag-regional">Contemporary</span>
@@ -755,7 +742,7 @@
         <strong>tabiji verdict:</strong> Ciro Oliva is one of Naples&#39; rising stars, and Concettina ai Tre Santi reflects his ambition — creative toppings on perfect Neapolitan dough, in the atmospheric Sanità neighborhood. The 50-pizzeria reviewer noted a price discrepancy between sit-down and takeaway, so eat in. The pizza fritta here is also top-notch. It&#39;s a bit touristy now but the quality holds up.
     </div>
 </section>
-<section class="restaurant-section" id="pizzeria-pellone">
+<section class="restaurant-section" id="pizzeria-pellone" data-map-name="7. Pizzeria Pellone" data-map-cta-url="https://maps.google.com/?cid=7684198735490876295&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pizzeria Pellone, Near Stazione Centrale, Naples, Naples, IT" data-map-lat="40.856161799999995" data-map-lng="14.274128399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Pizzeria Pellone</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -793,7 +780,7 @@
         <strong>tabiji verdict:</strong> Pellone is the anti-tourist pizza experience. Near the train station (an area most tourists rush through), it&#39;s packed with Neapolitans eating enormous marinara pizzas at plastic tables. Zero pretension. The key insider tip: insist on the main dining room — the secondary room has a different oven and the pizza isn&#39;t as good. One Redditor noted Pellone has &quot;heavy dough&quot; which is true — this is old-school, thick Neapolitan, not the contemporary light style. If you like substance, this is heaven.
     </div>
 </section>
-<section class="restaurant-section" id="ntretella">
+<section class="restaurant-section" id="ntretella" data-map-name="8. &#39;Ntretella" data-map-cta-url="https://maps.google.com/?cid=13821995223482696987&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="&#39;Ntretella, Chiaia, Naples, Naples, IT" data-map-lat="40.838100399999995" data-map-lng="14.246856399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>&#39;Ntretella</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -835,7 +822,7 @@
         <strong>tabiji verdict:</strong> The best-kept secret on this list. While tourists battle queues at Da Michele and Sorbillo, &#39;Ntretella in the upscale Chiaia neighborhood quietly serves some of the best pizza in Naples — with no wait. Multiple Redditors stumbled upon it as a backup plan and were blown away. One person who tried &quot;many that are supposed to be the best&quot; called &#39;Ntretella their #1. That&#39;s the kind of endorsement money can&#39;t buy.
     </div>
 </section>
-<section class="restaurant-section" id="la-notizia-53">
+<section class="restaurant-section" id="la-notizia-53" data-map-name="9. La Notizia 53" data-map-cta-url="https://maps.google.com/?cid=16582734244591788523&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Notizia 53, Vomero, Naples, Naples, IT" data-map-lat="40.8356642" data-map-lng="14.209963499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>La Notizia 53</h2>
         <span class="cuisine-tag tag-regional">Gourmet</span>
@@ -869,7 +856,7 @@
         <strong>tabiji verdict:</strong> Enzo Coccia is to Neapolitan pizza what a Michelin chef is to French cuisine — technical perfection wrapped in tradition. La Notizia 53 is up on the Vomero hill, away from the tourist center, and that&#39;s intentional. The 50-pizzeria reviewer placed it in the &quot;great&quot; tier. If you want to understand why Neapolitan pizza is different — the science of the dough, the sourcing of ingredients — this is where you come. It&#39;s a pilgrimage, not just a meal.
     </div>
 </section>
-<section class="restaurant-section" id="pizzeria-salvo">
+<section class="restaurant-section" id="pizzeria-salvo" data-map-name="10. Pizzeria Salvo" data-map-cta-url="https://maps.google.com/?cid=9251406161411456949&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pizzeria Salvo, San Giorgio a Cremano, Naples metro, Naples, IT" data-map-lat="40.8255337" data-map-lng="14.330597799999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Pizzeria Salvo</h2>
         <span class="cuisine-tag tag-regional">Contemporary</span>
@@ -903,7 +890,7 @@
         <strong>tabiji verdict:</strong> Slightly outside the city center in San Giorgio a Cremano, Pizzeria Salvo rewards the trip with one of the most unique margheritas in the Naples area. The piennolo tomatoes from Vesuvius are a revelation — concentrated sweetness that regular San Marzanos can&#39;t match. The 50-pizzeria reviewer placed it in the coveted &quot;excellent&quot; tier. Worth the short Circumvesuviana ride from central Naples, especially if you&#39;re also visiting Herculaneum or Pompeii.
     </div>
 </section>
-<section class="restaurant-section" id="isabella-de-cham">
+<section class="restaurant-section" id="isabella-de-cham" data-map-name="11. Isabella De Cham Pizza Fritta" data-map-cta-url="https://maps.google.com/?cid=4080500679725297572&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Isabella De Cham Pizza Fritta, Rione Sanità, Naples, Naples, IT" data-map-lat="40.857427" data-map-lng="14.253322899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Isabella De Cham Pizza Fritta</h2>
         <span class="cuisine-tag tag-regional">Pizza Fritta</span>
@@ -941,7 +928,7 @@
         <strong>tabiji verdict:</strong> You haven&#39;t experienced Naples until you&#39;ve eaten pizza fritta, and Isabella De Cham is the place to do it. The person who ate at 50+ pizzerias in Naples rated it &quot;excellent&quot; — their top pizza fritta spot. Located in the atmospheric Sanità neighborhood, this is a no-frills, street-level operation. The fried pizza arrives impossibly golden, stuffed with ricotta and provola, for about €4. It&#39;s the most Neapolitan thing you can eat.
     </div>
 </section>
-<section class="restaurant-section" id="la-masardona">
+<section class="restaurant-section" id="la-masardona" data-map-name="12. La Masardona" data-map-cta-url="https://maps.google.com/?cid=1817971930398926753&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Masardona, Porta Nolana, Naples, Naples, IT" data-map-lat="40.8485423" data-map-lng="14.273533899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>La Masardona</h2>
         <span class="cuisine-tag tag-regional">Pizza Fritta</span>
@@ -975,7 +962,7 @@
         <strong>tabiji verdict:</strong> La Masardona is the most famous pizza fritta spot in Naples, and unlike many famous things in this city, it still delivers. Located near the bustling Porta Nolana market, it opens early — Neapolitans legitimately eat pizza fritta for breakfast here. The 50-pizzeria reviewer placed it in the &quot;great&quot; tier. The atmosphere is chaotic, the neighborhood is rough around the edges, and the pizza is magnificent. That&#39;s Naples.
     </div>
 </section>
-<section class="restaurant-section" id="franco-gallifuoco">
+<section class="restaurant-section" id="franco-gallifuoco" data-map-name="13. Franco Gallifuoco" data-map-cta-url="https://maps.google.com/?cid=13223889424111382979&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Franco Gallifuoco, Near Piazza Garibaldi, Naples, Naples, IT" data-map-lat="40.8511735" data-map-lng="14.271932500000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Franco Gallifuoco</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -1013,7 +1000,7 @@
         <strong>tabiji verdict:</strong> Franco Gallifuoco is the sleeper pick. Near the chaotic Piazza Garibaldi (Naples&#39; main train station area), it&#39;s the kind of place most tourists walk right past. But those who stop are rewarded: one Redditor who ate 20 pizzas in a week said Franco&#39;s were &quot;on another level.&quot; Locals mention it alongside Starita and Sorbillo, which is the highest compliment in this city. No queues, no hype — just incredible pizza.
     </div>
 </section>
-<section class="restaurant-section" id="tavolo-riservato">
+<section class="restaurant-section" id="tavolo-riservato" data-map-name="14. Tavolo Riservato" data-map-cta-url="https://maps.google.com/?cid=17375267295746632733&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tavolo Riservato, Naples, Naples, IT" data-map-lat="40.827580999999995" data-map-lng="14.2076627">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Tavolo Riservato</h2>
         <span class="cuisine-tag tag-regional">Gourmet</span>
@@ -1065,9 +1052,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Pizza Map</h2>
-      <iframe src="https://www.google.com/maps?q=Naples%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Starita</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Pizza Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1084,12 +1072,12 @@
         <a href="#sorbillo">4. Sorbillo</a>
       </li>
       <li>
-        <a href="#da-michele">5. L&#39;Antica Pizzeria da Michele</a>
+        <a href="#da-michele">5. L'Antica Pizzeria da Michele</a>
       </li>
       <li>
         <a href="#concettina-ai-tre-santi">6. Concettina ai Tre Santi</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Naples%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2197116873067032358&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1100,5 +1088,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Pizza Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Pizza%20in%20Naples","picks":[{"anchorId":"starita","rank":1,"name":"Starita","label":"1. Starita","lat":40.8559311,"lng":14.246415800000001,"ctaUrl":"https://maps.google.com/?cid=2197116873067032358&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Starita, Materdei, Naples, Naples, IT"},{"anchorId":"diego-vitagliano","rank":2,"name":"Diego Vitagliano","label":"2. Diego Vitagliano","lat":40.8322776,"lng":14.2486886,"ctaUrl":"https://maps.google.com/?cid=17014282752462957933&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Diego Vitagliano, Santa Lucia & Bagnoli, Naples, Naples, IT"},{"anchorId":"cinquanta-kalo","rank":3,"name":"50 Kalò","label":"3. 50 Kalò","lat":40.828371800000006,"lng":14.220257499999999,"ctaUrl":"https://maps.google.com/?cid=2519669216971214380&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"50 Kalò, Mergellina, Naples, Naples, IT"},{"anchorId":"sorbillo","rank":4,"name":"Sorbillo","label":"4. Sorbillo","lat":40.8503854,"lng":14.255302799999999,"ctaUrl":"https://maps.google.com/?cid=13619709253352858852&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sorbillo, Via dei Tribunali, Naples, Naples, IT"},{"anchorId":"da-michele","rank":5,"name":"L'Antica Pizzeria da Michele","label":"5. L'Antica Pizzeria da Michele","lat":40.849756299999996,"lng":14.2633002,"ctaUrl":"https://maps.google.com/?cid=6535452230733379138&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"L'Antica Pizzeria da Michele, Forcella, Naples, Naples, IT"},{"anchorId":"concettina-ai-tre-santi","rank":6,"name":"Concettina ai Tre Santi","label":"6. Concettina ai Tre Santi","lat":40.8574657,"lng":14.2521604,"ctaUrl":"https://maps.google.com/?cid=1451387620367571562&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Concettina ai Tre Santi, Rione Sanità, Naples, Naples, IT"},{"anchorId":"pizzeria-pellone","rank":7,"name":"Pizzeria Pellone","label":"7. Pizzeria Pellone","lat":40.856161799999995,"lng":14.274128399999999,"ctaUrl":"https://maps.google.com/?cid=7684198735490876295&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pizzeria Pellone, Near Stazione Centrale, Naples, Naples, IT"},{"anchorId":"ntretella","rank":8,"name":"'Ntretella","label":"8. 'Ntretella","lat":40.838100399999995,"lng":14.246856399999999,"ctaUrl":"https://maps.google.com/?cid=13821995223482696987&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"'Ntretella, Chiaia, Naples, Naples, IT"},{"anchorId":"la-notizia-53","rank":9,"name":"La Notizia 53","label":"9. La Notizia 53","lat":40.8356642,"lng":14.209963499999999,"ctaUrl":"https://maps.google.com/?cid=16582734244591788523&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Notizia 53, Vomero, Naples, Naples, IT"},{"anchorId":"pizzeria-salvo","rank":10,"name":"Pizzeria Salvo","label":"10. Pizzeria Salvo","lat":40.8255337,"lng":14.330597799999998,"ctaUrl":"https://maps.google.com/?cid=9251406161411456949&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pizzeria Salvo, San Giorgio a Cremano, Naples metro, Naples, IT"},{"anchorId":"isabella-de-cham","rank":11,"name":"Isabella De Cham Pizza Fritta","label":"11. Isabella De Cham Pizza Fritta","lat":40.857427,"lng":14.253322899999999,"ctaUrl":"https://maps.google.com/?cid=4080500679725297572&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Isabella De Cham Pizza Fritta, Rione Sanità, Naples, Naples, IT"},{"anchorId":"la-masardona","rank":12,"name":"La Masardona","label":"12. La Masardona","lat":40.8485423,"lng":14.273533899999999,"ctaUrl":"https://maps.google.com/?cid=1817971930398926753&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Masardona, Porta Nolana, Naples, Naples, IT"},{"anchorId":"franco-gallifuoco","rank":13,"name":"Franco Gallifuoco","label":"13. Franco Gallifuoco","lat":40.8511735,"lng":14.271932500000002,"ctaUrl":"https://maps.google.com/?cid=13223889424111382979&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Franco Gallifuoco, Near Piazza Garibaldi, Naples, Naples, IT"},{"anchorId":"tavolo-riservato","rank":14,"name":"Tavolo Riservato","label":"14. Tavolo Riservato","lat":40.827580999999995,"lng":14.2076627,"ctaUrl":"https://maps.google.com/?cid=17375267295746632733&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tavolo Riservato, Naples, Naples, IT"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

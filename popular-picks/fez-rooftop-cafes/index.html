@@ -296,11 +296,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -325,9 +320,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -352,24 +350,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},
-            {"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},
-            {"@type":"ListItem","position":3,"name":"Best Rooftop Cafés in Fez Medina","item":"https://tabiji.ai/popular-picks/fez-rooftop-cafes/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -412,13 +398,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Rooftop cafés in Fez Medina range from budget-friendly to luxurious, costing between 20 and 500 MAD per person, with Café Clock being a top recommendation for its overall atmosphere and food. These cafés offer a unique vantage point to appreciate the city&#39;s beauty and culture. Rooftop cafés are how you process Fez — order mint tea, watch the chaos from above, and let it all make sense slowly.</strong></p>
-        <p>Rooftop cafés in Fez Medina offer a range of experiences from budget-friendly to luxurious, generally costing between 20 and 500 MAD per person, with Café Clock being a top recommendation for its overall atmosphere and food. These cafés provide a unique vantage point to appreciate the city&#39;s beauty and culture.</p><p>Fez Medina doesn&#39;t reveal itself at street level. Down in the alleys — no cars, no signs you can read, the smell of leather and spices — you&#39;re in the world&#39;s most disorienting medieval city. But climb to any rooftop and suddenly everything clicks: a sea of ochre and white, minarets poking through the haze, the muezzin call bouncing off 9,000 alleys at once.</p><p>Rooftop cafés are how you process Fez. Order mint tea. Watch the chaos from above. Let it all make sense slowly. These are the ones worth the climb — chosen because Reddit travelers and Fez locals keep mentioning them across multiple threads, not because they bought a TripAdvisor ad.</p>
+        <p>Fez Medina doesn&#39;t reveal itself at street level. Down in the alleys — no cars, no signs you can read, the smell of leather and spices — you&#39;re in the world&#39;s most disorienting medieval city. But climb to any rooftop and suddenly everything clicks: a sea of ochre and white, minarets poking through the haze, the muezzin call bouncing off 9,000 alleys at once.</p><p>Rooftop cafés are how you process Fez. Order mint tea. Watch the chaos from above. Let it all make sense slowly. These are the ones worth the climb — chosen because Reddit travelers and Fez locals keep mentioning them across multiple threads, not because they bought a TripAdvisor ad.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Café Map — Fez Medina</h2>
-      <iframe src="https://www.google.com/maps?q=Fez%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Clock</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map — Fez Medina"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -438,9 +425,9 @@
         <a href="#dar-hammad">5. Dar Hammad</a>
       </li>
       <li>
-        <a href="#moms-touch">6. Mom&#39;s Touch</a>
+        <a href="#moms-touch">6. Mom's Touch</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fez%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1287536234107577723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -452,7 +439,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="cafe-clock">
+<section class="restaurant-section" id="cafe-clock" data-map-name="1. Café Clock" data-map-cta-url="https://maps.google.com/?cid=1287536234107577723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Clock, Talaa Kebira, Fes el-Bali, Fez, MA" data-map-lat="34.062346999999995" data-map-lng="-4.9830290999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Café Clock</h2>
         <span class="cuisine-tag tag-regional">Rooftop Café</span>
@@ -494,7 +481,7 @@
         <strong>tabiji verdict:</strong> The most mentioned café in Fez on Reddit by a wide margin — and for good reason. It&#39;s not just the camel burger hype: the rooftop terrace is genuinely relaxed, the food is clean and reliably good, and the cultural programming (Gnawa music nights, storytelling, cooking classes) makes it more than just a place to eat. The clock outside inspired the name — it&#39;s near Bou Inania Madrasa. Come hungry, leave charmed.
     </div>
 </section>
-<section class="restaurant-section" id="la-breva">
+<section class="restaurant-section" id="la-breva" data-map-name="2. La Breva" data-map-cta-url="https://maps.google.com/?cid=4601722807247471924&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Breva, Fes el-Bali, elevated position, Fez, MA" data-map-lat="34.0353536" data-map-lng="-5.004642700000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>La Breva</h2>
         <span class="cuisine-tag tag-regional">Panoramic Views</span>
@@ -532,7 +519,7 @@
         <strong>tabiji verdict:</strong> Mentioned specifically for its elevated vantage point — if you want height and distance from the medina&#39;s density, La Breva delivers a partial but genuinely impressive overview of Fez. The &quot;partially&quot; caveat from Reddit is honest: no single rooftop shows you everything. But this one shows you enough to feel the scale of Fes el-Bali. A good spot to orient yourself on day one.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-nagham">
+<section class="restaurant-section" id="cafe-nagham" data-map-name="3. Café Nagham" data-map-cta-url="https://maps.google.com/?cid=10076816589912725661&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Nagham, Near Bab Bou Jeloud (Blue Gate), Fez, MA" data-map-lat="34.0614245" data-map-lng="-4.984069799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Café Nagham</h2>
         <span class="cuisine-tag tag-regional">Medina Terrace</span>
@@ -570,7 +557,7 @@
         <strong>tabiji verdict:</strong> The most photogenic starting point in Fez — positioned near Bab Bou Jeloud, the stunning blue mosaic gate that&#39;s everyone&#39;s first medina photo. The rooftop gives you an immediate sense of scale before you plunge into the alleys below. Budget-friendly and genuinely pretty at golden hour. Arrive early to get a table with the best gate view.
     </div>
 </section>
-<section class="restaurant-section" id="terrasse-panoramique">
+<section class="restaurant-section" id="terrasse-panoramique" data-map-name="4. Café Terrasse Panoramique" data-map-cta-url="https://maps.google.com/?cid=11744271302509925056&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Terrasse Panoramique, Fes el-Bali Medina, Fez, MA" data-map-lat="34.0661318" data-map-lng="-4.9723219">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Café Terrasse Panoramique</h2>
         <span class="cuisine-tag tag-regional">Panoramic Café</span>
@@ -608,7 +595,7 @@
         <strong>tabiji verdict:</strong> The name does the marketing. If you want a proper panorama of the medina with the least fuss, this delivers — and the host Muhammad gets consistently praised for making visitors feel welcome. At 20–40 MAD for coffee with a view like this, it&#39;s absurdly good value. Perfect mid-afternoon escape when the medina&#39;s energy gets overwhelming.
     </div>
 </section>
-<section class="restaurant-section" id="dar-hammad">
+<section class="restaurant-section" id="dar-hammad" data-map-name="5. Dar Hammad" data-map-cta-url="https://maps.google.com/?cid=17099917666754849976&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dar Hammad, Rue Talaa Sghira, Fes el-Bali, Fez, MA" data-map-lat="34.0634006" data-map-lng="-4.978244999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Dar Hammad</h2>
         <span class="cuisine-tag tag-regional">Rooftop Restaurant</span>
@@ -646,7 +633,7 @@
         <strong>tabiji verdict:</strong> The best combination of genuine Fassi food AND a rooftop view. Most rooftop cafés make you choose — great food or great view. Dar Hammad doesn&#39;t. The chicken pastilla is one of the more authentic versions you&#39;ll find in a touristy setting, and the view looking out over Fes el-Bali is genuinely special. Worth the price step-up from a basic café.
     </div>
 </section>
-<section class="restaurant-section" id="moms-touch">
+<section class="restaurant-section" id="moms-touch" data-map-name="6. Mom&#39;s Touch" data-map-cta-url="https://maps.google.com/?cid=17019568231646461365&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mom&#39;s Touch, Rue Taryana Kebira, Talaa Lakbira, Fez, MA" data-map-lat="34.062387099999995" data-map-lng="-4.9826137">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Mom&#39;s Touch</h2>
         <span class="cuisine-tag tag-regional">Bohemian Rooftop</span>
@@ -684,7 +671,7 @@
         <strong>tabiji verdict:</strong> The bohemian hangout of Fez rooftops. Mismatched cushions, good Wi-Fi, relaxed vibe — this is where digital nomads and solo travelers end up staying for three hours when they planned to stay for one. The food is reliably good without being exceptional, but the rooftop atmosphere is exactly right after a long day in the medina. Vegetarian-friendly and easy to find on Talaa Lakbira.
     </div>
 </section>
-<section class="restaurant-section" id="nomad-fez">
+<section class="restaurant-section" id="nomad-fez" data-map-name="7. Nomad Fez" data-map-cta-url="https://maps.google.com/?cid=15508501402070158928&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nomad Fez, Fes el-Bali, Fez, MA" data-map-lat="34.0619733" data-map-lng="-4.9813643999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Nomad Fez</h2>
         <span class="cuisine-tag tag-regional">Contemporary + Rooftop</span>
@@ -722,7 +709,7 @@
         <strong>tabiji verdict:</strong> If Café Clock is the classic Fez rooftop experience, Nomad is the 2026 version — more polished, more international, aimed at a traveler who wants Moroccan flavors without the full sensory overload. The contemporary design is genuinely stylish, the menu is creative, and the rooftop delivers. Good for travelers who prefer clean aesthetics over medina chaos.
     </div>
 </section>
-<section class="restaurant-section" id="le-peroke">
+<section class="restaurant-section" id="le-peroke" data-map-name="8. Le Peroke Cafe Restaurant" data-map-cta-url="https://maps.google.com/?cid=14357998739236350688&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Peroke Cafe Restaurant, 6 Derb Agoual Sefli, Rue Talaa Sghira, Fez, MA" data-map-lat="34.061886" data-map-lng="-4.9813659999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Le Peroke Cafe Restaurant</h2>
         <span class="cuisine-tag tag-regional">Marinid Tombs View</span>
@@ -756,7 +743,7 @@
         <strong>tabiji verdict:</strong> Unique because the view is different — instead of looking out over the medina&#39;s rooftops, you&#39;re facing the Marinid Tombs on the hill above Fes el-Bali. The ruins are hauntingly beautiful at dusk and virtually no other rooftop café has this angle. Slightly off the main tourist drag on Talaa Sghira, which keeps it quieter. A genuinely special sunset spot.
     </div>
 </section>
-<section class="restaurant-section" id="medina-cafe">
+<section class="restaurant-section" id="medina-cafe" data-map-name="9. Medina Cafe" data-map-cta-url="https://maps.google.com/?cid=13002737281104816015&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Medina Cafe, Fes el-Bali Medina, Fez, MA" data-map-lat="34.0617355" data-map-lng="-4.9842067">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Medina Cafe</h2>
         <span class="cuisine-tag tag-regional">Medina Views</span>
@@ -794,7 +781,7 @@
         <strong>tabiji verdict:</strong> The &quot;reliable local workhorse&quot; pick. 352 reviews at 4.5 stars means something — this isn&#39;t a fluke. The views are good, the Moroccan-African menu is solid, and it&#39;s open when you actually want it to be (a minor miracle in the medina). Best for breakfast or a mid-morning coffee stop. Consistent and unpretentious.
     </div>
 </section>
-<section class="restaurant-section" id="riad-fes-lambre">
+<section class="restaurant-section" id="riad-fes-lambre" data-map-name="10. Riad Fes — L&#39;Ambre Terrace" data-map-cta-url="https://maps.google.com/?cid=12798397820959674144&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riad Fes — L&#39;Ambre Terrace, 5 Derb Bensalem, Ziat, Fes el-Bali, Fez, MA" data-map-lat="34.061609499999996" data-map-lng="-4.9798231">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Riad Fes — L&#39;Ambre Terrace</h2>
         <span class="cuisine-tag tag-regional">Luxury Rooftop</span>
@@ -850,9 +837,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Café Map — Fez Medina</h2>
-      <iframe src="https://www.google.com/maps?q=Fez%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Clock</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map — Fez Medina"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -872,9 +860,9 @@
         <a href="#dar-hammad">5. Dar Hammad</a>
       </li>
       <li>
-        <a href="#moms-touch">6. Mom&#39;s Touch</a>
+        <a href="#moms-touch">6. Mom's Touch</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fez%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1287536234107577723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -885,5 +873,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Café Map — Fez Medina","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Rooftop%20Caf%C3%A9s%20in%20Fez%20Medina","picks":[{"anchorId":"cafe-clock","rank":1,"name":"Café Clock","label":"1. Café Clock","lat":34.062346999999995,"lng":-4.9830290999999995,"ctaUrl":"https://maps.google.com/?cid=1287536234107577723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Clock, Talaa Kebira, Fes el-Bali, Fez, MA"},{"anchorId":"la-breva","rank":2,"name":"La Breva","label":"2. La Breva","lat":34.0353536,"lng":-5.004642700000001,"ctaUrl":"https://maps.google.com/?cid=4601722807247471924&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Breva, Fes el-Bali, elevated position, Fez, MA"},{"anchorId":"cafe-nagham","rank":3,"name":"Café Nagham","label":"3. Café Nagham","lat":34.0614245,"lng":-4.984069799999999,"ctaUrl":"https://maps.google.com/?cid=10076816589912725661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Nagham, Near Bab Bou Jeloud (Blue Gate), Fez, MA"},{"anchorId":"terrasse-panoramique","rank":4,"name":"Café Terrasse Panoramique","label":"4. Café Terrasse Panoramique","lat":34.0661318,"lng":-4.9723219,"ctaUrl":"https://maps.google.com/?cid=11744271302509925056&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Terrasse Panoramique, Fes el-Bali Medina, Fez, MA"},{"anchorId":"dar-hammad","rank":5,"name":"Dar Hammad","label":"5. Dar Hammad","lat":34.0634006,"lng":-4.978244999999999,"ctaUrl":"https://maps.google.com/?cid=17099917666754849976&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dar Hammad, Rue Talaa Sghira, Fes el-Bali, Fez, MA"},{"anchorId":"moms-touch","rank":6,"name":"Mom's Touch","label":"6. Mom's Touch","lat":34.062387099999995,"lng":-4.9826137,"ctaUrl":"https://maps.google.com/?cid=17019568231646461365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mom's Touch, Rue Taryana Kebira, Talaa Lakbira, Fez, MA"},{"anchorId":"nomad-fez","rank":7,"name":"Nomad Fez","label":"7. Nomad Fez","lat":34.0619733,"lng":-4.9813643999999995,"ctaUrl":"https://maps.google.com/?cid=15508501402070158928&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nomad Fez, Fes el-Bali, Fez, MA"},{"anchorId":"le-peroke","rank":8,"name":"Le Peroke Cafe Restaurant","label":"8. Le Peroke Cafe Restaurant","lat":34.061886,"lng":-4.9813659999999995,"ctaUrl":"https://maps.google.com/?cid=14357998739236350688&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Peroke Cafe Restaurant, 6 Derb Agoual Sefli, Rue Talaa Sghira, Fez, MA"},{"anchorId":"medina-cafe","rank":9,"name":"Medina Cafe","label":"9. Medina Cafe","lat":34.0617355,"lng":-4.9842067,"ctaUrl":"https://maps.google.com/?cid=13002737281104816015&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Medina Cafe, Fes el-Bali Medina, Fez, MA"},{"anchorId":"riad-fes-lambre","rank":10,"name":"Riad Fes — L'Ambre Terrace","label":"10. Riad Fes — L'Ambre Terrace","lat":34.061609499999996,"lng":-4.9798231,"ctaUrl":"https://maps.google.com/?cid=12798397820959674144&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Riad Fes — L'Ambre Terrace, 5 Derb Bensalem, Ziat, Fes el-Bali, Fez, MA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

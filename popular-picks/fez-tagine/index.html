@@ -263,7 +263,8 @@
           "addressLocality": "Throughout Fes el-Bali",
           "addressCountry": "MA"
         },
-        "priceRange": "25–40 MAD ($2.50–$4)"
+        "priceRange": "25–40 MAD ($2.50–$4)",
+        "url": "https://maps.google.com/?cid=4320177904620250539&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
       }
     },
     {
@@ -375,11 +376,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -404,9 +400,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -431,39 +430,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "15 Best Tagine in Fez",
-                        "item": "https://tabiji.ai/popular-picks/fez-tagine/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -506,18 +478,19 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>The best tagine in Fez, Morocco ranges from budget-friendly options under $5 to fine dining experiences costing upwards of $40, with Cafe Dar L&#39;Harissa recommended for an authentic and affordable taste. Fez is a culinary epicenter where tagine has been perfected for centuries, and these spots, recommended by locals and travelers, offer a taste of authentic Moroccan cuisine.</strong></p>
-        <p>The best tagine in Fez, Morocco can be found for under $5 to upwards of $40, with Cafe Dar L&#39;Harissa offering an authentic and affordable experience. Finding the best tagine in Fez can be tricky, but these spots, recommended by locals and travelers, offer a taste of authentic Moroccan cuisine.</p><p>Fez is where Moroccan cuisine reaches its peak. The imperial city has been perfecting tagine for centuries — slow-cooked in conical clay pots over charcoal, with recipes passed down through generations. But finding the good stuff? That&#39;s where it gets tricky.</p><p>We combed through hundreds of Reddit posts from r/Morocco, r/travel, and r/food to find out which tagine spots actual visitors and Moroccan locals recommend — and which tourist traps to avoid. The best tagine in Fez often costs less than $5.</p>
+        <p>Fez is where Moroccan cuisine reaches its peak. The imperial city has been perfecting tagine for centuries — slow-cooked in conical clay pots over charcoal, with recipes passed down through generations. But finding the good stuff? That&#39;s where it gets tricky.</p><p>We combed through hundreds of Reddit posts from r/Morocco, r/travel, and r/food to find out which tagine spots actual visitors and Moroccan locals recommend — and which tourist traps to avoid. The best tagine in Fez often costs less than $5.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Tagine Map</h2>
-      <iframe src="https://www.google.com/maps?q=Fez%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Cafe Dar L&#39;Harissa</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Tagine Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#dar-lharissa">1. Cafe Dar L&#39;Harissa</a>
+        <a href="#dar-lharissa">1. Cafe Dar L'Harissa</a>
       </li>
       <li>
         <a href="#ruined-garden">2. The Ruined Garden</a>
@@ -534,7 +507,7 @@
       <li>
         <a href="#al-fassia">6. Restaurant Al Fassia</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fez%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11334533580595191476&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -546,7 +519,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="dar-lharissa">
+<section class="restaurant-section" id="dar-lharissa" data-map-name="1. Cafe Dar L&#39;Harissa" data-map-cta-url="https://maps.google.com/?cid=11334533580595191476&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Dar L&#39;Harissa, Fes el-Bali Medina, Fez, MA" data-map-lat="31.6229582" data-map-lng="-7.985134399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Cafe Dar L&#39;Harissa</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -580,7 +553,7 @@
         <strong>tabiji verdict:</strong> The local&#39;s local pick. When a Moroccan Redditor lists this first for tagine in Fez, pay attention. The chicken tagine here is the kind of slow-cooked perfection that tourist restaurants charge three times more for and still can&#39;t replicate. Go for lunch — it&#39;s ready by noon and sells out.
     </div>
 </section>
-<section class="restaurant-section" id="ruined-garden">
+<section class="restaurant-section" id="ruined-garden" data-map-name="2. The Ruined Garden" data-map-cta-url="https://maps.google.com/?cid=17557464826497268528&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Ruined Garden, Derb Zertana, Fes el-Bali, Fez, MA" data-map-lat="34.0620838" data-map-lng="-4.977536199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>The Ruined Garden</h2>
         <span class="cuisine-tag tag-regional">Garden Dining</span>
@@ -614,7 +587,7 @@
         <strong>tabiji verdict:</strong> The most atmospheric tagine experience in Fez. You&#39;re eating seven-hour lamb in the literal ruins of a centuries-old riad, surrounded by jasmine and orange trees, with stray cats for company. The tagine is excellent. The setting makes it unforgettable. Book ahead — this isn&#39;t a hidden gem anymore.
     </div>
 </section>
-<section class="restaurant-section" id="dar-roumana">
+<section class="restaurant-section" id="dar-roumana" data-map-name="3. Restaurant Dar Roumana" data-map-cta-url="https://maps.google.com/?cid=15330573449648681595&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Dar Roumana, Fes el-Bali, Fez, MA" data-map-lat="34.0667914" data-map-lng="-4.9785639999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Restaurant Dar Roumana</h2>
         <span class="cuisine-tag tag-regional">Fine Dining</span>
@@ -644,7 +617,7 @@
         <strong>tabiji verdict:</strong> Your one fine dining splurge in Fez. The tagine here isn&#39;t the cheapest, but it&#39;s the most refined — seasonal ingredients, careful spicing, and a riad courtyard that feels like a private dinner party. Worth it for one special meal after days of 40-dirham medina tagines.
     </div>
 </section>
-<section class="restaurant-section" id="tiznit">
+<section class="restaurant-section" id="tiznit" data-map-name="4. Restaurant Tiznit" data-map-cta-url="https://maps.google.com/?cid=5725253793082379844&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Tiznit, Fes el-Bali Medina, Fez, MA" data-map-lat="34.0612736" data-map-lng="-4.9838948">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Restaurant Tiznit</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -678,7 +651,7 @@
         <strong>tabiji verdict:</strong> Rabbit tagine. Let that sink in. While every tourist restaurant serves the same chicken-and-olive tagine, Tiznit is cooking rabbit in clay pots for the locals who know better. The R&#39;fissa alone is worth the trip — it&#39;s a Fassi specialty that most visitors never discover.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-clock">
+<section class="restaurant-section" id="cafe-clock" data-map-name="5. Cafe Clock" data-map-cta-url="https://maps.google.com/?cid=1287536234107577723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Clock, Derb el Magana, Fes el-Bali, Fez, MA" data-map-lat="34.062346999999995" data-map-lng="-4.9830290999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Cafe Clock</h2>
         <span class="cuisine-tag tag-regional">Cultural Hub</span>
@@ -712,7 +685,7 @@
         <strong>tabiji verdict:</strong> Part restaurant, part cultural institution. The tagine is solid and the rooftop views are stunning, but what makes Cafe Clock special is the energy — live Gnawa music, cooking classes where you learn to make your own tagine, and a genuine community vibe. Not the most &quot;authentic&quot; tagine on this list, but the most enjoyable overall experience.
     </div>
 </section>
-<section class="restaurant-section" id="al-fassia">
+<section class="restaurant-section" id="al-fassia" data-map-name="6. Restaurant Al Fassia" data-map-cta-url="https://maps.google.com/?cid=5573275772168607197&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Al Fassia, Two locations in Fez, Fez, MA" data-map-lat="34.0612017" data-map-lng="-4.980722399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Restaurant Al Fassia</h2>
         <span class="cuisine-tag tag-regional">Traditional Fassi</span>
@@ -746,7 +719,7 @@
         <strong>tabiji verdict:</strong> The gold standard for traditional Fassi tagine. The all-women kitchen isn&#39;t a gimmick — in Morocco, the best home cooking has always been made by women, and Al Fassia brings that tradition to a restaurant setting. The lamb-prune-almond tagine here is the definitive version.
     </div>
 </section>
-<section class="restaurant-section" id="chez-thami">
+<section class="restaurant-section" id="chez-thami" data-map-name="7. Chez Thami" data-map-cta-url="https://maps.google.com/?cid=2003618877209826110&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Thami, Fes el-Bali Medina, Fez, MA" data-map-lat="34.0617545" data-map-lng="-4.983505399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Chez Thami</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -780,7 +753,7 @@
         <strong>tabiji verdict:</strong> &quot;Long-standing institution&quot; and &quot;unpretentious&quot; — that&#39;s exactly what you want from a tagine restaurant. Chez Thami has survived in the medina for years by doing one thing: cooking honest, authentic food at fair prices. No English menu needed — just point at a pot.
     </div>
 </section>
-<section class="restaurant-section" id="nur">
+<section class="restaurant-section" id="nur" data-map-name="8. Nur" data-map-cta-url="https://maps.google.com/?cid=4809279879989066659&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nur, Fes el-Bali, Fez, MA" data-map-lat="34.063471299999996" data-map-lng="-4.9787379">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Nur</h2>
         <span class="cuisine-tag tag-regional">Fine Dining</span>
@@ -814,7 +787,7 @@
         <strong>tabiji verdict:</strong> If you want tagine elevated to art, Nur is the place. It&#39;s the most expensive option on this list, but the tasting menu format means you&#39;re getting more than just tagine — it&#39;s a full tour of what modern Moroccan cuisine can be. Save this for your last night in Fez.
     </div>
 </section>
-<section class="restaurant-section" id="bab-boujloud">
+<section class="restaurant-section" id="bab-boujloud" data-map-name="9. Jawharat Bab Boujloud" data-map-cta-url="https://maps.google.com/?cid=7794417427830240580&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jawharat Bab Boujloud, Bab Boujloud (Blue Gate), Fez, Fez, MA" data-map-lat="34.0616631" data-map-lng="-4.9838963">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Jawharat Bab Boujloud</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -848,7 +821,7 @@
         <strong>tabiji verdict:</strong> The best tagine-with-a-view deal in Fez. You&#39;re eating at the most iconic gate in the city, watching the medina life flow past, and the tagine is genuinely good — not just &quot;good for a tourist spot.&quot; Go at sunset when the blue tiles glow.
     </div>
 </section>
-<section class="restaurant-section" id="chez-lamine">
+<section class="restaurant-section" id="chez-lamine" data-map-name="10. Chez Lamine" data-map-cta-url="https://maps.google.com/?cid=18194004051449889921&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Lamine, Fes el-Bali Medina, Fez, MA" data-map-lat="34.056722799999996" data-map-lng="-4.974144">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Chez Lamine</h2>
         <span class="cuisine-tag tag-regional">Local Legend</span>
@@ -882,7 +855,7 @@
         <strong>tabiji verdict:</strong> When a local calls a restaurant an &quot;obligatory visit,&quot; you go. Chez Lamine is the kind of place you&#39;d walk past without noticing — which is exactly why the tagine is so good. No tourist-facing sign, no English menu, just generations of perfected technique.
     </div>
 </section>
-<section class="restaurant-section" id="riad-fes">
+<section class="restaurant-section" id="riad-fes" data-map-name="11. Riad Fes — Restaurant L&#39;Ambre" data-map-cta-url="https://maps.google.com/?cid=12798397820959674144&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riad Fes — Restaurant L&#39;Ambre, Fes el-Bali, Fez, MA" data-map-lat="34.061609499999996" data-map-lng="-4.9798231">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Riad Fes — Restaurant L&#39;Ambre</h2>
         <span class="cuisine-tag tag-regional">Luxury Riad</span>
@@ -916,7 +889,7 @@
         <strong>tabiji verdict:</strong> The hotel restaurant that&#39;s actually worth eating at. The panoramic medina views from the terrace transform a good tagine into a memorable evening. Best at night when the medina lights up below. Dress nicely — this is the most upscale setting on the list.
     </div>
 </section>
-<section class="restaurant-section" id="al-firdaus">
+<section class="restaurant-section" id="al-firdaus" data-map-name="12. Palais Al Firdaus" data-map-cta-url="https://maps.google.com/?cid=17230329377727485676&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Palais Al Firdaus, Fez, Fez, MA" data-map-lat="34.0693276" data-map-lng="-4.9732812">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Palais Al Firdaus</h2>
         <span class="cuisine-tag tag-regional">Palace Dining</span>
@@ -942,7 +915,7 @@
         <strong>tabiji verdict:</strong> The palace dining experience without the tourist-trap quality issues. While Ryad Nejjarine catches flak for &quot;mass-produced&quot; food, Al Firdaus maintains better quality. Good for groups or when you want the full Moroccan palace spectacle with your tagine.
     </div>
 </section>
-<section class="restaurant-section" id="street-stalls">
+<section class="restaurant-section" id="street-stalls" data-map-name="13. Medina Street Tagine Stalls" data-map-cta-url="https://maps.google.com/?cid=4320177904620250539&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Medina Street Tagine Stalls, Throughout Fes el-Bali, Fez, MA" data-map-lat="34.0631529" data-map-lng="-4.9760894">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Medina Street Tagine Stalls</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -951,7 +924,7 @@
     <div class="restaurant-details">
         <span>💴 25–40 MAD ($2.50–$4)</span>
         <span>📍 Throughout Fes el-Bali</span>
-        
+        <a href="https://maps.google.com/?cid=4320177904620250539&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
     
     
@@ -972,7 +945,7 @@
         <strong>tabiji verdict:</strong> The most authentic tagine in Fez doesn&#39;t have a name on Google Maps. It&#39;s the guy with ten clay pots on a charcoal grill in a nameless alley. Follow the locals at noon, look for the bubbling pots, sit on a plastic stool, and eat the best $3 meal of your life. This is the real Fez.
     </div>
 </section>
-<section class="restaurant-section" id="palais-amandier">
+<section class="restaurant-section" id="palais-amandier" data-map-name="14. Palais d&#39;Amandier" data-map-cta-url="https://maps.google.com/?cid=1989005808075135754&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Palais d&#39;Amandier, Overlooking Fez Medina, Fez, MA" data-map-lat="34.0573446" data-map-lng="-4.976241">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Palais d&#39;Amandier</h2>
         <span class="cuisine-tag tag-regional">Panoramic Palace</span>
@@ -1006,7 +979,7 @@
         <strong>tabiji verdict:</strong> When Redditors are debating between Palais d&#39;Amandier, Nur, and Dar Roumana for their one fine dining meal, that&#39;s high company. The tagine is reliable, but you&#39;re really paying for the jaw-dropping view. Go for lunch when the medina is bathed in sunlight.
     </div>
 </section>
-<section class="restaurant-section" id="jardin-biehn">
+<section class="restaurant-section" id="jardin-biehn" data-map-name="15. Fez Cafe at Le Jardin des Biehn" data-map-cta-url="https://maps.google.com/?cid=14638149866310385478&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fez Cafe at Le Jardin des Biehn, Near Derb Zertana, Fes el-Bali, Fez, MA" data-map-lat="34.061028199999996" data-map-lng="-4.9783782">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Fez Cafe at Le Jardin des Biehn</h2>
         <span class="cuisine-tag tag-regional">Garden Cafe</span>
@@ -1058,14 +1031,15 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Tagine Map</h2>
-      <iframe src="https://www.google.com/maps?q=Fez%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Cafe Dar L&#39;Harissa</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Tagine Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#dar-lharissa">1. Cafe Dar L&#39;Harissa</a>
+        <a href="#dar-lharissa">1. Cafe Dar L'Harissa</a>
       </li>
       <li>
         <a href="#ruined-garden">2. The Ruined Garden</a>
@@ -1082,7 +1056,7 @@
       <li>
         <a href="#al-fassia">6. Restaurant Al Fassia</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fez%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11334533580595191476&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1093,5 +1067,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Tagine Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Tagine%20in%20Fez%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"dar-lharissa","rank":1,"name":"Cafe Dar L'Harissa","label":"1. Cafe Dar L'Harissa","lat":31.6229582,"lng":-7.985134399999999,"ctaUrl":"https://maps.google.com/?cid=11334533580595191476&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Dar L'Harissa, Fes el-Bali Medina, Fez, MA"},{"anchorId":"ruined-garden","rank":2,"name":"The Ruined Garden","label":"2. The Ruined Garden","lat":34.0620838,"lng":-4.977536199999999,"ctaUrl":"https://maps.google.com/?cid=17557464826497268528&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Ruined Garden, Derb Zertana, Fes el-Bali, Fez, MA"},{"anchorId":"dar-roumana","rank":3,"name":"Restaurant Dar Roumana","label":"3. Restaurant Dar Roumana","lat":34.0667914,"lng":-4.9785639999999995,"ctaUrl":"https://maps.google.com/?cid=15330573449648681595&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Dar Roumana, Fes el-Bali, Fez, MA"},{"anchorId":"tiznit","rank":4,"name":"Restaurant Tiznit","label":"4. Restaurant Tiznit","lat":34.0612736,"lng":-4.9838948,"ctaUrl":"https://maps.google.com/?cid=5725253793082379844&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Tiznit, Fes el-Bali Medina, Fez, MA"},{"anchorId":"cafe-clock","rank":5,"name":"Cafe Clock","label":"5. Cafe Clock","lat":34.062346999999995,"lng":-4.9830290999999995,"ctaUrl":"https://maps.google.com/?cid=1287536234107577723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Clock, Derb el Magana, Fes el-Bali, Fez, MA"},{"anchorId":"al-fassia","rank":6,"name":"Restaurant Al Fassia","label":"6. Restaurant Al Fassia","lat":34.0612017,"lng":-4.980722399999999,"ctaUrl":"https://maps.google.com/?cid=5573275772168607197&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Al Fassia, Two locations in Fez, Fez, MA"},{"anchorId":"chez-thami","rank":7,"name":"Chez Thami","label":"7. Chez Thami","lat":34.0617545,"lng":-4.983505399999999,"ctaUrl":"https://maps.google.com/?cid=2003618877209826110&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Thami, Fes el-Bali Medina, Fez, MA"},{"anchorId":"nur","rank":8,"name":"Nur","label":"8. Nur","lat":34.063471299999996,"lng":-4.9787379,"ctaUrl":"https://maps.google.com/?cid=4809279879989066659&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nur, Fes el-Bali, Fez, MA"},{"anchorId":"bab-boujloud","rank":9,"name":"Jawharat Bab Boujloud","label":"9. Jawharat Bab Boujloud","lat":34.0616631,"lng":-4.9838963,"ctaUrl":"https://maps.google.com/?cid=7794417427830240580&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jawharat Bab Boujloud, Bab Boujloud (Blue Gate), Fez, Fez, MA"},{"anchorId":"chez-lamine","rank":10,"name":"Chez Lamine","label":"10. Chez Lamine","lat":34.056722799999996,"lng":-4.974144,"ctaUrl":"https://maps.google.com/?cid=18194004051449889921&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Lamine, Fes el-Bali Medina, Fez, MA"},{"anchorId":"riad-fes","rank":11,"name":"Riad Fes — Restaurant L'Ambre","label":"11. Riad Fes — Restaurant L'Ambre","lat":34.061609499999996,"lng":-4.9798231,"ctaUrl":"https://maps.google.com/?cid=12798397820959674144&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Riad Fes — Restaurant L'Ambre, Fes el-Bali, Fez, MA"},{"anchorId":"al-firdaus","rank":12,"name":"Palais Al Firdaus","label":"12. Palais Al Firdaus","lat":34.0693276,"lng":-4.9732812,"ctaUrl":"https://maps.google.com/?cid=17230329377727485676&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Palais Al Firdaus, Fez, Fez, MA"},{"anchorId":"street-stalls","rank":13,"name":"Medina Street Tagine Stalls","label":"13. Medina Street Tagine Stalls","lat":34.0631529,"lng":-4.9760894,"ctaUrl":"https://maps.google.com/?cid=4320177904620250539&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Medina Street Tagine Stalls, Throughout Fes el-Bali, Fez, MA"},{"anchorId":"palais-amandier","rank":14,"name":"Palais d'Amandier","label":"14. Palais d'Amandier","lat":34.0573446,"lng":-4.976241,"ctaUrl":"https://maps.google.com/?cid=1989005808075135754&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Palais d'Amandier, Overlooking Fez Medina, Fez, MA"},{"anchorId":"jardin-biehn","rank":15,"name":"Fez Cafe at Le Jardin des Biehn","label":"15. Fez Cafe at Le Jardin des Biehn","lat":34.061028199999996,"lng":-4.9783782,"ctaUrl":"https://maps.google.com/?cid=14638149866310385478&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fez Cafe at Le Jardin des Biehn, Near Derb Zertana, Fes el-Bali, Fez, MA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

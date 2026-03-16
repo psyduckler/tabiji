@@ -427,11 +427,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -456,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -483,39 +481,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Ceviche & Seafood in Cartagena",
-                        "item": "https://tabiji.ai/popular-picks/cartagena-ceviche/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -562,9 +533,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Seafood Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cartagena%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Cevichería</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Seafood Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -586,7 +558,7 @@
       <li>
         <a href="#cande">6. Candé</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cartagena%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7270906173000490709&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="la-cevicheria">
+<section class="restaurant-section" id="la-cevicheria" data-map-name="1. La Cevichería" data-map-cta-url="https://maps.google.com/?cid=7270906173000490709&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cevichería, Old City, Calle Stuart, Cartagena, CO" data-map-lat="10.4279932" data-map-lng="-75.54818639999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>La Cevichería</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -636,7 +608,7 @@
         <strong>tabiji verdict:</strong> The most famous cevichería in Colombia, made iconic by Anthony Bourdain&#39;s visit. Yes, it&#39;s touristy. Yes, there&#39;s usually a wait. But the ceviche is genuinely excellent — the coco y limón is a textbook Cartagena dish. Go at 11:30 AM to beat the lunch rush.
     </div>
 </section>
-<section class="restaurant-section" id="buena-vida">
+<section class="restaurant-section" id="buena-vida" data-map-name="2. Buena Vida Marisquería" data-map-cta-url="https://maps.google.com/?cid=11189697467863179630&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Buena Vida Marisquería, Old City, near Santo Domingo, Cartagena, CO" data-map-lat="10.4251115" data-map-lng="-75.54960899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Buena Vida Marisquería</h2>
         <span class="cuisine-tag tag-regional">Mariscos</span>
@@ -674,7 +646,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; alternative to La Cevichería — arguably better value and consistently praised as the top seafood restaurant in Cartagena by Reddit&#39;s expat community. The octopus alone is worth the visit.
     </div>
 </section>
-<section class="restaurant-section" id="cocina-de-pepina">
+<section class="restaurant-section" id="cocina-de-pepina" data-map-name="3. La Cocina de Pepina" data-map-cta-url="https://maps.google.com/?cid=2727470951437904581&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cocina de Pepina, Getsemaní, Cartagena, CO" data-map-lat="10.4193866" data-map-lng="-75.5472845">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>La Cocina de Pepina</h2>
         <span class="cuisine-tag tag-regional">Caribbean Colombian</span>
@@ -712,7 +684,7 @@
         <strong>tabiji verdict:</strong> The soul of Cartagena on a plate. This tiny Getsemaní institution serves home-style Caribbean Colombian cooking — the kind your abuela would make if she lived on the coast. No reservations, so arrive early or wait on the bench outside. Worth every minute.
     </div>
 </section>
-<section class="restaurant-section" id="celele">
+<section class="restaurant-section" id="celele" data-map-name="4. Celele" data-map-cta-url="https://maps.google.com/?cid=4824711362357463941&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Celele, Old City, Cartagena, CO" data-map-lat="10.4221706" data-map-lng="-75.54447569999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Celele</h2>
         <span class="cuisine-tag tag-regional">Contemporary Caribbean</span>
@@ -750,7 +722,7 @@
         <strong>tabiji verdict:</strong> Listed among the World&#39;s 50 Best Restaurants. This is Caribbean seafood elevated to fine art — not your beach-shack ceviche, but a multi-course exploration of Colombia&#39;s coastal terroir. Polarizing (some find it &quot;too eclectic&quot;), but for food nerds, it&#39;s unmissable.
     </div>
 </section>
-<section class="restaurant-section" id="la-mulata">
+<section class="restaurant-section" id="la-mulata" data-map-name="5. La Mulata" data-map-cta-url="https://maps.google.com/?cid=5528067827507635669&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Mulata, Old City, San Diego, Cartagena, CO" data-map-lat="10.426248200000002" data-map-lng="-75.54676309999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>La Mulata</h2>
         <span class="cuisine-tag tag-regional">Caribbean Seafood</span>
@@ -784,7 +756,7 @@
         <strong>tabiji verdict:</strong> A Cartagena icon for a reason. La Mulata does traditional Caribbean seafood without pretension — big portions, honest flavors, and prices that won&#39;t make you flinch. The arroz con coco here sets the standard.
     </div>
 </section>
-<section class="restaurant-section" id="cande">
+<section class="restaurant-section" id="cande" data-map-name="6. Candé" data-map-cta-url="https://maps.google.com/?cid=1526176972777334947&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Candé, Old City, Cartagena, CO" data-map-lat="10.4279365" data-map-lng="-75.5461255">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Candé</h2>
         <span class="cuisine-tag tag-regional">Colombian Fusion</span>
@@ -822,7 +794,7 @@
         <strong>tabiji verdict:</strong> The vibes-and-ceviche pick. Candé nails the atmosphere — beautiful setting, excellent cocktails, and seafood that&#39;s more than just a backdrop. Perfect for a date night where the food actually holds up to the scenery.
     </div>
 </section>
-<section class="restaurant-section" id="mar-y-zielo">
+<section class="restaurant-section" id="mar-y-zielo" data-map-name="7. Mar y Zielo" data-map-cta-url="https://maps.google.com/?cid=6513005812197193967&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mar y Zielo, Old City, waterfront, Cartagena, CO" data-map-lat="10.424045099999999" data-map-lng="-75.5505249">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Mar y Zielo</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -860,7 +832,7 @@
         <strong>tabiji verdict:</strong> The view-and-seafood combo that actually delivers on both fronts. Overlooking the bay, Mar y Zielo is pricier than most but justifies it with stunning ambiance and genuinely good plates. Go at sunset.
     </div>
 </section>
-<section class="restaurant-section" id="montesacro">
+<section class="restaurant-section" id="montesacro" data-map-name="8. Montesacro Resto Bar" data-map-cta-url="https://maps.google.com/?cid=16057494001543256830&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Montesacro Resto Bar, Old City, Cartagena, CO" data-map-lat="10.422931" data-map-lng="-75.5508711">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Montesacro Resto Bar</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -894,7 +866,7 @@
         <strong>tabiji verdict:</strong> A hidden gem that keeps flying under the radar. While everyone queues at La Cevichería, Montesacro quietly serves some of the best ceviche and fried fish in the Old City. The kind of spot that makes you feel like you&#39;ve discovered something.
     </div>
 </section>
-<section class="restaurant-section" id="carmen">
+<section class="restaurant-section" id="carmen" data-map-name="9. Restaurante Carmen" data-map-cta-url="https://maps.google.com/?cid=7627547180420348619&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurante Carmen, Old City, Cartagena, CO" data-map-lat="10.4268664" data-map-lng="-75.54781609999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Restaurante Carmen</h2>
         <span class="cuisine-tag tag-regional">Fine Dining Colombian</span>
@@ -932,7 +904,7 @@
         <strong>tabiji verdict:</strong> Cartagena&#39;s undisputed fine-dining champion. Carmen elevates Colombian ingredients — including Caribbean seafood — into a world-class tasting menu experience. Not cheap, but for a special dinner in the walled city, nothing beats it.
     </div>
 </section>
-<section class="restaurant-section" id="la-muleta">
+<section class="restaurant-section" id="la-muleta" data-map-name="10. La Muleta" data-map-cta-url="https://maps.google.com/?cid=5528067827507635669&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Muleta, Getsemaní, Cartagena, CO" data-map-lat="10.4229489" data-map-lng="-75.5454932">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>La Muleta</h2>
         <span class="cuisine-tag tag-regional">Fried Fish &amp; Seafood</span>
@@ -966,7 +938,7 @@
         <strong>tabiji verdict:</strong> The no-frills Getsemaní local that everyone who goes to raves about. Big portions, fresh fish, rock-bottom prices. It&#39;s a little off the main drag but that&#39;s why it&#39;s good — fewer tourists, more locals, better buzz.
     </div>
 </section>
-<section class="restaurant-section" id="el-boliche">
+<section class="restaurant-section" id="el-boliche" data-map-name="11. El Boliche Cebichería" data-map-cta-url="https://maps.google.com/?cid=16142867195797284592&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Boliche Cebichería, Old City, Cartagena, CO" data-map-lat="10.4228063" data-map-lng="-75.54893849999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>El Boliche Cebichería</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -992,7 +964,7 @@
         <strong>tabiji verdict:</strong> The La Cevichería alternative for people who hate lines. Quality is nearly as good, prices are lower, and you&#39;ll actually get a table at lunch without waiting 45 minutes. The smart locals&#39; choice.
     </div>
 </section>
-<section class="restaurant-section" id="marea">
+<section class="restaurant-section" id="marea" data-map-name="12. Marea" data-map-cta-url="https://maps.google.com/?cid=17318946710672285826&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Marea, Old City, bayfront, Cartagena, CO" data-map-lat="10.4213395" data-map-lng="-75.5490566">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Marea</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -1030,7 +1002,7 @@
         <strong>tabiji verdict:</strong> Waterfront dining where the food actually keeps up with the view. Marea sits right on the bay with boats drifting past — it&#39;s touristy in the best way. The seafood is fresh, the vibe is relaxed, and the sunset is free.
     </div>
 </section>
-<section class="restaurant-section" id="alma">
+<section class="restaurant-section" id="alma" data-map-name="13. Alma" data-map-cta-url="https://maps.google.com/?cid=5734001056872888711&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Alma, Old City, Cartagena, CO" data-map-lat="10.425308099999999" data-map-lng="-75.5494088">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Alma</h2>
         <span class="cuisine-tag tag-regional">Fine Dining Seafood</span>
@@ -1064,7 +1036,7 @@
         <strong>tabiji verdict:</strong> Cartagena&#39;s other fine-dining heavyweight. Where Carmen is refined elegance, Alma is creative ambition. The seafood preparations push boundaries without losing their Caribbean soul. Reserve ahead.
     </div>
 </section>
-<section class="restaurant-section" id="bazurto">
+<section class="restaurant-section" id="bazurto" data-map-name="14. Mercado de Bazurto" data-map-cta-url="https://maps.google.com/?cid=10528658917318783454&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mercado de Bazurto, Bazurto (outside Old City), Cartagena, CO" data-map-lat="10.412771099999999" data-map-lng="-75.5231453">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Mercado de Bazurto</h2>
         <span class="cuisine-tag tag-regional">Street Seafood</span>
@@ -1098,7 +1070,7 @@
         <strong>tabiji verdict:</strong> Not a restaurant — it&#39;s Cartagena&#39;s sprawling, chaotic, glorious public market. The seafood here is the freshest and cheapest in the city, eaten standing up next to fishermen. Go with a guide or a local friend. This is the real Cartagena, unfiltered.
     </div>
 </section>
-<section class="restaurant-section" id="el-gobernador">
+<section class="restaurant-section" id="el-gobernador" data-map-name="15. El Gobernador" data-map-cta-url="https://maps.google.com/?cid=7655554369721717137&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Gobernador, Old City, Cartagena, CO" data-map-lat="10.4269312" data-map-lng="-75.5487583">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>El Gobernador</h2>
         <span class="cuisine-tag tag-regional">Caribbean Seafood</span>
@@ -1132,7 +1104,7 @@
         <strong>tabiji verdict:</strong> Reliable, traditional Caribbean seafood in the Old City. El Gobernador doesn&#39;t try to be trendy — it just serves well-executed classics. The kind of place that&#39;s been here forever and will be here long after the Instagram restaurants fade.
     </div>
 </section>
-<section class="restaurant-section" id="mistura">
+<section class="restaurant-section" id="mistura" data-map-name="16. Mistura" data-map-cta-url="https://maps.google.com/?cid=6453003594712919081&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mistura, Old City, Cartagena, CO" data-map-lat="10.4265806" data-map-lng="-75.5484583">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Mistura</h2>
         <span class="cuisine-tag tag-regional">Colombian-Peruvian</span>
@@ -1166,7 +1138,7 @@
         <strong>tabiji verdict:</strong> Cartagena&#39;s Peruvian-Colombian fusion scene is underrated, and Mistura is a prime example. The leche de tigre is punchy and bright — a great contrast to the coconut-heavy local style. Small space, so reserve.
     </div>
 </section>
-<section class="restaurant-section" id="cuzco">
+<section class="restaurant-section" id="cuzco" data-map-name="17. Cuzco" data-map-cta-url="https://maps.google.com/?cid=8206476701494734648&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cuzco, Old City, Cartagena, CO" data-map-lat="10.423641499999999" data-map-lng="-75.5521105">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Cuzco</h2>
         <span class="cuisine-tag tag-regional">Peruvian-Colombian</span>
@@ -1200,7 +1172,7 @@
         <strong>tabiji verdict:</strong> When Caribbean-meets-Peruvian ceviche works, it really works. Cuzco has become a go-to for expats who want Peruvian-quality ceviche in a gorgeous Old City setting. The ceviche here is tight, bright, and expertly balanced.
     </div>
 </section>
-<section class="restaurant-section" id="perufusion">
+<section class="restaurant-section" id="perufusion" data-map-name="18. PeruFusion" data-map-cta-url="https://maps.google.com/?cid=14702750688470715901&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="PeruFusion, Bocagrande, Cartagena, CO" data-map-lat="10.424173" data-map-lng="-75.5507865">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>PeruFusion</h2>
         <span class="cuisine-tag tag-regional">Peruvian Fusion</span>
@@ -1252,9 +1224,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Seafood Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cartagena%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Cevichería</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Seafood Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1276,7 +1249,7 @@
       <li>
         <a href="#cande">6. Candé</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cartagena%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7270906173000490709&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1287,5 +1260,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Seafood Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ceviche%20%26%20Seafood%20Spots%20in%20Cartagena","picks":[{"anchorId":"la-cevicheria","rank":1,"name":"La Cevichería","label":"1. La Cevichería","lat":10.4279932,"lng":-75.54818639999999,"ctaUrl":"https://maps.google.com/?cid=7270906173000490709&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cevichería, Old City, Calle Stuart, Cartagena, CO"},{"anchorId":"buena-vida","rank":2,"name":"Buena Vida Marisquería","label":"2. Buena Vida Marisquería","lat":10.4251115,"lng":-75.54960899999999,"ctaUrl":"https://maps.google.com/?cid=11189697467863179630&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Buena Vida Marisquería, Old City, near Santo Domingo, Cartagena, CO"},{"anchorId":"cocina-de-pepina","rank":3,"name":"La Cocina de Pepina","label":"3. La Cocina de Pepina","lat":10.4193866,"lng":-75.5472845,"ctaUrl":"https://maps.google.com/?cid=2727470951437904581&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cocina de Pepina, Getsemaní, Cartagena, CO"},{"anchorId":"celele","rank":4,"name":"Celele","label":"4. Celele","lat":10.4221706,"lng":-75.54447569999999,"ctaUrl":"https://maps.google.com/?cid=4824711362357463941&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Celele, Old City, Cartagena, CO"},{"anchorId":"la-mulata","rank":5,"name":"La Mulata","label":"5. La Mulata","lat":10.426248200000002,"lng":-75.54676309999999,"ctaUrl":"https://maps.google.com/?cid=5528067827507635669&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Mulata, Old City, San Diego, Cartagena, CO"},{"anchorId":"cande","rank":6,"name":"Candé","label":"6. Candé","lat":10.4279365,"lng":-75.5461255,"ctaUrl":"https://maps.google.com/?cid=1526176972777334947&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Candé, Old City, Cartagena, CO"},{"anchorId":"mar-y-zielo","rank":7,"name":"Mar y Zielo","label":"7. Mar y Zielo","lat":10.424045099999999,"lng":-75.5505249,"ctaUrl":"https://maps.google.com/?cid=6513005812197193967&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mar y Zielo, Old City, waterfront, Cartagena, CO"},{"anchorId":"montesacro","rank":8,"name":"Montesacro Resto Bar","label":"8. Montesacro Resto Bar","lat":10.422931,"lng":-75.5508711,"ctaUrl":"https://maps.google.com/?cid=16057494001543256830&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Montesacro Resto Bar, Old City, Cartagena, CO"},{"anchorId":"carmen","rank":9,"name":"Restaurante Carmen","label":"9. Restaurante Carmen","lat":10.4268664,"lng":-75.54781609999999,"ctaUrl":"https://maps.google.com/?cid=7627547180420348619&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurante Carmen, Old City, Cartagena, CO"},{"anchorId":"la-muleta","rank":10,"name":"La Muleta","label":"10. La Muleta","lat":10.4229489,"lng":-75.5454932,"ctaUrl":"https://maps.google.com/?cid=5528067827507635669&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Muleta, Getsemaní, Cartagena, CO"},{"anchorId":"el-boliche","rank":11,"name":"El Boliche Cebichería","label":"11. El Boliche Cebichería","lat":10.4228063,"lng":-75.54893849999999,"ctaUrl":"https://maps.google.com/?cid=16142867195797284592&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Boliche Cebichería, Old City, Cartagena, CO"},{"anchorId":"marea","rank":12,"name":"Marea","label":"12. Marea","lat":10.4213395,"lng":-75.5490566,"ctaUrl":"https://maps.google.com/?cid=17318946710672285826&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Marea, Old City, bayfront, Cartagena, CO"},{"anchorId":"alma","rank":13,"name":"Alma","label":"13. Alma","lat":10.425308099999999,"lng":-75.5494088,"ctaUrl":"https://maps.google.com/?cid=5734001056872888711&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Alma, Old City, Cartagena, CO"},{"anchorId":"bazurto","rank":14,"name":"Mercado de Bazurto","label":"14. Mercado de Bazurto","lat":10.412771099999999,"lng":-75.5231453,"ctaUrl":"https://maps.google.com/?cid=10528658917318783454&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mercado de Bazurto, Bazurto (outside Old City), Cartagena, CO"},{"anchorId":"el-gobernador","rank":15,"name":"El Gobernador","label":"15. El Gobernador","lat":10.4269312,"lng":-75.5487583,"ctaUrl":"https://maps.google.com/?cid=7655554369721717137&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Gobernador, Old City, Cartagena, CO"},{"anchorId":"mistura","rank":16,"name":"Mistura","label":"16. Mistura","lat":10.4265806,"lng":-75.5484583,"ctaUrl":"https://maps.google.com/?cid=6453003594712919081&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mistura, Old City, Cartagena, CO"},{"anchorId":"cuzco","rank":17,"name":"Cuzco","label":"17. Cuzco","lat":10.423641499999999,"lng":-75.5521105,"ctaUrl":"https://maps.google.com/?cid=8206476701494734648&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cuzco, Old City, Cartagena, CO"},{"anchorId":"perufusion","rank":18,"name":"PeruFusion","label":"18. PeruFusion","lat":10.424173,"lng":-75.5507865,"ctaUrl":"https://maps.google.com/?cid=14702750688470715901&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"PeruFusion, Bocagrande, Cartagena, CO"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

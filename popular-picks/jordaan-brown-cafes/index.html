@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>The best brown cafés in Jordaan, Amsterdam, offer an authentic Dutch experience for around €3–€12, with Laurierboom being a top recommendation for its cozy atmosphere and board games. These bruine kroegen provide a genuine taste of Amsterdam&#39;s soul, away from tourist traps. We scoured Reddit&#39;s r/Amsterdam, r/Netherlands, and r/travel communities to find the brown cafés that actual Amsterdam residents and experienced visitors recommend time and again.</strong></p>
-        <p>The best brown cafés in Jordaan, Amsterdam, offer an authentic Dutch experience for around €3–€12, with Café Laurierboom being a top recommendation for its cozy atmosphere and board games. These bruine kroegen, steeped in history and local culture, provide a genuine taste of Amsterdam&#39;s soul, away from tourist traps.</p><p>The Jordaan is the soul of Amsterdam, and its brown cafés are the soul of the Jordaan. These bruine kroegen — literally &quot;brown pubs,&quot; named for their centuries of smoke-stained wood and nicotine-darkened ceilings — are where Amsterdam&#39;s drinking culture lives and breathes. No craft cocktail menus, no Edison bulbs, no Instagram walls. Just candles dripping onto wooden tables, jenever served in tulip glasses filled to the brim, and a bartender who&#39;s known everyone&#39;s name since before you were born.</p><p>We scoured Reddit&#39;s r/Amsterdam, r/Netherlands, and r/travel communities to find the brown cafés that actual Amsterdam residents and experienced visitors recommend time and again. These aren&#39;t tourist traps near Dam Square — they&#39;re the real thing.</p>
+        <p>The Jordaan is the soul of Amsterdam, and its brown cafés are the soul of the Jordaan. These bruine kroegen — literally &quot;brown pubs,&quot; named for their centuries of smoke-stained wood and nicotine-darkened ceilings — are where Amsterdam&#39;s drinking culture lives and breathes. No craft cocktail menus, no Edison bulbs, no Instagram walls. Just candles dripping onto wooden tables, jenever served in tulip glasses filled to the brim, and a bartender who&#39;s known everyone&#39;s name since before you were born.</p><p>We scoured Reddit&#39;s r/Amsterdam, r/Netherlands, and r/travel communities to find the brown cafés that actual Amsterdam residents and experienced visitors recommend time and again. These aren&#39;t tourist traps near Dam Square — they&#39;re the real thing.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Brown Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Brown%20Caf%C3%A9s%20in%20Jordaan&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Papeneiland</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brown Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -436,7 +440,7 @@
         <a href="#cafe-papeneiland">1. Café Papeneiland</a>
       </li>
       <li>
-        <a href="#cafe-t-smalle">2. Café &#39;t Smalle</a>
+        <a href="#cafe-t-smalle">2. Café 't Smalle</a>
       </li>
       <li>
         <a href="#cafe-chris">3. Café Chris</a>
@@ -445,12 +449,12 @@
         <a href="#cafe-nol">4. Café Nol</a>
       </li>
       <li>
-        <a href="#cafe-t-monumentje">5. Café &#39;t Monumentje</a>
+        <a href="#cafe-t-monumentje">5. Café 't Monumentje</a>
       </li>
       <li>
         <a href="#cafe-de-twee-zwaantjes">6. Café de Twee Zwaantjes</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Brown%20Caf%C3%A9s%20in%20Jordaan" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13199520713548089325&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="cafe-papeneiland">
+<section class="restaurant-section" id="cafe-papeneiland" data-map-name="1. Café Papeneiland" data-map-cta-url="https://maps.google.com/?cid=13199520713548089325&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Papeneiland, Prinsengracht 2, Jordaan, Amsterdam, NL" data-map-lat="52.380462699999995" data-map-lng="4.8879703999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Café Papeneiland</h2>
         <span class="cuisine-tag tag-regional">Historic Brown Café</span>
@@ -500,7 +504,7 @@
         <strong>tabiji verdict:</strong> The crown jewel of Jordaan&#39;s brown cafés. Dating to 1642, it sits on one of the most photographed corners in Amsterdam. The apple pie alone is worth the visit, but stay for the Delft tile interior and the timeless canal views. Gets busy on weekends — aim for a weekday afternoon.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-t-smalle">
+<section class="restaurant-section" id="cafe-t-smalle" data-map-name="2. Café &#39;t Smalle" data-map-cta-url="https://maps.google.com/?cid=17163431979133748336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café &#39;t Smalle, Egelantiersgracht 12, Jordaan, Amsterdam, NL" data-map-lat="52.3767128" data-map-lng="4.8841696">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Café &#39;t Smalle</h2>
         <span class="cuisine-tag tag-regional">Terrace Brown Café</span>
@@ -538,7 +542,7 @@
         <strong>tabiji verdict:</strong> If Papeneiland is the coziest interior, &#39;t Smalle has the best terrace. Originally a jenever proeflokaal (tasting room) from 1786, it sits right on one of the Jordaan&#39;s prettiest canals. The inside is authentically old-school. A perfect first brown café experience — you&#39;ll immediately understand what gezellig means.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-chris">
+<section class="restaurant-section" id="cafe-chris" data-map-name="3. Café Chris" data-map-cta-url="https://maps.google.com/?cid=12488232973867532116&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Chris, Bloemstraat 42, Jordaan, Amsterdam, NL" data-map-lat="52.37427520000001" data-map-lng="4.8816114">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Café Chris</h2>
         <span class="cuisine-tag tag-regional">Historic Brown Café</span>
@@ -576,7 +580,7 @@
         <strong>tabiji verdict:</strong> The oldest bar in the Jordaan (1624) and it wears its age beautifully. Famously, the toilet flushes from behind the bar — a quirk that&#39;s been amusing drinkers for generations. No fancy menu, no pretension, just a proper neighborhood pub that happens to predate the Golden Age. The Westerkerk workers who built the church next door used to collect their wages here.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-nol">
+<section class="restaurant-section" id="cafe-nol" data-map-name="4. Café Nol" data-map-cta-url="https://maps.google.com/?cid=7313563422569320838&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Nol, Westerstraat 109, Jordaan, Amsterdam, NL" data-map-lat="52.37829" data-map-lng="4.883390299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Café Nol</h2>
         <span class="cuisine-tag tag-regional">Singalong Brown Café</span>
@@ -614,7 +618,7 @@
         <strong>tabiji verdict:</strong> Love it or hate it, Café Nol is a Jordaan institution. The glitter ceiling, the Dutch volksmuziek singalongs, the &quot;no singles&quot; door policy on busy nights — it&#39;s all part of the act. This isn&#39;t a quiet pint kind of place. Come with friends, preferably on a weekend, and throw yourself into the madness. It&#39;s the most Amsterdam thing you can do.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-t-monumentje">
+<section class="restaurant-section" id="cafe-t-monumentje" data-map-name="5. Café &#39;t Monumentje" data-map-cta-url="https://maps.google.com/?cid=14721143599965014059&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café &#39;t Monumentje, Westerstraat 120, Jordaan, Amsterdam, NL" data-map-lat="52.3785398" data-map-lng="4.8831039999999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Café &#39;t Monumentje</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -648,7 +652,7 @@
         <strong>tabiji verdict:</strong> The Jordaan brown café that locals want to keep to themselves. &#39;t Monumentje is all about community — the owner is legendary for their warmth, the regulars will chat with anyone, and the homemade cakes put many bakeries to shame. Prices are remarkably fair for the Jordaan. If you want to feel what neighborhood Amsterdam is really like, start here.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-de-twee-zwaantjes">
+<section class="restaurant-section" id="cafe-de-twee-zwaantjes" data-map-name="6. Café de Twee Zwaantjes" data-map-cta-url="https://maps.google.com/?cid=15116396917665314445&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café de Twee Zwaantjes, Prinsengracht 114, Jordaan, Amsterdam, NL" data-map-lat="52.376356699999995" data-map-lng="4.8842165">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Café de Twee Zwaantjes</h2>
         <span class="cuisine-tag tag-regional">Singalong Brown Café</span>
@@ -682,7 +686,7 @@
         <strong>tabiji verdict:</strong> The Twee Zwaantjes (Two Swans) is the other great Jordaan singalong bar, but with a different vibe than Café Nol. Where Nol is glittery chaos, the Zwaantjes is accordion-led and more traditionally Jordaan. The live music and communal singing on weekend nights is a window into old Amsterdam working-class culture. More intimate and arguably more authentic.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-thijssen">
+<section class="restaurant-section" id="cafe-thijssen" data-map-name="7. Café Thijssen" data-map-cta-url="https://maps.google.com/?cid=9412826351239130282&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Thijssen, Brouwersgracht 107, Jordaan, Amsterdam, NL" data-map-lat="52.380810399999994" data-map-lng="4.8873031">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Café Thijssen</h2>
         <span class="cuisine-tag tag-regional">Terrace Brown Café</span>
@@ -716,7 +720,7 @@
         <strong>tabiji verdict:</strong> Sitting on the corner where the Jordaan meets the beautiful Brouwersgracht — regularly voted Amsterdam&#39;s prettiest canal — Café Thijssen offers the best of both worlds. The terrace catches afternoon sun perfectly, and the classic brown interior is ideal for colder days. A solid all-rounder that locals actually frequent, not just visit once for photos.
     </div>
 </section>
-<section class="restaurant-section" id="laurierboom">
+<section class="restaurant-section" id="laurierboom" data-map-name="8. Laurierboom" data-map-cta-url="https://maps.google.com/?cid=2919960346329973862&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Laurierboom, Laurierstraat 84, Jordaan, Amsterdam, NL" data-map-lat="52.372299999999996" data-map-lng="4.8809499999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Laurierboom</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -750,7 +754,7 @@
         <strong>tabiji verdict:</strong> The board game brown café. Laurierboom is wonderfully unpretentious — a small, warm bar where half the regulars are hunched over chess boards and the staff treats everyone like a neighbor. It&#39;s the kind of place where you pop in for one beer and leave three hours later having made friends. Super gezellig is the universal Reddit verdict, and we agree.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-p96">
+<section class="restaurant-section" id="cafe-p96" data-map-name="9. Café P96" data-map-cta-url="https://maps.google.com/?cid=17019371292035918747&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café P96, Prinsengracht 96, Jordaan, Amsterdam, NL" data-map-lat="52.377067399999994" data-map-lng="4.884866">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Café P96</h2>
         <span class="cuisine-tag tag-regional">Classic Brown Café</span>
@@ -784,7 +788,7 @@
         <strong>tabiji verdict:</strong> Named for its address on Prinsengracht 96, this is the platonic ideal of a no-frills brown café. It&#39;s small, it&#39;s dark, it&#39;s on one of Amsterdam&#39;s most beautiful canals, and it doesn&#39;t try to be anything it&#39;s not. A favorite on the r/Amsterdam wiki list for years. Perfect for a quiet canal-side drink without the crowds of Papeneiland.
     </div>
 </section>
-<section class="restaurant-section" id="nieuwe-lelie">
+<section class="restaurant-section" id="nieuwe-lelie" data-map-name="10. Nieuwe Lelie" data-map-cta-url="https://maps.google.com/?cid=11432177473461027093&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nieuwe Lelie, Nieuwe Leliestraat 83, Jordaan, Amsterdam, NL" data-map-lat="52.375233" data-map-lng="4.880817">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Nieuwe Lelie</h2>
         <span class="cuisine-tag tag-regional">Classic Brown Café</span>
@@ -818,7 +822,7 @@
         <strong>tabiji verdict:</strong> A quintessential side-street brown café that most tourists walk right past. Nieuwe Lelie is small, unassuming, and exactly the kind of place where you&#39;ll be the only non-Dutch person in the room. That&#39;s the appeal. Named for the street it sits on, it&#39;s a snapshot of old Jordaan life that&#39;s becoming increasingly rare as the neighborhood gentrifies.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-slijterij">
+<section class="restaurant-section" id="cafe-slijterij" data-map-name="11. Café Slijterij" data-map-cta-url="https://maps.google.com/?cid=15363120794844380572&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Slijterij, Haarlemmerstraat 17, near Jordaan, Amsterdam, NL" data-map-lat="52.3610581" data-map-lng="4.8992838">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Café Slijterij</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -852,7 +856,7 @@
         <strong>tabiji verdict:</strong> The name translates to &quot;liquor shop café&quot; — a reference to its origins as a slijterij (liquor store). It&#39;s small, it&#39;s dark, it&#39;s exactly the kind of place you stumble into and then return to every time you visit Amsterdam. On the edge of the Jordaan near Haarlemmerstraat, it&#39;s easy to miss and hard to forget.
     </div>
 </section>
-<section class="restaurant-section" id="de-kat-in-de-wijngaert">
+<section class="restaurant-section" id="de-kat-in-de-wijngaert" data-map-name="12. De Kat in de Wijngaert" data-map-cta-url="https://maps.google.com/?cid=10650542899085394329&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="De Kat in de Wijngaert, Lindengracht 160, Jordaan, Amsterdam, NL" data-map-lat="52.3803202" data-map-lng="4.884081999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>De Kat in de Wijngaert</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -904,9 +908,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Brown Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Brown%20Caf%C3%A9s%20in%20Jordaan&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Papeneiland</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brown Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -914,7 +919,7 @@
         <a href="#cafe-papeneiland">1. Café Papeneiland</a>
       </li>
       <li>
-        <a href="#cafe-t-smalle">2. Café &#39;t Smalle</a>
+        <a href="#cafe-t-smalle">2. Café 't Smalle</a>
       </li>
       <li>
         <a href="#cafe-chris">3. Café Chris</a>
@@ -923,12 +928,12 @@
         <a href="#cafe-nol">4. Café Nol</a>
       </li>
       <li>
-        <a href="#cafe-t-monumentje">5. Café &#39;t Monumentje</a>
+        <a href="#cafe-t-monumentje">5. Café 't Monumentje</a>
       </li>
       <li>
         <a href="#cafe-de-twee-zwaantjes">6. Café de Twee Zwaantjes</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Brown%20Caf%C3%A9s%20in%20Jordaan" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13199520713548089325&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -939,5 +944,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Brown Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Brown%20Caf%C3%A9s%20in%20Jordaan","picks":[{"anchorId":"cafe-papeneiland","rank":1,"name":"Café Papeneiland","label":"1. Café Papeneiland","lat":52.380462699999995,"lng":4.8879703999999995,"ctaUrl":"https://maps.google.com/?cid=13199520713548089325&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Papeneiland, Prinsengracht 2, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-t-smalle","rank":2,"name":"Café 't Smalle","label":"2. Café 't Smalle","lat":52.3767128,"lng":4.8841696,"ctaUrl":"https://maps.google.com/?cid=17163431979133748336&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café 't Smalle, Egelantiersgracht 12, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-chris","rank":3,"name":"Café Chris","label":"3. Café Chris","lat":52.37427520000001,"lng":4.8816114,"ctaUrl":"https://maps.google.com/?cid=12488232973867532116&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Chris, Bloemstraat 42, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-nol","rank":4,"name":"Café Nol","label":"4. Café Nol","lat":52.37829,"lng":4.883390299999999,"ctaUrl":"https://maps.google.com/?cid=7313563422569320838&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Nol, Westerstraat 109, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-t-monumentje","rank":5,"name":"Café 't Monumentje","label":"5. Café 't Monumentje","lat":52.3785398,"lng":4.8831039999999994,"ctaUrl":"https://maps.google.com/?cid=14721143599965014059&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café 't Monumentje, Westerstraat 120, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-de-twee-zwaantjes","rank":6,"name":"Café de Twee Zwaantjes","label":"6. Café de Twee Zwaantjes","lat":52.376356699999995,"lng":4.8842165,"ctaUrl":"https://maps.google.com/?cid=15116396917665314445&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café de Twee Zwaantjes, Prinsengracht 114, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-thijssen","rank":7,"name":"Café Thijssen","label":"7. Café Thijssen","lat":52.380810399999994,"lng":4.8873031,"ctaUrl":"https://maps.google.com/?cid=9412826351239130282&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Thijssen, Brouwersgracht 107, Jordaan, Amsterdam, NL"},{"anchorId":"laurierboom","rank":8,"name":"Laurierboom","label":"8. Laurierboom","lat":52.372299999999996,"lng":4.8809499999999995,"ctaUrl":"https://maps.google.com/?cid=2919960346329973862&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Laurierboom, Laurierstraat 84, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-p96","rank":9,"name":"Café P96","label":"9. Café P96","lat":52.377067399999994,"lng":4.884866,"ctaUrl":"https://maps.google.com/?cid=17019371292035918747&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café P96, Prinsengracht 96, Jordaan, Amsterdam, NL"},{"anchorId":"nieuwe-lelie","rank":10,"name":"Nieuwe Lelie","label":"10. Nieuwe Lelie","lat":52.375233,"lng":4.880817,"ctaUrl":"https://maps.google.com/?cid=11432177473461027093&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nieuwe Lelie, Nieuwe Leliestraat 83, Jordaan, Amsterdam, NL"},{"anchorId":"cafe-slijterij","rank":11,"name":"Café Slijterij","label":"11. Café Slijterij","lat":52.3610581,"lng":4.8992838,"ctaUrl":"https://maps.google.com/?cid=15363120794844380572&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Slijterij, Haarlemmerstraat 17, near Jordaan, Amsterdam, NL"},{"anchorId":"de-kat-in-de-wijngaert","rank":12,"name":"De Kat in de Wijngaert","label":"12. De Kat in de Wijngaert","lat":52.3803202,"lng":4.884081999999999,"ctaUrl":"https://maps.google.com/?cid=10650542899085394329&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"De Kat in de Wijngaert, Lindengracht 160, Jordaan, Amsterdam, NL"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

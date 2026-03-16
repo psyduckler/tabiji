@@ -331,11 +331,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -360,9 +355,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -387,39 +385,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Bakeries in Copenhagen",
-                        "item": "https://tabiji.ai/popular-picks/copenhagen-bakeries/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -462,13 +433,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Copenhagen&#39;s top bakeries offer a delightful range of treats priced from 30-150 DKK, with Juno the Bakery earning the top recommendation for its artisan pastries. This guide highlights the best bakeries in Copenhagen, considering recommendations from locals and experienced travelers, ensuring a delightful experience no matter your preference.</strong></p>
-        <p>Copenhagen boasts a vibrant bakery scene, with prices ranging from 30-150 DKK, and Juno the Bakery stands out as a top recommendation for its exceptional artisan pastries. This guide highlights the best bakeries in Copenhagen, considering recommendations from locals and experienced travelers.</p><p>Copenhagen&#39;s bakery scene has exploded in recent years — a wave of ambitious artisan bakers has joined the city&#39;s beloved traditional establishments, making it one of Europe&#39;s best cities for bread and pastries. Whether you&#39;re after a flaky croissant, a traditional Danish &quot;wienerbrød,&quot; or a loaf of perfectly fermented sourdough, Copenhagen delivers.</p><p>We analyzed dozens of Reddit threads from r/copenhagen, r/Denmark, and r/travel to find the bakeries that actual Copenhagen residents and experienced travelers recommend again and again. From the oldest bakery in the city to hidden gems off the tourist trail — these are the ones worth queuing for.</p>
+        <p>Copenhagen&#39;s bakery scene has exploded in recent years — a wave of ambitious artisan bakers has joined the city&#39;s beloved traditional establishments, making it one of Europe&#39;s best cities for bread and pastries. Whether you&#39;re after a flaky croissant, a traditional Danish &quot;wienerbrød,&quot; or a loaf of perfectly fermented sourdough, Copenhagen delivers.</p><p>We analyzed dozens of Reddit threads from r/copenhagen, r/Denmark, and r/travel to find the bakeries that actual Copenhagen residents and experienced travelers recommend again and again. From the oldest bakery in the city to hidden gems off the tourist trail — these are the ones worth queuing for.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Bakery Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Juno the Bakery</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bakery Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -479,7 +451,7 @@
         <a href="#hart-bageri">2. Hart Bageri</a>
       </li>
       <li>
-        <a href="#andersen-maillard">3. Andersen &amp; Maillard</a>
+        <a href="#andersen-maillard">3. Andersen & Maillard</a>
       </li>
       <li>
         <a href="#rondo">4. Rondo</a>
@@ -490,7 +462,7 @@
       <li>
         <a href="#andersen-bakery">6. Andersen Bakery</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=79970617718223638&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -502,7 +474,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="juno-the-bakery">
+<section class="restaurant-section" id="juno-the-bakery" data-map-name="1. Juno the Bakery" data-map-cta-url="https://maps.google.com/?cid=79970617718223638&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Juno the Bakery, Østerbro, Copenhagen, DK" data-map-lat="55.7061815" data-map-lng="12.5818152">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Juno the Bakery</h2>
         <span class="cuisine-tag tag-regional">Artisan Pastry</span>
@@ -539,7 +511,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended bakery in all of Copenhagen Reddit threads. Juno&#39;s croissants and cardamom buns are on another level. Worth the trek to Østerbro and the inevitable weekend queue.
     </div>
 </section>
-<section class="restaurant-section" id="hart-bageri">
+<section class="restaurant-section" id="hart-bageri" data-map-name="2. Hart Bageri" data-map-cta-url="https://maps.google.com/?cid=195899445223329788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hart Bageri, Gammel Kongevej, Frederiksberg (original), Copenhagen, DK" data-map-lat="55.6753846" data-map-lng="12.5455049">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Hart Bageri</h2>
         <span class="cuisine-tag tag-regional">Artisan Bread &amp; Pastry</span>
@@ -576,7 +548,7 @@
         <strong>tabiji verdict:</strong> Founded by American gourmet baker Richard Hart, formerly of Tartine in San Francisco. The original location is still the gold standard — skip the newer outposts if you can. Their bread program is outstanding.
     </div>
 </section>
-<section class="restaurant-section" id="andersen-maillard">
+<section class="restaurant-section" id="andersen-maillard" data-map-name="3. Andersen &amp; Maillard" data-map-cta-url="https://maps.google.com/?cid=10628481184851229869&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Andersen &amp; Maillard, Nørrebro / Nordhavn / Ny Østergade, Copenhagen, DK" data-map-lat="55.707201299999994" data-map-lng="12.596683500000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Andersen &amp; Maillard</h2>
         <span class="cuisine-tag tag-regional">Pastry &amp; Coffee</span>
@@ -609,7 +581,7 @@
         <strong>tabiji verdict:</strong> The perfect combo of world-class pastries and specialty coffee under one roof. Three locations across Copenhagen, each with a slightly different vibe. The chocolate croissant alone is worth a detour.
     </div>
 </section>
-<section class="restaurant-section" id="rondo">
+<section class="restaurant-section" id="rondo" data-map-name="4. Rondo" data-map-cta-url="https://maps.google.com/?cid=8265912647612857508&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rondo, Vesterbro, Copenhagen, DK" data-map-lat="55.693230299999996" data-map-lng="12.552212299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Rondo</h2>
         <span class="cuisine-tag tag-regional">Artisan Bakery</span>
@@ -650,7 +622,7 @@
         <strong>tabiji verdict:</strong> The Reddit darling. Rondo has a cult following among Copenhagen locals, especially for savory pastries. It&#39;s small, somewhat hidden, and exactly the kind of place you&#39;d never find in a tourist guidebook. A genuine gem.
     </div>
 </section>
-<section class="restaurant-section" id="sankt-peders-bageri">
+<section class="restaurant-section" id="sankt-peders-bageri" data-map-name="5. Sankt Peders Bageri" data-map-cta-url="https://maps.google.com/?cid=16462686672618981645&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sankt Peders Bageri, Central Copenhagen, Copenhagen, DK" data-map-lat="55.6791425" data-map-lng="12.5692086">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Sankt Peders Bageri</h2>
         <span class="cuisine-tag tag-regional">Classic Danish</span>
@@ -683,7 +655,7 @@
         <strong>tabiji verdict:</strong> Copenhagen&#39;s oldest bakery is the essential stop for traditional Danish baking. No artisan pretension, just honest, time-tested recipes. The Wednesday cinnamon snail tradition alone is worth planning your trip around.
     </div>
 </section>
-<section class="restaurant-section" id="andersen-bakery">
+<section class="restaurant-section" id="andersen-bakery" data-map-name="6. Andersen Bakery" data-map-cta-url="https://maps.google.com/?cid=297713643994383121&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Andersen Bakery, Islands Brygge, Copenhagen, DK" data-map-lat="55.667240199999995" data-map-lng="12.5785336">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Andersen Bakery</h2>
         <span class="cuisine-tag tag-regional">Japanese-Danish Pastry</span>
@@ -716,7 +688,7 @@
         <strong>tabiji verdict:</strong> Founded 60 years ago by a Japanese baker and still Japanese-inspired today. The fusion of Japanese precision and Danish tradition creates pastries that are works of art. The February fastelavnsboller queue is a Copenhagen institution.
     </div>
 </section>
-<section class="restaurant-section" id="la-glace">
+<section class="restaurant-section" id="la-glace" data-map-name="7. La Glace" data-map-cta-url="https://maps.google.com/?cid=8204732453446052433&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Glace, Central Copenhagen (Skoubogade), Copenhagen, DK" data-map-lat="55.6785921" data-map-lng="12.5735765">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Glace</h2>
         <span class="cuisine-tag tag-regional">Historic Patisserie</span>
@@ -749,7 +721,7 @@
         <strong>tabiji verdict:</strong> Denmark&#39;s oldest patisserie (since 1870) is a must for cake lovers. The ornate interior and elaborate cakes make it feel like stepping into another era. Pricey, but this is where Copenhagen does &quot;special occasion&quot; baking.
     </div>
 </section>
-<section class="restaurant-section" id="kobenhavns-bageri">
+<section class="restaurant-section" id="kobenhavns-bageri" data-map-name="8. Københavns Bageri" data-map-cta-url="https://maps.google.com/?cid=2925426012559289760&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Københavns Bageri, Carlsbergbyen, Copenhagen, DK" data-map-lat="55.664693799999995" data-map-lng="12.5354426">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Københavns Bageri</h2>
         <span class="cuisine-tag tag-regional">Artisan Bakery</span>
@@ -782,7 +754,7 @@
         <strong>tabiji verdict:</strong> A collaboration between the teams behind Alice and Benji — two of Copenhagen&#39;s respected artisan bakeries. Located in the newly-developed Carlsberg area, it&#39;s a bit off the typical tourist path but absolutely worth the visit for serious bread lovers.
     </div>
 </section>
-<section class="restaurant-section" id="leckerbaer">
+<section class="restaurant-section" id="leckerbaer" data-map-name="9. Leckerbaer" data-map-cta-url="https://maps.google.com/?cid=2047299650229129097&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Leckerbaer, Frederiksberg, Copenhagen, DK" data-map-lat="55.697751" data-map-lng="12.576822">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Leckerbaer</h2>
         <span class="cuisine-tag tag-regional">Fine Pastry</span>
@@ -815,7 +787,7 @@
         <strong>tabiji verdict:</strong> Where Copenhagen&#39;s bakery scene meets fine dining. Leckerbaer&#39;s tiny, jewel-like pastries and innovative cookie sandwiches are unlike anything else in the city. Perfect for a refined afternoon treat.
     </div>
 </section>
-<section class="restaurant-section" id="lille-bakery">
+<section class="restaurant-section" id="lille-bakery" data-map-name="10. Lille Bakery" data-map-cta-url="https://maps.google.com/?cid=7582608364423667769&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lille Bakery, Refshaleøen, Copenhagen, DK" data-map-lat="55.6900548" data-map-lng="12.6133271">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Lille Bakery</h2>
         <span class="cuisine-tag tag-regional">Artisan Bread</span>
@@ -848,7 +820,7 @@
         <strong>tabiji verdict:</strong> Tucked away on Refshaleøen island (near the street food market), Lille Bakery is a bread-first bakery that does bread extraordinarily well. Worth combining with a visit to Reffen street food market or the nearby Copenhagen Contemporary art museum.
     </div>
 </section>
-<section class="restaurant-section" id="bageriet-brod">
+<section class="restaurant-section" id="bageriet-brod" data-map-name="11. Bageriet BRØD" data-map-cta-url="https://maps.google.com/?cid=16555502104252651888&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bageriet BRØD, Enghave Plads, Vesterbro, Copenhagen, DK" data-map-lat="55.666883999999996" data-map-lng="12.546784100000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Bageriet BRØD</h2>
         <span class="cuisine-tag tag-regional">Sourdough &amp; Pastry</span>
@@ -881,7 +853,7 @@
         <strong>tabiji verdict:</strong> A neighborhood gem in Vesterbro that punches well above its weight. The almond croissant has a devoted following, and the location by Enghave Plads is perfect for a morning stroll in one of Copenhagen&#39;s most vibrant neighborhoods.
     </div>
 </section>
-<section class="restaurant-section" id="albatross-venner">
+<section class="restaurant-section" id="albatross-venner" data-map-name="12. Albatross &amp; Venner" data-map-cta-url="https://maps.google.com/?cid=12239751646343674485&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Albatross &amp; Venner, Central Copenhagen, Copenhagen, DK" data-map-lat="55.6836899" data-map-lng="12.569765499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Albatross &amp; Venner</h2>
         <span class="cuisine-tag tag-regional">Artisan Bread &amp; Pastry</span>
@@ -932,9 +904,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Bakery Map</h2>
-      <iframe src="https://www.google.com/maps?q=Copenhagen%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Juno the Bakery</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bakery Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -945,7 +918,7 @@
         <a href="#hart-bageri">2. Hart Bageri</a>
       </li>
       <li>
-        <a href="#andersen-maillard">3. Andersen &amp; Maillard</a>
+        <a href="#andersen-maillard">3. Andersen & Maillard</a>
       </li>
       <li>
         <a href="#rondo">4. Rondo</a>
@@ -956,7 +929,7 @@
       <li>
         <a href="#andersen-bakery">6. Andersen Bakery</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Copenhagen%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=79970617718223638&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -967,5 +940,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Bakery Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Bakeries%20in%20Copenhagen","picks":[{"anchorId":"juno-the-bakery","rank":1,"name":"Juno the Bakery","label":"1. Juno the Bakery","lat":55.7061815,"lng":12.5818152,"ctaUrl":"https://maps.google.com/?cid=79970617718223638&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Juno the Bakery, Østerbro, Copenhagen, DK"},{"anchorId":"hart-bageri","rank":2,"name":"Hart Bageri","label":"2. Hart Bageri","lat":55.6753846,"lng":12.5455049,"ctaUrl":"https://maps.google.com/?cid=195899445223329788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hart Bageri, Gammel Kongevej, Frederiksberg (original), Copenhagen, DK"},{"anchorId":"andersen-maillard","rank":3,"name":"Andersen & Maillard","label":"3. Andersen & Maillard","lat":55.707201299999994,"lng":12.596683500000001,"ctaUrl":"https://maps.google.com/?cid=10628481184851229869&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Andersen & Maillard, Nørrebro / Nordhavn / Ny Østergade, Copenhagen, DK"},{"anchorId":"rondo","rank":4,"name":"Rondo","label":"4. Rondo","lat":55.693230299999996,"lng":12.552212299999999,"ctaUrl":"https://maps.google.com/?cid=8265912647612857508&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rondo, Vesterbro, Copenhagen, DK"},{"anchorId":"sankt-peders-bageri","rank":5,"name":"Sankt Peders Bageri","label":"5. Sankt Peders Bageri","lat":55.6791425,"lng":12.5692086,"ctaUrl":"https://maps.google.com/?cid=16462686672618981645&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sankt Peders Bageri, Central Copenhagen, Copenhagen, DK"},{"anchorId":"andersen-bakery","rank":6,"name":"Andersen Bakery","label":"6. Andersen Bakery","lat":55.667240199999995,"lng":12.5785336,"ctaUrl":"https://maps.google.com/?cid=297713643994383121&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Andersen Bakery, Islands Brygge, Copenhagen, DK"},{"anchorId":"la-glace","rank":7,"name":"La Glace","label":"7. La Glace","lat":55.6785921,"lng":12.5735765,"ctaUrl":"https://maps.google.com/?cid=8204732453446052433&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Glace, Central Copenhagen (Skoubogade), Copenhagen, DK"},{"anchorId":"kobenhavns-bageri","rank":8,"name":"Københavns Bageri","label":"8. Københavns Bageri","lat":55.664693799999995,"lng":12.5354426,"ctaUrl":"https://maps.google.com/?cid=2925426012559289760&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Københavns Bageri, Carlsbergbyen, Copenhagen, DK"},{"anchorId":"leckerbaer","rank":9,"name":"Leckerbaer","label":"9. Leckerbaer","lat":55.697751,"lng":12.576822,"ctaUrl":"https://maps.google.com/?cid=2047299650229129097&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Leckerbaer, Frederiksberg, Copenhagen, DK"},{"anchorId":"lille-bakery","rank":10,"name":"Lille Bakery","label":"10. Lille Bakery","lat":55.6900548,"lng":12.6133271,"ctaUrl":"https://maps.google.com/?cid=7582608364423667769&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lille Bakery, Refshaleøen, Copenhagen, DK"},{"anchorId":"bageriet-brod","rank":11,"name":"Bageriet BRØD","label":"11. Bageriet BRØD","lat":55.666883999999996,"lng":12.546784100000002,"ctaUrl":"https://maps.google.com/?cid=16555502104252651888&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bageriet BRØD, Enghave Plads, Vesterbro, Copenhagen, DK"},{"anchorId":"albatross-venner","rank":12,"name":"Albatross & Venner","label":"12. Albatross & Venner","lat":55.6836899,"lng":12.569765499999999,"ctaUrl":"https://maps.google.com/?cid=12239751646343674485&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Albatross & Venner, Central Copenhagen, Copenhagen, DK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

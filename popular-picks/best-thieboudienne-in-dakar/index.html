@@ -290,9 +290,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -317,7 +320,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -369,9 +372,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Thiéboudienne Map</h2>
-      <iframe src="https://www.google.com/maps?q=Thi%C3%A9boudienne%20in%20Dakar&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chez Loutcha</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Thiéboudienne Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -393,7 +397,7 @@
       <li>
         <a href="#cassation">6. Cassation Fish Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Thi%C3%A9boudienne%20in%20Dakar" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Chez+Loutcha+Dakar+Senegal" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -405,7 +409,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="chez-loutcha">
+<section class="restaurant-section" id="chez-loutcha" data-map-name="1. Chez Loutcha" data-map-cta-url="https://www.google.com/maps/search/Chez+Loutcha+Dakar+Senegal" data-map-query="Chez Loutcha, Plateau, 101 Rue Mousse Diop, Dakar, SN" data-map-lat="14.668672700000002" data-map-lng="-17.435071699999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Chez Loutcha</h2>
         <span class="cuisine-tag tag-regional">Thiéboudienne</span>
@@ -435,7 +439,7 @@
         <strong>tabiji verdict:</strong> The undisputed champion. Chez Loutcha is the most recommended thiéboudienne spot across every source we checked — Reddit, Saveur, Eater, Culture Trip, Food Republic. This Cape Verdean family-run institution on the Plateau is the closest thing to a consensus pick in a city where everyone has their own favorite. The black and white mosaic tiles, ceiling fans, and cheerful servers create the ideal setting for Dakar&#39;s defining dish.
     </div>
 </section>
-<section class="restaurant-section" id="chez-ndioufa">
+<section class="restaurant-section" id="chez-ndioufa" data-map-name="2. Chez Ndioufa" data-map-cta-url="https://www.google.com/maps/search/Chez+Ndioufa+Dakar+Senegal" data-map-query="Chez Ndioufa, Plateau, Dakar, SN" data-map-lat="14.668731599999997" data-map-lng="-17.4350402">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Chez Ndioufa</h2>
         <span class="cuisine-tag tag-regional">Thiéboudienne</span>
@@ -465,7 +469,7 @@
         <strong>tabiji verdict:</strong> Where the Plateau locals eat when they want a serious plate of ceebu jën. Chez Ndioufa is right next to Chez Loutcha but feels more authentically neighborhood — the kind of place where regulars greet the cook by name. Recommended on both r/travel and r/Senegal, it&#39;s the real-deal Senegalese lunch spot.
     </div>
 </section>
-<section class="restaurant-section" id="marche-kermel">
+<section class="restaurant-section" id="marche-kermel" data-map-name="3. Marché Kermel" data-map-cta-url="https://www.google.com/maps/search/Marché+Kermel+Dakar+Senegal" data-map-query="Marché Kermel, Plateau, Dakar, SN" data-map-lat="14.670573099999999" data-map-lng="-17.428776499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Marché Kermel</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -491,7 +495,7 @@
         <strong>tabiji verdict:</strong> The most authentic experience on this list. Marché Kermel is where Dakar&#39;s best home cooks set up shop — the thiéboudienne here is literally &quot;fait maison&quot; (homemade) with the love and care of a family kitchen but at market prices. Skip the hotel restaurants, as the top-upvoted Reddit comment says, and come here instead. The beautiful colonial-era market building is worth seeing in its own right.
     </div>
 </section>
-<section class="restaurant-section" id="soumbedioune">
+<section class="restaurant-section" id="soumbedioune" data-map-name="4. Soumbédioune Fish Market" data-map-cta-url="https://www.google.com/maps/search/Soumbédioune+Fish+Market+Dakar+Senegal" data-map-query="Soumbédioune Fish Market, Fann, Corniche, Dakar, SN" data-map-lat="14.677690999999998" data-map-lng="-17.4583609">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Soumbédioune Fish Market</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -517,7 +521,7 @@
         <strong>tabiji verdict:</strong> This nightly beachside fish market is Dakar at its most magical. As the sun sets over the Atlantic, makeshift tables fill with locals feasting on the day&#39;s catch, grilled over open flames. The vibe is electric, the fish is as fresh as it gets, and the prices are remarkably fair. Food Republic calls it essential Dakar — we agree. Located in a cove next to Magic Land, it pops up every evening and is best visited around sunset.
     </div>
 </section>
-<section class="restaurant-section" id="le-djembe">
+<section class="restaurant-section" id="le-djembe" data-map-name="5. Le Djembe" data-map-cta-url="https://www.google.com/maps/search/Le+Djembe+Restaurant+Dakar+Senegal" data-map-query="Le Djembe, Médina, 56 Rue Saint-Michel, Dakar, SN" data-map-lat="14.668409700000002" data-map-lng="-17.4333208">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Le Djembe</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -543,7 +547,7 @@
         <strong>tabiji verdict:</strong> A breezy, bright restaurant in the Médina that proves you don&#39;t need a Senegalese grandmother&#39;s kitchen to get the flavors right. The thiéboudienne is excellent, the fresh juices are a perfect foil to the heat, and the vibe is welcoming without being touristy. A solid all-around choice for your first thiéboudienne experience in Dakar.
     </div>
 </section>
-<section class="restaurant-section" id="cassation">
+<section class="restaurant-section" id="cassation" data-map-name="6. Cassation Fish Market" data-map-cta-url="https://www.google.com/maps/search/Cassation+Fish+Market+Dakar+Senegal" data-map-query="Cassation Fish Market, Ouakam, Dakar, SN" data-map-lat="14.7455085" data-map-lng="-17.4469366">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Cassation Fish Market</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -569,7 +573,7 @@
         <strong>tabiji verdict:</strong> The ultimate &quot;farm-to-table&quot; — or rather &quot;ocean-to-plate&quot; — experience in Dakar. You pick your fish, they cook it. The freshness is unbeatable and the prices are local. It&#39;s not a restaurant in the traditional sense, but that&#39;s the charm. Come in the evening, point at what looks good, and let the magic happen. Locals call it Cassation Poisson.
     </div>
 </section>
-<section class="restaurant-section" id="chez-fatou">
+<section class="restaurant-section" id="chez-fatou" data-map-name="7. Chez Fatou" data-map-cta-url="https://www.google.com/maps/search/Chez+Fatou+Dakar+Senegal" data-map-query="Chez Fatou, Almadies, Dakar, SN" data-map-lat="14.740915600000001" data-map-lng="-17.5213921">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Chez Fatou</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -595,7 +599,7 @@
         <strong>tabiji verdict:</strong> Chez Fatou is the Almadies neighborhood&#39;s answer to the Plateau&#39;s thiéboudienne institutions. The generational recipes give the food an unmistakable depth — this isn&#39;t restaurant cooking, it&#39;s family cooking served to strangers. If you&#39;re staying in the Almadies or Les Almadies area, this saves you the trek to the Plateau.
     </div>
 </section>
-<section class="restaurant-section" id="complexe-tawfeex">
+<section class="restaurant-section" id="complexe-tawfeex" data-map-name="8. Complexe Tawfeex" data-map-cta-url="https://www.google.com/maps/search/Complexe+Tawfeex+Point+E+Dakar+Senegal" data-map-query="Complexe Tawfeex, Point E, Dakar, SN" data-map-lat="14.699153500000001" data-map-lng="-17.4640983">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Complexe Tawfeex</h2>
         <span class="cuisine-tag tag-regional">Thiéboudienne</span>
@@ -621,7 +625,7 @@
         <strong>tabiji verdict:</strong> The budget champion. Complexe Tawfeex in the Point E neighborhood serves no-nonsense thiéboudienne at prices that reflect the student district&#39;s ethos — big portions, fair prices, zero pretension. Recommended by r/Senegal&#39;s self-described &quot;Unofficial Ambassador of 🇸🇳,&quot; which is about as credible an endorsement as you can get.
     </div>
 </section>
-<section class="restaurant-section" id="sunu-makane">
+<section class="restaurant-section" id="sunu-makane" data-map-name="9. Sunu Makane (Chez Seck)" data-map-cta-url="https://www.google.com/maps/search/Sunu+Makane+Ngor+Island+Dakar+Senegal" data-map-query="Sunu Makane (Chez Seck), Ngor Island, Dakar, SN" data-map-lat="14.755937300000001" data-map-lng="-17.5114548">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Sunu Makane (Chez Seck)</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -665,9 +669,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Thiéboudienne Map</h2>
-      <iframe src="https://www.google.com/maps?q=Thi%C3%A9boudienne%20in%20Dakar&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chez Loutcha</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Thiéboudienne Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -689,7 +694,7 @@
       <li>
         <a href="#cassation">6. Cassation Fish Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Thi%C3%A9boudienne%20in%20Dakar" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Chez+Loutcha+Dakar+Senegal" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -700,5 +705,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Thiéboudienne Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Thi%C3%A9boudienne%20in%20Dakar","picks":[{"anchorId":"chez-loutcha","rank":1,"name":"Chez Loutcha","label":"1. Chez Loutcha","lat":14.668672700000002,"lng":-17.435071699999998,"ctaUrl":"https://www.google.com/maps/search/Chez+Loutcha+Dakar+Senegal","mapQuery":"Chez Loutcha, Plateau, 101 Rue Mousse Diop, Dakar, SN"},{"anchorId":"chez-ndioufa","rank":2,"name":"Chez Ndioufa","label":"2. Chez Ndioufa","lat":14.668731599999997,"lng":-17.4350402,"ctaUrl":"https://www.google.com/maps/search/Chez+Ndioufa+Dakar+Senegal","mapQuery":"Chez Ndioufa, Plateau, Dakar, SN"},{"anchorId":"marche-kermel","rank":3,"name":"Marché Kermel","label":"3. Marché Kermel","lat":14.670573099999999,"lng":-17.428776499999998,"ctaUrl":"https://www.google.com/maps/search/Marché+Kermel+Dakar+Senegal","mapQuery":"Marché Kermel, Plateau, Dakar, SN"},{"anchorId":"soumbedioune","rank":4,"name":"Soumbédioune Fish Market","label":"4. Soumbédioune Fish Market","lat":14.677690999999998,"lng":-17.4583609,"ctaUrl":"https://www.google.com/maps/search/Soumbédioune+Fish+Market+Dakar+Senegal","mapQuery":"Soumbédioune Fish Market, Fann, Corniche, Dakar, SN"},{"anchorId":"le-djembe","rank":5,"name":"Le Djembe","label":"5. Le Djembe","lat":14.668409700000002,"lng":-17.4333208,"ctaUrl":"https://www.google.com/maps/search/Le+Djembe+Restaurant+Dakar+Senegal","mapQuery":"Le Djembe, Médina, 56 Rue Saint-Michel, Dakar, SN"},{"anchorId":"cassation","rank":6,"name":"Cassation Fish Market","label":"6. Cassation Fish Market","lat":14.7455085,"lng":-17.4469366,"ctaUrl":"https://www.google.com/maps/search/Cassation+Fish+Market+Dakar+Senegal","mapQuery":"Cassation Fish Market, Ouakam, Dakar, SN"},{"anchorId":"chez-fatou","rank":7,"name":"Chez Fatou","label":"7. Chez Fatou","lat":14.740915600000001,"lng":-17.5213921,"ctaUrl":"https://www.google.com/maps/search/Chez+Fatou+Dakar+Senegal","mapQuery":"Chez Fatou, Almadies, Dakar, SN"},{"anchorId":"complexe-tawfeex","rank":8,"name":"Complexe Tawfeex","label":"8. Complexe Tawfeex","lat":14.699153500000001,"lng":-17.4640983,"ctaUrl":"https://www.google.com/maps/search/Complexe+Tawfeex+Point+E+Dakar+Senegal","mapQuery":"Complexe Tawfeex, Point E, Dakar, SN"},{"anchorId":"sunu-makane","rank":9,"name":"Sunu Makane (Chez Seck)","label":"9. Sunu Makane (Chez Seck)","lat":14.755937300000001,"lng":-17.5114548,"ctaUrl":"https://www.google.com/maps/search/Sunu+Makane+Ngor+Island+Dakar+Senegal","mapQuery":"Sunu Makane (Chez Seck), Ngor Island, Dakar, SN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

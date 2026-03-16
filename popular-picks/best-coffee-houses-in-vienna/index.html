@@ -331,9 +331,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -358,7 +361,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -406,13 +409,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Vienna&#39;s coffee houses, with prices ranging from €3 to €20 per person, provide a unique cultural experience, and Café Central is highly recommended for its historical significance. These cafes offer a glimpse into a tradition that has remained largely unchanged since the 19th century, offering everything from palatial Habsburg-era institutions to cozy neighborhood gems. Vienna&#39;s coffee house culture isn&#39;t just a tradition — it&#39;s a UNESCO Intangible Cultural Heritage.</strong></p>
-        <p>Vienna&#39;s coffee houses, ranging from €3 to €20 per person, offer a unique cultural experience, with Café Central being a top recommendation for its historical significance. These cafes provide a glimpse into a tradition that has remained largely unchanged since the 19th century, offering everything from palatial Habsburg-era institutions to cozy neighborhood gems.</p><p>Vienna&#39;s coffee house culture isn&#39;t just a tradition — it&#39;s a UNESCO Intangible Cultural Heritage. Walking into a Viennese Kaffeehaus means stepping into a ritual that hasn&#39;t fundamentally changed since the 19th century: marble tables, creaky Thonet chairs, grumpy waiters, and the unspoken agreement that one Melange buys you an entire afternoon.</p><p>We analyzed hundreds of Reddit posts from r/wien, r/Coffee, r/travel, r/espresso, and r/pourover to find the coffee houses that actual Viennese residents and experienced travelers recommend. From palatial Habsburg-era institutions to neighborhood gems where you&#39;ll be the only tourist — these are the ones worth your time.</p>
+        <p>Vienna&#39;s coffee house culture isn&#39;t just a tradition — it&#39;s a UNESCO Intangible Cultural Heritage. Walking into a Viennese Kaffeehaus means stepping into a ritual that hasn&#39;t fundamentally changed since the 19th century: marble tables, creaky Thonet chairs, grumpy waiters, and the unspoken agreement that one Melange buys you an entire afternoon.</p><p>We analyzed hundreds of Reddit posts from r/wien, r/Coffee, r/travel, r/espresso, and r/pourover to find the coffee houses that actual Viennese residents and experienced travelers recommend. From palatial Habsburg-era institutions to neighborhood gems where you&#39;ll be the only tourist — these are the ones worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Coffee House Map</h2>
-      <iframe src="https://www.google.com/maps?q=Coffee%20Houses%20in%20Vienna&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Central</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Coffee House Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -434,7 +438,7 @@
       <li>
         <a href="#cafe-korb">6. Café Korb</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Coffee%20Houses%20in%20Vienna" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6627758510497214025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -446,7 +450,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="cafe-central">
+<section class="restaurant-section" id="cafe-central" data-map-name="1. Café Central" data-map-cta-url="https://maps.google.com/?cid=6627758510497214025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Central, Herrengasse, Innere Stadt, Vienna, AT" data-map-lat="48.21042740000001" data-map-lng="16.3654339">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Café Central</h2>
         <span class="cuisine-tag tag-regional">Historic Landmark</span>
@@ -484,7 +488,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s touristy. Yes, it&#39;s worth it anyway. Café Central is the cathedral of Viennese coffee culture — the vaulted ceilings alone are breathtaking. Trotsky played chess here, Freud brooded here. Book a reservation online to skip the line, visit in the morning for fewer crowds, and don&#39;t let the tourist label scare you away from a genuinely spectacular experience.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-sperl">
+<section class="restaurant-section" id="cafe-sperl" data-map-name="2. Café Sperl" data-map-cta-url="https://maps.google.com/?cid=2263644902848451996&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Sperl, Gumpendorfer Straße, Mariahilf, Vienna, AT" data-map-lat="48.1998326" data-map-lng="16.3611306">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Café Sperl</h2>
         <span class="cuisine-tag tag-regional">Classic Kaffeehaus</span>
@@ -522,7 +526,7 @@
         <strong>tabiji verdict:</strong> Café Sperl is the coffee house that locals actually use — and it shows. Opened in 1880, it has the worn-in elegance of a place that&#39;s never tried to impress anyone. The billiard table, the newspaper racks, the unhurried pace — this is what a real Kaffeehaus feels like. Slightly off the tourist circuit near the Naschmarkt, which keeps prices sane and crowds manageable.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-pruckel">
+<section class="restaurant-section" id="cafe-pruckel" data-map-name="3. Café Prückel" data-map-cta-url="https://maps.google.com/?cid=16030994389551289434&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Prückel, Stubenring, Innere Stadt, Vienna, AT" data-map-lat="48.2075943" data-map-lng="16.3804047">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Café Prückel</h2>
         <span class="cuisine-tag tag-regional">Classic Kaffeehaus</span>
@@ -560,7 +564,7 @@
         <strong>tabiji verdict:</strong> Prückel is the aesthete&#39;s coffee house. The 1950s renovation gave it this stunning mid-century look — think Don Draper meets Habsburg — that makes it one of the most photogenic Kaffeehäuser in the city. Located directly across from MAK (Museum of Applied Arts), it&#39;s the perfect pre- or post-museum stop. Morning visits are the move for a genuinely local experience.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-hawelka">
+<section class="restaurant-section" id="cafe-hawelka" data-map-name="4. Café Hawelka" data-map-cta-url="https://maps.google.com/?cid=17315220883369563508&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Hawelka, Dorotheergasse, Innere Stadt, Vienna, AT" data-map-lat="48.207931599999995" data-map-lng="16.3697835">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Café Hawelka</h2>
         <span class="cuisine-tag tag-regional">Bohemian Legend</span>
@@ -594,7 +598,7 @@
         <strong>tabiji verdict:</strong> Hawelka is Vienna&#39;s bohemian soul. Artists, writers, and intellectuals have haunted this dimly lit, smoke-stained room since the 1930s. The walls are covered in art gifted by regulars who couldn&#39;t pay their tab. It&#39;s touristy during the day, but visit after 9 PM and it transforms — the Buchteln come out of the oven, the crowd shifts to locals, and you feel the ghosts of a century of Viennese creativity.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-landtmann">
+<section class="restaurant-section" id="cafe-landtmann" data-map-name="5. Café Landtmann" data-map-cta-url="https://maps.google.com/?cid=12855465545644978351&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Landtmann, Universitätsring, next to Burgtheater, Vienna, AT" data-map-lat="48.211546899999995" data-map-lng="16.3615167">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Café Landtmann</h2>
         <span class="cuisine-tag tag-regional">Grand Café</span>
@@ -628,7 +632,7 @@
         <strong>tabiji verdict:</strong> Landtmann is the power-lunch Kaffeehaus — Vienna&#39;s equivalent of a political club. Freud was a regular. It&#39;s the most expensive coffee house on this list and unabashedly establishment, but the quality matches the price. The Ringstraße terrace in summer, with the Burgtheater as backdrop, is one of Vienna&#39;s finest sits. Come for the strudel, stay for the atmosphere of old-money Vienna.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-korb">
+<section class="restaurant-section" id="cafe-korb" data-map-name="6. Café Korb" data-map-cta-url="https://maps.google.com/?cid=5005347402507585003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Korb, Brandstätte, Innere Stadt, Vienna, AT" data-map-lat="48.2100867" data-map-lng="16.3706951">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Café Korb</h2>
         <span class="cuisine-tag tag-regional">Artsy Local</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> Korb is the creative-class Kaffeehaus — artsy without being pretentious, central without being a tourist trap. The basement art space adds a dimension most coffee houses lack. Run by the same family since 1904, it has that rare combination of accessibility and authenticity. Redditors consistently name it as the &quot;local that&#39;s in the center&quot; — the best of both worlds.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-braunerhof">
+<section class="restaurant-section" id="cafe-braunerhof" data-map-name="7. Café Bräunerhof" data-map-cta-url="https://maps.google.com/?cid=6708012008837122569&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Bräunerhof, Stallburggasse, Innere Stadt, Vienna, AT" data-map-lat="48.207222200000004" data-map-lng="16.3686111">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Café Bräunerhof</h2>
         <span class="cuisine-tag tag-regional">Literary Favorite</span>
@@ -688,7 +692,7 @@
         <strong>tabiji verdict:</strong> Bräunerhof is the writer&#39;s coffee house. Austria&#39;s greatest novelist Thomas Bernhard wrote here daily for decades — and you can feel that energy. It&#39;s deliberately un-renovated, deliberately unglamorous, and deliberately excellent. No instagrammable interiors, no tourist buzz — just coffee, newspapers, and the satisfying sound of someone turning pages. The literary pilgrimage pick.
     </div>
 </section>
-<section class="restaurant-section" id="demel">
+<section class="restaurant-section" id="demel" data-map-name="8. Demel" data-map-cta-url="https://maps.google.com/?cid=8527852790156567128&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Demel, Kohlmarkt, Innere Stadt, Vienna, AT" data-map-lat="48.208596199999995" data-map-lng="16.3672185">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Demel</h2>
         <span class="cuisine-tag tag-regional">Imperial Pastry House</span>
@@ -722,7 +726,7 @@
         <strong>tabiji verdict:</strong> Demel is the pastry temple. As the former K.u.K. Hofzuckerbäcker (Imperial and Royal Court confectioner), it has a pedigree that no other café can match. The display cases alone are worth the visit — sculptural marzipan, architectural cakes, jewel-like pralines. It&#39;s expensive and touristy, but unlike Café Sacher (overrated, avoid the line), Demel actually delivers on the hype. The waitresses in black dresses address you in the third person — &quot;Hat die gnädige Frau schon gewählt?&quot; Pure Habsburg theater.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-eiles">
+<section class="restaurant-section" id="cafe-eiles" data-map-name="9. Café Eiles" data-map-cta-url="https://maps.google.com/?cid=8336172809036656684&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Eiles, Josefstädter Straße, near Parliament, Vienna, AT" data-map-lat="48.20938760000001" data-map-lng="16.3548005">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Café Eiles</h2>
         <span class="cuisine-tag tag-regional">Classic Kaffeehaus</span>
@@ -756,7 +760,7 @@
         <strong>tabiji verdict:</strong> Eiles is the hidden gem on this list — a proper Kaffeehaus that tourists somehow walk past on their way to Central and Landtmann. The coffee is genuinely better than most traditional spots (a rarity), and the crowd is heavily local. The story about being ignored by the waiter for an hour is peak Viennese coffee house culture — and apparently, Redditors love it. If you want the real deal without the crowds, start here.
     </div>
 </section>
-<section class="restaurant-section" id="kleines-cafe">
+<section class="restaurant-section" id="kleines-cafe" data-map-name="10. Kleines Café" data-map-cta-url="https://maps.google.com/?cid=5890470158450194781&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kleines Café, Franziskanerplatz, Innere Stadt, Vienna, AT" data-map-lat="48.206583599999995" data-map-lng="16.3743355">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Kleines Café</h2>
         <span class="cuisine-tag tag-regional">Neighborhood Gem</span>
@@ -790,7 +794,7 @@
         <strong>tabiji verdict:</strong> Kleines Café is exactly what its name says — &quot;Small Café.&quot; Tiny interior, simple menu, no pretensions. But the Franziskanerplatz terrace is magical, especially on warm evenings when the square fills with locals drinking wine and the church bells mark the hour. Featured in the movie &quot;Before Sunrise&quot; — though most visitors don&#39;t know that, which keeps the vibe right.
     </div>
 </section>
-<section class="restaurant-section" id="jonas-reindl">
+<section class="restaurant-section" id="jonas-reindl" data-map-name="11. Jonas Reindl Coffee Roasters" data-map-cta-url="https://maps.google.com/?cid=3528796431837179641&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jonas Reindl Coffee Roasters, Währinger Straße, Alsergrund, Vienna, AT" data-map-lat="48.2149013" data-map-lng="16.361845499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Jonas Reindl Coffee Roasters</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -842,9 +846,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Coffee House Map</h2>
-      <iframe src="https://www.google.com/maps?q=Coffee%20Houses%20in%20Vienna&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Café Central</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Coffee House Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -866,7 +871,7 @@
       <li>
         <a href="#cafe-korb">6. Café Korb</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Coffee%20Houses%20in%20Vienna" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6627758510497214025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -877,5 +882,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Coffee House Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Coffee%20Houses%20in%20Vienna","picks":[{"anchorId":"cafe-central","rank":1,"name":"Café Central","label":"1. Café Central","lat":48.21042740000001,"lng":16.3654339,"ctaUrl":"https://maps.google.com/?cid=6627758510497214025&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Central, Herrengasse, Innere Stadt, Vienna, AT"},{"anchorId":"cafe-sperl","rank":2,"name":"Café Sperl","label":"2. Café Sperl","lat":48.1998326,"lng":16.3611306,"ctaUrl":"https://maps.google.com/?cid=2263644902848451996&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Sperl, Gumpendorfer Straße, Mariahilf, Vienna, AT"},{"anchorId":"cafe-pruckel","rank":3,"name":"Café Prückel","label":"3. Café Prückel","lat":48.2075943,"lng":16.3804047,"ctaUrl":"https://maps.google.com/?cid=16030994389551289434&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Prückel, Stubenring, Innere Stadt, Vienna, AT"},{"anchorId":"cafe-hawelka","rank":4,"name":"Café Hawelka","label":"4. Café Hawelka","lat":48.207931599999995,"lng":16.3697835,"ctaUrl":"https://maps.google.com/?cid=17315220883369563508&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Hawelka, Dorotheergasse, Innere Stadt, Vienna, AT"},{"anchorId":"cafe-landtmann","rank":5,"name":"Café Landtmann","label":"5. Café Landtmann","lat":48.211546899999995,"lng":16.3615167,"ctaUrl":"https://maps.google.com/?cid=12855465545644978351&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Landtmann, Universitätsring, next to Burgtheater, Vienna, AT"},{"anchorId":"cafe-korb","rank":6,"name":"Café Korb","label":"6. Café Korb","lat":48.2100867,"lng":16.3706951,"ctaUrl":"https://maps.google.com/?cid=5005347402507585003&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Korb, Brandstätte, Innere Stadt, Vienna, AT"},{"anchorId":"cafe-braunerhof","rank":7,"name":"Café Bräunerhof","label":"7. Café Bräunerhof","lat":48.207222200000004,"lng":16.3686111,"ctaUrl":"https://maps.google.com/?cid=6708012008837122569&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Bräunerhof, Stallburggasse, Innere Stadt, Vienna, AT"},{"anchorId":"demel","rank":8,"name":"Demel","label":"8. Demel","lat":48.208596199999995,"lng":16.3672185,"ctaUrl":"https://maps.google.com/?cid=8527852790156567128&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Demel, Kohlmarkt, Innere Stadt, Vienna, AT"},{"anchorId":"cafe-eiles","rank":9,"name":"Café Eiles","label":"9. Café Eiles","lat":48.20938760000001,"lng":16.3548005,"ctaUrl":"https://maps.google.com/?cid=8336172809036656684&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Eiles, Josefstädter Straße, near Parliament, Vienna, AT"},{"anchorId":"kleines-cafe","rank":10,"name":"Kleines Café","label":"10. Kleines Café","lat":48.206583599999995,"lng":16.3743355,"ctaUrl":"https://maps.google.com/?cid=5890470158450194781&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kleines Café, Franziskanerplatz, Innere Stadt, Vienna, AT"},{"anchorId":"jonas-reindl","rank":11,"name":"Jonas Reindl Coffee Roasters","label":"11. Jonas Reindl Coffee Roasters","lat":48.2149013,"lng":16.361845499999998,"ctaUrl":"https://maps.google.com/?cid=3528796431837179641&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jonas Reindl Coffee Roasters, Währinger Straße, Alsergrund, Vienna, AT"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

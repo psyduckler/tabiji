@@ -413,9 +413,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -440,7 +443,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -488,13 +491,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Bangkok&#39;s rooftop pools range from budget-friendly day passes (~฿400) to luxurious stays (฿8,000–20,000/night), with SO/ Bangkok being a popular choice for its day pass availability. These sky-high escapes offer a unique contrast to the bustling city below, providing serene swims with stunning views, especially appealing during the hot season.</strong></p>
-        <p>Bangkok&#39;s rooftop pools range from budget-friendly day passes (~฿400) to luxurious stays (฿8,000–20,000/night), with SO/ Bangkok being a popular choice for its day pass availability. These sky-high escapes offer a unique contrast to the bustling city below, providing serene swims with stunning views, especially appealing during the hot season.</p><p>Bangkok isn&#39;t just famous for street food and temples — it&#39;s a world-class rooftop pool city. With dozens of hotels stacking infinity pools 20, 30, even 50 floors above the chaotic streets below, the contrast between buzzing tuk-tuks and serene, sky-high swims is quintessentially Bangkok.</p><p>We analyzed Reddit posts from r/Thailand, r/ThailandTourism, and r/Bangkok to find the rooftop pools that actual travelers rave about — including which ones sell day passes, which are worth booking a room for, and which are overhyped. Not every hotel pool with a view made the cut.</p>
+        <p>Bangkok isn&#39;t just famous for street food and temples — it&#39;s a world-class rooftop pool city. With dozens of hotels stacking infinity pools 20, 30, even 50 floors above the chaotic streets below, the contrast between buzzing tuk-tuks and serene, sky-high swims is quintessentially Bangkok.</p><p>We analyzed Reddit posts from r/Thailand, r/ThailandTourism, and r/Bangkok to find the rooftop pools that actual travelers rave about — including which ones sell day passes, which are worth booking a room for, and which are overhyped. Not every hotel pool with a view made the cut.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Rooftop Pool Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Pools%20in%20Bangkok&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. SO/ Bangkok</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Pool Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -502,7 +506,7 @@
         <a href="#so-bangkok">1. SO/ Bangkok</a>
       </li>
       <li>
-        <a href="#137-pillars">2. 137 Pillars Suites &amp; Residences</a>
+        <a href="#137-pillars">2. 137 Pillars Suites & Residences</a>
       </li>
       <li>
         <a href="#park-hyatt">3. Park Hyatt Bangkok</a>
@@ -516,7 +520,7 @@
       <li>
         <a href="#eastin-grand">6. Eastin Grand Hotel Sathorn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Pools%20in%20Bangkok" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4424842080386112650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -528,7 +532,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="so-bangkok">
+<section class="restaurant-section" id="so-bangkok" data-map-name="1. SO/ Bangkok" data-map-cta-url="https://maps.google.com/?cid=4424842080386112650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="SO/ Bangkok, 2 North Sathorn Road, Bang Rak, Bangkok, TH" data-map-lat="13.7262378" data-map-lng="100.5431816">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>SO/ Bangkok</h2>
         <span class="cuisine-tag tag-regional">Day Pass Available</span>
@@ -557,7 +561,7 @@
         <strong>tabiji verdict:</strong> The best rooftop pool in Bangkok for non-guests. The 1,000-baht day pass is a steal — you get a 32-meter infinity pool with Lumphini Park stretching out below, plus gym and sauna. The monthly pool party is legendary. Book a room if you can afford it; the design-forward hotel itself is stunning.
     </div>
 </section>
-<section class="restaurant-section" id="137-pillars">
+<section class="restaurant-section" id="137-pillars" data-map-name="2. 137 Pillars Suites &amp; Residences" data-map-cta-url="https://maps.google.com/?cid=15399903534768922565&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="137 Pillars Suites &amp; Residences, 36/1 Sukhumvit Soi 39, Khlong Tan Nuea, Bangkok, TH" data-map-lat="13.737681100000001" data-map-lng="100.5723094">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>137 Pillars Suites &amp; Residences</h2>
         <span class="cuisine-tag tag-regional">Luxury</span>
@@ -594,7 +598,7 @@
         <strong>tabiji verdict:</strong> The most Instagram-famous rooftop pool in Bangkok for good reason. The 30th floor cantilevered pool is the kind of thing that stops your scroll — it literally floats in the sky. Worth splurging on a suite for exclusive top-floor access. The 27th floor pool is stunning too and available to all guests.
     </div>
 </section>
-<section class="restaurant-section" id="park-hyatt">
+<section class="restaurant-section" id="park-hyatt" data-map-name="3. Park Hyatt Bangkok" data-map-cta-url="https://maps.google.com/?cid=5450288126429889013&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Park Hyatt Bangkok, 88 Wireless Road, Lumphini, Pathum Wan, Bangkok, TH" data-map-lat="13.743763999999999" data-map-lng="100.54728999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Park Hyatt Bangkok</h2>
         <span class="cuisine-tag tag-regional">Luxury</span>
@@ -623,7 +627,7 @@
         <strong>tabiji verdict:</strong> The pool-hotel combo for people who care about service as much as views. Not the highest pool on this list, but the landscaping, impeccable service, and Penthouse Bar upstairs make it a complete package. Central Lumphini location means everything is walkable. Hyatt points make this surprisingly accessible.
     </div>
 </section>
-<section class="restaurant-section" id="avani-riverside">
+<section class="restaurant-section" id="avani-riverside" data-map-name="4. AVANI+ Riverside Bangkok" data-map-cta-url="https://maps.google.com/?cid=2588869881114686872&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="AVANI+ Riverside Bangkok, 257 Charoennakorn Road, Thonburi, Bangkok, TH" data-map-lat="13.705231000000001" data-map-lng="100.4910657">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>AVANI+ Riverside Bangkok</h2>
         <span class="cuisine-tag tag-regional">Riverside</span>
@@ -656,7 +660,7 @@
         <strong>tabiji verdict:</strong> The best river-view rooftop pool in Bangkok, and genuinely good value. The 26th floor infinity edge with the Chao Phraya below is magical at sunset. Slightly off-center location (Thonburi side) keeps prices lower and crowds thinner. The free hotel boat shuttle to Saphan Taksin BTS makes getting around easy.
     </div>
 </section>
-<section class="restaurant-section" id="sindhorn-midtown">
+<section class="restaurant-section" id="sindhorn-midtown" data-map-name="5. Sindhorn Midtown Hotel" data-map-cta-url="https://maps.google.com/?cid=2308338505958102186&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sindhorn Midtown Hotel, 68 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH" data-map-lat="13.7414799" data-map-lng="100.5427005">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Sindhorn Midtown Hotel</h2>
         <span class="cuisine-tag tag-regional">Day Pass Available</span>
@@ -681,7 +685,7 @@
         <strong>tabiji verdict:</strong> The best-value day pass in Bangkok. For ~1,000 baht you get an infinity pool, gym, sauna, and a dining credit that essentially makes the pool free. The vibe is more social than SO/ Bangkok — expect music and a younger crowd. Prime Langsuan location near Lumphini Park is a bonus.
     </div>
 </section>
-<section class="restaurant-section" id="eastin-grand">
+<section class="restaurant-section" id="eastin-grand" data-map-name="6. Eastin Grand Hotel Sathorn" data-map-cta-url="https://maps.google.com/?cid=9455924634641103332&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Eastin Grand Hotel Sathorn, 33/1 South Sathorn Road, Yannawa, Bangkok, TH" data-map-lat="13.7184244" data-map-lng="100.52194519999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Eastin Grand Hotel Sathorn</h2>
         <span class="cuisine-tag tag-regional">Infinity Pool</span>
@@ -714,7 +718,7 @@
         <strong>tabiji verdict:</strong> The sleeper pick. Most tourists don&#39;t know about this one, but the infinity pool overlooking the Sathorn skyline is genuinely beautiful, and having a direct sky bridge to the BTS is unbeatable for convenience. Solid mid-range pricing makes it accessible without sacrificing views. The Antito rooftop bar upstairs is a great sunset spot.
     </div>
 </section>
-<section class="restaurant-section" id="okura-prestige">
+<section class="restaurant-section" id="okura-prestige" data-map-name="7. The Okura Prestige Bangkok" data-map-cta-url="https://maps.google.com/?cid=6955247198597743942&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Okura Prestige Bangkok, 57 Wireless Road, Lumphini, Pathum Wan, Bangkok, TH" data-map-lat="13.7426385" data-map-lng="100.54805929999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>The Okura Prestige Bangkok</h2>
         <span class="cuisine-tag tag-regional">Luxury</span>
@@ -743,7 +747,7 @@
         <strong>tabiji verdict:</strong> The architectural showstopper. The Okura&#39;s pool literally cantilevers off the building into open air — the feeling of swimming over the city is unmatched. Japanese service standards mean everything is immaculate. Limited loungers means you might need to arrive early, but you&#39;ll rarely share the pool with more than a handful of people. Pure luxury.
     </div>
 </section>
-<section class="restaurant-section" id="novotel-sukhumvit">
+<section class="restaurant-section" id="novotel-sukhumvit" data-map-name="8. Novotel Bangkok Sukhumvit 4" data-map-cta-url="https://maps.google.com/?cid=10899515376680215737&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Novotel Bangkok Sukhumvit 4, 27 Sukhumvit Soi 4, Klongtoey, Bangkok, TH" data-map-lat="13.739381199999999" data-map-lng="100.55324759999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Novotel Bangkok Sukhumvit 4</h2>
         <span class="cuisine-tag tag-regional">Infinity Pool</span>
@@ -764,7 +768,7 @@
         <strong>tabiji verdict:</strong> Excellent value for a high-floor infinity pool. The saltwater is a nice differentiator — feels more refreshing than chlorine in 35°C heat. Location on Soi 4 (Nana area) puts you in the thick of Bangkok&#39;s most entertaining neighborhood. The RedSquare bar is a bonus for evening drinks even after the pool closes.
     </div>
 </section>
-<section class="restaurant-section" id="hotel-muse">
+<section class="restaurant-section" id="hotel-muse" data-map-name="9. Hotel Muse Bangkok (Marriott Autograph)" data-map-cta-url="https://maps.google.com/?cid=15040900427737534434&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hotel Muse Bangkok (Marriott Autograph), 55/555 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH" data-map-lat="13.7402029" data-map-lng="100.5433529">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Hotel Muse Bangkok (Marriott Autograph)</h2>
         <span class="cuisine-tag tag-regional">Boutique</span>
@@ -785,7 +789,7 @@
         <strong>tabiji verdict:</strong> For adults who want a pool without screaming kids. The 1920s design theme is unique in Bangkok&#39;s pool scene — think Art Deco meets tropical. The real magic is combining afternoon poolside relaxation with evening cocktails at The Speakeasy upstairs. Marriott Bonvoy points work here, which is clutch for loyalty program travelers.
     </div>
 </section>
-<section class="restaurant-section" id="kimpton-maalai">
+<section class="restaurant-section" id="kimpton-maalai" data-map-name="10. Kimpton Maa-Lai Bangkok" data-map-cta-url="https://maps.google.com/?cid=14335413063641348252&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kimpton Maa-Lai Bangkok, 78 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH" data-map-lat="13.73768" data-map-lng="100.543443">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Kimpton Maa-Lai Bangkok</h2>
         <span class="cuisine-tag tag-regional">Design Hotel</span>
@@ -814,7 +818,7 @@
         <strong>tabiji verdict:</strong> Kimpton proves you don&#39;t need to be on the 30th floor to have a great rooftop pool. The 3rd floor jungle oasis vibe is surprisingly intimate and photogenic. The real draw is combining it with Bar.Yard on the 40th floor — swim by day, sky-high cocktails by night. IHG points work here. Pet-friendly too, which is rare in Bangkok luxury hotels.
     </div>
 </section>
-<section class="restaurant-section" id="hilton-sukhumvit">
+<section class="restaurant-section" id="hilton-sukhumvit" data-map-name="11. Hilton Sukhumvit Bangkok" data-map-cta-url="https://maps.google.com/?cid=4480860868867583322&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hilton Sukhumvit Bangkok, 11 Sukhumvit Soi 24, Khlong Tan, Bangkok, TH" data-map-lat="13.7285987" data-map-lng="100.56904089999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Hilton Sukhumvit Bangkok</h2>
         <span class="cuisine-tag tag-regional">Infinity Pool</span>
@@ -839,7 +843,7 @@
         <strong>tabiji verdict:</strong> The reliable all-rounder. Hilton Honors points make this accessible, the pool views are solid, and the Sukhumvit 24 location near EmQuartier mall is great for combining shopping with swimming. Not as dramatic as 137 Pillars or SO/, but consistently delivers a good rooftop pool experience without the luxury price tag.
     </div>
 </section>
-<section class="restaurant-section" id="dusit-thani">
+<section class="restaurant-section" id="dusit-thani" data-map-name="12. Dusit Thani Bangkok" data-map-cta-url="https://maps.google.com/?cid=13632326805190161517&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dusit Thani Bangkok, 946 Rama IV Road, Silom, Bang Rak, Bangkok, TH" data-map-lat="13.7283139" data-map-lng="100.53845190000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Dusit Thani Bangkok</h2>
         <span class="cuisine-tag tag-regional">Luxury</span>
@@ -860,7 +864,7 @@
         <strong>tabiji verdict:</strong> The grand dame of Bangkok hotels, reborn. The 2024 renovation transformed an aging icon into a modern luxury masterpiece. The pool isn&#39;t the highest, but the Lumphini Park views and hydro-spa sections are excellent. The Spire on the 40th floor gives you the sky-high experience separately. Worth it for the history and the service pedigree.
     </div>
 </section>
-<section class="restaurant-section" id="grand-mercure">
+<section class="restaurant-section" id="grand-mercure" data-map-name="13. Grand Mercure Bangkok Atrium" data-map-cta-url="https://maps.google.com/?cid=17690363433374887622&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Grand Mercure Bangkok Atrium, 1880 New Petchburi Road, Huai Khwang, Bangkok, TH" data-map-lat="13.747158" data-map-lng="100.5696937">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Grand Mercure Bangkok Atrium</h2>
         <span class="cuisine-tag tag-regional">Budget Day Pass</span>
@@ -885,7 +889,7 @@
         <strong>tabiji verdict:</strong> The budget king. At 400 baht (~$11 USD), this is the cheapest quality pool day pass in Bangkok. The pool won&#39;t win any Instagram awards, but having it to yourself on a Tuesday afternoon is priceless. Great gym too. Location is slightly off the main tourist track, but MRT accessible.
     </div>
 </section>
-<section class="restaurant-section" id="innside-melia">
+<section class="restaurant-section" id="innside-melia" data-map-name="14. INNSiDE by Meliá Bangkok Sukhumvit" data-map-cta-url="https://maps.google.com/?cid=10689322281230090946&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="INNSiDE by Meliá Bangkok Sukhumvit, 26 Sukhumvit Soi 77 (On Nut), Phra Khanong, Bangkok, TH" data-map-lat="13.707056999999999" data-map-lng="100.59999800000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>INNSiDE by Meliá Bangkok Sukhumvit</h2>
         <span class="cuisine-tag tag-regional">Design Hotel</span>
@@ -906,7 +910,7 @@
         <strong>tabiji verdict:</strong> The glass-bottom gimmick actually delivers — it&#39;s a unique photo op and a fun conversation starter. Location in On Nut is further from the main tourist area but means lower prices and a more local neighborhood to explore. Great value for a design-forward hotel with a genuinely cool pool concept.
     </div>
 </section>
-<section class="restaurant-section" id="siam-at-siam">
+<section class="restaurant-section" id="siam-at-siam" data-map-name="15. Siam@Siam Design Hotel" data-map-cta-url="https://maps.google.com/?cid=11776921437725108806&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Siam@Siam Design Hotel, 865 Rama I Road, Wang Mai, Pathum Wan, Bangkok, TH" data-map-lat="13.7474361" data-map-lng="100.52697219999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Siam@Siam Design Hotel</h2>
         <span class="cuisine-tag tag-regional">Design Hotel</span>
@@ -939,7 +943,7 @@
         <strong>tabiji verdict:</strong> The hipster pick. Siam@Siam&#39;s design-forward aesthetic extends to the pool — it&#39;s artsy and photogenic without trying too hard. The rooftop bar perk for upgraded rooms is exceptional value. Location right by Siam/National Stadium BTS puts you in Bangkok&#39;s shopping and cultural heart. Great for design-conscious travelers.
     </div>
 </section>
-<section class="restaurant-section" id="mode-sathorn">
+<section class="restaurant-section" id="mode-sathorn" data-map-name="16. Mode Sathorn Hotel" data-map-cta-url="https://maps.google.com/?cid=2408013947792399782&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mode Sathorn Hotel, 144 North Sathorn Road, Silom, Bang Rak, Bangkok, TH" data-map-lat="13.7198753" data-map-lng="100.52164710000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Mode Sathorn Hotel</h2>
         <span class="cuisine-tag tag-regional">Mid-Range</span>
@@ -982,9 +986,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Rooftop Pool Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Pools%20in%20Bangkok&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. SO/ Bangkok</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Pool Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -992,7 +997,7 @@
         <a href="#so-bangkok">1. SO/ Bangkok</a>
       </li>
       <li>
-        <a href="#137-pillars">2. 137 Pillars Suites &amp; Residences</a>
+        <a href="#137-pillars">2. 137 Pillars Suites & Residences</a>
       </li>
       <li>
         <a href="#park-hyatt">3. Park Hyatt Bangkok</a>
@@ -1006,7 +1011,7 @@
       <li>
         <a href="#eastin-grand">6. Eastin Grand Hotel Sathorn</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Pools%20in%20Bangkok" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4424842080386112650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1017,5 +1022,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Rooftop Pool Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Rooftop%20Pools%20in%20Bangkok","picks":[{"anchorId":"so-bangkok","rank":1,"name":"SO/ Bangkok","label":"1. SO/ Bangkok","lat":13.7262378,"lng":100.5431816,"ctaUrl":"https://maps.google.com/?cid=4424842080386112650&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"SO/ Bangkok, 2 North Sathorn Road, Bang Rak, Bangkok, TH"},{"anchorId":"137-pillars","rank":2,"name":"137 Pillars Suites & Residences","label":"2. 137 Pillars Suites & Residences","lat":13.737681100000001,"lng":100.5723094,"ctaUrl":"https://maps.google.com/?cid=15399903534768922565&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"137 Pillars Suites & Residences, 36/1 Sukhumvit Soi 39, Khlong Tan Nuea, Bangkok, TH"},{"anchorId":"park-hyatt","rank":3,"name":"Park Hyatt Bangkok","label":"3. Park Hyatt Bangkok","lat":13.743763999999999,"lng":100.54728999999999,"ctaUrl":"https://maps.google.com/?cid=5450288126429889013&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Park Hyatt Bangkok, 88 Wireless Road, Lumphini, Pathum Wan, Bangkok, TH"},{"anchorId":"avani-riverside","rank":4,"name":"AVANI+ Riverside Bangkok","label":"4. AVANI+ Riverside Bangkok","lat":13.705231000000001,"lng":100.4910657,"ctaUrl":"https://maps.google.com/?cid=2588869881114686872&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"AVANI+ Riverside Bangkok, 257 Charoennakorn Road, Thonburi, Bangkok, TH"},{"anchorId":"sindhorn-midtown","rank":5,"name":"Sindhorn Midtown Hotel","label":"5. Sindhorn Midtown Hotel","lat":13.7414799,"lng":100.5427005,"ctaUrl":"https://maps.google.com/?cid=2308338505958102186&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sindhorn Midtown Hotel, 68 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH"},{"anchorId":"eastin-grand","rank":6,"name":"Eastin Grand Hotel Sathorn","label":"6. Eastin Grand Hotel Sathorn","lat":13.7184244,"lng":100.52194519999999,"ctaUrl":"https://maps.google.com/?cid=9455924634641103332&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Eastin Grand Hotel Sathorn, 33/1 South Sathorn Road, Yannawa, Bangkok, TH"},{"anchorId":"okura-prestige","rank":7,"name":"The Okura Prestige Bangkok","label":"7. The Okura Prestige Bangkok","lat":13.7426385,"lng":100.54805929999999,"ctaUrl":"https://maps.google.com/?cid=6955247198597743942&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Okura Prestige Bangkok, 57 Wireless Road, Lumphini, Pathum Wan, Bangkok, TH"},{"anchorId":"novotel-sukhumvit","rank":8,"name":"Novotel Bangkok Sukhumvit 4","label":"8. Novotel Bangkok Sukhumvit 4","lat":13.739381199999999,"lng":100.55324759999999,"ctaUrl":"https://maps.google.com/?cid=10899515376680215737&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Novotel Bangkok Sukhumvit 4, 27 Sukhumvit Soi 4, Klongtoey, Bangkok, TH"},{"anchorId":"hotel-muse","rank":9,"name":"Hotel Muse Bangkok (Marriott Autograph)","label":"9. Hotel Muse Bangkok (Marriott Autograph)","lat":13.7402029,"lng":100.5433529,"ctaUrl":"https://maps.google.com/?cid=15040900427737534434&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hotel Muse Bangkok (Marriott Autograph), 55/555 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH"},{"anchorId":"kimpton-maalai","rank":10,"name":"Kimpton Maa-Lai Bangkok","label":"10. Kimpton Maa-Lai Bangkok","lat":13.73768,"lng":100.543443,"ctaUrl":"https://maps.google.com/?cid=14335413063641348252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kimpton Maa-Lai Bangkok, 78 Langsuan Road, Lumphini, Pathum Wan, Bangkok, TH"},{"anchorId":"hilton-sukhumvit","rank":11,"name":"Hilton Sukhumvit Bangkok","label":"11. Hilton Sukhumvit Bangkok","lat":13.7285987,"lng":100.56904089999999,"ctaUrl":"https://maps.google.com/?cid=4480860868867583322&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hilton Sukhumvit Bangkok, 11 Sukhumvit Soi 24, Khlong Tan, Bangkok, TH"},{"anchorId":"dusit-thani","rank":12,"name":"Dusit Thani Bangkok","label":"12. Dusit Thani Bangkok","lat":13.7283139,"lng":100.53845190000001,"ctaUrl":"https://maps.google.com/?cid=13632326805190161517&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dusit Thani Bangkok, 946 Rama IV Road, Silom, Bang Rak, Bangkok, TH"},{"anchorId":"grand-mercure","rank":13,"name":"Grand Mercure Bangkok Atrium","label":"13. Grand Mercure Bangkok Atrium","lat":13.747158,"lng":100.5696937,"ctaUrl":"https://maps.google.com/?cid=17690363433374887622&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Grand Mercure Bangkok Atrium, 1880 New Petchburi Road, Huai Khwang, Bangkok, TH"},{"anchorId":"innside-melia","rank":14,"name":"INNSiDE by Meliá Bangkok Sukhumvit","label":"14. INNSiDE by Meliá Bangkok Sukhumvit","lat":13.707056999999999,"lng":100.59999800000001,"ctaUrl":"https://maps.google.com/?cid=10689322281230090946&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"INNSiDE by Meliá Bangkok Sukhumvit, 26 Sukhumvit Soi 77 (On Nut), Phra Khanong, Bangkok, TH"},{"anchorId":"siam-at-siam","rank":15,"name":"Siam@Siam Design Hotel","label":"15. Siam@Siam Design Hotel","lat":13.7474361,"lng":100.52697219999999,"ctaUrl":"https://maps.google.com/?cid=11776921437725108806&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Siam@Siam Design Hotel, 865 Rama I Road, Wang Mai, Pathum Wan, Bangkok, TH"},{"anchorId":"mode-sathorn","rank":16,"name":"Mode Sathorn Hotel","label":"16. Mode Sathorn Hotel","lat":13.7198753,"lng":100.52164710000001,"ctaUrl":"https://maps.google.com/?cid=2408013947792399782&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mode Sathorn Hotel, 144 North Sathorn Road, Silom, Bang Rak, Bangkok, TH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

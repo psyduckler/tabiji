@@ -305,9 +305,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -332,7 +335,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -380,18 +383,19 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Amsterdam&#39;s stroopwafel scene offers treats from €2 market finds to €11 tourist traps, with Rudi&#39;s Original Stroopwafels at Albert Cuyp Market being the top recommendation for their fresh, classic stroopwafels. To find the best stroopwafels, skip the Instagram queues and head to the markets and bakeries recommended by locals for an authentic experience.</strong></p>
-        <p>Amsterdam&#39;s stroopwafel scene ranges from €2 market finds to €11 tourist traps, but Rudi&#39;s Original Stroopwafels at Albert Cuyp Market, known for their fresh, classic stroopwafels, are the top recommendation. To find the best stroopwafels, skip the Instagram queues and head to the markets and bakeries recommended by locals.</p><p>The stroopwafel is Amsterdam&#39;s most beloved street snack — two thin waffle layers sandwiching a gooey caramel syrup filling. But with TikTok-famous tourist traps charging €11+ for a single wafel, finding the genuinely great ones means separating the authentic from the absurd.</p><p>We analyzed hundreds of Reddit posts from r/Amsterdam, r/Netherlands, r/food, and r/FoodPorn to find the spots that actual Dutch locals and experienced visitors recommend. The verdict is clear: skip the Instagram queues, head to a market, and save your euros.</p>
+        <p>The stroopwafel is Amsterdam&#39;s most beloved street snack — two thin waffle layers sandwiching a gooey caramel syrup filling. But with TikTok-famous tourist traps charging €11+ for a single wafel, finding the genuinely great ones means separating the authentic from the absurd.</p><p>We analyzed hundreds of Reddit posts from r/Amsterdam, r/Netherlands, r/food, and r/FoodPorn to find the spots that actual Dutch locals and experienced visitors recommend. The verdict is clear: skip the Instagram queues, head to a market, and save your euros.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Stroopwafel Map</h2>
-      <iframe src="https://www.google.com/maps?q=Stroopwafel%20in%20Amsterdam&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Rudi&#39;s Original Stroopwafels</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Stroopwafel Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#rudis">1. Rudi&#39;s Original Stroopwafels</a>
+        <a href="#rudis">1. Rudi's Original Stroopwafels</a>
       </li>
       <li>
         <a href="#albert-cuyp">2. Albert Cuyp Market (Other Stalls)</a>
@@ -408,7 +412,7 @@
       <li>
         <a href="#dappermarkt">6. Dappermarkt</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Stroopwafel%20in%20Amsterdam" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13915976735675911431&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -420,7 +424,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="rudis">
+<section class="restaurant-section" id="rudis" data-map-name="1. Rudi&#39;s Original Stroopwafels" data-map-cta-url="https://maps.google.com/?cid=13915976735675911431&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rudi&#39;s Original Stroopwafels, Albert Cuyp Market, De Pijp, Amsterdam, NL" data-map-lat="52.3558047" data-map-lng="4.8950112">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Rudi&#39;s Original Stroopwafels</h2>
         <span class="cuisine-tag tag-regional">Fresh Market</span>
@@ -462,7 +466,7 @@
         <strong>tabiji verdict:</strong> The undisputed king. Every stroopwafel conversation on Reddit leads back to Rudi&#39;s at Albert Cuyp Market. The stall is easy to spot — look for the queue of people who clearly know what they&#39;re doing. Fresh, massive, cheap. This is the one.
     </div>
 </section>
-<section class="restaurant-section" id="albert-cuyp">
+<section class="restaurant-section" id="albert-cuyp" data-map-name="2. Albert Cuyp Market (Other Stalls)" data-map-cta-url="https://maps.google.com/?cid=15104207878837832600&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Albert Cuyp Market (Other Stalls), Albert Cuypstraat, De Pijp, Amsterdam, NL" data-map-lat="52.3553059" data-map-lng="4.8915504">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Albert Cuyp Market (Other Stalls)</h2>
         <span class="cuisine-tag tag-regional">Fresh Market</span>
@@ -500,7 +504,7 @@
         <strong>tabiji verdict:</strong> Even beyond Rudi&#39;s, Albert Cuyp is stroopwafel paradise. Multiple stalls compete for your attention, and honestly, they&#39;re all good — fresh is fresh. The market itself is a fantastic Amsterdam experience with Indonesian food, herring stands, and cheese shops. Two metro stops from Centraal Station.
     </div>
 </section>
-<section class="restaurant-section" id="lanskroon">
+<section class="restaurant-section" id="lanskroon" data-map-name="3. Lanskroon" data-map-cta-url="https://maps.google.com/?cid=13307131617015178538&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lanskroon, Singel 385, Centrum, Amsterdam, NL" data-map-lat="52.3687971" data-map-lng="4.8881757">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Lanskroon</h2>
         <span class="cuisine-tag tag-regional">Bakery</span>
@@ -542,7 +546,7 @@
         <strong>tabiji verdict:</strong> The best sit-down stroopwafel experience in Amsterdam. Lanskroon has been a neighborhood bakery for decades — no TikTok hype, just genuinely great pastry craft. The coffee caramel flavor is a flavor revelation. Perfect for a canal-side stroll snack since it&#39;s right on Singel.
     </div>
 </section>
-<section class="restaurant-section" id="egstorf">
+<section class="restaurant-section" id="egstorf" data-map-name="4. Croissanterie Egstorf" data-map-cta-url="https://maps.google.com/?cid=12621439192846044830&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Croissanterie Egstorf, Spuistraat, Centrum, Amsterdam, NL" data-map-lat="52.370225" data-map-lng="4.888908">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Croissanterie Egstorf</h2>
         <span class="cuisine-tag tag-regional">Bakery</span>
@@ -580,7 +584,7 @@
         <strong>tabiji verdict:</strong> The centrum alternative when you can&#39;t make it to Albert Cuyp. A real bakery with real stroopwafels at real prices. Less famous means no queue and a more authentic experience. Perfect for a quick stop if you&#39;re exploring the Spuistraat area.
     </div>
 </section>
-<section class="restaurant-section" id="noordermarkt">
+<section class="restaurant-section" id="noordermarkt" data-map-name="5. Noordermarkt (Saturday Market)" data-map-cta-url="https://maps.google.com/?cid=4612888607477752651&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Noordermarkt (Saturday Market), Noordermarkt, Jordaan, Amsterdam, NL" data-map-lat="52.379875899999995" data-map-lng="4.886085800000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Noordermarkt (Saturday Market)</h2>
         <span class="cuisine-tag tag-regional">Market</span>
@@ -610,7 +614,7 @@
         <strong>tabiji verdict:</strong> Amsterdam&#39;s prettiest market in the beautiful Jordaan neighborhood. The Saturday farmers&#39; market is a more intimate, local experience than Albert Cuyp. Fewer tourists, same quality fresh stroopwafels. Combine with a canal walk through the Jordaan — chef&#39;s kiss.
     </div>
 </section>
-<section class="restaurant-section" id="dappermarkt">
+<section class="restaurant-section" id="dappermarkt" data-map-name="6. Dappermarkt" data-map-cta-url="https://maps.google.com/?cid=18039826193529789878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dappermarkt, Dapperstraat, Oost, Amsterdam, NL" data-map-lat="52.3622356" data-map-lng="4.9277678">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Dappermarkt</h2>
         <span class="cuisine-tag tag-regional">Market</span>
@@ -640,7 +644,7 @@
         <strong>tabiji verdict:</strong> The local&#39;s local market. Dappermarkt in Amsterdam Oost is where actual Amsterdammers shop — you won&#39;t find Instagram influencers here. The stroopwafel stalls are no-frills but deliver the goods. A great option if you&#39;re staying in the east side or visiting the Tropenmuseum.
     </div>
 </section>
-<section class="restaurant-section" id="mellys">
+<section class="restaurant-section" id="mellys" data-map-name="7. Melly&#39;s Stroopwafels" data-map-cta-url="https://maps.google.com/?cid=7790886191063392536&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Melly&#39;s Stroopwafels, Centrum (multiple locations), Amsterdam, NL" data-map-lat="52.3739109" data-map-lng="4.8911408">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Melly&#39;s Stroopwafels</h2>
         <span class="cuisine-tag tag-regional">Bakery</span>
@@ -678,7 +682,7 @@
         <strong>tabiji verdict:</strong> A pleasant surprise in the centrum tourist zone. Unlike Van Wonderen, Melly&#39;s actually delivers quality at reasonable prices. Not the cheapest option, but when you need a stroopwafel fix near Dam Square without trekking to a market, Melly&#39;s is the move.
     </div>
 </section>
-<section class="restaurant-section" id="queens">
+<section class="restaurant-section" id="queens" data-map-name="8. Queens Stroopwafel" data-map-cta-url="https://maps.google.com/?cid=12335136372541772969&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Queens Stroopwafel, Centrum, Amsterdam, Amsterdam, NL" data-map-lat="52.367781" data-map-lng="4.8917613">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Queens Stroopwafel</h2>
         <span class="cuisine-tag tag-regional">Vegan</span>
@@ -704,7 +708,7 @@
         <strong>tabiji verdict:</strong> The only dedicated vegan stroopwafel in Amsterdam. If you&#39;re plant-based, this is your spot — period. Non-vegans might find it slightly different from the butter-rich original, but it&#39;s a solid stroopwafel in its own right. Extra sticky, extra sweet, and 100% cruelty-free.
     </div>
 </section>
-<section class="restaurant-section" id="albert-heijn">
+<section class="restaurant-section" id="albert-heijn" data-map-name="9. Albert Heijn (Fresh Bakery Section)" data-map-cta-url="https://maps.google.com/?cid=8153788694219855137&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Albert Heijn (Fresh Bakery Section), Everywhere in Amsterdam, Amsterdam, NL" data-map-lat="52.3728467" data-map-lng="4.890225099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Albert Heijn (Fresh Bakery Section)</h2>
         <span class="cuisine-tag tag-regional">Supermarket</span>
@@ -746,7 +750,7 @@
         <strong>tabiji verdict:</strong> Here&#39;s the Dutch secret nobody on TikTok will tell you: most Dutch people eat stroopwafels from the supermarket. Albert Heijn&#39;s fresh bakery section stroopwafels are legitimately great — warm them on your coffee cup for the full experience. Perfect for souvenirs too. There&#39;s an AH on literally every block.
     </div>
 </section>
-<section class="restaurant-section" id="kanjers">
+<section class="restaurant-section" id="kanjers" data-map-name="10. Kanjers (Supermarket Brand)" data-map-cta-url="https://maps.google.com/?cid=8153788694219855137&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kanjers (Supermarket Brand), Any supermarket (Albert Heijn, Jumbo, etc.), Amsterdam, NL" data-map-lat="52.3728467" data-map-lng="4.890225099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Kanjers (Supermarket Brand)</h2>
         <span class="cuisine-tag tag-regional">Supermarket</span>
@@ -806,14 +810,15 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Stroopwafel Map</h2>
-      <iframe src="https://www.google.com/maps?q=Stroopwafel%20in%20Amsterdam&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Rudi&#39;s Original Stroopwafels</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Stroopwafel Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#rudis">1. Rudi&#39;s Original Stroopwafels</a>
+        <a href="#rudis">1. Rudi's Original Stroopwafels</a>
       </li>
       <li>
         <a href="#albert-cuyp">2. Albert Cuyp Market (Other Stalls)</a>
@@ -830,7 +835,7 @@
       <li>
         <a href="#dappermarkt">6. Dappermarkt</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Stroopwafel%20in%20Amsterdam" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13915976735675911431&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -841,5 +846,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Stroopwafel Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Stroopwafel%20in%20Amsterdam","picks":[{"anchorId":"rudis","rank":1,"name":"Rudi's Original Stroopwafels","label":"1. Rudi's Original Stroopwafels","lat":52.3558047,"lng":4.8950112,"ctaUrl":"https://maps.google.com/?cid=13915976735675911431&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rudi's Original Stroopwafels, Albert Cuyp Market, De Pijp, Amsterdam, NL"},{"anchorId":"albert-cuyp","rank":2,"name":"Albert Cuyp Market (Other Stalls)","label":"2. Albert Cuyp Market (Other Stalls)","lat":52.3553059,"lng":4.8915504,"ctaUrl":"https://maps.google.com/?cid=15104207878837832600&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Albert Cuyp Market (Other Stalls), Albert Cuypstraat, De Pijp, Amsterdam, NL"},{"anchorId":"lanskroon","rank":3,"name":"Lanskroon","label":"3. Lanskroon","lat":52.3687971,"lng":4.8881757,"ctaUrl":"https://maps.google.com/?cid=13307131617015178538&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lanskroon, Singel 385, Centrum, Amsterdam, NL"},{"anchorId":"egstorf","rank":4,"name":"Croissanterie Egstorf","label":"4. Croissanterie Egstorf","lat":52.370225,"lng":4.888908,"ctaUrl":"https://maps.google.com/?cid=12621439192846044830&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Croissanterie Egstorf, Spuistraat, Centrum, Amsterdam, NL"},{"anchorId":"noordermarkt","rank":5,"name":"Noordermarkt (Saturday Market)","label":"5. Noordermarkt (Saturday Market)","lat":52.379875899999995,"lng":4.886085800000001,"ctaUrl":"https://maps.google.com/?cid=4612888607477752651&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Noordermarkt (Saturday Market), Noordermarkt, Jordaan, Amsterdam, NL"},{"anchorId":"dappermarkt","rank":6,"name":"Dappermarkt","label":"6. Dappermarkt","lat":52.3622356,"lng":4.9277678,"ctaUrl":"https://maps.google.com/?cid=18039826193529789878&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dappermarkt, Dapperstraat, Oost, Amsterdam, NL"},{"anchorId":"mellys","rank":7,"name":"Melly's Stroopwafels","label":"7. Melly's Stroopwafels","lat":52.3739109,"lng":4.8911408,"ctaUrl":"https://maps.google.com/?cid=7790886191063392536&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Melly's Stroopwafels, Centrum (multiple locations), Amsterdam, NL"},{"anchorId":"queens","rank":8,"name":"Queens Stroopwafel","label":"8. Queens Stroopwafel","lat":52.367781,"lng":4.8917613,"ctaUrl":"https://maps.google.com/?cid=12335136372541772969&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Queens Stroopwafel, Centrum, Amsterdam, Amsterdam, NL"},{"anchorId":"albert-heijn","rank":9,"name":"Albert Heijn (Fresh Bakery Section)","label":"9. Albert Heijn (Fresh Bakery Section)","lat":52.3728467,"lng":4.890225099999999,"ctaUrl":"https://maps.google.com/?cid=8153788694219855137&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Albert Heijn (Fresh Bakery Section), Everywhere in Amsterdam, Amsterdam, NL"},{"anchorId":"kanjers","rank":10,"name":"Kanjers (Supermarket Brand)","label":"10. Kanjers (Supermarket Brand)","lat":52.3728467,"lng":4.890225099999999,"ctaUrl":"https://maps.google.com/?cid=8153788694219855137&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kanjers (Supermarket Brand), Any supermarket (Albert Heijn, Jumbo, etc.), Amsterdam, NL"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

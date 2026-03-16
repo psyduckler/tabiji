@@ -368,11 +368,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -397,9 +392,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -424,7 +422,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -472,13 +470,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Shawarma in Amman, ranging from 0.65–1.80 JOD per sandwich, offers a diverse cultural experience, with Sarawat being a top meat shawarma recommendation among Reddit users. Whether exploring downtown or a residential neighborhood, Amman&#39;s shawarma scene provides a range of flavors and experiences.</strong></p>
-        <p>Shawarma in Amman ranges from budget-friendly to slightly upscale, but it&#39;s always a cultural experience, with Sarawat being the top meat shawarma recommendation among Reddit users. Whether you&#39;re exploring downtown or a residential neighborhood, Amman&#39;s shawarma scene offers a diverse range of flavors and experiences.</p><p>In Amman, shawarma is not street food — it&#39;s culture. Every Jordanian has an opinion, a favorite spot, and strong feelings about the meat-vs-chicken debate. These opinions are non-negotiable and will be shared with you unprompted. Consider this a feature, not a bug.</p><p>We analyzed Reddit threads on r/jordan, r/Amman, and r/travel, plus TripAdvisor reviews and local food blogs, to find which shawarma shops actual Jordanians and long-term residents recommend — and what distinguishes great Amman shawarma from merely good shawarma.</p>
+        <p>In Amman, shawarma is not street food — it&#39;s culture. Every Jordanian has an opinion, a favorite spot, and strong feelings about the meat-vs-chicken debate. These opinions are non-negotiable and will be shared with you unprompted. Consider this a feature, not a bug.</p><p>We analyzed Reddit threads on r/jordan, r/Amman, and r/travel, plus TripAdvisor reviews and local food blogs, to find which shawarma shops actual Jordanians and long-term residents recommend — and what distinguishes great Amman shawarma from merely good shawarma.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Shawarma Map — Amman</h2>
-      <iframe src="https://www.google.com/maps?q=Jordan%20shawarma&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Shawarma Sarawat</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Shawarma Map — Amman"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -500,7 +499,7 @@
       <li>
         <a href="#shawerma-juicy">6. Shawerma Juicy</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Jordan%20shawarma" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6958839105829763353&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -512,7 +511,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="sarawat">
+<section class="restaurant-section" id="sarawat" data-map-name="1. Shawarma Sarawat" data-map-cta-url="https://maps.google.com/?cid=6958839105829763353&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawarma Sarawat, Multiple locations across Amman, Jordan, JO" data-map-lat="31.957523100000003" data-map-lng="35.8540564">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Shawarma Sarawat</h2>
         <span class="cuisine-tag tag-regional">Meat Shawarma King</span>
@@ -550,7 +549,7 @@
         <strong>tabiji verdict:</strong> The undisputed #1 for meat shawarma in Amman according to Jordan&#39;s Reddit community. &quot;Absolutely Sarawat&quot; is the exact language used in the most-cited thread — that level of certainty from locals is the highest possible endorsement. Multiple locations make it accessible wherever you&#39;re staying. Go for the meat shawarma; if they&#39;re out, come back tomorrow.
     </div>
 </section>
-<section class="restaurant-section" id="al-reem">
+<section class="restaurant-section" id="al-reem" data-map-name="2. Shawarma Al-Reem (2nd Circle)" data-map-cta-url="https://maps.google.com/?cid=2524233301884934281&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawarma Al-Reem (2nd Circle), 2nd Circle (Duwaar ath-Thani), Jabal Amman, Jordan, JO" data-map-lat="31.9520536" data-map-lng="35.9153199">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Shawarma Al-Reem (2nd Circle)</h2>
         <span class="cuisine-tag tag-regional">2nd Circle Institution</span>
@@ -574,7 +573,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shawarma-al-reem.jpg" alt="Shawarma Al-Reem (2nd Circle) in 2nd Circle (Duwaar ath-Thani), Jabal Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shawarma Al-Reem, an institution at 2nd Circle (Duwaar ath-Thani) in Jabal Amman, offers shawarma sandwiches for 0.85–1.30 JOD. What to order: the meat shawarma — Al-Reem at 2nd Circle is specifically cited by Reddit as having &quot;the best meat shawarma&quot; by Jordanians who live in the Jabal Amman area. The 2nd Circle location is a convenient stop if you&#39;re exploring the Rainbow Street / Jabal Amman area. The garlic sauce (toum) here is notably excellent — generous, fluffy, well-balanced.</div>
+        <strong>What to order:</strong> the meat shawarma — Al-Reem at 2nd Circle is specifically cited by Reddit as having &quot;the best meat shawarma&quot; by Jordanians who live in the Jabal Amman area. The 2nd Circle location is a convenient stop if you&#39;re exploring the Rainbow Street / Jabal Amman area. The garlic sauce (toum) here is notably excellent — generous, fluffy, well-balanced.</div>
     
     <div class="reddit-quote">
         "Shawarma Al-Reem 2nd circle has the best meat shawarma — if you&#39;re in the Jabal Amman area, you don&#39;t need to go anywhere else."
@@ -588,7 +587,7 @@
         <strong>tabiji verdict:</strong> The geographic anchor for the Jabal Amman / Rainbow Street neighborhood, which is where most travelers to Amman end up spending time. A consistently recommended local pick with excellent toum (garlic sauce). If your Amman itinerary includes the 1st or 2nd Circle area, Al-Reem is mandatory.
     </div>
 </section>
-<section class="restaurant-section" id="zayona">
+<section class="restaurant-section" id="zayona" data-map-name="3. Zayona Shawarma" data-map-cta-url="https://maps.google.com/?cid=5558002372320361226&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Zayona Shawarma, Zayona neighborhood, Amman, Jordan, JO" data-map-lat="31.9721275" data-map-lng="35.8843077">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Zayona Shawarma</h2>
         <span class="cuisine-tag tag-regional">Runner-Up Meat Classic</span>
@@ -612,7 +611,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/zayona-shawarma.jpg" alt="Zayona Shawarma in Zayona neighborhood, Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Zayona Shawarma, located in the Zayona neighborhood of Amman, is a runner-up meat classic, with sandwiches priced at 0.90–1.40 JOD. What to order: The meat shawarma — Zayona consistently earns second place behind Sarawat in the minds of Jordanians who&#39;ve done the comparison. The spice profile differs slightly (more cumin and turmeric in the blend), giving a warmer, earthier character compared to Sarawat&#39;s cinnamon-forward blend. Some Jordanians actually prefer Zayona&#39;s version precisely because of this earthier quality.</div>
+        <strong>What to order:</strong> The meat shawarma — Zayona consistently earns second place behind Sarawat in the minds of Jordanians who&#39;ve done the comparison. The spice profile differs slightly (more cumin and turmeric in the blend), giving a warmer, earthier character compared to Sarawat&#39;s cinnamon-forward blend. Some Jordanians actually prefer Zayona&#39;s version precisely because of this earthier quality.</div>
     
     <div class="reddit-quote">
         "For meat shawarma: Sarawat first, then Zayona. Both are excellent — it comes down to your spice preference. Sarawat is more aromatic, Zayona is earthier."
@@ -622,7 +621,7 @@
         <strong>tabiji verdict:</strong> The #2 meat shawarma in Amman — which in a city this passionate about shawarma means it&#39;s exceptional. If Sarawat is closed or you&#39;re in the Zayona area, this is exactly where to go. The two represent different spice philosophies; eating both is the best shawarma education you can give yourself in Jordan.
     </div>
 </section>
-<section class="restaurant-section" id="shanab">
+<section class="restaurant-section" id="shanab" data-map-name="4. Shanab Shawarma" data-map-cta-url="https://maps.google.com/?cid=9443435743503082649&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shanab Shawarma, Amman (multiple locations), Jordan, JO" data-map-lat="31.941388900000003" data-map-lng="35.8827778">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Shanab Shawarma</h2>
         <span class="cuisine-tag tag-regional">Saj Bread Specialist</span>
@@ -646,7 +645,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shanab-shawarma.jpg" alt="Shanab Shawarma in Amman (multiple locations)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shanab Shawarma, with multiple locations in Amman, is a saj bread specialist, offering sandwiches for 0.80–1.20 JOD. What to order: The shawarma on markook (saj) bread — Shanab is specifically cited for the bread choice as a differentiator. Saj/markook bread is thinner, more pliable, and softer than standard khubz, creating a different texture ratio with the meat. Jordanians who prefer the saj experience point to Shanab over any spot that uses only standard flatbread.</div>
+        <strong>What to order:</strong> The shawarma on markook (saj) bread — Shanab is specifically cited for the bread choice as a differentiator. Saj/markook bread is thinner, more pliable, and softer than standard khubz, creating a different texture ratio with the meat. Jordanians who prefer the saj experience point to Shanab over any spot that uses only standard flatbread.</div>
     
     <div class="reddit-quote">
         "Many say Saj, but saj isn&#39;t even shawarma — it&#39;s a different concept. But I&#39;d rather Shanab over saj for the bread they use. The markook at Shanab makes the whole sandwich better."
@@ -656,7 +655,7 @@
         <strong>tabiji verdict:</strong> The bread innovator of Amman shawarma. If you&#39;ve been eating standard-bread shawarma and want to understand how much the wrap matters to the experience, Shanab is your education. The markook bread creates a softer, more pillowy wrap that many people — once they try it — never go back from.
     </div>
 </section>
-<section class="restaurant-section" id="khobzeh-shawerma">
+<section class="restaurant-section" id="khobzeh-shawerma" data-map-name="5. Khobzeh w Shawerma" data-map-cta-url="https://maps.google.com/?cid=1144158816461435734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Khobzeh w Shawerma, Amman, Jordan, JO" data-map-lat="31.995308899999998" data-map-lng="35.8711754">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Khobzeh w Shawerma</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -680,7 +679,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/khobzeh-w-shawerma.jpg" alt="Khobzeh w Shawerma in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Khobzeh w Shawerma, located in Amman, is a local favorite, with shawarma sandwiches priced at 0.75–1.20 JOD. What to order: The shawarma — the name literally means &quot;bread and shawarma,&quot; which suggests exactly what they do and exactly how focused they are on doing it well. Jordanian food bloggers and r/jordan regulars mention this spot consistently in their personal favorites lists. Ask for extra pickles and fresh tomatoes alongside.</div>
+        <strong>What to order:</strong> The shawarma — the name literally means &quot;bread and shawarma,&quot; which suggests exactly what they do and exactly how focused they are on doing it well. Jordanian food bloggers and r/jordan regulars mention this spot consistently in their personal favorites lists. Ask for extra pickles and fresh tomatoes alongside.</div>
     
     <div class="reddit-quote">
         "Shawarma and doner recommendations: khobzeh w shawerma, shawerma juicy, shawerma 3a sai, shawerma zarb, chef nidal — all of these are places I can personally vouch for."
@@ -690,7 +689,7 @@
         <strong>tabiji verdict:</strong> A name that does exactly what it says on the tin — bread and shawarma, executed with care. The fact that a Jordanian foodie listed this alongside multiple other personal favorites in a single comment carries significant weight. When a local gives five recommendations in one breath, they&#39;re all worth eating.
     </div>
 </section>
-<section class="restaurant-section" id="shawerma-juicy">
+<section class="restaurant-section" id="shawerma-juicy" data-map-name="6. Shawerma Juicy" data-map-cta-url="https://maps.google.com/?cid=16235778668179537090&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawerma Juicy, Amman, Jordan, JO" data-map-lat="31.9967864" data-map-lng="35.8542436">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Shawerma Juicy</h2>
         <span class="cuisine-tag tag-regional">Chicken Specialist</span>
@@ -714,7 +713,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shawerma-juicy.jpg" alt="Shawerma Juicy in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shawerma Juicy, located in Amman, is a chicken specialist, with sandwiches priced at 0.80–1.30 JOD and a rating of 4.1 stars (639 reviews). What to order: The chicken shawarma — the name is a direct claim about the product and reportedly justified. Chicken shawarma at its best in Amman has a yogurt-based marinade with garlic and lemon, slow-cooked on the spit until deeply flavored but still moist. The garlic sauce (toum) here is a signature addition — ask for extra.</div>
+        <strong>What to order:</strong> The chicken shawarma — the name is a direct claim about the product and reportedly justified. Chicken shawarma at its best in Amman has a yogurt-based marinade with garlic and lemon, slow-cooked on the spit until deeply flavored but still moist. The garlic sauce (toum) here is a signature addition — ask for extra.</div>
     
     <div class="reddit-quote">
         "For chicken shawarma in Amman, Shawerma Juicy is one of the best. The chicken is actually juicy — which sounds basic but you&#39;d be surprised how many places dry it out."
@@ -724,7 +723,7 @@
         <strong>tabiji verdict:</strong> The chicken shawarma specialist for people who find the meat version too heavy. The focus on moisture in chicken shawarma is a technical achievement — most places overcook and dry out their chicken on the spit. If Juicy&#39;s name sounds like a marketing promise, Jordanian Reddit users say it&#39;s actually a description.
     </div>
 </section>
-<section class="restaurant-section" id="shawerma-3a-saj">
+<section class="restaurant-section" id="shawerma-3a-saj" data-map-name="7. Shawerma 3a Saj" data-map-cta-url="https://maps.google.com/?cid=933853412986473288&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawerma 3a Saj, Amman, Jordan, JO" data-map-lat="31.9941718" data-map-lng="35.8707174">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Shawerma 3a Saj</h2>
         <span class="cuisine-tag tag-regional">Saj Tradition</span>
@@ -748,7 +747,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shawerma-3a-saj.jpg" alt="Shawerma 3a Saj in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shawerma 3a Saj, located in Amman, is a saj tradition, with sandwiches priced at 0.85–1.30 JOD. What to order: The shawarma on saj — the name literally means &quot;shawarma on saj (bread),&quot; which is both the menu and the philosophy. Saj (stone-baked flatbread cooked on a domed griddle) is slightly crispier at the edges and softer in the center than machine-pressed bread, giving a distinctive textural experience. Popular with Amman&#39;s food-forward crowd who appreciate the bread quality difference.</div>
+        <strong>What to order:</strong> The shawarma on saj — the name literally means &quot;shawarma on saj (bread),&quot; which is both the menu and the philosophy. Saj (stone-baked flatbread cooked on a domed griddle) is slightly crispier at the edges and softer in the center than machine-pressed bread, giving a distinctive textural experience. Popular with Amman&#39;s food-forward crowd who appreciate the bread quality difference.</div>
     
     <div class="reddit-quote">
         "3a Saj serves shawarma the way it should be — on proper saj bread that&#39;s been freshly made. The bread at most places is an afterthought. Here it&#39;s as important as the meat."
@@ -758,7 +757,7 @@
         <strong>tabiji verdict:</strong> The second saj-bread entry on this list because Amman really does have strong opinions about bread, and both Shanab and 3a Saj represent that philosophy well. 3a Saj leans into the saj tradition even more explicitly — the bread is made fresh on-site and it shows. For bread nerds: this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="shawerma-zarb">
+<section class="restaurant-section" id="shawerma-zarb" data-map-name="8. Shawerma Zarb" data-map-cta-url="https://maps.google.com/?cid=10069330386309151693&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawerma Zarb, Amman, Jordan, JO" data-map-lat="31.9628861" data-map-lng="35.9047352">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Shawerma Zarb</h2>
         <span class="cuisine-tag tag-regional">Underground-Style</span>
@@ -774,7 +773,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shawerma-zarb.jpg" alt="Shawerma Zarb in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shawerma Zarb, located in Amman, offers an underground-style shawarma experience, with sandwiches priced at 1.00–1.60 JOD. What to order: The house meat shawarma — Zarb (traditional Bedouin underground cooking) influences the slow-roasting approach here, giving the meat a smokier, deeper character than conventional vertical spit shawarma. The concept bridges the traditional Bedouin slow-cook method (zarb) with the modern Levantine spit format, producing a distinct flavor profile that regular shawarma spots don&#39;t replicate.</div>
+        <strong>What to order:</strong> The house meat shawarma — Zarb (traditional Bedouin underground cooking) influences the slow-roasting approach here, giving the meat a smokier, deeper character than conventional vertical spit shawarma. The concept bridges the traditional Bedouin slow-cook method (zarb) with the modern Levantine spit format, producing a distinct flavor profile that regular shawarma spots don&#39;t replicate.</div>
     
     <div class="reddit-quote">
         "Shawerma Zarb takes the zarb concept — the underground Bedouin cooking method — and applies that slow-roast philosophy to shawarma. The result is a deeper, smokier flavor. Very different from your standard spit-roasted sandwich."
@@ -784,7 +783,7 @@
         <strong>tabiji verdict:</strong> The most distinctive shawarma concept on this list. If you&#39;ve eaten traditional zarb (the Bedouin underground slow-cook, often done in Wadi Rum), Shawerma Zarb gives you a connection between that ancient technique and modern street food. A genuinely interesting shawarma for curious eaters.
     </div>
 </section>
-<section class="restaurant-section" id="chef-nidal">
+<section class="restaurant-section" id="chef-nidal" data-map-name="9. Chef Nidal Shawarma" data-map-cta-url="https://maps.google.com/?cid=9443435743503082649&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chef Nidal Shawarma, Amman, Jordan, JO" data-map-lat="31.9731962" data-map-lng="35.8537799">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Chef Nidal Shawarma</h2>
         <span class="cuisine-tag tag-regional">Creative Approach</span>
@@ -808,7 +807,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/chef-nidal-shawarma.jpg" alt="Chef Nidal Shawarma in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Chef Nidal Shawarma, located in Amman, takes a creative approach to shawarma, with sandwiches priced at 1.00–1.80 JOD. What to order: The signature shawarma — Chef Nidal&#39;s approach involves house-developed spice blends and sauce combinations that distinguish it from the standard Levantine formula. Popular with Amman&#39;s younger food crowd who appreciate when a shawarma stand shows personality. The crispy fried onion topping is a signature addition worth seeking out.</div>
+        <strong>What to order:</strong> The signature shawarma — Chef Nidal&#39;s approach involves house-developed spice blends and sauce combinations that distinguish it from the standard Levantine formula. Popular with Amman&#39;s younger food crowd who appreciate when a shawarma stand shows personality. The crispy fried onion topping is a signature addition worth seeking out.</div>
     
     <div class="reddit-quote">
         "Chef Nidal is where you go when you want shawarma that has someone&#39;s actual vision behind it. It&#39;s not traditional, it&#39;s personal — and that&#39;s what makes it interesting."
@@ -818,7 +817,7 @@
         <strong>tabiji verdict:</strong> The creative&#39;s pick. If you&#39;ve eaten traditional Levantine shawarma and want to see what Amman&#39;s food scene does when it starts experimenting, Chef Nidal shows that evolution. Not for purists, excellent for everyone else. The crispy onion topping alone justifies the visit.
     </div>
 </section>
-<section class="restaurant-section" id="abu-ahmad">
+<section class="restaurant-section" id="abu-ahmad" data-map-name="10. Abu Ahmad Shawarma" data-map-cta-url="https://maps.google.com/?cid=15448952416702419468&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Abu Ahmad Shawarma, Downtown Amman (Al-Balad area), Jordan, JO" data-map-lat="31.9513088" data-map-lng="35.933005">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Abu Ahmad Shawarma</h2>
         <span class="cuisine-tag tag-regional">Downtown Classic</span>
@@ -834,7 +833,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/abu-ahmad-shawarma.jpg" alt="Abu Ahmad Shawarma in Downtown Amman (Al-Balad area)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Abu Ahmad Shawarma, located in Downtown Amman (Al-Balad area), is a downtown classic, with chicken shawarma sandwiches priced at 0.70–1.00 JOD and a rating of 4.2 stars (15 reviews). What to order: The chicken shawarma — downtown Amman&#39;s most affordable area for shawarma, and Abu Ahmad is one of the spots that locals from the lower city actually go to. This is the working-Amman shawarma experience: eating standing up, wrapped in khubz, for under 1 JOD, next to taxi drivers and market workers. The chicken is well-marinated and the pickled vegetables generous.</div>
+        <strong>What to order:</strong> The chicken shawarma — downtown Amman&#39;s most affordable area for shawarma, and Abu Ahmad is one of the spots that locals from the lower city actually go to. This is the working-Amman shawarma experience: eating standing up, wrapped in khubz, for under 1 JOD, next to taxi drivers and market workers. The chicken is well-marinated and the pickled vegetables generous.</div>
     
     <div class="reddit-quote">
         "Downtown Amman has the cheapest and most authentic shawarma in the city. Abu Ahmad is the kind of place where you&#39;re eating next to the guy who sells vegetables at the nearby souk. That&#39;s the best possible review."
@@ -844,7 +843,7 @@
         <strong>tabiji verdict:</strong> The most authentic cultural experience on this list. Downtown Amman is where the old city lives — the Roman Theater, the Grand Husseini Mosque, the souk — and Abu Ahmad is the shawarma that feeds the people who work there. Under 1 JOD for a proper sandwich eaten standing in the street. This is what Amman actually tastes like.
     </div>
 </section>
-<section class="restaurant-section" id="al-taj">
+<section class="restaurant-section" id="al-taj" data-map-name="11. Shawarma Al-Taj" data-map-cta-url="https://maps.google.com/?cid=8677286538182499304&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shawarma Al-Taj, Amman, Jordan, JO" data-map-lat="31.9520536" data-map-lng="35.9153199">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Shawarma Al-Taj</h2>
         <span class="cuisine-tag tag-regional">Circle Area Institution</span>
@@ -868,7 +867,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/shawarma-al-taj.jpg" alt="Shawarma Al-Taj in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Shawarma Al-Taj, located in Amman, is a circle area institution, with sandwiches priced at 0.85–1.30 JOD and a rating of 4.1 stars (294 reviews). What to order: Either the meat or chicken shawarma — Al-Taj is notable for doing both well, which is rarer than you&#39;d think. The sauce combination here is distinctive: they use both tahini and a garlic cream, layered, which gives a more complex flavor base than shops that choose one or the other. A safe, excellent choice when you&#39;re near one of their locations.</div>
+        <strong>What to order:</strong> Either the meat or chicken shawarma — Al-Taj is notable for doing both well, which is rarer than you&#39;d think. The sauce combination here is distinctive: they use both tahini and a garlic cream, layered, which gives a more complex flavor base than shops that choose one or the other. A safe, excellent choice when you&#39;re near one of their locations.</div>
     
     <div class="reddit-quote">
         "Al-Taj is the shawarma place you go to when you haven&#39;t decided between meat and chicken — they do both well and the dual sauce (tahini + toum) is genuinely better than either sauce alone."
@@ -878,7 +877,7 @@
         <strong>tabiji verdict:</strong> The flexible pick. If your group can&#39;t agree on meat vs. chicken, Al-Taj does both well. The dual sauce approach — tahini and toum layered together — is the kind of small technical decision that separates good shawarma from great shawarma. Worth seeking out on any Amman itinerary.
     </div>
 </section>
-<section class="restaurant-section" id="yildiz">
+<section class="restaurant-section" id="yildiz" data-map-name="12. Yildiz Shawarma" data-map-cta-url="https://maps.google.com/?cid=2524233301884934281&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yildiz Shawarma, Amman, Jordan, JO" data-map-lat="31.9520536" data-map-lng="35.9153199">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Yildiz Shawarma</h2>
         <span class="cuisine-tag tag-regional">Late Night Pick</span>
@@ -902,7 +901,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/yildiz-shawarma.jpg" alt="Yildiz Shawarma in Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Yildiz Shawarma, located in Amman, is a reliable late-night pick, with sandwiches priced at 0.80–1.30 JOD. What to order: The meat shawarma — Yildiz is reliable late-night shawarma in a city that appreciates its late-night food options. The spit runs until close and the quality doesn&#39;t drop with the hour, which is the basic but important criterion for late-night food. Good spice balance, fresh bread, consistent pickles.</div>
+        <strong>What to order:</strong> The meat shawarma — Yildiz is reliable late-night shawarma in a city that appreciates its late-night food options. The spit runs until close and the quality doesn&#39;t drop with the hour, which is the basic but important criterion for late-night food. Good spice balance, fresh bread, consistent pickles.</div>
     
     <div class="reddit-quote">
         "Yildiz is the late-night answer when you&#39;ve been out and need shawarma at midnight. Reliable, consistent, and unlike some other places the quality doesn&#39;t suffer late in the night."
@@ -912,7 +911,7 @@
         <strong>tabiji verdict:</strong> The late-night insurance policy. Amman stays up late and having a good shawarma option past midnight matters. Yildiz doesn&#39;t phone it in after 10pm — the meat is still hot off the spit and the bread is still fresh. The insurance value of a reliable late-night option is significant.
     </div>
 </section>
-<section class="restaurant-section" id="abu-amar">
+<section class="restaurant-section" id="abu-amar" data-map-name="13. Abu Amar Shawarma" data-map-cta-url="https://maps.google.com/?cid=17326669432415732050&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Abu Amar Shawarma, Amman residential neighborhoods, Jordan, JO" data-map-lat="30.2951301" data-map-lng="-97.7425402">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Abu Amar Shawarma</h2>
         <span class="cuisine-tag tag-regional">Neighborhood Secret</span>
@@ -936,7 +935,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/abu-amar-shawarma.jpg" alt="Abu Amar Shawarma in Amman residential neighborhoods" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Abu Amar Shawarma, located in Amman residential neighborhoods, is a neighborhood secret, with sandwiches priced at 0.75–1.15 JOD. What to order: Whatever they&#39;re running on the spit that day — Abu Amar is the type of neighborhood spot that doesn&#39;t need to advertise because its entire customer base is the surrounding 10 streets. No social media, no delivery apps, no tourist-facing anything. The person behind the counter knows most customers by name. This is the shawarma equivalent of a grandmother&#39;s recipe.</div>
+        <strong>What to order:</strong> Whatever they&#39;re running on the spit that day — Abu Amar is the type of neighborhood spot that doesn&#39;t need to advertise because its entire customer base is the surrounding 10 streets. No social media, no delivery apps, no tourist-facing anything. The person behind the counter knows most customers by name. This is the shawarma equivalent of a grandmother&#39;s recipe.</div>
     
     <div class="reddit-quote">
         "The best shawarma in Amman is often at a small place in a residential neighborhood that no app has discovered yet. Abu Amar is that place for people who live near it. That&#39;s the highest quality signal there is."
@@ -946,7 +945,7 @@
         <strong>tabiji verdict:</strong> The hyperlocal pick. Abu Amar represents the best possible case for neighborhood shawarma — a place so good that the surrounding streets sustain it without any external marketing. If your Amman itinerary includes time in a residential neighborhood, ask locals for their personal pick; Abu Amar is the model for what you might find.
     </div>
 </section>
-<section class="restaurant-section" id="romero">
+<section class="restaurant-section" id="romero" data-map-name="14. Romero Shawarma" data-map-cta-url="https://maps.google.com/?cid=9443435743503082649&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Romero Shawarma, Abdoun, West Amman, Jordan, JO" data-map-lat="31.9526973" data-map-lng="35.9123412">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Romero Shawarma</h2>
         <span class="cuisine-tag tag-regional">Abdoun Area Pick</span>
@@ -970,7 +969,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/romero-shawarma.jpg" alt="Romero Shawarma in Abdoun, West Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Romero Shawarma, located in Abdoun, West Amman, is the Abdoun area pick, with sandwiches priced at 1.00–1.60 JOD. What to order: The chicken shawarma — Romero is the Abdoun / west Amman pick for professional Jordanians who live in the wealthier western neighborhoods. Abdoun is where Amman&#39;s expats and upper-middle-class Jordanians cluster, and the food scene here tends to be slightly more upscale. Romero does excellent chicken shawarma with a particularly good hot sauce option.</div>
+        <strong>What to order:</strong> The chicken shawarma — Romero is the Abdoun / west Amman pick for professional Jordanians who live in the wealthier western neighborhoods. Abdoun is where Amman&#39;s expats and upper-middle-class Jordanians cluster, and the food scene here tends to be slightly more upscale. Romero does excellent chicken shawarma with a particularly good hot sauce option.</div>
     
     <div class="reddit-quote">
         "For people staying in west Amman or Abdoun — Romero is the local shawarma pick. Better than most tourist-area spots and priced for people who eat here every week."
@@ -980,7 +979,7 @@
         <strong>tabiji verdict:</strong> The west Amman local&#39;s pick. If your Amman itinerary puts you in the Abdoun, Sweifieh, or Khalda areas, Romero is the neighborhood shawarma recommendation that won&#39;t disappoint. The hot sauce here is among the better offerings in the city — ask for it explicitly.
     </div>
 </section>
-<section class="restaurant-section" id="rimal">
+<section class="restaurant-section" id="rimal" data-map-name="15. Rimal Shawarma" data-map-cta-url="https://maps.google.com/?cid=2524233301884934281&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rimal Shawarma, Central Amman, Jordan, JO" data-map-lat="31.9520536" data-map-lng="35.9153199">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Rimal Shawarma</h2>
         <span class="cuisine-tag tag-regional">Budget Champion</span>
@@ -1004,7 +1003,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/amman-shawarma/rimal-shawarma.jpg" alt="Rimal Shawarma in Central Amman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Rimal Shawarma, located in Central Amman, is a budget champion, with meat shawarma available for under 1 JOD, specifically 0.65–0.90 JOD per sandwich. What to order: The meat shawarma at under 1 JOD — Rimal&#39;s distinction is delivering excellent value at the lowest price tier. This is where you come when you want a shawarma budget that allows for four sandwiches across the day. The portions are honest, the bread fresh, and the quality consistent. The pickled vegetables are particularly good — more variety than you&#39;d expect at this price point.</div>
+        <strong>What to order:</strong> The meat shawarma at under 1 JOD — Rimal&#39;s distinction is delivering excellent value at the lowest price tier. This is where you come when you want a shawarma budget that allows for four sandwiches across the day. The portions are honest, the bread fresh, and the quality consistent. The pickled vegetables are particularly good — more variety than you&#39;d expect at this price point.</div>
     
     <div class="reddit-quote">
         "Rimal gives you the best price-to-quality ratio of any shawarma shop in central Amman. You can eat very well here for under 1 JOD, which in any city in the world is remarkable."
@@ -1032,9 +1031,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Shawarma Map — Amman</h2>
-      <iframe src="https://www.google.com/maps?q=Jordan%20shawarma&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Shawarma Sarawat</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Shawarma Map — Amman"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1056,7 +1056,7 @@
       <li>
         <a href="#shawerma-juicy">6. Shawerma Juicy</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Jordan%20shawarma" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6958839105829763353&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1067,5 +1067,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Shawarma Map — Amman","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Shawarma%20in%20Amman%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"sarawat","rank":1,"name":"Shawarma Sarawat","label":"1. Shawarma Sarawat","lat":31.957523100000003,"lng":35.8540564,"ctaUrl":"https://maps.google.com/?cid=6958839105829763353&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawarma Sarawat, Multiple locations across Amman, Jordan, JO"},{"anchorId":"al-reem","rank":2,"name":"Shawarma Al-Reem (2nd Circle)","label":"2. Shawarma Al-Reem (2nd Circle)","lat":31.9520536,"lng":35.9153199,"ctaUrl":"https://maps.google.com/?cid=2524233301884934281&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawarma Al-Reem (2nd Circle), 2nd Circle (Duwaar ath-Thani), Jabal Amman, Jordan, JO"},{"anchorId":"zayona","rank":3,"name":"Zayona Shawarma","label":"3. Zayona Shawarma","lat":31.9721275,"lng":35.8843077,"ctaUrl":"https://maps.google.com/?cid=5558002372320361226&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Zayona Shawarma, Zayona neighborhood, Amman, Jordan, JO"},{"anchorId":"shanab","rank":4,"name":"Shanab Shawarma","label":"4. Shanab Shawarma","lat":31.941388900000003,"lng":35.8827778,"ctaUrl":"https://maps.google.com/?cid=9443435743503082649&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shanab Shawarma, Amman (multiple locations), Jordan, JO"},{"anchorId":"khobzeh-shawerma","rank":5,"name":"Khobzeh w Shawerma","label":"5. Khobzeh w Shawerma","lat":31.995308899999998,"lng":35.8711754,"ctaUrl":"https://maps.google.com/?cid=1144158816461435734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Khobzeh w Shawerma, Amman, Jordan, JO"},{"anchorId":"shawerma-juicy","rank":6,"name":"Shawerma Juicy","label":"6. Shawerma Juicy","lat":31.9967864,"lng":35.8542436,"ctaUrl":"https://maps.google.com/?cid=16235778668179537090&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawerma Juicy, Amman, Jordan, JO"},{"anchorId":"shawerma-3a-saj","rank":7,"name":"Shawerma 3a Saj","label":"7. Shawerma 3a Saj","lat":31.9941718,"lng":35.8707174,"ctaUrl":"https://maps.google.com/?cid=933853412986473288&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawerma 3a Saj, Amman, Jordan, JO"},{"anchorId":"shawerma-zarb","rank":8,"name":"Shawerma Zarb","label":"8. Shawerma Zarb","lat":31.9628861,"lng":35.9047352,"ctaUrl":"https://maps.google.com/?cid=10069330386309151693&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawerma Zarb, Amman, Jordan, JO"},{"anchorId":"chef-nidal","rank":9,"name":"Chef Nidal Shawarma","label":"9. Chef Nidal Shawarma","lat":31.9731962,"lng":35.8537799,"ctaUrl":"https://maps.google.com/?cid=9443435743503082649&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chef Nidal Shawarma, Amman, Jordan, JO"},{"anchorId":"abu-ahmad","rank":10,"name":"Abu Ahmad Shawarma","label":"10. Abu Ahmad Shawarma","lat":31.9513088,"lng":35.933005,"ctaUrl":"https://maps.google.com/?cid=15448952416702419468&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Abu Ahmad Shawarma, Downtown Amman (Al-Balad area), Jordan, JO"},{"anchorId":"al-taj","rank":11,"name":"Shawarma Al-Taj","label":"11. Shawarma Al-Taj","lat":31.9520536,"lng":35.9153199,"ctaUrl":"https://maps.google.com/?cid=8677286538182499304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shawarma Al-Taj, Amman, Jordan, JO"},{"anchorId":"yildiz","rank":12,"name":"Yildiz Shawarma","label":"12. Yildiz Shawarma","lat":31.9520536,"lng":35.9153199,"ctaUrl":"https://maps.google.com/?cid=2524233301884934281&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yildiz Shawarma, Amman, Jordan, JO"},{"anchorId":"abu-amar","rank":13,"name":"Abu Amar Shawarma","label":"13. Abu Amar Shawarma","lat":30.2951301,"lng":-97.7425402,"ctaUrl":"https://maps.google.com/?cid=17326669432415732050&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Abu Amar Shawarma, Amman residential neighborhoods, Jordan, JO"},{"anchorId":"romero","rank":14,"name":"Romero Shawarma","label":"14. Romero Shawarma","lat":31.9526973,"lng":35.9123412,"ctaUrl":"https://maps.google.com/?cid=9443435743503082649&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Romero Shawarma, Abdoun, West Amman, Jordan, JO"},{"anchorId":"rimal","rank":15,"name":"Rimal Shawarma","label":"15. Rimal Shawarma","lat":31.9520536,"lng":35.9153199,"ctaUrl":"https://maps.google.com/?cid=2524233301884934281&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rimal Shawarma, Central Amman, Jordan, JO"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -323,9 +323,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -350,7 +353,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -398,13 +401,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Jeju City offers a wide array of black pork BBQ experiences at varying prices, with Myeongridong Sikdang being a top recommendation among locals. This guide highlights the best spots to savor this Jeju specialty, based on recommendations from experienced travelers and Korean food enthusiasts across Reddit from 2020-2026.</strong></p>
-        <p>Jeju City boasts incredible black pork BBQ, with prices varying across establishments, but Myeongridong Sikdang stands out as a top local favorite. This guide highlights the best spots to savor this Jeju specialty, considering recommendations from experienced travelers and Korean food enthusiasts across Reddit from 2020-2026.</p><p>Jeju black pork (heuk dwaeji, 흑돼지) is to Jeju Island what Kobe beef is to Japan — a signature meat with a devoted following. These native black-haired pigs, raised on Jeju&#39;s volcanic terrain, produce pork that&#39;s distinctly nuttier, sweeter, and more marbled than anything you&#39;ll find on the mainland.</p><p>We analyzed dozens of Reddit posts from r/koreatravel, r/Jeju, r/KoreanFood, and r/korea to find the restaurants that expats, repeat visitors, and Korean food enthusiasts actually recommend. These are the spots where the pork quality justifies the pilgrimage — not just the ones with the biggest signs on Black Pork Street.</p>
+        <p>Jeju black pork (heuk dwaeji, 흑돼지) is to Jeju Island what Kobe beef is to Japan — a signature meat with a devoted following. These native black-haired pigs, raised on Jeju&#39;s volcanic terrain, produce pork that&#39;s distinctly nuttier, sweeter, and more marbled than anything you&#39;ll find on the mainland.</p><p>We analyzed dozens of Reddit posts from r/koreatravel, r/Jeju, r/KoreanFood, and r/korea to find the restaurants that expats, repeat visitors, and Korean food enthusiasts actually recommend. These are the spots where the pork quality justifies the pilgrimage — not just the ones with the biggest signs on Black Pork Street.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>BBQ Map</h2>
-      <iframe src="https://www.google.com/maps?q=Black%20Pork%20BBQ%20in%20Jeju%20City&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Myeongridong Sikdang (명리동식당)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="BBQ Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -426,7 +430,7 @@
       <li>
         <a href="#heuksorang">6. Heuksorang (흑소랑)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Black%20Pork%20BBQ%20in%20Jeju%20City" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13399908872464173082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -438,7 +442,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="myeongridong-sikdang">
+<section class="restaurant-section" id="myeongridong-sikdang" data-map-name="1. Myeongridong Sikdang (명리동식당)" data-map-cta-url="https://maps.google.com/?cid=13399908872464173082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Myeongridong Sikdang (명리동식당), Hangyeong-myeon, Jeju City, Jeju, KR" data-map-lat="33.3166193" data-map-lng="126.2705014">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Myeongridong Sikdang (명리동식당)</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -472,7 +476,7 @@
         <strong>tabiji verdict:</strong> The expat pick. When someone who lived on Jeju for a year calls it their #1, that carries weight. Three locations means you can find one wherever you are on the island. The Hangyeong main branch is worth the drive — less crowded and the most authentic atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="dombedon">
+<section class="restaurant-section" id="dombedon" data-map-name="2. Dombedon (돔베돈)" data-map-cta-url="https://maps.google.com/?cid=8173272112683596569&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dombedon (돔베돈), Jeju City Center, Jeju, KR" data-map-lat="33.5155556" data-map-lng="126.5266667">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Dombedon (돔베돈)</h2>
         <span class="cuisine-tag tag-regional">Traditional Style</span>
@@ -506,7 +510,7 @@
         <strong>tabiji verdict:</strong> The name literally means &quot;cutting board pork&quot; — a nod to the traditional Jeju way of serving boiled black pork on a dombe (wooden board). They nail both the grilled and boiled preparations. Central Jeju City location makes it easy to access.
     </div>
 </section>
-<section class="restaurant-section" id="sukseongdo">
+<section class="restaurant-section" id="sukseongdo" data-map-name="3. Sukseongdo (숙성도)" data-map-cta-url="https://maps.google.com/?cid=5854162730820845842&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sukseongdo (숙성도), Jeju City, Jeju, KR" data-map-lat="33.5423994" data-map-lng="126.67120530000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sukseongdo (숙성도)</h2>
         <span class="cuisine-tag tag-regional">Dry-Aged</span>
@@ -540,7 +544,7 @@
         <strong>tabiji verdict:</strong> The premium option. Dry-aging black pork is still relatively rare on Jeju, and Sukseongdo does it right. Higher price point but justified by the intensity of flavor. The staff guides you through cooking each cut, so even first-timers get a perfect grill.
     </div>
 </section>
-<section class="restaurant-section" id="donsadon">
+<section class="restaurant-section" id="donsadon" data-map-name="4. Donsadon (돈사돈)" data-map-cta-url="https://maps.google.com/?cid=13888053500610622232&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Donsadon (돈사돈), Jeju City, Jeju, KR" data-map-lat="33.4788707" data-map-lng="126.46408369999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Donsadon (돈사돈)</h2>
         <span class="cuisine-tag tag-regional">Classic BBQ</span>
@@ -574,7 +578,7 @@
         <strong>tabiji verdict:</strong> The safe bet. Over 100 TripAdvisor reviews and consistently top-rated makes this the &quot;you can&#39;t go wrong&quot; choice. Popular with both Korean and international visitors. Goes busy at dinner — arrive before 6pm or expect a wait.
     </div>
 </section>
-<section class="restaurant-section" id="jung-jong">
+<section class="restaurant-section" id="jung-jong" data-map-name="5. Jung Jong Black Pork (정종 흑돼지)" data-map-cta-url="https://maps.google.com/?cid=15599025093095879881&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jung Jong Black Pork (정종 흑돼지), Jeju City, Jeju, KR" data-map-lat="33.4897266" data-map-lng="126.50202859999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Jung Jong Black Pork (정종 흑돼지)</h2>
         <span class="cuisine-tag tag-regional">Classic BBQ</span>
@@ -612,7 +616,7 @@
         <strong>tabiji verdict:</strong> The solo traveler&#39;s best friend. Recommended repeatedly by the same knowledgeable user (Travel Guru flair) across multiple threads. If you&#39;re dining alone and want black pork without feeling awkward, this is your spot. The 2-serving minimum is completely doable for one person.
     </div>
 </section>
-<section class="restaurant-section" id="heuksorang">
+<section class="restaurant-section" id="heuksorang" data-map-name="6. Heuksorang (흑소랑)" data-map-cta-url="https://maps.google.com/?cid=2873629308449430402&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Heuksorang (흑소랑), Jeju City, Jeju, KR" data-map-lat="33.490931499999995" data-map-lng="126.5451156">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Heuksorang (흑소랑)</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -646,7 +650,7 @@
         <strong>tabiji verdict:</strong> Consistently rated as one of the top BBQ spots in Jeju City. They focus on sourcing premium-grade pork, which you can taste in the marbling. Slightly less touristy than Black Pork Street options, with a more relaxed atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="black-pork-street">
+<section class="restaurant-section" id="black-pork-street" data-map-name="7. Black Pork Street (흑돼지거리)" data-map-cta-url="https://maps.google.com/?cid=7889135474101610717&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Black Pork Street (흑돼지거리), Tapdong, Jeju City Center, Jeju, KR" data-map-lat="33.5154245" data-map-lng="126.5268573">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Black Pork Street (흑돼지거리)</h2>
         <span class="cuisine-tag tag-regional">Food Street</span>
@@ -672,7 +676,7 @@
         <strong>tabiji verdict:</strong> Not a single restaurant but a whole street dedicated to black pork. Quality varies — some spots are tourist traps, others are genuinely excellent. The atmosphere is unbeatable: grills smoking, soju flowing, the whole street smelling of charcoal pork. Pro tip: the places further from the main entrance tend to try harder.
     </div>
 </section>
-<section class="restaurant-section" id="giunne-heugdwaeji">
+<section class="restaurant-section" id="giunne-heugdwaeji" data-map-name="8. Giunne Heugdwaeji (기운네 흑돼지)" data-map-cta-url="https://maps.google.com/?cid=11507166828308018607&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Giunne Heugdwaeji (기운네 흑돼지), Seogwipo, Jeju, Jeju, KR" data-map-lat="33.2498919" data-map-lng="126.55887279999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Giunne Heugdwaeji (기운네 흑돼지)</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -706,7 +710,7 @@
         <strong>tabiji verdict:</strong> The south-side pick. Most tourists concentrate on Jeju City for black pork, so Seogwipo restaurants tend to be less crowded and more local-oriented. Giunne delivers quality pork at fair prices without the Black Pork Street markup. The cute name is just a bonus.
     </div>
 </section>
-<section class="restaurant-section" id="gamseongdon">
+<section class="restaurant-section" id="gamseongdon" data-map-name="9. Gamseongdon (감성돈)" data-map-cta-url="https://maps.google.com/?cid=13303071751409334739&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gamseongdon (감성돈), Near Hallim Park, Jeju, Jeju, KR" data-map-lat="33.3934494" data-map-lng="126.24003049999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Gamseongdon (감성돈)</h2>
         <span class="cuisine-tag tag-regional">Local Gem</span>
@@ -740,7 +744,7 @@
         <strong>tabiji verdict:</strong> The west-side option. If you&#39;re doing a day trip to Hallim Park, O&#39;Sulloc Tea Museum, or the caves, Gamseongdon saves you the drive back to Jeju City for black pork. Quality is legit — recommended by a user who regularly contributes detailed Jeju tips.
     </div>
 </section>
-<section class="restaurant-section" id="the-pig-farm">
+<section class="restaurant-section" id="the-pig-farm" data-map-name="10. The Pig Farm" data-map-cta-url="https://maps.google.com/?cid=12233622556076546461&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Pig Farm, Daejeong-eup, Seogwipo, Jeju, KR" data-map-lat="33.2292693" data-map-lng="126.24783459999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>The Pig Farm</h2>
         <span class="cuisine-tag tag-regional">Farm-to-Table</span>
@@ -792,9 +796,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>BBQ Map</h2>
-      <iframe src="https://www.google.com/maps?q=Black%20Pork%20BBQ%20in%20Jeju%20City&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Myeongridong Sikdang (명리동식당)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="BBQ Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -816,7 +821,7 @@
       <li>
         <a href="#heuksorang">6. Heuksorang (흑소랑)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Black%20Pork%20BBQ%20in%20Jeju%20City" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13399908872464173082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -827,5 +832,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"BBQ Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Black%20Pork%20BBQ%20in%20Jeju%20City","picks":[{"anchorId":"myeongridong-sikdang","rank":1,"name":"Myeongridong Sikdang (명리동식당)","label":"1. Myeongridong Sikdang (명리동식당)","lat":33.3166193,"lng":126.2705014,"ctaUrl":"https://maps.google.com/?cid=13399908872464173082&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Myeongridong Sikdang (명리동식당), Hangyeong-myeon, Jeju City, Jeju, KR"},{"anchorId":"dombedon","rank":2,"name":"Dombedon (돔베돈)","label":"2. Dombedon (돔베돈)","lat":33.5155556,"lng":126.5266667,"ctaUrl":"https://maps.google.com/?cid=8173272112683596569&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dombedon (돔베돈), Jeju City Center, Jeju, KR"},{"anchorId":"sukseongdo","rank":3,"name":"Sukseongdo (숙성도)","label":"3. Sukseongdo (숙성도)","lat":33.5423994,"lng":126.67120530000001,"ctaUrl":"https://maps.google.com/?cid=5854162730820845842&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sukseongdo (숙성도), Jeju City, Jeju, KR"},{"anchorId":"donsadon","rank":4,"name":"Donsadon (돈사돈)","label":"4. Donsadon (돈사돈)","lat":33.4788707,"lng":126.46408369999999,"ctaUrl":"https://maps.google.com/?cid=13888053500610622232&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Donsadon (돈사돈), Jeju City, Jeju, KR"},{"anchorId":"jung-jong","rank":5,"name":"Jung Jong Black Pork (정종 흑돼지)","label":"5. Jung Jong Black Pork (정종 흑돼지)","lat":33.4897266,"lng":126.50202859999999,"ctaUrl":"https://maps.google.com/?cid=15599025093095879881&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jung Jong Black Pork (정종 흑돼지), Jeju City, Jeju, KR"},{"anchorId":"heuksorang","rank":6,"name":"Heuksorang (흑소랑)","label":"6. Heuksorang (흑소랑)","lat":33.490931499999995,"lng":126.5451156,"ctaUrl":"https://maps.google.com/?cid=2873629308449430402&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Heuksorang (흑소랑), Jeju City, Jeju, KR"},{"anchorId":"black-pork-street","rank":7,"name":"Black Pork Street (흑돼지거리)","label":"7. Black Pork Street (흑돼지거리)","lat":33.5154245,"lng":126.5268573,"ctaUrl":"https://maps.google.com/?cid=7889135474101610717&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Black Pork Street (흑돼지거리), Tapdong, Jeju City Center, Jeju, KR"},{"anchorId":"giunne-heugdwaeji","rank":8,"name":"Giunne Heugdwaeji (기운네 흑돼지)","label":"8. Giunne Heugdwaeji (기운네 흑돼지)","lat":33.2498919,"lng":126.55887279999999,"ctaUrl":"https://maps.google.com/?cid=11507166828308018607&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Giunne Heugdwaeji (기운네 흑돼지), Seogwipo, Jeju, Jeju, KR"},{"anchorId":"gamseongdon","rank":9,"name":"Gamseongdon (감성돈)","label":"9. Gamseongdon (감성돈)","lat":33.3934494,"lng":126.24003049999999,"ctaUrl":"https://maps.google.com/?cid=13303071751409334739&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gamseongdon (감성돈), Near Hallim Park, Jeju, Jeju, KR"},{"anchorId":"the-pig-farm","rank":10,"name":"The Pig Farm","label":"10. The Pig Farm","lat":33.2292693,"lng":126.24783459999998,"ctaUrl":"https://maps.google.com/?cid=12233622556076546461&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Pig Farm, Daejeong-eup, Seogwipo, Jeju, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

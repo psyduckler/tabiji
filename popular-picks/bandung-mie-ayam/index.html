@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Bandung&#39;s mie ayam scene ranges from Rp 12,000 to Rp 50,000, with Mie Ayam Bakso Cipaganti offering exceptional value. This noodle city boasts a rich culinary heritage, featuring diverse styles from traditional Chinese-Indonesian bakmi to beloved street cart vendors, all serving up unique takes on chicken noodles. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</strong></p>
-        <p>Bandung&#39;s mie ayam scene offers delicious options ranging from Rp 12,000 to Rp 50,000, with Mie Ayam Bakso Cipaganti standing out for its exceptional value. This noodle city boasts a rich culinary heritage, featuring diverse styles from traditional Chinese-Indonesian bakmi to beloved street cart vendors, all serving up unique takes on chicken noodles.</p><p>Bandung is a noodle city. The capital of West Java has a mie ayam culture that runs generations deep — from old-school Chinese-Indonesian bakmi houses that have served the same recipe since the 1960s, to beloved gerobak (cart) vendors who draw hour-long queues for a Rp 15,000 bowl. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</p><p>We analyzed posts and comments across r/indonesia, r/Bandung, and r/kulineria — plus cross-referenced with local food blogs — to find the spots that actual Bandung residents and repeat visitors recommend. Every place on this list earned its spot through genuine enthusiasm, not sponsored posts.</p>
+        <p>Bandung is a noodle city. The capital of West Java has a mie ayam culture that runs generations deep — from old-school Chinese-Indonesian bakmi houses that have served the same recipe since the 1960s, to beloved gerobak (cart) vendors who draw hour-long queues for a Rp 15,000 bowl. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</p><p>We analyzed posts and comments across r/indonesia, r/Bandung, and r/kulineria — plus cross-referenced with local food blogs — to find the spots that actual Bandung residents and repeat visitors recommend. Every place on this list earned its spot through genuine enthusiasm, not sponsored posts.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Noodle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Mie%20Ayam%20in%20Bandung&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Mie Lezat Gang Luna</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Noodle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -450,7 +454,7 @@
       <li>
         <a href="#bakmi-rajim">6. Bakmi Rajim</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Mie%20Ayam%20in%20Bandung" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18190599668065164596&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="mie-lezat-gang-luna">
+<section class="restaurant-section" id="mie-lezat-gang-luna" data-map-name="1. Mie Lezat Gang Luna" data-map-cta-url="https://maps.google.com/?cid=18190599668065164596&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Lezat Gang Luna, Gang Luna, Sudirman, Bandung, ID" data-map-lat="-6.9196282" data-map-lng="107.59087579999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Mie Lezat Gang Luna</h2>
         <span class="cuisine-tag tag-regional">Legendary</span>
@@ -500,7 +504,7 @@
         <strong>tabiji verdict:</strong> The consensus #1 mie ayam in Bandung. Gang Luna isn&#39;t just a restaurant — it&#39;s a pilgrimage. Multiple Redditors independently called it their &quot;first stop&quot; upon arriving in the city. The yamien is the star: glossy, perfectly seasoned noodles with a chew that sets the standard. Come early, come hungry, and don&#39;t skip the pangsit goreng. This is Bandung&#39;s noodle identity in a single bowl.
     </div>
 </section>
-<section class="restaurant-section" id="mie-naripan-127">
+<section class="restaurant-section" id="mie-naripan-127" data-map-name="2. Mie Naripan 127" data-map-cta-url="https://maps.google.com/?cid=14453811894585472527&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Naripan 127, Jl. Naripan / Paledang, Bandung, ID" data-map-lat="-6.924995" data-map-lng="107.61410339999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Mie Naripan 127</h2>
         <span class="cuisine-tag tag-regional">Legendary</span>
@@ -538,7 +542,7 @@
         <strong>tabiji verdict:</strong> A Bandung institution that appears on every local&#39;s list. The central location (near Paledang station) makes it perfect for a first-day-in-Bandung lunch. Note: there&#39;s also a &quot;Mie Naripan&quot; non-halal version on Jl. Naripan — different restaurant, different menu. The halal Mie Naripan 127 is the one most people recommend.
     </div>
 </section>
-<section class="restaurant-section" id="bakmi-linggarjati">
+<section class="restaurant-section" id="bakmi-linggarjati" data-map-name="3. Bakmi Linggarjati" data-map-cta-url="https://maps.google.com/?cid=7941241095186018391&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Linggarjati, Jl. Ballonggede, Regol, Bandung, ID" data-map-lat="-6.9229153" data-map-lng="107.6076948">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Bakmi Linggarjati</h2>
         <span class="cuisine-tag tag-regional">Legendary</span>
@@ -572,7 +576,7 @@
         <strong>tabiji verdict:</strong> Bandung&#39;s heritage bakmi — open since the 1960s and still packing in locals daily. The thin noodles and Chinese-Indonesian seasoning style set this apart from the yamien/mie ayam crowd. If you want to understand how deep Bandung&#39;s noodle culture runs, this is the history lesson you eat. Multiple web sources and Reddit users confirm it as a must-visit.
     </div>
 </section>
-<section class="restaurant-section" id="warung-lela">
+<section class="restaurant-section" id="warung-lela" data-map-name="4. Warung Lela (WaLe)" data-map-cta-url="https://maps.google.com/?cid=16155145139625177626&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Warung Lela (WaLe), Jl. Kupa No. 6, Dago Atas, Bandung, ID" data-map-lat="-6.8658991" data-map-lng="107.6261283">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Warung Lela (WaLe)</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -606,7 +610,7 @@
         <strong>tabiji verdict:</strong> The destination mie ayam experience. WaLe sits on a hilltop in Dago Atas with traditional Javanese architecture and views across Bandung&#39;s green hills. The noodles are genuinely great — big portions, solid bakso, and the mie ayam rica packs real heat. It&#39;s the kind of place you go when you want mie ayam to feel special, not just lunch. Perfect for visitors who want atmosphere with their noodles.
     </div>
 </section>
-<section class="restaurant-section" id="mie-baso-bintang-avon">
+<section class="restaurant-section" id="mie-baso-bintang-avon" data-map-name="5. Mie Baso Bintang Avon" data-map-cta-url="https://maps.google.com/?cid=16791997894706555025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Baso Bintang Avon, Jl. Ahmad Yani, Bandung, ID" data-map-lat="-6.9216323" data-map-lng="107.6187222">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mie Baso Bintang Avon</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -640,7 +644,7 @@
         <strong>tabiji verdict:</strong> If you can&#39;t decide between mie ayam and bakso, Bintang Avon answers: get both. The bakso (meatballs) steal the show here — dense, beefy, and enormous compared to most street-stall versions. The noodles serve as a reliable sidekick. Ahmad Yani is one of Bandung&#39;s main streets, so this is easy to hit on the way to or from most attractions.
     </div>
 </section>
-<section class="restaurant-section" id="bakmi-rajim">
+<section class="restaurant-section" id="bakmi-rajim" data-map-name="6. Bakmi Rajim" data-map-cta-url="https://maps.google.com/?cid=114213048212898194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Rajim, Paskal / Jl. Kesatriaan, Bandung, ID" data-map-lat="-6.9121885" data-map-lng="107.5978822">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Bakmi Rajim</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -674,7 +678,7 @@
         <strong>tabiji verdict:</strong> The no-nonsense bakmi spot in the Paskal area — popular with office workers and students who know exactly what they want: fast, consistent, and satisfying noodles. Nothing flashy, nothing Instagram-bait, just good bakmi done right every single time. If you&#39;re near Paskal HyperSquare and need a quick noodle fix, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="bakmie-58">
+<section class="restaurant-section" id="bakmie-58" data-map-name="7. Bakmie 58" data-map-cta-url="https://maps.google.com/?cid=4332743055960675390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmie 58, Multiple locations (Geger Kalong, Teuku Umar, etc.), Bandung, ID" data-map-lat="-6.8919165" data-map-lng="107.61665839999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Bakmie 58</h2>
         <span class="cuisine-tag tag-regional">Popular Chain</span>
@@ -708,7 +712,7 @@
         <strong>tabiji verdict:</strong> Bandung&#39;s most accessible bakmi chain — multiple branches mean you&#39;re never far from one. The jamur asin (salted mushroom) flavor is their calling card, and at Rp 44k for a paket hemat (value set), it&#39;s solid value. Not the most soulful option on this list, but reliably good and air-conditioned — a welcome refuge on a hot Bandung afternoon. The Geger Kalong original is considered the best branch.
     </div>
 </section>
-<section class="restaurant-section" id="mie-123">
+<section class="restaurant-section" id="mie-123" data-map-name="8. Mie 123" data-map-cta-url="https://maps.google.com/?cid=8284104181579646891&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie 123, Emong, Central Bandung, Bandung, ID" data-map-lat="-6.9252125" data-map-lng="107.6175715">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Mie 123</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -742,7 +746,7 @@
         <strong>tabiji verdict:</strong> The quintessential neighborhood mie ayam — the kind of place where regulars don&#39;t even need to order because the cook already knows what they want. Mie 123 won&#39;t appear on any tourist map, and that&#39;s exactly the point. This is how most Bandung residents actually eat mie ayam: unpretentious, fresh, and cheap. A genuine locals-only find.
     </div>
 </section>
-<section class="restaurant-section" id="mie-ayam-cipaganti">
+<section class="restaurant-section" id="mie-ayam-cipaganti" data-map-name="9. Mie Ayam Bakso Cipaganti" data-map-cta-url="https://maps.google.com/?cid=17261856780132288334&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Bakso Cipaganti, Jl. Cipaganti No. 85, Pasteur, Bandung, ID" data-map-lat="-6.8942931" data-map-lng="107.6024728">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Mie Ayam Bakso Cipaganti</h2>
         <span class="cuisine-tag tag-regional">Street Legend</span>
@@ -776,7 +780,7 @@
         <strong>tabiji verdict:</strong> The kaki lima (street cart) legend of Bandung — proof that the best food in Indonesia often comes from a pushcart with plastic stools. The queue starts early morning and the noodles sell out fast. At under Rp 20k a bowl, this is arguably the best value on the entire list. Come before 9 AM for the shortest wait. The experience of eating incredible noodles on a crowded sidewalk is peak Bandung.
     </div>
 </section>
-<section class="restaurant-section" id="mie-ayam-jamaras">
+<section class="restaurant-section" id="mie-ayam-jamaras" data-map-name="10. Mie Ayam Jamaras" data-map-cta-url="https://maps.google.com/?cid=360718376237580958&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Jamaras, Jl. A.H. Nasution No. 53, Jatihandap, Bandung, ID" data-map-lat="-6.9035988999999995" data-map-lng="107.66287009999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Mie Ayam Jamaras</h2>
         <span class="cuisine-tag tag-regional">Legendary</span>
@@ -810,7 +814,7 @@
         <strong>tabiji verdict:</strong> Bandung&#39;s east side champion, slinging noodles since 1990. What sets Jamaras apart is the chicken: thick-cut slices rather than the usual minced/shredded topping, plus the surprise addition of bengkuang (jicama) — a textural twist you won&#39;t find elsewhere. It&#39;s a bit of a trek from central Bandung, but dedicated noodle hunters will find it worth the Grab ride. The definition of a true hidden gem.
     </div>
 </section>
-<section class="restaurant-section" id="bakmi-karet">
+<section class="restaurant-section" id="bakmi-karet" data-map-name="11. Bakmi Karet" data-map-cta-url="https://maps.google.com/?cid=10294308122659657762&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Karet, Cibadak / Natuna area, Bandung, ID" data-map-lat="-6.916398099999999" data-map-lng="107.6149104">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Bakmi Karet</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -844,7 +848,7 @@
         <strong>tabiji verdict:</strong> Named &quot;karet&quot; (rubber) for the extra-springy texture of their noodles — this is the spot for texture nerds who obsess over noodle chew. Located in the Cibadak area (Bandung&#39;s Chinatown), it&#39;s surrounded by other legendary food spots. The bouncy noodles are love-it-or-leave-it — most people love it. Combine with a Cibadak food crawl for maximum noodle research.
     </div>
 </section>
-<section class="restaurant-section" id="mie-ayam-mahameru">
+<section class="restaurant-section" id="mie-ayam-mahameru" data-map-name="12. Mie Ayam Mahameru" data-map-cta-url="https://maps.google.com/?cid=17138585162315015208&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Mahameru, Jl. K.H. Ahmad Dahlan No. 34, Malabar, Bandung, ID" data-map-lat="-6.960983" data-map-lng="107.664847">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Mie Ayam Mahameru</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -888,9 +892,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Noodle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Mie%20Ayam%20in%20Bandung&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Mie Lezat Gang Luna</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Noodle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -912,7 +917,7 @@
       <li>
         <a href="#bakmi-rajim">6. Bakmi Rajim</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Mie%20Ayam%20in%20Bandung" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18190599668065164596&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -923,5 +928,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Noodle Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Mie%20Ayam%20in%20Bandung","picks":[{"anchorId":"mie-lezat-gang-luna","rank":1,"name":"Mie Lezat Gang Luna","label":"1. Mie Lezat Gang Luna","lat":-6.9196282,"lng":107.59087579999999,"ctaUrl":"https://maps.google.com/?cid=18190599668065164596&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Lezat Gang Luna, Gang Luna, Sudirman, Bandung, ID"},{"anchorId":"mie-naripan-127","rank":2,"name":"Mie Naripan 127","label":"2. Mie Naripan 127","lat":-6.924995,"lng":107.61410339999999,"ctaUrl":"https://maps.google.com/?cid=14453811894585472527&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Naripan 127, Jl. Naripan / Paledang, Bandung, ID"},{"anchorId":"bakmi-linggarjati","rank":3,"name":"Bakmi Linggarjati","label":"3. Bakmi Linggarjati","lat":-6.9229153,"lng":107.6076948,"ctaUrl":"https://maps.google.com/?cid=7941241095186018391&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bakmi Linggarjati, Jl. Ballonggede, Regol, Bandung, ID"},{"anchorId":"warung-lela","rank":4,"name":"Warung Lela (WaLe)","label":"4. Warung Lela (WaLe)","lat":-6.8658991,"lng":107.6261283,"ctaUrl":"https://maps.google.com/?cid=16155145139625177626&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Warung Lela (WaLe), Jl. Kupa No. 6, Dago Atas, Bandung, ID"},{"anchorId":"mie-baso-bintang-avon","rank":5,"name":"Mie Baso Bintang Avon","label":"5. Mie Baso Bintang Avon","lat":-6.9216323,"lng":107.6187222,"ctaUrl":"https://maps.google.com/?cid=16791997894706555025&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Baso Bintang Avon, Jl. Ahmad Yani, Bandung, ID"},{"anchorId":"bakmi-rajim","rank":6,"name":"Bakmi Rajim","label":"6. Bakmi Rajim","lat":-6.9121885,"lng":107.5978822,"ctaUrl":"https://maps.google.com/?cid=114213048212898194&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bakmi Rajim, Paskal / Jl. Kesatriaan, Bandung, ID"},{"anchorId":"bakmie-58","rank":7,"name":"Bakmie 58","label":"7. Bakmie 58","lat":-6.8919165,"lng":107.61665839999999,"ctaUrl":"https://maps.google.com/?cid=4332743055960675390&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bakmie 58, Multiple locations (Geger Kalong, Teuku Umar, etc.), Bandung, ID"},{"anchorId":"mie-123","rank":8,"name":"Mie 123","label":"8. Mie 123","lat":-6.9252125,"lng":107.6175715,"ctaUrl":"https://maps.google.com/?cid=8284104181579646891&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie 123, Emong, Central Bandung, Bandung, ID"},{"anchorId":"mie-ayam-cipaganti","rank":9,"name":"Mie Ayam Bakso Cipaganti","label":"9. Mie Ayam Bakso Cipaganti","lat":-6.8942931,"lng":107.6024728,"ctaUrl":"https://maps.google.com/?cid=17261856780132288334&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Ayam Bakso Cipaganti, Jl. Cipaganti No. 85, Pasteur, Bandung, ID"},{"anchorId":"mie-ayam-jamaras","rank":10,"name":"Mie Ayam Jamaras","label":"10. Mie Ayam Jamaras","lat":-6.9035988999999995,"lng":107.66287009999999,"ctaUrl":"https://maps.google.com/?cid=360718376237580958&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Ayam Jamaras, Jl. A.H. Nasution No. 53, Jatihandap, Bandung, ID"},{"anchorId":"bakmi-karet","rank":11,"name":"Bakmi Karet","label":"11. Bakmi Karet","lat":-6.916398099999999,"lng":107.6149104,"ctaUrl":"https://maps.google.com/?cid=10294308122659657762&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bakmi Karet, Cibadak / Natuna area, Bandung, ID"},{"anchorId":"mie-ayam-mahameru","rank":12,"name":"Mie Ayam Mahameru","label":"12. Mie Ayam Mahameru","lat":-6.960983,"lng":107.664847,"ctaUrl":"https://maps.google.com/?cid=17138585162315015208&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mie Ayam Mahameru, Jl. K.H. Ahmad Dahlan No. 34, Malabar, Bandung, ID"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

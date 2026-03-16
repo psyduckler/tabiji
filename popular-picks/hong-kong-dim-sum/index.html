@@ -384,9 +384,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -411,7 +414,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -459,13 +462,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Hong Kong&#39;s dim sum scene offers a wide range of experiences, from budget-friendly to Michelin-starred, with prices ranging from HK$60 to HK$700 per person; for the best experience, Lung King Heen is a top recommendation, offering harbor views and exquisite dumplings in Central Hong Kong. Navigating this spectrum, from Michelin-starred dining rooms to traditional teahouses, requires a local&#39;s knowledge, but this list spans all budgets, allowing you to find the perfect yum cha for your appetite and wallet.</strong></p>
-        <p>Hong Kong&#39;s dim sum scene ranges from HK$60 to HK$700 per person, with options from budget-friendly to Michelin-starred experiences. For the best experience, Lung King Heen is a top recommendation, offering harbor views and exquisite dumplings in Central Hong Kong.</p><p>Hong Kong is the undisputed capital of dim sum. This city invented it, refined it over centuries, and has more yum cha restaurants per square mile than anywhere on earth. But navigating the spectrum — from Michelin 3-star dining rooms to Showa-era teahouses where the aunties still wheel trolleys — requires a local&#39;s knowledge.</p><p>We trawled through hundreds of Reddit posts across r/HongKong, r/finedining, r/travel, and r/solotravel to find the restaurants that actual Hong Kong residents and repeat visitors recommend year after year. The list spans all budgets — from HK$60 to HK$700 per person — so you can find the right yum cha for your appetite and wallet.</p>
+        <p>Hong Kong is the undisputed capital of dim sum. This city invented it, refined it over centuries, and has more yum cha restaurants per square mile than anywhere on earth. But navigating the spectrum — from Michelin 3-star dining rooms to Showa-era teahouses where the aunties still wheel trolleys — requires a local&#39;s knowledge.</p><p>We trawled through hundreds of Reddit posts across r/HongKong, r/finedining, r/travel, and r/solotravel to find the restaurants that actual Hong Kong residents and repeat visitors recommend year after year. The list spans all budgets — from HK$60 to HK$700 per person — so you can find the right yum cha for your appetite and wallet.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Dim Sum Map</h2>
-      <iframe src="https://www.google.com/maps?q=Dim%20Sum%20in%20Central%20Hong%20Kong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Lung King Heen (龍景軒)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dim Sum Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -473,7 +477,7 @@
         <a href="#lung-king-heen">1. Lung King Heen (龍景軒)</a>
       </li>
       <li>
-        <a href="#city-hall-maxims">2. City Hall Maxim&#39;s Palace (美心皇宮)</a>
+        <a href="#city-hall-maxims">2. City Hall Maxim's Palace (美心皇宮)</a>
       </li>
       <li>
         <a href="#tim-ho-wan">3. Tim Ho Wan (添好運)</a>
@@ -487,7 +491,7 @@
       <li>
         <a href="#lai-ching-heen">6. Lai Ching Heen (麗晶軒)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Dim%20Sum%20in%20Central%20Hong%20Kong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13204840369633368453&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -499,7 +503,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="lung-king-heen">
+<section class="restaurant-section" id="lung-king-heen" data-map-name="1. Lung King Heen (龍景軒)" data-map-cta-url="https://maps.google.com/?cid=13204840369633368453&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lung King Heen (龍景軒), Four Seasons Hotel, Central, Hong Kong, HK" data-map-lat="22.2864276" data-map-lng="114.15705439999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Lung King Heen (龍景軒)</h2>
         <span class="cuisine-tag tag-regional">3 Michelin Stars</span>
@@ -541,7 +545,7 @@
         <strong>tabiji verdict:</strong> The apex of Hong Kong dim sum. Three Michelin stars, harbor views from the Four Seasons, and technically flawless execution on every dish. Book weeks in advance. Worth every dollar for a special occasion — but genuinely the best dim sum you&#39;ll ever eat.
     </div>
 </section>
-<section class="restaurant-section" id="city-hall-maxims">
+<section class="restaurant-section" id="city-hall-maxims" data-map-name="2. City Hall Maxim&#39;s Palace (美心皇宮)" data-map-cta-url="https://maps.google.com/?cid=10505549194571598418&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="City Hall Maxim&#39;s Palace (美心皇宮), Edinburgh Place, Central, Hong Kong, HK" data-map-lat="22.28237" data-map-lng="114.16175899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>City Hall Maxim&#39;s Palace (美心皇宮)</h2>
         <span class="cuisine-tag tag-regional">Traditional / Push Trolleys</span>
@@ -583,7 +587,7 @@
         <strong>tabiji verdict:</strong> The quintessential Hong Kong dim sum experience — high-ceiling colonial dining room, harbor-adjacent location, and grandmothers wheeling trolleys loaded with steamer baskets. It&#39;s not the finest food in the city, but the atmosphere is irreplaceable. Go for the ritual.
     </div>
 </section>
-<section class="restaurant-section" id="tim-ho-wan">
+<section class="restaurant-section" id="tim-ho-wan" data-map-name="3. Tim Ho Wan (添好運)" data-map-cta-url="https://maps.google.com/?cid=4540539753907016659&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tim Ho Wan (添好運), Multiple locations (original: Sham Shui Po), Hong Kong, HK" data-map-lat="22.3290608" data-map-lng="114.1663164">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Tim Ho Wan (添好運)</h2>
         <span class="cuisine-tag tag-regional">1 Michelin Star · Budget</span>
@@ -625,7 +629,7 @@
         <strong>tabiji verdict:</strong> The world&#39;s cheapest Michelin star. Yes, the airport and IFC locations exist and have no queue — but the Sham Shui Po original is the one worth visiting. The baked pork buns alone would justify a detour. HK$130 for Michelin quality is genuinely insane.
     </div>
 </section>
-<section class="restaurant-section" id="yat-tung-heen">
+<section class="restaurant-section" id="yat-tung-heen" data-map-name="4. Yat Tung Heen (一東軒)" data-map-cta-url="https://maps.google.com/?cid=5536615904211428736&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yat Tung Heen (一東軒), Eaton HK Hotel, Jordan, Hong Kong, HK" data-map-lat="22.3080401" data-map-lng="114.1717085">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Yat Tung Heen (一東軒)</h2>
         <span class="cuisine-tag tag-regional">Michelin Recommended</span>
@@ -667,7 +671,7 @@
         <strong>tabiji verdict:</strong> The sweet spot between quality and price in the Michelin tier. Not three stars, but legitimately excellent execution — and you can actually get a reservation without booking months ahead. The Jordan location means you can combine with Temple Street Night Market.
     </div>
 </section>
-<section class="restaurant-section" id="lin-heung-lau">
+<section class="restaurant-section" id="lin-heung-lau" data-map-name="5. Lin Heung Lau (蓮香樓)" data-map-cta-url="https://maps.google.com/?cid=4173032956146084422&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lin Heung Lau (蓮香樓), Wellington Street, Central, Hong Kong, HK" data-map-lat="22.2842663" data-map-lng="114.1534466">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Lin Heung Lau (蓮香樓)</h2>
         <span class="cuisine-tag tag-regional">Traditional / Heritage</span>
@@ -705,7 +709,7 @@
         <strong>tabiji verdict:</strong> One of the last bastions of old Hong Kong dim sum culture in Central. Communal seating, no English menu, trolley service, and zero pretension. The food is solidly good rather than spectacular — but the experience of eating shoulder-to-shoulder with office workers and retired couples is priceless.
     </div>
 </section>
-<section class="restaurant-section" id="lai-ching-heen">
+<section class="restaurant-section" id="lai-ching-heen" data-map-name="6. Lai Ching Heen (麗晶軒)" data-map-cta-url="https://maps.google.com/?cid=29666268059909879&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lai Ching Heen (麗晶軒), Regent Hong Kong, Tsim Sha Tsui, Hong Kong, HK" data-map-lat="22.2934001" data-map-lng="114.1740069">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Lai Ching Heen (麗晶軒)</h2>
         <span class="cuisine-tag tag-regional">2 Michelin Stars</span>
@@ -735,7 +739,7 @@
         <strong>tabiji verdict:</strong> Two Michelin stars at the Regent Hong Kong, with the most beautiful presentation in the city. If Lung King Heen is the best technically, Lai Ching Heen wins on aesthetics. The harbor views from across the water (Kowloon side) are spectacular. Reserve weeks ahead.
     </div>
 </section>
-<section class="restaurant-section" id="one-dim-sum">
+<section class="restaurant-section" id="one-dim-sum" data-map-name="7. One Dim Sum (一點心)" data-map-cta-url="https://maps.google.com/?cid=4795447438211965162&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="One Dim Sum (一點心), Prince Edward (main) + Central branch, Hong Kong, HK" data-map-lat="22.3254818" data-map-lng="114.1691477">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>One Dim Sum (一點心)</h2>
         <span class="cuisine-tag tag-regional">Michelin Bib Gourmand · Local Fave</span>
@@ -773,7 +777,7 @@
         <strong>tabiji verdict:</strong> The best value in Hong Kong dim sum. Michelin Bib Gourmand recognition, local prices, no pretension. The Prince Edward original is worth the MTR ride — or the Central branch is a convenient grab if you&#39;re already in the area.
     </div>
 </section>
-<section class="restaurant-section" id="sun-hing">
+<section class="restaurant-section" id="sun-hing" data-map-name="8. Sun Hing Restaurant (新興食家)" data-map-cta-url="https://maps.google.com/?cid=6559236013758686132&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sun Hing Restaurant (新興食家), Kennedy Town (opens 6am), Hong Kong, HK" data-map-lat="22.2829656" data-map-lng="114.1282358">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Sun Hing Restaurant (新興食家)</h2>
         <span class="cuisine-tag tag-regional">Early Morning Dim Sum</span>
@@ -811,7 +815,7 @@
         <strong>tabiji verdict:</strong> The dim sum pilgrim&#39;s choice. Opens at 6am, caters to night-shift workers and elderly locals, serves honest Cantonese classics at prices that haven&#39;t changed in years. Arrive before 9am. Bring cash. Sit wherever. This is the real thing.
     </div>
 </section>
-<section class="restaurant-section" id="yum-cha">
+<section class="restaurant-section" id="yum-cha" data-map-name="9. Yum Cha (飲茶)" data-map-cta-url="https://maps.google.com/?cid=15610170831705044681&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yum Cha (飲茶), Sheung Wan (also Wan Chai &amp; TST), Hong Kong, HK" data-map-lat="22.2859767" data-map-lng="114.15432349999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Yum Cha (飲茶)</h2>
         <span class="cuisine-tag tag-regional">Creative / Modern Dim Sum</span>
@@ -849,7 +853,7 @@
         <strong>tabiji verdict:</strong> The playful, Instagrammable antidote to stuffy traditional dim sum. Great for groups who want fun alongside quality. The lava custard buns are genuinely one of the best things you can eat in Hong Kong regardless of how they look. Reservations recommended on weekends.
     </div>
 </section>
-<section class="restaurant-section" id="tin-lung-heen">
+<section class="restaurant-section" id="tin-lung-heen" data-map-name="10. Tin Lung Heen (天龍軒)" data-map-cta-url="https://maps.google.com/?cid=15218520801052089691&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tin Lung Heen (天龍軒), Ritz-Carlton, ICC Tower, West Kowloon (102F), Hong Kong, HK" data-map-lat="22.303465" data-map-lng="114.1602232">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Tin Lung Heen (天龍軒)</h2>
         <span class="cuisine-tag tag-regional">2 Michelin Stars</span>
@@ -887,7 +891,7 @@
         <strong>tabiji verdict:</strong> The highest dim sum in the world — literally. At 102 floors in the ICC tower, it&#39;s the most dramatic setting for a meal in Hong Kong. The food (2 Michelin stars) backs up the spectacle. Expensive, special, and utterly unforgettable. Book a month ahead.
     </div>
 </section>
-<section class="restaurant-section" id="fung-shing">
+<section class="restaurant-section" id="fung-shing" data-map-name="11. Fung Shing Restaurant (鳳城酒家)" data-map-cta-url="https://maps.google.com/?cid=7381910553494067728&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fung Shing Restaurant (鳳城酒家), North Point (also Mong Kok), Hong Kong, HK" data-map-lat="22.2917362" data-map-lng="114.19819410000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Fung Shing Restaurant (鳳城酒家)</h2>
         <span class="cuisine-tag tag-regional">Traditional Cantonese</span>
@@ -925,7 +929,7 @@
         <strong>tabiji verdict:</strong> A multi-generational family restaurant that locals swear by. No tourist trappings, just solid Cantonese cooking in a neighborhood that still feels like old Hong Kong. The North Point location puts you near one of the last remaining wet markets — go early, explore the market, eat here.
     </div>
 </section>
-<section class="restaurant-section" id="forum">
+<section class="restaurant-section" id="forum" data-map-name="12. Forum Restaurant (富臨飯店)" data-map-cta-url="https://maps.google.com/?cid=1944223090707252440&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Forum Restaurant (富臨飯店), Causeway Bay, Hong Kong, HK" data-map-lat="22.2813578" data-map-lng="114.1822993">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Forum Restaurant (富臨飯店)</h2>
         <span class="cuisine-tag tag-regional">Classic Cantonese</span>
@@ -963,7 +967,7 @@
         <strong>tabiji verdict:</strong> Legendary Cantonese restaurant that Hong Kong residents actually eat at — not a tourist trap. The abalone is world-famous (former residents fly back just for it), but the dim sum is equally respected. Go on a weekday and arrive before noon to avoid the crush.
     </div>
 </section>
-<section class="restaurant-section" id="dim-sum-square">
+<section class="restaurant-section" id="dim-sum-square" data-map-name="13. Dim Sum Square (點點心)" data-map-cta-url="https://maps.google.com/?cid=15963119331062188584&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dim Sum Square (點點心), Sheung Wan, Hong Kong, HK" data-map-lat="22.284886" data-map-lng="114.1513815">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Dim Sum Square (點點心)</h2>
         <span class="cuisine-tag tag-regional">Sheung Wan Local Gem</span>
@@ -1001,7 +1005,7 @@
         <strong>tabiji verdict:</strong> The convenience pick for Central/Sheung Wan visitors who want genuine quality without venturing far. Locals work nearby and eat here regularly — a reliable signal. The checkbox ordering system is tourist-friendly too.
     </div>
 </section>
-<section class="restaurant-section" id="ming-court">
+<section class="restaurant-section" id="ming-court" data-map-name="14. Ming Court (明閣)" data-map-cta-url="https://maps.google.com/?cid=12538039254052555178&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ming Court (明閣), Cordis Hotel, Mong Kok, Hong Kong, HK" data-map-lat="22.318175" data-map-lng="114.168112">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Ming Court (明閣)</h2>
         <span class="cuisine-tag tag-regional">1 Michelin Star</span>
@@ -1057,9 +1061,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Dim Sum Map</h2>
-      <iframe src="https://www.google.com/maps?q=Dim%20Sum%20in%20Central%20Hong%20Kong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Lung King Heen (龍景軒)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dim Sum Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1067,7 +1072,7 @@
         <a href="#lung-king-heen">1. Lung King Heen (龍景軒)</a>
       </li>
       <li>
-        <a href="#city-hall-maxims">2. City Hall Maxim&#39;s Palace (美心皇宮)</a>
+        <a href="#city-hall-maxims">2. City Hall Maxim's Palace (美心皇宮)</a>
       </li>
       <li>
         <a href="#tim-ho-wan">3. Tim Ho Wan (添好運)</a>
@@ -1081,7 +1086,7 @@
       <li>
         <a href="#lai-ching-heen">6. Lai Ching Heen (麗晶軒)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Dim%20Sum%20in%20Central%20Hong%20Kong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13204840369633368453&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1092,5 +1097,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Dim Sum Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Dim%20Sum%20in%20Central%20Hong%20Kong","picks":[{"anchorId":"lung-king-heen","rank":1,"name":"Lung King Heen (龍景軒)","label":"1. Lung King Heen (龍景軒)","lat":22.2864276,"lng":114.15705439999999,"ctaUrl":"https://maps.google.com/?cid=13204840369633368453&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lung King Heen (龍景軒), Four Seasons Hotel, Central, Hong Kong, HK"},{"anchorId":"city-hall-maxims","rank":2,"name":"City Hall Maxim's Palace (美心皇宮)","label":"2. City Hall Maxim's Palace (美心皇宮)","lat":22.28237,"lng":114.16175899999999,"ctaUrl":"https://maps.google.com/?cid=10505549194571598418&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"City Hall Maxim's Palace (美心皇宮), Edinburgh Place, Central, Hong Kong, HK"},{"anchorId":"tim-ho-wan","rank":3,"name":"Tim Ho Wan (添好運)","label":"3. Tim Ho Wan (添好運)","lat":22.3290608,"lng":114.1663164,"ctaUrl":"https://maps.google.com/?cid=4540539753907016659&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tim Ho Wan (添好運), Multiple locations (original: Sham Shui Po), Hong Kong, HK"},{"anchorId":"yat-tung-heen","rank":4,"name":"Yat Tung Heen (一東軒)","label":"4. Yat Tung Heen (一東軒)","lat":22.3080401,"lng":114.1717085,"ctaUrl":"https://maps.google.com/?cid=5536615904211428736&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yat Tung Heen (一東軒), Eaton HK Hotel, Jordan, Hong Kong, HK"},{"anchorId":"lin-heung-lau","rank":5,"name":"Lin Heung Lau (蓮香樓)","label":"5. Lin Heung Lau (蓮香樓)","lat":22.2842663,"lng":114.1534466,"ctaUrl":"https://maps.google.com/?cid=4173032956146084422&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lin Heung Lau (蓮香樓), Wellington Street, Central, Hong Kong, HK"},{"anchorId":"lai-ching-heen","rank":6,"name":"Lai Ching Heen (麗晶軒)","label":"6. Lai Ching Heen (麗晶軒)","lat":22.2934001,"lng":114.1740069,"ctaUrl":"https://maps.google.com/?cid=29666268059909879&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lai Ching Heen (麗晶軒), Regent Hong Kong, Tsim Sha Tsui, Hong Kong, HK"},{"anchorId":"one-dim-sum","rank":7,"name":"One Dim Sum (一點心)","label":"7. One Dim Sum (一點心)","lat":22.3254818,"lng":114.1691477,"ctaUrl":"https://maps.google.com/?cid=4795447438211965162&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"One Dim Sum (一點心), Prince Edward (main) + Central branch, Hong Kong, HK"},{"anchorId":"sun-hing","rank":8,"name":"Sun Hing Restaurant (新興食家)","label":"8. Sun Hing Restaurant (新興食家)","lat":22.2829656,"lng":114.1282358,"ctaUrl":"https://maps.google.com/?cid=6559236013758686132&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sun Hing Restaurant (新興食家), Kennedy Town (opens 6am), Hong Kong, HK"},{"anchorId":"yum-cha","rank":9,"name":"Yum Cha (飲茶)","label":"9. Yum Cha (飲茶)","lat":22.2859767,"lng":114.15432349999999,"ctaUrl":"https://maps.google.com/?cid=15610170831705044681&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yum Cha (飲茶), Sheung Wan (also Wan Chai & TST), Hong Kong, HK"},{"anchorId":"tin-lung-heen","rank":10,"name":"Tin Lung Heen (天龍軒)","label":"10. Tin Lung Heen (天龍軒)","lat":22.303465,"lng":114.1602232,"ctaUrl":"https://maps.google.com/?cid=15218520801052089691&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tin Lung Heen (天龍軒), Ritz-Carlton, ICC Tower, West Kowloon (102F), Hong Kong, HK"},{"anchorId":"fung-shing","rank":11,"name":"Fung Shing Restaurant (鳳城酒家)","label":"11. Fung Shing Restaurant (鳳城酒家)","lat":22.2917362,"lng":114.19819410000001,"ctaUrl":"https://maps.google.com/?cid=7381910553494067728&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fung Shing Restaurant (鳳城酒家), North Point (also Mong Kok), Hong Kong, HK"},{"anchorId":"forum","rank":12,"name":"Forum Restaurant (富臨飯店)","label":"12. Forum Restaurant (富臨飯店)","lat":22.2813578,"lng":114.1822993,"ctaUrl":"https://maps.google.com/?cid=1944223090707252440&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Forum Restaurant (富臨飯店), Causeway Bay, Hong Kong, HK"},{"anchorId":"dim-sum-square","rank":13,"name":"Dim Sum Square (點點心)","label":"13. Dim Sum Square (點點心)","lat":22.284886,"lng":114.1513815,"ctaUrl":"https://maps.google.com/?cid=15963119331062188584&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dim Sum Square (點點心), Sheung Wan, Hong Kong, HK"},{"anchorId":"ming-court","rank":14,"name":"Ming Court (明閣)","label":"14. Ming Court (明閣)","lat":22.318175,"lng":114.168112,"ctaUrl":"https://maps.google.com/?cid=12538039254052555178&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ming Court (明閣), Cordis Hotel, Mong Kok, Hong Kong, HK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -291,11 +291,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -320,9 +315,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -347,39 +345,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Beach Cafés in Haeundae",
-                        "item": "https://tabiji.ai/popular-picks/haeundae-beach-cafes/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -422,13 +393,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Haeundae&#39;s beach cafés range from ₩4,500 to ₩25,000, with Tide Coffee Roasters being a top recommendation for its exceptional coffee and moody ambiance. Haeundae is the heart of Korea&#39;s coastal café culture, offering hidden gems with views that rival Seoul&#39;s at a fraction of the price, making it a must-visit destination for café lovers.</strong></p>
-        <p>Ranging from ₩4,500 to ₩25,000, Haeundae&#39;s beach cafés offer diverse experiences, but Tide Coffee Roasters stands out for its exceptional coffee and moody ambiance. Haeundae is more than just Busan&#39;s most famous beach; it&#39;s the heart of Korea&#39;s coastal café culture, with hidden gems offering views that rival Seoul&#39;s at a fraction of the price.</p><p>Haeundae isn&#39;t just Busan&#39;s most famous beach — it&#39;s the heart of Korea&#39;s coastal café culture. From the towering Marine City waterfront to the winding hillside roads of Dalmaji-gil, every corner hides a café with a view that would cost you three times as much in Seoul.</p><p>We dug through dozens of Reddit threads from r/busan, r/koreatravel, r/Living_in_Korea, and r/korea to find the cafés that Busan locals and repeat visitors actually recommend. Whether you want world-class specialty coffee, a lazy brunch with ocean views, or a moody roastery perched above the waves — these are the spots worth your time.</p>
+        <p>Haeundae isn&#39;t just Busan&#39;s most famous beach — it&#39;s the heart of Korea&#39;s coastal café culture. From the towering Marine City waterfront to the winding hillside roads of Dalmaji-gil, every corner hides a café with a view that would cost you three times as much in Seoul.</p><p>We dug through dozens of Reddit threads from r/busan, r/koreatravel, r/Living_in_Korea, and r/korea to find the cafés that Busan locals and repeat visitors actually recommend. Whether you want world-class specialty coffee, a lazy brunch with ocean views, or a moody roastery perched above the waves — these are the spots worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Busan%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Momos Coffee Marine City (모모스커피)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -450,7 +422,7 @@
       <li>
         <a href="#edge-993">6. Edge 993 (엣지993)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Busan%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3985984005231788003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +434,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="momos-coffee">
+<section class="restaurant-section" id="momos-coffee" data-map-name="1. Momos Coffee Marine City (모모스커피)" data-map-cta-url="https://maps.google.com/?cid=3985984005231788003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Momos Coffee Marine City (모모스커피), Marine City, Haeundae-gu, Busan, KR" data-map-lat="35.1544957" data-map-lng="129.1443344">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Momos Coffee Marine City (모모스커피)</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -504,7 +476,7 @@
         <strong>tabiji verdict:</strong> The single most recommended café in all of Busan on Reddit. Momos earned its reputation as a genuine specialty roaster — this isn&#39;t just a view café with mediocre coffee. The Marine City branch has the best ocean panorama of any location. Opens at 7 AM, making it perfect for early risers who want the best seats.
     </div>
 </section>
-<section class="restaurant-section" id="waveon-coffee">
+<section class="restaurant-section" id="waveon-coffee" data-map-name="2. Waveon Coffee (웨이브온 커피)" data-map-cta-url="https://maps.google.com/?cid=9825571913241467386&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Waveon Coffee (웨이브온 커피), Gijang-gun (15 min from Haeundae), Busan, KR" data-map-lat="35.3223106" data-map-lng="129.2696854">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Waveon Coffee (웨이브온 커피)</h2>
         <span class="cuisine-tag tag-regional">Ocean View</span>
@@ -546,7 +518,7 @@
         <strong>tabiji verdict:</strong> The most dramatic café setting in the Busan area. Built right on the coastal rocks with floor-to-ceiling glass walls, it feels like you&#39;re floating above the ocean. Coffee is decent chain-level — you&#39;re paying for the view, and it&#39;s worth every won. Best at sunset. Technically in Gijang, not Haeundae proper, so budget 15 minutes by taxi or bus.
     </div>
 </section>
-<section class="restaurant-section" id="prahran">
+<section class="restaurant-section" id="prahran" data-map-name="3. Prahran (프라란)" data-map-cta-url="https://maps.google.com/?cid=13653145120855025173&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Prahran (프라란), Haeridan Road, Haeundae-gu, Busan, KR" data-map-lat="35.165315199999995" data-map-lng="129.1577086">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Prahran (프라란)</h2>
         <span class="cuisine-tag tag-regional">Brunch Café</span>
@@ -584,7 +556,7 @@
         <strong>tabiji verdict:</strong> Named after the Melbourne suburb (Korea&#39;s obsession with Australian brunch culture is real), Prahran delivers one of the best brunch experiences in Busan. It&#39;s on Haeridan Road, Haeundae&#39;s trendiest café strip, so you can easily hop between spots. Open from 9 AM weekdays and 8 AM weekends — go early on weekends or face a wait.
     </div>
 </section>
-<section class="restaurant-section" id="tide-coffee">
+<section class="restaurant-section" id="tide-coffee" data-map-name="4. Tide Coffee Roasters (타이드 커피)" data-map-cta-url="https://maps.google.com/?cid=18180939527710388286&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tide Coffee Roasters (타이드 커피), Dalmaji Hill, Haeundae-gu, Busan, KR" data-map-lat="35.157617" data-map-lng="129.1729163">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tide Coffee Roasters (타이드 커피)</h2>
         <span class="cuisine-tag tag-regional">Roastery</span>
@@ -622,7 +594,7 @@
         <strong>tabiji verdict:</strong> Dalmaji Hill&#39;s answer to serious third-wave coffee. Tide roasts their own beans and the quality shows — this is where Busan&#39;s coffee nerds go. The interior is dark, moody, and photogenic. Closed Tuesdays. About a 25-minute walk uphill from Haeundae Beach, or a quick taxi ride.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-in-busan">
+<section class="restaurant-section" id="cafe-in-busan" data-map-name="5. Café In Busan (카페 인 부산)" data-map-cta-url="https://maps.google.com/?cid=7626888485287753113&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café In Busan (카페 인 부산), Dalmaji Hill, Haeundae-gu, Busan, KR" data-map-lat="35.1595423" data-map-lng="129.182382">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Café In Busan (카페 인 부산)</h2>
         <span class="cuisine-tag tag-regional">Aesthetic</span>
@@ -656,7 +628,7 @@
         <strong>tabiji verdict:</strong> Part art gallery, part café, part Instagram playground. Café In Busan is the kind of maximalist, colorful space that Korea does better than anywhere else. The terrace view of Haeundae Beach is genuinely spectacular. Drinks are pricier than average, but you&#39;re paying for the full experience. Open until 2 AM on weekdays — great for late-night ocean views.
     </div>
 </section>
-<section class="restaurant-section" id="edge-993">
+<section class="restaurant-section" id="edge-993" data-map-name="6. Edge 993 (엣지993)" data-map-cta-url="https://maps.google.com/?cid=6853949512835414041&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Edge 993 (엣지993), Near Haeundae Beach Train, Haeundae-gu, Busan, KR" data-map-lat="35.1564176" data-map-lng="129.1752149">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Edge 993 (엣지993)</h2>
         <span class="cuisine-tag tag-regional">Ocean View</span>
@@ -690,7 +662,7 @@
         <strong>tabiji verdict:</strong> The unique combo of ocean views and the Blue Line Park sky capsules gliding overhead makes this unlike any other café. Edge 993 is pricier than average, but the outdoor terrace at sunset — with trains passing through the trees above the sea — is pure Busan magic. Best combined with a ride on the scenic train itself.
     </div>
 </section>
-<section class="restaurant-section" id="maison-cote">
+<section class="restaurant-section" id="maison-cote" data-map-name="7. Maison Côté (메종꽃떼)" data-map-cta-url="https://maps.google.com/?cid=6535660030686622519&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maison Côté (메종꽃떼), Dalmaji Hill, Haeundae-gu, Busan, KR" data-map-lat="35.1605823" data-map-lng="129.17066459999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Maison Côté (메종꽃떼)</h2>
         <span class="cuisine-tag tag-regional">Rooftop</span>
@@ -716,7 +688,7 @@
         <strong>tabiji verdict:</strong> Hidden away off the main Dalmaji road, Maison Côté feels like stumbling onto a secret garden. The rooftop terrace has an unobstructed ocean view and a European-rustic vibe that feels miles away from the beach crowds below. Closed Wednesdays. Best in the afternoon when the light hits the terrace just right.
     </div>
 </section>
-<section class="restaurant-section" id="coffee-front">
+<section class="restaurant-section" id="coffee-front" data-map-name="8. Coffee Front (커피프론트)" data-map-cta-url="https://maps.google.com/?cid=2851863802153857278&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Coffee Front (커피프론트), Haeundae-gu, Busan, KR" data-map-lat="35.1659317" data-map-lng="129.1324239">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Coffee Front (커피프론트)</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -742,7 +714,7 @@
         <strong>tabiji verdict:</strong> The café for people who care about coffee more than views. Coffee Front is small, unpretentious, and focused on doing espresso really well. The SF-influenced approach means you&#39;ll get clean, well-extracted shots without the fuss. Opens at 8 AM weekdays — great for a morning caffeine hit before the beach.
     </div>
 </section>
-<section class="restaurant-section" id="blackup-coffee">
+<section class="restaurant-section" id="blackup-coffee" data-map-name="9. Blackup Coffee Haeundae (블랙업커피)" data-map-cta-url="https://maps.google.com/?cid=2064055988493237250&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Blackup Coffee Haeundae (블랙업커피), Haeundae-gu, Busan, KR" data-map-lat="35.1633954" data-map-lng="129.1645474">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Blackup Coffee Haeundae (블랙업커피)</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -776,7 +748,7 @@
         <strong>tabiji verdict:</strong> Blackup is Busan&#39;s homegrown specialty chain — think of it as the local alternative to Blue Bottle. Multiple locations means you&#39;ll likely stumble across one, and the quality is reliably good. Not a destination café, but a dependable choice when you need great coffee without hunting for a hidden gem.
     </div>
 </section>
-<section class="restaurant-section" id="yeonhua-ondo">
+<section class="restaurant-section" id="yeonhua-ondo" data-map-name="10. Yeonhua Ondo (연화온도)" data-map-cta-url="https://maps.google.com/?cid=6909054721802227143&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yeonhua Ondo (연화온도), Haeridan Road, Haeundae-gu, Busan, KR" data-map-lat="35.1657053" data-map-lng="129.1583763">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Yeonhua Ondo (연화온도)</h2>
         <span class="cuisine-tag tag-regional">Vintage</span>
@@ -828,9 +800,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Busan%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Momos Coffee Marine City (모모스커피)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -852,7 +825,7 @@
       <li>
         <a href="#edge-993">6. Edge 993 (엣지993)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Busan%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3985984005231788003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -863,5 +836,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Beach%20Caf%C3%A9s%20in%20Haeundae","picks":[{"anchorId":"momos-coffee","rank":1,"name":"Momos Coffee Marine City (모모스커피)","label":"1. Momos Coffee Marine City (모모스커피)","lat":35.1544957,"lng":129.1443344,"ctaUrl":"https://maps.google.com/?cid=3985984005231788003&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Momos Coffee Marine City (모모스커피), Marine City, Haeundae-gu, Busan, KR"},{"anchorId":"waveon-coffee","rank":2,"name":"Waveon Coffee (웨이브온 커피)","label":"2. Waveon Coffee (웨이브온 커피)","lat":35.3223106,"lng":129.2696854,"ctaUrl":"https://maps.google.com/?cid=9825571913241467386&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Waveon Coffee (웨이브온 커피), Gijang-gun (15 min from Haeundae), Busan, KR"},{"anchorId":"prahran","rank":3,"name":"Prahran (프라란)","label":"3. Prahran (프라란)","lat":35.165315199999995,"lng":129.1577086,"ctaUrl":"https://maps.google.com/?cid=13653145120855025173&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Prahran (프라란), Haeridan Road, Haeundae-gu, Busan, KR"},{"anchorId":"tide-coffee","rank":4,"name":"Tide Coffee Roasters (타이드 커피)","label":"4. Tide Coffee Roasters (타이드 커피)","lat":35.157617,"lng":129.1729163,"ctaUrl":"https://maps.google.com/?cid=18180939527710388286&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tide Coffee Roasters (타이드 커피), Dalmaji Hill, Haeundae-gu, Busan, KR"},{"anchorId":"cafe-in-busan","rank":5,"name":"Café In Busan (카페 인 부산)","label":"5. Café In Busan (카페 인 부산)","lat":35.1595423,"lng":129.182382,"ctaUrl":"https://maps.google.com/?cid=7626888485287753113&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café In Busan (카페 인 부산), Dalmaji Hill, Haeundae-gu, Busan, KR"},{"anchorId":"edge-993","rank":6,"name":"Edge 993 (엣지993)","label":"6. Edge 993 (엣지993)","lat":35.1564176,"lng":129.1752149,"ctaUrl":"https://maps.google.com/?cid=6853949512835414041&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Edge 993 (엣지993), Near Haeundae Beach Train, Haeundae-gu, Busan, KR"},{"anchorId":"maison-cote","rank":7,"name":"Maison Côté (메종꽃떼)","label":"7. Maison Côté (메종꽃떼)","lat":35.1605823,"lng":129.17066459999998,"ctaUrl":"https://maps.google.com/?cid=6535660030686622519&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maison Côté (메종꽃떼), Dalmaji Hill, Haeundae-gu, Busan, KR"},{"anchorId":"coffee-front","rank":8,"name":"Coffee Front (커피프론트)","label":"8. Coffee Front (커피프론트)","lat":35.1659317,"lng":129.1324239,"ctaUrl":"https://maps.google.com/?cid=2851863802153857278&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Coffee Front (커피프론트), Haeundae-gu, Busan, KR"},{"anchorId":"blackup-coffee","rank":9,"name":"Blackup Coffee Haeundae (블랙업커피)","label":"9. Blackup Coffee Haeundae (블랙업커피)","lat":35.1633954,"lng":129.1645474,"ctaUrl":"https://maps.google.com/?cid=2064055988493237250&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Blackup Coffee Haeundae (블랙업커피), Haeundae-gu, Busan, KR"},{"anchorId":"yeonhua-ondo","rank":10,"name":"Yeonhua Ondo (연화온도)","label":"10. Yeonhua Ondo (연화온도)","lat":35.1657053,"lng":129.1583763,"ctaUrl":"https://maps.google.com/?cid=6909054721802227143&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yeonhua Ondo (연화온도), Haeridan Road, Haeundae-gu, Busan, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

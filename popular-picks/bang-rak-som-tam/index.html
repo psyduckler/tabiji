@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -426,9 +429,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Som Tam Map</h2>
-      <iframe src="https://www.google.com/maps?q=Som%20Tam%20in%20Bangkok&#39;s%20Bang%20Rak&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Som Tam Jay So (ร้านส้มตำเจ๊โส)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Som Tam Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -450,7 +454,7 @@
       <li>
         <a href="#convent-road-stalls">6. Convent Road Street Stalls</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Som%20Tam%20in%20Bangkok&#39;s%20Bang%20Rak" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=859211631458523096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="som-tam-jay-so">
+<section class="restaurant-section" id="som-tam-jay-so" data-map-name="1. Som Tam Jay So (ร้านส้มตำเจ๊โส)" data-map-cta-url="https://maps.google.com/?cid=859211631458523096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Som Tam Jay So (ร้านส้มตำเจ๊โส), Soi Phiphat 2, Silom, Bangkok, TH" data-map-lat="13.7250673" data-map-lng="100.53259519999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Som Tam Jay So (ร้านส้มตำเจ๊โส)</h2>
         <span class="cuisine-tag tag-regional">Isaan Som Tam</span>
@@ -504,7 +508,7 @@
         <strong>tabiji verdict:</strong> The undisputed queen of som tam in Silom. Jay So herself has been pounding papaya on this soi for years, and the lunch-hour queue of Thai office workers is all the validation you need. The som tam is fiery, the gai yang is exceptional, and at ฿40–80 per dish it&#39;s absurdly cheap. Go before 11:30 or expect to wait. Open daily until about 4:30 PM — no dinner service.
     </div>
 </section>
-<section class="restaurant-section" id="hai-som-tam-convent">
+<section class="restaurant-section" id="hai-som-tam-convent" data-map-name="2. Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์)" data-map-cta-url="https://maps.google.com/?cid=5814314852231630463&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์), Convent Road, Silom, Bangkok, TH" data-map-lat="13.7273414" data-map-lng="100.533286">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์)</h2>
         <span class="cuisine-tag tag-regional">Isaan Variety</span>
@@ -542,7 +546,7 @@
         <strong>tabiji verdict:</strong> A Bang Rak institution. The shophouse atmosphere is no-frills but comfortable, the menu is enormous, and the Convent Road location means you&#39;re eating alongside Silom office workers who know exactly what to order. Great for anyone who wants the street som tam experience with actual chairs and a roof. Lunch gets packed — come early or late.
     </div>
 </section>
-<section class="restaurant-section" id="somtum-der">
+<section class="restaurant-section" id="somtum-der" data-map-name="3. Somtum Der (ส้มตำเด้อ)" data-map-cta-url="https://maps.google.com/?cid=8885475404359674723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Somtum Der (ส้มตำเด้อ), Saladaeng Road, Silom, Bang Rak, Bangkok, TH" data-map-lat="13.727591199999999" data-map-lng="100.536404">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Somtum Der (ส้มตำเด้อ)</h2>
         <span class="cuisine-tag tag-regional">Michelin-Recognized</span>
@@ -580,7 +584,7 @@
         <strong>tabiji verdict:</strong> The polished, air-conditioned answer to &quot;I want great som tam but I also want a proper restaurant.&quot; Their New York outpost once had a Michelin star; the Bangkok original has a Bib Gourmand. The som tam is entry-level Isaan done with care — not the cheapest, not the most hardcore, but reliably good with creative twists. The bright, airy room feels like a modern fast-casual joint. A safe bet for som tam newcomers.
     </div>
 </section>
-<section class="restaurant-section" id="baan-somtum">
+<section class="restaurant-section" id="baan-somtum" data-map-name="4. Baan Somtum (บ้านส้มตำ)" data-map-cta-url="https://maps.google.com/?cid=9380492308857186144&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Baan Somtum (บ้านส้มตำ), Soi Pramuan, Si Wiang Road, Bang Rak, Bangkok, TH" data-map-lat="13.720701199999999" data-map-lng="100.5205297">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Baan Somtum (บ้านส้มตำ)</h2>
         <span class="cuisine-tag tag-regional">29+ Varieties</span>
@@ -622,7 +626,7 @@
         <strong>tabiji verdict:</strong> If som tam is your love language, Baan Somtum is your paradise. Twenty-nine varieties means they take green papaya salad as seriously as a wine bar takes grapes. The Sathon branch right on the edge of Bang Rak is the best — the pok-pok chorus hits you before you even walk in. Spice levels are no joke. Bring sticky rice.
     </div>
 </section>
-<section class="restaurant-section" id="phed-phed">
+<section class="restaurant-section" id="phed-phed" data-map-name="5. Phed Phed (เผ็ด เผ็ด)" data-map-cta-url="https://maps.google.com/?cid=1703241079704588559&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phed Phed (เผ็ด เผ็ด), Multiple locations (Ari, Central Chidlom, etc.), Bangkok, TH" data-map-lat="13.7446894" data-map-lng="100.54529819999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Phed Phed (เผ็ด เผ็ด)</h2>
         <span class="cuisine-tag tag-regional">Pla Ra Specialist</span>
@@ -664,7 +668,7 @@
         <strong>tabiji verdict:</strong> The name means &quot;spicy spicy&quot; but the real draw is their obsessive collection of pla ra varieties. This is where Bangkok&#39;s Isaan food nerds go to geek out over fermented fish sauce the way wine people talk about terroir. Multiple locations means you can find one near you. The Central Chidlom branch inside a shopping mall shouldn&#39;t be this good — but Thai locals swear by it.
     </div>
 </section>
-<section class="restaurant-section" id="convent-road-stalls">
+<section class="restaurant-section" id="convent-road-stalls" data-map-name="6. Convent Road Street Stalls" data-map-cta-url="https://maps.google.com/?cid=16278314714081681058&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Convent Road Street Stalls, Convent Road, Silom, Bang Rak, Bangkok, TH" data-map-lat="13.716354100000002" data-map-lng="100.43414849999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Convent Road Street Stalls</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -694,7 +698,7 @@
         <strong>tabiji verdict:</strong> This isn&#39;t a single vendor — it&#39;s a philosophy. Convent Road fills up at lunchtime with som tam carts serving the Silom office crowd, and the most upvoted Reddit advice about som tam is literally &quot;any corner, any food cart.&quot; The beauty of Bangkok&#39;s som tam culture is that a random ฿30 street plate can be transcendent. Look for the cart with the queue and the ancient grandma with the clean equipment. You&#39;ll pay a third of what the sit-down places charge.
     </div>
 </section>
-<section class="restaurant-section" id="suan-plu-som-tam">
+<section class="restaurant-section" id="suan-plu-som-tam" data-map-name="7. Suan Plu Som Tam Stall" data-map-cta-url="https://maps.google.com/?cid=859211631458523096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Suan Plu Som Tam Stall, Suan Plu Soi 8 (near Sathon), Bangkok, TH" data-map-lat="13.7190795" data-map-lng="100.53832949999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Suan Plu Som Tam Stall</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -728,7 +732,7 @@
         <strong>tabiji verdict:</strong> This is the kind of rec you only get from someone who lives in the neighborhood. Suan Plu is a quiet residential soi just south of Bang Rak proper, lined with old-school street food that hasn&#39;t been gentrified yet. The som tam stall opposite the police station is the real deal — no English menu, no frills, just an Isaan auntie making incredible papaya salad for ฿30. Worth the detour if you want the authentic experience tourists never find.
     </div>
 </section>
-<section class="restaurant-section" id="krua-aroy-aroy">
+<section class="restaurant-section" id="krua-aroy-aroy" data-map-name="8. Krua Aroy-Aroy (ครัวอร่อยอร่อย)" data-map-cta-url="https://maps.google.com/?cid=6510131966294288220&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Krua Aroy-Aroy (ครัวอร่อยอร่อย), Pan Road, Yan Nawa, Bang Rak, Bangkok, TH" data-map-lat="13.7242768" data-map-lng="100.5231616">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Krua Aroy-Aroy (ครัวอร่อยอร่อย)</h2>
         <span class="cuisine-tag tag-regional">Local Thai</span>
@@ -762,7 +766,7 @@
         <strong>tabiji verdict:</strong> Not a som tam specialist — it&#39;s a proper neighborhood Thai restaurant where the som tam happens to be genuinely good alongside everything else. The kind of place where a Redditor drops a Google Maps pin with &quot;proper local Thai food&quot; and three upvotes. Bang Rak locals love it. Come for the papaya salad, stay for the massaman curry.
     </div>
 </section>
-<section class="restaurant-section" id="soi-polo-chicken">
+<section class="restaurant-section" id="soi-polo-chicken" data-map-name="9. Soi Polo Fried Chicken (ไก่ทอดซอยโปโล)" data-map-cta-url="https://maps.google.com/?cid=8970305962423378436&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Soi Polo Fried Chicken (ไก่ทอดซอยโปโล), Soi Polo, Lumphini (near Bang Rak), Bangkok, TH" data-map-lat="13.7322268" data-map-lng="100.54596099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Soi Polo Fried Chicken (ไก่ทอดซอยโปโล)</h2>
         <span class="cuisine-tag tag-regional">The Holy Trinity</span>
@@ -796,7 +800,7 @@
         <strong>tabiji verdict:</strong> You don&#39;t come here just for the som tam — you come for the holy trinity. Crispy fried chicken, punchy green papaya salad, and sticky rice, eaten together, is one of Thailand&#39;s greatest meals. Soi Polo has been doing this combination to perfection for decades. It&#39;s a short walk from Bang Rak proper, near Lumphini Park. The chicken is the headliner, but the som tam plays a crucial supporting role.
     </div>
 </section>
-<section class="restaurant-section" id="laab-ubon">
+<section class="restaurant-section" id="laab-ubon" data-map-name="10. Laab Ubon Kontrakan (ลาบอุบล คนตระการ)" data-map-cta-url="https://maps.google.com/?cid=13413158200775844468&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Laab Ubon Kontrakan (ลาบอุบล คนตระการ), South Sathon Road (near Bang Rak), Bangkok, TH" data-map-lat="13.718448799999999" data-map-lng="100.5200902">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Laab Ubon Kontrakan (ลาบอุบล คนตระการ)</h2>
         <span class="cuisine-tag tag-regional">Isaan All-Night</span>
@@ -834,7 +838,7 @@
         <strong>tabiji verdict:</strong> The som tam here won&#39;t top a list of Bangkok&#39;s absolute best — but the total Isaan experience might. Laab Ubon is sprawling, raucous, and open until 4 AM. Dua Lipa ate here on her Bangkok tour stop. The som tam is one dish in a massive spread of Ubon-style Isaan food that&#39;s meant to be shared around a table with cold beers. Come for the vibe, the variety, and the late hours.
     </div>
 </section>
-<section class="restaurant-section" id="somtum-dontree">
+<section class="restaurant-section" id="somtum-dontree" data-map-name="11. Somtum Dontree (ส้มตำดนตรี)" data-map-cta-url="https://maps.google.com/?cid=8885475404359674723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Somtum Dontree (ส้มตำดนตรี), Bangkok, Bangkok, TH" data-map-lat="13.626850699999999" data-map-lng="100.6289338">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Somtum Dontree (ส้มตำดนตรี)</h2>
         <span class="cuisine-tag tag-regional">Creative Varieties</span>
@@ -868,7 +872,7 @@
         <strong>tabiji verdict:</strong> &quot;Musical Som Tam&quot; — the name alone earns a spot. The creative fruit-based variations (apple, mango, you name it) are genuinely delicious and not just gimmicky. The owner&#39;s lizard-covered car outside is both a landmark and a conversation starter. This is som tam with personality. A fun detour from the traditional stalls.
     </div>
 </section>
-<section class="restaurant-section" id="zao-ekkamai">
+<section class="restaurant-section" id="zao-ekkamai" data-map-name="12. Zao Ekkamai" data-map-cta-url="https://maps.google.com/?cid=16536213280984081322&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Zao Ekkamai, Pridi Banomyong 25, Ekkamai, Bangkok, TH" data-map-lat="13.7282248" data-map-lng="100.5925817">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Zao Ekkamai</h2>
         <span class="cuisine-tag tag-regional">Nu-Isaan</span>
@@ -920,9 +924,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Som Tam Map</h2>
-      <iframe src="https://www.google.com/maps?q=Som%20Tam%20in%20Bangkok&#39;s%20Bang%20Rak&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Som Tam Jay So (ร้านส้มตำเจ๊โส)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Som Tam Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -944,7 +949,7 @@
       <li>
         <a href="#convent-road-stalls">6. Convent Road Street Stalls</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Som%20Tam%20in%20Bangkok&#39;s%20Bang%20Rak" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=859211631458523096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -955,5 +960,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Som Tam Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Som%20Tam%20in%20Bangkok's%20Bang%20Rak","picks":[{"anchorId":"som-tam-jay-so","rank":1,"name":"Som Tam Jay So (ร้านส้มตำเจ๊โส)","label":"1. Som Tam Jay So (ร้านส้มตำเจ๊โส)","lat":13.7250673,"lng":100.53259519999999,"ctaUrl":"https://maps.google.com/?cid=859211631458523096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Som Tam Jay So (ร้านส้มตำเจ๊โส), Soi Phiphat 2, Silom, Bangkok, TH"},{"anchorId":"hai-som-tam-convent","rank":2,"name":"Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์)","label":"2. Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์)","lat":13.7273414,"lng":100.533286,"ctaUrl":"https://maps.google.com/?cid=5814314852231630463&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hai Som Tam Convent (หาย ส้มตำ คอนแวนต์), Convent Road, Silom, Bangkok, TH"},{"anchorId":"somtum-der","rank":3,"name":"Somtum Der (ส้มตำเด้อ)","label":"3. Somtum Der (ส้มตำเด้อ)","lat":13.727591199999999,"lng":100.536404,"ctaUrl":"https://maps.google.com/?cid=8885475404359674723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Somtum Der (ส้มตำเด้อ), Saladaeng Road, Silom, Bang Rak, Bangkok, TH"},{"anchorId":"baan-somtum","rank":4,"name":"Baan Somtum (บ้านส้มตำ)","label":"4. Baan Somtum (บ้านส้มตำ)","lat":13.720701199999999,"lng":100.5205297,"ctaUrl":"https://maps.google.com/?cid=9380492308857186144&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Baan Somtum (บ้านส้มตำ), Soi Pramuan, Si Wiang Road, Bang Rak, Bangkok, TH"},{"anchorId":"phed-phed","rank":5,"name":"Phed Phed (เผ็ด เผ็ด)","label":"5. Phed Phed (เผ็ด เผ็ด)","lat":13.7446894,"lng":100.54529819999999,"ctaUrl":"https://maps.google.com/?cid=1703241079704588559&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phed Phed (เผ็ด เผ็ด), Multiple locations (Ari, Central Chidlom, etc.), Bangkok, TH"},{"anchorId":"convent-road-stalls","rank":6,"name":"Convent Road Street Stalls","label":"6. Convent Road Street Stalls","lat":13.716354100000002,"lng":100.43414849999999,"ctaUrl":"https://maps.google.com/?cid=16278314714081681058&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Convent Road Street Stalls, Convent Road, Silom, Bang Rak, Bangkok, TH"},{"anchorId":"suan-plu-som-tam","rank":7,"name":"Suan Plu Som Tam Stall","label":"7. Suan Plu Som Tam Stall","lat":13.7190795,"lng":100.53832949999999,"ctaUrl":"https://maps.google.com/?cid=859211631458523096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Suan Plu Som Tam Stall, Suan Plu Soi 8 (near Sathon), Bangkok, TH"},{"anchorId":"krua-aroy-aroy","rank":8,"name":"Krua Aroy-Aroy (ครัวอร่อยอร่อย)","label":"8. Krua Aroy-Aroy (ครัวอร่อยอร่อย)","lat":13.7242768,"lng":100.5231616,"ctaUrl":"https://maps.google.com/?cid=6510131966294288220&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Krua Aroy-Aroy (ครัวอร่อยอร่อย), Pan Road, Yan Nawa, Bang Rak, Bangkok, TH"},{"anchorId":"soi-polo-chicken","rank":9,"name":"Soi Polo Fried Chicken (ไก่ทอดซอยโปโล)","label":"9. Soi Polo Fried Chicken (ไก่ทอดซอยโปโล)","lat":13.7322268,"lng":100.54596099999999,"ctaUrl":"https://maps.google.com/?cid=8970305962423378436&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Soi Polo Fried Chicken (ไก่ทอดซอยโปโล), Soi Polo, Lumphini (near Bang Rak), Bangkok, TH"},{"anchorId":"laab-ubon","rank":10,"name":"Laab Ubon Kontrakan (ลาบอุบล คนตระการ)","label":"10. Laab Ubon Kontrakan (ลาบอุบล คนตระการ)","lat":13.718448799999999,"lng":100.5200902,"ctaUrl":"https://maps.google.com/?cid=13413158200775844468&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Laab Ubon Kontrakan (ลาบอุบล คนตระการ), South Sathon Road (near Bang Rak), Bangkok, TH"},{"anchorId":"somtum-dontree","rank":11,"name":"Somtum Dontree (ส้มตำดนตรี)","label":"11. Somtum Dontree (ส้มตำดนตรี)","lat":13.626850699999999,"lng":100.6289338,"ctaUrl":"https://maps.google.com/?cid=8885475404359674723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Somtum Dontree (ส้มตำดนตรี), Bangkok, Bangkok, TH"},{"anchorId":"zao-ekkamai","rank":12,"name":"Zao Ekkamai","label":"12. Zao Ekkamai","lat":13.7282248,"lng":100.5925817,"ctaUrl":"https://maps.google.com/?cid=16536213280984081322&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Zao Ekkamai, Pridi Banomyong 25, Ekkamai, Bangkok, TH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

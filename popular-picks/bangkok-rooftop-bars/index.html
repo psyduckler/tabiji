@@ -399,9 +399,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -426,7 +429,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -474,18 +477,19 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Bangkok&#39;s rooftop bars range from budget-friendly to premium, with Octave Rooftop Lounge &amp; Bar recommended for its 360° views, especially during sunset. While many are overpriced tourist traps, this guide highlights bars recommended by expats and experienced travelers for value, views, and overall experience.</strong></p>
-        <p>Bangkok&#39;s rooftop bars range from budget-friendly to premium, but Octave Rooftop Lounge &amp; Bar is the top recommendation for its 360° views. Consider visiting during sunset for the best experience.</p><p>Bangkok has more rooftop bars per square kilometer than any city on Earth. The problem? Half of them are overpriced tourist traps coasting on a 2009 Hangover movie scene, while the actually good ones fly under the radar.</p><p>We combed through hundreds of Reddit posts from r/Bangkok, r/ThailandTourism, and r/travel to find the bars that expats and experienced travelers actually recommend — not just the ones that pay for TripAdvisor placement.</p>
+        <p>Bangkok has more rooftop bars per square kilometer than any city on Earth. The problem? Half of them are overpriced tourist traps coasting on a 2009 Hangover movie scene, while the actually good ones fly under the radar.</p><p>We combed through hundreds of Reddit posts from r/Bangkok, r/ThailandTourism, and r/travel to find the bars that expats and experienced travelers actually recommend — not just the ones that pay for TripAdvisor placement.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Rooftop Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Bars%20in%20Bangkok&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Octave Rooftop Lounge &amp; Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#octave">1. Octave Rooftop Lounge &amp; Bar</a>
+        <a href="#octave">1. Octave Rooftop Lounge & Bar</a>
       </li>
       <li>
         <a href="#lebua">2. Sky Bar at Lebua State Tower</a>
@@ -497,12 +501,12 @@
         <a href="#red-sky">4. Red Sky at Centara Grand</a>
       </li>
       <li>
-        <a href="#mahanakhon">5. Mahanakhon SkyBar &amp; SkyWalk</a>
+        <a href="#mahanakhon">5. Mahanakhon SkyBar & SkyWalk</a>
       </li>
       <li>
         <a href="#heaven">6. Heaven Rooftop Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Bars%20in%20Bangkok" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13914224852518341761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -514,7 +518,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="octave">
+<section class="restaurant-section" id="octave" data-map-name="1. Octave Rooftop Lounge &amp; Bar" data-map-cta-url="https://maps.google.com/?cid=13914224852518341761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Octave Rooftop Lounge &amp; Bar, Marriott Hotel Sukhumvit, 45th floor, Bangkok, TH" data-map-lat="13.723502300000002" data-map-lng="100.58054260000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Octave Rooftop Lounge &amp; Bar</h2>
         <span class="cuisine-tag tag-regional">Mid-Range</span>
@@ -552,7 +556,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended rooftop bar on Reddit — and for good reason. 360° views, reasonable prices, and three levels to explore. The best value-to-view ratio in Bangkok. Arrive at 5:30 PM.
     </div>
 </section>
-<section class="restaurant-section" id="lebua">
+<section class="restaurant-section" id="lebua" data-map-name="2. Sky Bar at Lebua State Tower" data-map-cta-url="https://maps.google.com/?cid=6421553283667762893&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sky Bar at Lebua State Tower, Lebua State Tower, 63rd floor, Silom, Bangkok, TH" data-map-lat="13.721423099999999" data-map-lng="100.5168806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Sky Bar at Lebua State Tower</h2>
         <span class="cuisine-tag tag-regional">Iconic</span>
@@ -594,7 +598,7 @@
         <strong>tabiji verdict:</strong> The most iconic rooftop bar in Asia — and the most expensive. Go once, order one drink, take the photo, and leave. The river view at sunset is genuinely breathtaking. Just don&#39;t expect value for money.
     </div>
 </section>
-<section class="restaurant-section" id="aire">
+<section class="restaurant-section" id="aire" data-map-name="3. AIRE Bar at Hyatt Place Sukhumvit 24" data-map-cta-url="https://maps.google.com/?cid=10040856032622890843&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="AIRE Bar at Hyatt Place Sukhumvit 24, Hyatt Place, Sukhumvit 24, Bangkok, TH" data-map-lat="13.7279068" data-map-lng="100.5682525">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>AIRE Bar at Hyatt Place Sukhumvit 24</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -628,7 +632,7 @@
         <strong>tabiji verdict:</strong> The best-value rooftop bar in Bangkok — full stop. The 599 baht free-flow deal is absurd for a rooftop bar. Nice wraparound terrace, uncrowded, good views. The top-voted recommendation on Reddit&#39;s &quot;affordable rooftop&quot; threads.
     </div>
 </section>
-<section class="restaurant-section" id="red-sky">
+<section class="restaurant-section" id="red-sky" data-map-name="4. Red Sky at Centara Grand" data-map-cta-url="https://maps.google.com/?cid=1885818680557478154&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Red Sky at Centara Grand, Centara Grand, 55th floor, Central World, Bangkok, TH" data-map-lat="13.747433599999999" data-map-lng="100.5386748">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Red Sky at Centara Grand</h2>
         <span class="cuisine-tag tag-regional">Mid-Range</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> A solid mid-range pick with great city views from the 55th floor. The circular bar means no bad seats. Located right above Central World mall, making it easy to combine with shopping. Hit happy hour.
     </div>
 </section>
-<section class="restaurant-section" id="mahanakhon">
+<section class="restaurant-section" id="mahanakhon" data-map-name="5. Mahanakhon SkyBar &amp; SkyWalk" data-map-cta-url="https://maps.google.com/?cid=5665740806921291380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mahanakhon SkyBar &amp; SkyWalk, King Power Mahanakhon, 78th floor, Bangkok, TH" data-map-lat="13.723537499999999" data-map-lng="100.5282467">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mahanakhon SkyBar &amp; SkyWalk</h2>
         <span class="cuisine-tag tag-regional">Iconic</span>
@@ -700,7 +704,7 @@
         <strong>tabiji verdict:</strong> Bangkok&#39;s tallest building + glass-floor observation deck + rooftop bar = an unforgettable experience. The glass floor is genuinely thrilling. More of an &quot;attraction with a bar&quot; than a pure bar, but absolutely worth doing once.
     </div>
 </section>
-<section class="restaurant-section" id="heaven">
+<section class="restaurant-section" id="heaven" data-map-name="6. Heaven Rooftop Bar" data-map-cta-url="https://maps.google.com/?cid=2516825767102325235&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Heaven Rooftop Bar, Central Bangkok, Bangkok, TH" data-map-lat="13.725833999999999" data-map-lng="100.5277861">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Heaven Rooftop Bar</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -734,7 +738,7 @@
         <strong>tabiji verdict:</strong> A local favorite for reasonably priced rooftop drinks without the tourist markup. No pretension, no dress code stress, just cold drinks and a nice view. The rooftop bar for people who actually live in Bangkok.
     </div>
 </section>
-<section class="restaurant-section" id="vertigo">
+<section class="restaurant-section" id="vertigo" data-map-name="7. Vertigo &amp; Moon Bar at Banyan Tree" data-map-cta-url="https://maps.google.com/?cid=2885222366188162474&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vertigo &amp; Moon Bar at Banyan Tree, Banyan Tree Hotel, 61st floor, Sathorn, Bangkok, TH" data-map-lat="13.723564699999999" data-map-lng="100.5396054">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Vertigo &amp; Moon Bar at Banyan Tree</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> The most dramatic &quot;open-air&quot; feeling of any Bangkok rooftop — no glass walls, just you, the wind, and the skyline. Not cheap, but the experience of standing 61 floors up with nothing between you and the city is worth every baht.
     </div>
 </section>
-<section class="restaurant-section" id="spire">
+<section class="restaurant-section" id="spire" data-map-name="8. Spire Bar at Dusit Thani" data-map-cta-url="https://maps.google.com/?cid=13433149537657999338&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spire Bar at Dusit Thani, Dusit Thani, Silom, Bangkok, TH" data-map-lat="13.728015899999999" data-map-lng="100.53770809999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Spire Bar at Dusit Thani</h2>
         <span class="cuisine-tag tag-regional">Mid-Range</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> For cocktail lovers who care about what&#39;s in their glass as much as the view behind it. Spire actually invests in mixology, which sets it apart from the view-only tourist traps.
     </div>
 </section>
-<section class="restaurant-section" id="baryard">
+<section class="restaurant-section" id="baryard" data-map-name="9. Bar.Yard at Kimpton Maa-Lai" data-map-cta-url="https://maps.google.com/?cid=16084516622546598277&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar.Yard at Kimpton Maa-Lai, Kimpton Maa-Lai, Langsuan, Bangkok, TH" data-map-lat="13.7374574" data-map-lng="100.5438011">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bar.Yard at Kimpton Maa-Lai</h2>
         <span class="cuisine-tag tag-regional">Mid-Range</span>
@@ -836,7 +840,7 @@
         <strong>tabiji verdict:</strong> The anti-Lebua. Not the highest, not the cheapest, but genuinely the most enjoyable rooftop bar experience in Bangkok. Creative drinks, great music, and a crowd that&#39;s actually having fun.
     </div>
 </section>
-<section class="restaurant-section" id="assembly-point">
+<section class="restaurant-section" id="assembly-point" data-map-name="10. Assembly Point" data-map-cta-url="https://maps.google.com/?cid=13108640930038442061&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Assembly Point, One One Bangkok Hotel, Thong Lor, Bangkok, TH" data-map-lat="13.7338595" data-map-lng="100.5824119">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Assembly Point</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -870,7 +874,7 @@
         <strong>tabiji verdict:</strong> The ultimate hidden gem — cheap drinks, great view, and located in Thong Lor (Bangkok&#39;s trendiest neighborhood). Most tourists have never heard of it, which is exactly the point.
     </div>
 </section>
-<section class="restaurant-section" id="tribe">
+<section class="restaurant-section" id="tribe" data-map-name="11. Tribe Sky Beach Club at EmSphere" data-map-cta-url="https://maps.google.com/?cid=4420457744278113707&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tribe Sky Beach Club at EmSphere, EmSphere Mall, Phrom Phong, Bangkok, TH" data-map-lat="13.73199" data-map-lng="100.56668140000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Tribe Sky Beach Club at EmSphere</h2>
         <span class="cuisine-tag tag-regional">Pool / Beach Club</span>
@@ -904,7 +908,7 @@
         <strong>tabiji verdict:</strong> A rooftop beach club on top of a shopping mall — peak Bangkok absurdity, and it actually works. Great sunset views, pool access, and a party vibe. The newer addition to Bangkok&#39;s rooftop scene.
     </div>
 </section>
-<section class="restaurant-section" id="pastel">
+<section class="restaurant-section" id="pastel" data-map-name="12. Pastel Bangkok" data-map-cta-url="https://maps.google.com/?cid=3529346565977538357&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pastel Bangkok, Sukhumvit Soi 11, Bangkok, TH" data-map-lat="13.7425924" data-map-lng="100.55662660000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Pastel Bangkok</h2>
         <span class="cuisine-tag tag-regional">Dining + Bar</span>
@@ -938,7 +942,7 @@
         <strong>tabiji verdict:</strong> The rooftop bar for people who also want great food. If you&#39;re choosing between a rooftop bar and a nice dinner out, Pastel lets you have both. The Soi 11 location is perfect for a night out.
     </div>
 </section>
-<section class="restaurant-section" id="scarlett">
+<section class="restaurant-section" id="scarlett" data-map-name="13. Scarlett Wine Bar &amp; Restaurant" data-map-cta-url="https://maps.google.com/?cid=15857030445915911398&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Scarlett Wine Bar &amp; Restaurant, Pullman G Hotel, Silom, Bangkok, TH" data-map-lat="13.726056" data-map-lng="100.525876">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Scarlett Wine Bar &amp; Restaurant</h2>
         <span class="cuisine-tag tag-regional">Dining + Bar</span>
@@ -972,7 +976,7 @@
         <strong>tabiji verdict:</strong> More restaurant-with-a-view than rooftop bar, but the balcony seats with cocktails make it count. If you&#39;re a wine person in a cocktail city, this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="palate">
+<section class="restaurant-section" id="palate" data-map-name="14. Palate Rooftop Bar" data-map-cta-url="https://maps.google.com/?cid=12539855293638518354&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Palate Rooftop Bar, Central Bangkok, Bangkok, TH" data-map-lat="13.719161" data-map-lng="100.515462">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Palate Rooftop Bar</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -1006,7 +1010,7 @@
         <strong>tabiji verdict:</strong> A solid budget rooftop option that won&#39;t empty your wallet. Not the fanciest, not the highest, but the drinks are affordable and the view is pleasant. Great for casual pre-dinner drinks.
     </div>
 </section>
-<section class="restaurant-section" id="bangkok-view">
+<section class="restaurant-section" id="bangkok-view" data-map-name="15. Bangkok View Rooftop Bar" data-map-cta-url="https://maps.google.com/?cid=8143371375853292616&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bangkok View Rooftop Bar, Central Bangkok, Bangkok, TH" data-map-lat="13.749584400000002" data-map-lng="100.54066329999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Bangkok View Rooftop Bar</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -1040,7 +1044,7 @@
         <strong>tabiji verdict:</strong> Does exactly what it says — Bangkok view, rooftop, bar. No gimmicks, no ฿2,000 cocktails, just affordable drinks with a skyline view. The bar for people who want a rooftop experience without the premium price.
     </div>
 </section>
-<section class="restaurant-section" id="akara">
+<section class="restaurant-section" id="akara" data-map-name="16. Akara Sky Bar" data-map-cta-url="https://maps.google.com/?cid=6533284287355372917&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Akara Sky Bar, One City Centre, Ploenchit, Bangkok, TH" data-map-lat="13.742032499999999" data-map-lng="100.54625150000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Akara Sky Bar</h2>
         <span class="cuisine-tag tag-regional">Premium</span>
@@ -1092,14 +1096,15 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Rooftop Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Rooftop%20Bars%20in%20Bangkok&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Octave Rooftop Lounge &amp; Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Rooftop Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#octave">1. Octave Rooftop Lounge &amp; Bar</a>
+        <a href="#octave">1. Octave Rooftop Lounge & Bar</a>
       </li>
       <li>
         <a href="#lebua">2. Sky Bar at Lebua State Tower</a>
@@ -1111,12 +1116,12 @@
         <a href="#red-sky">4. Red Sky at Centara Grand</a>
       </li>
       <li>
-        <a href="#mahanakhon">5. Mahanakhon SkyBar &amp; SkyWalk</a>
+        <a href="#mahanakhon">5. Mahanakhon SkyBar & SkyWalk</a>
       </li>
       <li>
         <a href="#heaven">6. Heaven Rooftop Bar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Rooftop%20Bars%20in%20Bangkok" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13914224852518341761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1127,5 +1132,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Rooftop Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Rooftop%20Bars%20in%20Bangkok","picks":[{"anchorId":"octave","rank":1,"name":"Octave Rooftop Lounge & Bar","label":"1. Octave Rooftop Lounge & Bar","lat":13.723502300000002,"lng":100.58054260000002,"ctaUrl":"https://maps.google.com/?cid=13914224852518341761&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Octave Rooftop Lounge & Bar, Marriott Hotel Sukhumvit, 45th floor, Bangkok, TH"},{"anchorId":"lebua","rank":2,"name":"Sky Bar at Lebua State Tower","label":"2. Sky Bar at Lebua State Tower","lat":13.721423099999999,"lng":100.5168806,"ctaUrl":"https://maps.google.com/?cid=6421553283667762893&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sky Bar at Lebua State Tower, Lebua State Tower, 63rd floor, Silom, Bangkok, TH"},{"anchorId":"aire","rank":3,"name":"AIRE Bar at Hyatt Place Sukhumvit 24","label":"3. AIRE Bar at Hyatt Place Sukhumvit 24","lat":13.7279068,"lng":100.5682525,"ctaUrl":"https://maps.google.com/?cid=10040856032622890843&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"AIRE Bar at Hyatt Place Sukhumvit 24, Hyatt Place, Sukhumvit 24, Bangkok, TH"},{"anchorId":"red-sky","rank":4,"name":"Red Sky at Centara Grand","label":"4. Red Sky at Centara Grand","lat":13.747433599999999,"lng":100.5386748,"ctaUrl":"https://maps.google.com/?cid=1885818680557478154&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Red Sky at Centara Grand, Centara Grand, 55th floor, Central World, Bangkok, TH"},{"anchorId":"mahanakhon","rank":5,"name":"Mahanakhon SkyBar & SkyWalk","label":"5. Mahanakhon SkyBar & SkyWalk","lat":13.723537499999999,"lng":100.5282467,"ctaUrl":"https://maps.google.com/?cid=5665740806921291380&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mahanakhon SkyBar & SkyWalk, King Power Mahanakhon, 78th floor, Bangkok, TH"},{"anchorId":"heaven","rank":6,"name":"Heaven Rooftop Bar","label":"6. Heaven Rooftop Bar","lat":13.725833999999999,"lng":100.5277861,"ctaUrl":"https://maps.google.com/?cid=2516825767102325235&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Heaven Rooftop Bar, Central Bangkok, Bangkok, TH"},{"anchorId":"vertigo","rank":7,"name":"Vertigo & Moon Bar at Banyan Tree","label":"7. Vertigo & Moon Bar at Banyan Tree","lat":13.723564699999999,"lng":100.5396054,"ctaUrl":"https://maps.google.com/?cid=2885222366188162474&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vertigo & Moon Bar at Banyan Tree, Banyan Tree Hotel, 61st floor, Sathorn, Bangkok, TH"},{"anchorId":"spire","rank":8,"name":"Spire Bar at Dusit Thani","label":"8. Spire Bar at Dusit Thani","lat":13.728015899999999,"lng":100.53770809999999,"ctaUrl":"https://maps.google.com/?cid=13433149537657999338&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spire Bar at Dusit Thani, Dusit Thani, Silom, Bangkok, TH"},{"anchorId":"baryard","rank":9,"name":"Bar.Yard at Kimpton Maa-Lai","label":"9. Bar.Yard at Kimpton Maa-Lai","lat":13.7374574,"lng":100.5438011,"ctaUrl":"https://maps.google.com/?cid=16084516622546598277&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar.Yard at Kimpton Maa-Lai, Kimpton Maa-Lai, Langsuan, Bangkok, TH"},{"anchorId":"assembly-point","rank":10,"name":"Assembly Point","label":"10. Assembly Point","lat":13.7338595,"lng":100.5824119,"ctaUrl":"https://maps.google.com/?cid=13108640930038442061&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Assembly Point, One One Bangkok Hotel, Thong Lor, Bangkok, TH"},{"anchorId":"tribe","rank":11,"name":"Tribe Sky Beach Club at EmSphere","label":"11. Tribe Sky Beach Club at EmSphere","lat":13.73199,"lng":100.56668140000001,"ctaUrl":"https://maps.google.com/?cid=4420457744278113707&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tribe Sky Beach Club at EmSphere, EmSphere Mall, Phrom Phong, Bangkok, TH"},{"anchorId":"pastel","rank":12,"name":"Pastel Bangkok","label":"12. Pastel Bangkok","lat":13.7425924,"lng":100.55662660000002,"ctaUrl":"https://maps.google.com/?cid=3529346565977538357&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pastel Bangkok, Sukhumvit Soi 11, Bangkok, TH"},{"anchorId":"scarlett","rank":13,"name":"Scarlett Wine Bar & Restaurant","label":"13. Scarlett Wine Bar & Restaurant","lat":13.726056,"lng":100.525876,"ctaUrl":"https://maps.google.com/?cid=15857030445915911398&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Scarlett Wine Bar & Restaurant, Pullman G Hotel, Silom, Bangkok, TH"},{"anchorId":"palate","rank":14,"name":"Palate Rooftop Bar","label":"14. Palate Rooftop Bar","lat":13.719161,"lng":100.515462,"ctaUrl":"https://maps.google.com/?cid=12539855293638518354&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Palate Rooftop Bar, Central Bangkok, Bangkok, TH"},{"anchorId":"bangkok-view","rank":15,"name":"Bangkok View Rooftop Bar","label":"15. Bangkok View Rooftop Bar","lat":13.749584400000002,"lng":100.54066329999999,"ctaUrl":"https://maps.google.com/?cid=8143371375853292616&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bangkok View Rooftop Bar, Central Bangkok, Bangkok, TH"},{"anchorId":"akara","rank":16,"name":"Akara Sky Bar","label":"16. Akara Sky Bar","lat":13.742032499999999,"lng":100.54625150000001,"ctaUrl":"https://maps.google.com/?cid=6533284287355372917&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Akara Sky Bar, One City Centre, Ploenchit, Bangkok, TH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

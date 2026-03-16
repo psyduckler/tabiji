@@ -451,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -478,7 +481,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -526,13 +529,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Amsterdam boasts a variety of cheap eats, especially within its immigrant communities, allowing you to dine well for under €10, with the Albert Cuyp Market being our top recommendation for a quick and affordable bite while exploring De Pijp. These local-approved, budget-friendly spots are perfect for avoiding tourist traps and experiencing the city&#39;s diverse culinary scene.</strong></p>
-        <p>Amsterdam offers a diverse range of cheap eats, primarily from its immigrant communities, allowing you to eat well for under €10. Our top recommendation is to explore the Albert Cuyp Market for a taste of everything, especially if you&#39;re looking for a quick and affordable bite while exploring De Pijp. These spots are local-approved and budget-friendly, perfect for avoiding tourist traps.</p><p>Amsterdam has a reputation for being expensive — and sure, a tourist-trap pasta on Leidseplein will run you €22. But the city&#39;s real food scene is built on its immigrant communities: Surinamese roti joints, Indonesian takeaway counters, Turkish döner stands, and falafel shops that put your hometown&#39;s to shame. Add in iconic Dutch street food like frites and bitterballen, and you can eat like royalty for under €10.</p><p>We analyzed hundreds of Reddit posts from r/Amsterdam, r/Netherlands, r/travel, and r/foodtravel to find the spots that actual Amsterdam locals and budget-savvy travelers recommend over and over. Skip the Damrak tourist traps — these are the spots worth your euros.</p>
+        <p>Amsterdam has a reputation for being expensive — and sure, a tourist-trap pasta on Leidseplein will run you €22. But the city&#39;s real food scene is built on its immigrant communities: Surinamese roti joints, Indonesian takeaway counters, Turkish döner stands, and falafel shops that put your hometown&#39;s to shame. Add in iconic Dutch street food like frites and bitterballen, and you can eat like royalty for under €10.</p><p>We analyzed hundreds of Reddit posts from r/Amsterdam, r/Netherlands, r/travel, and r/foodtravel to find the spots that actual Amsterdam locals and budget-savvy travelers recommend over and over. Skip the Damrak tourist traps — these are the spots worth your euros.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Eats%20in%20Amsterdam&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Vleminckx Sausmeesters</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -554,7 +558,7 @@
       <li>
         <a href="#albert-cuyp">6. Albert Cuyp Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Eats%20in%20Amsterdam" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8235320197407859234&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -566,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="vleminckx">
+<section class="restaurant-section" id="vleminckx" data-map-name="1. Vleminckx Sausmeesters" data-map-cta-url="https://maps.google.com/?cid=8235320197407859234&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vleminckx Sausmeesters, Centrum, Voetboogstraat, Amsterdam, NL" data-map-lat="52.3678913" data-map-lng="4.8909863">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Vleminckx Sausmeesters</h2>
         <span class="cuisine-tag tag-regional">Frites</span>
@@ -604,7 +608,7 @@
         <strong>tabiji verdict:</strong> The most Reddit-recommended frites in Amsterdam, period. This tiny takeaway-only window near Spui has been slinging double-fried perfection since 1957. Get oorlog sauce. Join the queue. It moves fast.
     </div>
 </section>
-<section class="restaurant-section" id="maoz">
+<section class="restaurant-section" id="maoz" data-map-name="2. Maoz Falafel" data-map-cta-url="https://maps.google.com/?cid=3810770222304353269&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maoz Falafel, De Pijp, Albert Cuypstraat (+ Centrum locations), Amsterdam, NL" data-map-lat="52.375822799999995" data-map-lng="4.8961416">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Maoz Falafel</h2>
         <span class="cuisine-tag tag-regional">Falafel</span>
@@ -642,7 +646,7 @@
         <strong>tabiji verdict:</strong> The all-you-can-stuff salad bar makes this insane value. The Albert Cuyp location is the best one — fresh, busy, great turnover. Fully vegan and you&#39;ll struggle to spend more than €7. The coriander sauce warning is real.
     </div>
 </section>
-<section class="restaurant-section" id="nieuw-albina">
+<section class="restaurant-section" id="nieuw-albina" data-map-name="3. Nieuw Albina" data-map-cta-url="https://maps.google.com/?cid=4458607973132921968&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nieuw Albina, De Pijp, Albert Cuypstraat, Amsterdam, NL" data-map-lat="52.355" data-map-lng="4.8897222">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Nieuw Albina</h2>
         <span class="cuisine-tag tag-regional">Surinamese</span>
@@ -680,7 +684,7 @@
         <strong>tabiji verdict:</strong> Surinamese food is Amsterdam&#39;s secret weapon for cheap eating. Nieuw Albina serves enormous portions of roti, rice dishes, and bakabana that will leave you stuffed for under €10. The quintessential De Pijp cheap eat.
     </div>
 </section>
-<section class="restaurant-section" id="tokoman">
+<section class="restaurant-section" id="tokoman" data-map-name="4. Tokoman" data-map-cta-url="https://maps.google.com/?cid=8672475780878018775&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tokoman, Centrum, Waterlooplein, Amsterdam, NL" data-map-lat="52.3669246" data-map-lng="4.9023617">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tokoman</h2>
         <span class="cuisine-tag tag-regional">Surinamese Broodje</span>
@@ -718,7 +722,7 @@
         <strong>tabiji verdict:</strong> The most legendary Surinamese sandwich shop in Amsterdam. Tiny, cash-only, no-frills — just outstanding broodjes. The pom is unlike anything you&#39;ve had before. Go at lunch, expect to queue, and bring cash.
     </div>
 </section>
-<section class="restaurant-section" id="febo">
+<section class="restaurant-section" id="febo" data-map-name="5. FEBO" data-map-cta-url="https://maps.google.com/?cid=17466915114946943387&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="FEBO, Various locations city-wide, Amsterdam, NL" data-map-lat="52.374547199999995" data-map-lng="4.8997416">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>FEBO</h2>
         <span class="cuisine-tag tag-snack">Dutch Snacks</span>
@@ -756,7 +760,7 @@
         <strong>tabiji verdict:</strong> Is FEBO great food? No. Is it a uniquely Dutch cultural experience where you buy deep-fried snacks from a vending machine wall at 2am? Absolutely. Do it once. Get the kroket. Embrace the chaos.
     </div>
 </section>
-<section class="restaurant-section" id="albert-cuyp">
+<section class="restaurant-section" id="albert-cuyp" data-map-name="6. Albert Cuyp Market" data-map-cta-url="https://maps.google.com/?cid=15104207878837832600&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Albert Cuyp Market, De Pijp, Albert Cuypstraat, Amsterdam, NL" data-map-lat="52.3553059" data-map-lng="4.8915504">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Albert Cuyp Market</h2>
         <span class="cuisine-tag tag-regional">Street Food / Stroopwafel</span>
@@ -794,7 +798,7 @@
         <strong>tabiji verdict:</strong> Amsterdam&#39;s most famous street market — and the epicenter of cheap eating in the city. Stroll the length of it grazing on stroopwafels, herring, kibbeling, and whatever smells best. Open Mon-Sat, gets busy after 11am.
     </div>
 </section>
-<section class="restaurant-section" id="kantjil">
+<section class="restaurant-section" id="kantjil" data-map-name="7. Kantjil &amp; de Tijger" data-map-cta-url="https://maps.google.com/?cid=10194983756167988192&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kantjil &amp; de Tijger, Centrum, Spuistraat, Amsterdam, NL" data-map-lat="52.369264" data-map-lng="4.8889461999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Kantjil &amp; de Tijger</h2>
         <span class="cuisine-tag tag-regional">Indonesian</span>
@@ -820,7 +824,7 @@
         <strong>tabiji verdict:</strong> The best-known Indonesian restaurant in central Amsterdam, and surprisingly affordable for takeaway. The rijsttafel (rice table) is a tourist must-try, but the nasi rames takeaway is the budget move. Indonesian food is Amsterdam&#39;s colonial culinary legacy — try it at least once.
     </div>
 </section>
-<section class="restaurant-section" id="hap-hmm">
+<section class="restaurant-section" id="hap-hmm" data-map-name="8. Hap-Hmm" data-map-cta-url="https://maps.google.com/?cid=5092758252041268592&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hap-Hmm, Oud-West, Eerste Helmersstraat, Amsterdam, NL" data-map-lat="52.3636729" data-map-lng="4.876325">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Hap-Hmm</h2>
         <span class="cuisine-tag tag-regional">Dutch Home Cooking</span>
@@ -858,7 +862,7 @@
         <strong>tabiji verdict:</strong> The only spot on this list serving proper Dutch home cooking at budget prices. Open since 1935, cash only, and the portions are enormous. If you want to understand what Dutch people actually eat at home, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="leeman">
+<section class="restaurant-section" id="leeman" data-map-name="9. Leeman Döner" data-map-cta-url="https://maps.google.com/?cid=7721290806486636560&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Leeman Döner, Centrum, Korte Leidsedwarsstraat, Amsterdam, NL" data-map-lat="52.3524278" data-map-lng="4.9028278">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Leeman Döner</h2>
         <span class="cuisine-tag tag-regional">Turkish Kebab</span>
@@ -892,7 +896,7 @@
         <strong>tabiji verdict:</strong> Amsterdam&#39;s most Reddit-mentioned döner spot. Located in the Leidseplein nightlife area, it&#39;s both a solid dinner option and the ultimate 1am kebab. The meat is properly seasoned, the bread is fresh, and the portions are generous.
     </div>
 </section>
-<section class="restaurant-section" id="toko-bersama">
+<section class="restaurant-section" id="toko-bersama" data-map-name="10. Toko Bersama" data-map-cta-url="https://maps.google.com/?cid=576412822804768884&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Toko Bersama, Oud-West, Amsterdam, NL" data-map-lat="52.368465" data-map-lng="4.8710075">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Toko Bersama</h2>
         <span class="cuisine-tag tag-regional">Indonesian</span>
@@ -926,7 +930,7 @@
         <strong>tabiji verdict:</strong> When locals want cheap Indonesian takeaway, this is where they go. No-frills counter service, massive portions, and everything under €11. The nasi goreng is a reliable crowd-pleaser. Perfect for a quick, filling lunch.
     </div>
 </section>
-<section class="restaurant-section" id="manneken-pis">
+<section class="restaurant-section" id="manneken-pis" data-map-name="11. Manneken Pis" data-map-cta-url="https://maps.google.com/?cid=3424135373009767036&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Manneken Pis, Centrum, Damrak, Amsterdam, NL" data-map-lat="52.3757589" data-map-lng="4.896192">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Manneken Pis</h2>
         <span class="cuisine-tag tag-regional">Belgian Frites</span>
@@ -960,7 +964,7 @@
         <strong>tabiji verdict:</strong> The most famous frites spot in Amsterdam — and honestly, they&#39;re solid even if not #1. More touristy than Vleminckx but still good quality and open late. The sauce selection is wild. It&#39;s right on Damrak so you&#39;ll walk past it anyway.
     </div>
 </section>
-<section class="restaurant-section" id="maenaam">
+<section class="restaurant-section" id="maenaam" data-map-name="12. Maenaam Thai" data-map-cta-url="https://maps.google.com/?cid=11295428213219981898&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maenaam Thai, Centrum, Spuistraat, Amsterdam, NL" data-map-lat="52.3753041" data-map-lng="4.8911693">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Maenaam Thai</h2>
         <span class="cuisine-tag tag-regional">Thai</span>
@@ -986,7 +990,7 @@
         <strong>tabiji verdict:</strong> Reliable, affordable Thai food in the dead center of Amsterdam. Nothing mind-blowing, but consistently good and honestly priced — a rarity in Centrum. Great lunch option between museum visits.
     </div>
 </section>
-<section class="restaurant-section" id="food-brothers">
+<section class="restaurant-section" id="food-brothers" data-map-name="13. Food Brothers" data-map-cta-url="https://maps.google.com/?cid=9425884068000858804&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Food Brothers, Centrum, Spuistraat, Amsterdam, NL" data-map-lat="52.3500948" data-map-lng="4.9126709">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Food Brothers</h2>
         <span class="cuisine-tag tag-regional">Burgers</span>
@@ -1020,7 +1024,7 @@
         <strong>tabiji verdict:</strong> A tiny burger joint that punches way above its weight. No fancy brioche buns or truffle mayo — just a really good, honest burger at an honest price. Counter seating only, so grab-and-go is the move.
     </div>
 </section>
-<section class="restaurant-section" id="sonny">
+<section class="restaurant-section" id="sonny" data-map-name="14. Sonny Falafel" data-map-cta-url="https://maps.google.com/?cid=15995206046658771594&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sonny Falafel, De Pijp, near Albert Cuypmarkt, Amsterdam, NL" data-map-lat="52.3552872" data-map-lng="4.8933883">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Sonny Falafel</h2>
         <span class="cuisine-tag tag-regional">Falafel</span>
@@ -1054,7 +1058,7 @@
         <strong>tabiji verdict:</strong> A small stand near the Albert Cuyp Market that locals swear by. Less known than Maoz but arguably better falafel. Freshly fried, crispy exterior, fluffy interior. The kind of place you only find from a local tip.
     </div>
 </section>
-<section class="restaurant-section" id="chipsy-king">
+<section class="restaurant-section" id="chipsy-king" data-map-name="15. Chipsy King" data-map-cta-url="https://maps.google.com/?cid=9781670254566351140&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chipsy King, Various locations, Amsterdam, NL" data-map-lat="52.3691021" data-map-lng="4.8889187">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Chipsy King</h2>
         <span class="cuisine-tag tag-regional">Frites</span>
@@ -1088,7 +1092,7 @@
         <strong>tabiji verdict:</strong> The local alternative to the tourist frites spots. Multiple locations around the city, consistently good fries, and slightly cheaper than Vleminckx or Manneken Pis. The joppiesaus is a must-try Dutch sauce you won&#39;t find outside NL.
     </div>
 </section>
-<section class="restaurant-section" id="asian-kitchen">
+<section class="restaurant-section" id="asian-kitchen" data-map-name="16. Asian Kitchen" data-map-cta-url="https://maps.google.com/?cid=10251625641026640820&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asian Kitchen, Centrum, Vijzelstraat, Amsterdam, NL" data-map-lat="52.366569299999995" data-map-lng="4.8933846999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Asian Kitchen</h2>
         <span class="cuisine-tag tag-regional">Chinese / Asian</span>
@@ -1122,7 +1126,7 @@
         <strong>tabiji verdict:</strong> Not fancy, not Instagram-worthy, but genuinely cheap and filling in one of the most expensive parts of town. When you need fuel and your wallet is running thin, Asian Kitchen delivers. Big portions for the price.
     </div>
 </section>
-<section class="restaurant-section" id="soenda-kelapa">
+<section class="restaurant-section" id="soenda-kelapa" data-map-name="17. Soenda Kelapa" data-map-cta-url="https://maps.google.com/?cid=4636445069532013530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Soenda Kelapa, De Pijp, Amsterdam, NL" data-map-lat="52.3630198" data-map-lng="4.8987929">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Soenda Kelapa</h2>
         <span class="cuisine-tag tag-regional">Indonesian</span>
@@ -1156,7 +1160,7 @@
         <strong>tabiji verdict:</strong> Another excellent Indonesian option in De Pijp. Less touristy than Kantjil, more authentic flavors, and the sambal is properly spicy. If you eat Indonesian food once in Amsterdam (you should eat it multiple times), this is a top pick.
     </div>
 </section>
-<section class="restaurant-section" id="pakhuis">
+<section class="restaurant-section" id="pakhuis" data-map-name="18. &#39;t Pakhuis" data-map-cta-url="https://maps.google.com/?cid=10744222336160985466&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="&#39;t Pakhuis, Centrum, Amsterdam, NL" data-map-lat="52.3682008" data-map-lng="4.8906417">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>&#39;t Pakhuis</h2>
         <span class="cuisine-tag tag-regional">Dutch</span>
@@ -1208,9 +1212,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Eats%20in%20Amsterdam&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Vleminckx Sausmeesters</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1232,7 +1237,7 @@
       <li>
         <a href="#albert-cuyp">6. Albert Cuyp Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Eats%20in%20Amsterdam" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8235320197407859234&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1243,5 +1248,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Eats%20in%20Amsterdam","picks":[{"anchorId":"vleminckx","rank":1,"name":"Vleminckx Sausmeesters","label":"1. Vleminckx Sausmeesters","lat":52.3678913,"lng":4.8909863,"ctaUrl":"https://maps.google.com/?cid=8235320197407859234&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vleminckx Sausmeesters, Centrum, Voetboogstraat, Amsterdam, NL"},{"anchorId":"maoz","rank":2,"name":"Maoz Falafel","label":"2. Maoz Falafel","lat":52.375822799999995,"lng":4.8961416,"ctaUrl":"https://maps.google.com/?cid=3810770222304353269&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maoz Falafel, De Pijp, Albert Cuypstraat (+ Centrum locations), Amsterdam, NL"},{"anchorId":"nieuw-albina","rank":3,"name":"Nieuw Albina","label":"3. Nieuw Albina","lat":52.355,"lng":4.8897222,"ctaUrl":"https://maps.google.com/?cid=4458607973132921968&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nieuw Albina, De Pijp, Albert Cuypstraat, Amsterdam, NL"},{"anchorId":"tokoman","rank":4,"name":"Tokoman","label":"4. Tokoman","lat":52.3669246,"lng":4.9023617,"ctaUrl":"https://maps.google.com/?cid=8672475780878018775&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tokoman, Centrum, Waterlooplein, Amsterdam, NL"},{"anchorId":"febo","rank":5,"name":"FEBO","label":"5. FEBO","lat":52.374547199999995,"lng":4.8997416,"ctaUrl":"https://maps.google.com/?cid=17466915114946943387&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"FEBO, Various locations city-wide, Amsterdam, NL"},{"anchorId":"albert-cuyp","rank":6,"name":"Albert Cuyp Market","label":"6. Albert Cuyp Market","lat":52.3553059,"lng":4.8915504,"ctaUrl":"https://maps.google.com/?cid=15104207878837832600&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Albert Cuyp Market, De Pijp, Albert Cuypstraat, Amsterdam, NL"},{"anchorId":"kantjil","rank":7,"name":"Kantjil & de Tijger","label":"7. Kantjil & de Tijger","lat":52.369264,"lng":4.8889461999999995,"ctaUrl":"https://maps.google.com/?cid=10194983756167988192&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kantjil & de Tijger, Centrum, Spuistraat, Amsterdam, NL"},{"anchorId":"hap-hmm","rank":8,"name":"Hap-Hmm","label":"8. Hap-Hmm","lat":52.3636729,"lng":4.876325,"ctaUrl":"https://maps.google.com/?cid=5092758252041268592&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hap-Hmm, Oud-West, Eerste Helmersstraat, Amsterdam, NL"},{"anchorId":"leeman","rank":9,"name":"Leeman Döner","label":"9. Leeman Döner","lat":52.3524278,"lng":4.9028278,"ctaUrl":"https://maps.google.com/?cid=7721290806486636560&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Leeman Döner, Centrum, Korte Leidsedwarsstraat, Amsterdam, NL"},{"anchorId":"toko-bersama","rank":10,"name":"Toko Bersama","label":"10. Toko Bersama","lat":52.368465,"lng":4.8710075,"ctaUrl":"https://maps.google.com/?cid=576412822804768884&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Toko Bersama, Oud-West, Amsterdam, NL"},{"anchorId":"manneken-pis","rank":11,"name":"Manneken Pis","label":"11. Manneken Pis","lat":52.3757589,"lng":4.896192,"ctaUrl":"https://maps.google.com/?cid=3424135373009767036&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Manneken Pis, Centrum, Damrak, Amsterdam, NL"},{"anchorId":"maenaam","rank":12,"name":"Maenaam Thai","label":"12. Maenaam Thai","lat":52.3753041,"lng":4.8911693,"ctaUrl":"https://maps.google.com/?cid=11295428213219981898&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maenaam Thai, Centrum, Spuistraat, Amsterdam, NL"},{"anchorId":"food-brothers","rank":13,"name":"Food Brothers","label":"13. Food Brothers","lat":52.3500948,"lng":4.9126709,"ctaUrl":"https://maps.google.com/?cid=9425884068000858804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Food Brothers, Centrum, Spuistraat, Amsterdam, NL"},{"anchorId":"sonny","rank":14,"name":"Sonny Falafel","label":"14. Sonny Falafel","lat":52.3552872,"lng":4.8933883,"ctaUrl":"https://maps.google.com/?cid=15995206046658771594&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sonny Falafel, De Pijp, near Albert Cuypmarkt, Amsterdam, NL"},{"anchorId":"chipsy-king","rank":15,"name":"Chipsy King","label":"15. Chipsy King","lat":52.3691021,"lng":4.8889187,"ctaUrl":"https://maps.google.com/?cid=9781670254566351140&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chipsy King, Various locations, Amsterdam, NL"},{"anchorId":"asian-kitchen","rank":16,"name":"Asian Kitchen","label":"16. Asian Kitchen","lat":52.366569299999995,"lng":4.8933846999999995,"ctaUrl":"https://maps.google.com/?cid=10251625641026640820&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asian Kitchen, Centrum, Vijzelstraat, Amsterdam, NL"},{"anchorId":"soenda-kelapa","rank":17,"name":"Soenda Kelapa","label":"17. Soenda Kelapa","lat":52.3630198,"lng":4.8987929,"ctaUrl":"https://maps.google.com/?cid=4636445069532013530&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Soenda Kelapa, De Pijp, Amsterdam, NL"},{"anchorId":"pakhuis","rank":18,"name":"'t Pakhuis","label":"18. 't Pakhuis","lat":52.3682008,"lng":4.8906417,"ctaUrl":"https://maps.google.com/?cid=10744222336160985466&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"'t Pakhuis, Centrum, Amsterdam, NL"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

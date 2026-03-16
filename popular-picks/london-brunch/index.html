@@ -326,9 +326,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -353,7 +356,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -405,9 +408,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Brunch Spots Map</h2>
-      <iframe src="https://www.google.com/maps?q=Brunch%20Spots%20in%20London&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dishoom</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brunch Spots Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -424,12 +428,12 @@
         <a href="#regency-cafe">4. Regency Cafe</a>
       </li>
       <li>
-        <a href="#granger-co">5. Granger &amp; Co</a>
+        <a href="#granger-co">5. Granger & Co</a>
       </li>
       <li>
         <a href="#riding-house-cafe">6. Riding House Cafe</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Brunch%20Spots%20in%20London" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11256896404490944630&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -441,7 +445,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="dishoom">
+<section class="restaurant-section" id="dishoom" data-map-name="1. Dishoom" data-map-cta-url="https://maps.google.com/?cid=11256896404490944630&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dishoom, Covent Garden, Shoreditch, King&#39;s Cross &amp; more, London, GB" data-map-lat="51.512517599999995" data-map-lng="-0.1268291">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Dishoom</h2>
         <span class="cuisine-tag tag-regional">Indian Breakfast</span>
@@ -483,7 +487,7 @@
         <strong>tabiji verdict:</strong> Dishoom is the runaway winner of every London brunch poll on Reddit — and for good reason. The Bombay café concept (inspired by the old Irani cafés of Mumbai) is executed impeccably, and the breakfast menu is a genuine masterpiece. The bacon naan roll has achieved genuine London-icon status. The queue can be brutal on weekends without a reservation, so book ahead. Covent Garden and Carnaby Street branches tend to have the most walk-in availability on weekdays.
     </div>
 </section>
-<section class="restaurant-section" id="breakfast-club">
+<section class="restaurant-section" id="breakfast-club" data-map-name="2. The Breakfast Club" data-map-cta-url="https://maps.google.com/?cid=9747327299585346240&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Breakfast Club, Soho, Spitalfields, Battersea &amp; more, London, GB" data-map-lat="51.5147408" data-map-lng="-0.135402">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>The Breakfast Club</h2>
         <span class="cuisine-tag tag-regional">American Diner</span>
@@ -525,7 +529,7 @@
         <strong>tabiji verdict:</strong> Love it or hate the queue, The Breakfast Club has become a London brunch institution for a reason — the pancakes are genuinely excellent, the vibe is fun, and the menu covers all the American diner classics. Reddit opinion is split: some think the wait isn&#39;t worth it; others swear by it for off-peak visits. Our advice: go on a Tuesday morning and skip the weekend madness. Multiple locations across London mean you&#39;re rarely far from one.
     </div>
 </section>
-<section class="restaurant-section" id="26-grains">
+<section class="restaurant-section" id="26-grains" data-map-name="3. 26 Grains" data-map-cta-url="https://maps.google.com/?cid=14180264630658732048&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="26 Grains, Covent Garden, Neal&#39;s Yard, London, GB" data-map-lat="51.5143846" data-map-lng="-0.1262916">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>26 Grains</h2>
         <span class="cuisine-tag tag-regional">Grain Bowls &amp; Porridge</span>
@@ -567,7 +571,7 @@
         <strong>tabiji verdict:</strong> Tucked into the charming courtyard of Neal&#39;s Yard in Covent Garden, 26 Grains is the antidote to stodgy hotel buffets and overpriced avocado toast. The place is built around Scandinavian grain culture — think Nordic wellness meets London café scene — and the result is genuinely exciting. If you think porridge is boring, 26 Grains will change your mind. Hidden location means it&#39;s less crowded than it deserves to be.
     </div>
 </section>
-<section class="restaurant-section" id="regency-cafe">
+<section class="restaurant-section" id="regency-cafe" data-map-name="4. Regency Cafe" data-map-cta-url="https://maps.google.com/?cid=11509084665895654194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Regency Cafe, Westminster, Regency Street, London, GB" data-map-lat="51.4937725" data-map-lng="-0.132194">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Regency Cafe</h2>
         <span class="cuisine-tag tag-regional">Classic British Caff</span>
@@ -609,7 +613,7 @@
         <strong>tabiji verdict:</strong> Regency Cafe is a time capsule — the black-and-white tiled walls, the hand-painted menus, the staff calling your number like a football score announcement. It&#39;s been here since 1946 and serves one of the finest fry-ups in London at honest prices. Yes, it&#39;s now somewhat famous on Instagram, but it hasn&#39;t sold out: they still won&#39;t give you oat milk for your tea, and the fry-up is still cooked exactly as it should be. An essential London experience.
     </div>
 </section>
-<section class="restaurant-section" id="granger-co">
+<section class="restaurant-section" id="granger-co" data-map-name="5. Granger &amp; Co" data-map-cta-url="https://maps.google.com/?cid=17073116558062234726&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Granger &amp; Co, Notting Hill, King&#39;s Cross, Clerkenwell, London, GB" data-map-lat="51.5145986" data-map-lng="-0.1977545">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Granger &amp; Co</h2>
         <span class="cuisine-tag tag-regional">Australian Brunch</span>
@@ -651,7 +655,7 @@
         <strong>tabiji verdict:</strong> Bill Granger brought Sydney café culture to London and London never looked back. The ricotta hotcakes are genuinely world-class — light, slightly tangy, with a banana-honeycomb combination that shouldn&#39;t work as well as it does. Granger &amp; Co popularized the avocado toast craze in London and has the quality to show it wasn&#39;t just a trend. Multiple locations, but Notting Hill has the best atmosphere on a Saturday morning.
     </div>
 </section>
-<section class="restaurant-section" id="riding-house-cafe">
+<section class="restaurant-section" id="riding-house-cafe" data-map-name="6. Riding House Cafe" data-map-cta-url="https://maps.google.com/?cid=16958792684444862723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riding House Cafe, Fitzrovia, near Oxford Circus, London, GB" data-map-lat="51.5157157" data-map-lng="-0.1383335">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Riding House Cafe</h2>
         <span class="cuisine-tag tag-regional">Modern European</span>
@@ -693,7 +697,7 @@
         <strong>tabiji verdict:</strong> Riding House Cafe occupies the sweet spot between neighbourhood café and destination restaurant — the kind of place you want as your local. The large, light-filled dining room makes it perfect for lingering weekend brunches, and the all-day menu means you can roll up anytime. It&#39;s not trying to reinvent the wheel; it&#39;s just doing classic brunch dishes very well. Book for weekends; walk-ins possible on weekdays.
     </div>
 </section>
-<section class="restaurant-section" id="e-pellicci">
+<section class="restaurant-section" id="e-pellicci" data-map-name="7. E. Pellicci" data-map-cta-url="https://maps.google.com/?cid=11411418402021041647&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="E. Pellicci, Bethnal Green, Bethnal Green Road, London, GB" data-map-lat="51.5264757" data-map-lng="-0.06342919999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>E. Pellicci</h2>
         <span class="cuisine-tag tag-regional">Italian British Caff</span>
@@ -735,7 +739,7 @@
         <strong>tabiji verdict:</strong> E. Pellicci is one of the few places in London where the building, the food, and the people running it are all Grade II listed in terms of historical value. The 1946 art deco interior — Vitrolite panels, marquetry, the whole thing — is a genuine architectural treasure. The Pellicci family has run it since 1900. The Kray twins were regulars. The fry-up is excellent. This is living East London history, and it&#39;s open for breakfast.
     </div>
 </section>
-<section class="restaurant-section" id="duck-waffle">
+<section class="restaurant-section" id="duck-waffle" data-map-name="8. Duck &amp; Waffle" data-map-cta-url="https://maps.google.com/?cid=12962508908589623868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Duck &amp; Waffle, City, Heron Tower, Bishopsgate, London, GB" data-map-lat="51.5162529" data-map-lng="-0.0811942">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Duck &amp; Waffle</h2>
         <span class="cuisine-tag tag-regional">Splurge Brunch · 40th Floor</span>
@@ -777,7 +781,7 @@
         <strong>tabiji verdict:</strong> Duck &amp; Waffle is the answer to &quot;where do I take someone to impress them at brunch?&quot; The 40th floor of Heron Tower gives you panoramic views of the City skyline, and unlike many view-restaurants, the food is genuinely excellent. The signature dish — duck leg confit on a Belgian waffle with duck egg and mustard maple syrup — is one of London&#39;s most iconic restaurant dishes. Go for 7am on a weekend for the sunrise view and shorter queues. Pricey but extraordinary.
     </div>
 </section>
-<section class="restaurant-section" id="balthazar">
+<section class="restaurant-section" id="balthazar" data-map-name="9. Balthazar" data-map-cta-url="https://maps.google.com/?cid=12701030474849664750&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Balthazar, Covent Garden, Russell Street, London, GB" data-map-lat="51.512397899999996" data-map-lng="-0.1213613">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Balthazar</h2>
         <span class="cuisine-tag tag-regional">French Brasserie</span>
@@ -819,7 +823,7 @@
         <strong>tabiji verdict:</strong> Balthazar is the London outpost of the legendary New York brasserie, and it matches the original in terms of atmosphere and quality. The dining room — all red leather banquettes, dark wood, and vintage mirrors — is one of the most beautiful in London. Weekend brunch here feels like a proper occasion: unhurried, well-staffed, and with a menu that spans classic French brasserie and American diner dishes. Not cheap, but genuinely special.
     </div>
 </section>
-<section class="restaurant-section" id="caravan">
+<section class="restaurant-section" id="caravan" data-map-name="10. Caravan" data-map-cta-url="https://maps.google.com/?cid=341806801821102402&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Caravan, King&#39;s Cross, Granary Square, London, GB" data-map-lat="51.5357396" data-map-lng="-0.12534969999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Caravan</h2>
         <span class="cuisine-tag tag-regional">Coffee Roasters &amp; Brunch</span>
@@ -861,7 +865,7 @@
         <strong>tabiji verdict:</strong> Caravan pioneered the serious-coffee-plus-creative-brunch concept in London when it opened in Exmouth Market in 2010, and the King&#39;s Cross outpost at Granary Square is its best yet. The converted Victorian grain warehouse space is spectacular, the outdoor terrace overlooking the canal is one of London&#39;s best alfresco spots, and the food — genuinely influenced by ingredients from around the world — sets a high bar. The coffee is among the city&#39;s finest.
     </div>
 </section>
-<section class="restaurant-section" id="black-penny">
+<section class="restaurant-section" id="black-penny" data-map-name="11. Black Penny" data-map-cta-url="https://maps.google.com/?cid=12772059667501705794&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Black Penny, Covent Garden, Great Queen Street, London, GB" data-map-lat="51.5152479" data-map-lng="-0.12168009999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Black Penny</h2>
         <span class="cuisine-tag tag-regional">Hearty Breakfast &amp; Coffee</span>
@@ -921,9 +925,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Brunch Spots Map</h2>
-      <iframe src="https://www.google.com/maps?q=Brunch%20Spots%20in%20London&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dishoom</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brunch Spots Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -940,12 +945,12 @@
         <a href="#regency-cafe">4. Regency Cafe</a>
       </li>
       <li>
-        <a href="#granger-co">5. Granger &amp; Co</a>
+        <a href="#granger-co">5. Granger & Co</a>
       </li>
       <li>
         <a href="#riding-house-cafe">6. Riding House Cafe</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Brunch%20Spots%20in%20London" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11256896404490944630&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -956,5 +961,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Brunch Spots Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Brunch%20Spots%20in%20London","picks":[{"anchorId":"dishoom","rank":1,"name":"Dishoom","label":"1. Dishoom","lat":51.512517599999995,"lng":-0.1268291,"ctaUrl":"https://maps.google.com/?cid=11256896404490944630&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dishoom, Covent Garden, Shoreditch, King's Cross & more, London, GB"},{"anchorId":"breakfast-club","rank":2,"name":"The Breakfast Club","label":"2. The Breakfast Club","lat":51.5147408,"lng":-0.135402,"ctaUrl":"https://maps.google.com/?cid=9747327299585346240&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Breakfast Club, Soho, Spitalfields, Battersea & more, London, GB"},{"anchorId":"26-grains","rank":3,"name":"26 Grains","label":"3. 26 Grains","lat":51.5143846,"lng":-0.1262916,"ctaUrl":"https://maps.google.com/?cid=14180264630658732048&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"26 Grains, Covent Garden, Neal's Yard, London, GB"},{"anchorId":"regency-cafe","rank":4,"name":"Regency Cafe","label":"4. Regency Cafe","lat":51.4937725,"lng":-0.132194,"ctaUrl":"https://maps.google.com/?cid=11509084665895654194&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Regency Cafe, Westminster, Regency Street, London, GB"},{"anchorId":"granger-co","rank":5,"name":"Granger & Co","label":"5. Granger & Co","lat":51.5145986,"lng":-0.1977545,"ctaUrl":"https://maps.google.com/?cid=17073116558062234726&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Granger & Co, Notting Hill, King's Cross, Clerkenwell, London, GB"},{"anchorId":"riding-house-cafe","rank":6,"name":"Riding House Cafe","label":"6. Riding House Cafe","lat":51.5157157,"lng":-0.1383335,"ctaUrl":"https://maps.google.com/?cid=16958792684444862723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Riding House Cafe, Fitzrovia, near Oxford Circus, London, GB"},{"anchorId":"e-pellicci","rank":7,"name":"E. Pellicci","label":"7. E. Pellicci","lat":51.5264757,"lng":-0.06342919999999999,"ctaUrl":"https://maps.google.com/?cid=11411418402021041647&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"E. Pellicci, Bethnal Green, Bethnal Green Road, London, GB"},{"anchorId":"duck-waffle","rank":8,"name":"Duck & Waffle","label":"8. Duck & Waffle","lat":51.5162529,"lng":-0.0811942,"ctaUrl":"https://maps.google.com/?cid=12962508908589623868&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Duck & Waffle, City, Heron Tower, Bishopsgate, London, GB"},{"anchorId":"balthazar","rank":9,"name":"Balthazar","label":"9. Balthazar","lat":51.512397899999996,"lng":-0.1213613,"ctaUrl":"https://maps.google.com/?cid=12701030474849664750&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Balthazar, Covent Garden, Russell Street, London, GB"},{"anchorId":"caravan","rank":10,"name":"Caravan","label":"10. Caravan","lat":51.5357396,"lng":-0.12534969999999998,"ctaUrl":"https://maps.google.com/?cid=341806801821102402&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Caravan, King's Cross, Granary Square, London, GB"},{"anchorId":"black-penny","rank":11,"name":"Black Penny","label":"11. Black Penny","lat":51.5152479,"lng":-0.12168009999999999,"ctaUrl":"https://maps.google.com/?cid=12772059667501705794&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Black Penny, Covent Garden, Great Queen Street, London, GB"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

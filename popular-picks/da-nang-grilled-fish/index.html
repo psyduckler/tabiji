@@ -335,9 +335,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -362,7 +365,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -410,13 +413,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Grilled fish in Da Nang, a local favorite, can be found at prices ranging from 60,000–2,300,000 VND across these top picks, with Cá Chuồn Cồ (Flying Fish Restaurant) highlighted as a specialist. These recommendations, perfect for any season, are vetted by expats and locals, highlighting the best spots along Da Nang&#39;s bountiful coastline. Da Nang sits on one of Vietnam&#39;s most bountiful coastlines, and grilled fish is the city&#39;s soul food.</strong></p>
-        <p>Grilled fish, the soul food of Da Nang, ranges from 60,000–2,300,000 VND across these top picks, with Cá Chuồn Cồ (Flying Fish Restaurant) standing out as a specialist in the city&#39;s iconic turmeric grilled flying fish. These recommendations, vetted by expats and locals, highlight the best spots along Da Nang&#39;s bountiful coastline.</p><p>Da Nang sits on one of Vietnam&#39;s most bountiful coastlines, and grilled fish is the city&#39;s soul food. From whole snapper charred over coconut husks to flying fish rubbed with turmeric, the best spots don&#39;t need fancy menus — just live tanks, a hot grill, and fish that was swimming hours ago.</p><p>We analyzed dozens of Reddit posts from r/DaNang, r/VietNam, r/vietnamesefoodie, and r/travel to find the spots that expats, repeat visitors, and Vietnamese locals actually recommend. Beachfront tourist traps exist — these aren&#39;t them.</p>
+        <p>Da Nang sits on one of Vietnam&#39;s most bountiful coastlines, and grilled fish is the city&#39;s soul food. From whole snapper charred over coconut husks to flying fish rubbed with turmeric, the best spots don&#39;t need fancy menus — just live tanks, a hot grill, and fish that was swimming hours ago.</p><p>We analyzed dozens of Reddit posts from r/DaNang, r/VietNam, r/vietnamesefoodie, and r/travel to find the spots that expats, repeat visitors, and Vietnamese locals actually recommend. Beachfront tourist traps exist — these aren&#39;t them.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Grilled Fish Map</h2>
-      <iframe src="https://www.google.com/maps?q=Grilled%20Fish%20in%20Da%20Nang&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bé Mặn Seafood (Hải Sản Bé Mặn)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Grilled Fish Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -438,7 +442,7 @@
       <li>
         <a href="#phuong-2">6. Phương 2 Seafood</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Grilled%20Fish%20in%20Da%20Nang" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/B%C3%A9+M%E1%BA%B7n+Seafood+Da+Nang" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -450,7 +454,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="be-man">
+<section class="restaurant-section" id="be-man" data-map-name="1. Bé Mặn Seafood (Hải Sản Bé Mặn)" data-map-cta-url="https://www.google.com/maps/search/B%C3%A9+M%E1%BA%B7n+Seafood+Da+Nang" data-map-query="Bé Mặn Seafood (Hải Sản Bé Mặn), Lot 9 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Da Nang, VN" data-map-lat="16.0820695" data-map-lng="108.24738649999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Bé Mặn Seafood (Hải Sản Bé Mặn)</h2>
         <span class="cuisine-tag tag-regional">Beachfront Grill</span>
@@ -480,7 +484,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended beachfront seafood spot in Da Nang. Yes, it&#39;s on Võ Nguyên Giáp (the tourist strip), but Bé Mặn earns its reputation with genuinely fresh fish and fair pricing. The grilled fish in foil is a must-try. Go early evening for the best selection.
     </div>
 </section>
-<section class="restaurant-section" id="ba-ro">
+<section class="restaurant-section" id="ba-ro" data-map-name="2. Hải Sản Bà Rô" data-map-cta-url="https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+B%C3%A0+R%C3%B4+Da+Nang" data-map-query="Hải Sản Bà Rô, Near Sơn Trà fishing village, Da Nang, VN" data-map-lat="16.1066342" data-map-lng="108.25797229999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Hải Sản Bà Rô</h2>
         <span class="cuisine-tag tag-regional">Local Legend</span>
@@ -506,7 +510,7 @@
         <strong>tabiji verdict:</strong> When a Vietnamese local&#39;s family treats this as their go-to fish spot, you know it&#39;s legit. Bà Rô is the definition of unpretentious — plastic stools, charcoal grills, and fish so fresh it practically flops off the plate. Expect a crowd at peak hours. No English menu, no frills, just exceptional grilled fish.
     </div>
 </section>
-<section class="restaurant-section" id="lao-dai">
+<section class="restaurant-section" id="lao-dai" data-map-name="3. Quán Nhậu Hải Sản Lão Đại" data-map-cta-url="https://www.google.com/maps/search/Qu%C3%A1n+Nh%E1%BA%ADu+H%E1%BA%A3i+S%E1%BA%A3n+L%C3%A3o+%C4%90%E1%BA%A1i+Da+Nang" data-map-query="Quán Nhậu Hải Sản Lão Đại, Da Nang (near city center), Da Nang, VN" data-map-lat="16.061913" data-map-lng="108.2356826">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Quán Nhậu Hải Sản Lão Đại</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -532,7 +536,7 @@
         <strong>tabiji verdict:</strong> &quot;Nhậu&quot; means drinking — this is where Vietnamese locals go to drink beer and eat grilled seafood with friends. The vibe is loud, social, and completely authentic. Prices are some of the lowest on this list, and the charcoal-grilled fish punches way above its price point. Bring Google Translate.
     </div>
 </section>
-<section class="restaurant-section" id="eo-bien">
+<section class="restaurant-section" id="eo-bien" data-map-name="4. Hải Sản Eo Biển" data-map-cta-url="https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+Eo+Bi%E1%BB%83n+Da+Nang" data-map-query="Hải Sản Eo Biển, Near Sơn Trà fishing village, northern Da Nang, Da Nang, VN" data-map-lat="16.1054985" data-map-lng="108.2591667">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Hải Sản Eo Biển</h2>
         <span class="cuisine-tag tag-regional">Fresh Catch</span>
@@ -558,7 +562,7 @@
         <strong>tabiji verdict:</strong> Located near the Sơn Trà fishing village, Eo Biển benefits from literally being steps from where the boats dock. The grilled fish here is as fresh as it gets in Da Nang. Worth the trip to the northern end of the beach — combine it with a Sơn Trà peninsula motorbike ride.
     </div>
 </section>
-<section class="restaurant-section" id="chau-son">
+<section class="restaurant-section" id="chau-son" data-map-name="5. Châu Sơn Seafood" data-map-cta-url="https://maps.google.com/?cid=6074885986482353321&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Châu Sơn Seafood, Da Nang, Da Nang, VN" data-map-lat="16.0820978" data-map-lng="108.2295633">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Châu Sơn Seafood</h2>
         <span class="cuisine-tag tag-regional">Garlic Butter King</span>
@@ -584,7 +588,7 @@
         <strong>tabiji verdict:</strong> Châu Sơn&#39;s garlic butter sauce is the stuff of legend on Da Nang Reddit. This isn&#39;t your typical charcoal-and-salt joint — they&#39;ve mastered a rich, buttery preparation that elevates the fresh fish to another level. Slightly pricier than the plastic-stool spots but worth every đồng.
     </div>
 </section>
-<section class="restaurant-section" id="phuong-2">
+<section class="restaurant-section" id="phuong-2" data-map-name="6. Phương 2 Seafood" data-map-cta-url="https://maps.google.com/?cid=13445899674313183631&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phương 2 Seafood, Nguyễn Tất Thành, Liên Chiểu district, Da Nang, VN" data-map-lat="16.084064299999998" data-map-lng="108.1611051">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Phương 2 Seafood</h2>
         <span class="cuisine-tag tag-regional">Zero Tourists</span>
@@ -618,7 +622,7 @@
         <strong>tabiji verdict:</strong> On the Nguyễn Tất Thành coastal road heading north — far from the tourist strip. If you want the most authentic, no-frills grilled fish experience in Da Nang, this is it. You&#39;ll likely be the only foreigner. Prices are rock-bottom and the fish is incredibly fresh. Grab a motorbike and go.
     </div>
 </section>
-<section class="restaurant-section" id="my-hanh">
+<section class="restaurant-section" id="my-hanh" data-map-name="7. Mỹ Hạnh Seafood" data-map-cta-url="https://maps.google.com/?cid=6074885986482353321&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mỹ Hạnh Seafood, 03–05 Võ Nguyên Giáp, An Hải, Sơn Trà, Da Nang, VN" data-map-lat="16.065402499999998" data-map-lng="108.24616979999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Mỹ Hạnh Seafood</h2>
         <span class="cuisine-tag tag-regional">Michelin Selected</span>
@@ -648,7 +652,7 @@
         <strong>tabiji verdict:</strong> The most polarizing spot on this list. Mỹ Hạnh has the Michelin Selected badge and genuine ocean views — but you&#39;ll pay for it. If you want a special occasion seafood meal with a view, Mỹ Hạnh delivers. For everyday grilled fish, eat at Bà Rô.
     </div>
 </section>
-<section class="restaurant-section" id="be-anh">
+<section class="restaurant-section" id="be-anh" data-map-name="8. Bé Anh Seafood" data-map-cta-url="https://maps.google.com/?cid=13452027330596034848&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bé Anh Seafood, Intersection of Phạm Văn Đồng &amp; Hồ Nghinh, Phước Mỹ, Sơn Trà, Da Nang, VN" data-map-lat="16.0690368" data-map-lng="108.242905">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Bé Anh Seafood</h2>
         <span class="cuisine-tag tag-regional">Crowd Pleaser</span>
@@ -682,7 +686,7 @@
         <strong>tabiji verdict:</strong> Bé Anh hits the sweet spot — better than the tourist traps, more comfortable than the plastic-stool joints. The spacious, open-air setup works well for families and groups. Not the cheapest, but consistent quality and friendly staff who can handle some English.
     </div>
 </section>
-<section class="restaurant-section" id="tu-do-2">
+<section class="restaurant-section" id="tu-do-2" data-map-name="9. Hải Sản Tự Do 2" data-map-cta-url="https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+T%E1%BB%B1+Do+2+Da+Nang" data-map-query="Hải Sản Tự Do 2, 333 Nguyễn Phước Lan, Ngũ Hành Sơn, Da Nang, VN" data-map-lat="16.0172387" data-map-lng="108.2325967">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Hải Sản Tự Do 2</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -708,7 +712,7 @@
         <strong>tabiji verdict:</strong> In the Ngũ Hành Sơn district (near the Marble Mountains), Tự Do 2 is a quieter alternative to the Sơn Trà beachfront spots. Slightly more polished atmosphere without the premium markup. Good option if you&#39;re staying in the southern half of Da Nang.
     </div>
 </section>
-<section class="restaurant-section" id="ca-chuon-co">
+<section class="restaurant-section" id="ca-chuon-co" data-map-name="10. Cá Chuồn Cồ (Flying Fish Restaurant)" data-map-cta-url="https://maps.google.com/?cid=18291966937374509053&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cá Chuồn Cồ (Flying Fish Restaurant), Premier Village Danang Resort, 99 Võ Nguyên Giáp, Ngũ Hành Sơn, Da Nang, VN" data-map-lat="16.0432473" data-map-lng="108.2509341">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Cá Chuồn Cồ (Flying Fish Restaurant)</h2>
         <span class="cuisine-tag tag-regional">Flying Fish Specialist</span>
@@ -742,7 +746,7 @@
         <strong>tabiji verdict:</strong> If you try one single grilled fish dish in Da Nang, make it cá chuồn nướng nghệ — flying fish rubbed with turmeric and grilled over charcoal. It&#39;s Da Nang&#39;s signature. Cá Chuồn Cồ (literally &quot;Flying Fish Grandmother&quot;) is the specialist. Inside Premier Village resort but open to the public.
     </div>
 </section>
-<section class="restaurant-section" id="muoi-bien">
+<section class="restaurant-section" id="muoi-bien" data-map-name="11. Muối Biển (Sea Salt) Seafood" data-map-cta-url="https://maps.google.com/?cid=6074885986482353321&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Muối Biển (Sea Salt) Seafood, 51 Võ Nguyên Giáp, Bắc Mỹ An, Ngũ Hành Sơn, Da Nang, VN" data-map-lat="16.0478481" data-map-lng="108.2495921">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Muối Biển (Sea Salt) Seafood</h2>
         <span class="cuisine-tag tag-regional">Family Friendly</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> A comfortable middle ground — nice enough for a date, casual enough for flip-flops. The grilled clams with scallion oil are the sleeper hit. Good value for the Võ Nguyên Giáp strip. Solid all-rounder.
     </div>
 </section>
-<section class="restaurant-section" id="lang-ca">
+<section class="restaurant-section" id="lang-ca" data-map-name="12. Làng Cá Seafood Restaurant" data-map-cta-url="https://maps.google.com/?cid=16164480101904712629&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Làng Cá Seafood Restaurant, 262 Võ Nguyên Giáp, Phước Mỹ, Sơn Trà, Da Nang, VN" data-map-lat="16.056701000000004" data-map-lng="108.246856">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Làng Cá Seafood Restaurant</h2>
         <span class="cuisine-tag tag-regional">Beachfront</span>
@@ -820,9 +824,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Grilled Fish Map</h2>
-      <iframe src="https://www.google.com/maps?q=Grilled%20Fish%20in%20Da%20Nang&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bé Mặn Seafood (Hải Sản Bé Mặn)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Grilled Fish Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -844,7 +849,7 @@
       <li>
         <a href="#phuong-2">6. Phương 2 Seafood</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Grilled%20Fish%20in%20Da%20Nang" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/B%C3%A9+M%E1%BA%B7n+Seafood+Da+Nang" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -855,5 +860,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Grilled Fish Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Grilled%20Fish%20in%20Da%20Nang","picks":[{"anchorId":"be-man","rank":1,"name":"Bé Mặn Seafood (Hải Sản Bé Mặn)","label":"1. Bé Mặn Seafood (Hải Sản Bé Mặn)","lat":16.0820695,"lng":108.24738649999999,"ctaUrl":"https://www.google.com/maps/search/B%C3%A9+M%E1%BA%B7n+Seafood+Da+Nang","mapQuery":"Bé Mặn Seafood (Hải Sản Bé Mặn), Lot 9 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Da Nang, VN"},{"anchorId":"ba-ro","rank":2,"name":"Hải Sản Bà Rô","label":"2. Hải Sản Bà Rô","lat":16.1066342,"lng":108.25797229999999,"ctaUrl":"https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+B%C3%A0+R%C3%B4+Da+Nang","mapQuery":"Hải Sản Bà Rô, Near Sơn Trà fishing village, Da Nang, VN"},{"anchorId":"lao-dai","rank":3,"name":"Quán Nhậu Hải Sản Lão Đại","label":"3. Quán Nhậu Hải Sản Lão Đại","lat":16.061913,"lng":108.2356826,"ctaUrl":"https://www.google.com/maps/search/Qu%C3%A1n+Nh%E1%BA%ADu+H%E1%BA%A3i+S%E1%BA%A3n+L%C3%A3o+%C4%90%E1%BA%A1i+Da+Nang","mapQuery":"Quán Nhậu Hải Sản Lão Đại, Da Nang (near city center), Da Nang, VN"},{"anchorId":"eo-bien","rank":4,"name":"Hải Sản Eo Biển","label":"4. Hải Sản Eo Biển","lat":16.1054985,"lng":108.2591667,"ctaUrl":"https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+Eo+Bi%E1%BB%83n+Da+Nang","mapQuery":"Hải Sản Eo Biển, Near Sơn Trà fishing village, northern Da Nang, Da Nang, VN"},{"anchorId":"chau-son","rank":5,"name":"Châu Sơn Seafood","label":"5. Châu Sơn Seafood","lat":16.0820978,"lng":108.2295633,"ctaUrl":"https://maps.google.com/?cid=6074885986482353321&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Châu Sơn Seafood, Da Nang, Da Nang, VN"},{"anchorId":"phuong-2","rank":6,"name":"Phương 2 Seafood","label":"6. Phương 2 Seafood","lat":16.084064299999998,"lng":108.1611051,"ctaUrl":"https://maps.google.com/?cid=13445899674313183631&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phương 2 Seafood, Nguyễn Tất Thành, Liên Chiểu district, Da Nang, VN"},{"anchorId":"my-hanh","rank":7,"name":"Mỹ Hạnh Seafood","label":"7. Mỹ Hạnh Seafood","lat":16.065402499999998,"lng":108.24616979999999,"ctaUrl":"https://maps.google.com/?cid=6074885986482353321&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mỹ Hạnh Seafood, 03–05 Võ Nguyên Giáp, An Hải, Sơn Trà, Da Nang, VN"},{"anchorId":"be-anh","rank":8,"name":"Bé Anh Seafood","label":"8. Bé Anh Seafood","lat":16.0690368,"lng":108.242905,"ctaUrl":"https://maps.google.com/?cid=13452027330596034848&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bé Anh Seafood, Intersection of Phạm Văn Đồng & Hồ Nghinh, Phước Mỹ, Sơn Trà, Da Nang, VN"},{"anchorId":"tu-do-2","rank":9,"name":"Hải Sản Tự Do 2","label":"9. Hải Sản Tự Do 2","lat":16.0172387,"lng":108.2325967,"ctaUrl":"https://www.google.com/maps/search/H%E1%BA%A3i+S%E1%BA%A3n+T%E1%BB%B1+Do+2+Da+Nang","mapQuery":"Hải Sản Tự Do 2, 333 Nguyễn Phước Lan, Ngũ Hành Sơn, Da Nang, VN"},{"anchorId":"ca-chuon-co","rank":10,"name":"Cá Chuồn Cồ (Flying Fish Restaurant)","label":"10. Cá Chuồn Cồ (Flying Fish Restaurant)","lat":16.0432473,"lng":108.2509341,"ctaUrl":"https://maps.google.com/?cid=18291966937374509053&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cá Chuồn Cồ (Flying Fish Restaurant), Premier Village Danang Resort, 99 Võ Nguyên Giáp, Ngũ Hành Sơn, Da Nang, VN"},{"anchorId":"muoi-bien","rank":11,"name":"Muối Biển (Sea Salt) Seafood","label":"11. Muối Biển (Sea Salt) Seafood","lat":16.0478481,"lng":108.2495921,"ctaUrl":"https://maps.google.com/?cid=6074885986482353321&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Muối Biển (Sea Salt) Seafood, 51 Võ Nguyên Giáp, Bắc Mỹ An, Ngũ Hành Sơn, Da Nang, VN"},{"anchorId":"lang-ca","rank":12,"name":"Làng Cá Seafood Restaurant","label":"12. Làng Cá Seafood Restaurant","lat":16.056701000000004,"lng":108.246856,"ctaUrl":"https://maps.google.com/?cid=16164480101904712629&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Làng Cá Seafood Restaurant, 262 Võ Nguyên Giáp, Phước Mỹ, Sơn Trà, Da Nang, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

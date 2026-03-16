@@ -433,9 +433,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -460,7 +463,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -512,9 +515,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Gelato Map</h2>
-      <iframe src="https://www.google.com/maps?q=Gelato%20Shops%20in%20Rome%20(Tourist%20Traps%20Flagged)&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Torcé</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Gelato Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -536,7 +540,7 @@
       <li>
         <a href="#del-teatro">6. Gelateria del Teatro</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Gelato%20Shops%20in%20Rome%20(Tourist%20Traps%20Flagged)" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15782011860584885859&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -544,7 +548,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="torce">
+<section class="restaurant-section" id="torce" data-map-name="1. Torcé" data-map-cta-url="https://maps.google.com/?cid=15782011860584885859&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Torcé, EUR (main lab) + Viale Aventino, Rome, IT" data-map-lat="41.88143050000001" data-map-lng="12.4857652">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Torcé</h2>
         <span class="cuisine-tag tag-regional">Artisan Legend</span>
@@ -582,7 +586,7 @@
         <strong>tabiji verdict:</strong> The godfather of artisan gelato in Rome. Claudio Torcé trained the founders of both Otaleg and Fatamorgana — two of the other top gelaterias on this list. If you make one gelato pilgrimage in Rome, make it here. The EUR location is out of the way but worth the metro ride.
     </div>
 </section>
-<section class="restaurant-section" id="fatamorgana">
+<section class="restaurant-section" id="fatamorgana" data-map-name="2. Fatamorgana" data-map-cta-url="https://maps.google.com/?cid=17289768765503490595&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fatamorgana, Multiple locations (Monti, Trastevere, Chiavari, Pigneto), Rome, IT" data-map-lat="41.8947225" data-map-lng="12.474231099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Fatamorgana</h2>
         <span class="cuisine-tag tag-regional">Creative Flavors</span>
@@ -620,7 +624,7 @@
         <strong>tabiji verdict:</strong> The experimental kitchen of Rome&#39;s gelato scene. If you want classic flavors done perfectly, go to Torcé. If you want flavors you&#39;ve never imagined — and excellent dairy-free options — Fatamorgana is your spot. Multiple locations make it easy to fit in.
     </div>
 </section>
-<section class="restaurant-section" id="otaleg">
+<section class="restaurant-section" id="otaleg" data-map-name="3. Otaleg" data-map-cta-url="https://maps.google.com/?cid=14922861459321295539&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Otaleg, Via di San Cosimato, 14a (Trastevere), Rome, IT" data-map-lat="41.88812480000001" data-map-lng="12.4704701">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Otaleg</h2>
         <span class="cuisine-tag tag-regional">Artisan</span>
@@ -658,7 +662,7 @@
         <strong>tabiji verdict:</strong> Founded by a Torcé apprentice, Otaleg delivers the same artisan philosophy in a Trastevere location. Perfect if you&#39;re combining a pasta crawl through Trastevere with a gelato stop. Consistently mentioned by Roman locals.
     </div>
 </section>
-<section class="restaurant-section" id="frigidarium">
+<section class="restaurant-section" id="frigidarium" data-map-name="4. Frigidarium" data-map-cta-url="https://maps.google.com/?cid=1000001448973899343&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Frigidarium, Via del Governo Vecchio, 112, Rome, IT" data-map-lat="41.8982333" data-map-lng="12.470454799999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Frigidarium</h2>
         <span class="cuisine-tag tag-regional">Centro Storico Pick</span>
@@ -696,7 +700,7 @@
         <strong>tabiji verdict:</strong> The most conveniently located top-tier gelateria — right in the heart of the Centro Storico near Piazza Navona. Single-location, gelato-only focus is a quality signal. The chocolate-dipped cone is worth the visit alone.
     </div>
 </section>
-<section class="restaurant-section" id="dei-gracchi">
+<section class="restaurant-section" id="dei-gracchi" data-map-name="5. Gelateria dei Gracchi" data-map-cta-url="https://maps.google.com/?cid=14754304361092317103&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gelateria dei Gracchi, Via dei Gracchi, 272 (Prati, near Vatican), Rome, IT" data-map-lat="41.9091954" data-map-lng="12.4669855">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Gelateria dei Gracchi</h2>
         <span class="cuisine-tag tag-regional">Artisan</span>
@@ -734,7 +738,7 @@
         <strong>tabiji verdict:</strong> The best gelato near the Vatican by a significant margin. Seasonal ingredients and artisan craft — recommended by both Italian-speaking locals on r/roma and English-speaking visitors. Perfect post-Vatican gelato stop.
     </div>
 </section>
-<section class="restaurant-section" id="del-teatro">
+<section class="restaurant-section" id="del-teatro" data-map-name="6. Gelateria del Teatro" data-map-cta-url="https://maps.google.com/?cid=8139906778110754310&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gelateria del Teatro, Via dei Coronari, 65 (Ponte), Rome, IT" data-map-lat="41.900494300000005" data-map-lng="12.4694946">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Gelateria del Teatro</h2>
         <span class="cuisine-tag tag-regional">Artisan</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> Steps from Frigidarium, so you can easily compare both. The on-site lab where you can watch them make the gelato is a nice touch. Creative flavor combinations that actually work, not just novelty for novelty&#39;s sake.
     </div>
 </section>
-<section class="restaurant-section" id="come-il-latte">
+<section class="restaurant-section" id="come-il-latte" data-map-name="7. Come il Latte" data-map-cta-url="https://maps.google.com/?cid=8630299524364270281&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Come il Latte, Via Silvio d&#39;Amico, 26, Rome, IT" data-map-lat="41.9070945" data-map-lng="12.4960538">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Come il Latte</h2>
         <span class="cuisine-tag tag-regional">Artisan</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> The name means &quot;Like Milk&quot; and the fior di latte is the star. Covered metal containers (pozzetti) signal quality. Slightly off the main tourist path, which keeps it honest.
     </div>
 </section>
-<section class="restaurant-section" id="neve-di-latte">
+<section class="restaurant-section" id="neve-di-latte" data-map-name="8. Neve di Latte" data-map-cta-url="https://maps.google.com/?cid=15768115841576047438&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Neve di Latte, Via Politeama, 6 (Prati), Rome, IT" data-map-lat="41.9063191" data-map-lng="12.470607699999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Neve di Latte</h2>
         <span class="cuisine-tag tag-regional">Minimalist Artisan</span>
@@ -836,7 +840,7 @@
         <strong>tabiji verdict:</strong> The Scandinavian-minimalist of Rome&#39;s gelato world. Fewer flavors, obsessive sourcing, zero gimmicks. In Prati near the Vatican — pair with Gelateria dei Gracchi for a gelato double-header.
     </div>
 </section>
-<section class="restaurant-section" id="gunther">
+<section class="restaurant-section" id="gunther" data-map-name="9. Günther Gelato Italiano" data-map-cta-url="https://maps.google.com/?cid=7504915462187505528&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Günther Gelato Italiano, Via dei Pettinari, 41 (Centro), Rome, IT" data-map-lat="41.893079199999995" data-map-lng="12.4718168">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Günther Gelato Italiano</h2>
         <span class="cuisine-tag tag-regional">Artisan</span>
@@ -870,7 +874,7 @@
         <strong>tabiji verdict:</strong> A quiet artisan spot between Trastevere and the Centro Storico. Mentioned alongside top-tier names by gelato-obsessive Redditors. Perfect mid-walk stop between Campo de&#39; Fiori and Trastevere.
     </div>
 </section>
-<section class="restaurant-section" id="giolitti">
+<section class="restaurant-section" id="giolitti" data-map-name="10. Giolitti" data-map-cta-url="https://maps.google.com/?cid=4062539611586396423&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Giolitti, Via degli Uffici del Vicario, 40 (near Pantheon), Rome, IT" data-map-lat="41.9010245" data-map-lng="12.4772026">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Giolitti</h2>
         <span class="cuisine-tag tag-regional">Historic (Since 1900)</span>
@@ -908,7 +912,7 @@
         <strong>tabiji verdict:</strong> A Roman institution since 1900 — not the absolute best gelato in the city anymore, but still good and the historic atmosphere is genuinely special. Worth one visit for the experience, then spend the rest of your gelato budget at Torcé or Fatamorgana.
     </div>
 </section>
-<section class="restaurant-section" id="i-mannari">
+<section class="restaurant-section" id="i-mannari" data-map-name="11. I Mannari" data-map-cta-url="https://maps.google.com/?cid=10152858345786842794&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="I Mannari, Via Merulana area, Rome, IT" data-map-lat="41.8482578" data-map-lng="12.487028299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>I Mannari</h2>
         <span class="cuisine-tag tag-regional">Fruit / Sorbetto</span>
@@ -942,7 +946,7 @@
         <strong>tabiji verdict:</strong> A one-hit wonder in the best sense — the mango sorbetto is apparently transcendent. If you&#39;re a fruit gelato person more than a cream gelato person, put this at the top of your list.
     </div>
 </section>
-<section class="restaurant-section" id="cremeria-aurelia">
+<section class="restaurant-section" id="cremeria-aurelia" data-map-name="12. Cremeria Aurelia" data-map-cta-url="https://maps.google.com/?cid=3173216291122862520&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cremeria Aurelia, Via Aurelia area, Rome, IT" data-map-lat="41.8978116" data-map-lng="12.431139199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Cremeria Aurelia</h2>
         <span class="cuisine-tag tag-regional">Neighborhood Gem</span>
@@ -976,7 +980,7 @@
         <strong>tabiji verdict:</strong> Mentioned by Italian-speaking locals on r/roma in the same breath as Otaleg and Fatamorgana — high praise. Off the tourist map entirely, which means you&#39;ll be eating with Romans.
     </div>
 </section>
-<section class="restaurant-section" id="gelato-co">
+<section class="restaurant-section" id="gelato-co" data-map-name="13. Gelato &amp; Co." data-map-cta-url="https://maps.google.com/?cid=13435385921578456516&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gelato &amp; Co., Via Marmorata (Testaccio), Rome, IT" data-map-lat="41.8805014" data-map-lng="12.4775911">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Gelato &amp; Co.</h2>
         <span class="cuisine-tag tag-regional">Testaccio Gem</span>
@@ -1010,7 +1014,7 @@
         <strong>tabiji verdict:</strong> In Testaccio — Rome&#39;s working-class food neighborhood. If you&#39;re doing the Testaccio market, this is your gelato stop. Zero tourist pretension.
     </div>
 </section>
-<section class="restaurant-section" id="strega-nocciola">
+<section class="restaurant-section" id="strega-nocciola" data-map-name="14. La Strega Nocciola" data-map-cta-url="https://maps.google.com/?cid=13399090559720459757&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Strega Nocciola, Multiple locations, Rome, IT" data-map-lat="41.904069400000004" data-map-lng="12.482525299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>La Strega Nocciola</h2>
         <span class="cuisine-tag tag-regional">Creative</span>
@@ -1044,7 +1048,7 @@
         <strong>tabiji verdict:</strong> &quot;The Hazelnut Witch&quot; — a name like that deserves a visit. Good creative flavors alongside the classics. Multiple locations make it easy to stumble upon.
     </div>
 </section>
-<section class="restaurant-section" id="gourmandise">
+<section class="restaurant-section" id="gourmandise" data-map-name="15. Gourmandise" data-map-cta-url="https://maps.google.com/?cid=7688436182650106970&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gourmandise, Via di Casal de&#39; Pazzi area, Rome, IT" data-map-lat="41.878961" data-map-lng="12.4622543">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Gourmandise</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -1078,7 +1082,7 @@
         <strong>tabiji verdict:</strong> When Italian-speaking Romans say a gelateria is &quot;infinitely better&quot; than a popular one, pay attention. Way off the tourist trail — you&#39;ll need to seek this one out deliberately.
     </div>
 </section>
-<section class="restaurant-section" id="capriccio-carla">
+<section class="restaurant-section" id="capriccio-carla" data-map-name="16. Gelateria Artigianale Il Capriccio di Carla" data-map-cta-url="https://maps.google.com/?cid=17787522575245891879&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gelateria Artigianale Il Capriccio di Carla, Near Santa Maria Maggiore (Monti), Rome, IT" data-map-lat="41.8995799" data-map-lng="12.4951793">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Gelateria Artigianale Il Capriccio di Carla</h2>
         <span class="cuisine-tag tag-regional">Monti Gem</span>
@@ -1112,7 +1116,7 @@
         <strong>tabiji verdict:</strong> A neighborhood gelateria in Monti that punches above its weight. If you&#39;re visiting Santa Maria Maggiore or exploring the Monti neighborhood, this is your gelato stop. Small, personal, authentic.
     </div>
 </section>
-<section class="restaurant-section" id="petrini">
+<section class="restaurant-section" id="petrini" data-map-name="17. Petrini" data-map-cta-url="https://maps.google.com/?cid=12940444274141709695&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Petrini, Alberone, Appio Latino, Rome, IT" data-map-lat="41.876323" data-map-lng="12.521460099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Petrini</h2>
         <span class="cuisine-tag tag-regional">Local Secret</span>
@@ -1146,7 +1150,7 @@
         <strong>tabiji verdict:</strong> Deep in a residential neighborhood that tourists never visit. The Mont Blanc flavor alone makes it worth a dedicated gelato pilgrimage. Zero English needed — zero tourists encountered.
     </div>
 </section>
-<section class="restaurant-section" id="old-bridge">
+<section class="restaurant-section" id="old-bridge" data-map-name="18. Old Bridge Gelateria" data-map-cta-url="https://maps.google.com/?cid=15386028945837603981&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Old Bridge Gelateria, Viale dei Bastioni di Michelangelo, 5 (near Vatican), Rome, IT" data-map-lat="41.9064049" data-map-lng="12.4563677">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Old Bridge Gelateria</h2>
         <span class="cuisine-tag tag-regional">Vatican Classic</span>
@@ -1198,9 +1202,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Gelato Map</h2>
-      <iframe src="https://www.google.com/maps?q=Gelato%20Shops%20in%20Rome%20(Tourist%20Traps%20Flagged)&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Torcé</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Gelato Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1222,7 +1227,7 @@
       <li>
         <a href="#del-teatro">6. Gelateria del Teatro</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Gelato%20Shops%20in%20Rome%20(Tourist%20Traps%20Flagged)" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15782011860584885859&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1233,5 +1238,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Gelato Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Gelato%20Shops%20in%20Rome%20(Tourist%20Traps%20Flagged)","picks":[{"anchorId":"torce","rank":1,"name":"Torcé","label":"1. Torcé","lat":41.88143050000001,"lng":12.4857652,"ctaUrl":"https://maps.google.com/?cid=15782011860584885859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Torcé, EUR (main lab) + Viale Aventino, Rome, IT"},{"anchorId":"fatamorgana","rank":2,"name":"Fatamorgana","label":"2. Fatamorgana","lat":41.8947225,"lng":12.474231099999999,"ctaUrl":"https://maps.google.com/?cid=17289768765503490595&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fatamorgana, Multiple locations (Monti, Trastevere, Chiavari, Pigneto), Rome, IT"},{"anchorId":"otaleg","rank":3,"name":"Otaleg","label":"3. Otaleg","lat":41.88812480000001,"lng":12.4704701,"ctaUrl":"https://maps.google.com/?cid=14922861459321295539&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Otaleg, Via di San Cosimato, 14a (Trastevere), Rome, IT"},{"anchorId":"frigidarium","rank":4,"name":"Frigidarium","label":"4. Frigidarium","lat":41.8982333,"lng":12.470454799999999,"ctaUrl":"https://maps.google.com/?cid=1000001448973899343&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Frigidarium, Via del Governo Vecchio, 112, Rome, IT"},{"anchorId":"dei-gracchi","rank":5,"name":"Gelateria dei Gracchi","label":"5. Gelateria dei Gracchi","lat":41.9091954,"lng":12.4669855,"ctaUrl":"https://maps.google.com/?cid=14754304361092317103&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gelateria dei Gracchi, Via dei Gracchi, 272 (Prati, near Vatican), Rome, IT"},{"anchorId":"del-teatro","rank":6,"name":"Gelateria del Teatro","label":"6. Gelateria del Teatro","lat":41.900494300000005,"lng":12.4694946,"ctaUrl":"https://maps.google.com/?cid=8139906778110754310&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gelateria del Teatro, Via dei Coronari, 65 (Ponte), Rome, IT"},{"anchorId":"come-il-latte","rank":7,"name":"Come il Latte","label":"7. Come il Latte","lat":41.9070945,"lng":12.4960538,"ctaUrl":"https://maps.google.com/?cid=8630299524364270281&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Come il Latte, Via Silvio d'Amico, 26, Rome, IT"},{"anchorId":"neve-di-latte","rank":8,"name":"Neve di Latte","label":"8. Neve di Latte","lat":41.9063191,"lng":12.470607699999999,"ctaUrl":"https://maps.google.com/?cid=15768115841576047438&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Neve di Latte, Via Politeama, 6 (Prati), Rome, IT"},{"anchorId":"gunther","rank":9,"name":"Günther Gelato Italiano","label":"9. Günther Gelato Italiano","lat":41.893079199999995,"lng":12.4718168,"ctaUrl":"https://maps.google.com/?cid=7504915462187505528&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Günther Gelato Italiano, Via dei Pettinari, 41 (Centro), Rome, IT"},{"anchorId":"giolitti","rank":10,"name":"Giolitti","label":"10. Giolitti","lat":41.9010245,"lng":12.4772026,"ctaUrl":"https://maps.google.com/?cid=4062539611586396423&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Giolitti, Via degli Uffici del Vicario, 40 (near Pantheon), Rome, IT"},{"anchorId":"i-mannari","rank":11,"name":"I Mannari","label":"11. I Mannari","lat":41.8482578,"lng":12.487028299999999,"ctaUrl":"https://maps.google.com/?cid=10152858345786842794&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"I Mannari, Via Merulana area, Rome, IT"},{"anchorId":"cremeria-aurelia","rank":12,"name":"Cremeria Aurelia","label":"12. Cremeria Aurelia","lat":41.8978116,"lng":12.431139199999999,"ctaUrl":"https://maps.google.com/?cid=3173216291122862520&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cremeria Aurelia, Via Aurelia area, Rome, IT"},{"anchorId":"gelato-co","rank":13,"name":"Gelato & Co.","label":"13. Gelato & Co.","lat":41.8805014,"lng":12.4775911,"ctaUrl":"https://maps.google.com/?cid=13435385921578456516&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gelato & Co., Via Marmorata (Testaccio), Rome, IT"},{"anchorId":"strega-nocciola","rank":14,"name":"La Strega Nocciola","label":"14. La Strega Nocciola","lat":41.904069400000004,"lng":12.482525299999999,"ctaUrl":"https://maps.google.com/?cid=13399090559720459757&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Strega Nocciola, Multiple locations, Rome, IT"},{"anchorId":"gourmandise","rank":15,"name":"Gourmandise","label":"15. Gourmandise","lat":41.878961,"lng":12.4622543,"ctaUrl":"https://maps.google.com/?cid=7688436182650106970&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gourmandise, Via di Casal de' Pazzi area, Rome, IT"},{"anchorId":"capriccio-carla","rank":16,"name":"Gelateria Artigianale Il Capriccio di Carla","label":"16. Gelateria Artigianale Il Capriccio di Carla","lat":41.8995799,"lng":12.4951793,"ctaUrl":"https://maps.google.com/?cid=17787522575245891879&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gelateria Artigianale Il Capriccio di Carla, Near Santa Maria Maggiore (Monti), Rome, IT"},{"anchorId":"petrini","rank":17,"name":"Petrini","label":"17. Petrini","lat":41.876323,"lng":12.521460099999999,"ctaUrl":"https://maps.google.com/?cid=12940444274141709695&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Petrini, Alberone, Appio Latino, Rome, IT"},{"anchorId":"old-bridge","rank":18,"name":"Old Bridge Gelateria","label":"18. Old Bridge Gelateria","lat":41.9064049,"lng":12.4563677,"ctaUrl":"https://maps.google.com/?cid=15386028945837603981&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Old Bridge Gelateria, Viale dei Bastioni di Michelangelo, 5 (near Vatican), Rome, IT"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

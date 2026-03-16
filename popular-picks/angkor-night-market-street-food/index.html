@@ -334,9 +334,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -361,7 +364,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -409,13 +412,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Siem Reap&#39;s street food scene offers delicious eats ranging from $0.50 to $8, with Road 60 Night Market being a top recommendation for its classic BBQ experience. To truly experience the best of Siem Reap&#39;s street food, venture beyond the tourist center and explore the local favorites. The trick, according to hundreds of Redditors who&#39;ve lived in and traveled through Cambodia, is simple: get away from Pub Street.</strong></p>
-        <p>Siem Reap&#39;s underrated street food scene offers delicious eats ranging from $0.50 to $8, with Road 60 Night Market being a top recommendation for its classic BBQ experience. To truly experience the best of Siem Reap&#39;s street food, venture beyond the tourist center and explore the local favorites.</p><p>Siem Reap&#39;s food scene gets a bad rap online — &quot;bland fried rice,&quot; &quot;everything tastes the same near Pub Street.&quot; And honestly? If you stay in the tourist center, that&#39;s exactly what you&#39;ll get. But walk 10 minutes in any direction and Siem Reap reveals itself as one of Southeast Asia&#39;s most underrated street food cities.</p><p>The trick, according to hundreds of Redditors who&#39;ve lived in and traveled through Cambodia, is simple: get away from Pub Street . Head to Road 60 where locals eat BBQ in hammocks. Try the riverside stalls where Khmer grandmothers ladle out noodle soup. Wake up early for $1 rice porridge that locals queue for. We analyzed post after post to find the spots that actual travelers and Siem Reap residents recommend — not the tourist traps with laminated English menus.</p>
+        <p>Siem Reap&#39;s food scene gets a bad rap online — &quot;bland fried rice,&quot; &quot;everything tastes the same near Pub Street.&quot; And honestly? If you stay in the tourist center, that&#39;s exactly what you&#39;ll get. But walk 10 minutes in any direction and Siem Reap reveals itself as one of Southeast Asia&#39;s most underrated street food cities.</p><p>The trick, according to hundreds of Redditors who&#39;ve lived in and traveled through Cambodia, is simple: get away from Pub Street . Head to Road 60 where locals eat BBQ in hammocks. Try the riverside stalls where Khmer grandmothers ladle out noodle soup. Wake up early for $1 rice porridge that locals queue for. We analyzed post after post to find the spots that actual travelers and Siem Reap residents recommend — not the tourist traps with laminated English menus.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Street%20Food%20near%20Angkor%20Night%20Market&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Road 60 Night Market</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -429,7 +433,7 @@
         <a href="#sinorn-borbor">3. Sinorn Borbor Monsrae</a>
       </li>
       <li>
-        <a href="#tevys-place">4. Tevy&#39;s Place</a>
+        <a href="#tevys-place">4. Tevy's Place</a>
       </li>
       <li>
         <a href="#golden-pumpkin">5. Golden Pumpkin Restaurant</a>
@@ -437,7 +441,7 @@
       <li>
         <a href="#psar-gne">6. Psar Gne Street Food Court</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Street%20Food%20near%20Angkor%20Night%20Market" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2562892633300634156&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -449,7 +453,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="road-60-night-market">
+<section class="restaurant-section" id="road-60-night-market" data-map-name="1. Road 60 Night Market" data-map-cta-url="https://maps.google.com/?cid=2562892633300634156&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Road 60 Night Market, Street 60, 10–15 min from city center, Siem Reap, KH" data-map-lat="13.374853799999999" data-map-lng="103.8784475">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Road 60 Night Market</h2>
         <span class="cuisine-tag tag-regional">Night Market</span>
@@ -482,7 +486,7 @@
         <strong>tabiji verdict:</strong> This is the #1 street food recommendation for Siem Reap across Reddit — and for good reason. Road 60 is where locals actually eat. The BBQ restaurants with hammocks and TVs playing Khmer soaps are peak Cambodia vibes. Take a tuk-tuk (about $2–3) and plan to spend the evening. Prices are significantly cheaper than anything near Pub Street. Come hungry.
     </div>
 </section>
-<section class="restaurant-section" id="riverside-night-market">
+<section class="restaurant-section" id="riverside-night-market" data-map-name="2. Riverside Night Market Stalls" data-map-cta-url="https://maps.google.com/?cid=5624422209340810269&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Riverside Night Market Stalls, Along the river, near Old Market, Siem Reap, KH" data-map-lat="13.3537824" data-map-lng="103.85519239999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Riverside Night Market Stalls</h2>
         <span class="cuisine-tag tag-regional">Night Market</span>
@@ -519,7 +523,7 @@
         <strong>tabiji verdict:</strong> The most accessible street food scene if you&#39;re staying near the tourist center. Walking distance from Angkor Night Market and Pub Street, the riverside stalls offer a good mix of tourist-friendly and genuinely local options. Not quite as authentic as Road 60, but convenient and still great value. Perfect for your first night when you just want to wander and graze.
     </div>
 </section>
-<section class="restaurant-section" id="sinorn-borbor">
+<section class="restaurant-section" id="sinorn-borbor" data-map-name="3. Sinorn Borbor Monsrae" data-map-cta-url="https://maps.app.goo.gl/MxWDSK8E1WWWTZDr5" data-map-query="Sinorn Borbor Monsrae, Siem Reap (see Google Maps), Siem Reap, KH" data-map-lat="13.353523299999999" data-map-lng="103.85264389999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sinorn Borbor Monsrae</h2>
         <span class="cuisine-tag tag-regional">Breakfast</span>
@@ -553,7 +557,7 @@
         <strong>tabiji verdict:</strong> A rare find — a locals-only breakfast spot that actually shows up on Google Maps. Borbor (rice porridge) is Cambodia&#39;s ultimate comfort food, and this place does it right. Go early morning before temple visits for the most authentic Siem Reap breakfast experience. The fact that locals queue here while tourists walk past is all you need to know.
     </div>
 </section>
-<section class="restaurant-section" id="tevys-place">
+<section class="restaurant-section" id="tevys-place" data-map-name="4. Tevy&#39;s Place" data-map-cta-url="https://maps.google.com/?cid=10027680186645683481&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tevy&#39;s Place, Just off Riverside, Siem Reap, Siem Reap, KH" data-map-lat="13.3539295" data-map-lng="103.85860919999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tevy&#39;s Place</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -595,7 +599,7 @@
         <strong>tabiji verdict:</strong> One of Siem Reap&#39;s most beloved spots — and not just for the food. Tevy&#39;s story of rebuilding after the Khmer Rouge is genuinely moving, and your meal supports her mission of employing disadvantaged women. The fish baguette is a simple masterpiece. Not strictly &quot;street food&quot; but the vibe and prices are casual enough to qualify. A must-visit.
     </div>
 </section>
-<section class="restaurant-section" id="golden-pumpkin">
+<section class="restaurant-section" id="golden-pumpkin" data-map-name="5. Golden Pumpkin Restaurant" data-map-cta-url="https://maps.google.com/?cid=13087831395812887548&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Golden Pumpkin Restaurant, Siem Reap, Siem Reap, KH" data-map-lat="13.3589339" data-map-lng="103.85267110000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Golden Pumpkin Restaurant</h2>
         <span class="cuisine-tag tag-regional">Authentic Khmer</span>
@@ -633,7 +637,7 @@
         <strong>tabiji verdict:</strong> The go-to recommendation for affordable, authentic Khmer food without the Pub Street markup. Multiple Redditors call this out as the real deal — fresh, cheap, and far from tourist trap territory. If you want a proper sit-down Khmer meal that still feels casual and won&#39;t break the bank, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="psar-gne">
+<section class="restaurant-section" id="psar-gne" data-map-name="6. Psar Gne Street Food Court" data-map-cta-url="https://maps.google.com/?cid=5624422209340810269&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Psar Gne Street Food Court, Psar Gne Street market, Siem Reap, Siem Reap, KH" data-map-lat="13.354561499999999" data-map-lng="103.8536068">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Psar Gne Street Food Court</h2>
         <span class="cuisine-tag tag-regional">Locals Only</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> This is one of those spots you&#39;d never find without a local tip. It doesn&#39;t show up on Google Maps and the clientele is almost entirely Cambodian. The fried noodles and spicy fried chicken sticks sound simple but taste incredible when made fresh by people who&#39;ve been cooking them for years. If you want to eat where zero tourists go, this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="khmer-grill">
+<section class="restaurant-section" id="khmer-grill" data-map-name="7. Khmer Grill" data-map-cta-url="https://maps.google.com/?cid=4141913282764900817&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Khmer Grill, Wat Damnak area, Siem Reap, Siem Reap, KH" data-map-lat="13.3509855" data-map-lng="103.8557094">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Khmer Grill</h2>
         <span class="cuisine-tag tag-regional">BBQ &amp; Grill</span>
@@ -704,7 +708,7 @@
         <strong>tabiji verdict:</strong> An expat and local favorite in the Wat Damnak area — away from the Pub Street chaos. The BBQ frogs are a quintessentially Cambodian experience (they taste like chicken, honest), and the prahok dip with grilled beef is addictive. Mr. Chin is a character who makes the experience memorable. Great for adventurous eaters who want the full range of Khmer flavors.
     </div>
 </section>
-<section class="restaurant-section" id="spoons-cafe">
+<section class="restaurant-section" id="spoons-cafe" data-map-name="8. Spoons Cafe" data-map-cta-url="https://maps.google.com/?cid=346276729003971635&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spoons Cafe, Siem Reap, Siem Reap, KH" data-map-lat="13.349229" data-map-lng="103.8570065">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Spoons Cafe</h2>
         <span class="cuisine-tag tag-regional">Training Restaurant</span>
@@ -742,7 +746,7 @@
         <strong>tabiji verdict:</strong> A training restaurant where your meal directly supports culinary arts students in Siem Reap. The food is genuinely excellent — the Tuk Kroeung is a complex, deeply flavorful dish that shows what Khmer cuisine can be beyond the standard amok and lok lak. A feel-good meal that&#39;s also a great meal. Win-win.
     </div>
 </section>
-<section class="restaurant-section" id="srey-lon-bbq">
+<section class="restaurant-section" id="srey-lon-bbq" data-map-name="9. Srey Lon BBQ Grill" data-map-cta-url="https://maps.app.goo.gl/nZGfZc9Eg6FDhV3s8" data-map-query="Srey Lon BBQ Grill, Near Psar Gne, Siem Reap, Siem Reap, KH" data-map-lat="13.3558142" data-map-lng="103.85128590000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Srey Lon BBQ Grill</h2>
         <span class="cuisine-tag tag-regional">Roadside BBQ</span>
@@ -776,7 +780,7 @@
         <strong>tabiji verdict:</strong> This is peak street food energy — a tiny cart run by one woman, serving beef skewers to tuk-tuk drivers and shopkeepers. The kind of place that wasn&#39;t even on Google Maps until a traveler loved it enough to add it. If you want the most authentic, no-frills street food experience in Siem Reap, this is it. Bring cash (small bills), point, eat, and be happy.
     </div>
 </section>
-<section class="restaurant-section" id="three-spoons">
+<section class="restaurant-section" id="three-spoons" data-map-name="10. 3 Spoons Restaurant" data-map-cta-url="https://maps.google.com/?cid=4898445972092412309&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="3 Spoons Restaurant, Siem Reap, Siem Reap, KH" data-map-lat="13.3575964" data-map-lng="103.8613247">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>3 Spoons Restaurant</h2>
         <span class="cuisine-tag tag-regional">Ultra Budget</span>
@@ -810,7 +814,7 @@
         <strong>tabiji verdict:</strong> A flat $2.50 for every dish on the menu — that&#39;s the kind of pricing you get when a family genuinely wants to feed people, not fleece tourists. The food is home-style Khmer cooking at its most honest. The family running it is reportedly lovely, making this a warm, welcoming stop. Great for budget travelers who want quality without calculating exchange rates.
     </div>
 </section>
-<section class="restaurant-section" id="damnak-mahob">
+<section class="restaurant-section" id="damnak-mahob" data-map-name="11. Damnak Mahob Restaurant" data-map-cta-url="https://maps.google.com/?cid=13696350714992578749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Damnak Mahob Restaurant, Siem Reap, Siem Reap, KH" data-map-lat="13.3543212" data-map-lng="103.8527312">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Damnak Mahob Restaurant</h2>
         <span class="cuisine-tag tag-regional">Authentic Khmer</span>
@@ -862,9 +866,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Street%20Food%20near%20Angkor%20Night%20Market&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Road 60 Night Market</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -878,7 +883,7 @@
         <a href="#sinorn-borbor">3. Sinorn Borbor Monsrae</a>
       </li>
       <li>
-        <a href="#tevys-place">4. Tevy&#39;s Place</a>
+        <a href="#tevys-place">4. Tevy's Place</a>
       </li>
       <li>
         <a href="#golden-pumpkin">5. Golden Pumpkin Restaurant</a>
@@ -886,7 +891,7 @@
       <li>
         <a href="#psar-gne">6. Psar Gne Street Food Court</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Street%20Food%20near%20Angkor%20Night%20Market" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2562892633300634156&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -897,5 +902,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Street Food Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Street%20Food%20near%20Angkor%20Night%20Market","picks":[{"anchorId":"road-60-night-market","rank":1,"name":"Road 60 Night Market","label":"1. Road 60 Night Market","lat":13.374853799999999,"lng":103.8784475,"ctaUrl":"https://maps.google.com/?cid=2562892633300634156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Road 60 Night Market, Street 60, 10–15 min from city center, Siem Reap, KH"},{"anchorId":"riverside-night-market","rank":2,"name":"Riverside Night Market Stalls","label":"2. Riverside Night Market Stalls","lat":13.3537824,"lng":103.85519239999999,"ctaUrl":"https://maps.google.com/?cid=5624422209340810269&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Riverside Night Market Stalls, Along the river, near Old Market, Siem Reap, KH"},{"anchorId":"sinorn-borbor","rank":3,"name":"Sinorn Borbor Monsrae","label":"3. Sinorn Borbor Monsrae","lat":13.353523299999999,"lng":103.85264389999999,"ctaUrl":"https://maps.app.goo.gl/MxWDSK8E1WWWTZDr5","mapQuery":"Sinorn Borbor Monsrae, Siem Reap (see Google Maps), Siem Reap, KH"},{"anchorId":"tevys-place","rank":4,"name":"Tevy's Place","label":"4. Tevy's Place","lat":13.3539295,"lng":103.85860919999999,"ctaUrl":"https://maps.google.com/?cid=10027680186645683481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tevy's Place, Just off Riverside, Siem Reap, Siem Reap, KH"},{"anchorId":"golden-pumpkin","rank":5,"name":"Golden Pumpkin Restaurant","label":"5. Golden Pumpkin Restaurant","lat":13.3589339,"lng":103.85267110000001,"ctaUrl":"https://maps.google.com/?cid=13087831395812887548&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Golden Pumpkin Restaurant, Siem Reap, Siem Reap, KH"},{"anchorId":"psar-gne","rank":6,"name":"Psar Gne Street Food Court","label":"6. Psar Gne Street Food Court","lat":13.354561499999999,"lng":103.8536068,"ctaUrl":"https://maps.google.com/?cid=5624422209340810269&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Psar Gne Street Food Court, Psar Gne Street market, Siem Reap, Siem Reap, KH"},{"anchorId":"khmer-grill","rank":7,"name":"Khmer Grill","label":"7. Khmer Grill","lat":13.3509855,"lng":103.8557094,"ctaUrl":"https://maps.google.com/?cid=4141913282764900817&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Khmer Grill, Wat Damnak area, Siem Reap, Siem Reap, KH"},{"anchorId":"spoons-cafe","rank":8,"name":"Spoons Cafe","label":"8. Spoons Cafe","lat":13.349229,"lng":103.8570065,"ctaUrl":"https://maps.google.com/?cid=346276729003971635&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spoons Cafe, Siem Reap, Siem Reap, KH"},{"anchorId":"srey-lon-bbq","rank":9,"name":"Srey Lon BBQ Grill","label":"9. Srey Lon BBQ Grill","lat":13.3558142,"lng":103.85128590000001,"ctaUrl":"https://maps.app.goo.gl/nZGfZc9Eg6FDhV3s8","mapQuery":"Srey Lon BBQ Grill, Near Psar Gne, Siem Reap, Siem Reap, KH"},{"anchorId":"three-spoons","rank":10,"name":"3 Spoons Restaurant","label":"10. 3 Spoons Restaurant","lat":13.3575964,"lng":103.8613247,"ctaUrl":"https://maps.google.com/?cid=4898445972092412309&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"3 Spoons Restaurant, Siem Reap, Siem Reap, KH"},{"anchorId":"damnak-mahob","rank":11,"name":"Damnak Mahob Restaurant","label":"11. Damnak Mahob Restaurant","lat":13.3543212,"lng":103.8527312,"ctaUrl":"https://maps.google.com/?cid=13696350714992578749&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Damnak Mahob Restaurant, Siem Reap, Siem Reap, KH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

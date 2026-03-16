@@ -339,9 +339,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -366,7 +369,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -414,13 +417,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Kyoto&#39;s affordable kaiseki scene provides a high-end culinary experience without the typical splurge, ranging from ¥3,300 to ¥10,000, with Roan Kikunoi being a top recommendation due to its Michelin-starred background at a lower price point. Booking lunch is essential to take advantage of these deals, and this guide also includes shojin ryori and obanzai options for budget-conscious culinary exploration in Kyoto.</strong></p>
-        <p>Kyoto&#39;s affordable kaiseki scene, ranging from ¥3,300 to ¥10,000, offers a taste of high-end cuisine without the typical ¥30,000+ splurge, with Roan Kikunoi standing out for its Michelin-starred lineage at a fraction of the price. Booking lunch is key to unlocking these deals, and this guide also includes shojin ryori and obanzai options for budget-friendly culinary exploration.</p><p>Kaiseki (懐石) is Kyoto&#39;s crown jewel — a multi-course culinary art form rooted in tea ceremony tradition, celebrating seasonal ingredients with meticulous presentation. Most travelers assume it requires a ¥30,000+ splurge, but that&#39;s only half the story.</p><p>The secret? Book lunch. Nearly every kaiseki restaurant in Kyoto offers lunch courses at 40–60% of the dinner price with comparable quality. A Michelin-starred restaurant charging ¥22,000 for dinner might serve a stunning ¥8,000 lunch. We also include shojin ryori (temple vegetarian cuisine) and obanzai (Kyoto home cooking) — affordable entry points into Kyoto&#39;s culinary philosophy.</p>
+        <p>Kaiseki (懐石) is Kyoto&#39;s crown jewel — a multi-course culinary art form rooted in tea ceremony tradition, celebrating seasonal ingredients with meticulous presentation. Most travelers assume it requires a ¥30,000+ splurge, but that&#39;s only half the story.</p><p>The secret? Book lunch. Nearly every kaiseki restaurant in Kyoto offers lunch courses at 40–60% of the dinner price with comparable quality. A Michelin-starred restaurant charging ¥22,000 for dinner might serve a stunning ¥8,000 lunch. We also include shojin ryori (temple vegetarian cuisine) and obanzai (Kyoto home cooking) — affordable entry points into Kyoto&#39;s culinary philosophy.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Kaiseki Map</h2>
-      <iframe src="https://www.google.com/maps?q=Affordable%20Kaiseki%20in%20Kyoto&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Roan Kikunoi (露庵 菊乃井)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Kaiseki Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -442,7 +446,7 @@
       <li>
         <a href="#giro-giro">6. Giro Giro Hitoshina (ギロギロヒトシナ)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Affordable%20Kaiseki%20in%20Kyoto" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13911485700548671259&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -454,7 +458,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="roan-kikunoi">
+<section class="restaurant-section" id="roan-kikunoi" data-map-name="1. Roan Kikunoi (露庵 菊乃井)" data-map-cta-url="https://maps.google.com/?cid=13911485700548671259&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Roan Kikunoi (露庵 菊乃井), Higashiyama, Kyoto, JP" data-map-lat="35.00345130000001" data-map-lng="135.7706684">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Roan Kikunoi (露庵 菊乃井)</h2>
         <span class="cuisine-tag tag-regional">Kaiseki ★★ Michelin</span>
@@ -492,7 +496,7 @@
         <strong>tabiji verdict:</strong> The casual sibling of Kikunoi Honten (3 Michelin stars) — same family, same philosophy, half the price. The counter seating makes it more intimate and less intimidating for kaiseki newcomers. Lunch at ¥6,000–¥10,000 is one of the best deals in Kyoto fine dining. Easier to book than the main branch.
     </div>
 </section>
-<section class="restaurant-section" id="gion-maruyama">
+<section class="restaurant-section" id="gion-maruyama" data-map-name="2. Gion Maruyama (祇園 丸山)" data-map-cta-url="https://maps.google.com/?cid=10743126967012649294&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gion Maruyama (祇園 丸山), Gion, Kyoto, JP" data-map-lat="35.0026703" data-map-lng="135.7760468">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Gion Maruyama (祇園 丸山)</h2>
         <span class="cuisine-tag tag-regional">Kappo / Kaiseki ★★ Michelin</span>
@@ -530,7 +534,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s r/finedining community consistently praises Gion Maruyama for having the best *service* of any Kyoto kaiseki — warm, attentive, and genuinely welcoming to international diners. The food is refined without being fussy. A beautiful first kaiseki experience in the heart of Gion.
     </div>
 </section>
-<section class="restaurant-section" id="hassun">
+<section class="restaurant-section" id="hassun" data-map-name="3. Kappo Hassun (割烹 八寸)" data-map-cta-url="https://maps.google.com/?cid=1975952149347487712&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kappo Hassun (割烹 八寸), Nakagyo-ku, Kyoto, JP" data-map-lat="35.0048665" data-map-lng="135.7737757">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Kappo Hassun (割烹 八寸)</h2>
         <span class="cuisine-tag tag-regional">Kappo ★ Michelin</span>
@@ -568,7 +572,7 @@
         <strong>tabiji verdict:</strong> The Reddit consensus pick for &quot;best bang for your buck kaiseki in Kyoto&quot; — and it&#39;s not even close. Multiple users report their lunch here rivaling or beating three-star dinner experiences. Counter seating means an intimate, chef-forward experience. If you can only do one affordable kaiseki in Kyoto, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="muromachi-wakuden">
+<section class="restaurant-section" id="muromachi-wakuden" data-map-name="4. Muromachi Wakuden (室町 和久傳)" data-map-cta-url="https://maps.google.com/?cid=9689495956692481017&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Muromachi Wakuden (室町 和久傳), Nakagyo-ku (Muromachi), Kyoto, JP" data-map-lat="35.0101604" data-map-lng="135.7632845">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Muromachi Wakuden (室町 和久傳)</h2>
         <span class="cuisine-tag tag-regional">Kaiseki</span>
@@ -606,7 +610,7 @@
         <strong>tabiji verdict:</strong> Part of the legendary Wakuden kaiseki family — one of the most respected names in Kyoto cuisine. The Muromachi location is more accessible (and affordable) than the main Kodaiji branch. Bonus: one of the few high-end kaiseki spots that genuinely accommodates vegetarian and vegan diners.
     </div>
 </section>
-<section class="restaurant-section" id="kyoto-wakuden">
+<section class="restaurant-section" id="kyoto-wakuden" data-map-name="5. Kyoto Wakuden (京都 和久傳 JR Isetan)" data-map-cta-url="https://maps.google.com/?cid=12389851723279342774&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kyoto Wakuden (京都 和久傳 JR Isetan), Kyoto Station (JR Isetan, 11F), Kyoto, JP" data-map-lat="34.9857036" data-map-lng="135.7569656">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Kyoto Wakuden (京都 和久傳 JR Isetan)</h2>
         <span class="cuisine-tag tag-regional">Kaiseki</span>
@@ -644,7 +648,7 @@
         <strong>tabiji verdict:</strong> The Wakuden name in a department store setting — sounds like a contradiction, but this is Japan. The 11th floor of JR Isetan delivers genuinely excellent kaiseki at prices far below the standalone restaurants. Perfect if you&#39;re arriving at or departing from Kyoto Station and want a proper kaiseki experience without the booking hassle.
     </div>
 </section>
-<section class="restaurant-section" id="giro-giro">
+<section class="restaurant-section" id="giro-giro" data-map-name="6. Giro Giro Hitoshina (ギロギロヒトシナ)" data-map-cta-url="https://maps.google.com/?cid=4165504019201765316&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Giro Giro Hitoshina (ギロギロヒトシナ), Kiyamachi (near Pontocho), Kyoto, JP" data-map-lat="34.9981025" data-map-lng="135.7677506">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Giro Giro Hitoshina (ギロギロヒトシナ)</h2>
         <span class="cuisine-tag tag-regional">Modern Kaiseki ★ Michelin</span>
@@ -682,7 +686,7 @@
         <strong>tabiji verdict:</strong> The &quot;rebellious cousin&quot; of traditional kaiseki — same seasonal philosophy and meticulous preparation, but with a modern, fun twist. Counter seating overlooking the Kamogawa river, a younger vibe, and prices that make it genuinely accessible. The best option for travelers who want kaiseki flavors without the formality.
     </div>
 </section>
-<section class="restaurant-section" id="tankuma">
+<section class="restaurant-section" id="tankuma" data-map-name="7. Tankuma Kitamise (たん熊 北店)" data-map-cta-url="https://maps.google.com/?cid=16864762991183611648&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tankuma Kitamise (たん熊 北店), Shijo / Kawaramachi, Kyoto, JP" data-map-lat="35.0051917" data-map-lng="135.7700575">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Tankuma Kitamise (たん熊 北店)</h2>
         <span class="cuisine-tag tag-regional">Kaiseki</span>
@@ -712,7 +716,7 @@
         <strong>tabiji verdict:</strong> A venerable Kyoto kaiseki house that manages to be both traditional and welcoming. One of the rare high-quality kaiseki restaurants that accommodates families with children&#39;s courses — a huge plus if you&#39;re traveling with kids. The lunch courses represent excellent value for the quality and setting.
     </div>
 </section>
-<section class="restaurant-section" id="kinobu">
+<section class="restaurant-section" id="kinobu" data-map-name="8. Kinobu (木乃婦)" data-map-cta-url="https://maps.google.com/?cid=6694187815969594818&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kinobu (木乃婦), Shimogyo-ku, Kyoto, JP" data-map-lat="35.0009656" data-map-lng="135.75651779999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Kinobu (木乃婦)</h2>
         <span class="cuisine-tag tag-regional">Kaiseki ★ Michelin</span>
@@ -750,7 +754,7 @@
         <strong>tabiji verdict:</strong> The chef at Kinobu trained in both Japanese and French cuisine, creating a unique style that feels both deeply traditional and subtly innovative. It&#39;s regularly mentioned alongside much more expensive restaurants — but the lunch courses are surprisingly accessible. A great pick for foodies who appreciate technique.
     </div>
 </section>
-<section class="restaurant-section" id="shigetsu">
+<section class="restaurant-section" id="shigetsu" data-map-name="9. Shigetsu at Tenryuji Temple (篩月)" data-map-cta-url="https://maps.google.com/?cid=17233467866362761812&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shigetsu at Tenryuji Temple (篩月), Arashiyama (inside Tenryuji Temple), Kyoto, JP" data-map-lat="35.0152053" data-map-lng="135.6735833">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Shigetsu at Tenryuji Temple (篩月)</h2>
         <span class="cuisine-tag tag-regional">Shojin Ryori (Temple Cuisine)</span>
@@ -788,7 +792,7 @@
         <strong>tabiji verdict:</strong> Eating shojin ryori inside a World Heritage Site while overlooking one of Japan&#39;s most famous Zen gardens — for ¥3,300. That&#39;s not a typo. The food is subtle, delicate, and entirely plant-based. Not everyone will love the austere flavors, but the setting and experience are once-in-a-lifetime. Book ahead.
     </div>
 </section>
-<section class="restaurant-section" id="izusen">
+<section class="restaurant-section" id="izusen" data-map-name="10. Izusen at Daitokuji (泉仙)" data-map-cta-url="https://maps.google.com/?cid=4078729265635684967&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Izusen at Daitokuji (泉仙), Kita-ku (Daitokuji Temple complex), Kyoto, JP" data-map-lat="35.041809799999996" data-map-lng="135.7448249">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Izusen at Daitokuji (泉仙)</h2>
         <span class="cuisine-tag tag-regional">Shojin Ryori (Temple Cuisine)</span>
@@ -822,7 +826,7 @@
         <strong>tabiji verdict:</strong> Tucked inside the Daitokuji Zen temple complex — one of Kyoto&#39;s most serene settings. The shojin ryori is served in beautiful red lacquer bowls on tatami mats overlooking a moss garden. At ¥3,300 for the basic course, this is the most affordable multi-course kaiseki-style experience in Kyoto. The temple complex itself is worth the visit.
     </div>
 </section>
-<section class="restaurant-section" id="gyatei">
+<section class="restaurant-section" id="gyatei" data-map-name="11. Gyatei (ぎゃあてい)" data-map-cta-url="https://maps.google.com/?cid=16283445701265741746&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gyatei (ぎゃあてい), Arashiyama, Kyoto, JP" data-map-lat="35.015392399999996" data-map-lng="135.67742909999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Gyatei (ぎゃあてい)</h2>
         <span class="cuisine-tag tag-regional">Obanzai</span>
@@ -860,7 +864,7 @@
         <strong>tabiji verdict:</strong> The most affordable entry on this list — and a beautiful introduction to Kyoto&#39;s food philosophy. Obanzai is &quot;Kyoto home cooking&quot; — seasonal vegetables prepared with the same reverence as kaiseki, but served buffet-style at everyday prices. It&#39;s not technically kaiseki, but it embodies the same seasonal, ingredient-focused spirit. Perfect lunch stop while exploring Arashiyama.
     </div>
 </section>
-<section class="restaurant-section" id="junsei">
+<section class="restaurant-section" id="junsei" data-map-name="12. Junsei (順正)" data-map-cta-url="https://maps.google.com/?cid=5387747800903554979&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Junsei (順正), Nanzenji (near Nanzen-ji Temple), Kyoto, JP" data-map-lat="35.011444499999996" data-map-lng="135.790108">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Junsei (順正)</h2>
         <span class="cuisine-tag tag-regional">Tofu Kaiseki</span>
@@ -916,9 +920,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Kaiseki Map</h2>
-      <iframe src="https://www.google.com/maps?q=Affordable%20Kaiseki%20in%20Kyoto&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Roan Kikunoi (露庵 菊乃井)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Kaiseki Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -940,7 +945,7 @@
       <li>
         <a href="#giro-giro">6. Giro Giro Hitoshina (ギロギロヒトシナ)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Affordable%20Kaiseki%20in%20Kyoto" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13911485700548671259&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -951,5 +956,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Kaiseki Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Affordable%20Kaiseki%20in%20Kyoto","picks":[{"anchorId":"roan-kikunoi","rank":1,"name":"Roan Kikunoi (露庵 菊乃井)","label":"1. Roan Kikunoi (露庵 菊乃井)","lat":35.00345130000001,"lng":135.7706684,"ctaUrl":"https://maps.google.com/?cid=13911485700548671259&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Roan Kikunoi (露庵 菊乃井), Higashiyama, Kyoto, JP"},{"anchorId":"gion-maruyama","rank":2,"name":"Gion Maruyama (祇園 丸山)","label":"2. Gion Maruyama (祇園 丸山)","lat":35.0026703,"lng":135.7760468,"ctaUrl":"https://maps.google.com/?cid=10743126967012649294&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gion Maruyama (祇園 丸山), Gion, Kyoto, JP"},{"anchorId":"hassun","rank":3,"name":"Kappo Hassun (割烹 八寸)","label":"3. Kappo Hassun (割烹 八寸)","lat":35.0048665,"lng":135.7737757,"ctaUrl":"https://maps.google.com/?cid=1975952149347487712&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kappo Hassun (割烹 八寸), Nakagyo-ku, Kyoto, JP"},{"anchorId":"muromachi-wakuden","rank":4,"name":"Muromachi Wakuden (室町 和久傳)","label":"4. Muromachi Wakuden (室町 和久傳)","lat":35.0101604,"lng":135.7632845,"ctaUrl":"https://maps.google.com/?cid=9689495956692481017&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Muromachi Wakuden (室町 和久傳), Nakagyo-ku (Muromachi), Kyoto, JP"},{"anchorId":"kyoto-wakuden","rank":5,"name":"Kyoto Wakuden (京都 和久傳 JR Isetan)","label":"5. Kyoto Wakuden (京都 和久傳 JR Isetan)","lat":34.9857036,"lng":135.7569656,"ctaUrl":"https://maps.google.com/?cid=12389851723279342774&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kyoto Wakuden (京都 和久傳 JR Isetan), Kyoto Station (JR Isetan, 11F), Kyoto, JP"},{"anchorId":"giro-giro","rank":6,"name":"Giro Giro Hitoshina (ギロギロヒトシナ)","label":"6. Giro Giro Hitoshina (ギロギロヒトシナ)","lat":34.9981025,"lng":135.7677506,"ctaUrl":"https://maps.google.com/?cid=4165504019201765316&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Giro Giro Hitoshina (ギロギロヒトシナ), Kiyamachi (near Pontocho), Kyoto, JP"},{"anchorId":"tankuma","rank":7,"name":"Tankuma Kitamise (たん熊 北店)","label":"7. Tankuma Kitamise (たん熊 北店)","lat":35.0051917,"lng":135.7700575,"ctaUrl":"https://maps.google.com/?cid=16864762991183611648&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tankuma Kitamise (たん熊 北店), Shijo / Kawaramachi, Kyoto, JP"},{"anchorId":"kinobu","rank":8,"name":"Kinobu (木乃婦)","label":"8. Kinobu (木乃婦)","lat":35.0009656,"lng":135.75651779999998,"ctaUrl":"https://maps.google.com/?cid=6694187815969594818&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kinobu (木乃婦), Shimogyo-ku, Kyoto, JP"},{"anchorId":"shigetsu","rank":9,"name":"Shigetsu at Tenryuji Temple (篩月)","label":"9. Shigetsu at Tenryuji Temple (篩月)","lat":35.0152053,"lng":135.6735833,"ctaUrl":"https://maps.google.com/?cid=17233467866362761812&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shigetsu at Tenryuji Temple (篩月), Arashiyama (inside Tenryuji Temple), Kyoto, JP"},{"anchorId":"izusen","rank":10,"name":"Izusen at Daitokuji (泉仙)","label":"10. Izusen at Daitokuji (泉仙)","lat":35.041809799999996,"lng":135.7448249,"ctaUrl":"https://maps.google.com/?cid=4078729265635684967&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Izusen at Daitokuji (泉仙), Kita-ku (Daitokuji Temple complex), Kyoto, JP"},{"anchorId":"gyatei","rank":11,"name":"Gyatei (ぎゃあてい)","label":"11. Gyatei (ぎゃあてい)","lat":35.015392399999996,"lng":135.67742909999998,"ctaUrl":"https://maps.google.com/?cid=16283445701265741746&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gyatei (ぎゃあてい), Arashiyama, Kyoto, JP"},{"anchorId":"junsei","rank":12,"name":"Junsei (順正)","label":"12. Junsei (順正)","lat":35.011444499999996,"lng":135.790108,"ctaUrl":"https://maps.google.com/?cid=5387747800903554979&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Junsei (順正), Nanzenji (near Nanzen-ji Temple), Kyoto, JP"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -387,9 +387,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -414,7 +417,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -462,13 +465,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Mexico City&#39;s al pastor scene offers tacos ranging from 8–55 MXN, with El Huequito being a legendary choice for its traditional approach. For the best al pastor experience, which is a matter of personal taste and neighborhood loyalty, these picks consistently earn high praise from locals and visitors alike. We&#39;ve compiled a list of taquerías recommended by residents and seasoned visitors, highlighting what distinguishes great al pastor from the merely good.</strong></p>
-        <p>Mexico City&#39;s al pastor scene ranges from 8–55 MXN per taco, with El Huequito being a legendary choice for its traditional approach. The best al pastor experience is a matter of personal taste and neighborhood loyalty, but these picks consistently earn high praise from locals and visitors alike.</p><p>Every Chilango (Mexico City native) has a favorite al pastor spot. It&#39;s a matter of civic pride, neighborhood loyalty, and deeply personal taste. Ask five locals and you&#39;ll get five different answers — each delivered with complete confidence that the others are wrong.</p><p>We combed through Reddit threads on r/MexicoCity, r/tacos, and r/travel, plus food media, to find which taquerías actual residents and seasoned visitors consistently recommend — and what separates great al pastor from merely good al pastor.</p>
+        <p>Every Chilango (Mexico City native) has a favorite al pastor spot. It&#39;s a matter of civic pride, neighborhood loyalty, and deeply personal taste. Ask five locals and you&#39;ll get five different answers — each delivered with complete confidence that the others are wrong.</p><p>We combed through Reddit threads on r/MexicoCity, r/tacos, and r/travel, plus food media, to find which taquerías actual residents and seasoned visitors consistently recommend — and what separates great al pastor from merely good al pastor.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Al Pastor Map — CDMX</h2>
-      <iframe src="https://www.google.com/maps?q=Al%20Pastor%20in%20Mexico%20City%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. El Huequito</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Al Pastor Map — CDMX"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -490,7 +494,7 @@
       <li>
         <a href="#orinoco">6. Orinoco</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Al%20Pastor%20in%20Mexico%20City%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13879097223847678889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -502,7 +506,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="el-huequito">
+<section class="restaurant-section" id="el-huequito" data-map-name="1. El Huequito" data-map-cta-url="https://maps.google.com/?cid=13879097223847678889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Huequito, Ayuntamiento 21, Centro Histórico, CDMX, Ciudad de México, MX" data-map-lat="19.4306195" data-map-lng="-99.14297669999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>El Huequito</h2>
         <span class="cuisine-tag tag-regional">Centro Legend</span>
@@ -540,7 +544,7 @@
         <strong>tabiji verdict:</strong> The uncontested al pastor institution of Centro Histórico. Operating since 1959 means three generations of Chilangos have eaten here — and the trompo hasn&#39;t changed. Go at lunch when the pastor is freshest. Multiple locations exist, but the original on Ayuntamiento is the one that matters.
     </div>
 </section>
-<section class="restaurant-section" id="el-tizoncito">
+<section class="restaurant-section" id="el-tizoncito" data-map-name="2. El Tizoncito" data-map-cta-url="https://maps.google.com/?cid=2285017846735180902&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Tizoncito, Multiple locations — Tamaulipas 122, Condesa (original), Ciudad de México, MX" data-map-lat="19.409813099999997" data-map-lng="-99.17523059999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>El Tizoncito</h2>
         <span class="cuisine-tag tag-regional">Al Pastor&#39;s Origin</span>
@@ -578,7 +582,7 @@
         <strong>tabiji verdict:</strong> You can debate the origin claim until you&#39;re blue in the face — the tacos are good regardless. The Condesa location is more restaurant than taquería, which makes it comfortable for visitors. The al pastor has genuine depth of flavor from a properly aged marinade. Worth visiting even if you remain agnostic about the origin story.
     </div>
 </section>
-<section class="restaurant-section" id="el-califa">
+<section class="restaurant-section" id="el-califa" data-map-name="3. El Califa de León" data-map-cta-url="https://maps.google.com/?cid=10461938634819329657&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Califa de León, Calle Chimalpopoca 11, San Rafael, CDMX, Ciudad de México, MX" data-map-lat="19.4410673" data-map-lng="-99.159267">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>El Califa de León</h2>
         <span class="cuisine-tag tag-regional">Michelin Star 🌟</span>
@@ -616,7 +620,7 @@
         <strong>tabiji verdict:</strong> The most historically significant taquería in Mexico right now. A Michelin star at a $2 taco stand is a civilizational event — it proves what Chilangos have known forever: that street food at its best is world-class cuisine. Go for the al pastor, stay for the understanding that fine dining was always about the food, not the tablecloth.
     </div>
 </section>
-<section class="restaurant-section" id="los-cocuyos">
+<section class="restaurant-section" id="los-cocuyos" data-map-name="4. Los Cocuyos" data-map-cta-url="https://maps.google.com/?cid=14051425661561475567&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Los Cocuyos, Calle Bolívar, Centro Histórico (near El Huequito), Ciudad de México, MX" data-map-lat="19.4302794" data-map-lng="-99.1387977">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Los Cocuyos</h2>
         <span class="cuisine-tag tag-regional">Late Night Centro</span>
@@ -650,7 +654,7 @@
         <strong>tabiji verdict:</strong> The best late-night taco stand in Centro Histórico. The fact that it operates exclusively during hours when your judgment is compromised is not a coincidence — these tacos are designed to be transformative at 2am. Plan a night in Centro around ending here.
     </div>
 </section>
-<section class="restaurant-section" id="el-borrego-viudo">
+<section class="restaurant-section" id="el-borrego-viudo" data-map-name="5. El Borrego Viudo" data-map-cta-url="https://maps.google.com/?cid=4316600660829766986&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Borrego Viudo, Revolución 241, Tacubaya, CDMX, Ciudad de México, MX" data-map-lat="19.399413499999998" data-map-lng="-99.1852371">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>El Borrego Viudo</h2>
         <span class="cuisine-tag tag-regional">All-Night Institution</span>
@@ -688,7 +692,7 @@
         <strong>tabiji verdict:</strong> The all-night al pastor king of Mexico City. Worth the Uber to Tacubaya if you&#39;re a night owl. The fact that cab drivers eat here — people who eat tacos professionally — is a better quality signal than any food media review.
     </div>
 </section>
-<section class="restaurant-section" id="orinoco">
+<section class="restaurant-section" id="orinoco" data-map-name="6. Orinoco" data-map-cta-url="https://maps.google.com/?cid=13179114513861336775&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Orinoco, Multiple locations — Sonora 151, Roma Norte (main), Ciudad de México, MX" data-map-lat="19.418174" data-map-lng="-99.1591691">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Orinoco</h2>
         <span class="cuisine-tag tag-regional">Roma Norte Go-To</span>
@@ -722,7 +726,7 @@
         <strong>tabiji verdict:</strong> The Roma Norte staple for a reason. If you&#39;re staying in Roma or Condesa and want consistent, excellent al pastor within walking distance at any hour, Orinoco delivers. Not groundbreaking — just reliably, satisfyingly good.
     </div>
 </section>
-<section class="restaurant-section" id="el-califa-roma">
+<section class="restaurant-section" id="el-califa-roma" data-map-name="7. El Califa (Roma Norte)" data-map-cta-url="https://maps.google.com/?cid=15036651270345463308&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Califa (Roma Norte), Altata 22, Condesa/Roma Norte border, CDMX, Ciudad de México, MX" data-map-lat="19.417338000000004" data-map-lng="-99.1626969">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>El Califa (Roma Norte)</h2>
         <span class="cuisine-tag tag-regional">Roma Classic</span>
@@ -756,7 +760,7 @@
         <strong>tabiji verdict:</strong> Not to be confused with the Michelin-starred El Califa de León, but equally worth your time. The Roma location has been serving neighborhood regulars for decades. Longevity in the CDMX taquería scene is the ultimate quality badge.
     </div>
 </section>
-<section class="restaurant-section" id="el-guero">
+<section class="restaurant-section" id="el-guero" data-map-name="8. Tacos El Güero" data-map-cta-url="https://maps.google.com/?cid=4201041640285278117&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tacos El Güero, Tamaulipas, Condesa, CDMX, Ciudad de México, MX" data-map-lat="19.4116663" data-map-lng="-99.1715018">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Tacos El Güero</h2>
         <span class="cuisine-tag tag-regional">Condesa Hidden</span>
@@ -790,7 +794,7 @@
         <strong>tabiji verdict:</strong> The insider&#39;s pick. If you hit it before sellout, you&#39;ll understand why locals are protective of this spot. The &quot;sold out by 3pm&quot; model means everything they make that day gets eaten that day — there are no shortcuts possible at that volume. Go at noon, not 2pm.
     </div>
 </section>
-<section class="restaurant-section" id="el-jarocho">
+<section class="restaurant-section" id="el-jarocho" data-map-name="9. El Jarocho" data-map-cta-url="https://maps.google.com/?cid=5300121989513322532&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Jarocho, Roma Norte, CDMX, Ciudad de México, MX" data-map-lat="19.4112354" data-map-lng="-99.1659883">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>El Jarocho</h2>
         <span class="cuisine-tag tag-regional">Roma Stalwart</span>
@@ -824,7 +828,7 @@
         <strong>tabiji verdict:</strong> The comfort pick of Roma Norte. Great al pastor, great coffee, no hustle. Go on a weekday morning when the neighborhood is waking up and eat your tacos with café de olla — it&#39;s the most peaceful way to eat in this city.
     </div>
 </section>
-<section class="restaurant-section" id="don-juan">
+<section class="restaurant-section" id="don-juan" data-map-name="10. Tacos Don Juan" data-map-cta-url="https://maps.google.com/?cid=684352994735544239&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tacos Don Juan, Condesa, CDMX, Ciudad de México, MX" data-map-lat="19.4140694" data-map-lng="-99.1736403">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Tacos Don Juan</h2>
         <span class="cuisine-tag tag-regional">Condesa Staple</span>
@@ -858,7 +862,7 @@
         <strong>tabiji verdict:</strong> The Condesa neighborhood institution. If you&#39;re staying in Condesa, this will become your go-to by day 3 — the same way it has for thousands of travelers before you. Unpretentious, delicious, and proof that Mexico City&#39;s food scene doesn&#39;t need Instagram to be world-class.
     </div>
 </section>
-<section class="restaurant-section" id="arandas">
+<section class="restaurant-section" id="arandas" data-map-name="11. Taquería Arandas" data-map-cta-url="https://maps.google.com/?cid=2142791305814848755&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taquería Arandas, Multiple locations across CDMX, Ciudad de México, MX" data-map-lat="19.4343233" data-map-lng="-99.1358652">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Taquería Arandas</h2>
         <span class="cuisine-tag tag-regional">Late-Night Chain</span>
@@ -892,7 +896,7 @@
         <strong>tabiji verdict:</strong> The insurance policy of this list. You might not seek it out, but you&#39;ll be grateful it exists when it&#39;s 2am and every other taquería is closed. Chain status doesn&#39;t matter when the alternative is nothing.
     </div>
 </section>
-<section class="restaurant-section" id="el-faraon">
+<section class="restaurant-section" id="el-faraon" data-map-name="12. El Faraón" data-map-cta-url="https://maps.google.com/?cid=2896594716024554292&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Faraón, Colonia Doctores, CDMX, Ciudad de México, MX" data-map-lat="19.4305208" data-map-lng="-99.13168619999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>El Faraón</h2>
         <span class="cuisine-tag tag-regional">Doctores Discovery</span>
@@ -926,7 +930,7 @@
         <strong>tabiji verdict:</strong> The neighborhood pick for travelers willing to go slightly off-map. Doctores is a working-class neighborhood that tourists rarely visit — which means the tacos here are priced for workers, not tourists. The al pastor is exceptional and the experience of eating somewhere completely un-touristy in Mexico City is genuinely different.
     </div>
 </section>
-<section class="restaurant-section" id="tacos-canasta">
+<section class="restaurant-section" id="tacos-canasta" data-map-name="13. Tacos de Canasta Los Especiales" data-map-cta-url="https://maps.google.com/?cid=10668553858936628738&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tacos de Canasta Los Especiales, Various street locations, Centro Histórico, Ciudad de México, MX" data-map-lat="19.4331589" data-map-lng="-99.13458999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Tacos de Canasta Los Especiales</h2>
         <span class="cuisine-tag tag-regional">Basket Tacos</span>
@@ -960,7 +964,7 @@
         <strong>tabiji verdict:</strong> The format that will completely reset your expectations. Steamed basket al pastor at $0.50 each sounds wrong — it&#39;s right. It&#39;s a different dish from trompo al pastor, not better or worse, just completely its own thing. Anyone who says they&#39;ve eaten al pastor in Mexico City and hasn&#39;t had canasta tacos has only experienced half the story.
     </div>
 </section>
-<section class="restaurant-section" id="el-charrito">
+<section class="restaurant-section" id="el-charrito" data-map-name="14. Tacos El Charrito" data-map-cta-url="https://maps.google.com/?cid=10705870374992808335&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tacos El Charrito, Polanco, CDMX, Ciudad de México, MX" data-map-lat="19.431227" data-map-lng="-99.2011982">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Tacos El Charrito</h2>
         <span class="cuisine-tag tag-regional">Polanco Local</span>
@@ -994,7 +998,7 @@
         <strong>tabiji verdict:</strong> The Polanco pick for people who know that the best restaurant in any neighborhood is usually the taquería, not the hotel restaurant. Great for a lunch break if you&#39;re doing Polanco museums (Anthropology Museum is nearby). The al pastor here is underrated by visitors who assume Polanco = fancy restaurants only.
     </div>
 </section>
-<section class="restaurant-section" id="el-pescadito">
+<section class="restaurant-section" id="el-pescadito" data-map-name="15. El Pescadito" data-map-cta-url="https://maps.google.com/?cid=3473215940870845417&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Pescadito, Colima 233, Roma Norte, CDMX, Ciudad de México, MX" data-map-lat="19.3952665" data-map-lng="-99.1567287">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>El Pescadito</h2>
         <span class="cuisine-tag tag-regional">Baja-Style Wildcard</span>
@@ -1046,9 +1050,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Al Pastor Map — CDMX</h2>
-      <iframe src="https://www.google.com/maps?q=Al%20Pastor%20in%20Mexico%20City%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. El Huequito</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Al Pastor Map — CDMX"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1070,7 +1075,7 @@
       <li>
         <a href="#orinoco">6. Orinoco</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Al%20Pastor%20in%20Mexico%20City%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13879097223847678889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1081,5 +1086,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Al Pastor Map — CDMX","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Al%20Pastor%20in%20Mexico%20City%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"el-huequito","rank":1,"name":"El Huequito","label":"1. El Huequito","lat":19.4306195,"lng":-99.14297669999999,"ctaUrl":"https://maps.google.com/?cid=13879097223847678889&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Huequito, Ayuntamiento 21, Centro Histórico, CDMX, Ciudad de México, MX"},{"anchorId":"el-tizoncito","rank":2,"name":"El Tizoncito","label":"2. El Tizoncito","lat":19.409813099999997,"lng":-99.17523059999999,"ctaUrl":"https://maps.google.com/?cid=2285017846735180902&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Tizoncito, Multiple locations — Tamaulipas 122, Condesa (original), Ciudad de México, MX"},{"anchorId":"el-califa","rank":3,"name":"El Califa de León","label":"3. El Califa de León","lat":19.4410673,"lng":-99.159267,"ctaUrl":"https://maps.google.com/?cid=10461938634819329657&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Califa de León, Calle Chimalpopoca 11, San Rafael, CDMX, Ciudad de México, MX"},{"anchorId":"los-cocuyos","rank":4,"name":"Los Cocuyos","label":"4. Los Cocuyos","lat":19.4302794,"lng":-99.1387977,"ctaUrl":"https://maps.google.com/?cid=14051425661561475567&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Los Cocuyos, Calle Bolívar, Centro Histórico (near El Huequito), Ciudad de México, MX"},{"anchorId":"el-borrego-viudo","rank":5,"name":"El Borrego Viudo","label":"5. El Borrego Viudo","lat":19.399413499999998,"lng":-99.1852371,"ctaUrl":"https://maps.google.com/?cid=4316600660829766986&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Borrego Viudo, Revolución 241, Tacubaya, CDMX, Ciudad de México, MX"},{"anchorId":"orinoco","rank":6,"name":"Orinoco","label":"6. Orinoco","lat":19.418174,"lng":-99.1591691,"ctaUrl":"https://maps.google.com/?cid=13179114513861336775&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Orinoco, Multiple locations — Sonora 151, Roma Norte (main), Ciudad de México, MX"},{"anchorId":"el-califa-roma","rank":7,"name":"El Califa (Roma Norte)","label":"7. El Califa (Roma Norte)","lat":19.417338000000004,"lng":-99.1626969,"ctaUrl":"https://maps.google.com/?cid=15036651270345463308&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Califa (Roma Norte), Altata 22, Condesa/Roma Norte border, CDMX, Ciudad de México, MX"},{"anchorId":"el-guero","rank":8,"name":"Tacos El Güero","label":"8. Tacos El Güero","lat":19.4116663,"lng":-99.1715018,"ctaUrl":"https://maps.google.com/?cid=4201041640285278117&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tacos El Güero, Tamaulipas, Condesa, CDMX, Ciudad de México, MX"},{"anchorId":"el-jarocho","rank":9,"name":"El Jarocho","label":"9. El Jarocho","lat":19.4112354,"lng":-99.1659883,"ctaUrl":"https://maps.google.com/?cid=5300121989513322532&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Jarocho, Roma Norte, CDMX, Ciudad de México, MX"},{"anchorId":"don-juan","rank":10,"name":"Tacos Don Juan","label":"10. Tacos Don Juan","lat":19.4140694,"lng":-99.1736403,"ctaUrl":"https://maps.google.com/?cid=684352994735544239&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tacos Don Juan, Condesa, CDMX, Ciudad de México, MX"},{"anchorId":"arandas","rank":11,"name":"Taquería Arandas","label":"11. Taquería Arandas","lat":19.4343233,"lng":-99.1358652,"ctaUrl":"https://maps.google.com/?cid=2142791305814848755&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taquería Arandas, Multiple locations across CDMX, Ciudad de México, MX"},{"anchorId":"el-faraon","rank":12,"name":"El Faraón","label":"12. El Faraón","lat":19.4305208,"lng":-99.13168619999999,"ctaUrl":"https://maps.google.com/?cid=2896594716024554292&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Faraón, Colonia Doctores, CDMX, Ciudad de México, MX"},{"anchorId":"tacos-canasta","rank":13,"name":"Tacos de Canasta Los Especiales","label":"13. Tacos de Canasta Los Especiales","lat":19.4331589,"lng":-99.13458999999999,"ctaUrl":"https://maps.google.com/?cid=10668553858936628738&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tacos de Canasta Los Especiales, Various street locations, Centro Histórico, Ciudad de México, MX"},{"anchorId":"el-charrito","rank":14,"name":"Tacos El Charrito","label":"14. Tacos El Charrito","lat":19.431227,"lng":-99.2011982,"ctaUrl":"https://maps.google.com/?cid=10705870374992808335&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tacos El Charrito, Polanco, CDMX, Ciudad de México, MX"},{"anchorId":"el-pescadito","rank":15,"name":"El Pescadito","label":"15. El Pescadito","lat":19.3952665,"lng":-99.1567287,"ctaUrl":"https://maps.google.com/?cid=3473215940870845417&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Pescadito, Colima 233, Roma Norte, CDMX, Ciudad de México, MX"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>
