@@ -29,7 +29,8 @@ import subprocess
 from pathlib import Path
 
 # --- Config ---
-POPULAR_PICKS_DIR = Path.home() / "tabiji" / "popular-picks"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+POPULAR_PICKS_DIR = REPO_ROOT / "popular-picks"
 GEMINI_MODEL = "gemini-2.0-flash"
 
 def get_api_key():
@@ -69,55 +70,67 @@ def call_gemini(prompt, max_tokens=4096):
         return None
 
 
+def clean_text(value):
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', value or '')).strip()
+
+
+def extract_price_numbers(price_str):
+    if not price_str:
+        return []
+    nums = []
+    for match in re.findall(r'(?:[$€£¥₩฿RM]\s?|USD\s?|EUR\s?|GBP\s?)(\d+(?:,\d+)?(?:\.\d+)?)', price_str):
+        nums.append(float(match.replace(',', '')))
+    return nums
+
+
+def pick_numeric_price(pick):
+    nums = extract_price_numbers(pick.get('price', ''))
+    return min(nums) if nums else float('inf')
+
+
 def extract_picks(html):
     """Extract pick data from HTML using regex (no BS4 dependency)."""
     picks = []
+    section_pattern = re.compile(r'<section class="([^"]*-section)"[^>]*id="([^"]+)"[^>]*>(.*?)</section>', re.DOTALL)
 
-    # Find all restaurant-section blocks
-    sections = re.findall(
-        r'<section class="restaurant-section"[^>]*>(.*?)</section>',
-        html, re.DOTALL
-    )
+    for idx, match in enumerate(section_pattern.finditer(html)):
+        section_class, section_id, section = match.groups()
+        pick = {'section_class': section_class, 'section_id': section_id, 'rank': idx + 1}
 
-    for section in sections:
-        pick = {}
-
-        # Name from h2
         h2_match = re.search(r'<h2>.*?</span>\s*(.*?)</h2>', section, re.DOTALL)
         if h2_match:
-            pick['name'] = re.sub(r'<[^>]+>', '', h2_match.group(1)).strip()
+            pick['name'] = clean_text(h2_match.group(1))
 
-        # Category tag
-        tag_match = re.search(r'class="cuisine-tag[^"]*">(.*?)</span>', section)
+        tag_match = re.search(r'class="(?:cuisine-tag|lodge-tag|pick-tag|experience-tag)[^"]*">(.*?)</span>', section, re.DOTALL)
         if tag_match:
-            pick['category'] = re.sub(r'<[^>]+>', '', tag_match.group(1)).strip()
+            pick['category'] = clean_text(tag_match.group(1))
 
-        # Rating
-        rating_match = re.search(r'class="google-rating">.*?★.*?(\d+\.?\d*)\s*·\s*(\d+)\s*reviews', section, re.DOTALL)
+        rating_match = re.search(r'class="google-rating">.*?★.*?(\d+\.?\d*)\s*·\s*([\d,]+)\s*reviews', section, re.DOTALL)
         if rating_match:
             pick['rating'] = rating_match.group(1)
-            pick['reviews'] = rating_match.group(2)
+            pick['reviews'] = rating_match.group(2).replace(',', '')
 
-        # Price
-        price_match = re.search(r'💰\s*(.*?)</span>', section)
+        price_match = re.search(r'(?:💰|💴)\s*(.*?)</span>', section)
         if price_match:
-            pick['price'] = price_match.group(1).strip()
+            pick['price'] = clean_text(price_match.group(1))
 
-        # Location
         loc_match = re.search(r'📍\s*(.*?)</span>', section)
         if loc_match:
-            pick['location'] = re.sub(r'<[^>]+>', '', loc_match.group(1)).strip()
+            pick['location'] = clean_text(loc_match.group(1))
 
-        # Best experience / what to order text
+        hours_match = re.search(r'class="shop-hours".*?<summary>\s*([^<]+)</summary>(.*?)</div>\s*</details>', section, re.DOTALL)
+        if hours_match:
+            pick['hours_summary'] = clean_text(hours_match.group(1))
+            pick['hours_text'] = clean_text(hours_match.group(2))
+
         exp_match = re.search(r'class="what-to-order">(.*?)</div>', section, re.DOTALL)
         if exp_match:
             pick['experience_html'] = exp_match.group(1).strip()
-            pick['experience_text'] = re.sub(r'<[^>]+>', '', pick['experience_html']).strip()
+            pick['experience_text'] = clean_text(pick['experience_html'])
 
-        # Verdict
         verdict_match = re.search(r'class="tabiji-verdict">(.*?)</div>', section, re.DOTALL)
         if verdict_match:
-            pick['verdict'] = re.sub(r'<[^>]+>', '', verdict_match.group(1)).strip()
+            pick['verdict'] = clean_text(verdict_match.group(1))
 
         if pick.get('name'):
             picks.append(pick)
@@ -175,6 +188,95 @@ def extract_page_meta(html):
         meta['reddit_posts'] = reddit_match.group(1)
 
     return meta
+
+
+def score_pick(pick, keywords=(), anti_keywords=()):
+    text = ' '.join([
+        pick.get('category', ''),
+        pick.get('verdict', ''),
+        pick.get('experience_text', ''),
+        pick.get('hours_summary', ''),
+        pick.get('hours_text', ''),
+        pick.get('location', '')
+    ]).lower()
+    score = 0
+    for word in keywords:
+        if word in text:
+            score += 1
+    for word in anti_keywords:
+        if word in text:
+            score -= 1
+    score += max(0, 4 - min(pick.get('rank', 99), 4)) * 0.2
+    return score
+
+
+def format_quick_pick(pick):
+    bits = []
+    if pick.get('price'):
+        bits.append(pick['price'])
+    if pick.get('location'):
+        bits.append(pick['location'])
+    return f"<strong>{pick['name']}</strong>" + (f" <span>— {' · '.join(bits)}</span>" if bits else '')
+
+
+def build_quick_answer_cards(meta, picks):
+    if not picks:
+        return []
+
+    cards = []
+    used = set()
+
+    def add_card(label, reason, pick):
+        if not pick or pick.get('name') in used:
+            return
+        cards.append({'label': label, 'reason': reason, 'pick': pick})
+        used.add(pick['name'])
+
+    def best_unused(score_fn, minimum=0):
+        ranked = sorted(picks, key=score_fn, reverse=True)
+        for pick in ranked:
+            if pick.get('name') in used:
+                continue
+            if score_fn(pick) > minimum:
+                return pick
+        return None
+
+    add_card('Best overall', 'Start here if you just want the safest high-confidence pick.', picks[0])
+
+    cheapest = None
+    for pick in sorted(picks, key=pick_numeric_price):
+        if pick.get('name') not in used and pick_numeric_price(pick) != float('inf'):
+            cheapest = pick
+            break
+    add_card('Best budget', 'Best value if price matters more than hype.', cheapest)
+
+    late_score = lambda p: score_pick(p, keywords=('24 hours', 'until 3am', 'until 2am', 'late-night', 'late night', 'post-club', 'midnight', 'dawn', 'night owl', 'night market', '4am', '5am', 'open 24 hours'))
+    add_card('Best late-night', 'Most useful when your timing is the real constraint.', best_unused(late_score))
+
+    first_timer_score = lambda p: score_pick(p, keywords=('first-timer', 'first timer', 'accessible', 'safe bet', 'stress-free', 'intro', 'introduction', 'tourist-friendly', 'beginner', 'can\'t go wrong'))
+    add_card('Best for first-timers', 'Good fit when you want the easiest, most approachable starting point.', best_unused(first_timer_score))
+
+    local_score = lambda p: score_pick(p, keywords=('local', 'locals', 'resident', 'residents', 'under the tourist radar', 'under the radar', 'hidden gem', 'insider', 'off the tourist trail', 'local\'s local', 'where romans eat', 'where locals go'), anti_keywords=('touristy', 'touristy', 'world famous', 'instagram', 'chain'))
+    add_card('Best local favorite', 'The pick with the strongest locals-actually-go-here signal.', best_unused(local_score))
+
+    splurge_score = lambda p: score_pick(p, keywords=('luxury', 'splurge', 'high-end', 'exclusive', 'special occasion', 'private wing', 'premium', 'heritage luxury')) + (pick_numeric_price(p) / 1000 if pick_numeric_price(p) != float('inf') else 0)
+    add_card('Best splurge', 'Worth the premium if you care more about the experience ceiling than value.', best_unused(splurge_score))
+
+    return cards[:4]
+
+
+def render_quick_answer_block(meta, picks):
+    cards = build_quick_answer_cards(meta, picks)
+    if not cards:
+        return ''
+
+    card_html = []
+    for card in cards:
+        card_html.append(
+            f'''<div class="quick-answer-card">\n                <div class="quick-answer-label">{card['label']}</div>\n                <div class="quick-answer-pick">{format_quick_pick(card['pick'])}</div>\n                <p>{card['reason']}</p>\n            </div>'''
+        )
+
+    return f'''<section class="quick-answer-block">\n    <div class="quick-answer-header">⚡ Quick answer</div>\n    <p class="quick-answer-kicker">If you're deciding fast, use these picks instead of reading the whole list top-to-bottom.</p>\n    <div class="quick-answer-grid">\n        {'\n        '.join(card_html)}\n    </div>\n</section>'''
 
 
 def build_agent_brief_jsonld(meta, picks):
@@ -335,51 +437,60 @@ Return ONLY valid JSON with this structure (no markdown, no explanation):
 
 
 def apply_changes(html, meta, picks, rewrites, jsonld):
-    """Apply the answer-first rewrites and JSON-LD to the HTML."""
+    """Apply the answer-first rewrites, decision block, and JSON-LD to the HTML."""
     modified = html
 
-    # 1. Apply intro rewrite — insert a new bold summary <p> before the first <p> inside intro-section
+    quick_answer_css = '''
+        .quick-answer-block { background: linear-gradient(135deg, #FEFCF9, #F5F0E8); border: 1px solid #E8DFD0; border-radius: 16px; padding: 22px 24px; margin: 0 0 28px; }
+        .quick-answer-header { font-size: 1rem; font-weight: 800; color: #2D3A5C; margin-bottom: 0.35rem; }
+        .quick-answer-kicker { margin: 0 0 1rem; color: var(--text-muted); font-size: 0.96rem; }
+        .quick-answer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+        .quick-answer-card { background: rgba(255,255,255,0.72); border: 1px solid #E8DFD0; border-radius: 14px; padding: 14px 15px; }
+        .quick-answer-label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: #C4704B; margin-bottom: 0.45rem; }
+        .quick-answer-pick { color: #2D3A5C; line-height: 1.45; margin-bottom: 0.45rem; }
+        .quick-answer-pick span { color: var(--text-muted); }
+        .quick-answer-card p { margin: 0; color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
+    '''
+
+    if '.quick-answer-block' not in modified:
+        modified = re.sub(r'(\n\s*\.intro-section \{)', '\n' + quick_answer_css + '\n\\1', modified, count=1)
+
+    modified = re.sub(r'\s*<section class="quick-answer-block">.*?</section>\s*', '\n', modified, flags=re.DOTALL)
+
+    quick_answer_html = render_quick_answer_block(meta, picks)
+    if quick_answer_html:
+        intro_open = re.search(r'<div class="intro-section">', modified)
+        if intro_open:
+            modified = modified[:intro_open.start()] + quick_answer_html + '\n\n' + modified[intro_open.start():]
+
     if rewrites and rewrites.get('intro_rewrite'):
-        # Find the intro-section div and its first <p> tag (may have <h2> before it)
         intro_match = re.search(r'(class="intro-section">\s*(?:<h2>.*?</h2>\s*)?)\s*(<p[^>]*>)', modified, re.DOTALL)
         if intro_match:
-            new_intro_p = f'<p><strong>{rewrites["intro_rewrite"]}</strong></p>\n            '
-            insert_pos = intro_match.start(2)
-            modified = modified[:insert_pos] + new_intro_p + modified[insert_pos:]
+            existing_bold = re.search(r'<div class="intro-section">\s*(?:<h2>.*?</h2>\s*)?<p><strong>.*?</strong></p>', modified, re.DOTALL)
+            if not existing_bold:
+                new_intro_p = f'<p><strong>{rewrites["intro_rewrite"]}</strong></p>\n            '
+                insert_pos = intro_match.start(2)
+                modified = modified[:insert_pos] + new_intro_p + modified[insert_pos:]
 
-    # 2. Apply pick rewrites — replace entire what-to-order div content
     if rewrites and rewrites.get('picks'):
-        # Find all what-to-order divs in order
-        wo_pattern = re.compile(
-            r'(<div class="what-to-order">\s*<strong>)(.*?)(</strong>)(.*?)(</div>)',
-            re.DOTALL
-        )
+        wo_pattern = re.compile(r'(<div class="what-to-order">\s*<strong>)(.*?)(</strong>)(.*?)(</div>)', re.DOTALL)
         wo_matches = list(wo_pattern.finditer(modified))
-
-        # Apply in reverse order so positions don't shift
         for pick_rewrite in reversed(rewrites.get('picks', [])):
             idx = pick_rewrite.get('index', -1)
             if 0 <= idx < len(wo_matches):
                 match = wo_matches[idx]
-                label_text = match.group(2)  # e.g. "What to order:" or "🛶 Best experience:"
-                new_text = pick_rewrite['rewrite']
-                # Rebuild: <div class="what-to-order">\n        <strong>Label:</strong> New text here\n    </div>
-                replacement = f'{match.group(1)}{label_text}{match.group(3)} {new_text}{match.group(5)}'
+                replacement = f'{match.group(1)}{match.group(2)}{match.group(3)} {pick_rewrite["rewrite"]}{match.group(5)}'
                 modified = modified[:match.start()] + replacement + modified[match.end():]
 
-    # 3. Inject JSON-LD agent brief
-    if jsonld:
-        # Check if TouristTrip already exists
-        if '"TouristTrip"' not in modified:
-            jsonld_str = json.dumps(jsonld, indent=8, ensure_ascii=False)
-            # Insert before <style> tag
-            style_match = re.search(r'\n\s*<style>', modified)
-            if style_match:
-                injection = f"""    <script type="application/ld+json">
+    if jsonld and '"TouristTrip"' not in modified:
+        jsonld_str = json.dumps(jsonld, indent=8, ensure_ascii=False)
+        style_match = re.search(r'\n\s*<style>', modified)
+        if style_match:
+            injection = f'''    <script type="application/ld+json">
     {jsonld_str}
     </script>
-"""
-                modified = modified[:style_match.start()] + "\n" + injection + modified[style_match.start():]
+'''
+            modified = modified[:style_match.start()] + '\n' + injection + modified[style_match.start():]
 
     return modified
 
