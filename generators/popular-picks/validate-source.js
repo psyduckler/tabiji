@@ -156,7 +156,7 @@ function validateSource(data, options = {}) {
   }
 
   if (!data?.map?.enabled) warnings.push('Map section is disabled');
-  if ((data?.related?.manual || []).length < 3) warnings.push('Related manual links has fewer than 3 entries');
+  if ((data?.related?.manual || []).length < 5) warnings.push('Related manual links has fewer than 5 entries; renderer will auto-fill intent matches');
   if (backfillMode && data?.provenance?.importedFromHtml) warnings.push('Backfill-mode validation: extracted HTML source is not publish-ready until reviewed');
 
   return { errors, warnings, mode };
