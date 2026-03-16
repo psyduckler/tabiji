@@ -286,9 +286,8 @@ function buildLimitations(pick) {
       return (match[1] || match[0]).replace(/^[:\s-]+/, '').trim();
     }
   }
-  if (pick.priceRangeLocal) return `Price band: ${pick.priceRangeLocal}`;
   if (pick.hoursNote) return 'Check hours before you go';
-  return 'No major drawbacks called out in the source copy';
+  return '';
 }
 
 function renderComparisonRow(label, value) {
@@ -296,11 +295,25 @@ function renderComparisonRow(label, value) {
   return `<div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`;
 }
 
+function resolveBestOverall(data) {
+  const candidate = data.summary?.bestOverall || data.summary?.topPick || '';
+  if (!candidate || !data.picks.length) return data.picks[0] ? data.picks[0].name : '';
+  // Match by exact name or by name appearing at the start of the candidate string (handles "Name — 5★ (1 reviews)" format)
+  const match = data.picks.find((p) => p.name === candidate || candidate.startsWith(p.name));
+  // If the "best overall" pick has fewer than 10 reviews, it's likely an outlier — prefer the #1 ranked pick
+  if (match && typeof match.reviewCount === 'number' && match.reviewCount < 10 && data.picks[0] && data.picks[0].name !== match.name) {
+    return data.picks[0].name;
+  }
+  // Clean display: use the pick name if we matched, otherwise fall back to the raw candidate
+  if (match) return match.name;
+  return candidate;
+}
+
 function renderQuickAnswer(data) {
   const firstThree = data.picks.slice(0, 3).map((pick) => `
             <li><strong>${escapeHtml(pick.name)}:</strong> ${escapeHtml(buildVerdictText(pick))}</li>`).join('');
   const summaryRows = [
-    ['Best overall', data.summary?.bestOverall || data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
+    ['Best overall', resolveBestOverall(data)],
     ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter(Boolean)[0] || 'Varies by pick'],
     ['Top-ranked pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
     ['Last verified', data.summary?.lastVerifiedLabel || 'See page metadata'],
@@ -505,7 +518,6 @@ function renderPage(data) {
       ${renderQuickAnswer(data)}
 
       <section class="intro-section">
-        <p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
         ${renderRichTextParagraphs(introBody)}
       </section>
 

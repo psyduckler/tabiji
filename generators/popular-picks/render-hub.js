@@ -129,7 +129,7 @@ function renderHubPage(data) {
     <h1>${escapeHtml(data.hero.title || data.seo.h1)}</h1>
     <p>${escapeHtml(data.hero.dek || '')}</p>
     ${Array.isArray(data.hero.meta) && data.hero.meta.length ? `<div class="hero-meta">${data.hero.meta.map((item) => `<div>${escapeHtml(item)}</div>`).join('')}</div>` : ''}
-    ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager"><figcaption class="hero-caption">Start with the strongest Taiwan picks so far: Taipei dim sum, beef noodle soup, and the Shilin night market stalls worth the detour.</figcaption></figure>` : ''}
+    ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager">${data.hero.caption ? `<figcaption class="hero-caption">${escapeHtml(data.hero.caption)}</figcaption>` : ''}</figure>` : ''}
   </section>
 
   ${renderToc(data)}
