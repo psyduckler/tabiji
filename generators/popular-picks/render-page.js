@@ -61,7 +61,7 @@ function isDuplicateIntroParagraph(answerFirst = '', paragraph = '') {
   const containsOther = normalizedAnswer.includes(normalizedParagraph) || normalizedParagraph.includes(normalizedAnswer);
   const sameOpening = normalizedAnswer.slice(0, 140) && normalizedAnswer.slice(0, 140) === normalizedParagraph.slice(0, 140);
 
-  return containsOther || sharedRatio >= 0.6 || firstSentenceRatio >= 0.72 || sameOpening;
+  return containsOther || sharedRatio >= 0.67 || firstSentenceRatio >= 0.72 || sameOpening;
 }
 
 function dedupeIntroBody(answerFirst = '', body = []) {
@@ -72,7 +72,8 @@ function dedupeIntroBody(answerFirst = '', body = []) {
   while (index < body.length && isDuplicateIntroParagraph(answerFirst, body[index])) {
     index += 1;
   }
-  return body.slice(index);
+  // Never strip every paragraph — keep at least the final one
+  return body.slice(Math.min(index, body.length - 1));
 }
 
 function formatPhone(phone) {
