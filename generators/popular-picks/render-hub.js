@@ -3,6 +3,86 @@ const fs = require('fs');
 const path = require('path');
 const { renderMeta, escapeHtml, absoluteUrl } = require('./render-meta');
 
+function slugToTitle(value = '') {
+  return String(value)
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function getHubFaq(data) {
+  if (Array.isArray(data.faq) && data.faq.length) return data.faq;
+
+  const sectionTitles = (data.sections || []).map((section) => section.title).filter(Boolean);
+  const firstSection = sectionTitles[0] || slugToTitle(data.slug || 'this destination');
+  const title = data.hero?.title || data.seo?.h1 || slugToTitle(data.slug || 'this destination');
+  const totalLists = (data.sections || []).reduce((sum, section) => sum + ((section.cards || []).length ? 1 : 0), 0);
+  const destination = data.slug === 'usa' ? 'the USA' : title;
+
+  return [
+    {
+      question: `What kinds of popular picks are included in ${title}?`,
+      answer: `${title} groups together Reddit-backed lists for its strongest food and travel categories, starting with ${firstSection}${totalLists > 1 ? ` and ${Math.max(totalLists - 1, 0)} other curated list${totalLists === 2 ? '' : 's'}` : ''}. Each card links to a deeper guide with specific places, context, and map support.`
+    },
+    {
+      question: `How are Tabiji's ${title} picks chosen?`,
+      answer: `These picks are built from real traveler discussion patterns, then organized into curated shortlists rather than paid placements or generic roundups. The goal is to surface the places and experiences people repeatedly mention when planning trips to ${destination}.`
+    },
+    {
+      question: `Should I start with the hub page or open the individual guides for ${title}?`,
+      answer: `Use the hub page to decide which city or category fits what you want, then open the individual guides for ranked picks, more detailed context, and map links. The hub is the shortlist; the leaf guides are where the decision-making detail lives.`
+    }
+  ];
+}
+
+function renderJsonLd(obj) {
+  return `<script type="application/ld+json">${JSON.stringify(obj, null, 2)}</script>`;
+}
+
+function renderHubSchema(data) {
+  const canonical = absoluteUrl(data.seo.canonicalPath);
+  const heroImage = absoluteUrl(data.seo.heroImage || '');
+  const publishedDate = typeof data?.seo?.publishedTime === 'string' ? data.seo.publishedTime.slice(0, 10) : undefined;
+  const modifiedDate = typeof data?.seo?.modifiedTime === 'string' ? data.seo.modifiedTime.slice(0, 10) : undefined;
+  const faq = getHubFaq(data);
+
+  const article = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.hero?.title || data.seo?.h1,
+    description: data.seo?.metaDescription,
+    author: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
+    publisher: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
+    ...(publishedDate ? { datePublished: publishedDate } : {}),
+    ...(modifiedDate ? { dateModified: modifiedDate } : {}),
+    mainEntityOfPage: canonical,
+    ...(heroImage ? { image: heroImage } : {})
+  };
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://tabiji.ai/' },
+      { '@type': 'ListItem', position: 2, name: 'Popular Picks', item: 'https://tabiji.ai/popular-picks/' },
+      { '@type': 'ListItem', position: 3, name: data.hero?.title || data.seo?.h1, item: canonical }
+    ]
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer }
+    }))
+  };
+
+  return [article, breadcrumb, faqSchema].map(renderJsonLd).join('\n    ');
+}
+
 function renderToc(data) {
   const items = data.toc || [];
   if (!items.length) return '';
@@ -47,11 +127,12 @@ function renderSections(data) {
 }
 
 function renderFaq(data) {
-  if (!Array.isArray(data.faq) || !data.faq.length) return '';
+  const faq = getHubFaq(data);
+  if (!faq.length) return '';
   return `
 <section class="faq-section">
   <h2>Frequently Asked Questions</h2>
-  ${data.faq.map((item) => `<details class="faq-item"><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}
+  ${faq.map((item) => `<details class="faq-item"><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}
 </section>`;
 }
 
@@ -65,6 +146,7 @@ function renderHubPage(data) {
     function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-D7QHNRXLHJ');
     </script>
     ${renderMeta(data)}
+    ${renderHubSchema(data)}
     <style>
       :root { --indigo:#2D3A5C; --warm-cream:#F5F0E8; --sand:#E8DFD0; --earth:#8B7355; --terracotta:#C4704B; --white:#FEFCF9; --text:#2C2419; --text-muted:#6B5D4F; }
       * { margin:0; padding:0; box-sizing:border-box; }
