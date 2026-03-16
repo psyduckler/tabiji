@@ -21,8 +21,20 @@ function normalizeIntroText(text = '') {
     .trim();
 }
 
+const INTRO_STOPWORDS = new Set([
+  'about', 'after', 'also', 'among', 'and', 'are', 'around', 'because', 'been', 'being', 'best', 'between',
+  'both', 'but', 'can', 'city', 'closest', 'from', 'good', 'guide', 'have', 'into', 'just', 'list', 'local',
+  'more', 'most', 'near', 'offer', 'offers', 'often', 'only', 'over', 'page', 'people', 'person', 'places',
+  'recommendation', 'recommendations', 'reddit', 'range', 'ranging', 'spot', 'spots', 'that', 'their', 'these',
+  'they', 'this', 'those', 'through', 'top', 'travelers', 'travellers', 'very', 'when', 'where', 'with', 'your'
+]);
+
 function tokenSet(text = '') {
-  return new Set(normalizeIntroText(text).split(' ').filter((token) => token.length >= 4));
+  return new Set(
+    normalizeIntroText(text)
+      .split(' ')
+      .filter((token) => token.length >= 4 && !INTRO_STOPWORDS.has(token))
+  );
 }
 
 function overlapRatio(a, b) {
@@ -36,17 +48,32 @@ function overlapRatio(a, b) {
   return overlap / Math.min(aTokens.size, bTokens.size);
 }
 
+function firstSentence(text = '') {
+  return String(text).split(/(?<=[.!?])\s+/)[0].trim();
+}
+
+function isDuplicateIntroParagraph(answerFirst = '', paragraph = '') {
+  if (!answerFirst || !paragraph) return false;
+  const normalizedAnswer = normalizeIntroText(answerFirst);
+  const normalizedParagraph = normalizeIntroText(paragraph);
+  const sharedRatio = overlapRatio(answerFirst, paragraph);
+  const firstSentenceRatio = overlapRatio(firstSentence(answerFirst), firstSentence(paragraph));
+  const containsOther = normalizedAnswer.includes(normalizedParagraph) || normalizedParagraph.includes(normalizedAnswer);
+  const sameOpening = normalizedAnswer.slice(0, 140) && normalizedAnswer.slice(0, 140) === normalizedParagraph.slice(0, 140);
+
+  return containsOther || sharedRatio >= 0.67 || firstSentenceRatio >= 0.72 || sameOpening;
+}
+
 function dedupeIntroBody(answerFirst = '', body = []) {
   if (!Array.isArray(body) || !body.length) return [];
-  const [firstParagraph, ...rest] = body;
-  if (!firstParagraph || !answerFirst) return body;
+  if (!answerFirst) return body;
 
-  const normalizedAnswer = normalizeIntroText(answerFirst);
-  const normalizedFirst = normalizeIntroText(firstParagraph);
-  const sharedRatio = overlapRatio(answerFirst, firstParagraph);
-  const containsOther = normalizedAnswer.includes(normalizedFirst) || normalizedFirst.includes(normalizedAnswer);
-
-  return (containsOther || sharedRatio >= 0.72) ? rest : body;
+  let index = 0;
+  while (index < body.length && isDuplicateIntroParagraph(answerFirst, body[index])) {
+    index += 1;
+  }
+  // Never strip every paragraph — keep at least the final one
+  return body.slice(Math.min(index, body.length - 1));
 }
 
 function formatPhone(phone) {
