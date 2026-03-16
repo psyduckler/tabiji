@@ -170,6 +170,8 @@ Create `popular-picks-data/<slug>.json`. This is the single source of truth — 
 - `whatToOrder` — specific items, not generic ("try the pork ribs" not "good food")
 - `faq` — minimum 3 questions, specific answers with numbers
 
+**Non-ASCII place names:** The build script's `slugify()` function handles Turkish (ı, ş, ç, ğ), Nordic (ø, æ), German (ß), and other common non-Latin characters. These are converted to ASCII equivalents before slug generation (e.g., "Kahvaltı" → "kahvalti", "Frederikshøj" → "frederikshoj"). If you encounter a language with characters not covered, add a `.replace()` line to the `slugify()` function in `generators/popular-picks/render-page.js`. Empty section IDs break the map scroll-sync feature.
+
 ---
 
 ## Step 4: Validate the JSON
