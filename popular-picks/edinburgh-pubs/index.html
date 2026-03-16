@@ -385,7 +385,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -398,18 +407,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -487,6 +497,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Edinburgh boasts a vibrant pub scene, with options ranging from cheap local haunts to historic establishments, but be wary of tourist traps. Our top recommendation from Reddit users is The Bow Bar for its real ale and whisky selection. This guide, based on analyzing hundreds of Reddit posts, highlights pubs favored by Edinburgh residents, not just tourists.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Stockbridge Tap — 4.5★ (952 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>£4.50–£7/pint</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>The Bow Bar</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>The Bow Bar:</strong> The Bow Bar appears in virtually every &quot;best pub in Edinburgh&quot; thread for a reason.</li>
+            <li><strong>Cloisters Bar:</strong> Housed in a converted church manse (parsonage), Cloisters has the warm, lived-in feel of a proper locals&#39; pub.</li>
+            <li><strong>Sandy Bell&#39;s:</strong> Sandy Bell&#39;s has hosted live folk music since the 1960s and it&#39;s still the real deal.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Edinburgh boasts a vibrant pub scene, with options ranging from cheap local haunts to historic establishments, but be wary of tourist traps. Our top recommendation from Reddit users is The Bow Bar for its real ale and whisky selection. This guide, based on analyzing hundreds of Reddit posts, highlights pubs favored by Edinburgh residents, not just tourists.</strong></p>
         <p>Edinburgh&#39;s pub scene is one of the best in the world — centuries-old watering holes tucked down cobblestone closes, Victorian gin palaces with ornate ceilings, and no-nonsense locals&#39; joints where the real ale is cheap and the conversation is free. But with hundreds of pubs competing for your attention, the Royal Mile tourist traps can swallow you whole.</p><p>We analyzed hundreds of Reddit posts from r/Edinburgh, r/Scotland, r/travel, and r/solotravel to find the pubs that actual Edinburgh residents recommend over and over. These aren&#39;t the pubs with the biggest signs — they&#39;re the ones locals fight to defend in every &quot;best pub&quot; thread.</p>
@@ -541,6 +569,20 @@
         <span>📍 Old Town, Victoria Street</span>
         <a href="https://maps.google.com/?cid=3636190969540839152&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Bow Bar appears in virtually every &quot;best pub in Edinburgh&quot; thread for a reason.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Real Ale &amp; Whisky in Old Town, Victoria Street with a £4.50–£7/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 2,648 Google reviews · Real Ale &amp; Whisky · Old Town, Victoria Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£7/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£7/pint · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Bow Bar appears in virtually every &quot;best pub in Edinburgh&quot; thread for a reason. It&#39;s a no-frills, no-TV, no-music pub where the focus is entirely on excellent beer and whisky. The kind of place that makes you understand why people love pub culture.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -553,7 +595,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312267667">+441312267667</a></span><span>🌐 <a href="http://www.thebowbar.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/bow-bar.jpg" alt="The Bow Bar in Old Town, Victoria Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Bow Bar (whisky) or Cloisters (eclectic ales and whisky) would be my go-to&#39;s on a Monday night. Both pretty friendly if you&#39;re on your own."
@@ -562,9 +603,6 @@
     <div class="reddit-quote">
         "Cloisters, Bennets Bar, Blue Blazer, Bow Bar, Jolly Judge and the Stockbridge Tap to name a few."
         <span class="source">— r/elisandjohn · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Bow Bar appears in virtually every &quot;best pub in Edinburgh&quot; thread for a reason. It&#39;s a no-frills, no-TV, no-music pub where the focus is entirely on excellent beer and whisky. The kind of place that makes you understand why people love pub culture.
     </div>
 </section>
 <section class="restaurant-section" id="cloisters" data-map-name="2. Cloisters Bar" data-map-cta-url="https://maps.google.com/?cid=11293097413839271892&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cloisters Bar, Tollcross, Brougham Street, Edinburgh, GB" data-map-lat="55.9432607" data-map-lng="-3.2019507000000003">
@@ -578,6 +616,20 @@
         <span>📍 Tollcross, Brougham Street</span>
         <a href="https://maps.google.com/?cid=11293097413839271892&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Housed in a converted church manse (parsonage), Cloisters has the warm, lived-in feel of a proper locals&#39; pub.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Real Ale in Tollcross, Brougham Street with a £4–£6.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,036 Google reviews · Real Ale · Tollcross, Brougham Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4–£6.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4–£6.50/pint · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Housed in a converted church manse (parsonage), Cloisters has the warm, lived-in feel of a proper locals&#39; pub. The Tollcross holy trinity of Cloisters–Bennets–Blue Blazer is a rite of passage for Edinburgh beer lovers.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -590,7 +642,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312219997">+441312219997</a></span><span>🌐 <a href="https://www.cloistersbar.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/cloisters.jpg" alt="Cloisters Bar in Tollcross, Brougham Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Try Cloisters, Blue Blazer (when it opens) and Hanging Bat, all around Tollcross, and Bow Bar is worth the walk. They change their range regularly."
@@ -599,9 +650,6 @@
     <div class="reddit-quote">
         "Cloisters, Bennets and the Blue Blazer around Tollcross. Ryries, The Athletic Arms... The Ensign Ewart, Jolly Judge, and Bow Bar around the top of the High Street."
         <span class="source">— r/Edinburgh · locals pub thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Housed in a converted church manse (parsonage), Cloisters has the warm, lived-in feel of a proper locals&#39; pub. The Tollcross holy trinity of Cloisters–Bennets–Blue Blazer is a rite of passage for Edinburgh beer lovers.
     </div>
 </section>
 <section class="restaurant-section" id="sandy-bells" data-map-name="3. Sandy Bell&#39;s" data-map-cta-url="https://maps.google.com/?cid=18107062104032575826&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sandy Bell&#39;s, Old Town, Forrest Road, Edinburgh, GB" data-map-lat="55.946084" data-map-lng="-3.19128">
@@ -615,6 +663,20 @@
         <span>📍 Old Town, Forrest Road</span>
         <a href="https://maps.google.com/?cid=18107062104032575826&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Sandy Bell&#39;s has hosted live folk music since the 1960s and it&#39;s still the real deal.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Folk Music in Old Town, Forrest Road with a £4–£6/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,393 Google reviews · Folk Music · Old Town, Forrest Road</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4–£6/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4–£6/pint · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Sandy Bell&#39;s has hosted live folk music since the 1960s and it&#39;s still the real deal. It&#39;s tiny, it gets packed, and the music is extraordinary. If you only visit one pub in Edinburgh for the &quot;Scottish experience,&quot; make it this one.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -627,7 +689,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312252751">+441312252751</a></span><span>🌐 <a href="http://www.sandybells.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/sandy-bells.jpg" alt="Sandy Bell&#39;s in Old Town, Forrest Road" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Sandy Bell&#39;s for folk music. It&#39;s legendary. Tiny pub, incredible musicians just playing for the love of it. No stage, no cover — just squeeze in and listen."
@@ -636,9 +697,6 @@
     <div class="reddit-quote">
         "If you want authentic Scottish culture, Sandy Bell&#39;s is the answer. Real folk music, not some bloke playing Wonderwall for tourists."
         <span class="source">— r/Scotland · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Sandy Bell&#39;s has hosted live folk music since the 1960s and it&#39;s still the real deal. It&#39;s tiny, it gets packed, and the music is extraordinary. If you only visit one pub in Edinburgh for the &quot;Scottish experience,&quot; make it this one.
     </div>
 </section>
 <section class="restaurant-section" id="jolly-judge" data-map-name="4. The Jolly Judge" data-map-cta-url="https://maps.google.com/?cid=8431690875990160247&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Jolly Judge, Old Town, James Court (off Lawnmarket), Edinburgh, GB" data-map-lat="55.9494184" data-map-lng="-3.1936743">
@@ -652,11 +710,24 @@
         <span>📍 Old Town, James Court (off Lawnmarket)</span>
         <a href="https://maps.google.com/?cid=8431690875990160247&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Hidden down a close off the Royal Mile, the Jolly Judge is the kind of pub you&#39;d walk past a hundred times without knowing it&#39;s there.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Cozy &amp; Hidden in Old Town, James Court (off Lawnmarket) with a £4.50–£6.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Cozy &amp; Hidden · Old Town, James Court (off Lawnmarket)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£6.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£6.50/pint</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Hidden down a close off the Royal Mile, the Jolly Judge is the kind of pub you&#39;d walk past a hundred times without knowing it&#39;s there. Low-ceilinged, candlelit in winter, with a working fireplace. It feels like stepping back 200 years — and that&#39;s exactly the point.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/jolly-judge.jpg" alt="The Jolly Judge in Old Town, James Court (off Lawnmarket)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "The Canon&#39;s Gait is just up the Canongate from the Museum of Edinburgh. It&#39;s okay. The Jolly Judge further up the hill in the Lawnmarket is a better pub, though."
@@ -665,9 +736,6 @@
     <div class="reddit-quote">
         "Another vote for the Jolly Judge, too, while I&#39;m here 🙂"
         <span class="source">— u/judy2k · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Hidden down a close off the Royal Mile, the Jolly Judge is the kind of pub you&#39;d walk past a hundred times without knowing it&#39;s there. Low-ceilinged, candlelit in winter, with a working fireplace. It feels like stepping back 200 years — and that&#39;s exactly the point.
     </div>
 </section>
 <section class="restaurant-section" id="bennets" data-map-name="5. Bennets Bar" data-map-cta-url="https://maps.google.com/?cid=11135936621280508169&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bennets Bar, Tollcross, Leven Street, Edinburgh, GB" data-map-lat="55.9416844" data-map-lng="-3.2031305">
@@ -681,6 +749,20 @@
         <span>📍 Tollcross, Leven Street</span>
         <a href="https://maps.google.com/?cid=11135936621280508169&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Bennets is arguably Edinburgh&#39;s most beautiful pub interior — original Victorian stained glass, ornate mirrors, and a mahogany gantry that belongs in a museum.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Victorian in Tollcross, Leven Street with a £4.50–£7/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 1,298 Google reviews · Victorian · Tollcross, Leven Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£7/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£7/pint · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Bennets is arguably Edinburgh&#39;s most beautiful pub interior — original Victorian stained glass, ornate mirrors, and a mahogany gantry that belongs in a museum. Next door to the King&#39;s Theatre, it&#39;s perfect for a pre-show pint. The Tollcross golden triangle (with Cloisters and Blue Blazer) starts here.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -693,7 +775,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312295143">+441312295143</a></span><span>🌐 <a href="https://kilderkingroup.co.uk/bennets/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/bennets.jpg" alt="Bennets Bar in Tollcross, Leven Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cloisters, Bennets Bar, Blue Blazer, Bow Bar, Jolly Judge and the Stockbridge Tap to name a few."
@@ -702,9 +783,6 @@
     <div class="reddit-quote">
         "Bennets is gorgeous inside. The Victorian interior is basically unchanged — stained glass, brass, mahogany. Go on a quiet afternoon."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Bennets is arguably Edinburgh&#39;s most beautiful pub interior — original Victorian stained glass, ornate mirrors, and a mahogany gantry that belongs in a museum. Next door to the King&#39;s Theatre, it&#39;s perfect for a pre-show pint. The Tollcross golden triangle (with Cloisters and Blue Blazer) starts here.
     </div>
 </section>
 <section class="restaurant-section" id="guildford-arms" data-map-name="6. The Guildford Arms" data-map-cta-url="https://maps.google.com/?cid=10497709853557209274&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Guildford Arms, New Town, West Register Street, Edinburgh, GB" data-map-lat="55.9536832" data-map-lng="-3.1901219999999997">
@@ -718,6 +796,20 @@
         <span>📍 New Town, West Register Street</span>
         <a href="https://maps.google.com/?cid=10497709853557209274&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Guildford Arms is Edinburgh&#39;s greatest Victorian pub — soaring ornate ceilings, gallery seating, and a curved mahogany bar that goes on forever.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Victorian in New Town, West Register Street with a £4.50–£7/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 4,120 Google reviews · Victorian · New Town, West Register Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£7/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£7/pint · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Guildford Arms is Edinburgh&#39;s greatest Victorian pub — soaring ornate ceilings, gallery seating, and a curved mahogany bar that goes on forever. It&#39;s steps from Waverley Station, making it the ideal first or last pint. The real ale selection rivals any pub in Scotland.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -730,7 +822,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441315564312">+441315564312</a></span><span>🌐 <a href="https://www.guildfordarms.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/guildford-arms.jpg" alt="The Guildford Arms in New Town, West Register Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Guildford Arms just off the east end of Princes Street. Stunning Victorian interior and great beer selection."
@@ -739,9 +830,6 @@
     <div class="reddit-quote">
         "The Guildford Arms is a must for the interior alone. Get a seat up in the gallery if you can."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Guildford Arms is Edinburgh&#39;s greatest Victorian pub — soaring ornate ceilings, gallery seating, and a curved mahogany bar that goes on forever. It&#39;s steps from Waverley Station, making it the ideal first or last pint. The real ale selection rivals any pub in Scotland.
     </div>
 </section>
 <section class="restaurant-section" id="sheep-heid" data-map-name="7. The Sheep Heid Inn" data-map-cta-url="https://maps.google.com/?cid=310396695837259410&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Sheep Heid Inn, Duddingston Village, Edinburgh, GB" data-map-lat="55.942001399999995" data-map-lng="-3.148539">
@@ -755,6 +843,20 @@
         <span>📍 Duddingston Village</span>
         <a href="https://maps.google.com/?cid=310396695837259410&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Dating to 1360, the Sheep Heid Inn claims the title of Edinburgh&#39;s (and possibly Scotland&#39;s) oldest pub.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Historic (est. 1360) in Duddingston Village with a £5–£7.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 3,468 Google reviews · Historic (est. 1360) · Duddingston Village</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £5–£7.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£5–£7.50/pint · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Dating to 1360, the Sheep Heid Inn claims the title of Edinburgh&#39;s (and possibly Scotland&#39;s) oldest pub. Tucked away in the picturesque village of Duddingston at the foot of Arthur&#39;s Seat, it&#39;s a perfect reward after a hill walk. The skittles alley alone is worth the trip.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -767,7 +869,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441316617974">+441316617974</a></span><span>🌐 <a href="https://www.thesheepheidedinburgh.co.uk/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gmb-homepage" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/sheep-heid.jpg" alt="The Sheep Heid Inn in Duddingston Village" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Walk up Arthur&#39;s Seat, then reward yourself with a pint at the Sheep Heid Inn — the oldest pub in Edinburgh. Beautiful setting in Duddingston Village."
@@ -776,9 +877,6 @@
     <div class="reddit-quote">
         "The Sheep Heid Inn is worth the walk from the city centre. Lovely old village pub with a great beer garden and a skittles alley."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Dating to 1360, the Sheep Heid Inn claims the title of Edinburgh&#39;s (and possibly Scotland&#39;s) oldest pub. Tucked away in the picturesque village of Duddingston at the foot of Arthur&#39;s Seat, it&#39;s a perfect reward after a hill walk. The skittles alley alone is worth the trip.
     </div>
 </section>
 <section class="restaurant-section" id="diggers" data-map-name="8. The Athletic Arms (Diggers)" data-map-cta-url="https://maps.google.com/?cid=16042888762794784375&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Athletic Arms (Diggers), Gorgie, Angle Park Terrace, Edinburgh, GB" data-map-lat="55.9390158" data-map-lng="-3.2237006">
@@ -792,6 +890,20 @@
         <span>📍 Gorgie, Angle Park Terrace</span>
         <a href="https://maps.google.com/?cid=16042888762794784375&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Known universally as &quot;Diggers&quot; (it sits between two cemeteries — hence the gravediggers&#39; nickname), this is Edinburgh&#39;s ultimate no-frills local.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Traditional Local in Gorgie, Angle Park Terrace with a £3.80–£5.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,168 Google reviews · Traditional Local · Gorgie, Angle Park Terrace</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £3.80–£5.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£3.80–£5.50/pint · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Known universally as &quot;Diggers&quot; (it sits between two cemeteries — hence the gravediggers&#39; nickname), this is Edinburgh&#39;s ultimate no-frills local. Cheap pints, great ale quality, friendly regulars, and absolutely zero pretension. If you want to see how Edinburghers actually drink, this is it.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -804,7 +916,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312599948">+441312599948</a></span><span>🌐 <a href="http://athleticarms.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/diggers.jpg" alt="The Athletic Arms (Diggers) in Gorgie, Angle Park Terrace" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cloisters, The Belfry and Diggers (especially if you manage to get a seat)."
@@ -813,9 +924,6 @@
     <div class="reddit-quote">
         "Diggers has some of the cheapest well-kept pints in Edinburgh. It&#39;s called Diggers because it&#39;s next to two cemeteries."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Known universally as &quot;Diggers&quot; (it sits between two cemeteries — hence the gravediggers&#39; nickname), this is Edinburgh&#39;s ultimate no-frills local. Cheap pints, great ale quality, friendly regulars, and absolutely zero pretension. If you want to see how Edinburghers actually drink, this is it.
     </div>
 </section>
 <section class="restaurant-section" id="blue-blazer" data-map-name="9. The Blue Blazer" data-map-cta-url="https://maps.google.com/?cid=1984340900991008020&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Blue Blazer, Tollcross, Spittal Street, Edinburgh, GB" data-map-lat="55.945941999999995" data-map-lng="-3.203211">
@@ -829,6 +937,20 @@
         <span>📍 Tollcross, Spittal Street</span>
         <a href="https://maps.google.com/?cid=1984340900991008020&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Blue Blazer is a pub purist&#39;s pub — no food menu, no TV, no background music.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Real Ale in Tollcross, Spittal Street with a £4–£6/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 1,219 Google reviews · Real Ale · Tollcross, Spittal Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4–£6/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4–£6/pint · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Blue Blazer is a pub purist&#39;s pub — no food menu, no TV, no background music. Just good cask ale, quiet conversation, and the creak of old floorboards. Part of the Tollcross holy trinity with Cloisters and Bennets. Some Redditors note the staff can be gruff — take it as authenticity.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -841,7 +963,6 @@
     <div class="shop-contact"><span>🌐 <a href="http://www.theblueblazer.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/blue-blazer.jpg" alt="The Blue Blazer in Tollcross, Spittal Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Try Cloisters, Blue Blazer (when it opens) and Hanging Bat, all around Tollcross, and Bow Bar is worth the walk."
@@ -850,9 +971,6 @@
     <div class="reddit-quote">
         "Blue Blazer is a nice one too. I&#39;d bet there aren&#39;t many pubs in the city with a better pint of 80 shilling."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Blue Blazer is a pub purist&#39;s pub — no food menu, no TV, no background music. Just good cask ale, quiet conversation, and the creak of old floorboards. Part of the Tollcross holy trinity with Cloisters and Bennets. Some Redditors note the staff can be gruff — take it as authenticity.
     </div>
 </section>
 <section class="restaurant-section" id="halfway-house" data-map-name="10. The Halfway House" data-map-cta-url="https://maps.google.com/?cid=12921184067945287697&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Halfway House, Old Town, Fleshmarket Close, Edinburgh, GB" data-map-lat="55.950995" data-map-lng="-3.1888609">
@@ -866,6 +984,20 @@
         <span>📍 Old Town, Fleshmarket Close</span>
         <a href="https://maps.google.com/?cid=12921184067945287697&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Possibly Edinburgh&#39;s tiniest pub, wedged into a narrow close halfway between Waverley Station and the Royal Mile.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Tiny &amp; Cozy in Old Town, Fleshmarket Close with a £4.50–£6.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,439 Google reviews · Tiny &amp; Cozy · Old Town, Fleshmarket Close</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£6.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£6.50/pint · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Possibly Edinburgh&#39;s tiniest pub, wedged into a narrow close halfway between Waverley Station and the Royal Mile. With barely 20 seats and real cask ale, it&#39;s the kind of place that makes Instagram &quot;hidden gem&quot; lists — except it actually deserves the label. Go at a quiet time or you won&#39;t get in.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -878,7 +1010,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312257101">+441312257101</a></span><span>🌐 <a href="https://www.oldtownpubco.com/our-bars/halfway-house/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/halfway-house.jpg" alt="The Halfway House in Old Town, Fleshmarket Close" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "The Halfway House on Fleshmarket Close is the smallest pub I&#39;ve ever been in. Absolutely tiny but loads of character."
@@ -887,9 +1018,6 @@
     <div class="reddit-quote">
         "It&#39;s halfway up the steps between Waverley and the Royal Mile — hence the name. Brilliant little pub."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Possibly Edinburgh&#39;s tiniest pub, wedged into a narrow close halfway between Waverley Station and the Royal Mile. With barely 20 seats and real cask ale, it&#39;s the kind of place that makes Instagram &quot;hidden gem&quot; lists — except it actually deserves the label. Go at a quiet time or you won&#39;t get in.
     </div>
 </section>
 <section class="restaurant-section" id="stockbridge-tap" data-map-name="11. Stockbridge Tap" data-map-cta-url="https://maps.google.com/?cid=12290713959306514764&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Stockbridge Tap, Stockbridge, Raeburn Place, Edinburgh, GB" data-map-lat="55.9589058" data-map-lng="-3.2099759999999997">
@@ -903,6 +1031,20 @@
         <span>📍 Stockbridge, Raeburn Place</span>
         <a href="https://maps.google.com/?cid=12290713959306514764&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If you want to escape the Old Town crowds, head to Stockbridge Tap.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Craft Beer in Stockbridge, Raeburn Place with a £4.50–£6.50/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 952 Google reviews · Craft Beer · Stockbridge, Raeburn Place</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4.50–£6.50/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4.50–£6.50/pint · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If you want to escape the Old Town crowds, head to Stockbridge Tap. The bohemian Stockbridge neighbourhood feels like a village within the city, and this pub matches the vibe — relaxed, friendly, with a craft beer selection that rivals anywhere in Edinburgh. Combine it with a walk along the Water of Leith.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -915,7 +1057,6 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/stockbridge-tap.jpg" alt="Stockbridge Tap in Stockbridge, Raeburn Place" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Stockbridge Tap is great for craft beer. Nice quiet area too, away from the tourist madness."
@@ -924,9 +1065,6 @@
     <div class="reddit-quote">
         "Cloisters, Bennets Bar, Blue Blazer, Bow Bar, Jolly Judge and the Stockbridge Tap to name a few."
         <span class="source">— r/Edinburgh · pub recommendations</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If you want to escape the Old Town crowds, head to Stockbridge Tap. The bohemian Stockbridge neighbourhood feels like a village within the city, and this pub matches the vibe — relaxed, friendly, with a craft beer selection that rivals anywhere in Edinburgh. Combine it with a walk along the Water of Leith.
     </div>
 </section>
 <section class="restaurant-section" id="thomsons" data-map-name="12. Thomson&#39;s Bar" data-map-cta-url="https://maps.google.com/?cid=12873189040640659491&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Thomson&#39;s Bar, Haymarket, Morrison Street, Edinburgh, GB" data-map-lat="55.946276399999995" data-map-lng="-3.2123275">
@@ -940,6 +1078,20 @@
         <span>📍 Haymarket, Morrison Street</span>
         <a href="https://maps.google.com/?cid=12873189040640659491&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Thomson&#39;s is the kind of pub that doesn&#39;t need a gimmick — just good beer, fair prices, and a genuinely friendly atmosphere.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Traditional Local in Haymarket, Morrison Street with a £4–£6/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 656 Google reviews · Traditional Local · Haymarket, Morrison Street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4–£6/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4–£6/pint · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Thomson&#39;s is the kind of pub that doesn&#39;t need a gimmick — just good beer, fair prices, and a genuinely friendly atmosphere. Near Haymarket Station, it&#39;s convenient for arrivals and departures. The regulars are the welcoming type, not the &quot;this is our pub&quot; type.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -952,7 +1104,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312285700">+441312285700</a></span><span>🌐 <a href="http://thomsonsbaredinburgh.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/thomsons.jpg" alt="Thomson&#39;s Bar in Haymarket, Morrison Street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Thomson&#39;s Bar near Haymarket. Proper pub, good prices, nice folk. No airs and graces."
@@ -961,9 +1112,6 @@
     <div class="reddit-quote">
         "If you&#39;re near Haymarket, Thomson&#39;s is the one. Cheaper than town, better atmosphere."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Thomson&#39;s is the kind of pub that doesn&#39;t need a gimmick — just good beer, fair prices, and a genuinely friendly atmosphere. Near Haymarket Station, it&#39;s convenient for arrivals and departures. The regulars are the welcoming type, not the &quot;this is our pub&quot; type.
     </div>
 </section>
 <section class="restaurant-section" id="bannermans" data-map-name="13. Bannermans" data-map-cta-url="https://maps.google.com/?cid=1958106352334435514&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bannermans, Old Town, Cowgate, Edinburgh, GB" data-map-lat="55.948844699999995" data-map-lng="-3.1866106">
@@ -977,6 +1125,20 @@
         <span>📍 Old Town, Cowgate</span>
         <a href="https://maps.google.com/?cid=1958106352334435514&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If Sandy Bell&#39;s is Edinburgh&#39;s folk music pub, Bannermans is its rock equivalent.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Live Music &amp; Rock in Old Town, Cowgate with a £4–£6/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 2,114 Google reviews · Live Music &amp; Rock · Old Town, Cowgate</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £4–£6/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£4–£6/pint · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If Sandy Bell&#39;s is Edinburgh&#39;s folk music pub, Bannermans is its rock equivalent. Tucked into the medieval vaults beneath the Cowgate, it&#39;s dark, loud, and brilliant. Live bands most nights with no or cheap cover charges. The Cowgate location means it&#39;s easy to combine with a pub crawl through Edinburgh&#39;s most atmospheric street.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -989,7 +1151,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441315563254">+441315563254</a></span><span>🌐 <a href="http://www.bannermanslive.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/bannermans.jpg" alt="Bannermans in Old Town, Cowgate" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Bannermans at the Cowgate if you like more alternative / rock music."
@@ -998,9 +1159,6 @@
     <div class="reddit-quote">
         "Bannermans is Edinburgh&#39;s best live music pub. Dark, underground, proper rock venue. Been going for years."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If Sandy Bell&#39;s is Edinburgh&#39;s folk music pub, Bannermans is its rock equivalent. Tucked into the medieval vaults beneath the Cowgate, it&#39;s dark, loud, and brilliant. Live bands most nights with no or cheap cover charges. The Cowgate location means it&#39;s easy to combine with a pub crawl through Edinburgh&#39;s most atmospheric street.
     </div>
 </section>
 <section class="restaurant-section" id="ensign-ewart" data-map-name="14. The Ensign Ewart" data-map-cta-url="https://maps.google.com/?cid=12882126038461503142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Ensign Ewart, Old Town, Lawnmarket (Castle end), Edinburgh, GB" data-map-lat="55.9492054" data-map-lng="-3.1944086">
@@ -1014,6 +1172,20 @@
         <span>📍 Old Town, Lawnmarket (Castle end)</span>
         <a href="https://maps.google.com/?cid=12882126038461503142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Named after a Scots Greys sergeant who captured a French standard at Waterloo, the Ensign Ewart sits at the very top of the Royal Mile beside Edinburgh Castle.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Historic in Old Town, Lawnmarket (Castle end) with a £5–£7/pint spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 2,333 Google reviews · Historic · Old Town, Lawnmarket (Castle end)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: £5–£7/pint</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>£5–£7/pint · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Named after a Scots Greys sergeant who captured a French standard at Waterloo, the Ensign Ewart sits at the very top of the Royal Mile beside Edinburgh Castle. It&#39;s a tourist-area pub that locals don&#39;t hate — which, in Edinburgh, is high praise. The views from the window seats are hard to beat.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1026,7 +1198,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+441312257440">+441312257440</a></span><span>🌐 <a href="http://www.ensignewartpub.co.uk/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/edinburgh-pubs/ensign-ewart.jpg" alt="The Ensign Ewart in Old Town, Lawnmarket (Castle end)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "The Ensign Ewart, Jolly Judge, and Bow Bar around the top of the High Street."
@@ -1035,9 +1206,6 @@
     <div class="reddit-quote">
         "It&#39;s right at the top of the Royal Mile. Touristy location but it&#39;s actually a decent pub, unlike most of the Mile."
         <span class="source">— r/Edinburgh · reply</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Named after a Scots Greys sergeant who captured a French standard at Waterloo, the Ensign Ewart sits at the very top of the Royal Mile beside Edinburgh Castle. It&#39;s a tourist-area pub that locals don&#39;t hate — which, in Edinburgh, is high praise. The views from the window seats are hard to beat.
     </div>
 </section>
       </section>

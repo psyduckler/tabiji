@@ -454,7 +454,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -467,18 +476,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -556,6 +566,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>New York City&#39;s pizza scene offers options ranging from $3 to $35, with Joe&#39;s Pizza being a top recommendation for its classic NY slice. This guide focuses on spots favored by New Yorkers and pizza enthusiasts, avoiding tourist traps to highlight truly exceptional slices and pies.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Ops — $16–$24 — 4.6★ (857 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>$3–$35</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Joe&#39;s Pizza — $3–$6</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Joe&#39;s Pizza:</strong> The quintessential NYC slice.</li>
+            <li><strong>L&#39;Industrie Pizzeria:</strong> The current reigning champion of NYC slices on Reddit.</li>
+            <li><strong>Lucali:</strong> The most romantic pizza experience in NYC.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>New York City&#39;s pizza scene offers options ranging from $3 to $35, with Joe&#39;s Pizza being a top recommendation for its classic NY slice. This guide focuses on spots favored by New Yorkers and pizza enthusiasts, avoiding tourist traps to highlight truly exceptional slices and pies.</strong></p>
         <p>New York City invented the American pizza slice. From coal-oven originals dating back to 1905 to today&#39;s Instagram-famous Sicilian squares, the city&#39;s pizza scene is the deepest and most competitive in the world. But with thousands of pizzerias across five boroughs, finding the genuinely great ones means wading through a lot of mediocre cheese.</p><p>We analyzed hundreds of Reddit posts from r/FoodNYC, r/AskNYC, r/pizza, and r/nyc to find the spots that actual New Yorkers and serious pizza enthusiasts recommend over and over. Skip the tourist traps — these are the slices and pies worth your time.</p>
@@ -610,6 +638,20 @@
         <span>📍 Greenwich Village, Manhattan</span>
         <a href="https://maps.google.com/?cid=4877966330195296067&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The quintessential NYC slice.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Greenwich Village, Manhattan with a $3–$6 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 10,151 Google reviews · NY Slice · Greenwich Village, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $3–$6</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$3–$6 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The quintessential NYC slice. Joe&#39;s on Carmine Street has been the benchmark since 1975. It&#39;s not fancy, it&#39;s not trying to be — it&#39;s just a perfect New York cheese slice. The line moves fast. No trip to NYC is complete without one.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Joe&#39;s Pizza in Greenwich Village, Manhattan, offers a quintessential NY slice experience for $3–$6. Order a plain cheese slice; the cheese-to-sauce-to-crust ratio is textbook perfect. Fold it in half and eat it standing on the sidewalk like a real New Yorker.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -622,8 +664,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12123661182">+12123661182</a></span><span>🌐 <a href="http://www.joespizzanyc.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/joes-pizza.jpg" alt="Joe&#39;s Pizza in Greenwich Village, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Joe&#39;s Pizza in Greenwich Village, Manhattan, offers a quintessential NY slice experience for $3–$6. Order a plain cheese slice; the cheese-to-sauce-to-crust ratio is textbook perfect. Fold it in half and eat it standing on the sidewalk like a real New Yorker.</div>
     
     <div class="reddit-quote">
         "Joe&#39;s if you want the traditional NY slice. It&#39;s the gold standard for a reason."
@@ -632,9 +672,6 @@
     <div class="reddit-quote">
         "So for a tourist with limited time, I&#39;d probably recommend a pizza crawl in the West Village: Joe&#39;s, L&#39;Industrie, and/or Mama&#39;s Too."
         <span class="source">— r/AskNYC · Best pizza for a first-timer</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The quintessential NYC slice. Joe&#39;s on Carmine Street has been the benchmark since 1975. It&#39;s not fancy, it&#39;s not trying to be — it&#39;s just a perfect New York cheese slice. The line moves fast. No trip to NYC is complete without one.
     </div>
 </section>
 <section class="restaurant-section" id="lindustrie" data-map-name="2. L&#39;Industrie Pizzeria" data-map-cta-url="https://maps.google.com/?cid=10791742978073970501&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="L&#39;Industrie Pizzeria, Williamsburg, Brooklyn (+ West Village), New York, US" data-map-lat="40.711605299999995" data-map-lng="-73.9578691">
@@ -648,6 +685,20 @@
         <span>📍 Williamsburg, Brooklyn (+ West Village)</span>
         <a href="https://maps.google.com/?cid=10791742978073970501&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The current reigning champion of NYC slices on Reddit.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Williamsburg, Brooklyn (+ West Village) with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 5,461 Google reviews · NY Slice · Williamsburg, Brooklyn (+ West Village)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $4–$7</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The current reigning champion of NYC slices on Reddit. The burrata slice is an event — creamy, rich, and absurdly good. Now with a West Village location too. If you only eat at one pizza spot, many New Yorkers would say make it L&#39;Industrie.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>L&#39;Industrie Pizzeria, with locations in Williamsburg, Brooklyn, and the West Village, serves NY slices priced at $4–$7. The burrata slice is a must-try — a mountain of fresh burrata on top of a margherita slice. Also excellent: the plain cheese and the white pie with mushrooms.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -660,8 +711,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17185990002">+17185990002</a></span><span>🌐 <a href="http://www.lindustriebk.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/lindustrie.jpg" alt="L&#39;Industrie Pizzeria in Williamsburg, Brooklyn (+ West Village)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> L&#39;Industrie Pizzeria, with locations in Williamsburg, Brooklyn, and the West Village, serves NY slices priced at $4–$7. The burrata slice is a must-try — a mountain of fresh burrata on top of a margherita slice. Also excellent: the plain cheese and the white pie with mushrooms.</div>
     
     <div class="reddit-quote">
         "As a native New Yorker I fully endorse L&#39;Industrie as king!"
@@ -670,9 +719,6 @@
     <div class="reddit-quote">
         "L&#39;Industrie, Mama&#39;s Too, Lucia in SoHo, Cello&#39;s in the EV. Scarr&#39;s and Joe&#39;s on Carmine are also good."
         <span class="source">— r/FoodNYC · How to find the best pizza thread, May 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The current reigning champion of NYC slices on Reddit. The burrata slice is an event — creamy, rich, and absurdly good. Now with a West Village location too. If you only eat at one pizza spot, many New Yorkers would say make it L&#39;Industrie.
     </div>
 </section>
 <section class="restaurant-section" id="lucali" data-map-name="3. Lucali" data-map-cta-url="https://maps.google.com/?cid=17481342074422520503&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lucali, Carroll Gardens, Brooklyn, New York, US" data-map-lat="40.681826" data-map-lng="-74.0003184">
@@ -686,6 +732,20 @@
         <span>📍 Carroll Gardens, Brooklyn</span>
         <a href="https://maps.google.com/?cid=17481342074422520503&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most romantic pizza experience in NYC.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Whole Pie in Carroll Gardens, Brooklyn with a $28–$35 (whole pie, cash only) spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 3,005 Google reviews · Whole Pie · Carroll Gardens, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it&#39;s a special-occasion pizza that lives up to the hype</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$28–$35 (whole pie, cash only) · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most romantic pizza experience in NYC. Mark Iacono hand-rolls every pie in a candlelit Carroll Gardens storefront. The wait can be 1–2 hours (arrive before 5 PM), but it&#39;s a special-occasion pizza that lives up to the hype. Cash only, BYOB.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Lucali in Carroll Gardens, Brooklyn, offers whole pies (cash only) for $28–$35, known for their exceptional thin crust. Order a plain cheese pie — the crust is thin, charred, and impossibly good. Add a calzone too. BYOB (bring your own wine from the shop around the corner).</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -698,8 +758,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17188584086">+17188584086</a></span><span>🌐 <a href="https://www.lucali.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/lucali.jpg" alt="Lucali in Carroll Gardens, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Lucali in Carroll Gardens, Brooklyn, offers whole pies (cash only) for $28–$35, known for their exceptional thin crust. Order a plain cheese pie — the crust is thin, charred, and impossibly good. Add a calzone too. BYOB (bring your own wine from the shop around the corner).</div>
     
     <div class="reddit-quote">
         "Lucali is the best I&#39;ve had, and sometimes they open up on Ubereats so that you can order pickup, which sidesteps the usual waiting in a long line issue."
@@ -708,9 +766,6 @@
     <div class="reddit-quote">
         "Lucali&#39;s if you don&#39;t mind the wait. Tastes good, quality ingredients. Suffers from being overhyped perhaps."
         <span class="source">— r/FoodNYC · Pizza Ratings 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most romantic pizza experience in NYC. Mark Iacono hand-rolls every pie in a candlelit Carroll Gardens storefront. The wait can be 1–2 hours (arrive before 5 PM), but it&#39;s a special-occasion pizza that lives up to the hype. Cash only, BYOB.
     </div>
 </section>
 <section class="restaurant-section" id="di-fara" data-map-name="4. Di Fara Pizza" data-map-cta-url="https://maps.google.com/?cid=13683986815121510847&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Di Fara Pizza, Midwood, Brooklyn, New York, US" data-map-lat="40.6250267" data-map-lng="-73.9615228">
@@ -724,6 +779,20 @@
         <span>📍 Midwood, Brooklyn</span>
         <a href="https://maps.google.com/?cid=13683986815121510847&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A pilgrimage site.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Classic NY in Midwood, Brooklyn with a $5–$35 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 4,596 Google reviews · Classic NY · Midwood, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $5–$35</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$5–$35 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A pilgrimage site. Dom DeMarco made every pie by hand for 60+ years until his passing in 2022. The family carries on, and while some say it&#39;s changed, the square slice remains one of the best things you can eat in New York. The trek to Midwood is part of the experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Di Fara Pizza in Midwood, Brooklyn, offers classic NY slices and pies ranging from $5–$35. Order a regular round slice or a square slice. The square (Sicilian) is legendary — thick, oily, with fresh basil and parmesan scissored on top.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -736,8 +805,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17182581367">+17182581367</a></span><span>🌐 <a href="https://www.difarapizzany.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/di-fara.jpg" alt="Di Fara Pizza in Midwood, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Di Fara Pizza in Midwood, Brooklyn, offers classic NY slices and pies ranging from $5–$35. Order a regular round slice or a square slice. The square (Sicilian) is legendary — thick, oily, with fresh basil and parmesan scissored on top.</div>
     
     <div class="reddit-quote">
         "Di Fara is the best pizza I&#39;ve had in NYC. Just go when it first opens on a weekday and the wait shouldn&#39;t be too long."
@@ -746,9 +813,6 @@
     <div class="reddit-quote">
         "OPS in Bushwick is a must. Di Fara&#39;s should be your very next visit, though."
         <span class="source">— r/FoodNYC · NY Pizza Tier List thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A pilgrimage site. Dom DeMarco made every pie by hand for 60+ years until his passing in 2022. The family carries on, and while some say it&#39;s changed, the square slice remains one of the best things you can eat in New York. The trek to Midwood is part of the experience.
     </div>
 </section>
 <section class="restaurant-section" id="prince-street" data-map-name="5. Prince Street Pizza" data-map-cta-url="https://maps.google.com/?cid=4339770564542676381&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Prince Street Pizza, Nolita, Manhattan, New York, US" data-map-lat="40.7230777" data-map-lng="-73.9945444">
@@ -762,6 +826,20 @@
         <span>📍 Nolita, Manhattan</span>
         <a href="https://maps.google.com/?cid=4339770564542676381&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Love it or hate the hype, the Spicy Spring pepperoni square is objectively delicious.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Sicilian in Nolita, Manhattan with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 8,923 Google reviews · Sicilian · Nolita, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>weekday afternoons are manageable</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Love it or hate the hype, the Spicy Spring pepperoni square is objectively delicious. The line can be brutal (30–45 min on weekends), but weekday afternoons are manageable. Worth trying once — just don&#39;t make it your only NYC pizza experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Prince Street Pizza in Nolita, Manhattan, is famous for its Sicilian slices, priced at $4–$7. The Spicy Spring is the go-to order — a thick Sicilian square loaded with pepperoni that curls into crispy little cups. It&#39;s the most Instagrammed slice in NYC for a reason.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -774,8 +852,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12129664100">+12129664100</a></span><span>🌐 <a href="https://locations.princestreetpizza.com/new-york" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/prince-street.jpg" alt="Prince Street Pizza in Nolita, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Prince Street Pizza in Nolita, Manhattan, is famous for its Sicilian slices, priced at $4–$7. The Spicy Spring is the go-to order — a thick Sicilian square loaded with pepperoni that curls into crispy little cups. It&#39;s the most Instagrammed slice in NYC for a reason.</div>
     
     <div class="reddit-quote">
         "If you&#39;re into something spicier, Prince Street&#39;s pepperoni slice is iconic."
@@ -784,9 +860,6 @@
     <div class="reddit-quote">
         "AGREED ON PRINCE STREET. I hate having to acknowledge it when I had it that one time. I think about it every time I pass by. It&#39;s too unfortunate."
         <span class="source">— r/FoodNYC · NY Pizza Tier List thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Love it or hate the hype, the Spicy Spring pepperoni square is objectively delicious. The line can be brutal (30–45 min on weekends), but weekday afternoons are manageable. Worth trying once — just don&#39;t make it your only NYC pizza experience.
     </div>
 </section>
 <section class="restaurant-section" id="scarrs" data-map-name="6. Scarr&#39;s Pizza" data-map-cta-url="https://maps.google.com/?cid=13141275277496019842&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Scarr&#39;s Pizza, Lower East Side, Manhattan, New York, US" data-map-lat="40.7157238" data-map-lng="-73.99161149999999">
@@ -800,6 +873,20 @@
         <span>📍 Lower East Side, Manhattan</span>
         <a href="https://maps.google.com/?cid=13141275277496019842&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> House-milled flour puts Scarr&#39;s a cut above most slice shops.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Lower East Side, Manhattan with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 4,585 Google reviews · NY Slice · Lower East Side, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>even &quot;slightly declined&quot; Scarr&#39;s is better than 95% of NYC pizza</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>House-milled flour puts Scarr&#39;s a cut above most slice shops. Some Redditors say it&#39;s not what it was, but even &quot;slightly declined&quot; Scarr&#39;s is better than 95% of NYC pizza. The LES location has great late-night vibes.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Scarr&#39;s Pizza on the Lower East Side, Manhattan, serves NY slices for $4–$7, distinguished by their house-milled flour. Order a plain slice — they mill their own flour in-house, giving the crust a distinctive nuttiness. The pepperoni is also excellent.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -812,8 +899,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12123343481">+12123343481</a></span><span>🌐 <a href="http://www.scarrspizza.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/scarrs.jpg" alt="Scarr&#39;s Pizza in Lower East Side, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Scarr&#39;s Pizza on the Lower East Side, Manhattan, serves NY slices for $4–$7, distinguished by their house-milled flour. Order a plain slice — they mill their own flour in-house, giving the crust a distinctive nuttiness. The pepperoni is also excellent.</div>
     
     <div class="reddit-quote">
         "Scarr&#39;s: 8.7 — most balanced, good crisp. Heard it&#39;s not at its peak anymore. But still enjoyed the overall balance."
@@ -822,9 +907,6 @@
     <div class="reddit-quote">
         "For classic NYC slice vibes, Scarr&#39;s and Joe&#39;s never miss."
         <span class="source">— r/NewYorkLookup · Best Pizza in NYC, June 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> House-milled flour puts Scarr&#39;s a cut above most slice shops. Some Redditors say it&#39;s not what it was, but even &quot;slightly declined&quot; Scarr&#39;s is better than 95% of NYC pizza. The LES location has great late-night vibes.
     </div>
 </section>
 <section class="restaurant-section" id="johns-bleecker" data-map-name="7. John&#39;s of Bleecker Street" data-map-cta-url="https://maps.google.com/?cid=4740722753943719540&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="John&#39;s of Bleecker Street, Greenwich Village, Manhattan, New York, US" data-map-lat="40.7316187" data-map-lng="-74.00344679999999">
@@ -838,6 +920,20 @@
         <span>📍 Greenwich Village, Manhattan</span>
         <a href="https://maps.google.com/?cid=4740722753943719540&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Open since 1929, John&#39;s is NYC pizza history you can eat.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Coal-Oven in Greenwich Village, Manhattan with a $18–$28 (whole pies only) spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 8,057 Google reviews · Coal-Oven · Greenwich Village, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $18–$28 (whole pies only)</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$18–$28 (whole pies only) · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Open since 1929, John&#39;s is NYC pizza history you can eat. The coal-oven crust is thin, charred, and smoky — different from any gas-oven slice shop. No slices, no reservations, no credit cards (they now accept cards). Bring friends and split a pie.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>John&#39;s of Bleecker Street in Greenwich Village, Manhattan, offers coal-oven whole pies only, ranging from $18–$28. Order a plain cheese pie from the coal-fired brick oven. The charred, thin crust with bubbly cheese is old-school NYC perfection. No slices — whole pies only.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -850,15 +946,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12122431680">+12122431680</a></span><span>🌐 <a href="http://johnsofbleecker.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/johns-bleecker.jpg" alt="John&#39;s of Bleecker Street in Greenwich Village, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> John&#39;s of Bleecker Street in Greenwich Village, Manhattan, offers coal-oven whole pies only, ranging from $18–$28. Order a plain cheese pie from the coal-fired brick oven. The charred, thin crust with bubbly cheese is old-school NYC perfection. No slices — whole pies only.</div>
     
     <div class="reddit-quote">
         "John&#39;s of Bleecker, Prince St Pizza, and Lucali. My absolute favorites. The other two have never disappointed me in all my years eating there."
         <span class="source">— r/Pizza · Visited NYC for pizza thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Open since 1929, John&#39;s is NYC pizza history you can eat. The coal-oven crust is thin, charred, and smoky — different from any gas-oven slice shop. No slices, no reservations, no credit cards (they now accept cards). Bring friends and split a pie.
     </div>
 </section>
 <section class="restaurant-section" id="paulie-gees" data-map-name="8. Paulie Gee&#39;s" data-map-cta-url="https://maps.google.com/?cid=15644544739977789417&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Paulie Gee&#39;s, Greenpoint, Brooklyn, New York, US" data-map-lat="40.7283642" data-map-lng="-73.95717499999999">
@@ -872,6 +963,20 @@
         <span>📍 Greenpoint, Brooklyn</span>
         <a href="https://maps.google.com/?cid=15644544739977789417&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Paulie Gee started as a home pizza obsessive and built a Greenpoint institution.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Wood-Fired in Greenpoint, Brooklyn with a $18–$26 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,892 Google reviews · Wood-Fired · Greenpoint, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $18–$26</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$18–$26 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Paulie Gee started as a home pizza obsessive and built a Greenpoint institution. The wood-fired Neapolitan pies are beautifully charred with creative toppings. The Hellboy with Mike&#39;s Hot Honey basically launched the hot-honey-on-pizza trend. Great beer and cocktail list too.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Paulie Gee&#39;s in Greenpoint, Brooklyn, offers wood-fired pizzas priced between $18–$26. The Hellboy is a must-try — sopressata, fresh mozzarella, tomato, and Mike&#39;s Hot Honey drizzled on top. The sweet-heat combination is legendary.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -884,15 +989,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+19293376385">+19293376385</a></span><span>🌐 <a href="https://pauliegee.com/restaurant/paulie-gees-slice-shop/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/paulie-gees.jpg" alt="Paulie Gee&#39;s in Greenpoint, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Paulie Gee&#39;s in Greenpoint, Brooklyn, offers wood-fired pizzas priced between $18–$26. The Hellboy is a must-try — sopressata, fresh mozzarella, tomato, and Mike&#39;s Hot Honey drizzled on top. The sweet-heat combination is legendary.</div>
     
     <div class="reddit-quote">
         "Can&#39;t forget Paulie Gee&#39;s. And do not settle for Baby Luc&#39;s over Lucali&#39;s."
         <span class="source">— r/FoodNYC · Seeing NY through pizza thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Paulie Gee started as a home pizza obsessive and built a Greenpoint institution. The wood-fired Neapolitan pies are beautifully charred with creative toppings. The Hellboy with Mike&#39;s Hot Honey basically launched the hot-honey-on-pizza trend. Great beer and cocktail list too.
     </div>
 </section>
 <section class="restaurant-section" id="robertas" data-map-name="9. Roberta&#39;s" data-map-cta-url="https://maps.google.com/?cid=1635123141660970877&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Roberta&#39;s, Bushwick, Brooklyn, New York, US" data-map-lat="40.705081" data-map-lng="-73.9335834">
@@ -906,6 +1006,20 @@
         <span>📍 Bushwick, Brooklyn</span>
         <a href="https://maps.google.com/?cid=1635123141660970877&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The restaurant that helped put Bushwick on the map.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Wood-Fired in Bushwick, Brooklyn with a $16–$24 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 2,105 Google reviews · Wood-Fired · Bushwick, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $16–$24</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$16–$24 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The restaurant that helped put Bushwick on the map. Roberta&#39;s is more than just pizza — it&#39;s a whole vibe with a sprawling backyard, creative cocktails, and a radio station. The wood-fired pies are excellent, and the Bee Sting is a modern classic. Can get crowded on weekends.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Roberta&#39;s in Bushwick, Brooklyn, serves wood-fired pizzas ranging from $16–$24. Order The Bee Sting — sopressata and honey on a perfectly charred crust. Also great: the Famous Original, their take on a margherita.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -918,15 +1032,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17184171118">+17184171118</a></span><span>🌐 <a href="https://www.robertaspizza.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/robertas.jpg" alt="Roberta&#39;s in Bushwick, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Roberta&#39;s in Bushwick, Brooklyn, serves wood-fired pizzas ranging from $16–$24. Order The Bee Sting — sopressata and honey on a perfectly charred crust. Also great: the Famous Original, their take on a margherita.</div>
     
     <div class="reddit-quote">
         "Roberta&#39;s in Bushwick is still great. The outdoor space is fun in summer and the pizza is consistently excellent."
         <span class="source">— r/FoodNYC</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The restaurant that helped put Bushwick on the map. Roberta&#39;s is more than just pizza — it&#39;s a whole vibe with a sprawling backyard, creative cocktails, and a radio station. The wood-fired pies are excellent, and the Bee Sting is a modern classic. Can get crowded on weekends.
     </div>
 </section>
 <section class="restaurant-section" id="mamas-too" data-map-name="10. Mama&#39;s Too" data-map-cta-url="https://maps.google.com/?cid=13289863101746079058&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mama&#39;s Too, Upper West Side, Manhattan (+ West Village), New York, US" data-map-lat="40.7332891" data-map-lng="-74.0040441">
@@ -940,6 +1049,20 @@
         <span>📍 Upper West Side, Manhattan (+ West Village)</span>
         <a href="https://maps.google.com/?cid=13289863101746079058&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The thick, cheese-heavy slices at Mama&#39;s Too are divisive — some say it&#39;s too much, others say it&#39;s the best in the city.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Upper West Side, Manhattan (+ West Village) with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 2,675 Google reviews · NY Slice · Upper West Side, Manhattan (+ West Village)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $4–$7</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The thick, cheese-heavy slices at Mama&#39;s Too are divisive — some say it&#39;s too much, others say it&#39;s the best in the city. Their vodka square is genuinely one of the best things you can eat on the Upper West Side. Now with a West Village location for downtown visitors.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mama&#39;s Too, with locations on the Upper West Side, Manhattan, and the West Village, offers NY slices for $4–$7. The vodka square is a standout — a thick, pillowy Sicilian-style slice with vodka sauce and fresh mozzarella. Their regular slices are oversized and loaded with cheese.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -952,15 +1075,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12125107256">+12125107256</a></span><span>🌐 <a href="http://mamastoo.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/mamas-too.jpg" alt="Mama&#39;s Too in Upper West Side, Manhattan (+ West Village)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mama&#39;s Too, with locations on the Upper West Side, Manhattan, and the West Village, offers NY slices for $4–$7. The vodka square is a standout — a thick, pillowy Sicilian-style slice with vodka sauce and fresh mozzarella. Their regular slices are oversized and loaded with cheese.</div>
     
     <div class="reddit-quote">
         "So many Reddit recs for tourists are like &#39;go to Scarr&#39;s then Di Fara&#39;s then Mama&#39;s Too, that&#39;s the only right answer.&#39;"
         <span class="source">— r/FoodNYC · Top Tier Pizza Ranking</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The thick, cheese-heavy slices at Mama&#39;s Too are divisive — some say it&#39;s too much, others say it&#39;s the best in the city. Their vodka square is genuinely one of the best things you can eat on the Upper West Side. Now with a West Village location for downtown visitors.
     </div>
 </section>
 <section class="restaurant-section" id="ny-pizza-suprema" data-map-name="11. NY Pizza Suprema" data-map-cta-url="https://maps.google.com/?cid=18359884482053565947&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="NY Pizza Suprema, Midtown, Manhattan (near Penn Station), New York, US" data-map-lat="40.750177799999996" data-map-lng="-73.99527379999999">
@@ -974,6 +1092,20 @@
         <span>📍 Midtown, Manhattan (near Penn Station)</span>
         <a href="https://maps.google.com/?cid=18359884482053565947&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The best pizza near any major transit hub in NYC, hands down.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Midtown, Manhattan (near Penn Station) with a $3–$6 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 8,438 Google reviews · NY Slice · Midtown, Manhattan (near Penn Station)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $3–$6</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$3–$6 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The best pizza near any major transit hub in NYC, hands down. If you&#39;re passing through Penn Station, there&#39;s zero excuse to eat anywhere else. A legit great slice hiding in plain sight in the most tourist-heavy part of Manhattan.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>NY Pizza Suprema in Midtown, Manhattan (near Penn Station), offers NY slices for $3–$6. Order a plain cheese slice or the fresh mozzarella slice. Grab it on your way to/from Penn Station — it&#39;s right across the street.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -986,15 +1118,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12125948939">+12125948939</a></span><span>🌐 <a href="https://www.nypizzasuprema.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/ny-pizza-suprema.jpg" alt="NY Pizza Suprema in Midtown, Manhattan (near Penn Station)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> NY Pizza Suprema in Midtown, Manhattan (near Penn Station), offers NY slices for $3–$6. Order a plain cheese slice or the fresh mozzarella slice. Grab it on your way to/from Penn Station — it&#39;s right across the street.</div>
     
     <div class="reddit-quote">
         "NY Pizza Suprema made the list. It&#39;s like a hiding in plain sight good pizzeria lol… Great spot to save $ instead of eating at Penn Station garbage."
         <span class="source">— r/FoodNYC · Analyzed 50+ Reddit threads, Oct 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The best pizza near any major transit hub in NYC, hands down. If you&#39;re passing through Penn Station, there&#39;s zero excuse to eat anywhere else. A legit great slice hiding in plain sight in the most tourist-heavy part of Manhattan.
     </div>
 </section>
 <section class="restaurant-section" id="totonnos" data-map-name="12. Totonno&#39;s" data-map-cta-url="https://maps.google.com/?cid=15220466615514207378&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Totonno&#39;s, Coney Island, Brooklyn, New York, US" data-map-lat="40.5789173" data-map-lng="-73.9838232">
@@ -1008,6 +1135,20 @@
         <span>📍 Coney Island, Brooklyn</span>
         <a href="https://maps.google.com/?cid=15220466615514207378&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of America&#39;s oldest pizzerias (1924).
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Coal-Oven in Coney Island, Brooklyn with a $18–$28 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 892 Google reviews · Coal-Oven · Coney Island, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $18–$28</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$18–$28 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of America&#39;s oldest pizzerias (1924). The trek to Coney Island is part of the pilgrimage — combine it with a boardwalk walk. Check hours carefully; they have limited days/hours. When the oven is hot, the pizza is transcendent.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Totonno&#39;s in Coney Island, Brooklyn, offers coal-oven whole pies for $18–$28, maintaining a traditional recipe since 1924. Order a plain cheese pie from the coal oven. Totonno&#39;s has been making the same pizza since 1924 — thin, charred, with a beautiful leopard-spotted crust. Whole pies only.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1020,15 +1161,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17183728606">+17183728606</a></span><span>🌐 <a href="http://www.totonnosconeyisland.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/totonnos.jpg" alt="Totonno&#39;s in Coney Island, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Totonno&#39;s in Coney Island, Brooklyn, offers coal-oven whole pies for $18–$28, maintaining a traditional recipe since 1924. Order a plain cheese pie from the coal oven. Totonno&#39;s has been making the same pizza since 1924 — thin, charred, with a beautiful leopard-spotted crust. Whole pies only.</div>
     
     <div class="reddit-quote">
         "Totonno&#39;s: Must be higher but note they&#39;re only open on Saturdays right now."
         <span class="source">— r/FoodNYC · Seeing NY through pizza thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of America&#39;s oldest pizzerias (1924). The trek to Coney Island is part of the pilgrimage — combine it with a boardwalk walk. Check hours carefully; they have limited days/hours. When the oven is hot, the pizza is transcendent.
     </div>
 </section>
 <section class="restaurant-section" id="patsys" data-map-name="13. Patsy&#39;s Pizzeria (East Harlem Original)" data-map-cta-url="https://maps.google.com/?cid=11884546707480531495&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Patsy&#39;s Pizzeria (East Harlem Original), East Harlem, Manhattan, New York, US" data-map-lat="40.7971528" data-map-lng="-73.9348807">
@@ -1042,6 +1178,20 @@
         <span>📍 East Harlem, Manhattan</span>
         <a href="https://maps.google.com/?cid=11884546707480531495&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Important: only the original East Harlem location (First Ave &amp; 117th) counts.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Coal-Oven in East Harlem, Manhattan with a $16–$25 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 3,588 Google reviews · Coal-Oven · East Harlem, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $16–$25</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$16–$25 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Important: only the original East Harlem location (First Ave &amp; 117th) counts. The other &quot;Patsy&#39;s&quot; locations around the city are an unrelated chain. The original has been coal-firing since 1933 and still sells individual slices — a rarity for this caliber of pizza.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Patsy&#39;s Pizzeria (East Harlem Original) in East Harlem, Manhattan, offers coal-oven pizzas ranging from $16–$25. Order a plain pie from the original coal-fired oven. The thin, charred crust is one of the last authentic links to NYC&#39;s pizza origins. They sell by the slice too — rare for coal-oven spots.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1054,15 +1204,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+12125349783">+12125349783</a></span><span>🌐 <a href="https://patsyspizzeria.shop/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/patsys.jpg" alt="Patsy&#39;s Pizzeria (East Harlem Original) in East Harlem, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Patsy&#39;s Pizzeria (East Harlem Original) in East Harlem, Manhattan, offers coal-oven pizzas ranging from $16–$25. Order a plain pie from the original coal-fired oven. The thin, charred crust is one of the last authentic links to NYC&#39;s pizza origins. They sell by the slice too — rare for coal-oven spots.</div>
     
     <div class="reddit-quote">
         "The original Patsy&#39;s in East Harlem is the real deal. Don&#39;t confuse it with the chain locations — they&#39;re not the same."
         <span class="source">— r/AskNYC</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Important: only the original East Harlem location (First Ave &amp; 117th) counts. The other &quot;Patsy&#39;s&quot; locations around the city are an unrelated chain. The original has been coal-firing since 1933 and still sells individual slices — a rarity for this caliber of pizza.
     </div>
 </section>
 <section class="restaurant-section" id="una-pizza" data-map-name="14. Una Pizza Napoletana" data-map-cta-url="https://maps.google.com/?cid=12132304911525935905&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Una Pizza Napoletana, Lower East Side, Manhattan, New York, US" data-map-lat="40.7217573" data-map-lng="-73.9886214">
@@ -1076,6 +1221,20 @@
         <span>📍 Lower East Side, Manhattan</span>
         <a href="https://maps.google.com/?cid=12132304911525935905&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The purist&#39;s choice.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Neapolitan in Lower East Side, Manhattan with a $22–$30 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 878 Google reviews · Neapolitan · Lower East Side, Manhattan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it&#39;s art</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$22–$30 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The purist&#39;s choice. Anthony Mangieri has been chasing the perfect Neapolitan pie for decades, and this LES spot is his masterwork. Just a handful of pies on the menu, each made with fanatical attention to dough, sauce, and cheese. Not cheap, but it&#39;s art.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Una Pizza Napoletana on the Lower East Side, Manhattan, specializes in Neapolitan pizzas priced between $22–$30. Order the Margherita or the Filetti — pure Neapolitan tradition. Anthony Mangieri uses just a few perfect ingredients. No toppings menu, no customization — trust the process.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1088,15 +1247,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+16464764457">+16464764457</a></span><span>🌐 <a href="https://unapizza.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/una-pizza.jpg" alt="Una Pizza Napoletana in Lower East Side, Manhattan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Una Pizza Napoletana on the Lower East Side, Manhattan, specializes in Neapolitan pizzas priced between $22–$30. Order the Margherita or the Filetti — pure Neapolitan tradition. Anthony Mangieri uses just a few perfect ingredients. No toppings menu, no customization — trust the process.</div>
     
     <div class="reddit-quote">
         "Una Pizza Napoletana is the real deal if you want true Neapolitan. Anthony Mangieri is obsessive about his dough and it shows."
         <span class="source">— r/pizza</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The purist&#39;s choice. Anthony Mangieri has been chasing the perfect Neapolitan pie for decades, and this LES spot is his masterwork. Just a handful of pies on the menu, each made with fanatical attention to dough, sauce, and cheese. Not cheap, but it&#39;s art.
     </div>
 </section>
 <section class="restaurant-section" id="ops" data-map-name="15. Ops" data-map-cta-url="https://maps.google.com/?cid=18322567931849492544&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ops, Bushwick, Brooklyn, New York, US" data-map-lat="40.7026149" data-map-lng="-73.9171894">
@@ -1110,6 +1264,20 @@
         <span>📍 Bushwick, Brooklyn</span>
         <a href="https://maps.google.com/?cid=18322567931849492544&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Pizza + natural wine in a cool Bushwick space.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Neapolitan in Bushwick, Brooklyn with a $16–$24 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 857 Google reviews · Neapolitan · Bushwick, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $16–$24</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$16–$24 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Pizza + natural wine in a cool Bushwick space. Ops is the date-night pizza spot — beautiful Neapolitan pies with seasonal, locally-sourced toppings, and a wine list that&#39;s worth the visit on its own. More restaurant than pizzeria, in the best way.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Ops in Bushwick, Brooklyn, offers Neapolitan pizzas ranging from $16–$24. Order any of the seasonal pies — they change frequently based on what&#39;s good. The natural wine list is one of the best in Brooklyn. The clam pie when available is exceptional.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1122,15 +1290,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17183864009">+17183864009</a></span><span>🌐 <a href="http://www.opsbk.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/ops.jpg" alt="Ops in Bushwick, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Ops in Bushwick, Brooklyn, offers Neapolitan pizzas ranging from $16–$24. Order any of the seasonal pies — they change frequently based on what&#39;s good. The natural wine list is one of the best in Brooklyn. The clam pie when available is exceptional.</div>
     
     <div class="reddit-quote">
         "OPS in Bushwick is a must."
         <span class="source">— r/FoodNYC · NY Pizza Tier List thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Pizza + natural wine in a cool Bushwick space. Ops is the date-night pizza spot — beautiful Neapolitan pies with seasonal, locally-sourced toppings, and a wine list that&#39;s worth the visit on its own. More restaurant than pizzeria, in the best way.
     </div>
 </section>
 <section class="restaurant-section" id="paulie-gees-slice" data-map-name="16. Paulie Gee&#39;s Slice Shop" data-map-cta-url="https://maps.google.com/?cid=15644544739977789417&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Paulie Gee&#39;s Slice Shop, Greenpoint, Brooklyn, New York, US" data-map-lat="40.7283642" data-map-lng="-73.95717499999999">
@@ -1144,6 +1307,20 @@
         <span>📍 Greenpoint, Brooklyn</span>
         <a href="https://maps.google.com/?cid=15644544739977789417&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Next door to the original sit-down Paulie Gee&#39;s, the Slice Shop translates that quality into by-the-slice format.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Greenpoint, Brooklyn with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,892 Google reviews · NY Slice · Greenpoint, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $4–$7</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Next door to the original sit-down Paulie Gee&#39;s, the Slice Shop translates that quality into by-the-slice format. The Hellboy slice with hot honey is perfection. If you don&#39;t want to sit down for a whole pie, this is the move.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Paulie Gee&#39;s Slice Shop in Greenpoint, Brooklyn, serves NY slices for $4–$7, offering a slice-shop version of their famous pie. Order The Hellboy Slice — the slice-shop version of the famous Hellboy pie with hot honey. The Freddy Prince slice (pepperoni) is also outstanding.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1156,15 +1333,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+19293376385">+19293376385</a></span><span>🌐 <a href="https://pauliegee.com/restaurant/paulie-gees-slice-shop/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/paulie-gees-slice.jpg" alt="Paulie Gee&#39;s Slice Shop in Greenpoint, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Paulie Gee&#39;s Slice Shop in Greenpoint, Brooklyn, serves NY slices for $4–$7, offering a slice-shop version of their famous pie. Order The Hellboy Slice — the slice-shop version of the famous Hellboy pie with hot honey. The Freddy Prince slice (pepperoni) is also outstanding.</div>
     
     <div class="reddit-quote">
         "Paulie Gee&#39;s Slice Shop is what happens when a pizza nerd perfects the NY slice format. Every slice is dialed in."
         <span class="source">— r/pizza</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Next door to the original sit-down Paulie Gee&#39;s, the Slice Shop translates that quality into by-the-slice format. The Hellboy slice with hot honey is perfection. If you don&#39;t want to sit down for a whole pie, this is the move.
     </div>
 </section>
 <section class="restaurant-section" id="luigis" data-map-name="17. Luigi&#39;s Pizza" data-map-cta-url="https://maps.google.com/?cid=14040834042213958662&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Luigi&#39;s Pizza, Park Slope / South Brooklyn, New York, US" data-map-lat="40.661714499999995" data-map-lng="-73.9934596">
@@ -1178,6 +1350,20 @@
         <span>📍 Park Slope / South Brooklyn</span>
         <a href="https://maps.google.com/?cid=14040834042213958662&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The neighborhood slice shop that people drive across Brooklyn for.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Park Slope / South Brooklyn with a $3–$5 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 2,408 Google reviews · NY Slice · Park Slope / South Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $3–$5</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$3–$5 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The neighborhood slice shop that people drive across Brooklyn for. No Instagram hype, no lines around the block — just a perfectly executed classic NY slice at an honest price. This is the kind of spot that makes NYC pizza culture special.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Luigi&#39;s Pizza in Park Slope / South Brooklyn offers NY slices for $3–$5, known for their old-school, no-frills approach. Order a plain cheese slice — old-school, thin, crispy, foldable. No frills, no gimmicks. Just excellent fundamentals at a fair price.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1190,15 +1376,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17184993857">+17184993857</a></span><span>🌐 <a href="http://luigispizzabrooklyn.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/luigis.jpg" alt="Luigi&#39;s Pizza in Park Slope / South Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Luigi&#39;s Pizza in Park Slope / South Brooklyn offers NY slices for $3–$5, known for their old-school, no-frills approach. Order a plain cheese slice — old-school, thin, crispy, foldable. No frills, no gimmicks. Just excellent fundamentals at a fair price.</div>
     
     <div class="reddit-quote">
         "Luigi&#39;s deserves a higher grade too. Scarr&#39;s and Luigi&#39;s in Brooklyn are also great options for traditional NY slice."
         <span class="source">— r/FoodNYC · Seeing NY through pizza thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The neighborhood slice shop that people drive across Brooklyn for. No Instagram hype, no lines around the block — just a perfectly executed classic NY slice at an honest price. This is the kind of spot that makes NYC pizza culture special.
     </div>
 </section>
 <section class="restaurant-section" id="williamsburg-pizza" data-map-name="18. Williamsburg Pizza" data-map-cta-url="https://maps.google.com/?cid=11805488392892771352&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Williamsburg Pizza, Williamsburg, Brooklyn (multiple locations), New York, US" data-map-lat="40.708129" data-map-lng="-73.9508808">
@@ -1212,6 +1393,20 @@
         <span>📍 Williamsburg, Brooklyn (multiple locations)</span>
         <a href="https://maps.google.com/?cid=11805488392892771352&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A reliable, high-quality slice shop with several locations.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>NY Slice in Williamsburg, Brooklyn (multiple locations) with a $3–$6 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 969 Google reviews · NY Slice · Williamsburg, Brooklyn (multiple locations)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>consistently delivers a great thin-crust slice</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$3–$6 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A reliable, high-quality slice shop with several locations. Not the flashiest name, but consistently delivers a great thin-crust slice. Perfect for when you&#39;re in Williamsburg and want excellent pizza without the L&#39;Industrie line.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Williamsburg Pizza, with multiple locations in Williamsburg, Brooklyn, offers NY slices for $3–$6. Order a plain slice or the grandma square. Thin-crust perfection with a great char. Multiple locations across Brooklyn and Manhattan.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1224,15 +1419,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17188558729">+17188558729</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/williamsburg-pizza.jpg" alt="Williamsburg Pizza in Williamsburg, Brooklyn (multiple locations)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Williamsburg Pizza, with multiple locations in Williamsburg, Brooklyn, offers NY slices for $3–$6. Order a plain slice or the grandma square. Thin-crust perfection with a great char. Multiple locations across Brooklyn and Manhattan.</div>
     
     <div class="reddit-quote">
         "Williamsburg Pizza and Scarr&#39;s looked the best to me but I like a thinner crust and a droopy slice."
         <span class="source">— r/Pizza · Pizza Pilgrimage Day 3</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A reliable, high-quality slice shop with several locations. Not the flashiest name, but consistently delivers a great thin-crust slice. Perfect for when you&#39;re in Williamsburg and want excellent pizza without the L&#39;Industrie line.
     </div>
 </section>
 <section class="restaurant-section" id="ff-pizzeria" data-map-name="19. F&amp;F Pizzeria" data-map-cta-url="https://maps.google.com/?cid=12828884707783524182&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="F&amp;F Pizzeria, Carroll Gardens, Brooklyn, New York, US" data-map-lat="40.677321899999995" data-map-lng="-73.998088">
@@ -1246,6 +1436,20 @@
         <span>📍 Carroll Gardens, Brooklyn</span>
         <a href="https://maps.google.com/?cid=12828884707783524182&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> From the team behind Frankie&#39;s Spuntino, F&amp;F brings restaurant-quality ingredients to a neighborhood slice shop format.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Grandma in Carroll Gardens, Brooklyn with a $4–$7 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 651 Google reviews · Grandma · Carroll Gardens, Brooklyn</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $4–$7</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$4–$7 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>From the team behind Frankie&#39;s Spuntino, F&amp;F brings restaurant-quality ingredients to a neighborhood slice shop format. The grandma slice is the star — thin, crispy, with bright sauce. If you&#39;re in Carroll Gardens for Lucali and the line is too long, walk to F&amp;F instead.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>F&amp;F Pizzeria in Carroll Gardens, Brooklyn, specializes in grandma slices priced at $4–$7. Order the grandma slice — a thin, crispy square with tangy tomato sauce and fresh mozzarella. Also excellent: the pepperoni and the white slice.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -1258,15 +1462,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+17184076575">+17184076575</a></span><span>🌐 <a href="https://www.fnfpizzeria.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/new-york-pizza/ff-pizzeria.jpg" alt="F&amp;F Pizzeria in Carroll Gardens, Brooklyn" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> F&amp;F Pizzeria in Carroll Gardens, Brooklyn, specializes in grandma slices priced at $4–$7. Order the grandma slice — a thin, crispy square with tangy tomato sauce and fresh mozzarella. Also excellent: the pepperoni and the white slice.</div>
     
     <div class="reddit-quote">
         "F&amp;F in Carroll Gardens is sleeper pick territory. The grandma slice is perfect."
         <span class="source">— r/FoodNYC</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> From the team behind Frankie&#39;s Spuntino, F&amp;F brings restaurant-quality ingredients to a neighborhood slice shop format. The grandma slice is the star — thin, crispy, with bright sauce. If you&#39;re in Carroll Gardens for Lucali and the line is too long, walk to F&amp;F instead.
     </div>
 </section>
       </section>

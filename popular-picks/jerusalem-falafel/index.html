@@ -287,7 +287,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -300,18 +309,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -389,6 +399,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Jerusalem&#39;s falafel scene, ranging from budget-friendly street food to sit-down experiences, offers a diverse culinary adventure. For the best experience, explore both the iconic Old City institutions and the West Jerusalem classics. This shortlist, curated from local and visitor recommendations, highlights the must-try spots in Jerusalem.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Michael Restaurant — 4.9★ (266 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>Varies by pick</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Moshiko Falafel</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Moshiko Falafel:</strong> The Ben Yehuda pedestrian mall location makes Moshiko supremely convenient for most tourists.</li>
+            <li><strong>Abu Shukri:</strong> One of the most iconic eating spots in all of Jerusalem, not just for falafel.</li>
+            <li><strong>Ha-Ahim Levi (האחים לוי):</strong> This is the one long-term Jerusalem residents keep coming back to.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Jerusalem&#39;s falafel scene, ranging from budget-friendly street food to sit-down experiences, offers a diverse culinary adventure. For the best experience, explore both the iconic Old City institutions and the West Jerusalem classics. This shortlist, curated from local and visitor recommendations, highlights the must-try spots in Jerusalem.</strong></p>
         <p>Jerusalem falafel is a subject of fierce local pride — ask a Jerusalemite where to eat and you&#39;ll start a debate. The city&#39;s falafel scene spans ancient stone alleyways in the Old City where Arab vendors have been frying balls for generations, to kosher market stalls in Mahane Yehuda packed with regulars every Friday morning. The pita here is thicker, the tahini more generous, and the amba (mango pickle) more aggressively spiced than anything you&#39;ll find in Tel Aviv.</p><p>We scoured r/Israel, r/travel, r/solotravel, and food-focused Reddit threads to identify the spots that locals and repeat visitors actually recommend — not the tourist traps. What emerged is a shortlist split between iconic Old City institutions and West Jerusalem classics. Both belong on your eating itinerary.</p><p>We analysed 150+ Reddit comments and posts across r/Israel, r/JapanTravel, r/solotravel, r/foodtravel, and city-specific threads. Only places mentioned independently by 2+ users across separate threads made the cut. Long-term resident opinions were weighted more heavily than one-time visitor hype. We also cross-referenced with itraveljerusalem.com, travel guides, and Google Maps reviews to verify that places still exist and have consistent quality.</p>
@@ -443,6 +471,20 @@
         <span>📍 Ben Yehuda Street, City Center</span>
         <a href="https://maps.google.com/?cid=17519490778502255766&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Ben Yehuda pedestrian mall location makes Moshiko supremely convenient for most tourists.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Classic Falafel in Ben Yehuda Street, City Center</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 1,196 Google reviews · Classic Falafel · Ben Yehuda Street, City Center</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the most consistently praised by travelers who don&#39;t have time to hunt down obscure spots</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.1★ from 1,196 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Ben Yehuda pedestrian mall location makes Moshiko supremely convenient for most tourists. Quality is reliably high — fresh-fried, well-seasoned balls in a proper thick pita. Not the most mind-blowing falafel in Jerusalem, but the most consistently praised by travelers who don&#39;t have time to hunt down obscure spots. A solid first stop.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The classic falafel pita — freshly fried balls stuffed into pita with tahini, amba, and a mountain of salads and pickles. Ask for extra amba if you like it tangy. The sabich (eggplant and egg sandwich) is also excellent.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -455,8 +497,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+972524675163">+972524675163</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/moshiko-falafel.jpg" alt="Moshiko Falafel in Ben Yehuda Street, City Center" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The classic falafel pita — freshly fried balls stuffed into pita with tahini, amba, and a mountain of salads and pickles. Ask for extra amba if you like it tangy. The sabich (eggplant and egg sandwich) is also excellent.</div>
     
     <div class="reddit-quote">
         "Moshiko on Ben Yehuda is consistently one of the most mentioned falafel spots in Jerusalem — locals and tourists both swear by it. The balls are fried fresh and the pita-to-filling ratio is perfect."
@@ -465,9 +505,6 @@
     <div class="reddit-quote">
         "If you&#39;re staying near the city center, Moshiko is the most accessible good falafel you&#39;ll find. Don&#39;t overthink it — just go."
         <span class="source">— r/solotravel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Ben Yehuda pedestrian mall location makes Moshiko supremely convenient for most tourists. Quality is reliably high — fresh-fried, well-seasoned balls in a proper thick pita. Not the most mind-blowing falafel in Jerusalem, but the most consistently praised by travelers who don&#39;t have time to hunt down obscure spots. A solid first stop.
     </div>
 </section>
 <section class="restaurant-section" id="abu-shukri" data-map-name="2. Abu Shukri" data-map-cta-url="https://maps.google.com/?cid=7706875131455534346&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Abu Shukri, Muslim Quarter, Old City (Via Dolorosa), Jerusalem, IL" data-map-lat="31.7796082" data-map-lng="35.2324017">
@@ -481,12 +518,24 @@
         <span>📍 Muslim Quarter, Old City (Via Dolorosa)</span>
         <a href="https://maps.google.com/?cid=7706875131455534346&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of the most iconic eating spots in all of Jerusalem, not just for falafel.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Old City Institution in Muslim Quarter, Old City (Via Dolorosa)</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 576 Google reviews · Old City Institution · Muslim Quarter, Old City (Via Dolorosa)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>for the full Old City hummus-falafel experience, this is the benchmark</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.1★ from 576 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of the most iconic eating spots in all of Jerusalem, not just for falafel. The setting inside the Old City walls adds atmosphere you simply can&#39;t replicate elsewhere. The falafel here serves as a topping to world-class hummus — if you want a standalone falafel pita, it&#39;s less the focus. But for the full Old City hummus-falafel experience, this is the benchmark.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The hummus plate with falafel — warm, silky hummus topped with olive oil, whole chickpeas, and a handful of freshly fried falafel balls. Order the full falafel plate for ₪35–₪40 and add extra pita. This is a sit-down experience, not street food.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>🌐 <a href="https://www.facebook.com/AbuShukriRestaurant/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/abu-shukri.jpg" alt="Abu Shukri in Muslim Quarter, Old City (Via Dolorosa)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The hummus plate with falafel — warm, silky hummus topped with olive oil, whole chickpeas, and a handful of freshly fried falafel balls. Order the full falafel plate for ₪35–₪40 and add extra pita. This is a sit-down experience, not street food.</div>
     
     <div class="reddit-quote">
         "Abu Shukri in the Old City is legendary. The hummus is absolutely divine and the falafel on top makes it a complete meal. It&#39;s been there forever and the quality hasn&#39;t dropped."
@@ -495,9 +544,6 @@
     <div class="reddit-quote">
         "Abu Shukri is one of those places you take every visitor you have. Never disappoints. Get there early — it fills up fast."
         <span class="source">— r/Israel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of the most iconic eating spots in all of Jerusalem, not just for falafel. The setting inside the Old City walls adds atmosphere you simply can&#39;t replicate elsewhere. The falafel here serves as a topping to world-class hummus — if you want a standalone falafel pita, it&#39;s less the focus. But for the full Old City hummus-falafel experience, this is the benchmark.
     </div>
 </section>
 <section class="restaurant-section" id="ha-ahim-levi" data-map-name="3. Ha-Ahim Levi (האחים לוי)" data-map-cta-url="https://maps.google.com/?cid=1896849979319028273&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ha-Ahim Levi (האחים לוי), Mahane Yehuda Market, corner of Agripas &amp; open-shuk street, Jerusalem, IL" data-map-lat="31.7848355" data-map-lng="35.2126355">
@@ -511,6 +557,20 @@
         <span>📍 Mahane Yehuda Market, corner of Agripas &amp; open-shuk street</span>
         <a href="https://maps.google.com/?cid=1896849979319028273&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> This is the one long-term Jerusalem residents keep coming back to.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kosher · Market Stall in Mahane Yehuda Market, corner of Agripas &amp; open-shuk street</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 151 Google reviews · Kosher · Market Stall · Mahane Yehuda Market, corner of Agripas &amp; open-shuk street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.3★ from 151 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>This is the one long-term Jerusalem residents keep coming back to. A market stall with no pretensions, lines of regulars, and falafel that&#39;s been perfected over decades. The Mahane Yehuda setting — especially on a Friday morning — makes this the most &quot;authentically Jerusalem&quot; falafel experience on this list. If you visit one spot, make it this one.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Classic falafel pita stuffed to the limit — they don&#39;t hold back on the fillings. Tell them to go heavy on the tahini and don&#39;t skip the spicy sauce. Go on Friday morning before noon for peak freshness and atmosphere.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -523,8 +583,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+972506203427">+972506203427</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/ha-ahim-levi.jpg" alt="Ha-Ahim Levi (האחים לוי) in Mahane Yehuda Market, corner of Agripas &amp; open-shuk street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Classic falafel pita stuffed to the limit — they don&#39;t hold back on the fillings. Tell them to go heavy on the tahini and don&#39;t skip the spicy sauce. Go on Friday morning before noon for peak freshness and atmosphere.</div>
     
     <div class="reddit-quote">
         "Best falafel in Jerusalem — &#39;Ha-Ahim Levi&#39; in Mahane Yehuda shuk. On the corner of the open-shuk street and Agripas. It&#39;s the one."
@@ -533,9 +591,6 @@
     <div class="reddit-quote">
         "If you&#39;re at the shuk, there&#39;s really only one answer for falafel. Ha-Ahim Levi. It&#39;s not fancy, it&#39;s a stall, and the queue tells you everything you need to know."
         <span class="source">— r/Israel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> This is the one long-term Jerusalem residents keep coming back to. A market stall with no pretensions, lines of regulars, and falafel that&#39;s been perfected over decades. The Mahane Yehuda setting — especially on a Friday morning — makes this the most &quot;authentically Jerusalem&quot; falafel experience on this list. If you visit one spot, make it this one.
     </div>
 </section>
 <section class="restaurant-section" id="falafel-shlomo" data-map-name="4. Falafel Shlomo" data-map-cta-url="https://maps.google.com/?cid=16712470739851320645&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Falafel Shlomo, Givat Shaul neighborhood, West Jerusalem, Jerusalem, IL" data-map-lat="31.793949299999998" data-map-lng="35.1879048">
@@ -549,6 +604,20 @@
         <span>📍 Givat Shaul neighborhood, West Jerusalem</span>
         <a href="https://maps.google.com/?cid=16712470739851320645&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A locals-only find in the Givat Shaul residential area — you won&#39;t stumble on it by accident.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Classic Falafel in Givat Shaul neighborhood, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.8★ from 533 Google reviews · Classic Falafel · Givat Shaul neighborhood, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.8★ from 533 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A locals-only find in the Givat Shaul residential area — you won&#39;t stumble on it by accident. The poster&#39;s confidence (&quot;if you disagree, tell me where else to go&quot;) tells you everything. This is the kind of no-name neighbourhood spot that Jerusalem residents are fiercely loyal to. Worth the short bus or taxi ride if you want to eat where locals eat.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Simple, no-frills falafel pita — they do one thing and do it well. The balls are perfectly crispy outside, bright green inside from fresh herbs. Ask for all the salads and let them build it for you. Prices are among the lowest in the city.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -561,15 +630,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97225000105">+97225000105</a></span><span>🌐 <a href="https://israelbusinessguide.com/catalog/ierusalim/shlomo_falafel/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/falafel-shlomo.jpg" alt="Falafel Shlomo in Givat Shaul neighborhood, West Jerusalem" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Simple, no-frills falafel pita — they do one thing and do it well. The balls are perfectly crispy outside, bright green inside from fresh herbs. Ask for all the salads and let them build it for you. Prices are among the lowest in the city.</div>
     
     <div class="reddit-quote">
         "Falafel Shlomo — near the Test Line in Givat Shaul, best falafel in Jerusalem. If you disagree please tell me where else to go."
         <span class="source">— r/Israel · Restaurant recommendations in Jerusalem thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A locals-only find in the Givat Shaul residential area — you won&#39;t stumble on it by accident. The poster&#39;s confidence (&quot;if you disagree, tell me where else to go&quot;) tells you everything. This is the kind of no-name neighbourhood spot that Jerusalem residents are fiercely loyal to. Worth the short bus or taxi ride if you want to eat where locals eat.
     </div>
 </section>
 <section class="restaurant-section" id="falafel-king" data-map-name="5. Falafel King" data-map-cta-url="https://maps.google.com/?cid=14091169586727713107&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Falafel King, Near Damascus Gate, East Jerusalem, Jerusalem, IL" data-map-lat="31.7823763" data-map-lng="35.219273099999995">
@@ -583,6 +647,20 @@
         <span>📍 Near Damascus Gate, East Jerusalem</span>
         <a href="https://maps.google.com/?cid=14091169586727713107&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Damascus Gate is one of the great entry points into Jerusalem&#39;s Old City, and eating falafel right here as the city hums around you is an experience in itself.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Old City · Arab Quarter in Near Damascus Gate, East Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>1★ from 8 Google reviews · Old City · Arab Quarter · Near Damascus Gate, East Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>1★ from 8 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Damascus Gate is one of the great entry points into Jerusalem&#39;s Old City, and eating falafel right here as the city hums around you is an experience in itself. The falafel is genuinely excellent — Palestinian-style balls that are more herby and aromatic than the Israeli versions. One of the best spots for Old City atmosphere combined with quality food.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Falafel pita with the works — their seasoning is slightly different from the kosher spots, with a hint of cumin and coriander that feels more traditional Palestinian. The falafel balls are slightly larger and deeply flavoured. Also worth trying: their freshly squeezed juice on the side.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -595,15 +673,10 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/falafel-king.jpg" alt="Falafel King in Near Damascus Gate, East Jerusalem" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Falafel pita with the works — their seasoning is slightly different from the kosher spots, with a hint of cumin and coriander that feels more traditional Palestinian. The falafel balls are slightly larger and deeply flavoured. Also worth trying: their freshly squeezed juice on the side.</div>
     
     <div class="reddit-quote">
         "I found Falafel King at Damascus Gate to be awesome. The vibe near the gate, the fresh balls — it&#39;s a proper Old City falafel experience."
         <span class="source">— r/Israel · Best falafel and shawarma in Jerusalem thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Damascus Gate is one of the great entry points into Jerusalem&#39;s Old City, and eating falafel right here as the city hums around you is an experience in itself. The falafel is genuinely excellent — Palestinian-style balls that are more herby and aromatic than the Israeli versions. One of the best spots for Old City atmosphere combined with quality food.
     </div>
 </section>
 <section class="restaurant-section" id="ben-sira-hummus" data-map-name="6. Ben-Sira Hummus" data-map-cta-url="https://maps.google.com/?cid=5861954275159675573&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ben-Sira Hummus, Nachlaot / Ben Sira Street, West Jerusalem, Jerusalem, IL" data-map-lat="31.779089099999997" data-map-lng="35.2217361">
@@ -617,6 +690,20 @@
         <span>📍 Nachlaot / Ben Sira Street, West Jerusalem</span>
         <a href="https://maps.google.com/?cid=5861954275159675573&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of the most reviewed and consistently praised hummus-and-falafel spots in West Jerusalem.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Hummus &amp; Falafel in Nachlaot / Ben Sira Street, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 3,428 Google reviews · Hummus &amp; Falafel · Nachlaot / Ben Sira Street, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>what a supporting role</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.4★ from 3,428 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of the most reviewed and consistently praised hummus-and-falafel spots in West Jerusalem. The falafel here is a supporting actor to world-class hummus — but what a supporting role. More expensive than a street pita but the quality justifies it. Popular with young locals, students, and tourists who&#39;ve done their homework.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The hummus plate with falafel — the hummus is warm, smooth, and deeply flavoured. The falafel balls arrive separately, crispy and herb-packed. Also try the mushroom hummus if it&#39;s on the daily menu. Expect a 15–30 minute wait at peak times; it&#39;s worth it.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -629,8 +716,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97226253893">+97226253893</a></span><span>🌐 <a href="http://humus-bensira.co.il/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/ben-sira-hummus.jpg" alt="Ben-Sira Hummus in Nachlaot / Ben Sira Street, West Jerusalem" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The hummus plate with falafel — the hummus is warm, smooth, and deeply flavoured. The falafel balls arrive separately, crispy and herb-packed. Also try the mushroom hummus if it&#39;s on the daily menu. Expect a 15–30 minute wait at peak times; it&#39;s worth it.</div>
     
     <div class="reddit-quote">
         "Amazing place. Great hummus — very smooth. Amazing falafel. The shakshuka is okay but everything is fresh and you get your money&#39;s worth."
@@ -639,9 +724,6 @@
     <div class="reddit-quote">
         "Ben-Sira is popular for a reason — the hummus with falafel combo is one of the best meals you can have in Jerusalem for this price. Go early or expect a line."
         <span class="source">— r/Israel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of the most reviewed and consistently praised hummus-and-falafel spots in West Jerusalem. The falafel here is a supporting actor to world-class hummus — but what a supporting role. More expensive than a street pita but the quality justifies it. Popular with young locals, students, and tourists who&#39;ve done their homework.
     </div>
 </section>
 <section class="restaurant-section" id="lina-restaurant" data-map-name="7. Lina Restaurant" data-map-cta-url="https://maps.google.com/?cid=13946489412931470968&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lina Restaurant, Christian Quarter, Old City, Jerusalem, IL" data-map-lat="31.779192899999998" data-map-lng="35.2303262">
@@ -655,6 +737,20 @@
         <span>📍 Christian Quarter, Old City</span>
         <a href="https://maps.google.com/?cid=13946489412931470968&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A beloved Old City institution in the Christian Quarter — quieter than Damascus Gate spots, with equally good falafel and some of the best hummus in the walled city.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Christian Quarter, Old City in Christian Quarter, Old City</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 924 Google reviews · Christian Quarter, Old City · Christian Quarter, Old City</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.4★ from 924 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A beloved Old City institution in the Christian Quarter — quieter than Damascus Gate spots, with equally good falafel and some of the best hummus in the walled city. Perfect if you&#39;re doing the Via Dolorosa or visiting the Church of the Holy Sepulchre and need to refuel. The family-run warmth makes this a memorable stop.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Falafel sandwich with tahini and fresh toppings, or the hummus plate with falafel on the side. The Christian Quarter location means a slightly different crowd and a more relaxed pace than the busier Muslim Quarter spots. Their hummus is particularly praised.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -667,15 +763,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97226277230">+97226277230</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/lina-restaurant.jpg" alt="Lina Restaurant in Christian Quarter, Old City" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Falafel sandwich with tahini and fresh toppings, or the hummus plate with falafel on the side. The Christian Quarter location means a slightly different crowd and a more relaxed pace than the busier Muslim Quarter spots. Their hummus is particularly praised.</div>
     
     <div class="reddit-quote">
         "Lina in the Christian Quarter is one of the great Old City eating spots. The falafel is excellent, the hummus is creamy, and the location makes it perfect for a midday break during Old City touring."
         <span class="source">— r/travel · Old City Jerusalem food thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A beloved Old City institution in the Christian Quarter — quieter than Damascus Gate spots, with equally good falafel and some of the best hummus in the walled city. Perfect if you&#39;re doing the Via Dolorosa or visiting the Church of the Holy Sepulchre and need to refuel. The family-run warmth makes this a memorable stop.
     </div>
 </section>
 <section class="restaurant-section" id="pinati" data-map-name="8. Pinati (פינתי)" data-map-cta-url="https://maps.google.com/?cid=554258996788669167&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pinati (פינתי), King George Street / Ben Yehuda area, West Jerusalem, Jerusalem, IL" data-map-lat="31.7817905" data-map-lng="35.216830099999996">
@@ -689,6 +780,20 @@
         <span>📍 King George Street / Ben Yehuda area, West Jerusalem</span>
         <a href="https://maps.google.com/?cid=554258996788669167&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of Jerusalem&#39;s most enduring lunch institutions.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kosher · Sit-Down in King George Street / Ben Yehuda area, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 816 Google reviews · Kosher · Sit-Down · King George Street / Ben Yehuda area, West Jerusalem</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.4★ from 816 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of Jerusalem&#39;s most enduring lunch institutions. Pinati has the kind of timeworn local credibility that can&#39;t be manufactured — it&#39;s just been good for a very long time. The falafel is fried fresh, the hummus is top-tier, and the portions are generous. A reliable choice if you&#39;re in the city center and want a proper sit-down meal.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The hummus with falafel — Pinati is primarily a hummus restaurant but their falafel is exceptional. The full plate comes with warm hummus, fresh pita, and a spread of salads. The lachuch (Yemeni pancake) as a side is worth trying if it&#39;s available.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -701,15 +806,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+97226254540">+97226254540</a></span><span>🌐 <a href="https://israelbusinessguide.com/catalog/ierusalim/hummus_pinati/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/pinati.jpg" alt="Pinati (פינתי) in King George Street / Ben Yehuda area, West Jerusalem" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The hummus with falafel — Pinati is primarily a hummus restaurant but their falafel is exceptional. The full plate comes with warm hummus, fresh pita, and a spread of salads. The lachuch (Yemeni pancake) as a side is worth trying if it&#39;s available.</div>
     
     <div class="reddit-quote">
         "Pinati is a Jerusalem classic for hummus and falafel. It&#39;s been there forever and the quality remains consistently high. The crowd is mixed — local office workers, students, tourists. That&#39;s always a good sign."
         <span class="source">— r/Israel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of Jerusalem&#39;s most enduring lunch institutions. Pinati has the kind of timeworn local credibility that can&#39;t be manufactured — it&#39;s just been good for a very long time. The falafel is fried fresh, the hummus is top-tier, and the portions are generous. A reliable choice if you&#39;re in the city center and want a proper sit-down meal.
     </div>
 </section>
 <section class="restaurant-section" id="michael-restaurant" data-map-name="9. Michael Restaurant" data-map-cta-url="https://maps.google.com/?cid=15363820435649573237&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Michael Restaurant, Saint Mark Street, Armenian Quarter (near Jaffa Gate), Jerusalem, IL" data-map-lat="31.7766234" data-map-lng="35.227641">
@@ -723,6 +823,20 @@
         <span>📍 Saint Mark Street, Armenian Quarter (near Jaffa Gate)</span>
         <a href="https://maps.google.com/?cid=15363820435649573237&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The cheapest and most hidden spot on this list.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Hidden Gem · Old City in Saint Mark Street, Armenian Quarter (near Jaffa Gate)</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.9★ from 266 Google reviews · Hidden Gem · Old City · Saint Mark Street, Armenian Quarter (near Jaffa Gate)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.9★ from 266 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The cheapest and most hidden spot on this list. No sign, no fanfare, just exceptional falafel at prices that feel like 2005. If you&#39;re staying near Jaffa Gate or doing the Armenian Quarter, this is a secret worth knowing. The kind of place that gets passed between backpackers like a treasure map.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The falafel sandwich — simple, cheap, and extraordinarily good for the price. Around ₪10 for a stuffed pita that &quot;will keep you full for hours of Old City exploration.&quot; Look for the humble café without much signage on Saint Mark Street.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -735,15 +849,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+972522625509">+972522625509</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/jerusalem-falafel/michael-restaurant.jpg" alt="Michael Restaurant in Saint Mark Street, Armenian Quarter (near Jaffa Gate)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The falafel sandwich — simple, cheap, and extraordinarily good for the price. Around ₪10 for a stuffed pita that &quot;will keep you full for hours of Old City exploration.&quot; Look for the humble café without much signage on Saint Mark Street.</div>
     
     <div class="reddit-quote">
         "The hostel staff told me &#39;it&#39;s the best falafel in Jerusalem.&#39; They did not exaggerate. On Saint Mark Street just past Jaffa Gate. Run by two of the nicest women you can imagine. About 10 shekels for a flavourful sandwich that will keep you full for hours."
         <span class="source">— Go! Girl Guides · The Holiest Falafel: Where to Eat in Jerusalem</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The cheapest and most hidden spot on this list. No sign, no fanfare, just exceptional falafel at prices that feel like 2005. If you&#39;re staying near Jaffa Gate or doing the Armenian Quarter, this is a secret worth knowing. The kind of place that gets passed between backpackers like a treasure map.
     </div>
 </section>
       </section>

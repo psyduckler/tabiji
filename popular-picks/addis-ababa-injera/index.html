@@ -330,7 +330,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -343,18 +352,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -432,6 +442,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Injera isn&#39;t just food in Ethiopia — it&#39;s the table, the plate, and the utensil all at once. This tangy, spongy flatbread made from teff flour is the foundation of every Ethiopian meal, and nowhere on Earth serves it better than Addis Ababa.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Kategna — the restaurant Marcus Samuelsson says you must visit</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>22 (Bole)</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Woinshet Special Doro Bet — best doro wot in Addis according to locals</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Kategna Restaurant (ካተኛ):</strong> The undisputed king of Ethiopian restaurants in Addis.</li>
+            <li><strong>Yod Abyssinia (ዮድ አቢሲኒያ):</strong> The ultimate first-night-in-Addis experience.</li>
+            <li><strong>Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት):</strong> The kitfo specialist that Addis locals swear by.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Injera isn&#39;t just food in Ethiopia — it&#39;s the table, the plate, and the utensil all at once. This tangy, spongy flatbread made from teff flour is the foundation of every Ethiopian meal, and nowhere on Earth serves it better than Addis Ababa.</strong></p>
         <p>In Addis, injera isn&#39;t a side dish or an afterthought — it&#39;s the star. The best restaurants bake their injera fresh daily from pure teff, achieving that perfect balance of spongy texture and sour tang. What goes on top — doro wot, kitfo, shiro, beyaynetu — transforms each meal into a communal feast where you tear, scoop, and share with your hands.</p><p>We researched Reddit threads from r/Ethiopia and r/travel, expert guides from Lonely Planet, Eater (Chef Marcus Samuelsson&#39;s picks), Migrationology, and local expat blogs to identify the restaurants that consistently deliver the best injera-centered dining experiences in the Ethiopian capital.</p>
@@ -486,12 +514,24 @@
         <span>📍 Meskel Flower &amp; Bole</span>
         <a href="https://www.google.com/maps/search/Kategna+Restaurant+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The undisputed king of Ethiopian restaurants in Addis.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Traditional · Full Menu in Meskel Flower &amp; Bole</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Traditional · Full Menu · Meskel Flower &amp; Bole</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The undisputed king of Ethiopian restaurants in Addis. When Marcus Samuelsson — an Ethiopian-born, world-renowned chef — says you can&#39;t visit Addis without eating here, you listen. The beyaynetu is a work of art, the doro wot sauce is heavenly, and the cultural performances make dinner an event. Multiple branches means one is always nearby.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The beyaynetu (vegetarian combination platter) — a stunning array of colorful stews and vegetables on fresh injera. Also order a side of doro wot and the Ethiopian salad. The aroma of roasting coffee and berbere spice hits you the moment you walk in. Multiple locations, with Meskel Flower and Bole branches being the most popular.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/kategna.jpg" alt="Kategna Restaurant (ካተኛ) in Meskel Flower &amp; Bole" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The beyaynetu (vegetarian combination platter) — a stunning array of colorful stews and vegetables on fresh injera. Also order a side of doro wot and the Ethiopian salad. The aroma of roasting coffee and berbere spice hits you the moment you walk in. Multiple locations, with Meskel Flower and Bole branches being the most popular.</div>
     
     <div class="reddit-quote">
         "If it&#39;s your first time in Ethiopia... another good restaurant where you can&#39;t go wrong for the food is Kategna (Bole, other various locations)."
@@ -505,9 +545,6 @@
         "The menu at Kategna is extremely extensive – you can really eat just about anything you&#39;d like to eat when it comes to Ethiopian food. The mix was stunning, a variety of different legume stews and curries."
         <span class="source">— Migrationology · A restaurant you shouldn&#39;t miss</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The undisputed king of Ethiopian restaurants in Addis. When Marcus Samuelsson — an Ethiopian-born, world-renowned chef — says you can&#39;t visit Addis without eating here, you listen. The beyaynetu is a work of art, the doro wot sauce is heavenly, and the cultural performances make dinner an event. Multiple branches means one is always nearby.
-    </div>
 </section>
 <section class="restaurant-section" id="yod-abyssinia" data-map-name="2. Yod Abyssinia (ዮድ አቢሲኒያ)" data-map-cta-url="https://www.google.com/maps/search/Yod+Abyssinia+Restaurant+Bole+Addis+Ababa" data-map-query="Yod Abyssinia (ዮድ አቢሲኒያ), Bole, near Millennium Hall, Addis Ababa, ET" data-map-lat="8.9835037" data-map-lng="38.7265997">
     <div class="restaurant-header">
@@ -520,12 +557,24 @@
         <span>📍 Bole, near Millennium Hall</span>
         <a href="https://www.google.com/maps/search/Yod+Abyssinia+Restaurant+Bole+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The ultimate first-night-in-Addis experience.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Cultural · 40+ Dishes in Bole, near Millennium Hall</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Cultural · 40+ Dishes · Bole, near Millennium Hall</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Book ahead on weekends</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The ultimate first-night-in-Addis experience. Yes, it&#39;s touristy — but it&#39;s touristy because it genuinely delivers. 40+ dishes spanning every Ethiopian ethnicity, served on traditional mesob tables by culturally dressed staff, with live music and dance that&#39;ll have you on your feet by dessert. Book ahead on weekends.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The full cultural platter — injera loaded with doro wot, kitfo, tibs, gomen, and shiro. Over 40 Ethiopian dishes from every region and ethnicity. The real draw is the nightly traditional music and dance performance, with energetic dancers from across Ethiopia&#39;s ethnic groups. Guests are encouraged to join in.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/yod-abyssinia.jpg" alt="Yod Abyssinia (ዮድ አቢሲኒያ) in Bole, near Millennium Hall" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The full cultural platter — injera loaded with doro wot, kitfo, tibs, gomen, and shiro. Over 40 Ethiopian dishes from every region and ethnicity. The real draw is the nightly traditional music and dance performance, with energetic dancers from across Ethiopia&#39;s ethnic groups. Guests are encouraged to join in.</div>
     
     <div class="reddit-quote">
         "If it&#39;s your first time in Ethiopia have a full cultural experience at Yod Abyssinia in Bole."
@@ -534,9 +583,6 @@
     <div class="reddit-quote">
         "Yod Abyssinia highlights all of the cultures and cuisines that Ethiopia has to offer. The spacious main hall is designed to resemble a typical hut and is full of eye-catching materials, from traditional hand-woven curtains to serving dishes made of woven grass."
         <span class="source">— Lonely Planet · Best restaurants only locals know</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The ultimate first-night-in-Addis experience. Yes, it&#39;s touristy — but it&#39;s touristy because it genuinely delivers. 40+ dishes spanning every Ethiopian ethnicity, served on traditional mesob tables by culturally dressed staff, with live music and dance that&#39;ll have you on your feet by dessert. Book ahead on weekends.
     </div>
 </section>
 <section class="restaurant-section" id="kassa-oma" data-map-name="3. Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት)" data-map-cta-url="https://www.google.com/maps/search/Kassa+Oma+Kitfo+Bet+Africa+Avenue+Addis+Ababa" data-map-query="Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት), Africa Avenue (Bole), Addis Ababa, ET" data-map-lat="8.987587" data-map-lng="38.7889826">
@@ -550,19 +596,28 @@
         <span>📍 Africa Avenue (Bole)</span>
         <a href="https://www.google.com/maps/search/Kassa+Oma+Kitfo+Bet+Africa+Avenue+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The kitfo specialist that Addis locals swear by.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kitfo Specialist in Africa Avenue (Bole)</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Kitfo Specialist · Africa Avenue (Bole)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The kitfo specialist that Addis locals swear by. This isn&#39;t a tourist restaurant — it&#39;s where people with kitfo cravings go to get their fix. The raw-to-lightly-warmed beef with mitmita and herbed butter, scooped up with fresh injera, is one of Ethiopia&#39;s greatest culinary experiences. If you only try one kitfo spot in Addis, this is it.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kitfo — minced raw beef seasoned with mitmita (chili spice) and niter kibbeh (herbed butter). Order it &quot;leb leb&quot; (lightly warmed) if you want the flavor without fully raw meat. The tibs (sautéed meat) is also outstanding. Served with injera, gomen (collard greens), and ayib (cottage cheese). A locals-only spot that most tourists never find.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/kassa-oma.jpg" alt="Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት) in Africa Avenue (Bole)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kitfo — minced raw beef seasoned with mitmita (chili spice) and niter kibbeh (herbed butter). Order it &quot;leb leb&quot; (lightly warmed) if you want the flavor without fully raw meat. The tibs (sautéed meat) is also outstanding. Served with injera, gomen (collard greens), and ayib (cottage cheese). A locals-only spot that most tourists never find.</div>
     
     <div class="reddit-quote">
         "My favourite place for tibs and kitfo right now is Kassa Oma Kitfo bet on Africa Avenue (Bole). You won&#39;t be disappointed with any of these recommendations — pricey but that&#39;s where locals go if they have to eat injera outside of their home."
         <span class="source">— r/Ethiopia · Best injera restaurant thread, 2 upvotes</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The kitfo specialist that Addis locals swear by. This isn&#39;t a tourist restaurant — it&#39;s where people with kitfo cravings go to get their fix. The raw-to-lightly-warmed beef with mitmita and herbed butter, scooped up with fresh injera, is one of Ethiopia&#39;s greatest culinary experiences. If you only try one kitfo spot in Addis, this is it.
     </div>
 </section>
 <section class="restaurant-section" id="woinshet" data-map-name="4. Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)" data-map-cta-url="https://www.google.com/maps/search/Woinshet+Special+Doro+Bet+22+Addis+Ababa" data-map-query="Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት), Area 22 (Bole), Addis Ababa, ET" data-map-lat="9.0134575" data-map-lng="38.784094599999996">
@@ -576,19 +631,28 @@
         <span>📍 Area 22 (Bole)</span>
         <a href="https://www.google.com/maps/search/Woinshet+Special+Doro+Bet+22+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> When a local tells you &quot;best doro in Addis&quot; about a single-specialty restaurant, that&#39;s the highest possible endorsement.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Doro Wot Specialist in Area 22 (Bole) with a 22 (Bole) spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Doro Wot Specialist · Area 22 (Bole)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 22 (Bole)</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>22 (Bole)</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>When a local tells you &quot;best doro in Addis&quot; about a single-specialty restaurant, that&#39;s the highest possible endorsement. Woinshet does one thing — doro wot — and has mastered it completely. The rich, dark sauce stewed for hours, the perfectly cooked chicken, the hard-boiled egg soaking up all that berbere flavor… this is the real deal. Worth the hunt to find it.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Doro wot — Ethiopia&#39;s crown jewel dish. Slow-cooked chicken stew with mounds of caramelized onions, berbere spice, niter kibbeh, and hard-boiled eggs, served on a platter of fresh injera. This place specializes in one thing and does it better than anyone. The location in Area 22 can be tricky to find — use Google Maps (the owners updated the pin).</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/woinshet-doro.jpg" alt="Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት) in Area 22 (Bole)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Doro wot — Ethiopia&#39;s crown jewel dish. Slow-cooked chicken stew with mounds of caramelized onions, berbere spice, niter kibbeh, and hard-boiled eggs, served on a platter of fresh injera. This place specializes in one thing and does it better than anyone. The location in Area 22 can be tricky to find — use Google Maps (the owners updated the pin).</div>
     
     <div class="reddit-quote">
         "Best doro in Addis — Woinshet Special doro bet in 22. This place is a bit tricky to find but we updated the right location on Google Maps."
         <span class="source">— r/Ethiopia · Best injera restaurant thread, 2 upvotes</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> When a local tells you &quot;best doro in Addis&quot; about a single-specialty restaurant, that&#39;s the highest possible endorsement. Woinshet does one thing — doro wot — and has mastered it completely. The rich, dark sauce stewed for hours, the perfectly cooked chicken, the hard-boiled egg soaking up all that berbere flavor… this is the real deal. Worth the hunt to find it.
     </div>
 </section>
 <section class="restaurant-section" id="chanes" data-map-name="5. Chane&#39;s Restaurant (ቻኔ)" data-map-cta-url="https://www.google.com/maps/search/Chane&#39;s+Restaurant+Kazanchis+Addis+Ababa" data-map-query="Chane&#39;s Restaurant (ቻኔ), Kazanchis, Addis Ababa, ET" data-map-lat="9.0198368" data-map-lng="38.7684845">
@@ -602,19 +666,28 @@
         <span>📍 Kazanchis</span>
         <a href="https://www.google.com/maps/search/Chane&#39;s+Restaurant+Kazanchis+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A restaurant with soul.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Historic · 19th-Century House in Kazanchis</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Historic · 19th-Century House · Kazanchis</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A restaurant with soul. Eating Chane&#39;s recipes in a centuries-old house surrounded by Ethiopian history is unforgettable. The limited menu means everything is perfected — the doro wot is legendary, and the fasting-day shiro might be the best single dish in Addis. If you visit on a Wednesday or Friday, you&#39;ve hit the jackpot.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The doro wot — widely regarded as the best chicken stew in the city alongside Woinshet&#39;s. On fasting days (Wednesday &amp; Friday), try the shiro wot — considered the best in town. Dining here is like eating in a museum: the 19th-century house belonged to a military hero, with old artworks and photographs of royals and diplomats. Chef Chane passed away in 2017, but his wife and son carry on his legacy.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/chanes-restaurant.jpg" alt="Chane&#39;s Restaurant (ቻኔ) in Kazanchis" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The doro wot — widely regarded as the best chicken stew in the city alongside Woinshet&#39;s. On fasting days (Wednesday &amp; Friday), try the shiro wot — considered the best in town. Dining here is like eating in a museum: the 19th-century house belonged to a military hero, with old artworks and photographs of royals and diplomats. Chef Chane passed away in 2017, but his wife and son carry on his legacy.</div>
     
     <div class="reddit-quote">
         "Don&#39;t leave without trying Ethiopia&#39;s favourite dish, the doro wat. On Wednesdays and Fridays, traditional fasting days, shiro wat is served instead. Although shiro is a common and easily made dish, Chane&#39;s shiro is widely regarded as the best in town."
         <span class="source">— Lonely Planet · Best restaurants only locals know</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A restaurant with soul. Eating Chane&#39;s recipes in a centuries-old house surrounded by Ethiopian history is unforgettable. The limited menu means everything is perfected — the doro wot is legendary, and the fasting-day shiro might be the best single dish in Addis. If you visit on a Wednesday or Friday, you&#39;ve hit the jackpot.
     </div>
 </section>
 <section class="restaurant-section" id="tsige-shiro" data-map-name="6. Tsige Shiro (ጽጌ ሽሮ)" data-map-cta-url="https://www.google.com/maps/search/Tsige+Shiro+Restaurant+Addis+Ababa" data-map-query="Tsige Shiro (ጽጌ ሽሮ), Addis Ababa, Addis Ababa, ET" data-map-lat="8.9957341" data-map-lng="38.791046699999995">
@@ -628,19 +701,28 @@
         <span>📍 Addis Ababa</span>
         <a href="https://www.google.com/maps/search/Tsige+Shiro+Restaurant+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The vegan champion of Addis.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Vegan · Always Busy in Addis Ababa</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Vegan · Always Busy · Addis Ababa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The vegan champion of Addis. In a country where fasting-day food is an art form, Tsige Shiro stands apart. The constant crowd means ingredients never sit — every plate is fresh. The shiro is creamy, deeply spiced, and exactly what you want soaked into tangy injera. Outstanding value too.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Shiro — the signature smooth chickpea flour stew, rich with berbere and garlic, served on fresh injera. The full beyaynetu (vegan combo) is outstanding too. Always busy — a sign that the food is fresh and the quality is consistent. This is where vegans, fasting Orthodox Christians, and shiro lovers converge.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/tsige-shiro.jpg" alt="Tsige Shiro (ጽጌ ሽሮ) in Addis Ababa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Shiro — the signature smooth chickpea flour stew, rich with berbere and garlic, served on fresh injera. The full beyaynetu (vegan combo) is outstanding too. Always busy — a sign that the food is fresh and the quality is consistent. This is where vegans, fasting Orthodox Christians, and shiro lovers converge.</div>
     
     <div class="reddit-quote">
         "The best vegan and vegetarian restaurant is Tsige Shiro — always busy, fresh food is guaranteed."
         <span class="source">— r/Ethiopia · Best injera restaurant thread, 2 upvotes</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The vegan champion of Addis. In a country where fasting-day food is an art form, Tsige Shiro stands apart. The constant crowd means ingredients never sit — every plate is fresh. The shiro is creamy, deeply spiced, and exactly what you want soaked into tangy injera. Outstanding value too.
     </div>
 </section>
 <section class="restaurant-section" id="tikus-shiro" data-map-name="7. Tikus Shiro (ጥቁስ ሽሮ)" data-map-cta-url="https://www.google.com/maps/search/Tikus+Shiro+Lideta+Addis+Ababa" data-map-query="Tikus Shiro (ጥቁስ ሽሮ), Lideta, Addis Ababa, ET" data-map-lat="9.0196024" data-map-lng="38.7672202">
@@ -654,19 +736,28 @@
         <span>📍 Lideta</span>
         <a href="https://www.google.com/maps/search/Tikus+Shiro+Lideta+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A neighborhood gem that Lonely Planet sought out specifically.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Shiro House · Half-Half in Lideta</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Shiro House · Half-Half · Lideta</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A neighborhood gem that Lonely Planet sought out specifically. The half-half concept is genius — you get to sample two dishes without committing to a full plate of each. The bozena shiro (with meat chunks) is a revelation if you&#39;ve only had the plain version. The courtyard garden with tej is a perfect post-meal wind-down.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The &quot;half-half&quot; — pick any two dishes from the menu and get a half portion of each on one injera platter. Try bozena shiro (shiro with meat), misir be kuanta (lentils with dried meat), gomen (cabbage), and timatim kurt (spicy tomato salad). Finish with a strong Ethiopian coffee or a glass of homemade tej (honey wine) in the courtyard garden.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/tikus-shiro.jpg" alt="Tikus Shiro (ጥቁስ ሽሮ) in Lideta" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The &quot;half-half&quot; — pick any two dishes from the menu and get a half portion of each on one injera platter. Try bozena shiro (shiro with meat), misir be kuanta (lentils with dried meat), gomen (cabbage), and timatim kurt (spicy tomato salad). Finish with a strong Ethiopian coffee or a glass of homemade tej (honey wine) in the courtyard garden.</div>
     
     <div class="reddit-quote">
         "In the busy neighbourhood around the Lideta condominiums, you&#39;ll find a truly local sensation: a shiro bet. What drives most people to Lideta is the &#39;half-half&#39; option, where you can pick two dishes from the menu and get a half portion of each."
         <span class="source">— Lonely Planet · Best restaurants only locals know</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A neighborhood gem that Lonely Planet sought out specifically. The half-half concept is genius — you get to sample two dishes without committing to a full plate of each. The bozena shiro (with meat chunks) is a revelation if you&#39;ve only had the plain version. The courtyard garden with tej is a perfect post-meal wind-down.
     </div>
 </section>
 <section class="restaurant-section" id="oda-cultural" data-map-name="8. Oda Cultural Restaurant &amp; Cafe" data-map-cta-url="https://www.google.com/maps/search/Oda+Cultural+Restaurant+Oromo+Center+Addis+Ababa" data-map-query="Oda Cultural Restaurant &amp; Cafe, Near National Stadium, Addis Ababa, ET" data-map-lat="8.99114" data-map-lng="38.793392499999996">
@@ -680,19 +771,28 @@
         <span>📍 Near National Stadium</span>
         <a href="https://www.google.com/maps/search/Oda+Cultural+Restaurant+Oromo+Center+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Bourdain seal of approval says it all.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Oromo · Bourdain Pick in Near National Stadium</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Oromo · Bourdain Pick · Near National Stadium</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>often overlooked culinary traditions</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Bourdain seal of approval says it all. Oda offers something no other restaurant on this list does — Oromo cuisine, one of Ethiopia&#39;s largest but often overlooked culinary traditions. The tikur teff injera is darker, earthier, and more flavorful than the standard white teff version. The chumbo is unlike anything you&#39;ve had. A genuinely unique experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Injera made from tikur teff (black teff — more nutritious than white teff), paired with chumbo (thick black teff baked with yogurt, cheese, and spiced butter). Also try buna qalaa — roasted coffee beans dipped in butter, a traditional Oromo snack. The restaurant is inside the Oromo Cultural Center, with pinewood-carved furniture and traditional fabric curtains.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/oda-cultural.jpg" alt="Oda Cultural Restaurant &amp; Cafe in Near National Stadium" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Injera made from tikur teff (black teff — more nutritious than white teff), paired with chumbo (thick black teff baked with yogurt, cheese, and spiced butter). Also try buna qalaa — roasted coffee beans dipped in butter, a traditional Oromo snack. The restaurant is inside the Oromo Cultural Center, with pinewood-carved furniture and traditional fabric curtains.</div>
     
     <div class="reddit-quote">
         "Inside the Oromo Cultural Center is the Oda Restaurant, which you might recognise from Anthony Bourdain&#39;s Ethiopia visit on No Reservations. Injera made of tikur teff, spiced butter and beso are at the heart of Oromo cuisine. Chumbo is prepared with black teff baked thick and yoghurt, cheese, and spiced butter."
         <span class="source">— Lonely Planet · Best restaurants only locals know</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Bourdain seal of approval says it all. Oda offers something no other restaurant on this list does — Oromo cuisine, one of Ethiopia&#39;s largest but often overlooked culinary traditions. The tikur teff injera is darker, earthier, and more flavorful than the standard white teff version. The chumbo is unlike anything you&#39;ve had. A genuinely unique experience.
     </div>
 </section>
 <section class="restaurant-section" id="totot" data-map-name="9. Totot Restaurant (ቶቶት)" data-map-cta-url="https://www.google.com/maps/search/Totot+Restaurant+Gerji+Addis+Ababa" data-map-query="Totot Restaurant (ቶቶት), Gerji, Addis Ababa, ET" data-map-lat="9.0072312" data-map-lng="38.806217499999995">
@@ -706,12 +806,24 @@
         <span>📍 Gerji</span>
         <a href="https://www.google.com/maps/search/Totot+Restaurant+Gerji+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The cultural restaurant that locals actually go to.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Cultural · Gerji in Gerji</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Cultural · Gerji · Gerji</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The cultural restaurant that locals actually go to. While Yod Abyssinia gets the tourist traffic, Totot in Gerji attracts a more local crowd — which means the energy feels authentic rather than performed. Great for a group dinner with friends where you want the full Ethiopian experience: live music, dancing, and a table-covering injera spread.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The full Ethiopian spread — doro wot, tibs, beyaynetu, and kitfo all served on a massive injera platter. Totot is a cultural restaurant with traditional décor, live performances, and a festive atmosphere. Google Maps rating of 4.1 reflects consistent quality. Great for group dinners and celebrations.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/totot-restaurant.jpg" alt="Totot Restaurant (ቶቶት) in Gerji" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The full Ethiopian spread — doro wot, tibs, beyaynetu, and kitfo all served on a massive injera platter. Totot is a cultural restaurant with traditional décor, live performances, and a festive atmosphere. Google Maps rating of 4.1 reflects consistent quality. Great for group dinners and celebrations.</div>
     
     <div class="reddit-quote">
         "We spent a night in Totot — I can say nice one, rating 4.1 in Gerji."
@@ -720,9 +832,6 @@
     <div class="reddit-quote">
         "Yod Abyssinia, Totot, Skylight Hotel Ethiopian restaurant."
         <span class="source">— r/Ethiopia · Cultural restaurants recommendation, 2 upvotes</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The cultural restaurant that locals actually go to. While Yod Abyssinia gets the tourist traffic, Totot in Gerji attracts a more local crowd — which means the energy feels authentic rather than performed. Great for a group dinner with friends where you want the full Ethiopian experience: live music, dancing, and a table-covering injera spread.
     </div>
 </section>
 <section class="restaurant-section" id="taitu-hotel" data-map-name="10. Taitu Hotel Restaurant (ጣይቱ ሆቴል)" data-map-cta-url="https://www.google.com/maps/search/Taitu+Hotel+Restaurant+Piassa+Addis+Ababa" data-map-query="Taitu Hotel Restaurant (ጣይቱ ሆቴል), Piassa, Addis Ababa, ET" data-map-lat="9.0309368" data-map-lng="38.7537612">
@@ -736,19 +845,28 @@
         <span>📍 Piassa</span>
         <a href="https://www.google.com/maps/search/Taitu+Hotel+Restaurant+Piassa+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Eating in a hotel that&#39;s been serving food since 1907 — named after an Ethiopian empress — adds a layer of history to every bite.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Historic · Est. 1907 in Piassa</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Historic · Est. 1907 · Piassa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>No major drawbacks called out in the source copy</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Eating in a hotel that&#39;s been serving food since 1907 — named after an Ethiopian empress — adds a layer of history to every bite. The food is genuinely good (not just &quot;historic venue, mediocre kitchen&quot; syndrome). The Piassa location puts you in the heart of old Addis. Make a reservation for evenings, especially if cultural events are scheduled.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The doro wot and the tibs — both expertly crafted in Ethiopia&#39;s oldest hotel, named after Empress Taitu Betul. The restaurant features cultural artifacts, old photographs, and décor reflecting Ethiopian traditions dating back over a century. Also excellent for vegetarian dishes. Open daily 7 AM to 10 PM.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/taitu-hotel.jpg" alt="Taitu Hotel Restaurant (ጣይቱ ሆቴል) in Piassa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The doro wot and the tibs — both expertly crafted in Ethiopia&#39;s oldest hotel, named after Empress Taitu Betul. The restaurant features cultural artifacts, old photographs, and décor reflecting Ethiopian traditions dating back over a century. Also excellent for vegetarian dishes. Open daily 7 AM to 10 PM.</div>
     
     <div class="reddit-quote">
         "Taitu Hotel Restaurant offers more than just food – it&#39;s a window into Addis Ababa&#39;s culinary and cultural history. Standouts include their doro wot and a variety of tibs options. Vegetarians and vegans will also find plenty of authentic plant-based dishes."
         <span class="source">— Hulunem · 10 Best Restaurants in Addis Ababa 2026</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Eating in a hotel that&#39;s been serving food since 1907 — named after an Ethiopian empress — adds a layer of history to every bite. The food is genuinely good (not just &quot;historic venue, mediocre kitchen&quot; syndrome). The Piassa location puts you in the heart of old Addis. Make a reservation for evenings, especially if cultural events are scheduled.
     </div>
 </section>
 <section class="restaurant-section" id="brundo" data-map-name="11. Brundo Butchery (ብሩንዶ)" data-map-cta-url="https://www.google.com/maps/search/Brundo+Butchery+Bole+Addis+Ababa" data-map-query="Brundo Butchery (ብሩንዶ), Bole, Addis Ababa, ET" data-map-lat="9.011366500000001" data-map-lng="38.8365795">
@@ -762,19 +880,28 @@
         <span>📍 Bole</span>
         <a href="https://www.google.com/maps/search/Brundo+Butchery+Bole+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not for the faint-hearted — but if you&#39;re serious about Ethiopian food culture, tere siga at a dedicated butchery is a rite of passage.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Raw Meat · Tere Siga in Bole</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Raw Meat · Tere Siga · Bole</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>if you&#39;re serious about Ethiopian food culture, tere siga at a dedicated butchery is a rite of passage</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not for the faint-hearted — but if you&#39;re serious about Ethiopian food culture, tere siga at a dedicated butchery is a rite of passage. Brundo sources fresh meat daily and cuts it in front of you. The combination of raw beef, fiery mitmita, and tangy injera is explosive. If raw meat isn&#39;t your thing, the cooked tibs here are excellent too.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Tere siga — strips of raw beef cut fresh from the carcass, dipped in mitmita (chili powder) and awaze (chili paste), eaten with injera. For the less adventurous, the kitfo leb leb (lightly warmed) is exceptional. This is a butcher shop that doubles as a restaurant — the meat is as fresh as it gets. A genuine Ethiopian cultural experience reserved for special occasions.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/brundo-butchery.jpg" alt="Brundo Butchery (ብሩንዶ) in Bole" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Tere siga — strips of raw beef cut fresh from the carcass, dipped in mitmita (chili powder) and awaze (chili paste), eaten with injera. For the less adventurous, the kitfo leb leb (lightly warmed) is exceptional. This is a butcher shop that doubles as a restaurant — the meat is as fresh as it gets. A genuine Ethiopian cultural experience reserved for special occasions.</div>
     
     <div class="reddit-quote">
         "Ethiopia is home to people of diverse ethnicities, and the mix of their tastes and cultures has produced a love of raw meat. Brundo Butchery is where you can sample tere siga — raw meat is usually reserved for special occasions."
         <span class="source">— Lonely Planet · Best restaurants only locals know</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not for the faint-hearted — but if you&#39;re serious about Ethiopian food culture, tere siga at a dedicated butchery is a rite of passage. Brundo sources fresh meat daily and cuts it in front of you. The combination of raw beef, fiery mitmita, and tangy injera is explosive. If raw meat isn&#39;t your thing, the cooked tibs here are excellent too.
     </div>
 </section>
 <section class="restaurant-section" id="dashen" data-map-name="12. Dashen Traditional Restaurant (ዳሽን)" data-map-cta-url="https://www.google.com/maps/search/Dashen+Traditional+Restaurant+Piassa+Addis+Ababa" data-map-query="Dashen Traditional Restaurant (ዳሽን), Piassa, Addis Ababa, ET" data-map-lat="9.0170444" data-map-lng="38.786275599999996">
@@ -788,19 +915,28 @@
         <span>📍 Piassa</span>
         <a href="https://www.google.com/maps/search/Dashen+Traditional+Restaurant+Piassa+Addis+Ababa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The dependable neighborhood pick.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Traditional · Local Favorite in Piassa</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Traditional · Local Favorite · Piassa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it will consistently deliver excellent injera and wot at honest prices</dd></div>
+        
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The dependable neighborhood pick. Dashen won&#39;t dazzle you with cultural performances or historic buildings, but it will consistently deliver excellent injera and wot at honest prices. It&#39;s where locals eat when they want traditional food without the event. The Piassa location means you can pair it with a morning at Tomoca Coffee next door. Solid, unpretentious, delicious.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The beyaynetu on a fasting day (Wednesday or Friday) for the most spectacular vegan spread, or the doro wot and kitfo on non-fasting days. Dashen is a reliable local favorite in the Piassa neighborhood that serves consistently excellent traditional Ethiopian food without the tourist markup. Good for repeat visits when you want quality without fuss.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/addis-ababa-injera/dashen-traditional.jpg" alt="Dashen Traditional Restaurant (ዳሽን) in Piassa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The beyaynetu on a fasting day (Wednesday or Friday) for the most spectacular vegan spread, or the doro wot and kitfo on non-fasting days. Dashen is a reliable local favorite in the Piassa neighborhood that serves consistently excellent traditional Ethiopian food without the tourist markup. Good for repeat visits when you want quality without fuss.</div>
     
     <div class="reddit-quote">
         "We&#39;ve collected the most-often-mentioned restaurants from other articles, including favorites like Yod Abyssinia, Kategna, and Dashen Traditional Restaurant."
         <span class="source">— WanderLog · 39 Best Ethiopian Restaurants in Addis Ababa</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The dependable neighborhood pick. Dashen won&#39;t dazzle you with cultural performances or historic buildings, but it will consistently deliver excellent injera and wot at honest prices. It&#39;s where locals eat when they want traditional food without the event. The Piassa location means you can pair it with a morning at Tomoca Coffee next door. Solid, unpretentious, delicious.
     </div>
 </section>
       </section>

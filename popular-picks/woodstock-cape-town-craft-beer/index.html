@@ -312,7 +312,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -325,18 +334,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -414,6 +424,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Cape Town&#39;s craft beer scene offers options across a range of breweries, taprooms, and bars; Devil&#39;s Peak Taproom is a top recommendation for its flagship IPA and experimental brews. The best time to explore these spots is year-round, with each season offering unique beer releases and events.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Hog House Brewing Co. — 4.7★ (785 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>252 Albert Rd)</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Devil&#39;s Peak Taproom — 4.3★ (766 reviews)</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Devil&#39;s Peak Taproom:</strong> The most-mentioned brewery across every Cape Town craft beer thread on Reddit.</li>
+            <li><strong>Woodstock Brewery:</strong> The brewery that put Woodstock&#39;s craft beer scene on the map.</li>
+            <li><strong>Jack Black&#39;s Brewing Co.:</strong> The people&#39;s brewery.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Cape Town&#39;s craft beer scene offers options across a range of breweries, taprooms, and bars; Devil&#39;s Peak Taproom is a top recommendation for its flagship IPA and experimental brews. The best time to explore these spots is year-round, with each season offering unique beer releases and events.</strong></p>
         <p>Cape Town is the undisputed craft beer capital of South Africa. The Woodstock and Salt River neighbourhoods sit at the heart of the scene — gritty, creative industrial areas where brewers set up shop in converted warehouses and the taps are always flowing. But the good stuff extends far beyond these inner-city streets, from Southern Suburb brewpubs to Winelands estates that now pour hops alongside grapes.</p><p>We dug through Reddit to find the breweries, taprooms, and beer bars that actual Capetonians and visiting beer enthusiasts recommend — not sponsored tourism picks. The result: 10 spots that represent the best of Cape Town&#39;s thriving craft beer scene.</p>
@@ -468,6 +496,20 @@
         <span>📍 Salt River</span>
         <a href="https://maps.google.com/?cid=17626966390452704538&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most-mentioned brewery across every Cape Town craft beer thread on Reddit.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Taproom in Salt River</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 766 Google reviews · Taproom · Salt River</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the Salt River taproom keeps its soul — mountain views from the patio, the full range on tap, and a decent food menu</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.3★ from 766 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most-mentioned brewery across every Cape Town craft beer thread on Reddit. What started as a micro-brewery has grown into a legitimate brand, but the Salt River taproom keeps its soul — mountain views from the patio, the full range on tap, and a decent food menu. The King&#39;s Blockhouse IPA is world-class. Open Monday to Saturday; closed Sundays.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -480,7 +522,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27212030123">+27212030123</a></span><span>🌐 <a href="https://taproomsaltriver.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/devils-peak-taproom.jpg" alt="Devil&#39;s Peak Taproom in Salt River" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "My dad&#39;s current favourite is the Devil&#39;s Peak King&#39;s Blockhouse IPA. It&#39;s a masterpiece of a beer."
@@ -494,9 +535,6 @@
         "I miss a lekker Devils Peak Lager... Best Draught: Devils Peak Lager. Underrated Beer: Devil&#39;s Peak Lager."
         <span class="source">— r/southafrica · 30 upvotes · Best Beer in South Africa, Jun 2025</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most-mentioned brewery across every Cape Town craft beer thread on Reddit. What started as a micro-brewery has grown into a legitimate brand, but the Salt River taproom keeps its soul — mountain views from the patio, the full range on tap, and a decent food menu. The King&#39;s Blockhouse IPA is world-class. Open Monday to Saturday; closed Sundays.
-    </div>
 </section>
 <section class="restaurant-section" id="woodstock-brewery" data-map-name="2. Woodstock Brewery" data-map-cta-url="https://maps.google.com/?cid=4429881315771347957&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Woodstock Brewery, Woodstock (252 Albert Rd), Cape Town, ZA" data-map-lat="-33.927506799999996" data-map-lng="18.453773299999998">
     <div class="restaurant-header">
@@ -508,6 +546,20 @@
         <span>💴 252 Albert Rd)</span>
         <span>📍 Woodstock (252 Albert Rd)</span>
         <a href="https://maps.google.com/?cid=4429881315771347957&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The brewery that put Woodstock&#39;s craft beer scene on the map.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>behind-the-scenes access</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 579 Google reviews · Brewery · Woodstock (252 Albert Rd)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 252 Albert Rd)</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>252 Albert Rd) · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The brewery that put Woodstock&#39;s craft beer scene on the map. The beer hall on Albert Road is more lively than Devil&#39;s Peak — think live music, communal tables, and proper pub energy. The brewery tours are worth it for the behind-the-scenes access. They also have a second taproom in Observatory on Lower Main Road if you want a quieter session. Closed Sundays and Mondays.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -521,7 +573,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27212033045">+27212033045</a></span><span>🌐 <a href="http://woodstockbrewery.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/woodstock-brewery.jpg" alt="Woodstock Brewery in Woodstock (252 Albert Rd)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Woodstock Brewery is also good. Great beers."
@@ -535,9 +586,6 @@
         "Woodstock&#39;s Mr Brownstone, Brown Ale"
         <span class="source">— r/askSouthAfrica · 3 upvotes · Nicest South African Beers, Jan 2025</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The brewery that put Woodstock&#39;s craft beer scene on the map. The beer hall on Albert Road is more lively than Devil&#39;s Peak — think live music, communal tables, and proper pub energy. The brewery tours are worth it for the behind-the-scenes access. They also have a second taproom in Observatory on Lower Main Road if you want a quieter session. Closed Sundays and Mondays.
-    </div>
 </section>
 <section class="restaurant-section" id="jack-black" data-map-name="3. Jack Black&#39;s Brewing Co." data-map-cta-url="https://maps.google.com/?cid=242885158855555633&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jack Black&#39;s Brewing Co., Diep River, Cape Town, ZA" data-map-lat="-34.0397853" data-map-lng="18.4798468">
     <div class="restaurant-header">
@@ -549,6 +597,20 @@
         
         <span>📍 Diep River</span>
         <a href="https://maps.google.com/?cid=242885158855555633&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The people&#39;s brewery.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Brewpub in Diep River</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,285 Google reviews · Brewpub · Diep River</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>worth the trip</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.7★ from 1,285 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The people&#39;s brewery. Jack Black nails the balance between quality and value — their Cape Pale Ale is the craft beer you&#39;ll see at every braai in the Southern Suburbs. The Diep River taproom is family-friendly and relaxed, with a play area for kids and solid pub grub. It&#39;s a bit out of the inner-city circuit but worth the trip. If you see it on tap anywhere in Cape Town, order it.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -562,7 +624,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27214474151">+27214474151</a></span><span>🌐 <a href="https://www.jackblackbeer.com/brewery/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/jack-black.jpg" alt="Jack Black&#39;s Brewing Co. in Diep River" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Jack Black&#39;s Brewery in Elfindale for burgers and six tasters."
@@ -576,9 +637,6 @@
         "Jack Black lager! Jack Black Cape Pale Ale."
         <span class="source">— r/southafrica · Best Beer in South Africa, Jun 2025</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The people&#39;s brewery. Jack Black nails the balance between quality and value — their Cape Pale Ale is the craft beer you&#39;ll see at every braai in the Southern Suburbs. The Diep River taproom is family-friendly and relaxed, with a play area for kids and solid pub grub. It&#39;s a bit out of the inner-city circuit but worth the trip. If you see it on tap anywhere in Cape Town, order it.
-    </div>
 </section>
 <section class="restaurant-section" id="banana-jam" data-map-name="4. Banana Jam Café" data-map-cta-url="https://maps.google.com/?cid=11598768980219492634&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Banana Jam Café, Kenilworth, Cape Town, ZA" data-map-lat="-33.9943052" data-map-lng="18.4741887">
     <div class="restaurant-header">
@@ -590,6 +648,20 @@
         
         <span>📍 Kenilworth</span>
         <a href="https://maps.google.com/?cid=11598768980219492634&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most passionately recommended beer bar on Reddit.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Craft Bar in Kenilworth</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 3,291 Google reviews · Craft Bar · Kenilworth</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Check hours before you go</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.5★ from 3,291 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most passionately recommended beer bar on Reddit. Banana Jam isn&#39;t just a bar — it&#39;s a craft beer institution run by people who genuinely live and breathe beer. They brew their own Afro Caribbean range on-site, stock Belgians you won&#39;t find anywhere else in the city, and rotate their taps constantly. The Caribbean-themed vibe is warm and unpretentious. Monday burger-and-beer nights are a steal. If you only visit one spot, make it this one for pure beer enthusiasm.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -603,7 +675,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27216740186">+27216740186</a></span><span>🌐 <a href="http://www.bananajamcafe.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/banana-jam.jpg" alt="Banana Jam Café in Kenilworth" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Banana Jam is owned by seriously passionate craft beer people. This would be my first stop and get their opinions."
@@ -617,9 +688,6 @@
         "Just got back from Banana Jam in Kenilworth. They have a fantastic selection of imported craft beers... Monday nights you get a free local craft with any burger/pizza order."
         <span class="source">— r/capetown · 13 upvotes · Craft Beer in Cape Town</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most passionately recommended beer bar on Reddit. Banana Jam isn&#39;t just a bar — it&#39;s a craft beer institution run by people who genuinely live and breathe beer. They brew their own Afro Caribbean range on-site, stock Belgians you won&#39;t find anywhere else in the city, and rotate their taps constantly. The Caribbean-themed vibe is warm and unpretentious. Monday burger-and-beer nights are a steal. If you only visit one spot, make it this one for pure beer enthusiasm.
-    </div>
 </section>
 <section class="restaurant-section" id="aegir-project" data-map-name="5. Aegir Project Brewery" data-map-cta-url="https://maps.google.com/?cid=14761559835139519951&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Aegir Project Brewery, Noordhoek, Cape Town, ZA" data-map-lat="-34.09849" data-map-lng="18.3636441">
     <div class="restaurant-header">
@@ -631,6 +699,20 @@
         
         <span>📍 Noordhoek</span>
         <a href="https://maps.google.com/?cid=14761559835139519951&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The highest-upvoted single brewery recommendation across all Cape Town beer threads.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Brewery in Noordhoek</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,006 Google reviews · Brewery · Noordhoek</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>that&#39;s part of the charm — pair it with a Chapman&#39;s Peak Drive</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.7★ from 1,006 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The highest-upvoted single brewery recommendation across all Cape Town beer threads. Redditors don&#39;t just recommend Aegir — they defend it. Brewer Rory&#39;s creations are consistently called &quot;world class&quot; and &quot;the best in the country.&quot; The Noordhoek location is a 30-minute drive from the city centre, but that&#39;s part of the charm — pair it with a Chapman&#39;s Peak Drive. The food is excellent, arguably better than the other taprooms.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -644,7 +726,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27665879324">+27665879324</a></span><span>🌐 <a href="http://aegirprojectbrewery.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/aegir-project.jpg" alt="Aegir Project Brewery in Noordhoek" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Aegir Project Brewery in Noordhoek. World class beers. Food is great as well."
@@ -658,9 +739,6 @@
         "Another vote for Aegir. Aegirs food beats Banana Jam though."
         <span class="source">— r/capetown · 9 upvotes · Craft Beer, May 2025</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The highest-upvoted single brewery recommendation across all Cape Town beer threads. Redditors don&#39;t just recommend Aegir — they defend it. Brewer Rory&#39;s creations are consistently called &quot;world class&quot; and &quot;the best in the country.&quot; The Noordhoek location is a 30-minute drive from the city centre, but that&#39;s part of the charm — pair it with a Chapman&#39;s Peak Drive. The food is excellent, arguably better than the other taprooms.
-    </div>
 </section>
 <section class="restaurant-section" id="beerhouse" data-map-name="6. Beerhouse" data-map-cta-url="https://maps.google.com/?cid=14325635364761093661&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Beerhouse, Long Street, CBD, Cape Town, ZA" data-map-lat="-33.925463" data-map-lng="18.4160932">
     <div class="restaurant-header">
@@ -673,11 +751,24 @@
         <span>📍 Long Street, CBD</span>
         <a href="https://maps.google.com/?cid=14325635364761093661&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not a brewery — a beer temple.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beer Bar in Long Street, CBD</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 4,792 Google reviews · Beer Bar · Long Street, CBD</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the sheer variety is unmatched</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.2★ from 4,792 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not a brewery — a beer temple. Beerhouse stocks an enormous rotating selection of local and international craft beers across dozens of taps and hundreds of bottles. The Long Street location is perfect for tourists who want to sample the best of South Africa&#39;s craft scene without brewery-hopping across the city. It&#39;s louder and more touristy than the taprooms, but the sheer variety is unmatched.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>📞 <a href="tel:+27793698990">+27793698990</a></span><span>🌐 <a href="https://www.beerhouse.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/beerhouse.jpg" alt="Beerhouse in Long Street, CBD" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Woodstock Brewery, Devil&#39;s Peak Brewery, Beerhouse, Triggerfish to name a few."
@@ -686,9 +777,6 @@
     <div class="reddit-quote">
         "TAP&#39;D @ Mojo Market in Sea Point (they have a lot of craft beers on tap)"
         <span class="source">— r/capetown · 2 upvotes · Craft Beer, May 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not a brewery — a beer temple. Beerhouse stocks an enormous rotating selection of local and international craft beers across dozens of taps and hundreds of bottles. The Long Street location is perfect for tourists who want to sample the best of South Africa&#39;s craft scene without brewery-hopping across the city. It&#39;s louder and more touristy than the taprooms, but the sheer variety is unmatched.
     </div>
 </section>
 <section class="restaurant-section" id="triggerfish" data-map-name="7. Triggerfish Brewery" data-map-cta-url="https://maps.google.com/?cid=14427650802523879170&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Triggerfish Brewery, Somerset West, Cape Town, ZA" data-map-lat="-34.090102099999996" data-map-lng="18.805869899999998">
@@ -702,6 +790,20 @@
         <span>📍 Somerset West</span>
         <a href="https://maps.google.com/?cid=14427650802523879170&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A 40-minute drive from the city centre, but Triggerfish rewards the effort.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Brewery in Somerset West</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 515 Google reviews · Brewery · Somerset West</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Triggerfish rewards the effort</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.4★ from 515 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A 40-minute drive from the city centre, but Triggerfish rewards the effort. Their Roman Red is consistently singled out as one of the best craft beers in the Western Cape. Small-batch brewing means what&#39;s on tap changes regularly. Combine with a Stellenbosch wine tasting day or a visit to nearby Vergelegen estate. It&#39;s the kind of place where you might end up chatting with the brewer.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -714,7 +816,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27218515861">+27218515861</a></span><span>🌐 <a href="https://www.triggerfishbrewing.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/triggerfish.jpg" alt="Triggerfish Brewery in Somerset West" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Triggerfish in Somerset West is a great stop. Roman Red is a fav of mine."
@@ -728,9 +829,6 @@
         "I&#39;d also try and visit Triggerfish Brewery in Somerset West, when you have the chance. AMAZING craft beers."
         <span class="source">— r/capetown · 3 upvotes · Craft Beer in Cape Town</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A 40-minute drive from the city centre, but Triggerfish rewards the effort. Their Roman Red is consistently singled out as one of the best craft beers in the Western Cape. Small-batch brewing means what&#39;s on tap changes regularly. Combine with a Stellenbosch wine tasting day or a visit to nearby Vergelegen estate. It&#39;s the kind of place where you might end up chatting with the brewer.
-    </div>
 </section>
 <section class="restaurant-section" id="darling-brew" data-map-name="8. Darling Brew" data-map-cta-url="https://maps.google.com/?cid=12999641290313987072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Darling Brew, Darling (West Coast), Cape Town, ZA" data-map-lat="-33.372360199999996" data-map-lng="18.390342699999998">
     <div class="restaurant-header">
@@ -742,6 +840,20 @@
         
         <span>📍 Darling (West Coast)</span>
         <a href="https://maps.google.com/?cid=12999641290313987072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of the OG South African craft breweries.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Brewery in Darling (West Coast)</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,863 Google reviews · Brewery · Darling (West Coast)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the Gypsy Mask Red Ale shows their range</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.5★ from 1,863 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of the OG South African craft breweries. Darling has been in the game long before craft beer was trendy, and Redditors consistently respect them for it. The Bone Crusher Wit is their crowd-pleaser, but the Gypsy Mask Red Ale shows their range. The brewery is about an hour&#39;s drive from Cape Town in the charming West Coast town of Darling — combine with wildflower season (August–September) if you can.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -755,7 +867,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27760928313">+27760928313</a></span><span>🌐 <a href="https://darlingbrew.co.za/pages/dbtasteroom-darling" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/darling-brew.jpg" alt="Darling Brew in Darling (West Coast)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Darling brewery, one of the OGs of the SA revolution. Most of the breweries are craft, so expect new age beers."
@@ -769,9 +880,6 @@
         "My favourite was &#39;Bone Crusher Wit Beer&#39; by Darling Brew."
         <span class="source">— r/askSouthAfrica · 2 upvotes · Nicest South African Beers, Jan 2025</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of the OG South African craft breweries. Darling has been in the game long before craft beer was trendy, and Redditors consistently respect them for it. The Bone Crusher Wit is their crowd-pleaser, but the Gypsy Mask Red Ale shows their range. The brewery is about an hour&#39;s drive from Cape Town in the charming West Coast town of Darling — combine with wildflower season (August–September) if you can.
-    </div>
 </section>
 <section class="restaurant-section" id="cbc" data-map-name="9. Cape Brewing Company (CBC)" data-map-cta-url="https://maps.google.com/?cid=6415810981558398314&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cape Brewing Company (CBC), Paarl (Spice Route), Cape Town, ZA" data-map-lat="-33.763686" data-map-lng="18.9196241">
     <div class="restaurant-header">
@@ -783,6 +891,20 @@
         
         <span>📍 Paarl (Spice Route)</span>
         <a href="https://maps.google.com/?cid=6415810981558398314&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The day-trip brewery.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Farmhouse Brewery in Paarl (Spice Route)</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 314 Google reviews · Farmhouse Brewery · Paarl (Spice Route)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the real magic is the Spice Route destination in Paarl: beer, wine, gin, chocolate, and artisan cheese all on one estate under the Winelands mountains</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.6★ from 314 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The day-trip brewery. CBC itself makes solid, reliable craft beer — the Pale Ale is a crowd-pleaser. But the real magic is the Spice Route destination in Paarl: beer, wine, gin, chocolate, and artisan cheese all on one estate under the Winelands mountains. It&#39;s about 45 minutes from Cape Town, but you could easily spend a full day here. Combine with Franschhoek or Stellenbosch wine tasting for the ultimate boozy day out.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -796,7 +918,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27218632270">+27218632270</a></span><span>🌐 <a href="http://www.capebrewing.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/cape-brewing-company.jpg" alt="Cape Brewing Company (CBC) in Paarl (Spice Route)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cape Brewing Company was my favourite by far but it&#39;s located a bit out of the way. It&#39;s located in a huge estate that includes a winery, chocolate factory, distillery, and cheese factory so you can eat and drink like crazy there."
@@ -805,9 +926,6 @@
     <div class="reddit-quote">
         "CBC which is at the Spice Route - definitely worth going there, there&#39;s a lot more than beer."
         <span class="source">— r/southafrica · Brewery Recommendations, Feb 2018</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The day-trip brewery. CBC itself makes solid, reliable craft beer — the Pale Ale is a crowd-pleaser. But the real magic is the Spice Route destination in Paarl: beer, wine, gin, chocolate, and artisan cheese all on one estate under the Winelands mountains. It&#39;s about 45 minutes from Cape Town, but you could easily spend a full day here. Combine with Franschhoek or Stellenbosch wine tasting for the ultimate boozy day out.
     </div>
 </section>
 <section class="restaurant-section" id="hog-house" data-map-name="10. Hog House Brewing Co." data-map-cta-url="https://maps.google.com/?cid=5712580148781966024&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hog House Brewing Co., Ndabeni, Cape Town, ZA" data-map-lat="-33.929441" data-map-lng="18.5010498">
@@ -821,6 +939,20 @@
         <span>📍 Ndabeni</span>
         <a href="https://maps.google.com/?cid=5712580148781966024&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A local&#39;s brewery tucked away in the industrial Ndabeni area near Pinelands.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Brewpub in Ndabeni</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 785 Google reviews · Brewpub · Ndabeni</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>that&#39;s part of the appeal — you&#39;re drinking with Capetonians, not guidebook followers</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>4.7★ from 785 reviews</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A local&#39;s brewery tucked away in the industrial Ndabeni area near Pinelands. Hog House doesn&#39;t get the tourist traffic of Devil&#39;s Peak or Woodstock, but that&#39;s part of the appeal — you&#39;re drinking with Capetonians, not guidebook followers. The vibe is no-frills and honest, and the beers are solid. Good for a low-key afternoon away from the main craft beer circuit.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -833,7 +965,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+27218104545">+27218104545</a></span><span>🌐 <a href="https://hoghouse.co.za/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/woodstock-cape-town-craft-beer/hog-house.jpg" alt="Hog House Brewing Co. in Ndabeni" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Hog House Brewery in Ndabeni/Pinelands"
@@ -842,9 +973,6 @@
     <div class="reddit-quote">
         "You can try Hoghouse in Ndabeni."
         <span class="source">— r/capetown · Craft Beer, May 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A local&#39;s brewery tucked away in the industrial Ndabeni area near Pinelands. Hog House doesn&#39;t get the tourist traffic of Devil&#39;s Peak or Woodstock, but that&#39;s part of the appeal — you&#39;re drinking with Capetonians, not guidebook followers. The vibe is no-frills and honest, and the beers are solid. Good for a low-key afternoon away from the main craft beer circuit.
     </div>
 </section>
       </section>

@@ -306,7 +306,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -319,18 +328,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -408,6 +418,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Cape Coast&#39;s beach bar scene stretches from the historic castle waterfront to the quieter stretches near Elmina, offering everything from ₵15 cold Club beers on the sand to ₵200 resort cocktails with infinity pool views. These picks, vetted by travelers and locals, cover every vibe along this storied coastline.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Oasis Beach Resort — ₵30–₵120/person</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>₵30–₵120/person</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Oasis Beach Resort — ₵30–₵120/person</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Oasis Beach Resort:</strong> The most consistently recommended beach bar in Cape Coast for good reason.</li>
+            <li><strong>Castle Beach Restaurant:</strong> If Oasis is the casual beach bar, Castle Beach is where you go when you want quality food with your ocean view.</li>
+            <li><strong>Lush on the Coast:</strong> The most &quot;modern&quot; beach bar on this list — Instagram-ready with a pool, proper cocktails, and that polished lounge vibe.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Cape Coast&#39;s beach bar scene stretches from the historic castle waterfront to the quieter stretches near Elmina, offering everything from ₵15 cold Club beers on the sand to ₵200 resort cocktails with infinity pool views. These picks, vetted by travelers and locals, cover every vibe along this storied coastline.</strong></p>
         <p>Ghana&#39;s Central Region coast is where history meets the ocean. Cape Coast Castle and Elmina Castle anchor a stretch of coastline that&#39;s increasingly known not just for its powerful heritage sites but for the beach bars and coastal retreats that have grown up around them. Whether you want a rough-and-ready bar right on the sand or a polished resort lounge with sunset cocktails, this coast delivers.</p><p>We analyzed Reddit trip reports, travel threads, and local recommendations from r/ghana, r/travel, and r/solotravel to find the beach bars that actual visitors and residents keep coming back to — from the beloved Oasis to hidden gems along the Elmina coast.</p>
@@ -462,12 +490,24 @@
         <span>📍 Cape Coast beachfront</span>
         <a href="https://maps.google.com/?q=Oasis+Beach+Resort+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most consistently recommended beach bar in Cape Coast for good reason.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beach Bar &amp; Restaurant in Cape Coast beachfront with a ₵30–₵120/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.7★ from 113 Google reviews · Beach Bar &amp; Restaurant · Cape Coast beachfront</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵30–₵120/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵30–₵120/person · 3.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most consistently recommended beach bar in Cape Coast for good reason. The jetty seating is unique — you&#39;re literally drinking over the Atlantic. Not fancy, not trying to be. Just cold drinks, decent food, and one of the best natural settings on the Central Region coast. The go-to spot.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Cold Club beer on the jetty is the essential experience. The grilled tilapia with banku is the signature food order — fresh fish, simply prepared. For cocktails, try the palm wine punch or a rum and fresh coconut water. The three-course set meals get mixed reviews — stick to individual plates.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-0.jpg" alt="Oasis Beach Resort in Cape Coast beachfront" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Cold Club beer on the jetty is the essential experience. The grilled tilapia with banku is the signature food order — fresh fish, simply prepared. For cocktails, try the palm wine punch or a rum and fresh coconut water. The three-course set meals get mixed reviews — stick to individual plates.</div>
     
     <div class="reddit-quote">
         "The Oasis Beach Resort further down the beach looked much nicer (and with similar if not cheaper prices), and had a little seating area along a jetty."
@@ -481,9 +521,6 @@
         "You can try Oasis Beach at Cape Coast in the central region."
         <span class="source">— u/Richie_Linam, r/ghana</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most consistently recommended beach bar in Cape Coast for good reason. The jetty seating is unique — you&#39;re literally drinking over the Atlantic. Not fancy, not trying to be. Just cold drinks, decent food, and one of the best natural settings on the Central Region coast. The go-to spot.
-    </div>
 </section>
 <section class="restaurant-section" id="castle-beach" data-map-name="2. Castle Beach Restaurant" data-map-cta-url="https://maps.google.com/?q=Castle+Beach+Restaurant+Cape+Coast+Ghana" data-map-query="Castle Beach Restaurant, Near Cape Coast Castle, Cape Coast, GH" data-map-lat="5.1037642" data-map-lng="-1.24182">
     <div class="restaurant-header">
@@ -496,19 +533,28 @@
         <span>📍 Near Cape Coast Castle</span>
         <a href="https://maps.google.com/?q=Castle+Beach+Restaurant+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If Oasis is the casual beach bar, Castle Beach is where you go when you want quality food with your ocean view.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>a proper sit-down beach meal</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ Google rating · Beachfront Restaurant · Near Cape Coast Castle</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>worth every cedi for the overall experience</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵40–₵150/person · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If Oasis is the casual beach bar, Castle Beach is where you go when you want quality food with your ocean view. The wooden cottage setting is genuinely charming, and the seafood is as fresh as it gets. Higher prices than the locals-only spots, but worth every cedi for the overall experience. Best for a proper sit-down beach meal.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The grilled lobster (when available) is the showstopper — some of the freshest and cheapest lobster you&#39;ll find anywhere. Grilled red snapper with jollof is excellent. For drinks, the fresh fruit juices are outstanding. The Star beer is always ice-cold. Try the kelewele (spiced fried plantain) as a bar snack.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-1.jpg" alt="Castle Beach Restaurant in Near Cape Coast Castle" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The grilled lobster (when available) is the showstopper — some of the freshest and cheapest lobster you&#39;ll find anywhere. Grilled red snapper with jollof is excellent. For drinks, the fresh fruit juices are outstanding. The Star beer is always ice-cold. Try the kelewele (spiced fried plantain) as a bar snack.</div>
     
     <div class="reddit-quote">
         "This is by far the nicest restaurant I have been to in southern Ghana. The place is wonderful, right by the beach, all made of wood (cottage-like). The food is amazing."
         <span class="source">— TripAdvisor reviewer, TripAdvisor</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If Oasis is the casual beach bar, Castle Beach is where you go when you want quality food with your ocean view. The wooden cottage setting is genuinely charming, and the seafood is as fresh as it gets. Higher prices than the locals-only spots, but worth every cedi for the overall experience. Best for a proper sit-down beach meal.
     </div>
 </section>
 <section class="restaurant-section" id="lush-on-the-coast" data-map-name="3. Lush on the Coast" data-map-cta-url="https://maps.google.com/?q=Lush+on+the+Coast+Cape+Coast+Ghana" data-map-query="Lush on the Coast, Bakano (Old Asaase Pa), Cape Coast, Cape Coast, GH" data-map-lat="5.102123199999999" data-map-lng="-1.2566471">
@@ -522,16 +568,25 @@
         <span>📍 Bakano (Old Asaase Pa), Cape Coast</span>
         <a href="https://maps.google.com/?q=Lush+on+the+Coast+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most &quot;modern&quot; beach bar on this list — Instagram-ready with a pool, proper cocktails, and that polished lounge vibe.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>couples and groups</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Bar &amp; Lounge · Bakano (Old Asaase Pa), Cape Coast</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵30–₵100/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵30–₵100/person</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most &quot;modern&quot; beach bar on this list — Instagram-ready with a pool, proper cocktails, and that polished lounge vibe. A welcome addition to Cape Coast&#39;s scene, which historically lacked this kind of spot. The pool alone makes it worth visiting if you want to swim without fighting the ocean currents. Best for couples and groups.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Cocktails are the strength here — the mojitos and daiquiris are well-made with fresh ingredients. For food, the grilled chicken with jollof rice is reliable. The fried yam with spicy sauce makes an excellent bar snack. Open 8am to midnight, so it works for everything from breakfast to late-night drinks.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-2.jpg" alt="Lush on the Coast in Bakano (Old Asaase Pa), Cape Coast" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Cocktails are the strength here — the mojitos and daiquiris are well-made with fresh ingredients. For food, the grilled chicken with jollof rice is reliable. The fried yam with spicy sauce makes an excellent bar snack. Open 8am to midnight, so it works for everything from breakfast to late-night drinks.</div>
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most &quot;modern&quot; beach bar on this list — Instagram-ready with a pool, proper cocktails, and that polished lounge vibe. A welcome addition to Cape Coast&#39;s scene, which historically lacked this kind of spot. The pool alone makes it worth visiting if you want to swim without fighting the ocean currents. Best for couples and groups.
-    </div>
 </section>
 <section class="restaurant-section" id="orange-beach-bar" data-map-name="4. Orange Beach Bar" data-map-cta-url="https://maps.google.com/?q=Orange+Beach+Bar+Cape+Coast+Ghana" data-map-query="Orange Beach Bar, Cape Coast beachfront (near Castle), Cape Coast, GH" data-map-lat="5.1031634" data-map-lng="-1.2428485999999999">
     <div class="restaurant-header">
@@ -544,12 +599,24 @@
         <span>📍 Cape Coast beachfront (near Castle)</span>
         <a href="https://maps.google.com/?q=Orange+Beach+Bar+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Rough around the edges but authentically Cape Coast.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beach Bar in Cape Coast beachfront (near Castle) with a ₵20–₵80/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.8★ from 19 Google reviews · Beach Bar · Cape Coast beachfront (near Castle)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>authentically Cape Coast</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵20–₵80/person · 3.8★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Rough around the edges but authentically Cape Coast. Don&#39;t expect polish — expect cheap beer, loud music, and the Atlantic Ocean right there. The kind of beach bar that&#39;s either exactly your vibe or not at all. Budget travelers love it; comfort-seekers should head to Castle Beach or Oasis instead.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Cold Club beer — this is a beer-on-the-beach spot, not a cocktail lounge. The jollof rice is solid and reasonably priced. Grilled fish when available. Keep it simple and enjoy the setting. The music can be loud on weekends — come for it or avoid it.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-3.jpg" alt="Orange Beach Bar in Cape Coast beachfront (near Castle)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Cold Club beer — this is a beer-on-the-beach spot, not a cocktail lounge. The jollof rice is solid and reasonably priced. Grilled fish when available. Keep it simple and enjoy the setting. The music can be loud on weekends — come for it or avoid it.</div>
     
     <div class="reddit-quote">
         "While in Cape Coast, we stayed at both of the places on either side, but spent more time at Orange Bar. Great food and great owners."
@@ -558,9 +625,6 @@
     <div class="reddit-quote">
         "Orange Beach Resort... it&#39;s a fairly run down lodge, that manages to get away with charging relatively high prices because it&#39;s right on the beach. That said, the owner is nice."
         <span class="source">— u/2ndgenerationcatlady, r/travel · 244 upvotes</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Rough around the edges but authentically Cape Coast. Don&#39;t expect polish — expect cheap beer, loud music, and the Atlantic Ocean right there. The kind of beach bar that&#39;s either exactly your vibe or not at all. Budget travelers love it; comfort-seekers should head to Castle Beach or Oasis instead.
     </div>
 </section>
 <section class="restaurant-section" id="lemon-beach" data-map-name="5. Lemon Beach Resort" data-map-cta-url="https://maps.google.com/?q=Lemon+Beach+Resort+Elmina+Ghana" data-map-query="Lemon Beach Resort, Elmina (6 min from Elmina Castle), Cape Coast, GH" data-map-lat="5.076815" data-map-lng="-1.3747106999999998">
@@ -574,19 +638,28 @@
         <span>📍 Elmina (6 min from Elmina Castle)</span>
         <a href="https://maps.google.com/?q=Lemon+Beach+Resort+Elmina+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The best beach bar experience in the Elmina area, period.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beach Resort Bar in Elmina (6 min from Elmina Castle) with a ₵40–₵120/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Beach Resort Bar · Elmina (6 min from Elmina Castle)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵40–₵120/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵40–₵120/person</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The best beach bar experience in the Elmina area, period. The rooftop sunset views alone justify the trip. Clean, well-managed, with a pool and genuine hospitality. If you&#39;re staying in Elmina rather than Cape Coast, this is your home base for drinks. The 6-minute proximity to Elmina Castle makes it easy to combine history and relaxation.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Rooftop cocktails at sunset are the signature experience. The English breakfast is surprisingly good for a morning-after cure. Grilled fish with red-red (bean stew with plantain) for lunch. The pool bar serves lighter bites and cold drinks throughout the day.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-4.jpg" alt="Lemon Beach Resort in Elmina (6 min from Elmina Castle)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Rooftop cocktails at sunset are the signature experience. The English breakfast is surprisingly good for a morning-after cure. Grilled fish with red-red (bean stew with plantain) for lunch. The pool bar serves lighter bites and cold drinks throughout the day.</div>
     
     <div class="reddit-quote">
         "Lemon Beach, Elmina and Lemon Lounge Cape Coast — undoubtedly, the best place to hangout if you are interested in pool swimming at the beach."
         <span class="source">— Local recommendation, Facebook Travel Group</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The best beach bar experience in the Elmina area, period. The rooftop sunset views alone justify the trip. Clean, well-managed, with a pool and genuine hospitality. If you&#39;re staying in Elmina rather than Cape Coast, this is your home base for drinks. The 6-minute proximity to Elmina Castle makes it easy to combine history and relaxation.
     </div>
 </section>
 <section class="restaurant-section" id="ko-sa-beach" data-map-name="6. Ko-Sa Beach Resort" data-map-cta-url="https://maps.google.com/?q=Ko-Sa+Beach+Resort+Ampenyi+Ghana" data-map-query="Ko-Sa Beach Resort, Ampenyi (between Cape Coast &amp; Elmina), Cape Coast, GH" data-map-lat="5.0612053999999995" data-map-lng="-1.4407725">
@@ -600,19 +673,28 @@
         <span>📍 Ampenyi (between Cape Coast &amp; Elmina)</span>
         <a href="https://maps.google.com/?q=Ko-Sa+Beach+Resort+Ampenyi+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The hidden gem on this list.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>travelers who want to escape the busier castle-area scene</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ Google rating · Beach Resort Bar · Ampenyi (between Cape Coast &amp; Elmina)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the peace of a small fishing village</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵50–₵150/person · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The hidden gem on this list. Ko-Sa&#39;s position between Cape Coast and Elmina gives you the best of both worlds — proximity to the castles and Kakum, but the peace of a small fishing village. The bar is unpretentious and the seafood is as fresh as it gets. Best for travelers who want to escape the busier castle-area scene.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The seafood platter with the day&#39;s catch is the standout — whatever the fishermen brought in that morning, prepared simply and well. The palm wine is locally sourced and fresh. For something stronger, the cocktails are decent. The jollof rice with grilled lobster (seasonal) is exceptional value compared to what you&#39;d pay in Accra.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-5.jpg" alt="Ko-Sa Beach Resort in Ampenyi (between Cape Coast &amp; Elmina)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The seafood platter with the day&#39;s catch is the standout — whatever the fishermen brought in that morning, prepared simply and well. The palm wine is locally sourced and fresh. For something stronger, the cocktails are decent. The jollof rice with grilled lobster (seasonal) is exceptional value compared to what you&#39;d pay in Accra.</div>
     
     <div class="reddit-quote">
         "We stayed in several hotels and lodges in Ghana and Elmina, but Ko-Sa is far the best."
         <span class="source">— TripAdvisor reviewer, TripAdvisor</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The hidden gem on this list. Ko-Sa&#39;s position between Cape Coast and Elmina gives you the best of both worlds — proximity to the castles and Kakum, but the peace of a small fishing village. The bar is unpretentious and the seafood is as fresh as it gets. Best for travelers who want to escape the busier castle-area scene.
     </div>
 </section>
 <section class="restaurant-section" id="xcape-beach-club" data-map-name="7. Xcape Beach Club" data-map-cta-url="https://maps.google.com/?q=Xcape+Beach+Club+Cape+Coast+Ghana" data-map-query="Xcape Beach Club, Cape Coast, Cape Coast, GH" data-map-lat="5.0997563" data-map-lng="-1.2985566">
@@ -626,16 +708,25 @@
         <span>📍 Cape Coast</span>
         <a href="https://maps.google.com/?q=Xcape+Beach+Club+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The party pick.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beach Club in Cape Coast with a ₵30–₵100/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Beach Club · Cape Coast</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵30–₵100/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵30–₵100/person</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The party pick. If you&#39;re in Cape Coast on a weekend and want music, cocktails, and a social scene rather than a quiet beer at sunset, Xcape is where you should be. Not for the &quot;quiet contemplation with an ocean view&quot; crowd — this is for fun. A sign that Cape Coast&#39;s nightlife is evolving fast.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Cocktails and mixed drinks are the focus here — this is more club than restaurant. The grilled kebabs and small plates work well as drinking food. Cold beer is always available. DJs on weekends keep the energy up into the evening.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-6.jpg" alt="Xcape Beach Club in Cape Coast" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Cocktails and mixed drinks are the focus here — this is more club than restaurant. The grilled kebabs and small plates work well as drinking food. Cold beer is always available. DJs on weekends keep the energy up into the evening.</div>
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The party pick. If you&#39;re in Cape Coast on a weekend and want music, cocktails, and a social scene rather than a quiet beer at sunset, Xcape is where you should be. Not for the &quot;quiet contemplation with an ocean view&quot; crowd — this is for fun. A sign that Cape Coast&#39;s nightlife is evolving fast.
-    </div>
 </section>
 <section class="restaurant-section" id="coconut-grove" data-map-name="8. Coconut Grove Beach Resort" data-map-cta-url="https://maps.google.com/?q=Coconut+Grove+Beach+Resort+Elmina+Ghana" data-map-query="Coconut Grove Beach Resort, Elmina beachfront, Cape Coast, GH" data-map-lat="5.0775315" data-map-lng="-1.3715449">
     <div class="restaurant-header">
@@ -648,16 +739,25 @@
         <span>📍 Elmina beachfront</span>
         <a href="https://maps.google.com/?q=Coconut+Grove+Beach+Resort+Elmina+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The luxury option.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>travelers who want to relax in style after a heavy day at the castles</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.9★ Google rating · Upscale Resort · Elmina beachfront</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>you&#39;re paying for comfort and consistency</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵60–₵200/person · 3.9★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The luxury option. Coconut Grove is where you go when you want poolside cocktails, proper service, and a resort atmosphere. It&#39;s the most expensive bar on this list, but you&#39;re paying for comfort and consistency. Best for travelers who want to relax in style after a heavy day at the castles. Day passes make it accessible even if you&#39;re not staying.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>The pool bar cocktails are the draw — sip something tropical while floating in or beside the pool. The restaurant serves the best continental-Ghanaian fusion food in the area. Breakfast is included for hotel guests and worth arriving early for. The grilled prawns with garlic butter are excellent.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-7.jpg" alt="Coconut Grove Beach Resort in Elmina beachfront" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> The pool bar cocktails are the draw — sip something tropical while floating in or beside the pool. The restaurant serves the best continental-Ghanaian fusion food in the area. Breakfast is included for hotel guests and worth arriving early for. The grilled prawns with garlic butter are excellent.</div>
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The luxury option. Coconut Grove is where you go when you want poolside cocktails, proper service, and a resort atmosphere. It&#39;s the most expensive bar on this list, but you&#39;re paying for comfort and consistency. Best for travelers who want to relax in style after a heavy day at the castles. Day passes make it accessible even if you&#39;re not staying.
-    </div>
 </section>
 <section class="restaurant-section" id="heritage-beach" data-map-name="9. Heritage Beach" data-map-cta-url="https://maps.google.com/?q=Heritage+Beach+Duakor+Cape+Coast+Ghana" data-map-query="Heritage Beach, Duakor, Cape Coast, Cape Coast, GH" data-map-lat="5.0999482" data-map-lng="-1.2955651">
     <div class="restaurant-header">
@@ -670,16 +770,25 @@
         <span>📍 Duakor, Cape Coast</span>
         <a href="https://maps.google.com/?q=Heritage+Beach+Duakor+Cape+Coast+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The locals&#39; pick.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Beach Bar in Duakor, Cape Coast with a ₵20–₵80/person spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Beach Bar · Duakor, Cape Coast</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵20–₵80/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵20–₵80/person</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The locals&#39; pick. Heritage Beach is where Cape Coast residents actually go on weekends — not the castle-area bars that cater to tourists. If you want to experience Ghana&#39;s beach culture as Ghanaians live it, this is your spot. Low prices, zero pretension, and a genuine community atmosphere. Bring cash — this isn&#39;t a credit card kind of place.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Fresh coconut water straight from the shell is the essential Heritage Beach experience. Cold Club or Star beer. The grilled fish — whatever was caught that morning — with kenkey (fermented corn dough) and hot pepper sauce. Simple, local, and exactly right for the setting.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-8.jpg" alt="Heritage Beach in Duakor, Cape Coast" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Fresh coconut water straight from the shell is the essential Heritage Beach experience. Cold Club or Star beer. The grilled fish — whatever was caught that morning — with kenkey (fermented corn dough) and hot pepper sauce. Simple, local, and exactly right for the setting.</div>
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The locals&#39; pick. Heritage Beach is where Cape Coast residents actually go on weekends — not the castle-area bars that cater to tourists. If you want to experience Ghana&#39;s beach culture as Ghanaians live it, this is your spot. Low prices, zero pretension, and a genuine community atmosphere. Bring cash — this isn&#39;t a credit card kind of place.
-    </div>
 </section>
 <section class="restaurant-section" id="elmina-beach-resort" data-map-name="10. Elmina Beach Resort" data-map-cta-url="https://maps.google.com/?q=Elmina+Beach+Resort+Ghana" data-map-query="Elmina Beach Resort, Elmina beachfront, Cape Coast, GH" data-map-lat="5.0934589" data-map-lng="-1.3371245">
     <div class="restaurant-header">
@@ -692,19 +801,28 @@
         <span>📍 Elmina beachfront</span>
         <a href="https://maps.google.com/?q=Elmina+Beach+Resort+Ghana" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A legacy resort with the best sunset positioning on the coast.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>travelers who prioritize setting over energy</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.5★ from 102 Google reviews · Upscale Resort · Elmina beachfront</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ₵80–₵250/person</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>₵80–₵250/person · 3.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A legacy resort with the best sunset positioning on the coast. Come here for the terrace and the view — not necessarily for cutting-edge service or the newest cocktails. The scale of the resort means you get space and quiet, especially on weekdays. Best for travelers who prioritize setting over energy. If it&#39;s sunset you want, nowhere on this coast does it better.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Sunset cocktails on the terrace — the westward-facing position delivers stunning views. The continental menu is more international than Ghanaian, but the grilled seafood platter is worth the premium. The bar stocks imported spirits alongside local options. Try the fresh tropical fruit smoothies for a non-alcoholic option.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/cape-coast-beach-bars/photo-9.jpg" alt="Elmina Beach Resort in Elmina beachfront" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Sunset cocktails on the terrace — the westward-facing position delivers stunning views. The continental menu is more international than Ghanaian, but the grilled seafood platter is worth the premium. The bar stocks imported spirits alongside local options. Try the fresh tropical fruit smoothies for a non-alcoholic option.</div>
     
     <div class="reddit-quote">
         "Elmina Resort is a decent option."
         <span class="source">— u/ikwame, r/ghana</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A legacy resort with the best sunset positioning on the coast. Come here for the terrace and the view — not necessarily for cutting-edge service or the newest cocktails. The scale of the resort means you get space and quiet, especially on weekdays. Best for travelers who prioritize setting over energy. If it&#39;s sunset you want, nowhere on this coast does it better.
     </div>
 </section>
       </section>

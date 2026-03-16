@@ -369,7 +369,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -382,18 +391,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -471,6 +481,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Paris offers budget-friendly eats ranging from €3 burgers to €20 three-course meals, making it a surprisingly affordable destination if you know where to look. Bouillon Chartier stands out as a top recommendation for its unbeatable prix fixe menu, especially for first-time visitors seeking classic French cuisine without breaking the bank. Venture beyond the tourist hotspots to discover where locals and seasoned travelers find the best deals.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>La Ruche à Miel — 4.6★ (407 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>€8–€18</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Bouillon Chartier</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Bouillon Chartier:</strong> The most-recommended cheap eat in all of Paris, and for good reason.</li>
+            <li><strong>Bouillon Pigalle:</strong> The newer, trendier sibling of the bouillon family.</li>
+            <li><strong>L&#39;As du Fallafel:</strong> Yes, it&#39;s touristy.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Paris offers budget-friendly eats ranging from €3 burgers to €20 three-course meals, making it a surprisingly affordable destination if you know where to look. Bouillon Chartier stands out as a top recommendation for its unbeatable prix fixe menu, especially for first-time visitors seeking classic French cuisine without breaking the bank. Venture beyond the tourist hotspots to discover where locals and seasoned travelers find the best deals.</strong></p>
         <p>Paris has a reputation for being expensive, but locals will tell you the exact opposite: this city has some of the best budget food in Europe if you know where to look. From 19th-century bouillon restaurants serving duck confit for €12 to €3 burgers that went viral on TikTok, the real Paris eats are far from the €25 tourist-trap croque monsieurs near the Eiffel Tower.</p><p>We analyzed hundreds of Reddit posts from r/paris, r/ParisTravelGuide, r/solotravel, and r/Shoestring to find the spots that actual Parisians and seasoned budget travelers recommend over and over. Walk a few blocks from the tourist traps — that&#39;s where the magic is.</p>
@@ -525,6 +553,20 @@
         <span>📍 9th arr., Grands Boulevards</span>
         <a href="https://maps.google.com/?cid=17691421677029071208&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most-recommended cheap eat in all of Paris, and for good reason.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>French Brasserie in 9th arr., Grands Boulevards with a €8–€18 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 31,191 Google reviews · French Brasserie · 9th arr., Grands Boulevards</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it moves fast — and the atmosphere alone is worth it</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€8–€18 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most-recommended cheap eat in all of Paris, and for good reason. Bouillon Chartier has been feeding Parisians since 1896 in a jaw-dropping Belle Époque hall. The food is honest, traditional French cooking at prices that feel like a time warp. Expect a queue, but it moves fast — and the atmosphere alone is worth it.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bouillon Chartier, a French brasserie in the 9th arrondissement near Grands Boulevards, is known for its unbeatable prix fixe menu, offering a three-course meal for under €20. Indulge in a Belle Époque dining room, starting with onion soup or oeufs mayo, followed by duck confit or steak-frites, and finishing with profiteroles.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -537,8 +579,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33147708629">+33147708629</a></span><span>🌐 <a href="https://www.bouillon-chartier.com/bouillon-chartier-grands-boulevards/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=mybusiness-website" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/bouillon-chartier.jpg" alt="Bouillon Chartier in 9th arr., Grands Boulevards" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bouillon Chartier, a French brasserie in the 9th arrondissement near Grands Boulevards, is known for its unbeatable prix fixe menu, offering a three-course meal for under €20. Indulge in a Belle Époque dining room, starting with onion soup or oeufs mayo, followed by duck confit or steak-frites, and finishing with profiteroles.</div>
     
     <div class="reddit-quote">
         "Bouillon! There are locations all around the city. Beautiful restaurants at inexpensive prices! They&#39;re known for it."
@@ -552,9 +592,6 @@
         "Chartier is a beautiful bouillon. &#39;TooGoodToGo&#39; app is good in Paris too."
         <span class="source">— r/ParisTravelGuide · 7 upvotes · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most-recommended cheap eat in all of Paris, and for good reason. Bouillon Chartier has been feeding Parisians since 1896 in a jaw-dropping Belle Époque hall. The food is honest, traditional French cooking at prices that feel like a time warp. Expect a queue, but it moves fast — and the atmosphere alone is worth it.
-    </div>
 </section>
 <section class="restaurant-section" id="bouillon-pigalle" data-map-name="2. Bouillon Pigalle" data-map-cta-url="https://maps.google.com/?cid=7799438763248845030&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bouillon Pigalle, 18th arr., Pigalle, Paris, FR" data-map-lat="48.882624199999995" data-map-lng="2.3374170999999997">
     <div class="restaurant-header">
@@ -566,6 +603,20 @@
         <span>💴 €4–€15</span>
         <span>📍 18th arr., Pigalle</span>
         <a href="https://maps.google.com/?cid=7799438763248845030&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The newer, trendier sibling of the bouillon family.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>French Brasserie in 18th arr., Pigalle with a €4–€15 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 52,439 Google reviews · French Brasserie · 18th arr., Pigalle</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>keeps the same incredible value proposition: classic French food at genuinely shocking prices</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–€15 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The newer, trendier sibling of the bouillon family. Bouillon Pigalle has a more contemporary vibe but keeps the same incredible value proposition: classic French food at genuinely shocking prices. Parisians themselves give it the stamp of approval — the ultimate test.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bouillon Pigalle, a French brasserie in the 18th arrondissement of Pigalle, offers a complete three-course meal for less than the price of a single main course at most Parisian restaurants. Enjoy onion soup (€4), lamb pie (€12), and profiteroles (€6) for a truly affordable Parisian dining experience.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -579,8 +630,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33142596931">+33142596931</a></span><span>🌐 <a href="https://bouillonlesite.com/bouillon-pigalle" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/bouillon-pigalle.jpg" alt="Bouillon Pigalle in 18th arr., Pigalle" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bouillon Pigalle, a French brasserie in the 18th arrondissement of Pigalle, offers a complete three-course meal for less than the price of a single main course at most Parisian restaurants. Enjoy onion soup (€4), lamb pie (€12), and profiteroles (€6) for a truly affordable Parisian dining experience.</div>
     
     <div class="reddit-quote">
         "Bouillon Pigalle is my favourite go-to French food! Lots of Parisians that we met approved of this and they even said it&#39;s close to authentic French cuisine. Some of our favourites include: 4 euro Onion soup, 12 euro lamb pie and 6 euro Profiterole for dessert!"
@@ -589,9 +638,6 @@
     <div class="reddit-quote">
         "Yes! And there is another more recent one called Bouillon Pigalle which has the same concept."
         <span class="source">— r/paris · 9 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The newer, trendier sibling of the bouillon family. Bouillon Pigalle has a more contemporary vibe but keeps the same incredible value proposition: classic French food at genuinely shocking prices. Parisians themselves give it the stamp of approval — the ultimate test.
     </div>
 </section>
 <section class="restaurant-section" id="as-du-fallafel" data-map-name="3. L&#39;As du Fallafel" data-map-cta-url="https://maps.google.com/?cid=8143357663097373890&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="L&#39;As du Fallafel, 4th arr., Le Marais, Paris, FR" data-map-lat="48.8574067" data-map-lng="2.3591962">
@@ -605,6 +651,20 @@
         <span>📍 4th arr., Le Marais</span>
         <a href="https://maps.google.com/?cid=8143357663097373890&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Yes, it&#39;s touristy.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Middle Eastern in 4th arr., Le Marais with a €6–€12 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 14,116 Google reviews · Middle Eastern · 4th arr., Le Marais</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the falafel pita is genuinely one of the best things you&#39;ll eat in Paris at any price point</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€6–€12 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Yes, it&#39;s touristy. Yes, there&#39;s always a line on Rue des Rosiers. But the falafel pita is genuinely one of the best things you&#39;ll eat in Paris at any price point. The queue moves fast, and the portion is absurdly generous. Go during off-hours (before noon or after 3pm) to skip the worst of the wait.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>L&#39;As du Fallafel, a Middle Eastern eatery in the 4th arrondissement&#39;s Le Marais, is famous for its overflowing falafel pita, priced around €8. This mountain of food is packed with crispy falafel, roasted eggplant, hummus, cabbage, and tahini sauce.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -617,8 +677,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33148876360">+33148876360</a></span><span>🌐 <a href="https://asdufallafel.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/as-du-fallafel.jpg" alt="L&#39;As du Fallafel in 4th arr., Le Marais" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> L&#39;As du Fallafel, a Middle Eastern eatery in the 4th arrondissement&#39;s Le Marais, is famous for its overflowing falafel pita, priced around €8. This mountain of food is packed with crispy falafel, roasted eggplant, hummus, cabbage, and tahini sauce.</div>
     
     <div class="reddit-quote">
         "L&#39;As du Fallafel in the Marais."
@@ -627,9 +685,6 @@
     <div class="reddit-quote">
         "Shawarma and falafel sandwiches are always cheap — the ones on Rue des Rosiers are famous for a reason."
         <span class="source">— r/ParisTravelGuide · 9 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Yes, it&#39;s touristy. Yes, there&#39;s always a line on Rue des Rosiers. But the falafel pita is genuinely one of the best things you&#39;ll eat in Paris at any price point. The queue moves fast, and the portion is absurdly generous. Go during off-hours (before noon or after 3pm) to skip the worst of the wait.
     </div>
 </section>
 <section class="restaurant-section" id="mangez-et-cassez-vous" data-map-name="4. Mangez et Cassez-Vous" data-map-cta-url="https://maps.google.com/?cid=4259429821424507038&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mangez et Cassez-Vous, 11th arr., rue Alexandre Dumas, Paris, FR" data-map-lat="48.8540214" data-map-lng="2.395007">
@@ -643,6 +698,20 @@
         <span>📍 11th arr., rue Alexandre Dumas</span>
         <a href="https://maps.google.com/?cid=4259429821424507038&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> This is the most mind-blowing value on the list.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Burgers in 11th arr., rue Alexandre Dumas with a €2.50–€5 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 3,137 Google reviews · Burgers · 11th arr., rue Alexandre Dumas</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €2.50–€5</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€2.50–€5 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>This is the most mind-blowing value on the list. A proper homemade burger with fresh bread, real cheese, and house-made sauces for under €3. The name is a joke about the no-frills takeaway approach — eat and leave. It went viral on TikTok for a reason. The catch? Expect a queue, and there&#39;s nowhere to sit.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mangez et Cassez-Vous, a burger joint located in the 11th arrondissement on rue Alexandre Dumas, offers any burger for under €3, with fries costing an extra €1. True to its name, which literally means &quot;Eat and get out!&quot;, they maintain incredibly low prices through a takeaway-first model and rapid customer turnover.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -655,8 +724,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.instagram.com/mangezetcassezvous" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/mangez-et-cassez-vous.jpg" alt="Mangez et Cassez-Vous in 11th arr., rue Alexandre Dumas" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mangez et Cassez-Vous, a burger joint located in the 11th arrondissement on rue Alexandre Dumas, offers any burger for under €3, with fries costing an extra €1. True to its name, which literally means &quot;Eat and get out!&quot;, they maintain incredibly low prices through a takeaway-first model and rapid customer turnover.</div>
     
     <div class="reddit-quote">
         "There is that place &#39;Mangez et cassez-vous!&#39; (literally &#39;eat and gtfo!&#39;) that got really popular because they make burgers for less than 3€. And you can add fries for 1€. Heard it is super tasty too!"
@@ -665,9 +732,6 @@
     <div class="reddit-quote">
         "Frankly I don&#39;t know how they manage to sell for this price some really tasty burgers: they make their own bread, own fries, they use real cheese, some of the sauces are also homemade, the burgers are quite big and you can even double up the meat for 1.5€."
         <span class="source">— r/paris · 47 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> This is the most mind-blowing value on the list. A proper homemade burger with fresh bread, real cheese, and house-made sauces for under €3. The name is a joke about the no-frills takeaway approach — eat and leave. It went viral on TikTok for a reason. The catch? Expect a queue, and there&#39;s nowhere to sit.
     </div>
 </section>
 <section class="restaurant-section" id="urfa-durum" data-map-name="5. Urfa Durum" data-map-cta-url="https://maps.google.com/?cid=15623525448940569321&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Urfa Durum, 10th arr., near Strasbourg Saint-Denis, Paris, FR" data-map-lat="48.872382" data-map-lng="2.3542836">
@@ -681,6 +745,20 @@
         <span>📍 10th arr., near Strasbourg Saint-Denis</span>
         <a href="https://maps.google.com/?cid=15623525448940569321&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The Strasbourg Saint-Denis area is one of Paris&#39;s best-kept culinary secrets — a corridor of Kurdish and Turkish restaurants serving incredible food at tiny prices.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kurdish Street Food in 10th arr., near Strasbourg Saint-Denis with a €5–€9 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 3,635 Google reviews · Kurdish Street Food · 10th arr., near Strasbourg Saint-Denis</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €5–€9</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€5–€9 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The Strasbourg Saint-Denis area is one of Paris&#39;s best-kept culinary secrets — a corridor of Kurdish and Turkish restaurants serving incredible food at tiny prices. Urfa Durum is the king of this stretch. The dürüm wraps are enormous, freshly grilled, and cost less than a bad sandwich at a tourist cafe. This is real Parisian budget eating.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Urfa Durum, a Kurdish street food vendor near Strasbourg Saint-Denis in the 10th arrondissement, is celebrated for its simple, massive, and delicious dürüm wrap. This lavash flatbread is stuffed with barbecue-grilled meat, fresh salad, and sauces, with the chicken version being a crowd favorite.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -693,15 +771,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33148241284">+33148241284</a></span><span>🌐 <a href="http://www.facebook.com/pages/Urfa-Durum/240014419359256" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/urfa-durum.jpg" alt="Urfa Durum in 10th arr., near Strasbourg Saint-Denis" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Urfa Durum, a Kurdish street food vendor near Strasbourg Saint-Denis in the 10th arrondissement, is celebrated for its simple, massive, and delicious dürüm wrap. This lavash flatbread is stuffed with barbecue-grilled meat, fresh salad, and sauces, with the chicken version being a crowd favorite.</div>
     
     <div class="reddit-quote">
         "Urfa durum near Strasbourg St Denis, super good and healthy Kurde &#39;wrap&#39; with BBQ meat."
         <span class="source">— r/paris · 25 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The Strasbourg Saint-Denis area is one of Paris&#39;s best-kept culinary secrets — a corridor of Kurdish and Turkish restaurants serving incredible food at tiny prices. Urfa Durum is the king of this stretch. The dürüm wraps are enormous, freshly grilled, and cost less than a bad sandwich at a tourist cafe. This is real Parisian budget eating.
     </div>
 </section>
 <section class="restaurant-section" id="chez-gladines" data-map-name="6. Chez Gladines" data-map-cta-url="https://maps.google.com/?cid=11522034041755808541&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Gladines, 13th arr., Butte-aux-Cailles, Paris, FR" data-map-lat="48.828804" data-map-lng="2.3506">
@@ -715,6 +788,20 @@
         <span>📍 13th arr., Butte-aux-Cailles</span>
         <a href="https://maps.google.com/?cid=11522034041755808541&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Hidden in the charming village-like quartier of Butte-aux-Cailles, Chez Gladines serves Basque and southwest French food in portions that would make an American blush.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Basque / Southwest French in 13th arr., Butte-aux-Cailles with a €10–€16 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 4,850 Google reviews · Basque / Southwest French · 13th arr., Butte-aux-Cailles</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €10–€16</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€10–€16 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Hidden in the charming village-like quartier of Butte-aux-Cailles, Chez Gladines serves Basque and southwest French food in portions that would make an American blush. The salads are literally overflowing. It&#39;s loud, chaotic, and exactly the kind of place where you&#39;ll end up sitting next to actual Parisians — because tourists haven&#39;t found it yet.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Chez Gladines, a Basque/Southwest French restaurant in the 13th arrondissement&#39;s Butte-aux-Cailles, is renowned for its legendary portions. Try the enormous Basque salads, which are a meal in themselves, piled high with duck, foie gras, gizzards, and walnuts, or opt for the hearty cassoulet.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -727,15 +814,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33967319646">+33967319646</a></span><span>🌐 <a href="https://chezgladines-butteauxcailles.fr/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/chez-gladines.jpg" alt="Chez Gladines in 13th arr., Butte-aux-Cailles" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Chez Gladines, a Basque/Southwest French restaurant in the 13th arrondissement&#39;s Butte-aux-Cailles, is renowned for its legendary portions. Try the enormous Basque salads, which are a meal in themselves, piled high with duck, foie gras, gizzards, and walnuts, or opt for the hearty cassoulet.</div>
     
     <div class="reddit-quote">
         "Chez Gladines, rue de la Butte-aux-Cailles, 13th."
         <span class="source">— r/paris · 22 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Hidden in the charming village-like quartier of Butte-aux-Cailles, Chez Gladines serves Basque and southwest French food in portions that would make an American blush. The salads are literally overflowing. It&#39;s loud, chaotic, and exactly the kind of place where you&#39;ll end up sitting next to actual Parisians — because tourists haven&#39;t found it yet.
     </div>
 </section>
 <section class="restaurant-section" id="chez-alain-miam-miam" data-map-name="7. Chez Alain Miam Miam" data-map-cta-url="https://maps.google.com/?cid=6353032480867251527&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Alain Miam Miam, 3rd arr., Marché des Enfants Rouges, Paris, FR" data-map-lat="48.8622392" data-map-lng="2.3619244999999998">
@@ -749,6 +831,20 @@
         <span>📍 3rd arr., Marché des Enfants Rouges</span>
         <a href="https://maps.google.com/?cid=6353032480867251527&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Paris&#39;s oldest covered market (since 1628) is a destination in itself, and Chez Alain is its crown jewel.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Sandwiches in 3rd arr., Marché des Enfants Rouges with a €7–€12 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 2,843 Google reviews · Sandwiches · 3rd arr., Marché des Enfants Rouges</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €7–€12</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€7–€12 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Paris&#39;s oldest covered market (since 1628) is a destination in itself, and Chez Alain is its crown jewel. The sandwiches are obscenely good — thick, messy, and made with real artisan ingredients. Come for Alain, stay to wander the other stalls: Moroccan tagines, Japanese bento, Italian pasta, all at market prices. Closed Mondays.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Chez Alain Miam Miam, a sandwich shop located in the 3rd arrondissement&#39;s Marché des Enfants Rouges, is known for its towering open-faced sandwiches stacked with quality ingredients on thick bread. The tartines with chèvre (goat cheese), honey, and walnuts are particularly legendary.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -761,15 +857,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33986172800">+33986172800</a></span><span>🌐 <a href="https://www.facebook.com/ChezAlainMiamMiam" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/chez-alain-miam-miam.jpg" alt="Chez Alain Miam Miam in 3rd arr., Marché des Enfants Rouges" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Chez Alain Miam Miam, a sandwich shop located in the 3rd arrondissement&#39;s Marché des Enfants Rouges, is known for its towering open-faced sandwiches stacked with quality ingredients on thick bread. The tartines with chèvre (goat cheese), honey, and walnuts are particularly legendary.</div>
     
     <div class="reddit-quote">
         "The Marché des Enfants Rouges is the oldest covered market in the city and it&#39;s great. This sandwich shop is in the market — amazing."
         <span class="source">— r/Shoestring · 65 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Paris&#39;s oldest covered market (since 1628) is a destination in itself, and Chez Alain is its crown jewel. The sandwiches are obscenely good — thick, messy, and made with real artisan ingredients. Come for Alain, stay to wander the other stalls: Moroccan tagines, Japanese bento, Italian pasta, all at market prices. Closed Mondays.
     </div>
 </section>
 <section class="restaurant-section" id="la-maison-thai" data-map-name="8. La Maison Thai" data-map-cta-url="https://maps.google.com/?cid=17873541120881500195&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Maison Thai, 18th arr., La Chapelle, Paris, FR" data-map-lat="48.891515299999995" data-map-lng="2.3614778">
@@ -783,19 +874,28 @@
         <span>📍 18th arr., La Chapelle</span>
         <a href="https://maps.google.com/?cid=17873541120881500195&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> This might be the single cheapest sit-down meal in Paris.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Thai in 18th arr., La Chapelle with a €2–€5 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Thai · 18th arr., La Chapelle</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>this is where locals go when they want great food at rock-bottom prices</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€2–€5</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>This might be the single cheapest sit-down meal in Paris. A full, satisfying Thai meal for €5 is almost unbelievable in a European capital. The 18th arrondissement isn&#39;t the prettiest, but this is where locals go when they want great food at rock-bottom prices. A proper Parisian secret.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>La Maison Thai, located in the 18th arrondissement of La Chapelle, offers a full meal formula of two portions of your choice plus rice for €5. The portions are generous, and even a single selection with rice (€2) can be quite filling; consider trying the pad thai or green curry.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/la-maison-thai.jpg" alt="La Maison Thai in 18th arr., La Chapelle" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> La Maison Thai, located in the 18th arrondissement of La Chapelle, offers a full meal formula of two portions of your choice plus rice for €5. The portions are generous, and even a single selection with rice (€2) can be quite filling; consider trying the pad thai or green curry.</div>
     
     <div class="reddit-quote">
         "&#39;La Maison Thai&#39;, rue de l&#39;Évangile 75018 is my go-to place. 2€/portion of your choice. A full meal is 5€, you get 2 portions and a portion of rice, which is largely enough to feed you well!"
         <span class="source">— r/paris · 16 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> This might be the single cheapest sit-down meal in Paris. A full, satisfying Thai meal for €5 is almost unbelievable in a European capital. The 18th arrondissement isn&#39;t the prettiest, but this is where locals go when they want great food at rock-bottom prices. A proper Parisian secret.
     </div>
 </section>
 <section class="restaurant-section" id="higuma" data-map-name="9. Higuma" data-map-cta-url="https://maps.google.com/?cid=18320530453223610252&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Higuma, 1st arr., Rue Sainte-Anne, Paris, FR" data-map-lat="48.8665886" data-map-lng="2.3357844">
@@ -809,6 +909,20 @@
         <span>📍 1st arr., Rue Sainte-Anne</span>
         <a href="https://maps.google.com/?cid=18320530453223610252&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Rue Sainte-Anne is Paris&#39;s unofficial Little Tokyo — a whole street of authentic Japanese restaurants near the Opéra.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Japanese Ramen in 1st arr., Rue Sainte-Anne with a €10–€14 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 6,928 Google reviews · Japanese Ramen · 1st arr., Rue Sainte-Anne</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>a steaming bowl of ramen for €12 in central Paris is a steal</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€10–€14 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Rue Sainte-Anne is Paris&#39;s unofficial Little Tokyo — a whole street of authentic Japanese restaurants near the Opéra. Higuma is the OG, serving massive bowls of ramen since the 1980s. It&#39;s not fancy and there&#39;s usually a queue at lunch, but a steaming bowl of ramen for €12 in central Paris is a steal. Naniwa-Ya and Sanukiya next door are also excellent alternatives.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Higuma, a Japanese ramen spot located in the 1st arrondissement on Rue Sainte-Anne, is where a ramen bowl with gyoza on the side is a must-try. For the best value, opt for the lunch formules (ramen + gyoza + drink), and arrive before noon to avoid the queue.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -821,8 +935,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33147033859">+33147033859</a></span><span>🌐 <a href="http://higuma.fr/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/higuma.jpg" alt="Higuma in 1st arr., Rue Sainte-Anne" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Higuma, a Japanese ramen spot located in the 1st arrondissement on Rue Sainte-Anne, is where a ramen bowl with gyoza on the side is a must-try. For the best value, opt for the lunch formules (ramen + gyoza + drink), and arrive before noon to avoid the queue.</div>
     
     <div class="reddit-quote">
         "If you like Asian food the street &#39;Rue Saint Anne&#39; next to the metro Pyramide next to Opéra Garnier. You can easily get nice soup bowl/ramen for 12 euros. We love to go there with my partner."
@@ -831,9 +943,6 @@
     <div class="reddit-quote">
         "Good price-value ramen: Higuma, Naniwa-Ya."
         <span class="source">— r/ParisTravelGuide · 7 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Rue Sainte-Anne is Paris&#39;s unofficial Little Tokyo — a whole street of authentic Japanese restaurants near the Opéra. Higuma is the OG, serving massive bowls of ramen since the 1980s. It&#39;s not fancy and there&#39;s usually a queue at lunch, but a steaming bowl of ramen for €12 in central Paris is a steal. Naniwa-Ya and Sanukiya next door are also excellent alternatives.
     </div>
 </section>
 <section class="restaurant-section" id="le-petit-vendome" data-map-name="10. Le Petit Vendôme" data-map-cta-url="https://maps.google.com/?cid=8432549558822105511&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Petit Vendôme, 2nd arr., near Opéra, Paris, FR" data-map-lat="48.868805900000005" data-map-lng="2.3298044">
@@ -847,6 +956,20 @@
         <span>📍 2nd arr., near Opéra</span>
         <a href="https://maps.google.com/?cid=8432549558822105511&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The jambon-beurre is to Paris what the hot dog is to New York — the city&#39;s signature quick meal.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>French Sandwiches in 2nd arr., near Opéra with a €5–€9 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 2,656 Google reviews · French Sandwiches · 2nd arr., near Opéra</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €5–€9</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€5–€9 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The jambon-beurre is to Paris what the hot dog is to New York — the city&#39;s signature quick meal. Le Petit Vendôme elevates this humble sandwich into something genuinely special. Great bread, quality butter, proper charcuterie. For under €7, it&#39;s arguably the best-value bite in central Paris.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Le Petit Vendôme, a French sandwich shop located in the 2nd arrondissement near Opéra, is where you can find the quintessential Parisian cheap eat, the jambon-beurre (ham and butter baguette), for around €7. For a more adventurous option, try the andouille de Guéméné with Saint-Nectaire cheese.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -859,15 +982,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33142610588">+33142610588</a></span><span>🌐 <a href="https://lepetitvendome.fr/fr" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/le-petit-vendome.jpg" alt="Le Petit Vendôme in 2nd arr., near Opéra" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Le Petit Vendôme, a French sandwich shop located in the 2nd arrondissement near Opéra, is where you can find the quintessential Parisian cheap eat, the jambon-beurre (ham and butter baguette), for around €7. For a more adventurous option, try the andouille de Guéméné with Saint-Nectaire cheese.</div>
     
     <div class="reddit-quote">
         "Personally I like to go by Le Petit Vendôme for a sandwich because of: great bread, great butter, great and varied cheese, great and varied charcuterie. My fave match is Andouille de Guéméné + St Nectaire, it smells like French terroir. Last time I went I think it was around 7€."
         <span class="source">— r/ParisTravelGuide · 6 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The jambon-beurre is to Paris what the hot dog is to New York — the city&#39;s signature quick meal. Le Petit Vendôme elevates this humble sandwich into something genuinely special. Great bread, quality butter, proper charcuterie. For under €7, it&#39;s arguably the best-value bite in central Paris.
     </div>
 </section>
 <section class="restaurant-section" id="miznon" data-map-name="11. Miznon" data-map-cta-url="https://maps.google.com/?cid=17059764992523001646&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Miznon, 4th arr., Le Marais, Paris, FR" data-map-lat="48.8571597" data-map-lng="2.3589814">
@@ -881,6 +999,20 @@
         <span>📍 4th arr., Le Marais</span>
         <a href="https://maps.google.com/?cid=17059764992523001646&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Miznon has expanded globally, but the Paris original in Le Marais remains special.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Israeli Street Food in 4th arr., Le Marais with a €7–€14 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 3,118 Google reviews · Israeli Street Food · 4th arr., Le Marais</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the Paris original in Le Marais remains special</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€7–€14 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Miznon has expanded globally, but the Paris original in Le Marais remains special. The concept is simple: stuff incredible things into fluffy pita bread. The Bœuf Bourguignon pita is French-Israeli fusion at its best. Slightly more expensive than other entries on this list, but the quality-to-price ratio is outstanding.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Miznon, an Israeli street food vendor situated in the 4th arrondissement&#39;s Le Marais, is celebrated for its Bœuf Bourguignon pita, a genius fusion of French classic and Israeli street food. The roasted cauliflower is also legendarily good.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -893,15 +1025,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33768839758">+33768839758</a></span><span>🌐 <a href="https://www.miznonparis.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/miznon.jpg" alt="Miznon in 4th arr., Le Marais" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Miznon, an Israeli street food vendor situated in the 4th arrondissement&#39;s Le Marais, is celebrated for its Bœuf Bourguignon pita, a genius fusion of French classic and Israeli street food. The roasted cauliflower is also legendarily good.</div>
     
     <div class="reddit-quote">
         "One of my favorites on the go lunch is the Bœuf Bourguignon pita from Miznon. It&#39;s a great twist on a French classic."
         <span class="source">— r/ParisTravelGuide · 9 upvotes · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Miznon has expanded globally, but the Paris original in Le Marais remains special. The concept is simple: stuff incredible things into fluffy pita bread. The Bœuf Bourguignon pita is French-Israeli fusion at its best. Slightly more expensive than other entries on this list, but the quality-to-price ratio is outstanding.
     </div>
 </section>
 <section class="restaurant-section" id="pho-mui" data-map-name="12. Pho Mui" data-map-cta-url="https://maps.google.com/?cid=1234055317548613969&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pho Mui, 13th arr., Chinatown, Paris, FR" data-map-lat="48.8250338" data-map-lng="2.3620001999999998">
@@ -915,6 +1042,20 @@
         <span>📍 13th arr., Chinatown</span>
         <a href="https://maps.google.com/?cid=1234055317548613969&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Paris&#39;s 13th arrondissement is one of Europe&#39;s biggest Chinatowns, and the Vietnamese food here is world-class.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Vietnamese in 13th arr., Chinatown with a €8–€13 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 1,934 Google reviews · Vietnamese · 13th arr., Chinatown</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>honestly, you could walk into almost any Vietnamese spot on Avenue de Choisy and eat brilliantly for under €12</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€8–€13 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Paris&#39;s 13th arrondissement is one of Europe&#39;s biggest Chinatowns, and the Vietnamese food here is world-class. The banh mi — a Franco-Vietnamese baguette sandwich — is a must-try and arguably the single best cheap eat in Paris. Pho Mui does excellent pho, but honestly, you could walk into almost any Vietnamese spot on Avenue de Choisy and eat brilliantly for under €12.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Pho Mui, a Vietnamese restaurant located in the 13th arrondissement&#39;s Chinatown, is where you can enjoy a big bowl of pho (beef or chicken) with fresh spring rolls to start. Also try the banh mi sandwiches, Vietnamese baguettes that are a direct legacy of French colonial influence, available for €3–€4 at bakeries throughout the 13th.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -927,8 +1068,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33145837068">+33145837068</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/pho-mui.jpg" alt="Pho Mui in 13th arr., Chinatown" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Pho Mui, a Vietnamese restaurant located in the 13th arrondissement&#39;s Chinatown, is where you can enjoy a big bowl of pho (beef or chicken) with fresh spring rolls to start. Also try the banh mi sandwiches, Vietnamese baguettes that are a direct legacy of French colonial influence, available for €3–€4 at bakeries throughout the 13th.</div>
     
     <div class="reddit-quote">
         "Pho Mui in the 13th for Vietnamese."
@@ -942,9 +1081,6 @@
         "Banh Mi = Vietnamese sandwich. Super tasty and incredibly cheap (3/4 euros tops)."
         <span class="source">— r/paris · 57 upvotes · view thread</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Paris&#39;s 13th arrondissement is one of Europe&#39;s biggest Chinatowns, and the Vietnamese food here is world-class. The banh mi — a Franco-Vietnamese baguette sandwich — is a must-try and arguably the single best cheap eat in Paris. Pho Mui does excellent pho, but honestly, you could walk into almost any Vietnamese spot on Avenue de Choisy and eat brilliantly for under €12.
-    </div>
 </section>
 <section class="restaurant-section" id="la-ruche-a-miel" data-map-name="13. La Ruche à Miel" data-map-cta-url="https://maps.google.com/?cid=14785188519738783301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Ruche à Miel, 12th arr., Rue d&#39;Aligre, Paris, FR" data-map-lat="48.8498209" data-map-lng="2.3785800999999998">
     <div class="restaurant-header">
@@ -956,6 +1092,20 @@
         <span>💴 €12–€18</span>
         <span>📍 12th arr., Rue d&#39;Aligre</span>
         <a href="https://maps.google.com/?cid=14785188519738783301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> North African food is one of Paris&#39;s greatest culinary treasures, thanks to France&#39;s deep historical ties with Morocco, Algeria, and Tunisia.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Moroccan / Couscous in 12th arr., Rue d&#39;Aligre with a €12–€18 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 407 Google reviews · Moroccan / Couscous · 12th arr., Rue d&#39;Aligre</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €12–€18</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€12–€18 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>North African food is one of Paris&#39;s greatest culinary treasures, thanks to France&#39;s deep historical ties with Morocco, Algeria, and Tunisia. La Ruche à Miel on the lively rue d&#39;Aligre market street serves proper tagines and couscous at prices that feel almost charitable. The Moroccan red wine is a surprisingly delightful discovery.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>La Ruche à Miel, a Moroccan/Couscous restaurant located in the 12th arrondissement on Rue d&#39;Aligre, has a 4.6-star rating based on 407 reviews. Reddit users rave about the tagine&#39;s sauce, which pairs well with their cheap but surprisingly good Moroccan red wine; finish your meal with a complimentary Middle Eastern pastry.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -969,15 +1119,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+33143412710">+33143412710</a></span><span>🌐 <a href="https://la-ruche-a-miel-restaurant-paris.eatbu.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/paris-cheap-eats/la-ruche-a-miel.jpg" alt="La Ruche à Miel in 12th arr., Rue d&#39;Aligre" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> La Ruche à Miel, a Moroccan/Couscous restaurant located in the 12th arrondissement on Rue d&#39;Aligre, has a 4.6-star rating based on 407 reviews. Reddit users rave about the tagine&#39;s sauce, which pairs well with their cheap but surprisingly good Moroccan red wine; finish your meal with a complimentary Middle Eastern pastry.</div>
     
     <div class="reddit-quote">
         "There&#39;s a couscous/tajine restaurant (La Ruche à Miel) on rue d&#39;Alligre that is both excellent and very cheap. Dishes are something between 12 to 15 euros, topped with a delicious middle eastern pastry and some surprisingly good (and cheap) Moroccan red wine. Honestly my tajine was the bomb — I could not stop eating, the sauce was so flavorful and balanced."
         <span class="source">— r/paris · view thread</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> North African food is one of Paris&#39;s greatest culinary treasures, thanks to France&#39;s deep historical ties with Morocco, Algeria, and Tunisia. La Ruche à Miel on the lively rue d&#39;Aligre market street serves proper tagines and couscous at prices that feel almost charitable. The Moroccan red wine is a surprisingly delightful discovery.
     </div>
 </section>
       </section>

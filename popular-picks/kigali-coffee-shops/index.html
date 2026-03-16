@@ -356,7 +356,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -369,18 +378,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -458,6 +468,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>The best coffee shops in Kigali — curated from Reddit reviews. Question Coffee, Rubia, Kivu Noir, Bourbon &amp; hidden gems. Interactive map included.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Question Coffee</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>$$</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Question Coffee</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>See page metadata</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Question Coffee:</strong> The undisputed king of Kigali coffee.</li>
+            <li><strong>Rubia Coffee Roasters:</strong> If Question Coffee is the heart of Kigali&#39;s coffee scene, Rubia is the craft.</li>
+            <li><strong>Kivu Noir:</strong> The premium option.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>The best coffee shops in Kigali — curated from Reddit reviews. Question Coffee, Rubia, Kivu Noir, Bourbon &amp; hidden gems. Interactive map included.</strong></p>
         <p>The best coffee shops in Kigali — curated from Reddit reviews. Question Coffee, Rubia, Kivu Noir, Bourbon &amp; hidden gems. Interactive map included.</p>
@@ -508,11 +536,24 @@
         <span>📍 Gishushu</span>
         <a href="https://maps.google.com/?cid=6883796217600281251&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The undisputed king of Kigali coffee.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Specialty Coffee in Gishushu with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Specialty Coffee · Gishushu</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $$</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The undisputed king of Kigali coffee. It&#39;s mentioned more than any other café on Reddit, and for good reason — world-class specialty coffee with a genuinely impactful social mission. The masterclass experience is worth booking if you&#39;re remotely into coffee.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-0.jpg" alt="Question Coffee in Gishushu" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Question coffee is the place you need"
@@ -521,9 +562,6 @@
     <div class="reddit-quote">
         "Question Coffee and Rubia Coffee Roasters are great spots for coffee, and the food at Rubia looked great."
         <span class="source">— u/Ruin_Nice on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The undisputed king of Kigali coffee. It&#39;s mentioned more than any other café on Reddit, and for good reason — world-class specialty coffee with a genuinely impactful social mission. The masterclass experience is worth booking if you&#39;re remotely into coffee.
     </div>
 </section>
 <section class="restaurant-section" id="rubia-coffee-roasters" data-map-name="2. Rubia Coffee Roasters" data-map-cta-url="https://maps.google.com/?cid=10098880408498986868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rubia Coffee Roasters, Kimihurura, Kigali, RW" data-map-lat="-1.9511223000000002" data-map-lng="30.084528199999998">
@@ -537,15 +575,25 @@
         <span>📍 Kimihurura</span>
         <a href="https://maps.google.com/?cid=10098880408498986868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If Question Coffee is the heart of Kigali&#39;s coffee scene, Rubia is the craft.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Specialty Roastery in Kimihurura with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Specialty Roastery · Kimihurura</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $$</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If Question Coffee is the heart of Kigali&#39;s coffee scene, Rubia is the craft. Serious specialty nerds will prefer Rubia — the roasting expertise is genuinely world-ranked. Open 7am–8pm daily. Tell your moto driver &quot;ku kabindi&quot; and they&#39;ll know.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-1.jpg" alt="Rubia Coffee Roasters in Kimihurura" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If Question Coffee is the heart of Kigali&#39;s coffee scene, Rubia is the craft. Serious specialty nerds will prefer Rubia — the roasting expertise is genuinely world-ranked. Open 7am–8pm daily. Tell your moto driver &quot;ku kabindi&quot; and they&#39;ll know.
-    </div>
 </section>
 <section class="restaurant-section" id="kivu-noir" data-map-name="3. Kivu Noir" data-map-cta-url="https://maps.google.com/?cid=5286419730209614384&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kivu Noir, Kiyovu, Kigali, RW" data-map-lat="-1.9512212000000002" data-map-lng="30.0599997">
     <div class="restaurant-header">
@@ -558,18 +606,28 @@
         <span>📍 Kiyovu</span>
         <a href="https://maps.google.com/?cid=5286419730209614384&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The premium option.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Premium Coffee in Kiyovu with a $$$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Premium Coffee · Kiyovu</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the ambiance and coffee quality justify it</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The premium option. Higher prices than most Kigali cafés, but the ambiance and coffee quality justify it. If you want the most polished café experience in the city, this is it. Their matcha is surprisingly excellent too.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-2.jpg" alt="Kivu Noir in Kiyovu" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Kivu Noir&quot; — recommended as a top coffee shop alongside Question Coffee. — u/Alternative_Switch52 on r/Rwanda &quot;Go to kivu noir if you love a good matcha"
         <span class="source">— u/netherlean on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The premium option. Higher prices than most Kigali cafés, but the ambiance and coffee quality justify it. If you want the most polished café experience in the city, this is it. Their matcha is surprisingly excellent too.
     </div>
 </section>
 <section class="restaurant-section" id="bourbon-coffee" data-map-name="4. Bourbon Coffee" data-map-cta-url="https://maps.google.com/?cid=2712872228987691982&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bourbon Coffee, Multiple Locations, Kigali, RW" data-map-lat="-1.9632394999999998" data-map-lng="30.1350474">
@@ -583,18 +641,28 @@
         <span>📍 Multiple Locations</span>
         <a href="https://maps.google.com/?cid=2712872228987691982&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Think of Bourbon as Rwanda&#39;s homegrown answer to Starbucks — but way better.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>exploring their range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Chain Coffee · Multiple Locations</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>way better</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Think of Bourbon as Rwanda&#39;s homegrown answer to Starbucks — but way better. Multiple locations mean you&#39;re never far from a decent cup. The Nyarutarama MTN Centre branch is the best for exploring their range. Great for buying beans to take home.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-3.jpg" alt="Bourbon Coffee in Multiple Locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Bourbon Coffee at MTN Centre Nyarutarama. They&#39;ve got 5 different profiles from around Rwanda and you can get a fresh batch roasted that very day. Recommend the Kizi Rift coffee if you are into citrus notes."
         <span class="source">— u/CocoGringo on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Think of Bourbon as Rwanda&#39;s homegrown answer to Starbucks — but way better. Multiple locations mean you&#39;re never far from a decent cup. The Nyarutarama MTN Centre branch is the best for exploring their range. Great for buying beans to take home.
     </div>
 </section>
 <section class="restaurant-section" id="inzora-rooftop" data-map-name="5. Inzora Rooftop Café" data-map-cta-url="https://maps.google.com/?cid=18406935967894055154&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Inzora Rooftop Café, Kacyiru, Kigali, RW" data-map-lat="-1.9498209" data-map-lng="30.0913233">
@@ -608,11 +676,24 @@
         <span>📍 Kacyiru</span>
         <a href="https://maps.google.com/?cid=18406935967894055154&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Come for the view, stay for the coffee.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Café &amp; Brunch in Kacyiru with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Café &amp; Brunch · Kacyiru</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the setting is unbeatable</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Come for the view, stay for the coffee. Not the most specialty-focused, but the setting is unbeatable. Pair it with browsing at Ikirezi Bookstore downstairs for one of Kigali&#39;s most pleasant afternoon experiences.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-4.jpg" alt="Inzora Rooftop Café in Kacyiru" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Inzora Cafe has a great view of the sunset/mountains"
@@ -621,9 +702,6 @@
     <div class="reddit-quote">
         "There&#39;s a bookstore with a cafe and a beautiful view, inzora in Kacyru."
         <span class="source">— u/gaifogel on r/Rwanda (5 upvotes)</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Come for the view, stay for the coffee. Not the most specialty-focused, but the setting is unbeatable. Pair it with browsing at Ikirezi Bookstore downstairs for one of Kigali&#39;s most pleasant afternoon experiences.
     </div>
 </section>
 <section class="restaurant-section" id="shokola-cafe" data-map-name="6. Shokola Café" data-map-cta-url="https://maps.google.com/?cid=15995463259019381542&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shokola Café, Public Library, Kigali, RW" data-map-lat="-1.9346636000000001" data-map-lng="30.078833799999998">
@@ -637,18 +715,28 @@
         <span>📍 Public Library</span>
         <a href="https://maps.google.com/?cid=15995463259019381542&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A two-for-one deal — excellent café plus access to Kigali&#39;s beautiful public library.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>quiet workers, readers, and anyone who appreciates a terrace breeze with their espresso</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Café &amp; Chocolate · Public Library</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $$</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A two-for-one deal — excellent café plus access to Kigali&#39;s beautiful public library. The chocolate specialties are a nice twist. Best for quiet workers, readers, and anyone who appreciates a terrace breeze with their espresso.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-5.jpg" alt="Shokola Café in Public Library" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "The public library itself is amazing for working / studying"
         <span class="source">— u/gaifogel on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A two-for-one deal — excellent café plus access to Kigali&#39;s beautiful public library. The chocolate specialties are a nice twist. Best for quiet workers, readers, and anyone who appreciates a terrace breeze with their espresso.
     </div>
 </section>
 <section class="restaurant-section" id="indabo-cafe" data-map-name="7. Indabo Café" data-map-cta-url="https://maps.google.com/?cid=8677444285503527210&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Indabo Café, Kiyovu, Kigali, RW" data-map-lat="-1.9606485999999999" data-map-lng="30.068513799999998">
@@ -662,11 +750,24 @@
         <span>📍 Kiyovu</span>
         <a href="https://maps.google.com/?cid=8677444285503527210&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The best garden café experience in Kigali.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Café &amp; Breakfast in Kiyovu with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Café &amp; Breakfast · Kiyovu</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>both are excellent</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The best garden café experience in Kigali. The Kiyovu location is slightly more established, but both are excellent. If you&#39;re craving a slow brunch in a green, peaceful setting, this is your spot.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-6.jpg" alt="Indabo Café in Kiyovu" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Indabo coffee is great (also for breakfast), so is La Vista Café"
@@ -675,9 +776,6 @@
     <div class="reddit-quote">
         "Indabo in Kimihurura seems perfect to me."
         <span class="source">— u/ChangeOverall4206 on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The best garden café experience in Kigali. The Kiyovu location is slightly more established, but both are excellent. If you&#39;re craving a slow brunch in a green, peaceful setting, this is your spot.
     </div>
 </section>
 <section class="restaurant-section" id="cave-coffee" data-map-name="8. Cave Coffee" data-map-cta-url="https://maps.google.com/?cid=2535105259736764869&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cave Coffee, Kigali, Kigali, RW" data-map-lat="-1.9266433" data-map-lng="30.100201400000003">
@@ -691,18 +789,28 @@
         <span>📍 Kigali</span>
         <a href="https://maps.google.com/?cid=2535105259736764869&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The hot new thing in Kigali&#39;s café scene.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Modern Café in Kigali with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Modern Café · Kigali</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the overall package — design, coffee, atmosphere — is hard to beat</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The hot new thing in Kigali&#39;s café scene. If you care about aesthetics as much as your pour-over, Cave Coffee delivers. Not the deepest specialty experience, but the overall package — design, coffee, atmosphere — is hard to beat.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-7.jpg" alt="Cave Coffee in Kigali" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cafes: Kivu Noir, Tugende, Golden Coffee Roastery in Nyarutarama, cave, one cup."
         <span class="source">— u/Al_Joyce on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The hot new thing in Kigali&#39;s café scene. If you care about aesthetics as much as your pour-over, Cave Coffee delivers. Not the deepest specialty experience, but the overall package — design, coffee, atmosphere — is hard to beat.
     </div>
 </section>
 <section class="restaurant-section" id="norrsken-house" data-map-name="9. Norrsken House Kigali" data-map-cta-url="https://maps.google.com/?cid=9023951281481060777&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Norrsken House Kigali, Kigali, Kigali, RW" data-map-lat="-1.9511718999999998" data-map-lng="30.0599932">
@@ -716,18 +824,28 @@
         <span>📍 Kigali</span>
         <a href="https://maps.google.com/?cid=9023951281481060777&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The undisputed #1 for digital nomads and remote workers.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Coworking + Café in Kigali with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Coworking + Café · Kigali</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the infrastructure — WiFi, outlets, atmosphere, community — is unmatched</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The undisputed #1 for digital nomads and remote workers. The coffee is good (not elite specialty), but the infrastructure — WiFi, outlets, atmosphere, community — is unmatched. Come for the workspace, stay for the networking.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-8.jpg" alt="Norrsken House Kigali in Kigali" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Noorsken my friend.&quot; — when asked for the best place to work in Kigali. — u/KigaliPal on r/Rwanda (7 upvotes) &quot;Norrsken kigali"
         <span class="source">— u/OREISON_blue on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The undisputed #1 for digital nomads and remote workers. The coffee is good (not elite specialty), but the infrastructure — WiFi, outlets, atmosphere, community — is unmatched. Come for the workspace, stay for the networking.
     </div>
 </section>
 <section class="restaurant-section" id="rwacof-cafe" data-map-name="10. RWACOF Café" data-map-cta-url="https://maps.google.com/?cid=4616620737560176442&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="RWACOF Café, Gikondo, Kigali, RW" data-map-lat="-1.9523518000000002" data-map-lng="30.0750231">
@@ -741,18 +859,28 @@
         <span>📍 Gikondo</span>
         <a href="https://maps.google.com/?cid=4616620737560176442&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The insider&#39;s pick.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Export-Grade Coffee in Gikondo with a $ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Export-Grade Coffee · Gikondo</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>if you care about coffee quality per franc spent, RWACOF is unbeatable</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The insider&#39;s pick. Not the prettiest café, not the best ambiance — but if you care about coffee quality per franc spent, RWACOF is unbeatable. Essential stop for anyone buying beans to bring home. The export-grade quality at local prices is the real deal.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-9.jpg" alt="RWACOF Café in Gikondo" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "If you want same grade coffee for half the price go to RWACOF cafe in Sawa city in Gikondo. Around 9,000 RWF for 500 grams vs 17,000 upward for the same export grade quality coffee at Question coffee."
         <span class="source">— u/armlal on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The insider&#39;s pick. Not the prettiest café, not the best ambiance — but if you care about coffee quality per franc spent, RWACOF is unbeatable. Essential stop for anyone buying beans to bring home. The export-grade quality at local prices is the real deal.
     </div>
 </section>
 <section class="restaurant-section" id="ikawa-house" data-map-name="11. Ikawa House" data-map-cta-url="https://maps.google.com/?cid=4667732768174049464&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ikawa House, Kigali, Kigali, RW" data-map-lat="-1.958394" data-map-lng="30.0695959">
@@ -766,18 +894,28 @@
         <span>📍 Kigali</span>
         <a href="https://maps.google.com/?cid=4667732768174049464&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> For purists who want the freshest possible roast.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Fresh Roastery in Kigali with a $$ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Fresh Roastery · Kigali</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: $$</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>For purists who want the freshest possible roast. No frills, no Instagram-bait interiors — just seriously fresh coffee from people who clearly love what they do. A local&#39;s choice in the best sense.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-10.jpg" alt="Ikawa House in Kigali" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Please checkout ikawa house for freshly roasted coffee!"
         <span class="source">— u/Friendly_Situation18 on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> For purists who want the freshest possible roast. No frills, no Instagram-bait interiors — just seriously fresh coffee from people who clearly love what they do. A local&#39;s choice in the best sense.
     </div>
 </section>
 <section class="restaurant-section" id="blackbuck-coffee" data-map-name="12. Blackbuck Coffee" data-map-cta-url="https://maps.google.com/?cid=17861381701474070835&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Blackbuck Coffee, Kigali, Kigali, RW" data-map-lat="-1.9526028999999998" data-map-lng="30.081372599999998">
@@ -791,18 +929,28 @@
         <span>📍 Kigali</span>
         <a href="https://maps.google.com/?cid=17861381701474070835&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The everyday spot for budget-conscious coffee drinkers.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>☕ Budget Coffee in Kigali with a $ spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>☕ Budget Coffee · Kigali</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it&#39;ll fill your cup reliably and cheaply</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>$</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The everyday spot for budget-conscious coffee drinkers. Won&#39;t blow your mind, but it&#39;ll fill your cup reliably and cheaply. Pair it with more premium visits to Question or Rubia for the full Kigali coffee spectrum.</dd></div>
+        
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kigali-coffee-shops/photo-11.jpg" alt="Blackbuck Coffee in Kigali" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "You can find some at Blackbuck Coffee at a very decent price"
         <span class="source">— u/Spiritual_Ad2424 on r/Rwanda</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The everyday spot for budget-conscious coffee drinkers. Won&#39;t blow your mind, but it&#39;ll fill your cup reliably and cheaply. Pair it with more premium visits to Question or Rubia for the full Kigali coffee spectrum.
     </div>
 </section>
       </section>

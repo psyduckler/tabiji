@@ -316,7 +316,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -329,18 +338,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -418,6 +428,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Brussels boasts an unparalleled Belgian beer scene, with options ranging from historic pubs to modern craft breweries. For the quintessential experience, Cantillon Brewery stands out, offering a taste of authentic lambic. Whether you&#39;re a seasoned beer aficionado or a curious traveler, Brussels offers a diverse range of experiences.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Cantillon Brewery</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>€13 admission (incl. tasting)</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Cantillon Brewery</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Cantillon Brewery:</strong> Non-negotiable.</li>
+            <li><strong>Moeder Lambic Fontainas:</strong> The beer bar Reddit recommends most consistently for visitors who want a guided, knowledgeable lambic experience in the city center.</li>
+            <li><strong>À la Mort Subite:</strong> One of Brussels&#39; most beautiful and historic drinking establishments.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Brussels boasts an unparalleled Belgian beer scene, with options ranging from historic pubs to modern craft breweries. For the quintessential experience, Cantillon Brewery stands out, offering a taste of authentic lambic. Whether you&#39;re a seasoned beer aficionado or a curious traveler, Brussels offers a diverse range of experiences.</strong></p>
         <p>Brussels is the undisputed capital of Belgian beer culture. This is the city where spontaneous-fermentation lambic has been brewed for centuries, where historic Art Nouveau cafés still serve gueuze on tap, and where a single bar holds the world record for most beers on the menu. But knowing where to go — and where to avoid — is the difference between a life-changing beer experience and an overpriced tourist trap.</p><p>We analyzed hundreds of Reddit posts from r/belgium, r/brussels, r/beer, and r/CraftBeer to find the bars that actual Belgians and serious beer travelers recommend over and over. Whether you&#39;re chasing lambic, Trappist ales, or the latest Belgian craft brews — this list has you covered.</p>
@@ -472,6 +500,20 @@
         <span>📍 Rue Gheude 56, Anderlecht</span>
         <a href="https://maps.google.com/?q=Cantillon+Brewery+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Non-negotiable.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Lambic Brewery in Rue Gheude 56, Anderlecht with a €13 admission (incl. tasting) spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Lambic Brewery · Rue Gheude 56, Anderlecht</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €13 admission (incl. tasting)</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€13 admission (incl. tasting)</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Non-negotiable. Cantillon is one of the last traditional Brussels lambic breweries still operating in the city — a UNESCO-worthy institution that most Belgians consider a national treasure. The self-guided museum tour winds through wooden casks, copper kettles, and cobwebbed aging rooms. The €13 admission includes two beers, and everything you try here will make commercial sour beers taste hollow by comparison. Closed on Wednesdays and Sundays.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -484,7 +526,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.cantillon.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/cantillon.jpg" alt="Cantillon Brewery in Rue Gheude 56, Anderlecht" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cantillon is the highlight of any trip to Brussels — a genuine 100+ year-old working lambic brewery in the middle of the city. It&#39;s a living museum and the beer is world-class."
@@ -498,9 +539,6 @@
         "Cantillon, Moeder Lambic (both original and fontainas) — these are the must-dos for lambic in Brussels."
         <span class="source">— r/beer · posted 2018</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Non-negotiable. Cantillon is one of the last traditional Brussels lambic breweries still operating in the city — a UNESCO-worthy institution that most Belgians consider a national treasure. The self-guided museum tour winds through wooden casks, copper kettles, and cobwebbed aging rooms. The €13 admission includes two beers, and everything you try here will make commercial sour beers taste hollow by comparison. Closed on Wednesdays and Sundays.
-    </div>
 </section>
 <section class="restaurant-section" id="moeder-lambic-fontainas" data-map-name="2. Moeder Lambic Fontainas" data-map-cta-url="https://maps.google.com/?q=Moeder+Lambic+Fontainas+Brussels" data-map-query="Moeder Lambic Fontainas, Place Fontainas 8, 1000 Brussels, Brussels, BE" data-map-lat="50.8451368" data-map-lng="4.3469668">
     <div class="restaurant-header">
@@ -512,6 +550,20 @@
         <span>💴 €4–10/beer</span>
         <span>📍 Place Fontainas 8, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=Moeder+Lambic+Fontainas+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The beer bar Reddit recommends most consistently for visitors who want a guided, knowledgeable lambic experience in the city center.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Lambic Specialist in Place Fontainas 8, 1000 Brussels with a €4–10/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Lambic Specialist · Place Fontainas 8, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–10/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–10/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The beer bar Reddit recommends most consistently for visitors who want a guided, knowledgeable lambic experience in the city center. Moeder Lambic Fontainas is centrally located near Place Fontainas and stocks an extraordinary rotating selection of Belgian lambic — including rare bottles you won&#39;t find elsewhere. The staff are genuine experts who love what they serve. If you only go to one bar for lambic, make it this one (or the Original location in Saint-Gilles if you&#39;re willing to venture slightly out of center).</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -525,7 +577,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.moederlambic.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/moeder-lambic-fontainas.jpg" alt="Moeder Lambic Fontainas in Place Fontainas 8, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "The original Moeder Lambic a little further out is the best. The other recommendations are good plus Ermitage near Cantillon, Bier Circus, Bebo, Bier Central."
@@ -539,9 +590,6 @@
         "In the center you will be far better served by going to Moeder Lambic if you want a &#39;guided&#39; experience — but if you just want great classic beers from honest breweries and you&#39;re in the center, Moeder Lambic is the best."
         <span class="source">— r/brussels · posted 2022</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The beer bar Reddit recommends most consistently for visitors who want a guided, knowledgeable lambic experience in the city center. Moeder Lambic Fontainas is centrally located near Place Fontainas and stocks an extraordinary rotating selection of Belgian lambic — including rare bottles you won&#39;t find elsewhere. The staff are genuine experts who love what they serve. If you only go to one bar for lambic, make it this one (or the Original location in Saint-Gilles if you&#39;re willing to venture slightly out of center).
-    </div>
 </section>
 <section class="restaurant-section" id="mort-subite" data-map-name="3. À la Mort Subite" data-map-cta-url="https://maps.google.com/?q=%C3%80+la+Mort+Subite+Brussels" data-map-query="À la Mort Subite, Rue Montagne aux Herbes Potagères 7, 1000 Brussels, Brussels, BE" data-map-lat="50.8486244" data-map-lng="4.3562446999999995">
     <div class="restaurant-header">
@@ -553,6 +601,20 @@
         <span>💴 €4–8/beer</span>
         <span>📍 Rue Montagne aux Herbes Potagères 7, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=%C3%80+la+Mort+Subite+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of Brussels&#39; most beautiful and historic drinking establishments.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Historic Art Nouveau in Rue Montagne aux Herbes Potagères 7, 1000 Brussels with a €4–8/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Historic Art Nouveau · Rue Montagne aux Herbes Potagères 7, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of Brussels&#39; most beautiful and historic drinking establishments. Founded in 1910, À la Mort Subite (&quot;sudden death&quot;) is a genuine Art Nouveau time capsule — mirrored walls, dark wood paneling, white-uniformed waiters, marble-topped tables. The name comes from a dice game the printers from the nearby Royal Gallery used to play on Friday afternoons. Go for the atmosphere as much as the beer — and arrive early on weekends because it gets crowded.</dd></div>
+        
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -566,7 +628,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://alamortsubite.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/mort-subite.jpg" alt="À la Mort Subite in Rue Montagne aux Herbes Potagères 7, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "À la Mort Subite is quite nice and close to Grand-Place as well. A great bar for an authentic Brussels experience."
@@ -575,9 +636,6 @@
     <div class="reddit-quote">
         "+1 for La Mort Subite — beautiful old café with real lambic on tap. One of those places that looks exactly like it did 100 years ago."
         <span class="source">— r/beer · posted 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of Brussels&#39; most beautiful and historic drinking establishments. Founded in 1910, À la Mort Subite (&quot;sudden death&quot;) is a genuine Art Nouveau time capsule — mirrored walls, dark wood paneling, white-uniformed waiters, marble-topped tables. The name comes from a dice game the printers from the nearby Royal Gallery used to play on Friday afternoons. Go for the atmosphere as much as the beer — and arrive early on weekends because it gets crowded.
     </div>
 </section>
 <section class="restaurant-section" id="delirium-cafe" data-map-name="4. Delirium Café" data-map-cta-url="https://maps.google.com/?q=Delirium+Cafe+Brussels" data-map-query="Delirium Café, Impasse de la Fidélité 4, 1000 Brussels, Brussels, BE" data-map-lat="50.8485002" data-map-lng="4.3538834">
@@ -591,6 +649,20 @@
         <span>📍 Impasse de la Fidélité 4, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=Delirium+Cafe+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most controversial bar in Brussels.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>World Record 3,000+ Beers in Impasse de la Fidélité 4, 1000 Brussels with a €4–10/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>World Record 3,000+ Beers · Impasse de la Fidélité 4, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–10/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–10/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most controversial bar in Brussels. Delirium holds the Guinness World Record for most beers available (3,000+), and the Impasse de la Fidélité alley is a Brussels institution. Reddit locals are divided: serious beer drinkers often skip it for the chaos and inconsistent menu availability, while first-timers find it a genuinely fun spectacle. Our take: visit once, go early, explore the Hoppy Loft (top floor) for a calmer experience, and don&#39;t make it the centerpiece of your beer trip.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -603,7 +675,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.deliriumcafe.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/delirium-cafe.jpg" alt="Delirium Café in Impasse de la Fidélité 4, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "I would skip Delirium, the bar is a shell of what it once was. Most of the beers in the huge menu are out of stock or the staff do not &#39;know where they are.&#39; On the other hand the place is kind of cool but can be way too crowded. If you go, check the top floor, the Hoppy Loft."
@@ -612,9 +683,6 @@
     <div class="reddit-quote">
         "Delirium is far from the ultimate starting point. The venue is overpriced, too loud and target audience is hostel party youth, not someone looking to explore Belgian beer in earnest."
         <span class="source">— r/brussels · posted 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most controversial bar in Brussels. Delirium holds the Guinness World Record for most beers available (3,000+), and the Impasse de la Fidélité alley is a Brussels institution. Reddit locals are divided: serious beer drinkers often skip it for the chaos and inconsistent menu availability, while first-timers find it a genuinely fun spectacle. Our take: visit once, go early, explore the Hoppy Loft (top floor) for a calmer experience, and don&#39;t make it the centerpiece of your beer trip.
     </div>
 </section>
 <section class="restaurant-section" id="bier-circus" data-map-name="5. Bier Circus" data-map-cta-url="https://maps.google.com/?q=Bier+Circus+Brussels" data-map-query="Bier Circus, Rue de l&#39;Enseignement 89, 1000 Brussels, Brussels, BE" data-map-lat="50.848631999999995" data-map-lng="4.3648219">
@@ -628,6 +696,20 @@
         <span>📍 Rue de l&#39;Enseignement 89, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=Bier+Circus+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The local beer nerd&#39;s bar of choice.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Belgian Beer Specialist in Rue de l&#39;Enseignement 89, 1000 Brussels with a €4–9/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Belgian Beer Specialist · Rue de l&#39;Enseignement 89, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–9/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–9/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The local beer nerd&#39;s bar of choice. Bier Circus stocks an exceptional rotating selection of Belgian regional beers — many from smaller breweries that rarely make it outside the country. The food menu is legitimately good (rare for a Brussels beer bar), and the vibe is convivial without being rowdy. Staff are knowledgeable and eager to help you navigate the menu. Closed Sundays.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -640,7 +722,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.biercircus.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/bier-circus.jpg" alt="Bier Circus in Rue de l&#39;Enseignement 89, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Bier Circus is one of the best beer bars in Brussels. Excellent selection of Belgian beers including many you won&#39;t find elsewhere, and good food too."
@@ -649,9 +730,6 @@
     <div class="reddit-quote">
         "Bier Circus, Bebo, Bier Central — these are all recommendations for great Belgian beer bars beyond the obvious tourist stops."
         <span class="source">— r/beer · posted 2026</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The local beer nerd&#39;s bar of choice. Bier Circus stocks an exceptional rotating selection of Belgian regional beers — many from smaller breweries that rarely make it outside the country. The food menu is legitimately good (rare for a Brussels beer bar), and the vibe is convivial without being rowdy. Staff are knowledgeable and eager to help you navigate the menu. Closed Sundays.
     </div>
 </section>
 <section class="restaurant-section" id="poechenellekelder" data-map-name="6. Poechenellekelder" data-map-cta-url="https://maps.google.com/?q=Poechenellekelder+Brussels" data-map-query="Poechenellekelder, Rue du Chêne 5, 1000 Brussels (opposite Manneken Pis), Brussels, BE" data-map-lat="50.8447426" data-map-lng="4.3499833">
@@ -665,6 +743,20 @@
         <span>📍 Rue du Chêne 5, 1000 Brussels (opposite Manneken Pis)</span>
         <a href="https://maps.google.com/?q=Poechenellekelder+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Situated directly opposite the Manneken Pis statue, Poechenellekelder somehow manages to be an authentic local bar despite its prime tourist location.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Traditional Brussels Café in Rue du Chêne 5, 1000 Brussels (opposite Manneken Pis) with a €4–8/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Traditional Brussels Café · Rue du Chêne 5, 1000 Brussels (opposite Manneken Pis)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Situated directly opposite the Manneken Pis statue, Poechenellekelder somehow manages to be an authentic local bar despite its prime tourist location. The interior is decorated floor-to-ceiling with puppets — a traditional Brussels folk art form — and the lambic selection is genuinely excellent. Draft lambic here is a rare treat. A perfect spot to stop while doing the Grand-Place circuit, without retreating to a tourist trap.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -677,7 +769,6 @@
     <div class="shop-contact"><span>🌐 <a href="http://www.poechenellekelder.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/poechenellekelder.jpg" alt="Poechenellekelder in Rue du Chêne 5, 1000 Brussels (opposite Manneken Pis)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Poechenellekelder, opposite Manneken Pis is relaxed and has a good beer list, and you get to watch people going crazy over a pissing statue."
@@ -686,9 +777,6 @@
     <div class="reddit-quote">
         "Poechenellekelder is fun. You can also go to brewery pubs like La Source, Brussels Beer Project, Brasserie de la Senne."
         <span class="source">— r/CraftBeer · posted 2023</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Situated directly opposite the Manneken Pis statue, Poechenellekelder somehow manages to be an authentic local bar despite its prime tourist location. The interior is decorated floor-to-ceiling with puppets — a traditional Brussels folk art form — and the lambic selection is genuinely excellent. Draft lambic here is a rare treat. A perfect spot to stop while doing the Grand-Place circuit, without retreating to a tourist trap.
     </div>
 </section>
 <section class="restaurant-section" id="a-la-becasse" data-map-name="7. À la Bécasse" data-map-cta-url="https://maps.google.com/?q=%C3%80+la+B%C3%A9casse+Brussels" data-map-query="À la Bécasse, Rue de Tabora 11, 1000 Brussels, Brussels, BE" data-map-lat="50.8482321" data-map-lng="4.3514102999999995">
@@ -702,6 +790,20 @@
         <span>📍 Rue de Tabora 11, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=%C3%80+la+B%C3%A9casse+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One of Brussels&#39; best-kept secrets — tucked into a narrow passage behind the Grand-Place, this small tavern has been serving young lambic in clay pots since the early 20th century.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Old Lambic Pub in Rue de Tabora 11, 1000 Brussels with a €3–7/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Old Lambic Pub · Rue de Tabora 11, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €3–7/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€3–7/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One of Brussels&#39; best-kept secrets — tucked into a narrow passage behind the Grand-Place, this small tavern has been serving young lambic in clay pots since the early 20th century. The interior is simple and worn in all the right ways: wooden benches, low ceilings, no pretense. The young lambic is cloudy, funky, and utterly authentic. Prices are fair, crowds are minimal, and the atmosphere is the real thing.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -714,7 +816,6 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/a-la-becasse.jpg" alt="À la Bécasse in Rue de Tabora 11, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "À la Bécasse is a nice old pub behind the Grand-Place. It&#39;s quiet and they have young lambic on tap."
@@ -723,9 +824,6 @@
     <div class="reddit-quote">
         "À la Becasse is fun — one of those hidden Brussels places that tourists walk past without noticing."
         <span class="source">— r/CraftBeer · posted 2023</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One of Brussels&#39; best-kept secrets — tucked into a narrow passage behind the Grand-Place, this small tavern has been serving young lambic in clay pots since the early 20th century. The interior is simple and worn in all the right ways: wooden benches, low ceilings, no pretense. The young lambic is cloudy, funky, and utterly authentic. Prices are fair, crowds are minimal, and the atmosphere is the real thing.
     </div>
 </section>
 <section class="restaurant-section" id="la-porte-noire" data-map-name="8. La Porte Noire" data-map-cta-url="https://maps.google.com/?q=La+Porte+Noire+Brussels" data-map-query="La Porte Noire, Rue des Alexiens 67, 1000 Brussels, Brussels, BE" data-map-lat="50.842684399999996" data-map-lng="4.3510747">
@@ -739,6 +837,20 @@
         <span>📍 Rue des Alexiens 67, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=La+Porte+Noire+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> La Porte Noire (&quot;the black door&quot;) is a dimly lit, atmospheric bar in the historic Marolles neighborhood that&#39;s become a reference point for Belgian craft beer in Brussels.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Craft Beer Bar in Rue des Alexiens 67, 1000 Brussels with a €4–9/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Craft Beer Bar · Rue des Alexiens 67, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–9/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–9/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>La Porte Noire (&quot;the black door&quot;) is a dimly lit, atmospheric bar in the historic Marolles neighborhood that&#39;s become a reference point for Belgian craft beer in Brussels. The rotating draft list emphasizes small producers and seasonal releases, and the bottle cellar is worth exploring. A more relaxed and intimate alternative to Bier Circus or Delirium — good choice for a slower evening session.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -751,14 +863,10 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.laportednoire.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/la-porte-noire.jpg" alt="La Porte Noire in Rue des Alexiens 67, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "+1 for L&#39;ermitage, De La Senne, La Porte Noire, Moeder Lambic, Cantillon, La Mort Subite — all excellent options for Belgian beer in Brussels."
         <span class="source">— r/beer · posted 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> La Porte Noire (&quot;the black door&quot;) is a dimly lit, atmospheric bar in the historic Marolles neighborhood that&#39;s become a reference point for Belgian craft beer in Brussels. The rotating draft list emphasizes small producers and seasonal releases, and the bottle cellar is worth exploring. A more relaxed and intimate alternative to Bier Circus or Delirium — good choice for a slower evening session.
     </div>
 </section>
 <section class="restaurant-section" id="brussels-beer-project" data-map-name="9. Brussels Beer Project" data-map-cta-url="https://maps.google.com/?q=Brussels+Beer+Project+Dansaert" data-map-query="Brussels Beer Project, Rue Antoine Dansaert 188, 1000 Brussels, Brussels, BE" data-map-lat="50.852757" data-map-lng="4.341909">
@@ -772,6 +880,20 @@
         <span>📍 Rue Antoine Dansaert 188, 1000 Brussels</span>
         <a href="https://maps.google.com/?q=Brussels+Beer+Project+Dansaert" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Brussels Beer Project is the brewery that convinced a new generation of Belgians that craft beer wasn&#39;t just an American thing.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Urban Craft Brewery in Rue Antoine Dansaert 188, 1000 Brussels with a €4–8/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Urban Craft Brewery · Rue Antoine Dansaert 188, 1000 Brussels</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€4–8/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Brussels Beer Project is the brewery that convinced a new generation of Belgians that craft beer wasn&#39;t just an American thing. Founded in 2013 in the hip Dansaert neighborhood (Brussels&#39; fashion district), BBP makes adventurous, international-style craft beers alongside Belgian interpretations. Their taproom is modern, welcoming, and gives you a live view of the brewery. Perfect if you&#39;ve done the lambic circuit and want to see where Belgian brewing is going next.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -784,7 +906,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://beerproject.be/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/brussels-beer-project.jpg" alt="Brussels Beer Project in Rue Antoine Dansaert 188, 1000 Brussels" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Heard Brussels Beer Project is good. Definitely recommend it — their experimental beers are really creative and they do a great job with the taproom."
@@ -793,9 +914,6 @@
     <div class="reddit-quote">
         "Brussels Beer Project, Brasserie de la Senne, La Source, Brasserie de la Mule — check out all the local craft breweries if you want to see what Belgian brewing looks like today."
         <span class="source">— r/brussels · posted 2021</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Brussels Beer Project is the brewery that convinced a new generation of Belgians that craft beer wasn&#39;t just an American thing. Founded in 2013 in the hip Dansaert neighborhood (Brussels&#39; fashion district), BBP makes adventurous, international-style craft beers alongside Belgian interpretations. Their taproom is modern, welcoming, and gives you a live view of the brewery. Perfect if you&#39;ve done the lambic circuit and want to see where Belgian brewing is going next.
     </div>
 </section>
 <section class="restaurant-section" id="lermitage" data-map-name="10. L&#39;Ermitage" data-map-cta-url="https://maps.google.com/?q=L%27Ermitage+beer+bar+Brussels" data-map-query="L&#39;Ermitage, Rue de Moscou 25, 1060 Brussels (near Cantillon), Brussels, BE" data-map-lat="50.8311401" data-map-lng="4.3460366">
@@ -809,6 +927,20 @@
         <span>📍 Rue de Moscou 25, 1060 Brussels (near Cantillon)</span>
         <a href="https://maps.google.com/?q=L%27Ermitage+beer+bar+Brussels" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The perfect afternoon complement to a Cantillon visit — L&#39;Ermitage is just a short walk away and stocks an exceptional curated selection of aged gueuze and lambic from Belgium&#39;s best small producers.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Lambic &amp; Gueuze Cave in Rue de Moscou 25, 1060 Brussels (near Cantillon) with a €5–12/beer spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Lambic &amp; Gueuze Cave · Rue de Moscou 25, 1060 Brussels (near Cantillon)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: €5–12/beer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>€5–12/beer</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The perfect afternoon complement to a Cantillon visit — L&#39;Ermitage is just a short walk away and stocks an exceptional curated selection of aged gueuze and lambic from Belgium&#39;s best small producers. The vibe is intimate and serious without being pretentious. The adjacent wine cave is a bonus for companions who don&#39;t share your lambic obsession. Closed Monday–Tuesday.</dd></div>
+        
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -821,7 +953,6 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/brussels-beer-bars/lermitage.jpg" alt="L&#39;Ermitage in Rue de Moscou 25, 1060 Brussels (near Cantillon)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-
     
     <div class="reddit-quote">
         "Cantillon is good for slightly cheaper bottle selection. L&#39;ermitage near to Cantillon (incl. a separate &#39;les caves&#39; wine shop if you&#39;re that way inclined)."
@@ -830,9 +961,6 @@
     <div class="reddit-quote">
         "L&#39;ermitage, De La Senne, La Porte Noire, Moeder Lambic, Cantillon — all excellent. L&#39;ermitage especially if you&#39;re already going to Cantillon, it&#39;s right nearby."
         <span class="source">— r/beer · posted 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The perfect afternoon complement to a Cantillon visit — L&#39;Ermitage is just a short walk away and stocks an exceptional curated selection of aged gueuze and lambic from Belgium&#39;s best small producers. The vibe is intimate and serious without being pretentious. The adjacent wine cave is a bonus for companions who don&#39;t share your lambic obsession. Closed Monday–Tuesday.
     </div>
 </section>
       </section>

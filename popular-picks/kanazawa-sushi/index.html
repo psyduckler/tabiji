@@ -349,7 +349,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -362,18 +371,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -451,6 +461,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Kanazawa&#39;s sushi scene ranges from casual market finds to Michelin-starred omakase, generally at prices lower than Tokyo, making it a great value. Otome Sushi, known for its Michelin stars and seasonal omakase, is a top recommendation for experiencing the region&#39;s best seafood. The city&#39;s proximity to the Sea of Japan ensures restaurants get first pick of the freshest catches.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Barrier — 4.8★ (955 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>¥22,000</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Otome Sushi (乙女寿司) — 4.6★ (366 reviews)</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Otome Sushi (乙女寿司):</strong> The crown jewel of Kanazawa sushi.</li>
+            <li><strong>Sushi Kibatani (鮨 木場谷):</strong> One Michelin star, consistently praised on Reddit, and far easier to book than Otome.</li>
+            <li><strong>Kourin Sushi (光琳寿司):</strong> The people&#39;s champion.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Kanazawa&#39;s sushi scene ranges from casual market finds to Michelin-starred omakase, generally at prices lower than Tokyo, making it a great value. Otome Sushi, known for its Michelin stars and seasonal omakase, is a top recommendation for experiencing the region&#39;s best seafood. The city&#39;s proximity to the Sea of Japan ensures restaurants get first pick of the freshest catches.</strong></p>
         <p>Kanazawa is quietly one of Japan&#39;s best-kept sushi secrets. Sitting on the Sea of Japan with a major fishing port, the city keeps its finest catches local — meaning restaurants here get first-pick seafood at prices that would make Tokyo sushi chefs weep. A 15-piece omakase that costs ¥20,000+ in Ginza? You&#39;ll find equivalent quality here for a third of the price.</p><p>We analyzed dozens of Reddit posts from r/JapanTravelTips, r/finedining, r/sushi, and r/JapanTravel to find the spots that actual travelers and Japan residents recommend. From 2-Michelin-star counters to conveyor belt joints where locals line up, these are Kanazawa&#39;s best.</p>
@@ -505,6 +533,20 @@
         <span>📍 Korinbo, Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=5481174605341720709&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The crown jewel of Kanazawa sushi.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>⭐⭐ Michelin Omakase in Korinbo, Central Kanazawa with a ¥22,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 366 Google reviews · ⭐⭐ Michelin Omakase · Korinbo, Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥22,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥22,000 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The crown jewel of Kanazawa sushi. Otome Sushi is a locals&#39; legend — Tabelog Top 100, two Michelin stars, and still somehow less than half the price of comparable omakase in Tokyo. Book well in advance via JPNeazy or have your hotel concierge help. Worth planning your entire Kanazawa trip around.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Otome Sushi (乙女寿司) in Korinbo, Central Kanazawa, is a ⭐⭐ Michelin Omakase spot with a 4.6★ rating (366 reviews). The omakase is the way to go — there&#39;s no menu, the chef serves ~20 pieces of seasonal perfection. Expect nodoguro, sweet shrimp, buri, and local crab depending on season. The vinegar-marinated mackerel is legendary.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -517,15 +559,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762317447">+81762317447</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/otome-sushi.jpg" alt="Otome Sushi (乙女寿司) in Korinbo, Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Otome Sushi (乙女寿司) in Korinbo, Central Kanazawa, is a ⭐⭐ Michelin Omakase spot with a 4.6★ rating (366 reviews). The omakase is the way to go — there&#39;s no menu, the chef serves ~20 pieces of seasonal perfection. Expect nodoguro, sweet shrimp, buri, and local crab depending on season. The vinegar-marinated mackerel is legendary.</div>
     
     <div class="reddit-quote">
         "Otome Sushi has a Tabelog Bronze Award and 2 Michelin stars. It&#39;s the real deal — not tourist bait."
         <span class="source">— r/finedining · posted Nov 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The crown jewel of Kanazawa sushi. Otome Sushi is a locals&#39; legend — Tabelog Top 100, two Michelin stars, and still somehow less than half the price of comparable omakase in Tokyo. Book well in advance via JPNeazy or have your hotel concierge help. Worth planning your entire Kanazawa trip around.
     </div>
 </section>
 <section class="restaurant-section" id="sushi-kibatani" data-map-name="2. Sushi Kibatani (鮨 木場谷)" data-map-cta-url="https://maps.google.com/?cid=9639248808840640266&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sushi Kibatani (鮨 木場谷), Hikosomachi, Central Kanazawa, Ishikawa, JP" data-map-lat="36.5727153" data-map-lng="136.66190179999998">
@@ -539,6 +576,20 @@
         <span>📍 Hikosomachi, Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=9639248808840640266&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> One Michelin star, consistently praised on Reddit, and far easier to book than Otome.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>⭐ Michelin Omakase in Hikosomachi, Central Kanazawa with a ¥15,000–¥20,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 196 Google reviews · ⭐ Michelin Omakase · Hikosomachi, Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥15,000–¥20,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥15,000–¥20,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>One Michelin star, consistently praised on Reddit, and far easier to book than Otome. Kibatani represents Kanazawa sushi at its most refined — the chef&#39;s skill with local fish is exceptional. If Otome is sold out, this is your plan A, not plan B.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Sushi Kibatani (鮨 木場谷) in Hikosomachi, Central Kanazawa, is a ⭐ Michelin Omakase restaurant with a 4.5★ rating (196 reviews). The omakase course is highly recommended — Kibatani is known for pristine edomae technique applied to Sea of Japan fish. The nodoguro and anago are standouts. Bookable on Ikyu.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -551,8 +602,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+815058708418">+815058708418</a></span><span>🌐 <a href="https://kibatani.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/sushi-kibatani.jpg" alt="Sushi Kibatani (鮨 木場谷) in Hikosomachi, Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Sushi Kibatani (鮨 木場谷) in Hikosomachi, Central Kanazawa, is a ⭐ Michelin Omakase restaurant with a 4.5★ rating (196 reviews). The omakase course is highly recommended — Kibatani is known for pristine edomae technique applied to Sea of Japan fish. The nodoguro and anago are standouts. Bookable on Ikyu.</div>
     
     <div class="reddit-quote">
         "If you want sushi omakase, Kibatani is bookable on Ikyu."
@@ -561,9 +610,6 @@
     <div class="reddit-quote">
         "If you are down in Kanazawa, Sushi Kibatani is a strong recommendation."
         <span class="source">— r/JapanTravelTips · posted Nov 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> One Michelin star, consistently praised on Reddit, and far easier to book than Otome. Kibatani represents Kanazawa sushi at its most refined — the chef&#39;s skill with local fish is exceptional. If Otome is sold out, this is your plan A, not plan B.
     </div>
 </section>
 <section class="restaurant-section" id="kourin-sushi" data-map-name="3. Kourin Sushi (光琳寿司)" data-map-cta-url="https://maps.google.com/?cid=9224456968411507390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kourin Sushi (光琳寿司), Katamachi, Central Kanazawa, Ishikawa, JP" data-map-lat="36.569455999999995" data-map-lng="136.65854489999998">
@@ -577,6 +623,20 @@
         <span>📍 Katamachi, Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=9224456968411507390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The people&#39;s champion.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Edomae Sushi in Katamachi, Central Kanazawa with a ¥8,000–¥15,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,393 Google reviews · Edomae Sushi · Katamachi, Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Kourin outperforms most starred joints on review platforms</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥8,000–¥15,000 · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The people&#39;s champion. No Michelin star, but Kourin outperforms most starred joints on review platforms. The quality-to-price ratio is remarkable — you&#39;re getting near-Michelin fish at ¥8,000. Reservations recommended but not always required. Perfect for a first-timer who wants excellent sushi without the omakase formality.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kourin Sushi (光琳寿司) in Katamachi, Central Kanazawa, is an Edomae Sushi restaurant with unlisted ratings. Order the omakase course or go à la carte and let the chef guide you through the day&#39;s best. The uni and amaebi are consistently praised. It&#39;s a sweet spot between high-end and approachable.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -589,15 +649,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762315964">+81762315964</a></span><span>🌐 <a href="http://kourin1.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/kourin-sushi.jpg" alt="Kourin Sushi (光琳寿司) in Katamachi, Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kourin Sushi (光琳寿司) in Katamachi, Central Kanazawa, is an Edomae Sushi restaurant with unlisted ratings. Order the omakase course or go à la carte and let the chef guide you through the day&#39;s best. The uni and amaebi are consistently praised. It&#39;s a sweet spot between high-end and approachable.</div>
     
     <div class="reddit-quote">
         "Kourin Sushi is rated 4.8 on TripAdvisor with 619 reviews — the highest-rated sushi in Kanazawa by visitor count."
         <span class="source">— TripAdvisor · 2026 rankings</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The people&#39;s champion. No Michelin star, but Kourin outperforms most starred joints on review platforms. The quality-to-price ratio is remarkable — you&#39;re getting near-Michelin fish at ¥8,000. Reservations recommended but not always required. Perfect for a first-timer who wants excellent sushi without the omakase formality.
     </div>
 </section>
 <section class="restaurant-section" id="omicho-market" data-map-name="4. Omicho Market (近江町市場)" data-map-cta-url="https://maps.google.com/?cid=13831724870425457829&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Omicho Market (近江町市場), Omicho, Central Kanazawa, Ishikawa, JP" data-map-lat="36.5717335" data-map-lng="136.6558651">
@@ -611,6 +666,20 @@
         <span>📍 Omicho, Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=13831724870425457829&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Kanazawa&#39;s Kitchen&quot; is mandatory.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Market Sushi &amp; Seafood in Omicho, Central Kanazawa with a ¥500–¥3,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 18,616 Google reviews · Market Sushi &amp; Seafood · Omicho, Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥500–¥3,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥500–¥3,000 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>&quot;Kanazawa&#39;s Kitchen&quot; is mandatory. With 170+ stalls selling everything from massive snow crabs to grilled anago sticks, it&#39;s the best place to graze your way through Kanazawa&#39;s seafood scene for cheap. Come before 11 AM to beat crowds. The sit-down sushi counters inside the market are excellent — don&#39;t overthink which one, they&#39;re all getting the same fresh fish.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Omicho Market (近江町市場) in Omicho, Central Kanazawa, offers Market Sushi &amp; Seafood with unlisted ratings. Try the kaisedon (海鮮丼) — a sushi bowl piled with the market&#39;s freshest fish. Also try grilled anago on a stick (¥500), individual nigiri pieces from counter stalls, and omicho crab legs. Yutaka Saison (look for neon yellow curtains) does the best kaisedon.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -623,8 +692,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762311462">+81762311462</a></span><span>🌐 <a href="http://ohmicho-ichiba.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/omicho-market.jpg" alt="Omicho Market (近江町市場) in Omicho, Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Omicho Market (近江町市場) in Omicho, Central Kanazawa, offers Market Sushi &amp; Seafood with unlisted ratings. Try the kaisedon (海鮮丼) — a sushi bowl piled with the market&#39;s freshest fish. Also try grilled anago on a stick (¥500), individual nigiri pieces from counter stalls, and omicho crab legs. Yutaka Saison (look for neon yellow curtains) does the best kaisedon.</div>
     
     <div class="reddit-quote">
         "The Kaiten sushi place in Omicho was also really delicious, but you&#39;ll have to wait in line."
@@ -633,9 +700,6 @@
     <div class="reddit-quote">
         "It is Omicho Ichiba Sushi. We just picked it at random as we walked through and it was fantastic."
         <span class="source">— r/sushi · posted Feb 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> &quot;Kanazawa&#39;s Kitchen&quot; is mandatory. With 170+ stalls selling everything from massive snow crabs to grilled anago sticks, it&#39;s the best place to graze your way through Kanazawa&#39;s seafood scene for cheap. Come before 11 AM to beat crowds. The sit-down sushi counters inside the market are excellent — don&#39;t overthink which one, they&#39;re all getting the same fresh fish.
     </div>
 </section>
 <section class="restaurant-section" id="tamazushi" data-map-name="5. Kanazawa Tamazushi (金沢玉寿司)" data-map-cta-url="https://maps.google.com/?cid=9973300641684646133&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kanazawa Tamazushi (金沢玉寿司), Katamachi, Central Kanazawa, Ishikawa, JP" data-map-lat="36.5593413" data-map-lng="136.6506289">
@@ -649,6 +713,20 @@
         <span>📍 Katamachi, Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=9973300641684646133&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The local institution.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Katamachi, Central Kanazawa with a ¥5,000–¥15,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 301 Google reviews · Local Favorite · Katamachi, Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the combination of quality, atmosphere, and history is unmatched in the mid-range</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥5,000–¥15,000 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The local institution. Seven decades in business and still the spot where Kanazawa families celebrate birthdays and anniversaries. The sushi bar gives you the full experience — watching the chef work while you eat. It&#39;s not the cheapest, but the combination of quality, atmosphere, and history is unmatched in the mid-range. Reservations help on weekends.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kanazawa Tamazushi (金沢玉寿司) in Katamachi, Central Kanazawa, is a Local Favorite with a 4.1★ rating (301 reviews). Go à la carte at the sushi bar — the glass cases display the day&#39;s fish. Try the nodoguro, buri, and whatever the chef recommends. Multi-course dinners for two run ¥15,000. Also try their pufferfish if available.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -661,15 +739,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762212644">+81762212644</a></span><span>🌐 <a href="https://kanazawa-tamazushi.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/tamazushi.jpg" alt="Kanazawa Tamazushi (金沢玉寿司) in Katamachi, Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kanazawa Tamazushi (金沢玉寿司) in Katamachi, Central Kanazawa, is a Local Favorite with a 4.1★ rating (301 reviews). Go à la carte at the sushi bar — the glass cases display the day&#39;s fish. Try the nodoguro, buri, and whatever the chef recommends. Multi-course dinners for two run ¥15,000. Also try their pufferfish if available.</div>
     
     <div class="reddit-quote">
         "A major local favorite, this restaurant has been around for seven-plus decades. It&#39;s a dinner destination for family spreads and friend catch-ups alike."
         <span class="source">— Lonely Planet · 2024 guide</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The local institution. Seven decades in business and still the spot where Kanazawa families celebrate birthdays and anniversaries. The sushi bar gives you the full experience — watching the chef work while you eat. It&#39;s not the cheapest, but the combination of quality, atmosphere, and history is unmatched in the mid-range. Reservations help on weekends.
     </div>
 </section>
 <section class="restaurant-section" id="kirari" data-map-name="6. Kirari (きらり)" data-map-cta-url="https://maps.google.com/?cid=9472128725654627786&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kirari (きらり), Near Kanazawa Station West Exit, Ishikawa, JP" data-map-lat="36.5782984" data-map-lng="136.646042">
@@ -683,6 +756,20 @@
         <span>📍 Near Kanazawa Station West Exit</span>
         <a href="https://maps.google.com/?cid=9472128725654627786&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The perfect pre-train or post-arrival meal.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kaiten Sushi in Near Kanazawa Station West Exit with a ¥2,000–¥4,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.9★ from 1,243 Google reviews · Kaiten Sushi · Near Kanazawa Station West Exit</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥2,000–¥4,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥2,000–¥4,000 · 3.9★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The perfect pre-train or post-arrival meal. Kirari gets all its fish daily from the port, and the quality punches absurdly above its price point. Conveyor belt sushi in Kanazawa is nothing like the chain kaiten you know — this is genuinely excellent fish at ¥2,000. The gold-leaf chirashi is pure Kanazawa.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kirari (きらり), near Kanazawa Station West Exit, is a Kaiten Sushi restaurant with unlisted ratings. The 5-piece or 7-piece nigiri set (¥2,000) is a good choice — includes tuna, seabass, salmon roe, shellfish, and crab. Also get the mini chirashi with gold leaf flakes (a Kanazawa specialty). All fish sourced directly from the port daily.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -695,15 +782,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762235551">+81762235551</a></span><span>🌐 <a href="http://kanazawa-kirari.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/kirari.jpg" alt="Kirari (きらり) in Near Kanazawa Station West Exit" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kirari (きらり), near Kanazawa Station West Exit, is a Kaiten Sushi restaurant with unlisted ratings. The 5-piece or 7-piece nigiri set (¥2,000) is a good choice — includes tuna, seabass, salmon roe, shellfish, and crab. Also get the mini chirashi with gold leaf flakes (a Kanazawa specialty). All fish sourced directly from the port daily.</div>
     
     <div class="reddit-quote">
         "Kirari Sushi near Kanazawa Station West Exit — got a set of 5pcs nigiri and a 3pcs set of silver-skinned fish. Also got a mini chirashi with gold leaf flakes (just Kanazawa things I guess)."
         <span class="source">— r/sushi · posted Dec 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The perfect pre-train or post-arrival meal. Kirari gets all its fish daily from the port, and the quality punches absurdly above its price point. Conveyor belt sushi in Kanazawa is nothing like the chain kaiten you know — this is genuinely excellent fish at ¥2,000. The gold-leaf chirashi is pure Kanazawa.
     </div>
 </section>
 <section class="restaurant-section" id="barrier" data-map-name="7. Barrier" data-map-cta-url="https://maps.google.com/?cid=3228701056728152399&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Barrier, Central Kanazawa, Ishikawa, JP" data-map-lat="36.5714658" data-map-lng="136.66393779999999">
@@ -717,6 +799,20 @@
         <span>📍 Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=3228701056728152399&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not your typical sushi spot — and that&#39;s the point.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Creative Sushi Experience in Central Kanazawa with a ¥4,000–¥9,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.8★ from 955 Google reviews · Creative Sushi Experience · Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>reservations are safer</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥4,000–¥9,000 · 4.8★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not your typical sushi spot — and that&#39;s the point. Barrier is half art gallery, half sushi restaurant, with a unique shelved-box serving style that makes dinner feel like an experience. The food is genuinely excellent, and at ¥4,000 for a full course, it&#39;s a steal. Walk-ins welcome but reservations are safer. Open 11am–9pm daily.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Barrier, in Central Kanazawa, offers a Creative Sushi Experience with a 4.8★ rating (955 reviews). Pick from courses A, B, C, or D (¥4,000–¥9,000). Food is served in a shelved box — pull out each shelf to reveal the next course. Expect anago, pickled horse mackerel, rock oysters, and seasonal surprises. Vegetarian option available.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -729,15 +825,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+815036180788">+815036180788</a></span><span>🌐 <a href="https://barrier-japan.jp/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/barrier.jpg" alt="Barrier in Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Barrier, in Central Kanazawa, offers a Creative Sushi Experience with a 4.8★ rating (955 reviews). Pick from courses A, B, C, or D (¥4,000–¥9,000). Food is served in a shelved box — pull out each shelf to reveal the next course. Expect anago, pickled horse mackerel, rock oysters, and seasonal surprises. Vegetarian option available.</div>
     
     <div class="reddit-quote">
         "Barrier looks like a contemporary art gallery — you walk through automatic white doors into streamlined white sit-down bliss. Upstairs are black rooms with individual red table setups."
         <span class="source">— Lonely Planet · 2024 guide</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not your typical sushi spot — and that&#39;s the point. Barrier is half art gallery, half sushi restaurant, with a unique shelved-box serving style that makes dinner feel like an experience. The food is genuinely excellent, and at ¥4,000 for a full course, it&#39;s a steal. Walk-ins welcome but reservations are safer. Open 11am–9pm daily.
     </div>
 </section>
 <section class="restaurant-section" id="sushi-yuki" data-map-name="8. Sushi Yuki (鮨 由紀)" data-map-cta-url="https://maps.google.com/?cid=7762716895818788901&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sushi Yuki (鮨 由紀), Central Kanazawa, Ishikawa, JP" data-map-lat="36.563654899999996" data-map-lng="136.65269139999998">
@@ -751,6 +842,20 @@
         <span>📍 Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=7762716895818788901&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Another Michelin-starred gem in a city loaded with them.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>⭐ Michelin Omakase in Central Kanazawa with a ¥15,000–¥20,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 114 Google reviews · ⭐ Michelin Omakase · Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥15,000–¥20,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥15,000–¥20,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Another Michelin-starred gem in a city loaded with them. What sets Yuki apart is accessibility — the atmosphere is welcoming to foreign diners, and the chef&#39;s technique with delicate fish like sayori shows real mastery. A strong choice if Otome and Kibatani are booked.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Sushi Yuki (鮨 由紀) in Central Kanazawa, is a ⭐ Michelin Omakase restaurant with a 4.5★ rating (114 reviews). Order the omakase — Yuki is known for its sayori (needlefish) and anago. A mix of both Japanese and foreign diners creates a welcoming atmosphere. Tabelog 3.79 / Google 4.6.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -763,15 +868,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+15122942455">+15122942455</a></span><span>🌐 <a href="https://www.yukihandroll.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/sushi-yuki.jpg" alt="Sushi Yuki (鮨 由紀) in Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Sushi Yuki (鮨 由紀) in Central Kanazawa, is a ⭐ Michelin Omakase restaurant with a 4.5★ rating (114 reviews). Order the omakase — Yuki is known for its sayori (needlefish) and anago. A mix of both Japanese and foreign diners creates a welcoming atmosphere. Tabelog 3.79 / Google 4.6.</div>
     
     <div class="reddit-quote">
         "Sushi Yuki (Tabelog 3.79 / Google 4.6 / 1 Michelin star). There was a mix of foreigners and Japanese. Memorable pieces: sayori; anago."
         <span class="source">— r/finedining · posted Oct 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Another Michelin-starred gem in a city loaded with them. What sets Yuki apart is accessibility — the atmosphere is welcoming to foreign diners, and the chef&#39;s technique with delicate fish like sayori shows real mastery. A strong choice if Otome and Kibatani are booked.
     </div>
 </section>
 <section class="restaurant-section" id="ohkura" data-map-name="9. Kaiten-zushi Ohkura (かいてん寿し大倉)" data-map-cta-url="https://www.google.com/maps/search/%E3%81%8B%E3%81%84%E3%81%A6%E3%82%93%E5%AF%BF%E3%81%97+%E5%A4%A7%E5%80%89+Kanazawa" data-map-query="Kaiten-zushi Ohkura (かいてん寿し大倉), Central Kanazawa, Ishikawa, JP" data-map-lat="36.5712103" data-map-lng="136.6555132">
@@ -785,19 +885,28 @@
         <span>📍 Central Kanazawa</span>
         <a href="https://www.google.com/maps/search/%E3%81%8B%E3%81%84%E3%81%A6%E3%82%93%E5%AF%BF%E3%81%97+%E5%A4%A7%E5%80%89+Kanazawa" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The locals&#39; kaiten joint.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kaiten Sushi in Central Kanazawa with a ¥2,000–¥5,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>Kaiten Sushi · Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the fish quality is excellent and the experience is authentically Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥2,000–¥5,000</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The locals&#39; kaiten joint. Ohkura doesn&#39;t have the tourist polish of Kirari, but the fish quality is excellent and the experience is authentically Kanazawa. Check Tabelog for reviews rather than Google — it&#39;s the platform Japanese locals actually use. A budget-friendly way to eat outstanding sushi.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kaiten-zushi Ohkura (かいてん寿し大倉) in Central Kanazawa, is a Kaiten Sushi restaurant with unlisted ratings. Grab whatever looks good on the belt — the buri, nodoguro, and amaebi are particularly excellent. Check Tabelog for current reviews and hours. A tier above chain kaiten sushi.</dd></div>
+      </dl>
+    </div>
     
     
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/ohkura.jpg" alt="Kaiten-zushi Ohkura (かいてん寿し大倉) in Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kaiten-zushi Ohkura (かいてん寿し大倉) in Central Kanazawa, is a Kaiten Sushi restaurant with unlisted ratings. Grab whatever looks good on the belt — the buri, nodoguro, and amaebi are particularly excellent. Check Tabelog for current reviews and hours. A tier above chain kaiten sushi.</div>
     
     <div class="reddit-quote">
         "I visited many years ago but enjoyed kaitenzushi at Ohkura. They still get decent reviews on Tabelog (I would use that over Google when looking at reviews and ratings)."
         <span class="source">— r/JapanTravelTips · posted Feb 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The locals&#39; kaiten joint. Ohkura doesn&#39;t have the tourist polish of Kirari, but the fish quality is excellent and the experience is authentically Kanazawa. Check Tabelog for reviews rather than Google — it&#39;s the platform Japanese locals actually use. A budget-friendly way to eat outstanding sushi.
     </div>
 </section>
 <section class="restaurant-section" id="iki-iki-tei" data-map-name="10. Iki-iki Tei (いきいき亭)" data-map-cta-url="https://maps.google.com/?cid=13831724870425457829&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Iki-iki Tei (いきいき亭), Omicho Market, Kanazawa, Ishikawa, JP" data-map-lat="36.5718691" data-map-lng="136.65638479999998">
@@ -811,6 +920,20 @@
         <span>📍 Omicho Market, Kanazawa</span>
         <a href="https://maps.google.com/?cid=13831724870425457829&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If you want a kaisendon to remember, Iki-iki Tei is the move.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kaisendon / Market Sushi in Omicho Market, Kanazawa with a ¥2,000–¥4,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 18,616 Google reviews · Kaisendon / Market Sushi · Omicho Market, Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥2,000–¥4,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥2,000–¥4,000 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If you want a kaisendon to remember, Iki-iki Tei is the move. Located inside Omicho Market, the fish literally can&#39;t get any fresher — it&#39;s walked over from the stalls next door. Come early (they open around 7:30 AM) to beat the lunch crowd. The generous portions and low prices make this Kanazawa&#39;s best value sushi experience.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Iki-iki Tei (いきいき亭) in Omicho Market, Kanazawa, is a Kaisendon / Market Sushi spot with unlisted ratings. The kaisendon (seafood rice bowl) is the star — piled high with the market&#39;s freshest catches. Customizable — pick your own toppings or let the chef decide. The sweet shrimp and uni topping are seasonal must-adds.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -823,15 +946,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762311462">+81762311462</a></span><span>🌐 <a href="http://ohmicho-ichiba.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/iki-iki-tei.jpg" alt="Iki-iki Tei (いきいき亭) in Omicho Market, Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Iki-iki Tei (いきいき亭) in Omicho Market, Kanazawa, is a Kaisendon / Market Sushi spot with unlisted ratings. The kaisendon (seafood rice bowl) is the star — piled high with the market&#39;s freshest catches. Customizable — pick your own toppings or let the chef decide. The sweet shrimp and uni topping are seasonal must-adds.</div>
     
     <div class="reddit-quote">
         "Omicho Market is better than Toyosu or Tsukiji Outer Market IMO — the fish is fresher and cheaper."
         <span class="source">— r/sushi · posted Oct 2023</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If you want a kaisendon to remember, Iki-iki Tei is the move. Located inside Omicho Market, the fish literally can&#39;t get any fresher — it&#39;s walked over from the stalls next door. Come early (they open around 7:30 AM) to beat the lunch crowd. The generous portions and low prices make this Kanazawa&#39;s best value sushi experience.
     </div>
 </section>
 <section class="restaurant-section" id="maekawa" data-map-name="11. Maekawa (前川)" data-map-cta-url="https://maps.google.com/?cid=12730419201474452392&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maekawa (前川), Central Kanazawa, Ishikawa, JP" data-map-lat="36.6248587" data-map-lng="136.6989166">
@@ -845,6 +963,20 @@
         <span>📍 Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=12730419201474452392&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A quiet gem that flies under the tourist radar.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Sushi Counter in Central Kanazawa with a ¥8,000–¥15,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 225 Google reviews · Sushi Counter · Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the r/finedining crowd knows it well</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥8,000–¥15,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A quiet gem that flies under the tourist radar. Maekawa won&#39;t appear on most &quot;best of Kanazawa&quot; listicles, but the r/finedining crowd knows it well. The intimate counter setting and the chef&#39;s deep knowledge of local seafood make this a genuine hidden gem — the kind of place you feel lucky to have found.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Maekawa (前川) in Central Kanazawa, is a Sushi Counter with a 4.5★ rating (225 reviews). The seasonal omakase is recommended — Maekawa excels at showcasing Sea of Japan fish in a relaxed, intimate counter setting. The nodoguro preparation here is particularly well-regarded.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -857,15 +989,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762221114">+81762221114</a></span><span>🌐 <a href="https://www.sushiasanogawa.jp/kanazawa" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/maekawa.jpg" alt="Maekawa (前川) in Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Maekawa (前川) in Central Kanazawa, is a Sushi Counter with a 4.5★ rating (225 reviews). The seasonal omakase is recommended — Maekawa excels at showcasing Sea of Japan fish in a relaxed, intimate counter setting. The nodoguro preparation here is particularly well-regarded.</div>
     
     <div class="reddit-quote">
         "Maekawa is fantastic!"
         <span class="source">— r/finedining · posted Nov 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A quiet gem that flies under the tourist radar. Maekawa won&#39;t appear on most &quot;best of Kanazawa&quot; listicles, but the r/finedining crowd knows it well. The intimate counter setting and the chef&#39;s deep knowledge of local seafood make this a genuine hidden gem — the kind of place you feel lucky to have found.
     </div>
 </section>
 <section class="restaurant-section" id="sushi-jinjin" data-map-name="12. Sushi JinJin" data-map-cta-url="https://maps.google.com/?cid=11381617366166107203&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sushi JinJin, Central Kanazawa, Ishikawa, JP" data-map-lat="36.5586634" data-map-lng="136.6525619">
@@ -879,6 +1006,20 @@
         <span>📍 Central Kanazawa</span>
         <a href="https://maps.google.com/?cid=11381617366166107203&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not every sushi meal needs to be a ceremony.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Casual Sushi in Central Kanazawa with a ¥3,000–¥6,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 285 Google reviews · Casual Sushi · Central Kanazawa</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>quality sushi lunch between Kenrokuen and the Higashi Chaya District</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥3,000–¥6,000 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not every sushi meal needs to be a ceremony. JinJin is where you go for great fish in a casual setting — no reservations, no dress code, no ¥20,000 bill. Perfect for a quick but quality sushi lunch between Kenrokuen and the Higashi Chaya District.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Sushi JinJin in Central Kanazawa, is a Casual Sushi restaurant with a 4.4★ rating (285 reviews). Expect a mix of nigiri and rolls — the fresh local fish is the star regardless of format. A relaxed, no-fuss spot for solid sushi without the formality of an omakase counter.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -891,15 +1032,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81762137181">+81762137181</a></span><span>🌐 <a href="https://www.instagram.com/sushi.jinjin_kanazawa/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kanazawa-sushi/sushi-jinjin.jpg" alt="Sushi JinJin in Central Kanazawa" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Sushi JinJin in Central Kanazawa, is a Casual Sushi restaurant with a 4.4★ rating (285 reviews). Expect a mix of nigiri and rolls — the fresh local fish is the star regardless of format. A relaxed, no-fuss spot for solid sushi without the formality of an omakase counter.</div>
     
     <div class="reddit-quote">
         "On the casual places front: Go Go Curry, Shogun Burger, Le Mussee H Cafe for cakes, Tsubomi for Japanese dessert, Sushi JinJin."
         <span class="source">— r/JapanTravelTips · posted Feb 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not every sushi meal needs to be a ceremony. JinJin is where you go for great fish in a casual setting — no reservations, no dress code, no ¥20,000 bill. Perfect for a quick but quality sushi lunch between Kenrokuen and the Higashi Chaya District.
     </div>
 </section>
       </section>

@@ -353,7 +353,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -366,18 +375,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -455,6 +465,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Bandung&#39;s mie ayam scene ranges from Rp 12,000 to Rp 50,000, with Mie Ayam Bakso Cipaganti offering exceptional value. This noodle city boasts a rich culinary heritage, featuring diverse styles from traditional Chinese-Indonesian bakmi to beloved street cart vendors, all serving up unique takes on chicken noodles. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Bakmie 58 — Rp 25,000–50,000 — 4.5★ (541 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>15,000–30,000</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Mie Lezat Gang Luna — Rp 15,000–30,000</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Mie Lezat Gang Luna:</strong> The consensus #1 mie ayam in Bandung.</li>
+            <li><strong>Mie Naripan 127:</strong> A Bandung institution that appears on every local&#39;s list.</li>
+            <li><strong>Bakmi Linggarjati:</strong> Bandung&#39;s heritage bakmi — open since the 1960s and still packing in locals daily.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Bandung&#39;s mie ayam scene ranges from Rp 12,000 to Rp 50,000, with Mie Ayam Bakso Cipaganti offering exceptional value. This noodle city boasts a rich culinary heritage, featuring diverse styles from traditional Chinese-Indonesian bakmi to beloved street cart vendors, all serving up unique takes on chicken noodles. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</strong></p>
         <p>Bandung is a noodle city. The capital of West Java has a mie ayam culture that runs generations deep — from old-school Chinese-Indonesian bakmi houses that have served the same recipe since the 1960s, to beloved gerobak (cart) vendors who draw hour-long queues for a Rp 15,000 bowl. In Bandung, you&#39;ll encounter three main styles: mie ayam (chicken noodles with separate broth), yamien (noodles tossed in thick sweet soy sauce), and bakmi (thinner Chinese-style egg noodles).</p><p>We analyzed posts and comments across r/indonesia, r/Bandung, and r/kulineria — plus cross-referenced with local food blogs — to find the spots that actual Bandung residents and repeat visitors recommend. Every place on this list earned its spot through genuine enthusiasm, not sponsored posts.</p>
@@ -509,6 +537,20 @@
         <span>📍 Gang Luna, Sudirman</span>
         <a href="https://maps.google.com/?cid=18190599668065164596&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The consensus #1 mie ayam in Bandung.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Legendary in Gang Luna, Sudirman with a 15,000–30,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 1,676 Google reviews · Legendary · Gang Luna, Sudirman</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 15,000–30,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>15,000–30,000 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The consensus #1 mie ayam in Bandung. Gang Luna isn&#39;t just a restaurant — it&#39;s a pilgrimage. Multiple Redditors independently called it their &quot;first stop&quot; upon arriving in the city. The yamien is the star: glossy, perfectly seasoned noodles with a chew that sets the standard. Come early, come hungry, and don&#39;t skip the pangsit goreng. This is Bandung&#39;s noodle identity in a single bowl.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Lezat Gang Luna, a legendary spot in Gang Luna, Sudirman, offers yamien and bakso for Rp 15,000–30,000. The signature yamien asin (savory tossed noodles) features a distinctive chew and deeply savory sauce, enhanced by adding pangsit goreng for crunch. The bakso (meatballs) are also a solid choice, making this a popular breakfast destination in Bandung.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -521,8 +563,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6281931387580">+6281931387580</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-lezat-gang-luna.jpg" alt="Mie Lezat Gang Luna in Gang Luna, Sudirman" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Lezat Gang Luna, a legendary spot in Gang Luna, Sudirman, offers yamien and bakso for Rp 15,000–30,000. The signature yamien asin (savory tossed noodles) features a distinctive chew and deeply savory sauce, enhanced by adding pangsit goreng for crunch. The bakso (meatballs) are also a solid choice, making this a popular breakfast destination in Bandung.</div>
     
     <div class="reddit-quote">
         "Mie lezat gang luna sih udh wajib itu bagi pencinta yamien... Selalu andalan pertama x mendarat di bandung harus breakfast-nya mie lezat gang luna kalo ga kurang afdol."
@@ -531,9 +571,6 @@
     <div class="reddit-quote">
         "Mie Lezat Gang Luna (gg. luna/sudirman) — this is the one. Every noodle lover in Bandung knows this place."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The consensus #1 mie ayam in Bandung. Gang Luna isn&#39;t just a restaurant — it&#39;s a pilgrimage. Multiple Redditors independently called it their &quot;first stop&quot; upon arriving in the city. The yamien is the star: glossy, perfectly seasoned noodles with a chew that sets the standard. Come early, come hungry, and don&#39;t skip the pangsit goreng. This is Bandung&#39;s noodle identity in a single bowl.
     </div>
 </section>
 <section class="restaurant-section" id="mie-naripan-127" data-map-name="2. Mie Naripan 127" data-map-cta-url="https://maps.google.com/?cid=14453811894585472527&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Naripan 127, Jl. Naripan / Paledang, Bandung, ID" data-map-lat="-6.924995" data-map-lng="107.61410339999999">
@@ -547,6 +584,20 @@
         <span>📍 Jl. Naripan / Paledang</span>
         <a href="https://maps.google.com/?cid=14453811894585472527&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A Bandung institution that appears on every local&#39;s list.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Legendary in Jl. Naripan / Paledang with a 20,000–40,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 476 Google reviews · Legendary · Jl. Naripan / Paledang</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 20,000–40,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>20,000–40,000 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A Bandung institution that appears on every local&#39;s list. The central location (near Paledang station) makes it perfect for a first-day-in-Bandung lunch. Note: there&#39;s also a &quot;Mie Naripan&quot; non-halal version on Jl. Naripan — different restaurant, different menu. The halal Mie Naripan 127 is the one most people recommend.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Naripan 127, a legendary eatery located on Jl. Naripan / Paledang, serves mie ayam bakso and other noodle dishes for Rp 20,000–40,000, earning a 4.4★ rating. The mie ayam bakso is a must-try, featuring a rich and full-bodied broth and perfectly springy noodles. Don&#39;t miss the pangsit rebus (boiled wontons), and consider trying their yamien manis and yamien asin as well.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -559,8 +610,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+62224234084">+62224234084</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-naripan-127.jpg" alt="Mie Naripan 127 in Jl. Naripan / Paledang" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Naripan 127, a legendary eatery located on Jl. Naripan / Paledang, serves mie ayam bakso and other noodle dishes for Rp 20,000–40,000, earning a 4.4★ rating. The mie ayam bakso is a must-try, featuring a rich and full-bodied broth and perfectly springy noodles. Don&#39;t miss the pangsit rebus (boiled wontons), and consider trying their yamien manis and yamien asin as well.</div>
     
     <div class="reddit-quote">
         "Mie Naripan 127 (paledang) — one of the go-to bakmi spots in central Bandung."
@@ -569,9 +618,6 @@
     <div class="reddit-quote">
         "Mie Naripan is a Bandung staple. Multiple locations now but the original is still the best."
         <span class="source">— r/kulineria · r/kulineria discussion</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A Bandung institution that appears on every local&#39;s list. The central location (near Paledang station) makes it perfect for a first-day-in-Bandung lunch. Note: there&#39;s also a &quot;Mie Naripan&quot; non-halal version on Jl. Naripan — different restaurant, different menu. The halal Mie Naripan 127 is the one most people recommend.
     </div>
 </section>
 <section class="restaurant-section" id="bakmi-linggarjati" data-map-name="3. Bakmi Linggarjati" data-map-cta-url="https://maps.google.com/?cid=7941241095186018391&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Linggarjati, Jl. Ballonggede, Regol, Bandung, ID" data-map-lat="-6.9229153" data-map-lng="107.6076948">
@@ -585,6 +631,20 @@
         <span>📍 Jl. Ballonggede, Regol</span>
         <a href="https://maps.google.com/?cid=7941241095186018391&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Bandung&#39;s heritage bakmi — open since the 1960s and still packing in locals daily.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Legendary in Jl. Ballonggede, Regol with a 25,000–45,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 3,469 Google reviews · Legendary · Jl. Ballonggede, Regol</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 25,000–45,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>25,000–45,000 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Bandung&#39;s heritage bakmi — open since the 1960s and still packing in locals daily. The thin noodles and Chinese-Indonesian seasoning style set this apart from the yamien/mie ayam crowd. If you want to understand how deep Bandung&#39;s noodle culture runs, this is the history lesson you eat. Multiple web sources and Reddit users confirm it as a must-visit.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bakmi Linggarjati, a legendary noodle house on Jl. Ballonggede, Regol, offers bakmi ayam jamur and other dishes for Rp 25,000–45,000. The bakmi ayam jamur (chicken mushroom noodles) is the house specialty, featuring thin, springy noodles with a distinctive Chinese-Indonesian seasoning. The pangsit goreng is known for being famously crispy, and the bakmi special with extra toppings is worth trying for the full experience.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -597,15 +657,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6282370701950">+6282370701950</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/bakmi-linggarjati.jpg" alt="Bakmi Linggarjati in Jl. Ballonggede, Regol" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bakmi Linggarjati, a legendary noodle house on Jl. Ballonggede, Regol, offers bakmi ayam jamur and other dishes for Rp 25,000–45,000. The bakmi ayam jamur (chicken mushroom noodles) is the house specialty, featuring thin, springy noodles with a distinctive Chinese-Indonesian seasoning. The pangsit goreng is known for being famously crispy, and the bakmi special with extra toppings is worth trying for the full experience.</div>
     
     <div class="reddit-quote">
         "Bakmi Linggarjati (ballonggede) — a Bandung classic. Been around since the 60s."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Bandung&#39;s heritage bakmi — open since the 1960s and still packing in locals daily. The thin noodles and Chinese-Indonesian seasoning style set this apart from the yamien/mie ayam crowd. If you want to understand how deep Bandung&#39;s noodle culture runs, this is the history lesson you eat. Multiple web sources and Reddit users confirm it as a must-visit.
     </div>
 </section>
 <section class="restaurant-section" id="warung-lela" data-map-name="4. Warung Lela (WaLe)" data-map-cta-url="https://maps.google.com/?cid=16155145139625177626&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Warung Lela (WaLe), Jl. Kupa No. 6, Dago Atas, Bandung, ID" data-map-lat="-6.8658991" data-map-lng="107.6261283">
@@ -619,6 +674,20 @@
         <span>📍 Jl. Kupa No. 6, Dago Atas</span>
         <a href="https://maps.google.com/?cid=16155145139625177626&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The destination mie ayam experience.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Jl. Kupa No. 6, Dago Atas with a 25,000–50,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 6,271 Google reviews · Local Favorite · Jl. Kupa No. 6, Dago Atas</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 25,000–50,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>25,000–50,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The destination mie ayam experience. WaLe sits on a hilltop in Dago Atas with traditional Javanese architecture and views across Bandung&#39;s green hills. The noodles are genuinely great — big portions, solid bakso, and the mie ayam rica packs real heat. It&#39;s the kind of place you go when you want mie ayam to feel special, not just lunch. Perfect for visitors who want atmosphere with their noodles.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Warung Lela (WaLe), a local favorite located on Jl. Kupa No. 6, Dago Atas, serves mie ayam jamur bakso and other dishes for Rp 25,000–50,000. The mie ayam jamur bakso is the signature combo, featuring mushroom chicken noodles and meatballs. Heat lovers will enjoy the excellent mie ayam rica (spicy), and the large portions and hilltop view of Bandung make this more than just a noodle stop.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -631,15 +700,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+62222501396">+62222501396</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/warung-lela.jpg" alt="Warung Lela (WaLe) in Jl. Kupa No. 6, Dago Atas" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Warung Lela (WaLe), a local favorite located on Jl. Kupa No. 6, Dago Atas, serves mie ayam jamur bakso and other dishes for Rp 25,000–50,000. The mie ayam jamur bakso is the signature combo, featuring mushroom chicken noodles and meatballs. Heat lovers will enjoy the excellent mie ayam rica (spicy), and the large portions and hilltop view of Bandung make this more than just a noodle stop.</div>
     
     <div class="reddit-quote">
         "WaLe Warung Lela (kupa/cigadung) — mie ayam with a view. The setting alone is worth the trip."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The destination mie ayam experience. WaLe sits on a hilltop in Dago Atas with traditional Javanese architecture and views across Bandung&#39;s green hills. The noodles are genuinely great — big portions, solid bakso, and the mie ayam rica packs real heat. It&#39;s the kind of place you go when you want mie ayam to feel special, not just lunch. Perfect for visitors who want atmosphere with their noodles.
     </div>
 </section>
 <section class="restaurant-section" id="mie-baso-bintang-avon" data-map-name="5. Mie Baso Bintang Avon" data-map-cta-url="https://maps.google.com/?cid=16791997894706555025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Baso Bintang Avon, Jl. Ahmad Yani, Bandung, ID" data-map-lat="-6.9216323" data-map-lng="107.6187222">
@@ -653,6 +717,20 @@
         <span>📍 Jl. Ahmad Yani</span>
         <a href="https://maps.google.com/?cid=16791997894706555025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If you can&#39;t decide between mie ayam and bakso, Bintang Avon answers: get both.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Jl. Ahmad Yani with a 20,000–40,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 1,924 Google reviews · Local Favorite · Jl. Ahmad Yani</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 20,000–40,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>20,000–40,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If you can&#39;t decide between mie ayam and bakso, Bintang Avon answers: get both. The bakso (meatballs) steal the show here — dense, beefy, and enormous compared to most street-stall versions. The noodles serve as a reliable sidekick. Ahmad Yani is one of Bandung&#39;s main streets, so this is easy to hit on the way to or from most attractions.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Baso Bintang Avon, a local favorite on Jl. Ahmad Yani, offers mie ayam bakso komplit and other noodle dishes for Rp 20,000–40,000. The mie ayam bakso komplit features noodles with the full bakso spread (meatballs, urat/tendon bakso, and pangsit). The bakso here is the star, known for being large, meaty, and packed with flavor, and the house-made chili sauce adds a punchy kick.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -665,15 +743,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+62224204273">+62224204273</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-baso-bintang-avon.jpg" alt="Mie Baso Bintang Avon in Jl. Ahmad Yani" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Baso Bintang Avon, a local favorite on Jl. Ahmad Yani, offers mie ayam bakso komplit and other noodle dishes for Rp 20,000–40,000. The mie ayam bakso komplit features noodles with the full bakso spread (meatballs, urat/tendon bakso, and pangsit). The bakso here is the star, known for being large, meaty, and packed with flavor, and the house-made chili sauce adds a punchy kick.</div>
     
     <div class="reddit-quote">
         "Mie Baso Bintang Avon (Ahmad Yani) — the bakso is what makes this place legendary."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If you can&#39;t decide between mie ayam and bakso, Bintang Avon answers: get both. The bakso (meatballs) steal the show here — dense, beefy, and enormous compared to most street-stall versions. The noodles serve as a reliable sidekick. Ahmad Yani is one of Bandung&#39;s main streets, so this is easy to hit on the way to or from most attractions.
     </div>
 </section>
 <section class="restaurant-section" id="bakmi-rajim" data-map-name="6. Bakmi Rajim" data-map-cta-url="https://maps.google.com/?cid=114213048212898194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Rajim, Paskal / Jl. Kesatriaan, Bandung, ID" data-map-lat="-6.9121885" data-map-lng="107.5978822">
@@ -687,6 +760,20 @@
         <span>📍 Paskal / Jl. Kesatriaan</span>
         <a href="https://maps.google.com/?cid=114213048212898194&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The no-nonsense bakmi spot in the Paskal area — popular with office workers and students who know exactly what they want: fast, consistent, and satisfying noodles.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Paskal / Jl. Kesatriaan with a 20,000–40,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 1,340 Google reviews · Local Favorite · Paskal / Jl. Kesatriaan</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 20,000–40,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>20,000–40,000 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The no-nonsense bakmi spot in the Paskal area — popular with office workers and students who know exactly what they want: fast, consistent, and satisfying noodles. Nothing flashy, nothing Instagram-bait, just good bakmi done right every single time. If you&#39;re near Paskal HyperSquare and need a quick noodle fix, this is it.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bakmi Rajim, a local favorite located in Paskal / Jl. Kesatriaan, serves bakmi ayam pangsit and other noodle dishes for Rp 20,000–40,000. The bakmi ayam pangsit is a straightforward classic done exceptionally well, featuring thin and perfectly al dente noodles and ayam (chicken) topping seasoned with a savory-sweet balance. Pangsit goreng on the side is a must.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -699,15 +786,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6282240327632">+6282240327632</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/bakmi-rajim.jpg" alt="Bakmi Rajim in Paskal / Jl. Kesatriaan" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bakmi Rajim, a local favorite located in Paskal / Jl. Kesatriaan, serves bakmi ayam pangsit and other noodle dishes for Rp 20,000–40,000. The bakmi ayam pangsit is a straightforward classic done exceptionally well, featuring thin and perfectly al dente noodles and ayam (chicken) topping seasoned with a savory-sweet balance. Pangsit goreng on the side is a must.</div>
     
     <div class="reddit-quote">
         "Bakmi Rajim (paskal/kesatriaan) — no frills, just really good bakmi. One of Bandung&#39;s reliable favorites."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The no-nonsense bakmi spot in the Paskal area — popular with office workers and students who know exactly what they want: fast, consistent, and satisfying noodles. Nothing flashy, nothing Instagram-bait, just good bakmi done right every single time. If you&#39;re near Paskal HyperSquare and need a quick noodle fix, this is it.
     </div>
 </section>
 <section class="restaurant-section" id="bakmie-58" data-map-name="7. Bakmie 58" data-map-cta-url="https://maps.google.com/?cid=4332743055960675390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmie 58, Multiple locations (Geger Kalong, Teuku Umar, etc.), Bandung, ID" data-map-lat="-6.8919165" data-map-lng="107.61665839999999">
@@ -721,6 +803,20 @@
         <span>📍 Multiple locations (Geger Kalong, Teuku Umar, etc.)</span>
         <a href="https://maps.google.com/?cid=4332743055960675390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Bandung&#39;s most accessible bakmi chain — multiple branches mean you&#39;re never far from one.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Popular Chain in Multiple locations (Geger Kalong, Teuku Umar, etc.) with a 25,000–50,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 541 Google reviews · Popular Chain · Multiple locations (Geger Kalong, Teuku Umar, etc.)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>reliably good and air-conditioned — a welcome refuge on a hot Bandung afternoon</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>25,000–50,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Bandung&#39;s most accessible bakmi chain — multiple branches mean you&#39;re never far from one. The jamur asin (salted mushroom) flavor is their calling card, and at Rp 44k for a paket hemat (value set), it&#39;s solid value. Not the most soulful option on this list, but reliably good and air-conditioned — a welcome refuge on a hot Bandung afternoon. The Geger Kalong original is considered the best branch.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bakmie 58, a popular chain with multiple locations (Geger Kalong, Teuku Umar, etc.), offers mie ayam jamur asin and other dishes for Rp 25,000–50,000, earning a 4.5★ rating. Their most popular dish is the mie ayam jamur asin (salted mushroom chicken noodles). The kuotie (potstickers) are a solid side, and the bakso goreng at just Rp 6,000 is a great value add. Reddit users suggest skipping the roti bakar, as it&#39;s considered average.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -733,15 +829,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6282129679572">+6282129679572</a></span><span>🌐 <a href="https://www.instagram.com/bakmieayam58/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/bakmie-58.jpg" alt="Bakmie 58 in Multiple locations (Geger Kalong, Teuku Umar, etc.)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bakmie 58, a popular chain with multiple locations (Geger Kalong, Teuku Umar, etc.), offers mie ayam jamur asin and other dishes for Rp 25,000–50,000, earning a 4.5★ rating. Their most popular dish is the mie ayam jamur asin (salted mushroom chicken noodles). The kuotie (potstickers) are a solid side, and the bakso goreng at just Rp 6,000 is a great value add. Reddit users suggest skipping the roti bakar, as it&#39;s considered average.</div>
     
     <div class="reddit-quote">
         "Bakmie ayam 58 cab. Teuku Umar di bandung. Cabang utamanya ada di geger kalong deket braga. Paket hemat A (44k) — Mie ayam jamur asin. Bakso goreng (6k), lumayan dari ukuran dan rasa untuk harga segitu."
         <span class="source">— r/kulineria · posted October 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Bandung&#39;s most accessible bakmi chain — multiple branches mean you&#39;re never far from one. The jamur asin (salted mushroom) flavor is their calling card, and at Rp 44k for a paket hemat (value set), it&#39;s solid value. Not the most soulful option on this list, but reliably good and air-conditioned — a welcome refuge on a hot Bandung afternoon. The Geger Kalong original is considered the best branch.
     </div>
 </section>
 <section class="restaurant-section" id="mie-123" data-map-name="8. Mie 123" data-map-cta-url="https://maps.google.com/?cid=8284104181579646891&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie 123, Emong, Central Bandung, Bandung, ID" data-map-lat="-6.9252125" data-map-lng="107.6175715">
@@ -755,6 +846,20 @@
         <span>📍 Emong, Central Bandung</span>
         <a href="https://maps.google.com/?cid=8284104181579646891&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The quintessential neighborhood mie ayam — the kind of place where regulars don&#39;t even need to order because the cook already knows what they want.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Emong, Central Bandung with a 15,000–30,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 1,678 Google reviews · Local Favorite · Emong, Central Bandung</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 15,000–30,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>15,000–30,000 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The quintessential neighborhood mie ayam — the kind of place where regulars don&#39;t even need to order because the cook already knows what they want. Mie 123 won&#39;t appear on any tourist map, and that&#39;s exactly the point. This is how most Bandung residents actually eat mie ayam: unpretentious, fresh, and cheap. A genuine locals-only find.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie 123, a local favorite located in Emong, Central Bandung, serves mie ayam bakso and other noodle dishes for Rp 15,000–30,000. The mie ayam bakso is the classic combo in its purest neighborhood form, offering a simple, satisfying, and cheap meal. The noodles are made fresh and the chicken topping has that distinctive home-style Bandung seasoning.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -767,15 +872,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+62227300921">+62227300921</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-123.jpg" alt="Mie 123 in Emong, Central Bandung" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie 123, a local favorite located in Emong, Central Bandung, serves mie ayam bakso and other noodle dishes for Rp 15,000–30,000. The mie ayam bakso is the classic combo in its purest neighborhood form, offering a simple, satisfying, and cheap meal. The noodles are made fresh and the chicken topping has that distinctive home-style Bandung seasoning.</div>
     
     <div class="reddit-quote">
         "Mie 123 (emong) — a neighborhood gem. Not fancy but the noodles speak for themselves."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The quintessential neighborhood mie ayam — the kind of place where regulars don&#39;t even need to order because the cook already knows what they want. Mie 123 won&#39;t appear on any tourist map, and that&#39;s exactly the point. This is how most Bandung residents actually eat mie ayam: unpretentious, fresh, and cheap. A genuine locals-only find.
     </div>
 </section>
 <section class="restaurant-section" id="mie-ayam-cipaganti" data-map-name="9. Mie Ayam Bakso Cipaganti" data-map-cta-url="https://maps.google.com/?cid=17261856780132288334&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Bakso Cipaganti, Jl. Cipaganti No. 85, Pasteur, Bandung, ID" data-map-lat="-6.8942931" data-map-lng="107.6024728">
@@ -789,6 +889,20 @@
         <span>📍 Jl. Cipaganti No. 85, Pasteur</span>
         <a href="https://maps.google.com/?cid=17261856780132288334&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The kaki lima (street cart) legend of Bandung — proof that the best food in Indonesia often comes from a pushcart with plastic stools.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Street Legend in Jl. Cipaganti No. 85, Pasteur with a 12,000–25,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.5★ from 2,323 Google reviews · Street Legend · Jl. Cipaganti No. 85, Pasteur</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 12,000–25,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>12,000–25,000 · 4.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The kaki lima (street cart) legend of Bandung — proof that the best food in Indonesia often comes from a pushcart with plastic stools. The queue starts early morning and the noodles sell out fast. At under Rp 20k a bowl, this is arguably the best value on the entire list. Come before 9 AM for the shortest wait. The experience of eating incredible noodles on a crowded sidewalk is peak Bandung.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Ayam Bakso Cipaganti, a street legend located on Jl. Cipaganti No. 85, Pasteur, offers mie ayam bakso pangsit goreng and other noodle dishes for Rp 12,000–25,000. The mie ayam bakso pangsit goreng provides the full gerobak experience, featuring springy egg noodles with sweet-savory chicken, thick bakso, and crispy pangsit goreng on top. At under Rp 20k, this might be the best value noodle bowl in Bandung.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -801,15 +915,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6289504676886">+6289504676886</a></span><span>🌐 <a href="https://www.instagram.com/invites/contact/?i=gquhydnjmlyk&amp;utm_content=kgcstdp" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-ayam-cipaganti.jpg" alt="Mie Ayam Bakso Cipaganti in Jl. Cipaganti No. 85, Pasteur" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Ayam Bakso Cipaganti, a street legend located on Jl. Cipaganti No. 85, Pasteur, offers mie ayam bakso pangsit goreng and other noodle dishes for Rp 12,000–25,000. The mie ayam bakso pangsit goreng provides the full gerobak experience, featuring springy egg noodles with sweet-savory chicken, thick bakso, and crispy pangsit goreng on top. At under Rp 20k, this might be the best value noodle bowl in Bandung.</div>
     
     <div class="reddit-quote">
         "Mie Ayam Bakso Cipaganti — bisa dibilang mie ayam gerobakan paling terkenal enak di Kota Kembang. Meskipun beroperasi kaki lima, tapi antriannya sudah sangat panjang bahkan sejak pagi hari."
         <span class="source">— nibble.id · Top mie ayam in Bandung</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The kaki lima (street cart) legend of Bandung — proof that the best food in Indonesia often comes from a pushcart with plastic stools. The queue starts early morning and the noodles sell out fast. At under Rp 20k a bowl, this is arguably the best value on the entire list. Come before 9 AM for the shortest wait. The experience of eating incredible noodles on a crowded sidewalk is peak Bandung.
     </div>
 </section>
 <section class="restaurant-section" id="mie-ayam-jamaras" data-map-name="10. Mie Ayam Jamaras" data-map-cta-url="https://maps.google.com/?cid=360718376237580958&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Jamaras, Jl. A.H. Nasution No. 53, Jatihandap, Bandung, ID" data-map-lat="-6.9035988999999995" data-map-lng="107.66287009999999">
@@ -823,6 +932,20 @@
         <span>📍 Jl. A.H. Nasution No. 53, Jatihandap</span>
         <a href="https://maps.google.com/?cid=360718376237580958&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Bandung&#39;s east side champion, slinging noodles since 1990.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Legendary in Jl. A.H. Nasution No. 53, Jatihandap with a 15,000–30,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 843 Google reviews · Legendary · Jl. A.H. Nasution No. 53, Jatihandap</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>dedicated noodle hunters will find it worth the Grab ride</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>15,000–30,000 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Bandung&#39;s east side champion, slinging noodles since 1990. What sets Jamaras apart is the chicken: thick-cut slices rather than the usual minced/shredded topping, plus the surprise addition of bengkuang (jicama) — a textural twist you won&#39;t find elsewhere. It&#39;s a bit of a trek from central Bandung, but dedicated noodle hunters will find it worth the Grab ride. The definition of a true hidden gem.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Ayam Jamaras, a legendary spot on Jl. A.H. Nasution No. 53, Jatihandap, serves mie ayam special and other noodle dishes for Rp 15,000–30,000, earning a 4.3★ rating. The mie ayam special features thick-cut chicken slices (not minced) with that signature sweet-salty-savory seasoning, plus bengkuang (jicama) slices for a unique crunch. The noodles are firm and the portions are generous.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -835,15 +958,10 @@
     
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-ayam-jamaras.jpg" alt="Mie Ayam Jamaras in Jl. A.H. Nasution No. 53, Jatihandap" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Ayam Jamaras, a legendary spot on Jl. A.H. Nasution No. 53, Jatihandap, serves mie ayam special and other noodle dishes for Rp 15,000–30,000, earning a 4.3★ rating. The mie ayam special features thick-cut chicken slices (not minced) with that signature sweet-salty-savory seasoning, plus bengkuang (jicama) slices for a unique crunch. The noodles are firm and the portions are generous.</div>
     
     <div class="reddit-quote">
         "Mie Ayam Jamaras — kedai makan ini sudah cukup lama ada dan bisa dibilang legendaris karena sudah ada sejak tahun 1990. Ciri khasnya adalah topping daging ayamnya yang potongannya cukup tebal dan berbumbu manis, asin, gurih."
         <span class="source">— nibble.id · Top mie ayam in Bandung</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Bandung&#39;s east side champion, slinging noodles since 1990. What sets Jamaras apart is the chicken: thick-cut slices rather than the usual minced/shredded topping, plus the surprise addition of bengkuang (jicama) — a textural twist you won&#39;t find elsewhere. It&#39;s a bit of a trek from central Bandung, but dedicated noodle hunters will find it worth the Grab ride. The definition of a true hidden gem.
     </div>
 </section>
 <section class="restaurant-section" id="bakmi-karet" data-map-name="11. Bakmi Karet" data-map-cta-url="https://maps.google.com/?cid=10294308122659657762&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bakmi Karet, Cibadak / Natuna area, Bandung, ID" data-map-lat="-6.916398099999999" data-map-lng="107.6149104">
@@ -857,6 +975,20 @@
         <span>📍 Cibadak / Natuna area</span>
         <a href="https://maps.google.com/?cid=10294308122659657762&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Named &quot;karet&quot; (rubber) for the extra-springy texture of their noodles — this is the spot for texture nerds who obsess over noodle chew.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>texture nerds who obsess over noodle chew</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.6★ from 1,368 Google reviews · Local Favorite · Cibadak / Natuna area</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 18,000–35,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>18,000–35,000 · 4.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Named &quot;karet&quot; (rubber) for the extra-springy texture of their noodles — this is the spot for texture nerds who obsess over noodle chew. Located in the Cibadak area (Bandung&#39;s Chinatown), it&#39;s surrounded by other legendary food spots. The bouncy noodles are love-it-or-leave-it — most people love it. Combine with a Cibadak food crawl for maximum noodle research.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Bakmi Karet, a local favorite in the Cibadak / Natuna area, offers bakmi ayam and other noodle dishes for Rp 18,000–35,000. The namesake &quot;karet&quot; (rubber) noodles are famous for their extra-chewy, springy bounce, offering a texture distinctly different from other spots on this list. Pair with pangsit goreng and a bakso on the side.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -869,15 +1001,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+6285100214222">+6285100214222</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/bakmi-karet.jpg" alt="Bakmi Karet in Cibadak / Natuna area" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Bakmi Karet, a local favorite in the Cibadak / Natuna area, offers bakmi ayam and other noodle dishes for Rp 18,000–35,000. The namesake &quot;karet&quot; (rubber) noodles are famous for their extra-chewy, springy bounce, offering a texture distinctly different from other spots on this list. Pair with pangsit goreng and a bakso on the side.</div>
     
     <div class="reddit-quote">
         "Bakmi Karet (cibadak, natuna) — the name says it all. The noodles have that signature chewy bounce."
         <span class="source">— r/indonesia · posted November 2022</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Named &quot;karet&quot; (rubber) for the extra-springy texture of their noodles — this is the spot for texture nerds who obsess over noodle chew. Located in the Cibadak area (Bandung&#39;s Chinatown), it&#39;s surrounded by other legendary food spots. The bouncy noodles are love-it-or-leave-it — most people love it. Combine with a Cibadak food crawl for maximum noodle research.
     </div>
 </section>
 <section class="restaurant-section" id="mie-ayam-mahameru" data-map-name="12. Mie Ayam Mahameru" data-map-cta-url="https://maps.google.com/?cid=17138585162315015208&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mie Ayam Mahameru, Jl. K.H. Ahmad Dahlan No. 34, Malabar, Bandung, ID" data-map-lat="-6.960983" data-map-lng="107.664847">
@@ -891,19 +1018,28 @@
         <span>📍 Jl. K.H. Ahmad Dahlan No. 34, Malabar</span>
         <a href="https://maps.google.com/?cid=17138585162315015208&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The &quot;more is more&quot; approach to mie ayam.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Local Favorite in Jl. K.H. Ahmad Dahlan No. 34, Malabar with a 20,000–45,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 1,521 Google reviews · Local Favorite · Jl. K.H. Ahmad Dahlan No. 34, Malabar</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: 20,000–45,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>20,000–45,000 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The &quot;more is more&quot; approach to mie ayam. Mahameru doesn&#39;t do subtle — the portions are enormous, the chicken seasoning is boldly spiced, and the jumbo size could feed two. The restaurant space is large and Instagram-friendly, making it the most modern entry on this list. Great for groups, great for big appetites, and the bakso iga (rib meatball) variant is uniquely worth trying. A newer favorite that&#39;s earned its place.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mie Ayam Mahameru, a local favorite located on Jl. K.H. Ahmad Dahlan No. 34, Malabar, serves mie ayam jumbo and other noodle dishes for Rp 20,000–45,000. The mie ayam jumbo features enormous portions of noodles with heaps of savory chicken topping, marinated in a deeply spiced, aromatic seasoning. Adventurous eaters can also try the mie bakso iga (rib bakso noodles) or mie bakso tetelan.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>📞 <a href="tel:+6281320561272">+6281320561272</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/bandung-mie-ayam/mie-ayam-mahameru.jpg" alt="Mie Ayam Mahameru in Jl. K.H. Ahmad Dahlan No. 34, Malabar" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mie Ayam Mahameru, a local favorite located on Jl. K.H. Ahmad Dahlan No. 34, Malabar, serves mie ayam jumbo and other noodle dishes for Rp 20,000–45,000. The mie ayam jumbo features enormous portions of noodles with heaps of savory chicken topping, marinated in a deeply spiced, aromatic seasoning. Adventurous eaters can also try the mie bakso iga (rib bakso noodles) or mie bakso tetelan.</div>
     
     <div class="reddit-quote">
         "Mie Ayam Mahameru — soal topping daging ayamnya benar-benar dibumbui sampai super gurih berempah dan mereka gak pelit karena dikasihnya banyak banget. Kalau mau lebih kenyang, pesan mie ayam ukuran jumbo."
         <span class="source">— nibble.id · Top mie ayam in Bandung</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The &quot;more is more&quot; approach to mie ayam. Mahameru doesn&#39;t do subtle — the portions are enormous, the chicken seasoning is boldly spiced, and the jumbo size could feed two. The restaurant space is large and Instagram-friendly, making it the most modern entry on this list. Great for groups, great for big appetites, and the bakso iga (rib meatball) variant is uniquely worth trying. A newer favorite that&#39;s earned its place.
     </div>
 </section>
       </section>

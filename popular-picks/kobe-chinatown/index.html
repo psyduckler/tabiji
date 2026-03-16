@@ -264,7 +264,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -277,18 +286,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -366,6 +376,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>The best food in Kobe Chinatown (Nankinmachi) — curated from Reddit reviews. Pork buns, xiaolongbao, gyoza, Kobe beef &amp; more. Interactive map included.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Tenshido &amp; Character Bun Stalls (天仁堂) — 4.4★ (62 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>¥500–¥1,000 (5-pack)</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Roushouki (老祥記)</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Roushouki (老祥記):</strong> The undisputed icon of Nankinmachi, operating since the Taisho era.</li>
+            <li><strong>YUNYUN:</strong> Started as a rice noodle maker, now famous for these pan-fried beauties.</li>
+            <li><strong>Gyoza Daigaku (餃子大学):</strong> Tiny shop, big reputation.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>The best food in Kobe Chinatown (Nankinmachi) — curated from Reddit reviews. Pork buns, xiaolongbao, gyoza, Kobe beef &amp; more. Interactive map included.</strong></p>
         <p>The best food in Kobe Chinatown (Nankinmachi) — curated from Reddit reviews. Pork buns, xiaolongbao, gyoza, Kobe beef &amp; more. Interactive map included.</p>
@@ -420,6 +448,20 @@
         <span>📍 1-3-7 Motomachi-dori, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=5464853522272701238&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The undisputed icon of Nankinmachi, operating since the Taisho era.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Pork Buns in 1-3-7 Motomachi-dori, Chuo-ku with a ¥500–¥1,000 (5-pack) spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 2,529 Google reviews · Pork Buns · 1-3-7 Motomachi-dori, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥500–¥1,000 (5-pack)</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥500–¥1,000 (5-pack) · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The undisputed icon of Nankinmachi, operating since the Taisho era. Expect a 20-30 minute wait at peak times — they sometimes sell out by evening. Go early. The five-pack minimum sounds like a lot until you start eating them.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Roushouki (老祥記), located at 1-3-7 Motomachi-dori, Chuo-ku, is famous for its butaman (pork buns), sold in packs of five. These tiny buns are packed with a rich, juicy pork filling, and the dough has a subtle sweetness that perfectly complements the savory meat.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -432,15 +474,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783317726">+81783317726</a></span><span>🌐 <a href="http://roushouki.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/roushouki.jpg" alt="Roushouki (老祥記) in 1-3-7 Motomachi-dori, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Roushouki (老祥記), located at 1-3-7 Motomachi-dori, Chuo-ku, is famous for its butaman (pork buns), sold in packs of five. These tiny buns are packed with a rich, juicy pork filling, and the dough has a subtle sweetness that perfectly complements the savory meat.</div>
     
     <div class="reddit-quote">
         "Nankin-machi (Chinatown) is really lively and bustling — the pork buns there are incredible. Roushouki always has a line but it&#39;s worth the wait."
         <span class="source">— r/JapanTravelTips · posted Jan 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The undisputed icon of Nankinmachi, operating since the Taisho era. Expect a 20-30 minute wait at peak times — they sometimes sell out by evening. Go early. The five-pack minimum sounds like a lot until you start eating them.
     </div>
 </section>
 <section class="restaurant-section" id="yunyun" data-map-name="2. YUNYUN" data-map-cta-url="https://maps.google.com/?cid=15781677996299743163&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="YUNYUN, 1-3-17 Motomachi-dori, Chuo-ku, Hyogo, JP" data-map-lat="34.68801" data-map-lng="135.18866069999999">
@@ -454,6 +491,20 @@
         <span>📍 1-3-17 Motomachi-dori, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=15781677996299743163&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Started as a rice noodle maker, now famous for these pan-fried beauties.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Xiaolongbao in 1-3-17 Motomachi-dori, Chuo-ku with a ¥450–¥900 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 921 Google reviews · Xiaolongbao · 1-3-17 Motomachi-dori, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>moves fast — you can watch them fold dumplings through the glass while you wait</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥450–¥900 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Started as a rice noodle maker, now famous for these pan-fried beauties. The line looks intimidating but moves fast — you can watch them fold dumplings through the glass while you wait. Eat-in space on the second floor.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>YUNYUN, located at 1-3-17 Motomachi-dori, Chuo-ku, serves pan-fried xiaolongbao at ¥450 for 3 or ¥900 for 6. These xiaolongbao are crispy on the bottom and juicy inside, so poke a hole first and sip the hot soup before biting in to avoid burning yourself.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -466,15 +517,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783922200">+81783922200</a></span><span>🌐 <a href="https://www.k-yunyun.jp/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/yunyun.jpg" alt="YUNYUN in 1-3-17 Motomachi-dori, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> YUNYUN, located at 1-3-17 Motomachi-dori, Chuo-ku, serves pan-fried xiaolongbao at ¥450 for 3 or ¥900 for 6. These xiaolongbao are crispy on the bottom and juicy inside, so poke a hole first and sip the hot soup before biting in to avoid burning yourself.</div>
     
     <div class="reddit-quote">
         "YUNYUN&#39;s xiaolongbao are the thing I dream about after visiting Kobe. Crispy bottom, soup inside — totally different from Shanghai-style ones."
         <span class="source">— r/JapanTravel</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Started as a rice noodle maker, now famous for these pan-fried beauties. The line looks intimidating but moves fast — you can watch them fold dumplings through the glass while you wait. Eat-in space on the second floor.
     </div>
 </section>
 <section class="restaurant-section" id="gyoza-daigaku" data-map-name="3. Gyoza Daigaku (餃子大学)" data-map-cta-url="https://maps.google.com/?cid=10478057130913044016&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gyoza Daigaku (餃子大学), Nankinmachi, Chuo-ku, Hyogo, JP" data-map-lat="34.6880544" data-map-lng="135.1872989">
@@ -488,6 +534,20 @@
         <span>📍 Nankinmachi, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=10478057130913044016&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Tiny shop, big reputation.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Gyoza in Nankinmachi, Chuo-ku with a ¥600–¥1,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 795 Google reviews · Gyoza · Nankinmachi, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥600–¥1,000</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥600–¥1,000 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Tiny shop, big reputation. Arrive before the 5pm opening to beat the line. The minimum 14-piece order is generous — the gyoza are perfectly balanced between crispy and juicy. Counter seats let you watch the kitchen action.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Gyoza Daigaku (餃子大学), located in Nankinmachi, Chuo-ku, specializes in fried gyoza, with a minimum order of 14 pieces (a 2-person serving). You can choose with or without garlic (ninniku) and pair it with a tall draft beer, as that&#39;s the entire menu and all you need.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -500,15 +560,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783322233">+81783322233</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/gyoza-daigaku.jpg" alt="Gyoza Daigaku (餃子大学) in Nankinmachi, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Gyoza Daigaku (餃子大学), located in Nankinmachi, Chuo-ku, specializes in fried gyoza, with a minimum order of 14 pieces (a 2-person serving). You can choose with or without garlic (ninniku) and pair it with a tall draft beer, as that&#39;s the entire menu and all you need.</div>
     
     <div class="reddit-quote">
         "Gyoza Daigaku literally means &#39;Gyoza University&#39; — they&#39;re that confident. The crispy-on-one-side, juicy-on-the-other gyoza are an institution in Kobe Chinatown."
         <span class="source">— 5amramen.com food blog</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Tiny shop, big reputation. Arrive before the 5pm opening to beat the line. The minimum 14-piece order is generous — the gyoza are perfectly balanced between crispy and juicy. Counter seats let you watch the kitchen action.
     </div>
 </section>
 <section class="restaurant-section" id="shikohroh" data-map-name="4. Shikohroh (四興樓)" data-map-cta-url="https://maps.google.com/?cid=9122452087061658366&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shikohroh (四興樓), Near Motomachi Station, Hyogo, JP" data-map-lat="34.688926599999995" data-map-lng="135.18678599999998">
@@ -522,6 +577,20 @@
         <span>📍 Near Motomachi Station</span>
         <a href="https://maps.google.com/?cid=9122452087061658366&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The insider&#39;s alternative to Roushouki.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Chinese in Near Motomachi Station with a ¥400–¥1,200 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 618 Google reviews · Chinese · Near Motomachi Station</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>right across from Motomachi Station</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥1,200 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The insider&#39;s alternative to Roushouki. Slightly tucked away but right across from Motomachi Station. The nikuman are plump and generous with filling. If you want a sit-down meal beyond street snacks, this is your spot.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Shikohroh (四興樓), located near Motomachi Station, is a Chinese restaurant where you should order the nikuman (steamed pork buns), which are just as good as Roushouki&#39;s but without the long line. Also try their old-school Chinese ramen and chukadon (stir-fried rice bowl).</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -534,15 +603,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81120488456">+81120488456</a></span><span>🌐 <a href="http://shikohroh.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/shikohroh.jpg" alt="Shikohroh (四興樓) in Near Motomachi Station" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Shikohroh (四興樓), located near Motomachi Station, is a Chinese restaurant where you should order the nikuman (steamed pork buns), which are just as good as Roushouki&#39;s but without the long line. Also try their old-school Chinese ramen and chukadon (stir-fried rice bowl).</div>
     
     <div class="reddit-quote">
         "Pro tip — Shikohroh has just as good nikuman without the crazy wait time. Plus they&#39;re a full Chinese restaurant so you can sit down and eat properly."
         <span class="source">— 5amramen.com food blog</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The insider&#39;s alternative to Roushouki. Slightly tucked away but right across from Motomachi Station. The nikuman are plump and generous with filling. If you want a sit-down meal beyond street snacks, this is your spot.
     </div>
 </section>
 <section class="restaurant-section" id="kissho-ki" data-map-name="5. Kissho-ki (吉祥吉)" data-map-cta-url="https://maps.google.com/?cid=17527710426467413288&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kissho-ki (吉祥吉), 2-1-14 Motomachi-dori, Chuo-ku, Hyogo, JP" data-map-lat="34.687834099999996" data-map-lng="135.1894372">
@@ -556,6 +620,20 @@
         <span>📍 2-1-14 Motomachi-dori, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=17527710426467413288&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Facing the central plaza, Kissho-ki is one of the more reputable Kobe beef stalls in Nankinmachi.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kobe Beef in 2-1-14 Motomachi-dori, Chuo-ku with a ¥300–¥1,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.8★ from 235 Google reviews · Kobe Beef · 2-1-14 Motomachi-dori, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the sushi at ¥300 per piece is a fun, affordable taste</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥300–¥1,000 · 3.8★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Facing the central plaza, Kissho-ki is one of the more reputable Kobe beef stalls in Nankinmachi. Keep expectations realistic — street-stall Kobe beef won&#39;t rival a proper teppanyaki restaurant, but the sushi at ¥300 per piece is a fun, affordable taste. Don&#39;t expect a melt-in-your-mouth A5 experience here.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kissho-ki (吉祥吉), located at 2-1-14 Motomachi-dori, Chuo-ku, offers Kobe beef lean skewers for ¥1,000 each and Kobe beef sushi for ¥300 a piece. The skewers let you choose your preferred cut, while the sushi offers the best value for a quick taste.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -568,15 +646,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783922944">+81783922944</a></span><span>🌐 <a href="https://www.koubegyuu.com/hakoiri-kobegyu/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/kissho-ki.jpg" alt="Kissho-ki (吉祥吉) in 2-1-14 Motomachi-dori, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kissho-ki (吉祥吉), located at 2-1-14 Motomachi-dori, Chuo-ku, offers Kobe beef lean skewers for ¥1,000 each and Kobe beef sushi for ¥300 a piece. The skewers let you choose your preferred cut, while the sushi offers the best value for a quick taste.</div>
     
     <div class="reddit-quote">
         "If you want proper Kobe beef, go to an actual restaurant and pay ¥8,000-¥15,000. The street stalls claiming A5 for $10 are not the real deal."
         <span class="source">— r/JapanTravelTips · posted Nov 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Facing the central plaza, Kissho-ki is one of the more reputable Kobe beef stalls in Nankinmachi. Keep expectations realistic — street-stall Kobe beef won&#39;t rival a proper teppanyaki restaurant, but the sushi at ¥300 per piece is a fun, affordable taste. Don&#39;t expect a melt-in-your-mouth A5 experience here.
     </div>
 </section>
 <section class="restaurant-section" id="character-buns" data-map-name="6. Tenshido &amp; Character Bun Stalls (天仁堂)" data-map-cta-url="https://maps.google.com/?cid=2565741856578337998&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tenshido &amp; Character Bun Stalls (天仁堂), Along Nankinmachi main street, Hyogo, JP" data-map-lat="34.688192199999996" data-map-lng="135.18871289999998">
@@ -590,6 +663,20 @@
         <span>📍 Along Nankinmachi main street</span>
         <a href="https://maps.google.com/?cid=2565741856578337998&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Multiple shops sell these adorable buns, so walk the full street and compare before buying.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Character Buns in Along Nankinmachi main street with a ¥200–¥500 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.4★ from 62 Google reviews · Character Buns · Along Nankinmachi main street</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥200–¥500</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥200–¥500 · 4.4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Multiple shops sell these adorable buns, so walk the full street and compare before buying. They&#39;re Instagrammable, genuinely tasty, and cheap. The Piyo-man with custard cream is our favorite. Perfect palate-cleanser between savory snacks.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Tenshido &amp; Character Bun Stalls (天仁堂), located along Nankinmachi main street, offers character buns like the Piyo-man (chick bun, custard cream filling), Panda-man (black sesame paste filling), and Buta-man (savory pork). Also look for the Shishi-man (lion dance, purple sweet potato) and Tora-man (tiger, cream filling).</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -602,15 +689,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783316796">+81783316796</a></span><span>🌐 <a href="http://www.tenren.co.jp/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/tenshido.jpg" alt="Tenshido &amp; Character Bun Stalls (天仁堂) in Along Nankinmachi main street" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Tenshido &amp; Character Bun Stalls (天仁堂), located along Nankinmachi main street, offers character buns like the Piyo-man (chick bun, custard cream filling), Panda-man (black sesame paste filling), and Buta-man (savory pork). Also look for the Shishi-man (lion dance, purple sweet potato) and Tora-man (tiger, cream filling).</div>
     
     <div class="reddit-quote">
         "The cute panda buns are everywhere in Nankinmachi — they&#39;re filled with black sesame paste and make for great photos."
         <span class="source">— travel blog roundup</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Multiple shops sell these adorable buns, so walk the full street and compare before buying. They&#39;re Instagrammable, genuinely tasty, and cheap. The Piyo-man with custard cream is our favorite. Perfect palate-cleanser between savory snacks.
     </div>
 </section>
 <section class="restaurant-section" id="mikiya" data-map-name="7. Mikiya (三木屋)" data-map-cta-url="https://maps.google.com/?cid=17299996653690989514&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mikiya (三木屋), 1-3-16 Sakaemachi-dori, Chuo-ku, Hyogo, JP" data-map-lat="35.625203299999995" data-map-lng="134.8062837">
@@ -624,6 +706,20 @@
         <span>📍 1-3-16 Sakaemachi-dori, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=17299996653690989514&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Founded in 1947 as a fruit store, Mikiya directly sources their own produce — so the quality is a cut above the other candied fruit stalls.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Candied Fruits in 1-3-16 Sakaemachi-dori, Chuo-ku with a ¥400–¥600 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.5★ from 60 Google reviews · Candied Fruits · 1-3-16 Sakaemachi-dori, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥400–¥600</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥600 · 3.5★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Founded in 1947 as a fruit store, Mikiya directly sources their own produce — so the quality is a cut above the other candied fruit stalls. The contrast between the crispy sugar shell and the fresh strawberry inside is addictive.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Mikiya (三木屋), located at 1-3-16 Sakaemachi-dori, Chuo-ku, is known for its strawberry candy, priced at ¥500 per bottle. This crispy candy coating over juicy, sweet-tart strawberries is the perfect palate cleanser after all the savory, oily street food.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -636,12 +732,7 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81783314319">+81783314319</a></span><span>🌐 <a href="https://www.instagram.com/kobe_mikiya/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/mikiya.jpg" alt="Mikiya (三木屋) in 1-3-16 Sakaemachi-dori, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Mikiya (三木屋), located at 1-3-16 Sakaemachi-dori, Chuo-ku, is known for its strawberry candy, priced at ¥500 per bottle. This crispy candy coating over juicy, sweet-tart strawberries is the perfect palate cleanser after all the savory, oily street food.</div>
     
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Founded in 1947 as a fruit store, Mikiya directly sources their own produce — so the quality is a cut above the other candied fruit stalls. The contrast between the crispy sugar shell and the fresh strawberry inside is addictive.
-    </div>
 </section>
 <section class="restaurant-section" id="kobe-milk" data-map-name="8. Kobe Milk (神戸ミルク)" data-map-cta-url="https://maps.google.com/?cid=8594761121122825681&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kobe Milk (神戸ミルク), Near Nankinmachi entrance, Hyogo, JP" data-map-lat="34.4232192" data-map-lng="135.3360209">
     <div class="restaurant-header">
@@ -653,6 +744,20 @@
         <span>💴 ¥400–¥700</span>
         <span>📍 Near Nankinmachi entrance</span>
         <a href="https://maps.google.com/?cid=8594761121122825681&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The perfect ending to a Nankinmachi food crawl.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Dessert in Near Nankinmachi entrance with a ¥400–¥700 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.3★ from 138 Google reviews · Dessert · Near Nankinmachi entrance</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the soft-serve on a hot day is heavenly</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥700 · 4.3★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The perfect ending to a Nankinmachi food crawl. Kobe dairy is genuinely excellent — rich and creamy without being heavy. The jiggly pudding is the star, but the soft-serve on a hot day is heavenly.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kobe Milk (神戸ミルク), located near the Nankinmachi entrance, is a dessert shop famous for its jiggly pudding and rich milk soft-serve. Kobe is famous for its dairy, and this shop showcases it beautifully with simple, creamy, and satisfying treats.</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -666,15 +771,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81724477878">+81724477878</a></span><span>🌐 <a href="https://kobe-milk.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/kobe-milk.jpg" alt="Kobe Milk (神戸ミルク) in Near Nankinmachi entrance" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kobe Milk (神戸ミルク), located near the Nankinmachi entrance, is a dessert shop famous for its jiggly pudding and rich milk soft-serve. Kobe is famous for its dairy, and this shop showcases it beautifully with simple, creamy, and satisfying treats.</div>
     
     <div class="reddit-quote">
         "Once you&#39;ve had your fill of Chinese street food, walk toward the entrance of Nankinmachi for dessert from Kobe Milk — their soft-serve and jiggly puddings are amazing."
         <span class="source">— lisaeatstheworld.com travel blog</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The perfect ending to a Nankinmachi food crawl. Kobe dairy is genuinely excellent — rich and creamy without being heavy. The jiggly pudding is the star, but the soft-serve on a hot day is heavenly.
     </div>
 </section>
 <section class="restaurant-section" id="yuen-kee" data-map-name="9. Yuen Kee (元記)" data-map-cta-url="https://maps.google.com/?cid=16028296263179652081&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yuen Kee (元記), Nankinmachi, Chuo-ku, Hyogo, JP" data-map-lat="34.6919186" data-map-lng="135.1878583">
@@ -688,6 +788,20 @@
         <span>📍 Nankinmachi, Chuo-ku</span>
         <a href="https://maps.google.com/?cid=16028296263179652081&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> When you&#39;re tired of standing and eating, Yuen Kee offers a proper sit-down dim sum experience.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Dim Sum in Nankinmachi, Chuo-ku with a ¥800–¥2,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 509 Google reviews · Dim Sum · Nankinmachi, Chuo-ku</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it&#39;s solid and reasonably priced</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥800–¥2,000 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>When you&#39;re tired of standing and eating, Yuen Kee offers a proper sit-down dim sum experience. It&#39;s not Hong Kong-level dim sum, but it&#39;s solid and reasonably priced. A good option if you want a full meal rather than snack-hopping.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Yuen Kee (元記), located in Nankinmachi, Chuo-ku, is a dim sum restaurant where you should order the dim sum selection, including har gow, siu mai, and char siu bao. This is a great place for a proper sit-down dim sum meal if you want to escape the street-food scrum.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -700,15 +814,10 @@
     <div class="shop-contact"><span>🌐 <a href="https://yunkee-kobe.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/kobe-chinatown/yuen-kee.jpg" alt="Yuen Kee (元記) in Nankinmachi, Chuo-ku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Yuen Kee (元記), located in Nankinmachi, Chuo-ku, is a dim sum restaurant where you should order the dim sum selection, including har gow, siu mai, and char siu bao. This is a great place for a proper sit-down dim sum meal if you want to escape the street-food scrum.</div>
     
     <div class="reddit-quote">
         "Yuen Kee if you like dim sum."
         <span class="source">— r/JapanTravelTips · posted Sep 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> When you&#39;re tired of standing and eating, Yuen Kee offers a proper sit-down dim sum experience. It&#39;s not Hong Kong-level dim sum, but it&#39;s solid and reasonably priced. A good option if you want a full meal rather than snack-hopping.
     </div>
 </section>
       </section>

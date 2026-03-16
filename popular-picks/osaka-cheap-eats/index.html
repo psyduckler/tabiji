@@ -353,7 +353,16 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
-      .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
+      .quick-answer-lead { margin-bottom:1rem; }
+      .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
+      .comparison-row { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:.5rem 1rem; align-items:start; }
+      .comparison-row dt { font-weight:700; color:var(--indigo); }
+      .comparison-row dd { color:var(--text); }
+      .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
       .restaurant-section:first-of-type { padding-top:0; }
@@ -366,18 +375,19 @@
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
+      .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
+      .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }
       .shop-hours summary { cursor:pointer; color:var(--indigo); font-weight:700; }
       .hours-grid { display:grid; grid-template-columns:auto 1fr; gap:.4rem 1rem; margin-top:.75rem; color:var(--text-muted); font-size:.94rem; }
-      .what-to-order { background:var(--warm-cream); border-left:3px solid var(--terracotta); padding:.85rem 1rem; border-radius:10px; margin:1rem 0; }
       .reddit-quote { margin:1rem 0 0; padding:1rem; background:#faf7f3; border-left:3px solid var(--terracotta); }
       .source { display:block; margin-top:.4rem; color:var(--earth); font-size:.92rem; }
-      .tabiji-verdict { margin-top:1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -455,6 +465,24 @@
     </aside>
 
     <main class="content">
+      
+        <section class="quick-answer-section">
+          <div class="quick-answer-card">
+            <p class="eyebrow">Quick answer</p>
+            <p class="quick-answer-lead"><strong>Osaka, &quot;Japan&#39;s Kitchen,&quot; offers cheap eats ranging from ¥400–¥800, and our top recommendation is the Shin-Umeda Shokudogai food alley. This guide highlights delicious and filling meals under ¥1,000, focusing on iconic Osaka spots and reliable chains recommended by budget-conscious travelers and Osaka residents.</strong></p>
+            <dl class="quick-answer-grid">
+              <div class="comparison-row"><dt>Best overall</dt><dd>Yayoiken (やよい軒) — 3.9★ (557 reviews)</dd></div><div class="comparison-row"><dt>Price/value range</dt><dd>¥600–¥800</dd></div><div class="comparison-row"><dt>Top-ranked pick</dt><dd>Kinryu Ramen (金龍ラーメン)</dd></div><div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+            </dl>
+          </div>
+          <div class="quick-answer-card">
+            <p class="eyebrow">Top verdicts</p>
+            <ul class="top-verdicts-list">
+            <li><strong>Kinryu Ramen (金龍ラーメン):</strong> Not the best ramen in Osaka, but the best *value*.</li>
+            <li><strong>Okonomiyaki Chitose (ちとせ):</strong> A tiny 8-seat, family-run shop in Nishinari that punches way above its weight.</li>
+            <li><strong>Kushikatsu Daruma (串カツだるま):</strong> The most famous kushikatsu chain in Shinsekai, and you can easily eat your fill for under ¥1,000 if you stick to the basics.</li></ul>
+          </div>
+        </section>
+
       <section class="intro-section">
         <p><strong>Osaka, &quot;Japan&#39;s Kitchen,&quot; offers cheap eats ranging from ¥400–¥800, and our top recommendation is the Shin-Umeda Shokudogai food alley. This guide highlights delicious and filling meals under ¥1,000, focusing on iconic Osaka spots and reliable chains recommended by budget-conscious travelers and Osaka residents.</strong></p>
         <p>Osaka is called &quot;Japan&#39;s Kitchen&quot; (天下の台所) for a reason — it&#39;s a city that takes cheap, delicious food seriously. While Tokyo has plenty of budget options, Osaka takes it to another level. You can eat filling, genuinely excellent meals for ¥400–¥800 without stepping into a convenience store.</p><p>We scoured hundreds of Reddit posts across r/Osaka, r/JapanTravel, r/JapanTravelTips, and r/OsakaTravel to find the places that budget-conscious travelers and Osaka residents recommend again and again. This guide mixes iconic Osaka-specific spots with the reliable chains that keep you fed between the highlights.</p>
@@ -509,6 +537,20 @@
         <span>📍 Dotonbori</span>
         <a href="https://maps.google.com/?cid=12313835939676469871&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not the best ramen in Osaka, but the best *value*.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Tonkotsu Ramen in Dotonbori with a ¥600–¥800 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.8★ from 4,145 Google reviews · Tonkotsu Ramen · Dotonbori</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the best *value*</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥600–¥800 · 3.8★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not the best ramen in Osaka, but the best *value*. Open 24 hours, right in Dotonbori, with unlimited free sides. At ¥600 for a bowl plus free rice and kimchi, this is the ultimate late-night budget meal. The iconic dragon sign is hard to miss.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kinryu Ramen (金龍ラーメン) in Dotonbori is known for its classic tonkotsu ramen, priced at ¥600 for a full bowl. This ramen comes with unlimited kimchi, garlic, and rice on the side tables, so load up!</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -521,8 +563,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81662116202">+81662116202</a></span><span>🌐 <a href="https://kinryuramen.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/kinryu-ramen.jpg" alt="Kinryu Ramen (金龍ラーメン) in Dotonbori" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kinryu Ramen (金龍ラーメン) in Dotonbori is known for its classic tonkotsu ramen, priced at ¥600 for a full bowl. This ramen comes with unlimited kimchi, garlic, and rice on the side tables, so load up!</div>
     
     <div class="reddit-quote">
         "Got some tonkotsu ramen at Kinryu Ramen. Much lighter than the type of tonkotsu broth I&#39;m used to, but was still delicious."
@@ -531,9 +571,6 @@
     <div class="reddit-quote">
         "Kinryu is open 24 hours and has free toppings — rice, kimchi, garlic. It&#39;s the cheapest proper ramen in Dotonbori."
         <span class="source">— r/Osaka</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not the best ramen in Osaka, but the best *value*. Open 24 hours, right in Dotonbori, with unlimited free sides. At ¥600 for a bowl plus free rice and kimchi, this is the ultimate late-night budget meal. The iconic dragon sign is hard to miss.
     </div>
 </section>
 <section class="restaurant-section" id="chitose" data-map-name="2. Okonomiyaki Chitose (ちとせ)" data-map-cta-url="https://maps.google.com/?cid=12697853774598797665&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Okonomiyaki Chitose (ちとせ), Nishinari-ku (near Tennoji), Osaka, JP" data-map-lat="34.647525" data-map-lng="135.5046657">
@@ -547,6 +584,20 @@
         <span>📍 Nishinari-ku (near Tennoji)</span>
         <a href="https://maps.google.com/?cid=12697853774598797665&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A tiny 8-seat, family-run shop in Nishinari that punches way above its weight.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Okonomiyaki in Nishinari-ku (near Tennoji) with a ¥500–¥800 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.7★ from 1,721 Google reviews · Okonomiyaki · Nishinari-ku (near Tennoji)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥500–¥800</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥500–¥800 · 4.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A tiny 8-seat, family-run shop in Nishinari that punches way above its weight. Multiple Reddit users across different years call this the best okonomiyaki in Osaka — and it costs under ¥800. Worth the trip south of Tennoji. English spoken.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Okonomiyaki Chitose (ちとせ), located in Nishinari-ku near Tennoji, serves a huge portion of mixed okonomiyaki (ミックス) for under ¥800. This includes pork, squid, and shrimp in a fluffy, crispy pancake, cooked right in front of you on the griddle.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -559,8 +610,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81666316002">+81666316002</a></span><span>🌐 <a href="http://www.bunjin.com/chitose" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/chitose.jpg" alt="Okonomiyaki Chitose (ちとせ) in Nishinari-ku (near Tennoji)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Okonomiyaki Chitose (ちとせ), located in Nishinari-ku near Tennoji, serves a huge portion of mixed okonomiyaki (ミックス) for under ¥800. This includes pork, squid, and shrimp in a fluffy, crispy pancake, cooked right in front of you on the griddle.</div>
     
     <div class="reddit-quote">
         "For amazing okonomiyaki, check out Chitose in Osaka. It&#39;s a small family run place, maybe 8 seats, English is spoken."
@@ -574,9 +623,6 @@
         "If you&#39;re coming to Osaka, you&#39;ve got to try okonomiyaki. The best okonomiyaki I&#39;ve had so far in Osaka was actually further south in Tennoji-Ku at a little place called Chitose."
         <span class="source">— r/Osaka · posted December 2018</span>
     </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A tiny 8-seat, family-run shop in Nishinari that punches way above its weight. Multiple Reddit users across different years call this the best okonomiyaki in Osaka — and it costs under ¥800. Worth the trip south of Tennoji. English spoken.
-    </div>
 </section>
 <section class="restaurant-section" id="kushikatsu-daruma" data-map-name="3. Kushikatsu Daruma (串カツだるま)" data-map-cta-url="https://maps.google.com/?cid=17209588581346616951&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kushikatsu Daruma (串カツだるま), Shinsekai, Osaka, JP" data-map-lat="34.6515704" data-map-lng="135.5062032">
     <div class="restaurant-header">
@@ -588,6 +634,20 @@
         <span>💴 ¥700–¥1,000</span>
         <span>📍 Shinsekai</span>
         <a href="https://maps.google.com/?cid=17209588581346616951&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
+    </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The most famous kushikatsu chain in Shinsekai, and you can easily eat your fill for under ¥1,000 if you stick to the basics.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Kushikatsu in Shinsekai with a ¥700–¥1,000 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 2,006 Google reviews · Kushikatsu · Shinsekai</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>the crunch is real and Shinsekai&#39;s retro atmosphere makes it an experience</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥700–¥1,000 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The most famous kushikatsu chain in Shinsekai, and you can easily eat your fill for under ¥1,000 if you stick to the basics. Yes, it&#39;s touristy — but the crunch is real and Shinsekai&#39;s retro atmosphere makes it an experience. The angry Daruma mascot is iconic.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kushikatsu Daruma (串カツだるま) in Shinsekai offers individual kushikatsu skewers starting at ¥100–¥150 each. The set menu with 5–8 skewers is your best budget play; get the pork, lotus root, and shrimp, and remember: no double-dipping in the communal sauce!</dd></div>
+      </dl>
     </div>
     
     <div class="shop-hours">
@@ -601,8 +661,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+815054933805">+815054933805</a></span><span>🌐 <a href="https://k471500.gorp.jp/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/kushikatsu-daruma.jpg" alt="Kushikatsu Daruma (串カツだるま) in Shinsekai" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kushikatsu Daruma (串カツだるま) in Shinsekai offers individual kushikatsu skewers starting at ¥100–¥150 each. The set menu with 5–8 skewers is your best budget play; get the pork, lotus root, and shrimp, and remember: no double-dipping in the communal sauce!</div>
     
     <div class="reddit-quote">
         "I also agree going to Shinsekai and getting kushikatsu, we did Kushikatsu Daruma which was pretty good."
@@ -611,9 +669,6 @@
     <div class="reddit-quote">
         "Kushikatsu Daruma — crispy skewers (just don&#39;t double dip the sauce!) — the taste is solid and reliable."
         <span class="source">— r/OsakaTravel · posted May 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The most famous kushikatsu chain in Shinsekai, and you can easily eat your fill for under ¥1,000 if you stick to the basics. Yes, it&#39;s touristy — but the crunch is real and Shinsekai&#39;s retro atmosphere makes it an experience. The angry Daruma mascot is iconic.
     </div>
 </section>
 <section class="restaurant-section" id="kamukura" data-map-name="4. Kamukura (神座)" data-map-cta-url="https://maps.google.com/?cid=10885168425714696936&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kamukura (神座), Dotonbori / Namba, Osaka, JP" data-map-lat="34.6686495" data-map-lng="135.5029649">
@@ -627,6 +682,20 @@
         <span>📍 Dotonbori / Namba</span>
         <a href="https://maps.google.com/?cid=10885168425714696936&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Kamukura is an Osaka-born chain that most tourists walk past chasing Ichiran.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Ramen in Dotonbori / Namba with a ¥700–¥950 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 1,934 Google reviews · Ramen · Dotonbori / Namba</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>deeply satisfying</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥700–¥950 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Kamukura is an Osaka-born chain that most tourists walk past chasing Ichiran. Their clear, veggie-loaded broth is uniquely Osaka — lighter than Tokyo ramen but deeply satisfying. Open late and right in the heart of the action.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kamukura (神座), with locations in Dotonbori and Namba, is known for its &quot;oishii ramen&quot; (おいしいラーメン), their signature bowl with a light, slightly sweet soy-based broth loaded with Chinese cabbage. This ramen is surprisingly refreshing and deeply savory.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -639,8 +708,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81662131238">+81662131238</a></span><span>🌐 <a href="https://kamukura.co.jp/shop/155/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/kamukura.jpg" alt="Kamukura (神座) in Dotonbori / Namba" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kamukura (神座), with locations in Dotonbori and Namba, is known for its &quot;oishii ramen&quot; (おいしいラーメン), their signature bowl with a light, slightly sweet soy-based broth loaded with Chinese cabbage. This ramen is surprisingly refreshing and deeply savory.</div>
     
     <div class="reddit-quote">
         "I really liked KAMUKURA which is right on the high street north of Namba Station going towards Cross Hotel Dotonbori and the Donki."
@@ -649,9 +716,6 @@
     <div class="reddit-quote">
         "Kamakura Soup with Noodles (Oishii Ramen is very slurpable)."
         <span class="source">— r/JapanTravelTips · posted September 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Kamukura is an Osaka-born chain that most tourists walk past chasing Ichiran. Their clear, veggie-loaded broth is uniquely Osaka — lighter than Tokyo ramen but deeply satisfying. Open late and right in the heart of the action.
     </div>
 </section>
 <section class="restaurant-section" id="negiyaki-yamamoto" data-map-name="5. Negiyaki Yamamoto (ねぎ焼やまもと)" data-map-cta-url="https://maps.google.com/?cid=5960620213593441894&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Negiyaki Yamamoto (ねぎ焼やまもと), Umeda (near Umeda Station), Osaka, JP" data-map-lat="34.704661" data-map-lng="135.5010527">
@@ -665,6 +729,20 @@
         <span>📍 Umeda (near Umeda Station)</span>
         <a href="https://maps.google.com/?cid=5960620213593441894&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Negiyaki is a uniquely Osaka specialty that most tourists don&#39;t know about — it&#39;s like okonomiyaki&#39;s thinner, scallion-obsessed sibling.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Negiyaki in Umeda (near Umeda Station) with a ¥700–¥950 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.1★ from 1,426 Google reviews · Negiyaki · Umeda (near Umeda Station)</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥700–¥950</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥700–¥950 · 4.1★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Negiyaki is a uniquely Osaka specialty that most tourists don&#39;t know about — it&#39;s like okonomiyaki&#39;s thinner, scallion-obsessed sibling. Yamamoto is the original and best, and you can get a full negiyaki for under ¥1,000. A must-try if you&#39;re already in the Umeda area.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Negiyaki Yamamoto (ねぎ焼やまもと), located in Umeda near Umeda Station, specializes in negiyaki (ねぎ焼き), a thinner, crispier cousin of okonomiyaki. The suji-kon (beef tendon and konjac) version is the classic, loaded with green onions and topped with soy sauce instead of the usual sweet sauce.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -677,15 +755,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81661310118">+81661310118</a></span><span>🌐 <a href="https://www.negiyaki-yamamoto.com/index.html" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/negiyaki-yamamoto.jpg" alt="Negiyaki Yamamoto (ねぎ焼やまもと) in Umeda (near Umeda Station)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Negiyaki Yamamoto (ねぎ焼やまもと), located in Umeda near Umeda Station, specializes in negiyaki (ねぎ焼き), a thinner, crispier cousin of okonomiyaki. The suji-kon (beef tendon and konjac) version is the classic, loaded with green onions and topped with soy sauce instead of the usual sweet sauce.</div>
     
     <div class="reddit-quote">
         "Highly recommend Negiyaki Yamamoto near Umeda Station. Great place to get Kansai-style food (negiyaki, okonomiyaki, yakisoba)."
         <span class="source">— r/JapanTravelTips · posted October 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Negiyaki is a uniquely Osaka specialty that most tourists don&#39;t know about — it&#39;s like okonomiyaki&#39;s thinner, scallion-obsessed sibling. Yamamoto is the original and best, and you can get a full negiyaki for under ¥1,000. A must-try if you&#39;re already in the Umeda area.
     </div>
 </section>
 <section class="restaurant-section" id="shin-umeda-shokudogai" data-map-name="6. Shin-Umeda Shokudogai (新梅田食堂街)" data-map-cta-url="https://maps.google.com/?cid=11834362424498945973&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shin-Umeda Shokudogai (新梅田食堂街), Under the JR tracks, Umeda, Osaka, JP" data-map-lat="34.7035797" data-map-lng="135.4980814">
@@ -699,12 +772,24 @@
         <span>📍 Under the JR tracks, Umeda</span>
         <a href="https://maps.google.com/?cid=11834362424498945973&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> A labyrinth of tiny restaurants tucked under the JR train tracks near Umeda Station.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Food Alley in Under the JR tracks, Umeda with a ¥400–¥900 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4★ from 9,415 Google reviews · Food Alley · Under the JR tracks, Umeda</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥400–¥900</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥900 · 4★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>A labyrinth of tiny restaurants tucked under the JR train tracks near Umeda Station. It&#39;s old-school, slightly grimy, and completely wonderful. This is where Osaka salarymen have eaten lunch for decades. Most tourists have no idea it exists. Peak &quot;kuidaore&quot; (eat-till-you-drop) energy.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Shin-Umeda Shokudogai (新梅田食堂街), located under the JR tracks in Umeda, offers most meals for ¥500–¥900. Wander and discover yakitori stalls, udon shops, and the legendary oden izakaya Tako Ume; come hungry and explore.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-contact"><span>📞 <a href="tel:+81663720313">+81663720313</a></span><span>🌐 <a href="http://shinume.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/shin-umeda-shokudogai.jpg" alt="Shin-Umeda Shokudogai (新梅田食堂街) in Under the JR tracks, Umeda" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Shin-Umeda Shokudogai (新梅田食堂街), located under the JR tracks in Umeda, offers most meals for ¥500–¥900. Wander and discover yakitori stalls, udon shops, and the legendary oden izakaya Tako Ume; come hungry and explore.</div>
     
     <div class="reddit-quote">
         "Just wander through the maze of the 新梅田食堂街 Shin Umeda Shokudogai, and sneak into a seat. There&#39;s a fantastic oden izakaya down there called Tako Ume."
@@ -713,9 +798,6 @@
     <div class="reddit-quote">
         "Dai 1 to Dai 4 buildings near Umeda have an amazing selection of cheap places to eat and drink."
         <span class="source">— r/Osaka · posted October 2023</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> A labyrinth of tiny restaurants tucked under the JR train tracks near Umeda Station. It&#39;s old-school, slightly grimy, and completely wonderful. This is where Osaka salarymen have eaten lunch for decades. Most tourists have no idea it exists. Peak &quot;kuidaore&quot; (eat-till-you-drop) energy.
     </div>
 </section>
 <section class="restaurant-section" id="matsuya" data-map-name="7. Matsuya (松屋)" data-map-cta-url="https://maps.google.com/?cid=11520559780714063005&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Matsuya (松屋), Everywhere in Osaka, Osaka, JP" data-map-lat="34.682302" data-map-lng="135.502109">
@@ -729,6 +811,20 @@
         <span>📍 Everywhere in Osaka</span>
         <a href="https://maps.google.com/?cid=11520559780714063005&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Don&#39;t sleep on Japan&#39;s gyudon chains.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Gyudon Chain in Everywhere in Osaka with a ¥400–¥700 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.6★ from 811 Google reviews · Gyudon Chain · Everywhere in Osaka</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>it&#39;s genuinely good</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥700 · 3.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Don&#39;t sleep on Japan&#39;s gyudon chains. Matsuya is the budget traveler&#39;s best friend — a hot, filling beef bowl with free miso soup for ¥430. Open 24 hours, ticket vending machines make ordering foolproof, and the quality would cost $12+ back home. It&#39;s not glamorous, but it&#39;s genuinely good.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Matsuya (松屋), a gyudon chain with locations everywhere in Osaka, offers the premium gyudon (プレミアム牛めし) at ¥430. The teishoku sets (定食) with miso soup and a side are also available for under ¥700, with free miso soup with every gyudon order, and the curry is also solid.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -741,8 +837,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+818059281060">+818059281060</a></span><span>🌐 <a href="https://pkg.navitime.co.jp/matsuyafoods/spot/detail?code=0000000260" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/matsuya.jpg" alt="Matsuya (松屋) in Everywhere in Osaka" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Matsuya (松屋), a gyudon chain with locations everywhere in Osaka, offers the premium gyudon (プレミアム牛めし) at ¥430. The teishoku sets (定食) with miso soup and a side are also available for under ¥700, with free miso soup with every gyudon order, and the curry is also solid.</div>
     
     <div class="reddit-quote">
         "The simplest way to keep your belly full in Japan is with visits to the several gyudon chains, which in Osaka include Yoshinoya, Sukiya and Matsuya, and are everywhere throughout the city."
@@ -751,9 +845,6 @@
     <div class="reddit-quote">
         "You can get a set meal at Matsuya or Sukiya for less than 1000 yen."
         <span class="source">— r/JapanTravelTips · posted April 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Don&#39;t sleep on Japan&#39;s gyudon chains. Matsuya is the budget traveler&#39;s best friend — a hot, filling beef bowl with free miso soup for ¥430. Open 24 hours, ticket vending machines make ordering foolproof, and the quality would cost $12+ back home. It&#39;s not glamorous, but it&#39;s genuinely good.
     </div>
 </section>
 <section class="restaurant-section" id="nakau" data-map-name="8. Nakau (なか卯)" data-map-cta-url="https://maps.google.com/?cid=1721713359667749174&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nakau (なか卯), Everywhere in Osaka, Osaka, JP" data-map-lat="34.671799299999996" data-map-lng="135.5064993">
@@ -767,6 +858,20 @@
         <span>📍 Everywhere in Osaka</span>
         <a href="https://maps.google.com/?cid=1721713359667749174&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Nakau flies under the radar compared to Yoshinoya and Matsuya, but their oyakodon is arguably the best chain donburi in Japan.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Donburi / Udon in Everywhere in Osaka with a ¥400–¥700 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.6★ from 625 Google reviews · Donburi / Udon · Everywhere in Osaka</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>their oyakodon is arguably the best chain donburi in Japan</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥700 · 3.6★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Nakau flies under the radar compared to Yoshinoya and Matsuya, but their oyakodon is arguably the best chain donburi in Japan. Silky egg, tender chicken, perfectly seasoned rice — all for under ¥500. The udon is a great add-on for a combo meal.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Nakau (なか卯), a donburi and udon chain found everywhere in Osaka, features the oyakodon (親子丼) — chicken and egg over rice — as their star dish at around ¥490. The udon is also excellent and cheap; combo a mini udon with a donburi for under ¥700.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -779,15 +884,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81120295770">+81120295770</a></span><span>🌐 <a href="https://maps.nakau.co.jp/jp/detail/2332.html" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/nakau.jpg" alt="Nakau (なか卯) in Everywhere in Osaka" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Nakau (なか卯), a donburi and udon chain found everywhere in Osaka, features the oyakodon (親子丼) — chicken and egg over rice — as their star dish at around ¥490. The udon is also excellent and cheap; combo a mini udon with a donburi for under ¥700.</div>
     
     <div class="reddit-quote">
         "Chains like Ootoya, Nakau and Yayoiken are great value too."
         <span class="source">— r/JapanTravelTips · posted September 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Nakau flies under the radar compared to Yoshinoya and Matsuya, but their oyakodon is arguably the best chain donburi in Japan. Silky egg, tender chicken, perfectly seasoned rice — all for under ¥500. The udon is a great add-on for a combo meal.
     </div>
 </section>
 <section class="restaurant-section" id="saizeriya" data-map-name="9. Saizeriya (サイゼリヤ)" data-map-cta-url="https://maps.google.com/?cid=14795120433316859956&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Saizeriya (サイゼリヤ), Multiple locations, Osaka, JP" data-map-lat="34.6988943" data-map-lng="135.4914409">
@@ -801,6 +901,20 @@
         <span>📍 Multiple locations</span>
         <a href="https://maps.google.com/?cid=14795120433316859956&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Yes, it&#39;s a chain Italian restaurant.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Italian in Multiple locations with a ¥300–¥600 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.7★ from 796 Google reviews · Italian · Multiple locations</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>Price band: ¥300–¥600</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥300–¥600 · 3.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Yes, it&#39;s a chain Italian restaurant. Yes, the doria costs ¥300. Yes, it&#39;s actually good. Saizeriya is a beloved Japanese institution — cheap, cheerful, and genuinely tasty. When you need a break from Japanese food or just want the cheapest possible sit-down meal, this is your spot. The ¥100 wine is... wine.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Saizeriya (サイゼリヤ), an Italian chain with multiple locations, is famous for its Milano-style doria (ドリア) at ¥300. The margherita pizza is ¥400, pasta dishes range ¥400–¥600, and the focaccia is a perfect side, allowing you to eat a full Italian meal for under ¥700.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -813,8 +927,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81643969811">+81643969811</a></span><span>🌐 <a href="https://shop.saizeriya.co.jp/sz_restaurant/spot/detail?code=0751" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/saizeriya.jpg" alt="Saizeriya (サイゼリヤ) in Multiple locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Saizeriya (サイゼリヤ), an Italian chain with multiple locations, is famous for its Milano-style doria (ドリア) at ¥300. The margherita pizza is ¥400, pasta dishes range ¥400–¥600, and the focaccia is a perfect side, allowing you to eat a full Italian meal for under ¥700.</div>
     
     <div class="reddit-quote">
         "Saizeriya is super cheap. You can get a bowl of pasta for 400 to 600 yen. They have good salads too. Everything is cheap there."
@@ -823,9 +935,6 @@
     <div class="reddit-quote">
         "I would say Saizeriya has the cheapest food in Japan."
         <span class="source">— r/Osaka · posted October 2024</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Yes, it&#39;s a chain Italian restaurant. Yes, the doria costs ¥300. Yes, it&#39;s actually good. Saizeriya is a beloved Japanese institution — cheap, cheerful, and genuinely tasty. When you need a break from Japanese food or just want the cheapest possible sit-down meal, this is your spot. The ¥100 wine is... wine.
     </div>
 </section>
 <section class="restaurant-section" id="kitchen-origin" data-map-name="10. Kitchen Origin (キッチンオリジン)" data-map-cta-url="https://maps.google.com/?cid=1884117807391867003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kitchen Origin (キッチンオリジン), Multiple locations, Osaka, JP" data-map-lat="34.6561768" data-map-lng="135.505526">
@@ -839,6 +948,20 @@
         <span>📍 Multiple locations</span>
         <a href="https://maps.google.com/?cid=1884117807391867003&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> The secret weapon of budget travelers in Osaka.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Bento in Multiple locations with a ¥400–¥600 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.7★ from 211 Google reviews · Bento · Multiple locations</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>genuinely fresh-fried katsu and karaage</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥400–¥600 · 3.7★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>The secret weapon of budget travelers in Osaka. Kitchen Origin makes fresh bento boxes in-store — not the reheated convenience store kind, but genuinely fresh-fried katsu and karaage. A ¥450 katsu bento here is better than many sit-down meals costing twice as much. Take it to a park or your hotel.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Kitchen Origin (キッチンオリジン), with multiple locations, offers the katsu bento (カツ弁当) at around ¥450. This bento is incredible value, freshly fried, not reheated; the nori bento and karaage bento are also winners, and everything is made fresh in-store.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -851,15 +974,10 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81665866623">+81665866623</a></span><span>🌐 <a href="https://pkg.navitime.co.jp/toshu/spot/detail?code=0000000548" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/kitchen-origin.jpg" alt="Kitchen Origin (キッチンオリジン) in Multiple locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Kitchen Origin (キッチンオリジン), with multiple locations, offers the katsu bento (カツ弁当) at around ¥450. This bento is incredible value, freshly fried, not reheated; the nori bento and karaage bento are also winners, and everything is made fresh in-store.</div>
     
     <div class="reddit-quote">
         "Kitchen Origin in Osaka has katsu bento plates made fresh for around 450 yen for example."
         <span class="source">— r/JapanTravelTips · posted January 2026</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> The secret weapon of budget travelers in Osaka. Kitchen Origin makes fresh bento boxes in-store — not the reheated convenience store kind, but genuinely fresh-fried katsu and karaage. A ¥450 katsu bento here is better than many sit-down meals costing twice as much. Take it to a park or your hotel.
     </div>
 </section>
 <section class="restaurant-section" id="yayoiken" data-map-name="11. Yayoiken (やよい軒)" data-map-cta-url="https://maps.google.com/?cid=14595202415671472055&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yayoiken (やよい軒), Multiple locations, Osaka, JP" data-map-lat="34.6673882" data-map-lng="135.5064505">
@@ -873,6 +991,20 @@
         <span>📍 Multiple locations</span>
         <a href="https://maps.google.com/?cid=14595202415671472055&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> If you want a &quot;real Japanese meal&quot; — balanced, nutritious, and beautifully presented — for under ¥1,000, Yayoiken is your answer.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Teishoku in Multiple locations with a ¥600–¥950 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>3.9★ from 557 Google reviews · Teishoku · Multiple locations</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>slightly cheaper</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥600–¥950 · 3.9★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>If you want a &quot;real Japanese meal&quot; — balanced, nutritious, and beautifully presented — for under ¥1,000, Yayoiken is your answer. The teishoku format (main + rice + miso + pickles) is what Japanese people actually eat daily. Free rice refills make it even better value. Similar quality to Ootoya but slightly cheaper.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Yayoiken (やよい軒), a teishoku restaurant with multiple locations, offers teishoku (定食) sets, which include a main dish with rice, miso soup, and pickles, with the grilled mackerel set (さば定食) and chicken nanban set both under ¥900. Rice refills are free.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -885,8 +1017,6 @@
     <div class="shop-contact"><span>📞 <a href="tel:+81666300211">+81666300211</a></span><span>🌐 <a href="https://store.yayoiken.com/b/yayoiken/info/2106/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/yayoiken.jpg" alt="Yayoiken (やよい軒) in Multiple locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Yayoiken (やよい軒), a teishoku restaurant with multiple locations, offers teishoku (定食) sets, which include a main dish with rice, miso soup, and pickles, with the grilled mackerel set (さば定食) and chicken nanban set both under ¥900. Rice refills are free.</div>
     
     <div class="reddit-quote">
         "Chains like Ootoya, Nakau and Yayoiken are great value too."
@@ -895,9 +1025,6 @@
     <div class="reddit-quote">
         "Ootoya is a great restaurant chain that specializes in low cost but high quality Japanese food. Their sets hover around 1000-1500 yen even at dinner."
         <span class="source">— r/JapanTravelTips · posted December 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> If you want a &quot;real Japanese meal&quot; — balanced, nutritious, and beautifully presented — for under ¥1,000, Yayoiken is your answer. The teishoku format (main + rice + miso + pickles) is what Japanese people actually eat daily. Free rice refills make it even better value. Similar quality to Ootoya but slightly cheaper.
     </div>
 </section>
 <section class="restaurant-section" id="tenjinbashisuji" data-map-name="12. Tenjinbashisuji Shopping Street (天神橋筋商店街)" data-map-cta-url="https://maps.google.com/?cid=10590307626199221847&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tenjinbashisuji Shopping Street (天神橋筋商店街), Tenma / Tenjinbashi, Osaka, JP" data-map-lat="34.7025467" data-map-lng="135.51145409999998">
@@ -911,6 +1038,20 @@
         <span>📍 Tenma / Tenjinbashi</span>
         <a href="https://maps.google.com/?cid=10590307626199221847&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> Not a single restaurant but an entire 2.6 km covered arcade stuffed with cheap, excellent food.
+    </div>
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+        <div class="comparison-row"><dt>Best for</dt><dd>Shopping Street in Tenma / Tenjinbashi with a ¥300–¥900 spend range</dd></div>
+        <div class="comparison-row"><dt>Strengths</dt><dd>4.2★ from 3,064 Google reviews · Shopping Street · Tenma / Tenjinbashi</dd></div>
+        <div class="comparison-row"><dt>Limitations</dt><dd>an entire 2</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>¥300–¥900 · 4.2★</dd></div>
+        <div class="comparison-row"><dt>Why it made the list</dt><dd>Not a single restaurant but an entire 2.6 km covered arcade stuffed with cheap, excellent food. This is where Osaka locals actually eat — far from the Dotonbori tourist crowds. The Tenma area around the north end is especially packed with tiny restaurants and standing bars. If you only have time for one food adventure in Osaka, make it this street.</dd></div>
+        <div class="comparison-row"><dt>What to order</dt><dd>Tenjinbashisuji Shopping Street (天神橋筋商店街), located in Tenma/Tenjinbashi, is Japan&#39;s longest shopping arcade (2.6 km!) packed with budget restaurants. Wander and follow your nose to find butadon (pork rice bowls), udon shops, gyoza stalls, and tiny izakayas.</dd></div>
+      </dl>
+    </div>
     
     <div class="shop-hours">
         <details>
@@ -923,8 +1064,6 @@
     <div class="shop-contact"><span>🌐 <a href="https://www.tenjin123.com/" target="_blank" rel="noopener">Website</a></span></div>
 
     <img src="https://img.tabiji.ai/popular-picks/osaka-cheap-eats/tenjinbashisuji.jpg" alt="Tenjinbashisuji Shopping Street (天神橋筋商店街) in Tenma / Tenjinbashi" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
-<div class="what-to-order">
-        <strong>What to order:</strong> Tenjinbashisuji Shopping Street (天神橋筋商店街), located in Tenma/Tenjinbashi, is Japan&#39;s longest shopping arcade (2.6 km!) packed with budget restaurants. Wander and follow your nose to find butadon (pork rice bowls), udon shops, gyoza stalls, and tiny izakayas.</div>
     
     <div class="reddit-quote">
         "Tenjinbashisuji is the longest shopping arcade in Japan, and it is filled with so many restaurants and shops."
@@ -937,9 +1076,6 @@
     <div class="reddit-quote">
         "Tenma is the best area for food and drink in all of Osaka."
         <span class="source">— r/JapanTravelTips · posted December 2025</span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>tabiji verdict:</strong> Not a single restaurant but an entire 2.6 km covered arcade stuffed with cheap, excellent food. This is where Osaka locals actually eat — far from the Dotonbori tourist crowds. The Tenma area around the north end is especially packed with tiny restaurants and standing bars. If you only have time for one food adventure in Osaka, make it this street.
     </div>
 </section>
       </section>
