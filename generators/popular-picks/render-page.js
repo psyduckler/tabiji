@@ -319,7 +319,7 @@ function renderPage(data) {
       .hero h1 { font-size:clamp(2rem,4.7vw,3rem); line-height:1.12; color:var(--indigo); margin:0 0 1rem; letter-spacing:-.03em; }
       .subtitle { font-size:1.08rem; color:var(--text-muted); max-width:680px; }
       .hero-meta { display:flex; flex-wrap:wrap; gap:1rem 1.5rem; color:var(--earth); font-size:.92rem; margin-top:1.2rem; }
-      .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
+      .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:320px minmax(0,1fr); gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
       .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
@@ -364,6 +364,10 @@ function renderPage(data) {
   ${renderHero(data)}
 
   <div class="page-layout">
+    <aside>
+      ${renderMapPanel(mapData, mapPicks, false)}
+    </aside>
+
     <main class="content">
       <section class="intro-section">
         <p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
@@ -392,10 +396,6 @@ function renderPage(data) {
         <ul class="related">${relatedLinks}</ul>
       </section>
     </main>
-
-    <aside>
-      ${renderMapPanel(mapData, mapPicks, false)}
-    </aside>
   </div>
 
   <footer>Generated from structured source data.</footer>

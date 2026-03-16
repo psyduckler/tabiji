@@ -501,6 +501,48 @@ def extract_pick_places_alt(soup, slug):
     return places
 
 
+def extract_meta_content(soup, attr_name, attr_value):
+    """Extract a meta tag content value by name/property."""
+    tag = soup.find('meta', attrs={attr_name: attr_value})
+    return tag.get('content', '').strip() if tag and tag.get('content') else ''
+
+
+def extract_pick_hub_cards(soup):
+    """Extract linked cards from a hub-style popular-picks page."""
+    cards = []
+    for link in soup.find_all('a', class_='pick-card'):
+        href = link.get('href', '').strip()
+        if not href:
+            continue
+
+        title_el = link.find(['h2', 'h3'])
+        desc_el = link.find('p')
+        badge_el = link.find(class_='card-badge')
+        img_el = link.find('img')
+        meta_els = link.find_all('span')
+        meta = []
+        for span in meta_els:
+            classes = span.get('class', [])
+            if 'card-badge' in classes:
+                continue
+            text = span.get_text(' ', strip=True)
+            if text:
+                meta.append(text)
+
+        slug = href.strip('/').split('/')[-1] if href else ''
+        cards.append({
+            "name": title_el.get_text(' ', strip=True) if title_el else slug,
+            "slug": slug,
+            "url": f"{SITE_URL}{href}" if href.startswith('/') else href,
+            "description": desc_el.get_text(' ', strip=True) if desc_el else '',
+            "badge": badge_el.get_text(' ', strip=True) if badge_el else '',
+            "photo": img_el.get('src', '').strip() if img_el else '',
+            "meta": meta,
+        })
+
+    return cards
+
+
 def build_picks():
     """Build popular picks JSON from popular-picks/*/index.html."""
     picks_dir = BASE_DIR / "popular-picks"
@@ -558,18 +600,34 @@ def build_picks():
         if cat_match:
             category = cat_match.group(1).strip()
 
-        # Extract places — try main template, then alt, then generic
+        # Extract places — try main template, then alt, then generic, then hub cards
         places = extract_pick_places(soup, slug)
         if not places:
             places = extract_pick_places_alt(soup, slug)
         if not places:
             places = extract_pick_places_generic(soup, slug)
+        is_hub_page = False
+        if not places:
+            places = extract_pick_hub_cards(soup)
+            is_hub_page = len(places) > 0
         total_places += len(places)
 
         # Get hero image
         hero_img = ""
         if article and article.get('image'):
             hero_img = article['image']
+        if isinstance(hero_img, list):
+            hero_img = hero_img[0] if hero_img else ""
+        if not hero_img:
+            hero_img = extract_meta_content(soup, 'property', 'og:image') or extract_meta_content(soup, 'name', 'twitter:image')
+
+        if not desc:
+            desc = extract_meta_content(soup, 'name', 'description')
+
+        if not city and is_hub_page:
+            h1 = soup.find('h1')
+            if h1:
+                city = h1.get_text(' ', strip=True)
 
         detail = {
             "slug": slug,
