@@ -262,7 +262,7 @@ Other dependency chains:
 - Run injection script to update all pages
 
 ### Phase 4: API & Build Pipeline
-- Formalize `api/build-api.py` as part of a documented build step
+- Formalize `api/build-api.py` as part of a documented build step (with explicit Python dependencies in `api/requirements.txt`)
 - Add a `Makefile` or `package.json` scripts for common operations
 - Document the full build/deploy pipeline
 
