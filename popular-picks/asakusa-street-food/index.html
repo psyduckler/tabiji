@@ -451,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -478,7 +481,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -526,13 +529,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Asakusa&#39;s street food scene offers treats at varying prices, with Asakusa Menchi being a top recommendation, especially during cooler months. While Nakamise-dori offers classics, the best eats are often tucked away from the main tourist drag, behind the temple, or down backstreets.</strong></p>
-        <p>Asakusa&#39;s street food scene offers a range of treats, but the best finds are often tucked away from the main tourist drag, with prices varying by vendor. For a quintessential Asakusa experience, try the Asakusa Menchi, a savory fried meat patty located behind Senso-ji Temple, especially during the cooler months when hot food is most welcome.</p><p>Asakusa is Tokyo&#39;s street food capital. The 250-meter Nakamise-dori shopping street leading to Senso-ji temple is lined with stalls selling everything from crispy senbei to giant melon pan. But the best eats? Those are often around the corner, behind the temple, or down the backstreets that tourists walk right past.</p><p>We combed through hundreds of Reddit posts from r/JapanTravelTips, r/JapanTravel, and r/Tokyo to find the street food spots that actual visitors rave about — the ones worth queuing for, and the hidden gems nobody photographs.</p>
+        <p>Asakusa is Tokyo&#39;s street food capital. The 250-meter Nakamise-dori shopping street leading to Senso-ji temple is lined with stalls selling everything from crispy senbei to giant melon pan. But the best eats? Those are often around the corner, behind the temple, or down the backstreets that tourists walk right past.</p><p>We combed through hundreds of Reddit posts from r/JapanTravelTips, r/JapanTravel, and r/Tokyo to find the street food spots that actual visitors rave about — the ones worth queuing for, and the hidden gems nobody photographs.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Street%20Food%20in%20Asakusa&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Asakusa Menchi (浅草メンチ)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -554,7 +558,7 @@
       <li>
         <a href="#asakusa-pudding">6. Asakusa Silk Pudding (浅草シルクプリン)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Street%20Food%20in%20Asakusa" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11520710359969543878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -566,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="asakusa-menchi">
+<section class="restaurant-section" id="asakusa-menchi" data-map-name="1. Asakusa Menchi (浅草メンチ)" data-map-cta-url="https://maps.google.com/?cid=11520710359969543878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asakusa Menchi (浅草メンチ), Behind Senso-ji temple, Tokyo, JP" data-map-lat="35.7129114" data-map-lng="139.7960553">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Asakusa Menchi (浅草メンチ)</h2>
         <span class="cuisine-tag tag-regional">Menchi Katsu</span>
@@ -604,7 +608,7 @@
         <strong>tabiji verdict:</strong> The single most recommended Asakusa street food item on Reddit. One product, done perfectly — crispy, juicy menchi katsu for ¥300. The line looks long but moves fast because they only sell one thing. Don&#39;t skip this.
     </div>
 </section>
-<section class="restaurant-section" id="kagetsudo">
+<section class="restaurant-section" id="kagetsudo" data-map-name="2. Kagetsudo (花月堂)" data-map-cta-url="https://maps.google.com/?cid=4451824583051951723&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kagetsudo (花月堂), Near Senso-ji, Nishi-Sando, Tokyo, JP" data-map-lat="35.7146332" data-map-lng="139.7951685">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Kagetsudo (花月堂)</h2>
         <span class="cuisine-tag tag-regional">Melon Pan</span>
@@ -638,7 +642,7 @@
         <strong>tabiji verdict:</strong> The most Instagrammed snack in Asakusa — and for good reason. The jumbo melon pan is ridiculously good when fresh. Get there before noon for the shortest wait. The ice cream sandwich version in summer is next-level.
     </div>
 </section>
-<section class="restaurant-section" id="naruto-taiyaki">
+<section class="restaurant-section" id="naruto-taiyaki" data-map-name="3. Naruto Taiyaki (鳴門鯛焼本舗)" data-map-cta-url="https://maps.google.com/?cid=4929362009505199231&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Naruto Taiyaki (鳴門鯛焼本舗), Near Senso-ji, Tokyo, JP" data-map-lat="35.7121439" data-map-lng="139.7947441">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Naruto Taiyaki (鳴門鯛焼本舗)</h2>
         <span class="cuisine-tag tag-regional">Taiyaki</span>
@@ -672,7 +676,7 @@
         <strong>tabiji verdict:</strong> Taiyaki is Japan&#39;s quintessential street snack, and Naruto does it old-school — individual cast-iron molds instead of the multi-mold machines most shops use. The difference in crispiness is noticeable. ¥200 for a perfect warm snack.
     </div>
 </section>
-<section class="restaurant-section" id="candy-apple">
+<section class="restaurant-section" id="candy-apple" data-map-name="4. Asakusa Candy Apple (キャンディーアップル)" data-map-cta-url="https://maps.google.com/?cid=14099720296770482672&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asakusa Candy Apple (キャンディーアップル), Asakusa, near Kaminarimon, Tokyo, JP" data-map-lat="35.711841899999996" data-map-lng="139.795815">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Asakusa Candy Apple (キャンディーアップル)</h2>
         <span class="cuisine-tag tag-regional">Candy Apple</span>
@@ -706,7 +710,7 @@
         <strong>tabiji verdict:</strong> Glossy, photogenic, and genuinely delicious. The candy coating is thin and shatteringly crispy — not the thick, tooth-breaking kind. At ¥500–¥800 it&#39;s the priciest snack on this list, but the quality justifies it. Popular enough that people come back for seconds.
     </div>
 </section>
-<section class="restaurant-section" id="kibi-dango">
+<section class="restaurant-section" id="kibi-dango" data-map-name="5. Nakamise Kibi Dango (きびだんご あづま)" data-map-cta-url="https://www.google.com/maps/search/Nakamise+Kibi+Dango+%28%E3%81%8D%E3%81%B3%E3%81%A0%E3%82%93%E3%81%94+%E3%81%82%E3%81%A5%E3%81%BE%29+Asakusa+Tokyo-dango-nakamise" data-map-query="Nakamise Kibi Dango (きびだんご あづま), Nakamise-dori, Tokyo, JP" data-map-lat="35.7114834" data-map-lng="139.79634629999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Nakamise Kibi Dango (きびだんご あづま)</h2>
         <span class="cuisine-tag tag-regional">Kibi Dango</span>
@@ -732,7 +736,7 @@
         <strong>tabiji verdict:</strong> Asakusa&#39;s most traditional snack — kibi dango has been sold on Nakamise-dori for over a century. The millet dumplings are warm, chewy, and dusted with kinako. Simple, ancient, and ¥350 well spent.
     </div>
 </section>
-<section class="restaurant-section" id="asakusa-pudding">
+<section class="restaurant-section" id="asakusa-pudding" data-map-name="6. Asakusa Silk Pudding (浅草シルクプリン)" data-map-cta-url="https://maps.google.com/?cid=8318256496502096684&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asakusa Silk Pudding (浅草シルクプリン), Near Senso-ji, Tokyo, JP" data-map-lat="35.711237499999996" data-map-lng="139.7954263">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Asakusa Silk Pudding (浅草シルクプリン)</h2>
         <span class="cuisine-tag tag-regional">Pudding</span>
@@ -766,7 +770,7 @@
         <strong>tabiji verdict:</strong> Japanese purin (custard pudding) is one of the country&#39;s most underrated desserts. Asakusa Silk Pudding makes a version so smooth it melts on your tongue. The cute jar packaging makes it a great edible souvenir too.
     </div>
 </section>
-<section class="restaurant-section" id="cremia">
+<section class="restaurant-section" id="cremia" data-map-name="7. Cremia Ice Cream" data-map-cta-url="https://maps.google.com/?cid=9077498752530168510&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cremia Ice Cream, Nakamise area, multiple vendors, Tokyo, JP" data-map-lat="35.1587988" data-map-lng="136.9041924">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Cremia Ice Cream</h2>
         <span class="cuisine-tag tag-regional">Soft Serve</span>
@@ -792,7 +796,7 @@
         <strong>tabiji verdict:</strong> Cremia has developed a cult following — the butterfat content is 12.5% (double regular soft serve) and the langues de chat cone is crispy perfection. Harder to find than it used to be, but Asakusa still has vendors. Worth seeking out.
     </div>
 </section>
-<section class="restaurant-section" id="yoroiya">
+<section class="restaurant-section" id="yoroiya" data-map-name="8. Yoroiya Ramen (与ろゐ屋)" data-map-cta-url="https://maps.google.com/?cid=16538364024952746712&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yoroiya Ramen (与ろゐ屋), Asakusa, near Senso-ji, Tokyo, JP" data-map-lat="35.7135599" data-map-lng="139.7978887">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Yoroiya Ramen (与ろゐ屋)</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -826,7 +830,7 @@
         <strong>tabiji verdict:</strong> When you need a proper sit-down meal between snacks, Yoroiya is the move. Their yuzu shio ramen is light and refreshing — a nice counterpoint to all the fried and sweet street food. Consistently praised by repeat visitors.
     </div>
 </section>
-<section class="restaurant-section" id="tendon-tenya">
+<section class="restaurant-section" id="tendon-tenya" data-map-name="9. Tendon Tenya (天丼てんや)" data-map-cta-url="https://maps.google.com/?cid=3811576022984190020&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tendon Tenya (天丼てんや), Asakusa area, Tokyo, JP" data-map-lat="35.7114847" data-map-lng="139.7928011">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Tendon Tenya (天丼てんや)</h2>
         <span class="cuisine-tag tag-tempura">Tempura</span>
@@ -860,7 +864,7 @@
         <strong>tabiji verdict:</strong> A chain? Yes. Cool? No. Delicious tendon for under ¥600? Absolutely. While tourists queue for 45 minutes at Daikokuya, locals eat equally good tempura here with no wait. The budget traveler&#39;s secret weapon.
     </div>
 </section>
-<section class="restaurant-section" id="hoppy-street">
+<section class="restaurant-section" id="hoppy-street" data-map-name="10. Hoppy Street (ホッピー通り)" data-map-cta-url="https://maps.google.com/?cid=9859355633687772115&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hoppy Street (ホッピー通り), Asakusa, near Senso-ji, Tokyo, JP" data-map-lat="35.713802" data-map-lng="139.7942136">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Hoppy Street (ホッピー通り)</h2>
         <span class="cuisine-tag tag-regional">Izakaya Alley</span>
@@ -886,7 +890,7 @@
         <strong>tabiji verdict:</strong> The perfect way to end an Asakusa day. Grab an outdoor seat at any of the izakayas, order Hoppy (a Tokyo classic), and watch the neighborhood come alive as the sun goes down. Motsu-ni is the signature dish — simmered offal in a sweet miso broth.
     </div>
 </section>
-<section class="restaurant-section" id="senbei">
+<section class="restaurant-section" id="senbei" data-map-name="11. Nakamise Senbei Shops" data-map-cta-url="https://maps.google.com/?cid=8050312679161302419&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nakamise Senbei Shops, Nakamise-dori, Tokyo, JP" data-map-lat="35.711841299999996" data-map-lng="139.7964542">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Nakamise Senbei Shops</h2>
         <span class="cuisine-tag tag-regional">Rice Crackers</span>
@@ -920,7 +924,7 @@
         <strong>tabiji verdict:</strong> Don&#39;t walk past the senbei stalls — freshly grilled rice crackers are a totally different experience from the packaged kind. Watch them press the rice dough, grill it over charcoal, and brush on soy sauce. ¥100–¥300 and deeply satisfying.
     </div>
 </section>
-<section class="restaurant-section" id="sometaro">
+<section class="restaurant-section" id="sometaro" data-map-name="12. Sometaro (染太郎)" data-map-cta-url="https://maps.google.com/?cid=15093122525121686287&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sometaro (染太郎), Asakusa backstreets, Tokyo, JP" data-map-lat="35.711909299999995" data-map-lng="139.7909269">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Sometaro (染太郎)</h2>
         <span class="cuisine-tag tag-regional">Monjayaki / Okonomiyaki</span>
@@ -954,7 +958,7 @@
         <strong>tabiji verdict:</strong> Monjayaki is Tokyo&#39;s native street food — and Sometaro has been serving it since the 1930s. You cook it yourself on the table griddle, eating it with tiny spatulas. An interactive, fun, and uniquely Asakusa experience.
     </div>
 </section>
-<section class="restaurant-section" id="daikokuya">
+<section class="restaurant-section" id="daikokuya" data-map-name="13. Daikokuya (大黒家天麩羅)" data-map-cta-url="https://maps.google.com/?cid=17105810987302783774&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Daikokuya (大黒家天麩羅), Asakusa, near Senso-ji, Tokyo, JP" data-map-lat="35.7127383" data-map-lng="139.79557">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Daikokuya (大黒家天麩羅)</h2>
         <span class="cuisine-tag tag-tempura">Tempura</span>
@@ -988,7 +992,7 @@
         <strong>tabiji verdict:</strong> The iconic Asakusa tempura experience since 1887. The main location has long queues — pro tip: the second branch (Annex) a few doors down has the exact same food with much shorter waits. The shrimp-draped tendon is legendary.
     </div>
 </section>
-<section class="restaurant-section" id="age-manju">
+<section class="restaurant-section" id="age-manju" data-map-name="14. Asakusa Age Manju (浅草九重)" data-map-cta-url="https://maps.google.com/?cid=7785923974874169613&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asakusa Age Manju (浅草九重), Nakamise-dori, Tokyo, JP" data-map-lat="35.7134718" data-map-lng="139.7966667">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Asakusa Age Manju (浅草九重)</h2>
         <span class="cuisine-tag tag-regional">Deep-Fried Manju</span>
@@ -1014,7 +1018,7 @@
         <strong>tabiji verdict:</strong> At ¥100 each, these deep-fried sweet buns might be the best value snack in all of Tokyo. Crispy outside, warm anko inside. The matcha and sweet potato flavors are standouts. You will eat more than one.
     </div>
 </section>
-<section class="restaurant-section" id="suzukien">
+<section class="restaurant-section" id="suzukien" data-map-name="15. Suzukien (壽々喜園)" data-map-cta-url="https://maps.google.com/?cid=1927186369537713749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Suzukien (壽々喜園), Near Senso-ji, Tokyo, JP" data-map-lat="35.7163436" data-map-lng="139.7969391">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Suzukien (壽々喜園)</h2>
         <span class="cuisine-tag tag-regional">Matcha Gelato</span>
@@ -1048,7 +1052,7 @@
         <strong>tabiji verdict:</strong> Famous for having the world&#39;s most concentrated matcha gelato (7 levels of intensity). Level 7 uses the most premium matcha available — it&#39;s intense, slightly bitter, and incredibly flavorful. Get two different levels to compare. Always a queue, but it moves.
     </div>
 </section>
-<section class="restaurant-section" id="gyukatsu">
+<section class="restaurant-section" id="gyukatsu" data-map-name="16. Asakusa Gyukatsu (浅草牛かつ)" data-map-cta-url="https://maps.google.com/?cid=15133757769088164000&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Asakusa Gyukatsu (浅草牛かつ), Asakusa backstreets, Tokyo, JP" data-map-lat="35.7107673" data-map-lng="139.7959519">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Asakusa Gyukatsu (浅草牛かつ)</h2>
         <span class="cuisine-tag tag-gyukatsu">Gyukatsu</span>
@@ -1082,7 +1086,7 @@
         <strong>tabiji verdict:</strong> Not quite &quot;street food&quot; but too good to leave off. Rare beef cutlet that you cook yourself on a sizzling hot stone. At ¥1,200–¥1,600 it&#39;s a splurge, but the experience is worth it. Perfect for a proper meal between snacks.
     </div>
 </section>
-<section class="restaurant-section" id="kamiya-bar">
+<section class="restaurant-section" id="kamiya-bar" data-map-name="17. Kamiya Bar (神谷バー)" data-map-cta-url="https://maps.google.com/?cid=12205978299747555914&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kamiya Bar (神谷バー), Asakusa 1-chome, near Kaminarimon, Tokyo, JP" data-map-lat="35.7109309" data-map-lng="139.797503">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Kamiya Bar (神谷バー)</h2>
         <span class="cuisine-tag tag-regional">Bar / Denki Bran</span>
@@ -1116,7 +1120,7 @@
         <strong>tabiji verdict:</strong> Tokyo&#39;s oldest Western-style bar (since 1880). The Denki Bran is a sweet, potent cocktail that tastes like history. At ¥270 a glass, it might be the cheapest drink in Asakusa. The ground floor is a beer hall; go upstairs for the full restaurant.
     </div>
 </section>
-<section class="restaurant-section" id="men-mitsuwi">
+<section class="restaurant-section" id="men-mitsuwi" data-map-name="18. Men Mitsuwi (麺 みつヰ)" data-map-cta-url="https://maps.google.com/?cid=8702679645026182796&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Men Mitsuwi (麺 みつヰ), Asakusa, Tokyo, JP" data-map-lat="35.709534" data-map-lng="139.790322">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Men Mitsuwi (麺 みつヰ)</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -1168,9 +1172,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Street%20Food%20in%20Asakusa&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Asakusa Menchi (浅草メンチ)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1192,7 +1197,7 @@
       <li>
         <a href="#asakusa-pudding">6. Asakusa Silk Pudding (浅草シルクプリン)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Street%20Food%20in%20Asakusa" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11520710359969543878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1203,5 +1208,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Street Food Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Street%20Food%20in%20Asakusa","picks":[{"anchorId":"asakusa-menchi","rank":1,"name":"Asakusa Menchi (浅草メンチ)","label":"1. Asakusa Menchi (浅草メンチ)","lat":35.7129114,"lng":139.7960553,"ctaUrl":"https://maps.google.com/?cid=11520710359969543878&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asakusa Menchi (浅草メンチ), Behind Senso-ji temple, Tokyo, JP"},{"anchorId":"kagetsudo","rank":2,"name":"Kagetsudo (花月堂)","label":"2. Kagetsudo (花月堂)","lat":35.7146332,"lng":139.7951685,"ctaUrl":"https://maps.google.com/?cid=4451824583051951723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kagetsudo (花月堂), Near Senso-ji, Nishi-Sando, Tokyo, JP"},{"anchorId":"naruto-taiyaki","rank":3,"name":"Naruto Taiyaki (鳴門鯛焼本舗)","label":"3. Naruto Taiyaki (鳴門鯛焼本舗)","lat":35.7121439,"lng":139.7947441,"ctaUrl":"https://maps.google.com/?cid=4929362009505199231&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Naruto Taiyaki (鳴門鯛焼本舗), Near Senso-ji, Tokyo, JP"},{"anchorId":"candy-apple","rank":4,"name":"Asakusa Candy Apple (キャンディーアップル)","label":"4. Asakusa Candy Apple (キャンディーアップル)","lat":35.711841899999996,"lng":139.795815,"ctaUrl":"https://maps.google.com/?cid=14099720296770482672&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asakusa Candy Apple (キャンディーアップル), Asakusa, near Kaminarimon, Tokyo, JP"},{"anchorId":"kibi-dango","rank":5,"name":"Nakamise Kibi Dango (きびだんご あづま)","label":"5. Nakamise Kibi Dango (きびだんご あづま)","lat":35.7114834,"lng":139.79634629999998,"ctaUrl":"https://www.google.com/maps/search/Nakamise+Kibi+Dango+%28%E3%81%8D%E3%81%B3%E3%81%A0%E3%82%93%E3%81%94+%E3%81%82%E3%81%A5%E3%81%BE%29+Asakusa+Tokyo-dango-nakamise","mapQuery":"Nakamise Kibi Dango (きびだんご あづま), Nakamise-dori, Tokyo, JP"},{"anchorId":"asakusa-pudding","rank":6,"name":"Asakusa Silk Pudding (浅草シルクプリン)","label":"6. Asakusa Silk Pudding (浅草シルクプリン)","lat":35.711237499999996,"lng":139.7954263,"ctaUrl":"https://maps.google.com/?cid=8318256496502096684&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asakusa Silk Pudding (浅草シルクプリン), Near Senso-ji, Tokyo, JP"},{"anchorId":"cremia","rank":7,"name":"Cremia Ice Cream","label":"7. Cremia Ice Cream","lat":35.1587988,"lng":136.9041924,"ctaUrl":"https://maps.google.com/?cid=9077498752530168510&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cremia Ice Cream, Nakamise area, multiple vendors, Tokyo, JP"},{"anchorId":"yoroiya","rank":8,"name":"Yoroiya Ramen (与ろゐ屋)","label":"8. Yoroiya Ramen (与ろゐ屋)","lat":35.7135599,"lng":139.7978887,"ctaUrl":"https://maps.google.com/?cid=16538364024952746712&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yoroiya Ramen (与ろゐ屋), Asakusa, near Senso-ji, Tokyo, JP"},{"anchorId":"tendon-tenya","rank":9,"name":"Tendon Tenya (天丼てんや)","label":"9. Tendon Tenya (天丼てんや)","lat":35.7114847,"lng":139.7928011,"ctaUrl":"https://maps.google.com/?cid=3811576022984190020&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tendon Tenya (天丼てんや), Asakusa area, Tokyo, JP"},{"anchorId":"hoppy-street","rank":10,"name":"Hoppy Street (ホッピー通り)","label":"10. Hoppy Street (ホッピー通り)","lat":35.713802,"lng":139.7942136,"ctaUrl":"https://maps.google.com/?cid=9859355633687772115&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hoppy Street (ホッピー通り), Asakusa, near Senso-ji, Tokyo, JP"},{"anchorId":"senbei","rank":11,"name":"Nakamise Senbei Shops","label":"11. Nakamise Senbei Shops","lat":35.711841299999996,"lng":139.7964542,"ctaUrl":"https://maps.google.com/?cid=8050312679161302419&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nakamise Senbei Shops, Nakamise-dori, Tokyo, JP"},{"anchorId":"sometaro","rank":12,"name":"Sometaro (染太郎)","label":"12. Sometaro (染太郎)","lat":35.711909299999995,"lng":139.7909269,"ctaUrl":"https://maps.google.com/?cid=15093122525121686287&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sometaro (染太郎), Asakusa backstreets, Tokyo, JP"},{"anchorId":"daikokuya","rank":13,"name":"Daikokuya (大黒家天麩羅)","label":"13. Daikokuya (大黒家天麩羅)","lat":35.7127383,"lng":139.79557,"ctaUrl":"https://maps.google.com/?cid=17105810987302783774&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Daikokuya (大黒家天麩羅), Asakusa, near Senso-ji, Tokyo, JP"},{"anchorId":"age-manju","rank":14,"name":"Asakusa Age Manju (浅草九重)","label":"14. Asakusa Age Manju (浅草九重)","lat":35.7134718,"lng":139.7966667,"ctaUrl":"https://maps.google.com/?cid=7785923974874169613&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asakusa Age Manju (浅草九重), Nakamise-dori, Tokyo, JP"},{"anchorId":"suzukien","rank":15,"name":"Suzukien (壽々喜園)","label":"15. Suzukien (壽々喜園)","lat":35.7163436,"lng":139.7969391,"ctaUrl":"https://maps.google.com/?cid=1927186369537713749&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Suzukien (壽々喜園), Near Senso-ji, Tokyo, JP"},{"anchorId":"gyukatsu","rank":16,"name":"Asakusa Gyukatsu (浅草牛かつ)","label":"16. Asakusa Gyukatsu (浅草牛かつ)","lat":35.7107673,"lng":139.7959519,"ctaUrl":"https://maps.google.com/?cid=15133757769088164000&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Asakusa Gyukatsu (浅草牛かつ), Asakusa backstreets, Tokyo, JP"},{"anchorId":"kamiya-bar","rank":17,"name":"Kamiya Bar (神谷バー)","label":"17. Kamiya Bar (神谷バー)","lat":35.7109309,"lng":139.797503,"ctaUrl":"https://maps.google.com/?cid=12205978299747555914&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kamiya Bar (神谷バー), Asakusa 1-chome, near Kaminarimon, Tokyo, JP"},{"anchorId":"men-mitsuwi","rank":18,"name":"Men Mitsuwi (麺 みつヰ)","label":"18. Men Mitsuwi (麺 みつヰ)","lat":35.709534,"lng":139.790322,"ctaUrl":"https://maps.google.com/?cid=8702679645026182796&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Men Mitsuwi (麺 みつヰ), Asakusa, Tokyo, JP"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

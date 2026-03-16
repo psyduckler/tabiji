@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Chinchilla Rooftop Café & Bar",
-        "servesCuisine": "Rooftop Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Café Caprice",
-        "servesCuisine": "Beachfront Icon",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "The Twelve Apostles Hotel — Leopard Bar",
-        "servesCuisine": "Hotel Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Victoria Road, Oudekraal (between Camps Bay & Llandudno)",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "The Bay Hotel — Sandy B Beach Bar",
-        "servesCuisine": "Hotel Beach Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Victoria Road, Camps Bay",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Mantra Café & Bar",
-        "servesCuisine": "Beachfront Dining",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "The Codfather",
-        "servesCuisine": "Seafood & Sushi",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "The Promenade, Camps Bay",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Tigers Milk Camps Bay",
-        "servesCuisine": "Casual / Burgers",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Hussar Grill Camps Bay",
-        "servesCuisine": "Steakhouse",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "The Roundhouse & The Lawns",
-        "servesCuisine": "Fine Dining / Garden Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Round House Road, Camps Bay (above the strip)",
@@ -209,7 +200,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Zenzero",
-        "servesCuisine": "Italian / Cocktail Bar",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Camps Bay Strip, Victoria Road",
@@ -286,11 +276,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -315,9 +300,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -342,39 +330,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Sunset Bars in Camps Bay",
-                        "item": "https://tabiji.ai/popular-picks/camps-bay-sunset-bars/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -417,18 +378,19 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>For incredible sunset views in Camps Bay, Cape Town, expect to pay R100-R800 per person, with Chinchilla Rooftop Café &amp; Bar being a top recommendation due to its unobstructed ocean and Lion&#39;s Head views. The golden hour energy here is unmatched when enjoyed from one of these bars and restaurants. We dug through hundreds of Reddit posts from r/capetown, r/CapeTownTravel, and r/travel to find the bars and restaurants that actual Cape Town locals and experienced visitors recommend for sundowners.</strong></p>
-        <p>For incredible sunset views in Camps Bay, Cape Town, expect to pay R100-R800 per person, with Chinchilla Rooftop Café &amp; Bar being a top recommendation due to its unobstructed ocean and Lion&#39;s Head views. The golden hour energy here is unmatched, especially when enjoyed from one of these recommended bars and restaurants.</p><p>There are few places on Earth where sunset hits like it does in Camps Bay. The Atlantic stretches out before you, the Twelve Apostles mountain range frames the sky, and as the sun dips below the horizon, the whole strip comes alive with that golden-hour energy that Cape Town does better than almost anywhere.</p><p>We dug through hundreds of Reddit posts from r/capetown, r/CapeTownTravel, and r/travel to find the bars and restaurants that actual Cape Town locals and experienced visitors recommend for sundowners. From rooftop cocktails to beachfront beers — these are the spots worth your time.</p>
+        <p>There are few places on Earth where sunset hits like it does in Camps Bay. The Atlantic stretches out before you, the Twelve Apostles mountain range frames the sky, and as the sun dips below the horizon, the whole strip comes alive with that golden-hour energy that Cape Town does better than almost anywhere.</p><p>We dug through hundreds of Reddit posts from r/capetown, r/CapeTownTravel, and r/travel to find the bars and restaurants that actual Cape Town locals and experienced visitors recommend for sundowners. From rooftop cocktails to beachfront beers — these are the spots worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Sunset Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cape%20Town%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chinchilla Rooftop Café &amp; Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Sunset Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#chinchilla">1. Chinchilla Rooftop Café &amp; Bar</a>
+        <a href="#chinchilla">1. Chinchilla Rooftop Café & Bar</a>
       </li>
       <li>
         <a href="#cafe-caprice">2. Café Caprice</a>
@@ -440,12 +402,12 @@
         <a href="#bay-hotel">4. The Bay Hotel — Sandy B Beach Bar</a>
       </li>
       <li>
-        <a href="#mantra-cafe">5. Mantra Café &amp; Bar</a>
+        <a href="#mantra-cafe">5. Mantra Café & Bar</a>
       </li>
       <li>
         <a href="#codfather">6. The Codfather</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cape%20Town%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3844520053812927594&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -457,7 +419,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="chinchilla">
+<section class="restaurant-section" id="chinchilla" data-map-name="1. Chinchilla Rooftop Café &amp; Bar" data-map-cta-url="https://maps.google.com/?cid=3844520053812927594&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chinchilla Rooftop Café &amp; Bar, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.9530715" data-map-lng="18.3773593">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Chinchilla Rooftop Café &amp; Bar</h2>
         <span class="cuisine-tag tag-regional">Rooftop Bar</span>
@@ -499,7 +461,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended sunset bar in Camps Bay on Reddit. Yes, it&#39;s touristy — but the elevated rooftop position gives genuinely better views than the ground-level strip bars. The cocktails are solid and the atmosphere on a summer evening is hard to beat. Get there by 5 PM in peak season.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-caprice">
+<section class="restaurant-section" id="cafe-caprice" data-map-name="2. Café Caprice" data-map-cta-url="https://maps.google.com/?cid=13017642121838619868&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Caprice, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.950671" data-map-lng="18.378650999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Café Caprice</h2>
         <span class="cuisine-tag tag-regional">Beachfront Icon</span>
@@ -541,7 +503,7 @@
         <strong>tabiji verdict:</strong> The most polarizing spot on this list. Locals either love it or loathe it — &quot;posers and trust fund babies&quot; vs. &quot;unmatched summer vibes.&quot; The truth is somewhere in the middle. On a peak summer afternoon with the music pumping and the whole strip buzzing, there&#39;s genuine energy here. Just don&#39;t expect warmth from the staff or mind-blowing food. It&#39;s a scene, and you&#39;re part of it.
     </div>
 </section>
-<section class="restaurant-section" id="twelve-apostles">
+<section class="restaurant-section" id="twelve-apostles" data-map-name="3. The Twelve Apostles Hotel — Leopard Bar" data-map-cta-url="https://maps.google.com/?cid=2516021284409930233&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Twelve Apostles Hotel — Leopard Bar, Victoria Road, Oudekraal (between Camps Bay &amp; Llandudno), Cape Town, ZA" data-map-lat="-33.9834999" data-map-lng="18.3589993">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>The Twelve Apostles Hotel — Leopard Bar</h2>
         <span class="cuisine-tag tag-regional">Hotel Bar</span>
@@ -579,7 +541,7 @@
         <strong>tabiji verdict:</strong> The refined option. Technically not on the Camps Bay strip itself, but perched on the coastal road between Camps Bay and Llandudno with arguably the most dramatic sunset vantage point in the area. The Leopard Bar has a clubby, intimate feel — think leather armchairs and crackling fireplace. Pricier than the strip, but worlds apart in atmosphere. Worth the Uber.
     </div>
 </section>
-<section class="restaurant-section" id="bay-hotel">
+<section class="restaurant-section" id="bay-hotel" data-map-name="4. The Bay Hotel — Sandy B Beach Bar" data-map-cta-url="https://maps.google.com/?cid=13113094209999070223&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Bay Hotel — Sandy B Beach Bar, Victoria Road, Camps Bay, Cape Town, ZA" data-map-lat="-33.95254" data-map-lng="18.3782">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>The Bay Hotel — Sandy B Beach Bar</h2>
         <span class="cuisine-tag tag-regional">Hotel Beach Bar</span>
@@ -617,7 +579,7 @@
         <strong>tabiji verdict:</strong> The hotel pool-bar experience that tourists dream about. Sandy B sits right on the beachfront with the Twelve Apostles mountain range as your backdrop. It&#39;s polished but not stuffy — you can show up in beach clothes. The cocktail game is strong and the sunset views are front-row. A solid pick for couples or small groups who want Camps Bay vibes without the strip crowd.
     </div>
 </section>
-<section class="restaurant-section" id="mantra-cafe">
+<section class="restaurant-section" id="mantra-cafe" data-map-name="5. Mantra Café &amp; Bar" data-map-cta-url="https://maps.google.com/?cid=11046764673333256531&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mantra Café &amp; Bar, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.950782499999995" data-map-lng="18.378619200000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mantra Café &amp; Bar</h2>
         <span class="cuisine-tag tag-regional">Beachfront Dining</span>
@@ -655,7 +617,7 @@
         <strong>tabiji verdict:</strong> Mantra is the &quot;safe choice&quot; on the strip — better than Café Caprice for food, less frenetic in energy, and the front tables have genuinely great sunset views. Locals are lukewarm on the food and service, but acknowledge it delivers where it counts: a beachfront seat with a cocktail at golden hour. Book ahead and specify &quot;front row.&quot;
     </div>
 </section>
-<section class="restaurant-section" id="codfather">
+<section class="restaurant-section" id="codfather" data-map-name="6. The Codfather" data-map-cta-url="https://maps.google.com/?cid=4346568274157365125&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Codfather, The Promenade, Camps Bay, Cape Town, ZA" data-map-lat="-33.954155" data-map-lng="18.377465">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>The Codfather</h2>
         <span class="cuisine-tag tag-sushi">Seafood &amp; Sushi</span>
@@ -693,7 +655,7 @@
         <strong>tabiji verdict:</strong> Not a &quot;bar&quot; in the traditional sense, but The Codfather earns its spot because a sunset dinner here is a Camps Bay essential. The pick-your-own-fish concept is interactive and fun, the seafood is genuinely excellent, and the prices are surprisingly reasonable for the strip. The BYO wine option is a local power move that keeps costs down. Arrive early for a window seat.
     </div>
 </section>
-<section class="restaurant-section" id="tigers-milk">
+<section class="restaurant-section" id="tigers-milk" data-map-name="7. Tigers Milk Camps Bay" data-map-cta-url="https://maps.google.com/?cid=1031863725281286257&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tigers Milk Camps Bay, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.9504291" data-map-lng="18.3788217">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Tigers Milk Camps Bay</h2>
         <span class="cuisine-tag tag-regional">Casual / Burgers</span>
@@ -731,7 +693,7 @@
         <strong>tabiji verdict:</strong> The most budget-friendly option on the strip with a genuine view. Tigers Milk is a franchise, so don&#39;t expect culinary fireworks — but the upstairs balcony seats deliver Camps Bay sunset views at prices that won&#39;t make you wince. It&#39;s where locals go when they want the view without the pretension or the bill. Perfect for groups and families.
     </div>
 </section>
-<section class="restaurant-section" id="hussar-grill">
+<section class="restaurant-section" id="hussar-grill" data-map-name="8. Hussar Grill Camps Bay" data-map-cta-url="https://maps.google.com/?cid=9086383211975113534&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hussar Grill Camps Bay, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.962845" data-map-lng="18.378113499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Hussar Grill Camps Bay</h2>
         <span class="cuisine-tag tag-regional">Steakhouse</span>
@@ -769,7 +731,7 @@
         <strong>tabiji verdict:</strong> Hussar Grill is the serious dinner option — when you want a proper steak with your sunset rather than just cocktails. The outside tables face the ocean and the steaks are genuinely excellent (it&#39;s a beloved South African chain with a strong reputation). Not cheap, but for a sunset steak dinner on the Camps Bay strip, nothing beats it. Book early and be specific about seating.
     </div>
 </section>
-<section class="restaurant-section" id="roundhouse">
+<section class="restaurant-section" id="roundhouse" data-map-name="9. The Roundhouse &amp; The Lawns" data-map-cta-url="https://maps.google.com/?cid=6890690899352696215&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Roundhouse &amp; The Lawns, Round House Road, Camps Bay (above the strip), Cape Town, ZA" data-map-lat="-33.943843099999995" data-map-lng="18.3847393">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>The Roundhouse &amp; The Lawns</h2>
         <span class="cuisine-tag tag-regional">Fine Dining / Garden Bar</span>
@@ -803,7 +765,7 @@
         <strong>tabiji verdict:</strong> The hidden gem of Camps Bay sunsets. While everyone fights for tables on the strip below, The Roundhouse sits elevated on the hillside with commanding views over the entire bay. The Lawns section is the move — casual garden vibes with cocktails, looking down at the sunset over the ocean. It&#39;s the spot locals send friends to when they want to impress without the strip chaos. Worth the uphill drive.
     </div>
 </section>
-<section class="restaurant-section" id="zenzero">
+<section class="restaurant-section" id="zenzero" data-map-name="10. Zenzero" data-map-cta-url="https://maps.google.com/?cid=12735980490201370562&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Zenzero, Camps Bay Strip, Victoria Road, Cape Town, ZA" data-map-lat="-33.953049899999996" data-map-lng="18.3773421">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Zenzero</h2>
         <span class="cuisine-tag tag-regional">Italian / Cocktail Bar</span>
@@ -855,14 +817,15 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Sunset Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cape%20Town%20lodging&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chinchilla Rooftop Café &amp; Bar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Sunset Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#chinchilla">1. Chinchilla Rooftop Café &amp; Bar</a>
+        <a href="#chinchilla">1. Chinchilla Rooftop Café & Bar</a>
       </li>
       <li>
         <a href="#cafe-caprice">2. Café Caprice</a>
@@ -874,12 +837,12 @@
         <a href="#bay-hotel">4. The Bay Hotel — Sandy B Beach Bar</a>
       </li>
       <li>
-        <a href="#mantra-cafe">5. Mantra Café &amp; Bar</a>
+        <a href="#mantra-cafe">5. Mantra Café & Bar</a>
       </li>
       <li>
         <a href="#codfather">6. The Codfather</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cape%20Town%20lodging" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3844520053812927594&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -890,5 +853,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Sunset Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Sunset%20Bars%20in%20Camps%20Bay","picks":[{"anchorId":"chinchilla","rank":1,"name":"Chinchilla Rooftop Café & Bar","label":"1. Chinchilla Rooftop Café & Bar","lat":-33.9530715,"lng":18.3773593,"ctaUrl":"https://maps.google.com/?cid=3844520053812927594&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chinchilla Rooftop Café & Bar, Camps Bay Strip, Victoria Road, Cape Town, ZA"},{"anchorId":"cafe-caprice","rank":2,"name":"Café Caprice","label":"2. Café Caprice","lat":-33.950671,"lng":18.378650999999998,"ctaUrl":"https://maps.google.com/?cid=13017642121838619868&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Caprice, Camps Bay Strip, Victoria Road, Cape Town, ZA"},{"anchorId":"twelve-apostles","rank":3,"name":"The Twelve Apostles Hotel — Leopard Bar","label":"3. The Twelve Apostles Hotel — Leopard Bar","lat":-33.9834999,"lng":18.3589993,"ctaUrl":"https://maps.google.com/?cid=2516021284409930233&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Twelve Apostles Hotel — Leopard Bar, Victoria Road, Oudekraal (between Camps Bay & Llandudno), Cape Town, ZA"},{"anchorId":"bay-hotel","rank":4,"name":"The Bay Hotel — Sandy B Beach Bar","label":"4. The Bay Hotel — Sandy B Beach Bar","lat":-33.95254,"lng":18.3782,"ctaUrl":"https://maps.google.com/?cid=13113094209999070223&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Bay Hotel — Sandy B Beach Bar, Victoria Road, Camps Bay, Cape Town, ZA"},{"anchorId":"mantra-cafe","rank":5,"name":"Mantra Café & Bar","label":"5. Mantra Café & Bar","lat":-33.950782499999995,"lng":18.378619200000003,"ctaUrl":"https://maps.google.com/?cid=11046764673333256531&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mantra Café & Bar, Camps Bay Strip, Victoria Road, Cape Town, ZA"},{"anchorId":"codfather","rank":6,"name":"The Codfather","label":"6. The Codfather","lat":-33.954155,"lng":18.377465,"ctaUrl":"https://maps.google.com/?cid=4346568274157365125&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Codfather, The Promenade, Camps Bay, Cape Town, ZA"},{"anchorId":"tigers-milk","rank":7,"name":"Tigers Milk Camps Bay","label":"7. Tigers Milk Camps Bay","lat":-33.9504291,"lng":18.3788217,"ctaUrl":"https://maps.google.com/?cid=1031863725281286257&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tigers Milk Camps Bay, Camps Bay Strip, Victoria Road, Cape Town, ZA"},{"anchorId":"hussar-grill","rank":8,"name":"Hussar Grill Camps Bay","label":"8. Hussar Grill Camps Bay","lat":-33.962845,"lng":18.378113499999998,"ctaUrl":"https://maps.google.com/?cid=9086383211975113534&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hussar Grill Camps Bay, Camps Bay Strip, Victoria Road, Cape Town, ZA"},{"anchorId":"roundhouse","rank":9,"name":"The Roundhouse & The Lawns","label":"9. The Roundhouse & The Lawns","lat":-33.943843099999995,"lng":18.3847393,"ctaUrl":"https://maps.google.com/?cid=6890690899352696215&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Roundhouse & The Lawns, Round House Road, Camps Bay (above the strip), Cape Town, ZA"},{"anchorId":"zenzero","rank":10,"name":"Zenzero","label":"10. Zenzero","lat":-33.953049899999996,"lng":18.3773421,"ctaUrl":"https://maps.google.com/?cid=12735980490201370562&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Zenzero, Camps Bay Strip, Victoria Road, Cape Town, ZA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

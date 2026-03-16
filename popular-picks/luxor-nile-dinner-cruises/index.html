@@ -300,9 +300,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -327,7 +330,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -375,13 +378,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Nile dinner cruises in Luxor offer a range of experiences from $10 budget felucca rides to luxurious $200 private yacht experiences, best enjoyed during the cooler months. The private sunset felucca is a top recommendation for its serene atmosphere and traditional experience. Dining on the Nile provides unique views of the Valley of the Kings and Luxor Temple, creating a magical atmosphere.</strong></p>
-        <p>Nile dinner cruises in Luxor range from budget-friendly $10 felucca rides to luxurious $200 private yacht experiences, with the private sunset felucca being a top recommendation for its serene atmosphere. The ideal time is during the cooler months for comfortable outdoor dining.</p><p>There&#39;s something about dining on the Nile in Luxor that no other city can replicate. To your west, the Valley of the Kings fades into amber dusk. To your east, Luxor Temple glows golden under floodlights. Between them — you, on the water, eating stuffed vine leaves while a felucca&#39;s sail catches the last light.</p><p>We combed through Reddit threads, traveler forums, and review sites to separate the genuinely magical Nile dining experiences from the tourist-trap boats with sad buffets and aggressive tipping culture. Whether you want a peaceful felucca sunset or a full belly-dancing extravaganza — here&#39;s what&#39;s actually worth your evening in Luxor.</p>
+        <p>There&#39;s something about dining on the Nile in Luxor that no other city can replicate. To your west, the Valley of the Kings fades into amber dusk. To your east, Luxor Temple glows golden under floodlights. Between them — you, on the water, eating stuffed vine leaves while a felucca&#39;s sail catches the last light.</p><p>We combed through Reddit threads, traveler forums, and review sites to separate the genuinely magical Nile dining experiences from the tourist-trap boats with sad buffets and aggressive tipping culture. Whether you want a peaceful felucca sunset or a full belly-dancing extravaganza — here&#39;s what&#39;s actually worth your evening in Luxor.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cruise Map</h2>
-      <iframe src="https://www.google.com/maps?q=Nile%20Dinner%20Cruises%20in%20Luxor&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Iberotel Lotus Dinner Cruise</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cruise Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -392,7 +396,7 @@
         <a href="#sunset-felucca">2. Private Sunset Felucca Dinner</a>
       </li>
       <li>
-        <a href="#belly-dancing-cruise">3. Dinner Cruise with Belly Dancing &amp; Tanoura</a>
+        <a href="#belly-dancing-cruise">3. Dinner Cruise with Belly Dancing & Tanoura</a>
       </li>
       <li>
         <a href="#steigenberger">4. Steigenberger Nile Palace Terrace</a>
@@ -403,7 +407,7 @@
       <li>
         <a href="#sonesta">6. Sonesta St. George Nile Dining</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Nile%20Dinner%20Cruises%20in%20Luxor" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8730884151002048749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -415,7 +419,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="iberotel-lotus">
+<section class="restaurant-section" id="iberotel-lotus" data-map-name="1. Iberotel Lotus Dinner Cruise" data-map-cta-url="https://maps.google.com/?cid=8730884151002048749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Iberotel Lotus Dinner Cruise, East Bank, Corniche el-Nile, East Bank, EG" data-map-lat="25.694641999999998" data-map-lng="32.634608">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Iberotel Lotus Dinner Cruise</h2>
         <span class="cuisine-tag tag-regional">Luxury Docked Dining</span>
@@ -452,7 +456,7 @@
         <strong>tabiji verdict:</strong> Luxor&#39;s flagship dinner boat. The Iberotel Lotus stays docked — meaning no seasickness, stable tables, and a reliable dining experience. The food quality is a clear step above the budget cruise boats, and the Nile-side ambiance with Luxor Temple glowing across the water is hard to beat. Book through Luxor Booking Tours for hotel pickup included.
     </div>
 </section>
-<section class="restaurant-section" id="sunset-felucca">
+<section class="restaurant-section" id="sunset-felucca" data-map-name="2. Private Sunset Felucca Dinner" data-map-cta-url="https://maps.google.com/?cid=11305237995157627849&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Private Sunset Felucca Dinner, East Bank, Felucca Docks, East Bank, EG" data-map-lat="30.041189300000003" data-map-lng="31.221382700000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Private Sunset Felucca Dinner</h2>
         <span class="cuisine-tag tag-regional">Traditional Sailing</span>
@@ -489,7 +493,7 @@
         <strong>tabiji verdict:</strong> The most romantic option, full stop. Yes, the food is simpler than a luxury boat — but you&#39;re not here for the food. You&#39;re here for the moment: gliding silently past palm-fringed banks while the West Bank mountains turn pink and gold. Negotiate the price beforehand (EGP 800-1500 for a private 2-hour felucca with dinner is fair). Bring a light jacket — it gets cool on the water after sunset.
     </div>
 </section>
-<section class="restaurant-section" id="belly-dancing-cruise">
+<section class="restaurant-section" id="belly-dancing-cruise" data-map-name="3. Dinner Cruise with Belly Dancing &amp; Tanoura" data-map-cta-url="https://maps.google.com/?cid=16297973445579706263&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dinner Cruise with Belly Dancing &amp; Tanoura, East Bank, Corniche Cruise Docks, East Bank, EG" data-map-lat="25.069779" data-map-lng="55.130283999999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Dinner Cruise with Belly Dancing &amp; Tanoura</h2>
         <span class="cuisine-tag tag-regional">Live Entertainment</span>
@@ -530,7 +534,7 @@
         <strong>tabiji verdict:</strong> The &quot;full experience&quot; option — you get dinner, entertainment, and Nile views in one package. Reddit is honest: the food is average buffet quality, and the boats can feel touristy. But the Tanoura spinning is genuinely mesmerizing, and at $18-25 per person through Viator, it&#39;s great value for a memorable evening. Arrive early for the best deck seats.
     </div>
 </section>
-<section class="restaurant-section" id="steigenberger">
+<section class="restaurant-section" id="steigenberger" data-map-name="4. Steigenberger Nile Palace Terrace" data-map-cta-url="https://maps.google.com/?cid=15228997483006702774&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Steigenberger Nile Palace Terrace, East Bank, Corniche el-Nile, East Bank, EG" data-map-lat="25.6876113" data-map-lng="32.6312413">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Steigenberger Nile Palace Terrace</h2>
         <span class="cuisine-tag tag-regional">5-Star Hotel Dining</span>
@@ -567,7 +571,7 @@
         <strong>tabiji verdict:</strong> Not technically a cruise, but this is arguably the best Nile-side dinner in Luxor. The food quality crushes any cruise boat, the setting is elegant without being stuffy, and you avoid the boat-buffet experience entirely. If you want great food with Nile views and don&#39;t need to actually be on the water, this is your pick. Walk-ins welcome at the terrace restaurant.
     </div>
 </section>
-<section class="restaurant-section" id="dahabiya">
+<section class="restaurant-section" id="dahabiya" data-map-name="5. Dahabiya Private Dinner Sail" data-map-cta-url="https://maps.google.com/?cid=7552202889280965808&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dahabiya Private Dinner Sail, East Bank, Various Docks, East Bank, EG" data-map-lat="30.0446422" data-map-lng="31.2193938">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Dahabiya Private Dinner Sail</h2>
         <span class="cuisine-tag tag-regional">Traditional Sailing Yacht</span>
@@ -604,7 +608,7 @@
         <strong>tabiji verdict:</strong> The splurge pick. Dahabiyas are what pharaohs and Victorian explorers used to sail the Nile — small, elegant wooden boats with billowing white sails. A private dinner aboard one is an unforgettable experience: gourmet food, intimate setting, and the silence of sailing under stars. Book through Sail the Nile or Nile Dahabiya for dinner-only options. Not cheap, but this is a &quot;once in a lifetime&quot; evening.
     </div>
 </section>
-<section class="restaurant-section" id="sonesta">
+<section class="restaurant-section" id="sonesta" data-map-name="6. Sonesta St. George Nile Dining" data-map-cta-url="https://maps.google.com/?cid=11653965526339994703&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sonesta St. George Nile Dining, East Bank, Corniche el-Nile, East Bank, EG" data-map-lat="25.637535099999997" data-map-lng="32.596458">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Sonesta St. George Nile Dining</h2>
         <span class="cuisine-tag tag-regional">Luxury Hotel</span>
@@ -641,7 +645,7 @@
         <strong>tabiji verdict:</strong> Solid luxury hotel dining with genuine Nile views. The Sonesta&#39;s location on the Corniche puts you right on the river, and the rooftop terrace is one of Luxor&#39;s best-kept evening secrets. The food is reliably good (not spectacular, but well above cruise-boat level), and the service is polished. A great alternative if you want ambiance without the boat experience.
     </div>
 </section>
-<section class="restaurant-section" id="winter-palace">
+<section class="restaurant-section" id="winter-palace" data-map-name="7. Sofitel Winter Palace Garden Terrace" data-map-cta-url="https://maps.google.com/?cid=5816973122048718885&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sofitel Winter Palace Garden Terrace, East Bank, Corniche el-Nile, East Bank, EG" data-map-lat="25.6966811" data-map-lng="32.637133299999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Sofitel Winter Palace Garden Terrace</h2>
         <span class="cuisine-tag tag-regional">Historic Hotel</span>
@@ -670,7 +674,7 @@
         <strong>tabiji verdict:</strong> Pure colonial-era magic. This is where Howard Carter celebrated discovering Tutankhamun&#39;s tomb and where Christie penned her most famous mystery. The garden terrace feels like dining in a time capsule — manicured palms, the Nile beyond, and impeccable French-Egyptian cuisine. Not a cruise, but the most atmospheric dinner in Luxor. Dress up, order a gin and tonic, and pretend you&#39;re a 1920s archaeologist.
     </div>
 </section>
-<section class="restaurant-section" id="jolie-ville">
+<section class="restaurant-section" id="jolie-ville" data-map-name="8. Jolie Ville Kings Island Dinner" data-map-cta-url="https://maps.google.com/?cid=6332775207410744074&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jolie Ville Kings Island Dinner, Kings Island, Nile River, East Bank, EG" data-map-lat="25.6656801" data-map-lng="32.6217177">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Jolie Ville Kings Island Dinner</h2>
         <span class="cuisine-tag tag-regional">Island Resort</span>
@@ -707,7 +711,7 @@
         <strong>tabiji verdict:</strong> The escape option. Kings Island sits in the middle of the Nile, surrounded by water and tropical gardens. The short boat ride to reach the resort already feels like an adventure. Dining here is relaxed and resort-style — not the fanciest food, but the setting is uniquely peaceful. Perfect if you want to escape Luxor&#39;s Corniche energy for an evening.
     </div>
 </section>
-<section class="restaurant-section" id="budget-felucca">
+<section class="restaurant-section" id="budget-felucca" data-map-name="9. Budget Felucca Sunset with Local Meal" data-map-cta-url="https://maps.google.com/?cid=12995011940221543402&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Budget Felucca Sunset with Local Meal, East Bank, Various Docks, East Bank, EG" data-map-lat="30.041189300000003" data-map-lng="31.221382700000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Budget Felucca Sunset with Local Meal</h2>
         <span class="cuisine-tag tag-regional">Budget Pick</span>
@@ -762,9 +766,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cruise Map</h2>
-      <iframe src="https://www.google.com/maps?q=Nile%20Dinner%20Cruises%20in%20Luxor&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Iberotel Lotus Dinner Cruise</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cruise Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -775,7 +780,7 @@
         <a href="#sunset-felucca">2. Private Sunset Felucca Dinner</a>
       </li>
       <li>
-        <a href="#belly-dancing-cruise">3. Dinner Cruise with Belly Dancing &amp; Tanoura</a>
+        <a href="#belly-dancing-cruise">3. Dinner Cruise with Belly Dancing & Tanoura</a>
       </li>
       <li>
         <a href="#steigenberger">4. Steigenberger Nile Palace Terrace</a>
@@ -786,7 +791,7 @@
       <li>
         <a href="#sonesta">6. Sonesta St. George Nile Dining</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Nile%20Dinner%20Cruises%20in%20Luxor" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8730884151002048749&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -797,5 +802,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cruise Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Nile%20Dinner%20Cruises%20in%20Luxor","picks":[{"anchorId":"iberotel-lotus","rank":1,"name":"Iberotel Lotus Dinner Cruise","label":"1. Iberotel Lotus Dinner Cruise","lat":25.694641999999998,"lng":32.634608,"ctaUrl":"https://maps.google.com/?cid=8730884151002048749&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Iberotel Lotus Dinner Cruise, East Bank, Corniche el-Nile, East Bank, EG"},{"anchorId":"sunset-felucca","rank":2,"name":"Private Sunset Felucca Dinner","label":"2. Private Sunset Felucca Dinner","lat":30.041189300000003,"lng":31.221382700000003,"ctaUrl":"https://maps.google.com/?cid=11305237995157627849&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Private Sunset Felucca Dinner, East Bank, Felucca Docks, East Bank, EG"},{"anchorId":"belly-dancing-cruise","rank":3,"name":"Dinner Cruise with Belly Dancing & Tanoura","label":"3. Dinner Cruise with Belly Dancing & Tanoura","lat":25.069779,"lng":55.130283999999996,"ctaUrl":"https://maps.google.com/?cid=16297973445579706263&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dinner Cruise with Belly Dancing & Tanoura, East Bank, Corniche Cruise Docks, East Bank, EG"},{"anchorId":"steigenberger","rank":4,"name":"Steigenberger Nile Palace Terrace","label":"4. Steigenberger Nile Palace Terrace","lat":25.6876113,"lng":32.6312413,"ctaUrl":"https://maps.google.com/?cid=15228997483006702774&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Steigenberger Nile Palace Terrace, East Bank, Corniche el-Nile, East Bank, EG"},{"anchorId":"dahabiya","rank":5,"name":"Dahabiya Private Dinner Sail","label":"5. Dahabiya Private Dinner Sail","lat":30.0446422,"lng":31.2193938,"ctaUrl":"https://maps.google.com/?cid=7552202889280965808&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dahabiya Private Dinner Sail, East Bank, Various Docks, East Bank, EG"},{"anchorId":"sonesta","rank":6,"name":"Sonesta St. George Nile Dining","label":"6. Sonesta St. George Nile Dining","lat":25.637535099999997,"lng":32.596458,"ctaUrl":"https://maps.google.com/?cid=11653965526339994703&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sonesta St. George Nile Dining, East Bank, Corniche el-Nile, East Bank, EG"},{"anchorId":"winter-palace","rank":7,"name":"Sofitel Winter Palace Garden Terrace","label":"7. Sofitel Winter Palace Garden Terrace","lat":25.6966811,"lng":32.637133299999995,"ctaUrl":"https://maps.google.com/?cid=5816973122048718885&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sofitel Winter Palace Garden Terrace, East Bank, Corniche el-Nile, East Bank, EG"},{"anchorId":"jolie-ville","rank":8,"name":"Jolie Ville Kings Island Dinner","label":"8. Jolie Ville Kings Island Dinner","lat":25.6656801,"lng":32.6217177,"ctaUrl":"https://maps.google.com/?cid=6332775207410744074&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jolie Ville Kings Island Dinner, Kings Island, Nile River, East Bank, EG"},{"anchorId":"budget-felucca","rank":9,"name":"Budget Felucca Sunset with Local Meal","label":"9. Budget Felucca Sunset with Local Meal","lat":30.041189300000003,"lng":31.221382700000003,"ctaUrl":"https://maps.google.com/?cid=12995011940221543402&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Budget Felucca Sunset with Local Meal, East Bank, Various Docks, East Bank, EG"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -310,9 +310,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -337,7 +340,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -389,9 +392,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Waffle Map — Brussels</h2>
-      <iframe src="https://www.google.com/maps?q=Waffles%20in%20Brussels&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Maison Dandoy</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Waffle Map — Brussels"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -408,12 +412,12 @@
         <a href="#vitalgaufre">4. Vitalgaufre</a>
       </li>
       <li>
-        <a href="#gaufres-waffles">5. Gaufres &amp; Waffles</a>
+        <a href="#gaufres-waffles">5. Gaufres & Waffles</a>
       </li>
       <li>
         <a href="#waffle-factory">6. Waffle Factory</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Waffles%20in%20Brussels" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Maison+Dandoy+Rue+au+Beurre+Brussels" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -425,7 +429,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="maison-dandoy">
+<section class="restaurant-section" id="maison-dandoy" data-map-name="1. Maison Dandoy" data-map-cta-url="https://maps.google.com/?q=Maison+Dandoy+Rue+au+Beurre+Brussels" data-map-query="Maison Dandoy, Rue au Beurre 31 + Galeries Royales Saint-Hubert, Brussels, BE" data-map-lat="50.847421499999996" data-map-lng="4.3515798">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Maison Dandoy</h2>
         <span class="cuisine-tag tag-regional">Brussels Classic</span>
@@ -467,7 +471,7 @@
         <strong>tabiji verdict:</strong> The undisputed gold standard for the Brussels waffle. Founded in 1829, Maison Dandoy invented the modern Brussels waffle as we know it — light, rectangular, and properly crispy. The Galeries Royales café is one of the most beautiful places to eat in the city. The takeout stand on Rue au Beurre is faster and nearly as good. Lines are guaranteed, but deserved.
     </div>
 </section>
-<section class="restaurant-section" id="le-funambule">
+<section class="restaurant-section" id="le-funambule" data-map-name="2. Le Funambule" data-map-cta-url="https://maps.google.com/?q=Le+Funambule+Rue+de+l+Etuve+Brussels" data-map-query="Le Funambule, Rue de l&#39;Étuve 42, 1000 Brussels (near Manneken Pis), Brussels, BE" data-map-lat="50.846523499999996" data-map-lng="4.3536012">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Le Funambule</h2>
         <span class="cuisine-tag tag-regional">Street Waffle</span>
@@ -497,7 +501,7 @@
         <strong>tabiji verdict:</strong> The street vendor&#39;s answer to Dandoy. Le Funambule is pure Brussels experience: a takeout window, the smell of a live waffle iron, and fresh waffles from €3. Located steps from Manneken Pis (one of the most visited spots in the city), it gets busy but moves fast. This is the one you eat walking down the street.
     </div>
 </section>
-<section class="restaurant-section" id="galet">
+<section class="restaurant-section" id="galet" data-map-name="3. Galet" data-map-cta-url="https://maps.google.com/?q=Galet+Boulevard+Anspach+Brussels" data-map-query="Galet, Boulevard Anspach 2A, 1000 Brussels, Brussels, BE" data-map-lat="50.8506327" data-map-lng="4.3524033">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Galet</h2>
         <span class="cuisine-tag tag-regional">Liège Waffle</span>
@@ -527,7 +531,7 @@
         <strong>tabiji verdict:</strong> If Dandoy owns the Brussels waffle category, Galet is the Liège challenger. Located on Boulevard Anspach, a major Brussels artery, Galet bakes its waffles fresh to order — you can watch the iron work. The pearl sugar caramelizes right in front of you. This is the Liège waffle done right: dense, chewy, golden, with pockets of hot caramel. Reddit users specifically call it out when debating the Dandoy vs. Galet question.
     </div>
 </section>
-<section class="restaurant-section" id="vitalgaufre">
+<section class="restaurant-section" id="vitalgaufre" data-map-name="4. Vitalgaufre" data-map-cta-url="https://maps.google.com/?q=Vitalgaufre+Brussels" data-map-query="Vitalgaufre, Rue du Chêne 2, 1000 Brussels, Brussels, BE" data-map-lat="50.851496399999995" data-map-lng="4.3548686">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Vitalgaufre</h2>
         <span class="cuisine-tag tag-regional">Liège Specialist</span>
@@ -557,7 +561,7 @@
         <strong>tabiji verdict:</strong> Vitalgaufre has been quietly making the same Liège waffle for over 25 years — and that&#39;s why it works. No gimmicks, no novelty toppings, no Instagram-bait. Just a recipe refined over decades, made fresh, sold to people who know what they&#39;re looking for. Located near Manneken Pis, it&#39;s easy to combine with the Dandoy and Le Funambule run. Do the comparison yourself.
     </div>
 </section>
-<section class="restaurant-section" id="gaufres-waffles">
+<section class="restaurant-section" id="gaufres-waffles" data-map-name="5. Gaufres &amp; Waffles" data-map-cta-url="https://maps.google.com/?q=Gaufres+Waffles+Rue+du+Lombard+Brussels" data-map-query="Gaufres &amp; Waffles, Rue du Lombard 1, 1000 Brussels (near Manneken Pis), Brussels, BE" data-map-lat="50.8482785" data-map-lng="4.3536171999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Gaufres &amp; Waffles</h2>
         <span class="cuisine-tag tag-regional">Brussels Style</span>
@@ -583,7 +587,7 @@
         <strong>tabiji verdict:</strong> Gaufres &amp; Waffles is the Reddit-approved street alternative to Dandoy — consistently mentioned in the same breath when locals recommend Brussels waffles. Freshly made, both styles available, and prices that don&#39;t make you feel robbed. The location near Manneken Pis makes it an easy stop on any Grand Place circuit.
     </div>
 </section>
-<section class="restaurant-section" id="waffle-factory">
+<section class="restaurant-section" id="waffle-factory" data-map-name="6. Waffle Factory" data-map-cta-url="https://maps.google.com/?q=Waffle+Factory+Rue+du+Lombard+Brussels" data-map-query="Waffle Factory, Rue du Lombard 30, 1000 Brussels, Brussels, BE" data-map-lat="50.845637499999995" data-map-lng="4.3511008">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Waffle Factory</h2>
         <span class="cuisine-tag tag-regional">Sweet &amp; Savory</span>
@@ -613,7 +617,7 @@
         <strong>tabiji verdict:</strong> The wildcard. Waffle Factory is technically a Belgian chain, but the quality is genuinely good and the savory &quot;Lunchwaf&quot; concept is creative. If you&#39;re hungry for lunch rather than a snack, this is where the waffle becomes a meal. The salted butter caramel sweet waffle is also seriously good. One of the few places with proper seating near Grand Place.
     </div>
 </section>
-<section class="restaurant-section" id="los-churros-waffles">
+<section class="restaurant-section" id="los-churros-waffles" data-map-name="7. Los Churros &amp; Waffles" data-map-cta-url="https://maps.google.com/?q=Los+Churros+Waffles+Brussels+Marche+aux+Herbes" data-map-query="Los Churros &amp; Waffles, Rue du Marché aux Herbes 87, 1000 Brussels, Brussels, BE" data-map-lat="50.846663899999996" data-map-lng="4.3539907">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Los Churros &amp; Waffles</h2>
         <span class="cuisine-tag tag-regional">Liège &amp; Brussels</span>
@@ -639,7 +643,7 @@
         <strong>tabiji verdict:</strong> The best of both worlds: Los Churros &amp; Waffles serves both styles, so you can finally settle the Brussels vs. Liège debate for yourself in one stop. The chantilly cream is notably good, and the hot chocolate puts it over the top. Reasonably priced and located close enough to Grand Place that it&#39;s on the natural walking circuit.
     </div>
 </section>
-<section class="restaurant-section" id="aux-gaufres-de-bruxelles">
+<section class="restaurant-section" id="aux-gaufres-de-bruxelles" data-map-name="8. Aux Gaufres de Bruxelles" data-map-cta-url="https://maps.google.com/?q=Aux+Gaufres+de+Bruxelles" data-map-query="Aux Gaufres de Bruxelles, Rue du Marché aux Herbes, 1000 Brussels, Brussels, BE" data-map-lat="50.8462636" data-map-lng="4.3545541">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Aux Gaufres de Bruxelles</h2>
         <span class="cuisine-tag tag-regional">Since 1970</span>
@@ -665,7 +669,7 @@
         <strong>tabiji verdict:</strong> Over 55 years of waffle-making in Brussels — Aux Gaufres de Bruxelles is the heritage pick on this list. The loaded toppings are tourist-friendly but genuinely good quality. If you want to understand what Brussels street waffles looked like before Instagram existed, this is the place. The recipe hasn&#39;t chased trends in over five decades.
     </div>
 </section>
-<section class="restaurant-section" id="veganwaf">
+<section class="restaurant-section" id="veganwaf" data-map-name="9. Veganwaf&#39;" data-map-cta-url="https://maps.google.com/?q=Veganwaf+Galerie+Agora+Brussels" data-map-query="Veganwaf&#39;, Galerie Agora 48, 1000 Brussels, Brussels, BE" data-map-lat="50.8463153" data-map-lng="4.3538136">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Veganwaf&#39;</h2>
         <span class="cuisine-tag tag-regional">Vegan &amp; GF</span>
@@ -691,7 +695,7 @@
         <strong>tabiji verdict:</strong> This is for the traveler who thought &quot;I can&#39;t eat Belgian waffles in Brussels&quot; and then discovered Veganwaf&#39;. Fully plant-based and gluten-free, tucked into the Galerie Agora shopping arcade. The waffles are genuinely good — not a compromise — and the amarena cherry topping is something you won&#39;t find anywhere else. The hipster-chic décor is a bonus.
     </div>
 </section>
-<section class="restaurant-section" id="le-roi-de-la-gaufre">
+<section class="restaurant-section" id="le-roi-de-la-gaufre" data-map-name="10. Le Roi de la Gaufre" data-map-cta-url="https://maps.google.com/?q=Le+Roi+de+la+Gaufre+Brussels" data-map-query="Le Roi de la Gaufre, Near Grand Place, Brussels city center, Brussels, BE" data-map-lat="50.848521999999996" data-map-lng="4.353581999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Le Roi de la Gaufre</h2>
         <span class="cuisine-tag tag-regional">Brussels Style</span>
@@ -735,9 +739,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Waffle Map — Brussels</h2>
-      <iframe src="https://www.google.com/maps?q=Waffles%20in%20Brussels&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Maison Dandoy</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Waffle Map — Brussels"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -754,12 +759,12 @@
         <a href="#vitalgaufre">4. Vitalgaufre</a>
       </li>
       <li>
-        <a href="#gaufres-waffles">5. Gaufres &amp; Waffles</a>
+        <a href="#gaufres-waffles">5. Gaufres & Waffles</a>
       </li>
       <li>
         <a href="#waffle-factory">6. Waffle Factory</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Waffles%20in%20Brussels" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Maison+Dandoy+Rue+au+Beurre+Brussels" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -770,5 +775,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Waffle Map — Brussels","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Waffles%20in%20Brussels","picks":[{"anchorId":"maison-dandoy","rank":1,"name":"Maison Dandoy","label":"1. Maison Dandoy","lat":50.847421499999996,"lng":4.3515798,"ctaUrl":"https://maps.google.com/?q=Maison+Dandoy+Rue+au+Beurre+Brussels","mapQuery":"Maison Dandoy, Rue au Beurre 31 + Galeries Royales Saint-Hubert, Brussels, BE"},{"anchorId":"le-funambule","rank":2,"name":"Le Funambule","label":"2. Le Funambule","lat":50.846523499999996,"lng":4.3536012,"ctaUrl":"https://maps.google.com/?q=Le+Funambule+Rue+de+l+Etuve+Brussels","mapQuery":"Le Funambule, Rue de l'Étuve 42, 1000 Brussels (near Manneken Pis), Brussels, BE"},{"anchorId":"galet","rank":3,"name":"Galet","label":"3. Galet","lat":50.8506327,"lng":4.3524033,"ctaUrl":"https://maps.google.com/?q=Galet+Boulevard+Anspach+Brussels","mapQuery":"Galet, Boulevard Anspach 2A, 1000 Brussels, Brussels, BE"},{"anchorId":"vitalgaufre","rank":4,"name":"Vitalgaufre","label":"4. Vitalgaufre","lat":50.851496399999995,"lng":4.3548686,"ctaUrl":"https://maps.google.com/?q=Vitalgaufre+Brussels","mapQuery":"Vitalgaufre, Rue du Chêne 2, 1000 Brussels, Brussels, BE"},{"anchorId":"gaufres-waffles","rank":5,"name":"Gaufres & Waffles","label":"5. Gaufres & Waffles","lat":50.8482785,"lng":4.3536171999999995,"ctaUrl":"https://maps.google.com/?q=Gaufres+Waffles+Rue+du+Lombard+Brussels","mapQuery":"Gaufres & Waffles, Rue du Lombard 1, 1000 Brussels (near Manneken Pis), Brussels, BE"},{"anchorId":"waffle-factory","rank":6,"name":"Waffle Factory","label":"6. Waffle Factory","lat":50.845637499999995,"lng":4.3511008,"ctaUrl":"https://maps.google.com/?q=Waffle+Factory+Rue+du+Lombard+Brussels","mapQuery":"Waffle Factory, Rue du Lombard 30, 1000 Brussels, Brussels, BE"},{"anchorId":"los-churros-waffles","rank":7,"name":"Los Churros & Waffles","label":"7. Los Churros & Waffles","lat":50.846663899999996,"lng":4.3539907,"ctaUrl":"https://maps.google.com/?q=Los+Churros+Waffles+Brussels+Marche+aux+Herbes","mapQuery":"Los Churros & Waffles, Rue du Marché aux Herbes 87, 1000 Brussels, Brussels, BE"},{"anchorId":"aux-gaufres-de-bruxelles","rank":8,"name":"Aux Gaufres de Bruxelles","label":"8. Aux Gaufres de Bruxelles","lat":50.8462636,"lng":4.3545541,"ctaUrl":"https://maps.google.com/?q=Aux+Gaufres+de+Bruxelles","mapQuery":"Aux Gaufres de Bruxelles, Rue du Marché aux Herbes, 1000 Brussels, Brussels, BE"},{"anchorId":"veganwaf","rank":9,"name":"Veganwaf'","label":"9. Veganwaf'","lat":50.8463153,"lng":4.3538136,"ctaUrl":"https://maps.google.com/?q=Veganwaf+Galerie+Agora+Brussels","mapQuery":"Veganwaf', Galerie Agora 48, 1000 Brussels, Brussels, BE"},{"anchorId":"le-roi-de-la-gaufre","rank":10,"name":"Le Roi de la Gaufre","label":"10. Le Roi de la Gaufre","lat":50.848521999999996,"lng":4.353581999999999,"ctaUrl":"https://maps.google.com/?q=Le+Roi+de+la+Gaufre+Brussels","mapQuery":"Le Roi de la Gaufre, Near Grand Place, Brussels city center, Brussels, BE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

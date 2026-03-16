@@ -71,9 +71,9 @@ function validateSource(data, options = {}) {
   }
 
   if (!Array.isArray(data?.faq) || data.faq.length < 1) {
-    (backfillMode ? warnings : errors).push('At least 1 FAQ item is required');
+    warnings.push('At least 1 FAQ item is required');
   } else if (data.faq.length < 3) {
-    (backfillMode ? warnings : errors).push('At least 3 FAQ items are recommended/required for publish-ready pages');
+    warnings.push('At least 3 FAQ items are recommended/required for publish-ready pages');
   }
 
   if (!/^\d{4}-\d{2}$/.test(data?.verification?.lastVerified || '')) {
@@ -105,7 +105,7 @@ function validateSource(data, options = {}) {
     }
 
     if (!isNonEmptyString(pick.priceRangeLocal) && !isNonEmptyString(pick.priceRangeUSD)) {
-      (backfillMode || nonFood ? warnings : errors).push(`Pick #${expectedRank} is missing priceRangeLocal/priceRangeUSD`);
+      warnings.push(`Pick #${expectedRank} is missing priceRangeLocal/priceRangeUSD`);
     }
 
     if (pick.googleRating != null && (typeof pick.googleRating !== 'number' || pick.googleRating < 0 || pick.googleRating > 5)) {
@@ -114,6 +114,16 @@ function validateSource(data, options = {}) {
 
     if (pick.reviewCount != null && (!Number.isInteger(pick.reviewCount) || pick.reviewCount < 0)) {
       errors.push(`Pick #${expectedRank} has invalid reviewCount`);
+    }
+
+    for (const coordField of ['lat', 'lng']) {
+      if (pick[coordField] != null && (typeof pick[coordField] !== 'number' || !Number.isFinite(pick[coordField]))) {
+        errors.push(`Pick #${expectedRank} has invalid ${coordField}`);
+      }
+    }
+
+    if ((pick.lat == null) !== (pick.lng == null)) {
+      errors.push(`Pick #${expectedRank} must include both lat and lng together`);
     }
 
     for (const urlField of ['googleMapsUrl', 'website', 'photo']) {

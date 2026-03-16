@@ -395,11 +395,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -424,9 +419,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -451,7 +449,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -503,9 +501,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Brunch Map</h2>
-      <iframe src="https://www.google.com/maps?q=Barcelona%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Egg Lab</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brunch Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -525,9 +524,9 @@
         <a href="#miam">5. Miam</a>
       </li>
       <li>
-        <a href="#brunch-bakery">6. Brunch &amp; Bakery</a>
+        <a href="#brunch-bakery">6. Brunch & Bakery</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Barcelona%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=5367667614533514945&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -539,7 +538,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="the-egg-lab">
+<section class="restaurant-section" id="the-egg-lab" data-map-name="1. The Egg Lab" data-map-cta-url="https://maps.google.com/?cid=5367667614533514945&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Egg Lab, Carrer d&#39;Enric Granados 3 (Eixample), Barcelona, ES" data-map-lat="41.3784285" data-map-lng="2.1564655">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>The Egg Lab</h2>
         <span class="cuisine-tag tag-regional">Eggs &amp; Brunch</span>
@@ -577,7 +576,7 @@
         <strong>tabiji verdict:</strong> The most-recommended brunch spot on r/Barcelona, full stop. Yes, the water costs €2 and the place gets packed by 11 AM on weekends — but the eggs are genuinely exceptional. Book ahead or go early.
     </div>
 </section>
-<section class="restaurant-section" id="ugot">
+<section class="restaurant-section" id="ugot" data-map-name="2. Ugot Bruncherie" data-map-cta-url="https://maps.google.com/?cid=17149079029323655599&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ugot Bruncherie, Carrer de Viladomat 60 (Eixample), Barcelona, ES" data-map-lat="41.381329" data-map-lng="2.1553249">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Ugot Bruncherie</h2>
         <span class="cuisine-tag tag-regional">Middle Eastern Brunch</span>
@@ -615,7 +614,7 @@
         <strong>tabiji verdict:</strong> Recommended in virtually every Barcelona brunch thread. The Middle Eastern twist makes it stand out from the generic avo-toast crowd. The shakshuka is the move.
     </div>
 </section>
-<section class="restaurant-section" id="federal-cafe">
+<section class="restaurant-section" id="federal-cafe" data-map-name="3. Federal Café" data-map-cta-url="https://maps.google.com/?cid=16531464590584257350&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Federal Café, Carrer del Parlament 39 (Sant Antoni), Barcelona, ES" data-map-lat="41.376920399999996" data-map-lng="2.1628355000000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Federal Café</h2>
         <span class="cuisine-tag tag-regional">Aussie-Style Brunch</span>
@@ -649,7 +648,7 @@
         <strong>tabiji verdict:</strong> One of the OG specialty coffee + brunch spots in Barcelona. The rooftop terrace is small but magical on a sunny morning. Helped kickstart Barcelona&#39;s entire brunch scene.
     </div>
 </section>
-<section class="restaurant-section" id="la-desayuneria">
+<section class="restaurant-section" id="la-desayuneria" data-map-name="4. La Desayunería" data-map-cta-url="https://maps.google.com/?cid=6619482246579995481&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Desayunería, Carrer del Comte d&#39;Urgell 68 (Eixample), Barcelona, ES" data-map-lat="41.37828" data-map-lng="2.1610245999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>La Desayunería</h2>
         <span class="cuisine-tag tag-regional">Classic Breakfast</span>
@@ -687,7 +686,7 @@
         <strong>tabiji verdict:</strong> The pancake specialists of Barcelona. Not the cheapest, but the sweet breakfast items are genuinely excellent. The name literally means &quot;The Breakfast Place&quot; — they know what they&#39;re about.
     </div>
 </section>
-<section class="restaurant-section" id="miam">
+<section class="restaurant-section" id="miam" data-map-name="5. Miam" data-map-cta-url="https://maps.google.com/?cid=18058958794930392541&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Miam, Carrer de Sardenya 76 (near Sagrada Familia), Barcelona, ES" data-map-lat="41.402113799999995" data-map-lng="2.1756648">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Miam</h2>
         <span class="cuisine-tag tag-regional">Brunch</span>
@@ -721,7 +720,7 @@
         <strong>tabiji verdict:</strong> Conveniently near Sagrada Familia, so you can brunch before or after the visit. Not a tourist trap despite the location — locals eat here too.
     </div>
 </section>
-<section class="restaurant-section" id="brunch-bakery">
+<section class="restaurant-section" id="brunch-bakery" data-map-name="6. Brunch &amp; Bakery" data-map-cta-url="https://maps.google.com/?cid=8096279581336576763&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Brunch &amp; Bakery, Carrer dels Comtes de Bell-Lloc 86 (Les Corts), Barcelona, ES" data-map-lat="41.387268899999995" data-map-lng="2.1746803">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Brunch &amp; Bakery</h2>
         <span class="cuisine-tag tag-regional">Classic Brunch</span>
@@ -755,7 +754,7 @@
         <strong>tabiji verdict:</strong> Off the tourist path in Les Corts — meaning reasonable prices and no hour-long waits. The in-house bakery gives it an edge over spots that reheat pastries.
     </div>
 </section>
-<section class="restaurant-section" id="flax-kale">
+<section class="restaurant-section" id="flax-kale" data-map-name="7. Flax &amp; Kale" data-map-cta-url="https://maps.google.com/?cid=8069766014107582859&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Flax &amp; Kale, Carrer dels Tallers 74b (Raval), Barcelona, ES" data-map-lat="41.3851935" data-map-lng="2.1655341999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Flax &amp; Kale</h2>
         <span class="cuisine-tag tag-regional">Healthy / Plant-Based</span>
@@ -793,7 +792,7 @@
         <strong>tabiji verdict:</strong> Divisive on Reddit — some love it, others call it overpriced. The truth: it&#39;s solid for healthy/plant-based brunch but not the best value. Good if you specifically want açaí bowls and green juices. Skip if you want hearty eggs and pastries.
     </div>
 </section>
-<section class="restaurant-section" id="lato">
+<section class="restaurant-section" id="lato" data-map-name="8. Lato" data-map-cta-url="https://maps.google.com/?cid=9066877210460164878&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lato, Multiple locations, Barcelona, ES" data-map-lat="41.3898194" data-map-lng="2.1806913999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Lato</h2>
         <span class="cuisine-tag tag-regional">Bottomless Brunch</span>
@@ -827,7 +826,7 @@
         <strong>tabiji verdict:</strong> The best-value bottomless brunch in Barcelona. €12.50 for unlimited mimosas on weekends is genuinely great. The food is solid too — not just a drinks deal.
     </div>
 </section>
-<section class="restaurant-section" id="oma-bistro">
+<section class="restaurant-section" id="oma-bistro" data-map-name="9. Oma Bistro" data-map-cta-url="https://maps.google.com/?cid=1489611931670743720&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Oma Bistro, Carrer del Consell de Cent (Eixample), Barcelona, ES" data-map-lat="41.3856056" data-map-lng="2.1581704">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Oma Bistro</h2>
         <span class="cuisine-tag tag-regional">Brunch Bistro</span>
@@ -861,7 +860,7 @@
         <strong>tabiji verdict:</strong> A low-key favorite that doesn&#39;t get the Instagram hype — which means you can actually get a table on weekends. Solid execution across the board.
     </div>
 </section>
-<section class="restaurant-section" id="billys-brunch">
+<section class="restaurant-section" id="billys-brunch" data-map-name="10. Billy&#39;s Brunch" data-map-cta-url="https://maps.google.com/?cid=3719258435607207572&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Billy&#39;s Brunch, Carrer de Villarroel (Eixample), Barcelona, ES" data-map-lat="41.387054" data-map-lng="2.1592414">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Billy&#39;s Brunch</h2>
         <span class="cuisine-tag tag-regional">Classic Brunch</span>
@@ -895,7 +894,7 @@
         <strong>tabiji verdict:</strong> No-frills, generous portions, fair prices. If you want a proper full breakfast without the Instagram tax, this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="colibri-brunch">
+<section class="restaurant-section" id="colibri-brunch" data-map-name="11. Colibri Brunch" data-map-cta-url="https://maps.google.com/?cid=10475065983949262483&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Colibri Brunch, Barceloneta (near the beach), Barcelona, ES" data-map-lat="41.380967" data-map-lng="2.1872555">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Colibri Brunch</h2>
         <span class="cuisine-tag tag-regional">Beachside Brunch</span>
@@ -929,7 +928,7 @@
         <strong>tabiji verdict:</strong> The brunch-near-the-beach pick. Not the most inventive menu, but eating açaí with a sea breeze hits different. Walk it off on Barceloneta beach afterward.
     </div>
 </section>
-<section class="restaurant-section" id="brunch-cake">
+<section class="restaurant-section" id="brunch-cake" data-map-name="12. Brunch &amp; Cake" data-map-cta-url="https://maps.google.com/?cid=8096279581336576763&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Brunch &amp; Cake, Multiple locations (Eixample, Barceloneta, Gràcia), Barcelona, ES" data-map-lat="41.3882802" data-map-lng="2.1615037">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Brunch &amp; Cake</h2>
         <span class="cuisine-tag tag-regional">Instagram Brunch</span>
@@ -963,7 +962,7 @@
         <strong>tabiji verdict:</strong> Honestly included. This is the most Instagram-famous brunch in Barcelona and locals find it overpriced. But if you want the photogenic pancake tower for the &#39;gram, this is where you go. Just know you&#39;re paying a premium for aesthetics.
     </div>
 </section>
-<section class="restaurant-section" id="xiloteca">
+<section class="restaurant-section" id="xiloteca" data-map-name="13. Xiloteca Coffee" data-map-cta-url="https://maps.google.com/?cid=6678285754721353631&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Xiloteca Coffee, El Born, Barcelona, ES" data-map-lat="41.386178699999995" data-map-lng="2.1804826">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Xiloteca Coffee</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -997,7 +996,7 @@
         <strong>tabiji verdict:</strong> Not a brunch spot per se, but El Born&#39;s best specialty coffee. Perfect for a quick morning caffeine hit before exploring, or pair it with a pastry from nearby Forn de La Llana for a DIY breakfast.
     </div>
 </section>
-<section class="restaurant-section" id="forn-de-la-llana">
+<section class="restaurant-section" id="forn-de-la-llana" data-map-name="14. Forn de La Llana" data-map-cta-url="https://maps.google.com/?cid=11487618100827175751&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Forn de La Llana, El Born, Barcelona, ES" data-map-lat="41.3849058" data-map-lng="2.1791104">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Forn de La Llana</h2>
         <span class="cuisine-tag tag-regional">Local Bakery</span>
@@ -1031,7 +1030,7 @@
         <strong>tabiji verdict:</strong> The local-breakfast-done-right pick. Skip the Instagram brunch and eat like an actual Catalan — coffee and a xuixo at a neighborhood bakery for under €5. This is the real Barcelona.
     </div>
 </section>
-<section class="restaurant-section" id="kasparo">
+<section class="restaurant-section" id="kasparo" data-map-name="15. Kasparo" data-map-cta-url="https://maps.google.com/?cid=7308965507806764943&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kasparo, Plaça de Vicenç Martorell (near Raval), Barcelona, ES" data-map-lat="41.384468" data-map-lng="2.168945">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Kasparo</h2>
         <span class="cuisine-tag tag-regional">Terrace Brunch</span>
@@ -1057,7 +1056,7 @@
         <strong>tabiji verdict:</strong> Tucked on a quiet square steps from Las Ramblas but somehow free of tourist chaos. The outdoor terrace surrounded by trees is Barcelona brunch at its most relaxed.
     </div>
 </section>
-<section class="restaurant-section" id="firebug">
+<section class="restaurant-section" id="firebug" data-map-name="16. Firebug Barcelona" data-map-cta-url="https://maps.google.com/?cid=10291363258249216690&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Firebug Barcelona, El Born area, Barcelona, ES" data-map-lat="41.3840305" data-map-lng="2.1802533">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Firebug Barcelona</h2>
         <span class="cuisine-tag tag-regional">Bottomless Brunch</span>
@@ -1101,9 +1100,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Brunch Map</h2>
-      <iframe src="https://www.google.com/maps?q=Barcelona%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Egg Lab</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Brunch Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1123,9 +1123,9 @@
         <a href="#miam">5. Miam</a>
       </li>
       <li>
-        <a href="#brunch-bakery">6. Brunch &amp; Bakery</a>
+        <a href="#brunch-bakery">6. Brunch & Bakery</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Barcelona%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=5367667614533514945&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1136,5 +1136,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Brunch Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Brunch%20Spots%20in%20Barcelona","picks":[{"anchorId":"the-egg-lab","rank":1,"name":"The Egg Lab","label":"1. The Egg Lab","lat":41.3784285,"lng":2.1564655,"ctaUrl":"https://maps.google.com/?cid=5367667614533514945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Egg Lab, Carrer d'Enric Granados 3 (Eixample), Barcelona, ES"},{"anchorId":"ugot","rank":2,"name":"Ugot Bruncherie","label":"2. Ugot Bruncherie","lat":41.381329,"lng":2.1553249,"ctaUrl":"https://maps.google.com/?cid=17149079029323655599&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ugot Bruncherie, Carrer de Viladomat 60 (Eixample), Barcelona, ES"},{"anchorId":"federal-cafe","rank":3,"name":"Federal Café","label":"3. Federal Café","lat":41.376920399999996,"lng":2.1628355000000004,"ctaUrl":"https://maps.google.com/?cid=16531464590584257350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Federal Café, Carrer del Parlament 39 (Sant Antoni), Barcelona, ES"},{"anchorId":"la-desayuneria","rank":4,"name":"La Desayunería","label":"4. La Desayunería","lat":41.37828,"lng":2.1610245999999997,"ctaUrl":"https://maps.google.com/?cid=6619482246579995481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Desayunería, Carrer del Comte d'Urgell 68 (Eixample), Barcelona, ES"},{"anchorId":"miam","rank":5,"name":"Miam","label":"5. Miam","lat":41.402113799999995,"lng":2.1756648,"ctaUrl":"https://maps.google.com/?cid=18058958794930392541&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Miam, Carrer de Sardenya 76 (near Sagrada Familia), Barcelona, ES"},{"anchorId":"brunch-bakery","rank":6,"name":"Brunch & Bakery","label":"6. Brunch & Bakery","lat":41.387268899999995,"lng":2.1746803,"ctaUrl":"https://maps.google.com/?cid=8096279581336576763&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Brunch & Bakery, Carrer dels Comtes de Bell-Lloc 86 (Les Corts), Barcelona, ES"},{"anchorId":"flax-kale","rank":7,"name":"Flax & Kale","label":"7. Flax & Kale","lat":41.3851935,"lng":2.1655341999999997,"ctaUrl":"https://maps.google.com/?cid=8069766014107582859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Flax & Kale, Carrer dels Tallers 74b (Raval), Barcelona, ES"},{"anchorId":"lato","rank":8,"name":"Lato","label":"8. Lato","lat":41.3898194,"lng":2.1806913999999997,"ctaUrl":"https://maps.google.com/?cid=9066877210460164878&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lato, Multiple locations, Barcelona, ES"},{"anchorId":"oma-bistro","rank":9,"name":"Oma Bistro","label":"9. Oma Bistro","lat":41.3856056,"lng":2.1581704,"ctaUrl":"https://maps.google.com/?cid=1489611931670743720&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Oma Bistro, Carrer del Consell de Cent (Eixample), Barcelona, ES"},{"anchorId":"billys-brunch","rank":10,"name":"Billy's Brunch","label":"10. Billy's Brunch","lat":41.387054,"lng":2.1592414,"ctaUrl":"https://maps.google.com/?cid=3719258435607207572&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Billy's Brunch, Carrer de Villarroel (Eixample), Barcelona, ES"},{"anchorId":"colibri-brunch","rank":11,"name":"Colibri Brunch","label":"11. Colibri Brunch","lat":41.380967,"lng":2.1872555,"ctaUrl":"https://maps.google.com/?cid=10475065983949262483&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Colibri Brunch, Barceloneta (near the beach), Barcelona, ES"},{"anchorId":"brunch-cake","rank":12,"name":"Brunch & Cake","label":"12. Brunch & Cake","lat":41.3882802,"lng":2.1615037,"ctaUrl":"https://maps.google.com/?cid=8096279581336576763&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Brunch & Cake, Multiple locations (Eixample, Barceloneta, Gràcia), Barcelona, ES"},{"anchorId":"xiloteca","rank":13,"name":"Xiloteca Coffee","label":"13. Xiloteca Coffee","lat":41.386178699999995,"lng":2.1804826,"ctaUrl":"https://maps.google.com/?cid=6678285754721353631&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Xiloteca Coffee, El Born, Barcelona, ES"},{"anchorId":"forn-de-la-llana","rank":14,"name":"Forn de La Llana","label":"14. Forn de La Llana","lat":41.3849058,"lng":2.1791104,"ctaUrl":"https://maps.google.com/?cid=11487618100827175751&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Forn de La Llana, El Born, Barcelona, ES"},{"anchorId":"kasparo","rank":15,"name":"Kasparo","label":"15. Kasparo","lat":41.384468,"lng":2.168945,"ctaUrl":"https://maps.google.com/?cid=7308965507806764943&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kasparo, Plaça de Vicenç Martorell (near Raval), Barcelona, ES"},{"anchorId":"firebug","rank":16,"name":"Firebug Barcelona","label":"16. Firebug Barcelona","lat":41.3840305,"lng":2.1802533,"ctaUrl":"https://maps.google.com/?cid=10291363258249216690&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Firebug Barcelona, El Born area, Barcelona, ES"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

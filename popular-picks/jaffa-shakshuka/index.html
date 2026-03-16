@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Shakshuka in Jaffa and Tel Aviv ranges from ₪35-₪140, with Dr. Shakshuka recommended for its Libyan-style shakshuka. This North African-rooted dish is best enjoyed during the cooler months for comforting warmth. From fiery harissa to Swiss chard and labneh, Jaffa and Tel Aviv elevate shakshuka to an art form with diverse variations.</strong></p>
-        <p>Shakshuka in Jaffa and Tel Aviv ranges from ₪35-₪140, with Dr. Shakshuka being a top recommendation for its Libyan-style shakshuka. This dish, a North African-rooted art form, is best enjoyed during the cooler months when the spiced tomato-pepper sauce offers a comforting warmth.</p><p>Shakshuka — eggs poached in a spiced tomato-pepper sauce, mopped up with pillowy bread — is Israel&#39;s definitive comfort food. But in Jaffa and Tel Aviv, where the dish has deep North African roots, it&#39;s elevated to an art form. From Libyan-style with fiery harissa to green shakshuka with Swiss chard and labneh, there&#39;s a world of variation beyond the basic version you&#39;ve made at home.</p><p>We dug through hundreds of Reddit posts across r/telaviv, r/Israel, r/travel, and r/solotravel to find the shakshuka spots that locals and repeat visitors genuinely swear by. These aren&#39;t the places with the best Instagram presence — they&#39;re the ones that keep getting named in &quot;where should I actually eat?&quot; threads.</p>
+        <p>Shakshuka — eggs poached in a spiced tomato-pepper sauce, mopped up with pillowy bread — is Israel&#39;s definitive comfort food. But in Jaffa and Tel Aviv, where the dish has deep North African roots, it&#39;s elevated to an art form. From Libyan-style with fiery harissa to green shakshuka with Swiss chard and labneh, there&#39;s a world of variation beyond the basic version you&#39;ve made at home.</p><p>We dug through hundreds of Reddit posts across r/telaviv, r/Israel, r/travel, and r/solotravel to find the shakshuka spots that locals and repeat visitors genuinely swear by. These aren&#39;t the places with the best Instagram presence — they&#39;re the ones that keep getting named in &quot;where should I actually eat?&quot; threads.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Shakshuka Map</h2>
-      <iframe src="https://www.google.com/maps?q=Shakshuka%20in%20Jaffa%20%26%20Tel%20Aviv&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dr. Shakshuka (דוקטור שקשוקה)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Shakshuka Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -450,7 +454,7 @@
       <li>
         <a href="#ozen-cafe">6. Ozen Cafe (אוזן קפה)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Shakshuka%20in%20Jaffa%20%26%20Tel%20Aviv" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="dr-shakshuka">
+<section class="restaurant-section" id="dr-shakshuka" data-map-name="1. Dr. Shakshuka (דוקטור שקשוקה)" data-map-cta-url="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dr. Shakshuka (דוקטור שקשוקה), Jaffa Flea Market, Tel Aviv, IL" data-map-lat="32.0544381" data-map-lng="34.7564172">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Dr. Shakshuka (דוקטור שקשוקה)</h2>
         <span class="cuisine-tag tag-regional">Libyan Shakshuka</span>
@@ -504,7 +508,7 @@
         <strong>tabiji verdict:</strong> The single most recommended shakshuka spot on Reddit — mentioned in virtually every &quot;where to eat in Jaffa&quot; thread. Chef Bino Gabso&#39;s Libyan heritage gives his shakshukot an authenticity and depth you won&#39;t find at standard Israeli cafes. Yes, it&#39;s touristy. Yes, there&#39;s a wait. It&#39;s still worth it for the 10+ varieties and the theatrical atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="shakshukit">
+<section class="restaurant-section" id="shakshukit" data-map-name="2. Shakshukit (שקשוקית)" data-map-cta-url="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shakshukit (שקשוקית), Beit Eshel, near Carmel Market, Tel Aviv, IL" data-map-lat="32.069540599999996" data-map-lng="34.7698197">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Shakshukit (שקשוקית)</h2>
         <span class="cuisine-tag tag-regional">Specialty Shakshuka</span>
@@ -542,7 +546,7 @@
         <strong>tabiji verdict:</strong> Where locals go when they want shakshuka without the tourist premium. Small, unpretentious, and laser-focused on doing one thing excellently. The green shakshuka here rivals any in the city. A 5-minute walk from Carmel Market makes it easy to pair with a market stroll.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-yom-tov">
+<section class="restaurant-section" id="cafe-yom-tov" data-map-name="3. Cafe Yom Tov (קפה יום טוב)" data-map-cta-url="https://maps.google.com/?cid=8734338653862044671&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Yom Tov (קפה יום טוב), Near Shuk HaCarmel, Tel Aviv, IL" data-map-lat="32.0689892" data-map-lng="34.768695">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Cafe Yom Tov (קפה יום טוב)</h2>
         <span class="cuisine-tag tag-regional">Israeli Cafe</span>
@@ -576,7 +580,7 @@
         <strong>tabiji verdict:</strong> A neighborhood cafe that happens to make excellent shakshuka. The location next to the Carmel Market gives it a vibrant, lived-in atmosphere. This is where you go when you want the full &quot;Israeli morning&quot; experience — not just the dish, but the whole ritual of sitting outside with coffee and fresh bread while the market buzzes around you.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-hakovshim">
+<section class="restaurant-section" id="cafe-hakovshim" data-map-name="4. Cafe HaKovshim (קפה הכובשים)" data-map-cta-url="https://maps.google.com/?cid=828728401128743004&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe HaKovshim (קפה הכובשים), HaKovshim Street, Tel Aviv, Tel Aviv, IL" data-map-lat="32.068765299999995" data-map-lng="34.7655601">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Cafe HaKovshim (קפה הכובשים)</h2>
         <span class="cuisine-tag tag-regional">Israeli Cafe</span>
@@ -602,7 +606,7 @@
         <strong>tabiji verdict:</strong> A true Tel Avivian institution. The kind of cafe where regulars have their own table and the staff knows their order. The shakshuka is classic and consistent — nothing experimental, just impeccable execution. Best experienced on a lazy weekday morning when you can grab a sidewalk table.
     </div>
 </section>
-<section class="restaurant-section" id="old-man-and-the-sea">
+<section class="restaurant-section" id="old-man-and-the-sea" data-map-name="5. Old Man and the Sea (הזקן והים)" data-map-cta-url="https://maps.google.com/?cid=3170472913366651390&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Old Man and the Sea (הזקן והים), Jaffa Port, Tel Aviv, IL" data-map-lat="32.0529965" data-map-lng="34.74989">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Old Man and the Sea (הזקן והים)</h2>
         <span class="cuisine-tag tag-regional">Middle Eastern</span>
@@ -640,7 +644,7 @@
         <strong>tabiji verdict:</strong> Not a dedicated shakshuka spot, but one of the most celebrated Jaffa restaurants for good reason. The 22-dish meze spread is legendary and always includes a killer shakshuka alongside hummus, baba ganoush, and pickled everything. The waterfront setting at Jaffa Port makes it feel like a proper occasion. Come for the shakshuka, stay for the entire Mediterranean feast.
     </div>
 </section>
-<section class="restaurant-section" id="ozen-cafe">
+<section class="restaurant-section" id="ozen-cafe" data-map-name="6. Ozen Cafe (אוזן קפה)" data-map-cta-url="https://maps.google.com/?cid=17435258059861291064&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ozen Cafe (אוזן קפה), King George Street, Tel Aviv, Tel Aviv, IL" data-map-lat="32.0743905" data-map-lng="34.7758641">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Ozen Cafe (אוזן קפה)</h2>
         <span class="cuisine-tag tag-regional">White Shakshuka</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> The dark horse of Tel Aviv shakshuka. While everyone fights over classic red versions, Ozen Cafe quietly invented the white shakshuka sandwich and built a cult following around it. If you&#39;ve had your fill of traditional shakshuka and want something genuinely different, this is your spot. King George Street location makes it easy to hit after exploring the Carmel Market area.
     </div>
 </section>
-<section class="restaurant-section" id="shakshukia">
+<section class="restaurant-section" id="shakshukia" data-map-name="7. Shakshukia (שקשוקיה)" data-map-cta-url="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shakshukia (שקשוקיה), Jaffa, near the Clock Tower, Tel Aviv, IL" data-map-lat="32.0819222" data-map-lng="34.7710575">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Shakshukia (שקשוקיה)</h2>
         <span class="cuisine-tag tag-regional">Specialty Shakshuka</span>
@@ -700,7 +704,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; alternative to Dr. Shakshuka. Same Jaffa atmosphere, similar quality, shorter wait. Shakshukia doesn&#39;t try to reinvent the wheel — it just makes excellent traditional shakshuka in a cozy setting. The merguez version adds a spicy North African kick that pairs beautifully with their bread.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-puaa">
+<section class="restaurant-section" id="cafe-puaa" data-map-name="8. Cafe Puaa (קפה פועה)" data-map-cta-url="https://maps.google.com/?cid=12440811842263280458&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cafe Puaa (קפה פועה), Jaffa Flea Market area, Tel Aviv, IL" data-map-lat="32.052641" data-map-lng="34.756142">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Cafe Puaa (קפה פועה)</h2>
         <span class="cuisine-tag tag-regional">Jaffa Cafe</span>
@@ -734,7 +738,7 @@
         <strong>tabiji verdict:</strong> A Jaffa flea market institution that does everything well, but especially shines at brunch. The bohemian atmosphere — mismatched furniture, art on the walls, outdoor tables on the cobblestone square — makes it feel authentically Jaffa. Their shakshuka is straightforward and excellent, best enjoyed slowly with the eclectic crowd.
     </div>
 </section>
-<section class="restaurant-section" id="caspi">
+<section class="restaurant-section" id="caspi" data-map-name="9. Caspi (כספי)" data-map-cta-url="https://maps.google.com/?cid=18151907403036697897&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Caspi (כספי), Central Tel Aviv, Tel Aviv, IL" data-map-lat="32.0875178" data-map-lng="34.7730724">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Caspi (כספי)</h2>
         <span class="cuisine-tag tag-regional">Classic Shakshuka</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> A no-nonsense spot that nails the two pillars of Israeli cuisine: shakshuka and hummus. No gimmicks, no Instagram-bait presentations — just consistently good food at reasonable prices. The kind of place you return to because it hits every time.
     </div>
 </section>
-<section class="restaurant-section" id="bucke-cafe">
+<section class="restaurant-section" id="bucke-cafe" data-map-name="10. Bucke Cafe (בוקה קפה)" data-map-cta-url="https://maps.google.com/?cid=14389920674111890628&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bucke Cafe (בוקה קפה), Near Carmel Market, Tel Aviv, Tel Aviv, IL" data-map-lat="32.0708662" data-map-lng="34.7779291">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Bucke Cafe (בוקה קפה)</h2>
         <span class="cuisine-tag tag-regional">Israeli Breakfast</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> Mentioned in the same breath as Cafe Yom Tov by locals, Bucke Cafe delivers a proper Israeli breakfast where the shakshuka is the centerpiece. The walk from Carmel Market is pleasant and the vibe is more neighborhood cafe than tourist attraction. A solid backup if the market-area spots are packed.
     </div>
 </section>
-<section class="restaurant-section" id="saluf-and-sons">
+<section class="restaurant-section" id="saluf-and-sons" data-map-name="11. Saluf &amp; Sons (סלוף ובניו)" data-map-cta-url="https://maps.google.com/?cid=1277086402412746048&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Saluf &amp; Sons (סלוף ובניו), Florentin, Tel Aviv, Tel Aviv, IL" data-map-lat="32.0600618" data-map-lng="34.7724446">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Saluf &amp; Sons (סלוף ובניו)</h2>
         <span class="cuisine-tag tag-regional">Yemenite</span>
@@ -828,7 +832,7 @@
         <strong>tabiji verdict:</strong> A different angle on shakshuka entirely. The Yemenite spice blend (hawaij) gives their version a warmth and depth that classic Moroccan-style places don&#39;t have. The real move is ordering shakshuka with jachnun — the slow-baked, buttery Yemenite bread turns the whole dish into something transcendent. Florentin neighborhood adds great atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="arcaffe">
+<section class="restaurant-section" id="arcaffe" data-map-name="12. Arcaffe (ארקפה)" data-map-cta-url="https://maps.google.com/?cid=3961184568335917366&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Arcaffe (ארקפה), Multiple locations (try Rothschild Blvd), Tel Aviv, IL" data-map-lat="32.0637919" data-map-lng="34.7733051">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Arcaffe (ארקפה)</h2>
         <span class="cuisine-tag tag-regional">Cafe Chain</span>
@@ -880,9 +884,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Shakshuka Map</h2>
-      <iframe src="https://www.google.com/maps?q=Shakshuka%20in%20Jaffa%20%26%20Tel%20Aviv&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dr. Shakshuka (דוקטור שקשוקה)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Shakshuka Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -904,7 +909,7 @@
       <li>
         <a href="#ozen-cafe">6. Ozen Cafe (אוזן קפה)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Shakshuka%20in%20Jaffa%20%26%20Tel%20Aviv" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7679346440207108963&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -915,5 +920,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Shakshuka Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Shakshuka%20in%20Jaffa%20%26%20Tel%20Aviv","picks":[{"anchorId":"dr-shakshuka","rank":1,"name":"Dr. Shakshuka (דוקטור שקשוקה)","label":"1. Dr. Shakshuka (דוקטור שקשוקה)","lat":32.0544381,"lng":34.7564172,"ctaUrl":"https://maps.google.com/?cid=7679346440207108963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dr. Shakshuka (דוקטור שקשוקה), Jaffa Flea Market, Tel Aviv, IL"},{"anchorId":"shakshukit","rank":2,"name":"Shakshukit (שקשוקית)","label":"2. Shakshukit (שקשוקית)","lat":32.069540599999996,"lng":34.7698197,"ctaUrl":"https://maps.google.com/?cid=7679346440207108963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shakshukit (שקשוקית), Beit Eshel, near Carmel Market, Tel Aviv, IL"},{"anchorId":"cafe-yom-tov","rank":3,"name":"Cafe Yom Tov (קפה יום טוב)","label":"3. Cafe Yom Tov (קפה יום טוב)","lat":32.0689892,"lng":34.768695,"ctaUrl":"https://maps.google.com/?cid=8734338653862044671&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Yom Tov (קפה יום טוב), Near Shuk HaCarmel, Tel Aviv, IL"},{"anchorId":"cafe-hakovshim","rank":4,"name":"Cafe HaKovshim (קפה הכובשים)","label":"4. Cafe HaKovshim (קפה הכובשים)","lat":32.068765299999995,"lng":34.7655601,"ctaUrl":"https://maps.google.com/?cid=828728401128743004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe HaKovshim (קפה הכובשים), HaKovshim Street, Tel Aviv, Tel Aviv, IL"},{"anchorId":"old-man-and-the-sea","rank":5,"name":"Old Man and the Sea (הזקן והים)","label":"5. Old Man and the Sea (הזקן והים)","lat":32.0529965,"lng":34.74989,"ctaUrl":"https://maps.google.com/?cid=3170472913366651390&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Old Man and the Sea (הזקן והים), Jaffa Port, Tel Aviv, IL"},{"anchorId":"ozen-cafe","rank":6,"name":"Ozen Cafe (אוזן קפה)","label":"6. Ozen Cafe (אוזן קפה)","lat":32.0743905,"lng":34.7758641,"ctaUrl":"https://maps.google.com/?cid=17435258059861291064&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ozen Cafe (אוזן קפה), King George Street, Tel Aviv, Tel Aviv, IL"},{"anchorId":"shakshukia","rank":7,"name":"Shakshukia (שקשוקיה)","label":"7. Shakshukia (שקשוקיה)","lat":32.0819222,"lng":34.7710575,"ctaUrl":"https://maps.google.com/?cid=7679346440207108963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shakshukia (שקשוקיה), Jaffa, near the Clock Tower, Tel Aviv, IL"},{"anchorId":"cafe-puaa","rank":8,"name":"Cafe Puaa (קפה פועה)","label":"8. Cafe Puaa (קפה פועה)","lat":32.052641,"lng":34.756142,"ctaUrl":"https://maps.google.com/?cid=12440811842263280458&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cafe Puaa (קפה פועה), Jaffa Flea Market area, Tel Aviv, IL"},{"anchorId":"caspi","rank":9,"name":"Caspi (כספי)","label":"9. Caspi (כספי)","lat":32.0875178,"lng":34.7730724,"ctaUrl":"https://maps.google.com/?cid=18151907403036697897&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Caspi (כספי), Central Tel Aviv, Tel Aviv, IL"},{"anchorId":"bucke-cafe","rank":10,"name":"Bucke Cafe (בוקה קפה)","label":"10. Bucke Cafe (בוקה קפה)","lat":32.0708662,"lng":34.7779291,"ctaUrl":"https://maps.google.com/?cid=14389920674111890628&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bucke Cafe (בוקה קפה), Near Carmel Market, Tel Aviv, Tel Aviv, IL"},{"anchorId":"saluf-and-sons","rank":11,"name":"Saluf & Sons (סלוף ובניו)","label":"11. Saluf & Sons (סלוף ובניו)","lat":32.0600618,"lng":34.7724446,"ctaUrl":"https://maps.google.com/?cid=1277086402412746048&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Saluf & Sons (סלוף ובניו), Florentin, Tel Aviv, Tel Aviv, IL"},{"anchorId":"arcaffe","rank":12,"name":"Arcaffe (ארקפה)","label":"12. Arcaffe (ארקפה)","lat":32.0637919,"lng":34.7733051,"ctaUrl":"https://maps.google.com/?cid=3961184568335917366&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Arcaffe (ארקפה), Multiple locations (try Rothschild Blvd), Tel Aviv, IL"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

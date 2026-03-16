@@ -371,11 +371,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -400,9 +395,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -427,24 +425,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": "Best Cheap Eats in Berlin", "item": "https://tabiji.ai/popular-picks/best-cheap-eats-berlin/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -487,13 +473,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>For delicious meals, Berlin offers affordable eats ranging from €2 to €10, making it one of Western Europe&#39;s cheapest capitals. Our top pick is Azzam, a Lebanese spot in Neukölln, thanks to the city&#39;s diverse street food ecosystem. This ecosystem is fueled by waves of immigration, offering a wide range of affordable and delicious options.</strong></p>
-        <p>For delicious meals under €10, Berlin remains one of Western Europe&#39;s cheapest capitals, especially if you follow locals&#39; recommendations. Our top pick for affordable eats is Azzam, a Lebanese spot in Neukölln, thanks to the city&#39;s diverse street food ecosystem fueled by waves of immigration.</p><p>Berlin might be gentrifying fast, but it&#39;s still one of the cheapest capitals in Western Europe for eating out. The secret? Waves of immigration from Turkey, Lebanon, Sudan, Vietnam, and beyond have created a street food ecosystem that&#39;s diverse, delicious, and shockingly affordable.</p><p>We analyzed hundreds of Reddit posts from r/berlin, r/askberliners, and travel subs to find the spots that actual Berliners — not tourists — recommend over and over. Every place on this list delivers a great meal for under €10, with most running €3–€7.</p>
+        <p>Berlin might be gentrifying fast, but it&#39;s still one of the cheapest capitals in Western Europe for eating out. The secret? Waves of immigration from Turkey, Lebanon, Sudan, Vietnam, and beyond have created a street food ecosystem that&#39;s diverse, delicious, and shockingly affordable.</p><p>We analyzed hundreds of Reddit posts from r/berlin, r/askberliners, and travel subs to find the spots that actual Berliners — not tourists — recommend over and over. Every place on this list delivers a great meal for under €10, with most running €3–€7.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Neuk%C3%B6lln%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Azzam</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -515,7 +502,7 @@
       <li>
         <a href="#libanon-falafel">6. Libanon Falafel</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Neuk%C3%B6lln%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3131413885354076643&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -527,7 +514,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="azzam">
+<section class="restaurant-section" id="azzam" data-map-name="1. Azzam" data-map-cta-url="https://maps.google.com/?cid=3131413885354076643&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Azzam, Sonnenallee 54, Neukölln, Neukölln, DE" data-map-lat="52.4849569" data-map-lng="13.4328568">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Azzam</h2>
         <span class="cuisine-tag tag-regional">Lebanese / Middle Eastern</span>
@@ -565,7 +552,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Sonnenallee and arguably the best value restaurant in Berlin. Azzam appears in virtually every &quot;cheap eats&quot; Reddit thread about the city. The hummus alone is worth the trip — creamy, warm, generously portioned. This is the kind of place where you eat a massive meal, check the bill, and wonder if they forgot to charge you for something.
     </div>
 </section>
-<section class="restaurant-section" id="sahara">
+<section class="restaurant-section" id="sahara" data-map-name="2. Sahara Imbiss" data-map-cta-url="https://maps.google.com/?cid=4875106013509131140&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sahara Imbiss, Multiple locations across Berlin, Neukölln, DE" data-map-lat="52.4884461" data-map-lng="13.428645699999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Sahara Imbiss</h2>
         <span class="cuisine-tag tag-regional">Sudanese / Falafel</span>
@@ -607,7 +594,7 @@
         <strong>tabiji verdict:</strong> The most beloved cheap eat in Berlin, period. Sahara is a cultural institution — multiple locations, each with its loyalists arguing over which is best. The Sudanese-style falafel is fluffier and more herbaceous than the Lebanese version, and the wraps are absurdly cheap. A true Berlin original that no tourist guide will tell you about.
     </div>
 </section>
-<section class="restaurant-section" id="ruyam">
+<section class="restaurant-section" id="ruyam" data-map-name="3. Rüyam Gemüse Kebab" data-map-cta-url="https://maps.google.com/?cid=12990336879182552425&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rüyam Gemüse Kebab, Hauptstraße 133, Schöneberg, Neukölln, DE" data-map-lat="52.484503" data-map-lng="13.3523488">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Rüyam Gemüse Kebab</h2>
         <span class="cuisine-tag tag-regional">Turkish / Gemüse Kebab</span>
@@ -645,7 +632,7 @@
         <strong>tabiji verdict:</strong> Berlin&#39;s most famous Gemüse Kebab and a must-try even if you&#39;re a die-hard meat eater. The vegetable version is so loaded with grilled aubergine, courgette, peppers, and halloumi that you won&#39;t miss the meat. A Berlin institution that proves Döner doesn&#39;t have to mean &quot;mystery meat on a spit.&quot;
     </div>
 </section>
-<section class="restaurant-section" id="curry-baude">
+<section class="restaurant-section" id="curry-baude" data-map-name="4. Curry Baude" data-map-cta-url="https://maps.google.com/?cid=12245555901561468184&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Curry Baude, Badstraße 1, Gesundbrunnen, Neukölln, DE" data-map-lat="52.5494828" data-map-lng="13.386978099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Curry Baude</h2>
         <span class="cuisine-tag tag-regional">German / Currywurst</span>
@@ -683,7 +670,7 @@
         <strong>tabiji verdict:</strong> The Berliner&#39;s Berliner currywurst. While tourists queue at Curry 36, locals head to Gesundbrunnen for Curry Baude — the real deal with homemade sauce and proper Wurst. It&#39;s gritty, unpretentious, and exactly what Currywurst should be. Skip the tourist traps and come here.
     </div>
 </section>
-<section class="restaurant-section" id="hamy">
+<section class="restaurant-section" id="hamy" data-map-name="5. Hamy Café" data-map-cta-url="https://maps.google.com/?cid=14493806873275949611&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hamy Café, Hasenheide 10, near Hermannplatz, Neukölln, DE" data-map-lat="52.4873228" data-map-lng="13.4219423">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Hamy Café</h2>
         <span class="cuisine-tag tag-regional">Vietnamese</span>
@@ -725,7 +712,7 @@
         <strong>tabiji verdict:</strong> The kind of place where Berliners eat multiple times a week without getting bored or broke. Hamy&#39;s combination of speed, flavour, and price is genuinely hard to beat anywhere in Europe. The chicken curry is comfort food perfection, and the fact that it costs less than a mediocre coffee at a hipster café in Mitte is borderline criminal.
     </div>
 </section>
-<section class="restaurant-section" id="libanon-falafel">
+<section class="restaurant-section" id="libanon-falafel" data-map-name="6. Libanon Falafel" data-map-cta-url="https://maps.google.com/?cid=4565939919651198607&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Libanon Falafel, Boddinstraße, Neukölln, Neukölln, DE" data-map-lat="52.4804951" data-map-lng="13.4246938">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Libanon Falafel</h2>
         <span class="cuisine-tag tag-regional">Lebanese / Falafel</span>
@@ -763,7 +750,7 @@
         <strong>tabiji verdict:</strong> The cheapest filling meal in Berlin, full stop. Yes, the wraps are small — but at €2-2.50 each, you can eat two and still spend less than a single Döner. The location right at U Boddinstraße makes it a perfect grab-and-go. This is the spot broke students and savvy locals have relied on for years.
     </div>
 </section>
-<section class="restaurant-section" id="fleischerei-domke">
+<section class="restaurant-section" id="fleischerei-domke" data-map-name="7. Fleischerei Domke" data-map-cta-url="https://maps.google.com/?cid=9988978482616456175&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fleischerei Domke, Warschauer Straße, Friedrichshain, Neukölln, DE" data-map-lat="52.5104769" data-map-lng="13.4520734">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Fleischerei Domke</h2>
         <span class="cuisine-tag tag-regional">German / Comfort Food</span>
@@ -801,7 +788,7 @@
         <strong>tabiji verdict:</strong> If you want to experience what old Berlin tasted like before the hipster wave, Fleischerei Domke is your time machine. It&#39;s literally a butcher shop with a counter where they serve hot plates of hearty German food at prices that haven&#39;t caught up with gentrification. The Schnitzel is hand-breaded, the portions are absurd, and the clientele is pure Friedrichshain.
     </div>
 </section>
-<section class="restaurant-section" id="ornek">
+<section class="restaurant-section" id="ornek" data-map-name="8. Örnek Lahmacun Grillhaus" data-map-cta-url="https://maps.google.com/?cid=16495890543641468309&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Örnek Lahmacun Grillhaus, Karl-Marx-Straße, Neukölln, Neukölln, DE" data-map-lat="52.4787031" data-map-lng="13.4379262">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Örnek Lahmacun Grillhaus</h2>
         <span class="cuisine-tag tag-regional">Turkish / Lahmacun</span>
@@ -839,7 +826,7 @@
         <strong>tabiji verdict:</strong> The best Lahmacun in Neukölln — possibly in all of Berlin. The real-fire grilling makes a noticeable difference, and the prices have stayed fair even through Berlin&#39;s inflation wave. The complimentary tea after your meal is a small gesture that tells you everything about this place&#39;s hospitality.
     </div>
 </section>
-<section class="restaurant-section" id="mae-charoen">
+<section class="restaurant-section" id="mae-charoen" data-map-name="9. Mae Charoen Thai Imbiss" data-map-cta-url="https://maps.google.com/?cid=14504970869180508866&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mae Charoen Thai Imbiss, Sonnenallee, Neukölln, Neukölln, DE" data-map-lat="52.479506199999996" data-map-lng="13.4440311">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Mae Charoen Thai Imbiss</h2>
         <span class="cuisine-tag tag-regional">Thai</span>
@@ -873,7 +860,7 @@
         <strong>tabiji verdict:</strong> The most recommended Thai restaurant in Neukölln, and it&#39;s cheap enough to qualify as a regular lunch spot. Located on the same Sonnenallee strip as Azzam, this is part of what makes that street one of the best food corridors in Berlin. The curries have actual heat, which is rare for Berlin Thai spots.
     </div>
 </section>
-<section class="restaurant-section" id="basmah">
+<section class="restaurant-section" id="basmah" data-map-name="10. Basmah" data-map-cta-url="https://maps.google.com/?cid=9913314585464096915&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Basmah, Kottbusser Tor, Kreuzberg, Neukölln, DE" data-map-lat="52.4980262" data-map-lng="13.4212075">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Basmah</h2>
         <span class="cuisine-tag tag-regional">Sudanese</span>
@@ -911,7 +898,7 @@
         <strong>tabiji verdict:</strong> A hidden gem right at one of Berlin&#39;s busiest intersections. While everyone around Kottbusser Tor debates where to get the best Döner, the smart move is walking past all of them to Basmah. The Sudanese kitchen offers something genuinely different, and at €5 for a filling meal, it&#39;s one of the best deals in Kreuzberg.
     </div>
 </section>
-<section class="restaurant-section" id="konopke">
+<section class="restaurant-section" id="konopke" data-map-name="11. Konopke&#39;s Imbiss" data-map-cta-url="https://maps.google.com/?cid=14591312988659145508&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Konopke&#39;s Imbiss, Schönhauser Allee, Eberswalder Str., Neukölln, DE" data-map-lat="52.540422899999996" data-map-lng="13.412175300000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Konopke&#39;s Imbiss</h2>
         <span class="cuisine-tag tag-regional">German / Currywurst</span>
@@ -945,7 +932,7 @@
         <strong>tabiji verdict:</strong> The historic currywurst — Konopke&#39;s has been feeding East Berliners since 1930 and survived the Wall, reunification, and gentrification. It&#39;s slightly more tourist-known than Curry Baude, but the experience of eating under the rumbling U2 tracks at Eberswalder Straße is genuinely special. The Wurst is good, the history is better.
     </div>
 </section>
-<section class="restaurant-section" id="burgermeister">
+<section class="restaurant-section" id="burgermeister" data-map-name="12. Burgermeister" data-map-cta-url="https://maps.google.com/?cid=7792055640729160722&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Burgermeister, Oberbaumstraße 8, Schlesisches Tor, Neukölln, DE" data-map-lat="52.501092" data-map-lng="13.442424899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Burgermeister</h2>
         <span class="cuisine-tag tag-regional">Burgers</span>
@@ -983,7 +970,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s well-known. Yes, there&#39;s usually a queue. But Burgermeister genuinely delivers one of the best burgers in Berlin at a price that hasn&#39;t gone insane. The converted toilet location is pure Berlin weirdness, and the burgers are legitimately excellent. At €5-6 for a quality burger in 2026, it&#39;s still a bargain.
     </div>
 </section>
-<section class="restaurant-section" id="heno-heno">
+<section class="restaurant-section" id="heno-heno" data-map-name="13. Heno Heno" data-map-cta-url="https://maps.google.com/?cid=1763783371395277918&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Heno Heno, Kreuzberg, Neukölln, DE" data-map-lat="52.5039312" data-map-lng="13.3156889">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Heno Heno</h2>
         <span class="cuisine-tag tag-regional">Japanese / Beef Bowls</span>
@@ -1017,7 +1004,7 @@
         <strong>tabiji verdict:</strong> Cheap Japanese food in Berlin is a unicorn — most ramen spots charge €13+ and sushi is a wallet-emptier. Heno Heno breaks the mould with gyudon bowls under €9 that are genuinely good and absurdly filling. The medium bowl could feed two modest eaters. A true hidden gem that even many Berliners don&#39;t know about.
     </div>
 </section>
-<section class="restaurant-section" id="rissani">
+<section class="restaurant-section" id="rissani" data-map-name="14. Rissani" data-map-cta-url="https://maps.google.com/?cid=11415363128243599047&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rissani, Spreewaldplatz, Kreuzberg, Neukölln, DE" data-map-lat="52.4986786" data-map-lng="13.4312322">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Rissani</h2>
         <span class="cuisine-tag tag-regional">Moroccan / Middle Eastern</span>
@@ -1047,7 +1034,7 @@
         <strong>tabiji verdict:</strong> The portion-to-price ratio at Rissani is almost comical. Their &quot;plate for two&quot; is reliably enough for three hungry adults, and a single falafel halloumi sandwich at under €5 is one of the best deals near Görlitzer Park. They also have a location at Schöneweide if you&#39;re exploring east.
     </div>
 </section>
-<section class="restaurant-section" id="falafel-jakoub">
+<section class="restaurant-section" id="falafel-jakoub" data-map-name="15. Falafel Jakoub" data-map-cta-url="https://maps.google.com/?cid=2759962479764124136&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Falafel Jakoub, Neukölln, Neukölln, DE" data-map-lat="52.487586099999994" data-map-lng="13.4306944">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Falafel Jakoub</h2>
         <span class="cuisine-tag tag-regional">Middle Eastern / Falafel</span>
@@ -1103,9 +1090,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Neuk%C3%B6lln%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Azzam</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1127,7 +1115,7 @@
       <li>
         <a href="#libanon-falafel">6. Libanon Falafel</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Neuk%C3%B6lln%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3131413885354076643&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1138,5 +1126,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Eats%20in%20Berlin","picks":[{"anchorId":"azzam","rank":1,"name":"Azzam","label":"1. Azzam","lat":52.4849569,"lng":13.4328568,"ctaUrl":"https://maps.google.com/?cid=3131413885354076643&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Azzam, Sonnenallee 54, Neukölln, Neukölln, DE"},{"anchorId":"sahara","rank":2,"name":"Sahara Imbiss","label":"2. Sahara Imbiss","lat":52.4884461,"lng":13.428645699999999,"ctaUrl":"https://maps.google.com/?cid=4875106013509131140&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sahara Imbiss, Multiple locations across Berlin, Neukölln, DE"},{"anchorId":"ruyam","rank":3,"name":"Rüyam Gemüse Kebab","label":"3. Rüyam Gemüse Kebab","lat":52.484503,"lng":13.3523488,"ctaUrl":"https://maps.google.com/?cid=12990336879182552425&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rüyam Gemüse Kebab, Hauptstraße 133, Schöneberg, Neukölln, DE"},{"anchorId":"curry-baude","rank":4,"name":"Curry Baude","label":"4. Curry Baude","lat":52.5494828,"lng":13.386978099999999,"ctaUrl":"https://maps.google.com/?cid=12245555901561468184&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Curry Baude, Badstraße 1, Gesundbrunnen, Neukölln, DE"},{"anchorId":"hamy","rank":5,"name":"Hamy Café","label":"5. Hamy Café","lat":52.4873228,"lng":13.4219423,"ctaUrl":"https://maps.google.com/?cid=14493806873275949611&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hamy Café, Hasenheide 10, near Hermannplatz, Neukölln, DE"},{"anchorId":"libanon-falafel","rank":6,"name":"Libanon Falafel","label":"6. Libanon Falafel","lat":52.4804951,"lng":13.4246938,"ctaUrl":"https://maps.google.com/?cid=4565939919651198607&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Libanon Falafel, Boddinstraße, Neukölln, Neukölln, DE"},{"anchorId":"fleischerei-domke","rank":7,"name":"Fleischerei Domke","label":"7. Fleischerei Domke","lat":52.5104769,"lng":13.4520734,"ctaUrl":"https://maps.google.com/?cid=9988978482616456175&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fleischerei Domke, Warschauer Straße, Friedrichshain, Neukölln, DE"},{"anchorId":"ornek","rank":8,"name":"Örnek Lahmacun Grillhaus","label":"8. Örnek Lahmacun Grillhaus","lat":52.4787031,"lng":13.4379262,"ctaUrl":"https://maps.google.com/?cid=16495890543641468309&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Örnek Lahmacun Grillhaus, Karl-Marx-Straße, Neukölln, Neukölln, DE"},{"anchorId":"mae-charoen","rank":9,"name":"Mae Charoen Thai Imbiss","label":"9. Mae Charoen Thai Imbiss","lat":52.479506199999996,"lng":13.4440311,"ctaUrl":"https://maps.google.com/?cid=14504970869180508866&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mae Charoen Thai Imbiss, Sonnenallee, Neukölln, Neukölln, DE"},{"anchorId":"basmah","rank":10,"name":"Basmah","label":"10. Basmah","lat":52.4980262,"lng":13.4212075,"ctaUrl":"https://maps.google.com/?cid=9913314585464096915&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Basmah, Kottbusser Tor, Kreuzberg, Neukölln, DE"},{"anchorId":"konopke","rank":11,"name":"Konopke's Imbiss","label":"11. Konopke's Imbiss","lat":52.540422899999996,"lng":13.412175300000001,"ctaUrl":"https://maps.google.com/?cid=14591312988659145508&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Konopke's Imbiss, Schönhauser Allee, Eberswalder Str., Neukölln, DE"},{"anchorId":"burgermeister","rank":12,"name":"Burgermeister","label":"12. Burgermeister","lat":52.501092,"lng":13.442424899999999,"ctaUrl":"https://maps.google.com/?cid=7792055640729160722&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Burgermeister, Oberbaumstraße 8, Schlesisches Tor, Neukölln, DE"},{"anchorId":"heno-heno","rank":13,"name":"Heno Heno","label":"13. Heno Heno","lat":52.5039312,"lng":13.3156889,"ctaUrl":"https://maps.google.com/?cid=1763783371395277918&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Heno Heno, Kreuzberg, Neukölln, DE"},{"anchorId":"rissani","rank":14,"name":"Rissani","label":"14. Rissani","lat":52.4986786,"lng":13.4312322,"ctaUrl":"https://maps.google.com/?cid=11415363128243599047&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rissani, Spreewaldplatz, Kreuzberg, Neukölln, DE"},{"anchorId":"falafel-jakoub","rank":15,"name":"Falafel Jakoub","label":"15. Falafel Jakoub","lat":52.487586099999994,"lng":13.4306944,"ctaUrl":"https://maps.google.com/?cid=2759962479764124136&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Falafel Jakoub, Neukölln, Neukölln, DE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

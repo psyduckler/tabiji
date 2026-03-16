@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,7 +425,7 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>The best pintxos bars in San Sebastián, Spain — curated from hundreds of Reddit reviews. La Cuchara, Borda Berri, La Viña, Bar Bergara &amp; more. Interactive map included.</strong></p>
-        <p>The best pintxos bars in San Sebastián, Spain — curated from hundreds of Reddit reviews. La Cuchara, Borda Berri, La Viña, Bar Bergara &amp; more. Interactive map included.</p>
+        
       </section>
 
       
@@ -435,7 +438,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="la-cuchara">
+<section class="restaurant-section" id="la-cuchara" data-map-name="1. La Cuchara de San Telmo" data-map-cta-url="https://maps.google.com/?cid=110698052843782129&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cuchara de San Telmo, Parte Vieja — 31 de Agosto Kalea, 28, San Sebastián, ES" data-map-lat="43.3245016" data-map-lng="-1.9853227">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>La Cuchara de San Telmo</h2>
         <span class="cuisine-tag tag-regional">Creative Pintxos</span>
@@ -477,7 +480,7 @@
         <strong>tabiji verdict:</strong> San Sebastián&#39;s most talked-about pintxos bar for good reason. Unlike every other bar in the Parte Vieja, La Cuchara has no cold pintxos on the counter — everything is freshly cooked to order. The foie gras is the single most recommended bite in the city. Get here at 7:30 PM sharp or expect to wait.
     </div>
 </section>
-<section class="restaurant-section" id="borda-berri">
+<section class="restaurant-section" id="borda-berri" data-map-name="2. Borda Berri" data-map-cta-url="https://maps.google.com/?cid=13263943072221110263&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Borda Berri, Parte Vieja — Fermin Calbeton Kalea, 12, San Sebastián, ES" data-map-lat="43.3234901" data-map-lng="-1.9838915">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Borda Berri</h2>
         <span class="cuisine-tag tag-regional">Modern Pintxos</span>
@@ -515,7 +518,7 @@
         <strong>tabiji verdict:</strong> Borda Berri and La Cuchara are San Sebastián&#39;s creative pintxos one-two punch — always mentioned together by Reddit&#39;s food community. The mushroom risotto pintxo is possibly the most photographed single bite of food in the Basque Country. The veal cheeks are a close second. Tiny bar, expect to stand.
     </div>
 </section>
-<section class="restaurant-section" id="la-vina">
+<section class="restaurant-section" id="la-vina" data-map-name="3. La Viña" data-map-cta-url="https://maps.google.com/?cid=4926288148758518475&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Viña, Parte Vieja — 31 de Agosto Kalea, 3, San Sebastián, ES" data-map-lat="43.3243861" data-map-lng="-1.9847944">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>La Viña</h2>
         <span class="cuisine-tag tag-regional">Basque Cheesecake &amp; Pintxos</span>
@@ -557,7 +560,7 @@
         <strong>tabiji verdict:</strong> The birthplace of the burnt Basque cheesecake — a dessert that has conquered the world&#39;s restaurant menus since the 1990s. La Viña is one of the most historically important bars in San Sebastián. The cheesecake alone is worth the trip. The pincho morunos and seafood pintxos on the bar counter are equally good. Don&#39;t let the cheesecake fame obscure the fact that this is an excellent all-round pintxos bar.
     </div>
 </section>
-<section class="restaurant-section" id="bar-bergara">
+<section class="restaurant-section" id="bar-bergara" data-map-name="4. Bar Bergara (Pincho Bar Bergara)" data-map-cta-url="https://maps.google.com/?cid=3501501143875506287&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Bergara (Pincho Bar Bergara), Gros — General Artetxe Kalea, 8, San Sebastián, ES" data-map-lat="43.3243526" data-map-lng="-1.972413">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Bar Bergara (Pincho Bar Bergara)</h2>
         <span class="cuisine-tag tag-regional">Creative Pintxos</span>
@@ -595,7 +598,7 @@
         <strong>tabiji verdict:</strong> Bar Bergara is the open secret of San Sebastián&#39;s pintxos world — locals swear by it, first-timers often miss it because it&#39;s just outside the Old Town in the Gros neighbourhood. The counter display is jaw-dropping: 30+ different pintxos at any time. Multiple award-winning. The walk from Parte Vieja takes 10 minutes and is 100% worth it.
     </div>
 </section>
-<section class="restaurant-section" id="ganbara">
+<section class="restaurant-section" id="ganbara" data-map-name="5. Ganbara" data-map-cta-url="https://maps.google.com/?cid=18023590684855453006&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ganbara, Parte Vieja — San Jeronimo Kalea, 21, San Sebastián, ES" data-map-lat="43.3234339" data-map-lng="-1.9855010999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Ganbara</h2>
         <span class="cuisine-tag tag-regional">Seasonal &amp; Traditional</span>
@@ -633,7 +636,7 @@
         <strong>tabiji verdict:</strong> Ganbara is the sophisticate&#39;s choice in Parte Vieja. The seasonal wild mushroom pintxos are a reason alone to time your San Sebastián trip for late autumn. The txangurro (spider crab) is also exceptional. Slightly higher prices than most Old Town bars, but worth every cent.
     </div>
 </section>
-<section class="restaurant-section" id="bar-nestor">
+<section class="restaurant-section" id="bar-nestor" data-map-name="6. Bar Nestor" data-map-cta-url="https://maps.google.com/?cid=13157290781015967391&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Nestor, Parte Vieja — Pescaderia Kalea, 11, San Sebastián, ES" data-map-lat="43.323872" data-map-lng="-1.9837069999999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Bar Nestor</h2>
         <span class="cuisine-tag tag-regional">Traditional Pintxos</span>
@@ -663,7 +666,7 @@
         <strong>tabiji verdict:</strong> Bar Nestor has built a cult following around a single item: the tortilla de patatas. Made twice daily, only 20 slices per batch, reservation system by writing your name on the bar. The tortilla is thick, custardy, barely set — a Spanish omelette elevated to high art. If the tortilla routine sounds like too much effort, the txuleta bites and tomato salad are also outstanding.
     </div>
 </section>
-<section class="restaurant-section" id="gandarias">
+<section class="restaurant-section" id="gandarias" data-map-name="7. Gandarias" data-map-cta-url="https://maps.google.com/?cid=15888145201752456360&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gandarias, Parte Vieja — 31 de Agosto Kalea, 23, San Sebastián, ES" data-map-lat="43.3240228" data-map-lng="-1.9857835">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Gandarias</h2>
         <span class="cuisine-tag tag-regional">Traditional Basque</span>
@@ -701,7 +704,7 @@
         <strong>tabiji verdict:</strong> Gandarias is the reliable cornerstone of any Parte Vieja pintxos crawl. No gimmicks, no chalkboard innovation — just classic Basque pintxos executed with the care of a place that&#39;s been doing this for decades. The Cantabrian anchovies are world-class. The restaurant upstairs offers the same quality in a seated format.
     </div>
 </section>
-<section class="restaurant-section" id="la-cepa">
+<section class="restaurant-section" id="la-cepa" data-map-name="8. La Cepa" data-map-cta-url="https://maps.google.com/?cid=1444666435640295660&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cepa, Parte Vieja — 31 de Agosto Kalea, 7-9, San Sebastián, ES" data-map-lat="43.3243034" data-map-lng="-1.9850321000000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>La Cepa</h2>
         <span class="cuisine-tag tag-regional">Jamón &amp; Traditional Pintxos</span>
@@ -739,7 +742,7 @@
         <strong>tabiji verdict:</strong> La Cepa is the temple of jamón ibérico in San Sebastián. Legs hanging everywhere, knowledgeable staff who know exactly which ham is at its peak. The bread is homemade and the tomato is applied with care. If you eat one plate of jamón in the Basque Country, make it here.
     </div>
 </section>
-<section class="restaurant-section" id="a-fuego-negro">
+<section class="restaurant-section" id="a-fuego-negro" data-map-name="9. A Fuego Negro" data-map-cta-url="https://maps.google.com/?cid=1918159824098549689&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="A Fuego Negro, Parte Vieja — 31 de Agosto Kalea, 31, San Sebastián, ES" data-map-lat="43.323854" data-map-lng="-1.9861761">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>A Fuego Negro</h2>
         <span class="cuisine-tag tag-regional">Avant-garde Pintxos</span>
@@ -769,7 +772,7 @@
         <strong>tabiji verdict:</strong> A Fuego Negro is where pintxos culture meets avant-garde cuisine. The design is dark and modern, the pintxos are numbered on an illustrated menu, and the combinations push boundaries in ways that usually pay off. The &quot;makobe&quot; wagyu miniburger has its own fan club. Not for purists — but definitely worth visiting alongside a more traditional bar.
     </div>
 </section>
-<section class="restaurant-section" id="bar-sport">
+<section class="restaurant-section" id="bar-sport" data-map-name="10. Bar Sport" data-map-cta-url="https://maps.google.com/?cid=13724444345769521282&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Sport, Parte Vieja — Fermin Calbeton Kalea, 10, San Sebastián, ES" data-map-lat="43.323493" data-map-lng="-1.9837105">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Bar Sport</h2>
         <span class="cuisine-tag tag-regional">Classic Basque Pintxos</span>
@@ -799,7 +802,7 @@
         <strong>tabiji verdict:</strong> Bar Sport represents the old-school Parte Vieja pintxos experience — packed counter, cold pintxos on bread, txakoli poured from height, locals and visitors mixed together. Some of the best-value pintxos in the city, with a counter selection that rivals much pricier bars. The anchovy combinations are particularly strong.
     </div>
 </section>
-<section class="restaurant-section" id="bar-zeruko">
+<section class="restaurant-section" id="bar-zeruko" data-map-name="11. Bar Zeruko" data-map-cta-url="https://maps.google.com/?cid=18017696895085137520&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Zeruko, Parte Vieja — Pescaderia Kalea, 10, San Sebastián, ES" data-map-lat="43.3238" data-map-lng="-1.983708">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Bar Zeruko</h2>
         <span class="cuisine-tag tag-regional">Creative Avant-garde</span>
@@ -829,7 +832,7 @@
         <strong>tabiji verdict:</strong> Zeruko is where pintxos become performance art. Multiple award wins for Best Pintxo in San Sebastián. The technical creativity is genuinely impressive — these aren&#39;t gimmicks, they&#39;re well-thought-out flavour combinations with theatrical presentation. The bacalao pintxos are especially strong. Higher prices than most Old Town bars but justified by the ambition.
     </div>
 </section>
-<section class="restaurant-section" id="txuleta">
+<section class="restaurant-section" id="txuleta" data-map-name="12. Txuleta" data-map-cta-url="https://maps.google.com/?cid=9703716692328478806&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Txuleta, Parte Vieja — Arrasate Kalea, 3, San Sebastián, ES" data-map-lat="43.3241418" data-map-lng="-1.9859154999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Txuleta</h2>
         <span class="cuisine-tag tag-regional">Steak &amp; Traditional</span>
@@ -893,5 +896,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":false,"title":"Area map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Pintxos%20Bars%20in%20San%20Sebasti%C3%A1n","picks":[{"anchorId":"la-cuchara","rank":1,"name":"La Cuchara de San Telmo","label":"1. La Cuchara de San Telmo","lat":43.3245016,"lng":-1.9853227,"ctaUrl":"https://maps.google.com/?cid=110698052843782129&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cuchara de San Telmo, Parte Vieja — 31 de Agosto Kalea, 28, San Sebastián, ES"},{"anchorId":"borda-berri","rank":2,"name":"Borda Berri","label":"2. Borda Berri","lat":43.3234901,"lng":-1.9838915,"ctaUrl":"https://maps.google.com/?cid=13263943072221110263&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Borda Berri, Parte Vieja — Fermin Calbeton Kalea, 12, San Sebastián, ES"},{"anchorId":"la-vina","rank":3,"name":"La Viña","label":"3. La Viña","lat":43.3243861,"lng":-1.9847944,"ctaUrl":"https://maps.google.com/?cid=4926288148758518475&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Viña, Parte Vieja — 31 de Agosto Kalea, 3, San Sebastián, ES"},{"anchorId":"bar-bergara","rank":4,"name":"Bar Bergara (Pincho Bar Bergara)","label":"4. Bar Bergara (Pincho Bar Bergara)","lat":43.3243526,"lng":-1.972413,"ctaUrl":"https://maps.google.com/?cid=3501501143875506287&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Bergara (Pincho Bar Bergara), Gros — General Artetxe Kalea, 8, San Sebastián, ES"},{"anchorId":"ganbara","rank":5,"name":"Ganbara","label":"5. Ganbara","lat":43.3234339,"lng":-1.9855010999999998,"ctaUrl":"https://maps.google.com/?cid=18023590684855453006&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ganbara, Parte Vieja — San Jeronimo Kalea, 21, San Sebastián, ES"},{"anchorId":"bar-nestor","rank":6,"name":"Bar Nestor","label":"6. Bar Nestor","lat":43.323872,"lng":-1.9837069999999999,"ctaUrl":"https://maps.google.com/?cid=13157290781015967391&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Nestor, Parte Vieja — Pescaderia Kalea, 11, San Sebastián, ES"},{"anchorId":"gandarias","rank":7,"name":"Gandarias","label":"7. Gandarias","lat":43.3240228,"lng":-1.9857835,"ctaUrl":"https://maps.google.com/?cid=15888145201752456360&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gandarias, Parte Vieja — 31 de Agosto Kalea, 23, San Sebastián, ES"},{"anchorId":"la-cepa","rank":8,"name":"La Cepa","label":"8. La Cepa","lat":43.3243034,"lng":-1.9850321000000002,"ctaUrl":"https://maps.google.com/?cid=1444666435640295660&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cepa, Parte Vieja — 31 de Agosto Kalea, 7-9, San Sebastián, ES"},{"anchorId":"a-fuego-negro","rank":9,"name":"A Fuego Negro","label":"9. A Fuego Negro","lat":43.323854,"lng":-1.9861761,"ctaUrl":"https://maps.google.com/?cid=1918159824098549689&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"A Fuego Negro, Parte Vieja — 31 de Agosto Kalea, 31, San Sebastián, ES"},{"anchorId":"bar-sport","rank":10,"name":"Bar Sport","label":"10. Bar Sport","lat":43.323493,"lng":-1.9837105,"ctaUrl":"https://maps.google.com/?cid=13724444345769521282&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Sport, Parte Vieja — Fermin Calbeton Kalea, 10, San Sebastián, ES"},{"anchorId":"bar-zeruko","rank":11,"name":"Bar Zeruko","label":"11. Bar Zeruko","lat":43.3238,"lng":-1.983708,"ctaUrl":"https://maps.google.com/?cid=18017696895085137520&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Zeruko, Parte Vieja — Pescaderia Kalea, 10, San Sebastián, ES"},{"anchorId":"txuleta","rank":12,"name":"Txuleta","label":"12. Txuleta","lat":43.3241418,"lng":-1.9859154999999997,"ctaUrl":"https://maps.google.com/?cid=9703716692328478806&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Txuleta, Parte Vieja — Arrasate Kalea, 3, San Sebastián, ES"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  
 </body>
 </html>

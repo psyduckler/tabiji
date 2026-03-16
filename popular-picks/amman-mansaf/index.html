@@ -310,9 +310,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -337,7 +340,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -385,13 +388,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Mansaf in Amman ranges from 3-30 JOD per person, with Al Quds being a top recommendation for its traditional experience. These restaurants, vetted by Jordanian Redditors, offer the closest experience to homemade mansaf. Mansaf is more than just a dish; it&#39;s a cultural ceremony.</strong></p>
-        <p>Mansaf in Amman ranges from 3-30 JOD per person, with Al Quds being a top recommendation for its traditional experience. These restaurants, vetted by Jordanian Redditors, offer the closest experience to homemade mansaf. Mansaf is more than just a dish; it&#39;s a cultural ceremony.</p><p>Mansaf in Amman ranges from 3-30 JOD per person, with Al Quds being a top recommendation for its traditional experience. These restaurants, vetted by Jordanian Redditors, offer the closest experience to homemade mansaf.</p><p>Mansaf is more than a dish in Jordan — it&#39;s a cultural ceremony. Slow-cooked lamb draped in jameed (fermented dried yogurt sauce), served over fragrant rice and paper-thin shrak bread. Every Jordanian family has their own recipe, and most will tell you the best mansaf is homemade. But when you&#39;re visiting Amman, these restaurants come closest to the real thing.</p><p>We scanned Reddit&#39;s r/jordan and r/Amman communities — where locals passionately debate this topic every few months — to find the spots that actual Jordanians keep recommending to each other and to visitors.</p>
+        <p>Mansaf in Amman ranges from 3-30 JOD per person, with Al Quds being a top recommendation for its traditional experience. These restaurants, vetted by Jordanian Redditors, offer the closest experience to homemade mansaf.</p><p>Mansaf is more than a dish in Jordan — it&#39;s a cultural ceremony. Slow-cooked lamb draped in jameed (fermented dried yogurt sauce), served over fragrant rice and paper-thin shrak bread. Every Jordanian family has their own recipe, and most will tell you the best mansaf is homemade. But when you&#39;re visiting Amman, these restaurants come closest to the real thing.</p><p>We scanned Reddit&#39;s r/jordan and r/Amman communities — where locals passionately debate this topic every few months — to find the spots that actual Jordanians keep recommending to each other and to visitors.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Mansaf Map</h2>
-      <iframe src="https://www.google.com/maps?q=Mansaf%20in%20Amman&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Al Quds (القدس)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Mansaf Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -413,7 +417,7 @@
       <li>
         <a href="#dahbarha">6. Dahbarha (دحبرها)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Mansaf%20in%20Amman" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=5238569380714667656&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -425,7 +429,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="al-quds">
+<section class="restaurant-section" id="al-quds" data-map-name="1. Al Quds (القدس)" data-map-cta-url="https://maps.google.com/?cid=5238569380714667656&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Al Quds (القدس), Downtown, King Hussein St, Amman, JO" data-map-lat="31.952765600000003" data-map-lng="35.932375">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Al Quds (القدس)</h2>
         <span class="cuisine-tag tag-regional">Mansaf Specialist</span>
@@ -467,7 +471,7 @@
         <strong>tabiji verdict:</strong> The OG downtown mansaf institution. Al Quds is the name that comes up most consistently across every single Reddit thread about mansaf in Amman. Cheap, no-frills, and absolutely authentic. Note: there&#39;s also an &quot;Al Quds Al Jadeed&quot; (new branch) on 7th Circle — the original downtown location is the one to hit.
     </div>
 </section>
-<section class="restaurant-section" id="jabri">
+<section class="restaurant-section" id="jabri" data-map-name="2. Jabri (جبري)" data-map-cta-url="https://maps.google.com/?cid=414306095349600847&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jabri (جبري), Wasfi At-Tall St, Amman, Amman, JO" data-map-lat="31.987284099999997" data-map-lng="35.8771323">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Jabri (جبري)</h2>
         <span class="cuisine-tag tag-regional">Traditional Jordanian</span>
@@ -505,7 +509,7 @@
         <strong>tabiji verdict:</strong> The &quot;OG&quot; — Jabri is one of those legacy Amman restaurants that Jordanians grew up with. Multiple branches but the central one on Wasfi At-Tall is the classic. Not fancy, not trying to be. Just solid, reliable mansaf the way your teta (grandmother) would approve of.
     </div>
 </section>
-<section class="restaurant-section" id="al-muhammid">
+<section class="restaurant-section" id="al-muhammid" data-map-name="3. Al Muhammid (المحاميد)" data-map-cta-url="https://maps.google.com/?cid=7046036573359314212&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Al Muhammid (المحاميد), Multiple locations, Amman, Amman, JO" data-map-lat="31.996701299999998" data-map-lng="35.8369261">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Al Muhammid (المحاميد)</h2>
         <span class="cuisine-tag tag-regional">Mansaf Specialist</span>
@@ -539,7 +543,7 @@
         <strong>tabiji verdict:</strong> A strong recent favorite in the Amman mansaf scene. Al Muhammid got the highest upvoted comment in the latest Reddit thread — 7 upvotes, which in r/jordan mansaf debates is practically a landslide. Pro tip: order it for delivery or pickup rather than dining in.
     </div>
 </section>
-<section class="restaurant-section" id="tawaheen-al-hawa">
+<section class="restaurant-section" id="tawaheen-al-hawa" data-map-name="4. Tawaheen Al Hawa (طواحين الهوا)" data-map-cta-url="https://maps.google.com/?cid=7954262901775295741&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tawaheen Al Hawa (طواحين الهوا), Multiple locations, Amman, Amman, JO" data-map-lat="31.992088099999997" data-map-lng="35.8667752">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tawaheen Al Hawa (طواحين الهوا)</h2>
         <span class="cuisine-tag tag-regional">Mashawi &amp; Mansaf</span>
@@ -577,7 +581,7 @@
         <strong>tabiji verdict:</strong> More of an all-around Jordanian dining destination than a pure mansaf spot, but their mansaf holds its own. Known equally for incredible mashawi (grilled meats). A solid choice if your group can&#39;t agree on just mansaf — everyone wins here.
     </div>
 </section>
-<section class="restaurant-section" id="jameeda-khanum">
+<section class="restaurant-section" id="jameeda-khanum" data-map-name="5. Jameeda Khanum (جميدة خانم)" data-map-cta-url="https://maps.google.com/?cid=14843431014534332106&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jameeda Khanum (جميدة خانم), Amman, Amman, JO" data-map-lat="31.952635100000002" data-map-lng="35.929553">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Jameeda Khanum (جميدة خانم)</h2>
         <span class="cuisine-tag tag-regional">Mansaf Specialist</span>
@@ -611,7 +615,7 @@
         <strong>tabiji verdict:</strong> The name literally means &quot;Lady Jameed&quot; — so they&#39;d better deliver, and they do. This is the pick for visitors who want a slightly more polished mansaf experience with live music and atmosphere. Not as gritty-authentic as Al Quds downtown, but the jameed quality is top-notch.
     </div>
 </section>
-<section class="restaurant-section" id="dahbarha">
+<section class="restaurant-section" id="dahbarha" data-map-name="6. Dahbarha (دحبرها)" data-map-cta-url="https://maps.google.com/?cid=2882440851321257233&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dahbarha (دحبرها), Abdali, Amman, Amman, JO" data-map-lat="31.963123999999997" data-map-lng="35.9040946">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Dahbarha (دحبرها)</h2>
         <span class="cuisine-tag tag-regional">Modern Mansaf</span>
@@ -645,7 +649,7 @@
         <strong>tabiji verdict:</strong> The &quot;mansaf made easy&quot; spot. Dahbarha is where you go when you want a reliably good mansaf without the full traditional production. Pricier than the old-school joints but convenient and consistent. Good for first-timers who want the experience without the intimidation factor.
     </div>
 </section>
-<section class="restaurant-section" id="sufra">
+<section class="restaurant-section" id="sufra" data-map-name="7. Sufra (سفرة)" data-map-cta-url="https://maps.google.com/?cid=4548883249632360849&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sufra (سفرة), Rainbow Street, Jabal Amman, Amman, JO" data-map-lat="31.9492409" data-map-lng="35.9291315">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Sufra (سفرة)</h2>
         <span class="cuisine-tag tag-regional">Upscale Jordanian</span>
@@ -679,7 +683,7 @@
         <strong>tabiji verdict:</strong> The &quot;nice dinner out&quot; mansaf option. Sufra sits in a gorgeous old Amman house on Rainbow Street with a terrace overlooking the city. The mansaf here is refined but authentic. If you want ambiance with your jameed, this is your spot. Also perfect for visitors who want to try multiple Jordanian dishes in one sitting.
     </div>
 </section>
-<section class="restaurant-section" id="beit-siri">
+<section class="restaurant-section" id="beit-siri" data-map-name="8. Beit Siri (بيت سيري)" data-map-cta-url="https://maps.google.com/?cid=16007140118295433316&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Beit Siri (بيت سيري), Amman, Amman, JO" data-map-lat="31.954238999999998" data-map-lng="35.929383">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Beit Siri (بيت سيري)</h2>
         <span class="cuisine-tag tag-regional">Traditional Jordanian</span>
@@ -713,7 +717,7 @@
         <strong>tabiji verdict:</strong> A reliable all-rounder for Jordanian food. Beit Siri (&quot;Siri&#39;s House&quot;) delivers a homestyle dining experience — the kind of place where the mansaf feels like it was made by someone&#39;s mom. Frequently mentioned alongside the big names, which says something.
     </div>
 </section>
-<section class="restaurant-section" id="fakhr-el-din">
+<section class="restaurant-section" id="fakhr-el-din" data-map-name="9. Fakhr El Din (فخر الدين)" data-map-cta-url="https://maps.google.com/?cid=4600019864815893504&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fakhr El Din (فخر الدين), Jabal Amman, 1st Circle, Amman, JO" data-map-lat="31.9521382" data-map-lng="35.9203806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Fakhr El Din (فخر الدين)</h2>
         <span class="cuisine-tag tag-regional">Upscale Lebanese-Jordanian</span>
@@ -747,7 +751,7 @@
         <strong>tabiji verdict:</strong> The most upscale option on this list. Fakhr El Din is primarily Lebanese, but their Jordanian dishes — including mansaf — are beautifully executed. Set in a stunning 1920s villa in Jabal Amman. If you&#39;re doing one &quot;nice&quot; dinner in Amman, this is the move. Just know you&#39;re paying for the experience as much as the food.
     </div>
 </section>
-<section class="restaurant-section" id="manasef-moab">
+<section class="restaurant-section" id="manasef-moab" data-map-name="10. Manasef Moab (مناسف مؤاب)" data-map-cta-url="https://www.google.com/maps/search/Manasef+Moab+%D9%85%D9%86%D8%A7%D8%B3%D9%81+%D9%85%D8%A4%D8%A7%D8%A8+Amman" data-map-query="Manasef Moab (مناسف مؤاب), Amman, Amman, JO" data-map-lat="31.9726121" data-map-lng="35.853871">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Manasef Moab (مناسف مؤاب)</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -787,9 +791,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Mansaf Map</h2>
-      <iframe src="https://www.google.com/maps?q=Mansaf%20in%20Amman&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Al Quds (القدس)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Mansaf Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -811,7 +816,7 @@
       <li>
         <a href="#dahbarha">6. Dahbarha (دحبرها)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Mansaf%20in%20Amman" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=5238569380714667656&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -822,5 +827,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Mansaf Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Mansaf%20in%20Amman","picks":[{"anchorId":"al-quds","rank":1,"name":"Al Quds (القدس)","label":"1. Al Quds (القدس)","lat":31.952765600000003,"lng":35.932375,"ctaUrl":"https://maps.google.com/?cid=5238569380714667656&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Al Quds (القدس), Downtown, King Hussein St, Amman, JO"},{"anchorId":"jabri","rank":2,"name":"Jabri (جبري)","label":"2. Jabri (جبري)","lat":31.987284099999997,"lng":35.8771323,"ctaUrl":"https://maps.google.com/?cid=414306095349600847&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jabri (جبري), Wasfi At-Tall St, Amman, Amman, JO"},{"anchorId":"al-muhammid","rank":3,"name":"Al Muhammid (المحاميد)","label":"3. Al Muhammid (المحاميد)","lat":31.996701299999998,"lng":35.8369261,"ctaUrl":"https://maps.google.com/?cid=7046036573359314212&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Al Muhammid (المحاميد), Multiple locations, Amman, Amman, JO"},{"anchorId":"tawaheen-al-hawa","rank":4,"name":"Tawaheen Al Hawa (طواحين الهوا)","label":"4. Tawaheen Al Hawa (طواحين الهوا)","lat":31.992088099999997,"lng":35.8667752,"ctaUrl":"https://maps.google.com/?cid=7954262901775295741&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tawaheen Al Hawa (طواحين الهوا), Multiple locations, Amman, Amman, JO"},{"anchorId":"jameeda-khanum","rank":5,"name":"Jameeda Khanum (جميدة خانم)","label":"5. Jameeda Khanum (جميدة خانم)","lat":31.952635100000002,"lng":35.929553,"ctaUrl":"https://maps.google.com/?cid=14843431014534332106&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jameeda Khanum (جميدة خانم), Amman, Amman, JO"},{"anchorId":"dahbarha","rank":6,"name":"Dahbarha (دحبرها)","label":"6. Dahbarha (دحبرها)","lat":31.963123999999997,"lng":35.9040946,"ctaUrl":"https://maps.google.com/?cid=2882440851321257233&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dahbarha (دحبرها), Abdali, Amman, Amman, JO"},{"anchorId":"sufra","rank":7,"name":"Sufra (سفرة)","label":"7. Sufra (سفرة)","lat":31.9492409,"lng":35.9291315,"ctaUrl":"https://maps.google.com/?cid=4548883249632360849&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sufra (سفرة), Rainbow Street, Jabal Amman, Amman, JO"},{"anchorId":"beit-siri","rank":8,"name":"Beit Siri (بيت سيري)","label":"8. Beit Siri (بيت سيري)","lat":31.954238999999998,"lng":35.929383,"ctaUrl":"https://maps.google.com/?cid=16007140118295433316&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Beit Siri (بيت سيري), Amman, Amman, JO"},{"anchorId":"fakhr-el-din","rank":9,"name":"Fakhr El Din (فخر الدين)","label":"9. Fakhr El Din (فخر الدين)","lat":31.9521382,"lng":35.9203806,"ctaUrl":"https://maps.google.com/?cid=4600019864815893504&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fakhr El Din (فخر الدين), Jabal Amman, 1st Circle, Amman, JO"},{"anchorId":"manasef-moab","rank":10,"name":"Manasef Moab (مناسف مؤاب)","label":"10. Manasef Moab (مناسف مؤاب)","lat":31.9726121,"lng":35.853871,"ctaUrl":"https://www.google.com/maps/search/Manasef+Moab+%D9%85%D9%86%D8%A7%D8%B3%D9%81+%D9%85%D8%A4%D8%A7%D8%A8+Amman","mapQuery":"Manasef Moab (مناسف مؤاب), Amman, Amman, JO"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

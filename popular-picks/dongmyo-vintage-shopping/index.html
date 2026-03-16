@@ -309,9 +309,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -336,7 +339,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -388,9 +391,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Thrift Map</h2>
-      <iframe src="https://www.google.com/maps?q=Vintage%20%26%20Thrift%20Shops%20in%20Dongmyo&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dongmyo Flea Market (동묘 벼룩시장)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Thrift Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -412,7 +416,7 @@
       <li>
         <a href="#dm-vintage">6. DM Vintage (디엠빈티지)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Vintage%20%26%20Thrift%20Shops%20in%20Dongmyo" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -424,7 +428,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="dongmyo-flea-market">
+<section class="restaurant-section" id="dongmyo-flea-market" data-map-name="1. Dongmyo Flea Market (동묘 벼룩시장)" data-map-cta-url="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dongmyo Flea Market (동묘 벼룩시장), Dongmyo Station Exit 3 &amp; 5, Jongno-gu, Seoul, KR" data-map-lat="37.5732171" data-map-lng="127.0176409">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Dongmyo Flea Market (동묘 벼룩시장)</h2>
         <span class="cuisine-tag tag-regional">Street Flea Market</span>
@@ -465,7 +469,7 @@
         <strong>tabiji verdict:</strong> This is the real deal — not a curated boutique but a genuine street flea market. Clothes piled on mats, vendors calling out prices, the thrill of finding a North Face jacket for ₩3,000. You&#39;ll need patience and a willingness to dig, but the prices are unmatched anywhere in Seoul. Come on weekdays to avoid the weekend crush.
     </div>
 </section>
-<section class="restaurant-section" id="ppogeuri-vintage">
+<section class="restaurant-section" id="ppogeuri-vintage" data-map-name="2. Ppogeuri Vintage (뽀그리 빈티지)" data-map-cta-url="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ppogeuri Vintage (뽀그리 빈티지), 12 Jibong-ro, Jongno-gu (Exit 6), Seoul, KR" data-map-lat="37.553578099999996" data-map-lng="126.92312589999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Ppogeuri Vintage (뽀그리 빈티지)</h2>
         <span class="cuisine-tag tag-regional">Budget Curated</span>
@@ -498,7 +502,7 @@
         <strong>tabiji verdict:</strong> The sweet spot between floor-pile chaos and overpriced vintage boutiques. Everything&#39;s on racks and shelves so you can actually browse, but prices are still remarkably low. Right outside Dongmyo Station Exit 6, it&#39;s the easiest first stop. Open 10am–7pm.
     </div>
 </section>
-<section class="restaurant-section" id="seoul-vintage">
+<section class="restaurant-section" id="seoul-vintage" data-map-name="3. Seoul Vintage (서울빈티지)" data-map-cta-url="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Seoul Vintage (서울빈티지), 358 Jong-ro, Jongno-gu, Seoul, KR" data-map-lat="37.553578099999996" data-map-lng="126.92312589999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Seoul Vintage (서울빈티지)</h2>
         <span class="cuisine-tag tag-regional">Reworked Designer</span>
@@ -531,7 +535,7 @@
         <strong>tabiji verdict:</strong> For fashion-forward thrifters who want one-of-a-kind pieces. Seoul Vintage takes branded vintage clothing and transforms it — cropping, patching, embroidering — into statement pieces. Pricier than the market stalls but still cheaper than similar reworked pieces in London or Tokyo. Open 10:30am–7pm.
     </div>
 </section>
-<section class="restaurant-section" id="vintori">
+<section class="restaurant-section" id="vintori" data-map-name="4. Vintori (빈토리)" data-map-cta-url="https://maps.google.com/?cid=3708973095457324726&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vintori (빈토리), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR" data-map-lat="37.5719342" data-map-lng="127.01854209999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Vintori (빈토리)</h2>
         <span class="cuisine-tag tag-regional">Big Curated Shop</span>
@@ -568,7 +572,7 @@
         <strong>tabiji verdict:</strong> One of Dongmyo&#39;s anchor vintage shops — think of it as the department store of the vintage alley. Well-organized, air-conditioned, and Instagram-friendly. You&#39;ll pay more than the floor piles, but the shopping experience is much more comfortable. Also has an online shop at vintori.shop.
     </div>
 </section>
-<section class="restaurant-section" id="sold-out">
+<section class="restaurant-section" id="sold-out" data-map-name="5. Sold Out Vintage (솔드아웃)" data-map-cta-url="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sold Out Vintage (솔드아웃), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR" data-map-lat="37.5732171" data-map-lng="127.0176409">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Sold Out Vintage (솔드아웃)</h2>
         <span class="cuisine-tag tag-regional">Y2K &amp; Football Kits</span>
@@ -601,7 +605,7 @@
         <strong>tabiji verdict:</strong> The trendy pick of Dongmyo&#39;s vintage alley. Sold Out nails the Y2K and retro sportswear aesthetic that&#39;s driving Gen Z to the area. The football kit collection is particularly impressive. A Seoul Future Heritage-listed shop in a neighborhood that&#39;s increasingly recognized for its cultural value.
     </div>
 </section>
-<section class="restaurant-section" id="dm-vintage">
+<section class="restaurant-section" id="dm-vintage" data-map-name="6. DM Vintage (디엠빈티지)" data-map-cta-url="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="DM Vintage (디엠빈티지), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR" data-map-lat="37.572655" data-map-lng="127.01919829999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>DM Vintage (디엠빈티지)</h2>
         <span class="cuisine-tag tag-regional">Mega Vintage Store</span>
@@ -634,7 +638,7 @@
         <strong>tabiji verdict:</strong> The biggest curated vintage shop in Dongmyo. If Vintori is the department store, DM Vintage is the flagship. Expect higher prices than the street stalls but a much wider selection of quality vintage, including shoes (hard to find elsewhere). Worth a dedicated browse if you&#39;re looking for something specific.
     </div>
 </section>
-<section class="restaurant-section" id="gwangjang-vintage">
+<section class="restaurant-section" id="gwangjang-vintage" data-map-name="7. Gwangjang Market 2F Vintage (광장시장 수입구제)" data-map-cta-url="https://maps.google.com/?cid=15444711502569316164&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gwangjang Market 2F Vintage (광장시장 수입구제), 88 Changgyeonggung-ro, Jongno-gu, Seoul, KR" data-map-lat="37.570039799999996" data-map-lng="126.99960360000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Gwangjang Market 2F Vintage (광장시장 수입구제)</h2>
         <span class="cuisine-tag tag-regional">Traditional Market</span>
@@ -667,7 +671,7 @@
         <strong>tabiji verdict:</strong> The two-for-one thrift trip — browse vintage on the second floor, then demolish bindaetteok and mayak gimbap on the ground floor. Less chaotic than Dongmyo and often overlooked by tourists. The &quot;수입구제&quot; (imported secondhand) section is a hidden gem. Walkable from Dongmyo.
     </div>
 </section>
-<section class="restaurant-section" id="wow-vintage">
+<section class="restaurant-section" id="wow-vintage" data-map-name="8. Wow! Vintage (와우빈티지)" data-map-cta-url="https://maps.google.com/?cid=2851726431224209801&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wow! Vintage (와우빈티지), B1, Hongik-ro 1, Mapo-gu, Seoul, KR" data-map-lat="37.5528034" data-map-lng="126.9239695">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Wow! Vintage (와우빈티지)</h2>
         <span class="cuisine-tag tag-regional">Hongdae Basement</span>
@@ -700,7 +704,7 @@
         <strong>tabiji verdict:</strong> The best-kept secret in Hongdae&#39;s basement scene. Hidden in a corner store&#39;s basement, Wow! Vintage punches well above its weight with a curated mix of branded vintage and reworked pieces. The ₩5,000 discount rack near the entrance is where savvy shoppers start. Open 12–9pm.
     </div>
 </section>
-<section class="restaurant-section" id="gram-deal">
+<section class="restaurant-section" id="gram-deal" data-map-name="9. Gram Deal (그램딜)" data-map-cta-url="https://maps.google.com/?cid=2099330210039260935&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gram Deal (그램딜), Seongsu-dong, Seongdong-gu, Seoul, KR" data-map-lat="37.543200299999995" data-map-lng="127.06495109999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Gram Deal (그램딜)</h2>
         <span class="cuisine-tag tag-regional">Pay-by-Weight</span>
@@ -737,7 +741,7 @@
         <strong>tabiji verdict:</strong> The most unique thrifting concept in Seoul — clothes priced by weight like produce at a market. Located in the trendy Seongsu district, it&#39;s perfect for combining with the area&#39;s famous cafe-hopping scene. Light cotton pieces are absurdly cheap; save the heavy denim for Dongmyo.
     </div>
 </section>
-<section class="restaurant-section" id="vin-prime">
+<section class="restaurant-section" id="vin-prime" data-map-name="10. Vin Prime (빈프라임)" data-map-cta-url="https://maps.google.com/?cid=3255837319869353556&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vin Prime (빈프라임), Multiple locations (Sadang, Gangnam, Express Bus Terminal), Seoul, KR" data-map-lat="37.504348" data-map-lng="127.04724630000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Vin Prime (빈프라임)</h2>
         <span class="cuisine-tag tag-regional">Indoor Chain</span>
@@ -784,9 +788,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Thrift Map</h2>
-      <iframe src="https://www.google.com/maps?q=Vintage%20%26%20Thrift%20Shops%20in%20Dongmyo&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Dongmyo Flea Market (동묘 벼룩시장)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Thrift Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -808,7 +813,7 @@
       <li>
         <a href="#dm-vintage">6. DM Vintage (디엠빈티지)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Vintage%20%26%20Thrift%20Shops%20in%20Dongmyo" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16329565374801050280&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -819,5 +824,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Thrift Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Vintage%20%26%20Thrift%20Shops%20in%20Dongmyo","picks":[{"anchorId":"dongmyo-flea-market","rank":1,"name":"Dongmyo Flea Market (동묘 벼룩시장)","label":"1. Dongmyo Flea Market (동묘 벼룩시장)","lat":37.5732171,"lng":127.0176409,"ctaUrl":"https://maps.google.com/?cid=16329565374801050280&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dongmyo Flea Market (동묘 벼룩시장), Dongmyo Station Exit 3 & 5, Jongno-gu, Seoul, KR"},{"anchorId":"ppogeuri-vintage","rank":2,"name":"Ppogeuri Vintage (뽀그리 빈티지)","label":"2. Ppogeuri Vintage (뽀그리 빈티지)","lat":37.553578099999996,"lng":126.92312589999999,"ctaUrl":"https://maps.google.com/?cid=16329565374801050280&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ppogeuri Vintage (뽀그리 빈티지), 12 Jibong-ro, Jongno-gu (Exit 6), Seoul, KR"},{"anchorId":"seoul-vintage","rank":3,"name":"Seoul Vintage (서울빈티지)","label":"3. Seoul Vintage (서울빈티지)","lat":37.553578099999996,"lng":126.92312589999999,"ctaUrl":"https://maps.google.com/?cid=16329565374801050280&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Seoul Vintage (서울빈티지), 358 Jong-ro, Jongno-gu, Seoul, KR"},{"anchorId":"vintori","rank":4,"name":"Vintori (빈토리)","label":"4. Vintori (빈토리)","lat":37.5719342,"lng":127.01854209999999,"ctaUrl":"https://maps.google.com/?cid=3708973095457324726&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vintori (빈토리), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR"},{"anchorId":"sold-out","rank":5,"name":"Sold Out Vintage (솔드아웃)","label":"5. Sold Out Vintage (솔드아웃)","lat":37.5732171,"lng":127.0176409,"ctaUrl":"https://maps.google.com/?cid=16329565374801050280&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sold Out Vintage (솔드아웃), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR"},{"anchorId":"dm-vintage","rank":6,"name":"DM Vintage (디엠빈티지)","label":"6. DM Vintage (디엠빈티지)","lat":37.572655,"lng":127.01919829999999,"ctaUrl":"https://maps.google.com/?cid=16329565374801050280&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"DM Vintage (디엠빈티지), Dongmyo Vintage Alley, Jongno-gu, Seoul, KR"},{"anchorId":"gwangjang-vintage","rank":7,"name":"Gwangjang Market 2F Vintage (광장시장 수입구제)","label":"7. Gwangjang Market 2F Vintage (광장시장 수입구제)","lat":37.570039799999996,"lng":126.99960360000001,"ctaUrl":"https://maps.google.com/?cid=15444711502569316164&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gwangjang Market 2F Vintage (광장시장 수입구제), 88 Changgyeonggung-ro, Jongno-gu, Seoul, KR"},{"anchorId":"wow-vintage","rank":8,"name":"Wow! Vintage (와우빈티지)","label":"8. Wow! Vintage (와우빈티지)","lat":37.5528034,"lng":126.9239695,"ctaUrl":"https://maps.google.com/?cid=2851726431224209801&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wow! Vintage (와우빈티지), B1, Hongik-ro 1, Mapo-gu, Seoul, KR"},{"anchorId":"gram-deal","rank":9,"name":"Gram Deal (그램딜)","label":"9. Gram Deal (그램딜)","lat":37.543200299999995,"lng":127.06495109999999,"ctaUrl":"https://maps.google.com/?cid=2099330210039260935&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gram Deal (그램딜), Seongsu-dong, Seongdong-gu, Seoul, KR"},{"anchorId":"vin-prime","rank":10,"name":"Vin Prime (빈프라임)","label":"10. Vin Prime (빈프라임)","lat":37.504348,"lng":127.04724630000001,"ctaUrl":"https://maps.google.com/?cid=3255837319869353556&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vin Prime (빈프라임), Multiple locations (Sadang, Gangnam, Express Bus Terminal), Seoul, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

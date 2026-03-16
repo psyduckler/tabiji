@@ -355,11 +355,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -384,9 +379,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -411,16 +409,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tabiji.ai/"},{"@type":"ListItem","position":2,"name":"Popular Picks","item":"https://tabiji.ai/popular-picks/"},{"@type":"ListItem","position":3,"name":"Best Pho in Ho Chi Minh City","item":"https://tabiji.ai/popular-picks/ho-chi-minh-city-pho/"}]}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -463,13 +457,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Phở in Ho Chi Minh City typically costs between 45,000–100,000 VND per bowl, and Phở Hòa Pasteur is a top recommendation due to its consistently rich broth. Saigon pho distinguishes itself from Hanoi pho with a sweeter broth, ample herbs, and the availability of hoisin, sriracha, and bean sprouts, making it a must-try culinary experience.</strong></p>
-        <p>Phở in Ho Chi Minh City ranges from 45,000–100,000 VND per bowl, with Phở Hòa Pasteur being a top recommendation for its consistently rich broth. Saigon pho distinguishes itself from Hanoi pho with a sweeter broth, ample herbs, and the availability of hoisin, sriracha, and bean sprouts.</p><p>Phở in Saigon is a way of life. From 5 AM sidewalk stalls with tiny plastic stools to Michelin-recognized establishments, this city eats pho for breakfast, lunch, and sometimes dinner. But Saigon pho is different from Hanoi pho — sweeter broth, bigger herb plates, hoisin and sriracha on the table, bean sprouts piled high.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/saigon, r/pho, r/hochiminhcity, and r/travel to find the spots that actual HCMC residents and experienced travelers recommend over and over. From legendary institutions to alley shops that sell out by 8 AM — these are the bowls worth your time.</p>
+        <p>Phở in Saigon is a way of life. From 5 AM sidewalk stalls with tiny plastic stools to Michelin-recognized establishments, this city eats pho for breakfast, lunch, and sometimes dinner. But Saigon pho is different from Hanoi pho — sweeter broth, bigger herb plates, hoisin and sriracha on the table, bean sprouts piled high.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/saigon, r/pho, r/hochiminhcity, and r/travel to find the spots that actual HCMC residents and experienced travelers recommend over and over. From legendary institutions to alley shops that sell out by 8 AM — these are the bowls worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Phở Map</h2>
-      <iframe src="https://www.google.com/maps?q=Ho%20Chi%20Minh%20City%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Phở Hòa Pasteur</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Phở Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -491,7 +486,7 @@
       <li>
         <a href="#pho-hung">6. Phở Hùng</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Ho%20Chi%20Minh%20City%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15021671463455039530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -503,7 +498,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="pho-hoa-pasteur">
+<section class="restaurant-section" id="pho-hoa-pasteur" data-map-name="1. Phở Hòa Pasteur" data-map-cta-url="https://maps.google.com/?cid=15021671463455039530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Hòa Pasteur, 260C Pasteur, District 3, Ho Chi Minh City, VN" data-map-lat="10.786690499999999" data-map-lng="106.6892627">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Phở Hòa Pasteur</h2>
         <span class="cuisine-tag tag-regional">Southern Classic</span>
@@ -541,7 +536,7 @@
         <strong>tabiji verdict:</strong> The most universally recommended pho in HCMC. Mentioned across virtually every &quot;best pho&quot; thread on Reddit. The Pasteur Street location has been serving since the 1960s — it&#39;s an institution for a reason. Slightly pricier than street stalls, but the broth consistency is legendary. Go early morning for peak experience.
     </div>
 </section>
-<section class="restaurant-section" id="pho-le">
+<section class="restaurant-section" id="pho-le" data-map-name="2. Phở Lệ" data-map-cta-url="https://maps.google.com/?cid=15913313759659625096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Lệ, 413–415 Nguyen Trai, District 5, Ho Chi Minh City, VN" data-map-lat="10.755295900000002" data-map-lng="106.67351959999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Phở Lệ</h2>
         <span class="cuisine-tag tag-regional">Southern Pho</span>
@@ -579,7 +574,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; choice in Cholon. The slightly sweet, rich broth is quintessential Saigon pho — different from the cleaner style up north. District 5 isn&#39;t on most tourist itineraries, which is exactly why it tastes more authentic. Worth the trek from District 1.
     </div>
 </section>
-<section class="restaurant-section" id="pho-viet-nam">
+<section class="restaurant-section" id="pho-viet-nam" data-map-name="3. Phở Việt Nam" data-map-cta-url="https://maps.google.com/?cid=12075454229031395530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Việt Nam, District 1, Ho Chi Minh City, VN" data-map-lat="10.771386" data-map-lng="106.69613389999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Phở Việt Nam</h2>
         <span class="cuisine-tag tag-regional">Southern Classic</span>
@@ -617,7 +612,7 @@
         <strong>tabiji verdict:</strong> The passionate pick. The Redditor who wrote a love letter calling it &quot;the best pho in Saigon, period&quot; wasn&#39;t exaggerating — the clay pot serving, hand-made noodles, and deep broth create a genuinely unique experience. Michelin-recognized. Some servers can have attitude, but the pho makes up for it.
     </div>
 </section>
-<section class="restaurant-section" id="pho-phu-vuong">
+<section class="restaurant-section" id="pho-phu-vuong" data-map-name="4. Phở Phú Vượng" data-map-cta-url="https://maps.google.com/?cid=12669491837379756190&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Phú Vượng, 339 Lê Văn Sỹ, Tân Bình, Ho Chi Minh City, VN" data-map-lat="10.795929" data-map-lng="106.66588759999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Phở Phú Vượng</h2>
         <span class="cuisine-tag tag-regional">Southern Pho</span>
@@ -655,7 +650,7 @@
         <strong>tabiji verdict:</strong> The broth connoisseur&#39;s pick. In Tân Bình — away from the tourist zones — this is where pho lovers who care about broth depth go. The beef tail pho is a unique HCMC experience. Not the most convenient location, but dedicated pho heads make the trip.
     </div>
 </section>
-<section class="restaurant-section" id="pho-dau">
+<section class="restaurant-section" id="pho-dau" data-map-name="5. Phở Dậu" data-map-cta-url="https://maps.google.com/?cid=8480321802118390278&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Dậu, 288/M1 Nam Kỳ Khởi Nghĩa, District 3, Ho Chi Minh City, VN" data-map-lat="10.7898196" data-map-lng="106.6850666">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Phở Dậu</h2>
         <span class="cuisine-tag tag-regional">Local Hidden Gem</span>
@@ -693,7 +688,7 @@
         <strong>tabiji verdict:</strong> The ultimate insider pick. If a pho shop sells out before lunch in a city of 10 million, the broth is serious. Tucked in an alley, no English, no frills — just phenomenal pho. Set your alarm and arrive before 9 AM.
     </div>
 </section>
-<section class="restaurant-section" id="pho-hung">
+<section class="restaurant-section" id="pho-hung" data-map-name="6. Phở Hùng" data-map-cta-url="https://maps.google.com/?cid=15913313759659625096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Hùng, Multiple locations (main: 241 Nguyen Thi Minh Khai, D1), Ho Chi Minh City, VN" data-map-lat="10.7648891" data-map-lng="106.6877054">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Phở Hùng</h2>
         <span class="cuisine-tag tag-regional">Chain / Accessible</span>
@@ -731,7 +726,7 @@
         <strong>tabiji verdict:</strong> The reliable workhorse. Reddit is divided — some swear it changed their pho life, others call it &quot;nice but not remarkable.&quot; Truth is, Phở Hùng is consistent, accessible, and serves all day. The safe choice when you want a guaranteed good bowl.
     </div>
 </section>
-<section class="restaurant-section" id="pho-quynh">
+<section class="restaurant-section" id="pho-quynh" data-map-name="7. Phở Quỳnh" data-map-cta-url="https://maps.google.com/?cid=2599608821432014836&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Quỳnh, 323 Phạm Ngũ Lão, District 1, Ho Chi Minh City, VN" data-map-lat="10.7674782" data-map-lng="106.69068639999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Phở Quỳnh</h2>
         <span class="cuisine-tag tag-regional">Backpacker Favorite</span>
@@ -769,7 +764,7 @@
         <strong>tabiji verdict:</strong> The backpacker district pick. Yes, it&#39;s touristy. But the meat quality is genuinely good and the broth is solid. Open late, convenient, and reasonably priced. Don&#39;t let the location fool you — locals eat here too.
     </div>
 </section>
-<section class="restaurant-section" id="pho-minh">
+<section class="restaurant-section" id="pho-minh" data-map-name="8. Phở Minh" data-map-cta-url="https://maps.google.com/?cid=12075454229031395530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Minh, District 3 (alley location), Ho Chi Minh City, VN" data-map-lat="10.7898196" data-map-lng="106.6850666">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Phở Minh</h2>
         <span class="cuisine-tag tag-regional">Local Hidden Gem</span>
@@ -807,7 +802,7 @@
         <strong>tabiji verdict:</strong> The &quot;if you know, you know&quot; pick. An alley shop run by grandma that closes when the pot&#39;s empty — sometimes by 8 AM. Clear, umami-packed broth that&#39;s old-school and unforgettable. Finding it is half the adventure.
     </div>
 </section>
-<section class="restaurant-section" id="pho-thin">
+<section class="restaurant-section" id="pho-thin" data-map-name="9. Phở Thìn Lê Thị Hồng Gấm" data-map-cta-url="https://maps.google.com/?cid=2975937706849166072&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Thìn Lê Thị Hồng Gấm, 110 Lê Thị Hồng Gấm, District 1, Ho Chi Minh City, VN" data-map-lat="10.7687183" data-map-lng="106.69938739999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Phở Thìn Lê Thị Hồng Gấm</h2>
         <span class="cuisine-tag tag-regional">Northern Style</span>
@@ -841,7 +836,7 @@
         <strong>tabiji verdict:</strong> The northern rebel on a southern list. If you&#39;ve been eating sweet Saigon pho all week, this is the palate cleanser. Important: NOT &quot;Phở Thìn by Sol&quot; (the franchise) — it&#39;s the original style at 110 Lê Thị Hồng Gấm. No AC, plastic stools, perfect pho.
     </div>
 </section>
-<section class="restaurant-section" id="pho-bo-phu-gia">
+<section class="restaurant-section" id="pho-bo-phu-gia" data-map-name="10. Phở Bò Phú Gia" data-map-cta-url="https://maps.google.com/?cid=10195528633443323253&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Bò Phú Gia, District 1, Ho Chi Minh City, VN" data-map-lat="10.786417499999999" data-map-lng="106.68451350000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Phở Bò Phú Gia</h2>
         <span class="cuisine-tag tag-regional">Specialty / Tallow Beef</span>
@@ -875,7 +870,7 @@
         <strong>tabiji verdict:</strong> The &quot;something different&quot; pick. If you&#39;ve had a few standard bowls and want a twist, the tallow-fried beef topping here is revelatory — garlic, rendered fat, caramelized edges. Not traditional, but unforgettable.
     </div>
 </section>
-<section class="restaurant-section" id="pho-ong-hung">
+<section class="restaurant-section" id="pho-ong-hung" data-map-name="11. Phở Ông Hùng" data-map-cta-url="https://maps.google.com/?cid=15913313759659625096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Ông Hùng, Multiple locations across HCMC, Ho Chi Minh City, VN" data-map-lat="10.7648891" data-map-lng="106.6877054">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Phở Ông Hùng</h2>
         <span class="cuisine-tag tag-regional">Chain / Accessible</span>
@@ -909,7 +904,7 @@
         <strong>tabiji verdict:</strong> The chain with a controversial origin story. Born from a corporate buyout attempt, Phở Ông Hùng splits opinions on Reddit. But the AC, cleanliness, and consistent quality make it practical — especially in Saigon&#39;s brutal heat.
     </div>
 </section>
-<section class="restaurant-section" id="pho-cao-van">
+<section class="restaurant-section" id="pho-cao-van" data-map-name="12. Phở Cao Văn" data-map-cta-url="https://maps.google.com/?cid=6398210000077558661&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Cao Văn, District 1, Ho Chi Minh City, VN" data-map-lat="10.784743299999999" data-map-lng="106.6992982">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Phở Cao Văn</h2>
         <span class="cuisine-tag tag-regional">Southern Pho</span>
@@ -943,7 +938,7 @@
         <strong>tabiji verdict:</strong> The dark horse. In one viral Reddit thread ranking HCMC pho, Cao Văn topped the list above Phú Vượng, Lệ, and Hòa Pasteur. It doesn&#39;t have the fame of the big names, but the broth speaks for itself. A genuine sleeper pick.
     </div>
 </section>
-<section class="restaurant-section" id="pho-phuong">
+<section class="restaurant-section" id="pho-phuong" data-map-name="13. Phở Phượng" data-map-cta-url="https://maps.google.com/?cid=8953970143964097238&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở Phượng, 25 Hoàng Sa, District 1, Ho Chi Minh City, VN" data-map-lat="10.7919219" data-map-lng="106.7044668">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Phở Phượng</h2>
         <span class="cuisine-tag tag-regional">Southern Pho</span>
@@ -977,7 +972,7 @@
         <strong>tabiji verdict:</strong> The sweet-tooth pick. If you like your Saigon pho on the sweeter end — and many locals do — Phở Phượng on Hoàng Sa is a consistent favorite. Michelin Bib Gourmand recognized. The &quot;sweetness debate&quot; is real, but that&#39;s pho culture for you.
     </div>
 </section>
-<section class="restaurant-section" id="pho-2000">
+<section class="restaurant-section" id="pho-2000" data-map-name="14. Phở 2000" data-map-cta-url="https://maps.google.com/?cid=9433258230557986277&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Phở 2000, 1–3 Phan Chu Trinh, District 1 (near Bến Thành Market), Ho Chi Minh City, VN" data-map-lat="10.772714899999999" data-map-lng="106.6967629">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Phở 2000</h2>
         <span class="cuisine-tag tag-regional">Tourist Famous</span>
@@ -1033,9 +1028,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Phở Map</h2>
-      <iframe src="https://www.google.com/maps?q=Ho%20Chi%20Minh%20City%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Phở Hòa Pasteur</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Phở Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1057,7 +1053,7 @@
       <li>
         <a href="#pho-hung">6. Phở Hùng</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Ho%20Chi%20Minh%20City%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=15021671463455039530&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1068,5 +1064,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Phở Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ph%E1%BB%9F%20in%20Ho%20Chi%20Minh%20City","picks":[{"anchorId":"pho-hoa-pasteur","rank":1,"name":"Phở Hòa Pasteur","label":"1. Phở Hòa Pasteur","lat":10.786690499999999,"lng":106.6892627,"ctaUrl":"https://maps.google.com/?cid=15021671463455039530&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Hòa Pasteur, 260C Pasteur, District 3, Ho Chi Minh City, VN"},{"anchorId":"pho-le","rank":2,"name":"Phở Lệ","label":"2. Phở Lệ","lat":10.755295900000002,"lng":106.67351959999999,"ctaUrl":"https://maps.google.com/?cid=15913313759659625096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Lệ, 413–415 Nguyen Trai, District 5, Ho Chi Minh City, VN"},{"anchorId":"pho-viet-nam","rank":3,"name":"Phở Việt Nam","label":"3. Phở Việt Nam","lat":10.771386,"lng":106.69613389999999,"ctaUrl":"https://maps.google.com/?cid=12075454229031395530&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Việt Nam, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-phu-vuong","rank":4,"name":"Phở Phú Vượng","label":"4. Phở Phú Vượng","lat":10.795929,"lng":106.66588759999999,"ctaUrl":"https://maps.google.com/?cid=12669491837379756190&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Phú Vượng, 339 Lê Văn Sỹ, Tân Bình, Ho Chi Minh City, VN"},{"anchorId":"pho-dau","rank":5,"name":"Phở Dậu","label":"5. Phở Dậu","lat":10.7898196,"lng":106.6850666,"ctaUrl":"https://maps.google.com/?cid=8480321802118390278&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Dậu, 288/M1 Nam Kỳ Khởi Nghĩa, District 3, Ho Chi Minh City, VN"},{"anchorId":"pho-hung","rank":6,"name":"Phở Hùng","label":"6. Phở Hùng","lat":10.7648891,"lng":106.6877054,"ctaUrl":"https://maps.google.com/?cid=15913313759659625096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Hùng, Multiple locations (main: 241 Nguyen Thi Minh Khai, D1), Ho Chi Minh City, VN"},{"anchorId":"pho-quynh","rank":7,"name":"Phở Quỳnh","label":"7. Phở Quỳnh","lat":10.7674782,"lng":106.69068639999999,"ctaUrl":"https://maps.google.com/?cid=2599608821432014836&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Quỳnh, 323 Phạm Ngũ Lão, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-minh","rank":8,"name":"Phở Minh","label":"8. Phở Minh","lat":10.7898196,"lng":106.6850666,"ctaUrl":"https://maps.google.com/?cid=12075454229031395530&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Minh, District 3 (alley location), Ho Chi Minh City, VN"},{"anchorId":"pho-thin","rank":9,"name":"Phở Thìn Lê Thị Hồng Gấm","label":"9. Phở Thìn Lê Thị Hồng Gấm","lat":10.7687183,"lng":106.69938739999999,"ctaUrl":"https://maps.google.com/?cid=2975937706849166072&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Thìn Lê Thị Hồng Gấm, 110 Lê Thị Hồng Gấm, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-bo-phu-gia","rank":10,"name":"Phở Bò Phú Gia","label":"10. Phở Bò Phú Gia","lat":10.786417499999999,"lng":106.68451350000001,"ctaUrl":"https://maps.google.com/?cid=10195528633443323253&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Bò Phú Gia, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-ong-hung","rank":11,"name":"Phở Ông Hùng","label":"11. Phở Ông Hùng","lat":10.7648891,"lng":106.6877054,"ctaUrl":"https://maps.google.com/?cid=15913313759659625096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Ông Hùng, Multiple locations across HCMC, Ho Chi Minh City, VN"},{"anchorId":"pho-cao-van","rank":12,"name":"Phở Cao Văn","label":"12. Phở Cao Văn","lat":10.784743299999999,"lng":106.6992982,"ctaUrl":"https://maps.google.com/?cid=6398210000077558661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Cao Văn, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-phuong","rank":13,"name":"Phở Phượng","label":"13. Phở Phượng","lat":10.7919219,"lng":106.7044668,"ctaUrl":"https://maps.google.com/?cid=8953970143964097238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở Phượng, 25 Hoàng Sa, District 1, Ho Chi Minh City, VN"},{"anchorId":"pho-2000","rank":14,"name":"Phở 2000","label":"14. Phở 2000","lat":10.772714899999999,"lng":106.6967629,"ctaUrl":"https://maps.google.com/?cid=9433258230557986277&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Phở 2000, 1–3 Phan Chu Trinh, District 1 (near Bến Thành Market), Ho Chi Minh City, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -324,9 +324,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -351,7 +354,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -403,9 +406,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Injera%20Restaurants%20in%20Addis%20Ababa&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Kategna Restaurant (ካተኛ)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -422,12 +426,12 @@
         <a href="#woinshet">4. Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)</a>
       </li>
       <li>
-        <a href="#chanes">5. Chane&#39;s Restaurant (ቻኔ)</a>
+        <a href="#chanes">5. Chane's Restaurant (ቻኔ)</a>
       </li>
       <li>
         <a href="#tsige-shiro">6. Tsige Shiro (ጽጌ ሽሮ)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Injera%20Restaurants%20in%20Addis%20Ababa" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Kategna+Restaurant+Addis+Ababa" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -439,7 +443,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="kategna">
+<section class="restaurant-section" id="kategna" data-map-name="1. Kategna Restaurant (ካተኛ)" data-map-cta-url="https://www.google.com/maps/search/Kategna+Restaurant+Addis+Ababa" data-map-query="Kategna Restaurant (ካተኛ), Meskel Flower &amp; Bole, Addis Ababa, ET" data-map-lat="8.9946488" data-map-lng="38.7907665">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Kategna Restaurant (ካተኛ)</h2>
         <span class="cuisine-tag tag-regional">Traditional · Full Menu</span>
@@ -473,7 +477,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Ethiopian restaurants in Addis. When Marcus Samuelsson — an Ethiopian-born, world-renowned chef — says you can&#39;t visit Addis without eating here, you listen. The beyaynetu is a work of art, the doro wot sauce is heavenly, and the cultural performances make dinner an event. Multiple branches means one is always nearby.
     </div>
 </section>
-<section class="restaurant-section" id="yod-abyssinia">
+<section class="restaurant-section" id="yod-abyssinia" data-map-name="2. Yod Abyssinia (ዮድ አቢሲኒያ)" data-map-cta-url="https://www.google.com/maps/search/Yod+Abyssinia+Restaurant+Bole+Addis+Ababa" data-map-query="Yod Abyssinia (ዮድ አቢሲኒያ), Bole, near Millennium Hall, Addis Ababa, ET" data-map-lat="8.9835037" data-map-lng="38.7265997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Yod Abyssinia (ዮድ አቢሲኒያ)</h2>
         <span class="cuisine-tag tag-regional">Cultural · 40+ Dishes</span>
@@ -503,7 +507,7 @@
         <strong>tabiji verdict:</strong> The ultimate first-night-in-Addis experience. Yes, it&#39;s touristy — but it&#39;s touristy because it genuinely delivers. 40+ dishes spanning every Ethiopian ethnicity, served on traditional mesob tables by culturally dressed staff, with live music and dance that&#39;ll have you on your feet by dessert. Book ahead on weekends.
     </div>
 </section>
-<section class="restaurant-section" id="kassa-oma">
+<section class="restaurant-section" id="kassa-oma" data-map-name="3. Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት)" data-map-cta-url="https://www.google.com/maps/search/Kassa+Oma+Kitfo+Bet+Africa+Avenue+Addis+Ababa" data-map-query="Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት), Africa Avenue (Bole), Addis Ababa, ET" data-map-lat="8.987587" data-map-lng="38.7889826">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት)</h2>
         <span class="cuisine-tag tag-regional">Kitfo Specialist</span>
@@ -529,7 +533,7 @@
         <strong>tabiji verdict:</strong> The kitfo specialist that Addis locals swear by. This isn&#39;t a tourist restaurant — it&#39;s where people with kitfo cravings go to get their fix. The raw-to-lightly-warmed beef with mitmita and herbed butter, scooped up with fresh injera, is one of Ethiopia&#39;s greatest culinary experiences. If you only try one kitfo spot in Addis, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="woinshet">
+<section class="restaurant-section" id="woinshet" data-map-name="4. Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)" data-map-cta-url="https://www.google.com/maps/search/Woinshet+Special+Doro+Bet+22+Addis+Ababa" data-map-query="Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት), Area 22 (Bole), Addis Ababa, ET" data-map-lat="9.0134575" data-map-lng="38.784094599999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)</h2>
         <span class="cuisine-tag tag-regional">Doro Wot Specialist</span>
@@ -555,7 +559,7 @@
         <strong>tabiji verdict:</strong> When a local tells you &quot;best doro in Addis&quot; about a single-specialty restaurant, that&#39;s the highest possible endorsement. Woinshet does one thing — doro wot — and has mastered it completely. The rich, dark sauce stewed for hours, the perfectly cooked chicken, the hard-boiled egg soaking up all that berbere flavor… this is the real deal. Worth the hunt to find it.
     </div>
 </section>
-<section class="restaurant-section" id="chanes">
+<section class="restaurant-section" id="chanes" data-map-name="5. Chane&#39;s Restaurant (ቻኔ)" data-map-cta-url="https://www.google.com/maps/search/Chane&#39;s+Restaurant+Kazanchis+Addis+Ababa" data-map-query="Chane&#39;s Restaurant (ቻኔ), Kazanchis, Addis Ababa, ET" data-map-lat="9.0198368" data-map-lng="38.7684845">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Chane&#39;s Restaurant (ቻኔ)</h2>
         <span class="cuisine-tag tag-regional">Historic · 19th-Century House</span>
@@ -581,7 +585,7 @@
         <strong>tabiji verdict:</strong> A restaurant with soul. Eating Chane&#39;s recipes in a centuries-old house surrounded by Ethiopian history is unforgettable. The limited menu means everything is perfected — the doro wot is legendary, and the fasting-day shiro might be the best single dish in Addis. If you visit on a Wednesday or Friday, you&#39;ve hit the jackpot.
     </div>
 </section>
-<section class="restaurant-section" id="tsige-shiro">
+<section class="restaurant-section" id="tsige-shiro" data-map-name="6. Tsige Shiro (ጽጌ ሽሮ)" data-map-cta-url="https://www.google.com/maps/search/Tsige+Shiro+Restaurant+Addis+Ababa" data-map-query="Tsige Shiro (ጽጌ ሽሮ), Addis Ababa, Addis Ababa, ET" data-map-lat="8.9957341" data-map-lng="38.791046699999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Tsige Shiro (ጽጌ ሽሮ)</h2>
         <span class="cuisine-tag tag-regional">Vegan · Always Busy</span>
@@ -607,7 +611,7 @@
         <strong>tabiji verdict:</strong> The vegan champion of Addis. In a country where fasting-day food is an art form, Tsige Shiro stands apart. The constant crowd means ingredients never sit — every plate is fresh. The shiro is creamy, deeply spiced, and exactly what you want soaked into tangy injera. Outstanding value too.
     </div>
 </section>
-<section class="restaurant-section" id="tikus-shiro">
+<section class="restaurant-section" id="tikus-shiro" data-map-name="7. Tikus Shiro (ጥቁስ ሽሮ)" data-map-cta-url="https://www.google.com/maps/search/Tikus+Shiro+Lideta+Addis+Ababa" data-map-query="Tikus Shiro (ጥቁስ ሽሮ), Lideta, Addis Ababa, ET" data-map-lat="9.0196024" data-map-lng="38.7672202">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Tikus Shiro (ጥቁስ ሽሮ)</h2>
         <span class="cuisine-tag tag-regional">Shiro House · Half-Half</span>
@@ -633,7 +637,7 @@
         <strong>tabiji verdict:</strong> A neighborhood gem that Lonely Planet sought out specifically. The half-half concept is genius — you get to sample two dishes without committing to a full plate of each. The bozena shiro (with meat chunks) is a revelation if you&#39;ve only had the plain version. The courtyard garden with tej is a perfect post-meal wind-down.
     </div>
 </section>
-<section class="restaurant-section" id="oda-cultural">
+<section class="restaurant-section" id="oda-cultural" data-map-name="8. Oda Cultural Restaurant &amp; Cafe" data-map-cta-url="https://www.google.com/maps/search/Oda+Cultural+Restaurant+Oromo+Center+Addis+Ababa" data-map-query="Oda Cultural Restaurant &amp; Cafe, Near National Stadium, Addis Ababa, ET" data-map-lat="8.99114" data-map-lng="38.793392499999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Oda Cultural Restaurant &amp; Cafe</h2>
         <span class="cuisine-tag tag-regional">Oromo · Bourdain Pick</span>
@@ -659,7 +663,7 @@
         <strong>tabiji verdict:</strong> The Bourdain seal of approval says it all. Oda offers something no other restaurant on this list does — Oromo cuisine, one of Ethiopia&#39;s largest but often overlooked culinary traditions. The tikur teff injera is darker, earthier, and more flavorful than the standard white teff version. The chumbo is unlike anything you&#39;ve had. A genuinely unique experience.
     </div>
 </section>
-<section class="restaurant-section" id="totot">
+<section class="restaurant-section" id="totot" data-map-name="9. Totot Restaurant (ቶቶት)" data-map-cta-url="https://www.google.com/maps/search/Totot+Restaurant+Gerji+Addis+Ababa" data-map-query="Totot Restaurant (ቶቶት), Gerji, Addis Ababa, ET" data-map-lat="9.0072312" data-map-lng="38.806217499999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Totot Restaurant (ቶቶት)</h2>
         <span class="cuisine-tag tag-regional">Cultural · Gerji</span>
@@ -689,7 +693,7 @@
         <strong>tabiji verdict:</strong> The cultural restaurant that locals actually go to. While Yod Abyssinia gets the tourist traffic, Totot in Gerji attracts a more local crowd — which means the energy feels authentic rather than performed. Great for a group dinner with friends where you want the full Ethiopian experience: live music, dancing, and a table-covering injera spread.
     </div>
 </section>
-<section class="restaurant-section" id="taitu-hotel">
+<section class="restaurant-section" id="taitu-hotel" data-map-name="10. Taitu Hotel Restaurant (ጣይቱ ሆቴል)" data-map-cta-url="https://www.google.com/maps/search/Taitu+Hotel+Restaurant+Piassa+Addis+Ababa" data-map-query="Taitu Hotel Restaurant (ጣይቱ ሆቴል), Piassa, Addis Ababa, ET" data-map-lat="9.0309368" data-map-lng="38.7537612">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Taitu Hotel Restaurant (ጣይቱ ሆቴል)</h2>
         <span class="cuisine-tag tag-regional">Historic · Est. 1907</span>
@@ -715,7 +719,7 @@
         <strong>tabiji verdict:</strong> Eating in a hotel that&#39;s been serving food since 1907 — named after an Ethiopian empress — adds a layer of history to every bite. The food is genuinely good (not just &quot;historic venue, mediocre kitchen&quot; syndrome). The Piassa location puts you in the heart of old Addis. Make a reservation for evenings, especially if cultural events are scheduled.
     </div>
 </section>
-<section class="restaurant-section" id="brundo">
+<section class="restaurant-section" id="brundo" data-map-name="11. Brundo Butchery (ብሩንዶ)" data-map-cta-url="https://www.google.com/maps/search/Brundo+Butchery+Bole+Addis+Ababa" data-map-query="Brundo Butchery (ብሩንዶ), Bole, Addis Ababa, ET" data-map-lat="9.011366500000001" data-map-lng="38.8365795">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Brundo Butchery (ብሩንዶ)</h2>
         <span class="cuisine-tag tag-regional">Raw Meat · Tere Siga</span>
@@ -741,7 +745,7 @@
         <strong>tabiji verdict:</strong> Not for the faint-hearted — but if you&#39;re serious about Ethiopian food culture, tere siga at a dedicated butchery is a rite of passage. Brundo sources fresh meat daily and cuts it in front of you. The combination of raw beef, fiery mitmita, and tangy injera is explosive. If raw meat isn&#39;t your thing, the cooked tibs here are excellent too.
     </div>
 </section>
-<section class="restaurant-section" id="dashen">
+<section class="restaurant-section" id="dashen" data-map-name="12. Dashen Traditional Restaurant (ዳሽን)" data-map-cta-url="https://www.google.com/maps/search/Dashen+Traditional+Restaurant+Piassa+Addis+Ababa" data-map-query="Dashen Traditional Restaurant (ዳሽን), Piassa, Addis Ababa, ET" data-map-lat="9.0170444" data-map-lng="38.786275599999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Dashen Traditional Restaurant (ዳሽን)</h2>
         <span class="cuisine-tag tag-regional">Traditional · Local Favorite</span>
@@ -785,9 +789,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Injera%20Restaurants%20in%20Addis%20Ababa&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Kategna Restaurant (ካተኛ)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -804,12 +809,12 @@
         <a href="#woinshet">4. Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)</a>
       </li>
       <li>
-        <a href="#chanes">5. Chane&#39;s Restaurant (ቻኔ)</a>
+        <a href="#chanes">5. Chane's Restaurant (ቻኔ)</a>
       </li>
       <li>
         <a href="#tsige-shiro">6. Tsige Shiro (ጽጌ ሽሮ)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Injera%20Restaurants%20in%20Addis%20Ababa" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Kategna+Restaurant+Addis+Ababa" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -820,5 +825,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Injera%20Restaurants%20in%20Addis%20Ababa","picks":[{"anchorId":"kategna","rank":1,"name":"Kategna Restaurant (ካተኛ)","label":"1. Kategna Restaurant (ካተኛ)","lat":8.9946488,"lng":38.7907665,"ctaUrl":"https://www.google.com/maps/search/Kategna+Restaurant+Addis+Ababa","mapQuery":"Kategna Restaurant (ካተኛ), Meskel Flower & Bole, Addis Ababa, ET"},{"anchorId":"yod-abyssinia","rank":2,"name":"Yod Abyssinia (ዮድ አቢሲኒያ)","label":"2. Yod Abyssinia (ዮድ አቢሲኒያ)","lat":8.9835037,"lng":38.7265997,"ctaUrl":"https://www.google.com/maps/search/Yod+Abyssinia+Restaurant+Bole+Addis+Ababa","mapQuery":"Yod Abyssinia (ዮድ አቢሲኒያ), Bole, near Millennium Hall, Addis Ababa, ET"},{"anchorId":"kassa-oma","rank":3,"name":"Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት)","label":"3. Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት)","lat":8.987587,"lng":38.7889826,"ctaUrl":"https://www.google.com/maps/search/Kassa+Oma+Kitfo+Bet+Africa+Avenue+Addis+Ababa","mapQuery":"Kassa Oma Kitfo Bet (ካሳ ኦማ ክትፎ ቤት), Africa Avenue (Bole), Addis Ababa, ET"},{"anchorId":"woinshet","rank":4,"name":"Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)","label":"4. Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት)","lat":9.0134575,"lng":38.784094599999996,"ctaUrl":"https://www.google.com/maps/search/Woinshet+Special+Doro+Bet+22+Addis+Ababa","mapQuery":"Woinshet Special Doro Bet (ወይንሸት ልዩ ዶሮ ቤት), Area 22 (Bole), Addis Ababa, ET"},{"anchorId":"chanes","rank":5,"name":"Chane's Restaurant (ቻኔ)","label":"5. Chane's Restaurant (ቻኔ)","lat":9.0198368,"lng":38.7684845,"ctaUrl":"https://www.google.com/maps/search/Chane's+Restaurant+Kazanchis+Addis+Ababa","mapQuery":"Chane's Restaurant (ቻኔ), Kazanchis, Addis Ababa, ET"},{"anchorId":"tsige-shiro","rank":6,"name":"Tsige Shiro (ጽጌ ሽሮ)","label":"6. Tsige Shiro (ጽጌ ሽሮ)","lat":8.9957341,"lng":38.791046699999995,"ctaUrl":"https://www.google.com/maps/search/Tsige+Shiro+Restaurant+Addis+Ababa","mapQuery":"Tsige Shiro (ጽጌ ሽሮ), Addis Ababa, Addis Ababa, ET"},{"anchorId":"tikus-shiro","rank":7,"name":"Tikus Shiro (ጥቁስ ሽሮ)","label":"7. Tikus Shiro (ጥቁስ ሽሮ)","lat":9.0196024,"lng":38.7672202,"ctaUrl":"https://www.google.com/maps/search/Tikus+Shiro+Lideta+Addis+Ababa","mapQuery":"Tikus Shiro (ጥቁስ ሽሮ), Lideta, Addis Ababa, ET"},{"anchorId":"oda-cultural","rank":8,"name":"Oda Cultural Restaurant & Cafe","label":"8. Oda Cultural Restaurant & Cafe","lat":8.99114,"lng":38.793392499999996,"ctaUrl":"https://www.google.com/maps/search/Oda+Cultural+Restaurant+Oromo+Center+Addis+Ababa","mapQuery":"Oda Cultural Restaurant & Cafe, Near National Stadium, Addis Ababa, ET"},{"anchorId":"totot","rank":9,"name":"Totot Restaurant (ቶቶት)","label":"9. Totot Restaurant (ቶቶት)","lat":9.0072312,"lng":38.806217499999995,"ctaUrl":"https://www.google.com/maps/search/Totot+Restaurant+Gerji+Addis+Ababa","mapQuery":"Totot Restaurant (ቶቶት), Gerji, Addis Ababa, ET"},{"anchorId":"taitu-hotel","rank":10,"name":"Taitu Hotel Restaurant (ጣይቱ ሆቴል)","label":"10. Taitu Hotel Restaurant (ጣይቱ ሆቴል)","lat":9.0309368,"lng":38.7537612,"ctaUrl":"https://www.google.com/maps/search/Taitu+Hotel+Restaurant+Piassa+Addis+Ababa","mapQuery":"Taitu Hotel Restaurant (ጣይቱ ሆቴል), Piassa, Addis Ababa, ET"},{"anchorId":"brundo","rank":11,"name":"Brundo Butchery (ብሩንዶ)","label":"11. Brundo Butchery (ብሩንዶ)","lat":9.011366500000001,"lng":38.8365795,"ctaUrl":"https://www.google.com/maps/search/Brundo+Butchery+Bole+Addis+Ababa","mapQuery":"Brundo Butchery (ብሩንዶ), Bole, Addis Ababa, ET"},{"anchorId":"dashen","rank":12,"name":"Dashen Traditional Restaurant (ዳሽን)","label":"12. Dashen Traditional Restaurant (ዳሽን)","lat":9.0170444,"lng":38.786275599999996,"ctaUrl":"https://www.google.com/maps/search/Dashen+Traditional+Restaurant+Piassa+Addis+Ababa","mapQuery":"Dashen Traditional Restaurant (ዳሽን), Piassa, Addis Ababa, ET"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -65,7 +65,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Seunggi Ssiat Hotteok (승기씨앗호떡)",
-        "servesCuisine": "Ssiat Hotteok",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -81,7 +80,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "BIFF Square Original Ssiat Hotteok (원조씨앗호떡)",
-        "servesCuisine": "Ssiat Hotteok",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -97,7 +95,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Honey & Cheese Hotteok (꿀치즈호떡)",
-        "servesCuisine": "Honey Cheese",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -113,7 +110,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Halmae Ssiat Hotteok (할매씨앗호떡)",
-        "servesCuisine": "Classic",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -129,7 +125,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Butter Hotteok Stall (버터호떡)",
-        "servesCuisine": "Butter Hotteok",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -145,7 +140,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Nampodong Night Market Hotteok",
-        "servesCuisine": "Night Market",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Nampodong Night Market, near BIFF Square",
@@ -161,7 +155,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Choi Hee Ssiat Hotteok (최희씨앗호떡)",
-        "servesCuisine": "Ssiat Hotteok",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "BIFF Square, Nampodong",
@@ -177,7 +170,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Bupyeong Kkangtong Market Hotteok",
-        "servesCuisine": "Market Stall",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Bupyeong Kkangtong Market, near BIFF Square",
@@ -193,7 +185,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Gukje Market Hotteok Alley",
-        "servesCuisine": "Market Stall",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Gukje Market, Nampodong",
@@ -275,11 +266,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -304,9 +290,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -331,7 +320,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -379,13 +368,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>BIFF Square&#39;s hotteok vendors offer seed-stuffed pancakes for ₩1,000–₩3,000, with Seunggi Ssiat Hotteok being a top recommendation for its unique &#39;6 cartoon&#39; version. Visit during the day or early evening to experience the best of these butter-fried delights, as some stalls operate only at night. This Busan culinary experience is a must-try for any visitor.</strong></p>
-        <p>BIFF Square&#39;s legendary hotteok vendors offer seed-stuffed pancakes, fried in butter, for ₩1,000–₩3,000 a piece. Seunggi Ssiat Hotteok, known for its &#39;6 cartoon&#39; version, is a top recommendation. The best time to visit is during the day or early evening, as some stalls are only open at night.</p><p>BIFF Square is where hotteok became legend. This stretch of pavement in Busan&#39;s Nampodong district — named after the Busan International Film Festival — is lined with vendors who&#39;ve been frying seed-stuffed pancakes for decades. The concept is simple: wheat dough, brown sugar and cinnamon filling, fried until golden, then sliced open and generously packed with sunflower seeds, pumpkin seeds, and pine nuts.</p><p>What makes BIFF Square hotteok special? The butter. While Seoul vendors typically fry in oil, the BIFF Square originals use sticks of melted butter, giving the exterior an impossibly crispy, rich shell. At ₩1,000–₩2,000 a piece, it&#39;s arguably the best dollar you&#39;ll ever spend on street food.</p>
+        <p>BIFF Square is where hotteok became legend. This stretch of pavement in Busan&#39;s Nampodong district — named after the Busan International Film Festival — is lined with vendors who&#39;ve been frying seed-stuffed pancakes for decades. The concept is simple: wheat dough, brown sugar and cinnamon filling, fried until golden, then sliced open and generously packed with sunflower seeds, pumpkin seeds, and pine nuts.</p><p>What makes BIFF Square hotteok special? The butter. While Seoul vendors typically fry in oil, the BIFF Square originals use sticks of melted butter, giving the exterior an impossibly crispy, rich shell. At ₩1,000–₩2,000 a piece, it&#39;s arguably the best dollar you&#39;ll ever spend on street food.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Hotteok Map</h2>
-      <iframe src="https://www.google.com/maps?q=Busan%20shopping&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Seunggi Ssiat Hotteok (승기씨앗호떡)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Hotteok Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -396,7 +386,7 @@
         <a href="#biff-original-ssiat">2. BIFF Square Original Ssiat Hotteok (원조씨앗호떡)</a>
       </li>
       <li>
-        <a href="#honey-cheese-hotteok">3. Honey &amp; Cheese Hotteok (꿀치즈호떡)</a>
+        <a href="#honey-cheese-hotteok">3. Honey & Cheese Hotteok (꿀치즈호떡)</a>
       </li>
       <li>
         <a href="#halmae-ssiat-hotteok">4. Halmae Ssiat Hotteok (할매씨앗호떡)</a>
@@ -407,7 +397,7 @@
       <li>
         <a href="#nampodong-night-market">6. Nampodong Night Market Hotteok</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Busan%20shopping" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8667721841923535610&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -419,7 +409,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="seunggi-ssiat-hotteok">
+<section class="restaurant-section" id="seunggi-ssiat-hotteok" data-map-name="1. Seunggi Ssiat Hotteok (승기씨앗호떡)" data-map-cta-url="https://maps.google.com/?cid=8667721841923535610&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Seunggi Ssiat Hotteok (승기씨앗호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.0989101" data-map-lng="129.0290427">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Seunggi Ssiat Hotteok (승기씨앗호떡)</h2>
         <span class="cuisine-tag tag-regional">Ssiat Hotteok</span>
@@ -457,7 +447,7 @@
         <strong>tabiji verdict:</strong> The most famous stall on BIFF Street — the one with the longest line and the TV show endorsements. The butter-frying technique is what sets it apart. The queue moves fast because the vendors have been doing this for decades. Worth the 5–10 minute wait.
     </div>
 </section>
-<section class="restaurant-section" id="biff-original-ssiat">
+<section class="restaurant-section" id="biff-original-ssiat" data-map-name="2. BIFF Square Original Ssiat Hotteok (원조씨앗호떡)" data-map-cta-url="https://maps.google.com/?cid=11392161306117764293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="BIFF Square Original Ssiat Hotteok (원조씨앗호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.098243" data-map-lng="129.029212">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>BIFF Square Original Ssiat Hotteok (원조씨앗호떡)</h2>
         <span class="cuisine-tag tag-regional">Ssiat Hotteok</span>
@@ -495,7 +485,7 @@
         <strong>tabiji verdict:</strong> The OG. Claims to be the original ssiat hotteok stall on BIFF Street, and the ₩1,000 price point is hard to argue with. The recipe is no-frills — brown sugar, cinnamon, seeds — executed perfectly. Slightly less tourist-mobbed than Seunggi, which some prefer.
     </div>
 </section>
-<section class="restaurant-section" id="honey-cheese-hotteok">
+<section class="restaurant-section" id="honey-cheese-hotteok" data-map-name="3. Honey &amp; Cheese Hotteok (꿀치즈호떡)" data-map-cta-url="https://maps.google.com/?cid=11392161306117764293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Honey &amp; Cheese Hotteok (꿀치즈호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.098853999999996" data-map-lng="129.029003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Honey &amp; Cheese Hotteok (꿀치즈호떡)</h2>
         <span class="cuisine-tag tag-regional">Honey Cheese</span>
@@ -533,7 +523,7 @@
         <strong>tabiji verdict:</strong> The modern twist that purists debate but tourists devour. The cheese version is a relatively recent addition to BIFF Square but has become wildly popular. If you&#39;re the type who puts cheese on everything, this is your stall. Best eaten immediately — the cheese solidifies quickly.
     </div>
 </section>
-<section class="restaurant-section" id="halmae-ssiat-hotteok">
+<section class="restaurant-section" id="halmae-ssiat-hotteok" data-map-name="4. Halmae Ssiat Hotteok (할매씨앗호떡)" data-map-cta-url="https://maps.google.com/?cid=11392161306117764293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Halmae Ssiat Hotteok (할매씨앗호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.098839399999996" data-map-lng="129.029148">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Halmae Ssiat Hotteok (할매씨앗호떡)</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -571,7 +561,7 @@
         <strong>tabiji verdict:</strong> The &quot;grandma&#39;s recipe&quot; stall. Less flashy than the TV-famous neighbors, but the locals swear the dough is better here — slightly chewier, more yeast flavor. If you want the traditional Busan experience without the celebrity markup, this is your pick.
     </div>
 </section>
-<section class="restaurant-section" id="butter-hotteok">
+<section class="restaurant-section" id="butter-hotteok" data-map-name="5. Butter Hotteok Stall (버터호떡)" data-map-cta-url="https://maps.google.com/?cid=11392161306117764293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Butter Hotteok Stall (버터호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.098853999999996" data-map-lng="129.029003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Butter Hotteok Stall (버터호떡)</h2>
         <span class="cuisine-tag tag-regional">Butter Hotteok</span>
@@ -609,7 +599,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re going to eat a fried pancake stuffed with sugar and seeds, you might as well go all in with butter. This stall doesn&#39;t pretend hotteok is health food — it&#39;s pure indulgence. The butter makes the texture noticeably different from oil-fried versions. Calorie counting is banned here.
     </div>
 </section>
-<section class="restaurant-section" id="nampodong-night-market">
+<section class="restaurant-section" id="nampodong-night-market" data-map-name="6. Nampodong Night Market Hotteok" data-map-cta-url="https://maps.google.com/?cid=17945368158654360574&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nampodong Night Market Hotteok, Nampodong Night Market, near BIFF Square, Busan, KR" data-map-lat="35.098243" data-map-lng="129.029212">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Nampodong Night Market Hotteok</h2>
         <span class="cuisine-tag tag-regional">Night Market</span>
@@ -647,7 +637,7 @@
         <strong>tabiji verdict:</strong> The BIFF Square experience hits different after dark. The night market vendors serve basically the same ssiat hotteok but with better vibes and shorter lines (the day-trip tourists have left). Pro tip: combine with the other Nampodong night market foods — tteokbokki, sundae, and odeng.
     </div>
 </section>
-<section class="restaurant-section" id="choi-hee-ssiat">
+<section class="restaurant-section" id="choi-hee-ssiat" data-map-name="7. Choi Hee Ssiat Hotteok (최희씨앗호떡)" data-map-cta-url="https://maps.google.com/?cid=1597310653046681210&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Choi Hee Ssiat Hotteok (최희씨앗호떡), BIFF Square, Nampodong, Busan, KR" data-map-lat="35.098839399999996" data-map-lng="129.029148">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Choi Hee Ssiat Hotteok (최희씨앗호떡)</h2>
         <span class="cuisine-tag tag-regional">Ssiat Hotteok</span>
@@ -685,7 +675,7 @@
         <strong>tabiji verdict:</strong> The underdog pick. Perpetually overshadowed by Seunggi next door, but regulars who&#39;ve tried both often prefer Choi Hee&#39;s dough texture. The shorter line is a genuine advantage when you&#39;re hungry. Same butter-frying technique, same seed mix, slightly less hype tax.
     </div>
 </section>
-<section class="restaurant-section" id="bupyeong-market">
+<section class="restaurant-section" id="bupyeong-market" data-map-name="8. Bupyeong Kkangtong Market Hotteok" data-map-cta-url="https://maps.google.com/?cid=17945368158654360574&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bupyeong Kkangtong Market Hotteok, Bupyeong Kkangtong Market, near BIFF Square, Busan, KR" data-map-lat="35.101853999999996" data-map-lng="129.0258719">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Bupyeong Kkangtong Market Hotteok</h2>
         <span class="cuisine-tag tag-regional">Market Stall</span>
@@ -719,7 +709,7 @@
         <strong>tabiji verdict:</strong> The insider move. While tourists queue at BIFF Square, the market vendors a block away serve nearly identical hotteok at lower prices with no wait. The tradeoff? Less atmosphere and no handprints-in-the-pavement celebrity vibes. But you came for the pancake, right?
     </div>
 </section>
-<section class="restaurant-section" id="gukje-market">
+<section class="restaurant-section" id="gukje-market" data-map-name="9. Gukje Market Hotteok Alley" data-map-cta-url="https://maps.google.com/?cid=17353590159296253974&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gukje Market Hotteok Alley, Gukje Market, Nampodong, Busan, KR" data-map-lat="35.1013575" data-map-lng="129.0281978">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Gukje Market Hotteok Alley</h2>
         <span class="cuisine-tag tag-regional">Market Stall</span>
@@ -775,9 +765,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Hotteok Map</h2>
-      <iframe src="https://www.google.com/maps?q=Busan%20shopping&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Seunggi Ssiat Hotteok (승기씨앗호떡)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Hotteok Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -788,7 +779,7 @@
         <a href="#biff-original-ssiat">2. BIFF Square Original Ssiat Hotteok (원조씨앗호떡)</a>
       </li>
       <li>
-        <a href="#honey-cheese-hotteok">3. Honey &amp; Cheese Hotteok (꿀치즈호떡)</a>
+        <a href="#honey-cheese-hotteok">3. Honey & Cheese Hotteok (꿀치즈호떡)</a>
       </li>
       <li>
         <a href="#halmae-ssiat-hotteok">4. Halmae Ssiat Hotteok (할매씨앗호떡)</a>
@@ -799,7 +790,7 @@
       <li>
         <a href="#nampodong-night-market">6. Nampodong Night Market Hotteok</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Busan%20shopping" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8667721841923535610&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -810,5 +801,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Hotteok Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ssiat%20Hotteok%20in%20BIFF%20Square","picks":[{"anchorId":"seunggi-ssiat-hotteok","rank":1,"name":"Seunggi Ssiat Hotteok (승기씨앗호떡)","label":"1. Seunggi Ssiat Hotteok (승기씨앗호떡)","lat":35.0989101,"lng":129.0290427,"ctaUrl":"https://maps.google.com/?cid=8667721841923535610&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Seunggi Ssiat Hotteok (승기씨앗호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"biff-original-ssiat","rank":2,"name":"BIFF Square Original Ssiat Hotteok (원조씨앗호떡)","label":"2. BIFF Square Original Ssiat Hotteok (원조씨앗호떡)","lat":35.098243,"lng":129.029212,"ctaUrl":"https://maps.google.com/?cid=11392161306117764293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"BIFF Square Original Ssiat Hotteok (원조씨앗호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"honey-cheese-hotteok","rank":3,"name":"Honey & Cheese Hotteok (꿀치즈호떡)","label":"3. Honey & Cheese Hotteok (꿀치즈호떡)","lat":35.098853999999996,"lng":129.029003,"ctaUrl":"https://maps.google.com/?cid=11392161306117764293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Honey & Cheese Hotteok (꿀치즈호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"halmae-ssiat-hotteok","rank":4,"name":"Halmae Ssiat Hotteok (할매씨앗호떡)","label":"4. Halmae Ssiat Hotteok (할매씨앗호떡)","lat":35.098839399999996,"lng":129.029148,"ctaUrl":"https://maps.google.com/?cid=11392161306117764293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Halmae Ssiat Hotteok (할매씨앗호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"butter-hotteok","rank":5,"name":"Butter Hotteok Stall (버터호떡)","label":"5. Butter Hotteok Stall (버터호떡)","lat":35.098853999999996,"lng":129.029003,"ctaUrl":"https://maps.google.com/?cid=11392161306117764293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Butter Hotteok Stall (버터호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"nampodong-night-market","rank":6,"name":"Nampodong Night Market Hotteok","label":"6. Nampodong Night Market Hotteok","lat":35.098243,"lng":129.029212,"ctaUrl":"https://maps.google.com/?cid=17945368158654360574&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nampodong Night Market Hotteok, Nampodong Night Market, near BIFF Square, Busan, KR"},{"anchorId":"choi-hee-ssiat","rank":7,"name":"Choi Hee Ssiat Hotteok (최희씨앗호떡)","label":"7. Choi Hee Ssiat Hotteok (최희씨앗호떡)","lat":35.098839399999996,"lng":129.029148,"ctaUrl":"https://maps.google.com/?cid=1597310653046681210&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Choi Hee Ssiat Hotteok (최희씨앗호떡), BIFF Square, Nampodong, Busan, KR"},{"anchorId":"bupyeong-market","rank":8,"name":"Bupyeong Kkangtong Market Hotteok","label":"8. Bupyeong Kkangtong Market Hotteok","lat":35.101853999999996,"lng":129.0258719,"ctaUrl":"https://maps.google.com/?cid=17945368158654360574&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bupyeong Kkangtong Market Hotteok, Bupyeong Kkangtong Market, near BIFF Square, Busan, KR"},{"anchorId":"gukje-market","rank":9,"name":"Gukje Market Hotteok Alley","label":"9. Gukje Market Hotteok Alley","lat":35.1013575,"lng":129.0281978,"ctaUrl":"https://maps.google.com/?cid=17353590159296253974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gukje Market Hotteok Alley, Gukje Market, Nampodong, Busan, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

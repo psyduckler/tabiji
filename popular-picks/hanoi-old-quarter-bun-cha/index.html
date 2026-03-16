@@ -315,11 +315,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -344,9 +339,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -371,39 +369,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Bún Chả in Hanoi's Old Quarter",
-                        "item": "https://tabiji.ai/popular-picks/hanoi-old-quarter-bun-cha/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -446,13 +417,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Bún chả, a Hanoi staple found throughout the Old Quarter, offers a delicious and affordable culinary experience, with Bún Chả 34 Hàng Than often cited as a local favorite. This dish, best enjoyed for lunch, is a must-try for any visitor seeking an authentic taste of Hanoi&#39;s culinary soul, featuring smoky grilled pork patties and caramelized pork belly in a sweet-sour fish sauce broth.</strong></p>
-        <p>Bún chả, a Hanoi staple, can be found throughout the Old Quarter at varying prices, but Bún Chả 34 Hàng Than stands out as a local favorite due to its exceptional smoky char. This dish, best enjoyed for lunch, is a must-try for any visitor seeking an authentic taste of Hanoi&#39;s culinary soul.</p><p>Bún chả is the soul of Hanoi&#39;s food culture — smoky grilled pork patties and caramelized pork belly swimming in a sweet-sour fish sauce broth, served with a mountain of fresh rice vermicelli and herbs. It&#39;s a lunch ritual that has sustained Hanoians for generations, and it&#39;s the one dish you absolutely cannot miss in the Old Quarter.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/hanoi, r/vietnamtravel, and r/solotravel to find the spots that actual travelers and Hanoi residents recommend over and over. From the famous Obama spot to hidden alleyway gems — these are the bowls worth your time.</p>
+        <p>Bún chả is the soul of Hanoi&#39;s food culture — smoky grilled pork patties and caramelized pork belly swimming in a sweet-sour fish sauce broth, served with a mountain of fresh rice vermicelli and herbs. It&#39;s a lunch ritual that has sustained Hanoians for generations, and it&#39;s the one dish you absolutely cannot miss in the Old Quarter.</p><p>We analyzed hundreds of Reddit posts from r/VietNam, r/hanoi, r/vietnamtravel, and r/solotravel to find the spots that actual travelers and Hanoi residents recommend over and over. From the famous Obama spot to hidden alleyway gems — these are the bowls worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Bún Chả Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanoi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bún Chả Hương Liên (Bún Chả Obama)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bún Chả Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -474,7 +446,7 @@
       <li>
         <a href="#sinh-tu">6. Bún Chả Sinh Từ</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanoi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9108413969528951015&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -486,7 +458,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="huong-lien">
+<section class="restaurant-section" id="huong-lien" data-map-name="1. Bún Chả Hương Liên (Bún Chả Obama)" data-map-cta-url="https://maps.google.com/?cid=9108413969528951015&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Hương Liên (Bún Chả Obama), 24 Lê Văn Hưu, Hai Bà Trưng, Hanoi, VN" data-map-lat="21.0181373" data-map-lng="105.8538926">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Bún Chả Hương Liên (Bún Chả Obama)</h2>
         <span class="cuisine-tag tag-regional">Famous</span>
@@ -528,7 +500,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s touristy. Yes, there&#39;s often a queue. But the bún chả is genuinely good — the pork is smoky and well-charred, the broth is balanced, and the nem cua bể are crispy perfection. The table where Obama sat is roped off upstairs as a shrine. Worth visiting once, ideally before 11:30 AM to beat the crowd. Just outside the Old Quarter but walkable.
     </div>
 </section>
-<section class="restaurant-section" id="dac-kim">
+<section class="restaurant-section" id="dac-kim" data-map-name="2. Bún Chả Đắc Kim" data-map-cta-url="https://maps.google.com/?cid=11142479607157027044&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Đắc Kim, 1 Hàng Mành, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0322493" data-map-lng="105.8482095">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Bún Chả Đắc Kim</h2>
         <span class="cuisine-tag tag-regional">Old Quarter Classic</span>
@@ -566,7 +538,7 @@
         <strong>tabiji verdict:</strong> The go-to bún chả for most Old Quarter visitors. It&#39;s right in the heart of things at 1 Hàng Mành, the pork is consistently good, and the nem cua bể are some of the crunchiest in the neighborhood. Gets crowded at peak lunch but turnover is fast. Note: some Redditors call it touristy, but the quality holds up.
     </div>
 </section>
-<section class="restaurant-section" id="secret-bun-cha">
+<section class="restaurant-section" id="secret-bun-cha" data-map-name="3. Secret Bún Chả (Bún Chả Hàng Gai)" data-map-cta-url="https://maps.google.com/?cid=4322366430369759779&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Secret Bún Chả (Bún Chả Hàng Gai), Alleyway off Hàng Gai, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0325441" data-map-lng="105.8488354">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Secret Bún Chả (Bún Chả Hàng Gai)</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem</span>
@@ -608,7 +580,7 @@
         <strong>tabiji verdict:</strong> The Reddit darling. Tucked in an alleyway near Hàng Gai street, this place is the antithesis of the tourist spots — tiny, no-frills, closes when they sell out (usually by 2 PM). The bún chả is excellent and the fried rolls are unanimously praised. Google Maps code: 2RMX+4G6. Arrive before noon.
     </div>
 </section>
-<section class="restaurant-section" id="hang-than">
+<section class="restaurant-section" id="hang-than" data-map-name="4. Bún Chả 34 Hàng Than (Tuyết Bún Chả)" data-map-cta-url="https://maps.google.com/?cid=8220894620625857434&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả 34 Hàng Than (Tuyết Bún Chả), 34 Hàng Than, Ba Đình, Hanoi, VN" data-map-lat="21.041352399999997" data-map-lng="105.8472754">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Bún Chả 34 Hàng Than (Tuyết Bún Chả)</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -650,7 +622,7 @@
         <strong>tabiji verdict:</strong> The local&#39;s choice. Just north of the Old Quarter near Long Biên Bridge, 34 Hàng Than is where Hanoians go when they want the real deal — no tourists, no English menu, just perfectly charred pork and balanced broth. Multiple Redditors rank this above Đắc Kim and Hương Liên. Worth the 10-minute walk from the Old Quarter.
     </div>
 </section>
-<section class="restaurant-section" id="hang-quat">
+<section class="restaurant-section" id="hang-quat" data-map-name="5. Bún Chả 74 Hàng Quạt" data-map-cta-url="https://maps.google.com/?cid=4700130425588139083&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả 74 Hàng Quạt, 74 Hàng Quạt, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0325441" data-map-lng="105.8488354">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Bún Chả 74 Hàng Quạt</h2>
         <span class="cuisine-tag tag-regional">Old Quarter Classic</span>
@@ -688,7 +660,7 @@
         <strong>tabiji verdict:</strong> A solid Old Quarter choice that sits right in the middle of the action on Hàng Quạt street. Not as famous as Đắc Kim but arguably more consistent. The sidewalk seating gives you a front-row view of Old Quarter street life while you eat. Good for first-timers who want the authentic Old Quarter bún chả experience without the biggest crowds.
     </div>
 </section>
-<section class="restaurant-section" id="sinh-tu">
+<section class="restaurant-section" id="sinh-tu" data-map-name="6. Bún Chả Sinh Từ" data-map-cta-url="https://maps.google.com/?cid=349343324605005753&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Sinh Từ, 63 Đường Thành, Hàng Bông, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0310418" data-map-lng="105.8472486">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Bún Chả Sinh Từ</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -722,7 +694,7 @@
         <strong>tabiji verdict:</strong> A reliable local chain that won&#39;t blow your mind but won&#39;t disappoint either. Multiple branches across Hanoi mean you can always find one nearby. The Đường Thành location has a clean, proper restaurant vibe rather than sidewalk stall — good if you want AC and a proper chair. Consistent quality across visits.
     </div>
 </section>
-<section class="restaurant-section" id="bun-cha-ta">
+<section class="restaurant-section" id="bun-cha-ta" data-map-name="7. Bún Chả Tạ" data-map-cta-url="https://maps.google.com/?cid=2042414514811757339&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Tạ, 21 Nguyễn Hữu Huân, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0343417" data-map-lng="105.854475">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Bún Chả Tạ</h2>
         <span class="cuisine-tag tag-regional">Upscale</span>
@@ -760,7 +732,7 @@
         <strong>tabiji verdict:</strong> Controversial on Reddit — some love the clean, proper restaurant experience on one of the Old Quarter&#39;s most charming streets, while others say you&#39;re paying a premium for ambiance. The bún chả itself is well-made but prices are 30-50% higher than neighborhood stalls. Good for travelers who want quality without the full street-food commitment. Some Redditors call it a &quot;scam&quot; for the price, though the food itself is solid.
     </div>
 </section>
-<section class="restaurant-section" id="mai-hac-de">
+<section class="restaurant-section" id="mai-hac-de" data-map-name="8. Bún Chả 38 Mai Hắc Đế" data-map-cta-url="https://maps.google.com/?cid=9461312925833764459&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả 38 Mai Hắc Đế, 38 Mai Hắc Đế, Hai Bà Trưng, Hanoi, VN" data-map-lat="21.0148772" data-map-lng="105.85086989999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Bún Chả 38 Mai Hắc Đế</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -794,7 +766,7 @@
         <strong>tabiji verdict:</strong> Just south of the Old Quarter near Hương Liên territory, this is a quieter alternative that delivers excellent bún chả without the tourist crowds. The 80-upvote Reddit post praising it speaks volumes. If you&#39;re already visiting Hương Liên nearby and want a comparison, this is your second stop.
     </div>
 </section>
-<section class="restaurant-section" id="gam-cau">
+<section class="restaurant-section" id="gam-cau" data-map-name="9. Bún Chả Gầm Cầu" data-map-cta-url="https://maps.google.com/?cid=3243024544679016735&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Gầm Cầu, Phùng Hưng, Hoàn Kiếm (under Long Biên Bridge), Hanoi, VN" data-map-lat="21.0351583" data-map-lng="105.8460046">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bún Chả Gầm Cầu</h2>
         <span class="cuisine-tag tag-regional">Michelin Guide</span>
@@ -828,7 +800,7 @@
         <strong>tabiji verdict:</strong> Featured in the Michelin Guide, this spot under the shadow of the iconic Long Biên Bridge is beloved for its bún chả but infamous for its service. The cooks are focused on grilling, not smiling — and that&#39;s fine, because the pork is phenomenal. Go with patience, eat quickly, and leave satisfied. Morning is best to avoid the longest waits.
     </div>
 </section>
-<section class="restaurant-section" id="cua-dong">
+<section class="restaurant-section" id="cua-dong" data-map-name="10. Bún Chả 41 Cửa Đông" data-map-cta-url="https://maps.google.com/?cid=13096919322568567074&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả 41 Cửa Đông, 41 Cửa Đông, Hoàn Kiếm, Hanoi, VN" data-map-lat="21.0345364" data-map-lng="105.84594229999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Bún Chả 41 Cửa Đông</h2>
         <span class="cuisine-tag tag-regional">Local Favorite</span>
@@ -862,7 +834,7 @@
         <strong>tabiji verdict:</strong> Often recommended in the same breath as 34 Hàng Than by Hanoi residents, 41 Cửa Đông is a local neighborhood joint in the western edge of the Old Quarter. Less known to tourists, which means shorter waits and more authentic vibes. The bún chả is straightforward and satisfying — exactly what you want from a neighborhood spot.
     </div>
 </section>
-<section class="restaurant-section" id="binh-minh">
+<section class="restaurant-section" id="binh-minh" data-map-name="11. Bún Chả Bình Minh — Nem Cua Bể" data-map-cta-url="https://maps.google.com/?cid=13903710924341632786&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bún Chả Bình Minh — Nem Cua Bể, Hoàn Kiếm district, Hanoi, VN" data-map-lat="21.0349137" data-map-lng="105.847574">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Bún Chả Bình Minh — Nem Cua Bể</h2>
         <span class="cuisine-tag tag-regional">Classic</span>
@@ -914,9 +886,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Bún Chả Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanoi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Bún Chả Hương Liên (Bún Chả Obama)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Bún Chả Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -938,7 +911,7 @@
       <li>
         <a href="#sinh-tu">6. Bún Chả Sinh Từ</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanoi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9108413969528951015&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -949,5 +922,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Bún Chả Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/B%C3%BAn%20Ch%E1%BA%A3%20in%20Hanoi's%20Old%20Quarter","picks":[{"anchorId":"huong-lien","rank":1,"name":"Bún Chả Hương Liên (Bún Chả Obama)","label":"1. Bún Chả Hương Liên (Bún Chả Obama)","lat":21.0181373,"lng":105.8538926,"ctaUrl":"https://maps.google.com/?cid=9108413969528951015&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Hương Liên (Bún Chả Obama), 24 Lê Văn Hưu, Hai Bà Trưng, Hanoi, VN"},{"anchorId":"dac-kim","rank":2,"name":"Bún Chả Đắc Kim","label":"2. Bún Chả Đắc Kim","lat":21.0322493,"lng":105.8482095,"ctaUrl":"https://maps.google.com/?cid=11142479607157027044&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Đắc Kim, 1 Hàng Mành, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"secret-bun-cha","rank":3,"name":"Secret Bún Chả (Bún Chả Hàng Gai)","label":"3. Secret Bún Chả (Bún Chả Hàng Gai)","lat":21.0325441,"lng":105.8488354,"ctaUrl":"https://maps.google.com/?cid=4322366430369759779&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Secret Bún Chả (Bún Chả Hàng Gai), Alleyway off Hàng Gai, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"hang-than","rank":4,"name":"Bún Chả 34 Hàng Than (Tuyết Bún Chả)","label":"4. Bún Chả 34 Hàng Than (Tuyết Bún Chả)","lat":21.041352399999997,"lng":105.8472754,"ctaUrl":"https://maps.google.com/?cid=8220894620625857434&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả 34 Hàng Than (Tuyết Bún Chả), 34 Hàng Than, Ba Đình, Hanoi, VN"},{"anchorId":"hang-quat","rank":5,"name":"Bún Chả 74 Hàng Quạt","label":"5. Bún Chả 74 Hàng Quạt","lat":21.0325441,"lng":105.8488354,"ctaUrl":"https://maps.google.com/?cid=4700130425588139083&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả 74 Hàng Quạt, 74 Hàng Quạt, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"sinh-tu","rank":6,"name":"Bún Chả Sinh Từ","label":"6. Bún Chả Sinh Từ","lat":21.0310418,"lng":105.8472486,"ctaUrl":"https://maps.google.com/?cid=349343324605005753&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Sinh Từ, 63 Đường Thành, Hàng Bông, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"bun-cha-ta","rank":7,"name":"Bún Chả Tạ","label":"7. Bún Chả Tạ","lat":21.0343417,"lng":105.854475,"ctaUrl":"https://maps.google.com/?cid=2042414514811757339&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Tạ, 21 Nguyễn Hữu Huân, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"mai-hac-de","rank":8,"name":"Bún Chả 38 Mai Hắc Đế","label":"8. Bún Chả 38 Mai Hắc Đế","lat":21.0148772,"lng":105.85086989999999,"ctaUrl":"https://maps.google.com/?cid=9461312925833764459&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả 38 Mai Hắc Đế, 38 Mai Hắc Đế, Hai Bà Trưng, Hanoi, VN"},{"anchorId":"gam-cau","rank":9,"name":"Bún Chả Gầm Cầu","label":"9. Bún Chả Gầm Cầu","lat":21.0351583,"lng":105.8460046,"ctaUrl":"https://maps.google.com/?cid=3243024544679016735&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Gầm Cầu, Phùng Hưng, Hoàn Kiếm (under Long Biên Bridge), Hanoi, VN"},{"anchorId":"cua-dong","rank":10,"name":"Bún Chả 41 Cửa Đông","label":"10. Bún Chả 41 Cửa Đông","lat":21.0345364,"lng":105.84594229999999,"ctaUrl":"https://maps.google.com/?cid=13096919322568567074&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả 41 Cửa Đông, 41 Cửa Đông, Hoàn Kiếm, Hanoi, VN"},{"anchorId":"binh-minh","rank":11,"name":"Bún Chả Bình Minh — Nem Cua Bể","label":"11. Bún Chả Bình Minh — Nem Cua Bể","lat":21.0349137,"lng":105.847574,"ctaUrl":"https://maps.google.com/?cid=13903710924341632786&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bún Chả Bình Minh — Nem Cua Bể, Hoàn Kiếm district, Hanoi, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

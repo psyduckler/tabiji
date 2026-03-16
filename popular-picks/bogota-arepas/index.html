@@ -371,11 +371,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -400,9 +395,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -427,39 +425,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Arepas in Bogot\u00e1",
-                        "item": "https://tabiji.ai/popular-picks/bogota-arepas/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -506,9 +477,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Arepa Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bogot%C3%A1%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Andrés DC / Andrés Express</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Arepa Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -530,7 +502,7 @@
       <li>
         <a href="#gaira-cafe">6. Gaira Café Cumbia House</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bogot%C3%A1%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14002709006094594320&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -542,7 +514,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="andres-dc">
+<section class="restaurant-section" id="andres-dc" data-map-name="1. Andrés DC / Andrés Express" data-map-cta-url="https://maps.google.com/?cid=14002709006094594320&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Andrés DC / Andrés Express, Zona T / Multiple locations, Bogotá, CO" data-map-lat="4.665571000000001" data-map-lng="-74.0539936">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Andrés DC / Andrés Express</h2>
         <span class="cuisine-tag tag-regional">Traditional Icon</span>
@@ -580,7 +552,7 @@
         <strong>tabiji verdict:</strong> The arepa de choclo at Andrés is the one Redditors bring up unprompted. La Plaza de Andrés (the more casual format) is equally good and cheaper. This is the sweet, buttery, cheesy arepa experience that defines Bogotá comfort food.
     </div>
 </section>
-<section class="restaurant-section" id="recreo-tomasinos">
+<section class="restaurant-section" id="recreo-tomasinos" data-map-name="2. El Recreo de los Tomasinos" data-map-cta-url="https://maps.google.com/?cid=11309651519697837187&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Recreo de los Tomasinos, Chapinero, near university district, Bogotá, CO" data-map-lat="4.6381219" data-map-lng="-74.0639842">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>El Recreo de los Tomasinos</h2>
         <span class="cuisine-tag tag-regional">Late Night Legend</span>
@@ -618,7 +590,7 @@
         <strong>tabiji verdict:</strong> The quintessential Bogotá late-night arepa. Plastic chairs, fast service, and arepas so loaded they need two hands. Go after 10 PM when the post-bar crowd arrives and the energy is peak. Consistency wobbles at the busiest hours, but the best ones are unforgettable.
     </div>
 </section>
-<section class="restaurant-section" id="el-vecino">
+<section class="restaurant-section" id="el-vecino" data-map-name="3. El Vecino (Street Cart)" data-map-cta-url="https://maps.google.com/?cid=9661334078684951293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Vecino (Street Cart), Various locations, Bogotá, Bogotá, CO" data-map-lat="30.2819959" data-map-lng="-97.7056378">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>El Vecino (Street Cart)</h2>
         <span class="cuisine-tag tag-regional">Street Classic</span>
@@ -656,7 +628,7 @@
         <strong>tabiji verdict:</strong> The OG Bogotá arepa experience. When you see a crowd gathered around a mobile cart with plastic stools under a beach umbrella, join it. The wait is part of the ritual. Breakfast time is prime time. Look for the white uniforms and surgical masks — that&#39;s the mark of the better carts.
     </div>
 </section>
-<section class="restaurant-section" id="el-carriel">
+<section class="restaurant-section" id="el-carriel" data-map-name="4. Arepas El Carriel — Minuto de Dios" data-map-cta-url="https://maps.google.com/?cid=1115576585653892707&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Arepas El Carriel — Minuto de Dios, Engativá (Minuto de Dios neighborhood), Bogotá, CO" data-map-lat="4.7016979999999995" data-map-lng="-74.0899242">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Arepas El Carriel — Minuto de Dios</h2>
         <span class="cuisine-tag tag-regional">Traditional Favorite</span>
@@ -690,7 +662,7 @@
         <strong>tabiji verdict:</strong> Worth the trek to Engativá. This is the arepa de choclo that locals make pilgrimages for — unchanged for decades, homemade flavor, and prices that make you wonder why anyone pays 3x at fancier spots. Expect a wait. Seating is limited. Go for a quick hit, not a leisurely meal.
     </div>
 </section>
-<section class="restaurant-section" id="florentino">
+<section class="restaurant-section" id="florentino" data-map-name="5. Florentino Arepas Venezolanas" data-map-cta-url="https://maps.google.com/?cid=5705677661824816437&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Florentino Arepas Venezolanas, Chapinero, Bogotá, Bogotá, CO" data-map-lat="4.641106" data-map-lng="-74.0636366">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Florentino Arepas Venezolanas</h2>
         <span class="cuisine-tag tag-regional">Venezuelan</span>
@@ -728,7 +700,7 @@
         <strong>tabiji verdict:</strong> If you&#39;ve only had Colombian-style arepas (eaten as a side), Florentino will blow your mind. Venezuelan arepas are the main event — thick, crisp, and stuffed to bursting. The reina pepiada alone is worth crossing Bogotá for. Casual grab-and-go vibes, tight seating during rush hours.
     </div>
 </section>
-<section class="restaurant-section" id="gaira-cafe">
+<section class="restaurant-section" id="gaira-cafe" data-map-name="6. Gaira Café Cumbia House" data-map-cta-url="https://maps.google.com/?cid=9487979061075134978&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gaira Café Cumbia House, Zona Rosa, Bogotá, Bogotá, CO" data-map-lat="4.6806899" data-map-lng="-74.0475525">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Gaira Café Cumbia House</h2>
         <span class="cuisine-tag tag-regional">Coastal Vibes</span>
@@ -762,7 +734,7 @@
         <strong>tabiji verdict:</strong> Arepa de huevo is a coastal Colombian masterpiece you rarely find done well in Bogotá. Gaira nails it, and you get live cumbia and vallenato music as a bonus. More restaurant than street food — expect higher prices — but the experience of eating a perfect arepa de huevo while the band plays is pure magic.
     </div>
 </section>
-<section class="restaurant-section" id="abasto">
+<section class="restaurant-section" id="abasto" data-map-name="7. Abasto" data-map-cta-url="https://maps.google.com/?cid=15903677325079096001&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Abasto, Usaquén / Quinta Camacho, Bogotá, CO" data-map-lat="4.6531858" data-map-lng="-74.0590108">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Abasto</h2>
         <span class="cuisine-tag tag-regional">Gourmet Brunch</span>
@@ -796,7 +768,7 @@
         <strong>tabiji verdict:</strong> The elevated arepa experience. If you want to understand what happens when Colombia&#39;s farm-to-table brunch culture meets its most iconic food, Abasto is the answer. More expensive than street arepas, obviously — but the quality of ingredients is genuinely a tier above. Go for a weekend brunch.
     </div>
 </section>
-<section class="restaurant-section" id="aqui-santafe">
+<section class="restaurant-section" id="aqui-santafe" data-map-name="8. Aquí en Santa Fé" data-map-cta-url="https://maps.google.com/?cid=1344277838959603438&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Aquí en Santa Fé, Santa Fé, Bogotá, Bogotá, CO" data-map-lat="4.6475713" data-map-lng="-74.0601662">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Aquí en Santa Fé</h2>
         <span class="cuisine-tag tag-regional">Homestyle</span>
@@ -830,7 +802,7 @@
         <strong>tabiji verdict:</strong> This is what happens when someone&#39;s abuela opens a restaurant. No-frills space, big-frills flavor. The pernil arepa with hogao is comfort food at its finest. Go for lunch when everything is freshest. Don&#39;t expect ambiance — expect to leave full and happy.
     </div>
 </section>
-<section class="restaurant-section" id="pal-sarten">
+<section class="restaurant-section" id="pal-sarten" data-map-name="9. Pa&#39;l Sartén Arepas y Café" data-map-cta-url="https://maps.google.com/?cid=15707597547495508703&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pa&#39;l Sartén Arepas y Café, Chapinero, Bogotá, Bogotá, CO" data-map-lat="4.6466356" data-map-lng="-74.06293219999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Pa&#39;l Sartén Arepas y Café</h2>
         <span class="cuisine-tag tag-regional">Café Style</span>
@@ -864,7 +836,7 @@
         <strong>tabiji verdict:</strong> The digital nomad&#39;s arepa spot. Good Wi-Fi vibes, excellent coffee, and arepas that feel lighter and more modern than traditional joints. Portions lean smaller than street-style — you&#39;re paying for quality over quantity. Perfect for a slow weekend morning in Chapinero.
     </div>
 </section>
-<section class="restaurant-section" id="eucalipto">
+<section class="restaurant-section" id="eucalipto" data-map-name="10. Restaurante Eucalipto" data-map-cta-url="https://maps.google.com/?cid=10508913138506131614&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurante Eucalipto, Bogotá, Bogotá, CO" data-map-lat="4.6707573" data-map-lng="-74.0573055">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Restaurante Eucalipto</h2>
         <span class="cuisine-tag tag-regional">Arepa Boyacense</span>
@@ -902,7 +874,7 @@
         <strong>tabiji verdict:</strong> The arepa boyacense is what you eat when Bogotá&#39;s 2,600-meter altitude chill hits you. Slightly sweet, gooey with melted cheese, cooked on individual spinning plates — paired with thick Colombian hot chocolate, it&#39;s one of the great breakfast experiences in South America. Eucalipto does it right.
     </div>
 </section>
-<section class="restaurant-section" id="don-leon">
+<section class="restaurant-section" id="don-leon" data-map-name="11. Don Leon (Calle 85)" data-map-cta-url="https://maps.google.com/?cid=2105229890673713242&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Don Leon (Calle 85), Calle 85, north Bogotá, Bogotá, CO" data-map-lat="4.6697057" data-map-lng="-74.0550332">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Don Leon (Calle 85)</h2>
         <span class="cuisine-tag tag-regional">Breakfast Cart</span>
@@ -936,7 +908,7 @@
         <strong>tabiji verdict:</strong> The Bogotá breakfast ritual. Don Leon&#39;s team works fast — white uniforms, surgical masks, motorbike cart — and the arepas are hot off the grill with perfectly scrambled eggs inside. If you want to eat breakfast like a bogotano rushing to work, this is it. Get there before 8 AM for the shortest line.
     </div>
 </section>
-<section class="restaurant-section" id="cachapas-factory">
+<section class="restaurant-section" id="cachapas-factory" data-map-name="12. Cachapas Factory" data-map-cta-url="https://maps.google.com/?cid=3281804362996211293&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cachapas Factory, Bogotá, Bogotá, CO" data-map-lat="4.6368298999999995" data-map-lng="-74.0699707">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Cachapas Factory</h2>
         <span class="cuisine-tag tag-regional">Venezuelan Sweet Corn</span>
@@ -970,7 +942,7 @@
         <strong>tabiji verdict:</strong> Technically a cachapa spot, but the arepas are excellent and you&#39;d be foolish to skip the cachapas anyway. The sweet corn-meets-salty cheese combination is addictive. Go with a Venezuelan friend and watch their face light up — that&#39;s how you know it&#39;s legit.
     </div>
 </section>
-<section class="restaurant-section" id="arepas-cafe">
+<section class="restaurant-section" id="arepas-cafe" data-map-name="13. Arepas Café Chapinero" data-map-cta-url="https://maps.google.com/?cid=4764000669445362268&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Arepas Café Chapinero, Chapinero, Bogotá, Bogotá, CO" data-map-lat="4.6466356" data-map-lng="-74.06293219999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Arepas Café Chapinero</h2>
         <span class="cuisine-tag tag-regional">Neighborhood Gem</span>
@@ -1004,7 +976,7 @@
         <strong>tabiji verdict:</strong> The kind of place that doesn&#39;t need Instagram. Small, honest, and run by people who care. The vegetarian options (mushroom, avocado) are legitimately good — not an afterthought. Quick sit-down or takeaway; don&#39;t go at peak lunch expecting space.
     </div>
 </section>
-<section class="restaurant-section" id="chorro-quevedo">
+<section class="restaurant-section" id="chorro-quevedo" data-map-name="14. Chorro de Quevedo Street Vendors" data-map-cta-url="https://maps.google.com/?cid=7930607786710907650&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chorro de Quevedo Street Vendors, Plazoleta del Chorro de Quevedo, La Candelaria, Bogotá, CO" data-map-lat="4.5971962" data-map-lng="-74.0697697">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Chorro de Quevedo Street Vendors</h2>
         <span class="cuisine-tag tag-regional">Street Atmosphere</span>
@@ -1042,7 +1014,7 @@
         <strong>tabiji verdict:</strong> Not about having the &quot;best&quot; arepa — it&#39;s about having a COP 4,000 arepa on a cobblestone plaza in a colonial neighborhood with buskers playing, students drinking chicha, and the smoke from charcoal grills drifting through the air. The most atmospheric arepa experience in Bogotá. Go on a Friday or Saturday evening.
     </div>
 </section>
-<section class="restaurant-section" id="sierva-maria">
+<section class="restaurant-section" id="sierva-maria" data-map-name="15. Sierva María" data-map-cta-url="https://maps.google.com/?cid=5493176443798020252&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sierva María, Centro, Bogotá, Bogotá, CO" data-map-lat="4.694966" data-map-lng="-74.0281467">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Sierva María</h2>
         <span class="cuisine-tag tag-regional">Coastal Colombian</span>
@@ -1090,9 +1062,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Arepa Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bogot%C3%A1%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Andrés DC / Andrés Express</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Arepa Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1114,7 +1087,7 @@
       <li>
         <a href="#gaira-cafe">6. Gaira Café Cumbia House</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bogot%C3%A1%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14002709006094594320&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1125,5 +1098,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Arepa Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Arepas%20in%20Bogot%C3%A1%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"andres-dc","rank":1,"name":"Andrés DC / Andrés Express","label":"1. Andrés DC / Andrés Express","lat":4.665571000000001,"lng":-74.0539936,"ctaUrl":"https://maps.google.com/?cid=14002709006094594320&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Andrés DC / Andrés Express, Zona T / Multiple locations, Bogotá, CO"},{"anchorId":"recreo-tomasinos","rank":2,"name":"El Recreo de los Tomasinos","label":"2. El Recreo de los Tomasinos","lat":4.6381219,"lng":-74.0639842,"ctaUrl":"https://maps.google.com/?cid=11309651519697837187&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Recreo de los Tomasinos, Chapinero, near university district, Bogotá, CO"},{"anchorId":"el-vecino","rank":3,"name":"El Vecino (Street Cart)","label":"3. El Vecino (Street Cart)","lat":30.2819959,"lng":-97.7056378,"ctaUrl":"https://maps.google.com/?cid=9661334078684951293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Vecino (Street Cart), Various locations, Bogotá, Bogotá, CO"},{"anchorId":"el-carriel","rank":4,"name":"Arepas El Carriel — Minuto de Dios","label":"4. Arepas El Carriel — Minuto de Dios","lat":4.7016979999999995,"lng":-74.0899242,"ctaUrl":"https://maps.google.com/?cid=1115576585653892707&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Arepas El Carriel — Minuto de Dios, Engativá (Minuto de Dios neighborhood), Bogotá, CO"},{"anchorId":"florentino","rank":5,"name":"Florentino Arepas Venezolanas","label":"5. Florentino Arepas Venezolanas","lat":4.641106,"lng":-74.0636366,"ctaUrl":"https://maps.google.com/?cid=5705677661824816437&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Florentino Arepas Venezolanas, Chapinero, Bogotá, Bogotá, CO"},{"anchorId":"gaira-cafe","rank":6,"name":"Gaira Café Cumbia House","label":"6. Gaira Café Cumbia House","lat":4.6806899,"lng":-74.0475525,"ctaUrl":"https://maps.google.com/?cid=9487979061075134978&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gaira Café Cumbia House, Zona Rosa, Bogotá, Bogotá, CO"},{"anchorId":"abasto","rank":7,"name":"Abasto","label":"7. Abasto","lat":4.6531858,"lng":-74.0590108,"ctaUrl":"https://maps.google.com/?cid=15903677325079096001&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Abasto, Usaquén / Quinta Camacho, Bogotá, CO"},{"anchorId":"aqui-santafe","rank":8,"name":"Aquí en Santa Fé","label":"8. Aquí en Santa Fé","lat":4.6475713,"lng":-74.0601662,"ctaUrl":"https://maps.google.com/?cid=1344277838959603438&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Aquí en Santa Fé, Santa Fé, Bogotá, Bogotá, CO"},{"anchorId":"pal-sarten","rank":9,"name":"Pa'l Sartén Arepas y Café","label":"9. Pa'l Sartén Arepas y Café","lat":4.6466356,"lng":-74.06293219999999,"ctaUrl":"https://maps.google.com/?cid=15707597547495508703&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pa'l Sartén Arepas y Café, Chapinero, Bogotá, Bogotá, CO"},{"anchorId":"eucalipto","rank":10,"name":"Restaurante Eucalipto","label":"10. Restaurante Eucalipto","lat":4.6707573,"lng":-74.0573055,"ctaUrl":"https://maps.google.com/?cid=10508913138506131614&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurante Eucalipto, Bogotá, Bogotá, CO"},{"anchorId":"don-leon","rank":11,"name":"Don Leon (Calle 85)","label":"11. Don Leon (Calle 85)","lat":4.6697057,"lng":-74.0550332,"ctaUrl":"https://maps.google.com/?cid=2105229890673713242&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Don Leon (Calle 85), Calle 85, north Bogotá, Bogotá, CO"},{"anchorId":"cachapas-factory","rank":12,"name":"Cachapas Factory","label":"12. Cachapas Factory","lat":4.6368298999999995,"lng":-74.0699707,"ctaUrl":"https://maps.google.com/?cid=3281804362996211293&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cachapas Factory, Bogotá, Bogotá, CO"},{"anchorId":"arepas-cafe","rank":13,"name":"Arepas Café Chapinero","label":"13. Arepas Café Chapinero","lat":4.6466356,"lng":-74.06293219999999,"ctaUrl":"https://maps.google.com/?cid=4764000669445362268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Arepas Café Chapinero, Chapinero, Bogotá, Bogotá, CO"},{"anchorId":"chorro-quevedo","rank":14,"name":"Chorro de Quevedo Street Vendors","label":"14. Chorro de Quevedo Street Vendors","lat":4.5971962,"lng":-74.0697697,"ctaUrl":"https://maps.google.com/?cid=7930607786710907650&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chorro de Quevedo Street Vendors, Plazoleta del Chorro de Quevedo, La Candelaria, Bogotá, CO"},{"anchorId":"sierva-maria","rank":15,"name":"Sierva María","label":"15. Sierva María","lat":4.694966,"lng":-74.0281467,"ctaUrl":"https://maps.google.com/?cid=5493176443798020252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sierva María, Centro, Bogotá, Bogotá, CO"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

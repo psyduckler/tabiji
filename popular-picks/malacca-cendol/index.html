@@ -315,9 +315,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -342,7 +345,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -394,9 +397,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cendol Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cendol%20in%20Malacca&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Aunty Koh Cendol</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cendol Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -413,12 +417,12 @@
         <a href="#bibik-house">4. Bibik House Cendol</a>
       </li>
       <li>
-        <a href="#east-west">5. East &amp; West Rendezvous</a>
+        <a href="#east-west">5. East & West Rendezvous</a>
       </li>
       <li>
         <a href="#cendol-jam-besar">6. Cendol Jam Besar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cendol%20in%20Malacca" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8826238466662211528&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -430,7 +434,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="aunty-koh">
+<section class="restaurant-section" id="aunty-koh" data-map-name="1. Aunty Koh Cendol" data-map-cta-url="https://maps.google.com/?cid=8826238466662211528&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Aunty Koh Cendol, Kampung Bukit Rambai, Malacca, MY" data-map-lat="2.1972479" data-map-lng="102.2439766">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Aunty Koh Cendol</h2>
         <span class="cuisine-tag tag-regional">Nyonya-Style</span>
@@ -468,7 +472,7 @@
         <strong>tabiji verdict:</strong> The undisputed queen. Yes, it&#39;s only weekends. Yes, it&#39;s out in a kampung away from Jonker Street. Yes, you&#39;ll queue. But that first spoonful — the impossibly rich Gula Melaka crashing into cloud-like coconut milk — is why food writers call this the best cendol in Malaysia. Arrive by 10:30am or risk heartbreak. Worth the drive.
     </div>
 </section>
-<section class="restaurant-section" id="cendol-kampung-hulu">
+<section class="restaurant-section" id="cendol-kampung-hulu" data-map-name="2. Cendol Kampung Hulu" data-map-cta-url="https://maps.google.com/?cid=10279908786750498811&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cendol Kampung Hulu, Jalan Kampung Hulu, Malacca, MY" data-map-lat="2.2092825" data-map-lng="102.2463232">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Cendol Kampung Hulu</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -506,7 +510,7 @@
         <strong>tabiji verdict:</strong> The people&#39;s champion. While Aunty Koh wins on pure quality, Kampung Hulu wins on accessibility — open every day, late hours, central location, and consistently excellent cendol. The twist of adding ice cream works better than it should. This is where locals send tourists when they ask &quot;where&#39;s good cendol?&quot; — and they&#39;re right.
     </div>
 </section>
-<section class="restaurant-section" id="jonker-88">
+<section class="restaurant-section" id="jonker-88" data-map-name="3. Jonker 88" data-map-cta-url="https://maps.google.com/?cid=2797099300499648984&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jonker 88, 88, Jalan Hang Jebat (Jonker Street), Malacca, MY" data-map-lat="2.1966958" data-map-lng="102.2466532">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Jonker 88</h2>
         <span class="cuisine-tag tag-regional">Nyonya-Style</span>
@@ -544,7 +548,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s on the tourist strip. No, that doesn&#39;t make it bad. Jonker 88 has earned its reputation with genuinely thick Gula Melaka and proper Nyonya preparation. The cendol-and-laksa combo is a classic Malacca one-two punch. Expect queues on weekends and during Jonker Walk nights. Pro tip: go on a weekday morning for a peaceful experience.
     </div>
 </section>
-<section class="restaurant-section" id="bibik-house">
+<section class="restaurant-section" id="bibik-house" data-map-name="4. Bibik House Cendol" data-map-cta-url="https://maps.google.com/?cid=8186974696270222150&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bibik House Cendol, 121, Jalan Hang Jebat, Malacca, MY" data-map-lat="2.1976774999999997" data-map-lng="102.24542">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Bibik House Cendol</h2>
         <span class="cuisine-tag tag-regional">Nyonya-Style</span>
@@ -582,7 +586,7 @@
         <strong>tabiji verdict:</strong> The interactive cendol experience. That deconstructed serve — ice on one side, toppings on the other, a jug of gula melaka in your hands — lets you build your perfect bowl. It&#39;s a clever touch that Peranakan grandmothers would approve of. The quality of the palm sugar itself is outstanding. Great for people who like their cendol extra sweet (no judgment).
     </div>
 </section>
-<section class="restaurant-section" id="east-west">
+<section class="restaurant-section" id="east-west" data-map-name="5. East &amp; West Rendezvous" data-map-cta-url="https://maps.google.com/?cid=15590930958187832332&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="East &amp; West Rendezvous, 52, Lorong Hang Jebat, Malacca, MY" data-map-lat="2.1954528" data-map-lng="102.2490447">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>East &amp; West Rendezvous</h2>
         <span class="cuisine-tag tag-regional">Heritage Nyonya</span>
@@ -620,7 +624,7 @@
         <strong>tabiji verdict:</strong> The complete Peranakan experience. Auntie Grace runs this café with the kind of warmth that makes you feel like family. The cendol uses properly caramelized Gula Melaka with real depth, and the kuih are some of the best in the city. Come for the cendol, stay for the popiah and ondeh-ondeh. Closes early — don&#39;t dither.
     </div>
 </section>
-<section class="restaurant-section" id="cendol-jam-besar">
+<section class="restaurant-section" id="cendol-jam-besar" data-map-name="6. Cendol Jam Besar" data-map-cta-url="https://maps.google.com/?cid=2219686599171855448&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cendol Jam Besar, Jalan Laksamana (near the Clock Tower), Malacca, MY" data-map-lat="2.194632" data-map-lng="102.24897729999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Cendol Jam Besar</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -658,7 +662,7 @@
         <strong>tabiji verdict:</strong> The budget king. At RM2.50 for a traditional cendol, this is probably the best value dessert in all of Malacca. The location next to the iconic red clock tower makes it a natural pit stop while sightseeing. No pretension, no gimmicks — just proper cendol done right. Great for first-timers who want to taste the traditional version before exploring fancier variations.
     </div>
 </section>
-<section class="restaurant-section" id="raja-cendol">
+<section class="restaurant-section" id="raja-cendol" data-map-name="7. Raja Cendol Taming Sari" data-map-cta-url="https://maps.google.com/?cid=2803717158516337231&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Raja Cendol Taming Sari, 272, Jalan Merdeka, Bandar Hilir, Malacca, MY" data-map-lat="2.1908771" data-map-lng="102.24698509999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Raja Cendol Taming Sari</h2>
         <span class="cuisine-tag tag-regional">Durian Specialist</span>
@@ -696,7 +700,7 @@
         <strong>tabiji verdict:</strong> Durian lovers, this is your temple. The Musang King cendol is obscenely rich — creamy durian flesh meeting sweet Gula Melaka and cold coconut milk in what can only be described as peak Malaysian decadence. Non-durian people: the regular cendol is great too, but honestly you&#39;re paying for the durian premium here. Strategic location near Menara Taming Sari makes it an easy add to any walking itinerary.
     </div>
 </section>
-<section class="restaurant-section" id="christina-ee">
+<section class="restaurant-section" id="christina-ee" data-map-name="8. Christina Ee Nyonya Cendol" data-map-cta-url="https://maps.google.com/?cid=2454676506298832413&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Christina Ee Nyonya Cendol, 29, Jalan Hang Lekir, Malacca, MY" data-map-lat="2.1967916" data-map-lng="102.24624">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Christina Ee Nyonya Cendol</h2>
         <span class="cuisine-tag tag-regional">Nyonya-Style</span>
@@ -734,7 +738,7 @@
         <strong>tabiji verdict:</strong> The sleeper hit. While tourists line up at Jonker 88, in-the-know locals slip into this unassuming shop on Hang Lekir Street. The home-cooked red beans make a real difference — they&#39;re creamy rather than mealy, which elevates the whole bowl. The Flappo cendol with whipped cream and durian is wild but works. Great for snack souvenirs too.
     </div>
 </section>
-<section class="restaurant-section" id="baba-charlie">
+<section class="restaurant-section" id="baba-charlie" data-map-name="9. Baba Charlie" data-map-cta-url="https://maps.google.com/?cid=10347148861702367053&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Baba Charlie, 631, Jalan Siantan, Taman Siantan, Malacca, MY" data-map-lat="2.2063994" data-map-lng="102.2322102">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Baba Charlie</h2>
         <span class="cuisine-tag tag-regional">Heritage Nyonya</span>
@@ -772,7 +776,7 @@
         <strong>tabiji verdict:</strong> This is the Peranakan heritage stop. Baba Charlie&#39;s fame is built on their extraordinary handmade kuih — generations of recipe passed down, each piece a tiny work of art. The cendol is the perfect sweet ending to a kuih tasting. It&#39;s a bit outside the tourist zone (Taman Siantan), but taxi/Grab is easy. Come for the kuih, stay for the cendol, leave with a box of both.
     </div>
 </section>
-<section class="restaurant-section" id="madam-kiow">
+<section class="restaurant-section" id="madam-kiow" data-map-name="10. Madam Kiow Cendol" data-map-cta-url="https://maps.google.com/?cid=10522460114545138466&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Madam Kiow Cendol, Kampung Paya Mengkuang, Malacca, MY" data-map-lat="2.2610656" data-map-lng="102.22310309999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Madam Kiow Cendol</h2>
         <span class="cuisine-tag tag-regional">Traditional</span>
@@ -820,9 +824,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cendol Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cendol%20in%20Malacca&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Aunty Koh Cendol</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cendol Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -839,12 +844,12 @@
         <a href="#bibik-house">4. Bibik House Cendol</a>
       </li>
       <li>
-        <a href="#east-west">5. East &amp; West Rendezvous</a>
+        <a href="#east-west">5. East & West Rendezvous</a>
       </li>
       <li>
         <a href="#cendol-jam-besar">6. Cendol Jam Besar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cendol%20in%20Malacca" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8826238466662211528&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -855,5 +860,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cendol Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cendol%20in%20Malacca","picks":[{"anchorId":"aunty-koh","rank":1,"name":"Aunty Koh Cendol","label":"1. Aunty Koh Cendol","lat":2.1972479,"lng":102.2439766,"ctaUrl":"https://maps.google.com/?cid=8826238466662211528&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Aunty Koh Cendol, Kampung Bukit Rambai, Malacca, MY"},{"anchorId":"cendol-kampung-hulu","rank":2,"name":"Cendol Kampung Hulu","label":"2. Cendol Kampung Hulu","lat":2.2092825,"lng":102.2463232,"ctaUrl":"https://maps.google.com/?cid=10279908786750498811&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cendol Kampung Hulu, Jalan Kampung Hulu, Malacca, MY"},{"anchorId":"jonker-88","rank":3,"name":"Jonker 88","label":"3. Jonker 88","lat":2.1966958,"lng":102.2466532,"ctaUrl":"https://maps.google.com/?cid=2797099300499648984&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jonker 88, 88, Jalan Hang Jebat (Jonker Street), Malacca, MY"},{"anchorId":"bibik-house","rank":4,"name":"Bibik House Cendol","label":"4. Bibik House Cendol","lat":2.1976774999999997,"lng":102.24542,"ctaUrl":"https://maps.google.com/?cid=8186974696270222150&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bibik House Cendol, 121, Jalan Hang Jebat, Malacca, MY"},{"anchorId":"east-west","rank":5,"name":"East & West Rendezvous","label":"5. East & West Rendezvous","lat":2.1954528,"lng":102.2490447,"ctaUrl":"https://maps.google.com/?cid=15590930958187832332&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"East & West Rendezvous, 52, Lorong Hang Jebat, Malacca, MY"},{"anchorId":"cendol-jam-besar","rank":6,"name":"Cendol Jam Besar","label":"6. Cendol Jam Besar","lat":2.194632,"lng":102.24897729999999,"ctaUrl":"https://maps.google.com/?cid=2219686599171855448&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cendol Jam Besar, Jalan Laksamana (near the Clock Tower), Malacca, MY"},{"anchorId":"raja-cendol","rank":7,"name":"Raja Cendol Taming Sari","label":"7. Raja Cendol Taming Sari","lat":2.1908771,"lng":102.24698509999999,"ctaUrl":"https://maps.google.com/?cid=2803717158516337231&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Raja Cendol Taming Sari, 272, Jalan Merdeka, Bandar Hilir, Malacca, MY"},{"anchorId":"christina-ee","rank":8,"name":"Christina Ee Nyonya Cendol","label":"8. Christina Ee Nyonya Cendol","lat":2.1967916,"lng":102.24624,"ctaUrl":"https://maps.google.com/?cid=2454676506298832413&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Christina Ee Nyonya Cendol, 29, Jalan Hang Lekir, Malacca, MY"},{"anchorId":"baba-charlie","rank":9,"name":"Baba Charlie","label":"9. Baba Charlie","lat":2.2063994,"lng":102.2322102,"ctaUrl":"https://maps.google.com/?cid=10347148861702367053&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Baba Charlie, 631, Jalan Siantan, Taman Siantan, Malacca, MY"},{"anchorId":"madam-kiow","rank":10,"name":"Madam Kiow Cendol","label":"10. Madam Kiow Cendol","lat":2.2610656,"lng":102.22310309999999,"ctaUrl":"https://maps.google.com/?cid=10522460114545138466&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Madam Kiow Cendol, Kampung Paya Mengkuang, Malacca, MY"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

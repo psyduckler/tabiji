@@ -363,11 +363,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -392,9 +387,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -419,39 +417,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "15 Best Claypot Rice in Hong Kong 2026",
-                        "item": "https://tabiji.ai/popular-picks/hong-kong-claypot-rice/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -494,13 +465,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Hong Kong boasts a vibrant claypot rice scene, with prices ranging from HK$55-160 per pot, and Kwan Kee Claypot Rice is a top recommendation, especially during the cooler months when charcoal cooking is prevalent. Locals passionately debate their favorite spots, toppings, and cooking methods, making the quest for the perfect claypot rice a delicious and ongoing adventure. Every neighbourhood has its own &quot;best&quot; spot — and locals will argue passionately about charcoal vs oven, which toppings are correct, and whether the queue at Kwan Kee is actually worth the hour-long wait (it is).</strong></p>
-        <p>Hong Kong&#39;s best claypot rice spots, ranging from HK$55-160 per pot, are a local obsession, with Kwan Kee Claypot Rice being a top recommendation for its expertly crisped rice, especially during charcoal season. Locals passionately debate the best spots, toppings, and cooking methods, making the search for the perfect claypot rice a delicious adventure.</p><p>Hong Kong&#39;s claypot rice scene is one of the city&#39;s most underrated food obsessions. Every neighbourhood has its own &quot;best&quot; spot — and locals will argue passionately about charcoal vs oven, which toppings are correct, and whether the queue at Kwan Kee is actually worth the hour-long wait (it is).</p><p>We trawled through r/HongKong, r/Foodie, and dozens of local food blogs to find out where actual Hong Kong residents eat claypot rice — and what they order. This isn&#39;t a hotel concierge list. These are the places people go back to every week.</p>
+        <p>Hong Kong&#39;s claypot rice scene is one of the city&#39;s most underrated food obsessions. Every neighbourhood has its own &quot;best&quot; spot — and locals will argue passionately about charcoal vs oven, which toppings are correct, and whether the queue at Kwan Kee is actually worth the hour-long wait (it is).</p><p>We trawled through r/HongKong, r/Foodie, and dozens of local food blogs to find out where actual Hong Kong residents eat claypot rice — and what they order. This isn&#39;t a hotel concierge list. These are the places people go back to every week.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Claypot Rice Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hong%20Kong%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Hing Kee Restaurant</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Claypot Rice Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -522,7 +494,7 @@
       <li>
         <a href="#ser-wong-fun">6. Ser Wong Fun</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hong%20Kong%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7770825836947612734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -534,7 +506,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="hing-kee">
+<section class="restaurant-section" id="hing-kee" data-map-name="1. Hing Kee Restaurant" data-map-cta-url="https://maps.google.com/?cid=7770825836947612734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hing Kee Restaurant, Temple Street area, Jordan / Mong Kok, Hong Kong, HK" data-map-lat="22.31136" data-map-lng="114.170107">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Hing Kee Restaurant</h2>
         <span class="cuisine-tag tag-regional">Neighbourhood Institution</span>
@@ -576,7 +548,7 @@
         <strong>tabiji verdict:</strong> The most consistently recommended claypot rice spot across Reddit threads, with the added advantage of multiple branches — so you can actually get a seat. The 30+ year history shows in the fundamentals: perfectly cooked rice, correct amount of char on the bottom, and fresh ingredients. If you&#39;re new to HK claypot rice, start here.
     </div>
 </section>
-<section class="restaurant-section" id="four-seasons">
+<section class="restaurant-section" id="four-seasons" data-map-name="2. Four Seasons Pot Rice" data-map-cta-url="https://maps.google.com/?cid=6158224563928766692&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Four Seasons Pot Rice, Temple Street, Mong Kok, Hong Kong, HK" data-map-lat="22.3115307" data-map-lng="114.17050859999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Four Seasons Pot Rice</h2>
         <span class="cuisine-tag tag-regional">Claypot Legend</span>
@@ -614,7 +586,7 @@
         <strong>tabiji verdict:</strong> The claypot rice institution that Timeout HK and every local food guide leads with. The charcoal method takes 30+ minutes per pot but the result — uneven crispy bottom, smoky aroma, tender toppings — is why people queue in the cold. Go on a weekday evening for a more manageable wait.
     </div>
 </section>
-<section class="restaurant-section" id="kwan-kee">
+<section class="restaurant-section" id="kwan-kee" data-map-name="3. Kwan Kee Claypot Rice" data-map-cta-url="https://maps.google.com/?cid=9198654695205104473&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kwan Kee Claypot Rice, Sai Ying Pun, Hong Kong Island (+ Kwai Heung St flagship), Hong Kong, HK" data-map-lat="22.287041199999997" data-map-lng="114.14303470000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Kwan Kee Claypot Rice</h2>
         <span class="cuisine-tag tag-regional">Sai Ying Pun Don</span>
@@ -652,7 +624,7 @@
         <strong>tabiji verdict:</strong> The claypot rice that claypot rice enthusiasts argue about in hushed, reverent tones. The hour-long wait for your pot after ordering isn&#39;t a flaw — it&#39;s the cost of doing claypot rice properly over charcoal. Book in advance, order a drink, and practise patience. The result is worth it.
     </div>
 </section>
-<section class="restaurant-section" id="sheung-hei">
+<section class="restaurant-section" id="sheung-hei" data-map-name="4. Sheung Hei Claypot Rice" data-map-cta-url="https://maps.google.com/?cid=15101370093204542642&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sheung Hei Claypot Rice, Davis Street, Kennedy Town, HK Island, Hong Kong, HK" data-map-lat="22.283092099999998" data-map-lng="114.1292345">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Sheung Hei Claypot Rice</h2>
         <span class="cuisine-tag tag-regional">Michelin-Mentioned</span>
@@ -690,7 +662,7 @@
         <strong>tabiji verdict:</strong> Kennedy Town&#39;s undisputed claypot rice champion, with a Michelin mention to back up the locals&#39; obsession. The lard technique is controversial among health-conscious eaters but uncontroversial on taste. The queue isn&#39;t for show — the food earns every minute of it.
     </div>
 </section>
-<section class="restaurant-section" id="siu-wah">
+<section class="restaurant-section" id="siu-wah" data-map-name="5. Siu Wah Kitchen" data-map-cta-url="https://maps.google.com/?cid=17883332187447900707&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Siu Wah Kitchen, Wan Chai, Hong Kong Island, Hong Kong, HK" data-map-lat="22.2802369" data-map-lng="114.2272014">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Siu Wah Kitchen</h2>
         <span class="cuisine-tag tag-regional">Creative Combos</span>
@@ -728,7 +700,7 @@
         <strong>tabiji verdict:</strong> The most creative claypot rice on this list, with a classical technique pedigree (the chef came from New Chui Wah) that keeps the experimentalism honest. If you&#39;re a claypot rice purist, start elsewhere. If you&#39;re curious what happens when a skilled chef gets creative with the format, Siu Wah is the answer.
     </div>
 </section>
-<section class="restaurant-section" id="ser-wong-fun">
+<section class="restaurant-section" id="ser-wong-fun" data-map-name="6. Ser Wong Fun" data-map-cta-url="https://maps.google.com/?cid=542030085841864037&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ser Wong Fun, Cochrane Street, Central, HK Island, Hong Kong, HK" data-map-lat="22.2827476" data-map-lng="114.1541927">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Ser Wong Fun</h2>
         <span class="cuisine-tag tag-regional">Central Institution</span>
@@ -766,7 +738,7 @@
         <strong>tabiji verdict:</strong> One of Central&#39;s oldest restaurants (est. 1895 — yes, really), Ser Wong Fun is mostly known for its snake soup but the claypot rice with house-made preserved meats is an equally compelling reason to visit. The duck sausage in particular is something you won&#39;t find elsewhere. Old HK atmosphere included free.
     </div>
 </section>
-<section class="restaurant-section" id="wing-hop-sing">
+<section class="restaurant-section" id="wing-hop-sing" data-map-name="7. Wing Hop Sing" data-map-cta-url="https://maps.google.com/?cid=18267612753550907458&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wing Hop Sing, Western District / Sai Wan, HK Island, Hong Kong, HK" data-map-lat="22.2869796" data-map-lng="114.1376717">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Wing Hop Sing</h2>
         <span class="cuisine-tag tag-regional">40-Year Oven Specialist</span>
@@ -804,7 +776,7 @@
         <strong>tabiji verdict:</strong> The contrarian pick on this list. If the charcoal-vs-oven debate annoys you, Wing Hop Sing&#39;s oven method produces a strikingly even, consistent result without any of the &quot;too charred in one spot&quot; variability. Forty years of history and closes at 4pm — plan accordingly.
     </div>
 </section>
-<section class="restaurant-section" id="on-kee">
+<section class="restaurant-section" id="on-kee" data-map-name="8. On Kee Claypot Rice" data-map-cta-url="https://maps.google.com/?cid=7770825836947612734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="On Kee Claypot Rice, Jordan, Kowloon, Hong Kong, HK" data-map-lat="22.31136" data-map-lng="114.170107">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>On Kee Claypot Rice</h2>
         <span class="cuisine-tag tag-regional">Jordan Local Favourite</span>
@@ -838,7 +810,7 @@
         <strong>tabiji verdict:</strong> The unpretentious Kowloon option for claypot rice without the Temple Street crowd or the Kennedy Town queue. Locals in Jordan eat here regularly — and the frog legs dish is worth trying even if the ingredient sounds unusual.
     </div>
 </section>
-<section class="restaurant-section" id="bun-kee">
+<section class="restaurant-section" id="bun-kee" data-map-name="9. Bun Kee Claypot Rice" data-map-cta-url="https://maps.google.com/?cid=9198654695205104473&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bun Kee Claypot Rice, Quarry Bay, Eastern District, HK Island, Hong Kong, HK" data-map-lat="22.287041199999997" data-map-lng="114.14303470000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bun Kee Claypot Rice</h2>
         <span class="cuisine-tag tag-regional">Quarry Bay Sleeper</span>
@@ -872,7 +844,7 @@
         <strong>tabiji verdict:</strong> The claypot rice equivalent of a hidden gem — not because it&#39;s secret, but because it serves an Eastern District neighbourhood with no interest in becoming famous. Good rice, fair prices, and you won&#39;t be surrounded by other tourists.
     </div>
 </section>
-<section class="restaurant-section" id="fong-yuen">
+<section class="restaurant-section" id="fong-yuen" data-map-name="10. Fong Yuen Restaurant" data-map-cta-url="https://maps.google.com/?cid=5837596197413314298&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fong Yuen Restaurant, Sham Shui Po, Kowloon, Hong Kong, HK" data-map-lat="22.3311116" data-map-lng="114.163018">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Fong Yuen Restaurant</h2>
         <span class="cuisine-tag tag-regional">Sham Shui Po Value</span>
@@ -906,7 +878,7 @@
         <strong>tabiji verdict:</strong> Sham Shui Po is one of the last genuinely local Hong Kong neighbourhoods, and Fong Yuen fits perfectly. Cheapest claypot rice on this list, honest portions, zero tourist premium. Combine it with a walk through SSP&#39;s fabric markets and electronics stalls.
     </div>
 </section>
-<section class="restaurant-section" id="hung-kee">
+<section class="restaurant-section" id="hung-kee" data-map-name="11. Hung Kee Restaurant" data-map-cta-url="https://maps.google.com/?cid=7770825836947612734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hung Kee Restaurant, Tsuen Wan, New Territories, Hong Kong, HK" data-map-lat="22.3670783" data-map-lng="114.05867719999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Hung Kee Restaurant</h2>
         <span class="cuisine-tag tag-regional">Tsuen Wan Classic</span>
@@ -940,7 +912,7 @@
         <strong>tabiji verdict:</strong> The New Territories option for claypot rice adventurers. Tsuen Wan is easy on the MTR, completely non-touristy, and Hung Kee serves the kind of local institutional food that makes the detour worthwhile. No English menu — use Google Translate on the wall.
     </div>
 </section>
-<section class="restaurant-section" id="yue-kei">
+<section class="restaurant-section" id="yue-kei" data-map-name="12. Yue Kei Restaurant" data-map-cta-url="https://maps.google.com/?cid=7023877322428525997&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yue Kei Restaurant, Kowloon City, Kowloon, Hong Kong, HK" data-map-lat="22.3683531" data-map-lng="114.05975919999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Yue Kei Restaurant</h2>
         <span class="cuisine-tag tag-regional">Kowloon City Hakka</span>
@@ -974,7 +946,7 @@
         <strong>tabiji verdict:</strong> For claypot rice that goes beyond the standard Cantonese template. Kowloon City&#39;s food culture is genuinely distinct from the rest of HK, and Yue Kei&#39;s Hakka-influenced pots are worth the visit. Combine with a walk through Kowloon City&#39;s excellent Thai food street (one of the best Thai food concentrations outside Bangkok).
     </div>
 </section>
-<section class="restaurant-section" id="sun-kee">
+<section class="restaurant-section" id="sun-kee" data-map-name="13. Sun Kee Café" data-map-cta-url="https://maps.google.com/?cid=7379906169063030639&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sun Kee Café, Kennedy Town, Western HK Island, Hong Kong, HK" data-map-lat="22.3721995" data-map-lng="114.11529429999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Sun Kee Café</h2>
         <span class="cuisine-tag tag-regional">Kennedy Town Workhorse</span>
@@ -1008,7 +980,7 @@
         <strong>tabiji verdict:</strong> Sun Kee is a reminder that in Hong Kong, great food comes in a cha chaan teng package. The claypot rice is genuinely good; the full experience of eating it over a cup of perfectly pulled milk tea in an old-school HK diner is even better.
     </div>
 </section>
-<section class="restaurant-section" id="po-kee">
+<section class="restaurant-section" id="po-kee" data-map-name="14. Po Kee Seafood Restaurant" data-map-cta-url="https://maps.google.com/?cid=4324446305533406821&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Po Kee Seafood Restaurant, Aberdeen, Southern District, HK Island, Hong Kong, HK" data-map-lat="22.2860481" data-map-lng="114.1362712">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Po Kee Seafood Restaurant</h2>
         <span class="cuisine-tag tag-regional">Aberdeen Harbour Side</span>
@@ -1042,7 +1014,7 @@
         <strong>tabiji verdict:</strong> The outlier on this list — fresh seafood claypot rather than the traditional preserved meat approach. Po Kee&#39;s Aberdeen location gives it access to genuinely fresh seafood, and the result is a lighter, brighter version of claypot rice that&#39;s worth the southern HK Island detour.
     </div>
 </section>
-<section class="restaurant-section" id="man-kee">
+<section class="restaurant-section" id="man-kee" data-map-name="15. Man Kee Claypot Rice" data-map-cta-url="https://maps.google.com/?cid=9198654695205104473&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Man Kee Claypot Rice, Yuen Long, New Territories, Hong Kong, HK" data-map-lat="22.287041199999997" data-map-lng="114.14303470000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Man Kee Claypot Rice</h2>
         <span class="cuisine-tag tag-regional">Yuen Long Tradition</span>
@@ -1094,9 +1066,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Claypot Rice Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hong%20Kong%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Hing Kee Restaurant</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Claypot Rice Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1118,7 +1091,7 @@
       <li>
         <a href="#ser-wong-fun">6. Ser Wong Fun</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hong%20Kong%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7770825836947612734&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1129,5 +1102,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Claypot Rice Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Claypot%20Rice%20in%20Hong%20Kong%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"hing-kee","rank":1,"name":"Hing Kee Restaurant","label":"1. Hing Kee Restaurant","lat":22.31136,"lng":114.170107,"ctaUrl":"https://maps.google.com/?cid=7770825836947612734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hing Kee Restaurant, Temple Street area, Jordan / Mong Kok, Hong Kong, HK"},{"anchorId":"four-seasons","rank":2,"name":"Four Seasons Pot Rice","label":"2. Four Seasons Pot Rice","lat":22.3115307,"lng":114.17050859999999,"ctaUrl":"https://maps.google.com/?cid=6158224563928766692&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Four Seasons Pot Rice, Temple Street, Mong Kok, Hong Kong, HK"},{"anchorId":"kwan-kee","rank":3,"name":"Kwan Kee Claypot Rice","label":"3. Kwan Kee Claypot Rice","lat":22.287041199999997,"lng":114.14303470000002,"ctaUrl":"https://maps.google.com/?cid=9198654695205104473&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kwan Kee Claypot Rice, Sai Ying Pun, Hong Kong Island (+ Kwai Heung St flagship), Hong Kong, HK"},{"anchorId":"sheung-hei","rank":4,"name":"Sheung Hei Claypot Rice","label":"4. Sheung Hei Claypot Rice","lat":22.283092099999998,"lng":114.1292345,"ctaUrl":"https://maps.google.com/?cid=15101370093204542642&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sheung Hei Claypot Rice, Davis Street, Kennedy Town, HK Island, Hong Kong, HK"},{"anchorId":"siu-wah","rank":5,"name":"Siu Wah Kitchen","label":"5. Siu Wah Kitchen","lat":22.2802369,"lng":114.2272014,"ctaUrl":"https://maps.google.com/?cid=17883332187447900707&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Siu Wah Kitchen, Wan Chai, Hong Kong Island, Hong Kong, HK"},{"anchorId":"ser-wong-fun","rank":6,"name":"Ser Wong Fun","label":"6. Ser Wong Fun","lat":22.2827476,"lng":114.1541927,"ctaUrl":"https://maps.google.com/?cid=542030085841864037&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ser Wong Fun, Cochrane Street, Central, HK Island, Hong Kong, HK"},{"anchorId":"wing-hop-sing","rank":7,"name":"Wing Hop Sing","label":"7. Wing Hop Sing","lat":22.2869796,"lng":114.1376717,"ctaUrl":"https://maps.google.com/?cid=18267612753550907458&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wing Hop Sing, Western District / Sai Wan, HK Island, Hong Kong, HK"},{"anchorId":"on-kee","rank":8,"name":"On Kee Claypot Rice","label":"8. On Kee Claypot Rice","lat":22.31136,"lng":114.170107,"ctaUrl":"https://maps.google.com/?cid=7770825836947612734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"On Kee Claypot Rice, Jordan, Kowloon, Hong Kong, HK"},{"anchorId":"bun-kee","rank":9,"name":"Bun Kee Claypot Rice","label":"9. Bun Kee Claypot Rice","lat":22.287041199999997,"lng":114.14303470000002,"ctaUrl":"https://maps.google.com/?cid=9198654695205104473&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bun Kee Claypot Rice, Quarry Bay, Eastern District, HK Island, Hong Kong, HK"},{"anchorId":"fong-yuen","rank":10,"name":"Fong Yuen Restaurant","label":"10. Fong Yuen Restaurant","lat":22.3311116,"lng":114.163018,"ctaUrl":"https://maps.google.com/?cid=5837596197413314298&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fong Yuen Restaurant, Sham Shui Po, Kowloon, Hong Kong, HK"},{"anchorId":"hung-kee","rank":11,"name":"Hung Kee Restaurant","label":"11. Hung Kee Restaurant","lat":22.3670783,"lng":114.05867719999999,"ctaUrl":"https://maps.google.com/?cid=7770825836947612734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hung Kee Restaurant, Tsuen Wan, New Territories, Hong Kong, HK"},{"anchorId":"yue-kei","rank":12,"name":"Yue Kei Restaurant","label":"12. Yue Kei Restaurant","lat":22.3683531,"lng":114.05975919999999,"ctaUrl":"https://maps.google.com/?cid=7023877322428525997&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yue Kei Restaurant, Kowloon City, Kowloon, Hong Kong, HK"},{"anchorId":"sun-kee","rank":13,"name":"Sun Kee Café","label":"13. Sun Kee Café","lat":22.3721995,"lng":114.11529429999999,"ctaUrl":"https://maps.google.com/?cid=7379906169063030639&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sun Kee Café, Kennedy Town, Western HK Island, Hong Kong, HK"},{"anchorId":"po-kee","rank":14,"name":"Po Kee Seafood Restaurant","label":"14. Po Kee Seafood Restaurant","lat":22.2860481,"lng":114.1362712,"ctaUrl":"https://maps.google.com/?cid=4324446305533406821&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Po Kee Seafood Restaurant, Aberdeen, Southern District, HK Island, Hong Kong, HK"},{"anchorId":"man-kee","rank":15,"name":"Man Kee Claypot Rice","label":"15. Man Kee Claypot Rice","lat":22.287041199999997,"lng":114.14303470000002,"ctaUrl":"https://maps.google.com/?cid=9198654695205104473&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Man Kee Claypot Rice, Yuen Long, New Territories, Hong Kong, HK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

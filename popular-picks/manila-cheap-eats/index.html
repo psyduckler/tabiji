@@ -483,9 +483,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -510,7 +513,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -558,13 +561,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Manila&#39;s cheap eats range from ₱35 to ₱450, making it a haven for budget travelers. Morning Sun Eatery, a carinderia with full meals between ₱60–₱120, is our top recommendation. This guide, curated from Reddit recommendations, highlights the best meals worth your pesos across Manila.</strong></p>
-        <p>Manila offers absurdly cheap eats, with prices ranging from ₱35 to ₱450, making it a budget eater&#39;s paradise. Our top recommendation is Morning Sun Eatery, a carinderia where a full meal costs between ₱60–₱120. This guide, curated from Reddit recommendations, highlights the best meals worth your pesos across Manila.</p><p>Manila isn&#39;t just cheap — it&#39;s absurdly, gloriously cheap. A full meal for ₱60 ($1 USD). A Michelin Bib Gourmand carinderia where nothing tops ₱120. Sizzling sisig from a jollijeep that puts restaurant versions to shame. This city is a budget eater&#39;s paradise.</p><p>We analyzed hundreds of Reddit posts from r/Philippines, r/MANILA, r/filipinofood, and r/Philippines_Expats to find the spots that locals, expats, and repeat visitors recommend over and over. From Binondo&#39;s ancient Chinatown to Makati&#39;s jollijeep alleys — these are the meals worth your pesos.</p>
+        <p>Manila isn&#39;t just cheap — it&#39;s absurdly, gloriously cheap. A full meal for ₱60 ($1 USD). A Michelin Bib Gourmand carinderia where nothing tops ₱120. Sizzling sisig from a jollijeep that puts restaurant versions to shame. This city is a budget eater&#39;s paradise.</p><p>We analyzed hundreds of Reddit posts from r/Philippines, r/MANILA, r/filipinofood, and r/Philippines_Expats to find the spots that locals, expats, and repeat visitors recommend over and over. From Binondo&#39;s ancient Chinatown to Makati&#39;s jollijeep alleys — these are the meals worth your pesos.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Eats%20in%20Manila&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Wai Ying</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -581,12 +585,12 @@
         <a href="#sisig-sa-rada">4. Sisig sa Rada (Jollijeep)</a>
       </li>
       <li>
-        <a href="#andoks">5. Andok&#39;s</a>
+        <a href="#andoks">5. Andok's</a>
       </li>
       <li>
         <a href="#ying-ying">6. Ying Ying Tea House</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Eats%20in%20Manila" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6527475072309515889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +602,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="wai-ying">
+<section class="restaurant-section" id="wai-ying" data-map-name="1. Wai Ying" data-map-cta-url="https://maps.google.com/?cid=6527475072309515889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wai Ying, Binondo, Manila, Manila, PH" data-map-lat="14.6020343" data-map-lng="120.97601919999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Wai Ying</h2>
         <span class="cuisine-tag tag-regional">Chinese-Filipino</span>
@@ -636,7 +640,7 @@
         <strong>tabiji verdict:</strong> The anchor of any Binondo food crawl. Wai Ying is the restaurant Reddit mentions more than any other in Manila&#39;s Chinatown. Huge portions, dirt-cheap prices, and open late. Come hungry.
     </div>
 </section>
-<section class="restaurant-section" id="mang-inasal">
+<section class="restaurant-section" id="mang-inasal" data-map-name="2. Mang Inasal" data-map-cta-url="https://maps.google.com/?cid=1904293949747339696&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mang Inasal, Metro Manila (everywhere), Manila, PH" data-map-lat="14.590196099999998" data-map-lng="120.98293959999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Mang Inasal</h2>
         <span class="cuisine-tag tag-regional">Chicken Inasal</span>
@@ -674,7 +678,7 @@
         <strong>tabiji verdict:</strong> Unlimited rice with grilled chicken inasal for under ₱150 is one of the greatest food deals on Earth. Yes, it&#39;s a chain. No, that doesn&#39;t matter. The chicken oil drizzled over rice is addictive. A staff member literally walks around refilling your plate.
     </div>
 </section>
-<section class="restaurant-section" id="manam">
+<section class="restaurant-section" id="manam" data-map-name="3. Manam" data-map-cta-url="https://maps.google.com/?cid=15795872802554498284&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Manam, Greenbelt, BGC, SM Megamall, Manila, PH" data-map-lat="14.5839225" data-map-lng="121.0560355">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Manam</h2>
         <span class="cuisine-tag tag-regional">Modern Filipino</span>
@@ -712,7 +716,7 @@
         <strong>tabiji verdict:</strong> The priciest spot on this list but still shockingly cheap by international standards — ₱400 ($7) for a dish that would cost $25 anywhere else. Their watermelon sinigang is iconic. Perfect for first-timers who want polished Filipino food.
     </div>
 </section>
-<section class="restaurant-section" id="sisig-sa-rada">
+<section class="restaurant-section" id="sisig-sa-rada" data-map-name="4. Sisig sa Rada (Jollijeep)" data-map-cta-url="https://maps.google.com/?cid=8774053611647713591&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sisig sa Rada (Jollijeep), Rada Street, Makati, Manila, PH" data-map-lat="14.5560313" data-map-lng="121.01847889999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Sisig sa Rada (Jollijeep)</h2>
         <span class="cuisine-tag tag-regional">Jollijeep</span>
@@ -746,7 +750,7 @@
         <strong>tabiji verdict:</strong> The iconic jollijeep sisig in Makati&#39;s business district. Office workers queue here every lunch for good reason. Under ₱100 for sizzling sisig with rice. This is Manila street food at its absolute peak.
     </div>
 </section>
-<section class="restaurant-section" id="andoks">
+<section class="restaurant-section" id="andoks" data-map-name="5. Andok&#39;s" data-map-cta-url="https://maps.google.com/?cid=5104486472269510892&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Andok&#39;s, Metro Manila (everywhere), Manila, PH" data-map-lat="14.601642199999999" data-map-lng="120.98498199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Andok&#39;s</h2>
         <span class="cuisine-tag tag-regional">Lechon Manok</span>
@@ -784,7 +788,7 @@
         <strong>tabiji verdict:</strong> Andok&#39;s doesn&#39;t get the tourist hype that Jollibee does, but expats and locals actually prefer it. The rotisserie chicken is juicy, smoky, and absurdly cheap. A whole chicken feeds 3–4 people for under ₱300.
     </div>
 </section>
-<section class="restaurant-section" id="ying-ying">
+<section class="restaurant-section" id="ying-ying" data-map-name="6. Ying Ying Tea House" data-map-cta-url="https://maps.google.com/?cid=11849366935910983268&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ying Ying Tea House, Binondo, Manila, Manila, PH" data-map-lat="14.59797" data-map-lng="120.97671299999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Ying Ying Tea House</h2>
         <span class="cuisine-tag tag-regional">Chinese Noodles</span>
@@ -818,7 +822,7 @@
         <strong>tabiji verdict:</strong> A Binondo staple for decades. The beef brisket noodle soup is warming, hearty, and costs less than a coffee at Starbucks. Perfect fuel for a full Chinatown food crawl.
     </div>
 </section>
-<section class="restaurant-section" id="morning-sun">
+<section class="restaurant-section" id="morning-sun" data-map-name="7. Morning Sun Eatery" data-map-cta-url="https://maps.google.com/?cid=5546619880278473653&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Morning Sun Eatery, Manila, Manila, PH" data-map-lat="14.617690000000001" data-map-lng="121.070264">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Morning Sun Eatery</h2>
         <span class="cuisine-tag tag-regional">Carinderia</span>
@@ -852,7 +856,7 @@
         <strong>tabiji verdict:</strong> A Michelin Bib Gourmand carinderia. Let that sink in. You can eat at a Michelin-recognized restaurant for under ₱120 ($2). This is possibly the cheapest Michelin-recognized meal on the planet.
     </div>
 </section>
-<section class="restaurant-section" id="kanin-club">
+<section class="restaurant-section" id="kanin-club" data-map-name="8. Kanin Club" data-map-cta-url="https://maps.google.com/?cid=5400139143436202325&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kanin Club, Makati, QC, multiple branches, Manila, PH" data-map-lat="14.538650899999997" data-map-lng="121.01728209999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Kanin Club</h2>
         <span class="cuisine-tag tag-regional">Filipino</span>
@@ -890,7 +894,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s other go-to for &quot;where to take a foreigner for Filipino food.&quot; More traditional than Manam, with bolder flavors. The crispy dinuguan converts skeptics who&#39;d never normally eat blood stew.
     </div>
 </section>
-<section class="restaurant-section" id="dong-bei">
+<section class="restaurant-section" id="dong-bei" data-map-name="9. Dong Bei Dumplings" data-map-cta-url="https://maps.google.com/?cid=16383624672489556426&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dong Bei Dumplings, Binondo, Manila, Manila, PH" data-map-lat="14.6012314" data-map-lng="120.97508499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Dong Bei Dumplings</h2>
         <span class="cuisine-tag tag-regional">Dumplings / XLB</span>
@@ -924,7 +928,7 @@
         <strong>tabiji verdict:</strong> Xiao long bao for under ₱100 in Manila&#39;s Chinatown. The quality rivals Shanghai at a fraction of the price. A must-stop on any Binondo food crawl.
     </div>
 </section>
-<section class="restaurant-section" id="locavore">
+<section class="restaurant-section" id="locavore" data-map-name="10. Locavore" data-map-cta-url="https://maps.google.com/?cid=5860030853299207871&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Locavore, Makati, Pasig, Capitol Commons, Manila, PH" data-map-lat="14.576771200000001" data-map-lng="121.0642018">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Locavore</h2>
         <span class="cuisine-tag tag-regional">Modern Filipino</span>
@@ -954,7 +958,7 @@
         <strong>tabiji verdict:</strong> A foreigner&#39;s gateway to Filipino food, done with modern flair. Not the cheapest on this list, but still incredible value — a full meal for two runs around ₱800 ($14). The kind of restaurant that creates lifelong Filipino food converts.
     </div>
 </section>
-<section class="restaurant-section" id="shanghai-siopao">
+<section class="restaurant-section" id="shanghai-siopao" data-map-name="11. Shanghai Fried Siopao" data-map-cta-url="https://maps.google.com/?cid=12999350631279519655&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shanghai Fried Siopao, Binondo, Manila, Manila, PH" data-map-lat="14.6016211" data-map-lng="120.9778389">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Shanghai Fried Siopao</h2>
         <span class="cuisine-tag tag-regional">Siopao</span>
@@ -988,7 +992,7 @@
         <strong>tabiji verdict:</strong> At ₱35 ($0.60), this might be the best deal on the entire list. A perfect snack to kick off your Binondo food crawl. The crispy-bottom, fluffy-top texture is addictive. Buy extras — you&#39;ll regret not having more.
     </div>
 </section>
-<section class="restaurant-section" id="lugawan-tejeros">
+<section class="restaurant-section" id="lugawan-tejeros" data-map-name="12. Lugawan sa Tejeros" data-map-cta-url="https://maps.google.com/?cid=3257559123683904097&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Lugawan sa Tejeros, Makati, Manila, PH" data-map-lat="14.5714121" data-map-lng="121.01532180000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Lugawan sa Tejeros</h2>
         <span class="cuisine-tag tag-regional">Lugaw / Congee</span>
@@ -1022,7 +1026,7 @@
         <strong>tabiji verdict:</strong> Filipino congee is deeply underrated. Creamy rice porridge topped with crispy lechon kawali for under ₱100 is soul food. Open late — perfect for post-drinking recovery.
     </div>
 </section>
-<section class="restaurant-section" id="laloma">
+<section class="restaurant-section" id="laloma" data-map-name="13. Laloma Lechon Row" data-map-cta-url="https://maps.google.com/?cid=18057653920960135222&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Laloma Lechon Row, La Loma, Quezon City, Manila, PH" data-map-lat="14.625938699999997" data-map-lng="120.99101809999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Laloma Lechon Row</h2>
         <span class="cuisine-tag tag-regional">Lechon</span>
@@ -1056,7 +1060,7 @@
         <strong>tabiji verdict:</strong> An entire street devoted to lechon. This is Manila&#39;s lechon capital — dozens of stalls competing to serve the crispiest, juiciest roast pork. Come with a group, buy a kilo, and feast.
     </div>
 </section>
-<section class="restaurant-section" id="xo46">
+<section class="restaurant-section" id="xo46" data-map-name="14. XO 46 Heritage Bistro" data-map-cta-url="https://maps.google.com/?cid=16415803485641821543&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="XO 46 Heritage Bistro, Mandaluyong, Manila, PH" data-map-lat="14.5761569" data-map-lng="121.062986">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>XO 46 Heritage Bistro</h2>
         <span class="cuisine-tag tag-regional">Heritage Filipino</span>
@@ -1094,7 +1098,7 @@
         <strong>tabiji verdict:</strong> The sisig here will redefine what you think sisig can be. Heritage recipes with creative twists — think sisig spring rolls, sisig with different meats, sisig everything. Worth the trip to Mandaluyong.
     </div>
 </section>
-<section class="restaurant-section" id="masuki">
+<section class="restaurant-section" id="masuki" data-map-name="15. Masuki" data-map-cta-url="https://maps.google.com/?cid=5162784820548612223&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Masuki, Binondo, Manila (+ mall branches), Manila, PH" data-map-lat="14.603019599999998" data-map-lng="120.97645270000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Masuki</h2>
         <span class="cuisine-tag tag-regional">Mami Noodle Soup</span>
@@ -1128,7 +1132,7 @@
         <strong>tabiji verdict:</strong> Masuki has been serving mami since the 1940s. This is the original Filipino-Chinese noodle soup — clear beef broth, springy egg noodles, tender beef. A Binondo institution. Now with mall branches, but the OG Binondo location hits different.
     </div>
 </section>
-<section class="restaurant-section" id="kanto">
+<section class="restaurant-section" id="kanto" data-map-name="16. Kanto Freestyle Breakfast" data-map-cta-url="https://maps.google.com/?cid=11055636119203998950&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kanto Freestyle Breakfast, Metro Manila (multiple branches), Manila, PH" data-map-lat="14.574071" data-map-lng="121.0606548">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Kanto Freestyle Breakfast</h2>
         <span class="cuisine-tag tag-regional">Silog / Breakfast</span>
@@ -1162,7 +1166,7 @@
         <strong>tabiji verdict:</strong> Filipino breakfast is legendary — cured meats, garlic fried rice, and a fried egg. &quot;Silog&quot; combos (tapa-silog, long-silog, bang-silog) are served all day. Kanto does them with premium ingredients at carinderia prices. Start your day here.
     </div>
 </section>
-<section class="restaurant-section" id="gerrys">
+<section class="restaurant-section" id="gerrys" data-map-name="17. Gerry&#39;s Grill" data-map-cta-url="https://maps.google.com/?cid=7656189054089135485&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gerry&#39;s Grill, Metro Manila (malls), Manila, PH" data-map-lat="14.5227294" data-map-lng="120.9875574">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Gerry&#39;s Grill</h2>
         <span class="cuisine-tag tag-regional">Filipino Grill</span>
@@ -1196,7 +1200,7 @@
         <strong>tabiji verdict:</strong> The reliable Filipino grill chain that locals genuinely eat at (not just tourists). Generous portions, consistent quality, and the grilled tuna belly is unbeatable at this price. Found in every major mall.
     </div>
 </section>
-<section class="restaurant-section" id="estero">
+<section class="restaurant-section" id="estero" data-map-name="18. Estero Fastfood" data-map-cta-url="https://maps.google.com/?cid=14806021132601542849&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Estero Fastfood, Ongpin Street, Binondo, Manila, PH" data-map-lat="14.6016208" data-map-lng="120.97672929999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Estero Fastfood</h2>
         <span class="cuisine-tag tag-regional">Street Food</span>
@@ -1230,7 +1234,7 @@
         <strong>tabiji verdict:</strong> A no-frills Binondo street-food joint where the buttered chicken is the star. Don&#39;t expect ambiance — expect crispy, buttery chicken that costs less than a bottle of water at a Manila hotel.
     </div>
 </section>
-<section class="restaurant-section" id="crisgard">
+<section class="restaurant-section" id="crisgard" data-map-name="19. Crisgard" data-map-cta-url="https://maps.google.com/?cid=15840563234793473997&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Crisgard, Eastwood, Quezon City, Manila, PH" data-map-lat="14.6121534" data-map-lng="121.0926556">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">19</span>Crisgard</h2>
         <span class="cuisine-tag tag-regional">Carinderia</span>
@@ -1264,7 +1268,7 @@
         <strong>tabiji verdict:</strong> A neighborhood carinderia with a rotating menu and a loyal local following. This is how Filipinos actually eat — not at tourist restaurants, but at their trusted carinderia where the tita knows your order. Follow them on Facebook for daily specials.
     </div>
 </section>
-<section class="restaurant-section" id="jollibee">
+<section class="restaurant-section" id="jollibee" data-map-name="20. Jollibee" data-map-cta-url="https://maps.google.com/?cid=15641696029548405838&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jollibee, Metro Manila (literally everywhere), Manila, PH" data-map-lat="14.582551899999997" data-map-lng="120.9811108">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">20</span>Jollibee</h2>
         <span class="cuisine-tag tag-regional">Filipino Fast Food</span>
@@ -1316,9 +1320,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Eats%20in%20Manila&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Wai Ying</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1335,12 +1340,12 @@
         <a href="#sisig-sa-rada">4. Sisig sa Rada (Jollijeep)</a>
       </li>
       <li>
-        <a href="#andoks">5. Andok&#39;s</a>
+        <a href="#andoks">5. Andok's</a>
       </li>
       <li>
         <a href="#ying-ying">6. Ying Ying Tea House</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Eats%20in%20Manila" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=6527475072309515889&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1351,5 +1356,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Eats%20in%20Manila","picks":[{"anchorId":"wai-ying","rank":1,"name":"Wai Ying","label":"1. Wai Ying","lat":14.6020343,"lng":120.97601919999998,"ctaUrl":"https://maps.google.com/?cid=6527475072309515889&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wai Ying, Binondo, Manila, Manila, PH"},{"anchorId":"mang-inasal","rank":2,"name":"Mang Inasal","label":"2. Mang Inasal","lat":14.590196099999998,"lng":120.98293959999998,"ctaUrl":"https://maps.google.com/?cid=1904293949747339696&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mang Inasal, Metro Manila (everywhere), Manila, PH"},{"anchorId":"manam","rank":3,"name":"Manam","label":"3. Manam","lat":14.5839225,"lng":121.0560355,"ctaUrl":"https://maps.google.com/?cid=15795872802554498284&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Manam, Greenbelt, BGC, SM Megamall, Manila, PH"},{"anchorId":"sisig-sa-rada","rank":4,"name":"Sisig sa Rada (Jollijeep)","label":"4. Sisig sa Rada (Jollijeep)","lat":14.5560313,"lng":121.01847889999999,"ctaUrl":"https://maps.google.com/?cid=8774053611647713591&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sisig sa Rada (Jollijeep), Rada Street, Makati, Manila, PH"},{"anchorId":"andoks","rank":5,"name":"Andok's","label":"5. Andok's","lat":14.601642199999999,"lng":120.98498199999999,"ctaUrl":"https://maps.google.com/?cid=5104486472269510892&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Andok's, Metro Manila (everywhere), Manila, PH"},{"anchorId":"ying-ying","rank":6,"name":"Ying Ying Tea House","label":"6. Ying Ying Tea House","lat":14.59797,"lng":120.97671299999999,"ctaUrl":"https://maps.google.com/?cid=11849366935910983268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ying Ying Tea House, Binondo, Manila, Manila, PH"},{"anchorId":"morning-sun","rank":7,"name":"Morning Sun Eatery","label":"7. Morning Sun Eatery","lat":14.617690000000001,"lng":121.070264,"ctaUrl":"https://maps.google.com/?cid=5546619880278473653&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Morning Sun Eatery, Manila, Manila, PH"},{"anchorId":"kanin-club","rank":8,"name":"Kanin Club","label":"8. Kanin Club","lat":14.538650899999997,"lng":121.01728209999999,"ctaUrl":"https://maps.google.com/?cid=5400139143436202325&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kanin Club, Makati, QC, multiple branches, Manila, PH"},{"anchorId":"dong-bei","rank":9,"name":"Dong Bei Dumplings","label":"9. Dong Bei Dumplings","lat":14.6012314,"lng":120.97508499999999,"ctaUrl":"https://maps.google.com/?cid=16383624672489556426&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dong Bei Dumplings, Binondo, Manila, Manila, PH"},{"anchorId":"locavore","rank":10,"name":"Locavore","label":"10. Locavore","lat":14.576771200000001,"lng":121.0642018,"ctaUrl":"https://maps.google.com/?cid=5860030853299207871&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Locavore, Makati, Pasig, Capitol Commons, Manila, PH"},{"anchorId":"shanghai-siopao","rank":11,"name":"Shanghai Fried Siopao","label":"11. Shanghai Fried Siopao","lat":14.6016211,"lng":120.9778389,"ctaUrl":"https://maps.google.com/?cid=12999350631279519655&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shanghai Fried Siopao, Binondo, Manila, Manila, PH"},{"anchorId":"lugawan-tejeros","rank":12,"name":"Lugawan sa Tejeros","label":"12. Lugawan sa Tejeros","lat":14.5714121,"lng":121.01532180000001,"ctaUrl":"https://maps.google.com/?cid=3257559123683904097&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Lugawan sa Tejeros, Makati, Manila, PH"},{"anchorId":"laloma","rank":13,"name":"Laloma Lechon Row","label":"13. Laloma Lechon Row","lat":14.625938699999997,"lng":120.99101809999998,"ctaUrl":"https://maps.google.com/?cid=18057653920960135222&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Laloma Lechon Row, La Loma, Quezon City, Manila, PH"},{"anchorId":"xo46","rank":14,"name":"XO 46 Heritage Bistro","label":"14. XO 46 Heritage Bistro","lat":14.5761569,"lng":121.062986,"ctaUrl":"https://maps.google.com/?cid=16415803485641821543&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"XO 46 Heritage Bistro, Mandaluyong, Manila, PH"},{"anchorId":"masuki","rank":15,"name":"Masuki","label":"15. Masuki","lat":14.603019599999998,"lng":120.97645270000001,"ctaUrl":"https://maps.google.com/?cid=5162784820548612223&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Masuki, Binondo, Manila (+ mall branches), Manila, PH"},{"anchorId":"kanto","rank":16,"name":"Kanto Freestyle Breakfast","label":"16. Kanto Freestyle Breakfast","lat":14.574071,"lng":121.0606548,"ctaUrl":"https://maps.google.com/?cid=11055636119203998950&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kanto Freestyle Breakfast, Metro Manila (multiple branches), Manila, PH"},{"anchorId":"gerrys","rank":17,"name":"Gerry's Grill","label":"17. Gerry's Grill","lat":14.5227294,"lng":120.9875574,"ctaUrl":"https://maps.google.com/?cid=7656189054089135485&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gerry's Grill, Metro Manila (malls), Manila, PH"},{"anchorId":"estero","rank":18,"name":"Estero Fastfood","label":"18. Estero Fastfood","lat":14.6016208,"lng":120.97672929999999,"ctaUrl":"https://maps.google.com/?cid=14806021132601542849&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Estero Fastfood, Ongpin Street, Binondo, Manila, PH"},{"anchorId":"crisgard","rank":19,"name":"Crisgard","label":"19. Crisgard","lat":14.6121534,"lng":121.0926556,"ctaUrl":"https://maps.google.com/?cid=15840563234793473997&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Crisgard, Eastwood, Quezon City, Manila, PH"},{"anchorId":"jollibee","rank":20,"name":"Jollibee","label":"20. Jollibee","lat":14.582551899999997,"lng":120.9811108,"ctaUrl":"https://maps.google.com/?cid=15641696029548405838&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jollibee, Metro Manila (literally everywhere), Manila, PH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

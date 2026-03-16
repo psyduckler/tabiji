@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Da Lat&#39;s cafe scene offers a unique coffee experience ranging from 30,000–80,000₫/cup, and La Viet Coffee stands out for its single-origin filter options and customizable brewing methods. Perched at 1,500 meters in Vietnam&#39;s Central Highlands and surrounded by arabica farms and pine forests, Da Lat has quietly become the most exciting cafe scene in Southeast Asia. While the rest of Vietnam runs on robusta and condensed milk, Da Lat is brewing single-origin arabica, experimenting with natural processing, and doing it all from cafes nestled in misty mountain valleys.</strong></p>
-        <p>Ranging from 30,000–80,000₫/cup, Da Lat&#39;s cafes offer a unique coffee experience, with La Viet Coffee standing out for its single-origin filter options and customizable brewing methods. Da Lat has quietly become the most exciting cafe scene in Southeast Asia, perched at 1,500 meters in Vietnam&#39;s Central Highlands and surrounded by arabica farms and pine forests.</p><p>Da Lat isn&#39;t just a coffee city — it&#39;s the coffee city. Perched at 1,500 meters in Vietnam&#39;s Central Highlands, surrounded by arabica farms and pine forests, Đà Lạt has quietly become the most exciting cafe scene in Southeast Asia. While the rest of Vietnam runs on robusta and condensed milk, Da Lat is brewing single-origin arabica, experimenting with natural processing, and doing it all from cafes nestled in misty mountain valleys.</p><p>We researched across Reddit threads on r/VietNam, r/Coffee, r/digitalnomad, and r/SpecialtyCoffee, plus specialty coffee blogs and local guides to find the cafes that travelers, digital nomads, and coffee professionals actually recommend. From indigenous-run highland farms to Wes Anderson–styled roasteries — these are the spots worth your time.</p>
+        <p>Da Lat isn&#39;t just a coffee city — it&#39;s the coffee city. Perched at 1,500 meters in Vietnam&#39;s Central Highlands, surrounded by arabica farms and pine forests, Đà Lạt has quietly become the most exciting cafe scene in Southeast Asia. While the rest of Vietnam runs on robusta and condensed milk, Da Lat is brewing single-origin arabica, experimenting with natural processing, and doing it all from cafes nestled in misty mountain valleys.</p><p>We researched across Reddit threads on r/VietNam, r/Coffee, r/digitalnomad, and r/SpecialtyCoffee, plus specialty coffee blogs and local guides to find the cafes that travelers, digital nomads, and coffee professionals actually recommend. From indigenous-run highland farms to Wes Anderson–styled roasteries — these are the spots worth your time.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Da Lat Coffee Map</h2>
-      <iframe src="https://www.google.com/maps?q=Coffee%20Shops%20in%20Da%20Lat&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Viet Coffee</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Da Lat Coffee Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -436,7 +440,7 @@
         <a href="#la-viet-coffee">1. La Viet Coffee</a>
       </li>
       <li>
-        <a href="#kho-coffee">2. K&#39;Ho Coffee</a>
+        <a href="#kho-coffee">2. K'Ho Coffee</a>
       </li>
       <li>
         <a href="#me-linh">3. Mê Linh Coffee Garden</a>
@@ -450,7 +454,7 @@
       <li>
         <a href="#wee-cafe">6. Wee Cafe</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Coffee%20Shops%20in%20Da%20Lat" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/place/La+Viet+Coffee/@11.9456,108.4378,17z" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="la-viet-coffee">
+<section class="restaurant-section" id="la-viet-coffee" data-map-name="1. La Viet Coffee" data-map-cta-url="https://www.google.com/maps/place/La+Viet+Coffee/@11.9456,108.4378,17z" data-map-query="La Viet Coffee, 200 Nguyễn Công Trứ, Ward 8, Lâm Đồng, VN" data-map-lat="11.956792499999999" data-map-lng="108.43509209999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>La Viet Coffee</h2>
         <span class="cuisine-tag tag-regional">Roastery / Specialty</span>
@@ -500,7 +504,7 @@
         <strong>tabiji verdict:</strong> The anchor of Da Lat&#39;s coffee scene. La Viet is part roastery, part showroom, part cafe — and it does all three well. The space is huge and industrial-chic, the filter coffee options let you geek out on processing methods, and the cold brew mocktails are genuinely creative. Not the most intimate spot, but the best starting point for understanding Da Lat coffee culture.
     </div>
 </section>
-<section class="restaurant-section" id="kho-coffee">
+<section class="restaurant-section" id="kho-coffee" data-map-name="2. K&#39;Ho Coffee" data-map-cta-url="https://www.google.com/maps/place/K&#39;Ho+Coffee/@12.0255,108.4540,15z" data-map-query="K&#39;Ho Coffee, K&#39;Ho Village, Lạc Dương District, Lâm Đồng, VN" data-map-lat="12.0094218" data-map-lng="108.4128154">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>K&#39;Ho Coffee</h2>
         <span class="cuisine-tag tag-regional">Farm-to-Cup / Indigenous</span>
@@ -530,7 +534,7 @@
         <strong>tabiji verdict:</strong> The most meaningful coffee experience in Da Lat. Run by the K&#39;Ho indigenous minority, this isn&#39;t just a cafe — it&#39;s a social enterprise preserving highland farming traditions while producing genuinely world-class arabica. The coffee is exceptional, the story is powerful, and the farm tours are unforgettable. Worth the trip outside the city center.
     </div>
 </section>
-<section class="restaurant-section" id="me-linh">
+<section class="restaurant-section" id="me-linh" data-map-name="3. Mê Linh Coffee Garden" data-map-cta-url="https://www.google.com/maps/place/Me+Linh+Coffee+Garden/@11.8900,108.5200,15z" data-map-query="Mê Linh Coffee Garden, 20 Khu Vực Trạm Hành, Xuân Trường, Lâm Đồng, VN" data-map-lat="11.9001793" data-map-lng="108.34675089999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Mê Linh Coffee Garden</h2>
         <span class="cuisine-tag tag-regional">Valley View / Iconic</span>
@@ -564,7 +568,7 @@
         <strong>tabiji verdict:</strong> The grand panorama cafe. Mê Linh sits on a hillside overlooking a sweeping valley of coffee plantations — the kind of view that makes you understand why Da Lat is called the &quot;City of Eternal Spring.&quot; The coffee is traditional rather than specialty, but you&#39;re paying for the setting as much as the cup. Go on a clear morning for the best views. About 20 minutes outside the city center.
     </div>
 </section>
-<section class="restaurant-section" id="lung-chung">
+<section class="restaurant-section" id="lung-chung" data-map-name="4. Lưng Chừng Cafe" data-map-cta-url="https://www.google.com/maps/place/Lung+Chung+Cafe/@11.9218,108.4467,17z" data-map-query="Lưng Chừng Cafe, Near Prenn Pass, Ward 3, Lâm Đồng, VN" data-map-lat="11.920853" data-map-lng="108.44713399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Lưng Chừng Cafe</h2>
         <span class="cuisine-tag tag-regional">Pine Forest / Aesthetic</span>
@@ -598,7 +602,7 @@
         <strong>tabiji verdict:</strong> Pure Da Lat magic. Down a steep lane beneath towering pine trees, Lưng Chừng is a wooden structure on a hillside that feels more treehouse than cafe. The air smells like pine and coffee, puppies wander between tables, and the cool breeze carries the sound of the forest. The coffee is solid Vietnamese-style — but this is really about the atmosphere. The kind of place that makes you want to stay in Da Lat forever.
     </div>
 </section>
-<section class="restaurant-section" id="in-the-forest">
+<section class="restaurant-section" id="in-the-forest" data-map-name="5. In The Forest Đà Lạt" data-map-cta-url="https://www.google.com/maps/place/In+The+Forest+Da+Lat/@11.9530,108.4250,17z" data-map-query="In The Forest Đà Lạt, 31D Khe Sanh, Ward 10, Lâm Đồng, VN" data-map-lat="11.9281547" data-map-lng="108.4553952">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>In The Forest Đà Lạt</h2>
         <span class="cuisine-tag tag-regional">Pine Forest / Cabin</span>
@@ -632,7 +636,7 @@
         <strong>tabiji verdict:</strong> If you want to feel like you&#39;ve escaped into the Vietnamese highlands, In The Forest delivers. The cabin-style setting among pine trees, complete with resident dogs, makes it one of Da Lat&#39;s most photogenic cafes — but it&#39;s also genuinely cozy and peaceful. About 15 minutes from the city center, which keeps the tourist crowds manageable. The food is a pleasant surprise.
     </div>
 </section>
-<section class="restaurant-section" id="wee-cafe">
+<section class="restaurant-section" id="wee-cafe" data-map-name="6. Wee Cafe" data-map-cta-url="https://maps.google.com/?cid=17123232447867598214&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wee Cafe, Central Da Lat, Lâm Đồng, VN" data-map-lat="11.9332098" data-map-lng="108.4646789">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Wee Cafe</h2>
         <span class="cuisine-tag tag-regional">Specialty / Third-Wave</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> The specialty coffee lover&#39;s pick. Started as a tiny space with a sample roaster and a toaster oven — now a Wes Anderson–styled cafe that&#39;s kept all its original charm. The owner roasts his own beans, bakes his own cookies, and clearly loves what he does. Dogs will try to steal your snacks. Three visits in one trip? That tracks.
     </div>
 </section>
-<section class="restaurant-section" id="la-mappa">
+<section class="restaurant-section" id="la-mappa" data-map-name="7. La Mappa Café &amp; Bistro" data-map-cta-url="https://www.google.com/maps/place/La+Mappa+Cafe+%26+Bistro/@11.9410,108.4340,17z" data-map-query="La Mappa Café &amp; Bistro, 8 Triệu Việt Vương, Ward 4, Lâm Đồng, VN" data-map-lat="11.9316476" data-map-lng="108.4266179">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Mappa Café &amp; Bistro</h2>
         <span class="cuisine-tag tag-regional">Cozy / Local Favorite</span>
@@ -700,7 +704,7 @@
         <strong>tabiji verdict:</strong> No mountain view, no Instagram gimmick — just a genuinely great neighborhood cafe with warm lighting, a beautiful patio, and the kind of laid-back vibe that makes you settle in for hours. The food is surprisingly good for a cafe, and the atmosphere is perfect for remote work. The anti-tourist-trap pick.
     </div>
 </section>
-<section class="restaurant-section" id="bicycle-up">
+<section class="restaurant-section" id="bicycle-up" data-map-name="8. Bicycle Up Cafe" data-map-cta-url="https://maps.google.com/?cid=14454466422303177144&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bicycle Up Cafe, Central Da Lat, Lâm Đồng, VN" data-map-lat="11.944649199999999" data-map-lng="108.4349821">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Bicycle Up Cafe</h2>
         <span class="cuisine-tag tag-regional">Vintage / Traditional</span>
@@ -734,7 +738,7 @@
         <strong>tabiji verdict:</strong> Time capsule vibes. Bicycle Up hasn&#39;t changed in seven years, and that&#39;s exactly the point. Old cupboards, bookshelves, hanging plants, fresh-cut flowers — it feels like your cool Vietnamese aunt&#39;s living room. They serve both specialty and traditional coffee, but the atmosphere is the star. The kind of place where you curl up with a book and lose track of time.
     </div>
 </section>
-<section class="restaurant-section" id="tui-mo-to">
+<section class="restaurant-section" id="tui-mo-to" data-map-name="9. Tiệm Cà Phê Túi Mơ To" data-map-cta-url="https://www.google.com/maps/place/Tiem+Ca+Phe+Tui+Mo+To/@11.9420,108.4600,17z" data-map-query="Tiệm Cà Phê Túi Mơ To, Hẻm 31 Sao Nam, Ward 11, Lâm Đồng, VN" data-map-lat="11.940995599999999" data-map-lng="108.48368459999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Tiệm Cà Phê Túi Mơ To</h2>
         <span class="cuisine-tag tag-regional">Hilltop / Night Views</span>
@@ -768,7 +772,7 @@
         <strong>tabiji verdict:</strong> Da Lat&#39;s best nighttime cafe experience. The hilltop position gives you a panoramic view of the city and its famous greenhouses lit up after dark — like a galaxy of lights in the valley below. Gets crowded during the day with local tourists, so visit early morning or evening for the best experience. The adjoining restaurant makes this a legitimate dinner-and-drinks destination.
     </div>
 </section>
-<section class="restaurant-section" id="phia-tay">
+<section class="restaurant-section" id="phia-tay" data-map-name="10. Phía Tây Mặt Trời" data-map-cta-url="https://www.google.com/maps/place/Phia+Tay+Mat+Troi/@11.9530,108.4190,17z" data-map-query="Phía Tây Mặt Trời, 12/6 Lê Văn Tám, Ward 10, Lâm Đồng, VN" data-map-lat="11.9371777" data-map-lng="108.4544327">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Phía Tây Mặt Trời</h2>
         <span class="cuisine-tag tag-regional">Glass / Mountain View</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> Architecture meets landscape. The floor-to-ceiling glass walls turn the surrounding pine forest and mountains into a constantly shifting art installation. The minimalist interior doesn&#39;t compete with the view — it frames it. Great specialty coffee and a spacious terrace for when you want to be in the landscape rather than just looking at it. Best in the morning light.
     </div>
 </section>
-<section class="restaurant-section" id="an-cafe">
+<section class="restaurant-section" id="an-cafe" data-map-name="11. An Cafe (Persimmon Cafe)" data-map-cta-url="https://maps.google.com/?cid=5436418092744855602&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="An Cafe (Persimmon Cafe), Dã Chiến Hill area, Lâm Đồng, VN" data-map-lat="11.9473912" data-map-lng="108.4733308">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>An Cafe (Persimmon Cafe)</h2>
         <span class="cuisine-tag tag-regional">Hidden Gem / Reddit Famous</span>
@@ -840,7 +844,7 @@
         <strong>tabiji verdict:</strong> The Reddit-famous view cafe. An Cafe (also known as Persimmon Cafe) sits on Dã Chiến Hill with a sweeping view that made r/VietNam collectively lose its mind. The cafe itself is simple — you&#39;re paying for the panorama. Multiple cafes in the same hillside area offer similar views, so if An Cafe is crowded, walk to the neighbors. The view is the attraction, not a specific cup of coffee.
     </div>
 </section>
-<section class="restaurant-section" id="horizon-coffee">
+<section class="restaurant-section" id="horizon-coffee" data-map-name="12. Horizon Coffee" data-map-cta-url="https://maps.google.com/?cid=420763296067155251&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Horizon Coffee, Eastern outskirts, Da Lat, Lâm Đồng, VN" data-map-lat="11.9238342" data-map-lng="108.4483607">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Horizon Coffee</h2>
         <span class="cuisine-tag tag-regional">Panoramic / Quiet</span>
@@ -892,9 +896,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Da Lat Coffee Map</h2>
-      <iframe src="https://www.google.com/maps?q=Coffee%20Shops%20in%20Da%20Lat&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Viet Coffee</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Da Lat Coffee Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -902,7 +907,7 @@
         <a href="#la-viet-coffee">1. La Viet Coffee</a>
       </li>
       <li>
-        <a href="#kho-coffee">2. K&#39;Ho Coffee</a>
+        <a href="#kho-coffee">2. K'Ho Coffee</a>
       </li>
       <li>
         <a href="#me-linh">3. Mê Linh Coffee Garden</a>
@@ -916,7 +921,7 @@
       <li>
         <a href="#wee-cafe">6. Wee Cafe</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Coffee%20Shops%20in%20Da%20Lat" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/place/La+Viet+Coffee/@11.9456,108.4378,17z" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -927,5 +932,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Da Lat Coffee Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Coffee%20Shops%20in%20Da%20Lat","picks":[{"anchorId":"la-viet-coffee","rank":1,"name":"La Viet Coffee","label":"1. La Viet Coffee","lat":11.956792499999999,"lng":108.43509209999999,"ctaUrl":"https://www.google.com/maps/place/La+Viet+Coffee/@11.9456,108.4378,17z","mapQuery":"La Viet Coffee, 200 Nguyễn Công Trứ, Ward 8, Lâm Đồng, VN"},{"anchorId":"kho-coffee","rank":2,"name":"K'Ho Coffee","label":"2. K'Ho Coffee","lat":12.0094218,"lng":108.4128154,"ctaUrl":"https://www.google.com/maps/place/K'Ho+Coffee/@12.0255,108.4540,15z","mapQuery":"K'Ho Coffee, K'Ho Village, Lạc Dương District, Lâm Đồng, VN"},{"anchorId":"me-linh","rank":3,"name":"Mê Linh Coffee Garden","label":"3. Mê Linh Coffee Garden","lat":11.9001793,"lng":108.34675089999999,"ctaUrl":"https://www.google.com/maps/place/Me+Linh+Coffee+Garden/@11.8900,108.5200,15z","mapQuery":"Mê Linh Coffee Garden, 20 Khu Vực Trạm Hành, Xuân Trường, Lâm Đồng, VN"},{"anchorId":"lung-chung","rank":4,"name":"Lưng Chừng Cafe","label":"4. Lưng Chừng Cafe","lat":11.920853,"lng":108.44713399999999,"ctaUrl":"https://www.google.com/maps/place/Lung+Chung+Cafe/@11.9218,108.4467,17z","mapQuery":"Lưng Chừng Cafe, Near Prenn Pass, Ward 3, Lâm Đồng, VN"},{"anchorId":"in-the-forest","rank":5,"name":"In The Forest Đà Lạt","label":"5. In The Forest Đà Lạt","lat":11.9281547,"lng":108.4553952,"ctaUrl":"https://www.google.com/maps/place/In+The+Forest+Da+Lat/@11.9530,108.4250,17z","mapQuery":"In The Forest Đà Lạt, 31D Khe Sanh, Ward 10, Lâm Đồng, VN"},{"anchorId":"wee-cafe","rank":6,"name":"Wee Cafe","label":"6. Wee Cafe","lat":11.9332098,"lng":108.4646789,"ctaUrl":"https://maps.google.com/?cid=17123232447867598214&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wee Cafe, Central Da Lat, Lâm Đồng, VN"},{"anchorId":"la-mappa","rank":7,"name":"La Mappa Café & Bistro","label":"7. La Mappa Café & Bistro","lat":11.9316476,"lng":108.4266179,"ctaUrl":"https://www.google.com/maps/place/La+Mappa+Cafe+%26+Bistro/@11.9410,108.4340,17z","mapQuery":"La Mappa Café & Bistro, 8 Triệu Việt Vương, Ward 4, Lâm Đồng, VN"},{"anchorId":"bicycle-up","rank":8,"name":"Bicycle Up Cafe","label":"8. Bicycle Up Cafe","lat":11.944649199999999,"lng":108.4349821,"ctaUrl":"https://maps.google.com/?cid=14454466422303177144&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bicycle Up Cafe, Central Da Lat, Lâm Đồng, VN"},{"anchorId":"tui-mo-to","rank":9,"name":"Tiệm Cà Phê Túi Mơ To","label":"9. Tiệm Cà Phê Túi Mơ To","lat":11.940995599999999,"lng":108.48368459999999,"ctaUrl":"https://www.google.com/maps/place/Tiem+Ca+Phe+Tui+Mo+To/@11.9420,108.4600,17z","mapQuery":"Tiệm Cà Phê Túi Mơ To, Hẻm 31 Sao Nam, Ward 11, Lâm Đồng, VN"},{"anchorId":"phia-tay","rank":10,"name":"Phía Tây Mặt Trời","label":"10. Phía Tây Mặt Trời","lat":11.9371777,"lng":108.4544327,"ctaUrl":"https://www.google.com/maps/place/Phia+Tay+Mat+Troi/@11.9530,108.4190,17z","mapQuery":"Phía Tây Mặt Trời, 12/6 Lê Văn Tám, Ward 10, Lâm Đồng, VN"},{"anchorId":"an-cafe","rank":11,"name":"An Cafe (Persimmon Cafe)","label":"11. An Cafe (Persimmon Cafe)","lat":11.9473912,"lng":108.4733308,"ctaUrl":"https://maps.google.com/?cid=5436418092744855602&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"An Cafe (Persimmon Cafe), Dã Chiến Hill area, Lâm Đồng, VN"},{"anchorId":"horizon-coffee","rank":12,"name":"Horizon Coffee","label":"12. Horizon Coffee","lat":11.9238342,"lng":108.4483607,"ctaUrl":"https://maps.google.com/?cid=420763296067155251&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Horizon Coffee, Eastern outskirts, Da Lat, Lâm Đồng, VN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -483,9 +483,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -510,7 +513,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -562,9 +565,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Kebab Map</h2>
-      <iframe src="https://www.google.com/maps?q=Kebab%20Spots%20in%20Istanbul&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Şehzade Erzurum Cağ Kebabı</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Kebab Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -586,7 +590,7 @@
       <li>
         <a href="#karadeniz-doner">6. Karadeniz Döner Asım Usta</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Kebab%20Spots%20in%20Istanbul" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4193175250874352887&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +602,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="sehzade-cag">
+<section class="restaurant-section" id="sehzade-cag" data-map-name="1. Şehzade Erzurum Cağ Kebabı" data-map-cta-url="https://maps.google.com/?cid=4193175250874352887&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Şehzade Erzurum Cağ Kebabı, Sirkeci, Fatih, Istanbul, TR" data-map-lat="41.013978099999996" data-map-lng="28.9752568">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Şehzade Erzurum Cağ Kebabı</h2>
         <span class="cuisine-tag tag-regional">Cağ Kebab</span>
@@ -636,7 +640,7 @@
         <strong>tabiji verdict:</strong> The most iconic cağ kebab in Istanbul. The horizontal rotisserie produces thick, juicy lamb slices that blow standard döner out of the water. It&#39;s in the touristy Sirkeci area but the quality is legit — locals eat here too. A must-try that&#39;s unlike any kebab you&#39;ve had back home.
     </div>
 </section>
-<section class="restaurant-section" id="bayramoglu">
+<section class="restaurant-section" id="bayramoglu" data-map-name="2. Bayramoğlu Döner" data-map-cta-url="https://maps.google.com/?cid=2232627516137850010&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bayramoğlu Döner, Beykoz (Asian side), Istanbul, TR" data-map-lat="41.0949909" data-map-lng="29.099869">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Bayramoğlu Döner</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -674,7 +678,7 @@
         <strong>tabiji verdict:</strong> Worth the trek to the Asian side. Bayramoğlu has been serving döner for over 30 years and is consistently cited as Istanbul&#39;s best. The lamb is high quality, the portions are generous, and the prices haven&#39;t gone insane despite the fame. This is pilgrimage-tier döner.
     </div>
 </section>
-<section class="restaurant-section" id="zubeyir">
+<section class="restaurant-section" id="zubeyir" data-map-name="3. Zübeyir Ocakbaşı" data-map-cta-url="https://maps.google.com/?cid=5404342657256811147&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Zübeyir Ocakbaşı, Beyoğlu (near İstiklal), Istanbul, TR" data-map-lat="41.0364995" data-map-lng="28.982087999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Zübeyir Ocakbaşı</h2>
         <span class="cuisine-tag tag-regional">Ocakbaşı</span>
@@ -708,7 +712,7 @@
         <strong>tabiji verdict:</strong> The best introduction to ocakbaşı (charcoal grill) dining for visitors. It&#39;s near İstiklal but not a tourist trap — locals eat here regularly. The mezes are excellent and the kebabs are grilled right in front of you. Great for a proper sit-down kebab feast.
     </div>
 </section>
-<section class="restaurant-section" id="ciya">
+<section class="restaurant-section" id="ciya" data-map-name="4. Çiya Sofrası" data-map-cta-url="https://maps.google.com/?cid=6389111112583631123&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Çiya Sofrası, Kadıköy (Asian side), Istanbul, TR" data-map-lat="40.989319599999995" data-map-lng="29.0244093">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Çiya Sofrası</h2>
         <span class="cuisine-tag tag-regional">Traditional Turkish</span>
@@ -746,7 +750,7 @@
         <strong>tabiji verdict:</strong> A pilgrimage point for food lovers. Chef Musa Dağdeviren has been featured on Netflix&#39;s Chef&#39;s Table and is obsessed with preserving disappearing Anatolian recipes. Not just kebabs — this is a culinary museum of Turkish food. Go to Çiya Sofrası (the one across the street), not Çiya Kebap.
     </div>
 </section>
-<section class="restaurant-section" id="kasap-osman">
+<section class="restaurant-section" id="kasap-osman" data-map-name="5. Kasap Osman" data-map-cta-url="https://maps.google.com/?cid=6583178305568552142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kasap Osman, Sirkeci, Fatih, Istanbul, TR" data-map-lat="41.013887499999996" data-map-lng="28.975568700000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Kasap Osman</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -784,7 +788,7 @@
         <strong>tabiji verdict:</strong> On the same Sirkeci street as Şehzade Cağ Kebabı — you can easily hit both in one trip. Kasap Osman is pure döner done right. No frills, no pretension, just incredibly thin-sliced meat. A local lunch staple.
     </div>
 </section>
-<section class="restaurant-section" id="karadeniz-doner">
+<section class="restaurant-section" id="karadeniz-doner" data-map-name="6. Karadeniz Döner Asım Usta" data-map-cta-url="https://maps.google.com/?cid=244966270314042454&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Karadeniz Döner Asım Usta, Beşiktaş, Istanbul, TR" data-map-lat="41.0435433" data-map-lng="29.004001900000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Karadeniz Döner Asım Usta</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -818,7 +822,7 @@
         <strong>tabiji verdict:</strong> The Beşiktaş institution. Always packed with locals at lunchtime, which tells you everything. The tombik (soft bread) döner is their signature — puffy bread soaking up meat juices. Quick, cheap, and insanely satisfying. Near the Beşiktaş ferry terminal, so easy to combine with sightseeing.
     </div>
 </section>
-<section class="restaurant-section" id="kebapci-cavus">
+<section class="restaurant-section" id="kebapci-cavus" data-map-name="7. Kebapçı Çavuş" data-map-cta-url="https://maps.google.com/?cid=14562961011729804803&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kebapçı Çavuş, Dolapdere, Şişli, Istanbul, TR" data-map-lat="41.0455336" data-map-lng="28.9778089">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Kebapçı Çavuş</h2>
         <span class="cuisine-tag tag-regional">Adana Kebab</span>
@@ -852,7 +856,7 @@
         <strong>tabiji verdict:</strong> Hidden in the Dolapdere neighborhood — not somewhere tourists wander — which is exactly why the kebab is so good and so cheap. This is the real deal: smoky charcoal-grilled Adana kebab in a no-nonsense setting. A genuine local secret.
     </div>
 </section>
-<section class="restaurant-section" id="adana-ocakbasi">
+<section class="restaurant-section" id="adana-ocakbasi" data-map-name="8. Adana Ocakbaşı" data-map-cta-url="https://maps.google.com/?cid=2249832462175515761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Adana Ocakbaşı, Multiple locations, Istanbul, TR" data-map-lat="41.0519436" data-map-lng="28.9854664">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Adana Ocakbaşı</h2>
         <span class="cuisine-tag tag-regional">Adana Kebab</span>
@@ -886,7 +890,7 @@
         <strong>tabiji verdict:</strong> Exactly what it says on the tin — Adana-style kebab cooked over an open charcoal grill. Multiple locations around the city make it accessible. Consistent quality and a reliable choice when you want proper Southeast Turkish kebab without hunting for a hidden gem.
     </div>
 </section>
-<section class="restaurant-section" id="iskender-1867">
+<section class="restaurant-section" id="iskender-1867" data-map-name="9. İskender 1867" data-map-cta-url="https://maps.google.com/?cid=13600577073705965654&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="İskender 1867, Beşiktaş, Istanbul, TR" data-map-lat="41.041972699999995" data-map-lng="29.003173299999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>İskender 1867</h2>
         <span class="cuisine-tag tag-regional">İskender Kebab</span>
@@ -920,7 +924,7 @@
         <strong>tabiji verdict:</strong> İskender kebab is originally from Bursa, and purists say you should eat it there. But if you&#39;re staying in Istanbul, İskender 1867 is the most authentic version in the city. The sizzling butter ladled over the meat at your table is theatrical and delicious.
     </div>
 </section>
-<section class="restaurant-section" id="tatar-salim">
+<section class="restaurant-section" id="tatar-salim" data-map-name="10. Tatar Salim" data-map-cta-url="https://maps.google.com/?cid=17430251262122630250&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tatar Salim, Kadıköy (Asian side), Istanbul, TR" data-map-lat="40.9894843" data-map-lng="29.024417699999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Tatar Salim</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -958,7 +962,7 @@
         <strong>tabiji verdict:</strong> The Kadıköy döner champion. Combine with a visit to Çiya Sofrası and Halil Lahmacun (both nearby) for the ultimate Kadıköy food crawl. Tatar Salim consistently beats more famous names in blind taste tests among locals.
     </div>
 </section>
-<section class="restaurant-section" id="halil-lahmacun">
+<section class="restaurant-section" id="halil-lahmacun" data-map-name="11. Halil Lahmacun" data-map-cta-url="https://maps.google.com/?cid=18129452364416114012&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Halil Lahmacun, Kadıköy (Asian side), Istanbul, TR" data-map-lat="40.9896406" data-map-lng="29.024508599999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Halil Lahmacun</h2>
         <span class="cuisine-tag tag-regional">Lahmacun</span>
@@ -996,7 +1000,7 @@
         <strong>tabiji verdict:</strong> Istanbul&#39;s most famous lahmacun. Cash only, always busy, and the lahmacun is impossibly thin and crispy. At ₺60–₺80 per piece, this is the cheapest great meal on this entire list. Grab 2–3, roll them up with greens, and you&#39;ve had one of Istanbul&#39;s defining food experiences.
     </div>
 </section>
-<section class="restaurant-section" id="filibe-koftecisi">
+<section class="restaurant-section" id="filibe-koftecisi" data-map-name="12. Meşhur Filibe Köftecisi" data-map-cta-url="https://maps.google.com/?cid=13594726179574252075&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Meşhur Filibe Köftecisi, Fatih (old city), Istanbul, TR" data-map-lat="41.014112999999995" data-map-lng="28.975310000000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Meşhur Filibe Köftecisi</h2>
         <span class="cuisine-tag tag-regional">Köfte</span>
@@ -1030,7 +1034,7 @@
         <strong>tabiji verdict:</strong> One-menu restaurants in Turkey are almost always excellent, and Filibe is no exception. The köfte are charcoal-grilled, perfectly seasoned, and served with the classic white bean salad. Near the Sultanahmet area, so easy to visit while sightseeing. Don&#39;t let the simplicity fool you — this is mastery.
     </div>
 </section>
-<section class="restaurant-section" id="gunaydin">
+<section class="restaurant-section" id="gunaydin" data-map-name="13. Günaydın" data-map-cta-url="https://maps.google.com/?cid=10291925394821607142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Günaydın, Multiple locations (not mall branches), Istanbul, TR" data-map-lat="40.9615432" data-map-lng="29.078942200000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Günaydın</h2>
         <span class="cuisine-tag tag-regional">Kebab &amp; Steakhouse</span>
@@ -1064,7 +1068,7 @@
         <strong>tabiji verdict:</strong> The upscale kebab experience. Günaydın is a chain, but the standalone restaurants (NOT the mall food court versions) are genuinely excellent. Think premium cuts, butcher-shop presentation, and a full meze spread. Pricier than street kebab but worth it for a special meal.
     </div>
 </section>
-<section class="restaurant-section" id="yirmibir">
+<section class="restaurant-section" id="yirmibir" data-map-name="14. Yirmibir Kebap" data-map-cta-url="https://maps.google.com/?cid=5613381624381597532&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yirmibir Kebap, Taksim, Istanbul, TR" data-map-lat="41.033383" data-map-lng="28.976021499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Yirmibir Kebap</h2>
         <span class="cuisine-tag tag-regional">Adana Kebab</span>
@@ -1090,7 +1094,7 @@
         <strong>tabiji verdict:</strong> A solid Adana kebab option right in the Taksim area — convenient for tourists staying on the European side. Not the absolute best kebab in Istanbul, but reliably good and well-located. Perfect for a quick kebab fix between sightseeing.
     </div>
 </section>
-<section class="restaurant-section" id="nizam-usta">
+<section class="restaurant-section" id="nizam-usta" data-map-name="15. Nizam Usta" data-map-cta-url="https://maps.google.com/?cid=5120197462727066268&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nizam Usta, Taksim, Istanbul, TR" data-map-lat="41.0348484" data-map-lng="28.982311999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Nizam Usta</h2>
         <span class="cuisine-tag tag-regional">Pide</span>
@@ -1124,7 +1128,7 @@
         <strong>tabiji verdict:</strong> Pide is the unsung hero of Turkish cuisine — like a more substantial, more satisfying version of pizza. Nizam Usta has been baking pide in Taksim for decades. The lamb versions are essentially kebab-in-bread and are outrageously good.
     </div>
 </section>
-<section class="restaurant-section" id="metet-kozde">
+<section class="restaurant-section" id="metet-kozde" data-map-name="16. Metet Közde Döner" data-map-cta-url="https://maps.google.com/?cid=2492376232320286457&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Metet Közde Döner, Multiple locations, Istanbul, TR" data-map-lat="41.036054199999995" data-map-lng="29.029544100000003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Metet Közde Döner</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -1158,7 +1162,7 @@
         <strong>tabiji verdict:</strong> The &quot;közde&quot; (ember-cooked) distinction matters — most döner in Istanbul is cooked over gas burners, but Metet uses traditional charcoal. The smoky flavor difference is noticeable and makes this worth seeking out. A solid mid-tier option for döner enthusiasts.
     </div>
 </section>
-<section class="restaurant-section" id="bursa-kebap">
+<section class="restaurant-section" id="bursa-kebap" data-map-name="17. Bursa Kebap Evi" data-map-cta-url="https://maps.google.com/?cid=11150727401539103824&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bursa Kebap Evi, Kadıköy &amp; Nişantaşı, Istanbul, TR" data-map-lat="40.9693705" data-map-lng="29.091610799999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Bursa Kebap Evi</h2>
         <span class="cuisine-tag tag-regional">İskender Kebab</span>
@@ -1192,7 +1196,7 @@
         <strong>tabiji verdict:</strong> If İskender 1867 is the posh option, Bursa Kebap Evi is the hearty, hometown version. They call it &quot;Bursa kebabı&quot; rather than İskender (the name is trademarked in Turkey). Same concept, generous portions, and arguably better value.
     </div>
 </section>
-<section class="restaurant-section" id="adana-osmanbey">
+<section class="restaurant-section" id="adana-osmanbey" data-map-name="18. Adana Kebap (Osmanbey)" data-map-cta-url="https://maps.google.com/?cid=2249832462175515761&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Adana Kebap (Osmanbey), Osmanbey, Şişli, Istanbul, TR" data-map-lat="41.0519436" data-map-lng="28.9854664">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Adana Kebap (Osmanbey)</h2>
         <span class="cuisine-tag tag-regional">Adana Kebab</span>
@@ -1226,7 +1230,7 @@
         <strong>tabiji verdict:</strong> A neighborhood institution in Osmanbey — slightly off the main tourist trail but easily reachable by metro. Locals have been eating here for years, which is always the best endorsement. The Adana kebab is fiery, fatty, and fantastic.
     </div>
 </section>
-<section class="restaurant-section" id="kasap-doner">
+<section class="restaurant-section" id="kasap-doner" data-map-name="19. Kasap Döner" data-map-cta-url="https://maps.google.com/?cid=13900439667607311918&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kasap Döner, Beşiktaş, Istanbul, TR" data-map-lat="41.030296899999996" data-map-lng="28.9756817">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">19</span>Kasap Döner</h2>
         <span class="cuisine-tag tag-regional">Döner Kebab</span>
@@ -1260,7 +1264,7 @@
         <strong>tabiji verdict:</strong> Beşiktaş is Istanbul&#39;s döner capital, and Kasap Döner is one of the reasons why. Unpretentious, fast, and delicious. If you&#39;re in the area visiting Dolmabahçe Palace or the Beşiktaş market, this is your lunch sorted.
     </div>
 </section>
-<section class="restaurant-section" id="ekspress-inegol">
+<section class="restaurant-section" id="ekspress-inegol" data-map-name="20. Ekspress İnegöl Köftecisi" data-map-cta-url="https://maps.google.com/?cid=12638398695578073227&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ekspress İnegöl Köftecisi, Kadıköy (Asian side), Istanbul, TR" data-map-lat="40.9903433" data-map-lng="29.023829199999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">20</span>Ekspress İnegöl Köftecisi</h2>
         <span class="cuisine-tag tag-regional">İnegöl Köfte</span>
@@ -1312,9 +1316,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Kebab Map</h2>
-      <iframe src="https://www.google.com/maps?q=Kebab%20Spots%20in%20Istanbul&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Şehzade Erzurum Cağ Kebabı</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Kebab Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1336,7 +1341,7 @@
       <li>
         <a href="#karadeniz-doner">6. Karadeniz Döner Asım Usta</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Kebab%20Spots%20in%20Istanbul" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4193175250874352887&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1347,5 +1352,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Kebab Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Kebab%20Spots%20in%20Istanbul","picks":[{"anchorId":"sehzade-cag","rank":1,"name":"Şehzade Erzurum Cağ Kebabı","label":"1. Şehzade Erzurum Cağ Kebabı","lat":41.013978099999996,"lng":28.9752568,"ctaUrl":"https://maps.google.com/?cid=4193175250874352887&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Şehzade Erzurum Cağ Kebabı, Sirkeci, Fatih, Istanbul, TR"},{"anchorId":"bayramoglu","rank":2,"name":"Bayramoğlu Döner","label":"2. Bayramoğlu Döner","lat":41.0949909,"lng":29.099869,"ctaUrl":"https://maps.google.com/?cid=2232627516137850010&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bayramoğlu Döner, Beykoz (Asian side), Istanbul, TR"},{"anchorId":"zubeyir","rank":3,"name":"Zübeyir Ocakbaşı","label":"3. Zübeyir Ocakbaşı","lat":41.0364995,"lng":28.982087999999997,"ctaUrl":"https://maps.google.com/?cid=5404342657256811147&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Zübeyir Ocakbaşı, Beyoğlu (near İstiklal), Istanbul, TR"},{"anchorId":"ciya","rank":4,"name":"Çiya Sofrası","label":"4. Çiya Sofrası","lat":40.989319599999995,"lng":29.0244093,"ctaUrl":"https://maps.google.com/?cid=6389111112583631123&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Çiya Sofrası, Kadıköy (Asian side), Istanbul, TR"},{"anchorId":"kasap-osman","rank":5,"name":"Kasap Osman","label":"5. Kasap Osman","lat":41.013887499999996,"lng":28.975568700000004,"ctaUrl":"https://maps.google.com/?cid=6583178305568552142&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kasap Osman, Sirkeci, Fatih, Istanbul, TR"},{"anchorId":"karadeniz-doner","rank":6,"name":"Karadeniz Döner Asım Usta","label":"6. Karadeniz Döner Asım Usta","lat":41.0435433,"lng":29.004001900000002,"ctaUrl":"https://maps.google.com/?cid=244966270314042454&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Karadeniz Döner Asım Usta, Beşiktaş, Istanbul, TR"},{"anchorId":"kebapci-cavus","rank":7,"name":"Kebapçı Çavuş","label":"7. Kebapçı Çavuş","lat":41.0455336,"lng":28.9778089,"ctaUrl":"https://maps.google.com/?cid=14562961011729804803&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kebapçı Çavuş, Dolapdere, Şişli, Istanbul, TR"},{"anchorId":"adana-ocakbasi","rank":8,"name":"Adana Ocakbaşı","label":"8. Adana Ocakbaşı","lat":41.0519436,"lng":28.9854664,"ctaUrl":"https://maps.google.com/?cid=2249832462175515761&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Adana Ocakbaşı, Multiple locations, Istanbul, TR"},{"anchorId":"iskender-1867","rank":9,"name":"İskender 1867","label":"9. İskender 1867","lat":41.041972699999995,"lng":29.003173299999997,"ctaUrl":"https://maps.google.com/?cid=13600577073705965654&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"İskender 1867, Beşiktaş, Istanbul, TR"},{"anchorId":"tatar-salim","rank":10,"name":"Tatar Salim","label":"10. Tatar Salim","lat":40.9894843,"lng":29.024417699999997,"ctaUrl":"https://maps.google.com/?cid=17430251262122630250&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tatar Salim, Kadıköy (Asian side), Istanbul, TR"},{"anchorId":"halil-lahmacun","rank":11,"name":"Halil Lahmacun","label":"11. Halil Lahmacun","lat":40.9896406,"lng":29.024508599999997,"ctaUrl":"https://maps.google.com/?cid=18129452364416114012&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Halil Lahmacun, Kadıköy (Asian side), Istanbul, TR"},{"anchorId":"filibe-koftecisi","rank":12,"name":"Meşhur Filibe Köftecisi","label":"12. Meşhur Filibe Köftecisi","lat":41.014112999999995,"lng":28.975310000000004,"ctaUrl":"https://maps.google.com/?cid=13594726179574252075&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Meşhur Filibe Köftecisi, Fatih (old city), Istanbul, TR"},{"anchorId":"gunaydin","rank":13,"name":"Günaydın","label":"13. Günaydın","lat":40.9615432,"lng":29.078942200000004,"ctaUrl":"https://maps.google.com/?cid=10291925394821607142&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Günaydın, Multiple locations (not mall branches), Istanbul, TR"},{"anchorId":"yirmibir","rank":14,"name":"Yirmibir Kebap","label":"14. Yirmibir Kebap","lat":41.033383,"lng":28.976021499999998,"ctaUrl":"https://maps.google.com/?cid=5613381624381597532&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yirmibir Kebap, Taksim, Istanbul, TR"},{"anchorId":"nizam-usta","rank":15,"name":"Nizam Usta","label":"15. Nizam Usta","lat":41.0348484,"lng":28.982311999999997,"ctaUrl":"https://maps.google.com/?cid=5120197462727066268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nizam Usta, Taksim, Istanbul, TR"},{"anchorId":"metet-kozde","rank":16,"name":"Metet Közde Döner","label":"16. Metet Közde Döner","lat":41.036054199999995,"lng":29.029544100000003,"ctaUrl":"https://maps.google.com/?cid=2492376232320286457&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Metet Közde Döner, Multiple locations, Istanbul, TR"},{"anchorId":"bursa-kebap","rank":17,"name":"Bursa Kebap Evi","label":"17. Bursa Kebap Evi","lat":40.9693705,"lng":29.091610799999998,"ctaUrl":"https://maps.google.com/?cid=11150727401539103824&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bursa Kebap Evi, Kadıköy & Nişantaşı, Istanbul, TR"},{"anchorId":"adana-osmanbey","rank":18,"name":"Adana Kebap (Osmanbey)","label":"18. Adana Kebap (Osmanbey)","lat":41.0519436,"lng":28.9854664,"ctaUrl":"https://maps.google.com/?cid=2249832462175515761&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Adana Kebap (Osmanbey), Osmanbey, Şişli, Istanbul, TR"},{"anchorId":"kasap-doner","rank":19,"name":"Kasap Döner","label":"19. Kasap Döner","lat":41.030296899999996,"lng":28.9756817,"ctaUrl":"https://maps.google.com/?cid=13900439667607311918&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kasap Döner, Beşiktaş, Istanbul, TR"},{"anchorId":"ekspress-inegol","rank":20,"name":"Ekspress İnegöl Köftecisi","label":"20. Ekspress İnegöl Köftecisi","lat":40.9903433,"lng":29.023829199999998,"ctaUrl":"https://maps.google.com/?cid=12638398695578073227&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ekspress İnegöl Köftecisi, Kadıköy (Asian side), Istanbul, TR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

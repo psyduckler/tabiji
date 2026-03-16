@@ -418,9 +418,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -445,7 +448,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -493,18 +496,19 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Le Marais boasts budget-friendly eats under €15, with L&#39;As du Fallafel being a top recommendation for experiencing local flavor. Savvy travelers and locals know where to find incredible food without breaking the bank in this beautiful Parisian neighborhood. We dug through hundreds of Reddit posts from r/ParisTravelGuide, r/Paris, and r/travel to find the spots that locals and savvy travelers actually recommend for eating well without spending €30+ on a mediocre prix fixe.</strong></p>
-        <p>Le Marais offers budget-friendly eats under €15, though many restaurants cater to tourists; L&#39;As du Fallafel is a top recommendation for experiencing local flavor. Savvy travelers and locals know where to find incredible food without breaking the bank in this beautiful Parisian neighborhood.</p><p>Le Marais is one of Paris&#39;s most beautiful — and most touristy — neighborhoods. Prices at many restaurants reflect that. But between the overpriced terraces, there&#39;s incredible budget food if you know where to look.</p><p>We dug through hundreds of Reddit posts from r/ParisTravelGuide, r/Paris, and r/travel to find the spots that locals and savvy travelers actually recommend for eating well without spending €30+ on a mediocre prix fixe.</p>
+        <p>Le Marais is one of Paris&#39;s most beautiful — and most touristy — neighborhoods. Prices at many restaurants reflect that. But between the overpriced terraces, there&#39;s incredible budget food if you know where to look.</p><p>We dug through hundreds of Reddit posts from r/ParisTravelGuide, r/Paris, and r/travel to find the spots that locals and savvy travelers actually recommend for eating well without spending €30+ on a mediocre prix fixe.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Restaurants%20in%20Le%20Marais%20(Under%20%E2%82%AC15)&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. L&#39;As du Fallafel</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#as-du-fallafel">1. L&#39;As du Fallafel</a>
+        <a href="#as-du-fallafel">1. L'As du Fallafel</a>
       </li>
       <li>
         <a href="#chez-janou">2. Chez Janou</a>
@@ -521,7 +525,7 @@
       <li>
         <a href="#pick-clops">6. Le Pick Clops</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Le%20Marais%20(Under%20%E2%82%AC15)" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8143357663097373890&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -533,7 +537,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="as-du-fallafel">
+<section class="restaurant-section" id="as-du-fallafel" data-map-name="1. L&#39;As du Fallafel" data-map-cta-url="https://maps.google.com/?cid=8143357663097373890&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="L&#39;As du Fallafel, 34 Rue des Rosiers, 4e, Paris, FR" data-map-lat="48.8574067" data-map-lng="2.3591962">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>L&#39;As du Fallafel</h2>
         <span class="cuisine-tag tag-regional">Falafel</span>
@@ -575,7 +579,7 @@
         <strong>tabiji verdict:</strong> The single most recommended restaurant in Le Marais across all of Reddit. Yes, there&#39;s a queue. Yes, it&#39;s worth it. The falafel spécial at €8 is one of the best meals you&#39;ll eat in Paris at any price.
     </div>
 </section>
-<section class="restaurant-section" id="chez-janou">
+<section class="restaurant-section" id="chez-janou" data-map-name="2. Chez Janou" data-map-cta-url="https://maps.google.com/?cid=2909814959004247245&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Janou, 2 Rue Roger Verlomme, 3e, Paris, FR" data-map-lat="48.8567159" data-map-lng="2.3671983">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Chez Janou</h2>
         <span class="cuisine-tag tag-regional">Provençal Bistro</span>
@@ -609,7 +613,7 @@
         <strong>tabiji verdict:</strong> Slightly above our budget threshold for mains, but the unlimited chocolate mousse dessert is legendary. Steps from Place des Vosges — combine with a walk through Paris&#39;s oldest planned square.
     </div>
 </section>
-<section class="restaurant-section" id="enfants-rouges">
+<section class="restaurant-section" id="enfants-rouges" data-map-name="3. Marché des Enfants Rouges" data-map-cta-url="https://maps.google.com/?cid=10155776919913894811&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Marché des Enfants Rouges, 39 Rue de Bretagne, 3e, Paris, FR" data-map-lat="48.8628656" data-map-lng="2.3620448">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Marché des Enfants Rouges</h2>
         <span class="cuisine-tag tag-regional">Covered Market</span>
@@ -643,7 +647,7 @@
         <strong>tabiji verdict:</strong> The best lunch spot in Le Marais, period. Multi-cuisine food market where you can eat incredibly well for €8–€12. Go at noon on a weekday to avoid weekend crowds.
     </div>
 </section>
-<section class="restaurant-section" id="breizh-cafe">
+<section class="restaurant-section" id="breizh-cafe" data-map-name="4. Breizh Café" data-map-cta-url="https://maps.google.com/?cid=2739135305373629346&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Breizh Café, 109 Rue Vieille du Temple, 3e, Paris, FR" data-map-lat="48.8606206" data-map-lng="2.3618066">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Breizh Café</h2>
         <span class="cuisine-tag tag-regional">Crêperie</span>
@@ -677,7 +681,7 @@
         <strong>tabiji verdict:</strong> Paris&#39;s most acclaimed crêperie — using organic buckwheat flour and premium ingredients. A galette + crêpe + cidre makes a perfect Le Marais lunch for ~€15.
     </div>
 </section>
-<section class="restaurant-section" id="bo-bun-marais">
+<section class="restaurant-section" id="bo-bun-marais" data-map-name="5. Bo Bun Marais" data-map-cta-url="https://maps.google.com/?cid=13097395164780161406&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bo Bun Marais, 3 Rue de Picardie, 3e, Paris, FR" data-map-lat="48.865009199999996" data-map-lng="2.3571076">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Bo Bun Marais</h2>
         <span class="cuisine-tag tag-regional">Vietnamese</span>
@@ -711,7 +715,7 @@
         <strong>tabiji verdict:</strong> Paris has incredible Vietnamese food thanks to its historical ties with Vietnam. Bo Bun Marais delivers one of the best bowls in the neighborhood — light, fresh, and filling.
     </div>
 </section>
-<section class="restaurant-section" id="pick-clops">
+<section class="restaurant-section" id="pick-clops" data-map-name="6. Le Pick Clops" data-map-cta-url="https://maps.google.com/?cid=18411271357786302276&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Pick Clops, 16 Rue Vieille du Temple, 4e, Paris, FR" data-map-lat="48.856676300000004" data-map-lng="2.3569928">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Le Pick Clops</h2>
         <span class="cuisine-tag tag-regional">French Bistro</span>
@@ -745,7 +749,7 @@
         <strong>tabiji verdict:</strong> An old-school Marais bistro that hasn&#39;t changed in decades — and that&#39;s the charm. Sausage and mash with a carafe of wine on Rue Vieille du Temple. This is the Paris you came for.
     </div>
 </section>
-<section class="restaurant-section" id="hank-burger">
+<section class="restaurant-section" id="hank-burger" data-map-name="7. Hank Burger" data-map-cta-url="https://maps.google.com/?cid=9037502235955431892&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hank Burger, 55 Rue des Archives, 3e, Paris, FR" data-map-lat="48.8614037" data-map-lng="2.3582753999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Hank Burger</h2>
         <span class="cuisine-tag tag-regional">Vegetarian</span>
@@ -771,7 +775,7 @@
         <strong>tabiji verdict:</strong> Le Marais&#39;s best vegetarian option. No sad side salads here — these are proper, satisfying plant-based burgers. Great for a quick, affordable lunch.
     </div>
 </section>
-<section class="restaurant-section" id="jaja">
+<section class="restaurant-section" id="jaja" data-map-name="8. JaJa" data-map-cta-url="https://maps.google.com/?cid=16962371779419583045&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="JaJa, 3 Rue Sainte-Croix de la Bretonnerie, 4e, Paris, FR" data-map-lat="48.8575187" data-map-lng="2.35725">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>JaJa</h2>
         <span class="cuisine-tag tag-regional">Wine Bar / Bistro</span>
@@ -805,7 +809,7 @@
         <strong>tabiji verdict:</strong> Wine bar by night, affordable bistro by day. The natural wine selection is excellent and the plats du jour keep things budget-friendly. A Marais institution.
     </div>
 </section>
-<section class="restaurant-section" id="glou">
+<section class="restaurant-section" id="glou" data-map-name="9. Glou" data-map-cta-url="https://maps.google.com/?cid=11913187114409766823&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Glou, 101 Rue Vieille du Temple, 3e, Paris, FR" data-map-lat="48.8603965" data-map-lng="2.3614359">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Glou</h2>
         <span class="cuisine-tag tag-regional">French Bistro</span>
@@ -839,7 +843,7 @@
         <strong>tabiji verdict:</strong> At the upper end of &quot;budget&quot; but the lunch formule is reasonable. Perfect for a special lunch — good steak, great wine, charming Marais atmosphere.
     </div>
 </section>
-<section class="restaurant-section" id="umami-matcha">
+<section class="restaurant-section" id="umami-matcha" data-map-name="10. Umami Matcha Café" data-map-cta-url="https://maps.google.com/?cid=8993649865733614385&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Umami Matcha Café, 22 Rue Béranger, 3e, Paris, FR" data-map-lat="48.8665227" data-map-lng="2.3635854999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Umami Matcha Café</h2>
         <span class="cuisine-tag tag-regional">Japanese</span>
@@ -873,7 +877,7 @@
         <strong>tabiji verdict:</strong> A lovely surprise in Le Marais — Japanese comfort food in a cozy café setting. The donburi is filling and the matcha is legit. Perfect light lunch.
     </div>
 </section>
-<section class="restaurant-section" id="chez-marianne">
+<section class="restaurant-section" id="chez-marianne" data-map-name="11. Chez Marianne" data-map-cta-url="https://maps.google.com/?cid=17107561270401763228&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Marianne, 2 Rue des Hospitalières-Saint-Gervais, 4e, Paris, FR" data-map-lat="48.8578056" data-map-lng="2.3587433">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Chez Marianne</h2>
         <span class="cuisine-tag tag-regional">Jewish / Middle Eastern</span>
@@ -907,7 +911,7 @@
         <strong>tabiji verdict:</strong> The savvy local&#39;s choice on Rue des Rosiers. The mezze plates are excellent for sharing, and you can actually get a table without waiting 45 minutes.
     </div>
 </section>
-<section class="restaurant-section" id="bouillon-chartier">
+<section class="restaurant-section" id="bouillon-chartier" data-map-name="12. Bouillon Chartier Le Marais" data-map-cta-url="https://maps.google.com/?cid=16487012426854492634&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bouillon Chartier Le Marais, 1 Rue du Figuier, 4e, Paris, FR" data-map-lat="48.871922399999995" data-map-lng="2.3430304">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Bouillon Chartier Le Marais</h2>
         <span class="cuisine-tag tag-regional">French Bouillon</span>
@@ -941,7 +945,7 @@
         <strong>tabiji verdict:</strong> The best value sit-down French meal in Le Marais, full stop. The concept dates to 1896 — fast, cheap, classic French food in grand dining rooms. Not gourmet, but an incredible experience for the price.
     </div>
 </section>
-<section class="restaurant-section" id="miznon">
+<section class="restaurant-section" id="miznon" data-map-name="13. Miznon" data-map-cta-url="https://maps.google.com/?cid=17059764992523001646&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Miznon, 22 Rue des Écouffes, 4e, Paris, FR" data-map-lat="48.8571597" data-map-lng="2.3589814">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Miznon</h2>
         <span class="cuisine-tag tag-regional">Israeli Street Food</span>
@@ -975,7 +979,7 @@
         <strong>tabiji verdict:</strong> From celebrity chef Eyal Shani — but the prices stay casual. The roasted cauliflower is genuinely one of the best things you&#39;ll eat in Paris. Tiny space, big flavors.
     </div>
 </section>
-<section class="restaurant-section" id="traiteur-marocain">
+<section class="restaurant-section" id="traiteur-marocain" data-map-name="14. Le Traiteur Marocain (Enfants Rouges)" data-map-cta-url="https://maps.google.com/?cid=17948120579347602910&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Traiteur Marocain (Enfants Rouges), Inside Marché des Enfants Rouges, 3e, Paris, FR" data-map-lat="48.8629387" data-map-lng="2.3621479">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Le Traiteur Marocain (Enfants Rouges)</h2>
         <span class="cuisine-tag tag-regional">Moroccan</span>
@@ -1009,7 +1013,7 @@
         <strong>tabiji verdict:</strong> Inside the Marché des Enfants Rouges, this is where locals queue. The couscous portions are enormous and the price-to-quality ratio is unbeatable in the neighborhood.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-charlot">
+<section class="restaurant-section" id="cafe-charlot" data-map-name="15. Café Charlot" data-map-cta-url="https://maps.google.com/?cid=17591965283889458145&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Charlot, 38 Rue de Bretagne, 3e, Paris, FR" data-map-lat="48.863074399999995" data-map-lng="2.3624587999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Café Charlot</h2>
         <span class="cuisine-tag tag-regional">French Café</span>
@@ -1043,7 +1047,7 @@
         <strong>tabiji verdict:</strong> You&#39;re paying partly for the location, but a croque-monsieur + coffee on the Charlot terrace is a quintessential Marais experience. Best for a casual lunch or weekend brunch.
     </div>
 </section>
-<section class="restaurant-section" id="une-glace">
+<section class="restaurant-section" id="une-glace" data-map-name="16. Une Glace à Paris" data-map-cta-url="https://maps.google.com/?cid=10697345180778157091&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Une Glace à Paris, 15 Rue Sainte-Croix de la Bretonnerie, 4e, Paris, FR" data-map-lat="48.858117899999996" data-map-lng="2.3563274">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Une Glace à Paris</h2>
         <span class="cuisine-tag tag-regional">Ice Cream</span>
@@ -1095,14 +1099,15 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Cheap%20Restaurants%20in%20Le%20Marais%20(Under%20%E2%82%AC15)&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. L&#39;As du Fallafel</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
       <li>
-        <a href="#as-du-fallafel">1. L&#39;As du Fallafel</a>
+        <a href="#as-du-fallafel">1. L'As du Fallafel</a>
       </li>
       <li>
         <a href="#chez-janou">2. Chez Janou</a>
@@ -1119,7 +1124,7 @@
       <li>
         <a href="#pick-clops">6. Le Pick Clops</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Le%20Marais%20(Under%20%E2%82%AC15)" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8143357663097373890&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1130,5 +1135,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Le%20Marais%20(Under%20%E2%82%AC15)","picks":[{"anchorId":"as-du-fallafel","rank":1,"name":"L'As du Fallafel","label":"1. L'As du Fallafel","lat":48.8574067,"lng":2.3591962,"ctaUrl":"https://maps.google.com/?cid=8143357663097373890&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"L'As du Fallafel, 34 Rue des Rosiers, 4e, Paris, FR"},{"anchorId":"chez-janou","rank":2,"name":"Chez Janou","label":"2. Chez Janou","lat":48.8567159,"lng":2.3671983,"ctaUrl":"https://maps.google.com/?cid=2909814959004247245&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Janou, 2 Rue Roger Verlomme, 3e, Paris, FR"},{"anchorId":"enfants-rouges","rank":3,"name":"Marché des Enfants Rouges","label":"3. Marché des Enfants Rouges","lat":48.8628656,"lng":2.3620448,"ctaUrl":"https://maps.google.com/?cid=10155776919913894811&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Marché des Enfants Rouges, 39 Rue de Bretagne, 3e, Paris, FR"},{"anchorId":"breizh-cafe","rank":4,"name":"Breizh Café","label":"4. Breizh Café","lat":48.8606206,"lng":2.3618066,"ctaUrl":"https://maps.google.com/?cid=2739135305373629346&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Breizh Café, 109 Rue Vieille du Temple, 3e, Paris, FR"},{"anchorId":"bo-bun-marais","rank":5,"name":"Bo Bun Marais","label":"5. Bo Bun Marais","lat":48.865009199999996,"lng":2.3571076,"ctaUrl":"https://maps.google.com/?cid=13097395164780161406&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bo Bun Marais, 3 Rue de Picardie, 3e, Paris, FR"},{"anchorId":"pick-clops","rank":6,"name":"Le Pick Clops","label":"6. Le Pick Clops","lat":48.856676300000004,"lng":2.3569928,"ctaUrl":"https://maps.google.com/?cid=18411271357786302276&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Pick Clops, 16 Rue Vieille du Temple, 4e, Paris, FR"},{"anchorId":"hank-burger","rank":7,"name":"Hank Burger","label":"7. Hank Burger","lat":48.8614037,"lng":2.3582753999999997,"ctaUrl":"https://maps.google.com/?cid=9037502235955431892&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hank Burger, 55 Rue des Archives, 3e, Paris, FR"},{"anchorId":"jaja","rank":8,"name":"JaJa","label":"8. JaJa","lat":48.8575187,"lng":2.35725,"ctaUrl":"https://maps.google.com/?cid=16962371779419583045&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"JaJa, 3 Rue Sainte-Croix de la Bretonnerie, 4e, Paris, FR"},{"anchorId":"glou","rank":9,"name":"Glou","label":"9. Glou","lat":48.8603965,"lng":2.3614359,"ctaUrl":"https://maps.google.com/?cid=11913187114409766823&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Glou, 101 Rue Vieille du Temple, 3e, Paris, FR"},{"anchorId":"umami-matcha","rank":10,"name":"Umami Matcha Café","label":"10. Umami Matcha Café","lat":48.8665227,"lng":2.3635854999999997,"ctaUrl":"https://maps.google.com/?cid=8993649865733614385&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Umami Matcha Café, 22 Rue Béranger, 3e, Paris, FR"},{"anchorId":"chez-marianne","rank":11,"name":"Chez Marianne","label":"11. Chez Marianne","lat":48.8578056,"lng":2.3587433,"ctaUrl":"https://maps.google.com/?cid=17107561270401763228&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Marianne, 2 Rue des Hospitalières-Saint-Gervais, 4e, Paris, FR"},{"anchorId":"bouillon-chartier","rank":12,"name":"Bouillon Chartier Le Marais","label":"12. Bouillon Chartier Le Marais","lat":48.871922399999995,"lng":2.3430304,"ctaUrl":"https://maps.google.com/?cid=16487012426854492634&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bouillon Chartier Le Marais, 1 Rue du Figuier, 4e, Paris, FR"},{"anchorId":"miznon","rank":13,"name":"Miznon","label":"13. Miznon","lat":48.8571597,"lng":2.3589814,"ctaUrl":"https://maps.google.com/?cid=17059764992523001646&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Miznon, 22 Rue des Écouffes, 4e, Paris, FR"},{"anchorId":"traiteur-marocain","rank":14,"name":"Le Traiteur Marocain (Enfants Rouges)","label":"14. Le Traiteur Marocain (Enfants Rouges)","lat":48.8629387,"lng":2.3621479,"ctaUrl":"https://maps.google.com/?cid=17948120579347602910&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Traiteur Marocain (Enfants Rouges), Inside Marché des Enfants Rouges, 3e, Paris, FR"},{"anchorId":"cafe-charlot","rank":15,"name":"Café Charlot","label":"15. Café Charlot","lat":48.863074399999995,"lng":2.3624587999999997,"ctaUrl":"https://maps.google.com/?cid=17591965283889458145&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Charlot, 38 Rue de Bretagne, 3e, Paris, FR"},{"anchorId":"une-glace","rank":16,"name":"Une Glace à Paris","label":"16. Une Glace à Paris","lat":48.858117899999996,"lng":2.3563274,"ctaUrl":"https://maps.google.com/?cid=10697345180778157091&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Une Glace à Paris, 15 Rue Sainte-Croix de la Bretonnerie, 4e, Paris, FR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

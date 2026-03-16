@@ -257,7 +257,6 @@
       "item": {
         "@type": "LocalBusiness",
         "name": "Or Tor Kor Market Food Court",
-        "servesCuisine": "Thai / Market",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Kamphaeng Phet Rd, Chatuchak",
@@ -334,11 +333,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -363,9 +357,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -390,24 +387,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": "Best Cheap Eats in Bangkok", "item": "https://tabiji.ai/popular-picks/best-cheap-eats-bangkok/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -454,9 +439,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Asoke%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Terminal 21 Food Court (Pier 21)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -478,7 +464,7 @@
       <li>
         <a href="#rung-rueang">6. Rung Rueang Pork Noodle (รุ่งเรือง)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Asoke%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3733078877799631301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -490,7 +476,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="terminal-21">
+<section class="restaurant-section" id="terminal-21" data-map-name="1. Terminal 21 Food Court (Pier 21)" data-map-cta-url="https://maps.google.com/?cid=3733078877799631301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Terminal 21 Food Court (Pier 21), Sukhumvit Soi 19, Asoke, Asoke, TH" data-map-lat="13.737625" data-map-lng="100.5606201">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Terminal 21 Food Court (Pier 21)</h2>
         <span class="cuisine-tag tag-regional">Food Court / Multi-Cuisine</span>
@@ -532,7 +518,7 @@
         <strong>tabiji verdict:</strong> The single best-value meal in Bangkok, bar none. Terminal 21&#39;s top-floor food court (Pier 21) subsidises food prices to draw shoppers — and the result is absurdly cheap, genuinely good Thai food at prices even locals can&#39;t beat. The som tam here gets specific praise from Redditors, and a full meal with drink costs less than a coffee at Starbucks. If you&#39;re on a budget, eat here at least once a day and spend the savings on everything else.
     </div>
 </section>
-<section class="restaurant-section" id="thip-samai">
+<section class="restaurant-section" id="thip-samai" data-map-name="2. Thip Samai (ทิพย์สมัย)" data-map-cta-url="https://maps.google.com/?cid=7605461113463140286&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Thip Samai (ทิพย์สมัย), 313 Maha Chai Rd, Phra Nakhon, Asoke, TH" data-map-lat="13.7527976" data-map-lng="100.504823">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Thip Samai (ทิพย์สมัย)</h2>
         <span class="cuisine-tag tag-regional">Thai / Pad Thai</span>
@@ -570,7 +556,7 @@
         <strong>tabiji verdict:</strong> The most famous pad thai in Bangkok — and it mostly lives up to the hype. Operating since 1966, Thip Samai&#39;s egg-wrapped pad thai is charcoal-wok&#39;d to perfection with a smoky char that mass-produced pad thai can never replicate. Yes, there&#39;s a queue. Yes, it&#39;s worth it. It&#39;s located right next to Jay Fai (the ฿1,000+ Michelin-starred street vendor), making it the infinitely more sensible choice for budget travellers who want world-class pad thai without the prestige tax.
     </div>
 </section>
-<section class="restaurant-section" id="yaowarat">
+<section class="restaurant-section" id="yaowarat" data-map-name="3. Yaowarat Street Food (Chinatown)" data-map-cta-url="https://maps.google.com/?cid=6365829341215025876&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yaowarat Street Food (Chinatown), Yaowarat Road, Samphanthawong, Asoke, TH" data-map-lat="13.7403286" data-map-lng="100.5099527">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Yaowarat Street Food (Chinatown)</h2>
         <span class="cuisine-tag tag-regional">Chinese-Thai / Street Food</span>
@@ -608,7 +594,7 @@
         <strong>tabiji verdict:</strong> Yaowarat isn&#39;t a single restaurant — it&#39;s an entire street food ecosystem that comes alive after dark. Bangkok&#39;s Chinatown is over 200 years old and the food reflects that heritage: Chinese-Thai fusion dishes you won&#39;t find anywhere else on Earth. The trick is ignoring the stalls with English menus and neon signs, and heading for the ones where Thai families are crowded around plastic tables. Come hungry, come after 6pm, and budget at least 2 hours to graze your way down the road.
     </div>
 </section>
-<section class="restaurant-section" id="som-tam-jay-so">
+<section class="restaurant-section" id="som-tam-jay-so" data-map-name="4. Som Tam Jay So" data-map-cta-url="https://maps.google.com/?cid=859211631458523096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Som Tam Jay So, Silom area, Asoke, TH" data-map-lat="13.7250673" data-map-lng="100.53259519999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Som Tam Jay So</h2>
         <span class="cuisine-tag tag-regional">Isaan / Thai</span>
@@ -646,7 +632,7 @@
         <strong>tabiji verdict:</strong> Isaan food is the soul of Thai street eating, and Som Tam Jay So does it as well as anywhere in Bangkok. The grilled chicken alone — smoky, juicy, with shatteringly crispy skin — is worth the trip. Regular visitors to Bangkok treat this as a mandatory pilgrimage, and the fact that a full meal of som tam + gai yang + sticky rice + drink costs under ฿200 makes it one of the best food deals in the city. A legitimate &quot;if you eat one thing in Bangkok&quot; contender.
     </div>
 </section>
-<section class="restaurant-section" id="pad-thai-fai-ta-lu">
+<section class="restaurant-section" id="pad-thai-fai-ta-lu" data-map-name="5. Pad Thai Fai Ta Lu" data-map-cta-url="https://maps.google.com/?cid=17533998801550632228&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pad Thai Fai Ta Lu, Dinso Road, Phra Nakhon, Asoke, TH" data-map-lat="13.757891500000001" data-map-lng="100.5022115">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Pad Thai Fai Ta Lu</h2>
         <span class="cuisine-tag tag-regional">Thai / Pad Thai</span>
@@ -680,7 +666,7 @@
         <strong>tabiji verdict:</strong> If Thip Samai is the classic pad thai, Pad Thai Fai Ta Lu is the modern evolution — bigger, bolder, and with crispy pork belly that elevates the dish into something genuinely extraordinary. Reddit&#39;s Bangkok food enthusiasts specifically call this out as a must-eat. The wok-hei (breath of the wok) flavour is intense — you can taste the 1,000°F flames in every bite. Not the cheapest pad thai in Bangkok, but possibly the most memorable.
     </div>
 </section>
-<section class="restaurant-section" id="rung-rueang">
+<section class="restaurant-section" id="rung-rueang" data-map-name="6. Rung Rueang Pork Noodle (รุ่งเรือง)" data-map-cta-url="https://maps.google.com/?cid=14961108428832115858&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rung Rueang Pork Noodle (รุ่งเรือง), Sukhumvit Soi 26, Asoke, TH" data-map-lat="13.728437099999999" data-map-lng="100.57067239999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Rung Rueang Pork Noodle (รุ่งเรือง)</h2>
         <span class="cuisine-tag tag-regional">Thai / Noodles</span>
@@ -714,7 +700,7 @@
         <strong>tabiji verdict:</strong> A Bib Gourmand-recognised noodle shop that has been serving the Sukhumvit area for decades. Rung Rueang is the platonic ideal of Bangkok pork noodles — the broth is clean yet deeply flavourful, the pork is tender, and the crackling adds texture. At ฿50-80 a bowl, this is what &quot;cheap eats&quot; in Bangkok really means: Michelin-recognised food for less than $2.50. The location on Sukhumvit Soi 26 is also convenient for tourists staying in the Asoke/Phrom Phong area.
     </div>
 </section>
-<section class="restaurant-section" id="here-hai">
+<section class="restaurant-section" id="here-hai" data-map-name="7. Here Hai (เฮียไฮ้)" data-map-cta-url="https://maps.google.com/?cid=2748471789301096848&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Here Hai (เฮียไฮ้), Banthat Thong Road, Asoke, TH" data-map-lat="13.7302655" data-map-lng="100.586342">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Here Hai (เฮียไฮ้)</h2>
         <span class="cuisine-tag tag-regional">Seafood / Thai-Chinese</span>
@@ -752,7 +738,7 @@
         <strong>tabiji verdict:</strong> Here Hai is the spot where Bangkok&#39;s food-obsessed locals go for seafood that would cost 3-5x more in a restaurant with tablecloths. The crab fried rice is the star — real crab meat, not the imitation stuff — but everything on the menu punches above its price point. It&#39;s at the upper end of &quot;cheap eats&quot; territory, but when you consider you&#39;re getting restaurant-quality seafood for ฿100-200, it&#39;s still an extraordinary deal. Best with a group so you can order multiple dishes to share.
     </div>
 </section>
-<section class="restaurant-section" id="kor-panich">
+<section class="restaurant-section" id="kor-panich" data-map-name="8. Kor Panich (ก.พานิช)" data-map-cta-url="https://maps.google.com/?cid=1879480900184167701&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kor Panich (ก.พานิช), 431 Tanao Rd, Phra Nakhon, Asoke, TH" data-map-lat="13.7520958" data-map-lng="100.4983613">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Kor Panich (ก.พานิช)</h2>
         <span class="cuisine-tag tag-regional">Thai Desserts</span>
@@ -786,7 +772,7 @@
         <strong>tabiji verdict:</strong> Mango sticky rice is everywhere in Bangkok, but Kor Panich has been doing it better than everyone else for nearly a century. The difference is in the details — the quality of the sticky rice, the richness of the coconut cream, the ripeness of the mango. It&#39;s not a full meal, but it&#39;s the perfect post-lunch dessert stop while exploring Old Town Bangkok. Located near the Grand Palace and Thip Samai, so you can combo the two in one trip. Get there before noon or risk disappointment — they sell out regularly.
     </div>
 </section>
-<section class="restaurant-section" id="hoi-tod-chaw-lay">
+<section class="restaurant-section" id="hoi-tod-chaw-lay" data-map-name="9. Hoi Tod Chaw Lay" data-map-cta-url="https://maps.google.com/?cid=8447423960586661824&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hoi Tod Chaw Lay, Thonglor area, Asoke, TH" data-map-lat="13.7246705" data-map-lng="100.579257">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Hoi Tod Chaw Lay</h2>
         <span class="cuisine-tag tag-regional">Thai / Seafood Street Food</span>
@@ -824,7 +810,7 @@
         <strong>tabiji verdict:</strong> Hoi tod (crispy mussel/oyster omelette) is one of Bangkok&#39;s most underrated street food dishes — tourists flock to pad thai and som tam while locals queue for this crispy, savoury masterpiece. Hoi Tod Chaw Lay in Thonglor is the Redditor-approved version, with extra-crispy edges and generous seafood. Their pad thai is also quietly excellent. It&#39;s the kind of dual-threat spot where you order both dishes and wonder why you ever ate anywhere else.
     </div>
 </section>
-<section class="restaurant-section" id="krua-khun-puk">
+<section class="restaurant-section" id="krua-khun-puk" data-map-name="10. Krua Khun Puk" data-map-cta-url="https://maps.google.com/?cid=11955134405891233470&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Krua Khun Puk, Sukhumvit Soi 11/1, Asoke, TH" data-map-lat="13.739982" data-map-lng="100.5565886">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Krua Khun Puk</h2>
         <span class="cuisine-tag tag-regional">Thai</span>
@@ -858,7 +844,7 @@
         <strong>tabiji verdict:</strong> The Sukhumvit area is full of tourist-priced restaurants where a pad thai costs ฿200+, so finding Krua Khun Puk feels like discovering a cheat code. Right at the entrance to Soi 11/1 — one of Bangkok&#39;s most tourist-heavy streets — this mom-and-pop shop serves real Thai food at real Thai prices. The locals eat here, the food is freshly cooked, and your bill will be a fraction of what you&#39;d pay 100 meters in either direction. Essential for anyone staying in the Nana/Asoke area.
     </div>
 </section>
-<section class="restaurant-section" id="baan-som-tum">
+<section class="restaurant-section" id="baan-som-tum" data-map-name="11. Baan Som Tum" data-map-cta-url="https://maps.google.com/?cid=9380492308857186144&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Baan Som Tum, Multiple locations (available on Grab), Asoke, TH" data-map-lat="13.717346299999999" data-map-lng="100.5821943">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Baan Som Tum</h2>
         <span class="cuisine-tag tag-regional">Isaan / Thai</span>
@@ -892,7 +878,7 @@
         <strong>tabiji verdict:</strong> When a Redditor says a restaurant&#39;s beef &quot;literally saved me,&quot; you pay attention. Baan Som Tum is a small chain specialising in Isaan food — Thailand&#39;s spicy, sour, funky northeastern cuisine. The waterfall beef salad is the dish that generates the most Reddit enthusiasm, and the fact that it&#39;s available on Grab means you can enjoy it from your hotel. Multiple locations across Bangkok make it accessible no matter where you&#39;re staying. A great introduction to Isaan food for newcomers, and a reliable favourite for repeat visitors.
     </div>
 </section>
-<section class="restaurant-section" id="bamee-kon-sae-lee">
+<section class="restaurant-section" id="bamee-kon-sae-lee" data-map-name="12. Bamee Kon Sae Lee" data-map-cta-url="https://maps.google.com/?cid=3802502357164485286&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bamee Kon Sae Lee, Thonglor area, Asoke, TH" data-map-lat="13.7235613" data-map-lng="100.57979139999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Bamee Kon Sae Lee</h2>
         <span class="cuisine-tag tag-regional">Thai-Chinese / Noodles</span>
@@ -926,7 +912,7 @@
         <strong>tabiji verdict:</strong> Bangkok&#39;s egg noodle (bamee) shops are a world unto themselves — decades-old family businesses that have perfected a single dish through repetition. Bamee Kon Sae Lee is the Thonglor favourite, with handmade noodles that have a texture you simply don&#39;t get from the factory-made version. It&#39;s the kind of place Redditors list alongside other legendary names in their curated Bangkok food lists. Located next door to Zaew Thonglo (another local legend), making this corner of Thonglor a one-two punch of noodle excellence.
     </div>
 </section>
-<section class="restaurant-section" id="or-tor-kor">
+<section class="restaurant-section" id="or-tor-kor" data-map-name="13. Or Tor Kor Market Food Court" data-map-cta-url="https://maps.google.com/?cid=17253357789056184182&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Or Tor Kor Market Food Court, Kamphaeng Phet Rd, Chatuchak, Asoke, TH" data-map-lat="13.797128299999999" data-map-lng="100.5475328">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Or Tor Kor Market Food Court</h2>
         <span class="cuisine-tag tag-regional">Thai / Market</span>
@@ -978,9 +964,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Asoke%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Terminal 21 Food Court (Pier 21)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1002,7 +989,7 @@
       <li>
         <a href="#rung-rueang">6. Rung Rueang Pork Noodle (รุ่งเรือง)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Asoke%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3733078877799631301&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1013,5 +1000,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Eats%20in%20Bangkok","picks":[{"anchorId":"terminal-21","rank":1,"name":"Terminal 21 Food Court (Pier 21)","label":"1. Terminal 21 Food Court (Pier 21)","lat":13.737625,"lng":100.5606201,"ctaUrl":"https://maps.google.com/?cid=3733078877799631301&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Terminal 21 Food Court (Pier 21), Sukhumvit Soi 19, Asoke, Asoke, TH"},{"anchorId":"thip-samai","rank":2,"name":"Thip Samai (ทิพย์สมัย)","label":"2. Thip Samai (ทิพย์สมัย)","lat":13.7527976,"lng":100.504823,"ctaUrl":"https://maps.google.com/?cid=7605461113463140286&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Thip Samai (ทิพย์สมัย), 313 Maha Chai Rd, Phra Nakhon, Asoke, TH"},{"anchorId":"yaowarat","rank":3,"name":"Yaowarat Street Food (Chinatown)","label":"3. Yaowarat Street Food (Chinatown)","lat":13.7403286,"lng":100.5099527,"ctaUrl":"https://maps.google.com/?cid=6365829341215025876&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yaowarat Street Food (Chinatown), Yaowarat Road, Samphanthawong, Asoke, TH"},{"anchorId":"som-tam-jay-so","rank":4,"name":"Som Tam Jay So","label":"4. Som Tam Jay So","lat":13.7250673,"lng":100.53259519999999,"ctaUrl":"https://maps.google.com/?cid=859211631458523096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Som Tam Jay So, Silom area, Asoke, TH"},{"anchorId":"pad-thai-fai-ta-lu","rank":5,"name":"Pad Thai Fai Ta Lu","label":"5. Pad Thai Fai Ta Lu","lat":13.757891500000001,"lng":100.5022115,"ctaUrl":"https://maps.google.com/?cid=17533998801550632228&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pad Thai Fai Ta Lu, Dinso Road, Phra Nakhon, Asoke, TH"},{"anchorId":"rung-rueang","rank":6,"name":"Rung Rueang Pork Noodle (รุ่งเรือง)","label":"6. Rung Rueang Pork Noodle (รุ่งเรือง)","lat":13.728437099999999,"lng":100.57067239999999,"ctaUrl":"https://maps.google.com/?cid=14961108428832115858&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rung Rueang Pork Noodle (รุ่งเรือง), Sukhumvit Soi 26, Asoke, TH"},{"anchorId":"here-hai","rank":7,"name":"Here Hai (เฮียไฮ้)","label":"7. Here Hai (เฮียไฮ้)","lat":13.7302655,"lng":100.586342,"ctaUrl":"https://maps.google.com/?cid=2748471789301096848&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Here Hai (เฮียไฮ้), Banthat Thong Road, Asoke, TH"},{"anchorId":"kor-panich","rank":8,"name":"Kor Panich (ก.พานิช)","label":"8. Kor Panich (ก.พานิช)","lat":13.7520958,"lng":100.4983613,"ctaUrl":"https://maps.google.com/?cid=1879480900184167701&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kor Panich (ก.พานิช), 431 Tanao Rd, Phra Nakhon, Asoke, TH"},{"anchorId":"hoi-tod-chaw-lay","rank":9,"name":"Hoi Tod Chaw Lay","label":"9. Hoi Tod Chaw Lay","lat":13.7246705,"lng":100.579257,"ctaUrl":"https://maps.google.com/?cid=8447423960586661824&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hoi Tod Chaw Lay, Thonglor area, Asoke, TH"},{"anchorId":"krua-khun-puk","rank":10,"name":"Krua Khun Puk","label":"10. Krua Khun Puk","lat":13.739982,"lng":100.5565886,"ctaUrl":"https://maps.google.com/?cid=11955134405891233470&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Krua Khun Puk, Sukhumvit Soi 11/1, Asoke, TH"},{"anchorId":"baan-som-tum","rank":11,"name":"Baan Som Tum","label":"11. Baan Som Tum","lat":13.717346299999999,"lng":100.5821943,"ctaUrl":"https://maps.google.com/?cid=9380492308857186144&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Baan Som Tum, Multiple locations (available on Grab), Asoke, TH"},{"anchorId":"bamee-kon-sae-lee","rank":12,"name":"Bamee Kon Sae Lee","label":"12. Bamee Kon Sae Lee","lat":13.7235613,"lng":100.57979139999999,"ctaUrl":"https://maps.google.com/?cid=3802502357164485286&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bamee Kon Sae Lee, Thonglor area, Asoke, TH"},{"anchorId":"or-tor-kor","rank":13,"name":"Or Tor Kor Market Food Court","label":"13. Or Tor Kor Market Food Court","lat":13.797128299999999,"lng":100.5475328,"ctaUrl":"https://maps.google.com/?cid=17253357789056184182&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Or Tor Kor Market Food Court, Kamphaeng Phet Rd, Chatuchak, Asoke, TH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

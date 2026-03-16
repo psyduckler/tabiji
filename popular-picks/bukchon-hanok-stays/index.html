@@ -160,7 +160,8 @@
           "addressLocality": "Various locations, Bukchon",
           "addressCountry": "KR"
         },
-        "priceRange": "₩50,000–₩200,000/night"
+        "priceRange": "₩50,000–₩200,000/night",
+        "url": "https://maps.google.com/?cid=16130276351854771217&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
       }
     }
   ]
@@ -262,9 +263,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -289,7 +293,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -341,9 +345,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Hanok Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanok%20Stay%20Experiences%20in%20Bukchon&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Rakkojae Seoul (락고재)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Hanok Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -365,7 +370,7 @@
       <li>
         <a href="#sohyeondang">6. Sohyeondang Hanok Guesthouse (소현당)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanok%20Stay%20Experiences%20in%20Bukchon" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Rakkojae+Seoul+Bukchon" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -377,7 +382,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="rakkojae">
+<section class="restaurant-section" id="rakkojae" data-map-name="1. Rakkojae Seoul (락고재)" data-map-cta-url="https://www.google.com/maps/search/Rakkojae+Seoul+Bukchon" data-map-query="Rakkojae Seoul (락고재), Bukchon, Gye-dong, Seoul, KR" data-map-lat="37.580259399999996" data-map-lng="126.98598399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Rakkojae Seoul (락고재)</h2>
         <span class="cuisine-tag tag-regional">Luxury Heritage</span>
@@ -411,7 +416,7 @@
         <strong>tabiji verdict:</strong> The gold standard of hanok stays in Seoul. Yes, it&#39;s expensive — but Rakkojae is a genuine 200-year-old heritage hanok, not a reconstruction. The secluded courtyard, traditional breakfast, and cultural programs justify the price. Book the main Seoul building specifically. If you&#39;re going to splurge on one night in a hanok, make it this one.
     </div>
 </section>
-<section class="restaurant-section" id="bukchonmaru">
+<section class="restaurant-section" id="bukchonmaru" data-map-name="2. Bukchonmaru Hanok Guesthouse (북촌마루)" data-map-cta-url="https://www.google.com/maps/search/Bukchonmaru+Hanok+Guesthouse+Seoul" data-map-query="Bukchonmaru Hanok Guesthouse (북촌마루), Changdeokgung-gil, Bukchon, Seoul, KR" data-map-lat="37.5831522" data-map-lng="126.98751739999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Bukchonmaru Hanok Guesthouse (북촌마루)</h2>
         <span class="cuisine-tag tag-regional">Traditional Guesthouse</span>
@@ -441,7 +446,7 @@
         <strong>tabiji verdict:</strong> The best value-for-money hanok in Bukchon. You get the authentic experience — ondol floors, Korean breakfast, courtyard atmosphere — without the luxury price tag. The rooftop view alone is worth it. The friendly, English-speaking owner makes this especially good for first-time Korea visitors.
     </div>
 </section>
-<section class="restaurant-section" id="guesthouse-suni">
+<section class="restaurant-section" id="guesthouse-suni" data-map-name="3. Guesthouse Suni (게스트하우스 수니)" data-map-cta-url="https://www.google.com/maps/search/Guesthouse+Suni+Bukchon+Seoul" data-map-query="Guesthouse Suni (게스트하우스 수니), Bukchon, Jongno-gu, Seoul, KR" data-map-lat="37.5899381" data-map-lng="127.0184711">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Guesthouse Suni (게스트하우스 수니)</h2>
         <span class="cuisine-tag tag-regional">Budget-Friendly</span>
@@ -467,7 +472,7 @@
         <strong>tabiji verdict:</strong> The backpacker-friendly hanok option. Clean, authentic, and affordable — you&#39;re sleeping in a real hanok without paying luxury prices. The pre-payment requirement catches some people off guard, but it&#39;s standard for smaller guesthouses. Perfect for solo travelers who want the experience for 1-2 nights.
     </div>
 </section>
-<section class="restaurant-section" id="dajayon">
+<section class="restaurant-section" id="dajayon" data-map-name="4. Dajayon Hanok Stay (다자연 한옥스테이)" data-map-cta-url="https://www.google.com/maps/search/Dajayon+Hanok+Stay+Bukchon+Seoul" data-map-query="Dajayon Hanok Stay (다자연 한옥스테이), Bukchon, Jongno-gu, Seoul, KR" data-map-lat="37.573921999999996" data-map-lng="126.991831">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Dajayon Hanok Stay (다자연 한옥스테이)</h2>
         <span class="cuisine-tag tag-regional">Traditional Guesthouse</span>
@@ -493,7 +498,7 @@
         <strong>tabiji verdict:</strong> A solid middle-ground hanok — more polished than budget guesthouses but not luxury prices. The courtyard garden is lovely, and the flexible booking policy is a plus for travelers with uncertain plans. A safe, well-reviewed choice that consistently delivers a good hanok experience.
     </div>
 </section>
-<section class="restaurant-section" id="stay-onyou">
+<section class="restaurant-section" id="stay-onyou" data-map-name="5. Stay Onyou (스테이 온유)" data-map-cta-url="https://www.google.com/maps/search/Stay+Onyou+Bukchon+Seoul" data-map-query="Stay Onyou (스테이 온유), Bukchon, near Changdeokgung, Seoul, KR" data-map-lat="37.581557499999995" data-map-lng="126.9874648">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Stay Onyou (스테이 온유)</h2>
         <span class="cuisine-tag tag-regional">Private Hanok</span>
@@ -519,7 +524,7 @@
         <strong>tabiji verdict:</strong> The &quot;best of both worlds&quot; pick. You get the traditional hanok aesthetic and Bukchon location, but with a private bathroom, your own space, and no shared facilities. Perfect for couples or small groups who want the Instagram-worthy hanok experience without sacrificing privacy. The proximity to Changdeokgung&#39;s secret garden is a bonus.
     </div>
 </section>
-<section class="restaurant-section" id="sohyeondang">
+<section class="restaurant-section" id="sohyeondang" data-map-name="6. Sohyeondang Hanok Guesthouse (소현당)" data-map-cta-url="https://www.google.com/maps/search/Sohyeondang+Hanok+Guesthouse+Bukchon+Seoul" data-map-query="Sohyeondang Hanok Guesthouse (소현당), Bukchon, near Gyeongbokgung, Seoul, KR" data-map-lat="37.5788782" data-map-lng="126.98176780000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Sohyeondang Hanok Guesthouse (소현당)</h2>
         <span class="cuisine-tag tag-regional">Boutique Hanok</span>
@@ -545,7 +550,7 @@
         <strong>tabiji verdict:</strong> A charming boutique hanok that sits at the sweet spot between budget guesthouses and luxury hotels. The restored architecture is beautiful, the location between both palaces is ideal, and the personal touch from the owner elevates the experience. Great for travelers who want quality without Rakkojae prices.
     </div>
 </section>
-<section class="restaurant-section" id="airbnb-hanoks">
+<section class="restaurant-section" id="airbnb-hanoks" data-map-name="7. Airbnb Hanoks in Bukchon" data-map-cta-url="https://maps.google.com/?cid=16130276351854771217&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Airbnb Hanoks in Bukchon, Various locations, Bukchon, Seoul, KR" data-map-lat="37.5806603" data-map-lng="126.98653309999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Airbnb Hanoks in Bukchon</h2>
         <span class="cuisine-tag tag-regional">Airbnb / Self-Catering</span>
@@ -554,7 +559,7 @@
     <div class="restaurant-details">
         <span>💴 ₩50,000–₩200,000/night</span>
         <span>📍 Various locations, Bukchon</span>
-        
+        <a href="https://maps.google.com/?cid=16130276351854771217&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">📌 Google Maps →</a>
     </div>
     
     
@@ -593,9 +598,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Hanok Map</h2>
-      <iframe src="https://www.google.com/maps?q=Hanok%20Stay%20Experiences%20in%20Bukchon&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Rakkojae Seoul (락고재)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Hanok Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -617,7 +623,7 @@
       <li>
         <a href="#sohyeondang">6. Sohyeondang Hanok Guesthouse (소현당)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Hanok%20Stay%20Experiences%20in%20Bukchon" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Rakkojae+Seoul+Bukchon" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -628,5 +634,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Hanok Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Hanok%20Stay%20Experiences%20in%20Bukchon","picks":[{"anchorId":"rakkojae","rank":1,"name":"Rakkojae Seoul (락고재)","label":"1. Rakkojae Seoul (락고재)","lat":37.580259399999996,"lng":126.98598399999999,"ctaUrl":"https://www.google.com/maps/search/Rakkojae+Seoul+Bukchon","mapQuery":"Rakkojae Seoul (락고재), Bukchon, Gye-dong, Seoul, KR"},{"anchorId":"bukchonmaru","rank":2,"name":"Bukchonmaru Hanok Guesthouse (북촌마루)","label":"2. Bukchonmaru Hanok Guesthouse (북촌마루)","lat":37.5831522,"lng":126.98751739999999,"ctaUrl":"https://www.google.com/maps/search/Bukchonmaru+Hanok+Guesthouse+Seoul","mapQuery":"Bukchonmaru Hanok Guesthouse (북촌마루), Changdeokgung-gil, Bukchon, Seoul, KR"},{"anchorId":"guesthouse-suni","rank":3,"name":"Guesthouse Suni (게스트하우스 수니)","label":"3. Guesthouse Suni (게스트하우스 수니)","lat":37.5899381,"lng":127.0184711,"ctaUrl":"https://www.google.com/maps/search/Guesthouse+Suni+Bukchon+Seoul","mapQuery":"Guesthouse Suni (게스트하우스 수니), Bukchon, Jongno-gu, Seoul, KR"},{"anchorId":"dajayon","rank":4,"name":"Dajayon Hanok Stay (다자연 한옥스테이)","label":"4. Dajayon Hanok Stay (다자연 한옥스테이)","lat":37.573921999999996,"lng":126.991831,"ctaUrl":"https://www.google.com/maps/search/Dajayon+Hanok+Stay+Bukchon+Seoul","mapQuery":"Dajayon Hanok Stay (다자연 한옥스테이), Bukchon, Jongno-gu, Seoul, KR"},{"anchorId":"stay-onyou","rank":5,"name":"Stay Onyou (스테이 온유)","label":"5. Stay Onyou (스테이 온유)","lat":37.581557499999995,"lng":126.9874648,"ctaUrl":"https://www.google.com/maps/search/Stay+Onyou+Bukchon+Seoul","mapQuery":"Stay Onyou (스테이 온유), Bukchon, near Changdeokgung, Seoul, KR"},{"anchorId":"sohyeondang","rank":6,"name":"Sohyeondang Hanok Guesthouse (소현당)","label":"6. Sohyeondang Hanok Guesthouse (소현당)","lat":37.5788782,"lng":126.98176780000001,"ctaUrl":"https://www.google.com/maps/search/Sohyeondang+Hanok+Guesthouse+Bukchon+Seoul","mapQuery":"Sohyeondang Hanok Guesthouse (소현당), Bukchon, near Gyeongbokgung, Seoul, KR"},{"anchorId":"airbnb-hanoks","rank":7,"name":"Airbnb Hanoks in Bukchon","label":"7. Airbnb Hanoks in Bukchon","lat":37.5806603,"lng":126.98653309999999,"ctaUrl":"https://maps.google.com/?cid=16130276351854771217&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Airbnb Hanoks in Bukchon, Various locations, Bukchon, Seoul, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

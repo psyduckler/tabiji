@@ -387,9 +387,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -414,7 +417,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -466,9 +469,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12413.5!2d-9.1393!3d38.7223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Farol de Santa Luzia</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -490,7 +494,7 @@
       <li>
         <a href="#a-cevicheria">6. A Cevicheria</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Sardine%20Restaurants%20in%20Lisbon%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4692815828629661545&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -502,7 +506,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="farol-santa-luzia">
+<section class="restaurant-section" id="farol-santa-luzia" data-map-name="1. Farol de Santa Luzia" data-map-cta-url="https://maps.google.com/?cid=4692815828629661545&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Farol de Santa Luzia, Largo de Santa Luzia 5, Alfama, Lisbon, PT" data-map-lat="38.7117649" data-map-lng="-9.1306309">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Farol de Santa Luzia</h2>
         <span class="cuisine-tag tag-regional">Alfama Classic</span>
@@ -540,7 +544,7 @@
         <strong>tabiji verdict:</strong> The most recommended grilled sardine restaurant in Alfama — and the combination of exceptional food with one of Lisbon&#39;s most beautiful terraces makes it easy to understand why. Arrive early for a terrace table. Book if going in June.
     </div>
 </section>
-<section class="restaurant-section" id="ultimo-porto">
+<section class="restaurant-section" id="ultimo-porto" data-map-name="2. Último Porto" data-map-cta-url="https://maps.google.com/?cid=15547668405598805592&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Último Porto, Rua General Gomes Araújo 1, Alcântara, Lisbon, PT" data-map-lat="38.701313299999995" data-map-lng="-9.1625601">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Último Porto</h2>
         <span class="cuisine-tag tag-regional">Waterfront Grill</span>
@@ -578,7 +582,7 @@
         <strong>tabiji verdict:</strong> The authenticity test. No-frills riverside setting, honest prices, a crowd that knows its fish. The charcoal grill does everything the right way. One of those restaurants that reminds you food doesn&#39;t need to be fancy to be extraordinary.
     </div>
 </section>
-<section class="restaurant-section" id="sol-e-pesca">
+<section class="restaurant-section" id="sol-e-pesca" data-map-name="3. Sol e Pesca" data-map-cta-url="https://maps.google.com/?cid=5254336467359965503&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sol e Pesca, Rua Nova do Carvalho 44, Cais do Sodré (Pink Street), Lisbon, PT" data-map-lat="38.7073925" data-map-lng="-9.1437312">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sol e Pesca</h2>
         <span class="cuisine-tag tag-regional">Conservas Bar</span>
@@ -616,7 +620,7 @@
         <strong>tabiji verdict:</strong> The conservas experience. The difference between a fresh-off-the-shelf tinned sardine and a 3-year-aged Portuguese conserva is enormous. Sol e Pesca is where you learn this. The Pink Street location is one of Lisbon&#39;s most interesting nightlife areas — combine for a perfect evening.
     </div>
 </section>
-<section class="restaurant-section" id="conserveira">
+<section class="restaurant-section" id="conserveira" data-map-name="4. Conserveira de Lisboa" data-map-cta-url="https://maps.google.com/?cid=8045587954749394299&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Conserveira de Lisboa, Rua dos Bacalhoeiros 34, Alfama, Lisbon, PT" data-map-lat="38.7093206" data-map-lng="-9.134697">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Conserveira de Lisboa</h2>
         <span class="cuisine-tag tag-regional">Since 1930</span>
@@ -653,7 +657,7 @@
         <strong>tabiji verdict:</strong> Part shop, part cultural experience. The 1930 interior is extraordinary; the conservas are among Portugal&#39;s best. Buy a vintage tin as a gift — aged sardines improve like wine and a 5-year-old Tricana tin is one of the best souvenirs you can bring home from Lisbon.
     </div>
 </section>
-<section class="restaurant-section" id="tasca-chico">
+<section class="restaurant-section" id="tasca-chico" data-map-name="5. Tasca do Chico" data-map-cta-url="https://maps.google.com/?cid=15525539885395169820&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tasca do Chico, Rua do Diário de Notícias 39, Bairro Alto, Lisbon, PT" data-map-lat="38.7116247" data-map-lng="-9.144139599999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Tasca do Chico</h2>
         <span class="cuisine-tag tag-regional">Fado + Sardines</span>
@@ -691,7 +695,7 @@
         <strong>tabiji verdict:</strong> The combination of spontaneous fado and excellent sardinhas in a space that feels genuinely old Lisbon. One of the city&#39;s most atmospheric dining experiences. Arrive without a plan and stay as long as the music lasts.
     </div>
 </section>
-<section class="restaurant-section" id="a-cevicheria">
+<section class="restaurant-section" id="a-cevicheria" data-map-name="6. A Cevicheria" data-map-cta-url="https://maps.google.com/?cid=249361683231044429&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="A Cevicheria, Rua Dom Pedro V 129, Príncipe Real, Lisbon, PT" data-map-lat="38.715970899999995" data-map-lng="-9.1474989">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>A Cevicheria</h2>
         <span class="cuisine-tag tag-regional">Creative Portuguese</span>
@@ -729,7 +733,7 @@
         <strong>tabiji verdict:</strong> The creative option. Kiko Martins has built a restaurant that treats Portuguese fish with the same seriousness as the best restaurants treat Japanese fish. The sardine ceviche is a revelation. The location in Príncipe Real makes it part of a perfect afternoon in Lisbon&#39;s most charming neighbourhood.
     </div>
 </section>
-<section class="restaurant-section" id="taberna-flores">
+<section class="restaurant-section" id="taberna-flores" data-map-name="7. Taberna da Rua das Flores" data-map-cta-url="https://maps.google.com/?cid=15955473777499375869&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taberna da Rua das Flores, Rua das Flores 103, Chiado, Lisbon, PT" data-map-lat="38.7100544" data-map-lng="-9.1436093">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Taberna da Rua das Flores</h2>
         <span class="cuisine-tag tag-regional">Modern Tasca</span>
@@ -767,7 +771,7 @@
         <strong>tabiji verdict:</strong> The modern classic. Where Chiado&#39;s creative food scene meets traditional Portuguese cooking. A restaurant beloved by Lisbon&#39;s own food community — the hardest audience to please. Reserve ahead; they&#39;re small and word of mouth has made them perpetually full.
     </div>
 </section>
-<section class="restaurant-section" id="solar-presuntos">
+<section class="restaurant-section" id="solar-presuntos" data-map-name="8. Solar dos Presuntos" data-map-cta-url="https://maps.google.com/?cid=6887572243664963168&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Solar dos Presuntos, Rua das Portas de Santo Antão 150, Avenida, Lisbon, PT" data-map-lat="38.7178208" data-map-lng="-9.141697899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Solar dos Presuntos</h2>
         <span class="cuisine-tag tag-regional">Grand Lisbon Classic</span>
@@ -801,7 +805,7 @@
         <strong>tabiji verdict:</strong> The grand dame of Lisbon traditional restaurants. If you want the sardines presented in the most refined traditional way, Solar dos Presuntos delivers. More formal than the Alfama spots but the quality is exceptional. Reserve ahead — it&#39;s been full for 40 years.
     </div>
 </section>
-<section class="restaurant-section" id="ze-mouraria">
+<section class="restaurant-section" id="ze-mouraria" data-map-name="9. Zé da Mouraria" data-map-cta-url="https://maps.google.com/?cid=238283652797808841&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Zé da Mouraria, Rua João do Outeiro 24, Mouraria, Lisbon, PT" data-map-lat="38.7161112" data-map-lng="-9.1349657">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Zé da Mouraria</h2>
         <span class="cuisine-tag tag-regional">Neighbourhood Tasca</span>
@@ -835,7 +839,7 @@
         <strong>tabiji verdict:</strong> The neighbourhood secret. Mouraria is Lisbon&#39;s most historically layered neighbourhood (Moorish, Fado&#39;s birthplace, immigrant community). Zé da Mouraria is its best restaurant. The sardines are excellent at prices that haven&#39;t been inflated by tourism.
     </div>
 </section>
-<section class="restaurant-section" id="ramiro">
+<section class="restaurant-section" id="ramiro" data-map-name="10. Cervejaria Ramiro" data-map-cta-url="https://maps.google.com/?cid=2131959473918823519&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cervejaria Ramiro, Avenida Almirante Reis 1, Intendente, Lisbon, PT" data-map-lat="38.720257" data-map-lng="-9.1357429">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Cervejaria Ramiro</h2>
         <span class="cuisine-tag tag-regional">Seafood Institution</span>
@@ -873,7 +877,7 @@
         <strong>tabiji verdict:</strong> The splurge option. Ramiro is Lisbon&#39;s most beloved seafood restaurant for good reason — everything is excellent, the portions are enormous, and the bill is high but fair for the quality. If you&#39;re doing one special seafood dinner in Lisbon, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="a-baia">
+<section class="restaurant-section" id="a-baia" data-map-name="11. A Baía" data-map-cta-url="https://maps.google.com/?cid=11137749934225599373&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="A Baía, Rua de São Bento 25, Príncipe Real, Lisbon, PT" data-map-lat="38.7071567" data-map-lng="-9.1373436">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>A Baía</h2>
         <span class="cuisine-tag tag-regional">Príncipe Real Gem</span>
@@ -899,7 +903,7 @@
         <strong>tabiji verdict:</strong> The Príncipe Real resident&#39;s pick. In a neighbourhood of antique shops, bookstores, and the best gardens in Lisbon — A Baía is the place to stop for lunch after exploring. The sardines are excellent and the terrace tables fill up early.
     </div>
 </section>
-<section class="restaurant-section" id="chapito">
+<section class="restaurant-section" id="chapito" data-map-name="12. Chapitô à Mesa" data-map-cta-url="https://maps.google.com/?cid=15302846612967213688&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chapitô à Mesa, Costa do Castelo 7, Castelo, Lisbon, PT" data-map-lat="38.7116043" data-map-lng="-9.133973">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Chapitô à Mesa</h2>
         <span class="cuisine-tag tag-regional">Castelo Views</span>
@@ -933,7 +937,7 @@
         <strong>tabiji verdict:</strong> The view-plus-good-food combination — rare in any city. The terrace below São Jorge Castle is one of the best places in Lisbon to eat sardines while watching the city and river below. Book for sunset dinner.
     </div>
 </section>
-<section class="restaurant-section" id="o-corvo">
+<section class="restaurant-section" id="o-corvo" data-map-name="13. O Corvo" data-map-cta-url="https://maps.google.com/?cid=646358879337404065&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="O Corvo, Rua do Paraíso 50, Intendente, Lisbon, PT" data-map-lat="38.7139392" data-map-lng="-9.1356837">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>O Corvo</h2>
         <span class="cuisine-tag tag-regional">Intendente Local</span>
@@ -967,7 +971,7 @@
         <strong>tabiji verdict:</strong> Combine O Corvo with an Intendente neighbourhood walk — one of Lisbon&#39;s most interesting up-and-coming areas. The sardines are excellent and the prices are far more reasonable than Chiado or Príncipe Real.
     </div>
 </section>
-<section class="restaurant-section" id="timeout-market">
+<section class="restaurant-section" id="timeout-market" data-map-name="14. Mercado de Ribeira (Time Out Market)" data-map-cta-url="https://maps.google.com/?cid=1409592934746217618&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mercado de Ribeira (Time Out Market), Avenida 24 de Julho 49, Cais do Sodré, Lisbon, PT" data-map-lat="38.7070608" data-map-lng="-9.1456691">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Mercado de Ribeira (Time Out Market)</h2>
         <span class="cuisine-tag tag-regional">Convenient Sampler</span>
@@ -1001,7 +1005,7 @@
         <strong>tabiji verdict:</strong> The tourist-friendly option — and honestly, several of the vendors are genuinely excellent. Not the most authentic experience but a practical way to try sardines alongside bacalhau, pastéis de nata, and a dozen other Lisbon specialties in one visit.
     </div>
 </section>
-<section class="restaurant-section" id="june-street-grills">
+<section class="restaurant-section" id="june-street-grills" data-map-name="15. Santos Populares Street Grills (June)" data-map-cta-url="https://maps.google.com/?cid=5717758547503579994&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Santos Populares Street Grills (June), Alfama, Mouraria, Bairro Alto streets, Lisbon, PT" data-map-lat="38.707901799999995" data-map-lng="-9.1537934">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Santos Populares Street Grills (June)</h2>
         <span class="cuisine-tag tag-regional">Festival Experience</span>
@@ -1057,9 +1061,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12413.5!2d-9.1393!3d38.7223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Farol de Santa Luzia</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1081,7 +1086,7 @@
       <li>
         <a href="#a-cevicheria">6. A Cevicheria</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Sardine%20Restaurants%20in%20Lisbon%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=4692815828629661545&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1092,5 +1097,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Sardine%20Restaurants%20in%20Lisbon%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"farol-santa-luzia","rank":1,"name":"Farol de Santa Luzia","label":"1. Farol de Santa Luzia","lat":38.7117649,"lng":-9.1306309,"ctaUrl":"https://maps.google.com/?cid=4692815828629661545&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Farol de Santa Luzia, Largo de Santa Luzia 5, Alfama, Lisbon, PT"},{"anchorId":"ultimo-porto","rank":2,"name":"Último Porto","label":"2. Último Porto","lat":38.701313299999995,"lng":-9.1625601,"ctaUrl":"https://maps.google.com/?cid=15547668405598805592&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Último Porto, Rua General Gomes Araújo 1, Alcântara, Lisbon, PT"},{"anchorId":"sol-e-pesca","rank":3,"name":"Sol e Pesca","label":"3. Sol e Pesca","lat":38.7073925,"lng":-9.1437312,"ctaUrl":"https://maps.google.com/?cid=5254336467359965503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sol e Pesca, Rua Nova do Carvalho 44, Cais do Sodré (Pink Street), Lisbon, PT"},{"anchorId":"conserveira","rank":4,"name":"Conserveira de Lisboa","label":"4. Conserveira de Lisboa","lat":38.7093206,"lng":-9.134697,"ctaUrl":"https://maps.google.com/?cid=8045587954749394299&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Conserveira de Lisboa, Rua dos Bacalhoeiros 34, Alfama, Lisbon, PT"},{"anchorId":"tasca-chico","rank":5,"name":"Tasca do Chico","label":"5. Tasca do Chico","lat":38.7116247,"lng":-9.144139599999999,"ctaUrl":"https://maps.google.com/?cid=15525539885395169820&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tasca do Chico, Rua do Diário de Notícias 39, Bairro Alto, Lisbon, PT"},{"anchorId":"a-cevicheria","rank":6,"name":"A Cevicheria","label":"6. A Cevicheria","lat":38.715970899999995,"lng":-9.1474989,"ctaUrl":"https://maps.google.com/?cid=249361683231044429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"A Cevicheria, Rua Dom Pedro V 129, Príncipe Real, Lisbon, PT"},{"anchorId":"taberna-flores","rank":7,"name":"Taberna da Rua das Flores","label":"7. Taberna da Rua das Flores","lat":38.7100544,"lng":-9.1436093,"ctaUrl":"https://maps.google.com/?cid=15955473777499375869&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taberna da Rua das Flores, Rua das Flores 103, Chiado, Lisbon, PT"},{"anchorId":"solar-presuntos","rank":8,"name":"Solar dos Presuntos","label":"8. Solar dos Presuntos","lat":38.7178208,"lng":-9.141697899999999,"ctaUrl":"https://maps.google.com/?cid=6887572243664963168&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Solar dos Presuntos, Rua das Portas de Santo Antão 150, Avenida, Lisbon, PT"},{"anchorId":"ze-mouraria","rank":9,"name":"Zé da Mouraria","label":"9. Zé da Mouraria","lat":38.7161112,"lng":-9.1349657,"ctaUrl":"https://maps.google.com/?cid=238283652797808841&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Zé da Mouraria, Rua João do Outeiro 24, Mouraria, Lisbon, PT"},{"anchorId":"ramiro","rank":10,"name":"Cervejaria Ramiro","label":"10. Cervejaria Ramiro","lat":38.720257,"lng":-9.1357429,"ctaUrl":"https://maps.google.com/?cid=2131959473918823519&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cervejaria Ramiro, Avenida Almirante Reis 1, Intendente, Lisbon, PT"},{"anchorId":"a-baia","rank":11,"name":"A Baía","label":"11. A Baía","lat":38.7071567,"lng":-9.1373436,"ctaUrl":"https://maps.google.com/?cid=11137749934225599373&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"A Baía, Rua de São Bento 25, Príncipe Real, Lisbon, PT"},{"anchorId":"chapito","rank":12,"name":"Chapitô à Mesa","label":"12. Chapitô à Mesa","lat":38.7116043,"lng":-9.133973,"ctaUrl":"https://maps.google.com/?cid=15302846612967213688&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chapitô à Mesa, Costa do Castelo 7, Castelo, Lisbon, PT"},{"anchorId":"o-corvo","rank":13,"name":"O Corvo","label":"13. O Corvo","lat":38.7139392,"lng":-9.1356837,"ctaUrl":"https://maps.google.com/?cid=646358879337404065&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"O Corvo, Rua do Paraíso 50, Intendente, Lisbon, PT"},{"anchorId":"timeout-market","rank":14,"name":"Mercado de Ribeira (Time Out Market)","label":"14. Mercado de Ribeira (Time Out Market)","lat":38.7070608,"lng":-9.1456691,"ctaUrl":"https://maps.google.com/?cid=1409592934746217618&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mercado de Ribeira (Time Out Market), Avenida 24 de Julho 49, Cais do Sodré, Lisbon, PT"},{"anchorId":"june-street-grills","rank":15,"name":"Santos Populares Street Grills (June)","label":"15. Santos Populares Street Grills (June)","lat":38.707901799999995,"lng":-9.1537934,"ctaUrl":"https://maps.google.com/?cid=5717758547503579994&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Santos Populares Street Grills (June), Alfama, Mouraria, Bairro Alto streets, Lisbon, PT"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

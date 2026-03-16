@@ -299,9 +299,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -326,7 +329,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -378,9 +381,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Live Music Map</h2>
-      <iframe src="https://www.google.com/maps?q=Live%20Music%20Venues%20in%20Dakar&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Just 4 U</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Live Music Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -402,7 +406,7 @@
       <li>
         <a href="#la-cave">6. La Cave (Hôtel Le Djoloff)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Live%20Music%20Venues%20in%20Dakar" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Just+4+U+Dakar+Senegal" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -414,7 +418,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="just-4-u">
+<section class="restaurant-section" id="just-4-u" data-map-name="1. Just 4 U" data-map-cta-url="https://www.google.com/maps/search/Just+4+U+Dakar+Senegal" data-map-query="Just 4 U, Point E, Av. Cheikh Anta Diop, Dakar, SN" data-map-lat="14.691718000000002" data-map-lng="-17.4603006">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Just 4 U</h2>
         <span class="cuisine-tag tag-regional">Mbalax / Live Concerts</span>
@@ -447,7 +451,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Dakar live music. Just 4 U is recommended by literally every source we checked — Reddit, Condé Nast Traveler, Parts Unknown, the expat nightlife guide, even Baaba Maal. This open-air institution opposite the university is where students, diplomats, and tourists collide in a sweaty, joyous mass of sound. It&#39;s not fancy — metal structures, tarps, communal tables — but the talent that passes through here is world-class. If you only go to one venue in Dakar, make it this one.
     </div>
 </section>
-<section class="restaurant-section" id="le-thiossane">
+<section class="restaurant-section" id="le-thiossane" data-map-name="2. Le Thiossane" data-map-cta-url="https://www.google.com/maps/search/Le+Thiossane+Dakar+Senegal" data-map-query="Le Thiossane, Grand Dakar, Dakar, SN" data-map-lat="14.703565699999999" data-map-lng="-17.4579086">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Le Thiossane</h2>
         <span class="cuisine-tag tag-regional">Mbalax</span>
@@ -476,7 +480,7 @@
         <strong>tabiji verdict:</strong> The Mecca of mbalax. If Youssou N&#39;Dour is Senegal&#39;s musical patron saint, Le Thiossane is his cathedral. This cavernous club in Grand Dakar has been the epicenter of the genre since the 1990s, and on nights when N&#39;Dour himself takes the stage, it becomes one of the greatest live music experiences on Earth. Even on regular nights, the caliber of musicians is staggering. Not cheap, but this is a pilgrimage, not a night out.
     </div>
 </section>
-<section class="restaurant-section" id="le-viking">
+<section class="restaurant-section" id="le-viking" data-map-name="3. Le Viking" data-map-cta-url="https://www.google.com/maps/search/Le+Viking+Bar+Dakar+Senegal" data-map-query="Le Viking, Plateau, 21 Ave George Pompidou, Dakar, SN" data-map-lat="14.6693065" data-map-lng="-17.4343145">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Le Viking</h2>
         <span class="cuisine-tag tag-regional">Salsa / Mbalax / Live Band</span>
@@ -505,7 +509,7 @@
         <strong>tabiji verdict:</strong> The Plateau&#39;s most reliable live music bet. Le Viking isn&#39;t trying to be the coolest place in Dakar — it&#39;s too busy being the most consistently good. Three nights a week of live bands, reasonable drink prices, and a crowd that actually comes to listen. The genre-hopping sets (salsa one moment, mbalax the next, French classics after that) capture Dakar&#39;s cosmopolitan DNA perfectly. A great starting point if you&#39;re new to the scene.
     </div>
 </section>
-<section class="restaurant-section" id="penc-mi">
+<section class="restaurant-section" id="penc-mi" data-map-name="4. Penc Mi" data-map-cta-url="https://www.google.com/maps/search/Penc+Mi+Dakar+Senegal" data-map-query="Penc Mi, Grand Dakar, Dakar, SN" data-map-lat="14.681437599999997" data-map-lng="-17.454792599999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Penc Mi</h2>
         <span class="cuisine-tag tag-regional">Mbalax / Emerging Artists</span>
@@ -534,7 +538,7 @@
         <strong>tabiji verdict:</strong> The music nerd&#39;s pick. While tourists flock to Just 4 U and Le Thiossane, the real aficionados head to Penc Mi to catch tomorrow&#39;s stars today. Condé Nast Traveler name-checks it as the &quot;incubator club&quot; — and that&#39;s exactly right. The sound is grittier, the crowd more local, and the discovery factor through the roof. If you care about the music more than the scene, this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="yengoulene">
+<section class="restaurant-section" id="yengoulene" data-map-name="5. Yengoulene" data-map-cta-url="https://www.google.com/maps/search/Yengoulene+Dakar+Senegal" data-map-query="Yengoulene, Nord Foire, Dakar, SN" data-map-lat="14.7515483" data-map-lng="-17.4570409">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Yengoulene</h2>
         <span class="cuisine-tag tag-regional">Mbalax / Salsa / Live Band</span>
@@ -559,7 +563,7 @@
         <strong>tabiji verdict:</strong> The venue where Afro-Cuban history meets Dakar energy. Yengoulene&#39;s claim to fame is its association with Orchestra Baobab and Africando — bands that literally defined the Afro-Cuban sound that gave birth to mbalax. Even on nights without legendary headliners, the programming is solid and the dancefloor is one of the best in the city. If you love salsa-inflected West African music, this is your spiritual home.
     </div>
 </section>
-<section class="restaurant-section" id="la-cave">
+<section class="restaurant-section" id="la-cave" data-map-name="6. La Cave (Hôtel Le Djoloff)" data-map-cta-url="https://www.google.com/maps/search/Hotel+Le+Djoloff+Dakar+Senegal" data-map-query="La Cave (Hôtel Le Djoloff), Plateau, Dakar, SN" data-map-lat="14.679613400000001" data-map-lng="-17.462770499999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>La Cave (Hôtel Le Djoloff)</h2>
         <span class="cuisine-tag tag-regional">Jazz</span>
@@ -588,7 +592,7 @@
         <strong>tabiji verdict:</strong> The counterpoint to everything else on this list. While Dakar&#39;s music scene skews loud, late, and massive, La Cave offers something precious: intimacy. The vaulted stone cellar creates natural acoustics that make every performance feel like a private concert. This is where Dakar&#39;s jazz lovers and quiet sophisticates retreat when they want music without the mbalax-volume assault. Come early (shows start at reasonable hours here), dress well, and prepare for goosebumps.
     </div>
 </section>
-<section class="restaurant-section" id="barramundi">
+<section class="restaurant-section" id="barramundi" data-map-name="7. Barramundi" data-map-cta-url="https://www.google.com/maps/search/Barramundi+Dakar+Senegal" data-map-query="Barramundi, Corniche Ouest, Ngor, Dakar, SN" data-map-lat="14.7385761" data-map-lng="-17.5099806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Barramundi</h2>
         <span class="cuisine-tag tag-regional">Jazz / Lounge / DJ</span>
@@ -617,7 +621,7 @@
         <strong>tabiji verdict:</strong> Dakar&#39;s most polished night out. If Just 4 U is a street party and Le Thiossane is a cathedral, Barramundi is a gallery opening. The Corniche Ouest setting, sophisticated cocktail menu, and genre-fluid programming make it the venue of choice for Dakar&#39;s international crowd. It&#39;s the priciest on our list, but the ocean-adjacent atmosphere and the quality of both live acts and DJs justify the premium. Best on Thursday through Saturday.
     </div>
 </section>
-<section class="restaurant-section" id="le-fouquets">
+<section class="restaurant-section" id="le-fouquets" data-map-name="8. Le Fouquet&#39;s" data-map-cta-url="https://www.google.com/maps/search/Le+Fouquets+Dakar+Senegal" data-map-query="Le Fouquet&#39;s, Plateau, Dakar, SN" data-map-lat="14.741248700000002" data-map-lng="-17.4482067">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Le Fouquet&#39;s</h2>
         <span class="cuisine-tag tag-regional">Salsa / Orchestra</span>
@@ -642,7 +646,7 @@
         <strong>tabiji verdict:</strong> The salsa purist&#39;s paradise. Le Fouquet&#39;s is a love letter to Senegal&#39;s deep Afro-Cuban roots — the trans-Atlantic musical connection that eventually gave birth to mbalax. The live orchestra is exceptional, the vibe is unhurried and grown-up, and watching seasoned Dakarois glide through salsa moves is mesmerizing even if you can&#39;t dance yourself. Five nights a week of live music makes it one of Dakar&#39;s most reliable bets.
     </div>
 </section>
-<section class="restaurant-section" id="loman-art-house">
+<section class="restaurant-section" id="loman-art-house" data-map-name="9. Loman Art House" data-map-cta-url="https://www.google.com/maps/search/Loman+Art+House+Mamelles+Dakar" data-map-query="Loman Art House, Mamelles, Dakar, SN" data-map-lat="14.733189900000001" data-map-lng="-17.4974837">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Loman Art House</h2>
         <span class="cuisine-tag tag-regional">Cultural / Live Music</span>
@@ -689,9 +693,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Live Music Map</h2>
-      <iframe src="https://www.google.com/maps?q=Live%20Music%20Venues%20in%20Dakar&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Just 4 U</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Live Music Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -713,7 +718,7 @@
       <li>
         <a href="#la-cave">6. La Cave (Hôtel Le Djoloff)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Live%20Music%20Venues%20in%20Dakar" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://www.google.com/maps/search/Just+4+U+Dakar+Senegal" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -724,5 +729,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Live Music Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Live%20Music%20Venues%20in%20Dakar","picks":[{"anchorId":"just-4-u","rank":1,"name":"Just 4 U","label":"1. Just 4 U","lat":14.691718000000002,"lng":-17.4603006,"ctaUrl":"https://www.google.com/maps/search/Just+4+U+Dakar+Senegal","mapQuery":"Just 4 U, Point E, Av. Cheikh Anta Diop, Dakar, SN"},{"anchorId":"le-thiossane","rank":2,"name":"Le Thiossane","label":"2. Le Thiossane","lat":14.703565699999999,"lng":-17.4579086,"ctaUrl":"https://www.google.com/maps/search/Le+Thiossane+Dakar+Senegal","mapQuery":"Le Thiossane, Grand Dakar, Dakar, SN"},{"anchorId":"le-viking","rank":3,"name":"Le Viking","label":"3. Le Viking","lat":14.6693065,"lng":-17.4343145,"ctaUrl":"https://www.google.com/maps/search/Le+Viking+Bar+Dakar+Senegal","mapQuery":"Le Viking, Plateau, 21 Ave George Pompidou, Dakar, SN"},{"anchorId":"penc-mi","rank":4,"name":"Penc Mi","label":"4. Penc Mi","lat":14.681437599999997,"lng":-17.454792599999998,"ctaUrl":"https://www.google.com/maps/search/Penc+Mi+Dakar+Senegal","mapQuery":"Penc Mi, Grand Dakar, Dakar, SN"},{"anchorId":"yengoulene","rank":5,"name":"Yengoulene","label":"5. Yengoulene","lat":14.7515483,"lng":-17.4570409,"ctaUrl":"https://www.google.com/maps/search/Yengoulene+Dakar+Senegal","mapQuery":"Yengoulene, Nord Foire, Dakar, SN"},{"anchorId":"la-cave","rank":6,"name":"La Cave (Hôtel Le Djoloff)","label":"6. La Cave (Hôtel Le Djoloff)","lat":14.679613400000001,"lng":-17.462770499999998,"ctaUrl":"https://www.google.com/maps/search/Hotel+Le+Djoloff+Dakar+Senegal","mapQuery":"La Cave (Hôtel Le Djoloff), Plateau, Dakar, SN"},{"anchorId":"barramundi","rank":7,"name":"Barramundi","label":"7. Barramundi","lat":14.7385761,"lng":-17.5099806,"ctaUrl":"https://www.google.com/maps/search/Barramundi+Dakar+Senegal","mapQuery":"Barramundi, Corniche Ouest, Ngor, Dakar, SN"},{"anchorId":"le-fouquets","rank":8,"name":"Le Fouquet's","label":"8. Le Fouquet's","lat":14.741248700000002,"lng":-17.4482067,"ctaUrl":"https://www.google.com/maps/search/Le+Fouquets+Dakar+Senegal","mapQuery":"Le Fouquet's, Plateau, Dakar, SN"},{"anchorId":"loman-art-house","rank":9,"name":"Loman Art House","label":"9. Loman Art House","lat":14.733189900000001,"lng":-17.4974837,"ctaUrl":"https://www.google.com/maps/search/Loman+Art+House+Mamelles+Dakar","mapQuery":"Loman Art House, Mamelles, Dakar, SN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

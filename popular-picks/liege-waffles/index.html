@@ -283,9 +283,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -310,7 +313,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -358,13 +361,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Liège offers a range of Liège waffle experiences, with prices varying by vendor, but Maison Massin is highly recommended for an authentic taste. Seek out certified shops, especially during morning market hours, for the best experience of this iconic Belgian treat. This guide highlights top spots in Liège for experiencing the city&#39;s iconic waffle.</strong></p>
-        <p>Liège offers a range of Liège waffle experiences, but for the most authentic taste, seek out certified shops, especially during morning market hours, with prices varying by vendor. For a classic experience, Maison Massin is highly recommended for its dedication to the traditional recipe. This guide highlights top spots in Liège for experiencing the city&#39;s iconic waffle.</p><p>Liège is the birthplace of the gaufre liégeoise — the dense, chewy, pearl sugar–studded waffle that&#39;s become one of Belgium&#39;s most beloved foods. And yet, in its hometown, you&#39;ll find a world of difference between a truly authentic waffle and a tourist-targeted imitation.</p><p>The real thing is made from a brioche-like dough, slow-proofed with yeast, enriched with butter, and packed with Belgian pearl sugar that caramelizes on contact with the iron — creating an amber, crackling crust. No toppings required. The City of Liège even awards an &quot;Authentique Gaufre de Liège&quot; label to producers who meet the traditional standard.</p><p>We combed through r/Liege, r/belgium, r/travel, and expert food guides to find the 8 spots worth seeking out — from legendary institutions to certified neighborhood bakers.</p>
+        <p>Liège is the birthplace of the gaufre liégeoise — the dense, chewy, pearl sugar–studded waffle that&#39;s become one of Belgium&#39;s most beloved foods. And yet, in its hometown, you&#39;ll find a world of difference between a truly authentic waffle and a tourist-targeted imitation.</p><p>The real thing is made from a brioche-like dough, slow-proofed with yeast, enriched with butter, and packed with Belgian pearl sugar that caramelizes on contact with the iron — creating an amber, crackling crust. No toppings required. The City of Liège even awards an &quot;Authentique Gaufre de Liège&quot; label to producers who meet the traditional standard.</p><p>We combed through r/Liege, r/belgium, r/travel, and expert food guides to find the 8 spots worth seeking out — from legendary institutions to certified neighborhood bakers.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Waffle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Li%C3%A8ge%20Waffles%20in%20Li%C3%A8ge&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pollux</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Waffle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -386,7 +390,7 @@
       <li>
         <a href="#marechal">6. Boulangerie-Pâtisserie Maréchal</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Li%C3%A8ge%20Waffles%20in%20Li%C3%A8ge" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=182911151281006313&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -398,7 +402,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="pollux">
+<section class="restaurant-section" id="pollux" data-map-name="1. Pollux" data-map-cta-url="https://maps.google.com/?cid=182911151281006313&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pollux, Place de la Cathédrale, 4000 Liège, Liège, BE" data-map-lat="50.6411327" data-map-lng="5.5711526">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Pollux</h2>
         <span class="cuisine-tag tag-regional">Iconic Spot</span>
@@ -436,7 +440,7 @@
         <strong>tabiji verdict:</strong> Pollux is what every Reddit thread about Liège waffles eventually mentions. This little sandwich bar and waffle stand on Place de la Cathédrale — right in front of the cathedral — has been feeding locals and visitors for decades. The gaufre fourrée (waffle filled with chocolate or vanilla before baking) is their signature and worth the detour alone. Recommended by Lonely Planet, TasteAtlas, and practically every Belgian food guide.
     </div>
 </section>
-<section class="restaurant-section" id="saperlipopette">
+<section class="restaurant-section" id="saperlipopette" data-map-name="2. Une Gaufrette Saperlipopette" data-map-cta-url="https://maps.google.com/?cid=12259195559142670244&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Une Gaufrette Saperlipopette, Rue des Mineurs 7, 4000 Liège, Liège, BE" data-map-lat="50.6461439" data-map-lng="5.576375199999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Une Gaufrette Saperlipopette</h2>
         <span class="cuisine-tag tag-regional">Certified Authentic</span>
@@ -474,7 +478,7 @@
         <strong>tabiji verdict:</strong> Founded in 2013, Saperlipopette quickly became one of Liège&#39;s most respected waffle producers — and it earned the official &quot;Authentique Gaufre de Liège&quot; certification to prove it. Three locations now: the waffle boutique (Rue des Mineurs), a boulangerie, and a crème glacée shop. The motto is Marcus Aurelius: &quot;Sweetness is invincible.&quot; In this case, it&#39;s hard to argue.
     </div>
 </section>
-<section class="restaurant-section" id="eggenols">
+<section class="restaurant-section" id="eggenols" data-map-name="3. Pâtisserie Eggenols" data-map-cta-url="https://maps.google.com/?cid=4063876516458178589&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pâtisserie Eggenols, Liège (near Guillemins train station area), Liège, BE" data-map-lat="50.6270178" data-map-lng="5.5664421">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Pâtisserie Eggenols</h2>
         <span class="cuisine-tag tag-regional">Historic Patisserie</span>
@@ -512,7 +516,7 @@
         <strong>tabiji verdict:</strong> Eggenols is the kind of patisserie that doesn&#39;t need Instagram to exist — it&#39;s been making waffles for generations, and locals know exactly where to find it. Certified &quot;Authentique Gaufre de Liège&quot; and recommended by multiple food critics on TasteAtlas. The waffle here is called &quot;gaufre au sucre&quot; — a reminder that in Liège, this is just the waffle , not an export product.
     </div>
 </section>
-<section class="restaurant-section" id="le-matin-liegeois">
+<section class="restaurant-section" id="le-matin-liegeois" data-map-name="4. Le Matin Liégeois" data-map-cta-url="https://maps.google.com/?cid=9936722929481993044&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Matin Liégeois, Place du Marché 20, 4000 Liège, Liège, BE" data-map-lat="50.6456598" data-map-lng="5.576498099999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Le Matin Liégeois</h2>
         <span class="cuisine-tag tag-regional">Certified Authentic</span>
@@ -546,7 +550,7 @@
         <strong>tabiji verdict:</strong> The location alone makes this a winner — Place du Marché is one of the most beautiful squares in the Vieux Liège neighborhood. Le Matin Liégeois holds the official &quot;Authentique Gaufre de Liège&quot; certification, so you know what you&#39;re getting. Sunday mornings here, waffle in hand, watching the market sprawl along the Meuse — that&#39;s the Liège experience in miniature.
     </div>
 </section>
-<section class="restaurant-section" id="maison-massin">
+<section class="restaurant-section" id="maison-massin" data-map-name="5. Maison Massin" data-map-cta-url="https://maps.google.com/?cid=12298244339980871534&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maison Massin, Liège, Liège, BE" data-map-lat="50.640957" data-map-lng="5.5822971">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Maison Massin</h2>
         <span class="cuisine-tag tag-regional">Certified Authentic</span>
@@ -580,7 +584,7 @@
         <strong>tabiji verdict:</strong> Maison Massin is one of the certified &quot;Authentique Gaufre de Liège&quot; producers — a list the City of Liège curates carefully to protect the tradition. If you want a waffle that was made exactly the way it was 100 years ago in Liège, this is a reliable choice. Check their website for current opening hours before visiting.
     </div>
 </section>
-<section class="restaurant-section" id="marechal">
+<section class="restaurant-section" id="marechal" data-map-name="6. Boulangerie-Pâtisserie Maréchal" data-map-cta-url="https://maps.google.com/?cid=17534280427291789770&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Boulangerie-Pâtisserie Maréchal, Rue du Coq 83, 4000 Liège, Liège, BE" data-map-lat="50.646355500000006" data-map-lng="5.5536734999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Boulangerie-Pâtisserie Maréchal</h2>
         <span class="cuisine-tag tag-regional">Neighborhood Gem</span>
@@ -614,7 +618,7 @@
         <strong>tabiji verdict:</strong> Certified &quot;Authentique Gaufre de Liège&quot; and beloved by the neighborhood. This is the kind of bakery that Liège residents stop at on their way to work — no tourist pricing, no Instagram setup, just a proper waffle made by bakers who&#39;ve been doing it for years. Rue du Coq is off the main tourist path, which means the atmosphere is genuinely local.
     </div>
 </section>
-<section class="restaurant-section" id="la-gaufrerie">
+<section class="restaurant-section" id="la-gaufrerie" data-map-name="7. La Gaufrerie" data-map-cta-url="https://maps.google.com/?cid=17599616032938392691&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Gaufrerie, Liège city centre, Liège, BE" data-map-lat="50.642258899999995" data-map-lng="5.5707219">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Gaufrerie</h2>
         <span class="cuisine-tag tag-regional">Artisan Waffle Shop</span>
@@ -648,7 +652,7 @@
         <strong>tabiji verdict:</strong> La Gaufrerie is a dedicated waffle shop — not a bakery that happens to sell waffles on the side. That focus shows in the quality. It consistently ranks among Liège&#39;s top waffle spots on aggregator sites, and it&#39;s a good option when you&#39;re in the city centre and want something reliable without hunting for a neighborhood boulangerie.
     </div>
 </section>
-<section class="restaurant-section" id="place-saint-lambert">
+<section class="restaurant-section" id="place-saint-lambert" data-map-name="8. Street Vendors — Place Saint-Lambert" data-map-cta-url="https://www.google.com/maps/place/Place+Saint-Lambert,+4000+Liège" data-map-query="Street Vendors — Place Saint-Lambert, Place Saint-Lambert, 4000 Liège, Liège, BE" data-map-lat="50.645191999999994" data-map-lng="5.5739971">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Street Vendors — Place Saint-Lambert</h2>
         <span class="cuisine-tag tag-regional">Street Experience</span>
@@ -704,9 +708,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Waffle Map</h2>
-      <iframe src="https://www.google.com/maps?q=Li%C3%A8ge%20Waffles%20in%20Li%C3%A8ge&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Pollux</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Waffle Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -728,7 +733,7 @@
       <li>
         <a href="#marechal">6. Boulangerie-Pâtisserie Maréchal</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Li%C3%A8ge%20Waffles%20in%20Li%C3%A8ge" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=182911151281006313&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -739,5 +744,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Waffle Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Li%C3%A8ge%20Waffles%20in%20Li%C3%A8ge","picks":[{"anchorId":"pollux","rank":1,"name":"Pollux","label":"1. Pollux","lat":50.6411327,"lng":5.5711526,"ctaUrl":"https://maps.google.com/?cid=182911151281006313&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pollux, Place de la Cathédrale, 4000 Liège, Liège, BE"},{"anchorId":"saperlipopette","rank":2,"name":"Une Gaufrette Saperlipopette","label":"2. Une Gaufrette Saperlipopette","lat":50.6461439,"lng":5.576375199999999,"ctaUrl":"https://maps.google.com/?cid=12259195559142670244&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Une Gaufrette Saperlipopette, Rue des Mineurs 7, 4000 Liège, Liège, BE"},{"anchorId":"eggenols","rank":3,"name":"Pâtisserie Eggenols","label":"3. Pâtisserie Eggenols","lat":50.6270178,"lng":5.5664421,"ctaUrl":"https://maps.google.com/?cid=4063876516458178589&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pâtisserie Eggenols, Liège (near Guillemins train station area), Liège, BE"},{"anchorId":"le-matin-liegeois","rank":4,"name":"Le Matin Liégeois","label":"4. Le Matin Liégeois","lat":50.6456598,"lng":5.576498099999999,"ctaUrl":"https://maps.google.com/?cid=9936722929481993044&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Matin Liégeois, Place du Marché 20, 4000 Liège, Liège, BE"},{"anchorId":"maison-massin","rank":5,"name":"Maison Massin","label":"5. Maison Massin","lat":50.640957,"lng":5.5822971,"ctaUrl":"https://maps.google.com/?cid=12298244339980871534&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maison Massin, Liège, Liège, BE"},{"anchorId":"marechal","rank":6,"name":"Boulangerie-Pâtisserie Maréchal","label":"6. Boulangerie-Pâtisserie Maréchal","lat":50.646355500000006,"lng":5.5536734999999995,"ctaUrl":"https://maps.google.com/?cid=17534280427291789770&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Boulangerie-Pâtisserie Maréchal, Rue du Coq 83, 4000 Liège, Liège, BE"},{"anchorId":"la-gaufrerie","rank":7,"name":"La Gaufrerie","label":"7. La Gaufrerie","lat":50.642258899999995,"lng":5.5707219,"ctaUrl":"https://maps.google.com/?cid=17599616032938392691&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Gaufrerie, Liège city centre, Liège, BE"},{"anchorId":"place-saint-lambert","rank":8,"name":"Street Vendors — Place Saint-Lambert","label":"8. Street Vendors — Place Saint-Lambert","lat":50.645191999999994,"lng":5.5739971,"ctaUrl":"https://www.google.com/maps/place/Place+Saint-Lambert,+4000+Liège","mapQuery":"Street Vendors — Place Saint-Lambert, Place Saint-Lambert, 4000 Liège, Liège, BE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

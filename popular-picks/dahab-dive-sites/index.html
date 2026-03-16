@@ -329,9 +329,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -356,7 +359,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -408,9 +411,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Dive Site Map</h2>
-      <iframe src="https://www.google.com/maps?q=Dive%20Sites%20in%20Dahab&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Blue Hole (البحيرة الزرقاء)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dive Site Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -432,7 +436,7 @@
       <li>
         <a href="#eel-garden">6. Eel Garden</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Dive%20Sites%20in%20Dahab" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=10303542755603872260&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -444,7 +448,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="blue-hole">
+<section class="restaurant-section" id="blue-hole" data-map-name="1. The Blue Hole (البحيرة الزرقاء)" data-map-cta-url="https://maps.google.com/?cid=10303542755603872260&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Blue Hole (البحيرة الزرقاء), North of Dahab, ~8km, North Dahab, EG" data-map-lat="28.5722769" data-map-lng="34.5372978">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>The Blue Hole (البحيرة الزرقاء)</h2>
         <span class="cuisine-tag tag-regional">Iconic Site</span>
@@ -473,7 +477,7 @@
         <strong>tabiji verdict:</strong> The Blue Hole is Dahab&#39;s crown jewel — and one of the most famous dive sites on the planet. Its reputation as &quot;the world&#39;s most dangerous dive site&quot; is partly tabloid myth (dangerous only if you attempt the Arch without proper technical training), but entirely earned as a site of breathtaking beauty. Beginners can safely enjoy the rim; advanced divers can hunt for the Arch. Non-divers can snorkel from shore and still be blown away.
     </div>
 </section>
-<section class="restaurant-section" id="the-canyon">
+<section class="restaurant-section" id="the-canyon" data-map-name="2. The Canyon (El Qanun)" data-map-cta-url="https://maps.google.com/?cid=5946699003535135842&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Canyon (El Qanun), South Dahab, 3km from town, North Dahab, EG" data-map-lat="28.478941" data-map-lng="34.5021548">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>The Canyon (El Qanun)</h2>
         <span class="cuisine-tag tag-regional">Advanced</span>
@@ -510,7 +514,7 @@
         <strong>tabiji verdict:</strong> Reddit consistently ranks The Canyon alongside The Blue Hole as Dahab&#39;s must-do dive. The sheer drama of descending through the crack and navigating the ravine is unlike anything in the region. Advanced divers will love the depth and the moody light play. A legitimate bucket-list dive.
     </div>
 </section>
-<section class="restaurant-section" id="the-bells">
+<section class="restaurant-section" id="the-bells" data-map-name="3. The Bells" data-map-cta-url="https://maps.google.com/?cid=15846783469288384846&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Bells, North Dahab, adjacent to Blue Hole, North Dahab, EG" data-map-lat="28.573463399999998" data-map-lng="34.5392843">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>The Bells</h2>
         <span class="cuisine-tag tag-regional">Wall Dive</span>
@@ -539,7 +543,7 @@
         <strong>tabiji verdict:</strong> The Bells is the perfect warm-up or companion to the Blue Hole. The chimney entry is a bit of a rush and the wall between the two sites is as beautiful as Red Sea diving gets. Nearly all experienced divers recommend doing this as the combo rather than Blue Hole alone — the full dive is just more complete.
     </div>
 </section>
-<section class="restaurant-section" id="lighthouse">
+<section class="restaurant-section" id="lighthouse" data-map-name="4. The Lighthouse (El Manara)" data-map-cta-url="https://maps.google.com/?cid=1646791398765373004&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Lighthouse (El Manara), Central Dahab town, shore entry, North Dahab, EG" data-map-lat="28.499186899999998" data-map-lng="34.519917899999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>The Lighthouse (El Manara)</h2>
         <span class="cuisine-tag tag-regional">Beginner Friendly</span>
@@ -568,7 +572,7 @@
         <strong>tabiji verdict:</strong> The Lighthouse is where most Dahab diving careers begin — and for good reason. Shore-accessible, calm in most conditions, genuinely gorgeous, and packed with the kind of macro life that makes you slow down and look closely. Don&#39;t underestimate it just because it&#39;s beginner-friendly; experienced divers still come back for the turtles and night dives.
     </div>
 </section>
-<section class="restaurant-section" id="gabr-el-bint">
+<section class="restaurant-section" id="gabr-el-bint" data-map-name="5. Gabr el Bint" data-map-cta-url="https://maps.google.com/?cid=12653738077768109782&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gabr el Bint, ~15km south of Dahab, boat access only, North Dahab, EG" data-map-lat="28.3532475" data-map-lng="34.4336267">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Gabr el Bint</h2>
         <span class="cuisine-tag tag-regional">Boat Dive</span>
@@ -597,7 +601,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re spending 4+ days in Dahab, carve out one full day for a Gabr el Bint boat trip. The logistics (boat, snorkelling gear, food) are all handled by dive centres and it&#39;s remarkably affordable. This site reminds you what healthy Red Sea reef looked like before mass tourism arrived — a genuinely moving experience.
     </div>
 </section>
-<section class="restaurant-section" id="eel-garden">
+<section class="restaurant-section" id="eel-garden" data-map-name="6. Eel Garden" data-map-cta-url="https://maps.google.com/?cid=17564371145549581090&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Eel Garden, Central Dahab, shore entry, North Dahab, EG" data-map-lat="28.505167399999998" data-map-lng="34.5198822">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Eel Garden</h2>
         <span class="cuisine-tag tag-regional">Beginner Friendly</span>
@@ -626,7 +630,7 @@
         <strong>tabiji verdict:</strong> Eel Garden is perfect for beginners and a reliable crowd-pleaser for experienced divers too. The sight of the sandy bottom erupting with swaying eels is genuinely enchanting — hard to believe until you see it. Pairs well with Mashraba for a double-dive day without needing transport.
     </div>
 </section>
-<section class="restaurant-section" id="mashraba">
+<section class="restaurant-section" id="mashraba" data-map-name="7. Mashraba" data-map-cta-url="https://maps.google.com/?cid=5791748796049918926&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mashraba, Central Dahab, lagoon access, North Dahab, EG" data-map-lat="28.496525799999997" data-map-lng="34.5170464">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Mashraba</h2>
         <span class="cuisine-tag tag-regional">Macro Life</span>
@@ -655,7 +659,7 @@
         <strong>tabiji verdict:</strong> Mashraba and the Lighthouse are Dahab&#39;s two in-town house reefs and they&#39;re both excellent. Mashraba edges ahead for macro enthusiasts — the density of interesting small life here is exceptional. Perfect for a slow morning dive before the day heats up.
     </div>
 </section>
-<section class="restaurant-section" id="the-islands">
+<section class="restaurant-section" id="the-islands" data-map-name="8. The Islands" data-map-cta-url="https://maps.google.com/?cid=15846783469288384846&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Islands, South Dahab, 5km from town, North Dahab, EG" data-map-lat="28.4776125" data-map-lng="34.513565899999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>The Islands</h2>
         <span class="cuisine-tag tag-regional">Shore Dive</span>
@@ -684,7 +688,7 @@
         <strong>tabiji verdict:</strong> The Islands is a versatile site that works well for multiple experience levels. The coral pinnacle structure creates natural swim-throughs and varied terrain — it&#39;s genuinely more interesting than a flat reef. Worth the short taxi ride from town. Best dived in the morning before afternoon currents pick up.
     </div>
 </section>
-<section class="restaurant-section" id="napoleon-reef">
+<section class="restaurant-section" id="napoleon-reef" data-map-name="9. Napoleon Reef" data-map-cta-url="https://maps.google.com/?cid=4419728272588675848&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Napoleon Reef, North of Dahab town, North Dahab, EG" data-map-lat="28.462529999999997" data-map-lng="34.5001994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Napoleon Reef</h2>
         <span class="cuisine-tag tag-regional">Wall Dive</span>
@@ -713,7 +717,7 @@
         <strong>tabiji verdict:</strong> Napoleon Reef is a reliably excellent half-day dive that doesn&#39;t get the hype it deserves because it sits in the shadow of the Blue Hole and Canyon. For sheer visual beauty — soft corals, big fish, clean visibility — it often outperforms its famous neighbours. A solid addition to any Dahab itinerary.
     </div>
 </section>
-<section class="restaurant-section" id="ras-abu-galum">
+<section class="restaurant-section" id="ras-abu-galum" data-map-name="10. Ras Abu Galum" data-map-cta-url="https://maps.google.com/?cid=10472780310747871393&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ras Abu Galum, ~10km north of Blue Hole, boat or camel trek, North Dahab, EG" data-map-lat="28.614945499999997" data-map-lng="34.559486">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Ras Abu Galum</h2>
         <span class="cuisine-tag tag-regional">Protected Area</span>
@@ -750,7 +754,7 @@
         <strong>tabiji verdict:</strong> Ras Abu Galum is the best-kept secret in Dahab diving — a protected marine reserve that sees a fraction of the visitors that flood the Blue Hole. If you can handle the logistics (most dive centres organise the boat or camel trip), the diving quality here is simply higher than almost anywhere else accessible from Dahab.
     </div>
 </section>
-<section class="restaurant-section" id="three-pools">
+<section class="restaurant-section" id="three-pools" data-map-name="11. Three Pools" data-map-cta-url="https://maps.google.com/?cid=2771434178935782766&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Three Pools, South Dahab, 7km from town, North Dahab, EG" data-map-lat="28.4353845" data-map-lng="34.4573306">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Three Pools</h2>
         <span class="cuisine-tag tag-regional">Beginner Friendly</span>
@@ -787,7 +791,7 @@
         <strong>tabiji verdict:</strong> Three Pools is the most approachable dive site in the Dahab area — perfect for first-time open-water dives, anxious beginners, or snorkellers who want to explore without strong currents. Experienced divers will find it relaxed but it&#39;s worth including to wind down between more intense dives at the Canyon or Blue Hole.
     </div>
 </section>
-<section class="restaurant-section" id="moray-garden">
+<section class="restaurant-section" id="moray-garden" data-map-name="12. Moray Garden" data-map-cta-url="https://maps.google.com/?cid=17808633191322701821&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Moray Garden, Dahab Bay, shore access, North Dahab, EG" data-map-lat="28.4373877" data-map-lng="34.45888740000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Moray Garden</h2>
         <span class="cuisine-tag tag-regional">Macro Life</span>
@@ -834,9 +838,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Dive Site Map</h2>
-      <iframe src="https://www.google.com/maps?q=Dive%20Sites%20in%20Dahab&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Blue Hole (البحيرة الزرقاء)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dive Site Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -858,7 +863,7 @@
       <li>
         <a href="#eel-garden">6. Eel Garden</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Dive%20Sites%20in%20Dahab" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=10303542755603872260&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -869,5 +874,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Dive Site Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Dive%20Sites%20in%20Dahab","picks":[{"anchorId":"blue-hole","rank":1,"name":"The Blue Hole (البحيرة الزرقاء)","label":"1. The Blue Hole (البحيرة الزرقاء)","lat":28.5722769,"lng":34.5372978,"ctaUrl":"https://maps.google.com/?cid=10303542755603872260&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Blue Hole (البحيرة الزرقاء), North of Dahab, ~8km, North Dahab, EG"},{"anchorId":"the-canyon","rank":2,"name":"The Canyon (El Qanun)","label":"2. The Canyon (El Qanun)","lat":28.478941,"lng":34.5021548,"ctaUrl":"https://maps.google.com/?cid=5946699003535135842&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Canyon (El Qanun), South Dahab, 3km from town, North Dahab, EG"},{"anchorId":"the-bells","rank":3,"name":"The Bells","label":"3. The Bells","lat":28.573463399999998,"lng":34.5392843,"ctaUrl":"https://maps.google.com/?cid=15846783469288384846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Bells, North Dahab, adjacent to Blue Hole, North Dahab, EG"},{"anchorId":"lighthouse","rank":4,"name":"The Lighthouse (El Manara)","label":"4. The Lighthouse (El Manara)","lat":28.499186899999998,"lng":34.519917899999996,"ctaUrl":"https://maps.google.com/?cid=1646791398765373004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Lighthouse (El Manara), Central Dahab town, shore entry, North Dahab, EG"},{"anchorId":"gabr-el-bint","rank":5,"name":"Gabr el Bint","label":"5. Gabr el Bint","lat":28.3532475,"lng":34.4336267,"ctaUrl":"https://maps.google.com/?cid=12653738077768109782&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gabr el Bint, ~15km south of Dahab, boat access only, North Dahab, EG"},{"anchorId":"eel-garden","rank":6,"name":"Eel Garden","label":"6. Eel Garden","lat":28.505167399999998,"lng":34.5198822,"ctaUrl":"https://maps.google.com/?cid=17564371145549581090&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Eel Garden, Central Dahab, shore entry, North Dahab, EG"},{"anchorId":"mashraba","rank":7,"name":"Mashraba","label":"7. Mashraba","lat":28.496525799999997,"lng":34.5170464,"ctaUrl":"https://maps.google.com/?cid=5791748796049918926&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mashraba, Central Dahab, lagoon access, North Dahab, EG"},{"anchorId":"the-islands","rank":8,"name":"The Islands","label":"8. The Islands","lat":28.4776125,"lng":34.513565899999996,"ctaUrl":"https://maps.google.com/?cid=15846783469288384846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Islands, South Dahab, 5km from town, North Dahab, EG"},{"anchorId":"napoleon-reef","rank":9,"name":"Napoleon Reef","label":"9. Napoleon Reef","lat":28.462529999999997,"lng":34.5001994,"ctaUrl":"https://maps.google.com/?cid=4419728272588675848&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Napoleon Reef, North of Dahab town, North Dahab, EG"},{"anchorId":"ras-abu-galum","rank":10,"name":"Ras Abu Galum","label":"10. Ras Abu Galum","lat":28.614945499999997,"lng":34.559486,"ctaUrl":"https://maps.google.com/?cid=10472780310747871393&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ras Abu Galum, ~10km north of Blue Hole, boat or camel trek, North Dahab, EG"},{"anchorId":"three-pools","rank":11,"name":"Three Pools","label":"11. Three Pools","lat":28.4353845,"lng":34.4573306,"ctaUrl":"https://maps.google.com/?cid=2771434178935782766&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Three Pools, South Dahab, 7km from town, North Dahab, EG"},{"anchorId":"moray-garden","rank":12,"name":"Moray Garden","label":"12. Moray Garden","lat":28.4373877,"lng":34.45888740000001,"ctaUrl":"https://maps.google.com/?cid=17808633191322701821&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Moray Garden, Dahab Bay, shore access, North Dahab, EG"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

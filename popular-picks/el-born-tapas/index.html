@@ -418,9 +418,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -445,7 +448,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -497,9 +500,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Tapas Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Tapas%20Bars%20in%20El%20Born%2C%20Barcelona&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. El Xampanyet</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Tapas Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -521,7 +525,7 @@
       <li>
         <a href="#santa-caterina-vermuteria">6. Santa Caterina Vermuteria</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Tapas%20Bars%20in%20El%20Born%2C%20Barcelona" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8937116140485914040&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -533,7 +537,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="el-xampanyet">
+<section class="restaurant-section" id="el-xampanyet" data-map-name="1. El Xampanyet" data-map-cta-url="https://maps.google.com/?cid=8937116140485914040&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Xampanyet, Carrer de Montcada 22, Barcelona, ES" data-map-lat="41.3845391" data-map-lng="2.181679">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>El Xampanyet</h2>
         <span class="cuisine-tag tag-regional">Traditional Tapas</span>
@@ -571,7 +575,7 @@
         <strong>tabiji verdict:</strong> The single most recommended tapas bar in El Born across all of Reddit. Loud, chaotic, tiny — and absolutely magical. The house cava is cheap and flows freely. Closed Mondays.
     </div>
 </section>
-<section class="restaurant-section" id="bar-del-pla">
+<section class="restaurant-section" id="bar-del-pla" data-map-name="2. Bar del Pla" data-map-cta-url="https://maps.google.com/?cid=18109026561620388916&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar del Pla, Carrer de Montcada 2, Barcelona, ES" data-map-lat="41.385602999999996" data-map-lng="2.1800143999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Bar del Pla</h2>
         <span class="cuisine-tag tag-regional">Modern Tapas</span>
@@ -609,7 +613,7 @@
         <strong>tabiji verdict:</strong> A step up from the classic vermouth bars — creative tapas with quality ingredients in a cozy medieval-street setting. Make a reservation or prepare to wait.
     </div>
 </section>
-<section class="restaurant-section" id="bar-joan">
+<section class="restaurant-section" id="bar-joan" data-map-name="3. Bar Joan (Mercat de Santa Caterina)" data-map-cta-url="https://maps.google.com/?cid=12369575787109473248&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Joan (Mercat de Santa Caterina), Inside Mercat de Santa Caterina, Barcelona, ES" data-map-lat="41.386162" data-map-lng="2.1786073">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Bar Joan (Mercat de Santa Caterina)</h2>
         <span class="cuisine-tag tag-regional">Market Tapas</span>
@@ -647,7 +651,7 @@
         <strong>tabiji verdict:</strong> Skip La Boqueria (tourist trap prices) and come here instead. Santa Caterina is El Born&#39;s local market and Bar Joan is where the regulars sit. Best value tapas on this list.
     </div>
 </section>
-<section class="restaurant-section" id="tapeo">
+<section class="restaurant-section" id="tapeo" data-map-name="4. Tapeo" data-map-cta-url="https://maps.google.com/?cid=3200994150426244429&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tapeo, Carrer de Montcada 29, Barcelona, ES" data-map-lat="41.384606399999996" data-map-lng="2.181762">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Tapeo</h2>
         <span class="cuisine-tag tag-regional">Creative Tapas</span>
@@ -681,7 +685,7 @@
         <strong>tabiji verdict:</strong> Right on Carrer de Montcada (the same street as El Xampanyet and the Picasso Museum). Creative but not pretentious — the kind of place locals send their visiting friends.
     </div>
 </section>
-<section class="restaurant-section" id="bormuth">
+<section class="restaurant-section" id="bormuth" data-map-name="5. Bormuth" data-map-cta-url="https://maps.google.com/?cid=7489716802314113204&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bormuth, Plaça Comercial 1, Barcelona, ES" data-map-lat="41.3858408" data-map-lng="2.1824969999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Bormuth</h2>
         <span class="cuisine-tag tag-regional">Vermouth &amp; Tapas</span>
@@ -715,7 +719,7 @@
         <strong>tabiji verdict:</strong> Perfectly positioned on Plaça Comercial facing the old Born market building. Order a vermouth, grab a table outside, and watch El Born go by. Peak Barcelona energy.
     </div>
 </section>
-<section class="restaurant-section" id="santa-caterina-vermuteria">
+<section class="restaurant-section" id="santa-caterina-vermuteria" data-map-name="6. Santa Caterina Vermuteria" data-map-cta-url="https://maps.google.com/?cid=18127421040147713568&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Santa Caterina Vermuteria, Near Mercat de Santa Caterina, Barcelona, ES" data-map-lat="41.3855284" data-map-lng="2.178947">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Santa Caterina Vermuteria</h2>
         <span class="cuisine-tag tag-regional">Vermouth &amp; Tapas</span>
@@ -749,7 +753,7 @@
         <strong>tabiji verdict:</strong> Recommended by an actual El Born resident as their go-to neighborhood tapas spot. That&#39;s the strongest endorsement a tapas bar can get.
     </div>
 </section>
-<section class="restaurant-section" id="espai-puntal">
+<section class="restaurant-section" id="espai-puntal" data-map-name="7. Espai Puntal" data-map-cta-url="https://maps.google.com/?cid=3869581994337189000&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Espai Puntal, Carrer de les Caputxes 4, Barcelona, ES" data-map-lat="41.3865698" data-map-lng="2.1798954999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Espai Puntal</h2>
         <span class="cuisine-tag tag-regional">Modern Tapas</span>
@@ -783,7 +787,7 @@
         <strong>tabiji verdict:</strong> When a Barcelona local calls it their &quot;favorite restaurant in the city,&quot; you pay attention. A bit more upscale than the vermouth bars, but worth the price jump.
     </div>
 </section>
-<section class="restaurant-section" id="la-paradeta">
+<section class="restaurant-section" id="la-paradeta" data-map-name="8. La Paradeta" data-map-cta-url="https://maps.google.com/?cid=3379668850987194331&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Paradeta, Carrer Comercial 7, Barcelona, ES" data-map-lat="41.3863348" data-map-lng="2.1840459">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>La Paradeta</h2>
         <span class="cuisine-tag tag-regional">Seafood</span>
@@ -817,7 +821,7 @@
         <strong>tabiji verdict:</strong> The &quot;pick your own seafood&quot; concept makes this feel like an adventure rather than just dinner. No frills, no tablecloths — just fresh fish and honest prices.
     </div>
 </section>
-<section class="restaurant-section" id="bubar">
+<section class="restaurant-section" id="bubar" data-map-name="9. Bubar" data-map-cta-url="https://maps.google.com/?cid=5533566805882186519&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bubar, Carrer dels Carders 46, Barcelona, ES" data-map-lat="41.3909869" data-map-lng="2.1878461">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Bubar</h2>
         <span class="cuisine-tag tag-regional">Wine &amp; Tapas</span>
@@ -851,7 +855,7 @@
         <strong>tabiji verdict:</strong> The natural wine bar that tapas lovers keep coming back to. More wine-focused than the classic vermouth bars — perfect for an evening of grazing.
     </div>
 </section>
-<section class="restaurant-section" id="bar-mercaders">
+<section class="restaurant-section" id="bar-mercaders" data-map-name="10. Bar Mercaders" data-map-cta-url="https://www.google.com/maps/search/Bar+Mercaders+El+Born+Barcelona-mercaders-born" data-map-query="Bar Mercaders, Carrer dels Mercaders 26, Barcelona, ES" data-map-lat="41.3923382" data-map-lng="2.1603949">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Bar Mercaders</h2>
         <span class="cuisine-tag tag-regional">Traditional Tapas</span>
@@ -877,7 +881,7 @@
         <strong>tabiji verdict:</strong> A quiet, local tapas bar on one of El Born&#39;s prettiest streets. No Instagram hype, just consistently good food in a medieval setting.
     </div>
 </section>
-<section class="restaurant-section" id="santagustina">
+<section class="restaurant-section" id="santagustina" data-map-name="11. Santagustina" data-map-cta-url="https://maps.google.com/?cid=12200512046692177688&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Santagustina, Plaça de Sant Agustí Vell, Barcelona, ES" data-map-lat="41.388247799999995" data-map-lng="2.1805627999999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Santagustina</h2>
         <span class="cuisine-tag tag-regional">Catalan Tapas</span>
@@ -911,7 +915,7 @@
         <strong>tabiji verdict:</strong> Another local-resident pick with a beautiful terrace on one of El Born&#39;s most charming squares. Come for lunch when the plaça is sun-drenched.
     </div>
 </section>
-<section class="restaurant-section" id="la-fianna">
+<section class="restaurant-section" id="la-fianna" data-map-name="12. La Fianna" data-map-cta-url="https://maps.google.com/?cid=12306292312617347758&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Fianna, Carrer dels Banys Vells 15, Barcelona, ES" data-map-lat="41.384225" data-map-lng="2.1812058">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>La Fianna</h2>
         <span class="cuisine-tag tag-regional">Mediterranean Tapas</span>
@@ -937,7 +941,7 @@
         <strong>tabiji verdict:</strong> A cozy, candlelit spot that works equally well for tapas, cocktails, or a late-night bite. The vibe is more Mediterranean lounge than traditional taverna.
     </div>
 </section>
-<section class="restaurant-section" id="cal-pep">
+<section class="restaurant-section" id="cal-pep" data-map-name="13. Cal Pep" data-map-cta-url="https://maps.google.com/?cid=8236058641574838967&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cal Pep, Plaça de les Olles 8, Barcelona, ES" data-map-lat="41.3839621" data-map-lng="2.1834105999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Cal Pep</h2>
         <span class="cuisine-tag tag-regional">Seafood Tapas</span>
@@ -971,7 +975,7 @@
         <strong>tabiji verdict:</strong> The priciest spot on this list but arguably Barcelona&#39;s most famous tapas counter. The bar seats (no reservation, first come first served) are the move. Go for lunch.
     </div>
 </section>
-<section class="restaurant-section" id="alsur-cafe">
+<section class="restaurant-section" id="alsur-cafe" data-map-name="14. Alsur Café" data-map-cta-url="https://maps.google.com/?cid=13407867324324058121&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Alsur Café, Carrer de Sant Pere Més Alt 4, Barcelona, ES" data-map-lat="41.391144399999995" data-map-lng="2.1712806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Alsur Café</h2>
         <span class="cuisine-tag tag-regional">Café &amp; Tapas</span>
@@ -1005,7 +1009,7 @@
         <strong>tabiji verdict:</strong> A versatile all-day spot — coffee and brunch by day, vermouth and tapas by evening. Great terrace for people-watching.
     </div>
 </section>
-<section class="restaurant-section" id="antic-teatre">
+<section class="restaurant-section" id="antic-teatre" data-map-name="15. Antic Teatre" data-map-cta-url="https://maps.google.com/?cid=6621050925231972258&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Antic Teatre, Carrer de Verdaguer i Callís 12, Barcelona, ES" data-map-lat="41.3871958" data-map-lng="2.1759573">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Antic Teatre</h2>
         <span class="cuisine-tag tag-regional">Hidden Terrace</span>
@@ -1039,7 +1043,7 @@
         <strong>tabiji verdict:</strong> Not a tapas bar per se, but El Born&#39;s best-kept secret — a hidden outdoor terrace behind a tiny independent theater. €3 beers surrounded by plants and fairy lights. Pure magic.
     </div>
 </section>
-<section class="restaurant-section" id="la-cova-fumada">
+<section class="restaurant-section" id="la-cova-fumada" data-map-name="16. La Cova Fumada" data-map-cta-url="https://maps.google.com/?cid=12514558321689225045&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cova Fumada, Carrer del Baluard 56, Barceloneta (10-min walk from El Born), Barcelona, ES" data-map-lat="41.37930250000001" data-map-lng="2.1892183">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>La Cova Fumada</h2>
         <span class="cuisine-tag tag-regional">Traditional Tapas</span>
@@ -1073,7 +1077,7 @@
         <strong>tabiji verdict:</strong> Technically in Barceloneta (a 10-minute walk from El Born), but too legendary to leave off. They invented the bomba here. No sign, cash only, no website. Just incredible food.
     </div>
 </section>
-<section class="restaurant-section" id="espai-mescladis">
+<section class="restaurant-section" id="espai-mescladis" data-map-name="17. Espai Mescladís" data-map-cta-url="https://maps.google.com/?cid=7001204443394776793&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Espai Mescladís, Carrer dels Carders 35, Barcelona, ES" data-map-lat="41.3870821" data-map-lng="2.180335">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Espai Mescladís</h2>
         <span class="cuisine-tag tag-regional">Mediterranean Fusion</span>
@@ -1125,9 +1129,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Tapas Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Tapas%20Bars%20in%20El%20Born%2C%20Barcelona&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. El Xampanyet</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Tapas Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1149,7 +1154,7 @@
       <li>
         <a href="#santa-caterina-vermuteria">6. Santa Caterina Vermuteria</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Tapas%20Bars%20in%20El%20Born%2C%20Barcelona" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8937116140485914040&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1160,5 +1165,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Tapas Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Tapas%20Bars%20in%20El%20Born%2C%20Barcelona","picks":[{"anchorId":"el-xampanyet","rank":1,"name":"El Xampanyet","label":"1. El Xampanyet","lat":41.3845391,"lng":2.181679,"ctaUrl":"https://maps.google.com/?cid=8937116140485914040&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Xampanyet, Carrer de Montcada 22, Barcelona, ES"},{"anchorId":"bar-del-pla","rank":2,"name":"Bar del Pla","label":"2. Bar del Pla","lat":41.385602999999996,"lng":2.1800143999999997,"ctaUrl":"https://maps.google.com/?cid=18109026561620388916&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar del Pla, Carrer de Montcada 2, Barcelona, ES"},{"anchorId":"bar-joan","rank":3,"name":"Bar Joan (Mercat de Santa Caterina)","label":"3. Bar Joan (Mercat de Santa Caterina)","lat":41.386162,"lng":2.1786073,"ctaUrl":"https://maps.google.com/?cid=12369575787109473248&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Joan (Mercat de Santa Caterina), Inside Mercat de Santa Caterina, Barcelona, ES"},{"anchorId":"tapeo","rank":4,"name":"Tapeo","label":"4. Tapeo","lat":41.384606399999996,"lng":2.181762,"ctaUrl":"https://maps.google.com/?cid=3200994150426244429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tapeo, Carrer de Montcada 29, Barcelona, ES"},{"anchorId":"bormuth","rank":5,"name":"Bormuth","label":"5. Bormuth","lat":41.3858408,"lng":2.1824969999999997,"ctaUrl":"https://maps.google.com/?cid=7489716802314113204&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bormuth, Plaça Comercial 1, Barcelona, ES"},{"anchorId":"santa-caterina-vermuteria","rank":6,"name":"Santa Caterina Vermuteria","label":"6. Santa Caterina Vermuteria","lat":41.3855284,"lng":2.178947,"ctaUrl":"https://maps.google.com/?cid=18127421040147713568&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Santa Caterina Vermuteria, Near Mercat de Santa Caterina, Barcelona, ES"},{"anchorId":"espai-puntal","rank":7,"name":"Espai Puntal","label":"7. Espai Puntal","lat":41.3865698,"lng":2.1798954999999998,"ctaUrl":"https://maps.google.com/?cid=3869581994337189000&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Espai Puntal, Carrer de les Caputxes 4, Barcelona, ES"},{"anchorId":"la-paradeta","rank":8,"name":"La Paradeta","label":"8. La Paradeta","lat":41.3863348,"lng":2.1840459,"ctaUrl":"https://maps.google.com/?cid=3379668850987194331&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Paradeta, Carrer Comercial 7, Barcelona, ES"},{"anchorId":"bubar","rank":9,"name":"Bubar","label":"9. Bubar","lat":41.3909869,"lng":2.1878461,"ctaUrl":"https://maps.google.com/?cid=5533566805882186519&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bubar, Carrer dels Carders 46, Barcelona, ES"},{"anchorId":"bar-mercaders","rank":10,"name":"Bar Mercaders","label":"10. Bar Mercaders","lat":41.3923382,"lng":2.1603949,"ctaUrl":"https://www.google.com/maps/search/Bar+Mercaders+El+Born+Barcelona-mercaders-born","mapQuery":"Bar Mercaders, Carrer dels Mercaders 26, Barcelona, ES"},{"anchorId":"santagustina","rank":11,"name":"Santagustina","label":"11. Santagustina","lat":41.388247799999995,"lng":2.1805627999999997,"ctaUrl":"https://maps.google.com/?cid=12200512046692177688&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Santagustina, Plaça de Sant Agustí Vell, Barcelona, ES"},{"anchorId":"la-fianna","rank":12,"name":"La Fianna","label":"12. La Fianna","lat":41.384225,"lng":2.1812058,"ctaUrl":"https://maps.google.com/?cid=12306292312617347758&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Fianna, Carrer dels Banys Vells 15, Barcelona, ES"},{"anchorId":"cal-pep","rank":13,"name":"Cal Pep","label":"13. Cal Pep","lat":41.3839621,"lng":2.1834105999999998,"ctaUrl":"https://maps.google.com/?cid=8236058641574838967&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cal Pep, Plaça de les Olles 8, Barcelona, ES"},{"anchorId":"alsur-cafe","rank":14,"name":"Alsur Café","label":"14. Alsur Café","lat":41.391144399999995,"lng":2.1712806,"ctaUrl":"https://maps.google.com/?cid=13407867324324058121&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Alsur Café, Carrer de Sant Pere Més Alt 4, Barcelona, ES"},{"anchorId":"antic-teatre","rank":15,"name":"Antic Teatre","label":"15. Antic Teatre","lat":41.3871958,"lng":2.1759573,"ctaUrl":"https://maps.google.com/?cid=6621050925231972258&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Antic Teatre, Carrer de Verdaguer i Callís 12, Barcelona, ES"},{"anchorId":"la-cova-fumada","rank":16,"name":"La Cova Fumada","label":"16. La Cova Fumada","lat":41.37930250000001,"lng":2.1892183,"ctaUrl":"https://maps.google.com/?cid=12514558321689225045&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cova Fumada, Carrer del Baluard 56, Barceloneta (10-min walk from El Born), Barcelona, ES"},{"anchorId":"espai-mescladis","rank":17,"name":"Espai Mescladís","label":"17. Espai Mescladís","lat":41.3870821,"lng":2.180335,"ctaUrl":"https://maps.google.com/?cid=7001204443394776793&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Espai Mescladís, Carrer dels Carders 35, Barcelona, ES"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

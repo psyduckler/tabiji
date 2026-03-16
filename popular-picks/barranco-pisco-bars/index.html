@@ -290,9 +290,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -317,7 +320,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -365,13 +368,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Barranco&#39;s pisco bars offer experiences ranging from S/10 to S/55, with Ayahuasca Restobar standing out as a top recommendation for its unique mansion setting. This bohemian district of Lima provides the perfect backdrop to explore Peru&#39;s national spirit, whether you&#39;re seeking classic sours or creative cocktails.</strong></p>
-        <p>Barranco&#39;s pisco bars, ranging from S/10 to S/55, offer diverse experiences, but Ayahuasca Restobar stands out as a top recommendation for its unique mansion setting. Whether you&#39;re seeking classic sours or creative cocktails, Barranco provides the perfect backdrop for exploring Peru&#39;s national spirit.</p><p>Barranco is Lima&#39;s bohemian heart — a neighborhood of crumbling colonial mansions, street art, live music, and some of the best bars in South America. While Miraflores gets the tourist foot traffic, Barranco is where limeños actually go to drink. And what they drink, overwhelmingly, is pisco.</p><p>Peru&#39;s national spirit deserves more than a hotel lobby pisco sour. In Barranco, you&#39;ll find it served in a restored 19th-century casona, at a cash-only bodega that hasn&#39;t changed since the 1950s, on a cliffside terrace overlooking the Pacific, and in cocktail bars pushing pisco into genuinely creative territory. We dug through Reddit to find the bars that locals, expats, and serious travelers keep coming back to.</p>
+        <p>Barranco is Lima&#39;s bohemian heart — a neighborhood of crumbling colonial mansions, street art, live music, and some of the best bars in South America. While Miraflores gets the tourist foot traffic, Barranco is where limeños actually go to drink. And what they drink, overwhelmingly, is pisco.</p><p>Peru&#39;s national spirit deserves more than a hotel lobby pisco sour. In Barranco, you&#39;ll find it served in a restored 19th-century casona, at a cash-only bodega that hasn&#39;t changed since the 1950s, on a cliffside terrace overlooking the Pacific, and in cocktail bars pushing pisco into genuinely creative territory. We dug through Reddit to find the bars that locals, expats, and serious travelers keep coming back to.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Pisco Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Pisco%20Bars%20in%20Barranco&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Ayahuasca Restobar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Pisco Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -393,7 +397,7 @@
       <li>
         <a href="#el-acantilado">6. El Acantilado</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Pisco%20Bars%20in%20Barranco" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16800648402142873400&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -405,7 +409,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="ayahuasca-restobar">
+<section class="restaurant-section" id="ayahuasca-restobar" data-map-name="1. Ayahuasca Restobar" data-map-cta-url="https://maps.google.com/?cid=16800648402142873400&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ayahuasca Restobar, Av. San Martín, Barranco, Lima, PE" data-map-lat="-12.1471129" data-map-lng="-77.0221719">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Ayahuasca Restobar</h2>
         <span class="cuisine-tag tag-regional">Mansion Bar</span>
@@ -447,7 +451,7 @@
         <strong>tabiji verdict:</strong> The single most recommended bar in Barranco, full stop. Ayahuasca appears in nearly every &quot;where to drink in Lima&quot; thread on Reddit, and for good reason — drinking pisco sours in a restored 19th-century mansion with three floors of ornate rooms is an experience you genuinely can&#39;t get anywhere else. The drinks are well-made, the atmosphere is electric on weekends, and the second floor is worth the wait. The one bar in Barranco you absolutely cannot skip.
     </div>
 </section>
-<section class="restaurant-section" id="republica-del-pisco">
+<section class="restaurant-section" id="republica-del-pisco" data-map-name="2. República del Pisco" data-map-cta-url="https://maps.google.com/?cid=17013420496057732681&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="República del Pisco, Near Plaza de Barranco, Lima, PE" data-map-lat="-12.14834" data-map-lng="-77.022808">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>República del Pisco</h2>
         <span class="cuisine-tag tag-regional">Pisco Bar</span>
@@ -485,7 +489,7 @@
         <strong>tabiji verdict:</strong> If Ayahuasca is the spectacle, República del Pisco is the education. This is where you go to actually understand pisco — the grape varietals, the regions, the distillation styles. The live music on weekends gives it a lively atmosphere without the clubby chaos of some Barranco spots. A must for anyone who wants to leave Peru actually knowing something about its national spirit.
     </div>
 </section>
-<section class="restaurant-section" id="hotel-b">
+<section class="restaurant-section" id="hotel-b" data-map-name="3. Hotel B Rooftop" data-map-cta-url="https://maps.google.com/?cid=15013242883285779591&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hotel B Rooftop, Av. San Martín 301, Barranco, Lima, PE" data-map-lat="-12.1430557" data-map-lng="-77.02336830000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Hotel B Rooftop</h2>
         <span class="cuisine-tag tag-regional">Rooftop Bar</span>
@@ -519,7 +523,7 @@
         <strong>tabiji verdict:</strong> Hotel B is Barranco&#39;s most sophisticated pisco experience. This Belle Époque boutique hotel turns its rooftop into one of Lima&#39;s best cocktail bars — the kind of place where bartenders geek out over pisco varietals and the sunset makes everything taste better. More expensive than the bodegas, but the craft and setting justify it. Perfect for a slow start to the evening before diving into Barranco&#39;s noisier bars.
     </div>
 </section>
-<section class="restaurant-section" id="juanito">
+<section class="restaurant-section" id="juanito" data-map-name="4. Juanito de Barranco" data-map-cta-url="https://maps.google.com/?cid=1384566788216976331&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Juanito de Barranco, Av. Grau 274, Barranco, Lima, PE" data-map-lat="-12.1496421" data-map-lng="-77.02066740000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Juanito de Barranco</h2>
         <span class="cuisine-tag tag-regional">Classic Bodega</span>
@@ -557,7 +561,7 @@
         <strong>tabiji verdict:</strong> Juanito is the antidote to every overdesigned cocktail bar on this list. Operating since the 1930s, this no-frills bodega is where Barranco&#39;s artists, old-timers, and in-the-know travelers rub elbows over cheap pisco sours and butifarra sandwiches. It&#39;s cash only, slightly chaotic, and absolutely essential. Come for the authenticity, stay for the draught beer.
     </div>
 </section>
-<section class="restaurant-section" id="dada">
+<section class="restaurant-section" id="dada" data-map-name="5. Dada" data-map-cta-url="https://maps.google.com/?cid=17504807623948890945&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dada, Av. San Martín, Barranco, Lima, PE" data-map-lat="-12.1439384" data-map-lng="-77.0184155">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Dada</h2>
         <span class="cuisine-tag tag-regional">Cocktail Bar</span>
@@ -591,7 +595,7 @@
         <strong>tabiji verdict:</strong> Dada occupies a sweet spot between Barranco&#39;s grittier bars and its polished hotel lounges. The space is generous — important when Barranco&#39;s more famous spots are packed shoulder-to-shoulder — and the cocktail program takes pisco seriously without being stuffy. It&#39;s named after the art movement, and the interiors lean into that energy. Good for groups, good for dates, good for a 2am nightcap.
     </div>
 </section>
-<section class="restaurant-section" id="el-acantilado">
+<section class="restaurant-section" id="el-acantilado" data-map-name="6. El Acantilado" data-map-cta-url="https://maps.google.com/?cid=16039559173610706467&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Acantilado, Near Puente de los Suspiros, Barranco, Lima, PE" data-map-lat="-12.1495134" data-map-lng="-77.02343549999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>El Acantilado</h2>
         <span class="cuisine-tag tag-regional">Cliffside Bar</span>
@@ -625,7 +629,7 @@
         <strong>tabiji verdict:</strong> El Acantilado&#39;s location does most of the heavy lifting — perched on the cliffs near Barranco&#39;s most romantic landmark, sipping a pisco sour here while watching the Pacific sunset is one of those travel moments that sticks with you. The drinks are solid (not groundbreaking), but when your bar is literally on a cliff, it doesn&#39;t need to try that hard. Go before sunset, stay for the glow.
     </div>
 </section>
-<section class="restaurant-section" id="barranco-beer-company">
+<section class="restaurant-section" id="barranco-beer-company" data-map-name="7. Barranco Beer Company" data-map-cta-url="https://maps.google.com/?cid=2188903185420968184&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Barranco Beer Company, Av. Grau, Barranco, Lima, PE" data-map-lat="-12.15081" data-map-lng="-77.02214239999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Barranco Beer Company</h2>
         <span class="cuisine-tag tag-regional">Craft Beer &amp; Pisco</span>
@@ -663,7 +667,7 @@
         <strong>tabiji verdict:</strong> BBC (as locals call it) is the bar you end up at when you can&#39;t decide what you want — because it has everything. Craft beer, pisco cocktails, rooftop terrace, solid food, and a reliably good crowd. The open-air azotea makes it feel like a house party. Not the most pisco-focused bar on this list, but one of the most enjoyable places to spend an evening in Barranco.
     </div>
 </section>
-<section class="restaurant-section" id="coleccionista">
+<section class="restaurant-section" id="coleccionista" data-map-name="8. Coleccionista" data-map-cta-url="https://maps.google.com/?cid=5852364323390917404&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Coleccionista, Calle San Martín, Barranco, Lima, PE" data-map-lat="-12.0547978" data-map-lng="-77.0356334">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Coleccionista</h2>
         <span class="cuisine-tag tag-regional">Gallery Bar</span>
@@ -697,7 +701,7 @@
         <strong>tabiji verdict:</strong> Coleccionista is Barranco at its most artistically pretentious — in the best way. Half gallery, half bar, it&#39;s the kind of place where you start with a cortado and end with a pisco sour without realizing how much time has passed. Its proximity to Ayahuasca makes it an ideal first stop for an evening out. More chill than the nightlife-focused bars, perfect for the early hours.
     </div>
 </section>
-<section class="restaurant-section" id="la-estacion">
+<section class="restaurant-section" id="la-estacion" data-map-name="9. La Estación de Barranco" data-map-cta-url="https://maps.google.com/?cid=7634221322980265132&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Estación de Barranco, Av. Pedro de Osma, Barranco, Lima, PE" data-map-lat="-12.1498702" data-map-lng="-77.02189539999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>La Estación de Barranco</h2>
         <span class="cuisine-tag tag-regional">Live Music Bar</span>
@@ -749,9 +753,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Pisco Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Pisco%20Bars%20in%20Barranco&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Ayahuasca Restobar</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Pisco Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -773,7 +778,7 @@
       <li>
         <a href="#el-acantilado">6. El Acantilado</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Pisco%20Bars%20in%20Barranco" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=16800648402142873400&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -784,5 +789,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Pisco Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Pisco%20Bars%20in%20Barranco","picks":[{"anchorId":"ayahuasca-restobar","rank":1,"name":"Ayahuasca Restobar","label":"1. Ayahuasca Restobar","lat":-12.1471129,"lng":-77.0221719,"ctaUrl":"https://maps.google.com/?cid=16800648402142873400&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ayahuasca Restobar, Av. San Martín, Barranco, Lima, PE"},{"anchorId":"republica-del-pisco","rank":2,"name":"República del Pisco","label":"2. República del Pisco","lat":-12.14834,"lng":-77.022808,"ctaUrl":"https://maps.google.com/?cid=17013420496057732681&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"República del Pisco, Near Plaza de Barranco, Lima, PE"},{"anchorId":"hotel-b","rank":3,"name":"Hotel B Rooftop","label":"3. Hotel B Rooftop","lat":-12.1430557,"lng":-77.02336830000002,"ctaUrl":"https://maps.google.com/?cid=15013242883285779591&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hotel B Rooftop, Av. San Martín 301, Barranco, Lima, PE"},{"anchorId":"juanito","rank":4,"name":"Juanito de Barranco","label":"4. Juanito de Barranco","lat":-12.1496421,"lng":-77.02066740000001,"ctaUrl":"https://maps.google.com/?cid=1384566788216976331&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Juanito de Barranco, Av. Grau 274, Barranco, Lima, PE"},{"anchorId":"dada","rank":5,"name":"Dada","label":"5. Dada","lat":-12.1439384,"lng":-77.0184155,"ctaUrl":"https://maps.google.com/?cid=17504807623948890945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dada, Av. San Martín, Barranco, Lima, PE"},{"anchorId":"el-acantilado","rank":6,"name":"El Acantilado","label":"6. El Acantilado","lat":-12.1495134,"lng":-77.02343549999999,"ctaUrl":"https://maps.google.com/?cid=16039559173610706467&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Acantilado, Near Puente de los Suspiros, Barranco, Lima, PE"},{"anchorId":"barranco-beer-company","rank":7,"name":"Barranco Beer Company","label":"7. Barranco Beer Company","lat":-12.15081,"lng":-77.02214239999999,"ctaUrl":"https://maps.google.com/?cid=2188903185420968184&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Barranco Beer Company, Av. Grau, Barranco, Lima, PE"},{"anchorId":"coleccionista","rank":8,"name":"Coleccionista","label":"8. Coleccionista","lat":-12.0547978,"lng":-77.0356334,"ctaUrl":"https://maps.google.com/?cid=5852364323390917404&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Coleccionista, Calle San Martín, Barranco, Lima, PE"},{"anchorId":"la-estacion","rank":9,"name":"La Estación de Barranco","label":"9. La Estación de Barranco","lat":-12.1498702,"lng":-77.02189539999999,"ctaUrl":"https://maps.google.com/?cid=7634221322980265132&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Estación de Barranco, Av. Pedro de Osma, Barranco, Lima, PE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

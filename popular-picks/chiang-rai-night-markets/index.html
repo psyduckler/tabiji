@@ -297,9 +297,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -324,7 +327,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -372,13 +375,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Chiang Rai&#39;s night markets, with prices ranging from ฿6-500, provide a more authentic experience than those in Chiang Mai, making the Saturday Walking Street a top recommendation. These markets offer a genuine taste of northern Thailand, less affected by heavy tourism.</strong></p>
-        <p>Chiang Rai&#39;s night markets, ranging from ฿6-500, offer a more authentic experience than those in Chiang Mai, with the Saturday Walking Street being a top recommendation for its variety and local atmosphere. These markets provide a genuine taste of northern Thailand, untouched by the heavy tourism found elsewhere.</p><p>Chiang Rai may live in the shadow of its bigger sister Chiang Mai, but the night markets here have something the larger city&#39;s lost — authenticity. Fewer tour buses, more Thai families, cheaper prices, and a genuine northern Thai atmosphere that hasn&#39;t been polished for Instagram.</p><p>We analyzed dozens of Reddit posts from r/ThailandTourism, r/Thailand, and r/solotravel to find the markets that actual travelers and Chiang Rai residents recommend. From the massive Saturday Walking Street to the nightly Night Bazaar near the bus station — here&#39;s where to spend your evenings in Thailand&#39;s far north.</p>
+        <p>Chiang Rai may live in the shadow of its bigger sister Chiang Mai, but the night markets here have something the larger city&#39;s lost — authenticity. Fewer tour buses, more Thai families, cheaper prices, and a genuine northern Thai atmosphere that hasn&#39;t been polished for Instagram.</p><p>We analyzed dozens of Reddit posts from r/ThailandTourism, r/Thailand, and r/solotravel to find the markets that actual travelers and Chiang Rai residents recommend. From the massive Saturday Walking Street to the nightly Night Bazaar near the bus station — here&#39;s where to spend your evenings in Thailand&#39;s far north.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Market Map</h2>
-      <iframe src="https://www.google.com/maps?q=Night%20Markets%20in%20Chiang%20Rai&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Saturday Walking Street (Thanalai Road)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Market Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -400,7 +404,7 @@
       <li>
         <a href="#hilltribe-market">6. Hilltribe Handicraft Night Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Night%20Markets%20in%20Chiang%20Rai" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9017448057010692130&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -412,7 +416,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="saturday-walking-street">
+<section class="restaurant-section" id="saturday-walking-street" data-map-name="1. Saturday Walking Street (Thanalai Road)" data-map-cta-url="https://maps.google.com/?cid=9017448057010692130&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Saturday Walking Street (Thanalai Road), Thanalai Road, Wiang, Chiang Rai, TH" data-map-lat="19.9085863" data-map-lng="99.8356773">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Saturday Walking Street (Thanalai Road)</h2>
         <span class="cuisine-tag tag-regional">Saturday Only</span>
@@ -449,7 +453,7 @@
         <strong>tabiji verdict:</strong> The undisputed #1 night market in Chiang Rai. Nearly 1 km of food, crafts, and live music along Thanalai Road. Arrive by 5 PM before the crowds hit — by 6 PM, good luck finding a table. The food court section on Wisetwiang Street has the best concentrated eating. Saturday-only is the catch — plan your Chiang Rai itinerary around it.
     </div>
 </section>
-<section class="restaurant-section" id="night-bazaar">
+<section class="restaurant-section" id="night-bazaar" data-map-name="2. Chiang Rai Night Bazaar" data-map-cta-url="https://maps.google.com/?cid=2495050782346488007&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chiang Rai Night Bazaar, Near Bus Terminal 1, Wiang, Chiang Rai, TH" data-map-lat="19.9053883" data-map-lng="99.834141">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Chiang Rai Night Bazaar</h2>
         <span class="cuisine-tag tag-regional">Open Daily</span>
@@ -486,7 +490,7 @@
         <strong>tabiji verdict:</strong> Your reliable daily option. Not as electric as the Saturday Walking Street, but it&#39;s open every night and right next to the bus terminal — perfect if you arrive late. The live music stage with jazz performances adds atmosphere. Hill tribe handicraft shopping is the highlight here. Solo travelers: the hotpots are huge, so grab khao soi or fried chicken instead.
     </div>
 </section>
-<section class="restaurant-section" id="sunday-happy-street">
+<section class="restaurant-section" id="sunday-happy-street" data-map-name="3. Sunday Happy Street (San Khong Noi)" data-map-cta-url="https://maps.google.com/?cid=4214066188681985116&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sunday Happy Street (San Khong Noi), San Khong Noi Road, Rop Wiang, Chiang Rai, TH" data-map-lat="19.901465599999998" data-map-lng="99.8190308">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Sunday Happy Street (San Khong Noi)</h2>
         <span class="cuisine-tag tag-regional">Sunday Only</span>
@@ -519,7 +523,7 @@
         <strong>tabiji verdict:</strong> The local&#39;s pick. Sunday Happy Street is where Chiang Rai residents actually go — fewer foreign tourists, more authentic northern Thai atmosphere. The street transforms into a pedestrian zone with live performances, art stalls, and food that&#39;s cheaper than the tourist-facing markets. Don&#39;t expect English menus.
     </div>
 </section>
-<section class="restaurant-section" id="clock-tower-area">
+<section class="restaurant-section" id="clock-tower-area" data-map-name="4. Clock Tower Night Market Area" data-map-cta-url="https://maps.google.com/?cid=17205546584580064867&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Clock Tower Night Market Area, Baanpa Pragarn Road, near Clock Tower, Chiang Rai, TH" data-map-lat="19.9071489" data-map-lng="99.8309632">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Clock Tower Night Market Area</h2>
         <span class="cuisine-tag tag-regional">Nightly</span>
@@ -556,7 +560,7 @@
         <strong>tabiji verdict:</strong> Not a formal &quot;market&quot; but the gravitational center of Chiang Rai&#39;s nightlife. The golden clock tower (designed by White Temple creator Chalermchai Kositpipat) puts on a dramatic light-and-sound show at 7, 8, and 9 PM — one of Chiang Rai&#39;s don&#39;t-miss free experiences. Bars like Heavenly Burger and Cat Bar cluster around it. Combine with the Night Bazaar (5-minute walk) for a full evening.
     </div>
 </section>
-<section class="restaurant-section" id="kad-luang">
+<section class="restaurant-section" id="kad-luang" data-map-name="5. Kad Luang (Big Wet Market)" data-map-cta-url="https://maps.google.com/?cid=4339008066747534027&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kad Luang (Big Wet Market), Central Chiang Rai, Chiang Rai, TH" data-map-lat="19.9098392" data-map-lng="99.82955439999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Kad Luang (Big Wet Market)</h2>
         <span class="cuisine-tag tag-regional">Open Daily</span>
@@ -585,7 +589,7 @@
         <strong>tabiji verdict:</strong> Less &quot;night market&quot; and more &quot;the market that comes alive at sunset.&quot; No trinkets, no souvenirs — just incredible cheap Thai food in bags. This is how Thai people actually eat dinner. Not photogenic, not Instagram-worthy, just delicious and absurdly cheap. Pair with a sunset walk along the Kok River.
     </div>
 </section>
-<section class="restaurant-section" id="hilltribe-market">
+<section class="restaurant-section" id="hilltribe-market" data-map-name="6. Hilltribe Handicraft Night Market" data-map-cta-url="https://maps.google.com/?cid=2495050782346488007&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hilltribe Handicraft Night Market, Adjacent to Night Bazaar, Chiang Rai, TH" data-map-lat="19.9053883" data-map-lng="99.834141">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Hilltribe Handicraft Night Market</h2>
         <span class="cuisine-tag tag-regional">Nightly</span>
@@ -618,7 +622,7 @@
         <strong>tabiji verdict:</strong> Chiang Rai&#39;s proximity to the hilltribe regions of the Golden Triangle gives this market an edge. The Akha, Lahu, Karen, and Hmong textiles here are often the genuine article — handmade by the artisans who sell them. Bargaining is expected but be fair — these aren&#39;t factory goods. Best souvenirs in northern Thailand.
     </div>
 </section>
-<section class="restaurant-section" id="walking-street">
+<section class="restaurant-section" id="walking-street" data-map-name="7. Walking Street Chiang Rai (Thanalai Extension)" data-map-cta-url="https://maps.google.com/?cid=9017448057010692130&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Walking Street Chiang Rai (Thanalai Extension), Thanalai Road, Wiang, Chiang Rai, TH" data-map-lat="19.9085863" data-map-lng="99.8356773">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Walking Street Chiang Rai (Thanalai Extension)</h2>
         <span class="cuisine-tag tag-regional">Evenings</span>
@@ -651,7 +655,7 @@
         <strong>tabiji verdict:</strong> Don&#39;t confuse this with the Saturday Walking Street — this is the broader walking street area with stalls and entertainment on multiple evenings. The Thai dance performances on the small stage are a genuinely charming window into Lanna culture. Good for an evening stroll even when the Saturday market isn&#39;t running.
     </div>
 </section>
-<section class="restaurant-section" id="one-rai-street">
+<section class="restaurant-section" id="one-rai-street" data-map-name="8. One Rai Walking Street" data-map-cta-url="https://maps.google.com/?cid=9017448057010692130&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="One Rai Walking Street, Central Chiang Rai, Chiang Rai, TH" data-map-lat="19.9085863" data-map-lng="99.8356773">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>One Rai Walking Street</h2>
         <span class="cuisine-tag tag-regional">Evenings</span>
@@ -680,7 +684,7 @@
         <strong>tabiji verdict:</strong> A newer addition to Chiang Rai&#39;s market scene. More of a community-style evening street with food vendors and local craft stalls. Not a must-visit with limited time, but if you&#39;re staying nearby or want to explore beyond the main tourist markets, it offers peaceful local character.
     </div>
 </section>
-<section class="restaurant-section" id="central-plaza">
+<section class="restaurant-section" id="central-plaza" data-map-name="9. Central Plaza Evening Food Court" data-map-cta-url="https://maps.google.com/?cid=7367077285528462052&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Central Plaza Evening Food Court, Central Plaza Chiang Rai, Chiang Rai, TH" data-map-lat="19.8864083" data-map-lng="99.834704">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Central Plaza Evening Food Court</h2>
         <span class="cuisine-tag tag-regional">Open Daily</span>
@@ -713,7 +717,7 @@
         <strong>tabiji verdict:</strong> Not a &quot;night market&quot; in the traditional sense, but the evening food vendor scene around Central Plaza is a solid backup. The air-conditioned food court is a reliable Plan B when tropical rain cancels your walking street plans. Also the best place for a quick coffee run before evening adventures.
     </div>
 </section>
-<section class="restaurant-section" id="mae-sai-border">
+<section class="restaurant-section" id="mae-sai-border" data-map-name="10. Mae Sai Border Market" data-map-cta-url="https://maps.google.com/?cid=10902624528458845917&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mae Sai Border Market, Mae Sai, 60km north of Chiang Rai, Chiang Rai, TH" data-map-lat="20.4380375" data-map-lng="99.8828374">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Mae Sai Border Market</h2>
         <span class="cuisine-tag tag-regional">Day Trip</span>
@@ -764,9 +768,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Market Map</h2>
-      <iframe src="https://www.google.com/maps?q=Night%20Markets%20in%20Chiang%20Rai&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Saturday Walking Street (Thanalai Road)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Market Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -788,7 +793,7 @@
       <li>
         <a href="#hilltribe-market">6. Hilltribe Handicraft Night Market</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Night%20Markets%20in%20Chiang%20Rai" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=9017448057010692130&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -799,5 +804,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Market Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Night%20Markets%20in%20Chiang%20Rai","picks":[{"anchorId":"saturday-walking-street","rank":1,"name":"Saturday Walking Street (Thanalai Road)","label":"1. Saturday Walking Street (Thanalai Road)","lat":19.9085863,"lng":99.8356773,"ctaUrl":"https://maps.google.com/?cid=9017448057010692130&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Saturday Walking Street (Thanalai Road), Thanalai Road, Wiang, Chiang Rai, TH"},{"anchorId":"night-bazaar","rank":2,"name":"Chiang Rai Night Bazaar","label":"2. Chiang Rai Night Bazaar","lat":19.9053883,"lng":99.834141,"ctaUrl":"https://maps.google.com/?cid=2495050782346488007&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chiang Rai Night Bazaar, Near Bus Terminal 1, Wiang, Chiang Rai, TH"},{"anchorId":"sunday-happy-street","rank":3,"name":"Sunday Happy Street (San Khong Noi)","label":"3. Sunday Happy Street (San Khong Noi)","lat":19.901465599999998,"lng":99.8190308,"ctaUrl":"https://maps.google.com/?cid=4214066188681985116&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sunday Happy Street (San Khong Noi), San Khong Noi Road, Rop Wiang, Chiang Rai, TH"},{"anchorId":"clock-tower-area","rank":4,"name":"Clock Tower Night Market Area","label":"4. Clock Tower Night Market Area","lat":19.9071489,"lng":99.8309632,"ctaUrl":"https://maps.google.com/?cid=17205546584580064867&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Clock Tower Night Market Area, Baanpa Pragarn Road, near Clock Tower, Chiang Rai, TH"},{"anchorId":"kad-luang","rank":5,"name":"Kad Luang (Big Wet Market)","label":"5. Kad Luang (Big Wet Market)","lat":19.9098392,"lng":99.82955439999999,"ctaUrl":"https://maps.google.com/?cid=4339008066747534027&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kad Luang (Big Wet Market), Central Chiang Rai, Chiang Rai, TH"},{"anchorId":"hilltribe-market","rank":6,"name":"Hilltribe Handicraft Night Market","label":"6. Hilltribe Handicraft Night Market","lat":19.9053883,"lng":99.834141,"ctaUrl":"https://maps.google.com/?cid=2495050782346488007&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hilltribe Handicraft Night Market, Adjacent to Night Bazaar, Chiang Rai, TH"},{"anchorId":"walking-street","rank":7,"name":"Walking Street Chiang Rai (Thanalai Extension)","label":"7. Walking Street Chiang Rai (Thanalai Extension)","lat":19.9085863,"lng":99.8356773,"ctaUrl":"https://maps.google.com/?cid=9017448057010692130&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Walking Street Chiang Rai (Thanalai Extension), Thanalai Road, Wiang, Chiang Rai, TH"},{"anchorId":"one-rai-street","rank":8,"name":"One Rai Walking Street","label":"8. One Rai Walking Street","lat":19.9085863,"lng":99.8356773,"ctaUrl":"https://maps.google.com/?cid=9017448057010692130&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"One Rai Walking Street, Central Chiang Rai, Chiang Rai, TH"},{"anchorId":"central-plaza","rank":9,"name":"Central Plaza Evening Food Court","label":"9. Central Plaza Evening Food Court","lat":19.8864083,"lng":99.834704,"ctaUrl":"https://maps.google.com/?cid=7367077285528462052&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Central Plaza Evening Food Court, Central Plaza Chiang Rai, Chiang Rai, TH"},{"anchorId":"mae-sai-border","rank":10,"name":"Mae Sai Border Market","label":"10. Mae Sai Border Market","lat":20.4380375,"lng":99.8828374,"ctaUrl":"https://maps.google.com/?cid=10902624528458845917&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mae Sai Border Market, Mae Sai, 60km north of Chiang Rai, Chiang Rai, TH"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

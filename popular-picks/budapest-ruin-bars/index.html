@@ -427,11 +427,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -456,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -483,39 +481,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Ruin Bars in Budapest",
-                        "item": "https://tabiji.ai/popular-picks/budapest-ruin-bars/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -562,9 +533,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Ruin Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Budapest%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Szimpla Kert</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Ruin Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -581,12 +553,12 @@
         <a href="#eleszto">4. Élesztőház (Élesztő)</a>
       </li>
       <li>
-        <a href="#csendes">5. Csendes Vintage Bar &amp; Café</a>
+        <a href="#csendes">5. Csendes Vintage Bar & Café</a>
       </li>
       <li>
         <a href="#potkulcs">6. Pótkulcs</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Budapest%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2771757573889662372&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -598,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="szimpla-kert">
+<section class="restaurant-section" id="szimpla-kert" data-map-name="1. Szimpla Kert" data-map-cta-url="https://maps.google.com/?cid=2771757573889662372&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Szimpla Kert, District VII — Kazinczy u. 14, Budapest, HU" data-map-lat="47.49696480000001" data-map-lng="19.063345899999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Szimpla Kert</h2>
         <span class="cuisine-tag tag-regional">Ruin Bar</span>
@@ -636,7 +608,7 @@
         <strong>tabiji verdict:</strong> The original ruin bar and the last true survivor. Yes, it&#39;s touristy. Go anyway — but go in the afternoon. The multi-level maze of rooms, bathtub seating, and eclectic art is genuinely impressive. Sunday morning farmers&#39; market is a hidden gem within the gem.
     </div>
 </section>
-<section class="restaurant-section" id="instant-fogas">
+<section class="restaurant-section" id="instant-fogas" data-map-name="2. Instant-Fogas" data-map-cta-url="https://maps.google.com/?cid=4165811125361188401&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Instant-Fogas, District VII — Akácfa u. 51, Budapest, HU" data-map-lat="47.5005187" data-map-lng="19.0652834">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Instant-Fogas</h2>
         <span class="cuisine-tag tag-regional">Ruin Bar / Club</span>
@@ -674,7 +646,7 @@
         <strong>tabiji verdict:</strong> The mega-complex of Budapest nightlife. 20+ themed rooms across two connected buildings, from chill lounges to thumping dance floors. Locals don&#39;t consider it a &quot;real&quot; ruin bar anymore, but for tourists wanting a wild night out with ruin bar aesthetics, this is it. Come after 11 PM on weekends.
     </div>
 </section>
-<section class="restaurant-section" id="mazel-tov">
+<section class="restaurant-section" id="mazel-tov" data-map-name="3. Mazel Tov" data-map-cta-url="https://maps.google.com/?cid=17697207929575553272&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mazel Tov, District VII — Akácfa u. 47, Budapest, HU" data-map-lat="47.5002778" data-map-lng="19.0655242">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Mazel Tov</h2>
         <span class="cuisine-tag tag-regional">Bar &amp; Restaurant</span>
@@ -708,7 +680,7 @@
         <strong>tabiji verdict:</strong> More upscale restaurant-bar than ruin bar, but the gorgeous greenhouse courtyard with string lights and lush plants has that magical ruin bar DNA. Book ahead — it fills up fast. Perfect for a date night or a group dinner before hitting the grittier spots.
     </div>
 </section>
-<section class="restaurant-section" id="eleszto">
+<section class="restaurant-section" id="eleszto" data-map-name="4. Élesztőház (Élesztő)" data-map-cta-url="https://maps.google.com/?cid=9172482781679187469&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Élesztőház (Élesztő), District VIII — Tűzoltó u. 22, Budapest, HU" data-map-lat="47.483573199999995" data-map-lng="19.072647399999997">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Élesztőház (Élesztő)</h2>
         <span class="cuisine-tag tag-regional">Craft Beer</span>
@@ -746,7 +718,7 @@
         <strong>tabiji verdict:</strong> If you care about what you&#39;re drinking, this is your spot. A sprawling courtyard in District VIII with rotating craft taps and food trucks. The vibe is ruin-bar-meets-beer-garden, but the crowd is more local and the beer is leagues better than anything on Kazinczy utca. Reservable tables are a huge plus.
     </div>
 </section>
-<section class="restaurant-section" id="csendes">
+<section class="restaurant-section" id="csendes" data-map-name="5. Csendes Vintage Bar &amp; Café" data-map-cta-url="https://maps.google.com/?cid=6372471337323290846&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Csendes Vintage Bar &amp; Café, District V — Ferenczy István u. 5, Budapest, HU" data-map-lat="47.492811599999996" data-map-lng="19.0603828">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Csendes Vintage Bar &amp; Café</h2>
         <span class="cuisine-tag tag-regional">Vintage Bar</span>
@@ -780,7 +752,7 @@
         <strong>tabiji verdict:</strong> The chillest spot on this list. Csendes means &quot;quiet&quot; in Hungarian, and it delivers — this is where you go for conversation, not clubbing. The maximalist decor rivals Szimpla for visual overload. Great daytime café too. Technically not a ruin bar, but the same DIY spirit.
     </div>
 </section>
-<section class="restaurant-section" id="potkulcs">
+<section class="restaurant-section" id="potkulcs" data-map-name="6. Pótkulcs" data-map-cta-url="https://maps.google.com/?cid=15019827480973730363&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pótkulcs, District VI — Csengery u. 65/b, Budapest, HU" data-map-lat="47.5096278" data-map-lng="19.0615806">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Pótkulcs</h2>
         <span class="cuisine-tag tag-regional">Ruin Pub</span>
@@ -818,7 +790,7 @@
         <strong>tabiji verdict:</strong> The local&#39;s local bar. Dirt-cheap drinks, folk concerts, and zero tourists. It&#39;s been a Budapest institution since the early days. The mismatched furniture and courtyard give ruin bar vibes without the ruin bar markup. Come for a folk dance táncház night — it&#39;s an unforgettable experience.
     </div>
 </section>
-<section class="restaurant-section" id="kuplung">
+<section class="restaurant-section" id="kuplung" data-map-name="7. Kuplung" data-map-cta-url="https://maps.google.com/?cid=8627046653876585933&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kuplung, District VII — Király u. 46, Budapest, HU" data-map-lat="47.5015184" data-map-lng="19.0615184">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Kuplung</h2>
         <span class="cuisine-tag tag-regional">Ruin Pub</span>
@@ -844,7 +816,7 @@
         <strong>tabiji verdict:</strong> Kuplung (&quot;clutch&quot; in Hungarian) is the gritty middle ground — more local than Szimpla, less chaotic than Instant. The graffiti-covered courtyard with street art murals is photogenic in that perfectly rundown way. Right on Király utca so easy to combine with a bar crawl.
     </div>
 </section>
-<section class="restaurant-section" id="ellato-kert">
+<section class="restaurant-section" id="ellato-kert" data-map-name="8. Ellátó Kert &amp; Taqueria" data-map-cta-url="https://maps.google.com/?cid=7418907055468026559&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ellátó Kert &amp; Taqueria, District VII — Kazinczy u. 48, Budapest, HU" data-map-lat="47.4991011" data-map-lng="19.060753899999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Ellátó Kert &amp; Taqueria</h2>
         <span class="cuisine-tag tag-regional">Garden Bar</span>
@@ -870,7 +842,7 @@
         <strong>tabiji verdict:</strong> Ruin bar meets taqueria — and the combo slaps. Steps from Kazinczy utca but with a more local crowd. The open-air courtyard with colorful furniture and a beat-up piano is peak ruin bar aesthetic. House-brewed beer is a nice touch. Great for an early evening stop.
     </div>
 </section>
-<section class="restaurant-section" id="koleves-kert">
+<section class="restaurant-section" id="koleves-kert" data-map-name="9. Kőleves Kert" data-map-cta-url="https://maps.google.com/?cid=10584490682863557007&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kőleves Kert, District VII — Kazinczy u. 37-39, Budapest, HU" data-map-lat="47.4991113" data-map-lng="19.0612547">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Kőleves Kert</h2>
         <span class="cuisine-tag tag-regional">Garden Bar</span>
@@ -904,7 +876,7 @@
         <strong>tabiji verdict:</strong> A chill garden bar right on Kazinczy utca — less hectic than Szimpla but more polished than Kuplung. The attached restaurant serves solid Hungarian food, making it a great dinner-and-drinks combo. The colorful courtyard with murals is lovely in summer.
     </div>
 </section>
-<section class="restaurant-section" id="360-bar">
+<section class="restaurant-section" id="360-bar" data-map-name="10. 360 Bar" data-map-cta-url="https://maps.google.com/?cid=7773597648777850408&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="360 Bar, District VI — Andrássy út 39 (rooftop), Budapest, HU" data-map-lat="47.503693999999996" data-map-lng="19.061522999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>360 Bar</h2>
         <span class="cuisine-tag tag-regional">Rooftop Bar</span>
@@ -938,7 +910,7 @@
         <strong>tabiji verdict:</strong> Not a ruin bar, but every ruin bar crawl should end up here. The 360-degree panoramic view from Andrássy út is stunning, especially at golden hour. Prices are higher than street level but still reasonable by European rooftop standards. Open seasonally (April–October usually).
     </div>
 </section>
-<section class="restaurant-section" id="durer-kert">
+<section class="restaurant-section" id="durer-kert" data-map-name="11. Dürer Kert" data-map-cta-url="https://maps.google.com/?cid=17071956725700270153&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dürer Kert, District XIV — Öböl u. 1, Budapest, HU" data-map-lat="47.4598982" data-map-lng="19.0572838">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Dürer Kert</h2>
         <span class="cuisine-tag tag-regional">Live Music &amp; Beer Garden</span>
@@ -972,7 +944,7 @@
         <strong>tabiji verdict:</strong> Budapest&#39;s best live music venue, tucked behind Városliget (City Park). More concert hall than ruin bar, but the outdoor beer garden has serious ruin bar energy. Worth the trek from District VII if there&#39;s a good gig on. Check the lineup — Hungarian indie bands here are a revelation.
     </div>
 </section>
-<section class="restaurant-section" id="corvin-club">
+<section class="restaurant-section" id="corvin-club" data-map-name="12. Corvin Club &amp; Roof Terrace" data-map-cta-url="https://maps.google.com/?cid=16726686527016223081&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Corvin Club &amp; Roof Terrace, District VIII — Blaha Lujza tér 1-2, Budapest, HU" data-map-lat="47.4960193" data-map-lng="19.0690976">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Corvin Club &amp; Roof Terrace</h2>
         <span class="cuisine-tag tag-regional">Rooftop / Club</span>
@@ -998,7 +970,7 @@
         <strong>tabiji verdict:</strong> A rooftop bar perched atop a communist-era department store — very Budapest. The terrace offers great views and the occasional DJ set. Less polished than 360 Bar, more authentic in that slightly-crumbling way that defines the ruin bar spirit. Seasonal.
     </div>
 </section>
-<section class="restaurant-section" id="szatyor-bar">
+<section class="restaurant-section" id="szatyor-bar" data-map-name="13. Szatyor Bár" data-map-cta-url="https://maps.google.com/?cid=6127658207327632383&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Szatyor Bár, District XI (Buda) — Bartók Béla út 36, Budapest, HU" data-map-lat="47.4790466" data-map-lng="19.0508119">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Szatyor Bár</h2>
         <span class="cuisine-tag tag-regional">Bar &amp; Café</span>
@@ -1032,7 +1004,7 @@
         <strong>tabiji verdict:</strong> The Buda-side escape. If you&#39;re tired of the District VII tourist circuit, cross the river to Bartók Béla út and find this charming bar-café hybrid. Ruin-adjacent decor with better food and a mellower crowd. Locals love it.
     </div>
 </section>
-<section class="restaurant-section" id="doboz">
+<section class="restaurant-section" id="doboz" data-map-name="14. Doboz" data-map-cta-url="https://maps.google.com/?cid=2426060544646817441&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Doboz, District VII — Klauzál u. 10, Budapest, HU" data-map-lat="47.4978821" data-map-lng="19.0668">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Doboz</h2>
         <span class="cuisine-tag tag-regional">Ruin Bar / Club</span>
@@ -1066,7 +1038,7 @@
         <strong>tabiji verdict:</strong> Doboz (&quot;box&quot; in Hungarian) is right in the heart of the Jewish Quarter. The centerpiece — a tree growing through the building — is iconic. It morphs from chill bar to party spot as the night goes on. Less intense than Instant, more happening than Kuplung. Solid middle ground.
     </div>
 </section>
-<section class="restaurant-section" id="vittula">
+<section class="restaurant-section" id="vittula" data-map-name="15. Vittula" data-map-cta-url="https://maps.google.com/?cid=16134667440421276981&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vittula, District VII — Kertész u. 4, Budapest, HU" data-map-lat="47.498715" data-map-lng="19.0692007">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Vittula</h2>
         <span class="cuisine-tag tag-regional">Bar</span>
@@ -1092,7 +1064,7 @@
         <strong>tabiji verdict:</strong> A locals-only dive with ruin bar DNA. No English menus, no tourist groups, just Budapestians having cheap drinks. If you want the authentic experience of what ruin bars felt like before they became famous, Vittula is your closest bet.
     </div>
 </section>
-<section class="restaurant-section" id="keret-klub">
+<section class="restaurant-section" id="keret-klub" data-map-name="16. Keret Klub" data-map-cta-url="https://maps.google.com/?cid=4276167576517255921&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Keret Klub, District VII — Somogyi Béla u. 12, Budapest, HU" data-map-lat="47.4946789" data-map-lng="19.0698211">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Keret Klub</h2>
         <span class="cuisine-tag tag-regional">Underground Bar</span>
@@ -1126,7 +1098,7 @@
         <strong>tabiji verdict:</strong> The speakeasy of the ruin bar world. Ring a bell, sign up as a &quot;member,&quot; pay cash only. Sounds pretentious but it&#39;s actually just a very chill, hidden courtyard bar that doesn&#39;t want to become the next Szimpla. Worth the effort if you want to feel like you discovered something.
     </div>
 </section>
-<section class="restaurant-section" id="puder">
+<section class="restaurant-section" id="puder" data-map-name="17. Púder" data-map-cta-url="https://maps.google.com/?cid=5953127129811019316&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Púder, District IX — Ráday u. 8, Budapest, HU" data-map-lat="47.4883904" data-map-lng="19.0625172">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Púder</h2>
         <span class="cuisine-tag tag-regional">Cocktail Bar</span>
@@ -1160,7 +1132,7 @@
         <strong>tabiji verdict:</strong> Located on lively Ráday utca (Budapest&#39;s restaurant row), Púder brings cocktail craftsmanship to the ruin bar aesthetic. Vintage furniture, moody lighting, and drinks that are actually well-made — not just cheap. A grown-up alternative for those past the backpacker bar phase.
     </div>
 </section>
-<section class="restaurant-section" id="manyi">
+<section class="restaurant-section" id="manyi" data-map-name="18. Manyi" data-map-cta-url="https://maps.google.com/?cid=12445753343629064186&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Manyi, District IX — Ferenc krt. 5, Budapest, HU" data-map-lat="47.5138372" data-map-lng="19.035672299999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Manyi</h2>
         <span class="cuisine-tag tag-regional">Alternative Bar</span>
@@ -1216,9 +1188,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Ruin Bar Map</h2>
-      <iframe src="https://www.google.com/maps?q=Budapest%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Szimpla Kert</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Ruin Bar Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1235,12 +1208,12 @@
         <a href="#eleszto">4. Élesztőház (Élesztő)</a>
       </li>
       <li>
-        <a href="#csendes">5. Csendes Vintage Bar &amp; Café</a>
+        <a href="#csendes">5. Csendes Vintage Bar & Café</a>
       </li>
       <li>
         <a href="#potkulcs">6. Pótkulcs</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Budapest%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=2771757573889662372&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1251,5 +1224,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Ruin Bar Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ruin%20Bars%20in%20Budapest","picks":[{"anchorId":"szimpla-kert","rank":1,"name":"Szimpla Kert","label":"1. Szimpla Kert","lat":47.49696480000001,"lng":19.063345899999998,"ctaUrl":"https://maps.google.com/?cid=2771757573889662372&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Szimpla Kert, District VII — Kazinczy u. 14, Budapest, HU"},{"anchorId":"instant-fogas","rank":2,"name":"Instant-Fogas","label":"2. Instant-Fogas","lat":47.5005187,"lng":19.0652834,"ctaUrl":"https://maps.google.com/?cid=4165811125361188401&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Instant-Fogas, District VII — Akácfa u. 51, Budapest, HU"},{"anchorId":"mazel-tov","rank":3,"name":"Mazel Tov","label":"3. Mazel Tov","lat":47.5002778,"lng":19.0655242,"ctaUrl":"https://maps.google.com/?cid=17697207929575553272&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mazel Tov, District VII — Akácfa u. 47, Budapest, HU"},{"anchorId":"eleszto","rank":4,"name":"Élesztőház (Élesztő)","label":"4. Élesztőház (Élesztő)","lat":47.483573199999995,"lng":19.072647399999997,"ctaUrl":"https://maps.google.com/?cid=9172482781679187469&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Élesztőház (Élesztő), District VIII — Tűzoltó u. 22, Budapest, HU"},{"anchorId":"csendes","rank":5,"name":"Csendes Vintage Bar & Café","label":"5. Csendes Vintage Bar & Café","lat":47.492811599999996,"lng":19.0603828,"ctaUrl":"https://maps.google.com/?cid=6372471337323290846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Csendes Vintage Bar & Café, District V — Ferenczy István u. 5, Budapest, HU"},{"anchorId":"potkulcs","rank":6,"name":"Pótkulcs","label":"6. Pótkulcs","lat":47.5096278,"lng":19.0615806,"ctaUrl":"https://maps.google.com/?cid=15019827480973730363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pótkulcs, District VI — Csengery u. 65/b, Budapest, HU"},{"anchorId":"kuplung","rank":7,"name":"Kuplung","label":"7. Kuplung","lat":47.5015184,"lng":19.0615184,"ctaUrl":"https://maps.google.com/?cid=8627046653876585933&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kuplung, District VII — Király u. 46, Budapest, HU"},{"anchorId":"ellato-kert","rank":8,"name":"Ellátó Kert & Taqueria","label":"8. Ellátó Kert & Taqueria","lat":47.4991011,"lng":19.060753899999998,"ctaUrl":"https://maps.google.com/?cid=7418907055468026559&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ellátó Kert & Taqueria, District VII — Kazinczy u. 48, Budapest, HU"},{"anchorId":"koleves-kert","rank":9,"name":"Kőleves Kert","label":"9. Kőleves Kert","lat":47.4991113,"lng":19.0612547,"ctaUrl":"https://maps.google.com/?cid=10584490682863557007&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kőleves Kert, District VII — Kazinczy u. 37-39, Budapest, HU"},{"anchorId":"360-bar","rank":10,"name":"360 Bar","label":"10. 360 Bar","lat":47.503693999999996,"lng":19.061522999999998,"ctaUrl":"https://maps.google.com/?cid=7773597648777850408&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"360 Bar, District VI — Andrássy út 39 (rooftop), Budapest, HU"},{"anchorId":"durer-kert","rank":11,"name":"Dürer Kert","label":"11. Dürer Kert","lat":47.4598982,"lng":19.0572838,"ctaUrl":"https://maps.google.com/?cid=17071956725700270153&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dürer Kert, District XIV — Öböl u. 1, Budapest, HU"},{"anchorId":"corvin-club","rank":12,"name":"Corvin Club & Roof Terrace","label":"12. Corvin Club & Roof Terrace","lat":47.4960193,"lng":19.0690976,"ctaUrl":"https://maps.google.com/?cid=16726686527016223081&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Corvin Club & Roof Terrace, District VIII — Blaha Lujza tér 1-2, Budapest, HU"},{"anchorId":"szatyor-bar","rank":13,"name":"Szatyor Bár","label":"13. Szatyor Bár","lat":47.4790466,"lng":19.0508119,"ctaUrl":"https://maps.google.com/?cid=6127658207327632383&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Szatyor Bár, District XI (Buda) — Bartók Béla út 36, Budapest, HU"},{"anchorId":"doboz","rank":14,"name":"Doboz","label":"14. Doboz","lat":47.4978821,"lng":19.0668,"ctaUrl":"https://maps.google.com/?cid=2426060544646817441&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Doboz, District VII — Klauzál u. 10, Budapest, HU"},{"anchorId":"vittula","rank":15,"name":"Vittula","label":"15. Vittula","lat":47.498715,"lng":19.0692007,"ctaUrl":"https://maps.google.com/?cid=16134667440421276981&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vittula, District VII — Kertész u. 4, Budapest, HU"},{"anchorId":"keret-klub","rank":16,"name":"Keret Klub","label":"16. Keret Klub","lat":47.4946789,"lng":19.0698211,"ctaUrl":"https://maps.google.com/?cid=4276167576517255921&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Keret Klub, District VII — Somogyi Béla u. 12, Budapest, HU"},{"anchorId":"puder","rank":17,"name":"Púder","label":"17. Púder","lat":47.4883904,"lng":19.0625172,"ctaUrl":"https://maps.google.com/?cid=5953127129811019316&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Púder, District IX — Ráday u. 8, Budapest, HU"},{"anchorId":"manyi","rank":18,"name":"Manyi","label":"18. Manyi","lat":47.5138372,"lng":19.035672299999998,"ctaUrl":"https://maps.google.com/?cid=12445753343629064186&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Manyi, District IX — Ferenc krt. 5, Budapest, HU"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -219,9 +219,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -246,7 +249,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -298,9 +301,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bookshop%20Caf%C3%A9s%20in%20Samcheong-dong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. BooksCooks (북스쿡스)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -319,7 +323,7 @@
       <li>
         <a href="#cafe-yeon">5. Café Yeon (카페 연)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bookshop%20Caf%C3%A9s%20in%20Samcheong-dong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14824929312700491162&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -331,7 +335,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="bookscooks">
+<section class="restaurant-section" id="bookscooks" data-map-name="1. BooksCooks (북스쿡스)" data-map-cta-url="https://maps.google.com/?cid=14824929312700491162&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="BooksCooks (북스쿡스), Bukchon Hanok Village, Jongno-gu, Seoul, KR" data-map-lat="37.5814696" data-map-lng="126.9849519">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>BooksCooks (북스쿡스)</h2>
         <span class="cuisine-tag tag-regional">Hanok Bookshop Café</span>
@@ -369,7 +373,7 @@
         <strong>tabiji verdict:</strong> Tucked into the alleys of Bukchon Hanok Village, BooksCooks is the kind of place you stumble upon and immediately fall in love with. The hanok architecture, carefully curated book collection, and excellent food make it feel like visiting a well-read friend&#39;s home. Perfect after exploring Bukchon&#39;s narrow streets.
     </div>
 </section>
-<section class="restaurant-section" id="dae-o">
+<section class="restaurant-section" id="dae-o" data-map-name="2. Dae-o Bookstore (대오서점)" data-map-cta-url="https://maps.google.com/?cid=12547869801136628712&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dae-o Bookstore (대오서점), 55 Jahamun-ro 7-gil, Jongno-gu (Seochon), Seoul, KR" data-map-lat="37.579734099999996" data-map-lng="126.9693256">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Dae-o Bookstore (대오서점)</h2>
         <span class="cuisine-tag tag-regional">Vintage Bookshop</span>
@@ -403,7 +407,7 @@
         <strong>tabiji verdict:</strong> Seoul&#39;s oldest bookstore, open since 1951, sits in the heart of Seochon — a 10-minute walk from Samcheong-dong through Gyeongbokgung. Cash only, tiny, and gloriously unchanged. BTS&#39;s RM made it famous internationally, but locals have loved it for decades. The café extension adds just enough comfort without disturbing the old-world charm. Open daily 12:00–21:00.
     </div>
 </section>
-<section class="restaurant-section" id="forest-chosochaekbang">
+<section class="restaurant-section" id="forest-chosochaekbang" data-map-name="3. The Forest Chosochaekbang (더숲 초소책방)" data-map-cta-url="https://maps.google.com/?cid=2915840624500808094&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Forest Chosochaekbang (더숲 초소책방), 172 Inwangsan-ro, Jongno-gu, Seoul, KR" data-map-lat="37.5858972" data-map-lng="126.96423050000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>The Forest Chosochaekbang (더숲 초소책방)</h2>
         <span class="cuisine-tag tag-regional">Mountain Book Café</span>
@@ -437,7 +441,7 @@
         <strong>tabiji verdict:</strong> A former police guard post reborn as a glass-walled book sanctuary on Inwangsan Mountain. The 20-minute uphill walk from Gyeongbokgung through Seochon village is part of the experience — you&#39;ll pass Tongin Market and the Yun Dong-ju Literature Museum. Specializes in environmental literature and hosts intimate book talks and music concerts. Worth the climb.
     </div>
 </section>
-<section class="restaurant-section" id="my-book-cafe">
+<section class="restaurant-section" id="my-book-cafe" data-map-name="4. My Book Café (마이북카페)" data-map-cta-url="https://maps.google.com/?cid=12626354569779134648&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="My Book Café (마이북카페), Samcheong-dong-gil, Jongno-gu, Seoul, KR" data-map-lat="37.5815084" data-map-lng="126.9844061">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>My Book Café (마이북카페)</h2>
         <span class="cuisine-tag tag-regional">Classic Book Café</span>
@@ -471,7 +475,7 @@
         <strong>tabiji verdict:</strong> The OG Samcheong-dong book café — right on the main café street. Walls lined floor-to-ceiling with books create a cozy, library-like atmosphere. The cappuccino is genuinely excellent. A perfect pit stop during a Samcheong-dong walk. No pretension, just good coffee and good books.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-yeon">
+<section class="restaurant-section" id="cafe-yeon" data-map-name="5. Café Yeon (카페 연)" data-map-cta-url="https://maps.google.com/?cid=4721326128094917238&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café Yeon (카페 연), Samcheong-dong, near Toy Museum, Seoul, KR" data-map-lat="37.5423422" data-map-lng="126.99282520000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Café Yeon (카페 연)</h2>
         <span class="cuisine-tag tag-regional">Zen Hanok Café</span>
@@ -515,9 +519,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Bookshop%20Caf%C3%A9s%20in%20Samcheong-dong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. BooksCooks (북스쿡스)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -536,7 +541,7 @@
       <li>
         <a href="#cafe-yeon">5. Café Yeon (카페 연)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Bookshop%20Caf%C3%A9s%20in%20Samcheong-dong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14824929312700491162&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -547,5 +552,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Bookshop%20Caf%C3%A9s%20in%20Samcheong-dong","picks":[{"anchorId":"bookscooks","rank":1,"name":"BooksCooks (북스쿡스)","label":"1. BooksCooks (북스쿡스)","lat":37.5814696,"lng":126.9849519,"ctaUrl":"https://maps.google.com/?cid=14824929312700491162&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"BooksCooks (북스쿡스), Bukchon Hanok Village, Jongno-gu, Seoul, KR"},{"anchorId":"dae-o","rank":2,"name":"Dae-o Bookstore (대오서점)","label":"2. Dae-o Bookstore (대오서점)","lat":37.579734099999996,"lng":126.9693256,"ctaUrl":"https://maps.google.com/?cid=12547869801136628712&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dae-o Bookstore (대오서점), 55 Jahamun-ro 7-gil, Jongno-gu (Seochon), Seoul, KR"},{"anchorId":"forest-chosochaekbang","rank":3,"name":"The Forest Chosochaekbang (더숲 초소책방)","label":"3. The Forest Chosochaekbang (더숲 초소책방)","lat":37.5858972,"lng":126.96423050000001,"ctaUrl":"https://maps.google.com/?cid=2915840624500808094&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Forest Chosochaekbang (더숲 초소책방), 172 Inwangsan-ro, Jongno-gu, Seoul, KR"},{"anchorId":"my-book-cafe","rank":4,"name":"My Book Café (마이북카페)","label":"4. My Book Café (마이북카페)","lat":37.5815084,"lng":126.9844061,"ctaUrl":"https://maps.google.com/?cid=12626354569779134648&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"My Book Café (마이북카페), Samcheong-dong-gil, Jongno-gu, Seoul, KR"},{"anchorId":"cafe-yeon","rank":5,"name":"Café Yeon (카페 연)","label":"5. Café Yeon (카페 연)","lat":37.5423422,"lng":126.99282520000001,"ctaUrl":"https://maps.google.com/?cid=4721326128094917238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café Yeon (카페 연), Samcheong-dong, near Toy Museum, Seoul, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

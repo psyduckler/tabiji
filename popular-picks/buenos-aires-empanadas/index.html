@@ -395,9 +395,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -422,7 +425,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -470,13 +473,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Empanadas in Buenos Aires range from ARS $800-2,500, with La Cocina being our top recommendation due to its creative fillings and long-standing popularity. This guide helps you navigate the empanada scene in Buenos Aires, where misses often outnumber the hits, to find the perfect empanada for your taste.</strong></p>
-        <p>Empanadas in Buenos Aires range from ARS $800-2,500, but finding a great one can be tricky. Our top recommendation is La Cocina for its creative fillings and long-standing popularity. This guide helps you navigate the empanada scene in Buenos Aires, where misses often outnumber the hits.</p><p>Empanadas in Buenos Aires are a paradox. This is the capital of a country where empanadas are practically a birthright — yet as one food writer put it, &quot;the misses far outnumber the hits.&quot; Every bakery, bodegón, and gas station sells them. Most are forgettable.</p><p>We dug through dozens of Reddit posts from r/BuenosAires, r/argentina, and r/asklatinamerica to find out which empanada spots actual porteños and long-term expats recommend — and which ones they&#39;d walk past. The result: 15 places spanning Catamarqueña classics, Bolivian salteñas, Arab fatay, and wood-fired newcomers.</p>
+        <p>Empanadas in Buenos Aires are a paradox. This is the capital of a country where empanadas are practically a birthright — yet as one food writer put it, &quot;the misses far outnumber the hits.&quot; Every bakery, bodegón, and gas station sells them. Most are forgettable.</p><p>We dug through dozens of Reddit posts from r/BuenosAires, r/argentina, and r/asklatinamerica to find out which empanada spots actual porteños and long-term expats recommend — and which ones they&#39;d walk past. The result: 15 places spanning Catamarqueña classics, Bolivian salteñas, Arab fatay, and wood-fired newcomers.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Empanada Map</h2>
-      <iframe src="https://www.google.com/maps?q=Empanadas%20in%20Buenos%20Aires%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Cocina</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Empanada Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -498,7 +502,7 @@
       <li>
         <a href="#la-pacena">6. La Paceña</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Empanadas%20in%20Buenos%20Aires%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7019906798597182314&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -510,7 +514,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="la-cocina">
+<section class="restaurant-section" id="la-cocina" data-map-name="1. La Cocina" data-map-cta-url="https://maps.google.com/?cid=7019906798597182314&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cocina, Recoleta &amp; Centro (Galería Boston), Buenos Aires, AR" data-map-lat="-34.5930989" data-map-lng="-58.401910799999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>La Cocina</h2>
         <span class="cuisine-tag tag-regional">Classic — Catamarqueña</span>
@@ -548,7 +552,7 @@
         <strong>tabiji verdict:</strong> The single most recommended empanada spot in Buenos Aires across every source we checked — Reddit, expat forums, food blogs. Two locations: the Centro one is hidden in the basement of Galería Boston (an experience in itself), while the Recoleta shop is easier to find. Go during lunch rush for maximum freshness.
     </div>
 </section>
-<section class="restaurant-section" id="el-sanjuanino">
+<section class="restaurant-section" id="el-sanjuanino" data-map-name="2. El Sanjuanino" data-map-cta-url="https://maps.google.com/?cid=9895268787963389924&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Sanjuanino, Posadas 1515, Recoleta, Buenos Aires, AR" data-map-lat="-34.587299699999996" data-map-lng="-58.3872867">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>El Sanjuanino</h2>
         <span class="cuisine-tag tag-regional">Classic — Institution</span>
@@ -586,7 +590,7 @@
         <strong>tabiji verdict:</strong> The iconic tourist-friendly pick that locals also genuinely respect. #2 on TripAdvisor&#39;s empanada list with nearly 4,000 reviews. It&#39;s been around forever, the prices are fair, and the fried empanadas are legitimately excellent. If you&#39;re in Recoleta visiting the cemetery, this is your lunch spot.
     </div>
 </section>
-<section class="restaurant-section" id="el-gauchito">
+<section class="restaurant-section" id="el-gauchito" data-map-name="3. El Gauchito" data-map-cta-url="https://maps.google.com/?cid=12574588647337622698&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Gauchito, Av. Independencia, San Telmo, Buenos Aires, AR" data-map-lat="-34.617334899999996" data-map-lng="-58.3719311">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>El Gauchito</h2>
         <span class="cuisine-tag tag-regional">Fried — Riojana Style</span>
@@ -620,7 +624,7 @@
         <strong>tabiji verdict:</strong> The San Telmo gem for fried empanada lovers. The shop itself is decorated with Gauchito Gil figures and Evita photos — part empanada shop, part folk art museum. Fried to order means zero chance of getting a sad, reheated specimen. Best paired with a San Telmo market visit.
     </div>
 </section>
-<section class="restaurant-section" id="la-americana">
+<section class="restaurant-section" id="la-americana" data-map-name="4. La Americana" data-map-cta-url="https://maps.google.com/?cid=6473116447781233337&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Americana, Av. Callao 83, Congreso, Buenos Aires, AR" data-map-lat="-34.6080927" data-map-lng="-58.391864299999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>La Americana</h2>
         <span class="cuisine-tag tag-regional">Classic — Porteña Institution</span>
@@ -654,7 +658,7 @@
         <strong>tabiji verdict:</strong> The establishment pick. La Americana has been doing this since the 1930s and still draws lines during lunch. It&#39;s also a legendary pizza spot — so you can do the classic porteño combo: empanadas to start, pizza to follow. Located steps from the Congreso building, making it an easy mid-sightseeing stop.
     </div>
 </section>
-<section class="restaurant-section" id="mi-gusto">
+<section class="restaurant-section" id="mi-gusto" data-map-name="5. Mi Gusto (Motachole)" data-map-cta-url="https://maps.google.com/?cid=10766204335525544690&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mi Gusto (Motachole), Multiple locations across Buenos Aires, Buenos Aires, AR" data-map-lat="-34.5852693" data-map-lng="-58.44121289999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mi Gusto (Motachole)</h2>
         <span class="cuisine-tag tag-regional">Chain — Local Favorite</span>
@@ -692,7 +696,7 @@
         <strong>tabiji verdict:</strong> The people&#39;s champion. When r/BuenosAires asks &quot;best empanadas?&quot; — Mi Gusto consistently tops the comments with serious upvotes. It&#39;s a chain, yes, but the kind of chain where locals genuinely argue about which location is best. The empanada equivalent of a beloved local pizza chain that just gets it right.
     </div>
 </section>
-<section class="restaurant-section" id="la-pacena">
+<section class="restaurant-section" id="la-pacena" data-map-name="6. La Paceña" data-map-cta-url="https://maps.google.com/?cid=9378859255827251478&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Paceña, Belgrano, Buenos Aires, AR" data-map-lat="-34.5640314" data-map-lng="-58.457359999999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>La Paceña</h2>
         <span class="cuisine-tag tag-regional">Bolivian Style</span>
@@ -726,7 +730,7 @@
         <strong>tabiji verdict:</strong> The gateway to Bolivian empanadas — and once you try them, you&#39;ll understand why people get evangelical about salteñas. The dough has more character than typical Argentine versions, and the fillings actually bring heat. Open since the early &#39;90s in Belgrano. A sit-down experience, not grab-and-go.
     </div>
 </section>
-<section class="restaurant-section" id="taytay">
+<section class="restaurant-section" id="taytay" data-map-name="7. TayTay" data-map-cta-url="https://maps.google.com/?cid=11345589084086310426&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="TayTay, Saavedra, Buenos Aires, AR" data-map-lat="-34.552103599999995" data-map-lng="-58.4783781">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>TayTay</h2>
         <span class="cuisine-tag tag-regional">Bolivian Salteñas</span>
@@ -760,7 +764,7 @@
         <strong>tabiji verdict:</strong> A Redditor on r/finedining — a sub that reviews Michelin-starred restaurants — called these &quot;the best empanadas of our lives.&quot; The recipe comes from the owner&#39;s Bolivian grandmother&#39;s 1970s Palermo shop. It&#39;s a trek to Saavedra, but salteñas this good justify the journey. Delivery is available if you&#39;re lazy.
     </div>
 </section>
-<section class="restaurant-section" id="al-furat">
+<section class="restaurant-section" id="al-furat" data-map-name="8. Al Furat" data-map-cta-url="https://maps.google.com/?cid=3019689392504097205&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Al Furat, Uriarte, Palermo Soho, Buenos Aires, AR" data-map-lat="-34.5897386" data-map-lng="-58.4357105">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Al Furat</h2>
         <span class="cuisine-tag tag-regional">Arab — Fatay</span>
@@ -790,7 +794,7 @@
         <strong>tabiji verdict:</strong> Argentina has a massive Arab diaspora, and Al Furat is where that heritage meets empanada culture. Alicia Zayoud has been making these by hand for decades. If you walk by at the right time, you&#39;ll see her rolling dough in the window. Don&#39;t bother asking for the recipe — she won&#39;t give it out, not even to friends.
     </div>
 </section>
-<section class="restaurant-section" id="roma-de-abasto">
+<section class="restaurant-section" id="roma-de-abasto" data-map-name="9. Roma de Abasto" data-map-cta-url="https://maps.google.com/?cid=702023648010193192&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Roma de Abasto, Anchorena &amp; San Luis, Abasto, Buenos Aires, AR" data-map-lat="-34.599366599999996" data-map-lng="-58.4088524">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Roma de Abasto</h2>
         <span class="cuisine-tag tag-regional">Wood-Fired</span>
@@ -820,7 +824,7 @@
         <strong>tabiji verdict:</strong> The hipster pick that actually delivers. A revived 1940s pizzería-bar with oak bar, marble tops, and a clay oven glowing behind it all. The homemade dough and wood-fire cooking put these in a different league from places using pre-made La Salteña wrappers. Come for the empanadas, stay for the atmosphere and vermouth.
     </div>
 </section>
-<section class="restaurant-section" id="bar-roma">
+<section class="restaurant-section" id="bar-roma" data-map-name="10. Bar Roma" data-map-cta-url="https://maps.google.com/?cid=702023648010193192&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bar Roma, Buenos Aires, Buenos Aires, AR" data-map-lat="-34.6361717" data-map-lng="-58.358675">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Bar Roma</h2>
         <span class="cuisine-tag tag-regional">Classic — Bodegón</span>
@@ -854,7 +858,7 @@
         <strong>tabiji verdict:</strong> When someone on r/finedining — a subreddit that debates whether to add a seventh course at Noma — tells you to go to a bodegón for empanadas, you listen. Bar Roma is the kind of place you&#39;d never find on TripAdvisor. That&#39;s exactly the point.
     </div>
 </section>
-<section class="restaurant-section" id="vecinda">
+<section class="restaurant-section" id="vecinda" data-map-name="11. Vecindá" data-map-cta-url="https://maps.google.com/?cid=12871068970592273025&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vecindá, Castillo &amp; Bonpland, Chacarita, Buenos Aires, AR" data-map-lat="-34.5875086" data-map-lng="-58.4425647">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Vecindá</h2>
         <span class="cuisine-tag tag-regional">Veggie-Forward</span>
@@ -884,7 +888,7 @@
         <strong>tabiji verdict:</strong> The empanada spot for people who think empanadas are just &quot;meat in dough.&quot; Vecindá flips the script: vegetables lead, meat makes a cameo. The clay horno adds wood-fired character. The Chacarita location is cool, a little chaotic, and exactly what a vegetable-forward empanada shop should feel like. Great for vegetarians who feel left out of empanada culture.
     </div>
 </section>
-<section class="restaurant-section" id="el-fortin">
+<section class="restaurant-section" id="el-fortin" data-map-name="12. El Fortín Salteño" data-map-cta-url="https://maps.google.com/?cid=18397226038605928354&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Fortín Salteño, Multiple locations, Buenos Aires, AR" data-map-lat="-34.5415012" data-map-lng="-58.47411950000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>El Fortín Salteño</h2>
         <span class="cuisine-tag tag-regional">Northern — Salta Style</span>
@@ -918,7 +922,7 @@
         <strong>tabiji verdict:</strong> If you&#39;ve only had Buenos Aires-style empanadas, El Fortín Salteño will recalibrate your expectations. Northern Argentine empanadas are juicier, more heavily spiced, and smaller — you&#39;ll eat three before you know it. The Redditor who recommended it also pointed to the Bolivian market in Liniers for the truly adventurous.
     </div>
 </section>
-<section class="restaurant-section" id="la-morada">
+<section class="restaurant-section" id="la-morada" data-map-name="13. La Morada" data-map-cta-url="https://maps.google.com/?cid=618127388074361572&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Morada, Monserrat (also Recoleta), Buenos Aires, AR" data-map-lat="-34.5914909" data-map-lng="-58.399767000000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>La Morada</h2>
         <span class="cuisine-tag tag-regional">Classic — Regional Home Cooking</span>
@@ -948,7 +952,7 @@
         <strong>tabiji verdict:</strong> The walls are covered in vintage soda bottles, Mafalda comics, and Argentine memorabilia — part restaurant, part cultural museum. Rumor has it the owners used to work at La Cocina and took the empanada recipe with them. Unconfirmed, but it adds drama. Either way, the empanadas are excellent.
     </div>
 </section>
-<section class="restaurant-section" id="rincon-norteno">
+<section class="restaurant-section" id="rincon-norteno" data-map-name="14. Rincón Norteño" data-map-cta-url="https://maps.google.com/?cid=17950288568426966996&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rincón Norteño, Multiple locations across Buenos Aires, Buenos Aires, AR" data-map-lat="-34.539739499999996" data-map-lng="-58.4660189">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Rincón Norteño</h2>
         <span class="cuisine-tag tag-regional">Northern — Tucumán Style</span>
@@ -982,7 +986,7 @@
         <strong>tabiji verdict:</strong> Buenos Aires has no shortage of places claiming &quot;northern-style empanadas.&quot; Rincón Norteño is one that Reddit locals actually name. The Tucumán style — fried, hand-chopped beef, served with lemon — is fundamentally different from the baked porteña empanada. Try both to understand why Argentines argue about empanadas like Americans argue about barbecue.
     </div>
 </section>
-<section class="restaurant-section" id="el-noble">
+<section class="restaurant-section" id="el-noble" data-map-name="15. El Noble" data-map-cta-url="https://maps.google.com/?cid=2422181463643714095&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Noble, Everywhere — 100+ locations across Buenos Aires, Buenos Aires, AR" data-map-lat="30.2895933" data-map-lng="-97.7478258">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>El Noble</h2>
         <span class="cuisine-tag tag-regional">Chain — Best of the Chains</span>
@@ -1034,9 +1038,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Empanada Map</h2>
-      <iframe src="https://www.google.com/maps?q=Empanadas%20in%20Buenos%20Aires%20%E2%80%94%20The%20Unfiltered%20Guide&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. La Cocina</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Empanada Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1058,7 +1063,7 @@
       <li>
         <a href="#la-pacena">6. La Paceña</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Empanadas%20in%20Buenos%20Aires%20%E2%80%94%20The%20Unfiltered%20Guide" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=7019906798597182314&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1069,5 +1074,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Empanada Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Empanadas%20in%20Buenos%20Aires%20%E2%80%94%20The%20Unfiltered%20Guide","picks":[{"anchorId":"la-cocina","rank":1,"name":"La Cocina","label":"1. La Cocina","lat":-34.5930989,"lng":-58.401910799999996,"ctaUrl":"https://maps.google.com/?cid=7019906798597182314&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cocina, Recoleta & Centro (Galería Boston), Buenos Aires, AR"},{"anchorId":"el-sanjuanino","rank":2,"name":"El Sanjuanino","label":"2. El Sanjuanino","lat":-34.587299699999996,"lng":-58.3872867,"ctaUrl":"https://maps.google.com/?cid=9895268787963389924&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Sanjuanino, Posadas 1515, Recoleta, Buenos Aires, AR"},{"anchorId":"el-gauchito","rank":3,"name":"El Gauchito","label":"3. El Gauchito","lat":-34.617334899999996,"lng":-58.3719311,"ctaUrl":"https://maps.google.com/?cid=12574588647337622698&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Gauchito, Av. Independencia, San Telmo, Buenos Aires, AR"},{"anchorId":"la-americana","rank":4,"name":"La Americana","label":"4. La Americana","lat":-34.6080927,"lng":-58.391864299999995,"ctaUrl":"https://maps.google.com/?cid=6473116447781233337&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Americana, Av. Callao 83, Congreso, Buenos Aires, AR"},{"anchorId":"mi-gusto","rank":5,"name":"Mi Gusto (Motachole)","label":"5. Mi Gusto (Motachole)","lat":-34.5852693,"lng":-58.44121289999999,"ctaUrl":"https://maps.google.com/?cid=10766204335525544690&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mi Gusto (Motachole), Multiple locations across Buenos Aires, Buenos Aires, AR"},{"anchorId":"la-pacena","rank":6,"name":"La Paceña","label":"6. La Paceña","lat":-34.5640314,"lng":-58.457359999999994,"ctaUrl":"https://maps.google.com/?cid=9378859255827251478&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Paceña, Belgrano, Buenos Aires, AR"},{"anchorId":"taytay","rank":7,"name":"TayTay","label":"7. TayTay","lat":-34.552103599999995,"lng":-58.4783781,"ctaUrl":"https://maps.google.com/?cid=11345589084086310426&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"TayTay, Saavedra, Buenos Aires, AR"},{"anchorId":"al-furat","rank":8,"name":"Al Furat","label":"8. Al Furat","lat":-34.5897386,"lng":-58.4357105,"ctaUrl":"https://maps.google.com/?cid=3019689392504097205&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Al Furat, Uriarte, Palermo Soho, Buenos Aires, AR"},{"anchorId":"roma-de-abasto","rank":9,"name":"Roma de Abasto","label":"9. Roma de Abasto","lat":-34.599366599999996,"lng":-58.4088524,"ctaUrl":"https://maps.google.com/?cid=702023648010193192&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Roma de Abasto, Anchorena & San Luis, Abasto, Buenos Aires, AR"},{"anchorId":"bar-roma","rank":10,"name":"Bar Roma","label":"10. Bar Roma","lat":-34.6361717,"lng":-58.358675,"ctaUrl":"https://maps.google.com/?cid=702023648010193192&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bar Roma, Buenos Aires, Buenos Aires, AR"},{"anchorId":"vecinda","rank":11,"name":"Vecindá","label":"11. Vecindá","lat":-34.5875086,"lng":-58.4425647,"ctaUrl":"https://maps.google.com/?cid=12871068970592273025&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vecindá, Castillo & Bonpland, Chacarita, Buenos Aires, AR"},{"anchorId":"el-fortin","rank":12,"name":"El Fortín Salteño","label":"12. El Fortín Salteño","lat":-34.5415012,"lng":-58.47411950000001,"ctaUrl":"https://maps.google.com/?cid=18397226038605928354&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Fortín Salteño, Multiple locations, Buenos Aires, AR"},{"anchorId":"la-morada","rank":13,"name":"La Morada","label":"13. La Morada","lat":-34.5914909,"lng":-58.399767000000004,"ctaUrl":"https://maps.google.com/?cid=618127388074361572&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Morada, Monserrat (also Recoleta), Buenos Aires, AR"},{"anchorId":"rincon-norteno","rank":14,"name":"Rincón Norteño","label":"14. Rincón Norteño","lat":-34.539739499999996,"lng":-58.4660189,"ctaUrl":"https://maps.google.com/?cid=17950288568426966996&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rincón Norteño, Multiple locations across Buenos Aires, Buenos Aires, AR"},{"anchorId":"el-noble","rank":15,"name":"El Noble","label":"15. El Noble","lat":30.2895933,"lng":-97.7478258,"ctaUrl":"https://maps.google.com/?cid=2422181463643714095&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Noble, Everywhere — 100+ locations across Buenos Aires, Buenos Aires, AR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -419,9 +419,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -446,7 +449,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -498,9 +501,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Working Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Working%20Caf%C3%A9s%20in%20Lisbon&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Honest Greens</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Working Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -522,7 +526,7 @@
       <li>
         <a href="#dear-breakfast">6. Dear Breakfast</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Working%20Caf%C3%A9s%20in%20Lisbon" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8759536025303661322&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -534,7 +538,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="honest-greens">
+<section class="restaurant-section" id="honest-greens" data-map-name="1. Honest Greens" data-map-cta-url="https://maps.google.com/?cid=8759536025303661322&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Honest Greens, Cais do Sodré — Praça Dom Luís I 1, Lisbon, PT" data-map-lat="38.706821" data-map-lng="-9.147304">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Honest Greens</h2>
         <span class="cuisine-tag tag-regional">Healthy / All-Day</span>
@@ -567,7 +571,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Lisbon working cafés. Multiple locations but Cais do Sodré is the one — massive space, late hours, healthy food, and a back room full of nomads. The refillable drink hack lets you work guilt-free for hours. Outlets are scarce though, so come charged.
     </div>
 </section>
-<section class="restaurant-section" id="comoba">
+<section class="restaurant-section" id="comoba" data-map-name="2. Comobå" data-map-cta-url="https://maps.google.com/?cid=8481924477582044992&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Comobå, Cais do Sodré — Rua da Boavista 90, Lisbon, PT" data-map-lat="38.708863699999995" data-map-lng="-9.1490119">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Comobå</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -600,7 +604,7 @@
         <strong>tabiji verdict:</strong> The digital nomad social hub of Lisbon. Comobå nails the balance between work café and community space — you&#39;ll meet other remote workers here whether you want to or not. The Fair Trade coffee is excellent, breakfast burritos are legendary. Only downside: stools instead of chairs, so not ideal for 8-hour marathon sessions.
     </div>
 </section>
-<section class="restaurant-section" id="copenhagen-coffee-lab">
+<section class="restaurant-section" id="copenhagen-coffee-lab" data-map-name="3. Copenhagen Coffee Lab" data-map-cta-url="https://maps.google.com/?cid=6209061768388119731&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Copenhagen Coffee Lab, Multiple locations (8+ across Lisbon), Lisbon, PT" data-map-lat="38.7127944" data-map-lng="-9.137142899999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Copenhagen Coffee Lab</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -637,7 +641,7 @@
         <strong>tabiji verdict:</strong> The reliable workhorse — with 8+ locations, there&#39;s always one nearby. Coffee quality is consistently excellent (Scandinavian roasting style). Some locations have added laptop restrictions during peak hours, so check before you settle in. The Alcântara and Estrela spots tend to be quieter than the tourist-area ones. Interiors are on the darker side — not great if you need natural light.
     </div>
 </section>
-<section class="restaurant-section" id="fabrica-coffee">
+<section class="restaurant-section" id="fabrica-coffee" data-map-name="4. Fábrica Coffee Roasters" data-map-cta-url="https://maps.google.com/?cid=10779126361323825150&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fábrica Coffee Roasters, Multiple locations (5 in Lisbon), Lisbon, PT" data-map-lat="38.7094216" data-map-lng="-9.1436251">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Fábrica Coffee Roasters</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -670,7 +674,7 @@
         <strong>tabiji verdict:</strong> If coffee quality is your top priority, Fábrica wins. They roast their own beans and it shows — the espresso and pour-overs are legitimately world-class. The industrial-chic spaces are surprisingly functional for work, with better outlet access than most Lisbon cafés. Five locations means you can find one in your neighborhood. Food is secondary here — come for the coffee, bring snacks if you need a proper meal.
     </div>
 </section>
-<section class="restaurant-section" id="outsite">
+<section class="restaurant-section" id="outsite" data-map-name="5. Outsite Cowork Cafe" data-map-cta-url="https://maps.google.com/?cid=17050459639401373019&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Outsite Cowork Cafe, Santos — Rua de S. Paulo 109, Lisbon, PT" data-map-lat="38.7084414" data-map-lng="-9.1472091">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Outsite Cowork Cafe</h2>
         <span class="cuisine-tag tag-regional">Cowork Café</span>
@@ -703,7 +707,7 @@
         <strong>tabiji verdict:</strong> The only paid option on this list — and worth it if you need guaranteed productivity. Meeting rooms and phone booths solve the &quot;I have a call in 5 minutes&quot; panic that hits at regular cafés. The coliving space upstairs means Outsite deeply understands what nomads need. At €17/day it&#39;s cheaper than most coworking spaces and comes with better food. Not open on weekends though.
     </div>
 </section>
-<section class="restaurant-section" id="dear-breakfast">
+<section class="restaurant-section" id="dear-breakfast" data-map-name="6. Dear Breakfast" data-map-cta-url="https://maps.google.com/?cid=2386984745974027888&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dear Breakfast, Bica — Rua das Galvotas 17 (also Alfama, Chiado), Lisbon, PT" data-map-lat="38.7095902" data-map-lng="-9.1512867">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Dear Breakfast</h2>
         <span class="cuisine-tag tag-regional">Brunch Spot</span>
@@ -736,7 +740,7 @@
         <strong>tabiji verdict:</strong> A gorgeous brunch spot that happens to welcome laptops. The Bica location is the best for working — arched ceilings, natural light, and outlets at most tables. The eggs royale and croque madame are genuinely excellent fuel for a work session. Not a place to camp all day (too popular), but perfect for a 2-3 hour morning productivity burst with incredible food.
     </div>
 </section>
-<section class="restaurant-section" id="simpli-coffee">
+<section class="restaurant-section" id="simpli-coffee" data-map-name="7. Simpli Coffee" data-map-cta-url="https://maps.google.com/?cid=6463648133463786775&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Simpli Coffee, Marquês de Pombal — Rua Braamcamp 64, Lisbon, PT" data-map-lat="38.7222521" data-map-lng="-9.1520945">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Simpli Coffee</h2>
         <span class="cuisine-tag tag-regional">Specialty Coffee</span>
@@ -769,7 +773,7 @@
         <strong>tabiji verdict:</strong> A quiet neighborhood gem near Marquês de Pombal that serious coffee drinkers love. They work directly with farmers for rare single-origin beans — you can taste the difference. The sourdough is baked fresh daily and the French toast is a cult favorite. Less of a nomad scene than Comobå or Honest Greens, which might be exactly what you want when you need to focus.
     </div>
 </section>
-<section class="restaurant-section" id="curva">
+<section class="restaurant-section" id="curva" data-map-name="8. Curva" data-map-cta-url="https://maps.google.com/?cid=15823746503988406823&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Curva, Graça — R. Damasceno Monteiro 108D, Lisbon, PT" data-map-lat="38.7211579" data-map-lng="-9.1316095">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Curva</h2>
         <span class="cuisine-tag tag-regional">Café / Gallery</span>
@@ -802,7 +806,7 @@
         <strong>tabiji verdict:</strong> The best work café in Graça, hands down. Curva is more than a café — it&#39;s a gallery, shop, and wine bar wrapped into one beautiful space. The location away from the tourist center means it&#39;s rarely overcrowded. Work in the back, browse the gallery during breaks, then transition to wine when 5 PM hits. The kind of place that makes you feel like you&#39;ve actually found a life-work balance.
     </div>
 </section>
-<section class="restaurant-section" id="wish-slow">
+<section class="restaurant-section" id="wish-slow" data-map-name="9. Wish Slow Coffee House" data-map-cta-url="https://maps.google.com/?cid=16313501948368979744&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wish Slow Coffee House, Alcântara — LX Factory, Rua Rodrigues de Faria 103, Lisbon, PT" data-map-lat="38.702892299999995" data-map-lng="-9.178536399999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Wish Slow Coffee House</h2>
         <span class="cuisine-tag tag-regional">Creative Space</span>
@@ -827,7 +831,7 @@
         <strong>tabiji verdict:</strong> LX Factory is Lisbon&#39;s creative heartbeat, and Wish Slow is where you go to tap into that energy while actually getting work done. The slow coffee philosophy means they take their time — don&#39;t come here expecting fast-food efficiency. Come expecting inspiration. The space is gorgeous, the vibe is unrushed, and the 50+ shops, galleries, and restaurants outside your door make for the best lunch breaks in Lisbon.
     </div>
 </section>
-<section class="restaurant-section" id="dual">
+<section class="restaurant-section" id="dual" data-map-name="10. Dual (formerly Give It a Shot)" data-map-cta-url="https://maps.google.com/?cid=9331158255975547142&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dual (formerly Give It a Shot), Cais do Sodré — Rua Dom Luís I 22, Lisbon, PT" data-map-lat="38.7070608" data-map-lng="-9.1456691">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Dual (formerly Give It a Shot)</h2>
         <span class="cuisine-tag tag-regional">Cowork Café</span>
@@ -852,7 +856,7 @@
         <strong>tabiji verdict:</strong> The most work-focused free café in Lisbon. Dual started as a barista training pop-up and evolved into a proper work café that understands the assignment. The €10 all-day minimum is extremely fair — two coffees and a toastie covers it. The space is quiet and purpose-built for concentration. Only downside: limited outlets, so treat your battery like a precious resource.
     </div>
 </section>
-<section class="restaurant-section" id="boutik-lisboa">
+<section class="restaurant-section" id="boutik-lisboa" data-map-name="11. Boutik Lisboa" data-map-cta-url="https://maps.google.com/?cid=17976245508447671931&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Boutik Lisboa, São Bento — R. de São Bento 106D, Lisbon, PT" data-map-lat="38.7115465" data-map-lng="-9.1526367">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Boutik Lisboa</h2>
         <span class="cuisine-tag tag-regional">Lifestyle Hub</span>
@@ -877,7 +881,7 @@
         <strong>tabiji verdict:</strong> The hidden gem on this list. Boutik isn&#39;t marketed as a work café, which is exactly why it works — you won&#39;t be competing for tables with 50 other nomads. The São Bento neighborhood is trendy but calm, the food is healthy and affordable, and the attached surf shop gives the space a relaxed coastal energy. Take a laptop break to browse their ethical fashion and local crafts.
     </div>
 </section>
-<section class="restaurant-section" id="hello-kristof">
+<section class="restaurant-section" id="hello-kristof" data-map-name="12. Hello, Kristof" data-map-cta-url="https://maps.google.com/?cid=1899191397636179835&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Hello, Kristof, Bica / São Bento — R. do Poço dos Negros 103, Lisbon, PT" data-map-lat="38.709899799999995" data-map-lng="-9.1513223">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Hello, Kristof</h2>
         <span class="cuisine-tag tag-regional">Creative Café</span>
@@ -910,7 +914,7 @@
         <strong>tabiji verdict:</strong> ⚠️ Laptop-friendliness is uncertain. Hello, Kristof is genuinely one of the most beautiful, inspiring cafés in Lisbon — the magazine collection alone is worth the visit. The matcha latte is perfection. But recent reports suggest they&#39;ve started restricting laptops at some tables. Visit for the experience and coffee, but don&#39;t count on it as your daily workspace. If you do get a table, the creative energy here is unmatched.
     </div>
 </section>
-<section class="restaurant-section" id="maria-food-hub">
+<section class="restaurant-section" id="maria-food-hub" data-map-name="13. Maria Food Hub" data-map-cta-url="https://maps.google.com/?cid=1161025154678414004&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maria Food Hub, Anjos — R. Maria Andrade 38, Lisbon, PT" data-map-lat="38.7234748" data-map-lng="-9.1330837">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Maria Food Hub</h2>
         <span class="cuisine-tag tag-regional">All-Day Café</span>
@@ -943,7 +947,7 @@
         <strong>tabiji verdict:</strong> The best work café in the Anjos/Intendente neighborhood — one of Lisbon&#39;s most up-and-coming areas. The 8:30am to 11pm hours are a godsend if you work odd hours or want to transition from work to dinner without moving. The neighborhood is more local than Cais do Sodré, which means cheaper prices and fewer nomad crowds. The full cocktail menu at the end of a work day doesn&#39;t hurt either.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-da-garagem">
+<section class="restaurant-section" id="cafe-da-garagem" data-map-name="14. Café da Garagem" data-map-cta-url="https://maps.google.com/?cid=11333848607729169037&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Café da Garagem, Alfama — Costa do Castelo 65, Lisbon, PT" data-map-lat="38.7148373" data-map-lng="-9.1328792">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Café da Garagem</h2>
         <span class="cuisine-tag tag-regional">Theater Café</span>
@@ -976,7 +980,7 @@
         <strong>tabiji verdict:</strong> ⚠️ Very limited laptop space. Café da Garagem has the best view of any café in Lisbon — full stop. But they&#39;ve restricted laptop use to just one table. Come for the sunset views and a coffee break, not for a full work day. If you do snag the work table, congratulations — you&#39;ve won the Lisbon café lottery. The views alone will make your Zoom backgrounds the envy of every meeting.
     </div>
 </section>
-<section class="restaurant-section" id="homies">
+<section class="restaurant-section" id="homies" data-map-name="15. Homie&#39;s A Local Joint" data-map-cta-url="https://maps.google.com/?cid=10719080660919698838&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Homie&#39;s A Local Joint, Graça / Alfama — Rua do Vale de Santo António 48c, Lisbon, PT" data-map-lat="38.71566" data-map-lng="-9.1218158">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Homie&#39;s A Local Joint</h2>
         <span class="cuisine-tag tag-regional">Alternative Café</span>
@@ -1001,7 +1005,7 @@
         <strong>tabiji verdict:</strong> If you&#39;re tired of the polished nomad café scene, Homie&#39;s is the antidote. It&#39;s the kind of place where you feel like a regular after two visits. The slightly alternative vibe attracts an interesting mix of locals and longer-term residents rather than the usual nomad crowd. Not the most productive space for heads-down work, but perfect for the kind of day where you want to work a bit, chat a bit, and feel like you actually live in Lisbon.
     </div>
 </section>
-<section class="restaurant-section" id="debru">
+<section class="restaurant-section" id="debru" data-map-name="16. DeBru Craft Beer" data-map-cta-url="https://maps.google.com/?cid=16048316392925312949&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="DeBru Craft Beer, Saldanha — R. Luciano Cordeiro 2C, Lisbon, PT" data-map-lat="38.7234682" data-map-lng="-9.1425352">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>DeBru Craft Beer</h2>
         <span class="cuisine-tag tag-regional">Craft Beer &amp; Cowork</span>
@@ -1044,9 +1048,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Working Café Map</h2>
-      <iframe src="https://www.google.com/maps?q=Working%20Caf%C3%A9s%20in%20Lisbon&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Honest Greens</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Working Café Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1068,7 +1073,7 @@
       <li>
         <a href="#dear-breakfast">6. Dear Breakfast</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Working%20Caf%C3%A9s%20in%20Lisbon" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=8759536025303661322&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1079,5 +1084,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Working Café Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Working%20Caf%C3%A9s%20in%20Lisbon","picks":[{"anchorId":"honest-greens","rank":1,"name":"Honest Greens","label":"1. Honest Greens","lat":38.706821,"lng":-9.147304,"ctaUrl":"https://maps.google.com/?cid=8759536025303661322&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Honest Greens, Cais do Sodré — Praça Dom Luís I 1, Lisbon, PT"},{"anchorId":"comoba","rank":2,"name":"Comobå","label":"2. Comobå","lat":38.708863699999995,"lng":-9.1490119,"ctaUrl":"https://maps.google.com/?cid=8481924477582044992&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Comobå, Cais do Sodré — Rua da Boavista 90, Lisbon, PT"},{"anchorId":"copenhagen-coffee-lab","rank":3,"name":"Copenhagen Coffee Lab","label":"3. Copenhagen Coffee Lab","lat":38.7127944,"lng":-9.137142899999999,"ctaUrl":"https://maps.google.com/?cid=6209061768388119731&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Copenhagen Coffee Lab, Multiple locations (8+ across Lisbon), Lisbon, PT"},{"anchorId":"fabrica-coffee","rank":4,"name":"Fábrica Coffee Roasters","label":"4. Fábrica Coffee Roasters","lat":38.7094216,"lng":-9.1436251,"ctaUrl":"https://maps.google.com/?cid=10779126361323825150&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fábrica Coffee Roasters, Multiple locations (5 in Lisbon), Lisbon, PT"},{"anchorId":"outsite","rank":5,"name":"Outsite Cowork Cafe","label":"5. Outsite Cowork Cafe","lat":38.7084414,"lng":-9.1472091,"ctaUrl":"https://maps.google.com/?cid=17050459639401373019&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Outsite Cowork Cafe, Santos — Rua de S. Paulo 109, Lisbon, PT"},{"anchorId":"dear-breakfast","rank":6,"name":"Dear Breakfast","label":"6. Dear Breakfast","lat":38.7095902,"lng":-9.1512867,"ctaUrl":"https://maps.google.com/?cid=2386984745974027888&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dear Breakfast, Bica — Rua das Galvotas 17 (also Alfama, Chiado), Lisbon, PT"},{"anchorId":"simpli-coffee","rank":7,"name":"Simpli Coffee","label":"7. Simpli Coffee","lat":38.7222521,"lng":-9.1520945,"ctaUrl":"https://maps.google.com/?cid=6463648133463786775&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Simpli Coffee, Marquês de Pombal — Rua Braamcamp 64, Lisbon, PT"},{"anchorId":"curva","rank":8,"name":"Curva","label":"8. Curva","lat":38.7211579,"lng":-9.1316095,"ctaUrl":"https://maps.google.com/?cid=15823746503988406823&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Curva, Graça — R. Damasceno Monteiro 108D, Lisbon, PT"},{"anchorId":"wish-slow","rank":9,"name":"Wish Slow Coffee House","label":"9. Wish Slow Coffee House","lat":38.702892299999995,"lng":-9.178536399999999,"ctaUrl":"https://maps.google.com/?cid=16313501948368979744&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wish Slow Coffee House, Alcântara — LX Factory, Rua Rodrigues de Faria 103, Lisbon, PT"},{"anchorId":"dual","rank":10,"name":"Dual (formerly Give It a Shot)","label":"10. Dual (formerly Give It a Shot)","lat":38.7070608,"lng":-9.1456691,"ctaUrl":"https://maps.google.com/?cid=9331158255975547142&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dual (formerly Give It a Shot), Cais do Sodré — Rua Dom Luís I 22, Lisbon, PT"},{"anchorId":"boutik-lisboa","rank":11,"name":"Boutik Lisboa","label":"11. Boutik Lisboa","lat":38.7115465,"lng":-9.1526367,"ctaUrl":"https://maps.google.com/?cid=17976245508447671931&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Boutik Lisboa, São Bento — R. de São Bento 106D, Lisbon, PT"},{"anchorId":"hello-kristof","rank":12,"name":"Hello, Kristof","label":"12. Hello, Kristof","lat":38.709899799999995,"lng":-9.1513223,"ctaUrl":"https://maps.google.com/?cid=1899191397636179835&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Hello, Kristof, Bica / São Bento — R. do Poço dos Negros 103, Lisbon, PT"},{"anchorId":"maria-food-hub","rank":13,"name":"Maria Food Hub","label":"13. Maria Food Hub","lat":38.7234748,"lng":-9.1330837,"ctaUrl":"https://maps.google.com/?cid=1161025154678414004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maria Food Hub, Anjos — R. Maria Andrade 38, Lisbon, PT"},{"anchorId":"cafe-da-garagem","rank":14,"name":"Café da Garagem","label":"14. Café da Garagem","lat":38.7148373,"lng":-9.1328792,"ctaUrl":"https://maps.google.com/?cid=11333848607729169037&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Café da Garagem, Alfama — Costa do Castelo 65, Lisbon, PT"},{"anchorId":"homies","rank":15,"name":"Homie's A Local Joint","label":"15. Homie's A Local Joint","lat":38.71566,"lng":-9.1218158,"ctaUrl":"https://maps.google.com/?cid=10719080660919698838&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Homie's A Local Joint, Graça / Alfama — Rua do Vale de Santo António 48c, Lisbon, PT"},{"anchorId":"debru","rank":16,"name":"DeBru Craft Beer","label":"16. DeBru Craft Beer","lat":38.7234682,"lng":-9.1425352,"ctaUrl":"https://maps.google.com/?cid=16048316392925312949&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"DeBru Craft Beer, Saldanha — R. Luciano Cordeiro 2C, Lisbon, PT"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

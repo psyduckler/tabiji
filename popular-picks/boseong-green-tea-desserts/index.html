@@ -290,9 +290,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -317,7 +320,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -365,13 +368,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Green tea desserts in Boseong, South Korea range from ₩2,000 to ₩12,000, with the iconic green tea soft serve at Daehan Dawon Rest Stop being the top recommendation for its genuine Boseong tea flavor. For a taste of tea picked directly from the surrounding hills, Boseong is the place to be. The Daehan Dawon plantation has been growing organic tea since 1957, and in 2002 Boseong Green Tea became Korea&#39;s first-ever geographically indicated agricultural product.</strong></p>
-        <p>Green tea desserts in Boseong, South Korea range from ₩2,000 to ₩12,000, with the iconic green tea soft serve at Daehan Dawon Rest Stop being the top recommendation for its genuine Boseong tea flavor. These desserts offer a taste of tea picked directly from the surrounding hills.</p><p>Boseong (보성) isn&#39;t just Korea&#39;s prettiest tea destination — it&#39;s where green tea actually means something. The Daehan Dawon plantation has been growing organic tea since 1957, and in 2002 Boseong Green Tea became Korea&#39;s first-ever geographically indicated agricultural product. When you eat green tea desserts here, you&#39;re tasting tea that was picked from the hills you just hiked.</p><p>We scoured Reddit threads, travel blogs, and Korean review sites to find the spots where the green tea flavor is genuine — not just food-coloring green. From the iconic plantation soft serve to hidden hanok cafés tucked into bamboo groves, these are the green tea desserts worth the journey south of Seoul.</p>
+        <p>Boseong (보성) isn&#39;t just Korea&#39;s prettiest tea destination — it&#39;s where green tea actually means something. The Daehan Dawon plantation has been growing organic tea since 1957, and in 2002 Boseong Green Tea became Korea&#39;s first-ever geographically indicated agricultural product. When you eat green tea desserts here, you&#39;re tasting tea that was picked from the hills you just hiked.</p><p>We scoured Reddit threads, travel blogs, and Korean review sites to find the spots where the green tea flavor is genuine — not just food-coloring green. From the iconic plantation soft serve to hidden hanok cafés tucked into bamboo groves, these are the green tea desserts worth the journey south of Seoul.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Dessert Map</h2>
-      <iframe src="https://www.google.com/maps?q=Green%20Tea%20Desserts%20in%20Boseong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Daehan Dawon Rest Stop (대한다원쉼터)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dessert Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -393,7 +397,7 @@
       <li>
         <a href="#cafe-1957">6. Cafe 1957 (카페 1957)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Green%20Tea%20Desserts%20in%20Boseong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11373576786874351380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -405,7 +409,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="daehan-dawon-rest-stop">
+<section class="restaurant-section" id="daehan-dawon-rest-stop" data-map-name="1. Daehan Dawon Rest Stop (대한다원쉼터)" data-map-cta-url="https://maps.google.com/?cid=11373576786874351380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Daehan Dawon Rest Stop (대한다원쉼터), Inside Daehan Dawon Plantation, Jeollanam-do, KR" data-map-lat="34.716113199999995" data-map-lng="127.0780875">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Daehan Dawon Rest Stop (대한다원쉼터)</h2>
         <span class="cuisine-tag tag-regional">Green Tea Soft Serve</span>
@@ -447,7 +451,7 @@
         <strong>tabiji verdict:</strong> The single most mentioned dessert in all of Boseong. Every. Single. Visitor. talks about this soft serve. It&#39;s inside the plantation near the central square — grab one before or after your hike to the observatory. The tea flavor is real and intense, not the artificially sweet matcha you get in Seoul chains.
     </div>
 </section>
-<section class="restaurant-section" id="greendahyang">
+<section class="restaurant-section" id="greendahyang" data-map-name="2. Greendahyang at Botjae (그린다향)" data-map-cta-url="https://www.google.com/maps/search/%EA%B7%B8%EB%A6%B0%EB%8B%A4%ED%96%A5+%EB%B3%B4%EC%84%B1+%EB%B4%87%EC%9E%AC" data-map-query="Greendahyang at Botjae (그린다향), Botjae Building, 2F — Nokcha-ro, Jeollanam-do, KR" data-map-lat="34.7134727" data-map-lng="127.0875816">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Greendahyang at Botjae (그린다향)</h2>
         <span class="cuisine-tag tag-regional">Matcha Specialist</span>
@@ -477,7 +481,7 @@
         <strong>tabiji verdict:</strong> The hottest green tea spot in Boseong right now, riding the &quot;matcha-core&quot; wave. Located on the 2nd floor of the Botjae building (about 1km from Daehan Dawon), with stunning views over its own tea terraces. The matcha bingsu is Instagram-famous for a reason — the quality of the matcha here is legit. Visitor numbers jumped 7% year-over-year in 2025.
     </div>
 </section>
-<section class="restaurant-section" id="parking-lot-shop">
+<section class="restaurant-section" id="parking-lot-shop" data-map-name="3. Parking Lot Soft Serve Shop (녹차밭매점)" data-map-cta-url="https://maps.google.com/?cid=11373576786874351380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Parking Lot Soft Serve Shop (녹차밭매점), Daehan Dawon Car Park, Jeollanam-do, KR" data-map-lat="34.716113199999995" data-map-lng="127.0780875">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Parking Lot Soft Serve Shop (녹차밭매점)</h2>
         <span class="cuisine-tag tag-regional">Budget Soft Serve</span>
@@ -515,7 +519,7 @@
         <strong>tabiji verdict:</strong> The budget-savvy move. It&#39;s a tiny shop near the parking lot before you enter the plantation gates — same green tea soft serve, lower price. Multiple travel bloggers independently flagged this tip. Grab one on your way in, save money, and eat it while walking the cedar-lined entrance. Pro move: get one here AND one inside for comparison.
     </div>
 </section>
-<section class="restaurant-section" id="green-leaves">
+<section class="restaurant-section" id="green-leaves" data-map-name="4. The World of Spreading Green Leaves (초록잎이 펼치는 세상)" data-map-cta-url="https://www.google.com/maps/search/%EC%B4%88%EB%A1%9D%EC%9E%8E%EC%9D%B4+%ED%8E%BC%EC%B9%98%EB%8A%94+%EC%84%B8%EC%83%81+%EB%B3%B4%EC%84%B1" data-map-query="The World of Spreading Green Leaves (초록잎이 펼치는 세상), Nokcha-ro, near tea fields, Jeollanam-do, KR" data-map-lat="34.7066461" data-map-lng="127.0904965">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>The World of Spreading Green Leaves (초록잎이 펼치는 세상)</h2>
         <span class="cuisine-tag tag-regional">Tea House</span>
@@ -545,7 +549,7 @@
         <strong>tabiji verdict:</strong> The photogenic destination. This tea house — about a 20-minute walk from Daehan Dawon along Nokcha-ro (Green Tea Road) — is where those viral Instagram dessert tray photos come from. The traditional floor-seating interior is charming, and the tea field views are spectacular. Ranked #1 on DiningCode&#39;s Boseong dessert list. The walk there is scenic but bring good shoes.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-min">
+<section class="restaurant-section" id="cafe-min" data-map-name="5. Cafe Min (카페 민)" data-map-cta-url="https://www.google.com/maps/search/%EC%B9%B4%ED%8E%98%EB%AF%BC+%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90+Boseong" data-map-query="Cafe Min (카페 민), Inside Daehan Dawon Plantation, Jeollanam-do, KR" data-map-lat="34.5378379" data-map-lng="126.76475429999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Cafe Min (카페 민)</h2>
         <span class="cuisine-tag tag-regional">Café &amp; Lunch</span>
@@ -571,7 +575,7 @@
         <strong>tabiji verdict:</strong> The most practical dining option within Daehan Dawon. Located near the ticket machine area, it serves both green tea desserts and hearty Korean meals — making it the smart choice if you want real food after the hike and still want your matcha fix. Open even in winter when some other spots may close.
     </div>
 </section>
-<section class="restaurant-section" id="cafe-1957">
+<section class="restaurant-section" id="cafe-1957" data-map-name="6. Cafe 1957 (카페 1957)" data-map-cta-url="https://www.google.com/maps/search/%EC%B9%B4%ED%8E%98+1957+%EB%B3%B4%EC%84%B1+%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90" data-map-query="Cafe 1957 (카페 1957), Near Daehan Dawon entrance, Jeollanam-do, KR" data-map-lat="34.7151208" data-map-lng="127.07860529999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Cafe 1957 (카페 1957)</h2>
         <span class="cuisine-tag tag-regional">Heritage Café</span>
@@ -597,7 +601,7 @@
         <strong>tabiji verdict:</strong> Named after the plantation&#39;s founding year, this café sits near the entrance and doubles as a gift shop. It&#39;s where you go for a proper sit-down green tea drink before or after exploring. The packaged Boseong green tea makes a great souvenir — look for the Geographical Indication No. 1 label.
     </div>
 </section>
-<section class="restaurant-section" id="chununseooak">
+<section class="restaurant-section" id="chununseooak" data-map-name="7. Chununseooak (춘운서옥)" data-map-cta-url="https://www.google.com/maps/search/%EC%B6%98%EC%9A%B4%EC%84%9C%EC%98%A5+%EB%B3%B4%EC%84%B1" data-map-query="Chununseooak (춘운서옥), Boseong-eup, Boseong-gun, Jeollanam-do, KR" data-map-lat="34.7745467" data-map-lng="127.0829593">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Chununseooak (춘운서옥)</h2>
         <span class="cuisine-tag tag-regional">Hanok Café</span>
@@ -619,7 +623,7 @@
         <strong>tabiji verdict:</strong> The atmospheric pick. Ranked #1 on multiple Korean café lists for Boseong. A 150-year-old hanok (traditional Korean house) converted into a café, with a bamboo grove behind it that rivals anything in Damyang. The green tea menu is solid but the real reason to come is the setting — it&#39;s the Korea countryside fantasy.
     </div>
 </section>
-<section class="restaurant-section" id="tea-museum">
+<section class="restaurant-section" id="tea-museum" data-map-name="8. Korea Tea Museum Café (한국차박물관)" data-map-cta-url="https://www.google.com/maps/search/%ED%95%9C%EA%B5%AD%EC%B0%A8%EB%B0%95%EB%AC%BC%EA%B4%80+%EB%B3%B4%EC%84%B1" data-map-query="Korea Tea Museum Café (한국차박물관), Near Botjae, Nokcha-ro, Jeollanam-do, KR" data-map-lat="34.7198463" data-map-lng="127.08172239999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Korea Tea Museum Café (한국차박물관)</h2>
         <span class="cuisine-tag tag-regional">Traditional Tea</span>
@@ -645,7 +649,7 @@
         <strong>tabiji verdict:</strong> The educational pick. If you want to understand why Boseong tea tastes different — the terroir, the organic certification, the 1,600+ year history — this is the place. The café itself has panoramic views over tea terraces, and unlike most tourist cafés, you&#39;re drinking tea that&#39;s been properly brewed, not just turned into a latte. Free admission.
     </div>
 </section>
-<section class="restaurant-section" id="dawon-restaurant">
+<section class="restaurant-section" id="dawon-restaurant" data-map-name="9. Daehan Dawon Green Tea Restaurant (대한다원 식당)" data-map-cta-url="https://www.google.com/maps/search/%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90+%EC%8B%9D%EB%8B%B9+Boseong" data-map-query="Daehan Dawon Green Tea Restaurant (대한다원 식당), Central Daehan Dawon Plantation, Jeollanam-do, KR" data-map-lat="34.716113199999995" data-map-lng="127.0780875">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Daehan Dawon Green Tea Restaurant (대한다원 식당)</h2>
         <span class="cuisine-tag tag-regional">Green Tea Fusion</span>
@@ -693,9 +697,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Dessert Map</h2>
-      <iframe src="https://www.google.com/maps?q=Green%20Tea%20Desserts%20in%20Boseong&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Daehan Dawon Rest Stop (대한다원쉼터)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Dessert Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -717,7 +722,7 @@
       <li>
         <a href="#cafe-1957">6. Cafe 1957 (카페 1957)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Green%20Tea%20Desserts%20in%20Boseong" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=11373576786874351380&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -728,5 +733,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Dessert Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Green%20Tea%20Desserts%20in%20Boseong","picks":[{"anchorId":"daehan-dawon-rest-stop","rank":1,"name":"Daehan Dawon Rest Stop (대한다원쉼터)","label":"1. Daehan Dawon Rest Stop (대한다원쉼터)","lat":34.716113199999995,"lng":127.0780875,"ctaUrl":"https://maps.google.com/?cid=11373576786874351380&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Daehan Dawon Rest Stop (대한다원쉼터), Inside Daehan Dawon Plantation, Jeollanam-do, KR"},{"anchorId":"greendahyang","rank":2,"name":"Greendahyang at Botjae (그린다향)","label":"2. Greendahyang at Botjae (그린다향)","lat":34.7134727,"lng":127.0875816,"ctaUrl":"https://www.google.com/maps/search/%EA%B7%B8%EB%A6%B0%EB%8B%A4%ED%96%A5+%EB%B3%B4%EC%84%B1+%EB%B4%87%EC%9E%AC","mapQuery":"Greendahyang at Botjae (그린다향), Botjae Building, 2F — Nokcha-ro, Jeollanam-do, KR"},{"anchorId":"parking-lot-shop","rank":3,"name":"Parking Lot Soft Serve Shop (녹차밭매점)","label":"3. Parking Lot Soft Serve Shop (녹차밭매점)","lat":34.716113199999995,"lng":127.0780875,"ctaUrl":"https://maps.google.com/?cid=11373576786874351380&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Parking Lot Soft Serve Shop (녹차밭매점), Daehan Dawon Car Park, Jeollanam-do, KR"},{"anchorId":"green-leaves","rank":4,"name":"The World of Spreading Green Leaves (초록잎이 펼치는 세상)","label":"4. The World of Spreading Green Leaves (초록잎이 펼치는 세상)","lat":34.7066461,"lng":127.0904965,"ctaUrl":"https://www.google.com/maps/search/%EC%B4%88%EB%A1%9D%EC%9E%8E%EC%9D%B4+%ED%8E%BC%EC%B9%98%EB%8A%94+%EC%84%B8%EC%83%81+%EB%B3%B4%EC%84%B1","mapQuery":"The World of Spreading Green Leaves (초록잎이 펼치는 세상), Nokcha-ro, near tea fields, Jeollanam-do, KR"},{"anchorId":"cafe-min","rank":5,"name":"Cafe Min (카페 민)","label":"5. Cafe Min (카페 민)","lat":34.5378379,"lng":126.76475429999999,"ctaUrl":"https://www.google.com/maps/search/%EC%B9%B4%ED%8E%98%EB%AF%BC+%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90+Boseong","mapQuery":"Cafe Min (카페 민), Inside Daehan Dawon Plantation, Jeollanam-do, KR"},{"anchorId":"cafe-1957","rank":6,"name":"Cafe 1957 (카페 1957)","label":"6. Cafe 1957 (카페 1957)","lat":34.7151208,"lng":127.07860529999998,"ctaUrl":"https://www.google.com/maps/search/%EC%B9%B4%ED%8E%98+1957+%EB%B3%B4%EC%84%B1+%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90","mapQuery":"Cafe 1957 (카페 1957), Near Daehan Dawon entrance, Jeollanam-do, KR"},{"anchorId":"chununseooak","rank":7,"name":"Chununseooak (춘운서옥)","label":"7. Chununseooak (춘운서옥)","lat":34.7745467,"lng":127.0829593,"ctaUrl":"https://www.google.com/maps/search/%EC%B6%98%EC%9A%B4%EC%84%9C%EC%98%A5+%EB%B3%B4%EC%84%B1","mapQuery":"Chununseooak (춘운서옥), Boseong-eup, Boseong-gun, Jeollanam-do, KR"},{"anchorId":"tea-museum","rank":8,"name":"Korea Tea Museum Café (한국차박물관)","label":"8. Korea Tea Museum Café (한국차박물관)","lat":34.7198463,"lng":127.08172239999999,"ctaUrl":"https://www.google.com/maps/search/%ED%95%9C%EA%B5%AD%EC%B0%A8%EB%B0%95%EB%AC%BC%EA%B4%80+%EB%B3%B4%EC%84%B1","mapQuery":"Korea Tea Museum Café (한국차박물관), Near Botjae, Nokcha-ro, Jeollanam-do, KR"},{"anchorId":"dawon-restaurant","rank":9,"name":"Daehan Dawon Green Tea Restaurant (대한다원 식당)","label":"9. Daehan Dawon Green Tea Restaurant (대한다원 식당)","lat":34.716113199999995,"lng":127.0780875,"ctaUrl":"https://www.google.com/maps/search/%EB%8C%80%ED%95%9C%EB%8B%A4%EC%9B%90+%EC%8B%9D%EB%8B%B9+Boseong","mapQuery":"Daehan Dawon Green Tea Restaurant (대한다원 식당), Central Daehan Dawon Plantation, Jeollanam-do, KR"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -347,9 +347,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -374,7 +377,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -422,13 +425,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Aarhus&#39;s New Nordic dining scene, ranging from DKK 250 to 2,500, provides a more accessible alternative to Copenhagen. For a Michelin-starred experience, Restaurant Frederikshøj, known for its refined and inventive cuisine, is a top recommendation. This Jutland capital offers world-class gastronomy without the eye-watering prices or months-long waitlists of its larger counterpart.</strong></p>
-        <p>Aarhus&#39;s New Nordic dining scene ranges from DKK 250 to 2,500, offering a more accessible alternative to Copenhagen. Restaurant Frederikshøj, with its refined and inventive cuisine, is a top recommendation for a Michelin-starred experience. This Jutland capital provides world-class gastronomy without the eye-watering prices or months-long waitlists of its larger counterpart.</p><p>Aarhus boasts a vibrant New Nordic dining scene, with prices ranging from DKK 250 to 2,500, making it a more accessible alternative to Copenhagen. Restaurant Frederikshøj, with its refined and inventive cuisine, stands out as a top recommendation for those seeking a Michelin-starred experience.</p><p>Aarhus is Denmark&#39;s second city — but when it comes to New Nordic dining, it punches far above its weight. With four Michelin-starred restaurants, multiple Bib Gourmands, and a thriving bistro scene, this Jutland capital offers world-class gastronomy without Copenhagen&#39;s eye-watering prices or months-long waitlists.</p><p>We analyzed dozens of Reddit threads from r/Aarhus, r/Denmark, and r/finedining to find the restaurants that locals and experienced diners recommend most passionately. These aren&#39;t tourist traps — they&#39;re the spots where Aarhus residents celebrate anniversaries, impress visitors, and argue about which is truly the best.</p>
+        <p>Aarhus boasts a vibrant New Nordic dining scene, with prices ranging from DKK 250 to 2,500, making it a more accessible alternative to Copenhagen. Restaurant Frederikshøj, with its refined and inventive cuisine, stands out as a top recommendation for those seeking a Michelin-starred experience.</p><p>Aarhus is Denmark&#39;s second city — but when it comes to New Nordic dining, it punches far above its weight. With four Michelin-starred restaurants, multiple Bib Gourmands, and a thriving bistro scene, this Jutland capital offers world-class gastronomy without Copenhagen&#39;s eye-watering prices or months-long waitlists.</p><p>We analyzed dozens of Reddit threads from r/Aarhus, r/Denmark, and r/finedining to find the restaurants that locals and experienced diners recommend most passionately. These aren&#39;t tourist traps — they&#39;re the spots where Aarhus residents celebrate anniversaries, impress visitors, and argue about which is truly the best.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=New%20Nordic%20Restaurants%20in%20Aarhus&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Restaurant Frederikshøj</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -450,7 +454,7 @@
       <li>
         <a href="#restaurant-et">6. Restaurant Et</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/New%20Nordic%20Restaurants%20in%20Aarhus" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1521920783006266181&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -462,7 +466,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="frederikshoj">
+<section class="restaurant-section" id="frederikshoj" data-map-name="1. Restaurant Frederikshøj" data-map-cta-url="https://maps.google.com/?cid=1521920783006266181&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Frederikshøj, Oddervej, Marselisborg, Denmark, DK" data-map-lat="56.124881599999995" data-map-lng="10.2089822">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Restaurant Frederikshøj</h2>
         <span class="cuisine-tag tag-regional">★★ Michelin</span>
@@ -491,7 +495,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of Aarhus dining. Every single Reddit thread about &quot;best restaurant in Aarhus&quot; ends with Frederikshøj on top. Yes, it&#39;s more formal than the other spots on this list — but locals say the service, food, and atmosphere are simply in a different league. Worth the splurge.
     </div>
 </section>
-<section class="restaurant-section" id="gastrome">
+<section class="restaurant-section" id="gastrome" data-map-name="2. Gastromé" data-map-cta-url="https://maps.google.com/?cid=15895497898392577460&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gastromé, Aarhus city, Denmark, DK" data-map-lat="56.1869266" data-map-lng="10.2177072">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Gastromé</h2>
         <span class="cuisine-tag tag-regional">★ Michelin</span>
@@ -520,7 +524,7 @@
         <strong>tabiji verdict:</strong> Reddit&#39;s clear #2 in Aarhus. What separates Gastromé from Frederikshøj is the vibe — it&#39;s more relaxed, more casual-fine-dining than stuffy white-tablecloth. Multiple locals describe it as the place that made them fall in love with Michelin dining. Recent changes (relocation) have some locals unsure if it&#39;s maintained the same level — check recent reviews before booking.
     </div>
 </section>
-<section class="restaurant-section" id="domestic">
+<section class="restaurant-section" id="domestic" data-map-name="3. Restaurant Domestic" data-map-cta-url="https://maps.google.com/?cid=14384463732556745140&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Domestic, Mejlgade, city center, Denmark, DK" data-map-lat="56.1591606" data-map-lng="10.2116746">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Restaurant Domestic</h2>
         <span class="cuisine-tag tag-regional">★ Michelin + Green Star</span>
@@ -549,7 +553,7 @@
         <strong>tabiji verdict:</strong> The most polarizing Michelin restaurant in Aarhus. Some locals rave about the sensory experience and sustainability focus; others feel it&#39;s declined after a chef change. The lunch is genuinely great value — a Michelin experience for under $110. If you care about sustainability in dining, this is your spot.
     </div>
 </section>
-<section class="restaurant-section" id="substans">
+<section class="restaurant-section" id="substans" data-map-name="4. Substans" data-map-cta-url="https://maps.google.com/?cid=10587802403662610354&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Substans, Aarhus Ø (harbor district), Denmark, DK" data-map-lat="56.1658349" data-map-lng="10.2282513">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Substans</h2>
         <span class="cuisine-tag tag-regional">★ Michelin</span>
@@ -582,7 +586,7 @@
         <strong>tabiji verdict:</strong> The views alone are worth the visit — but the food matches the setting. Substans is the most &quot;new Aarhus&quot; of the Michelin restaurants, sitting in the gleaming harbor development. Some Reddit locals have cooled on it compared to Frederikshøj, but it remains a stellar experience, especially for a special occasion with a view.
     </div>
 </section>
-<section class="restaurant-section" id="haervaerk">
+<section class="restaurant-section" id="haervaerk" data-map-name="5. Restaurant Hærværk" data-map-cta-url="https://maps.google.com/?cid=10064859603672380999&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Hærværk, Frederiks Allé, city center, Denmark, DK" data-map-lat="56.1477242" data-map-lng="10.196271">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Restaurant Hærværk</h2>
         <span class="cuisine-tag tag-regional">Green Star</span>
@@ -611,7 +615,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; favorite for New Nordic dining without Michelin prices. Hærværk isn&#39;t fine dining — it&#39;s something better: genuinely excellent food in a warm, unpretentious setting. The Green Star recognition validates what r/Aarhus already knows: this place takes local, sustainable ingredients seriously. Best value on this list for a complete Nordic dining experience.
     </div>
 </section>
-<section class="restaurant-section" id="restaurant-et">
+<section class="restaurant-section" id="restaurant-et" data-map-name="6. Restaurant Et" data-map-cta-url="https://maps.google.com/?cid=2145870381345840091&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Et, City center, Denmark, DK" data-map-lat="55.681219399999996" data-map-lng="12.5713417">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Restaurant Et</h2>
         <span class="cuisine-tag tag-regional">Bib Gourmand</span>
@@ -640,7 +644,7 @@
         <strong>tabiji verdict:</strong> The people&#39;s champion of Aarhus dining. Restaurant Et appears in virtually every &quot;best restaurant&quot; thread on r/Aarhus, praised with near-religious fervor. The Bib Gourmand is deserved — this is Michelin-quality cooking at bistro prices. Multiple locals who work in restaurants themselves call it the best value in the city. Book ahead.
     </div>
 </section>
-<section class="restaurant-section" id="nogen">
+<section class="restaurant-section" id="nogen" data-map-name="7. Nögen" data-map-cta-url="https://maps.google.com/?cid=3452831476566979414&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nögen, Near the train station, Denmark, DK" data-map-lat="56.150953699999995" data-map-lng="10.205178">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Nögen</h2>
         <span class="cuisine-tag tag-regional">Surprise Menu</span>
@@ -669,7 +673,7 @@
         <strong>tabiji verdict:</strong> Nögen&#39;s surprise-menu concept means you surrender control — and that&#39;s the point. The kitchen adapts daily to what&#39;s freshest, making every visit unique. Redditors who&#39;ve been multiple times say they&#39;ve never been disappointed. The 10-course is the move for the full experience; 7 courses if you&#39;re a lighter eater. Just be prepared: you won&#39;t know the menu until it arrives.
     </div>
 </section>
-<section class="restaurant-section" id="miro">
+<section class="restaurant-section" id="miro" data-map-name="8. Restaurant Miró" data-map-cta-url="https://maps.google.com/?cid=9293142111234280077&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Miró, City center, Denmark, DK" data-map-lat="56.1552357" data-map-lng="10.1986887">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Restaurant Miró</h2>
         <span class="cuisine-tag tag-regional">Nordic Fine Dining</span>
@@ -698,7 +702,7 @@
         <strong>tabiji verdict:</strong> The most underrated restaurant in Aarhus, according to multiple Reddit threads. Miró offers near-Michelin quality at a fraction of the price, in an atmosphere that feels more like dinner at a friend&#39;s beautiful home than a formal restaurant. The owner&#39;s personal touch elevates everything. A genuine hidden gem that locals fiercely protect.
     </div>
 </section>
-<section class="restaurant-section" id="syvni13">
+<section class="restaurant-section" id="syvni13" data-map-name="9. SyvNi13 (7-9-13)" data-map-cta-url="https://maps.google.com/?cid=14357123315644872437&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="SyvNi13 (7-9-13), City center, Denmark, DK" data-map-lat="56.1486792" data-map-lng="10.211274000000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>SyvNi13 (7-9-13)</h2>
         <span class="cuisine-tag tag-regional">Nordic Tasting Menu</span>
@@ -727,7 +731,7 @@
         <strong>tabiji verdict:</strong> The sweet spot between casual and fine dining. SyvNi13&#39;s tiered format — 7, 9, or 13 courses — lets you control the experience without committing to a full Michelin splurge. At DKK 1,100 all-in with drinks, it&#39;s one of the best deals in Aarhus for a multi-course Nordic evening. Multiple locals call it their go-to for dinner.
     </div>
 </section>
-<section class="restaurant-section" id="atelier-33">
+<section class="restaurant-section" id="atelier-33" data-map-name="10. Atelier 33" data-map-cta-url="https://maps.google.com/?cid=4258365351871601680&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Atelier 33, Jægergårdsgade, Denmark, DK" data-map-lat="56.148008100000006" data-map-lng="10.2037784">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Atelier 33</h2>
         <span class="cuisine-tag tag-regional">French-Nordic</span>
@@ -756,7 +760,7 @@
         <strong>tabiji verdict:</strong> The best entry point to Aarhus&#39;s Nordic dining scene if you&#39;re on a budget. Atelier 33 sits on Jægergårdsgade — one of the city&#39;s most charming food streets — and delivers French-Nordic cooking that punches well above its modest price point. Multiple locals say it&#39;s &quot;not even that fancy price-wise&quot; despite the quality. Perfect for a Tuesday night dinner.
     </div>
 </section>
-<section class="restaurant-section" id="bavn">
+<section class="restaurant-section" id="bavn" data-map-name="11. Restaurant Bavn" data-map-cta-url="https://maps.google.com/?cid=4819964574589554266&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Bavn, City center, Denmark, DK" data-map-lat="56.165551699999995" data-map-lng="10.2321181">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Restaurant Bavn</h2>
         <span class="cuisine-tag tag-regional">New Nordic</span>
@@ -785,7 +789,7 @@
         <strong>tabiji verdict:</strong> The future Michelin star everyone&#39;s betting on. Bavn quietly delivers some of the most refined cooking in Aarhus, especially at lunch. Locals in the know specifically recommend it as the lunch destination in the city. If you want the Michelin experience without the Michelin price or formality, this is your move.
     </div>
 </section>
-<section class="restaurant-section" id="pondus">
+<section class="restaurant-section" id="pondus" data-map-name="12. Restaurant Pondus" data-map-cta-url="https://maps.google.com/?cid=7401791253108431509&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Restaurant Pondus, By the river, city center, Denmark, DK" data-map-lat="56.1561039" data-map-lng="10.2047292">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Restaurant Pondus</h2>
         <span class="cuisine-tag tag-regional">Bib Gourmand</span>
@@ -836,9 +840,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=New%20Nordic%20Restaurants%20in%20Aarhus&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Restaurant Frederikshøj</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -860,7 +865,7 @@
       <li>
         <a href="#restaurant-et">6. Restaurant Et</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/New%20Nordic%20Restaurants%20in%20Aarhus" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=1521920783006266181&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -871,5 +876,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/New%20Nordic%20Restaurants%20in%20Aarhus","picks":[{"anchorId":"frederikshoj","rank":1,"name":"Restaurant Frederikshøj","label":"1. Restaurant Frederikshøj","lat":56.124881599999995,"lng":10.2089822,"ctaUrl":"https://maps.google.com/?cid=1521920783006266181&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Frederikshøj, Oddervej, Marselisborg, Denmark, DK"},{"anchorId":"gastrome","rank":2,"name":"Gastromé","label":"2. Gastromé","lat":56.1869266,"lng":10.2177072,"ctaUrl":"https://maps.google.com/?cid=15895497898392577460&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gastromé, Aarhus city, Denmark, DK"},{"anchorId":"domestic","rank":3,"name":"Restaurant Domestic","label":"3. Restaurant Domestic","lat":56.1591606,"lng":10.2116746,"ctaUrl":"https://maps.google.com/?cid=14384463732556745140&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Domestic, Mejlgade, city center, Denmark, DK"},{"anchorId":"substans","rank":4,"name":"Substans","label":"4. Substans","lat":56.1658349,"lng":10.2282513,"ctaUrl":"https://maps.google.com/?cid=10587802403662610354&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Substans, Aarhus Ø (harbor district), Denmark, DK"},{"anchorId":"haervaerk","rank":5,"name":"Restaurant Hærværk","label":"5. Restaurant Hærværk","lat":56.1477242,"lng":10.196271,"ctaUrl":"https://maps.google.com/?cid=10064859603672380999&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Hærværk, Frederiks Allé, city center, Denmark, DK"},{"anchorId":"restaurant-et","rank":6,"name":"Restaurant Et","label":"6. Restaurant Et","lat":55.681219399999996,"lng":12.5713417,"ctaUrl":"https://maps.google.com/?cid=2145870381345840091&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Et, City center, Denmark, DK"},{"anchorId":"nogen","rank":7,"name":"Nögen","label":"7. Nögen","lat":56.150953699999995,"lng":10.205178,"ctaUrl":"https://maps.google.com/?cid=3452831476566979414&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nögen, Near the train station, Denmark, DK"},{"anchorId":"miro","rank":8,"name":"Restaurant Miró","label":"8. Restaurant Miró","lat":56.1552357,"lng":10.1986887,"ctaUrl":"https://maps.google.com/?cid=9293142111234280077&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Miró, City center, Denmark, DK"},{"anchorId":"syvni13","rank":9,"name":"SyvNi13 (7-9-13)","label":"9. SyvNi13 (7-9-13)","lat":56.1486792,"lng":10.211274000000001,"ctaUrl":"https://maps.google.com/?cid=14357123315644872437&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"SyvNi13 (7-9-13), City center, Denmark, DK"},{"anchorId":"atelier-33","rank":10,"name":"Atelier 33","label":"10. Atelier 33","lat":56.148008100000006,"lng":10.2037784,"ctaUrl":"https://maps.google.com/?cid=4258365351871601680&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Atelier 33, Jægergårdsgade, Denmark, DK"},{"anchorId":"bavn","rank":11,"name":"Restaurant Bavn","label":"11. Restaurant Bavn","lat":56.165551699999995,"lng":10.2321181,"ctaUrl":"https://maps.google.com/?cid=4819964574589554266&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Bavn, City center, Denmark, DK"},{"anchorId":"pondus","rank":12,"name":"Restaurant Pondus","label":"12. Restaurant Pondus","lat":56.1561039,"lng":10.2047292,"ctaUrl":"https://maps.google.com/?cid=7401791253108431509&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Restaurant Pondus, By the river, city center, Denmark, DK"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

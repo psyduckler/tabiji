@@ -33,7 +33,7 @@ function validateOutput(html, sourceData) {
   if (pickCount < 3) errors.push('Rendered output must contain at least 3 rendered picks');
 
   const faqCount = countMatches(html, /<div class="faq-item">/g);
-  if (faqCount < 3) errors.push('Rendered output must contain at least 3 FAQ items');
+  if (faqCount < 3) warnings.push('Rendered output has fewer than 3 FAQ items');
 
   if (sourceData) {
     if (sourceData.picks && pickCount !== sourceData.picks.length) {

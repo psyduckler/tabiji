@@ -315,9 +315,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -342,7 +345,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -394,9 +397,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Antwerp Fashion Map</h2>
-      <iframe src="https://www.google.com/maps?q=Fashion%20Shops%20in%20Antwerp&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Het Modepaleis (Dries Van Noten Flagship)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Antwerp Fashion Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -418,7 +422,7 @@
       <li>
         <a href="#christian-wijnants">6. Christian Wijnants</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fashion%20Shops%20in%20Antwerp" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Het+Modepaleis+Nationalestraat+16+Antwerp" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -430,7 +434,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="het-modepaleis">
+<section class="restaurant-section" id="het-modepaleis" data-map-name="1. Het Modepaleis (Dries Van Noten Flagship)" data-map-cta-url="https://maps.google.com/?q=Het+Modepaleis+Nationalestraat+16+Antwerp" data-map-query="Het Modepaleis (Dries Van Noten Flagship), Nationalestraat 16, 2000 Antwerp, Antwerp, BE" data-map-lat="51.218151899999995" data-map-lng="4.4003973">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Het Modepaleis (Dries Van Noten Flagship)</h2>
         <span class="cuisine-tag tag-regional">Belgian Designer</span>
@@ -459,7 +463,7 @@
         <strong>tabiji verdict:</strong> The pilgrimage site of the entire Antwerp fashion district. Dries Van Noten renovated this 19th-century Modepaleis in 1989, creating a flagship store as beautiful as the clothes it houses — wooden cabinets, vintage leather chairs, and a staircase draped in Persian rugs. Van Noten retired in 2024 after 40 seasons, but his vision lives on in this extraordinary space. Even if you don&#39;t buy anything, visiting is essential.
     </div>
 </section>
-<section class="restaurant-section" id="ann-demeulemeester">
+<section class="restaurant-section" id="ann-demeulemeester" data-map-name="2. Ann Demeulemeester" data-map-cta-url="https://maps.google.com/?q=Ann+Demeulemeester+Verlatstraat+Antwerp" data-map-query="Ann Demeulemeester, Verlatstraat 38, 2000 Antwerp, Antwerp, BE" data-map-lat="51.209682699999995" data-map-lng="4.393848">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Ann Demeulemeester</h2>
         <span class="cuisine-tag tag-regional">Avant-Garde Belgian</span>
@@ -488,7 +492,7 @@
         <strong>tabiji verdict:</strong> One of the most influential designers to emerge from the Antwerp Six, Ann Demeulemeester&#39;s Het Zuid boutique stocks her dark, poetic clothing alongside pieces from her acclaimed homeware collaboration with Serax. Located directly across from the recently reopened Royal Museum of Fine Arts, the store itself feels like a gallery — spare, precise, and intentional. The Het Zuid neighborhood is Antwerp&#39;s creative heartland.
     </div>
 </section>
-<section class="restaurant-section" id="louis">
+<section class="restaurant-section" id="louis" data-map-name="3. Louis" data-map-cta-url="https://maps.google.com/?q=Louis+Lombardenvest+2+Antwerp" data-map-query="Louis, Lombardenvest 2, 2000 Antwerp, Antwerp, BE" data-map-lat="51.217464299999996" data-map-lng="4.4022923">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Louis</h2>
         <span class="cuisine-tag tag-regional">Multi-Brand Boutique</span>
@@ -517,7 +521,7 @@
         <strong>tabiji verdict:</strong> The store that started it all. Geert Bruloot opened Louis in 1986 specifically to sell the clothes of the Antwerp Six — and it remains the definitive multi-brand boutique for serious Belgian fashion. Now run by Marjan Eggers, it carries the great Belgian designers alongside international icons like Margiela and Dior. A standing window installation features graduating Antwerp Academy students — fashion&#39;s most important pipeline.
     </div>
 </section>
-<section class="restaurant-section" id="walter-van-beirendonck">
+<section class="restaurant-section" id="walter-van-beirendonck" data-map-name="4. Walter (Walter Van Beirendonck)" data-map-cta-url="https://maps.google.com/?q=Walter+Van+Beirendonck+Sint-Antoniusstraat+Antwerp" data-map-query="Walter (Walter Van Beirendonck), Sint-Antoniusstraat 12, 2000 Antwerp, Antwerp, BE" data-map-lat="51.2156989" data-map-lng="4.3996375">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Walter (Walter Van Beirendonck)</h2>
         <span class="cuisine-tag tag-regional">Avant-Garde Streetwear</span>
@@ -546,7 +550,7 @@
         <strong>tabiji verdict:</strong> The most playful, provocative stop on the Antwerp fashion circuit. Walter Van Beirendonck — longtime professor at the Royal Academy of Fine Arts — runs this maximalist store crammed with his graphic, pop-art-infused designs. Huge toys, bold prints, and no apologies. A complete antidote to minimalism, and one of the most memorable shopping experiences in Europe.
     </div>
 </section>
-<section class="restaurant-section" id="essentiel-antwerp">
+<section class="restaurant-section" id="essentiel-antwerp" data-map-name="5. Essentiel Antwerp" data-map-cta-url="https://maps.google.com/?q=Essentiel+Antwerp+Nationalestraat" data-map-query="Essentiel Antwerp, Nationalestraat 44, 2000 Antwerp, Antwerp, BE" data-map-lat="51.216190399999995" data-map-lng="4.4051108">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Essentiel Antwerp</h2>
         <span class="cuisine-tag tag-regional">Belgian Contemporary</span>
@@ -575,7 +579,7 @@
         <strong>tabiji verdict:</strong> The accessible face of Antwerp fashion. Essentiel Antwerp — founded locally and still headquartered here — makes wearable, exuberant clothes for people who love bright colors, bold checks, and clashing patterns. The flagship store window is always a spectacle. More affordable than the designer houses nearby, but still distinctly Antwerp in its refusal to be boring.
     </div>
 </section>
-<section class="restaurant-section" id="christian-wijnants">
+<section class="restaurant-section" id="christian-wijnants" data-map-name="6. Christian Wijnants" data-map-cta-url="https://maps.google.com/?q=Christian+Wijnants+Nationalestraat+Antwerp" data-map-query="Christian Wijnants, Nationalestraat 37, 2000 Antwerp, Antwerp, BE" data-map-lat="51.2177966" data-map-lng="4.3989435">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Christian Wijnants</h2>
         <span class="cuisine-tag tag-regional">Knitwear &amp; Layering</span>
@@ -604,7 +608,7 @@
         <strong>tabiji verdict:</strong> An Antwerp Academy graduate who&#39;s earned international acclaim without leaving his hometown. Wijnants&#39;s store sits between antique shops in the fashion quarter — a sober, Nordic-inflected interior with a window looking out onto a lush garden. The layered, wearable pieces, particularly his innovative knitwear, are the kind of clothes you buy and wear for decades. Quieter than the bigger names and all the better for it.
     </div>
 </section>
-<section class="restaurant-section" id="la-collection">
+<section class="restaurant-section" id="la-collection" data-map-name="7. La Collection" data-map-cta-url="https://maps.google.com/?q=La+Collection+Antwerp+Florence+Cool" data-map-query="La Collection, Nationalestraat, 2000 Antwerp, Antwerp, BE" data-map-lat="51.212535800000005" data-map-lng="4.4062898">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>La Collection</h2>
         <span class="cuisine-tag tag-regional">Minimalist Curated</span>
@@ -633,7 +637,7 @@
         <strong>tabiji verdict:</strong> Florence Cool&#39;s boutique is the fashion insider&#39;s Antwerp address. Positioned just a block from Het Modepaleis, La Collection occupies an art-filled space where Cool&#39;s own timeless minimalist staples sit alongside carefully selected international pieces. It&#39;s the kind of boutique that feels like visiting someone&#39;s incredibly well-edited wardrobe — nothing loud, everything considered.
     </div>
 </section>
-<section class="restaurant-section" id="the-menu">
+<section class="restaurant-section" id="the-menu" data-map-name="8. The Menu" data-map-cta-url="https://maps.google.com/?q=The+Menu+Volkstraat+Antwerp" data-map-query="The Menu, Volkstraat 15, 2000 Antwerp, Antwerp, BE" data-map-lat="51.210572199999994" data-map-lng="4.3951522999999995">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>The Menu</h2>
         <span class="cuisine-tag tag-regional">Contemporary Multi-Brand</span>
@@ -662,7 +666,7 @@
         <strong>tabiji verdict:</strong> Volkstraat&#39;s best kept secret for shoppers who want contemporary cutting-edge rather than Belgian heritage. The Menu stocks up-to-the-moment names like &amp;Daughter, Gimaguas, Birrot, and Lie Studio alongside sharp European newcomers. The Volkstraat corridor is increasingly the place to find what&#39;s next in Antwerp fashion, and The Menu is the clearest proof of that evolution.
     </div>
 </section>
-<section class="restaurant-section" id="momu-modenatie">
+<section class="restaurant-section" id="momu-modenatie" data-map-name="9. MoMu – Fashion Museum Antwerp" data-map-cta-url="https://maps.google.com/?q=MoMu+Fashion+Museum+Antwerp+Nationalestraat" data-map-query="MoMu – Fashion Museum Antwerp, Nationalestraat 28, 2000 Antwerp, Antwerp, BE" data-map-lat="51.217380899999995" data-map-lng="4.3998644">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>MoMu – Fashion Museum Antwerp</h2>
         <span class="cuisine-tag tag-regional">Fashion Museum</span>
@@ -691,7 +695,7 @@
         <strong>tabiji verdict:</strong> Not a shop, but indispensable context for any serious fashion visit to Antwerp. MoMu occupies part of the ModeNatie complex — sharing the building with the Royal Academy of Fine Arts and the Flanders Fashion Institute. The permanent and rotating exhibitions give deep context to why Belgian and Antwerp fashion matters globally. Opening here before shopping the surrounding boutiques makes every purchase more meaningful.
     </div>
 </section>
-<section class="restaurant-section" id="de-schuttershofstraat">
+<section class="restaurant-section" id="de-schuttershofstraat" data-map-name="10. De Schuttershofstraat (Luxury Shopping Street)" data-map-cta-url="https://maps.google.com/?q=De+Schuttershofstraat+Antwerp" data-map-query="De Schuttershofstraat (Luxury Shopping Street), De Schuttershofstraat, 2000 Antwerp, Antwerp, BE" data-map-lat="51.216527899999996" data-map-lng="4.4067738">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>De Schuttershofstraat (Luxury Shopping Street)</h2>
         <span class="cuisine-tag tag-regional">Luxury Shopping Street</span>
@@ -738,9 +742,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Antwerp Fashion Map</h2>
-      <iframe src="https://www.google.com/maps?q=Fashion%20Shops%20in%20Antwerp&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Het Modepaleis (Dries Van Noten Flagship)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Antwerp Fashion Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -762,7 +767,7 @@
       <li>
         <a href="#christian-wijnants">6. Christian Wijnants</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Fashion%20Shops%20in%20Antwerp" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?q=Het+Modepaleis+Nationalestraat+16+Antwerp" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -773,5 +778,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Antwerp Fashion Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Fashion%20Shops%20in%20Antwerp","picks":[{"anchorId":"het-modepaleis","rank":1,"name":"Het Modepaleis (Dries Van Noten Flagship)","label":"1. Het Modepaleis (Dries Van Noten Flagship)","lat":51.218151899999995,"lng":4.4003973,"ctaUrl":"https://maps.google.com/?q=Het+Modepaleis+Nationalestraat+16+Antwerp","mapQuery":"Het Modepaleis (Dries Van Noten Flagship), Nationalestraat 16, 2000 Antwerp, Antwerp, BE"},{"anchorId":"ann-demeulemeester","rank":2,"name":"Ann Demeulemeester","label":"2. Ann Demeulemeester","lat":51.209682699999995,"lng":4.393848,"ctaUrl":"https://maps.google.com/?q=Ann+Demeulemeester+Verlatstraat+Antwerp","mapQuery":"Ann Demeulemeester, Verlatstraat 38, 2000 Antwerp, Antwerp, BE"},{"anchorId":"louis","rank":3,"name":"Louis","label":"3. Louis","lat":51.217464299999996,"lng":4.4022923,"ctaUrl":"https://maps.google.com/?q=Louis+Lombardenvest+2+Antwerp","mapQuery":"Louis, Lombardenvest 2, 2000 Antwerp, Antwerp, BE"},{"anchorId":"walter-van-beirendonck","rank":4,"name":"Walter (Walter Van Beirendonck)","label":"4. Walter (Walter Van Beirendonck)","lat":51.2156989,"lng":4.3996375,"ctaUrl":"https://maps.google.com/?q=Walter+Van+Beirendonck+Sint-Antoniusstraat+Antwerp","mapQuery":"Walter (Walter Van Beirendonck), Sint-Antoniusstraat 12, 2000 Antwerp, Antwerp, BE"},{"anchorId":"essentiel-antwerp","rank":5,"name":"Essentiel Antwerp","label":"5. Essentiel Antwerp","lat":51.216190399999995,"lng":4.4051108,"ctaUrl":"https://maps.google.com/?q=Essentiel+Antwerp+Nationalestraat","mapQuery":"Essentiel Antwerp, Nationalestraat 44, 2000 Antwerp, Antwerp, BE"},{"anchorId":"christian-wijnants","rank":6,"name":"Christian Wijnants","label":"6. Christian Wijnants","lat":51.2177966,"lng":4.3989435,"ctaUrl":"https://maps.google.com/?q=Christian+Wijnants+Nationalestraat+Antwerp","mapQuery":"Christian Wijnants, Nationalestraat 37, 2000 Antwerp, Antwerp, BE"},{"anchorId":"la-collection","rank":7,"name":"La Collection","label":"7. La Collection","lat":51.212535800000005,"lng":4.4062898,"ctaUrl":"https://maps.google.com/?q=La+Collection+Antwerp+Florence+Cool","mapQuery":"La Collection, Nationalestraat, 2000 Antwerp, Antwerp, BE"},{"anchorId":"the-menu","rank":8,"name":"The Menu","label":"8. The Menu","lat":51.210572199999994,"lng":4.3951522999999995,"ctaUrl":"https://maps.google.com/?q=The+Menu+Volkstraat+Antwerp","mapQuery":"The Menu, Volkstraat 15, 2000 Antwerp, Antwerp, BE"},{"anchorId":"momu-modenatie","rank":9,"name":"MoMu – Fashion Museum Antwerp","label":"9. MoMu – Fashion Museum Antwerp","lat":51.217380899999995,"lng":4.3998644,"ctaUrl":"https://maps.google.com/?q=MoMu+Fashion+Museum+Antwerp+Nationalestraat","mapQuery":"MoMu – Fashion Museum Antwerp, Nationalestraat 28, 2000 Antwerp, Antwerp, BE"},{"anchorId":"de-schuttershofstraat","rank":10,"name":"De Schuttershofstraat (Luxury Shopping Street)","label":"10. De Schuttershofstraat (Luxury Shopping Street)","lat":51.216527899999996,"lng":4.4067738,"ctaUrl":"https://maps.google.com/?q=De+Schuttershofstraat+Antwerp","mapQuery":"De Schuttershofstraat (Luxury Shopping Street), De Schuttershofstraat, 2000 Antwerp, Antwerp, BE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

@@ -305,9 +305,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -332,7 +335,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -384,9 +387,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Chocolate Map</h2>
-      <iframe src="https://www.google.com/maps?q=Chocolate%20Shops%20in%20Bruges&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Chocolate Line</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Chocolate Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -408,7 +412,7 @@
       <li>
         <a href="#bbyb">6. BbyB Chocolates</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Chocolate%20Shops%20in%20Bruges" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14947295639815421082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -420,7 +424,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="the-chocolate-line">
+<section class="restaurant-section" id="the-chocolate-line" data-map-name="1. The Chocolate Line" data-map-cta-url="https://maps.google.com/?cid=14947295639815421082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Chocolate Line, Simon Stevinplein 19, Bruges, BE" data-map-lat="51.2065926" data-map-lng="3.2224214">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>The Chocolate Line</h2>
         <span class="cuisine-tag tag-regional">Creative Pralines</span>
@@ -449,7 +453,7 @@
         <strong>tabiji verdict:</strong> The most polarizing chocolatier in Belgium. Half of Reddit calls it the best in the world; the other half calls it an overpriced tourist trap. The truth: Persoone’s wild flavors are genuinely creative and well-executed, but you’re paying a premium for the brand. Worth visiting for the experience — just know that quieter shops nearby may offer better value per praline.
     </div>
 </section>
-<section class="restaurant-section" id="dumon">
+<section class="restaurant-section" id="dumon" data-map-name="2. Chocolatier Dumon" data-map-cta-url="https://maps.google.com/?cid=93932365634864191&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chocolatier Dumon, Eiermarkt 6 (flagship) &amp; Simon Stevinplein, Bruges, BE" data-map-lat="51.2094064" data-map-lng="3.2229779">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Chocolatier Dumon</h2>
         <span class="cuisine-tag tag-regional">Family Artisan</span>
@@ -478,7 +482,7 @@
         <strong>tabiji verdict:</strong> The people’s champion. Dumon is the shop Belgian locals recommend most consistently — a multi-generational family business that’s been handmaking chocolate in Bruges for over 30 years. No gimmicks, no wild flavors — just exceptionally well-made traditional Belgian pralines. The flagship store has a charming, old-world feel. If you only visit one shop, make it this one.
     </div>
 </section>
-<section class="restaurant-section" id="depla">
+<section class="restaurant-section" id="depla" data-map-name="3. Depla Chocolaterie" data-map-cta-url="https://maps.google.com/?cid=3035648078914002837&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Depla Chocolaterie, Mariastraat 20, Bruges, BE" data-map-lat="51.205375599999996" data-map-lng="3.2232003">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Depla Chocolaterie</h2>
         <span class="cuisine-tag tag-regional">Artisanal Truffles</span>
@@ -507,7 +511,7 @@
         <strong>tabiji verdict:</strong> The connoisseur’s pick. Depla flies under the tourist radar on a quieter side street, but chocolate professionals and Belgian locals rate it among the very best. Pol Depla’s pure truffles are “absolute top” — rich, delicate, and handmade in tiny batches. The shop itself is small and unassuming, which is exactly the point.
     </div>
 </section>
-<section class="restaurant-section" id="pralinette">
+<section class="restaurant-section" id="pralinette" data-map-name="4. Pralinette" data-map-cta-url="https://maps.google.com/?cid=14595139716619567346&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pralinette, Wollestraat 31B, Bruges, BE" data-map-lat="51.207510000000006" data-map-lng="3.226323">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Pralinette</h2>
         <span class="cuisine-tag tag-regional">Pralines &amp; Workshop</span>
@@ -536,7 +540,7 @@
         <strong>tabiji verdict:</strong> The complete package. Master chocolatier Fangio De Baets handmakes everything on-site, and the quality is excellent. But the real draw is the hidden terrace overlooking a canal — arguably the most beautiful chocolate-drinking spot in Bruges. The workshop is genuinely fun and informative. Book ahead.
     </div>
 </section>
-<section class="restaurant-section" id="spegelaere">
+<section class="restaurant-section" id="spegelaere" data-map-name="5. Chocolaterie Spegelaere" data-map-cta-url="https://maps.google.com/?cid=7493595418670423839&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chocolaterie Spegelaere, Ezelstraat 92, Bruges, BE" data-map-lat="51.214278099999994" data-map-lng="3.2170242">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Chocolaterie Spegelaere</h2>
         <span class="cuisine-tag tag-regional">Traditional Family</span>
@@ -565,7 +569,7 @@
         <strong>tabiji verdict:</strong> The heritage pick. Spegelaere has the longest family chocolate tradition in Bruges — and that’s saying something in a city defined by chocolate. Located on the charming Ezelstraat (away from the main tourist drag), this tiny shop makes everything by hand using recipes passed down through generations. Their marzipan grape cluster is iconic.
     </div>
 </section>
-<section class="restaurant-section" id="bbyb">
+<section class="restaurant-section" id="bbyb" data-map-name="6. BbyB Chocolates" data-map-cta-url="https://maps.google.com/?cid=9097147667208197290&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="BbyB Chocolates, Sint-Amandsstraat 39, Bruges, BE" data-map-lat="51.20825" data-map-lng="3.2215164">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>BbyB Chocolates</h2>
         <span class="cuisine-tag tag-regional">Designer Pralines</span>
@@ -594,7 +598,7 @@
         <strong>tabiji verdict:</strong> The Apple Store of chocolate. BbyB’s minimalist branding, numbered flavors, and color-coded families feel almost tech-forward — but the chocolate is seriously good. Born from a beloved Bruges restaurant (Bartholomew’s), each praline is a design object. Pricey, but the packaging and quality justify it for a special gift.
     </div>
 </section>
-<section class="restaurant-section" id="sukerbuyc">
+<section class="restaurant-section" id="sukerbuyc" data-map-name="7. Chocolaterie Sukerbuyc" data-map-cta-url="https://maps.google.com/?cid=10274612982378501421&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chocolaterie Sukerbuyc, Katelijnestraat 5, Bruges, BE" data-map-lat="51.2036878" data-map-lng="3.2248995999999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Chocolaterie Sukerbuyc</h2>
         <span class="cuisine-tag tag-regional">Handmade Artisan</span>
@@ -623,7 +627,7 @@
         <strong>tabiji verdict:</strong> One of Bruges’ oldest chocolatiers, and one of the few that still makes everything from scratch in their own atelier. Sukerbuyc stays true to time-honored techniques while embracing new flavors. The Katelijnestraat location is slightly off the main tourist circuit, which means fewer crowds and more genuine conversation with the chocolatiers.
     </div>
 </section>
-<section class="restaurant-section" id="van-oost">
+<section class="restaurant-section" id="van-oost" data-map-name="8. Chocolatier Van Oost" data-map-cta-url="https://maps.google.com/?cid=14691378483820366055&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chocolatier Van Oost, Wollestraat 11 (near the Belfry), Bruges, BE" data-map-lat="51.208126199999995" data-map-lng="3.2254529">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Chocolatier Van Oost</h2>
         <span class="cuisine-tag tag-regional">Classic Pralines</span>
@@ -652,7 +656,7 @@
         <strong>tabiji verdict:</strong> A Bruges institution that’s been making pralines steps from the Belfry for over four decades. Van Oost doesn’t chase trends — they perfect classics. The praliné and gianduja fillings are textbook Belgian, and the ginger truffles add a modern twist. Conveniently located but still genuinely artisanal.
     </div>
 </section>
-<section class="restaurant-section" id="old-chocolate-house">
+<section class="restaurant-section" id="old-chocolate-house" data-map-name="9. The Old Chocolate House" data-map-cta-url="https://maps.google.com/?cid=14553794962203746449&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Old Chocolate House, Mariastraat 1, Bruges, BE" data-map-lat="51.206075899999995" data-map-lng="3.2230583999999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>The Old Chocolate House</h2>
         <span class="cuisine-tag tag-regional">Hot Chocolate</span>
@@ -681,7 +685,7 @@
         <strong>tabiji verdict:</strong> Not a shop for buying boxes — this is where you sit down and drink chocolate. The concept is brilliant: boiling milk + a stick of real chocolate + you melt it yourself. It started around 2008 when the owners realized Bruges had hundreds of chocolate shops but nowhere to get a proper hot chocolate. The tearoom upstairs is cozy. Perfect for a cold Bruges afternoon.
     </div>
 </section>
-<section class="restaurant-section" id="choco-story">
+<section class="restaurant-section" id="choco-story" data-map-name="10. Choco-Story Museum" data-map-cta-url="https://maps.google.com/?cid=11878511774035072779&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Choco-Story Museum, Wijnzakstraat 2, Bruges, BE" data-map-lat="51.210812" data-map-lng="3.2263576">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Choco-Story Museum</h2>
         <span class="cuisine-tag tag-regional">Museum &amp; Tasting</span>
@@ -728,9 +732,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Chocolate Map</h2>
-      <iframe src="https://www.google.com/maps?q=Chocolate%20Shops%20in%20Bruges&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. The Chocolate Line</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Chocolate Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -752,7 +757,7 @@
       <li>
         <a href="#bbyb">6. BbyB Chocolates</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Chocolate%20Shops%20in%20Bruges" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=14947295639815421082&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -763,5 +768,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Chocolate Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Chocolate%20Shops%20in%20Bruges","picks":[{"anchorId":"the-chocolate-line","rank":1,"name":"The Chocolate Line","label":"1. The Chocolate Line","lat":51.2065926,"lng":3.2224214,"ctaUrl":"https://maps.google.com/?cid=14947295639815421082&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Chocolate Line, Simon Stevinplein 19, Bruges, BE"},{"anchorId":"dumon","rank":2,"name":"Chocolatier Dumon","label":"2. Chocolatier Dumon","lat":51.2094064,"lng":3.2229779,"ctaUrl":"https://maps.google.com/?cid=93932365634864191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chocolatier Dumon, Eiermarkt 6 (flagship) & Simon Stevinplein, Bruges, BE"},{"anchorId":"depla","rank":3,"name":"Depla Chocolaterie","label":"3. Depla Chocolaterie","lat":51.205375599999996,"lng":3.2232003,"ctaUrl":"https://maps.google.com/?cid=3035648078914002837&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Depla Chocolaterie, Mariastraat 20, Bruges, BE"},{"anchorId":"pralinette","rank":4,"name":"Pralinette","label":"4. Pralinette","lat":51.207510000000006,"lng":3.226323,"ctaUrl":"https://maps.google.com/?cid=14595139716619567346&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pralinette, Wollestraat 31B, Bruges, BE"},{"anchorId":"spegelaere","rank":5,"name":"Chocolaterie Spegelaere","label":"5. Chocolaterie Spegelaere","lat":51.214278099999994,"lng":3.2170242,"ctaUrl":"https://maps.google.com/?cid=7493595418670423839&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chocolaterie Spegelaere, Ezelstraat 92, Bruges, BE"},{"anchorId":"bbyb","rank":6,"name":"BbyB Chocolates","label":"6. BbyB Chocolates","lat":51.20825,"lng":3.2215164,"ctaUrl":"https://maps.google.com/?cid=9097147667208197290&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"BbyB Chocolates, Sint-Amandsstraat 39, Bruges, BE"},{"anchorId":"sukerbuyc","rank":7,"name":"Chocolaterie Sukerbuyc","label":"7. Chocolaterie Sukerbuyc","lat":51.2036878,"lng":3.2248995999999996,"ctaUrl":"https://maps.google.com/?cid=10274612982378501421&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chocolaterie Sukerbuyc, Katelijnestraat 5, Bruges, BE"},{"anchorId":"van-oost","rank":8,"name":"Chocolatier Van Oost","label":"8. Chocolatier Van Oost","lat":51.208126199999995,"lng":3.2254529,"ctaUrl":"https://maps.google.com/?cid=14691378483820366055&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chocolatier Van Oost, Wollestraat 11 (near the Belfry), Bruges, BE"},{"anchorId":"old-chocolate-house","rank":9,"name":"The Old Chocolate House","label":"9. The Old Chocolate House","lat":51.206075899999995,"lng":3.2230583999999998,"ctaUrl":"https://maps.google.com/?cid=14553794962203746449&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Old Chocolate House, Mariastraat 1, Bruges, BE"},{"anchorId":"choco-story","rank":10,"name":"Choco-Story Museum","label":"10. Choco-Story Museum","lat":51.210812,"lng":3.2263576,"ctaUrl":"https://maps.google.com/?cid=11878511774035072779&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Choco-Story Museum, Wijnzakstraat 2, Bruges, BE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

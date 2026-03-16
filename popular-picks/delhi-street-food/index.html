@@ -459,11 +459,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -488,9 +483,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -515,39 +513,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-                {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://tabiji.ai/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Popular Picks",
-                        "item": "https://tabiji.ai/popular-picks/"
-                },
-                {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Best Street Food in Delhi",
-                        "item": "https://tabiji.ai/popular-picks/delhi-street-food/"
-                }
-        ]
-}
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -590,13 +561,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Delhi&#39;s street food scene offers a delicious mix of flavors ranging from ₹20-₹500, with the paranthas of Chandni Chowk being a top recommendation. This guide, curated from Reddit, helps you skip tourist traps and find the best plates in Delhi, where the street food scene is arguably the greatest in all of India.</strong></p>
-        <p>Delhi&#39;s street food scene, ranging from ₹20-₹500, is a delicious mix of flavors, with the paranthas of Chandni Chowk being a top recommendation. This guide, curated from Reddit, helps you skip tourist traps and find the best plates.</p><p>Delhi&#39;s street food scene is arguably the greatest in all of India — a chaotic, delicious mashup of Mughlai heritage, Punjabi heartiness, and a thousand regional influences crammed into narrow Old Delhi lanes. From the sizzling kebab stalls near Jama Masjid to the legendary parantha shops of Chandni Chowk, every corner has a story and a flavour.</p><p>We analyzed hundreds of Reddit posts from r/delhi, r/india, r/IndianFood, and r/travel to find the spots that actual Delhi residents and experienced travelers recommend over and over. Skip the tourist traps — these are the plates worth queuing for.</p>
+        <p>Delhi&#39;s street food scene is arguably the greatest in all of India — a chaotic, delicious mashup of Mughlai heritage, Punjabi heartiness, and a thousand regional influences crammed into narrow Old Delhi lanes. From the sizzling kebab stalls near Jama Masjid to the legendary parantha shops of Chandni Chowk, every corner has a story and a flavour.</p><p>We analyzed hundreds of Reddit posts from r/delhi, r/india, r/IndianFood, and r/travel to find the spots that actual Delhi residents and experienced travelers recommend over and over. Skip the tourist traps — these are the plates worth queuing for.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Delhi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Paranthe Wali Gali</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -604,7 +576,7 @@
         <a href="#paranthe-wali-gali">1. Paranthe Wali Gali</a>
       </li>
       <li>
-        <a href="#karims">2. Karim&#39;s</a>
+        <a href="#karims">2. Karim's</a>
       </li>
       <li>
         <a href="#natraj">3. Natraj Dahi Bhalle Wala</a>
@@ -618,7 +590,7 @@
       <li>
         <a href="#al-jawahar">6. Al Jawahar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Delhi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13419188064158955096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -630,7 +602,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="paranthe-wali-gali">
+<section class="restaurant-section" id="paranthe-wali-gali" data-map-name="1. Paranthe Wali Gali" data-map-cta-url="https://maps.google.com/?cid=13419188064158955096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Paranthe Wali Gali, Chandni Chowk, Old Delhi, Delhi, IN" data-map-lat="28.6560677" data-map-lng="77.2305584">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Paranthe Wali Gali</h2>
         <span class="cuisine-tag tag-regional">Parantha</span>
@@ -660,7 +632,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s touristy. Yes, locals will tell you their neighbourhood parantha is better. But this is where it all started — a narrow lane of parantha shops dating back to the 1870s. Go once, eat three varieties, and decide for yourself. The experience alone is worth it.
     </div>
 </section>
-<section class="restaurant-section" id="karims">
+<section class="restaurant-section" id="karims" data-map-name="2. Karim&#39;s" data-map-cta-url="https://maps.google.com/?cid=4430913657428603197&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Karim&#39;s, Jama Masjid, Old Delhi, Delhi, IN" data-map-lat="28.6494961" data-map-lng="77.2337642">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Karim&#39;s</h2>
         <span class="cuisine-tag tag-regional">Mughlai / Kebab</span>
@@ -698,7 +670,7 @@
         <strong>tabiji verdict:</strong> The most famous restaurant in Old Delhi, and deservedly so. Dating back to 1913 with recipes claimed from Mughal court kitchens, Karim&#39;s is not technically &quot;street food&quot; but the narrow lane location and open-air cooking make it feel like one. The mutton burra alone is worth navigating the Jama Masjid lanes.
     </div>
 </section>
-<section class="restaurant-section" id="natraj">
+<section class="restaurant-section" id="natraj" data-map-name="3. Natraj Dahi Bhalle Wala" data-map-cta-url="https://maps.google.com/?cid=13244891676270760150&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Natraj Dahi Bhalle Wala, Chandni Chowk, Old Delhi, Delhi, IN" data-map-lat="28.656463600000002" data-map-lng="77.230522">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Natraj Dahi Bhalle Wala</h2>
         <span class="cuisine-tag tag-regional">Chaat</span>
@@ -732,7 +704,7 @@
         <strong>tabiji verdict:</strong> Possibly the single most recommended street food stall in all of Delhi on Reddit. The dahi bhalle is a masterclass in contrasting textures and temperatures — soft lentil dumplings, cold yogurt, sweet-sour chutneys. At ₹40–60 a plate, it&#39;s absurd value.
     </div>
 </section>
-<section class="restaurant-section" id="sita-ram">
+<section class="restaurant-section" id="sita-ram" data-map-name="4. Sita Ram Diwan Chand" data-map-cta-url="https://maps.google.com/?cid=1599496575471505186&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Sita Ram Diwan Chand, Paharganj, Central Delhi, Delhi, IN" data-map-lat="28.642377699999997" data-map-lng="77.21035499999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Sita Ram Diwan Chand</h2>
         <span class="cuisine-tag tag-regional">Chole Bhature</span>
@@ -770,7 +742,7 @@
         <strong>tabiji verdict:</strong> The undisputed king of chole bhature in Delhi. One dish, perfected over 70+ years. The bhature are impossibly puffy and the chole are deeply spiced without being overly hot. Backpacker-friendly location near New Delhi Railway Station.
     </div>
 </section>
-<section class="restaurant-section" id="jalebi-wala">
+<section class="restaurant-section" id="jalebi-wala" data-map-name="5. Old Famous Jalebi Wala" data-map-cta-url="https://maps.google.com/?cid=15337388389658493062&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Old Famous Jalebi Wala, Chandni Chowk, Old Delhi (near Dariba Kalan), Delhi, IN" data-map-lat="28.656059799999994" data-map-lng="77.2335002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Old Famous Jalebi Wala</h2>
         <span class="cuisine-tag tag-regional">Jalebi / Sweets</span>
@@ -804,7 +776,7 @@
         <strong>tabiji verdict:</strong> The most photogenic street food experience in Delhi — watching jalebis being swirled into a giant vat of hot oil is mesmerizing. The shop has been here since 1884 and the recipe hasn&#39;t changed. Eat them piping hot or don&#39;t bother.
     </div>
 </section>
-<section class="restaurant-section" id="al-jawahar">
+<section class="restaurant-section" id="al-jawahar" data-map-name="6. Al Jawahar" data-map-cta-url="https://maps.google.com/?cid=6267006034493416381&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Al Jawahar, Jama Masjid, Old Delhi, Delhi, IN" data-map-lat="28.649470599999997" data-map-lng="77.23360160000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Al Jawahar</h2>
         <span class="cuisine-tag tag-regional">Mughlai</span>
@@ -838,7 +810,7 @@
         <strong>tabiji verdict:</strong> The locals&#39; alternative to Karim&#39;s — literally across the lane. The food is on par (some say better for nihari specifically) with shorter waits. If Karim&#39;s has a massive queue, walk 30 seconds to Al Jawahar instead.
     </div>
 </section>
-<section class="restaurant-section" id="aslam-chicken">
+<section class="restaurant-section" id="aslam-chicken" data-map-name="7. Aslam Chicken Corner" data-map-cta-url="https://maps.google.com/?cid=1150082981664642917&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Aslam Chicken Corner, Jama Masjid, Old Delhi, Delhi, IN" data-map-lat="28.5439342" data-map-lng="77.302512">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Aslam Chicken Corner</h2>
         <span class="cuisine-tag tag-regional">Butter Chicken / Tandoori</span>
@@ -868,7 +840,7 @@
         <strong>tabiji verdict:</strong> A tiny, chaotic stall where the butter-to-chicken ratio defies physics. The tandoori chicken is cooked over charcoal, then drowned in butter and served with paper-thin rumali roti. It&#39;s ridiculous, it&#39;s glorious, and you&#39;ll dream about it for years.
     </div>
 </section>
-<section class="restaurant-section" id="jung-bahadur">
+<section class="restaurant-section" id="jung-bahadur" data-map-name="8. Jung Bahadur Kachori Wala" data-map-cta-url="https://maps.google.com/?cid=6100233997414214345&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Jung Bahadur Kachori Wala, Chandni Chowk, Old Delhi, Delhi, IN" data-map-lat="28.655690299999996" data-map-lng="77.2300195">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Jung Bahadur Kachori Wala</h2>
         <span class="cuisine-tag tag-regional">Kachori / Chaat</span>
@@ -902,7 +874,7 @@
         <strong>tabiji verdict:</strong> At ₹30–40 per plate, this might be the best value meal in all of Delhi. The kachori is crispy, the filling is perfectly spiced, and the aloo sabzi ties it all together. A proper Old Delhi breakfast.
     </div>
 </section>
-<section class="restaurant-section" id="baba-nagpal">
+<section class="restaurant-section" id="baba-nagpal" data-map-name="9. Baba Nagpal Corner" data-map-cta-url="https://maps.google.com/?cid=6552626393633085172&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Baba Nagpal Corner, Lajpat Nagar, South Delhi, Delhi, IN" data-map-lat="28.5637066" data-map-lng="77.2406683">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Baba Nagpal Corner</h2>
         <span class="cuisine-tag tag-regional">Chole Kulche</span>
@@ -936,7 +908,7 @@
         <strong>tabiji verdict:</strong> If Sita Ram is the chole bhature king, Baba Nagpal is the chole kulche emperor. Softer bread, tangier chole, and located in the shopping paradise of Lajpat Nagar — perfect for a mid-shopping fuel stop.
     </div>
 </section>
-<section class="restaurant-section" id="dolma-aunty">
+<section class="restaurant-section" id="dolma-aunty" data-map-name="10. Dolma Aunty Momos" data-map-cta-url="https://maps.google.com/?cid=7292430739157147666&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dolma Aunty Momos, Lajpat Nagar, South Delhi, Delhi, IN" data-map-lat="28.568928900000003" data-map-lng="77.24073">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Dolma Aunty Momos</h2>
         <span class="cuisine-tag tag-regional">Momos</span>
@@ -970,7 +942,7 @@
         <strong>tabiji verdict:</strong> Delhi&#39;s momo culture is huge, and Dolma Aunty is where it arguably started. The Tibetan-origin dumplings have been completely adopted by Delhi, and this stall is ground zero. The spicy red chutney is what elevates these from &quot;good momos&quot; to &quot;legendary momos.&quot;
     </div>
 </section>
-<section class="restaurant-section" id="kuremal">
+<section class="restaurant-section" id="kuremal" data-map-name="11. Kuremal Mohan Lal Kulfi Wale" data-map-cta-url="https://maps.google.com/?cid=6749844528061249444&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kuremal Mohan Lal Kulfi Wale, Chawri Bazar, Old Delhi, Delhi, IN" data-map-lat="28.647686999999998" data-map-lng="77.2269438">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Kuremal Mohan Lal Kulfi Wale</h2>
         <span class="cuisine-tag tag-regional">Kulfi</span>
@@ -1008,7 +980,7 @@
         <strong>tabiji verdict:</strong> One of the most visually stunning street food experiences in Delhi — kulfi frozen inside hollowed-out fruits is peak ingenuity. Operating since 1906, Kuremal&#39;s is a time capsule of Old Delhi craftsmanship. Go in summer for the mango version.
     </div>
 </section>
-<section class="restaurant-section" id="haji-shabrati">
+<section class="restaurant-section" id="haji-shabrati" data-map-name="12. Haji Shabrati Nihari Wale" data-map-cta-url="https://maps.google.com/?cid=4499129179448751566&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Haji Shabrati Nihari Wale, Chitli Qabar, Old Delhi (near Jama Masjid), Delhi, IN" data-map-lat="28.6468496" data-map-lng="77.23449889999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Haji Shabrati Nihari Wale</h2>
         <span class="cuisine-tag tag-regional">Nihari</span>
@@ -1042,7 +1014,7 @@
         <strong>tabiji verdict:</strong> Nihari is one of Old Delhi&#39;s most iconic Mughlai dishes — a slow-cooked breakfast stew meant to provide energy (the word comes from &quot;nahar,&quot; meaning morning). Haji Shabrati has been serving it for generations and the early-morning queue is proof of its supremacy.
     </div>
 </section>
-<section class="restaurant-section" id="changezi-chicken">
+<section class="restaurant-section" id="changezi-chicken" data-map-name="13. Changezi Chicken" data-map-cta-url="https://maps.google.com/?cid=10645357994200845298&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Changezi Chicken, Daryaganj, Old Delhi, Delhi, IN" data-map-lat="28.643673" data-map-lng="77.24025030000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Changezi Chicken</h2>
         <span class="cuisine-tag tag-regional">Butter Chicken</span>
@@ -1076,7 +1048,7 @@
         <strong>tabiji verdict:</strong> Daryaganj is ground zero for butter chicken history, and Changezi is one of the area&#39;s most beloved spots. Their version is richer and less sweet than what you&#39;d get in a typical restaurant — closer to what the original probably tasted like.
     </div>
 </section>
-<section class="restaurant-section" id="daulat-ki-chaat">
+<section class="restaurant-section" id="daulat-ki-chaat" data-map-name="14. Daulat Ki Chaat" data-map-cta-url="https://maps.google.com/?cid=858489782767770224&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Daulat Ki Chaat, Chandni Chowk, Old Delhi (various vendors), Delhi, IN" data-map-lat="28.6558761" data-map-lng="77.2303842">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Daulat Ki Chaat</h2>
         <span class="cuisine-tag tag-regional">Seasonal Sweet</span>
@@ -1110,7 +1082,7 @@
         <strong>tabiji verdict:</strong> One of the world&#39;s most unique desserts — literally made from cold air and milk. It melts on your tongue in seconds. Only available in winter (Nov–Feb) from street vendors in Chandni Chowk. If you&#39;re visiting Delhi in winter, this is unmissable.
     </div>
 </section>
-<section class="restaurant-section" id="moolchand-parantha">
+<section class="restaurant-section" id="moolchand-parantha" data-map-name="15. Moolchand Parantha" data-map-cta-url="https://maps.google.com/?cid=1023105269729419435&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Moolchand Parantha, Defence Colony / Lajpat Nagar, South Delhi, Delhi, IN" data-map-lat="28.5640814" data-map-lng="77.2342402">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Moolchand Parantha</h2>
         <span class="cuisine-tag tag-regional">Parantha</span>
@@ -1144,7 +1116,7 @@
         <strong>tabiji verdict:</strong> Delhi&#39;s answer to &quot;where do I eat at 2 AM?&quot; — Moolchand is the legendary late-night parantha stall that has fuelled generations of Delhi night owls. Not as fancy as Paranthe Wali Gali, but more beloved by actual Delhiites.
     </div>
 </section>
-<section class="restaurant-section" id="bikaner-sweets">
+<section class="restaurant-section" id="bikaner-sweets" data-map-name="16. Bikaner Sweet Shop" data-map-cta-url="https://maps.google.com/?cid=18038137619945999557&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Bikaner Sweet Shop, Chandni Chowk, Old Delhi, Delhi, IN" data-map-lat="28.656857799999997" data-map-lng="77.2246693">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Bikaner Sweet Shop</h2>
         <span class="cuisine-tag tag-regional">Chole Bhature / Sweets</span>
@@ -1178,7 +1150,7 @@
         <strong>tabiji verdict:</strong> A sweet shop that also happens to serve fantastic chole bhature — a very Delhi combination. Perfect for when your group can&#39;t agree on sweet or savoury. The chole bhature holds its own against any specialist shop.
     </div>
 </section>
-<section class="restaurant-section" id="chaina-ram">
+<section class="restaurant-section" id="chaina-ram" data-map-name="17. Chaina Ram Sindhi Confectioners" data-map-cta-url="https://maps.google.com/?cid=5983361207629197234&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chaina Ram Sindhi Confectioners, Fatehpuri, Old Delhi, Delhi, IN" data-map-lat="28.656607899999997" data-map-lng="77.2231601">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Chaina Ram Sindhi Confectioners</h2>
         <span class="cuisine-tag tag-regional">Sweets</span>
@@ -1212,7 +1184,7 @@
         <strong>tabiji verdict:</strong> A piece of Sindhi culinary heritage preserved in Old Delhi since Partition. The Karachi Halwa is their masterpiece — dark, translucent, studded with dry fruits, and unlike any other Indian sweet you&#39;ve tried. A hidden gem most tourists miss.
     </div>
 </section>
-<section class="restaurant-section" id="annapurna">
+<section class="restaurant-section" id="annapurna" data-map-name="18. Annapurna Bhandar" data-map-cta-url="https://maps.google.com/?cid=9118770984502671029&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Annapurna Bhandar, Chandni Chowk, Old Delhi, Delhi, IN" data-map-lat="28.6563791" data-map-lng="77.23195489999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Annapurna Bhandar</h2>
         <span class="cuisine-tag tag-regional">Samosa / Chaat</span>
@@ -1238,7 +1210,7 @@
         <strong>tabiji verdict:</strong> At ₹20 per samosa, Annapurna is the cheapest great eat on this list. Their Kolkata-style samosa is a refreshing change from the ubiquitous Delhi version — thinner pastry, subtler spicing, and deeply satisfying. A perfect snack between heavier meals.
     </div>
 </section>
-<section class="restaurant-section" id="wengers">
+<section class="restaurant-section" id="wengers" data-map-name="19. Wenger&#39;s" data-map-cta-url="https://maps.google.com/?cid=7045915925845868458&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wenger&#39;s, Connaught Place, Central Delhi, Delhi, IN" data-map-lat="28.6334122" data-map-lng="77.2181287">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">19</span>Wenger&#39;s</h2>
         <span class="cuisine-tag tag-regional">Bakery / Patties</span>
@@ -1272,7 +1244,7 @@
         <strong>tabiji verdict:</strong> A change of pace from Old Delhi&#39;s intense flavours. Wenger&#39;s is colonial-era Delhi — a bakery from 1926 in the Art Deco arcades of Connaught Place. The chicken patties are nostalgic comfort food and a perfect snack while exploring CP.
     </div>
 </section>
-<section class="restaurant-section" id="rajinder-da-dhaba">
+<section class="restaurant-section" id="rajinder-da-dhaba" data-map-name="20. Rajinder Da Dhaba" data-map-cta-url="https://maps.google.com/?cid=3134795068953005725&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rajinder Da Dhaba, Safdarjung, South Delhi, Delhi, IN" data-map-lat="28.565596499999998" data-map-lng="77.19931869999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">20</span>Rajinder Da Dhaba</h2>
         <span class="cuisine-tag tag-regional">Kebab / Tikka</span>
@@ -1328,9 +1300,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Street Food Map</h2>
-      <iframe src="https://www.google.com/maps?q=Delhi%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Paranthe Wali Gali</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1338,7 +1311,7 @@
         <a href="#paranthe-wali-gali">1. Paranthe Wali Gali</a>
       </li>
       <li>
-        <a href="#karims">2. Karim&#39;s</a>
+        <a href="#karims">2. Karim's</a>
       </li>
       <li>
         <a href="#natraj">3. Natraj Dahi Bhalle Wala</a>
@@ -1352,7 +1325,7 @@
       <li>
         <a href="#al-jawahar">6. Al Jawahar</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Delhi%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13419188064158955096&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1363,5 +1336,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Street Food Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Street%20Food%20Spots%20in%20Delhi","picks":[{"anchorId":"paranthe-wali-gali","rank":1,"name":"Paranthe Wali Gali","label":"1. Paranthe Wali Gali","lat":28.6560677,"lng":77.2305584,"ctaUrl":"https://maps.google.com/?cid=13419188064158955096&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Paranthe Wali Gali, Chandni Chowk, Old Delhi, Delhi, IN"},{"anchorId":"karims","rank":2,"name":"Karim's","label":"2. Karim's","lat":28.6494961,"lng":77.2337642,"ctaUrl":"https://maps.google.com/?cid=4430913657428603197&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Karim's, Jama Masjid, Old Delhi, Delhi, IN"},{"anchorId":"natraj","rank":3,"name":"Natraj Dahi Bhalle Wala","label":"3. Natraj Dahi Bhalle Wala","lat":28.656463600000002,"lng":77.230522,"ctaUrl":"https://maps.google.com/?cid=13244891676270760150&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Natraj Dahi Bhalle Wala, Chandni Chowk, Old Delhi, Delhi, IN"},{"anchorId":"sita-ram","rank":4,"name":"Sita Ram Diwan Chand","label":"4. Sita Ram Diwan Chand","lat":28.642377699999997,"lng":77.21035499999999,"ctaUrl":"https://maps.google.com/?cid=1599496575471505186&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Sita Ram Diwan Chand, Paharganj, Central Delhi, Delhi, IN"},{"anchorId":"jalebi-wala","rank":5,"name":"Old Famous Jalebi Wala","label":"5. Old Famous Jalebi Wala","lat":28.656059799999994,"lng":77.2335002,"ctaUrl":"https://maps.google.com/?cid=15337388389658493062&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Old Famous Jalebi Wala, Chandni Chowk, Old Delhi (near Dariba Kalan), Delhi, IN"},{"anchorId":"al-jawahar","rank":6,"name":"Al Jawahar","label":"6. Al Jawahar","lat":28.649470599999997,"lng":77.23360160000001,"ctaUrl":"https://maps.google.com/?cid=6267006034493416381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Al Jawahar, Jama Masjid, Old Delhi, Delhi, IN"},{"anchorId":"aslam-chicken","rank":7,"name":"Aslam Chicken Corner","label":"7. Aslam Chicken Corner","lat":28.5439342,"lng":77.302512,"ctaUrl":"https://maps.google.com/?cid=1150082981664642917&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Aslam Chicken Corner, Jama Masjid, Old Delhi, Delhi, IN"},{"anchorId":"jung-bahadur","rank":8,"name":"Jung Bahadur Kachori Wala","label":"8. Jung Bahadur Kachori Wala","lat":28.655690299999996,"lng":77.2300195,"ctaUrl":"https://maps.google.com/?cid=6100233997414214345&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Jung Bahadur Kachori Wala, Chandni Chowk, Old Delhi, Delhi, IN"},{"anchorId":"baba-nagpal","rank":9,"name":"Baba Nagpal Corner","label":"9. Baba Nagpal Corner","lat":28.5637066,"lng":77.2406683,"ctaUrl":"https://maps.google.com/?cid=6552626393633085172&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Baba Nagpal Corner, Lajpat Nagar, South Delhi, Delhi, IN"},{"anchorId":"dolma-aunty","rank":10,"name":"Dolma Aunty Momos","label":"10. Dolma Aunty Momos","lat":28.568928900000003,"lng":77.24073,"ctaUrl":"https://maps.google.com/?cid=7292430739157147666&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dolma Aunty Momos, Lajpat Nagar, South Delhi, Delhi, IN"},{"anchorId":"kuremal","rank":11,"name":"Kuremal Mohan Lal Kulfi Wale","label":"11. Kuremal Mohan Lal Kulfi Wale","lat":28.647686999999998,"lng":77.2269438,"ctaUrl":"https://maps.google.com/?cid=6749844528061249444&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kuremal Mohan Lal Kulfi Wale, Chawri Bazar, Old Delhi, Delhi, IN"},{"anchorId":"haji-shabrati","rank":12,"name":"Haji Shabrati Nihari Wale","label":"12. Haji Shabrati Nihari Wale","lat":28.6468496,"lng":77.23449889999999,"ctaUrl":"https://maps.google.com/?cid=4499129179448751566&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Haji Shabrati Nihari Wale, Chitli Qabar, Old Delhi (near Jama Masjid), Delhi, IN"},{"anchorId":"changezi-chicken","rank":13,"name":"Changezi Chicken","label":"13. Changezi Chicken","lat":28.643673,"lng":77.24025030000001,"ctaUrl":"https://maps.google.com/?cid=10645357994200845298&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Changezi Chicken, Daryaganj, Old Delhi, Delhi, IN"},{"anchorId":"daulat-ki-chaat","rank":14,"name":"Daulat Ki Chaat","label":"14. Daulat Ki Chaat","lat":28.6558761,"lng":77.2303842,"ctaUrl":"https://maps.google.com/?cid=858489782767770224&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Daulat Ki Chaat, Chandni Chowk, Old Delhi (various vendors), Delhi, IN"},{"anchorId":"moolchand-parantha","rank":15,"name":"Moolchand Parantha","label":"15. Moolchand Parantha","lat":28.5640814,"lng":77.2342402,"ctaUrl":"https://maps.google.com/?cid=1023105269729419435&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Moolchand Parantha, Defence Colony / Lajpat Nagar, South Delhi, Delhi, IN"},{"anchorId":"bikaner-sweets","rank":16,"name":"Bikaner Sweet Shop","label":"16. Bikaner Sweet Shop","lat":28.656857799999997,"lng":77.2246693,"ctaUrl":"https://maps.google.com/?cid=18038137619945999557&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Bikaner Sweet Shop, Chandni Chowk, Old Delhi, Delhi, IN"},{"anchorId":"chaina-ram","rank":17,"name":"Chaina Ram Sindhi Confectioners","label":"17. Chaina Ram Sindhi Confectioners","lat":28.656607899999997,"lng":77.2231601,"ctaUrl":"https://maps.google.com/?cid=5983361207629197234&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chaina Ram Sindhi Confectioners, Fatehpuri, Old Delhi, Delhi, IN"},{"anchorId":"annapurna","rank":18,"name":"Annapurna Bhandar","label":"18. Annapurna Bhandar","lat":28.6563791,"lng":77.23195489999999,"ctaUrl":"https://maps.google.com/?cid=9118770984502671029&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Annapurna Bhandar, Chandni Chowk, Old Delhi, Delhi, IN"},{"anchorId":"wengers","rank":19,"name":"Wenger's","label":"19. Wenger's","lat":28.6334122,"lng":77.2181287,"ctaUrl":"https://maps.google.com/?cid=7045915925845868458&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wenger's, Connaught Place, Central Delhi, Delhi, IN"},{"anchorId":"rajinder-da-dhaba","rank":20,"name":"Rajinder Da Dhaba","label":"20. Rajinder Da Dhaba","lat":28.565596499999998,"lng":77.19931869999999,"ctaUrl":"https://maps.google.com/?cid=3134795068953005725&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rajinder Da Dhaba, Safdarjung, South Delhi, Delhi, IN"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

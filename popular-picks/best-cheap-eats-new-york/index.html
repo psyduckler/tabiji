@@ -395,11 +395,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -424,9 +419,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -451,24 +449,12 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": "Best Cheap Eats in New York City", "item": "https://tabiji.ai/popular-picks/best-cheap-eats-new-york/"}
-        ]
-    }
-    </script>
 </head>
 <body>
   <!-- @include:nav:start -->
@@ -511,13 +497,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>For budget eats in New York City, expect to pay under $15, with many options under $10, and Wah Fung No. 1 is our top recommendation. New York City&#39;s cheap eats scene is a testament to its diverse and affordable culinary options for savvy travelers.</strong></p>
-        <p>For budget-conscious travelers, New York City offers incredible cheap eats, with most options under $10 and all under $15. Our top recommendation is Wah Fung No. 1 for its roast pork over rice, a testament to the city&#39;s diverse and affordable culinary scene.</p><p>New York City has some of the most expensive restaurants on the planet — and some of the best cheap food you&#39;ll ever eat. The trick is knowing where to look. While tourists blow $25 on mediocre pasta near Times Square, locals are eating extraordinary dumplings for $3 in Chinatown and world-class tacos from a truck in Jackson Heights.</p><p>We analyzed hundreds of Reddit posts from r/FoodNYC, r/AskNYC, and travel subs to find the spots that actual New Yorkers and budget-savvy travelers recommend over and over. Every place on this list delivers a genuinely great meal for under $15 — most for under $10.</p>
+        <p>New York City has some of the most expensive restaurants on the planet — and some of the best cheap food you&#39;ll ever eat. The trick is knowing where to look. While tourists blow $25 on mediocre pasta near Times Square, locals are eating extraordinary dumplings for $3 in Chinatown and world-class tacos from a truck in Jackson Heights.</p><p>We analyzed hundreds of Reddit posts from r/FoodNYC, r/AskNYC, and travel subs to find the spots that actual New Yorkers and budget-savvy travelers recommend over and over. Every place on this list delivers a genuinely great meal for under $15 — most for under $10.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Manhattan%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Wah Fung No. 1</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -525,21 +512,21 @@
         <a href="#wah-fung">1. Wah Fung No. 1</a>
       </li>
       <li>
-        <a href="#xian-famous">2. Xi&#39;an Famous Foods</a>
+        <a href="#xian-famous">2. Xi'an Famous Foods</a>
       </li>
       <li>
-        <a href="#joes-pizza">3. Joe&#39;s Pizza</a>
+        <a href="#joes-pizza">3. Joe's Pizza</a>
       </li>
       <li>
         <a href="#los-tacos">4. Los Tacos No. 1</a>
       </li>
       <li>
-        <a href="#mamouns">5. Mamoun&#39;s Falafel</a>
+        <a href="#mamouns">5. Mamoun's Falafel</a>
       </li>
       <li>
         <a href="#shu-jiao">6. Shu Jiao Fu Zhou</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Manhattan%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18144509120592532874&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -551,7 +538,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="wah-fung">
+<section class="restaurant-section" id="wah-fung" data-map-name="1. Wah Fung No. 1" data-map-cta-url="https://maps.google.com/?cid=18144509120592532874&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Wah Fung No. 1, Chrystie St, Chinatown, Manhattan, US" data-map-lat="40.717318899999995" data-map-lng="-73.9944649">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Wah Fung No. 1</h2>
         <span class="cuisine-tag tag-regional">Roast Meats / Rice Plate</span>
@@ -589,7 +576,7 @@
         <strong>tabiji verdict:</strong> The single most recommended cheap eat in all of NYC Reddit. The line moves fast, the portions are absurd, and the roast pork is genuinely delicious. This is the first place every budget guide mentions for a reason. Bring cash, skip the line anxiety, and prepare to eat.
     </div>
 </section>
-<section class="restaurant-section" id="xian-famous">
+<section class="restaurant-section" id="xian-famous" data-map-name="2. Xi&#39;an Famous Foods" data-map-cta-url="https://maps.google.com/?cid=7742941412404705084&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Xi&#39;an Famous Foods, Multiple locations across NYC, Manhattan, US" data-map-lat="40.7720967" data-map-lng="-73.9544497">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Xi&#39;an Famous Foods</h2>
         <span class="cuisine-tag tag-regional">Hand-Pulled Noodles</span>
@@ -627,7 +614,7 @@
         <strong>tabiji verdict:</strong> A NYC institution that started as a single stall in Flushing&#39;s Golden Mall. The hand-pulled noodles are legitimately world-class, and the lamb burger might be the single best $5 meal in Manhattan. Multiple locations mean you&#39;re never far from one. Not the absolute cheapest, but the quality-to-price ratio is unmatched.
     </div>
 </section>
-<section class="restaurant-section" id="joes-pizza">
+<section class="restaurant-section" id="joes-pizza" data-map-name="3. Joe&#39;s Pizza" data-map-cta-url="https://maps.google.com/?cid=4877966330195296067&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Joe&#39;s Pizza, Carmine St, Greenwich Village, Manhattan, US" data-map-lat="40.7306597" data-map-lng="-74.0021707">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Joe&#39;s Pizza</h2>
         <span class="cuisine-tag tag-regional">NYC Slice</span>
@@ -665,7 +652,7 @@
         <strong>tabiji verdict:</strong> The platonic ideal of a New York slice. Joe&#39;s has been slinging pizza since 1975, and the Carmine Street original is still the gold standard. Yes, there&#39;s always a line. Yes, it moves fast. Two slices and a can of soda for under $12 is a quintessential NYC experience.
     </div>
 </section>
-<section class="restaurant-section" id="los-tacos">
+<section class="restaurant-section" id="los-tacos" data-map-name="4. Los Tacos No. 1" data-map-cta-url="https://maps.google.com/?cid=18303949408079626176&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Los Tacos No. 1, Chelsea Market &amp; Times Square, Manhattan, US" data-map-lat="40.742252099999995" data-map-lng="-74.0059635">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Los Tacos No. 1</h2>
         <span class="cuisine-tag tag-regional">Tacos</span>
@@ -703,7 +690,7 @@
         <strong>tabiji verdict:</strong> The best tacos in Manhattan, full stop. The hand-pressed tortillas make the difference — you can watch them being made fresh. The Chelsea Market location is the original and has the best vibe. Yes, it gets crowded, but the line moves fast and the tacos are worth every minute.
     </div>
 </section>
-<section class="restaurant-section" id="mamouns">
+<section class="restaurant-section" id="mamouns" data-map-name="5. Mamoun&#39;s Falafel" data-map-cta-url="https://maps.google.com/?cid=12615714775330750342&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mamoun&#39;s Falafel, St Marks Place, East Village, Manhattan, US" data-map-lat="40.728812999999995" data-map-lng="-73.988495">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Mamoun&#39;s Falafel</h2>
         <span class="cuisine-tag tag-regional">Falafel</span>
@@ -741,7 +728,7 @@
         <strong>tabiji verdict:</strong> NYC&#39;s original falafel shop, open since 1971 — predating the falafel trend by decades. The $6.49 sandwich is one of the last great deals in the Village. Nothing fancy, just perfectly crispy falafel in a no-frills space. A 2 AM classic that&#39;s just as good at noon.
     </div>
 </section>
-<section class="restaurant-section" id="shu-jiao">
+<section class="restaurant-section" id="shu-jiao" data-map-name="6. Shu Jiao Fu Zhou" data-map-cta-url="https://maps.google.com/?cid=2991194829252303686&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Shu Jiao Fu Zhou, Eldridge St, Chinatown, Manhattan, US" data-map-lat="40.7174109" data-map-lng="-73.9920876">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Shu Jiao Fu Zhou</h2>
         <span class="cuisine-tag tag-regional">Fuzhounese Dumplings</span>
@@ -779,7 +766,7 @@
         <strong>tabiji verdict:</strong> Possibly the cheapest real meal in all of Manhattan. Ten handmade dumplings for $3.50 is absurd value in a city where a coffee costs $6. The space is a hole-in-the-wall with no seating — you&#39;ll eat standing on the sidewalk, and it&#39;ll be one of your best meals of the trip. Their chili sauce is addictive.
     </div>
 </section>
-<section class="restaurant-section" id="spicy-village">
+<section class="restaurant-section" id="spicy-village" data-map-name="7. Spicy Village" data-map-cta-url="https://maps.google.com/?cid=1080343780287652582&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Spicy Village, Forsyth St, Chinatown, Manhattan, US" data-map-lat="40.717002799999996" data-map-lng="-73.9934222">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Spicy Village</h2>
         <span class="cuisine-tag tag-regional">Henan Chinese</span>
@@ -817,7 +804,7 @@
         <strong>tabiji verdict:</strong> The big tray chicken is one of the most impressive cheap meals in NYC — a sharing platter that looks like it should cost $40 but rings up at $20 for two. The hand-pulled noodles have real chew, the spice level is serious, and the portion sizes are generous. A Chinatown essential.
     </div>
 </section>
-<section class="restaurant-section" id="halal-guys">
+<section class="restaurant-section" id="halal-guys" data-map-name="8. The Halal Guys" data-map-cta-url="https://maps.google.com/?cid=14533552678857729304&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="The Halal Guys, 53rd &amp; 6th Ave, Midtown, Manhattan, US" data-map-lat="40.7617724" data-map-lng="-73.9793516">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>The Halal Guys</h2>
         <span class="cuisine-tag tag-regional">Halal / Street Food</span>
@@ -855,7 +842,7 @@
         <strong>tabiji verdict:</strong> The original halal cart at 53rd &amp; 6th is the one that started the NYC street meat revolution. The platter is enormous — easily two meals if you&#39;re not starving. Yes, they&#39;ve expanded to brick-and-mortar locations everywhere, but the cart is the experience. Late night is peak vibes.
     </div>
 </section>
-<section class="restaurant-section" id="vanessas">
+<section class="restaurant-section" id="vanessas" data-map-name="9. Vanessa&#39;s Dumplings" data-map-cta-url="https://maps.google.com/?cid=12657318785565922309&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Vanessa&#39;s Dumplings, Eldridge St, Chinatown &amp; Williamsburg, Manhattan, US" data-map-lat="40.7183133" data-map-lng="-73.99175610000002">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Vanessa&#39;s Dumplings</h2>
         <span class="cuisine-tag tag-regional">Dumplings / Scallion Pancakes</span>
@@ -893,7 +880,7 @@
         <strong>tabiji verdict:</strong> The scallion pancake sandwich is one of NYC&#39;s most iconic cheap eats — crispy, savory, and deeply satisfying for under $5. The dumpling quality is solid for the price, but it&#39;s the scallion pancake wraps that make Vanessa&#39;s legendary. Multiple locations, always packed, always worth it.
     </div>
 </section>
-<section class="restaurant-section" id="birria-landia">
+<section class="restaurant-section" id="birria-landia" data-map-name="10. Birria-Landia" data-map-cta-url="https://maps.google.com/?cid=9134211391229749367&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Birria-Landia, Roosevelt Ave, Jackson Heights, Queens, Manhattan, US" data-map-lat="40.747211799999995" data-map-lng="-73.8885257">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Birria-Landia</h2>
         <span class="cuisine-tag tag-regional">Birria Tacos</span>
@@ -931,7 +918,7 @@
         <strong>tabiji verdict:</strong> The truck that launched NYC&#39;s birria taco obsession. The original Jackson Heights location (under the 7 train tracks) is the real deal — the Manhattan outpost is fine, but Queens is the pilgrimage. Dip those crispy tacos in the consommé and understand why people wait in line at midnight for these.
     </div>
 </section>
-<section class="restaurant-section" id="tasty-hand-pulled">
+<section class="restaurant-section" id="tasty-hand-pulled" data-map-name="11. Tasty Hand Pulled Noodles" data-map-cta-url="https://maps.google.com/?cid=1221358528890607195&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tasty Hand Pulled Noodles, Doyers St, Chinatown, Manhattan, US" data-map-lat="40.7142425" data-map-lng="-73.9978903">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Tasty Hand Pulled Noodles</h2>
         <span class="cuisine-tag tag-regional">Hand-Pulled Noodles</span>
@@ -969,7 +956,7 @@
         <strong>tabiji verdict:</strong> Located on Doyers Street — the most photogenic alley in Chinatown — this tiny shop hand-pulls noodles to order in front of you. The noodles have that perfect chewy bite that machine-made noodles can never replicate. A steaming bowl of their soup on a cold NYC day is pure therapy.
     </div>
 </section>
-<section class="restaurant-section" id="punjabi-deli">
+<section class="restaurant-section" id="punjabi-deli" data-map-name="12. Punjabi Deli" data-map-cta-url="https://maps.google.com/?cid=17379558643076317665&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Punjabi Deli, Houston St, Lower East Side, Manhattan, US" data-map-lat="40.7226468" data-map-lng="-73.9867099">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Punjabi Deli</h2>
         <span class="cuisine-tag tag-regional">Punjabi / Indian</span>
@@ -1007,7 +994,7 @@
         <strong>tabiji verdict:</strong> A NYC cult institution. This tiny, brightly-lit deli on Houston Street has been feeding cabbies, night owls, and budget travelers for decades with honest vegetarian Punjabi food at rock-bottom prices. Open 24/7, cash preferred, zero pretense. The samosas alone are worth the detour.
     </div>
 </section>
-<section class="restaurant-section" id="tim-ho-wan">
+<section class="restaurant-section" id="tim-ho-wan" data-map-name="13. Tim Ho Wan" data-map-cta-url="https://maps.google.com/?cid=12777293506627589287&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tim Ho Wan, 4th Ave, East Village, Manhattan, US" data-map-lat="40.7313048" data-map-lng="-73.99015969999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Tim Ho Wan</h2>
         <span class="cuisine-tag tag-regional">Dim Sum</span>
@@ -1041,7 +1028,7 @@
         <strong>tabiji verdict:</strong> The &quot;cheapest Michelin-starred restaurant in the world&quot; (from its Hong Kong days). The NYC location doesn&#39;t hold the star, but the BBQ pork buns are still extraordinary — that crispy, sugar-topped shell is unlike any other bao you&#39;ve had. Two or three dishes and you&#39;re out for under $20. Exceptional dim sum without the Chinatown dim sum hall chaos.
     </div>
 </section>
-<section class="restaurant-section" id="grays-papaya">
+<section class="restaurant-section" id="grays-papaya" data-map-name="14. Gray&#39;s Papaya" data-map-cta-url="https://maps.google.com/?cid=7695808833715219525&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gray&#39;s Papaya, Broadway &amp; 72nd, Upper West Side, Manhattan, US" data-map-lat="40.7783878" data-map-lng="-73.98156589999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Gray&#39;s Papaya</h2>
         <span class="cuisine-tag tag-regional">Hot Dogs</span>
@@ -1079,7 +1066,7 @@
         <strong>tabiji verdict:</strong> A neon-lit NYC icon since 1973. The hot dogs are perfectly fine — it&#39;s the experience that matters. Standing at the counter at midnight eating a $4 hot dog and drinking a tropical papaya juice is one of those &quot;only in New York&quot; moments. The breakfast deal is genuinely one of the best values in Manhattan.
     </div>
 </section>
-<section class="restaurant-section" id="san-marzano">
+<section class="restaurant-section" id="san-marzano" data-map-name="15. San Marzano" data-map-cta-url="https://maps.google.com/?cid=16952600814866565456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="San Marzano, 2nd Ave, East Village, Manhattan, US" data-map-lat="40.7279967" data-map-lng="-73.9884379">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>San Marzano</h2>
         <span class="cuisine-tag tag-regional">Fresh Pasta</span>
@@ -1113,7 +1100,7 @@
         <strong>tabiji verdict:</strong> Fresh, house-made pasta for $11-14 in Manhattan is a minor miracle. San Marzano isn&#39;t going to win any atmosphere awards — it&#39;s a casual, no-frills spot — but the pasta quality is legitimately excellent for the price. One of the best sit-down cheap eats when you&#39;re tired of standing on sidewalks with dumplings.
     </div>
 </section>
-<section class="restaurant-section" id="golden-steamer">
+<section class="restaurant-section" id="golden-steamer" data-map-name="16. Golden Steamer" data-map-cta-url="https://maps.google.com/?cid=4723791280177975977&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Golden Steamer, Mott St, Chinatown, Manhattan, US" data-map-lat="40.718765" data-map-lng="-73.996815">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Golden Steamer</h2>
         <span class="cuisine-tag tag-regional">Bao &amp; Dumplings</span>
@@ -1157,9 +1144,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Cheap Eats Map</h2>
-      <iframe src="https://www.google.com/maps?q=Manhattan%20restaurants%2Ffood&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Wah Fung No. 1</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1167,21 +1155,21 @@
         <a href="#wah-fung">1. Wah Fung No. 1</a>
       </li>
       <li>
-        <a href="#xian-famous">2. Xi&#39;an Famous Foods</a>
+        <a href="#xian-famous">2. Xi'an Famous Foods</a>
       </li>
       <li>
-        <a href="#joes-pizza">3. Joe&#39;s Pizza</a>
+        <a href="#joes-pizza">3. Joe's Pizza</a>
       </li>
       <li>
         <a href="#los-tacos">4. Los Tacos No. 1</a>
       </li>
       <li>
-        <a href="#mamouns">5. Mamoun&#39;s Falafel</a>
+        <a href="#mamouns">5. Mamoun's Falafel</a>
       </li>
       <li>
         <a href="#shu-jiao">6. Shu Jiao Fu Zhou</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Manhattan%20restaurants%2Ffood" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=18144509120592532874&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1192,5 +1180,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Eats%20in%20New%20York%20City","picks":[{"anchorId":"wah-fung","rank":1,"name":"Wah Fung No. 1","label":"1. Wah Fung No. 1","lat":40.717318899999995,"lng":-73.9944649,"ctaUrl":"https://maps.google.com/?cid=18144509120592532874&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Wah Fung No. 1, Chrystie St, Chinatown, Manhattan, US"},{"anchorId":"xian-famous","rank":2,"name":"Xi'an Famous Foods","label":"2. Xi'an Famous Foods","lat":40.7720967,"lng":-73.9544497,"ctaUrl":"https://maps.google.com/?cid=7742941412404705084&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Xi'an Famous Foods, Multiple locations across NYC, Manhattan, US"},{"anchorId":"joes-pizza","rank":3,"name":"Joe's Pizza","label":"3. Joe's Pizza","lat":40.7306597,"lng":-74.0021707,"ctaUrl":"https://maps.google.com/?cid=4877966330195296067&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Joe's Pizza, Carmine St, Greenwich Village, Manhattan, US"},{"anchorId":"los-tacos","rank":4,"name":"Los Tacos No. 1","label":"4. Los Tacos No. 1","lat":40.742252099999995,"lng":-74.0059635,"ctaUrl":"https://maps.google.com/?cid=18303949408079626176&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Los Tacos No. 1, Chelsea Market & Times Square, Manhattan, US"},{"anchorId":"mamouns","rank":5,"name":"Mamoun's Falafel","label":"5. Mamoun's Falafel","lat":40.728812999999995,"lng":-73.988495,"ctaUrl":"https://maps.google.com/?cid=12615714775330750342&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mamoun's Falafel, St Marks Place, East Village, Manhattan, US"},{"anchorId":"shu-jiao","rank":6,"name":"Shu Jiao Fu Zhou","label":"6. Shu Jiao Fu Zhou","lat":40.7174109,"lng":-73.9920876,"ctaUrl":"https://maps.google.com/?cid=2991194829252303686&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Shu Jiao Fu Zhou, Eldridge St, Chinatown, Manhattan, US"},{"anchorId":"spicy-village","rank":7,"name":"Spicy Village","label":"7. Spicy Village","lat":40.717002799999996,"lng":-73.9934222,"ctaUrl":"https://maps.google.com/?cid=1080343780287652582&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Spicy Village, Forsyth St, Chinatown, Manhattan, US"},{"anchorId":"halal-guys","rank":8,"name":"The Halal Guys","label":"8. The Halal Guys","lat":40.7617724,"lng":-73.9793516,"ctaUrl":"https://maps.google.com/?cid=14533552678857729304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"The Halal Guys, 53rd & 6th Ave, Midtown, Manhattan, US"},{"anchorId":"vanessas","rank":9,"name":"Vanessa's Dumplings","label":"9. Vanessa's Dumplings","lat":40.7183133,"lng":-73.99175610000002,"ctaUrl":"https://maps.google.com/?cid=12657318785565922309&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Vanessa's Dumplings, Eldridge St, Chinatown & Williamsburg, Manhattan, US"},{"anchorId":"birria-landia","rank":10,"name":"Birria-Landia","label":"10. Birria-Landia","lat":40.747211799999995,"lng":-73.8885257,"ctaUrl":"https://maps.google.com/?cid=9134211391229749367&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Birria-Landia, Roosevelt Ave, Jackson Heights, Queens, Manhattan, US"},{"anchorId":"tasty-hand-pulled","rank":11,"name":"Tasty Hand Pulled Noodles","label":"11. Tasty Hand Pulled Noodles","lat":40.7142425,"lng":-73.9978903,"ctaUrl":"https://maps.google.com/?cid=1221358528890607195&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tasty Hand Pulled Noodles, Doyers St, Chinatown, Manhattan, US"},{"anchorId":"punjabi-deli","rank":12,"name":"Punjabi Deli","label":"12. Punjabi Deli","lat":40.7226468,"lng":-73.9867099,"ctaUrl":"https://maps.google.com/?cid=17379558643076317665&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Punjabi Deli, Houston St, Lower East Side, Manhattan, US"},{"anchorId":"tim-ho-wan","rank":13,"name":"Tim Ho Wan","label":"13. Tim Ho Wan","lat":40.7313048,"lng":-73.99015969999999,"ctaUrl":"https://maps.google.com/?cid=12777293506627589287&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tim Ho Wan, 4th Ave, East Village, Manhattan, US"},{"anchorId":"grays-papaya","rank":14,"name":"Gray's Papaya","label":"14. Gray's Papaya","lat":40.7783878,"lng":-73.98156589999999,"ctaUrl":"https://maps.google.com/?cid=7695808833715219525&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gray's Papaya, Broadway & 72nd, Upper West Side, Manhattan, US"},{"anchorId":"san-marzano","rank":15,"name":"San Marzano","label":"15. San Marzano","lat":40.7279967,"lng":-73.9884379,"ctaUrl":"https://maps.google.com/?cid=16952600814866565456&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"San Marzano, 2nd Ave, East Village, Manhattan, US"},{"anchorId":"golden-steamer","rank":16,"name":"Golden Steamer","label":"16. Golden Steamer","lat":40.718765,"lng":-73.996815,"ctaUrl":"https://maps.google.com/?cid=4723791280177975977&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Golden Steamer, Mott St, Chinatown, Manhattan, US"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

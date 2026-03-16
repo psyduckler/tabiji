@@ -315,9 +315,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -342,7 +345,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -394,9 +397,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Camp Map</h2>
-      <iframe src="https://www.google.com/maps?q=Desert%20Camps%20in%20Merzouga&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Merzouga Luxury Desert Camp</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Camp Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -418,7 +422,7 @@
       <li>
         <a href="#milky-way">6. Milky Way Desert Camp</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Desert%20Camps%20in%20Merzouga" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17652649500818203456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -426,7 +430,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="merzouga-luxury">
+<section class="restaurant-section" id="merzouga-luxury" data-map-name="1. Merzouga Luxury Desert Camp" data-map-cta-url="https://maps.google.com/?cid=17652649500818203456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Merzouga Luxury Desert Camp, Deep in Erg Chebbi dunes, Erg Chebbi, MA" data-map-lat="31.0690762" data-map-lng="-4.0103462">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Merzouga Luxury Desert Camp</h2>
         <span class="cuisine-tag tag-regional">Luxury Glamping</span>
@@ -459,7 +463,7 @@
         <strong>tabiji verdict:</strong> The most-mentioned camp on Reddit for good reason. Located deep enough in the dunes that you can&#39;t see the town — just sand and sky. The luxury tents are genuinely comfortable (not just &quot;glamping&quot; in name only), and the staff know how to create an atmosphere. Book directly for best rates.
     </div>
 </section>
-<section class="restaurant-section" id="desert-luxury">
+<section class="restaurant-section" id="desert-luxury" data-map-name="2. Desert Luxury Camp" data-map-cta-url="https://maps.google.com/?cid=17652649500818203456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Desert Luxury Camp, Erg Chebbi dunes, Erg Chebbi, MA" data-map-lat="31.0690762" data-map-lng="-4.0103462">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Desert Luxury Camp</h2>
         <span class="cuisine-tag tag-regional">Luxury Glamping</span>
@@ -492,7 +496,7 @@
         <strong>tabiji verdict:</strong> Often compared directly to Merzouga Luxury Desert Camp — and the competition benefits travelers. They deliberately moved their camp location for more privacy, which shows they care about the experience. Slightly more affordable with comparable quality.
     </div>
 </section>
-<section class="restaurant-section" id="ideal-desert">
+<section class="restaurant-section" id="ideal-desert" data-map-name="3. Ideal Desert Camp" data-map-cta-url="https://maps.google.com/?cid=1377883571448416161&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Ideal Desert Camp, Erg Chebbi dunes, Erg Chebbi, MA" data-map-lat="31.098596999999998" data-map-lng="-3.9503559999999993">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Ideal Desert Camp</h2>
         <span class="cuisine-tag tag-regional">Mid-range</span>
@@ -525,7 +529,7 @@
         <strong>tabiji verdict:</strong> The &quot;best value&quot; pick. Not as polished as the top luxury camps, but the family-run warmth is something money can&#39;t buy. If you want an authentic experience where you&#39;re treated like a guest (not a customer), this is it. The Reddit post about this camp was overwhelmingly positive.
     </div>
 </section>
-<section class="restaurant-section" id="kam-kam">
+<section class="restaurant-section" id="kam-kam" data-map-name="4. Kam Kam Dunes" data-map-cta-url="https://maps.google.com/?cid=889938416096819497&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kam Kam Dunes, Deep Erg Chebbi dunes, Erg Chebbi, MA" data-map-lat="31.173432" data-map-lng="-3.940502">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Kam Kam Dunes</h2>
         <span class="cuisine-tag tag-regional">Luxury Glamping</span>
@@ -558,7 +562,7 @@
         <strong>tabiji verdict:</strong> The splurge pick for travelers who want five-star comfort in the middle of the Sahara. If you&#39;re celebrating a honeymoon, anniversary, or just want the most Instagrammable desert experience possible, this is where you go. The price is higher but the experience matches.
     </div>
 </section>
-<section class="restaurant-section" id="le-gout">
+<section class="restaurant-section" id="le-gout" data-map-name="5. Le Gout du Sahara" data-map-cta-url="https://maps.google.com/?cid=3908784191611972727&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Le Gout du Sahara, Merzouga village, Erg Chebbi, MA" data-map-lat="31.096903699999995" data-map-lng="-4.01039">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Le Gout du Sahara</h2>
         <span class="cuisine-tag tag-regional">Budget</span>
@@ -583,7 +587,7 @@
         <strong>tabiji verdict:</strong> The backpacker&#39;s secret weapon. Hassan&#39;s guesthouse isn&#39;t a glamping camp — it&#39;s a real Berber home where you eat with the family and he personally arranges your desert experience. The overnight bivouac he sets up is basic but authentic. If your budget is tight and you want the real Morocco, this is gold.
     </div>
 </section>
-<section class="restaurant-section" id="milky-way">
+<section class="restaurant-section" id="milky-way" data-map-name="6. Milky Way Desert Camp" data-map-cta-url="https://maps.google.com/?cid=4163337021736481471&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Milky Way Desert Camp, Erg Chebbi dunes, Erg Chebbi, MA" data-map-lat="31.0610388" data-map-lng="-3.9794112000000004">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Milky Way Desert Camp</h2>
         <span class="cuisine-tag tag-regional">Mid-range</span>
@@ -616,7 +620,7 @@
         <strong>tabiji verdict:</strong> If stargazing is your main draw, this camp lives up to its name. They position their camp specifically for optimal night sky viewing. The tents are comfortable without being over-the-top, and the price sits nicely between budget and splurge. Great for astronomy nerds and romantics alike.
     </div>
 </section>
-<section class="restaurant-section" id="kanz-erremal">
+<section class="restaurant-section" id="kanz-erremal" data-map-name="7. Kanz Erremal" data-map-cta-url="https://maps.google.com/?cid=18008951020012869245&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kanz Erremal, Edge of Erg Chebbi, Erg Chebbi, MA" data-map-lat="31.1291507" data-map-lng="-4.0130133">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Kanz Erremal</h2>
         <span class="cuisine-tag tag-regional">Hotel + Camp</span>
@@ -641,7 +645,7 @@
         <strong>tabiji verdict:</strong> The &quot;best of both worlds&quot; pick. You get a real hotel with AC and a pool (essential if visiting in warmer months) plus they arrange overnight desert camp excursions. Perfect if you want the desert experience but also value creature comforts. Especially smart for families or summer visits.
     </div>
 </section>
-<section class="restaurant-section" id="nomad-palace">
+<section class="restaurant-section" id="nomad-palace" data-map-name="8. Nomad Palace" data-map-cta-url="https://maps.google.com/?cid=5511128954469413872&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nomad Palace, Merzouga, near dunes, Erg Chebbi, MA" data-map-lat="31.046267399999998" data-map-lng="-3.996374">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Nomad Palace</h2>
         <span class="cuisine-tag tag-regional">Hotel + Camp</span>
@@ -666,7 +670,7 @@
         <strong>tabiji verdict:</strong> Similar concept to Kanz Erremal but slightly more affordable. The &quot;palace&quot; name is a bit generous, but the pool and dune views are real. Good for travelers who want to do multiple desert activities from a comfortable base rather than committing to one overnight camp.
     </div>
 </section>
-<section class="restaurant-section" id="yasmina">
+<section class="restaurant-section" id="yasmina" data-map-name="9. Yasmina Hotel Merzouga" data-map-cta-url="https://maps.google.com/?cid=15915685848361386136&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yasmina Hotel Merzouga, Merzouga village, Erg Chebbi, MA" data-map-lat="31.212951999999998" data-map-lng="-3.9883895999999996">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Yasmina Hotel Merzouga</h2>
         <span class="cuisine-tag tag-regional">Hotel + Camp</span>
@@ -691,7 +695,7 @@
         <strong>tabiji verdict:</strong> The most affordable hotel-with-pool option, and consistently recommended alongside Kanz Erremal and Nomad Palace by locals and repeat visitors. If budget matters but you still want a pool and proper facilities, Yasmina hits the sweet spot.
     </div>
 </section>
-<section class="restaurant-section" id="auberge-du-sud">
+<section class="restaurant-section" id="auberge-du-sud" data-map-name="10. Auberge du Sud" data-map-cta-url="https://maps.google.com/?cid=7313000821716326457&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Auberge du Sud, Edge of Erg Chebbi, Erg Chebbi, MA" data-map-lat="31.2099037" data-map-lng="-4.0238198999999994">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Auberge du Sud</h2>
         <span class="cuisine-tag tag-regional">Mid-range</span>
@@ -734,9 +738,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Camp Map</h2>
-      <iframe src="https://www.google.com/maps?q=Desert%20Camps%20in%20Merzouga&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Merzouga Luxury Desert Camp</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Camp Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -758,7 +763,7 @@
       <li>
         <a href="#milky-way">6. Milky Way Desert Camp</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Desert%20Camps%20in%20Merzouga" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=17652649500818203456&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -769,5 +774,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Camp Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Desert%20Camps%20in%20Merzouga","picks":[{"anchorId":"merzouga-luxury","rank":1,"name":"Merzouga Luxury Desert Camp","label":"1. Merzouga Luxury Desert Camp","lat":31.0690762,"lng":-4.0103462,"ctaUrl":"https://maps.google.com/?cid=17652649500818203456&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Merzouga Luxury Desert Camp, Deep in Erg Chebbi dunes, Erg Chebbi, MA"},{"anchorId":"desert-luxury","rank":2,"name":"Desert Luxury Camp","label":"2. Desert Luxury Camp","lat":31.0690762,"lng":-4.0103462,"ctaUrl":"https://maps.google.com/?cid=17652649500818203456&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Desert Luxury Camp, Erg Chebbi dunes, Erg Chebbi, MA"},{"anchorId":"ideal-desert","rank":3,"name":"Ideal Desert Camp","label":"3. Ideal Desert Camp","lat":31.098596999999998,"lng":-3.9503559999999993,"ctaUrl":"https://maps.google.com/?cid=1377883571448416161&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Ideal Desert Camp, Erg Chebbi dunes, Erg Chebbi, MA"},{"anchorId":"kam-kam","rank":4,"name":"Kam Kam Dunes","label":"4. Kam Kam Dunes","lat":31.173432,"lng":-3.940502,"ctaUrl":"https://maps.google.com/?cid=889938416096819497&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kam Kam Dunes, Deep Erg Chebbi dunes, Erg Chebbi, MA"},{"anchorId":"le-gout","rank":5,"name":"Le Gout du Sahara","label":"5. Le Gout du Sahara","lat":31.096903699999995,"lng":-4.01039,"ctaUrl":"https://maps.google.com/?cid=3908784191611972727&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Le Gout du Sahara, Merzouga village, Erg Chebbi, MA"},{"anchorId":"milky-way","rank":6,"name":"Milky Way Desert Camp","label":"6. Milky Way Desert Camp","lat":31.0610388,"lng":-3.9794112000000004,"ctaUrl":"https://maps.google.com/?cid=4163337021736481471&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Milky Way Desert Camp, Erg Chebbi dunes, Erg Chebbi, MA"},{"anchorId":"kanz-erremal","rank":7,"name":"Kanz Erremal","label":"7. Kanz Erremal","lat":31.1291507,"lng":-4.0130133,"ctaUrl":"https://maps.google.com/?cid=18008951020012869245&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kanz Erremal, Edge of Erg Chebbi, Erg Chebbi, MA"},{"anchorId":"nomad-palace","rank":8,"name":"Nomad Palace","label":"8. Nomad Palace","lat":31.046267399999998,"lng":-3.996374,"ctaUrl":"https://maps.google.com/?cid=5511128954469413872&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nomad Palace, Merzouga, near dunes, Erg Chebbi, MA"},{"anchorId":"yasmina","rank":9,"name":"Yasmina Hotel Merzouga","label":"9. Yasmina Hotel Merzouga","lat":31.212951999999998,"lng":-3.9883895999999996,"ctaUrl":"https://maps.google.com/?cid=15915685848361386136&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yasmina Hotel Merzouga, Merzouga village, Erg Chebbi, MA"},{"anchorId":"auberge-du-sud","rank":10,"name":"Auberge du Sud","label":"10. Auberge du Sud","lat":31.2099037,"lng":-4.0238198999999994,"ctaUrl":"https://maps.google.com/?cid=7313000821716326457&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Auberge du Sud, Edge of Erg Chebbi, Erg Chebbi, MA"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

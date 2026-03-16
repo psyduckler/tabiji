@@ -451,9 +451,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -478,7 +481,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -530,9 +533,10 @@
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Ceviche Map</h2>
-      <iframe src="https://www.google.com/maps?q=Ceviche%20Spots%20in%20Lima&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chez Wong</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Ceviche Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -554,7 +558,7 @@
       <li>
         <a href="#el-mercado">6. El Mercado</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Ceviche%20Spots%20in%20Lima" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13884432283712245075&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -566,7 +570,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="chez-wong">
+<section class="restaurant-section" id="chez-wong" data-map-name="1. Chez Wong" data-map-cta-url="https://maps.google.com/?cid=13884432283712245075&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Chez Wong, Santa Catalina, Lima, Lima, PE" data-map-lat="-12.081980500000002" data-map-lng="-77.0225205">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Chez Wong</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -596,7 +600,7 @@
         <strong>tabiji verdict:</strong> The most famous ceviche experience in Peru — and one of the most polarizing. You eat in the chef&#39;s living room, he serves what he wants, and there&#39;s no menu. Some call it the best ceviche they&#39;ve ever had; others say the stir-fry outshines the ceviche. Either way, it&#39;s an unforgettable experience. Book weeks ahead.
     </div>
 </section>
-<section class="restaurant-section" id="la-mar">
+<section class="restaurant-section" id="la-mar" data-map-name="2. La Mar" data-map-cta-url="https://maps.google.com/?cid=4154830994225219866&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Mar, Miraflores, Lima, PE" data-map-lat="-12.1133171" data-map-lng="-77.04531560000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>La Mar</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -634,7 +638,7 @@
         <strong>tabiji verdict:</strong> Gastón Acurio&#39;s cevichería empire — currently #30 on Latin America&#39;s 50 Best. It&#39;s loud, chaotic, and packed, but the ceviche is exceptional and the variety is unmatched. Yes, tourists love it. So do Limeños. That tells you something.
     </div>
 </section>
-<section class="restaurant-section" id="al-toke-pez">
+<section class="restaurant-section" id="al-toke-pez" data-map-name="3. Al Toke Pez" data-map-cta-url="https://maps.google.com/?cid=550144869782390934&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Al Toke Pez, Surquillo, Lima, PE" data-map-lat="-12.1198105" data-map-lng="-77.0283461">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Al Toke Pez</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -672,7 +676,7 @@
         <strong>tabiji verdict:</strong> The most hyped budget ceviche in Lima — and for good reason. It&#39;s street-style seafood at its finest: no frills, plastic chairs, and a line out the door. As locals point out, it&#39;s &quot;carretilla-style&quot; — not a traditional cevichería. But at S/30 for a massive combinado, who&#39;s complaining? Featured on Netflix&#39;s Street Food.
     </div>
 </section>
-<section class="restaurant-section" id="mi-barrunto">
+<section class="restaurant-section" id="mi-barrunto" data-map-name="4. Mi Barrunto" data-map-cta-url="https://maps.google.com/?cid=5068023902382013446&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Mi Barrunto, La Victoria, Lima, PE" data-map-lat="-12.067662100000002" data-map-lng="-77.0215643">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Mi Barrunto</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -706,7 +710,7 @@
         <strong>tabiji verdict:</strong> The most &quot;real Lima&quot; ceviche experience on this list. La Victoria isn&#39;t a tourist district — it&#39;s gritty, loud, and authentically Limeño. The ceviche is massive, punchy, and the kind locals argue about. Go for lunch (never at night), take a taxi there, and prepare for an unforgettable meal.
     </div>
 </section>
-<section class="restaurant-section" id="punto-azul">
+<section class="restaurant-section" id="punto-azul" data-map-name="5. Punto Azul" data-map-cta-url="https://maps.google.com/?cid=14832447119192303207&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Punto Azul, Miraflores (multiple locations), Lima, PE" data-map-lat="-12.1263861" data-map-lng="-77.0281278">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Punto Azul</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -740,7 +744,7 @@
         <strong>tabiji verdict:</strong> The reliable all-rounder that both tourists and locals love. Multiple locations across Lima (Miraflores is the most convenient), consistently fresh fish, and generous portions. Not the most exciting pick, but you&#39;ll never have a bad meal here. The Surco location is the readers&#39; favorite according to El Comercio.
     </div>
 </section>
-<section class="restaurant-section" id="el-mercado">
+<section class="restaurant-section" id="el-mercado" data-map-name="6. El Mercado" data-map-cta-url="https://maps.google.com/?cid=17874960099326297300&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Mercado, Miraflores, Lima, PE" data-map-lat="-12.111454" data-map-lng="-77.04860640000001">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>El Mercado</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -774,7 +778,7 @@
         <strong>tabiji verdict:</strong> Chef Rafael Osterling&#39;s market-inspired cevichería elevates classic preparations without losing their soul. The sourcing is meticulous — everything tastes like it was pulled from the ocean an hour ago. A step up from Punto Azul in refinement, without the sticker shock of La Mar.
     </div>
 </section>
-<section class="restaurant-section" id="pescados-capitales">
+<section class="restaurant-section" id="pescados-capitales" data-map-name="7. Pescados Capitales" data-map-cta-url="https://maps.google.com/?cid=18091926568235566687&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Pescados Capitales, Miraflores, Lima, PE" data-map-lat="-12.1094413" data-map-lng="-77.04961689999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Pescados Capitales</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -808,7 +812,7 @@
         <strong>tabiji verdict:</strong> The fun, creative cevichería. Named after the seven deadly sins (pecados capitales = &quot;capital sins,&quot; but with &quot;pescados&quot; = &quot;fish&quot; — get it?), this place brings personality to excellent seafood. Popular with young Limeños for its vibrant atmosphere and clever menu.
     </div>
 </section>
-<section class="restaurant-section" id="canta-rana">
+<section class="restaurant-section" id="canta-rana" data-map-name="8. Canta Rana" data-map-cta-url="https://maps.google.com/?cid=6697624821164225682&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Canta Rana, Barranco, Lima, PE" data-map-lat="-12.146801" data-map-lng="-77.0222702">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Canta Rana</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -842,7 +846,7 @@
         <strong>tabiji verdict:</strong> The quintessential Barranco cevichería. Unpretentious, packed on weekends, and serving the kind of generous, traditional ceviche that makes you understand why Peruvians are so proud of their national dish. Walk it off with a stroll through Barranco&#39;s street art scene.
     </div>
 </section>
-<section class="restaurant-section" id="veridico-fidel">
+<section class="restaurant-section" id="veridico-fidel" data-map-name="9. El Verídico de Fidel" data-map-cta-url="https://maps.google.com/?cid=2335811109090683587&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="El Verídico de Fidel, La Victoria / La Molina, Lima, PE" data-map-lat="-12.0687863" data-map-lng="-77.0218618">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>El Verídico de Fidel</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -876,7 +880,7 @@
         <strong>tabiji verdict:</strong> An institution. &quot;El Verídico&quot; means &quot;the authentic one&quot; — and they live up to it. The La Victoria original is in a rough neighborhood (go for lunch, take a taxi), while the La Molina branch offers the same food in a safer area. Pure, no-nonsense ceviche.
     </div>
 </section>
-<section class="restaurant-section" id="dmarco">
+<section class="restaurant-section" id="dmarco" data-map-name="10. Cevichería D&#39;Marco" data-map-cta-url="https://maps.google.com/?cid=16529303040528542724&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cevichería D&#39;Marco, Chorrillos, Lima, PE" data-map-lat="-12.158636399999999" data-map-lng="-76.9538956">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Cevichería D&#39;Marco</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -902,7 +906,7 @@
         <strong>tabiji verdict:</strong> The colorful, slightly wild cevichería in Chorrillos where you never know who you&#39;ll be sitting next to. The ceviche is excellent and the people-watching is unmatched. It&#39;s a bit of a trek from Miraflores, but worth it for an authentic Lima experience.
     </div>
 </section>
-<section class="restaurant-section" id="la-pescaderia">
+<section class="restaurant-section" id="la-pescaderia" data-map-name="11. La Pescadería" data-map-cta-url="https://maps.google.com/?cid=5956346955823581188&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Pescadería, Miraflores, Lima, PE" data-map-lat="-12.1149039" data-map-lng="-77.04397159999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>La Pescadería</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -936,7 +940,7 @@
         <strong>tabiji verdict:</strong> A fishmonger-turned-cevichería that takes freshness seriously. The concept is simple — buy the best fish, prepare it simply. No Instagram gimmicks, just impeccably fresh seafood in a casual Miraflores setting.
     </div>
 </section>
-<section class="restaurant-section" id="maido">
+<section class="restaurant-section" id="maido" data-map-name="12. Maido" data-map-cta-url="https://maps.google.com/?cid=814908386545305089&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Maido, Miraflores, Lima, PE" data-map-lat="-12.125420199999999" data-map-lng="-77.03057439999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Maido</h2>
         <span class="cuisine-tag tag-regional">Nikkei</span>
@@ -970,7 +974,7 @@
         <strong>tabiji verdict:</strong> The pinnacle of Nikkei cuisine and one of the World&#39;s 50 Best Restaurants. Chef Mitsuharu Tsumura&#39;s tasting menu is a masterclass in Japanese-Peruvian fusion. Not a cevichería in the traditional sense, but the ceviche and tiradito courses here are arguably the most refined in the world. Splurge-worthy.
     </div>
 </section>
-<section class="restaurant-section" id="pedro-solari">
+<section class="restaurant-section" id="pedro-solari" data-map-name="13. La Cebichería de Pedro Solari" data-map-cta-url="https://maps.google.com/?cid=16508251880776612772&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Cebichería de Pedro Solari, Jesús María, Lima, PE" data-map-lat="-12.079077" data-map-lng="-77.0453236">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>La Cebichería de Pedro Solari</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -996,7 +1000,7 @@
         <strong>tabiji verdict:</strong> A neighborhood institution in Jesús María that doesn&#39;t try to be trendy. Pedro Solari&#39;s ceviche is the kind that wins &quot;best ceviche in Lima&quot; lists published by Peruvian newspapers — trusted by locals who&#39;ve been eating here for years.
     </div>
 </section>
-<section class="restaurant-section" id="andrea">
+<section class="restaurant-section" id="andrea" data-map-name="14. Cebichería Andrea" data-map-cta-url="https://maps.google.com/?cid=6123001261971513407&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cebichería Andrea, Mercado San José, Jesús María, Lima, PE" data-map-lat="-12.0743139" data-map-lng="-77.04900909999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Cebichería Andrea</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -1030,7 +1034,7 @@
         <strong>tabiji verdict:</strong> A market stall — Puesto 438 in Mercado San José — that has no business being this good. Eating ceviche in a Lima mercado is a rite of passage, and Andrea is one of the best places to do it. Arrive before 1 PM for the freshest fish.
     </div>
 </section>
-<section class="restaurant-section" id="ronald">
+<section class="restaurant-section" id="ronald" data-map-name="15. Cebichería Ronald" data-map-cta-url="https://maps.google.com/?cid=13990477245416204796&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Cebichería Ronald, Lince, Lima, PE" data-map-lat="-12.0812261" data-map-lng="-77.0403517">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Cebichería Ronald</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -1064,7 +1068,7 @@
         <strong>tabiji verdict:</strong> A beloved Lince institution that locals guard jealously. Nothing fancy — just incredibly fresh fish, a perfect leche de tigre, and the kind of generous portions that make you question Lima&#39;s cost of living. The neighborhood is safe and walkable from Miraflores.
     </div>
 </section>
-<section class="restaurant-section" id="central">
+<section class="restaurant-section" id="central" data-map-name="16. Central" data-map-cta-url="https://maps.google.com/?cid=6871806548421292316&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Central, Barranco, Lima, PE" data-map-lat="-12.1526483" data-map-lng="-77.02245789999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Central</h2>
         <span class="cuisine-tag tag-regional">Fine Dining</span>
@@ -1098,7 +1102,7 @@
         <strong>tabiji verdict:</strong> The #1 restaurant in the world (World&#39;s 50 Best 2023). Not a cevichería — it&#39;s a tasting menu experience that explores Peru&#39;s biodiversity. But the ocean-focused courses reimagine ceviche in ways you&#39;ve never imagined. Book months in advance. Once-in-a-lifetime territory.
     </div>
 </section>
-<section class="restaurant-section" id="isolina">
+<section class="restaurant-section" id="isolina" data-map-name="17. Isolina" data-map-cta-url="https://maps.google.com/?cid=4073890988560580788&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Isolina, Barranco, Lima, PE" data-map-lat="-12.147633599999999" data-map-lng="-77.02232049999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Isolina</h2>
         <span class="cuisine-tag tag-regional">Criollo</span>
@@ -1132,7 +1136,7 @@
         <strong>tabiji verdict:</strong> Technically a taberna criolla, not a cevichería — but their seafood dishes are too good to exclude. Chef José del Castillo serves the kind of home-style Peruvian cooking that makes you emotional. The ceviche is traditional and perfect, but honestly, order everything. You&#39;re in Barranco — walk it off after.
     </div>
 </section>
-<section class="restaurant-section" id="la-caleta">
+<section class="restaurant-section" id="la-caleta" data-map-name="18. La Caleta de la Punta" data-map-cta-url="https://maps.google.com/?cid=5979703605107636652&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="La Caleta de la Punta, La Punta, Callao, Lima, PE" data-map-lat="-12.074181" data-map-lng="-77.16457969999999">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>La Caleta de la Punta</h2>
         <span class="cuisine-tag tag-regional">Ceviche</span>
@@ -1184,9 +1188,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Ceviche Map</h2>
-      <iframe src="https://www.google.com/maps?q=Ceviche%20Spots%20in%20Lima&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Chez Wong</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Ceviche Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1208,7 +1213,7 @@
       <li>
         <a href="#el-mercado">6. El Mercado</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Ceviche%20Spots%20in%20Lima" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=13884432283712245075&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1219,5 +1224,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Ceviche Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Ceviche%20Spots%20in%20Lima","picks":[{"anchorId":"chez-wong","rank":1,"name":"Chez Wong","label":"1. Chez Wong","lat":-12.081980500000002,"lng":-77.0225205,"ctaUrl":"https://maps.google.com/?cid=13884432283712245075&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Chez Wong, Santa Catalina, Lima, Lima, PE"},{"anchorId":"la-mar","rank":2,"name":"La Mar","label":"2. La Mar","lat":-12.1133171,"lng":-77.04531560000001,"ctaUrl":"https://maps.google.com/?cid=4154830994225219866&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Mar, Miraflores, Lima, PE"},{"anchorId":"al-toke-pez","rank":3,"name":"Al Toke Pez","label":"3. Al Toke Pez","lat":-12.1198105,"lng":-77.0283461,"ctaUrl":"https://maps.google.com/?cid=550144869782390934&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Al Toke Pez, Surquillo, Lima, PE"},{"anchorId":"mi-barrunto","rank":4,"name":"Mi Barrunto","label":"4. Mi Barrunto","lat":-12.067662100000002,"lng":-77.0215643,"ctaUrl":"https://maps.google.com/?cid=5068023902382013446&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Mi Barrunto, La Victoria, Lima, PE"},{"anchorId":"punto-azul","rank":5,"name":"Punto Azul","label":"5. Punto Azul","lat":-12.1263861,"lng":-77.0281278,"ctaUrl":"https://maps.google.com/?cid=14832447119192303207&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Punto Azul, Miraflores (multiple locations), Lima, PE"},{"anchorId":"el-mercado","rank":6,"name":"El Mercado","label":"6. El Mercado","lat":-12.111454,"lng":-77.04860640000001,"ctaUrl":"https://maps.google.com/?cid=17874960099326297300&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Mercado, Miraflores, Lima, PE"},{"anchorId":"pescados-capitales","rank":7,"name":"Pescados Capitales","label":"7. Pescados Capitales","lat":-12.1094413,"lng":-77.04961689999999,"ctaUrl":"https://maps.google.com/?cid=18091926568235566687&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Pescados Capitales, Miraflores, Lima, PE"},{"anchorId":"canta-rana","rank":8,"name":"Canta Rana","label":"8. Canta Rana","lat":-12.146801,"lng":-77.0222702,"ctaUrl":"https://maps.google.com/?cid=6697624821164225682&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Canta Rana, Barranco, Lima, PE"},{"anchorId":"veridico-fidel","rank":9,"name":"El Verídico de Fidel","label":"9. El Verídico de Fidel","lat":-12.0687863,"lng":-77.0218618,"ctaUrl":"https://maps.google.com/?cid=2335811109090683587&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"El Verídico de Fidel, La Victoria / La Molina, Lima, PE"},{"anchorId":"dmarco","rank":10,"name":"Cevichería D'Marco","label":"10. Cevichería D'Marco","lat":-12.158636399999999,"lng":-76.9538956,"ctaUrl":"https://maps.google.com/?cid=16529303040528542724&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cevichería D'Marco, Chorrillos, Lima, PE"},{"anchorId":"la-pescaderia","rank":11,"name":"La Pescadería","label":"11. La Pescadería","lat":-12.1149039,"lng":-77.04397159999999,"ctaUrl":"https://maps.google.com/?cid=5956346955823581188&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Pescadería, Miraflores, Lima, PE"},{"anchorId":"maido","rank":12,"name":"Maido","label":"12. Maido","lat":-12.125420199999999,"lng":-77.03057439999999,"ctaUrl":"https://maps.google.com/?cid=814908386545305089&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Maido, Miraflores, Lima, PE"},{"anchorId":"pedro-solari","rank":13,"name":"La Cebichería de Pedro Solari","label":"13. La Cebichería de Pedro Solari","lat":-12.079077,"lng":-77.0453236,"ctaUrl":"https://maps.google.com/?cid=16508251880776612772&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Cebichería de Pedro Solari, Jesús María, Lima, PE"},{"anchorId":"andrea","rank":14,"name":"Cebichería Andrea","label":"14. Cebichería Andrea","lat":-12.0743139,"lng":-77.04900909999999,"ctaUrl":"https://maps.google.com/?cid=6123001261971513407&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cebichería Andrea, Mercado San José, Jesús María, Lima, PE"},{"anchorId":"ronald","rank":15,"name":"Cebichería Ronald","label":"15. Cebichería Ronald","lat":-12.0812261,"lng":-77.0403517,"ctaUrl":"https://maps.google.com/?cid=13990477245416204796&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Cebichería Ronald, Lince, Lima, PE"},{"anchorId":"central","rank":16,"name":"Central","label":"16. Central","lat":-12.1526483,"lng":-77.02245789999999,"ctaUrl":"https://maps.google.com/?cid=6871806548421292316&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Central, Barranco, Lima, PE"},{"anchorId":"isolina","rank":17,"name":"Isolina","label":"17. Isolina","lat":-12.147633599999999,"lng":-77.02232049999999,"ctaUrl":"https://maps.google.com/?cid=4073890988560580788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Isolina, Barranco, Lima, PE"},{"anchorId":"la-caleta","rank":18,"name":"La Caleta de la Punta","label":"18. La Caleta de la Punta","lat":-12.074181,"lng":-77.16457969999999,"ctaUrl":"https://maps.google.com/?cid=5979703605107636652&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"La Caleta de la Punta, La Punta, Callao, Lima, PE"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>

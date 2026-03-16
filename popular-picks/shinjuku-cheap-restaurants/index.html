@@ -459,11 +459,6 @@
     },
     {
       "@type": "PropertyValue",
-      "name": "sourcesAnalyzed",
-      "value": "Extracted from existing HTML page"
-    },
-    {
-      "@type": "PropertyValue",
       "name": "lastVerified",
       "value": "2026-03"
     }
@@ -488,9 +483,12 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
-      .map-sidebar iframe, .map-inline iframe { width:100%; height:360px; border:0; border-radius:12px; background:var(--sand); }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .8rem; color:var(--indigo); font-size:1.05rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
       .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
@@ -515,7 +513,7 @@
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       ul.related { padding-left:1.2rem; margin:0; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -563,13 +561,14 @@
     <main class="content">
       <section class="intro-section">
         <p><strong>Shinjuku&#39;s diverse culinary scene offers delicious and affordable options, with most meals costing well under ¥1,000 and all under ¥2,000. Nakajima, a Michelin-starred sardine washoku restaurant in Shinjuku 3-chome, stands out for its exceptional quality at lunch counter prices. This list, curated from recommendations by travelers and Tokyo residents on Reddit, highlights the best cheap eats in Shinjuku.</strong></p>
-        <p>Shinjuku boasts a diverse culinary scene with options under ¥2,000, and this list highlights the best, drawing from recommendations by actual travelers and Tokyo residents. For a standout experience, consider Nakajima, offering Michelin-starred quality sardine washoku at lunch counter prices in Shinjuku 3-chome.</p><p>Shinjuku has over 20,000 restaurants. Most tourists end up at the same handful of spots recommended by YouTube travel vloggers — queuing 45 minutes for Ichiran Ramen while locals eat better food for less money a block away.</p><p>We combed through hundreds of Reddit posts from r/JapanTravel, r/JapanTravelTips, and r/Tokyo to find the restaurants that actual travelers and Tokyo residents recommend over and over. Every spot on this list is under ¥2,000 per meal, and most are well under ¥1,000.</p>
+        <p>Shinjuku has over 20,000 restaurants. Most tourists end up at the same handful of spots recommended by YouTube travel vloggers — queuing 45 minutes for Ichiran Ramen while locals eat better food for less money a block away.</p><p>We combed through hundreds of Reddit posts from r/JapanTravel, r/JapanTravelTips, and r/Tokyo to find the restaurants that actual travelers and Tokyo residents recommend over and over. Every spot on this list is under ¥2,000 per meal, and most are well under ¥1,000.</p>
       </section>
 
       
-    <section class="map-inline">
+    <section class="map-inline" data-map-panel="mobile">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Tokyo%20restaurants&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Fuunji (風雲児)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -591,7 +590,7 @@
       <li>
         <a href="#tsunahachi">6. Tsunahachi Souhonten (つな八 総本店)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Tokyo%20restaurants" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3272539110311166620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
 
@@ -603,7 +602,7 @@
 
       <section class="pick-list">
         
-<section class="restaurant-section" id="fuunji">
+<section class="restaurant-section" id="fuunji" data-map-name="1. Fuunji (風雲児)" data-map-cta-url="https://maps.google.com/?cid=3272539110311166620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fuunji (風雲児), Yoyogi, 2-min from Shinjuku South Exit, Tokyo, JP" data-map-lat="35.6868343" data-map-lng="139.6966393">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">1</span>Fuunji (風雲児)</h2>
         <span class="cuisine-tag tag-tsukemen">Tsukemen</span>
@@ -627,7 +626,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/fuunji.jpg" alt="Fuunji (風雲児) in Yoyogi, 2-min from Shinjuku South Exit" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Fuunji (風雲児) is a Tsukemen restaurant near Shinjuku South Exit in Yoyogi. What to order: Tsukemen (dipping noodles) with the rich fish + pork broth. Get the large size — it&#39;s the same price. Add ajitama (seasoned egg).</div>
+        <strong>What to order:</strong> Tsukemen (dipping noodles) with the rich fish + pork broth. Get the large size — it&#39;s the same price. Add ajitama (seasoned egg).</div>
     
     <div class="reddit-quote">
         "Fuunji is the best tsukemen I&#39;ve ever had. The broth is incredibly rich — thick, fishy, umami bomb. There&#39;s always a line but it moves fast."
@@ -641,7 +640,7 @@
         <strong>tabiji verdict:</strong> The single most recommended ramen-adjacent spot in Shinjuku across all of Reddit. If you eat one bowl of noodles in the area, make it this.
     </div>
 </section>
-<section class="restaurant-section" id="tonchinkan">
+<section class="restaurant-section" id="tonchinkan" data-map-name="2. Tonchinkan (とんちんかん)" data-map-cta-url="https://www.google.com/maps/search/Tonchinkan+%28%E3%81%A8%E3%82%93%E3%81%A1%E3%82%93%E3%81%8B%E3%82%93%29+Shinjuku+Tokyo" data-map-query="Tonchinkan (とんちんかん), Nishi-Shinjuku, Tokyo, JP" data-map-lat="35.6895624" data-map-lng="139.69677919999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">2</span>Tonchinkan (とんちんかん)</h2>
         <span class="cuisine-tag tag-tonkatsu">Tonkatsu</span>
@@ -657,7 +656,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/tonchinkan.jpg" alt="Tonchinkan (とんちんかん) in Nishi-Shinjuku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Tonchinkan (とんちんかん) is a Tonkatsu restaurant located in Nishi-Shinjuku. What to order: Rosu katsu teishoku (pork loin cutlet set). Comes with rice, miso soup, cabbage, and pickles. Perfectly crispy outside, juicy inside.</div>
+        <strong>What to order:</strong> Rosu katsu teishoku (pork loin cutlet set). Comes with rice, miso soup, cabbage, and pickles. Perfectly crispy outside, juicy inside.</div>
     
     <div class="reddit-quote">
         "As a long-term resident of Tokyo... Tonchinkan for tonkatsu. These are places where you are definitely less likely to run into other tourists and only eat with locals."
@@ -667,7 +666,7 @@
         <strong>tabiji verdict:</strong> Recommended by a long-term Tokyo local in one of the most upvoted restaurant posts on r/JapanTravelTips. Zero tourist crowd, all substance.
     </div>
 </section>
-<section class="restaurant-section" id="musashiya">
+<section class="restaurant-section" id="musashiya" data-map-name="3. Musashiya (武蔵屋)" data-map-cta-url="https://maps.google.com/?cid=8971049026698303002&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Musashiya (武蔵屋), Shinjuku West Exit area, Tokyo, JP" data-map-lat="35.6955679" data-map-lng="139.69864769999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">3</span>Musashiya (武蔵屋)</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -691,7 +690,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/musashiya.jpg" alt="Musashiya (武蔵屋) in Shinjuku West Exit area" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Musashiya (武蔵屋) is a Ramen restaurant in the Shinjuku West Exit area. What to order: Classic ramen with their house pork broth. Nothing fancy — just deeply satisfying, old-school Tokyo ramen.</div>
+        <strong>What to order:</strong> Classic ramen with their house pork broth. Nothing fancy — just deeply satisfying, old-school Tokyo ramen.</div>
     
     <div class="reddit-quote">
         "Musashiya — different ramen styles, not Ichiran or Ippudo. These are the places local people actually go to."
@@ -701,7 +700,7 @@
         <strong>tabiji verdict:</strong> A no-frills local ramen shop steps from Shinjuku Station. The kind of place you&#39;d walk right past — and that&#39;s exactly why it&#39;s good.
     </div>
 </section>
-<section class="restaurant-section" id="omoide-yokocho">
+<section class="restaurant-section" id="omoide-yokocho" data-map-name="4. Omoide Yokocho (思い出横丁)" data-map-cta-url="https://maps.google.com/?cid=10416638554535967955&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Omoide Yokocho (思い出横丁), Shinjuku West Exit, under the tracks, Tokyo, JP" data-map-lat="35.6927011" data-map-lng="139.6995778">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">4</span>Omoide Yokocho (思い出横丁)</h2>
         <span class="cuisine-tag tag-yakitori">Yakitori Alley</span>
@@ -725,7 +724,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/omoide-yokocho.jpg" alt="Omoide Yokocho (思い出横丁) in Shinjuku West Exit, under the tracks" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Omoide Yokocho (思い出横丁), also known as Yakitori Alley, is located under the tracks at Shinjuku West Exit. What to order: Yakitori skewers (chicken skin, tsukune, negima), grilled offal if you&#39;re adventurous, and a cold beer. Budget ¥100–¥200 per skewer.</div>
+        <strong>What to order:</strong> Yakitori skewers (chicken skin, tsukune, negima), grilled offal if you&#39;re adventurous, and a cold beer. Budget ¥100–¥200 per skewer.</div>
     
     <div class="reddit-quote">
         "Dinner options: Omoide Yokochō — Aisles full of yakitori places. Go there."
@@ -739,7 +738,7 @@
         <strong>tabiji verdict:</strong> Yes, it&#39;s famous. But it&#39;s famous for a reason — smoky yakitori alleys with ice-cold beer at budget prices. Go later at night when the tourist crowds thin out.
     </div>
 </section>
-<section class="restaurant-section" id="nakajima">
+<section class="restaurant-section" id="nakajima" data-map-name="5. Nakajima (中嶋)" data-map-cta-url="https://maps.google.com/?cid=12332507620821246132&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nakajima (中嶋), Shinjuku 3-chome, Tokyo, JP" data-map-lat="35.6902024" data-map-lng="139.7040013">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">5</span>Nakajima (中嶋)</h2>
         <span class="cuisine-tag tag-regional">Sardine Washoku</span>
@@ -763,7 +762,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/nakajima.jpg" alt="Nakajima (中嶋) in Shinjuku 3-chome" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Nakajima (中嶋), a Sardine Washoku restaurant with 4.3 stars from 953 reviews, is located in Shinjuku 3-chome. What to order: The iwashi (sardine) set lunch — it&#39;s their signature. Michelin-starred quality at lunch counter prices. Dinner is much pricier, so go for lunch.</div>
+        <strong>What to order:</strong> The iwashi (sardine) set lunch — it&#39;s their signature. Michelin-starred quality at lunch counter prices. Dinner is much pricier, so go for lunch.</div>
     
     <div class="reddit-quote">
         "Nakajima in Shinjuku serves a Michelin-starred sardine lunch set for under ¥1,000. The dinner is expensive but the lunch is one of the best value meals in all of Tokyo."
@@ -773,7 +772,7 @@
         <strong>tabiji verdict:</strong> A Michelin-starred restaurant where lunch costs less than a Starbucks combo back home. The catch: lunch only, and there&#39;s a queue. Worth every minute of waiting.
     </div>
 </section>
-<section class="restaurant-section" id="tsunahachi">
+<section class="restaurant-section" id="tsunahachi" data-map-name="6. Tsunahachi Souhonten (つな八 総本店)" data-map-cta-url="https://maps.google.com/?cid=5607782394818890547&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tsunahachi Souhonten (つな八 総本店), Shinjuku 3-chome, near east exit, Tokyo, JP" data-map-lat="35.6908459" data-map-lng="139.70348669999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">6</span>Tsunahachi Souhonten (つな八 総本店)</h2>
         <span class="cuisine-tag tag-tempura">Tempura</span>
@@ -797,7 +796,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/tsunahachi.jpg" alt="Tsunahachi Souhonten (つな八 総本店) in Shinjuku 3-chome, near east exit" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Tsunahachi Souhonten (つな八 総本店) is a Tempura restaurant in Shinjuku 3-chome, near the east exit. What to order: The tempura teishoku (set meal) — shrimp, seasonal vegetables, rice, and miso soup. Counter seats let you watch the chefs fry to order.</div>
+        <strong>What to order:</strong> The tempura teishoku (set meal) — shrimp, seasonal vegetables, rice, and miso soup. Counter seats let you watch the chefs fry to order.</div>
     
     <div class="reddit-quote">
         "Tsunahachi has been serving tempura since 1923. The lunch set is incredible value — crispy, light, perfectly fried. Sit at the counter."
@@ -807,7 +806,7 @@
         <strong>tabiji verdict:</strong> A century-old tempura institution where the lunch set costs less than fast food in most Western cities. The counter experience is half the fun.
     </div>
 </section>
-<section class="restaurant-section" id="uogashi">
+<section class="restaurant-section" id="uogashi" data-map-name="7. Uogashi Nihon-Ichi (魚がし日本一)" data-map-cta-url="https://maps.google.com/?cid=14366338488429668667&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Uogashi Nihon-Ichi (魚がし日本一), Multiple Shinjuku locations, Tokyo, JP" data-map-lat="35.689982799999996" data-map-lng="139.6972998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">7</span>Uogashi Nihon-Ichi (魚がし日本一)</h2>
         <span class="cuisine-tag tag-sushi">Standing Sushi</span>
@@ -831,7 +830,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/uogashi-nihon-ichi.jpg" alt="Uogashi Nihon-Ichi (魚がし日本一) in Multiple Shinjuku locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Uogashi Nihon-Ichi (魚がし日本一) is a Standing Sushi restaurant with multiple locations in Shinjuku. What to order: Nigiri pieces à la carte — salmon, tuna, uni if you&#39;re feeling fancy. Standing format keeps costs down and turnover fast.</div>
+        <strong>What to order:</strong> Nigiri pieces à la carte — salmon, tuna, uni if you&#39;re feeling fancy. Standing format keeps costs down and turnover fast.</div>
     
     <div class="reddit-quote">
         "Uogashi Nihon-Ichi (Standing Sushi Bar) — sushi so good and so cheap."
@@ -841,7 +840,7 @@
         <strong>tabiji verdict:</strong> Fresh sushi at standing-bar prices — ¥100–¥300 per piece. You won&#39;t sit down, but your wallet and taste buds will both thank you.
     </div>
 </section>
-<section class="restaurant-section" id="gyukatsu-motomura">
+<section class="restaurant-section" id="gyukatsu-motomura" data-map-name="8. Gyukatsu Motomura (牛かつ もと村)" data-map-cta-url="https://maps.google.com/?cid=14776686710302251978&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Gyukatsu Motomura (牛かつ もと村), Shinjuku 3-chome, Tokyo, JP" data-map-lat="35.6899806" data-map-lng="139.7038098">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">8</span>Gyukatsu Motomura (牛かつ もと村)</h2>
         <span class="cuisine-tag tag-gyukatsu">Gyukatsu</span>
@@ -865,7 +864,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/gyukatsu-motomura.jpg" alt="Gyukatsu Motomura (牛かつ もと村) in Shinjuku 3-chome" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Gyukatsu Motomura (牛かつ もと村) is a Gyukatsu restaurant in Shinjuku 3-chome. What to order: The gyukatsu set — breaded beef cutlet served rare, with a hot stone to cook it to your preferred doneness. Comes with rice, cabbage, and dipping sauces.</div>
+        <strong>What to order:</strong> The gyukatsu set — breaded beef cutlet served rare, with a hot stone to cook it to your preferred doneness. Comes with rice, cabbage, and dipping sauces.</div>
     
     <div class="reddit-quote">
         "Gyukatsu Motomura — multiple locations. The beef cutlet is amazing, you cook it yourself on a little hot stone at the table."
@@ -875,7 +874,7 @@
         <strong>tabiji verdict:</strong> At ¥1,400, this is the priciest &quot;budget&quot; pick — but rare beef cutlet with a hot stone is an experience you can&#39;t get anywhere else. Splurge-worthy.
     </div>
 </section>
-<section class="restaurant-section" id="marugame">
+<section class="restaurant-section" id="marugame" data-map-name="9. Marugame Seimen (丸亀製麺)" data-map-cta-url="https://maps.google.com/?cid=14045353030295530089&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Marugame Seimen (丸亀製麺), Shinjuku Mitsui Building &amp; other locations, Tokyo, JP" data-map-lat="35.6919064" data-map-lng="139.6938992">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">9</span>Marugame Seimen (丸亀製麺)</h2>
         <span class="cuisine-tag tag-udon">Udon</span>
@@ -899,7 +898,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/marugame-seimen.jpg" alt="Marugame Seimen (丸亀製麺) in Shinjuku Mitsui Building &amp; other locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Marugame Seimen (丸亀製麺), an Udon restaurant with 3.4 stars from 386 reviews, is located in the Shinjuku Mitsui Building and other locations. What to order: Kake udon (plain udon in dashi broth) from ¥340, then add tempura from the counter — chikuwa, onsen tamago, or kakiage.</div>
+        <strong>What to order:</strong> Kake udon (plain udon in dashi broth) from ¥340, then add tempura from the counter — chikuwa, onsen tamago, or kakiage.</div>
     
     <div class="reddit-quote">
         "Cheap and delicious udon chain. Marugame Seimen — fresh noodles made in front of you, and you can eat a filling meal for under ¥500."
@@ -909,7 +908,7 @@
         <strong>tabiji verdict:</strong> Your cheapest filling meal in Shinjuku. A chain? Yes. Bad? Absolutely not. The noodles are made fresh on-site and the tempura bar is dangerous (in a good way).
     </div>
 </section>
-<section class="restaurant-section" id="yoshinoya">
+<section class="restaurant-section" id="yoshinoya" data-map-name="10. Yoshinoya (吉野家)" data-map-cta-url="https://maps.google.com/?cid=14787734469493196176&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yoshinoya (吉野家), Multiple Shinjuku locations, Tokyo, JP" data-map-lat="35.6894619" data-map-lng="139.704121">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">10</span>Yoshinoya (吉野家)</h2>
         <span class="cuisine-tag tag-udon">Gyudon</span>
@@ -933,7 +932,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/yoshinoya.jpg" alt="Yoshinoya (吉野家) in Multiple Shinjuku locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Yoshinoya (吉野家), a Gyudon restaurant with 3.7 stars from 927 reviews, has multiple locations in Shinjuku. What to order: Gyudon (beef bowl) with a raw egg on top. Upgrade to the nami (regular) with miso soup set for around ¥600 total.</div>
+        <strong>What to order:</strong> Gyudon (beef bowl) with a raw egg on top. Upgrade to the nami (regular) with miso soup set for around ¥600 total.</div>
     
     <div class="reddit-quote">
         "Don&#39;t sleep on gyudon chains. Yoshinoya is genuinely good — a filling beef bowl for under ¥500. Japanese fast food is on another level compared to Western chains."
@@ -943,7 +942,7 @@
         <strong>tabiji verdict:</strong> The OG gyudon chain since 1899. Not glamorous, but a ¥448 beef bowl at 2 AM after Golden Gai hits different. Open 24/7 at most locations.
     </div>
 </section>
-<section class="restaurant-section" id="matsuya">
+<section class="restaurant-section" id="matsuya" data-map-name="11. Matsuya (松屋)" data-map-cta-url="https://maps.google.com/?cid=17293807471177596369&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Matsuya (松屋), Multiple Shinjuku locations, Tokyo, JP" data-map-lat="35.690250000000006" data-map-lng="139.702014">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">11</span>Matsuya (松屋)</h2>
         <span class="cuisine-tag tag-udon">Gyudon</span>
@@ -967,7 +966,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/matsuya.jpg" alt="Matsuya (松屋) in Multiple Shinjuku locations" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Matsuya (松屋), a Gyudon restaurant with 3.5 stars from 821 reviews, has multiple locations in Shinjuku. What to order: The premium gyudon or the curry gyudon. Matsuya includes miso soup free with every set — slight edge over Yoshinoya.</div>
+        <strong>What to order:</strong> The premium gyudon or the curry gyudon. Matsuya includes miso soup free with every set — slight edge over Yoshinoya.</div>
     
     <div class="reddit-quote">
         "Matsuya is the budget GOAT. Free miso soup, vending machine ordering so no Japanese needed, and a filling meal for ¥400."
@@ -977,7 +976,7 @@
         <strong>tabiji verdict:</strong> Same deal as Yoshinoya but with free miso soup and a ticket machine so you don&#39;t need to speak a word of Japanese. Budget traveler&#39;s best friend.
     </div>
 </section>
-<section class="restaurant-section" id="kushikatsu-tanaka">
+<section class="restaurant-section" id="kushikatsu-tanaka" data-map-name="12. Kushikatsu Tanaka (串カツ田中)" data-map-cta-url="https://maps.google.com/?cid=8173748222905996271&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Kushikatsu Tanaka (串カツ田中), Shinjuku Sanchome, Tokyo, JP" data-map-lat="35.6918666" data-map-lng="139.7060328">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">12</span>Kushikatsu Tanaka (串カツ田中)</h2>
         <span class="cuisine-tag tag-kushikatsu">Kushikatsu</span>
@@ -1001,7 +1000,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/kushikatsu-tanaka.jpg" alt="Kushikatsu Tanaka (串カツ田中) in Shinjuku Sanchome" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Kushikatsu Tanaka (串カツ田中) is a Kushikatsu restaurant in Shinjuku Sanchome. What to order: Mixed kushikatsu set — deep-fried skewers of pork, shrimp, cheese, quail egg, lotus root. Rule: no double-dipping in the communal sauce.</div>
+        <strong>What to order:</strong> Mixed kushikatsu set — deep-fried skewers of pork, shrimp, cheese, quail egg, lotus root. Rule: no double-dipping in the communal sauce.</div>
     
     <div class="reddit-quote">
         "Kushikatsu Tanaka — kushikatsu chain with several branches. Fun, casual, cheap. Great with beer."
@@ -1011,7 +1010,7 @@
         <strong>tabiji verdict:</strong> Deep-fried everything on sticks with cheap beer — what&#39;s not to love? The no-double-dipping rule is serious. Don&#39;t be that tourist.
     </div>
 </section>
-<section class="restaurant-section" id="akiyoshi">
+<section class="restaurant-section" id="akiyoshi" data-map-name="13. Yakitori no Meimon Akiyoshi (秋吉)" data-map-cta-url="https://maps.google.com/?cid=1551654185154672201&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Yakitori no Meimon Akiyoshi (秋吉), Nishi-Shinjuku, Tokyo, JP" data-map-lat="35.7096853" data-map-lng="139.7755652">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">13</span>Yakitori no Meimon Akiyoshi (秋吉)</h2>
         <span class="cuisine-tag tag-yakitori">Yakitori</span>
@@ -1035,7 +1034,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/akiyoshi.jpg" alt="Yakitori no Meimon Akiyoshi (秋吉) in Nishi-Shinjuku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Yakitori no Meimon Akiyoshi (秋吉), a Yakitori restaurant with 4.1 stars from 564 reviews, is located in Nishi-Shinjuku. What to order: Assorted yakitori — negima (chicken thigh with leek), tsukune (chicken meatball), kawa (crispy chicken skin). Skewers from ¥100 each.</div>
+        <strong>What to order:</strong> Assorted yakitori — negima (chicken thigh with leek), tsukune (chicken meatball), kawa (crispy chicken skin). Skewers from ¥100 each.</div>
     
     <div class="reddit-quote">
         "Yakitori with Kushiage — Yakitori no meimon Akiyoshi. These are places local people go to."
@@ -1045,7 +1044,7 @@
         <strong>tabiji verdict:</strong> A proper yakitori-ya where the charcoal smoke hits you at the door. Order 5–6 skewers, a beer, and you&#39;re out for under ¥1,500 feeling like a champion.
     </div>
 </section>
-<section class="restaurant-section" id="kamukura">
+<section class="restaurant-section" id="kamukura" data-map-name="14. Dotombori Kamukura (どうとんぼり神座)" data-map-cta-url="https://maps.google.com/?cid=17511495926604745122&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Dotombori Kamukura (どうとんぼり神座), Kabukicho, Shinjuku, Tokyo, JP" data-map-lat="35.6943956" data-map-lng="139.70208">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">14</span>Dotombori Kamukura (どうとんぼり神座)</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -1069,7 +1068,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/kamukura.jpg" alt="Dotombori Kamukura (どうとんぼり神座) in Kabukicho, Shinjuku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Dotombori Kamukura (どうとんぼり神座) is a Ramen restaurant in Kabukicho, Shinjuku. What to order: Their signature &quot;oishii ramen&quot; — a light, savory pork broth with napa cabbage that&#39;s completely different from heavy tonkotsu. Refreshingly un-heavy.</div>
+        <strong>What to order:</strong> Their signature &quot;oishii ramen&quot; — a light, savory pork broth with napa cabbage that&#39;s completely different from heavy tonkotsu. Refreshingly un-heavy.</div>
     
     <div class="reddit-quote">
         "Dotombori Kamukura — ramen but different from the heavy stuff. Light, veggie-forward, and you don&#39;t feel like you need a nap after."
@@ -1079,7 +1078,7 @@
         <strong>tabiji verdict:</strong> The anti-Ichiran. Light, clean, almost healthy-feeling ramen that Osaka locals love. Perfect if you&#39;re ramen&#39;d out on heavy tonkotsu.
     </div>
 </section>
-<section class="restaurant-section" id="fukuyoshi">
+<section class="restaurant-section" id="fukuyoshi" data-map-name="15. Fukuyoshi (福よし)" data-map-cta-url="https://maps.google.com/?cid=13059930650541086236&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Fukuyoshi (福よし), Near Shinjuku Gyoen, Tokyo, JP" data-map-lat="35.685176299999995" data-map-lng="139.7100517">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">15</span>Fukuyoshi (福よし)</h2>
         <span class="cuisine-tag tag-tonkatsu">Tonkatsu</span>
@@ -1103,7 +1102,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/fukuyoshi.jpg" alt="Fukuyoshi (福よし) in Near Shinjuku Gyoen" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Fukuyoshi (福よし) is a Tonkatsu restaurant near Shinjuku Gyoen. What to order: The katsu teishoku. Only open during weekday lunch — this is a local lunch spot, not a tourist dinner destination.</div>
+        <strong>What to order:</strong> The katsu teishoku. Only open during weekday lunch — this is a local lunch spot, not a tourist dinner destination.</div>
     
     <div class="reddit-quote">
         "Fukuyoshi (best katsu place, only open during weekday lunch)"
@@ -1113,7 +1112,7 @@
         <strong>tabiji verdict:</strong> Weekday lunch only, which means zero tourists and all office workers who know their katsu. If your schedule allows, don&#39;t miss it.
     </div>
 </section>
-<section class="restaurant-section" id="hope-ken">
+<section class="restaurant-section" id="hope-ken" data-map-name="16. Hope-ken (ホープ軒)" data-map-cta-url="https://www.google.com/maps/search/Hope-ken+%28%E3%83%9B%E3%83%BC%E3%83%97%E8%BB%92%29+Shinjuku+Tokyo" data-map-query="Hope-ken (ホープ軒), Sendagaya (Shinjuku area), Tokyo, JP" data-map-lat="35.6765896" data-map-lng="139.7124517">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">16</span>Hope-ken (ホープ軒)</h2>
         <span class="cuisine-tag tag-ramen">Ramen</span>
@@ -1129,7 +1128,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/hope-ken.jpg" alt="Hope-ken (ホープ軒) in Sendagaya (Shinjuku area)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Hope-ken (ホープ軒) is a Ramen restaurant in Sendagaya (Shinjuku area). What to order: Tonkotsu shoyu ramen — their house style. Rich pork bone broth with soy. Open 24 hours.</div>
+        <strong>What to order:</strong> Tonkotsu shoyu ramen — their house style. Rich pork bone broth with soy. Open 24 hours.</div>
     
     <div class="reddit-quote">
         "Hope-ken Sendagaya HQ — ramen, not Ichiran/Ippudo, and all with different styles."
@@ -1139,7 +1138,7 @@
         <strong>tabiji verdict:</strong> Open 24 hours, been serving ramen since the 1960s. The kind of late-night bowl that makes you understand why Japan takes ramen seriously.
     </div>
 </section>
-<section class="restaurant-section" id="nabezo">
+<section class="restaurant-section" id="nabezo" data-map-name="17. Nabezo (なべぞう)" data-map-cta-url="https://maps.google.com/?cid=13403371101614605945&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Nabezo (なべぞう), Shinjuku Meiji-dori, Tokyo, JP" data-map-lat="35.6911434" data-map-lng="139.7036224">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">17</span>Nabezo (なべぞう)</h2>
         <span class="cuisine-tag tag-shabu">Shabu-shabu</span>
@@ -1163,7 +1162,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/nabezo.jpg" alt="Nabezo (なべぞう) in Shinjuku Meiji-dori" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Nabezo (なべぞう) is a Shabu-shabu restaurant in Shinjuku Meiji-dori. What to order: The all-you-can-eat lunch shabu-shabu set. Pick your broth (go with two — collagen and spicy), then pile in meat and vegetables.</div>
+        <strong>What to order:</strong> The all-you-can-eat lunch shabu-shabu set. Pick your broth (go with two — collagen and spicy), then pile in meat and vegetables.</div>
     
     <div class="reddit-quote">
         "Or a much cheaper place to eat — Nabezo, it&#39;s a chain with many branches but good quality."
@@ -1173,7 +1172,7 @@
         <strong>tabiji verdict:</strong> All-you-can-eat shabu-shabu for under ¥2,000 at lunch. If you&#39;re traveling on a budget but want a &quot;real Japanese meal&quot; experience, this is it.
     </div>
 </section>
-<section class="restaurant-section" id="rakeru">
+<section class="restaurant-section" id="rakeru" data-map-name="18. Rakeru (ラケル)" data-map-cta-url="https://maps.google.com/?cid=11433823729336532372&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Rakeru (ラケル), Shinjuku (multiple branches), Tokyo, JP" data-map-lat="35.689636899999996" data-map-lng="139.6971758">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">18</span>Rakeru (ラケル)</h2>
         <span class="cuisine-tag tag-omurice">Omurice</span>
@@ -1197,7 +1196,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/rakeru.jpg" alt="Rakeru (ラケル) in Shinjuku (multiple branches)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Rakeru (ラケル) is an Omurice restaurant with multiple branches in Shinjuku. What to order: The classic omurice — fluffy eggs over ketchup fried rice. It&#39;s simple, comforting, and very Japanese yoshoku (Western-influenced).</div>
+        <strong>What to order:</strong> The classic omurice — fluffy eggs over ketchup fried rice. It&#39;s simple, comforting, and very Japanese yoshoku (Western-influenced).</div>
     
     <div class="reddit-quote">
         "Rakeru — chain famous for omurice. There are several branches. Comfort food done right."
@@ -1207,7 +1206,7 @@
         <strong>tabiji verdict:</strong> Japanese comfort food at its coziest. The omurice here is the fluffy, wobbly kind you&#39;ve seen in every Japanese food video. Perfect rainy-day meal.
     </div>
 </section>
-<section class="restaurant-section" id="tsubame-grill">
+<section class="restaurant-section" id="tsubame-grill" data-map-name="19. Tsubame Grill (つばめグリル)" data-map-cta-url="https://maps.google.com/?cid=1868278947962799899&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Tsubame Grill (つばめグリル), Lumine Shinjuku, Tokyo, JP" data-map-lat="35.689118" data-map-lng="139.69920679999998">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">19</span>Tsubame Grill (つばめグリル)</h2>
         <span class="cuisine-tag tag-hamburg">Hamburg Steak</span>
@@ -1231,7 +1230,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/tsubame-grill.jpg" alt="Tsubame Grill (つばめグリル) in Lumine Shinjuku" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Tsubame Grill (つばめグリル), a Hamburg Steak restaurant with 4 stars from 398 reviews, is located in Lumine Shinjuku. What to order: The hamburg steak wrapped in foil — their signature dish. Juicy, rich, and served sizzling. Comes with bread or rice.</div>
+        <strong>What to order:</strong> The hamburg steak wrapped in foil — their signature dish. Juicy, rich, and served sizzling. Comes with bread or rice.</div>
     
     <div class="reddit-quote">
         "Tsubame Grill — chain famous for their hamburg steak. Several branches. It&#39;s a Japanese institution."
@@ -1241,7 +1240,7 @@
         <strong>tabiji verdict:</strong> Japanese hamburg steak is nothing like a hamburger — it&#39;s closer to a Salisbury steak but infinitely better. The foil-wrapped version at Tsubame is iconic.
     </div>
 </section>
-<section class="restaurant-section" id="taiyaki-wakaba">
+<section class="restaurant-section" id="taiyaki-wakaba" data-map-name="20. Taiyaki Wakaba (たいやき わかば)" data-map-cta-url="https://maps.google.com/?cid=7147209858528999128&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" data-map-query="Taiyaki Wakaba (たいやき わかば), Yotsuya (1 stop from Shinjuku), Tokyo, JP" data-map-lat="35.685986899999996" data-map-lng="139.7268719">
     <div class="restaurant-header">
         <h2><span class="restaurant-number">20</span>Taiyaki Wakaba (たいやき わかば)</h2>
         <span class="cuisine-tag tag-snack">Street Snack</span>
@@ -1265,7 +1264,7 @@
 
     <img src="https://img.tabiji.ai/popular-picks/shinjuku-cheap-restaurants/taiyaki-wakaba.jpg" alt="Taiyaki Wakaba (たいやき わかば) in Yotsuya (1 stop from Shinjuku)" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">
 <div class="what-to-order">
-        <strong>What to order:</strong> Taiyaki Wakaba (たいやき わかば) is a Street Snack vendor in Yotsuya (1 stop from Shinjuku). What to order: The classic taiyaki — fish-shaped pastry filled with sweet red bean paste (anko). Crispy outside, warm and gooey inside. ¥200 each.</div>
+        <strong>What to order:</strong> The classic taiyaki — fish-shaped pastry filled with sweet red bean paste (anko). Crispy outside, warm and gooey inside. ¥200 each.</div>
     
     <div class="reddit-quote">
         "Taiyaki Wakaba — one of the most famous taiyaki spots in Tokyo. Been making them the old-fashioned way for decades."
@@ -1293,9 +1292,10 @@
 
     <aside>
       
-    <section class="map-sidebar">
+    <section class="map-sidebar" data-map-panel="desktop">
       <h2>Restaurant Map</h2>
-      <iframe src="https://www.google.com/maps?q=Tokyo%20restaurants&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-active-pick" data-map-active-pick>1. Fuunji (風雲児)</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Restaurant Map"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
         <ul>
@@ -1317,7 +1317,7 @@
       <li>
         <a href="#tsunahachi">6. Tsunahachi Souhonten (つな八 総本店)</a>
       </li></ul>
-        <p><a href="https://www.google.com/maps/search/Tokyo%20restaurants" target="_blank" rel="noopener">Open in Google Maps →</a></p>
+        <p><a href="https://maps.google.com/?cid=3272539110311166620&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
       </div>
     </section>
     </aside>
@@ -1328,5 +1328,124 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Restaurant Map","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap%20Restaurants%20in%20Shinjuku%20(Under%20%C2%A52%2C000)","picks":[{"anchorId":"fuunji","rank":1,"name":"Fuunji (風雲児)","label":"1. Fuunji (風雲児)","lat":35.6868343,"lng":139.6966393,"ctaUrl":"https://maps.google.com/?cid=3272539110311166620&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fuunji (風雲児), Yoyogi, 2-min from Shinjuku South Exit, Tokyo, JP"},{"anchorId":"tonchinkan","rank":2,"name":"Tonchinkan (とんちんかん)","label":"2. Tonchinkan (とんちんかん)","lat":35.6895624,"lng":139.69677919999998,"ctaUrl":"https://www.google.com/maps/search/Tonchinkan+%28%E3%81%A8%E3%82%93%E3%81%A1%E3%82%93%E3%81%8B%E3%82%93%29+Shinjuku+Tokyo","mapQuery":"Tonchinkan (とんちんかん), Nishi-Shinjuku, Tokyo, JP"},{"anchorId":"musashiya","rank":3,"name":"Musashiya (武蔵屋)","label":"3. Musashiya (武蔵屋)","lat":35.6955679,"lng":139.69864769999998,"ctaUrl":"https://maps.google.com/?cid=8971049026698303002&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Musashiya (武蔵屋), Shinjuku West Exit area, Tokyo, JP"},{"anchorId":"omoide-yokocho","rank":4,"name":"Omoide Yokocho (思い出横丁)","label":"4. Omoide Yokocho (思い出横丁)","lat":35.6927011,"lng":139.6995778,"ctaUrl":"https://maps.google.com/?cid=10416638554535967955&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Omoide Yokocho (思い出横丁), Shinjuku West Exit, under the tracks, Tokyo, JP"},{"anchorId":"nakajima","rank":5,"name":"Nakajima (中嶋)","label":"5. Nakajima (中嶋)","lat":35.6902024,"lng":139.7040013,"ctaUrl":"https://maps.google.com/?cid=12332507620821246132&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nakajima (中嶋), Shinjuku 3-chome, Tokyo, JP"},{"anchorId":"tsunahachi","rank":6,"name":"Tsunahachi Souhonten (つな八 総本店)","label":"6. Tsunahachi Souhonten (つな八 総本店)","lat":35.6908459,"lng":139.70348669999998,"ctaUrl":"https://maps.google.com/?cid=5607782394818890547&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tsunahachi Souhonten (つな八 総本店), Shinjuku 3-chome, near east exit, Tokyo, JP"},{"anchorId":"uogashi","rank":7,"name":"Uogashi Nihon-Ichi (魚がし日本一)","label":"7. Uogashi Nihon-Ichi (魚がし日本一)","lat":35.689982799999996,"lng":139.6972998,"ctaUrl":"https://maps.google.com/?cid=14366338488429668667&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Uogashi Nihon-Ichi (魚がし日本一), Multiple Shinjuku locations, Tokyo, JP"},{"anchorId":"gyukatsu-motomura","rank":8,"name":"Gyukatsu Motomura (牛かつ もと村)","label":"8. Gyukatsu Motomura (牛かつ もと村)","lat":35.6899806,"lng":139.7038098,"ctaUrl":"https://maps.google.com/?cid=14776686710302251978&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Gyukatsu Motomura (牛かつ もと村), Shinjuku 3-chome, Tokyo, JP"},{"anchorId":"marugame","rank":9,"name":"Marugame Seimen (丸亀製麺)","label":"9. Marugame Seimen (丸亀製麺)","lat":35.6919064,"lng":139.6938992,"ctaUrl":"https://maps.google.com/?cid=14045353030295530089&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Marugame Seimen (丸亀製麺), Shinjuku Mitsui Building & other locations, Tokyo, JP"},{"anchorId":"yoshinoya","rank":10,"name":"Yoshinoya (吉野家)","label":"10. Yoshinoya (吉野家)","lat":35.6894619,"lng":139.704121,"ctaUrl":"https://maps.google.com/?cid=14787734469493196176&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yoshinoya (吉野家), Multiple Shinjuku locations, Tokyo, JP"},{"anchorId":"matsuya","rank":11,"name":"Matsuya (松屋)","label":"11. Matsuya (松屋)","lat":35.690250000000006,"lng":139.702014,"ctaUrl":"https://maps.google.com/?cid=17293807471177596369&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Matsuya (松屋), Multiple Shinjuku locations, Tokyo, JP"},{"anchorId":"kushikatsu-tanaka","rank":12,"name":"Kushikatsu Tanaka (串カツ田中)","label":"12. Kushikatsu Tanaka (串カツ田中)","lat":35.6918666,"lng":139.7060328,"ctaUrl":"https://maps.google.com/?cid=8173748222905996271&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Kushikatsu Tanaka (串カツ田中), Shinjuku Sanchome, Tokyo, JP"},{"anchorId":"akiyoshi","rank":13,"name":"Yakitori no Meimon Akiyoshi (秋吉)","label":"13. Yakitori no Meimon Akiyoshi (秋吉)","lat":35.7096853,"lng":139.7755652,"ctaUrl":"https://maps.google.com/?cid=1551654185154672201&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Yakitori no Meimon Akiyoshi (秋吉), Nishi-Shinjuku, Tokyo, JP"},{"anchorId":"kamukura","rank":14,"name":"Dotombori Kamukura (どうとんぼり神座)","label":"14. Dotombori Kamukura (どうとんぼり神座)","lat":35.6943956,"lng":139.70208,"ctaUrl":"https://maps.google.com/?cid=17511495926604745122&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Dotombori Kamukura (どうとんぼり神座), Kabukicho, Shinjuku, Tokyo, JP"},{"anchorId":"fukuyoshi","rank":15,"name":"Fukuyoshi (福よし)","label":"15. Fukuyoshi (福よし)","lat":35.685176299999995,"lng":139.7100517,"ctaUrl":"https://maps.google.com/?cid=13059930650541086236&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Fukuyoshi (福よし), Near Shinjuku Gyoen, Tokyo, JP"},{"anchorId":"hope-ken","rank":16,"name":"Hope-ken (ホープ軒)","label":"16. Hope-ken (ホープ軒)","lat":35.6765896,"lng":139.7124517,"ctaUrl":"https://www.google.com/maps/search/Hope-ken+%28%E3%83%9B%E3%83%BC%E3%83%97%E8%BB%92%29+Shinjuku+Tokyo","mapQuery":"Hope-ken (ホープ軒), Sendagaya (Shinjuku area), Tokyo, JP"},{"anchorId":"nabezo","rank":17,"name":"Nabezo (なべぞう)","label":"17. Nabezo (なべぞう)","lat":35.6911434,"lng":139.7036224,"ctaUrl":"https://maps.google.com/?cid=13403371101614605945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Nabezo (なべぞう), Shinjuku Meiji-dori, Tokyo, JP"},{"anchorId":"rakeru","rank":18,"name":"Rakeru (ラケル)","label":"18. Rakeru (ラケル)","lat":35.689636899999996,"lng":139.6971758,"ctaUrl":"https://maps.google.com/?cid=11433823729336532372&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Rakeru (ラケル), Shinjuku (multiple branches), Tokyo, JP"},{"anchorId":"tsubame-grill","rank":19,"name":"Tsubame Grill (つばめグリル)","label":"19. Tsubame Grill (つばめグリル)","lat":35.689118,"lng":139.69920679999998,"ctaUrl":"https://maps.google.com/?cid=1868278947962799899&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Tsubame Grill (つばめグリル), Lumine Shinjuku, Tokyo, JP"},{"anchorId":"taiyaki-wakaba","rank":20,"name":"Taiyaki Wakaba (たいやき わかば)","label":"20. Taiyaki Wakaba (たいやき わかば)","lat":35.685986899999996,"lng":139.7268719,"ctaUrl":"https://maps.google.com/?cid=7147209858528999128&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA","mapQuery":"Taiyaki Wakaba (たいやき わかば), Yotsuya (1 stop from Shinjuku), Tokyo, JP"}]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>
