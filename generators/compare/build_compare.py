@@ -277,9 +277,10 @@ def render_page(data: Dict) -> str:
 <!-- @include:nav:end -->
 {content['tocMobileHtml']}
 {content['heroHtml']}
-<div class=\"content-wrapper\">{content['methodologyHtml']}
+<div class=\"content-wrapper\">
 {content['tocSidebarHtml']}
 <div class=\"article-content\">
+{content['methodologyHtml']}
 {content['photoGridHtml']}
 {content['verdictHtml']}
 {content['comparisonHtml']}
