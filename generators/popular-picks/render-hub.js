@@ -78,6 +78,9 @@ function renderHubPage(data) {
       .hero h1 { font-size:clamp(2rem,4.7vw,3rem); line-height:1.12; color:var(--indigo); margin-bottom:1rem; }
       .hero p { color:var(--text-muted); max-width:780px; }
       .hero-meta { display:flex; gap:1rem 1.5rem; flex-wrap:wrap; margin-top:1rem; color:var(--earth); font-size:.95rem; }
+      .hero-figure { margin-top:1.5rem; border:1px solid var(--sand); border-radius:18px; overflow:hidden; background:var(--warm-cream); }
+      .hero-figure img { width:100%; height:min(46vw,420px); min-height:220px; object-fit:cover; display:block; }
+      .hero-caption { padding:.85rem 1rem; color:var(--text-muted); font-size:.92rem; border-top:1px solid var(--sand); background:rgba(245,240,232,.65); }
       .toc-sidebar { position:sticky; top:90px; align-self:start; width:220px; border-right:1px solid var(--sand); padding-right:1rem; }
       .toc-sidebar h2 { font-size:1rem; margin-bottom:.8rem; color:var(--indigo); }
       .toc-sidebar ul { list-style:none; }
@@ -94,7 +97,9 @@ function renderHubPage(data) {
       .main-content { min-width:0; }
       .city-section { margin-bottom:3rem; }
       .city-section h2 { font-size:1.75rem; color:var(--indigo); margin-bottom:1rem; }
-      .picks-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
+      .picks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+      @media (max-width:900px) { .picks-grid { grid-template-columns:repeat(2,1fr); } }
+      @media (max-width:560px) { .picks-grid { grid-template-columns:1fr; } }
       .pick-card { background:#FEFCF9; border:1px solid var(--sand); border-radius:14px; overflow:hidden; display:block; transition:transform .15s, box-shadow .15s; }
       .pick-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.08); }
       .pick-card img { width:100%; height:180px; object-fit:cover; display:block; }
@@ -126,6 +131,7 @@ function renderHubPage(data) {
     <h1>${escapeHtml(data.hero.title || data.seo.h1)}</h1>
     <p>${escapeHtml(data.hero.dek || '')}</p>
     ${Array.isArray(data.hero.meta) && data.hero.meta.length ? `<div class="hero-meta">${data.hero.meta.map((item) => `<div>${escapeHtml(item)}</div>`).join('')}</div>` : ''}
+    ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager">${data.hero.caption ? `<figcaption class="hero-caption">${escapeHtml(data.hero.caption)}</figcaption>` : ''}</figure>` : ''}
   </section>
 
   ${renderToc(data)}
