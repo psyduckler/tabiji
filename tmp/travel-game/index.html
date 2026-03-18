@@ -60,7 +60,10 @@
           </div>
         </div>
 
-        <button id="start-game">Start trip</button>
+        <div class="hero-actions">
+          <button id="start-game">Start fresh</button>
+          <button id="resumeGame" class="secondary" disabled>Resume saved run</button>
+        </div>
 
         <div class="stats">
           <div class="stat">
@@ -86,6 +89,13 @@
           <div class="route" id="routeBox">No route locked yet.</div>
         </div>
 
+        <div>
+          <div class="label">Session</div>
+          <div class="hero-actions">
+            <button id="clearSaved" class="secondary">Clear saved run</button>
+          </div>
+        </div>
+
         <div id="statusNote" class="status-note">Static review build ready.</div>
       </aside>
 
@@ -93,10 +103,14 @@
         <section class="panel content" id="play-panel">
           <div class="eyebrow">Structured prototype</div>
           <h2 style="margin-top:8px; font-size: 30px;">Now driven by scenario JSON</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.6;">This pass splits the prototype into `index.html`, `styles.css`, and `app.js`, then loads the Japan-first scenario from `content/japan-first-timer.json`. The engine applies deterministic state changes and builds a real handoff payload at the end.</p>
+          <p class="muted" style="margin-top:8px; line-height:1.6;">This pass adds the next three practical steps after the refactor: real analytics hooks, local session persistence, and a usable itinerary handoff path with copy/download/open-planner actions.</p>
 
           <div id="game-screen" class="screen" style="margin-top:18px;">
             <div class="eyebrow">Live scenario</div>
+            <div class="progress-wrap">
+              <div class="stat-top"><span id="progressLabel">Turn 1 of 9</span><strong id="turnMeta">Loading run metadata…</strong></div>
+              <div class="bar"><div id="progressBar" class="fill" style="width:0%"></div></div>
+            </div>
             <div class="chat-log" id="chatLog"></div>
             <div class="badge hidden" id="eventBadge"></div>
             <div class="cards" id="cards"></div>
@@ -129,9 +143,12 @@
             </div>
             <div class="hero-actions" style="margin-top:18px;">
               <button id="handoff">Turn this into a real itinerary</button>
+              <button id="copyPayload" class="secondary" disabled>Copy payload</button>
+              <button id="downloadPayload" class="secondary" disabled>Download JSON</button>
+              <button id="openPlanner" class="secondary" disabled>Open plan.html</button>
               <button class="secondary" id="replay">Replay MVP</button>
             </div>
-            <p class="footer-note">Event stubs currently log to the console. That keeps this static build reviewable without requiring a backend.</p>
+            <p class="footer-note">Analytics now call `gtag` / `dataLayer` when present, then fall back to console logging. Session state is also saved locally so refreshes do not nuke a run.</p>
           </div>
         </section>
 

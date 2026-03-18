@@ -16,6 +16,9 @@ const deckSlides = [
   ['Recommendation', 'Build one polished, opinionated web scenario first. Do not build an open-world travel game. Do not build a generic AI concierge.']
 ];
 
+const STORAGE_KEY = 'tabiji-quest-session-v1';
+const HANDOFF_KEY = 'tabiji-quest-handoff-v1';
+
 const ui = {
   chatLog: document.getElementById('chatLog'),
   cards: document.getElementById('cards'),
@@ -46,7 +49,16 @@ const ui = {
   payloadBox: document.getElementById('payloadBox'),
   deckSlides: document.getElementById('slides'),
   slideCount: document.getElementById('slideCount'),
-  handoffButton: document.getElementById('handoff')
+  handoffButton: document.getElementById('handoff'),
+  copyPayloadButton: document.getElementById('copyPayload'),
+  downloadPayloadButton: document.getElementById('downloadPayload'),
+  openPlannerButton: document.getElementById('openPlanner'),
+  clearSavedButton: document.getElementById('clearSaved'),
+  resumeButton: document.getElementById('resumeGame'),
+  startButton: document.getElementById('start-game'),
+  progressLabel: document.getElementById('progressLabel'),
+  progressBar: document.getElementById('progressBar'),
+  turnMeta: document.getElementById('turnMeta')
 };
 
 const state = {
@@ -63,7 +75,21 @@ const state = {
 };
 
 function track(eventName, payload = {}) {
-  console.info('[travel-game-event]', eventName, payload);
+  const enriched = {
+    surface: 'tmp-travel-game',
+    scenarioId: state.session?.scenarioId || state.scenario?.scenario?.id || null,
+    ...payload
+  };
+
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, enriched);
+  }
+
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push({ event: eventName, ...enriched });
+  }
+
+  console.info('[travel-game-event]', eventName, enriched);
 }
 
 function clamp(value, min, max) {
@@ -77,6 +103,66 @@ function uniq(items = []) {
 function setStatus(message, isError = false) {
   ui.statusNote.textContent = message;
   ui.statusNote.classList.toggle('error', isError);
+}
+
+function saveSession() {
+  if (!state.session) return;
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      session: state.session,
+      selectedSetup: state.selectedSetup,
+      handoffPayload: state.handoffPayload,
+      savedAt: Date.now()
+    })
+  );
+  ui.resumeButton.disabled = false;
+}
+
+function clearSavedSession() {
+  localStorage.removeItem(STORAGE_KEY);
+  ui.resumeButton.disabled = true;
+  setStatus('Saved run cleared.');
+}
+
+function loadSavedSession() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+  return false;
+}
+
+function downloadPayload() {
+  if (!state.handoffPayload) return;
+  const blob = new Blob([JSON.stringify(state.handoffPayload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${state.handoffPayload.scenarioId}-handoff.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function openPlanner() {
+  if (!state.handoffPayload) return;
+  localStorage.setItem(HANDOFF_KEY, JSON.stringify(state.handoffPayload));
+  const encoded = encodeURIComponent(JSON.stringify({
+    source: state.handoffPayload.source,
+    scenarioId: state.handoffPayload.scenarioId,
+    route: state.handoffPayload.route,
+    travelerType: state.handoffPayload.travelerType
+  }));
+  window.open(`/plan.html?tabijiQuest=${encoded}`, '_blank', 'noopener');
 }
 
 async function loadScenario() {
@@ -95,6 +181,16 @@ function renderScenarioMeta() {
   ui.handoffButton.textContent = 'Turn this into a real itinerary';
 }
 
+function hydrateSetupChips() {
+  document.querySelectorAll('.chips').forEach((group) => {
+    const key = group.dataset.group;
+    const stateKey = key === 'budget' ? 'budgetBand' : key;
+    group.querySelectorAll('.chip').forEach((chip) => {
+      chip.classList.toggle('active', chip.dataset.value === state.selectedSetup[stateKey]);
+    });
+  });
+}
+
 function initSession() {
   const scenario = state.scenario.scenario;
   const startState = structuredClone(scenario.startState);
@@ -109,8 +205,7 @@ function initSession() {
     eventHistory: [],
     completed: false,
     endingId: null,
-    selectedSetup: { ...state.selectedSetup },
-    chatHistory: []
+    selectedSetup: { ...state.selectedSetup }
   };
   state.handoffPayload = null;
   ui.chatLog.innerHTML = '';
@@ -120,10 +215,36 @@ function initSession() {
   ui.summaryScreen.classList.add('hidden');
   ui.gameScreen.classList.remove('hidden');
   ui.payloadBox.textContent = 'Handoff payload will appear here when the run completes.';
-  setStatus('Scenario loaded from JSON. This prototype is now driven by structured content instead of hardcoded turns.');
+  ui.copyPayloadButton.disabled = true;
+  ui.downloadPayloadButton.disabled = true;
+  ui.openPlannerButton.disabled = true;
+  setStatus('Scenario loaded from JSON. Session persistence, analytics hooks, and a real handoff path are now wired in.');
   updateStats();
-  track('travel_game_started', { scenarioId: scenario.id, setup: state.selectedSetup });
+  saveSession();
+  track('travel_game_started', { setup: state.selectedSetup });
   renderCurrentTurn();
+}
+
+function restoreSession(saved) {
+  state.selectedSetup = saved.selectedSetup || state.selectedSetup;
+  state.session = saved.session;
+  state.handoffPayload = saved.handoffPayload || null;
+  hydrateSetupChips();
+  ui.chatLog.innerHTML = '';
+  ui.cards.innerHTML = '';
+  ui.choices.innerHTML = '';
+  ui.eventBadge.classList.add('hidden');
+  ui.gameScreen.classList.remove('hidden');
+  ui.summaryScreen.classList.add('hidden');
+  updateStats();
+  setStatus('Resumed saved session from localStorage.');
+  track('travel_game_resumed', { currentTurnId: state.session.currentTurnId, completed: state.session.completed });
+  if (state.session.completed) {
+    const endingTurn = state.turnMap.get('ending');
+    renderEnding(endingTurn);
+  } else {
+    renderCurrentTurn();
+  }
 }
 
 function updateStats() {
@@ -164,6 +285,19 @@ function renderDestinationCards(cardIds = []) {
   });
 }
 
+function countCompletedTurns() {
+  return Object.keys(state.session.decisions).length;
+}
+
+function renderProgress(turn) {
+  const totalTurns = state.scenario.scenario.turnOrder.length - 1;
+  const completed = countCompletedTurns();
+  const progressPct = clamp((completed / totalTurns) * 100, 0, 100);
+  ui.progressLabel.textContent = `Turn ${completed + 1} of ${totalTurns}`;
+  ui.progressBar.style.width = `${progressPct}%`;
+  ui.turnMeta.textContent = `${turn.phase} · ${state.scenario.scenario.guide.name} is steering this run with deterministic state underneath the copy.`;
+}
+
 function renderCurrentTurn() {
   const turn = state.turnMap.get(state.session.currentTurnId);
   if (!turn) {
@@ -183,13 +317,19 @@ function renderCurrentTurn() {
     ui.eventBadge.classList.remove('hidden');
   }
 
+  renderProgress(turn);
   addMessage(turn.guideMessage, 'guide');
   renderDestinationCards(turn.destinationCards || []);
 
   turn.choices.forEach((choice) => {
+    const delta = [];
+    if (choice.effects?.budget) delta.push(`budget ${choice.effects.budget > 0 ? '+' : ''}${choice.effects.budget}`);
+    if (choice.effects?.daysRemaining) delta.push(`days ${choice.effects.daysRemaining > 0 ? '+' : ''}${choice.effects.daysRemaining}`);
+    if (choice.effects?.energy) delta.push(`energy ${choice.effects.energy > 0 ? '+' : ''}${choice.effects.energy}`);
+    if (choice.effects?.styleFit) delta.push(`fit ${choice.effects.styleFit > 0 ? '+' : ''}${choice.effects.styleFit}`);
     const el = document.createElement('div');
     el.className = 'choice';
-    el.innerHTML = `<div class="card-title">${choice.label}</div><div class="muted">State changes are deterministic. The engine applies stats, route, flags, and preference discovery.</div>`;
+    el.innerHTML = `<div class="card-title">${choice.label}</div><div class="muted">${delta.length ? delta.join(' · ') : 'No stat change preview'}.</div>`;
     el.onclick = () => applyChoice(turn, choice);
     ui.choices.appendChild(el);
   });
@@ -214,14 +354,14 @@ function applyChoice(turn, choice) {
   if (choice.setFlags) state.session.flags = uniq([...state.session.flags, ...choice.setFlags]);
   if (choice.discover) state.session.discoveredPreferences = uniq([...state.session.discoveredPreferences, ...choice.discover]);
   if (choice.eventBanner) {
-    state.session.eventHistory.push(choice.eventBanner);
+    state.session.eventHistory = uniq([...state.session.eventHistory, choice.eventBanner]);
     ui.eventBadge.textContent = choice.eventBanner;
     ui.eventBadge.classList.remove('hidden');
   }
 
   updateStats();
+  saveSession();
   track('travel_game_choice_selected', {
-    scenarioId: state.session.scenarioId,
     turnId: turn.id,
     choiceId: choice.id,
     routeLength: state.session.route.length,
@@ -271,7 +411,8 @@ function buildHandoffPayload(ending) {
     guideName: scenarioMeta.guide.name,
     contentVersion: scenarioMeta.version,
     selectedSetup: state.session.selectedSetup,
-    decisions: state.session.decisions
+    decisions: state.session.decisions,
+    eventHistory: state.session.eventHistory
   };
 }
 
@@ -287,6 +428,7 @@ function renderEnding(turn) {
   state.session.completed = true;
   state.session.endingId = ending.id;
   state.handoffPayload = buildHandoffPayload(ending);
+  saveSession();
   ui.gameScreen.classList.add('hidden');
   ui.summaryScreen.classList.remove('hidden');
   ui.travelerType.textContent = ending.travelerType;
@@ -308,8 +450,10 @@ function renderEnding(turn) {
   });
   ui.payloadBox.textContent = JSON.stringify(state.handoffPayload, null, 2);
   ui.handoffButton.textContent = ending.cta;
+  ui.copyPayloadButton.disabled = false;
+  ui.downloadPayloadButton.disabled = false;
+  ui.openPlannerButton.disabled = false;
   track('travel_game_completed', {
-    scenarioId: state.session.scenarioId,
     endingId: ending.id,
     route: state.session.route,
     stats: state.session.stats
@@ -340,14 +484,34 @@ function wireSetupChips() {
 }
 
 function wireButtons() {
-  document.getElementById('start-game').onclick = initSession;
+  ui.startButton.onclick = initSession;
   document.getElementById('replay').onclick = initSession;
-  document.getElementById('handoff').onclick = () => {
+  ui.resumeButton.onclick = () => {
+    const saved = loadSavedSession();
+    if (saved?.session) restoreSession(saved);
+  };
+  ui.clearSavedButton.onclick = clearSavedSession;
+  ui.handoffButton.onclick = () => {
     track('travel_game_itinerary_cta_clicked', {
-      scenarioId: state.session?.scenarioId,
       endingId: state.session?.endingId
     });
-    alert('Prototype handoff: send this payload into the real Tabiji itinerary flow. The payload is shown below the summary for review.');
+    openPlanner();
+  };
+  ui.copyPayloadButton.onclick = async () => {
+    if (!state.handoffPayload) return;
+    const ok = await copyText(JSON.stringify(state.handoffPayload, null, 2));
+    setStatus(ok ? 'Handoff payload copied to clipboard.' : 'Clipboard API unavailable here.', !ok);
+    track('travel_game_payload_copied', { success: ok });
+  };
+  ui.downloadPayloadButton.onclick = () => {
+    downloadPayload();
+    setStatus('Downloaded handoff payload JSON.');
+    track('travel_game_payload_downloaded');
+  };
+  ui.openPlannerButton.onclick = () => {
+    openPlanner();
+    setStatus('Opened plan.html with a lightweight travel-game handoff payload.');
+    track('travel_game_planner_opened');
   };
   document.getElementById('prevSlide').onclick = () => {
     state.currentSlide = (state.currentSlide - 1 + deckSlides.length) % deckSlides.length;
@@ -367,8 +531,15 @@ async function bootstrap() {
   renderSlides();
   try {
     await loadScenario();
+    const saved = loadSavedSession();
+    ui.resumeButton.disabled = !saved?.session;
+    if (saved?.session) {
+      state.selectedSetup = saved.selectedSetup || state.selectedSetup;
+      hydrateSetupChips();
+      setStatus('Saved session found. You can resume where you left off or start a fresh run.');
+    }
     initSession();
-    track('travel_game_viewed', { scenarioId: state.scenario.scenario.id });
+    track('travel_game_viewed');
   } catch (error) {
     console.error(error);
     setStatus(error.message, true);
