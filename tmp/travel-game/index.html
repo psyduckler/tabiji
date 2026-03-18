@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tabiji Quest — Travel game MVP</title>
-  <meta name="description" content="A clickable MVP for Tabiji Quest — plan a trip by playing one." />
+  <title>Tabiji Quest — Japan trip planning game</title>
+  <meta name="description" content="Play through a Japan trip, talk to an opinionated travel guide, and end with a route you’d actually want to take." />
   <link rel="stylesheet" href="./styles.css" />
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -14,12 +14,12 @@
 <body>
   <div class="shell">
     <section class="hero">
-      <div class="eyebrow">Tabiji Quest · clickable MVP</div>
+      <div class="eyebrow">Tabiji Quest · playable build</div>
       <h1>Plan a trip by playing one.</h1>
-      <p class="subhead">A travel product wrapped in a game: pick a scenario, talk to a sharp travel guide, make route and pacing decisions, and end with an itinerary you’d actually want to take.</p>
+      <p class="subhead">A travel-planning game where you roleplay a traveler, get pushed around by a sharp travel guide, and come out with a trip shape worth stealing for real life.</p>
       <div class="hero-actions">
-        <button id="jump-play">Play the MVP</button>
-        <button class="secondary" id="jump-deck">View homepage pitch deck</button>
+        <button id="jump-play">Play the scenario</button>
+        <button class="secondary" id="toggleDeck">Hide pitch deck</button>
       </div>
     </section>
 
@@ -29,6 +29,12 @@
           <div class="eyebrow">Scenario setup</div>
           <h2 id="scenarioTitle" style="margin-top:8px; font-size: 24px;">Loading scenario…</h2>
           <p id="scenarioSummary" class="muted" style="margin-top:8px; line-height:1.5;">Fetching the structured Japan-first scenario pack.</p>
+        </div>
+
+        <div class="score">
+          <div class="label">Guide</div>
+          <div id="guideName" class="card-title" style="margin-top:8px;">Ren</div>
+          <div id="guideMeta" class="muted" style="margin-top:6px; line-height:1.5;">Calm, opinionated, and deeply intolerant of bad pacing.</div>
         </div>
 
         <div class="field">
@@ -65,6 +71,11 @@
           <button id="resumeGame" class="secondary" disabled>Resume saved run</button>
         </div>
 
+        <div class="score">
+          <div class="label">Run setup</div>
+          <div id="runSetup" class="muted" style="margin-top:8px; line-height:1.55;">Food and atmosphere · Comfortable budget · Maximize memories</div>
+        </div>
+
         <div class="stats">
           <div class="stat">
             <div class="stat-top"><span>Budget</span><strong id="budgetLabel">100</strong></div>
@@ -90,20 +101,28 @@
         </div>
 
         <div>
+          <div class="label">Recent choices</div>
+          <div id="historyList" class="list">
+            <div class="list-item muted">Your decisions will appear here as the run develops.</div>
+          </div>
+        </div>
+
+        <div>
           <div class="label">Session</div>
           <div class="hero-actions">
+            <button id="undoChoice" class="secondary" disabled>Undo last choice</button>
             <button id="clearSaved" class="secondary">Clear saved run</button>
           </div>
         </div>
 
-        <div id="statusNote" class="status-note">Static review build ready.</div>
+        <div id="statusNote" class="status-note">Playable review build ready.</div>
       </aside>
 
       <main class="deck">
         <section class="panel content" id="play-panel">
-          <div class="eyebrow">Structured prototype</div>
-          <h2 style="margin-top:8px; font-size: 30px;">Now driven by scenario JSON</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.6;">This pass adds the next three practical steps after the refactor: real analytics hooks, local session persistence, and a usable itinerary handoff path with copy/download/open-planner actions.</p>
+          <div class="eyebrow">Playable scenario</div>
+          <h2 style="margin-top:8px; font-size: 30px;">Structured game loop + production-ish UX</h2>
+          <p class="muted" style="margin-top:8px; line-height:1.6;">This version is meant to be played, not just inspected. It keeps the deterministic content engine, but adds undo, visible run history, cleaner setup context, stronger handoff actions, and less prototype friction.</p>
 
           <div id="game-screen" class="screen" style="margin-top:18px;">
             <div class="eyebrow">Live scenario</div>
@@ -119,7 +138,7 @@
 
           <div id="summary-screen" class="screen hidden" style="margin-top:18px;">
             <div class="eyebrow">Trip summary</div>
-            <h3 style="margin-top:8px; font-size:28px;">Deterministic ending + itinerary handoff</h3>
+            <h3 style="margin-top:8px; font-size:28px;">Ending + itinerary handoff</h3>
             <p class="muted" id="summaryText" style="margin-top:10px; line-height:1.6;"></p>
             <div class="summary-grid">
               <div class="score"><div class="label">Traveler type</div><div id="travelerType" style="margin-top:8px; font-weight:700;"></div></div>
@@ -138,6 +157,10 @@
               <div id="inferredPrefs" class="list"></div>
             </div>
             <div class="score" style="margin-top:14px;">
+              <div class="label">What Tabiji should do with this</div>
+              <div id="nextActions" class="list"></div>
+            </div>
+            <div class="score" style="margin-top:14px;">
               <div class="label">Itinerary handoff payload</div>
               <pre id="payloadBox" class="payload">Handoff payload will appear here when the run completes.</pre>
             </div>
@@ -146,16 +169,16 @@
               <button id="copyPayload" class="secondary" disabled>Copy payload</button>
               <button id="downloadPayload" class="secondary" disabled>Download JSON</button>
               <button id="openPlanner" class="secondary" disabled>Open plan.html</button>
-              <button class="secondary" id="replay">Replay MVP</button>
+              <button class="secondary" id="replay">Replay scenario</button>
             </div>
-            <p class="footer-note">Analytics now call `gtag` / `dataLayer` when present, then fall back to console logging. Session state is also saved locally so refreshes do not nuke a run.</p>
+            <p class="footer-note">The handoff is still static-page based, but this build now behaves like something a real user could poke at without hitting obvious prototype potholes.</p>
           </div>
         </section>
 
         <section class="panel content" id="deck-panel">
-          <div class="eyebrow">Homepage pitch deck</div>
-          <h2 style="margin-top:8px; font-size: 30px;">15-slide narrative in one page</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.6;">This is still the homepage/pitch-deck version of the concept: the problem, the insight, the product, why it fits Tabiji, the MVP shape, and why Japan is the right first proving ground.</p>
+          <div class="eyebrow">Pitch deck</div>
+          <h2 style="margin-top:8px; font-size: 30px;">Optional context while reviewing</h2>
+          <p class="muted" style="margin-top:8px; line-height:1.6;">Leaving this here is useful for review, but it can now be hidden so the page feels more like a real product surface and less like a concept artifact.</p>
 
           <div class="slides" id="slides"></div>
           <div class="deck-controls">

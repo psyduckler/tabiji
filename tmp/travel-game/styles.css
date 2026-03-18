@@ -9,6 +9,7 @@
   --accent-2: #c084fc;
   --good: #7dd3a7;
   --warn: #fbbf24;
+  --danger: #fda4af;
   --shadow: 0 20px 60px rgba(0,0,0,0.35);
   --radius: 22px;
 }
@@ -38,13 +39,14 @@ button {
   box-shadow: 0 12px 30px rgba(59,130,246,0.28);
 }
 button:hover { transform: translateY(-1px); }
+button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 button.secondary {
   background: rgba(255,255,255,0.06);
   box-shadow: none;
   border: 1px solid var(--line);
 }
 .shell {
-  width: min(1240px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 32px));
   margin: 0 auto;
   padding: 24px 0 60px;
 }
@@ -71,7 +73,7 @@ h1 { font-size: clamp(34px, 5vw, 62px); line-height: 0.96; max-width: 760px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .grid {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 340px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -109,7 +111,7 @@ h1 { font-size: clamp(34px, 5vw, 62px); line-height: 0.96; max-width: 760px; }
   border-radius: 16px;
   padding: 12px;
 }
-.stat-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); }
+.stat-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
 .bar { margin-top: 8px; height: 8px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
 .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
 .route, .payload {
@@ -213,8 +215,12 @@ h1 { font-size: clamp(34px, 5vw, 62px); line-height: 0.96; max-width: 760px; }
   background: rgba(255,255,255,0.02);
   border-radius: 14px;
   padding: 11px 12px;
+  line-height: 1.45;
 }
-@media (max-width: 920px) {
+.list-item strong { color: var(--text); }
+body.focus-mode #deck-panel { display: none; }
+body.focus-mode .grid { grid-template-columns: 340px minmax(0, 1fr); }
+@media (max-width: 980px) {
   .grid { grid-template-columns: 1fr; }
   .summary-grid { grid-template-columns: 1fr; }
   .msg { max-width: 100%; }

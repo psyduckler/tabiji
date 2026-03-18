@@ -16,7 +16,7 @@ const deckSlides = [
   ['Recommendation', 'Build one polished, opinionated web scenario first. Do not build an open-world travel game. Do not build a generic AI concierge.']
 ];
 
-const STORAGE_KEY = 'tabiji-quest-session-v1';
+const STORAGE_KEY = 'tabiji-quest-session-v2';
 const HANDOFF_KEY = 'tabiji-quest-handoff-v1';
 
 const ui = {
@@ -46,6 +46,7 @@ const ui = {
   scoreTaste: document.getElementById('scoreTaste'),
   scoreChaos: document.getElementById('scoreChaos'),
   inferredPrefs: document.getElementById('inferredPrefs'),
+  nextActions: document.getElementById('nextActions'),
   payloadBox: document.getElementById('payloadBox'),
   deckSlides: document.getElementById('slides'),
   slideCount: document.getElementById('slideCount'),
@@ -56,9 +57,15 @@ const ui = {
   clearSavedButton: document.getElementById('clearSaved'),
   resumeButton: document.getElementById('resumeGame'),
   startButton: document.getElementById('start-game'),
+  undoButton: document.getElementById('undoChoice'),
   progressLabel: document.getElementById('progressLabel'),
   progressBar: document.getElementById('progressBar'),
-  turnMeta: document.getElementById('turnMeta')
+  turnMeta: document.getElementById('turnMeta'),
+  guideName: document.getElementById('guideName'),
+  guideMeta: document.getElementById('guideMeta'),
+  runSetup: document.getElementById('runSetup'),
+  historyList: document.getElementById('historyList'),
+  toggleDeck: document.getElementById('toggleDeck')
 };
 
 const state = {
@@ -71,7 +78,8 @@ const state = {
     budgetBand: 'Comfortable',
     priority: 'Maximize memories'
   },
-  handoffPayload: null
+  handoffPayload: null,
+  focusMode: false
 };
 
 function track(eventName, payload = {}) {
@@ -80,42 +88,33 @@ function track(eventName, payload = {}) {
     scenarioId: state.session?.scenarioId || state.scenario?.scenario?.id || null,
     ...payload
   };
-
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', eventName, enriched);
-  }
-
-  if (Array.isArray(window.dataLayer)) {
-    window.dataLayer.push({ event: eventName, ...enriched });
-  }
-
+  if (typeof window.gtag === 'function') window.gtag('event', eventName, enriched);
+  if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: eventName, ...enriched });
   console.info('[travel-game-event]', eventName, enriched);
 }
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function uniq(items = []) {
-  return [...new Set(items)];
-}
+function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+function uniq(items = []) { return [...new Set(items)]; }
+function deepClone(value) { return JSON.parse(JSON.stringify(value)); }
 
 function setStatus(message, isError = false) {
   ui.statusNote.textContent = message;
   ui.statusNote.classList.toggle('error', isError);
 }
 
+function updateRunSetupText() {
+  ui.runSetup.textContent = `${state.selectedSetup.style} · ${state.selectedSetup.budgetBand} budget · ${state.selectedSetup.priority}`;
+}
+
 function saveSession() {
   if (!state.session) return;
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      session: state.session,
-      selectedSetup: state.selectedSetup,
-      handoffPayload: state.handoffPayload,
-      savedAt: Date.now()
-    })
-  );
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    session: state.session,
+    selectedSetup: state.selectedSetup,
+    handoffPayload: state.handoffPayload,
+    focusMode: state.focusMode,
+    savedAt: Date.now()
+  }));
   ui.resumeButton.disabled = false;
 }
 
@@ -165,6 +164,12 @@ function openPlanner() {
   window.open(`/plan.html?tabijiQuest=${encoded}`, '_blank', 'noopener');
 }
 
+function setFocusMode(enabled) {
+  state.focusMode = enabled;
+  document.body.classList.toggle('focus-mode', enabled);
+  ui.toggleDeck.textContent = enabled ? 'Show pitch deck' : 'Hide pitch deck';
+}
+
 async function loadScenario() {
   const response = await fetch('./content/japan-first-timer.json');
   if (!response.ok) throw new Error(`Failed to load scenario: ${response.status}`);
@@ -178,6 +183,8 @@ function renderScenarioMeta() {
   const scenario = state.scenario.scenario;
   document.getElementById('scenarioTitle').textContent = scenario.title;
   document.getElementById('scenarioSummary').textContent = scenario.summary;
+  ui.guideName.textContent = `${scenario.guide.name} · ${scenario.guide.role}`;
+  ui.guideMeta.textContent = `${scenario.guide.voice.join(', ')}.`;
   ui.handoffButton.textContent = 'Turn this into a real itinerary';
 }
 
@@ -189,12 +196,13 @@ function hydrateSetupChips() {
       chip.classList.toggle('active', chip.dataset.value === state.selectedSetup[stateKey]);
     });
   });
+  updateRunSetupText();
 }
 
-function initSession() {
+function buildFreshSession() {
   const scenario = state.scenario.scenario;
-  const startState = structuredClone(scenario.startState);
-  state.session = {
+  const startState = deepClone(scenario.startState);
+  return {
     scenarioId: scenario.id,
     currentTurnId: scenario.turnOrder[0],
     stats: startState.stats,
@@ -205,9 +213,21 @@ function initSession() {
     eventHistory: [],
     completed: false,
     endingId: null,
-    selectedSetup: { ...state.selectedSetup }
+    selectedSetup: { ...state.selectedSetup },
+    history: [],
+    messageLog: []
   };
+}
+
+function prepareNewRun() {
+  state.session = buildFreshSession();
   state.handoffPayload = null;
+  renderSession();
+  saveSession();
+  track('travel_game_started', { setup: state.selectedSetup });
+}
+
+function renderSession() {
   ui.chatLog.innerHTML = '';
   ui.cards.innerHTML = '';
   ui.choices.innerHTML = '';
@@ -218,11 +238,24 @@ function initSession() {
   ui.copyPayloadButton.disabled = true;
   ui.downloadPayloadButton.disabled = true;
   ui.openPlannerButton.disabled = true;
-  setStatus('Scenario loaded from JSON. Session persistence, analytics hooks, and a real handoff path are now wired in.');
   updateStats();
-  saveSession();
-  track('travel_game_started', { setup: state.selectedSetup });
-  renderCurrentTurn();
+  renderHistory();
+  if (state.session.completed) {
+    renderEnding(state.turnMap.get('ending'));
+    return;
+  }
+  const currentTurn = state.turnMap.get(state.session.currentTurnId);
+  const guideMessages = state.session.messageLog.filter((entry) => entry.role === 'guide');
+  const playerMessages = state.session.messageLog.filter((entry) => entry.role === 'player');
+  const merged = [];
+  let g = 0, p = 0;
+  state.session.messageLog.forEach((entry) => merged.push(entry));
+  if (!merged.length && currentTurn) {
+    renderCurrentTurn();
+    return;
+  }
+  merged.forEach((entry) => addMessage(entry.text, entry.role));
+  renderCurrentTurn(true);
 }
 
 function restoreSession(saved) {
@@ -230,21 +263,10 @@ function restoreSession(saved) {
   state.session = saved.session;
   state.handoffPayload = saved.handoffPayload || null;
   hydrateSetupChips();
-  ui.chatLog.innerHTML = '';
-  ui.cards.innerHTML = '';
-  ui.choices.innerHTML = '';
-  ui.eventBadge.classList.add('hidden');
-  ui.gameScreen.classList.remove('hidden');
-  ui.summaryScreen.classList.add('hidden');
-  updateStats();
+  setFocusMode(Boolean(saved.focusMode));
   setStatus('Resumed saved session from localStorage.');
   track('travel_game_resumed', { currentTurnId: state.session.currentTurnId, completed: state.session.completed });
-  if (state.session.completed) {
-    const endingTurn = state.turnMap.get('ending');
-    renderEnding(endingTurn);
-  } else {
-    renderCurrentTurn();
-  }
+  renderSession();
 }
 
 function updateStats() {
@@ -258,6 +280,7 @@ function updateStats() {
   ui.energyBar.style.width = `${clamp(energy, 0, 100)}%`;
   ui.fitBar.style.width = `${clamp(styleFit, 0, 100)}%`;
   ui.routeBox.textContent = state.session.route.length ? state.session.route.join(' → ') : 'No route locked yet.';
+  ui.undoButton.disabled = !state.session.history.length;
 }
 
 function addMessage(text, role) {
@@ -285,9 +308,7 @@ function renderDestinationCards(cardIds = []) {
   });
 }
 
-function countCompletedTurns() {
-  return Object.keys(state.session.decisions).length;
-}
+function countCompletedTurns() { return Object.keys(state.session.decisions).length; }
 
 function renderProgress(turn) {
   const totalTurns = state.scenario.scenario.turnOrder.length - 1;
@@ -295,16 +316,30 @@ function renderProgress(turn) {
   const progressPct = clamp((completed / totalTurns) * 100, 0, 100);
   ui.progressLabel.textContent = `Turn ${completed + 1} of ${totalTurns}`;
   ui.progressBar.style.width = `${progressPct}%`;
-  ui.turnMeta.textContent = `${turn.phase} · ${state.scenario.scenario.guide.name} is steering this run with deterministic state underneath the copy.`;
+  ui.turnMeta.textContent = `${turn.phase} · ${state.scenario.scenario.guide.name} is optimizing for taste, pacing, and realistic tradeoffs.`;
 }
 
-function renderCurrentTurn() {
+function renderHistory() {
+  ui.historyList.innerHTML = '';
+  const items = state.session.history.slice(-5).reverse();
+  if (!items.length) {
+    ui.historyList.innerHTML = '<div class="list-item muted">Your decisions will appear here as the run develops.</div>';
+    return;
+  }
+  items.forEach((item) => {
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.innerHTML = `<strong>${item.label}</strong><div class="muted" style="margin-top:4px;">${item.reply}</div>`;
+    ui.historyList.appendChild(el);
+  });
+}
+
+function renderCurrentTurn(fromRestore = false) {
   const turn = state.turnMap.get(state.session.currentTurnId);
   if (!turn) {
     setStatus(`Missing turn: ${state.session.currentTurnId}`, true);
     return;
   }
-
   if (turn.phase === 'ending') {
     renderEnding(turn);
     return;
@@ -318,7 +353,11 @@ function renderCurrentTurn() {
   }
 
   renderProgress(turn);
-  addMessage(turn.guideMessage, 'guide');
+  if (!fromRestore) {
+    addMessage(turn.guideMessage, 'guide');
+    state.session.messageLog.push({ role: 'guide', text: turn.guideMessage, turnId: turn.id });
+    saveSession();
+  }
   renderDestinationCards(turn.destinationCards || []);
 
   turn.choices.forEach((choice) => {
@@ -344,11 +383,19 @@ function applyEffects(effects = {}) {
   if (typeof effects.styleFit === 'number') stats.styleFit = clamp(stats.styleFit + effects.styleFit, 0, 100);
 }
 
-function applyChoice(turn, choice) {
-  addMessage(choice.playerReply, 'player');
-  state.session.decisions[turn.id] = choice.id;
-  applyEffects(choice.effects);
+function snapshotSession() {
+  return deepClone({ session: state.session, handoffPayload: state.handoffPayload });
+}
 
+function applyChoice(turn, choice) {
+  state.session.history.push({ turnId: turn.id, choiceId: choice.id, label: choice.label, reply: choice.playerReply });
+  state.session.decisions[turn.id] = choice.id;
+  state.session.historySnapshots = state.session.historySnapshots || [];
+  state.session.historySnapshots.push(snapshotSession());
+
+  addMessage(choice.playerReply, 'player');
+  state.session.messageLog.push({ role: 'player', text: choice.playerReply, turnId: turn.id, choiceId: choice.id });
+  applyEffects(choice.effects);
   if (choice.setRoute) state.session.route = [...choice.setRoute];
   if (choice.appendRoute) state.session.route = uniq([...state.session.route, ...choice.appendRoute]);
   if (choice.setFlags) state.session.flags = uniq([...state.session.flags, ...choice.setFlags]);
@@ -360,6 +407,7 @@ function applyChoice(turn, choice) {
   }
 
   updateStats();
+  renderHistory();
   saveSession();
   track('travel_game_choice_selected', {
     turnId: turn.id,
@@ -369,7 +417,20 @@ function applyChoice(turn, choice) {
   });
 
   state.session.currentTurnId = choice.nextTurnId;
-  window.setTimeout(renderCurrentTurn, 150);
+  window.setTimeout(() => renderCurrentTurn(false), 150);
+}
+
+function undoLastChoice() {
+  const snapshots = state.session.historySnapshots || [];
+  const previous = snapshots.pop();
+  if (!previous) return;
+  state.session = previous.session;
+  state.handoffPayload = previous.handoffPayload;
+  saveSession();
+  ui.chatLog.innerHTML = '';
+  setStatus('Undid the last choice.');
+  track('travel_game_choice_undone', { currentTurnId: state.session.currentTurnId });
+  renderSession();
 }
 
 function matchesEnding(ending) {
@@ -412,7 +473,8 @@ function buildHandoffPayload(ending) {
     contentVersion: scenarioMeta.version,
     selectedSetup: state.session.selectedSetup,
     decisions: state.session.decisions,
-    eventHistory: state.session.eventHistory
+    eventHistory: state.session.eventHistory,
+    generatedAt: new Date().toISOString()
   };
 }
 
@@ -421,6 +483,21 @@ function computeBestSplurge() {
   if (state.session.flags.includes('splurge-meal')) return 'One meal worth building a scene around';
   if (state.session.flags.includes('splurge-hotel')) return 'A smarter hotel location that saved the whole trip';
   return 'No deliberate splurge selected';
+}
+
+function renderNextActions() {
+  ui.nextActions.innerHTML = '';
+  const actions = [
+    `Start from this route: ${state.session.route.length ? state.session.route.join(' → ') : 'Tokyo → Kyoto'}`,
+    `Carry these preferences forward: ${state.session.discoveredPreferences.length ? state.session.discoveredPreferences.join(', ') : 'no strong preferences discovered yet'}`,
+    `Preserve the player's budget posture: ${state.selectedSetup.budgetBand}`
+  ];
+  actions.forEach((text) => {
+    const item = document.createElement('div');
+    item.className = 'list-item';
+    item.textContent = text;
+    ui.nextActions.appendChild(item);
+  });
 }
 
 function renderEnding(turn) {
@@ -448,6 +525,7 @@ function renderEnding(turn) {
     item.textContent = pref;
     ui.inferredPrefs.appendChild(item);
   });
+  renderNextActions();
   ui.payloadBox.textContent = JSON.stringify(state.handoffPayload, null, 2);
   ui.handoffButton.textContent = ending.cta;
   ui.copyPayloadButton.disabled = false;
@@ -479,22 +557,23 @@ function wireSetupChips() {
       chip.classList.add('active');
       const key = group.dataset.group;
       state.selectedSetup[key === 'budget' ? 'budgetBand' : key] = chip.dataset.value;
+      updateRunSetupText();
+      saveSession();
     });
   });
 }
 
 function wireButtons() {
-  ui.startButton.onclick = initSession;
-  document.getElementById('replay').onclick = initSession;
+  ui.startButton.onclick = prepareNewRun;
+  document.getElementById('replay').onclick = prepareNewRun;
   ui.resumeButton.onclick = () => {
     const saved = loadSavedSession();
     if (saved?.session) restoreSession(saved);
   };
   ui.clearSavedButton.onclick = clearSavedSession;
+  ui.undoButton.onclick = undoLastChoice;
   ui.handoffButton.onclick = () => {
-    track('travel_game_itinerary_cta_clicked', {
-      endingId: state.session?.endingId
-    });
+    track('travel_game_itinerary_cta_clicked', { endingId: state.session?.endingId });
     openPlanner();
   };
   ui.copyPayloadButton.onclick = async () => {
@@ -513,6 +592,7 @@ function wireButtons() {
     setStatus('Opened plan.html with a lightweight travel-game handoff payload.');
     track('travel_game_planner_opened');
   };
+  ui.toggleDeck.onclick = () => setFocusMode(!state.focusMode);
   document.getElementById('prevSlide').onclick = () => {
     state.currentSlide = (state.currentSlide - 1 + deckSlides.length) % deckSlides.length;
     renderSlides();
@@ -522,23 +602,29 @@ function wireButtons() {
     renderSlides();
   };
   document.getElementById('jump-play').onclick = () => document.getElementById('play-panel').scrollIntoView({ behavior: 'smooth' });
-  document.getElementById('jump-deck').onclick = () => document.getElementById('deck-panel').scrollIntoView({ behavior: 'smooth' });
+  document.addEventListener('keydown', (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'z') {
+      event.preventDefault();
+      if (!ui.undoButton.disabled) undoLastChoice();
+    }
+  });
 }
 
 async function bootstrap() {
   wireSetupChips();
   wireButtons();
   renderSlides();
+  updateRunSetupText();
   try {
     await loadScenario();
     const saved = loadSavedSession();
     ui.resumeButton.disabled = !saved?.session;
     if (saved?.session) {
-      state.selectedSetup = saved.selectedSetup || state.selectedSetup;
-      hydrateSetupChips();
-      setStatus('Saved session found. You can resume where you left off or start a fresh run.');
+      restoreSession(saved);
+      setStatus('Saved session restored. Start fresh if you want a clean run.');
+    } else {
+      prepareNewRun();
     }
-    initSession();
     track('travel_game_viewed');
   } catch (error) {
     console.error(error);
