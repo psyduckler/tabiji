@@ -1,0 +1,485 @@
+{
+  "scenario": {
+    "id": "japan-first-timer",
+    "slug": "first-time-in-japan-no-regrets",
+    "title": "First Time in Japan, No Regrets",
+    "region": "Japan",
+    "version": 1,
+    "tripLengthDays": 8,
+    "budgetStart": 100,
+    "energyStart": 100,
+    "fitStart": 50,
+    "summary": "A Japan-first-timer scenario designed to stop players from building a chaotic checklist trip and instead guide them toward a route with actual taste, pacing, and payoff.",
+    "guide": {
+      "id": "ren",
+      "name": "Ren",
+      "role": "Travel mentor",
+      "voice": [
+        "calm",
+        "opinionated",
+        "well-traveled",
+        "concise",
+        "gently funny",
+        "allergic to bad pacing"
+      ],
+      "systemStyle": "Give practical travel advice with a point of view. Prefer strong recommendations over mushy option-dumping. Call out bad itinerary instincts directly but not cruelly."
+    },
+    "startState": {
+      "stats": {
+        "budget": 100,
+        "daysRemaining": 8,
+        "energy": 100,
+        "satisfaction": 0,
+        "styleFit": 50
+      },
+      "route": [],
+      "flags": [],
+      "discoveredPreferences": []
+    },
+    "destinationCardIds": [
+      "tokyo",
+      "kyoto",
+      "osaka",
+      "hakone",
+      "nara",
+      "kamakura",
+      "uji",
+      "kanazawa"
+    ],
+    "turnOrder": [
+      "opening-vibe",
+      "route-shape",
+      "hotel-philosophy",
+      "splurge-choice",
+      "day-trip-pressure",
+      "rain-event",
+      "food-priority",
+      "kyoto-area-choice",
+      "late-trip-pivot",
+      "ending"
+    ]
+  },
+  "destinationCards": {
+    "tokyo": {
+      "title": "Tokyo",
+      "bestFor": ["variety", "food", "urban energy", "neighborhood wandering"],
+      "tradeoff": "Easy to overstuff if you confuse movement with having a good time.",
+      "greatPairings": ["Kyoto", "Kamakura", "Hakone"]
+    },
+    "kyoto": {
+      "title": "Kyoto",
+      "bestFor": ["culture", "calm mornings", "design", "temples"],
+      "tradeoff": "Can feel over-touristed and logistically annoying if you stay in the wrong area.",
+      "greatPairings": ["Tokyo", "Nara", "Uji"]
+    },
+    "osaka": {
+      "title": "Osaka",
+      "bestFor": ["street food", "nightlife", "looser energy"],
+      "tradeoff": "Often added because it feels efficient, not because the player actually wants a third base.",
+      "greatPairings": ["Kyoto", "Nara"]
+    },
+    "hakone": {
+      "title": "Hakone",
+      "bestFor": ["onsen reset", "scenic contrast", "ryokan splurge"],
+      "tradeoff": "A great punctuation mark, a bad checklist add-on.",
+      "greatPairings": ["Tokyo"]
+    },
+    "nara": {
+      "title": "Nara",
+      "bestFor": ["easy cultural contrast", "day trip", "temples and park atmosphere"],
+      "tradeoff": "Good if you already have Kyoto; less compelling if it turns the whole trip into one more transfer.",
+      "greatPairings": ["Kyoto", "Osaka"]
+    },
+    "kamakura": {
+      "title": "Kamakura",
+      "bestFor": ["Tokyo day trip", "coastal calm", "shrines"],
+      "tradeoff": "Only smart if the player wants breathing room, not accumulation.",
+      "greatPairings": ["Tokyo"]
+    },
+    "uji": {
+      "title": "Uji",
+      "bestFor": ["matcha", "gentler Kyoto-side trip", "slower pace"],
+      "tradeoff": "Subtler payoff than Nara; better for taste than bragging rights.",
+      "greatPairings": ["Kyoto"]
+    },
+    "kanazawa": {
+      "title": "Kanazawa",
+      "bestFor": ["design", "food", "less obvious first-timer route"],
+      "tradeoff": "Too ambitious for this exact scenario unless the player sacrifices elsewhere.",
+      "greatPairings": ["Tokyo"]
+    }
+  },
+  "turns": [
+    {
+      "id": "opening-vibe",
+      "phase": "discovery",
+      "guideMessage": "You have 8 days and enough budget to do this properly, but not enough time to be stupid about it. What do you actually want this trip to feel like?",
+      "choices": [
+        {
+          "id": "opening-vibe-food",
+          "label": "Food-heavy and atmospheric",
+          "playerReply": "I want food, neighborhoods, and atmosphere more than a giant checklist.",
+          "effects": { "styleFit": 12 },
+          "discover": ["food-priority", "atmosphere-priority"],
+          "nextTurnId": "route-shape"
+        },
+        {
+          "id": "opening-vibe-urban",
+          "label": "Electric and urban",
+          "playerReply": "Give me neon, late nights, and city energy.",
+          "effects": { "styleFit": 8, "energy": -4 },
+          "discover": ["urban-priority"],
+          "nextTurnId": "route-shape"
+        },
+        {
+          "id": "opening-vibe-balanced",
+          "label": "Balanced: city + calm",
+          "playerReply": "I want city life without frying my nervous system.",
+          "effects": { "styleFit": 10, "energy": 4 },
+          "discover": ["pace-matters"],
+          "nextTurnId": "route-shape"
+        },
+        {
+          "id": "opening-vibe-design",
+          "label": "Temples, design, and slower mornings",
+          "playerReply": "I care more about atmosphere and beauty than constant stimulation.",
+          "effects": { "styleFit": 11, "energy": 6 },
+          "discover": ["design-priority", "slower-pace"],
+          "nextTurnId": "route-shape"
+        }
+      ],
+      "destinationCards": ["tokyo"]
+    },
+    {
+      "id": "route-shape",
+      "phase": "routing",
+      "guideMessage": "Good. Now let's decide whether you're taking a trip or collecting train platforms. How many bases are we doing?",
+      "choices": [
+        {
+          "id": "route-tokyo-kyoto",
+          "label": "Tokyo + Kyoto",
+          "playerReply": "Two bases. Tokyo and Kyoto. Clean and sane.",
+          "effects": { "styleFit": 12, "energy": 6 },
+          "setRoute": ["Tokyo", "Kyoto"],
+          "setFlags": ["route-clean"],
+          "nextTurnId": "hotel-philosophy"
+        },
+        {
+          "id": "route-tokyo-kyoto-osaka",
+          "label": "Tokyo + Kyoto + Osaka",
+          "playerReply": "Three cities. I want range.",
+          "effects": { "styleFit": -3, "energy": -10, "daysRemaining": -1 },
+          "setRoute": ["Tokyo", "Kyoto", "Osaka"],
+          "setFlags": ["route-crowded"],
+          "eventBanner": "Mild chaos detected",
+          "nextTurnId": "hotel-philosophy"
+        },
+        {
+          "id": "route-tokyo-only",
+          "label": "Tokyo only, deeply done",
+          "playerReply": "One city done properly beats a shallow grand tour.",
+          "effects": { "styleFit": 6, "energy": 8 },
+          "setRoute": ["Tokyo"],
+          "setFlags": ["route-deep-dive"],
+          "nextTurnId": "hotel-philosophy"
+        },
+        {
+          "id": "route-tokyo-kyoto-hakone",
+          "label": "Tokyo + Kyoto with one scenic reset",
+          "playerReply": "Tokyo, Kyoto, and one deliberate contrast point.",
+          "effects": { "styleFit": 8, "energy": 3, "daysRemaining": -1 },
+          "setRoute": ["Tokyo", "Kyoto", "Hakone"],
+          "setFlags": ["route-curated"],
+          "nextTurnId": "hotel-philosophy"
+        }
+      ],
+      "destinationCards": ["kyoto", "osaka", "hakone"]
+    },
+    {
+      "id": "hotel-philosophy",
+      "phase": "logistics",
+      "guideMessage": "Where you sleep matters more than people admit. A smart location can save a trip. A dumb one can turn it into a commuter sim.",
+      "choices": [
+        {
+          "id": "hotel-central",
+          "label": "Prioritize a smart central location",
+          "playerReply": "I'd rather spend a bit more than waste my trip in transit.",
+          "effects": { "budget": -10, "energy": 12, "styleFit": 8 },
+          "setFlags": ["smart-hotel-choice"],
+          "nextTurnId": "splurge-choice"
+        },
+        {
+          "id": "hotel-cheap-far",
+          "label": "Save money with a cheaper out-of-the-way stay",
+          "playerReply": "I'll save on the room and deal with the location tradeoff.",
+          "effects": { "budget": 8, "energy": -14, "styleFit": -6 },
+          "setFlags": ["bad-hotel-choice"],
+          "nextTurnId": "splurge-choice"
+        },
+        {
+          "id": "hotel-mixed",
+          "label": "Splurge only in one city",
+          "playerReply": "Let's be smart about where comfort matters most.",
+          "effects": { "budget": -4, "energy": 6, "styleFit": 6 },
+          "setFlags": ["mixed-hotel-strategy"],
+          "nextTurnId": "splurge-choice"
+        }
+      ]
+    },
+    {
+      "id": "splurge-choice",
+      "phase": "taste",
+      "guideMessage": "One or two precise splurges create better memories than vague luxury everywhere. Where do you want the money to actually matter?",
+      "choices": [
+        {
+          "id": "splurge-ryokan",
+          "label": "A ryokan night",
+          "playerReply": "Give me one proper ryokan night.",
+          "effects": { "budget": -18, "styleFit": 14, "satisfaction": 10 },
+          "setFlags": ["splurge-ryokan"],
+          "nextTurnId": "day-trip-pressure"
+        },
+        {
+          "id": "splurge-omakase",
+          "label": "One unforgettable meal",
+          "playerReply": "I want one meal that becomes part of the story.",
+          "effects": { "budget": -14, "styleFit": 12, "satisfaction": 9 },
+          "setFlags": ["splurge-meal"],
+          "nextTurnId": "day-trip-pressure"
+        },
+        {
+          "id": "splurge-room",
+          "label": "Better hotel locations",
+          "playerReply": "Honestly, spend where it improves the whole trip.",
+          "effects": { "budget": -10, "energy": 10, "styleFit": 7, "satisfaction": 6 },
+          "setFlags": ["splurge-hotel"],
+          "nextTurnId": "day-trip-pressure"
+        }
+      ],
+      "destinationCards": ["hakone"]
+    },
+    {
+      "id": "day-trip-pressure",
+      "phase": "routing",
+      "guideMessage": "Travel internet wants you to add a day trip. Sometimes that's smart. Sometimes it's itinerary tax. What's the move?",
+      "choices": [
+        {
+          "id": "daytrip-nara",
+          "label": "Add Nara",
+          "playerReply": "Nara feels like the cleanest add-on.",
+          "effects": { "daysRemaining": -1, "styleFit": 8, "satisfaction": 4 },
+          "appendRoute": ["Nara"],
+          "setFlags": ["daytrip-nara"],
+          "nextTurnId": "rain-event"
+        },
+        {
+          "id": "daytrip-hakone",
+          "label": "Add Hakone",
+          "playerReply": "Let's use one day for scenery and reset energy.",
+          "effects": { "daysRemaining": -1, "energy": 8, "styleFit": 6 },
+          "appendRoute": ["Hakone"],
+          "setFlags": ["daytrip-hakone"],
+          "nextTurnId": "rain-event"
+        },
+        {
+          "id": "daytrip-skip",
+          "label": "Skip the day trip and stay local",
+          "playerReply": "No bonus detour. Let the trip breathe.",
+          "effects": { "energy": 10, "styleFit": 10, "satisfaction": 5 },
+          "setFlags": ["daytrip-skip"],
+          "nextTurnId": "rain-event"
+        },
+        {
+          "id": "daytrip-uji",
+          "label": "Do a quieter Uji side trip",
+          "playerReply": "If we add something, I want it to feel subtle rather than obvious.",
+          "effects": { "daysRemaining": -1, "styleFit": 9, "satisfaction": 4 },
+          "appendRoute": ["Uji"],
+          "setFlags": ["daytrip-uji"],
+          "nextTurnId": "rain-event"
+        }
+      ],
+      "destinationCards": ["nara", "uji"]
+    },
+    {
+      "id": "rain-event",
+      "phase": "event",
+      "guideMessage": "Forecast update: your Kyoto stretch is getting a wet day. You can either fight reality or adapt like an adult. What's the adjustment?",
+      "eventBanner": "Rain shifts your plan",
+      "choices": [
+        {
+          "id": "rain-indoor",
+          "label": "Lean into indoor culture and long meals",
+          "playerReply": "Fine. Let's make the rain part of the atmosphere.",
+          "effects": { "energy": 5, "styleFit": 8, "satisfaction": 6 },
+          "setFlags": ["handled-rain-well"],
+          "nextTurnId": "food-priority"
+        },
+        {
+          "id": "rain-force",
+          "label": "Keep the outdoor plan anyway",
+          "playerReply": "We'll push through. Weather doesn't get to win.",
+          "effects": { "energy": -12, "styleFit": -5, "satisfaction": -2 },
+          "setFlags": ["handled-rain-poorly"],
+          "nextTurnId": "food-priority"
+        },
+        {
+          "id": "rain-rearrange",
+          "label": "Re-sequence the route to protect the best day",
+          "playerReply": "Let's move things around and save the best outdoor stretch for better weather.",
+          "effects": { "energy": 2, "styleFit": 10, "satisfaction": 5 },
+          "setFlags": ["handled-rain-smartly"],
+          "nextTurnId": "food-priority"
+        }
+      ]
+    },
+    {
+      "id": "food-priority",
+      "phase": "taste",
+      "guideMessage": "Let's decide what 'good food' actually means to you, because that phrase gets abused. What are we optimizing for?",
+      "choices": [
+        {
+          "id": "food-local-casual",
+          "label": "Local spots and neighborhood meals",
+          "playerReply": "I care more about texture and atmosphere than prestige.",
+          "effects": { "styleFit": 10, "satisfaction": 6 },
+          "discover": ["neighborhood-food"],
+          "nextTurnId": "kyoto-area-choice"
+        },
+        {
+          "id": "food-high-low",
+          "label": "A smart mix of casual and one great splurge",
+          "playerReply": "I want range, not just one version of eating well.",
+          "effects": { "styleFit": 8, "satisfaction": 8 },
+          "discover": ["high-low-food"],
+          "nextTurnId": "kyoto-area-choice"
+        },
+        {
+          "id": "food-famed",
+          "label": "Big-name places and signature meals",
+          "playerReply": "If there's one trip to chase the classics, this is it.",
+          "effects": { "budget": -8, "styleFit": 3, "satisfaction": 7 },
+          "discover": ["iconic-food"],
+          "nextTurnId": "kyoto-area-choice"
+        }
+      ]
+    },
+    {
+      "id": "kyoto-area-choice",
+      "phase": "logistics",
+      "guideMessage": "Last important Kyoto decision: where are you staying? This is the difference between elegant and annoying.",
+      "choices": [
+        {
+          "id": "kyoto-higashiyama",
+          "label": "Stay somewhere atmospheric and walkable",
+          "playerReply": "I want mornings and evenings that actually feel like Kyoto.",
+          "effects": { "budget": -8, "energy": 7, "styleFit": 10, "satisfaction": 8 },
+          "setFlags": ["kyoto-atmospheric-stay"],
+          "nextTurnId": "late-trip-pivot"
+        },
+        {
+          "id": "kyoto-station",
+          "label": "Stay near Kyoto Station for convenience",
+          "playerReply": "Let's optimize for movement and simplicity.",
+          "effects": { "energy": 4, "styleFit": 2, "satisfaction": 2 },
+          "setFlags": ["kyoto-station-stay"],
+          "nextTurnId": "late-trip-pivot"
+        },
+        {
+          "id": "kyoto-cheap-far",
+          "label": "Stay farther out to save money",
+          "playerReply": "Budget first. We'll cope with the friction.",
+          "effects": { "budget": 6, "energy": -10, "styleFit": -4, "satisfaction": -3 },
+          "setFlags": ["kyoto-bad-stay"],
+          "nextTurnId": "late-trip-pivot"
+        }
+      ]
+    },
+    {
+      "id": "late-trip-pivot",
+      "phase": "resolution",
+      "guideMessage": "You're near the end. One last choice: do we spend the final stretch chasing one more thing, or do we let the trip land cleanly?",
+      "choices": [
+        {
+          "id": "pivot-free-night",
+          "label": "Leave one final evening mostly unplanned",
+          "playerReply": "I'd rather have space than one more forced memory.",
+          "effects": { "energy": 8, "styleFit": 9, "satisfaction": 6 },
+          "setFlags": ["free-final-evening"],
+          "nextTurnId": "ending"
+        },
+        {
+          "id": "pivot-last-mission",
+          "label": "Pack in one more famous thing",
+          "playerReply": "It's my first trip. I want one last iconic swing.",
+          "effects": { "energy": -8, "satisfaction": 4, "styleFit": -2 },
+          "setFlags": ["forced-finale"],
+          "nextTurnId": "ending"
+        },
+        {
+          "id": "pivot-special-meal",
+          "label": "End with one meal or bar worth remembering",
+          "playerReply": "No extra landmark. Give me one final scene.",
+          "effects": { "budget": -7, "satisfaction": 8, "styleFit": 7 },
+          "setFlags": ["scene-ending"],
+          "nextTurnId": "ending"
+        }
+      ]
+    },
+    {
+      "id": "ending",
+      "phase": "ending",
+      "guideMessage": "Good. We have enough to call this a trip instead of a spreadsheet with delusions.",
+      "choices": [],
+      "endingVariants": [
+        {
+          "id": "ending-clean-tasteful",
+          "when": {
+            "allFlags": ["route-clean"],
+            "minStyleFit": 75,
+            "minEnergy": 70
+          },
+          "travelerType": "A high-taste traveler who likes cities best when they still leave room to breathe.",
+          "summary": "You built a coherent first Japan trip with enough atmosphere, enough appetite, and not too much transit stupidity.",
+          "biggestWin": "You avoided turning a dream trip into a luggage relay race.",
+          "cta": "Turn this run into a real Tabiji itinerary"
+        },
+        {
+          "id": "ending-chaotic-fun",
+          "when": {
+            "allFlags": ["route-crowded"],
+            "maxEnergy": 65
+          },
+          "travelerType": "An ambitious first-timer who almost won a fight with their own itinerary.",
+          "summary": "You got range and stories, but the trip flirted with self-inflicted chaos more than it needed to.",
+          "biggestWin": "You learned exactly where your tolerance for movement ends.",
+          "cta": "Refine this into a saner Tabiji itinerary"
+        },
+        {
+          "id": "ending-deep-dive",
+          "when": {
+            "allFlags": ["route-deep-dive"],
+            "minStyleFit": 65
+          },
+          "travelerType": "A depth-first traveler who would rather know one place properly than skim three badly.",
+          "summary": "You resisted scope creep and built a trip with unusually good texture for a first-timer.",
+          "biggestWin": "You left room for surprise instead of replacing it with logistics.",
+          "cta": "Turn this city-deep-dive into a full Tabiji plan"
+        }
+      ],
+      "defaultEnding": {
+        "travelerType": "A thoughtful traveler who likes good recommendations and dislikes avoidable friction.",
+        "summary": "You built a solid first Japan trip with enough shape to be real and enough flexibility to still feel alive.",
+        "biggestWin": "You made tradeoffs on purpose instead of by accident.",
+        "cta": "Turn this into a real Tabiji itinerary"
+      },
+      "handoff": {
+        "routeSource": "state.route",
+        "includeFlags": true,
+        "includeDiscoveredPreferences": true,
+        "includeStats": true,
+        "includeScenarioMetadata": true
+      }
+    }
+  ]
+}
