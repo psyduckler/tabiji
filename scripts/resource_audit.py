@@ -9,11 +9,27 @@ ROOT = Path(__file__).resolve().parents[1]
 RESOURCES = ROOT / "resources"
 OUT = RESOURCES / "RESOURCE_PAGE_AUDIT_2026-03-18.md"
 
+DEFAULT_OG_FALLBACKS = {
+    'https://img.tabiji.ai/resources/hero-bg.webp',
+    'https://img.tabiji.ai/og/default.jpg',
+}
+
+
+def meta_content(text: str, attr: str, name: str) -> str | None:
+    match = re.search(rf'<meta[^>]+{attr}="{re.escape(name)}"[^>]+content="([^"]+)"', text)
+    if match:
+        return match.group(1)
+    match = re.search(rf'<meta[^>]+content="([^"]+)"[^>]+{attr}="{re.escape(name)}"', text)
+    if match:
+        return match.group(1)
+    return None
+
+
 CHECKS = [
     ("canonical", lambda t: 'rel="canonical"' in t),
     ("meta_description", lambda t: 'name="description"' in t),
-    ("og_image", lambda t: 'property="og:image"' in t),
-    ("twitter_image", lambda t: 'name="twitter:image"' in t),
+    ("og_image", lambda t: bool(meta_content(t, 'property', 'og:image')) and meta_content(t, 'property', 'og:image') not in DEFAULT_OG_FALLBACKS),
+    ("twitter_image", lambda t: bool(meta_content(t, 'name', 'twitter:image')) and meta_content(t, 'name', 'twitter:image') not in DEFAULT_OG_FALLBACKS),
     ("article_schema", lambda t: '"@type":"Article"' in t or '"@type": "Article"' in t),
     ("breadcrumb_schema", lambda t: 'BreadcrumbList' in t),
     ("faq_schema", lambda t: 'FAQPage' in t),
@@ -24,7 +40,16 @@ CHECKS = [
 ]
 
 
-def detect_type(slug: str, text: str) -> str:
+def detect_type(slug: str, text: str, page_dir: Path) -> str:
+    page_json = page_dir / 'page.json'
+    if page_json.exists():
+        try:
+            data = json.loads(page_json.read_text())
+            article_type = data.get('article_type')
+            if article_type:
+                return article_type
+        except json.JSONDecodeError:
+            pass
     s = slug.lower()
     if 'vs' in s or 'comparison' in s or 'best-' in s:
         return 'comparison'
@@ -40,7 +65,7 @@ def status(v: bool) -> str:
 pages = []
 for path in sorted(RESOURCES.glob('*/index.html')):
     text = path.read_text()
-    row = {'slug': path.parent.name, 'type': detect_type(path.parent.name, text)}
+    row = {'slug': path.parent.name, 'type': detect_type(path.parent.name, text, path.parent)}
     for key, fn in CHECKS:
         row[key] = bool(fn(text))
     pages.append(row)

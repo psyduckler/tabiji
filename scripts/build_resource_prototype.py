@@ -45,6 +45,8 @@ def faq_schema(items: list[dict[str, str]]) -> str:
 
 page = json.loads(EXAMPLE.read_text())
 template = TEMPLATE.read_text()
+# Known limitation: this is plain string replacement, so literal `{{ ... }}` content in page data
+# would collide with template placeholders. Fine for this prototype, but not a robust templating system.
 article_schema = json.dumps({
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -71,6 +73,7 @@ replacements = {
     '{{ description }}': page['description'],
     '{{ slug }}': page['slug'],
     '{{ og_image }}': page['og_image'],
+    '{{ hero_image }}': page['hero_image'],
     '{{ author }}': page['author'],
     '{{ published }}': page['published'],
     '{{ updated }}': page['updated'],
