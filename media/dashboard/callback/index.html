@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabiji Media Studio — TikTok Authorization</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    :root { --indigo: #2D3A5C; --terracotta: #C4704B; --warm-cream: #F5F0E8; --white: #FEFCF9; --text: #2C2419; --text-muted: #6B5D4F; --sand: #E8DFD0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--warm-cream); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: var(--white); border-radius: 16px; padding: 3rem; max-width: 480px; width: 90%; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border: 1px solid var(--sand); }
+    .card h1 { font-size: 1.5rem; font-weight: 800; color: var(--indigo); margin-bottom: 0.5rem; }
+    .card p { color: var(--text-muted); margin-bottom: 1.5rem; }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--sand); border-top-color: var(--terracotta); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1.5rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status { font-size: 0.9rem; color: var(--text-muted); }
+    .status.success { color: #3D9970; }
+    .status.error { color: #e74c3c; }
+    .btn { display: inline-block; background: var(--terracotta); color: white; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Tabiji Media Studio</h1>
+    <p>Connecting your TikTok account...</p>
+    <div class="spinner" id="spinner"></div>
+    <div class="status" id="status">Exchanging authorization code...</div>
+    <div id="actions" style="display:none;"></div>
+  </div>
+
+  <script>
+    (async function() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      const state = params.get('state');
+      const error = params.get('error');
+      const errorDesc = params.get('error_description');
+      const statusEl = document.getElementById('status');
+      const spinnerEl = document.getElementById('spinner');
+      const actionsEl = document.getElementById('actions');
+
+      function showError(msg) {
+        spinnerEl.style.display = 'none';
+        statusEl.className = 'status error';
+        statusEl.textContent = msg;
+        actionsEl.innerHTML = '<a href="/media/dashboard/" class="btn">Back to Dashboard</a>';
+        actionsEl.style.display = 'block';
+      }
+
+      function showSuccess(data) {
+        spinnerEl.style.display = 'none';
+        statusEl.className = 'status success';
+        statusEl.textContent = '✅ TikTok account connected successfully!';
+        actionsEl.innerHTML = '<a href="/media/dashboard/#tiktok-connected" class="btn">Go to Dashboard</a>';
+        actionsEl.style.display = 'block';
+      }
+
+      // Check for errors from TikTok
+      if (error) {
+        showError('Authorization failed: ' + (errorDesc || error));
+        return;
+      }
+
+      if (!code) {
+        showError('No authorization code received.');
+        return;
+      }
+
+      // Verify CSRF state
+      const savedState = sessionStorage.getItem('tiktok_csrf_state');
+      if (savedState && state !== savedState) {
+        showError('State mismatch — possible CSRF attack. Please try again.');
+        return;
+      }
+
+      // Exchange code for token via server-side proxy
+      try {
+        statusEl.textContent = 'Exchanging authorization code for access token...';
+
+        const res = await fetch('/api/tiktok-auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: code,
+            redirect_uri: 'https://tabiji.ai/media/dashboard/callback',
+            grant_type: 'authorization_code',
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.access_token) {
+          // Store token data in sessionStorage (ephemeral — for demo purposes)
+          sessionStorage.setItem('tiktok_access_token', data.access_token);
+          sessionStorage.setItem('tiktok_open_id', data.open_id);
+          sessionStorage.setItem('tiktok_scope', data.scope || '');
+          if (data.refresh_token) {
+            sessionStorage.setItem('tiktok_refresh_token', data.refresh_token);
+          }
+          showSuccess(data);
+        } else {
+          showError('Token exchange failed: ' + (data.error_description || data.error || 'Unknown error'));
+        }
+      } catch (err) {
+        showError('Network error: ' + err.message);
+      }
+    })();
+  </script>
+</body>
+</html>
