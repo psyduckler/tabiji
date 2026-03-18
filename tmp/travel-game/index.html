@@ -5,200 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tabiji Quest — Travel game MVP</title>
   <meta name="description" content="A clickable MVP for Tabiji Quest — plan a trip by playing one." />
-  <style>
-    :root {
-      --bg: #0b1020;
-      --panel: rgba(14, 20, 40, 0.82);
-      --panel-2: rgba(20, 27, 52, 0.9);
-      --text: #f7f8fc;
-      --muted: #a7b0c8;
-      --line: rgba(255,255,255,0.10);
-      --accent: #7dd3fc;
-      --accent-2: #c084fc;
-      --good: #7dd3a7;
-      --warn: #fbbf24;
-      --shadow: 0 20px 60px rgba(0,0,0,0.35);
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(125,211,252,0.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(192,132,252,0.15), transparent 24%),
-        linear-gradient(180deg, #08101d 0%, #0c1224 100%);
-      min-height: 100vh;
-    }
-    a { color: inherit; }
-    .shell {
-      width: min(1240px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 24px 0 60px;
-    }
-    .hero {
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(18,27,49,0.82), rgba(11,16,32,0.86));
-      box-shadow: var(--shadow);
-      border-radius: 28px;
-      padding: 28px;
-      display: grid;
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-    .eyebrow {
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-    h1, h2, h3, p { margin: 0; }
-    h1 { font-size: clamp(34px, 5vw, 62px); line-height: 0.96; max-width: 760px; }
-    .subhead { color: var(--muted); max-width: 760px; font-size: 18px; line-height: 1.5; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    button {
-      appearance: none;
-      border: 0;
-      cursor: pointer;
-      color: var(--text);
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      padding: 13px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 14px;
-      transition: transform .12s ease, opacity .12s ease, box-shadow .12s ease;
-      box-shadow: 0 12px 30px rgba(59,130,246,0.28);
-    }
-    button:hover { transform: translateY(-1px); }
-    button.secondary {
-      background: rgba(255,255,255,0.06);
-      box-shadow: none;
-      border: 1px solid var(--line);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 18px;
-      align-items: start;
-    }
-    .panel {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      backdrop-filter: blur(12px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .sidebar, .content { padding: 18px; }
-    .stack { display: grid; gap: 14px; }
-    .field { display: grid; gap: 8px; }
-    .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.03);
-      cursor: pointer;
-      user-select: none;
-    }
-    .chip.active {
-      color: var(--text);
-      background: rgba(125,211,252,0.13);
-      border-color: rgba(125,211,252,0.4);
-    }
-    .stats { display: grid; gap: 10px; }
-    .stat {
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px;
-    }
-    .stat-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); }
-    .bar { margin-top: 8px; height: 8px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
-    .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
-    .route {
-      border: 1px dashed rgba(255,255,255,0.16);
-      border-radius: 16px;
-      padding: 12px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.02);
-      min-height: 78px;
-      line-height: 1.5;
-    }
-    .deck {
-      display: grid;
-      gap: 16px;
-    }
-    .screen {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(21,30,55,0.85), rgba(12,18,36,0.92));
-    }
-    .chat-log { display: grid; gap: 12px; margin-top: 14px; }
-    .msg {
-      padding: 14px 16px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      max-width: 88%;
-      line-height: 1.55;
-    }
-    .msg.guide { background: rgba(125,211,252,0.08); }
-    .msg.player { background: rgba(192,132,252,0.08); margin-left: auto; }
-    .choices, .cards, .slides { display: grid; gap: 12px; margin-top: 16px; }
-    .choice, .card, .slide {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 15px;
-      background: rgba(255,255,255,0.03);
-    }
-    .choice { cursor: pointer; }
-    .choice:hover { border-color: rgba(125,211,252,0.4); background: rgba(125,211,252,0.07); }
-    .card-title, .slide-title { font-weight: 700; margin-bottom: 6px; }
-    .muted { color: var(--muted); }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: rgba(251,191,36,0.10);
-      border: 1px solid rgba(251,191,36,0.26);
-      color: #fde68a;
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 14px;
-    }
-    .hidden { display: none !important; }
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .score {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-    }
-    .slide {
-      display: grid;
-      gap: 8px;
-      min-height: 138px;
-    }
-    .deck-controls { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-    .footer-note { color: var(--muted); font-size: 13px; margin-top: 12px; }
-    @media (max-width: 920px) {
-      .grid { grid-template-columns: 1fr; }
-      .summary-grid { grid-template-columns: 1fr; }
-      .msg { max-width: 100%; }
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css" />
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <script defer src="/assets/shared-shell.js"></script>
@@ -220,8 +27,8 @@
       <aside class="panel sidebar stack">
         <div>
           <div class="eyebrow">Scenario setup</div>
-          <h2 style="margin-top:8px; font-size: 24px;">First Time in Japan, No Regrets</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.5;">A focused 8-day trip planner game where the player trades off food, atmosphere, pace, and iconic sights without turning the trip into luggage punishment.</p>
+          <h2 id="scenarioTitle" style="margin-top:8px; font-size: 24px;">Loading scenario…</h2>
+          <p id="scenarioSummary" class="muted" style="margin-top:8px; line-height:1.5;">Fetching the structured Japan-first scenario pack.</p>
         </div>
 
         <div class="field">
@@ -278,13 +85,15 @@
           <div class="label">Current route</div>
           <div class="route" id="routeBox">No route locked yet.</div>
         </div>
+
+        <div id="statusNote" class="status-note">Static review build ready.</div>
       </aside>
 
       <main class="deck">
         <section class="panel content" id="play-panel">
-          <div class="eyebrow">Clickable MVP</div>
-          <h2 style="margin-top:8px; font-size: 30px;">Prototype flow</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.6;">This is a coded mockup of the recommended MVP shape: setup on the left, chat + choice cards in the middle, visible trip state on every turn, and a real itinerary-style payoff at the end.</p>
+          <div class="eyebrow">Structured prototype</div>
+          <h2 style="margin-top:8px; font-size: 30px;">Now driven by scenario JSON</h2>
+          <p class="muted" style="margin-top:8px; line-height:1.6;">This pass splits the prototype into `index.html`, `styles.css`, and `app.js`, then loads the Japan-first scenario from `content/japan-first-timer.json`. The engine applies deterministic state changes and builds a real handoff payload at the end.</p>
 
           <div id="game-screen" class="screen" style="margin-top:18px;">
             <div class="eyebrow">Live scenario</div>
@@ -296,7 +105,7 @@
 
           <div id="summary-screen" class="screen hidden" style="margin-top:18px;">
             <div class="eyebrow">Trip summary</div>
-            <h3 style="margin-top:8px; font-size:28px;">Your route is coherent. Miracles do happen.</h3>
+            <h3 style="margin-top:8px; font-size:28px;">Deterministic ending + itinerary handoff</h3>
             <p class="muted" id="summaryText" style="margin-top:10px; line-height:1.6;"></p>
             <div class="summary-grid">
               <div class="score"><div class="label">Traveler type</div><div id="travelerType" style="margin-top:8px; font-weight:700;"></div></div>
@@ -310,18 +119,26 @@
               <div class="score"><div class="label">Taste level</div><div id="scoreTaste" style="margin-top:8px; font-weight:700;"></div></div>
               <div class="score"><div class="label">Chaos avoided</div><div id="scoreChaos" style="margin-top:8px; font-weight:700;"></div></div>
             </div>
+            <div class="score" style="margin-top:14px;">
+              <div class="label">Inferred preferences</div>
+              <div id="inferredPrefs" class="list"></div>
+            </div>
+            <div class="score" style="margin-top:14px;">
+              <div class="label">Itinerary handoff payload</div>
+              <pre id="payloadBox" class="payload">Handoff payload will appear here when the run completes.</pre>
+            </div>
             <div class="hero-actions" style="margin-top:18px;">
               <button id="handoff">Turn this into a real itinerary</button>
               <button class="secondary" id="replay">Replay MVP</button>
             </div>
-            <p class="footer-note">Recommended production path: scripted branching first, then selective freeform questions later.</p>
+            <p class="footer-note">Event stubs currently log to the console. That keeps this static build reviewable without requiring a backend.</p>
           </div>
         </section>
 
         <section class="panel content" id="deck-panel">
           <div class="eyebrow">Homepage pitch deck</div>
           <h2 style="margin-top:8px; font-size: 30px;">15-slide narrative in one page</h2>
-          <p class="muted" style="margin-top:8px; line-height:1.6;">This is the homepage/pitch-deck version of the concept: the problem, the insight, the product, why it fits Tabiji, the MVP shape, and why Japan is the right first proving ground.</p>
+          <p class="muted" style="margin-top:8px; line-height:1.6;">This is still the homepage/pitch-deck version of the concept: the problem, the insight, the product, why it fits Tabiji, the MVP shape, and why Japan is the right first proving ground.</p>
 
           <div class="slides" id="slides"></div>
           <div class="deck-controls">
@@ -334,219 +151,6 @@
     </div>
   </div>
 
-  <script>
-    const state = {
-      style: 'Food and atmosphere',
-      budgetBand: 'Comfortable',
-      priority: 'Maximize memories',
-      budget: 100,
-      days: 8,
-      energy: 100,
-      fit: 50,
-      route: [],
-      splurge: 'Not chosen yet',
-      log: [],
-      started: false,
-      step: 0
-    };
-
-    const turns = [
-      {
-        guide: () => `You have 8 days, enough budget to do this properly, and just enough time to make one classic first-timer mistake. So let's avoid that. What do you want this trip to feel like?`,
-        choices: [
-          { label: 'Food-heavy and atmospheric', player: 'I want food, neighborhoods, and atmosphere.', effect: { fit: +12 }, note: 'Strong match for Tokyo + Kyoto with selective splurges.' },
-          { label: 'Electric and urban', player: 'Give me energy, neon, and late nights.', effect: { fit: +8, energy: -4 }, note: 'Tokyo-heavy route becomes more attractive.' },
-          { label: 'Balanced: city + calm', player: 'I want city life without frying my nervous system.', effect: { fit: +10, energy: +4 }, note: 'Tokyo + Kyoto + one smart day trip is likely.' }
-        ],
-        cards: ['Tokyo — huge range, endless food, easy to overstuff if you chase every district in one trip.']
-      },
-      {
-        guide: () => `Good. Next question: how many bases do you think you want? Be honest. This is where people start romanticizing train platforms.`,
-        choices: [
-          { label: 'Tokyo + Kyoto', player: 'Two bases. Tokyo and Kyoto.', effect: { fit: +12, energy: +6 }, route: ['Tokyo', 'Kyoto'], note: 'Clean route. Strong first-timer default.' },
-          { label: 'Tokyo + Kyoto + Osaka', player: 'Three cities. I want to see more.', effect: { fit: -3, energy: -10, days: -1 }, route: ['Tokyo', 'Kyoto', 'Osaka'], event: 'Mild chaos detected', note: 'More bragging rights, worse pacing.' },
-          { label: 'Tokyo only, deeply done', player: 'One city, properly done.', effect: { fit: +6, energy: +8 }, route: ['Tokyo'], note: 'Best if your goal is immersion over range.' }
-        ],
-        cards: ['Kyoto — culture, calm mornings, design, temples, and the danger of staying somewhere inconvenient and hating your feet.']
-      },
-      {
-        guide: () => `Now let's place one intentional splurge. Blanket spending is lazy. Good trips usually come from one or two precise upgrades.`,
-        choices: [
-          { label: 'Ryokan night', player: 'Give me one ryokan night done properly.', effect: { budget: -18, fit: +14 }, splurge: 'A ryokan night in Hakone', note: 'Great memory density if you want a calm punctuation mark.' },
-          { label: 'Special omakase / meal', player: 'I want to spend on one unforgettable meal.', effect: { budget: -14, fit: +12 }, splurge: 'A special omakase dinner', note: 'High taste-to-logistics ratio.' },
-          { label: 'Better hotel location', player: 'Spend on staying somewhere smarter.', effect: { budget: -10, energy: +12, fit: +8 }, splurge: 'A hotel in the right neighborhood', note: 'Boring on paper, excellent in practice.' }
-        ],
-        cards: ['Hakone — worth it if you want recovery, scenic contrast, and one luxurious reset. Bad if you just add it because Instagram said so.']
-      },
-      {
-        guide: () => `One more thing: you will be tempted to add a day trip because travel internet loves accumulation. Which temptation are we handling?`,
-        choices: [
-          { label: 'Nara', player: 'Nara sounds like the cleanest add-on.', effect: { days: -1, fit: +8 }, routeAdd: 'Nara', note: 'Good if you already have Kyoto in the route.' },
-          { label: 'Hakone', player: 'Let's do Hakone for scenery and reset energy.', effect: { days: -1, energy: +8, fit: +6 }, routeAdd: 'Hakone', event: 'Rain shifts your outdoor timing', note: 'Works best when paired with the ryokan splurge.' },
-          { label: 'Skip it, stay local', player: 'No day trip. Keep the itinerary breathing.', effect: { energy: +10, fit: +10 }, note: 'Unsexy decision. Usually the adult one.' }
-        ],
-        cards: ['Nara — easy cultural contrast, deer chaos, and an actually sensible add-on from Kyoto.']
-      }
-    ];
-
-    const slides = [
-      ['Tabiji Quest', 'Plan a trip by playing one. A travel-planning game where players roleplay a traveler, talk to an expert guide, make decisions, and end with an itinerary they’d actually want to take.'],
-      ['The problem', 'Travel planning starts dead: blank search boxes, walls of filters, or generic chat. Inspiration is weak and planning feels like work too early.'],
-      ['The insight', 'People discover what they want by reacting. It is easier to choose between routes and tradeoffs than describe a perfect trip from scratch.'],
-      ['The product', 'A travel product wrapped in a game: scenario setup, opinionated guide, route choices, activity tradeoffs, and a coherent trip payoff.'],
-      ['Why it fits Tabiji', 'It turns recommendation, itinerary logic, and travel taste into a differentiated top-of-funnel experience with structured preference capture.'],
-      ['What the user sees', 'Pick scenario, set mood and budget, talk to guide, make route decisions, watch stats move, end with route + itinerary handoff.'],
-      ['Why better than normal chat', 'Chat is just the interface. Structured state is the product. That means coherent recommendations, visible tradeoffs, and better conversion intent.'],
-      ['The MVP', 'One scenario. One guide. Chat + choice cards. Light stats. End-of-run itinerary export. Enough to prove the magic without building nonsense.'],
-      ['Why Japan first', 'Massive demand, strong route tradeoffs, obvious food/culture/city/calm contrasts, and perfect conditions for a guide with actual opinions.'],
-      ['User value', 'The player leaves with a clearer sense of travel taste, a route that fits, and confidence about tradeoffs — not just a cute transcript.'],
-      ['Business value', 'More top-of-funnel engagement, richer preference data, stronger differentiation, and a more playful entry into real planning.'],
-      ['Metrics', 'Measure play-start rate, completion, average turns, replay rate, share rate, and itinerary CTA clickthrough.'],
-      ['Risks', 'Too much AI improv creates mush. Too much simulation creates homework. Too little utility creates a toy.'],
-      ['Mitigation', 'Use scripted branching first, keep the guide voice sharp, constrain destination logic, and make itinerary handoff core to the MVP.'],
-      ['Recommendation', 'Build one polished, opinionated web scenario first. Do not build an open-world travel game. Do not build a generic AI concierge.']
-    ];
-
-    let currentSlide = 0;
-
-    const chatLog = document.getElementById('chatLog');
-    const cards = document.getElementById('cards');
-    const choices = document.getElementById('choices');
-    const eventBadge = document.getElementById('eventBadge');
-    const gameScreen = document.getElementById('game-screen');
-    const summaryScreen = document.getElementById('summary-screen');
-
-    function clamp(n) { return Math.max(0, Math.min(100, n)); }
-
-    function updateStats() {
-      document.getElementById('budgetLabel').textContent = state.budget;
-      document.getElementById('daysLabel').textContent = state.days;
-      document.getElementById('energyLabel').textContent = state.energy;
-      document.getElementById('fitLabel').textContent = state.fit;
-      document.getElementById('budgetBar').style.width = `${clamp(state.budget)}%`;
-      document.getElementById('daysBar').style.width = `${clamp((state.days / 8) * 100)}%`;
-      document.getElementById('energyBar').style.width = `${clamp(state.energy)}%`;
-      document.getElementById('fitBar').style.width = `${clamp(state.fit)}%`;
-      document.getElementById('routeBox').textContent = state.route.length ? state.route.join(' → ') : 'No route locked yet.';
-    }
-
-    function addMessage(text, role) {
-      const div = document.createElement('div');
-      div.className = `msg ${role}`;
-      div.textContent = text;
-      chatLog.appendChild(div);
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
-
-    function renderTurn() {
-      choices.innerHTML = '';
-      cards.innerHTML = '';
-      eventBadge.classList.add('hidden');
-      const turn = turns[state.step];
-      if (!turn) {
-        renderSummary();
-        return;
-      }
-      addMessage(turn.guide(), 'guide');
-      (turn.cards || []).forEach(text => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<div class="card-title">Destination card</div><div class="muted">${text}</div>`;
-        cards.appendChild(card);
-      });
-      turn.choices.forEach(choice => {
-        const el = document.createElement('div');
-        el.className = 'choice';
-        el.innerHTML = `<div class="card-title">${choice.label}</div><div class="muted">${choice.note}</div>`;
-        el.onclick = () => choose(choice);
-        choices.appendChild(el);
-      });
-    }
-
-    function choose(choice) {
-      addMessage(choice.player, 'player');
-      if (choice.event) {
-        eventBadge.textContent = choice.event;
-        eventBadge.classList.remove('hidden');
-      }
-      state.budget = clamp(state.budget + (choice.effect.budget || 0));
-      state.days = Math.max(0, state.days + (choice.effect.days || 0));
-      state.energy = clamp(state.energy + (choice.effect.energy || 0));
-      state.fit = clamp(state.fit + (choice.effect.fit || 0));
-      if (choice.route) state.route = choice.route.slice();
-      if (choice.routeAdd && !state.route.includes(choice.routeAdd)) state.route.push(choice.routeAdd);
-      if (choice.splurge) state.splurge = choice.splurge;
-      updateStats();
-      state.step += 1;
-      setTimeout(renderTurn, 180);
-    }
-
-    function renderSummary() {
-      gameScreen.classList.add('hidden');
-      summaryScreen.classList.remove('hidden');
-      const route = state.route.length ? state.route.join(' → ') : 'Tokyo → Kyoto';
-      document.getElementById('travelerType').textContent = `${state.style}, ${state.priority.toLowerCase()}, and suspiciously resistant to bad pacing.`;
-      document.getElementById('finalRoute').textContent = route;
-      document.getElementById('bestSplurge').textContent = state.splurge;
-      document.getElementById('biggestWin').textContent = state.energy >= 95 ? 'You avoided turning the trip into a transit stress spiral.' : 'You still preserved enough energy to enjoy the good parts.';
-      document.getElementById('summaryText').textContent = `This run shows the product thesis clearly: the player learns their own taste through choices, gets a trip concept with actual shape, and can hand it directly into Tabiji as a draft itinerary. Your current route is ${route}.`;
-      document.getElementById('scoreBudget').textContent = `${Math.round(state.budget / 10)}/10`;
-      document.getElementById('scoreEnergy').textContent = `${Math.max(6, Math.round(state.energy / 10))}/10`;
-      document.getElementById('scoreTaste').textContent = `${Math.max(7, Math.round(state.fit / 10))}/10`;
-      document.getElementById('scoreChaos').textContent = `${state.route.length <= 2 ? '10/10' : '7/10'}`;
-    }
-
-    function resetGame() {
-      state.budget = 100;
-      state.days = 8;
-      state.energy = 100;
-      state.fit = 50;
-      state.route = [];
-      state.splurge = 'Not chosen yet';
-      state.step = 0;
-      chatLog.innerHTML = '';
-      cards.innerHTML = '';
-      choices.innerHTML = '';
-      eventBadge.classList.add('hidden');
-      summaryScreen.classList.add('hidden');
-      gameScreen.classList.remove('hidden');
-      updateStats();
-      renderTurn();
-    }
-
-    function renderSlides() {
-      const container = document.getElementById('slides');
-      container.innerHTML = '';
-      const [title, body] = slides[currentSlide];
-      const slide = document.createElement('div');
-      slide.className = 'slide';
-      slide.innerHTML = `<div class="eyebrow">Slide ${currentSlide + 1}</div><div class="slide-title">${title}</div><div class="muted" style="line-height:1.6;">${body}</div>`;
-      container.appendChild(slide);
-      document.getElementById('slideCount').textContent = `Slide ${currentSlide + 1} of ${slides.length}`;
-    }
-
-    document.querySelectorAll('.chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const chip = e.target.closest('.chip');
-        if (!chip) return;
-        group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const key = group.dataset.group;
-        state[key === 'budget' ? 'budgetBand' : key] = chip.dataset.value;
-      });
-    });
-
-    document.getElementById('start-game').onclick = resetGame;
-    document.getElementById('replay').onclick = resetGame;
-    document.getElementById('handoff').onclick = () => alert('MVP handoff: send route, budget band, trip length, and inferred preferences into the real Tabiji itinerary builder.');
-    document.getElementById('prevSlide').onclick = () => { currentSlide = (currentSlide - 1 + slides.length) % slides.length; renderSlides(); };
-    document.getElementById('nextSlide').onclick = () => { currentSlide = (currentSlide + 1) % slides.length; renderSlides(); };
-    document.getElementById('jump-play').onclick = () => document.getElementById('play-panel').scrollIntoView({ behavior: 'smooth' });
-    document.getElementById('jump-deck').onclick = () => document.getElementById('deck-panel').scrollIntoView({ behavior: 'smooth' });
-
-    updateStats();
-    renderSlides();
-    renderTurn();
-  </script>
+  <script src="./app.js"></script>
 </body>
 </html>
