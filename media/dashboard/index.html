@@ -1731,7 +1731,8 @@ function connectPlatform(platform) {
   if (platform === 'tiktok') {
     const csrfState = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
     sessionStorage.setItem('tiktok_csrf_state', csrfState);
-    const oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${TIKTOK_CLIENT_KEY}&response_type=code&scope=user.info.basic,video.publish,video.upload&redirect_uri=${encodeURIComponent(TIKTOK_REDIRECT_URI)}&state=${csrfState}`;
+    // DEBUG: try minimal scope first — if this works, add video scopes back one by one
+    const oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${TIKTOK_CLIENT_KEY}&response_type=code&scope=user.info.basic&redirect_uri=${encodeURIComponent(TIKTOK_REDIRECT_URI)}&state=${csrfState}`;
     document.getElementById('oauthUrl').textContent = oauthUrl.substring(0, 80) + '...';
     sessionStorage.setItem('tiktok_oauth_url', oauthUrl);
   } else {
