@@ -1226,12 +1226,20 @@
 
       <hr class="divider">
 
-      <button class="btn-publish" id="publishBtn" onclick="doPublish()">
-        Publish Now
-      </button>
+      <div style="display:flex;gap:0.75rem">
+        <button class="btn-publish" id="publishBtn" onclick="doPublish()" style="flex:1">
+          Publish Now
+        </button>
+        <button class="btn-publish" id="draftBtn" onclick="doSaveAsDraft()" style="flex:1;background:var(--earth)">
+          📥 Save as Draft
+        </button>
+      </div>
       <div class="success-msg" id="successMsg">
         ✅ Published successfully!
         <a class="success-link" onclick="window.open('https://tiktok.com/@wanderlust_travel','_blank')">View on TikTok ↗</a>
+      </div>
+      <div class="success-msg" id="draftSuccessMsg" style="display:none">
+        ✅ Sent to TikTok inbox as draft! Open TikTok to edit and post.
       </div>
     </div>
   </div>
@@ -1529,6 +1537,12 @@ function openVideo(id) {
   btn.disabled = false;
   btn.innerHTML = v.status === 'published' ? 'Re-publish' : 'Publish Now';
   document.getElementById('successMsg').classList.remove('visible');
+  document.getElementById('draftSuccessMsg').style.display = 'none';
+  // reset draft button
+  const draftBtn = document.getElementById('draftBtn');
+  draftBtn.disabled = false;
+  draftBtn.innerHTML = '📥 Save as Draft';
+  draftBtn.style.background = 'var(--earth)';
   // reset platform checkboxes to match video platforms
   ['tiktok','instagram','youtube','x'].forEach(p => {
     const row = document.getElementById('pr-' + p);
@@ -1854,6 +1868,66 @@ async function publishToTikTokReal(videoUrl, title) {
   } catch (err) {
     return { success: false, error: err.message };
   }
+}
+
+// Real TikTok draft upload via Content Posting API (video.upload scope)
+async function uploadToTikTokDraft(videoUrl) {
+  const token = sessionStorage.getItem('tiktok_access_token');
+  if (!token) {
+    alert('Please connect your TikTok account first.');
+    return { success: false, error: 'Not connected' };
+  }
+
+  try {
+    const res = await fetch('/api/tiktok-upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: token,
+        source_info: {
+          source: 'PULL_FROM_URL',
+          video_url: videoUrl,
+        },
+      }),
+    });
+
+    const data = await res.json();
+    if (data.data && data.data.publish_id) {
+      return { success: true, publish_id: data.data.publish_id };
+    } else {
+      return { success: false, error: data.error?.message || 'Unknown error' };
+    }
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+async function doSaveAsDraft() {
+  const btn = document.getElementById('draftBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Sending to TikTok...';
+
+  let result = null;
+  if (sessionStorage.getItem('tiktok_access_token')) {
+    const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
+    result = await uploadToTikTokDraft(videoUrl);
+    console.log('TikTok draft upload result:', result);
+  }
+
+  setTimeout(() => {
+    if (result && result.success) {
+      btn.innerHTML = '✅ Sent to Drafts!';
+      btn.style.background = 'var(--success)';
+      document.getElementById('draftSuccessMsg').style.display = 'block';
+    } else if (result && !result.success) {
+      btn.innerHTML = '⚠️ ' + (result.error || 'Error');
+    } else {
+      // Mock for non-TikTok
+      btn.innerHTML = '✅ Sent to Drafts!';
+      btn.style.background = 'var(--success)';
+      document.getElementById('draftSuccessMsg').style.display = 'block';
+    }
+  }, result ? 500 : 2000);
 }
 
 // Check on page load — handle return from OAuth callback
