@@ -481,6 +481,10 @@ function buildVerdictText(pick) {
   return firstNonEmpty(firstSentenceClean(pick.insiderTip), firstSentenceClean(pick.whyItMadeTheList), firstSentenceClean(stripWhatToOrderLead(pick.whatToOrder)));
 }
 
+function isLikelyPriceRange(value = '') {
+  return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
+}
+
 function buildBestForText(pick, data, firstTag) {
   if (pick.whyItMadeTheList) {
     const text = pick.whyItMadeTheList;
@@ -496,7 +500,7 @@ function buildBestForText(pick, data, firstTag) {
     }
   }
   const location = firstNonEmpty(pick.neighborhood, pick.address, data.taxonomy.city);
-  if (pick.priceRangeLocal && location) return `${firstTag} in ${location} with a ${pick.priceRangeLocal} spend range`;
+  if (pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) && location) return `${firstTag} in ${location} with a ${pick.priceRangeLocal} spend range`;
   if (location) return `${firstTag} in ${location}`;
   return firstTag;
 }
@@ -513,7 +517,7 @@ function buildStrengths(pick, firstTag) {
 }
 
 function buildLimitations(pick) {
-  const limitationText = firstNonEmpty(pick.whyItMadeTheList, pick.insiderTip);
+  const limitationText = firstNonEmpty(pick.insiderTip, pick.whyItMadeTheList);
   const patterns = [
     /check recent reviews before booking[^.;]*/i,
     /book ahead[^.;]*/i,
@@ -521,6 +525,13 @@ function buildLimitations(pick) {
     /more formal than[^.;]*/i,
     /polarizing[^.;]*/i,
     /won't know the menu until it arrives[^.;]*/i,
+    /cash only[^.;]*/i,
+    /dress code[^.;]*/i,
+    /tourist trap[^.;]*/i,
+    /overpriced[^.;]*/i,
+    /can get busy[^.;]*/i,
+    /gets busy[^.;]*/i,
+    /line gets brutal[^.;]*/i,
     /just be prepared:?\s*([^.;]+)/i,
     /however,?\s*([^.;]+)/i,
     /but\s+([^.;]+)/i,
@@ -531,7 +542,8 @@ function buildLimitations(pick) {
       return (match[1] || match[0]).replace(/^[:\s-]+/, '').trim();
     }
   }
-  if (pick.hoursNote) return 'Check hours before you go';
+  if (pick.waitExpectation && /busy|long|crowded|line/i.test(pick.waitExpectation)) return pick.waitExpectation;
+  if (pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal)) return `Price band: ${pick.priceRangeLocal}`;
   return '';
 }
 
@@ -571,7 +583,7 @@ function renderQuickAnswer(data) {
             <li><strong>${escapeHtml(pick.name)}:</strong> ${escapeHtml(buildVerdictText(pick))}</li>`).join('');
   const summaryRows = [
     ['Best overall', resolveBestOverall(data)],
-    ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter(Boolean)[0] || 'Varies by pick'],
+    ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter((value) => isLikelyPriceRange(value))[0] || 'Varies by pick'],
     ['Top-ranked pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
     ['Last verified', data.summary?.lastVerifiedLabel || 'See page metadata'],
   ].filter(([, value]) => value);
@@ -610,7 +622,7 @@ function renderPick(pick, data, mapData) {
   ].filter(Boolean);
   const provenanceSummary = buildProvenanceSummary(pick);
   const valueSignal = firstNonEmpty(
-    pick.priceRangeLocal ? `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}` : '',
+    pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}` : '',
     pick.googleRating && pick.reviewCount ? `${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} reviews` : '',
     pick.googleRating ? `${pick.googleRating}★ Google rating` : ''
   );
@@ -647,7 +659,7 @@ function renderPick(pick, data, mapData) {
         ${pick.googleRating ? `<span class="google-rating"><span class="star">★</span> ${escapeHtml(String(pick.googleRating))}${pick.reviewCount ? ` · ${escapeHtml(pick.reviewCount.toLocaleString())} reviews` : ''}</span>` : ''}
     </div>
     <div class="restaurant-details">
-        ${pick.priceRangeLocal ? `<span>💴 ${escapeHtml(pick.priceRangeLocal)}</span>` : ''}
+        ${pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? `<span>💴 ${escapeHtml(pick.priceRangeLocal)}</span>` : ''}
         ${pick.address ? `<span>📍 ${escapeHtml(pick.address)}</span>` : ''}
         ${pick.googleMapsUrl ? `<a href="${escapeHtml(pick.googleMapsUrl)}" target="_blank" rel="noopener">📌 Google Maps →</a>` : ''}
     </div>
@@ -871,7 +883,8 @@ function renderPage(data) {
       ${renderQuickAnswer(data)}
 
       <section class="intro-section">
-        ${renderRichTextParagraphs(introBody)}
+        ${data.intro.answerFirst ? `<p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>` : ''}
+        ${renderRichTextParagraphs(data.intro.answerFirst ? introBody.filter((item) => item !== data.intro.answerFirst) : introBody)}
       </section>
 
       ${renderMapPanel(mapData, mapPicks, true)}

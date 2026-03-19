@@ -1,5 +1,9 @@
 const { absoluteUrl } = require('./render-meta');
 
+function isLikelyPriceRange(value = '') {
+  return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
+}
+
 function renderJsonLd(obj) {
   return `<script type="application/ld+json">${JSON.stringify(obj, null, 2)}</script>`;
 }
@@ -44,7 +48,7 @@ function renderSchema(data) {
         name: pick.name,
         ...(pick.cuisineTags?.[0] && foodTypes.has(resolvedType) ? { servesCuisine: pick.cuisineTags.join(' / ') } : {}),
         ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),
-        ...(pick.priceRangeLocal ? { priceRange: pick.priceRangeLocal } : {}),
+        ...(pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? { priceRange: pick.priceRangeLocal } : {}),
         ...(pick.googleMapsUrl ? { url: pick.googleMapsUrl } : {})
       }
     });
