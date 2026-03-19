@@ -729,8 +729,16 @@ def parse_itinerary_page(html_path, slug, source_dir):
         if dest_match2:
             destination = clean_itinerary_destination(dest_match2.group(1))
     slug_destination = clean_itinerary_destination(derive_destination_from_itinerary_slug(slug))
-    if (not destination) or any(token in destination.lower() for token in ['itinerary', 'guide']) or len(destination.split()) >= 3:
-        if slug_destination:
+    if slug_destination:
+        destination_lower = destination.lower()
+        slug_lower = slug_destination.lower()
+        should_prefer_slug = (
+            not destination
+            or any(token in destination_lower for token in ['itinerary', 'guide'])
+            or len(destination.split()) >= 3
+            or (destination_lower.startswith(slug_lower) and destination_lower != slug_lower)
+        )
+        if should_prefer_slug:
             destination = slug_destination
 
     duration = ""
