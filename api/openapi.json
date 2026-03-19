@@ -303,84 +303,406 @@
     },
     "/search": {
       "get": {
-        "operationId": "search",
+        "operationId": "searchCatalog",
         "summary": "Search the unified catalog",
         "description": "Search destinations and picks with a natural-language query plus optional structured filters.",
         "tags": [
           "Agent"
         ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "budget",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "open_now",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "operationId": "searchPost",
+        "operationId": "searchCatalogPost",
         "summary": "Search the unified catalog",
         "description": "Search destinations and picks with a natural-language query plus optional structured filters.",
         "tags": [
           "Agent"
         ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentQuery"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
           }
         }
       }
     },
     "/filter": {
       "get": {
-        "operationId": "filter",
+        "operationId": "filterCatalog",
         "summary": "Filter the unified catalog",
         "description": "Apply deterministic hard constraints across the agent-ready catalog.",
         "tags": [
           "Agent"
         ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "budget",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "open_now",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Filtered results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilterResponse"
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "operationId": "filterPost",
+        "operationId": "filterCatalogPost",
         "summary": "Filter the unified catalog",
         "description": "Apply deterministic hard constraints across the agent-ready catalog.",
         "tags": [
           "Agent"
         ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentQuery"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Filtered results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilterResponse"
+                }
+              }
+            }
           }
         }
       }
     },
     "/recommend": {
       "get": {
-        "operationId": "recommend",
+        "operationId": "recommendCatalog",
         "summary": "Recommend ranked matches",
         "description": "Rank places or destinations for a trip intent with reasons, tradeoffs, freshness, and provenance.",
         "tags": [
           "Agent"
         ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "budget",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
+            "name": "open_now",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "intent",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Recommendations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationResponse"
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "operationId": "recommendPost",
+        "operationId": "recommendCatalogPost",
         "summary": "Recommend ranked matches",
         "description": "Rank places or destinations for a trip intent with reasons, tradeoffs, freshness, and provenance.",
         "tags": [
           "Agent"
         ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendationRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful response"
+            "description": "Recommendations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -973,6 +1295,16 @@
             "type": "string"
           },
           "entityType": {
+            "type": "string",
+            "enum": [
+              "destination",
+              "place"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "slug": {
             "type": "string"
           },
           "name": {
@@ -981,7 +1313,13 @@
           "title": {
             "type": "string"
           },
+          "description": {
+            "type": "string"
+          },
           "city": {
+            "type": "string"
+          },
+          "locationLabel": {
             "type": "string"
           },
           "category": {
@@ -999,6 +1337,12 @@
               "type": "string"
             }
           },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "priceLevel": {
             "type": "string"
           },
@@ -1008,14 +1352,20 @@
               "null"
             ]
           },
+          "ratingNormalized": {
+            "type": "number"
+          },
+          "editorialSignal": {
+            "type": "number"
+          },
           "url": {
             "type": "string"
           },
           "freshness": {
-            "type": "object"
+            "$ref": "#/components/schemas/Freshness"
           },
           "provenance": {
-            "type": "object"
+            "$ref": "#/components/schemas/Provenance"
           }
         }
       },
@@ -1036,6 +1386,294 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CatalogItem"
+            }
+          }
+        }
+      },
+      "Freshness": {
+        "type": "object",
+        "properties": {
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "confidenceScore": {
+            "type": "number"
+          },
+          "operationalFieldsMayChange": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Provenance": {
+        "type": "object",
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lastVerifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgentQuery": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "q": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "entity_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "entityType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "good_for": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "goodFor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "budget": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "price_level": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "open_now": {
+            "type": "boolean"
+          },
+          "openNow": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "RecommendationRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AgentQuery"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "intent": {
+                "type": "string"
+              },
+              "party": {
+                "type": "object",
+                "properties": {
+                  "size": {
+                    "type": "integer"
+                  },
+                  "traveler_type": {
+                    "type": "string"
+                  }
+                }
+              },
+              "preferences": {
+                "type": "object",
+                "properties": {
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "atmosphere": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "want": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "avoid": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "constraints": {
+                "$ref": "#/components/schemas/AgentQuery"
+              }
+            }
+          }
+        ]
+      },
+      "SearchResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CatalogItem"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "scores": {
+                "type": "object",
+                "properties": {
+                  "search": {
+                    "type": "number"
+                  }
+                }
+              },
+              "matchedOn": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "totalCatalogItems": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            }
+          }
+        }
+      },
+      "FilterResponse": {
+        "type": "object",
+        "properties": {
+          "constraints": {
+            "$ref": "#/components/schemas/AgentQuery"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogItem"
+            }
+          }
+        }
+      },
+      "RecommendationResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CatalogItem"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "number"
+              },
+              "whyRecommended": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "tradeoffs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RecommendationResponse": {
+        "type": "object",
+        "properties": {
+          "intent": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "count": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendationResult"
             }
           }
         }

@@ -51,6 +51,67 @@ def slugify(text):
     return text.strip('-')
 
 
+def strip_emoji(text):
+    return re.sub(r'[𐀀-􏿿]', '', str(text or '')).strip()
+
+
+def humanize_slug(text):
+    text = strip_emoji(text).replace('-', ' ').strip()
+    return ' '.join(word.capitalize() for word in text.split())
+
+
+def compact_dict(data):
+    if not isinstance(data, dict):
+        return data
+    compacted = {}
+    for key, value in data.items():
+        if value in ('', [], {}, None):
+            continue
+        compacted[key] = value
+    return compacted
+
+
+def derive_destination_city(name, slug, region):
+    clean_name = strip_emoji(name)
+    clean_region = strip_emoji(region)
+    slug_parts = [part for part in slug.split('-') if part]
+    city_from_slug = humanize_slug(slug).split(' In ')[0]
+    landmark_markers = ['cathedral', 'park', 'falls', 'desert', 'coast', 'islands', 'island', 'valley', 'mountains', 'mountain', 'beach', 'reef', 'road', 'bay', 'river', 'forest', 'temple', 'lake', 'canyon']
+    lower_name = clean_name.lower()
+    if any(marker in lower_name for marker in landmark_markers):
+        for marker in landmark_markers:
+            if marker in slug_parts:
+                marker_index = slug_parts.index(marker)
+                if marker_index > 0:
+                    return humanize_slug('-'.join(slug_parts[:marker_index]))
+        if clean_region:
+            return clean_region
+        return city_from_slug
+    return clean_name or clean_region or city_from_slug
+
+
+def derive_pick_city(data, slug, place):
+    city = strip_emoji(data.get('city', ''))
+    if city:
+        return city
+    address = strip_emoji(place.get('address', ''))
+    if address and address.lower() not in ['throughout tokyo', 'throughout seoul']:
+        parts = [p.strip() for p in address.split(',') if p.strip()]
+        if parts:
+            last = parts[-1]
+            if len(last.split()) <= 4 and not re.search(r'\d', last):
+                return last
+    stopwords = {'best','cheap','eats','restaurants','bars','cafes','coffee','shops','shop','street','food','market','markets','night','rooftop','rooftops','things','to','do','hidden','temples','new','nordic','budget','craft','beer','cocktail','cocktails','vintage','fashion','sweets','patisseries','traditional','tea','houses','sunset','white','rose','dumplings'}
+    parts = slug.split('-')
+    city_parts = []
+    for part in parts:
+        if part in stopwords:
+            break
+        city_parts.append(part)
+    city_guess = humanize_slug('-'.join(city_parts))
+    return city_guess or humanize_slug(slug)
+
+
 def extract_json_ld(soup):
     """Extract all JSON-LD blocks from a page."""
     blocks = []
@@ -1036,7 +1097,6 @@ def extract_tags_from_text(*parts):
     tag_rules = {
         'breakfast': ['breakfast', 'brunch'],
         'late_night': ['late night', 'open late', '24 hours'],
-        'remote_work': ['wifi', 'coffee', 'cafe', 'work'],
         'romantic': ['romantic', 'date night'],
         'local_feeling': ['local', 'hidden gem', 'neighborhood'],
         'touristy': ['touristy', 'crowded'],
@@ -1051,6 +1111,15 @@ def extract_tags_from_text(*parts):
     for tag, needles in tag_rules.items():
         if any(needle in text for needle in needles):
             tags.append(tag)
+
+    remote_work_signals = 0
+    if any(needle in text for needle in ['wifi', 'wi-fi', 'outlet', 'outlets', 'laptop', 'coworking', 'co-working']):
+        remote_work_signals += 1
+    if any(needle in text for needle in ['remote work', 'work friendly', 'workspace', 'good for work']):
+        remote_work_signals += 1
+    if remote_work_signals >= 2:
+        tags.append('remote_work')
+
     return sorted(set(tags))
 
 
@@ -1062,17 +1131,18 @@ def build_catalog():
     for file in sorted(destinations_dir.glob('*.json')):
         with open(file) as f:
             data = json.load(f)
+        city = derive_destination_city(data.get('name', ''), data.get('slug', ''), data.get('region', ''))
         tags = sorted(set((data.get('vibes') or []) + (data.get('travelStyles') or [])))
-        catalog_items.append({
+        item = compact_dict({
             'id': f"destination:{data['slug']}",
             'entityType': 'destination',
             'source': 'destinations',
             'slug': data['slug'],
-            'name': data.get('name', ''),
-            'title': data.get('name', ''),
+            'name': strip_emoji(data.get('name', '')),
+            'title': strip_emoji(data.get('name', '')),
             'description': data.get('pitch', ''),
-            'city': data.get('name', ''),
-            'locationLabel': data.get('region', ''),
+            'city': city,
+            'locationLabel': strip_emoji(data.get('region', '')),
             'category': 'destination',
             'tags': tags,
             'goodFor': data.get('travelStyles', []),
@@ -1082,29 +1152,33 @@ def build_catalog():
             'ratingNormalized': 0.65,
             'editorialSignal': 0.9,
             'url': data.get('url', ''),
-            'freshness': {
+            'freshness': compact_dict({
                 'generatedAt': generated_at,
                 'confidence': 'editorial',
                 'confidenceScore': 0.82,
                 'operationalFieldsMayChange': False,
-            },
-            'provenance': {
+            }),
+            'provenance': compact_dict({
                 'sources': ['tabiji_editorial'],
                 'lastVerifiedAt': generated_at,
-            },
+            }),
         })
+        catalog_items.append(item)
 
     picks_dir = OUTPUT_DIR / 'picks'
     for file in sorted(picks_dir.glob('*.json')):
         with open(file) as f:
             data = json.load(f)
-        guide_tags = extract_tags_from_text(data.get('title'), data.get('description'), data.get('category'))
+        guide_title = strip_emoji(data.get('title', ''))
+        guide_city = strip_emoji(data.get('city', ''))
+        guide_tags = extract_tags_from_text(guide_title, data.get('description'), data.get('category'))
         for place in data.get('places', []):
+            city = derive_pick_city(data, data.get('slug', ''), place)
             text_parts = [
-                data.get('title', ''),
+                guide_title,
                 data.get('description', ''),
                 data.get('category', ''),
-                place.get('name', ''),
+                strip_emoji(place.get('name', '')),
                 place.get('whatToOrder', ''),
                 place.get('insiderTip', ''),
                 ' '.join(place.get('cuisineTags', [])),
@@ -1112,17 +1186,17 @@ def build_catalog():
             ]
             tags = sorted(set(guide_tags + place.get('cuisineTags', []) + extract_tags_from_text(*text_parts)))
             good_for = [tag for tag in tags if tag in ['family', 'solo', 'couple', 'remote_work']]
-            catalog_items.append({
+            item = compact_dict({
                 'id': f"place:{data['slug']}:{place.get('position') or slugify(place.get('name', 'place'))}",
                 'entityType': 'place',
                 'source': 'picks',
                 'slug': data['slug'],
-                'name': place.get('name', ''),
-                'title': data.get('title', ''),
+                'name': strip_emoji(place.get('name', '')),
+                'title': guide_title,
                 'description': place.get('whatToOrder') or place.get('insiderTip') or data.get('description', ''),
-                'city': data.get('city', ''),
-                'locationLabel': place.get('address', '') or data.get('city', ''),
-                'category': data.get('category', ''),
+                'city': city,
+                'locationLabel': strip_emoji(place.get('address', '') or guide_city or city),
+                'category': strip_emoji(data.get('category', '')),
                 'tags': tags,
                 'goodFor': good_for,
                 'highlights': [q.get('text', '') for q in place.get('redditQuotes', [])[:2]],
@@ -1131,17 +1205,18 @@ def build_catalog():
                 'ratingNormalized': round(min(float(place.get('googleRating', 0)) / 5, 1), 3) if place.get('googleRating') else 0.55,
                 'editorialSignal': min(len(place.get('redditQuotes', [])) / 4, 1),
                 'url': f"{data.get('url', '')}#{slugify(place.get('name', ''))}",
-                'freshness': {
+                'freshness': compact_dict({
                     'generatedAt': generated_at,
                     'confidence': 'mixed',
                     'confidenceScore': 0.74 if place.get('googleRating') else 0.62,
                     'operationalFieldsMayChange': True,
-                },
-                'provenance': {
+                }),
+                'provenance': compact_dict({
                     'sources': ['tabiji_editorial', 'reddit', 'google_places'],
                     'lastVerifiedAt': generated_at,
-                },
+                }),
             })
+            catalog_items.append(item)
 
     with open(OUTPUT_DIR / 'catalog.json', 'w') as f:
         json.dump({
@@ -1149,7 +1224,7 @@ def build_catalog():
             'generatedAt': generated_at,
             'itemCount': len(catalog_items),
             'items': catalog_items,
-        }, f, indent=2, ensure_ascii=False)
+        }, f, ensure_ascii=False, separators=(',', ':'))
 
     return len(catalog_items)
 
