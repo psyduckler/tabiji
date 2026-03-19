@@ -2,7 +2,8 @@ export async function onRequestGet(context) {
   const { request } = context;
   const url = new URL(request.url);
   const q = (url.searchParams.get('q') || '').trim().toLowerCase();
-  const type = (url.searchParams.get('type') || '').trim().toLowerCase();
+  let type = (url.searchParams.get('type') || '').trim().toLowerCase();
+  if (type === 'comparison') type = 'compare';
   const limitParam = Number.parseInt(url.searchParams.get('limit') || '20', 10);
   const limit = Number.isFinite(limitParam) ? Math.min(Math.max(limitParam, 1), 100) : 20;
 
