@@ -505,6 +505,7 @@ function buildStrengths(pick, firstTag) {
   const strengths = [];
   if (pick.googleRating && pick.reviewCount) strengths.push(`${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} Google reviews`);
   else if (pick.googleRating) strengths.push(`${pick.googleRating}★ Google rating`);
+  if (Array.isArray(pick.knownForTags) && pick.knownForTags.length) strengths.push(`Known for ${pick.knownForTags.slice(0, 2).join(', ')}`);
   if (firstTag) strengths.push(firstTag);
   if (pick.address) strengths.push(pick.address);
   if (pick.hoursNote && /open 24 hours/i.test(pick.hoursNote)) strengths.push('Open 24 hours');
@@ -542,15 +543,27 @@ function renderComparisonRow(label, value) {
 function resolveBestOverall(data) {
   const candidate = data.summary?.bestOverall || data.summary?.topPick || '';
   if (!candidate || !data.picks.length) return data.picks[0] ? data.picks[0].name : '';
-  // Match by exact name or by name appearing at the start of the candidate string (handles "Name — 5★ (1 reviews)" format)
   const match = data.picks.find((p) => p.name === candidate || candidate.startsWith(p.name));
-  // If the "best overall" pick has fewer than 10 reviews, it's likely an outlier — prefer the #1 ranked pick
   if (match && typeof match.reviewCount === 'number' && match.reviewCount < 10 && data.picks[0] && data.picks[0].name !== match.name) {
     return data.picks[0].name;
   }
-  // Clean display: use the pick name if we matched, otherwise fall back to the raw candidate
   if (match) return match.name;
   return candidate;
+}
+
+function renderTagList(items = [], className = 'pick-tag-list') {
+  if (!Array.isArray(items) || !items.length) return '';
+  return `<div class="${className}">${items.map((item) => `<span>${escapeHtml(item)}</span>`).join('')}</div>`;
+}
+
+function buildProvenanceSummary(pick) {
+  const provenance = pick?.provenance || {};
+  const bits = [];
+  if (provenance.sourceCount != null) bits.push(`${provenance.sourceCount} sources`);
+  if (Array.isArray(provenance.sourceTypes) && provenance.sourceTypes.length) bits.push(provenance.sourceTypes.join(', '));
+  if (provenance.lastVerified) bits.push(`verified ${provenance.lastVerified}`);
+  if (provenance.confidence) bits.push(`${provenance.confidence} confidence`);
+  return bits.join(' · ');
 }
 
 function renderQuickAnswer(data) {
@@ -587,6 +600,15 @@ function renderPick(pick, data, mapData) {
   const bestForText = buildBestForText(pick, data, firstTag);
   const strengths = buildStrengths(pick, firstTag);
   const limitations = buildLimitations(pick);
+  const operationalTags = [
+    pick.reservationNeeded === true ? 'Reservations recommended' : '',
+    pick.reservationNeeded === false ? 'Walk-in friendly' : '',
+    pick.bestTimeToGo || '',
+    pick.waitExpectation ? `Wait: ${pick.waitExpectation}` : '',
+    pick.mealType || '',
+    pick.touristyLevel || '',
+  ].filter(Boolean);
+  const provenanceSummary = buildProvenanceSummary(pick);
   const valueSignal = firstNonEmpty(
     pick.priceRangeLocal ? `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}` : '',
     pick.googleRating && pick.reviewCount ? `${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} reviews` : '',
@@ -632,6 +654,10 @@ function renderPick(pick, data, mapData) {
     <div class="pick-quick-take">
       <strong>Verdict:</strong> ${escapeHtml(verdictText)}
     </div>
+    ${renderTagList(operationalTags, 'pick-tag-list operational-tags')}
+    ${renderTagList(pick.knownForTags, 'pick-tag-list known-for-tags')}
+    ${renderTagList(pick.dietaryTags, 'pick-tag-list dietary-tags')}
+    ${renderTagList(pick.paymentHints, 'pick-tag-list payment-tags')}
     <div class="comparison-card">
       <h3>Quick comparison</h3>
       <dl class="comparison-grid">
@@ -641,8 +667,12 @@ function renderPick(pick, data, mapData) {
         ${renderComparisonRow('Price / value', valueSignal)}
         ${renderComparisonRow('Why it made the list', whyItMadeTheList)}
         ${renderComparisonRow('What to order', orderNote)}
+        ${renderComparisonRow('Best time to go', pick.bestTimeToGo)}
+        ${renderComparisonRow('Wait expectation', pick.waitExpectation)}
+        ${renderComparisonRow('Reservation', pick.reservationNeeded === true ? 'Recommended' : pick.reservationNeeded === false ? 'Usually not needed' : '')}
       </dl>
     </div>
+    ${provenanceSummary ? `<div class="pick-provenance">Source quality: ${escapeHtml(provenanceSummary)}</div>` : ''}
     ${hours.length ? `
     <div class="shop-hours">
         <details>
@@ -792,6 +822,9 @@ function renderPage(data) {
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
       .pick-quick-take { margin:0 0 1rem; padding:1rem; background:#fffaf4; border:1px solid var(--sand); border-radius:12px; }
+      .pick-tag-list { display:flex; flex-wrap:wrap; gap:.45rem; margin:0 0 .85rem; }
+      .pick-tag-list span { display:inline-flex; align-items:center; padding:.28rem .65rem; border-radius:999px; background:#faf7f3; border:1px solid var(--sand); color:var(--earth); font-size:.8rem; }
+      .pick-provenance { margin:0 0 1rem; color:var(--text-muted); font-size:.88rem; }
       .comparison-card { margin:0 0 1rem; padding:1rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; }
       .comparison-card h3 { color:var(--indigo); margin:0 0 .75rem; font-size:1rem; }
       .shop-hours { margin-bottom:.9rem; }

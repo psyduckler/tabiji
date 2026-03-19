@@ -104,6 +104,42 @@ function validateSource(data, options = {}) {
       }
     }
 
+    if (pick.reservationNeeded != null && typeof pick.reservationNeeded !== 'boolean') {
+      errors.push(`Pick #${expectedRank} has invalid reservationNeeded`);
+    }
+
+    for (const field of ['bestTimeToGo', 'waitExpectation', 'mealType', 'touristyLevel']) {
+      if (pick[field] != null && !isNonEmptyString(pick[field])) {
+        errors.push(`Pick #${expectedRank} has invalid ${field}`);
+      }
+    }
+
+    for (const field of ['dietaryTags', 'paymentHints', 'knownForTags']) {
+      if (pick[field] != null && (!Array.isArray(pick[field]) || pick[field].some((item) => !isNonEmptyString(item)))) {
+        errors.push(`Pick #${expectedRank} has invalid ${field}`);
+      }
+    }
+
+    if (pick.provenance != null) {
+      if (typeof pick.provenance !== 'object' || Array.isArray(pick.provenance)) {
+        errors.push(`Pick #${expectedRank} has invalid provenance`);
+      } else {
+        if (pick.provenance.sourceCount != null && (!Number.isInteger(pick.provenance.sourceCount) || pick.provenance.sourceCount < 0)) {
+          errors.push(`Pick #${expectedRank} has invalid provenance.sourceCount`);
+        }
+        for (const field of ['sourceTypes']) {
+          if (pick.provenance[field] != null && (!Array.isArray(pick.provenance[field]) || pick.provenance[field].some((item) => !isNonEmptyString(item)))) {
+            errors.push(`Pick #${expectedRank} has invalid provenance.${field}`);
+          }
+        }
+        for (const field of ['lastVerified', 'confidence', 'matchMethod', 'placeId']) {
+          if (pick.provenance[field] != null && !isNonEmptyString(pick.provenance[field])) {
+            errors.push(`Pick #${expectedRank} has invalid provenance.${field}`);
+          }
+        }
+      }
+    }
+
     if (!isNonEmptyString(pick.priceRangeLocal) && !isNonEmptyString(pick.priceRangeUSD)) {
       warnings.push(`Pick #${expectedRank} is missing priceRangeLocal/priceRangeUSD`);
     }
@@ -153,6 +189,22 @@ function validateSource(data, options = {}) {
 
   if (!isValidUrl(data?.seo?.canonicalPath || '')) {
     warnings.push('seo.canonicalPath is not an absolute URL; renderer will treat it as site-relative');
+  }
+
+  if (data?.provenance) {
+    if (data.provenance.sourceCount != null && (!Number.isInteger(data.provenance.sourceCount) || data.provenance.sourceCount < 0)) {
+      errors.push('provenance.sourceCount must be a non-negative integer when present');
+    }
+    for (const field of ['sourceTypes']) {
+      if (data.provenance[field] != null && (!Array.isArray(data.provenance[field]) || data.provenance[field].some((item) => !isNonEmptyString(item)))) {
+        errors.push(`provenance.${field} must be an array of strings when present`);
+      }
+    }
+    for (const field of ['lastVerified', 'confidence']) {
+      if (data.provenance[field] != null && !isNonEmptyString(data.provenance[field])) {
+        errors.push(`provenance.${field} must be a string when present`);
+      }
+    }
   }
 
   if (!data?.map?.enabled) warnings.push('Map section is disabled');

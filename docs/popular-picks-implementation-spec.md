@@ -311,6 +311,23 @@ Required pick fields:
 - `whatToOrder`
 - `insiderTip`
 
+Recommended operational enrichment fields:
+- `reservationNeeded` boolean
+- `bestTimeToGo` string
+- `waitExpectation` string
+- `mealType` string
+- `dietaryTags` array of strings
+- `paymentHints` array of strings
+- `touristyLevel` string
+- `knownForTags` array of strings
+- `provenance` object with:
+  - `sourceCount` integer
+  - `sourceTypes` array of strings
+  - `lastVerified` string
+  - `confidence` string
+  - `matchMethod` string
+  - `placeId` string
+
 Recommended fields:
 - `googleRating`
 - `reviewCount`
@@ -355,8 +372,17 @@ Rules:
 - required: no in v1, recommended
 - fields:
   - `researchSources` array
+  - `sourceCount` integer
+  - `sourceTypes` array of strings
+  - `lastVerified` string
+  - `confidence` string
   - `notes` string
   - `importedFromHtml` boolean
+
+PR 1 intent:
+- use page-level provenance for overall source quality and extraction state
+- use pick-level provenance for confidence on each place match and recommendation
+- keep provenance factual, not narrative
 
 #### `verification`
 - type: object
