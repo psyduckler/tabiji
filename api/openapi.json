@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "tabiji.ai API",
-    "version": "1.1.0",
-    "description": "Free REST API for AI-curated travel data — destinations, picks, itineraries, comparisons, and agent-friendly search/filter/recommend endpoints. No API key required.",
+    "version": "1.0.0",
+    "description": "Free REST API for AI-curated travel data — 706 destinations, 389 curated picks guides (4,287 place records), 344 day-by-day itineraries, 40 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -106,7 +106,7 @@
       "get": {
         "operationId": "listPicks",
         "summary": "List all picks guides",
-        "description": "Returns all 345 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
+        "description": "Returns all 389 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
         "tags": [
           "Picks"
         ],
@@ -165,7 +165,7 @@
       "get": {
         "operationId": "listItineraries",
         "summary": "List all itineraries",
-        "description": "Returns all 324 day-by-day travel itineraries with summary metadata.",
+        "description": "Returns all 344 day-by-day travel itineraries with summary metadata.",
         "tags": [
           "Itineraries"
         ],
@@ -224,7 +224,7 @@
       "get": {
         "operationId": "listComparisons",
         "summary": "List all destination comparisons",
-        "description": "Returns all 50 head-to-head destination comparisons with summary data.",
+        "description": "Returns all 40 head-to-head destination comparisons with summary metadata.",
         "tags": [
           "Comparisons"
         ],
@@ -279,114 +279,50 @@
         }
       }
     },
-    "/catalog.json": {
+    "/search.json": {
       "get": {
-        "operationId": "getCatalog",
-        "summary": "Get unified agent-ready catalog",
-        "description": "Returns a unified catalog spanning destinations and picks with normalized tags plus freshness/provenance metadata.",
+        "operationId": "searchCollections",
+        "summary": "Search across all collections",
+        "description": "Search destinations, picks, itineraries, and comparisons from one endpoint. Supports q, optional type filter, and optional limit.",
         "tags": [
-          "Meta"
-        ],
-        "responses": {
-          "200": {
-            "description": "Unified catalog",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Catalog"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/search": {
-      "get": {
-        "operationId": "searchCatalog",
-        "summary": "Search the unified catalog",
-        "description": "Search destinations and picks with a natural-language query plus optional structured filters.",
-        "tags": [
-          "Agent"
+          "Search"
         ],
         "parameters": [
           {
-            "name": "query",
+            "name": "q",
             "in": "query",
+            "required": true,
+            "description": "Free-text search query",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "location",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "city",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "entity_types",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
             },
-            "style": "form",
-            "explode": false
+            "example": "tokyo"
           },
           {
-            "name": "tags",
+            "name": "type",
             "in": "query",
+            "required": false,
+            "description": "Filter to destination, pick, itinerary, or comparison",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "budget",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "open_now",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "destination",
+                "pick",
+                "itinerary",
+                "comparison"
+              ]
             }
           },
           {
             "name": "limit",
             "in": "query",
+            "required": false,
+            "description": "Maximum results to return (1-100)",
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
             }
           }
         ],
@@ -396,310 +332,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "searchCatalogPost",
-        "summary": "Search the unified catalog",
-        "description": "Search destinations and picks with a natural-language query plus optional structured filters.",
-        "tags": [
-          "Agent"
-        ],
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AgentQuery"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Search results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/filter": {
-      "get": {
-        "operationId": "filterCatalog",
-        "summary": "Filter the unified catalog",
-        "description": "Apply deterministic hard constraints across the agent-ready catalog.",
-        "tags": [
-          "Agent"
-        ],
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "location",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "city",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "entity_types",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "tags",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "budget",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "open_now",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Filtered results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FilterResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "filterCatalogPost",
-        "summary": "Filter the unified catalog",
-        "description": "Apply deterministic hard constraints across the agent-ready catalog.",
-        "tags": [
-          "Agent"
-        ],
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AgentQuery"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Filtered results",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FilterResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/recommend": {
-      "get": {
-        "operationId": "recommendCatalog",
-        "summary": "Recommend ranked matches",
-        "description": "Rank places or destinations for a trip intent with reasons, tradeoffs, freshness, and provenance.",
-        "tags": [
-          "Agent"
-        ],
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "location",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "city",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "entity_types",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "tags",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "budget",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "open_now",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            }
-          },
-          {
-            "name": "intent",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Recommendations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RecommendationResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "recommendCatalogPost",
-        "summary": "Recommend ranked matches",
-        "description": "Rank places or destinations for a trip intent with reasons, tradeoffs, freshness, and provenance.",
-        "tags": [
-          "Agent"
-        ],
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Recommendations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RecommendationResponse"
+                  "$ref": "#/components/schemas/SearchResults"
                 }
               }
             }
@@ -1179,19 +812,19 @@
           },
           "title": {
             "type": "string",
-            "example": "Bali vs Thailand: Which Should You Visit?"
+            "example": "Tokyo vs Kyoto: Which Should You Visit?"
           },
           "destination1": {
             "type": "string",
-            "example": "Bali"
+            "example": "Tokyo"
           },
           "destination2": {
             "type": "string",
-            "example": "Thailand"
+            "example": "Kyoto"
           },
           "categoryCount": {
             "type": "integer",
-            "example": 9
+            "example": 10
           },
           "url": {
             "type": "string",
@@ -1217,15 +850,26 @@
         "type": "object",
         "properties": {
           "title": {
-            "type": "string",
-            "example": "🏖️ Beaches: Crystal Clear vs Perfect Surf"
+            "type": "string"
           },
           "summary": {
             "type": "string"
           },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "redditQuotes": {
             "type": "array",
             "items": {
+              "$ref": "#/components/schemas/ComparisonQuote"
+            }
+          },
+          "winnerSummary": {
+            "type": "object",
+            "additionalProperties": {
               "type": "string"
             }
           }
@@ -1288,380 +932,81 @@
           }
         }
       },
-      "CatalogItem": {
+      "ComparisonQuote": {
         "type": "object",
         "properties": {
-          "id": {
+          "text": {
             "type": "string"
           },
-          "entityType": {
-            "type": "string",
-            "enum": [
-              "destination",
-              "place"
-            ]
-          },
           "source": {
+            "type": "string"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "ComparisonVerdict": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "takeaways": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SearchItem": {
+        "type": "object",
+        "properties": {
+          "type": {
             "type": "string"
           },
           "slug": {
             "type": "string"
           },
-          "name": {
-            "type": "string"
-          },
           "title": {
             "type": "string"
           },
-          "description": {
+          "subtitle": {
             "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "locationLabel": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "goodFor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "highlights": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "priceLevel": {
-            "type": "string"
-          },
-          "openNow": {
-            "type": [
-              "boolean",
-              "null"
-            ]
-          },
-          "ratingNormalized": {
-            "type": "number"
-          },
-          "editorialSignal": {
-            "type": "number"
           },
           "url": {
-            "type": "string"
-          },
-          "freshness": {
-            "$ref": "#/components/schemas/Freshness"
-          },
-          "provenance": {
-            "$ref": "#/components/schemas/Provenance"
-          }
-        }
-      },
-      "Catalog": {
-        "type": "object",
-        "properties": {
-          "version": {
-            "type": "string"
-          },
-          "generatedAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "uri"
           },
-          "itemCount": {
-            "type": "integer"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CatalogItem"
-            }
-          }
-        }
-      },
-      "Freshness": {
-        "type": "object",
-        "properties": {
-          "generatedAt": {
+          "siteUrl": {
             "type": "string",
-            "format": "date-time"
-          },
-          "confidence": {
-            "type": "string"
-          },
-          "confidenceScore": {
-            "type": "number"
-          },
-          "operationalFieldsMayChange": {
-            "type": "boolean"
+            "format": "uri"
           }
         }
       },
-      "Provenance": {
-        "type": "object",
-        "properties": {
-          "sources": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "lastVerifiedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "AgentQuery": {
+      "SearchResults": {
         "type": "object",
         "properties": {
           "query": {
             "type": "string"
           },
-          "q": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "entity_types": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "entityType": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "good_for": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "goodFor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "budget": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            ]
-          },
-          "price_level": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            ]
-          },
-          "open_now": {
-            "type": "boolean"
-          },
-          "openNow": {
-            "type": "boolean"
-          },
-          "category": {
-            "type": "string"
-          },
-          "limit": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 100
-          }
-        }
-      },
-      "RecommendationRequest": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/AgentQuery"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "intent": {
-                "type": "string"
-              },
-              "party": {
-                "type": "object",
-                "properties": {
-                  "size": {
-                    "type": "integer"
-                  },
-                  "traveler_type": {
-                    "type": "string"
-                  }
-                }
-              },
-              "preferences": {
-                "type": "object",
-                "properties": {
-                  "tags": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "atmosphere": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "want": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "avoid": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "constraints": {
-                "$ref": "#/components/schemas/AgentQuery"
-              }
-            }
-          }
-        ]
-      },
-      "SearchResult": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CatalogItem"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "scores": {
-                "type": "object",
-                "properties": {
-                  "search": {
-                    "type": "number"
-                  }
-                }
-              },
-              "matchedOn": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ]
-      },
-      "SearchResponse": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string"
-          },
-          "count": {
-            "type": "integer"
-          },
-          "totalCatalogItems": {
-            "type": "integer"
-          },
-          "results": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SearchResult"
-            }
-          }
-        }
-      },
-      "FilterResponse": {
-        "type": "object",
-        "properties": {
-          "constraints": {
-            "$ref": "#/components/schemas/AgentQuery"
-          },
-          "count": {
-            "type": "integer"
-          },
-          "results": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CatalogItem"
-            }
-          }
-        }
-      },
-      "RecommendationResult": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CatalogItem"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "score": {
-                "type": "number"
-              },
-              "whyRecommended": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "tradeoffs": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ]
-      },
-      "RecommendationResponse": {
-        "type": "object",
-        "properties": {
-          "intent": {
+          "type": {
             "type": [
               "string",
               "null"
@@ -1670,10 +1015,10 @@
           "count": {
             "type": "integer"
           },
-          "results": {
+          "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RecommendationResult"
+              "$ref": "#/components/schemas/SearchItem"
             }
           }
         }

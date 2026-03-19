@@ -51,118 +51,60 @@ def slugify(text):
     return text.strip('-')
 
 
-def strip_emoji(text):
-    return re.sub(r'[𐀀-􏿿]', '', str(text or '')).strip()
+def clean_text(text):
+    if not text:
+        return ""
+    text = BeautifulSoup(text, 'html.parser').get_text(' ', strip=True)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
 
 
-def humanize_slug(text):
-    text = strip_emoji(text).replace('-', ' ').strip()
-    return ' '.join(word.capitalize() for word in text.split())
+def split_quote_and_source(quote_div):
+    source_span = quote_div.find('span', class_='source')
+    source_text = clean_text(source_span.get_text(' ', strip=True)) if source_span else ""
+    quote_clone = BeautifulSoup(str(quote_div), 'html.parser')
+    source_clone = quote_clone.find('span', class_='source')
+    if source_clone:
+        source_clone.decompose()
+    quote_text = clean_text(quote_clone.get_text(' ', strip=True)).strip('""“”')
+
+    source_link = ""
+    source_label = source_text
+    if source_span:
+        link = source_span.find('a', href=True)
+        if link:
+            source_link = link.get('href', '').strip()
+            source_label = clean_text(source_span.get_text(' ', strip=True)).lstrip('— ').strip()
+
+    return {
+        "text": quote_text,
+        "source": source_label,
+        "sourceUrl": source_link,
+    }
 
 
-def compact_dict(data):
-    if not isinstance(data, dict):
-        return data
-    compacted = {}
-    for key, value in data.items():
-        if value in ('', [], {}, None):
-            continue
-        compacted[key] = value
-    return compacted
+def make_unique_slug(base_slug, dest, used_slugs):
+    slug = base_slug
+    if slug not in used_slugs:
+        used_slugs.add(slug)
+        return slug
 
+    candidates = [
+        slugify(f"{dest.get('name', '')} {dest.get('region', '')}"),
+        slugify(f"{dest.get('name', '')} {dest.get('continent', '')}"),
+        slugify(f"{dest.get('name', '')} destination"),
+    ]
+    for candidate in candidates:
+        if candidate and candidate not in used_slugs:
+            used_slugs.add(candidate)
+            return candidate
 
-def derive_destination_city(name, slug, region):
-    """Derive a searchable city/location name for a destination.
-
-    For actual cities (Tokyo, Paris), the name works directly.
-    For landmarks (Banff National Park, Angel Falls), use the region if
-    available, otherwise keep the full clean name — truncating landmark
-    names produces nonsense like 'Angel' or 'Antelope'.
-    """
-    clean_name = strip_emoji(name)
-    clean_region = strip_emoji(region)
-    landmark_markers = ['cathedral', 'park', 'falls', 'desert', 'coast',
-                        'islands', 'island', 'valley', 'mountains', 'mountain',
-                        'beach', 'reef', 'road', 'bay', 'river', 'forest',
-                        'temple', 'lake', 'canyon', 'national', 'gorge',
-                        'glacier', 'volcano', 'cliffs', 'caves', 'springs']
-    lower_name = clean_name.lower()
-    is_landmark = any(marker in lower_name for marker in landmark_markers)
-    if is_landmark:
-        # For landmarks, prefer region (actual geographic area) over
-        # truncated name.  Fall back to full name — "Angel Falls" is more
-        # useful than "Angel".
-        return clean_region or clean_name
-    return clean_name or clean_region
-
-
-def extract_city_from_title(title):
-    """Extract city name from guide titles like '16 Best Bookshop Cafés in Buenos Aires'."""
-    if not title:
-        return ''
-    # Match "in <City>" — each word must start uppercase.  We then trim
-    # trailing words that are clearly not part of the city name.
-    m = re.search(r'\bin\s+([A-Z][A-Za-zÀ-ÿ\-\'\.]+(?:\s+[A-Z][A-Za-zÀ-ÿ\-\'\.]+)*)', title)
-    if m:
-        city = m.group(1).strip().rstrip('.')
-        # Trim trailing non-city words (prepositions, qualifiers)
-        trim_words = {'Under', 'Over', 'With', 'Without', 'Near', 'Around',
-                      'For', 'During', 'After', 'Before', 'From', 'By'}
-        words = city.split()
-        while len(words) > 1 and words[-1] in trim_words:
-            words.pop()
-        city = ' '.join(words)
-        # Reject if it looks like a generic descriptor rather than a city
-        generic = {'the', 'a', 'an', 'your', 'every', 'all'}
-        if city.split()[0].lower() not in generic and len(city) > 1:
-            return city
-    return ''
-
-
-def derive_pick_city(data, slug, place):
-    """Derive city for a place entry, with multiple fallback strategies."""
-    city = strip_emoji(data.get('city', ''))
-    # Check if this is a country-level rollup page (slug == city name means
-    # the "city" is actually a country: argentina, japan, etc.).
-    # In that case, try to extract the real city from place/guide titles first.
-    slug_as_city = humanize_slug(slug)
-    is_country_page = city and city.lower() == slug_as_city.lower()
-    if city and not is_country_page:
-        return city
-    # Try extracting city from the place's own name/title (for country rollup pages
-    # where place names are sub-guide titles like "15 Best Empanadas in Buenos Aires")
-    place_name = strip_emoji(place.get('name', ''))
-    city_from_place = extract_city_from_title(place_name)
-    if city_from_place:
-        return city_from_place
-    # Try the guide-level title
-    guide_title = strip_emoji(data.get('title', ''))
-    city_from_guide = extract_city_from_title(guide_title)
-    if city_from_guide:
-        return city_from_guide
-    # Try address
-    address = strip_emoji(place.get('address', ''))
-    if address and address.lower() not in ['throughout tokyo', 'throughout seoul']:
-        parts = [p.strip() for p in address.split(',') if p.strip()]
-        if parts:
-            last = parts[-1]
-            if len(last.split()) <= 4 and not re.search(r'\d', last):
-                return last
-    # Last resort: parse slug
-    stopwords = {'best','cheap','eats','restaurants','bars','cafes','coffee',
-                 'shops','shop','street','food','market','markets','night',
-                 'rooftop','rooftops','things','to','do','hidden','temples',
-                 'new','nordic','budget','craft','beer','cocktail','cocktails',
-                 'vintage','fashion','sweets','patisseries','traditional','tea',
-                 'houses','sunset','white','rose','dumplings'}
-    parts = slug.split('-')
-    city_parts = []
-    for part in parts:
-        if part in stopwords:
-            break
-        city_parts.append(part)
-    city_guess = humanize_slug('-'.join(city_parts))
-    return city_guess or humanize_slug(slug)
+    counter = 2
+    while f"{base_slug}-{counter}" in used_slugs:
+        counter += 1
+    slug = f"{base_slug}-{counter}"
+    used_slugs.add(slug)
+    return slug
 
 
 def extract_json_ld(soup):
@@ -190,7 +132,6 @@ def find_json_ld_by_type(blocks, type_name):
 # ============================================================
 
 def build_destinations():
-    """Build destinations JSON from find/destinations.json."""
     src = BASE_DIR / "find" / "destinations.json"
     if not src.exists():
         print("  ⚠️  destinations.json not found")
@@ -199,13 +140,13 @@ def build_destinations():
     with open(src) as f:
         destinations = json.load(f)
 
-    # Build individual destination files
     dest_dir = OUTPUT_DIR / "destinations"
     dest_dir.mkdir(parents=True, exist_ok=True)
 
     summaries = []
+    used_slugs = set()
     for dest in destinations:
-        slug = slugify(dest.get("name", ""))
+        slug = make_unique_slug(slugify(dest.get("name", "")), dest, used_slugs)
         if not slug:
             continue
 
@@ -223,13 +164,12 @@ def build_destinations():
             "url": f"{SITE_URL}/find/?q={slug}"
         }
 
-        # Write individual file
         with open(dest_dir / f"{slug}.json", 'w') as f:
             json.dump(detail, f, indent=2, ensure_ascii=False)
 
         summaries.append({
             "slug": slug,
-            "name": dest["name"],
+            "name": dest.get("name", ""),
             "region": dest.get("region", ""),
             "continent": dest.get("continent", ""),
             "budget": dest.get("budget", ""),
@@ -239,12 +179,8 @@ def build_destinations():
             "pitch": dest.get("pitch", "")
         })
 
-    # Write summary file
     with open(OUTPUT_DIR / "destinations.json", 'w') as f:
-        json.dump({
-            "count": len(summaries),
-            "destinations": summaries
-        }, f, indent=2, ensure_ascii=False)
+        json.dump({"count": len(summaries), "destinations": summaries}, f, indent=2, ensure_ascii=False)
 
     return summaries, len(summaries)
 
@@ -253,57 +189,51 @@ def build_destinations():
 # POPULAR PICKS
 # ============================================================
 
+def normalize_price_range(text):
+    text = clean_text(text)
+    text = re.sub(r'^[💰💶💴🪙]+\s*', '', text)
+    return text.strip()
+
+
 def extract_pick_places(soup, slug):
-    """Extract all places from a popular-picks page."""
     places = []
     sections = soup.find_all('section', class_='restaurant-section')
 
     for section in sections:
         place = {}
-
-        # Name
         h2 = section.find('h2')
         if h2:
-            # Remove the number span
             num_span = h2.find('span', class_='restaurant-number')
-            number = num_span.text.strip() if num_span else ""
-            name_text = h2.get_text(strip=True)
+            number = clean_text(num_span.get_text()) if num_span else ""
+            name_text = clean_text(h2.get_text())
             if number and name_text.startswith(number):
                 name_text = name_text[len(number):].strip()
             place["name"] = name_text
             place["position"] = int(number) if number.isdigit() else None
 
-        # Cuisine tags
         tags = section.find_all('span', class_=lambda x: x and 'cuisine-tag' in x)
         if tags:
-            place["cuisineTags"] = [t.text.strip() for t in tags]
+            place["cuisineTags"] = [clean_text(t.get_text()) for t in tags]
 
-        # Google rating
         rating_span = section.find('span', class_='google-rating')
         if rating_span:
-            rating_text = rating_span.get_text(strip=True)
-            # Parse "★ 4.5 · 1,859 reviews"
-            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_text)
+            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_span.get_text(strip=True))
             if match:
                 place["googleRating"] = float(match.group(1))
                 place["reviewCount"] = int(match.group(2).replace(',', ''))
 
-        # Restaurant details (price, location, maps)
         details = section.find('div', class_='restaurant-details')
         if details:
-            spans = details.find_all('span')
-            for span in spans:
-                text = span.get_text(strip=True)
-                if '💰' in text or '¥' in text or '€' in text or '$' in text or '£' in text:
-                    place["priceRange"] = text.replace('💰', '').strip()
+            for span in details.find_all('span'):
+                text = clean_text(span.get_text())
+                if any(c in text for c in ['💰', '💶', '💴', '¥', '€', '$', '£', '🪙']):
+                    place["priceRange"] = normalize_price_range(text)
                 elif '📍' in text:
                     place["address"] = text.replace('📍', '').strip()
-
             maps_link = details.find('a', href=re.compile(r'maps\.google|google.*maps|goo\.gl/maps'))
             if maps_link:
                 place["googleMapsUrl"] = maps_link.get('href', '')
 
-        # Opening hours
         hours_div = section.find('div', class_='shop-hours')
         if hours_div:
             hours_grid = hours_div.find('div', class_='hours-grid')
@@ -311,70 +241,61 @@ def extract_pick_places(soup, slug):
                 spans = hours_grid.find_all('span')
                 hours = {}
                 for i in range(0, len(spans) - 1, 2):
-                    day = spans[i].text.strip()
-                    time = spans[i + 1].text.strip()
-                    hours[day] = time
+                    hours[clean_text(spans[i].get_text())] = clean_text(spans[i + 1].get_text())
                 if hours:
                     place["openingHours"] = hours
-
-            # Open/closed status
             summary = hours_div.find('summary')
             if summary:
-                status_text = summary.get_text(strip=True)
+                status_text = clean_text(summary.get_text())
                 if 'Open' in status_text:
                     place["openNow"] = True
                 elif 'Closed' in status_text:
                     place["openNow"] = False
 
-        # Contact (phone, website)
         contact = section.find('div', class_='shop-contact')
         if contact:
             phone_link = contact.find('a', href=re.compile(r'tel:'))
             if phone_link:
                 place["phone"] = phone_link.get('href', '').replace('tel:', '')
-
             website_link = contact.find('a', href=re.compile(r'^https?://'))
             if website_link and 'maps.google' not in website_link.get('href', ''):
                 place["website"] = website_link.get('href', '')
 
-        # Photo
         img = section.find('img')
-        if img and img.get('src', '').startswith('https://img.tabiji.ai'):
-            place["photo"] = img.get('src', '')
-        elif img and img.get('src'):
+        if img and img.get('src'):
             place["photo"] = img.get('src', '')
 
-        # What to order
         order_div = section.find('div', class_='what-to-order')
         if order_div:
-            order_text = order_div.get_text(strip=True)
-            order_text = re.sub(r'^What to order:\s*', '', order_text)
+            order_text = clean_text(order_div.get_text())
+            order_text = re.sub(r'^What to order:\s*', '', order_text, flags=re.IGNORECASE)
             place["whatToOrder"] = order_text
 
-        # Reddit quotes
         quotes = section.find_all('div', class_='reddit-quote')
         if quotes:
-            place["redditQuotes"] = []
-            for q in quotes:
-                quote_text = q.get_text(strip=True)
-                source_span = q.find('span', class_='source')
-                source = source_span.get_text(strip=True) if source_span else ""
-                # Clean up the quote text — remove source from end
-                if source and quote_text.endswith(source):
-                    quote_text = quote_text[:-len(source)].strip()
-                # Remove leading/trailing quotes
-                quote_text = quote_text.strip('""\u201c\u201d')
-                place["redditQuotes"].append({
-                    "text": quote_text,
-                    "source": source
-                })
+            place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
 
-        # Tabiji verdict / insider tip
-        verdict_div = section.find('div', class_='tabiji-verdict')
-        if verdict_div:
-            verdict_text = verdict_div.get_text(strip=True)
-            verdict_text = re.sub(r'^tabiji verdict:\s*', '', verdict_text)
-            place["insiderTip"] = verdict_text
+        verdict_box = section.find('div', class_='pick-quick-take')
+        if verdict_box:
+            place["verdict"] = clean_text(verdict_box.get_text()).replace('Verdict:', '').strip()
+
+        comparison_card = section.find('div', class_='comparison-card')
+        if comparison_card:
+            comparison = {}
+            for row in comparison_card.find_all('div', class_='comparison-row'):
+                dt = row.find('dt')
+                dd = row.find('dd')
+                if not dt or not dd:
+                    continue
+                key = clean_text(dt.get_text()).lower()
+                value = clean_text(dd.get_text())
+                comparison[key] = value
+            if comparison:
+                place["comparison"] = comparison
+                if not place.get("whatToOrder") and comparison.get("what to order"):
+                    place["whatToOrder"] = comparison.get("what to order")
+                if not place.get("insiderTip") and comparison.get("why it made the list"):
+                    place["insiderTip"] = comparison.get("why it made the list")
 
         if place.get("name"):
             places.append(place)
@@ -383,113 +304,88 @@ def extract_pick_places(soup, slug):
 
 
 def extract_pick_places_generic(soup, slug):
-    """Extract places from pages with non-standard section classes (bath-section, pick-item, etc.)."""
+    """Extract places from pages with non-standard section classes (bath-section, lodge-section, pick-item, etc.)."""
     places = []
-
-    # Try various section/item patterns
     items = (
-        soup.find_all('section', class_=re.compile(r'bath-section|lodge-section|hammam-section|club-section|bar-section|view-section|stay-section|spot-section')) or
-        soup.find_all('div', class_=re.compile(r'pick-item'))
+        soup.find_all('section', class_=re.compile(r'bath-section|lodge-section|hammam-section|club-section|bar-section|view-section|stay-section|spot-section'))
+        or soup.find_all('div', class_=re.compile(r'pick-item'))
     )
 
     if not items:
         return places
 
     for i, item in enumerate(items):
-        place = {}
-        place["position"] = i + 1
+        place = {"position": i + 1}
 
-        # Name from h2 or h3
         heading = item.find(['h2', 'h3'])
         if heading:
-            # Remove number spans
             num_span = heading.find('span', class_=re.compile(r'number|pick-number|bath-number'))
-            name_text = heading.get_text(strip=True)
+            name_text = clean_text(heading.get_text())
             if num_span:
-                num_text = num_span.text.strip()
+                num_text = clean_text(num_span.get_text())
                 if name_text.startswith(num_text):
                     name_text = name_text[len(num_text):].strip()
-            # Remove leading "01. " patterns
             name_text = re.sub(r'^\d+\.\s*', '', name_text)
             place["name"] = name_text
 
-        # Tags
         tags = item.find_all('span', class_=re.compile(r'tag(?!-)|bath-tag|cuisine-tag'))
         if tags:
-            tag_texts = [t.text.strip() for t in tags if not any(skip in t.text for skip in ['📍', '💰', '🪙', '🕐'])]
+            tag_texts = [clean_text(t.get_text()) for t in tags if not any(skip in clean_text(t.get_text()) for skip in ['📍', '💰', '🪙', '🕐'])]
             if tag_texts:
                 place["cuisineTags"] = tag_texts
 
-        # Details / meta
         details = item.find(class_=re.compile(r'details|meta|bath-details|pick-details|spot-details'))
         if details:
             spans = details.find_all('span')
             for span in spans:
-                text = span.get_text(strip=True)
-                if any(c in text for c in ['💰', '💶', '¥', '€', '$', '£', '🪙']):
-                    place["priceRange"] = re.sub(r'^[💰💶🪙]\s*', '', text).strip()
+                text = clean_text(span.get_text())
+                if any(c in text for c in ['💰', '💶', '💴', '¥', '€', '$', '£', '🪙']):
+                    place["priceRange"] = normalize_price_range(text)
                 elif '📍' in text:
                     place["address"] = text.replace('📍', '').strip()
-
             maps_link = details.find('a', href=re.compile(r'maps\.google|google.*maps'))
             if maps_link:
                 place["googleMapsUrl"] = maps_link.get('href', '')
 
-        # Subtitle (for pick-item template)
         subtitle = item.find(class_='subtitle')
         if subtitle and not place.get("address"):
-            parts = subtitle.get_text(strip=True).split('•')
+            parts = [clean_text(p) for p in subtitle.get_text(strip=True).split('•')]
             if len(parts) >= 1:
                 place["address"] = parts[0].strip()
             if len(parts) >= 3:
-                place["priceRange"] = parts[-1].strip()
+                place["priceRange"] = normalize_price_range(parts[-1])
 
-        # Google rating
         rating_el = item.find(class_='google-rating')
         if rating_el:
-            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_el.text)
+            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_el.get_text())
             if match:
                 place["googleRating"] = float(match.group(1))
                 place["reviewCount"] = int(match.group(2).replace(',', ''))
 
-        # Photo
         img = item.find('img')
         if img and img.get('src'):
             place["photo"] = img.get('src', '')
 
-        # What to order / what to know
         order = item.find(class_=re.compile(r'what-to-order|what-to-know'))
         if order:
-            text = order.get_text(strip=True)
-            text = re.sub(r'^(What to order|What to know):\s*', '', text)
+            text = clean_text(order.get_text())
+            text = re.sub(r'^(What to order|What to know):\s*', '', text, flags=re.IGNORECASE)
             place["whatToOrder"] = text
 
-        # Description
         desc_p = item.find('p', class_='description')
-        if desc_p:
-            place["whatToOrder"] = desc_p.get_text(strip=True)
+        if desc_p and not place.get("whatToOrder"):
+            place["whatToOrder"] = clean_text(desc_p.get_text())
 
-        # Reddit quotes
         quotes = item.find_all('div', class_='reddit-quote')
         if quotes:
-            place["redditQuotes"] = []
-            for q in quotes:
-                qt = q.get_text(strip=True)
-                src = q.find('span', class_='source')
-                source = src.get_text(strip=True) if src else ""
-                if source and qt.endswith(source):
-                    qt = qt[:-len(source)].strip()
-                qt = qt.strip('""\u201c\u201d')
-                place["redditQuotes"].append({"text": qt, "source": source})
+            place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
 
-        # Verdict / tabiji verdict
         verdict = item.find(class_=re.compile(r'verdict|tabiji-verdict'))
         if verdict:
-            text = verdict.get_text(strip=True)
-            text = re.sub(r'^tabiji verdict:\s*', '', text)
+            text = clean_text(verdict.get_text())
+            text = re.sub(r'^tabiji verdict:\s*', '', text, flags=re.IGNORECASE)
             place["insiderTip"] = text
 
-        # Hours
         hours_div = item.find(class_=re.compile(r'hours'))
         if hours_div:
             grid = hours_div.find(class_='hours-grid')
@@ -497,7 +393,7 @@ def extract_pick_places_generic(soup, slug):
                 spans = grid.find_all('span')
                 hours = {}
                 for j in range(0, len(spans) - 1, 2):
-                    hours[spans[j].text.strip()] = spans[j + 1].text.strip()
+                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
                 if hours:
                     place["openingHours"] = hours
 
@@ -513,85 +409,77 @@ def extract_pick_places_alt(soup, slug):
     entries = soup.find_all('div', class_='entry-body')
 
     for i, entry in enumerate(entries):
-        place = {}
-        place["position"] = i + 1
+        place = {"position": i + 1}
 
-        # Name
         name_el = entry.find(class_='entry-name')
         if name_el:
-            place["name"] = name_el.get_text(strip=True)
+            place["name"] = clean_text(name_el.get_text())
 
-        # Local name
         local_name = entry.find(class_='entry-local-name')
         if local_name:
-            place["localName"] = local_name.get_text(strip=True)
+            place["localName"] = clean_text(local_name.get_text())
 
-        # Tags
         tags = entry.find_all('span', class_=lambda x: x and 'tag' in x and x != 'entry-tags')
         if tags:
-            place["cuisineTags"] = [t.text.strip() for t in tags]
+            place["cuisineTags"] = [clean_text(t.get_text()) for t in tags]
 
-        # Meta (price, address, hours)
         meta = entry.find(class_='entry-meta')
         if meta:
             spans = meta.find_all('span')
             for span in spans:
-                text = span.get_text(strip=True)
-                if '💶' in text or '💰' in text or '¥' in text or '€' in text or '$' in text or '£' in text:
-                    place["priceRange"] = re.sub(r'^[💶💰]\s*', '', text).strip()
+                text = clean_text(span.get_text())
+                if any(c in text for c in ['💶', '💰', '💴', '¥', '€', '$', '£', '🪙']):
+                    place["priceRange"] = normalize_price_range(text)
                 elif '📍' in text:
                     place["address"] = text.replace('📍', '').strip()
                     maps_link = span.find('a', href=re.compile(r'maps\.google|google.*maps'))
                     if maps_link:
                         place["googleMapsUrl"] = maps_link.get('href', '')
-                        place["address"] = maps_link.get_text(strip=True)
+                        place["address"] = clean_text(maps_link.get_text())
                 elif '🕐' in text or '🕑' in text:
                     place["hoursText"] = re.sub(r'^[🕐🕑]\s*', '', text).strip()
 
-        # Google rating (some alt templates have it)
         rating_el = entry.find(class_='google-rating')
         if rating_el:
-            rating_text = rating_el.get_text(strip=True)
+            rating_text = clean_text(rating_el.get_text())
             match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_text)
             if match:
                 place["googleRating"] = float(match.group(1))
                 place["reviewCount"] = int(match.group(2).replace(',', ''))
 
-        # Photo
         img = entry.find('img')
         if img and img.get('src'):
             place["photo"] = img.get('src', '')
 
-        # What to order
         order_div = entry.find(class_='what-to-order')
         if order_div:
             p = order_div.find('p')
             if p:
-                place["whatToOrder"] = p.get_text(strip=True)
+                place["whatToOrder"] = clean_text(p.get_text())
+            else:
+                place["whatToOrder"] = clean_text(order_div.get_text())
 
-        # Reddit quotes (quote-block)
         quotes_div = entry.find(class_='quotes')
         if quotes_div:
             quote_blocks = quotes_div.find_all(class_='quote-block')
             if quote_blocks:
                 place["redditQuotes"] = []
                 for qb in quote_blocks:
-                    text = qb.get_text(strip=True)
                     cite = qb.find('cite')
-                    source = cite.get_text(strip=True) if cite else ""
-                    if source and text.endswith(source):
-                        text = text[:-len(source)].strip()
-                    text = text.strip('""\u201c\u201d')
-                    place["redditQuotes"].append({"text": text, "source": source})
+                    source = clean_text(cite.get_text()) if cite else ""
+                    quote_clone = BeautifulSoup(str(qb), 'html.parser')
+                    cite_clone = quote_clone.find('cite')
+                    if cite_clone:
+                        cite_clone.decompose()
+                    text = clean_text(quote_clone.get_text()).strip('""“”')
+                    place["redditQuotes"].append({"text": text, "source": source, "sourceUrl": ""})
 
-        # Verdict
         verdict = entry.find(class_='verdict-box')
         if verdict:
             p = verdict.find('p')
             if p:
-                place["insiderTip"] = p.get_text(strip=True)
+                place["insiderTip"] = clean_text(p.get_text())
 
-        # Contact section
         contact = entry.find(class_='entry-contact') or entry.find(class_='shop-contact')
         if contact:
             phone_link = contact.find('a', href=re.compile(r'tel:'))
@@ -601,7 +489,6 @@ def extract_pick_places_alt(soup, slug):
             if website_link and 'maps.google' not in website_link.get('href', ''):
                 place["website"] = website_link.get('href', '')
 
-        # Hours grid (some alt pages have it)
         hours_div = entry.find(class_='shop-hours') or entry.find(class_='hours-section')
         if hours_div:
             hours_grid = hours_div.find(class_='hours-grid')
@@ -609,9 +496,7 @@ def extract_pick_places_alt(soup, slug):
                 spans = hours_grid.find_all('span')
                 hours = {}
                 for j in range(0, len(spans) - 1, 2):
-                    day = spans[j].text.strip()
-                    time = spans[j + 1].text.strip()
-                    hours[day] = time
+                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
                 if hours:
                     place["openingHours"] = hours
 
@@ -622,49 +507,33 @@ def extract_pick_places_alt(soup, slug):
 
 
 def extract_meta_content(soup, attr_name, attr_value):
-    """Extract a meta tag content value by name/property."""
     tag = soup.find('meta', attrs={attr_name: attr_value})
     return tag.get('content', '').strip() if tag and tag.get('content') else ''
 
 
 def extract_pick_hub_cards(soup):
-    """Extract linked cards from a hub-style popular-picks page."""
     cards = []
     for link in soup.find_all('a', class_='pick-card'):
         href = link.get('href', '').strip()
         if not href:
             continue
-
         title_el = link.find(['h2', 'h3'])
         desc_el = link.find('p')
         badge_el = link.find(class_='card-badge')
         img_el = link.find('img')
-        meta_els = link.find_all('span')
-        meta = []
-        for span in meta_els:
-            classes = span.get('class', [])
-            if 'card-badge' in classes:
-                continue
-            text = span.get_text(' ', strip=True)
-            if text:
-                meta.append(text)
-
         slug = href.strip('/').split('/')[-1] if href else ''
         cards.append({
-            "name": title_el.get_text(' ', strip=True) if title_el else slug,
+            "name": clean_text(title_el.get_text()) if title_el else slug,
             "slug": slug,
             "url": f"{SITE_URL}{href}" if href.startswith('/') else href,
-            "description": desc_el.get_text(' ', strip=True) if desc_el else '',
-            "badge": badge_el.get_text(' ', strip=True) if badge_el else '',
+            "description": clean_text(desc_el.get_text()) if desc_el else '',
+            "badge": clean_text(badge_el.get_text()) if badge_el else '',
             "photo": img_el.get('src', '').strip() if img_el else '',
-            "meta": meta,
         })
-
     return cards
 
 
 def build_picks():
-    """Build popular picks JSON from popular-picks/*/index.html."""
     picks_dir = BASE_DIR / "popular-picks"
     if not picks_dir.exists():
         print("  ⚠️  popular-picks/ not found")
@@ -675,10 +544,7 @@ def build_picks():
 
     summaries = []
     total_places = 0
-
-    # Get all pick page directories (skip country pages without index.html containing restaurant-section)
-    slugs = sorted([d for d in os.listdir(picks_dir)
-                     if (picks_dir / d / "index.html").exists()])
+    slugs = sorted([d for d in os.listdir(picks_dir) if (picks_dir / d / "index.html").exists()])
 
     for slug in slugs:
         html_path = picks_dir / slug / "index.html"
@@ -690,37 +556,24 @@ def build_picks():
 
         soup = BeautifulSoup(html, 'html.parser')
         json_ld = extract_json_ld(soup)
-
-        # Get metadata from Article JSON-LD
         article = find_json_ld_by_type(json_ld, 'Article')
-        item_list = find_json_ld_by_type(json_ld, 'ItemList')
 
-        title = ""
-        if article:
-            title = article.get('headline', '')
+        title = article.get('headline', '') if article else ""
+        desc = article.get('description', '') if article else ""
         if not title:
             title_tag = soup.find('title')
             title = title_tag.text.strip().split('|')[0].strip() if title_tag else slug
 
-        # Extract city from breadcrumb or title
         city = ""
-        desc = ""
-        if article:
-            desc = article.get('description', '')
-
-        # Try to extract city from the slug or title
-        # Common pattern: "12 Best Brunch Spots in Amsterdam 2026"
         city_match = re.search(r'(?:in|of)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', title)
         if city_match:
             city = city_match.group(1)
 
-        # Extract category from title
         category = ""
         cat_match = re.search(r'Best\s+(.+?)\s+(?:in|of|for)', title, re.IGNORECASE)
         if cat_match:
             category = cat_match.group(1).strip()
 
-        # Extract places — try main template, then alt, then generic, then hub cards
         places = extract_pick_places(soup, slug)
         if not places:
             places = extract_pick_places_alt(soup, slug)
@@ -732,22 +585,17 @@ def build_picks():
             is_hub_page = len(places) > 0
         total_places += len(places)
 
-        # Get hero image
-        hero_img = ""
-        if article and article.get('image'):
-            hero_img = article['image']
+        hero_img = article.get('image', '') if article else ''
         if isinstance(hero_img, list):
-            hero_img = hero_img[0] if hero_img else ""
+            hero_img = hero_img[0] if hero_img else ''
         if not hero_img:
             hero_img = extract_meta_content(soup, 'property', 'og:image') or extract_meta_content(soup, 'name', 'twitter:image')
-
         if not desc:
             desc = extract_meta_content(soup, 'name', 'description')
-
         if not city and is_hub_page:
             h1 = soup.find('h1')
             if h1:
-                city = h1.get_text(' ', strip=True)
+                city = clean_text(h1.get_text())
 
         detail = {
             "slug": slug,
@@ -761,7 +609,6 @@ def build_picks():
             "places": places
         }
 
-        # Write individual file
         with open(output_picks_dir / f"{slug}.json", 'w') as f:
             json.dump(detail, f, indent=2, ensure_ascii=False)
 
@@ -774,13 +621,8 @@ def build_picks():
             "url": f"{SITE_URL}/popular-picks/{slug}/"
         })
 
-    # Write summary file
     with open(OUTPUT_DIR / "picks.json", 'w') as f:
-        json.dump({
-            "count": len(summaries),
-            "totalPlaces": total_places,
-            "picks": summaries
-        }, f, indent=2, ensure_ascii=False)
+        json.dump({"count": len(summaries), "totalPlaces": total_places, "picks": summaries}, f, indent=2, ensure_ascii=False)
 
     return summaries, total_places
 
@@ -790,77 +632,75 @@ def build_picks():
 # ============================================================
 
 def extract_itinerary_days(soup):
-    """Extract day-by-day itinerary from HTML."""
     days = []
-    day_divs = soup.find_all('div', class_='day')
-
-    for day_div in day_divs:
+    for day_div in soup.find_all('div', class_='day'):
         day = {}
-
-        # Day header
         day_header = day_div.find('div', class_='day-header')
         if day_header:
             day_num = day_header.find('span', class_='day-num')
             day_neighborhoods = day_header.find('span', class_='day-neighborhoods')
             if day_num:
-                day["dayLabel"] = day_num.text.strip()
+                day["dayLabel"] = clean_text(day_num.get_text())
             if day_neighborhoods:
-                day["neighborhoods"] = day_neighborhoods.text.strip()
+                day["neighborhoods"] = clean_text(day_neighborhoods.get_text())
 
-        # Day title
         h2 = day_div.find('h2')
         if h2:
-            day["title"] = h2.get_text(strip=True)
-            # Skip overview/glance sections
+            day["title"] = clean_text(h2.get_text())
             title_lower = day["title"].lower()
-            if any(skip in title_lower for skip in ['at a glance', 'overview', 'essentials', 'before you go', 'packing']):
+            if any(skip in title_lower for skip in ['at a glance', 'overview', 'essentials', 'before you go', 'packing', 'seasonal', 'tips', 'budget', 'faq']):
                 continue
 
-        # Day description
         first_p = day_div.find('p')
         if first_p and not first_p.find_parent('div', class_='time-block'):
-            day["description"] = first_p.get_text(strip=True)
+            day["description"] = clean_text(first_p.get_text())
 
-        # Time blocks (activities)
-        time_blocks = day_div.find_all('div', class_='time-block')
         activities = []
-        for tb in time_blocks:
+        for tb in day_div.find_all('div', class_='time-block'):
             activity = {}
             time_label = tb.find('div', class_='time-label')
             if time_label:
-                activity["time"] = time_label.get_text(strip=True)
+                activity["time"] = clean_text(time_label.get_text())
             h3 = tb.find('h3')
             if h3:
-                activity["name"] = h3.get_text(strip=True)
-            # Get description paragraphs
+                activity["name"] = clean_text(h3.get_text())
             paras = tb.find_all('p')
             if paras:
-                activity["description"] = ' '.join(p.get_text(strip=True) for p in paras[:2])
-
-            # Spot details
-            spot_details = tb.find_all('div', class_='spot-detail')
-            if spot_details:
-                activity["details"] = [sd.get_text(strip=True) for sd in spot_details]
-
-            # Tips
-            tips = tb.find_all('div', class_='tip')
-            if tips:
-                activity["tips"] = [t.get_text(strip=True) for t in tips]
-
+                activity["description"] = ' '.join(clean_text(p.get_text()) for p in paras[:2])
             if activity.get("name"):
                 activities.append(activity)
 
         if activities:
             day["activities"] = activities
-
         if day.get("title") or day.get("activities"):
             days.append(day)
-
     return days
 
 
+def derive_destination_from_itinerary_slug(slug):
+    slug_match = re.match(r'^(\d+)-(?:day|days|night|nights)-([a-z0-9-]+)', slug)
+    if not slug_match:
+        return ""
+    slug_tail = slug_match.group(2)
+    slug_parts = slug_tail.split('-')
+    stopwords = {'first','time','food','nightlife','romantic','relaxation','adventure','eco','culture','nature','march','april','may','june','july','august','september','october','november','december','winter','summer','spring','fall','classic','route','family','solo','budget','beach','countryside','road','trip','wellness','art','guide','itinerary','hopping'}
+    dest_parts = []
+    for part in slug_parts:
+        if dest_parts and part in stopwords:
+            break
+        dest_parts.append(part)
+        if len(dest_parts) >= 3:
+            break
+    return ' '.join(p.title() for p in dest_parts)
+
+
+def clean_itinerary_destination(value):
+    value = re.sub(r'\b(Itinerary|Guide)\b', '', value).strip(' :-—()')
+    value = re.sub(r'\s+', ' ', value).strip()
+    return value
+
+
 def parse_itinerary_page(html_path, slug, source_dir):
-    """Parse a single itinerary page and return structured data."""
     try:
         html = html_path.read_text(encoding='utf-8')
     except Exception:
@@ -868,70 +708,42 @@ def parse_itinerary_page(html_path, slug, source_dir):
 
     soup = BeautifulSoup(html, 'html.parser')
     json_ld = extract_json_ld(soup)
-
     article = find_json_ld_by_type(json_ld, 'Article')
     tourist_trip = find_json_ld_by_type(json_ld, 'TouristTrip')
 
-    title = ""
-    desc = ""
-    destination = ""
-    duration = ""
-    trip_type = []
-    hero_image = ""
-
-    if article:
-        title = article.get('headline', '')
-        desc = article.get('description', '')
-        hero_image = article.get('image', '')
-
-    if tourist_trip:
-        if not title:
-            title = tourist_trip.get('name', '')
-        if not desc:
-            desc = tourist_trip.get('description', '')
-        trip_type = tourist_trip.get('touristType', [])
+    title = article.get('headline', '') if article else ""
+    desc = article.get('description', '') if article else ""
+    hero_image = article.get('image', '') if article else ""
+    trip_type = tourist_trip.get('touristType', []) if tourist_trip else []
 
     if not title:
         title_tag = soup.find('title')
         title = title_tag.text.strip().split('|')[0].strip() if title_tag else slug
 
-    # Extract destination from title
-    # Patterns: "5 Day Tokyo Food Guide", "9 Nights in Nosara"
-    dest_match = re.search(r'(?:Day[s]?\s+(?:in\s+)?|Night[s]?\s+(?:in\s+)?)([A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*)', title)
-    if dest_match:
-        destination = dest_match.group(1)
-    else:
-        # Try "in <City>"
+    destination = ""
+    title_dest_match = re.search(r'(?:Day[s]?\s+(?:in\s+)?|Night[s]?\s+(?:in\s+)?)([A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*)', title)
+    if title_dest_match:
+        destination = clean_itinerary_destination(title_dest_match.group(1))
+    if not destination:
         dest_match2 = re.search(r'in\s+([A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*)', title)
         if dest_match2:
-            destination = dest_match2.group(1)
+            destination = clean_itinerary_destination(dest_match2.group(1))
+    slug_destination = clean_itinerary_destination(derive_destination_from_itinerary_slug(slug))
+    if (not destination) or any(token in destination.lower() for token in ['itinerary', 'guide']) or len(destination.split()) >= 3:
+        if slug_destination:
+            destination = slug_destination
 
-    # Extract duration
-    dur_match = re.search(r'(\d+)\s*(?:Day|Night)', title, re.IGNORECASE)
+    duration = ""
+    dur_match = re.match(r'^(\d+)-(?:day|days|night|nights)', slug)
     if dur_match:
         duration = f"{dur_match.group(1)} days"
-
-    # If no duration from title, count day divs
     if not duration:
-        day_divs = soup.find_all('div', class_='day')
-        if day_divs:
-            # Filter out overview days
-            actual_days = [d for d in day_divs
-                          if d.find('h2') and not any(
-                              skip in d.find('h2').get_text(strip=True).lower()
-                              for skip in ['glance', 'overview', 'essentials']
-                          )]
-            if actual_days:
-                duration = f"{len(actual_days)} days"
+        dur_title = re.search(r'(\d+)\s*(?:Day|Night)', title, re.IGNORECASE)
+        if dur_title:
+            duration = f"{dur_title.group(1)} days"
 
-    # Extract day-by-day
     days = extract_itinerary_days(soup)
-
-    # Determine URL based on source
-    if source_dir == "i":
-        url = f"{SITE_URL}/i/{slug}/"
-    else:
-        url = f"{SITE_URL}/itineraries/{slug}/"
+    url = f"{SITE_URL}/i/{slug}/" if source_dir == "i" else f"{SITE_URL}/itineraries/{slug}/"
 
     return {
         "slug": slug,
@@ -949,37 +761,25 @@ def parse_itinerary_page(html_path, slug, source_dir):
 
 
 def build_itineraries():
-    """Build itineraries JSON from i/*/index.html and itineraries/*/index.html."""
     output_itin_dir = OUTPUT_DIR / "itineraries"
     output_itin_dir.mkdir(parents=True, exist_ok=True)
 
     summaries = []
     all_itineraries = []
-
-    # Process both /i/ and /itineraries/
     for source_dir in ["i", "itineraries"]:
         src_path = BASE_DIR / source_dir
         if not src_path.exists():
             continue
-
-        slugs = sorted([d for d in os.listdir(src_path)
-                         if (src_path / d / "index.html").exists()])
-
+        slugs = sorted([d for d in os.listdir(src_path) if (src_path / d / "index.html").exists()])
         for slug in slugs:
-            html_path = src_path / slug / "index.html"
-            result = parse_itinerary_page(html_path, slug, source_dir)
+            result = parse_itinerary_page(src_path / slug / "index.html", slug, source_dir)
             if result:
                 all_itineraries.append(result)
 
-    # Write individual files — use source-slug for uniqueness
     for itin in all_itineraries:
-        slug = itin["slug"]
-        source = itin["source"]
-        filename = f"{source}-{slug}" if source == "itineraries" else slug
-
+        filename = f"{itin['source']}-{itin['slug']}" if itin["source"] == "itineraries" else itin["slug"]
         with open(output_itin_dir / f"{filename}.json", 'w') as f:
             json.dump(itin, f, indent=2, ensure_ascii=False)
-
         summaries.append({
             "slug": filename,
             "title": itin["title"],
@@ -990,13 +790,8 @@ def build_itineraries():
             "dayCount": itin["dayCount"]
         })
 
-    # Write summary file
     with open(OUTPUT_DIR / "itineraries.json", 'w') as f:
-        json.dump({
-            "count": len(summaries),
-            "itineraries": summaries
-        }, f, indent=2, ensure_ascii=False)
-
+        json.dump({"count": len(summaries), "itineraries": summaries}, f, indent=2, ensure_ascii=False)
     return summaries, len(summaries)
 
 
@@ -1005,7 +800,6 @@ def build_itineraries():
 # ============================================================
 
 def build_compare():
-    """Build compare JSON from compare/*/index.html."""
     compare_dir = BASE_DIR / "compare"
     if not compare_dir.exists():
         print("  ⚠️  compare/ not found")
@@ -1015,9 +809,7 @@ def build_compare():
     output_compare_dir.mkdir(parents=True, exist_ok=True)
 
     summaries = []
-
-    slugs = sorted([d for d in os.listdir(compare_dir)
-                     if (compare_dir / d / "index.html").exists()])
+    slugs = sorted([d for d in os.listdir(compare_dir) if (compare_dir / d / "index.html").exists()])
 
     for slug in slugs:
         html_path = compare_dir / slug / "index.html"
@@ -1031,63 +823,72 @@ def build_compare():
         article = find_json_ld_by_type(json_ld, 'Article')
         faq = find_json_ld_by_type(json_ld, 'FAQPage')
 
-        title = ""
-        desc = ""
-        hero_image = ""
-
-        if article:
-            title = article.get('headline', '')
-            desc = article.get('description', '')
-            hero_image = article.get('image', '')
-
+        title = article.get('headline', '') if article else ""
+        desc = article.get('description', '') if article else ""
+        hero_image = article.get('image', '') if article else ""
         if not title:
             title_tag = soup.find('title')
             title = title_tag.text.strip().split('|')[0].strip() if title_tag else slug
 
-        # Parse destinations from slug (format: "dest1-vs-dest2")
         parts = slug.split('-vs-')
         destination1 = parts[0].replace('-', ' ').title() if len(parts) >= 2 else ""
         destination2 = parts[1].replace('-', ' ').title() if len(parts) >= 2 else ""
 
-        # Extract comparison categories from deep-dive sections
         categories = []
-        deep_dives = soup.find_all('section', class_='deep-dive')
-        for dd in deep_dives:
+        for dd in soup.find_all('section', class_='deep-dive'):
             h2 = dd.find('h2')
-            if h2:
-                cat_title = h2.get_text(strip=True)
-                # Get key points
-                paragraphs = dd.find_all('p')
-                summary_text = ""
-                if paragraphs:
-                    summary_text = paragraphs[0].get_text(strip=True)[:300]
+            if not h2:
+                continue
+            category = {"title": clean_text(h2.get_text())}
+            paragraphs = [clean_text(p.get_text()) for p in dd.find_all('p') if clean_text(p.get_text())]
+            if paragraphs:
+                category["summary"] = paragraphs[0]
+                if len(paragraphs) > 1:
+                    category["highlights"] = paragraphs[1:3]
+            quotes = dd.find_all('div', class_='reddit-quote')
+            if quotes:
+                category["redditQuotes"] = [split_quote_and_source(q) for q in quotes[:3]]
+            winner_box = dd.find('div', class_='section-winner')
+            if winner_box:
+                winner_items = {}
+                for li in winner_box.find_all('li'):
+                    text = clean_text(li.get_text())
+                    if ':' in text:
+                        k, v = text.split(':', 1)
+                        winner_items[slugify(k).replace('-', '_')] = v.strip()
+                if winner_items:
+                    category["winnerSummary"] = winner_items
+            categories.append(category)
 
-                # Reddit quotes
-                quotes = dd.find_all('div', class_='reddit-quote')
-                quote_texts = []
-                for q in quotes:
-                    qt = q.get_text(strip=True).strip('""\u201c\u201d')[:200]
-                    quote_texts.append(qt)
-
-                categories.append({
-                    "title": cat_title,
-                    "summary": summary_text,
-                    "redditQuotes": quote_texts[:2]
-                })
-
-        # Verdict
+        verdict = {}
         verdict_box = soup.find('div', class_='verdict-box')
-        verdict = ""
         if verdict_box:
-            verdict = verdict_box.get_text(strip=True)[:500]
+            summary = verdict_box.find('p', class_='verdict-summary')
+            if summary:
+                verdict["summary"] = clean_text(summary.get_text())
+            takeaways = []
+            for li in verdict_box.find_all('ul', class_='verdict-takeaways'):
+                takeaways.extend([clean_text(item.get_text()) for item in li.find_all('li')])
+            if takeaways:
+                verdict["takeaways"] = takeaways
+            cards = []
+            for card in verdict_box.find_all('div', class_='verdict-card'):
+                heading = card.find(['h3', 'h4'])
+                body = card.find('p')
+                cards.append({
+                    "title": clean_text(heading.get_text()) if heading else "",
+                    "text": clean_text(body.get_text()) if body else "",
+                })
+            cards = [c for c in cards if c['title'] or c['text']]
+            if cards:
+                verdict["cards"] = cards
 
-        # FAQs
         faqs = []
         if faq and faq.get('mainEntity'):
             for q in faq['mainEntity']:
                 faqs.append({
                     "question": q.get('name', ''),
-                    "answer": q.get('acceptedAnswer', {}).get('text', '')[:300]
+                    "answer": q.get('acceptedAnswer', {}).get('text', '')
                 })
 
         detail = {
@@ -1116,181 +917,83 @@ def build_compare():
             "url": f"{SITE_URL}/compare/{slug}/"
         })
 
-    # Write summary file
     with open(OUTPUT_DIR / "compare.json", 'w') as f:
-        json.dump({
-            "count": len(summaries),
-            "comparisons": summaries
-        }, f, indent=2, ensure_ascii=False)
-
+        json.dump({"count": len(summaries), "comparisons": summaries}, f, indent=2, ensure_ascii=False)
     return summaries, len(summaries)
 
 
-
-
-# ============================================================
-# AGENT CATALOG
-# ============================================================
-
-def infer_price_level(price_text):
-    text = (price_text or '').lower()
-    if not text:
-        return ''
-    if any(token in text for token in ['¥', '$', '€', '£', 'under', 'cheap', 'budget', 'low']):
-        if any(token in text for token in ['¥¥¥', '$$$', '€€€', 'luxury', 'fine dining']):
-            return '$$$'
-        if any(token in text for token in ['¥¥', '$$', 'mid', 'moderate']):
-            return '$$'
-        return '$'
-    return ''
-
-
-def extract_tags_from_text(*parts):
-    text = ' '.join(str(part or '') for part in parts).lower()
-    tag_rules = {
-        'breakfast': ['breakfast', 'brunch'],
-        'late_night': ['late night', 'open late', '24 hours'],
-        'romantic': ['romantic', 'date night'],
-        'local_feeling': ['local', 'hidden gem', 'neighborhood'],
-        'touristy': ['touristy', 'crowded'],
-        'family': ['family', 'kids', 'kid-friendly'],
-        'solo': ['solo'],
-        'couple': ['couple'],
-        'reservation_recommended': ['reservation', 'book ahead'],
-        'food': ['restaurant', 'eat', 'food', 'izakaya', 'tapas', 'ramen', 'brunch', 'coffee', 'cafe'],
-        'nightlife': ['bar', 'nightlife', 'cocktail', 'pub'],
-    }
-    tags = []
-    for tag, needles in tag_rules.items():
-        if any(needle in text for needle in needles):
-            tags.append(tag)
-
-    remote_work_signals = 0
-    if any(needle in text for needle in ['wifi', 'wi-fi', 'outlet', 'outlets', 'laptop', 'coworking', 'co-working']):
-        remote_work_signals += 1
-    if any(needle in text for needle in ['remote work', 'work friendly', 'workspace', 'good for work']):
-        remote_work_signals += 1
-    if remote_work_signals >= 2:
-        tags.append('remote_work')
-
-    return sorted(set(tags))
-
-
-def build_catalog():
-    catalog_items = []
-    generated_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-
-    destinations_dir = OUTPUT_DIR / 'destinations'
-    for file in sorted(destinations_dir.glob('*.json')):
-        with open(file) as f:
-            data = json.load(f)
-        city = derive_destination_city(data.get('name', ''), data.get('slug', ''), data.get('region', ''))
-        tags = sorted(set((data.get('vibes') or []) + (data.get('travelStyles') or [])))
-        item = compact_dict({
-            'id': f"destination:{data['slug']}",
-            'entityType': 'destination',
-            'source': 'destinations',
-            'slug': data['slug'],
-            'name': strip_emoji(data.get('name', '')),
-            'title': strip_emoji(data.get('name', '')),
-            'description': data.get('pitch', ''),
-            'city': city,
-            'locationLabel': strip_emoji(data.get('region', '')),
-            'category': 'destination',
-            'tags': tags,
-            'goodFor': data.get('travelStyles', []),
-            'highlights': data.get('vibes', []),
-            'priceLevel': data.get('budget', ''),
-            'openNow': None,
-            'ratingNormalized': 0.65,
-            'editorialSignal': 0.9,
-            'url': data.get('url', ''),
-            'freshness': compact_dict({
-                'generatedAt': generated_at,
-                'confidence': 'editorial',
-                'confidenceScore': 0.82,
-                'operationalFieldsMayChange': False,
-            }),
-            'provenance': compact_dict({
-                'sources': ['tabiji_editorial'],
-                'lastVerifiedAt': generated_at,
-            }),
+def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+    records = []
+    for d in dest_summaries:
+        records.append({
+            "type": "destination",
+            "slug": d["slug"],
+            "title": d["name"],
+            "subtitle": d.get("pitch", ""),
+            "region": d.get("region", ""),
+            "continent": d.get("continent", ""),
+            "url": f"{API_BASE_URL}/destinations/{d['slug']}.json",
+            "siteUrl": f"{SITE_URL}/find/?q={d['slug']}",
+            "tokens": [d.get("name", ""), d.get("region", ""), d.get("continent", ""), ' '.join(d.get("vibes", []))]
         })
-        catalog_items.append(item)
+    for p in pick_summaries:
+        records.append({
+            "type": "pick",
+            "slug": p["slug"],
+            "title": p["title"],
+            "subtitle": p.get("category", ""),
+            "city": p.get("city", ""),
+            "url": f"{API_BASE_URL}/picks/{p['slug']}.json",
+            "siteUrl": p["url"],
+            "tokens": [p.get("title", ""), p.get("city", ""), p.get("category", "")]
+        })
+    for i in itin_summaries:
+        records.append({
+            "type": "itinerary",
+            "slug": i["slug"],
+            "title": i["title"],
+            "subtitle": i.get("duration", ""),
+            "destination": i.get("destination", ""),
+            "url": f"{API_BASE_URL}/itineraries/{i['slug']}.json",
+            "siteUrl": i["url"],
+            "tokens": [i.get("title", ""), i.get("destination", ""), i.get("duration", "")]
+        })
+    for c in compare_summaries:
+        records.append({
+            "type": "comparison",
+            "slug": c["slug"],
+            "title": c["title"],
+            "destination1": c.get("destination1", ""),
+            "destination2": c.get("destination2", ""),
+            "url": f"{API_BASE_URL}/compare/{c['slug']}.json",
+            "siteUrl": c["url"],
+            "tokens": [c.get("title", ""), c.get("destination1", ""), c.get("destination2", "")]
+        })
 
-    picks_dir = OUTPUT_DIR / 'picks'
-    for file in sorted(picks_dir.glob('*.json')):
-        with open(file) as f:
-            data = json.load(f)
-        guide_title = strip_emoji(data.get('title', ''))
-        guide_city = strip_emoji(data.get('city', ''))
-        guide_tags = extract_tags_from_text(guide_title, data.get('description'), data.get('category'))
-        for place in data.get('places', []):
-            city = derive_pick_city(data, data.get('slug', ''), place)
-            text_parts = [
-                guide_title,
-                data.get('description', ''),
-                data.get('category', ''),
-                strip_emoji(place.get('name', '')),
-                place.get('whatToOrder', ''),
-                place.get('insiderTip', ''),
-                ' '.join(place.get('cuisineTags', [])),
-                ' '.join(q.get('text', '') for q in place.get('redditQuotes', [])),
-            ]
-            tags = sorted(set(guide_tags + place.get('cuisineTags', []) + extract_tags_from_text(*text_parts)))
-            good_for = [tag for tag in tags if tag in ['family', 'solo', 'couple', 'remote_work']]
-            item = compact_dict({
-                'id': f"place:{data['slug']}:{place.get('position') or slugify(place.get('name', 'place'))}",
-                'entityType': 'place',
-                'source': 'picks',
-                'slug': data['slug'],
-                'name': strip_emoji(place.get('name', '')),
-                'title': guide_title,
-                'description': place.get('whatToOrder') or place.get('insiderTip') or data.get('description', ''),
-                'city': city,
-                'locationLabel': strip_emoji(place.get('address', '') or guide_city or city),
-                'category': strip_emoji(data.get('category', '')),
-                'tags': tags,
-                'goodFor': good_for,
-                'highlights': [q.get('text', '') for q in place.get('redditQuotes', [])[:2]],
-                'priceLevel': infer_price_level(place.get('priceRange', '')),
-                'openNow': place.get('openNow'),
-                'ratingNormalized': round(min(float(place.get('googleRating', 0)) / 5, 1), 3) if place.get('googleRating') else 0.55,
-                'editorialSignal': min(len(place.get('redditQuotes', [])) / 4, 1),
-                'url': f"{data.get('url', '')}#{slugify(place.get('name', ''))}",
-                'freshness': compact_dict({
-                    'generatedAt': generated_at,
-                    'confidence': 'mixed',
-                    'confidenceScore': 0.74 if place.get('googleRating') else 0.62,
-                    'operationalFieldsMayChange': True,
-                }),
-                'provenance': compact_dict({
-                    'sources': ['tabiji_editorial', 'reddit', 'google_places'],
-                    'lastVerifiedAt': generated_at,
-                }),
-            })
-            catalog_items.append(item)
+    payload = {
+        "count": len(records),
+        "types": {
+            "destinations": len(dest_summaries),
+            "picks": len(pick_summaries),
+            "itineraries": len(itin_summaries),
+            "comparisons": len(compare_summaries),
+        },
+        "items": records,
+    }
+    with open(OUTPUT_DIR / "search-index.json", 'w') as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    return payload
 
-    with open(OUTPUT_DIR / 'catalog.json', 'w') as f:
-        json.dump({
-            'version': '1.1.0',
-            'generatedAt': generated_at,
-            'itemCount': len(catalog_items),
-            'items': catalog_items,
-        }, f, ensure_ascii=False, separators=(',', ':'))
-
-    return len(catalog_items)
 
 # ============================================================
 # INDEX
 # ============================================================
 
-def build_index(dest_count, picks_count, places_count, itin_count, compare_count, catalog_count):
-    """Build the API index/metadata file."""
+def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
     index = {
         "name": "tabiji.ai API",
-        "version": "1.1.0",
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and agent-friendly search, filter, and recommend endpoints. No API key required.",
+        "version": "1.0.0",
+        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
@@ -1301,93 +1004,31 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "totalPlaces": places_count,
             "itineraries": itin_count,
             "comparisons": compare_count,
-            "catalogItems": catalog_count
+            "searchDocuments": search_count,
         },
         "endpoints": [
-            {
-                "path": "/destinations.json",
-                "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles",
-                "method": "GET"
-            },
-            {
-                "path": "/destinations/{slug}.json",
-                "description": "Single destination detail",
-                "method": "GET"
-            },
-            {
-                "path": "/picks.json",
-                "description": f"All {picks_count} curated 'best of' guides",
-                "method": "GET"
-            },
-            {
-                "path": "/picks/{slug}.json",
-                "description": "Full picks guide with all places, ratings, hours, and quotes",
-                "method": "GET"
-            },
-            {
-                "path": "/itineraries.json",
-                "description": f"All {itin_count} day-by-day travel itineraries",
-                "method": "GET"
-            },
-            {
-                "path": "/itineraries/{slug}.json",
-                "description": "Full itinerary with day-by-day activities",
-                "method": "GET"
-            },
-            {
-                "path": "/compare.json",
-                "description": f"All {compare_count} head-to-head destination comparisons",
-                "method": "GET"
-            },
-            {
-                "path": "/compare/{slug}.json",
-                "description": "Full comparison with categories, verdicts, and FAQs",
-                "method": "GET"
-            },
-            {
-                "path": "/catalog.json",
-                "description": "Unified agent-ready catalog spanning destinations and places with provenance/freshness fields",
-                "method": "GET"
-            },
-            {
-                "path": "/search",
-                "description": "Search destinations and places by natural-language query plus optional structured filters",
-                "method": "GET|POST"
-            },
-            {
-                "path": "/filter",
-                "description": "Apply deterministic hard constraints to the unified catalog",
-                "method": "GET|POST"
-            },
-            {
-                "path": "/recommend",
-                "description": "Rank candidates for a trip intent with explanations, tradeoffs, freshness, and provenance",
-                "method": "GET|POST"
-            }
+            {"path": "/destinations.json", "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles", "method": "GET"},
+            {"path": "/destinations/{slug}.json", "description": "Single destination detail", "method": "GET"},
+            {"path": "/picks.json", "description": f"All {picks_count} curated 'best of' guides", "method": "GET"},
+            {"path": "/picks/{slug}.json", "description": "Full picks guide with all places, ratings, hours, and quotes", "method": "GET"},
+            {"path": "/itineraries.json", "description": f"All {itin_count} day-by-day travel itineraries", "method": "GET"},
+            {"path": "/itineraries/{slug}.json", "description": "Full itinerary with day-by-day activities", "method": "GET"},
+            {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons", "method": "GET"},
+            {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
+            {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
         ],
-        "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links). Every pick includes 'what to order' recommendations and real traveler quotes.",
+        "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links).",
         "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
         "contact": "hello@tabiji.ai"
     }
-
     with open(OUTPUT_DIR / "index.json", 'w') as f:
         json.dump(index, f, indent=2, ensure_ascii=False)
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
 def main():
     print("🦉 Building Tabiji API v1...")
-    print(f"   Source: {BASE_DIR}")
-    print(f"   Output: {OUTPUT_DIR}")
-    print()
-
-    # Clean output dir
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Build each section
     print("📍 Building destinations...")
     dest_summaries, dest_count = build_destinations()
     print(f"   ✅ {dest_count} destinations")
@@ -1405,34 +1046,13 @@ def main():
     compare_summaries, compare_count = build_compare()
     print(f"   ✅ {compare_count} comparisons")
 
-    print("🤖 Building unified agent catalog...")
-    catalog_count = build_catalog()
-    print(f"   ✅ {catalog_count} catalog items")
+    print("🔎 Building search index...")
+    search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
+    print(f"   ✅ {search_payload['count']} documents")
 
     print("📋 Building index...")
-    build_index(dest_count, picks_count, places_count, itin_count, compare_count, catalog_count)
+    build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'])
     print("   ✅ index.json")
-
-    # Count total files
-    total_files = 0
-    total_size = 0
-    for root, dirs, files in os.walk(OUTPUT_DIR):
-        for f in files:
-            if f.endswith('.json'):
-                total_files += 1
-                total_size += os.path.getsize(os.path.join(root, f))
-
-    print()
-    print("=" * 50)
-    print(f"🦉 Tabiji API v1 Build Complete!")
-    print(f"   Destinations:  {dest_count}")
-    print(f"   Picks guides:  {picks_count} ({places_count} places)")
-    print(f"   Itineraries:   {itin_count}")
-    print(f"   Comparisons:   {compare_count}")
-    print(f"   Catalog items: {catalog_count}")
-    print(f"   Total files:   {total_files}")
-    print(f"   Total size:    {total_size / 1024 / 1024:.1f} MB")
-    print("=" * 50)
 
 
 if __name__ == "__main__":

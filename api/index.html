@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
-    <meta name="description" content="Free REST API for AI-curated travel data — 706 destinations, 3600+ restaurant picks, 300+ itineraries, and 40+ destination comparisons. No API key required.">
+    <meta name="description" content="Free REST API for AI-curated travel data — 706 destinations, 4,287 place records across 389 picks guides, 344 itineraries, and 40 destination comparisons. No API key required.">
     <meta property="og:title" content="Tabiji API — Free Travel Data API">
     <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
     <meta property="og:type" content="website">
@@ -627,14 +627,14 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/compare.json">https://tabiji.ai/api/v1/compare.json</a>
 <pre>{
-  "count": 50,
+  "count": 40,
   "comparisons": [
     {
       "slug": "tokyo-vs-kyoto",
-      "title": "Bali vs Thailand: Which Should You Visit?",
-      "destination1": "Bali",
-      "destination2": "Thailand",
-      "categoryCount": 9,
+      "title": "Tokyo vs Kyoto: Which Should You Visit?",
+      "destination1": "Tokyo",
+      "destination2": "Kyoto",
+      "categoryCount": 10,
       "url": "https://tabiji.ai/compare/tokyo-vs-kyoto/"
     },
     ...
@@ -647,27 +647,66 @@
                     <span class="method">GET</span>
                     <span class="endpoint-url">/api/v1/compare/{slug}.json</span>
                 </div>
-                <p class="endpoint-desc">Full comparison with all categories, Reddit quotes, verdict, and FAQs.</p>
+                <p class="endpoint-desc">Full comparison with structured categories, quote sources, verdict cards, and FAQs.</p>
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/compare/tokyo-vs-kyoto.json">https://tabiji.ai/api/v1/compare/tokyo-vs-kyoto.json</a>
 <pre>{
   "slug": "tokyo-vs-kyoto",
-  "title": "Bali vs Thailand: Which Should You Visit?",
-  "destination1": "Bali",
-  "destination2": "Thailand",
+  "title": "Tokyo vs Kyoto: Which Should You Visit?",
+  "destination1": "Tokyo",
+  "destination2": "Kyoto",
   "categories": [
     {
-      "title": "🏖️ Beaches: Crystal Clear vs Perfect Surf",
-      "summary": "Bali's beaches are primarily surf beaches...",
-      "redditQuotes": ["Bali is more famous for surfing..."]
-    },
-    ...
+      "title": "🍜 Food & Dining",
+      "summary": "Tokyo wins on sheer range and late-night depth...",
+      "redditQuotes": [
+        {
+          "text": "Tokyo is where you eat everything. Kyoto is where you eat beautifully.",
+          "source": "r/JapanTravelTips user"
+        }
+      ],
+      "winnerSummary": {
+        "winner": "Tokyo"
+      }
+    }
   ],
-  "verdict": "Visit Bali if you want a singular, deeply spiritual...",
+  "verdict": {
+    "summary": "Tokyo is better for first-timers and foodies; Kyoto is better for slower culture-heavy trips.",
+    "takeaways": ["Choose Tokyo for breadth", "Choose Kyoto for atmosphere"]
+  },
   "faqs": [
     {
-      "question": "Is Bali or Thailand better for first-timers?",
-      "answer": "Thailand is generally considered the better first choice..."
+      "question": "Is Tokyo or Kyoto better for first-timers?",
+      "answer": "Tokyo usually makes the easier first base, while Kyoto shines if you want a slower cultural trip."
+    }
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/search.json?q={query}</span>
+                </div>
+                <p class="endpoint-desc">Cross-collection search across destinations, picks, itineraries, and comparisons. Optional <code>type</code> filter and <code>limit</code>.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/search.json?q=tokyo">https://tabiji.ai/api/v1/search.json?q=tokyo</a>
+<pre>{
+  "query": "tokyo",
+  "type": null,
+  "count": 27,
+  "items": [
+    {
+      "type": "destination",
+      "slug": "tokyo",
+      "title": "Tokyo",
+      "url": "https://tabiji.ai/api/v1/destinations/tokyo.json"
+    },
+    {
+      "type": "comparison",
+      "slug": "tokyo-vs-kyoto",
+      "title": "Tokyo vs Kyoto: Which Should You Visit?",
+      "url": "https://tabiji.ai/api/v1/compare/tokyo-vs-kyoto.json"
     }
   ]
 }</pre>
