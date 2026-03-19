@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import html
 import json
 import re
 import sys
@@ -12,6 +13,52 @@ COMPARE_DIR = REPO_ROOT / "compare"
 DATA_DIR = REPO_ROOT / "compare-data"
 API_COMPARE_DIR = REPO_ROOT / "api" / "v1" / "compare"
 INVENTORY_PATH = COMPARE_DIR / "inventory.json"
+
+VIATOR_PID = "P00292930"
+VIATOR_MCID = "42383"
+
+VIATOR_CSS = """
+      .viator-section { background:linear-gradient(135deg,#fff9f0 0%,#fff 100%); border:1px solid #e0d6c8; border-radius:18px; padding:1.35rem 1.4rem; margin-top:2rem; margin-bottom:1.4rem; }
+      .viator-section h2 { font-size:1.3em; margin-bottom:6px; }
+      .viator-subtitle { font-size:0.95em; color:#666; margin-bottom:20px; }
+      .viator-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+      @media(max-width:600px) { .viator-cards { grid-template-columns:1fr; } }
+      .viator-card { background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:18px; text-decoration:none; color:inherit; transition:border-color .2s,box-shadow .2s; display:flex; flex-direction:column; gap:8px; }
+      .viator-card:hover { border-color:var(--primary,#0696D7); box-shadow:0 2px 12px rgba(6,150,215,.12); }
+      .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
+      .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
+      .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }"""
+
+
+def viator_search_url(query: str) -> str:
+    q = query.replace(" ", "+")
+    return f"https://www.viator.com/search/{q}?pid={VIATOR_PID}&mcid={VIATOR_MCID}&medium=link"
+
+
+def build_viator_html(dest1: str, dest2: str) -> str:
+    return f"""<section class="viator-section">
+        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
+        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+        <div class="viator-cards">
+      <a class="viator-card" href="{viator_search_url(dest1 + ' tours')}" target="_blank" rel="noopener sponsored">
+        <span class="tour-type">Explore {dest1}</span>
+        <span class="tour-name">{dest1} Tours & Activities →</span>
+      </a>
+      <a class="viator-card" href="{viator_search_url(dest1 + ' day trips')}" target="_blank" rel="noopener sponsored">
+        <span class="tour-type">{dest1} Day Trip</span>
+        <span class="tour-name">{dest1} Day Trips & Excursions</span>
+      </a>
+      <a class="viator-card" href="{viator_search_url(dest2 + ' tours')}" target="_blank" rel="noopener sponsored">
+        <span class="tour-type">Explore {dest2}</span>
+        <span class="tour-name">{dest2} Tours & Activities →</span>
+      </a>
+      <a class="viator-card" href="{viator_search_url(dest2 + ' day trips')}" target="_blank" rel="noopener sponsored">
+        <span class="tour-type">{dest2} Day Trip</span>
+        <span class="tour-name">{dest2} Day Trips & Excursions</span>
+      </a>
+        </div>
+        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+      </section>"""
 
 
 def read_text(path: Path) -> str:
@@ -265,6 +312,7 @@ def render_page(data: Dict) -> str:
 <script type=\"application/ld+json\">{json.dumps(schema['faq'], ensure_ascii=False, indent=4)}</script>
 <style>
 {shell['styleCss']}
+{VIATOR_CSS}
 </style>
 <!-- @include:shared-head:start -->
 <link rel=\"stylesheet\" href=\"/assets/shared-shell.css\">
@@ -287,15 +335,129 @@ def render_page(data: Dict) -> str:
 {''.join(content['deepDiveHtml'])}
 {content['faqHtml']}
 {content['ctaHtml']}
+{build_viator_html(data['destinations']['destination1'], data['destinations']['destination2'])}
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 {shell['footerHtml']}
 <!-- @include:footer:end -->
-{''.join(shell['scripts'])}
+{chr(10).join(shell['scripts'])}
 </body>
 </html>
 """
+
+
+def text_content(value: str) -> str:
+    value = re.sub(r"<[^>]+>", " ", value or "")
+    value = html.unescape(value)
+    value = value.replace("\xa0", " ")
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def has_meaningful_text(value: str, min_len: int = 8) -> bool:
+    text = text_content(value)
+    return len(text) >= min_len and text not in {"—", "-", "Tie", "Depends"}
+
+
+def compare_winner_aliases(data: Dict) -> set[str]:
+    destination1 = data["destinations"]["destination1"]
+    destination2 = data["destinations"]["destination2"]
+    aliases = {destination1, destination2, "Tie", "Depends", "—", "-"}
+    tokens = [destination1, destination2]
+    for name in tokens:
+        parts = name.split()
+        aliases.add(parts[-1])
+        aliases.add(name.replace(" ", ""))
+        if len(parts) > 1:
+            aliases.add(parts[0])
+        if len(name) <= 5:
+            aliases.add(name.upper())
+    hardcoded = {
+        "Mexico City": {"CDMX"},
+        "Buenos Aires": {"BA"},
+        "Guadalajara": {"GDL"},
+        "Hong Kong": {"HK"},
+        "New Zealand": {"NZ"},
+        "South Korea": {"Korea"},
+    }
+    aliases.update(hardcoded.get(destination1, set()))
+    aliases.update(hardcoded.get(destination2, set()))
+    return aliases
+
+
+def validate_compare_content(data: Dict) -> List[str]:
+    errors = []
+    content = data.get("content", {})
+    verdict_html = content.get("verdictHtml", "")
+    cta_html = content.get("ctaHtml", "")
+    comparison_html = content.get("comparisonHtml", "")
+
+    placeholder_patterns = [
+        (r"better if you want\s*\.", "verdict summary contains an empty 'better if you want' clause"),
+        (r"<li><strong>Choose [^:]+:</strong>\s*</li>", "verdict takeaways contain an empty choose bullet"),
+        (r"<div class=\"verdict-card\">\s*<h3>[^<]+</h3>\s*<p>\s*</p>\s*</div>", "verdict cards contain empty body copy"),
+        (r"Who this matters for:</strong>[^<]* between\s+and\s+\.", "deep-dive winner note contains placeholder destination text"),
+    ]
+    for pattern, message in placeholder_patterns:
+        if re.search(pattern, verdict_html) or any(re.search(pattern, block) for block in content.get("deepDiveHtml", [])):
+            errors.append(message)
+
+    if not has_meaningful_text(verdict_html, min_len=40):
+        errors.append("verdictHtml must contain meaningful text")
+
+    verdict_cards = re.findall(r'<div class="verdict-card">([\s\S]*?)</div>', verdict_html)
+    if len(verdict_cards) < 2:
+        errors.append("verdictHtml must contain at least two verdict cards")
+    for idx, card in enumerate(verdict_cards, start=1):
+        if not has_meaningful_text(card, min_len=20):
+            errors.append(f"verdict card {idx} must contain meaningful text")
+
+    comparison_rows = re.findall(r"<tr>([\s\S]*?)</tr>", comparison_html)
+    if len(comparison_rows) < 4:
+        errors.append("comparisonHtml must contain at least 4 table rows")
+    valid_winners = compare_winner_aliases(data)
+    for idx, row in enumerate(comparison_rows[1:], start=1):
+        cells = [text_content(cell) for cell in re.findall(r"<t[dh][^>]*>([\s\S]*?)</t[dh]>", row)]
+        if len(cells) != 4:
+            errors.append(f"comparison row {idx} must contain exactly 4 cells")
+            continue
+        if any(not cell for cell in cells[:3]):
+            errors.append(f"comparison row {idx} contains empty required cells")
+        winner = cells[3]
+        if winner not in valid_winners:
+            errors.append(f"comparison row {idx} has invalid winner value: {winner}")
+
+    if not has_meaningful_text(cta_html, min_len=30):
+        errors.append("ctaHtml must contain meaningful text")
+    cta_links = re.findall(r"<a [^>]*>([\s\S]*?)</a>", cta_html)
+    if len(cta_links) < 2:
+        errors.append("ctaHtml must contain at least two CTA links")
+    for idx, label in enumerate(cta_links, start=1):
+        if len(text_content(label)) < 8:
+            errors.append(f"CTA link {idx} text is too short")
+
+    for idx, question in enumerate(content.get("faqItems", []), start=1):
+        if len(question.get("question", "").strip()) < 10:
+            errors.append(f"faq item {idx} question is too short")
+        if len(question.get("answer", "").strip()) < 30:
+            errors.append(f"faq item {idx} answer is too short")
+
+    for idx, block in enumerate(content.get("deepDiveHtml", []), start=1):
+        if not has_meaningful_text(block, min_len=120):
+            errors.append(f"deep-dive section {idx} lacks meaningful text")
+        winner_block = re.search(r'<div class="section-winner">([\s\S]*?)</div>', block)
+        if not winner_block:
+            continue
+        winner_html = winner_block.group(1)
+        winner_items = [text_content(item) for item in re.findall(r"<li>([\s\S]*?)</li>", winner_html)]
+        if len(winner_items) < 3:
+            errors.append(f"deep-dive section {idx} must contain 3 winner bullets")
+            continue
+        for bullet_idx, item in enumerate(winner_items[:3], start=1):
+            if item.endswith(":") or item.endswith("between and ."):
+                errors.append(f"deep-dive section {idx} winner bullet {bullet_idx} contains placeholder text")
+
+    return errors
 
 
 def validate_source(data: Dict) -> List[str]:
@@ -322,6 +484,7 @@ def validate_source(data: Dict) -> List[str]:
     for field in ["styleCss", "navHtml", "footerHtml"]:
         if not str(shell.get(field, "")).strip():
             errors.append(f"shell.{field} is required")
+    errors.extend(validate_compare_content(data))
     return errors
 
 

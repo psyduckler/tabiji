@@ -530,9 +530,8 @@ function buildLimitations(pick) {
       return (match[1] || match[0]).replace(/^[:\s-]+/, '').trim();
     }
   }
-  if (pick.priceRangeLocal) return `Price band: ${pick.priceRangeLocal}`;
   if (pick.hoursNote) return 'Check hours before you go';
-  return 'No major drawbacks called out in the source copy';
+  return '';
 }
 
 function renderComparisonRow(label, value) {
@@ -540,11 +539,25 @@ function renderComparisonRow(label, value) {
   return `<div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`;
 }
 
+function resolveBestOverall(data) {
+  const candidate = data.summary?.bestOverall || data.summary?.topPick || '';
+  if (!candidate || !data.picks.length) return data.picks[0] ? data.picks[0].name : '';
+  // Match by exact name or by name appearing at the start of the candidate string (handles "Name — 5★ (1 reviews)" format)
+  const match = data.picks.find((p) => p.name === candidate || candidate.startsWith(p.name));
+  // If the "best overall" pick has fewer than 10 reviews, it's likely an outlier — prefer the #1 ranked pick
+  if (match && typeof match.reviewCount === 'number' && match.reviewCount < 10 && data.picks[0] && data.picks[0].name !== match.name) {
+    return data.picks[0].name;
+  }
+  // Clean display: use the pick name if we matched, otherwise fall back to the raw candidate
+  if (match) return match.name;
+  return candidate;
+}
+
 function renderQuickAnswer(data) {
   const firstThree = data.picks.slice(0, 3).map((pick) => `
             <li><strong>${escapeHtml(pick.name)}:</strong> ${escapeHtml(buildVerdictText(pick))}</li>`).join('');
   const summaryRows = [
-    ['Best overall', data.summary?.bestOverall || data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
+    ['Best overall', resolveBestOverall(data)],
     ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter(Boolean)[0] || 'Varies by pick'],
     ['Top-ranked pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
     ['Last verified', data.summary?.lastVerifiedLabel || 'See page metadata'],
@@ -646,6 +659,67 @@ function renderPick(pick, data, mapData) {
 </section>`;
 }
 
+function renderViatorSection(data) {
+  const city = (data.taxonomy && data.taxonomy.city) || 'the destination';
+  const category = ((data.taxonomy && (data.taxonomy.category || data.taxonomy.vertical)) || '').toLowerCase();
+  const cityEnc = encodeURIComponent(city);
+  const pid = 'P00292930';
+  const mcid = '42383';
+  const medium = 'link';
+  const affiliateParams = `pid=${pid}&mcid=${mcid}&medium=${medium}`;
+  const exploreUrl = `https://www.viator.com/search/${cityEnc}+tours?${affiliateParams}`;
+
+  let cards;
+  if (category.includes('restaurant') || category.includes('food') || category.includes('eat') || category.includes('cafe') || category.includes('café') || category.includes('street food') || category.includes('dining')) {
+    cards = [
+      { type: 'Food Tour', name: `Best ${city} Food Tours & Tastings`, url: `https://www.viator.com/search/${cityEnc}+food+tour?${affiliateParams}` },
+      { type: 'Night Food Tour', name: `${city} Night Street Food Tour`, url: `https://www.viator.com/search/${cityEnc}+night+food+tour?${affiliateParams}` },
+      { type: 'Cooking Class', name: `${city} Cooking Class & Market Visit`, url: `https://www.viator.com/search/${cityEnc}+cooking+class?${affiliateParams}` },
+    ];
+  } else if (category.includes('shop') || category.includes('market') || category.includes('boutique') || category.includes('fashion')) {
+    cards = [
+      { type: 'Shopping Tour', name: `${city} Shopping & Style Tour`, url: `https://www.viator.com/search/${cityEnc}+shopping+tour?${affiliateParams}` },
+      { type: 'Market Tour', name: `${city} Local Market Experience`, url: `https://www.viator.com/search/${cityEnc}+market+tour?${affiliateParams}` },
+      { type: 'Cultural Walk', name: `${city} Cultural Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+cultural+walk?${affiliateParams}` },
+    ];
+  } else if (category.includes('bar') || category.includes('night') || category.includes('drink') || category.includes('cocktail') || category.includes('pub') || category.includes('club')) {
+    cards = [
+      { type: 'Bar Crawl', name: `${city} Bar Crawl & Nightlife Tour`, url: `https://www.viator.com/search/${cityEnc}+bar+crawl?${affiliateParams}` },
+      { type: 'Night Tour', name: `Guided ${city} Night Tour`, url: `https://www.viator.com/search/${cityEnc}+night+tour?${affiliateParams}` },
+      { type: 'Food & Drink Tour', name: `${city} Food & Drink Experience`, url: `https://www.viator.com/search/${cityEnc}+food+drink+tour?${affiliateParams}` },
+    ];
+  } else if (category.includes('temple') || category.includes('culture') || category.includes('museum') || category.includes('heritage') || category.includes('historic') || category.includes('art')) {
+    cards = [
+      { type: 'Walking Tour', name: `${city} Guided Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+walking+tour?${affiliateParams}` },
+      { type: 'Cultural Tour', name: `${city} Cultural Highlights Tour`, url: `https://www.viator.com/search/${cityEnc}+cultural+tour?${affiliateParams}` },
+      { type: 'Day Trip', name: `Best Day Trips from ${city}`, url: `https://www.viator.com/search/${cityEnc}+day+trip?${affiliateParams}` },
+    ];
+  } else {
+    cards = [
+      { type: 'Walking Tour', name: `${city} Guided Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+walking+tour?${affiliateParams}` },
+      { type: 'Food Tour', name: `Best ${city} Food Tours & Tastings`, url: `https://www.viator.com/search/${cityEnc}+food+tour?${affiliateParams}` },
+      { type: 'Day Trip', name: `Best Day Trips from ${city}`, url: `https://www.viator.com/search/${cityEnc}+day+trip?${affiliateParams}` },
+    ];
+  }
+
+  cards.push({ type: 'Explore More', name: `All ${city} Tours & Activities →`, url: exploreUrl });
+
+  const cardHtml = cards.map(c => `
+      <a class="viator-card" href="${c.url}" target="_blank" rel="noopener sponsored">
+        <span class="tour-type">${c.type}</span>
+        <span class="tour-name">${c.name}</span>
+      </a>`).join('');
+
+  return `
+      <section class="viator-section">
+        <h2>🎟️ Book ${city} Experiences</h2>
+        <p class="viator-subtitle">Tours and activities hand-picked for this guide — book with free cancellation</p>
+        <div class="viator-cards">${cardHtml}
+        </div>
+        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+      </section>`;
+}
+
 function renderPage(data) {
   const validation = validateSource(data);
   if (validation.errors.length) {
@@ -735,6 +809,16 @@ function renderPage(data) {
       .intent-type { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; font-weight:700; color:var(--earth); margin-bottom:.45rem; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
       @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      .viator-section { background:linear-gradient(135deg,#fff9f0 0%,#fff 100%); border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      .viator-section h2 { font-size:1.3em; margin-bottom:6px; }
+      .viator-subtitle { font-size:0.95em; color:#666; margin-bottom:20px; }
+      .viator-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+      @media(max-width:600px) { .viator-cards { grid-template-columns:1fr; } }
+      .viator-card { background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:18px; text-decoration:none; color:inherit; transition:border-color .2s,box-shadow .2s; display:flex; flex-direction:column; gap:8px; }
+      .viator-card:hover { border-color:var(--primary,#0696D7); box-shadow:0 2px 12px rgba(6,150,215,.12); }
+      .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
+      .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
+      .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
     </style>
 </head>
 <body>
@@ -754,7 +838,6 @@ function renderPage(data) {
       ${renderQuickAnswer(data)}
 
       <section class="intro-section">
-        <p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
         ${renderRichTextParagraphs(introBody)}
       </section>
 
@@ -774,6 +857,8 @@ function renderPage(data) {
         <h2>Frequently Asked Questions</h2>
         ${data.faq.map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p></div>`).join('')}
       </section>
+
+      ${renderViatorSection(data)}
 
       ${renderIntentLinkSections(data)}
 

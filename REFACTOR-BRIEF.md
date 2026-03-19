@@ -8,7 +8,7 @@
 
 A **static HTML site** deployed on Cloudflare Pages. No framework (Next.js is in ARCHITECTURE.md but was never adopted). Every page is a self-contained `index.html` with inline `<style>` and `<script>`. No shared CSS files, no JS bundles, no build step.
 
-**Deploy flow:** `git push` → GitHub → Cloudflare Pages auto-builds from `main` branch. That's it. There is also `deploy.sh` which does `git push` + `wrangler pages deploy` for manual deploys.
+**Deploy flow:** `git push` → GitHub → Cloudflare Pages auto-builds from `main` branch. That's it. `deploy.sh` is now just a clean-tree push helper for that commit-based production flow.
 
 ---
 
@@ -262,7 +262,7 @@ Other dependency chains:
 - Run injection script to update all pages
 
 ### Phase 4: API & Build Pipeline
-- Formalize `api/build-api.py` as part of a documented build step
+- Formalize `api/build-api.py` as part of a documented build step (with explicit Python dependencies in `api/requirements.txt`)
 - Add a `Makefile` or `package.json` scripts for common operations
 - Document the full build/deploy pipeline
 
