@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const {
+  ALLOWED_DIETARY_TAGS,
+  ALLOWED_PAYMENT_HINTS,
+  ALLOWED_TOURISTY_LEVELS,
+  ALLOWED_MEAL_TYPES,
+  ALLOWED_CONFIDENCE,
+  ALLOWED_SOURCE_TYPES,
+} = require('./serpapi-enrichment-rules');
 
 function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -104,6 +112,70 @@ function validateSource(data, options = {}) {
       }
     }
 
+    if (pick.reservationNeeded != null && typeof pick.reservationNeeded !== 'boolean') {
+      errors.push(`Pick #${expectedRank} has invalid reservationNeeded`);
+    }
+
+    for (const field of ['bestTimeToGo', 'waitExpectation', 'mealType', 'touristyLevel']) {
+      if (pick[field] != null && !isNonEmptyString(pick[field])) {
+        errors.push(`Pick #${expectedRank} has invalid ${field}`);
+      }
+    }
+
+    for (const field of ['dietaryTags', 'paymentHints', 'knownForTags']) {
+      if (pick[field] != null && (!Array.isArray(pick[field]) || pick[field].some((item) => !isNonEmptyString(item)))) {
+        errors.push(`Pick #${expectedRank} has invalid ${field}`);
+      }
+    }
+
+    if (Array.isArray(pick.dietaryTags)) {
+      for (const item of pick.dietaryTags) {
+        if (!ALLOWED_DIETARY_TAGS.includes(item)) errors.push(`Pick #${expectedRank} has unsupported dietaryTags value: ${item}`);
+      }
+    }
+
+    if (Array.isArray(pick.paymentHints)) {
+      for (const item of pick.paymentHints) {
+        if (!ALLOWED_PAYMENT_HINTS.includes(item)) errors.push(`Pick #${expectedRank} has unsupported paymentHints value: ${item}`);
+      }
+    }
+
+    if (pick.touristyLevel != null && !ALLOWED_TOURISTY_LEVELS.includes(pick.touristyLevel)) {
+      errors.push(`Pick #${expectedRank} has unsupported touristyLevel value: ${pick.touristyLevel}`);
+    }
+
+    if (pick.mealType != null && !ALLOWED_MEAL_TYPES.includes(pick.mealType)) {
+      errors.push(`Pick #${expectedRank} has unsupported mealType value: ${pick.mealType}`);
+    }
+
+    if (pick.provenance != null) {
+      if (typeof pick.provenance !== 'object' || Array.isArray(pick.provenance)) {
+        errors.push(`Pick #${expectedRank} has invalid provenance`);
+      } else {
+        if (pick.provenance.sourceCount != null && (!Number.isInteger(pick.provenance.sourceCount) || pick.provenance.sourceCount < 0)) {
+          errors.push(`Pick #${expectedRank} has invalid provenance.sourceCount`);
+        }
+        for (const field of ['sourceTypes']) {
+          if (pick.provenance[field] != null && (!Array.isArray(pick.provenance[field]) || pick.provenance[field].some((item) => !isNonEmptyString(item)))) {
+            errors.push(`Pick #${expectedRank} has invalid provenance.${field}`);
+          }
+        }
+        if (Array.isArray(pick.provenance.sourceTypes)) {
+          for (const item of pick.provenance.sourceTypes) {
+            if (!ALLOWED_SOURCE_TYPES.includes(item)) errors.push(`Pick #${expectedRank} has unsupported provenance.sourceTypes value: ${item}`);
+          }
+        }
+        for (const field of ['lastVerified', 'confidence', 'matchMethod', 'placeId']) {
+          if (pick.provenance[field] != null && !isNonEmptyString(pick.provenance[field])) {
+            errors.push(`Pick #${expectedRank} has invalid provenance.${field}`);
+          }
+        }
+        if (pick.provenance.confidence != null && !ALLOWED_CONFIDENCE.includes(pick.provenance.confidence)) {
+          errors.push(`Pick #${expectedRank} has unsupported provenance.confidence value: ${pick.provenance.confidence}`);
+        }
+      }
+    }
+
     if (!isNonEmptyString(pick.priceRangeLocal) && !isNonEmptyString(pick.priceRangeUSD)) {
       warnings.push(`Pick #${expectedRank} is missing priceRangeLocal/priceRangeUSD`);
     }
@@ -153,6 +225,30 @@ function validateSource(data, options = {}) {
 
   if (!isValidUrl(data?.seo?.canonicalPath || '')) {
     warnings.push('seo.canonicalPath is not an absolute URL; renderer will treat it as site-relative');
+  }
+
+  if (data?.provenance) {
+    if (data.provenance.sourceCount != null && (!Number.isInteger(data.provenance.sourceCount) || data.provenance.sourceCount < 0)) {
+      errors.push('provenance.sourceCount must be a non-negative integer when present');
+    }
+    for (const field of ['sourceTypes']) {
+      if (data.provenance[field] != null && (!Array.isArray(data.provenance[field]) || data.provenance[field].some((item) => !isNonEmptyString(item)))) {
+        errors.push(`provenance.${field} must be an array of strings when present`);
+      }
+    }
+    if (Array.isArray(data.provenance.sourceTypes)) {
+      for (const item of data.provenance.sourceTypes) {
+        if (!ALLOWED_SOURCE_TYPES.includes(item)) errors.push(`provenance.sourceTypes has unsupported value: ${item}`);
+      }
+    }
+    for (const field of ['lastVerified', 'confidence']) {
+      if (data.provenance[field] != null && !isNonEmptyString(data.provenance[field])) {
+        errors.push(`provenance.${field} must be a string when present`);
+      }
+    }
+    if (data.provenance.confidence != null && !ALLOWED_CONFIDENCE.includes(data.provenance.confidence)) {
+      errors.push(`provenance.confidence has unsupported value: ${data.provenance.confidence}`);
+    }
   }
 
   if (!data?.map?.enabled) warnings.push('Map section is disabled');

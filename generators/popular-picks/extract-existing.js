@@ -150,6 +150,7 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
     phone: phone || null,
     photo: photo || null,
     cuisineTags: cuisine ? [cuisine] : [],
+    knownForTags: cuisine ? [cuisine] : [],
     whyItMadeTheList: verdict || `${name} appears as a featured pick in the existing HTML page.`,
     whatToOrder: whatToOrder || `${name} is a featured pick in this guide.`,
     insiderTip: verdict || `${name} is worth reviewing manually after extraction.`,
@@ -157,6 +158,13 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
     hoursNote: parseHours(block),
     editorialFlags: {
       openNow: /🕐 Open now/.test(block) ? true : /🕐 Closed now/.test(block) ? false : undefined,
+    },
+    provenance: {
+      sourceCount: quotes.length || undefined,
+      sourceTypes: quotes.length ? ['reddit', 'legacy-html'] : ['legacy-html'],
+      lastVerified: null,
+      confidence: 'low',
+      matchMethod: 'html-extraction',
     },
   };
 }
@@ -318,6 +326,10 @@ function buildSourceJson(html, slug) {
     },
     provenance: {
       researchStatus: 'extracted-from-html',
+      sourceCount: sections.reduce((sum, pick) => sum + (pick?.provenance?.sourceCount || 0), 0),
+      sourceTypes: ['legacy-html', 'reddit'],
+      lastVerified: null,
+      confidence: 'low',
       notes: 'Backfilled from an existing Popular Picks HTML page; requires editorial review before claiming clean structured provenance.',
       importedFromHtml: true,
     },
