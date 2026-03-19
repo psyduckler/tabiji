@@ -1,17 +1,18 @@
 {
   "name": "tabiji.ai API",
-  "version": "1.0.0",
-  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and more. No API key required.",
+  "version": "1.1.0",
+  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and agent-friendly search, filter, and recommend endpoints. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-16T06:58:55Z",
+  "lastUpdated": "2026-03-19T16:36:49Z",
   "stats": {
     "destinations": 706,
-    "picksGuides": 394,
-    "totalPlaces": 4519,
-    "itineraries": 347,
-    "comparisons": 40
+    "picksGuides": 440,
+    "totalPlaces": 5070,
+    "itineraries": 354,
+    "comparisons": 69,
+    "catalogItems": 5774
   },
   "endpoints": [
     {
@@ -26,7 +27,7 @@
     },
     {
       "path": "/picks.json",
-      "description": "All 394 curated 'best of' guides",
+      "description": "All 440 curated 'best of' guides",
       "method": "GET"
     },
     {
@@ -36,7 +37,7 @@
     },
     {
       "path": "/itineraries.json",
-      "description": "All 347 day-by-day travel itineraries",
+      "description": "All 354 day-by-day travel itineraries",
       "method": "GET"
     },
     {
@@ -46,13 +47,33 @@
     },
     {
       "path": "/compare.json",
-      "description": "All 40 head-to-head destination comparisons",
+      "description": "All 69 head-to-head destination comparisons",
       "method": "GET"
     },
     {
       "path": "/compare/{slug}.json",
       "description": "Full comparison with categories, verdicts, and FAQs",
       "method": "GET"
+    },
+    {
+      "path": "/catalog.json",
+      "description": "Unified agent-ready catalog spanning destinations and places with provenance/freshness fields",
+      "method": "GET"
+    },
+    {
+      "path": "/search",
+      "description": "Search destinations and places by natural-language query plus optional structured filters",
+      "method": "GET|POST"
+    },
+    {
+      "path": "/filter",
+      "description": "Apply deterministic hard constraints to the unified catalog",
+      "method": "GET|POST"
+    },
+    {
+      "path": "/recommend",
+      "description": "Rank candidates for a trip intent with explanations, tradeoffs, freshness, and provenance",
+      "method": "GET|POST"
     }
   ],
   "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links). Every pick includes 'what to order' recommendations and real traveler quotes.",

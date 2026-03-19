@@ -1012,16 +1012,157 @@ def build_compare():
     return summaries, len(summaries)
 
 
+
+
+# ============================================================
+# AGENT CATALOG
+# ============================================================
+
+def infer_price_level(price_text):
+    text = (price_text or '').lower()
+    if not text:
+        return ''
+    if any(token in text for token in ['¥', '$', '€', '£', 'under', 'cheap', 'budget', 'low']):
+        if any(token in text for token in ['¥¥¥', '$$$', '€€€', 'luxury', 'fine dining']):
+            return '$$$'
+        if any(token in text for token in ['¥¥', '$$', 'mid', 'moderate']):
+            return '$$'
+        return '$'
+    return ''
+
+
+def extract_tags_from_text(*parts):
+    text = ' '.join(str(part or '') for part in parts).lower()
+    tag_rules = {
+        'breakfast': ['breakfast', 'brunch'],
+        'late_night': ['late night', 'open late', '24 hours'],
+        'remote_work': ['wifi', 'coffee', 'cafe', 'work'],
+        'romantic': ['romantic', 'date night'],
+        'local_feeling': ['local', 'hidden gem', 'neighborhood'],
+        'touristy': ['touristy', 'crowded'],
+        'family': ['family', 'kids', 'kid-friendly'],
+        'solo': ['solo'],
+        'couple': ['couple'],
+        'reservation_recommended': ['reservation', 'book ahead'],
+        'food': ['restaurant', 'eat', 'food', 'izakaya', 'tapas', 'ramen', 'brunch', 'coffee', 'cafe'],
+        'nightlife': ['bar', 'nightlife', 'cocktail', 'pub'],
+    }
+    tags = []
+    for tag, needles in tag_rules.items():
+        if any(needle in text for needle in needles):
+            tags.append(tag)
+    return sorted(set(tags))
+
+
+def build_catalog():
+    catalog_items = []
+    generated_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    destinations_dir = OUTPUT_DIR / 'destinations'
+    for file in sorted(destinations_dir.glob('*.json')):
+        with open(file) as f:
+            data = json.load(f)
+        tags = sorted(set((data.get('vibes') or []) + (data.get('travelStyles') or [])))
+        catalog_items.append({
+            'id': f"destination:{data['slug']}",
+            'entityType': 'destination',
+            'source': 'destinations',
+            'slug': data['slug'],
+            'name': data.get('name', ''),
+            'title': data.get('name', ''),
+            'description': data.get('pitch', ''),
+            'city': data.get('name', ''),
+            'locationLabel': data.get('region', ''),
+            'category': 'destination',
+            'tags': tags,
+            'goodFor': data.get('travelStyles', []),
+            'highlights': data.get('vibes', []),
+            'priceLevel': data.get('budget', ''),
+            'openNow': None,
+            'ratingNormalized': 0.65,
+            'editorialSignal': 0.9,
+            'url': data.get('url', ''),
+            'freshness': {
+                'generatedAt': generated_at,
+                'confidence': 'editorial',
+                'confidenceScore': 0.82,
+                'operationalFieldsMayChange': False,
+            },
+            'provenance': {
+                'sources': ['tabiji_editorial'],
+                'lastVerifiedAt': generated_at,
+            },
+        })
+
+    picks_dir = OUTPUT_DIR / 'picks'
+    for file in sorted(picks_dir.glob('*.json')):
+        with open(file) as f:
+            data = json.load(f)
+        guide_tags = extract_tags_from_text(data.get('title'), data.get('description'), data.get('category'))
+        for place in data.get('places', []):
+            text_parts = [
+                data.get('title', ''),
+                data.get('description', ''),
+                data.get('category', ''),
+                place.get('name', ''),
+                place.get('whatToOrder', ''),
+                place.get('insiderTip', ''),
+                ' '.join(place.get('cuisineTags', [])),
+                ' '.join(q.get('text', '') for q in place.get('redditQuotes', [])),
+            ]
+            tags = sorted(set(guide_tags + place.get('cuisineTags', []) + extract_tags_from_text(*text_parts)))
+            good_for = [tag for tag in tags if tag in ['family', 'solo', 'couple', 'remote_work']]
+            catalog_items.append({
+                'id': f"place:{data['slug']}:{place.get('position') or slugify(place.get('name', 'place'))}",
+                'entityType': 'place',
+                'source': 'picks',
+                'slug': data['slug'],
+                'name': place.get('name', ''),
+                'title': data.get('title', ''),
+                'description': place.get('whatToOrder') or place.get('insiderTip') or data.get('description', ''),
+                'city': data.get('city', ''),
+                'locationLabel': place.get('address', '') or data.get('city', ''),
+                'category': data.get('category', ''),
+                'tags': tags,
+                'goodFor': good_for,
+                'highlights': [q.get('text', '') for q in place.get('redditQuotes', [])[:2]],
+                'priceLevel': infer_price_level(place.get('priceRange', '')),
+                'openNow': place.get('openNow'),
+                'ratingNormalized': round(min(float(place.get('googleRating', 0)) / 5, 1), 3) if place.get('googleRating') else 0.55,
+                'editorialSignal': min(len(place.get('redditQuotes', [])) / 4, 1),
+                'url': f"{data.get('url', '')}#{slugify(place.get('name', ''))}",
+                'freshness': {
+                    'generatedAt': generated_at,
+                    'confidence': 'mixed',
+                    'confidenceScore': 0.74 if place.get('googleRating') else 0.62,
+                    'operationalFieldsMayChange': True,
+                },
+                'provenance': {
+                    'sources': ['tabiji_editorial', 'reddit', 'google_places'],
+                    'lastVerifiedAt': generated_at,
+                },
+            })
+
+    with open(OUTPUT_DIR / 'catalog.json', 'w') as f:
+        json.dump({
+            'version': '1.1.0',
+            'generatedAt': generated_at,
+            'itemCount': len(catalog_items),
+            'items': catalog_items,
+        }, f, indent=2, ensure_ascii=False)
+
+    return len(catalog_items)
+
 # ============================================================
 # INDEX
 # ============================================================
 
-def build_index(dest_count, picks_count, places_count, itin_count, compare_count):
+def build_index(dest_count, picks_count, places_count, itin_count, compare_count, catalog_count):
     """Build the API index/metadata file."""
     index = {
         "name": "tabiji.ai API",
-        "version": "1.0.0",
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and more. No API key required.",
+        "version": "1.1.0",
+        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and agent-friendly search, filter, and recommend endpoints. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
@@ -1031,7 +1172,8 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "picksGuides": picks_count,
             "totalPlaces": places_count,
             "itineraries": itin_count,
-            "comparisons": compare_count
+            "comparisons": compare_count,
+            "catalogItems": catalog_count
         },
         "endpoints": [
             {
@@ -1073,6 +1215,26 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
                 "path": "/compare/{slug}.json",
                 "description": "Full comparison with categories, verdicts, and FAQs",
                 "method": "GET"
+            },
+            {
+                "path": "/catalog.json",
+                "description": "Unified agent-ready catalog spanning destinations and places with provenance/freshness fields",
+                "method": "GET"
+            },
+            {
+                "path": "/search",
+                "description": "Search destinations and places by natural-language query plus optional structured filters",
+                "method": "GET|POST"
+            },
+            {
+                "path": "/filter",
+                "description": "Apply deterministic hard constraints to the unified catalog",
+                "method": "GET|POST"
+            },
+            {
+                "path": "/recommend",
+                "description": "Rank candidates for a trip intent with explanations, tradeoffs, freshness, and provenance",
+                "method": "GET|POST"
             }
         ],
         "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links). Every pick includes 'what to order' recommendations and real traveler quotes.",
@@ -1115,8 +1277,12 @@ def main():
     compare_summaries, compare_count = build_compare()
     print(f"   ✅ {compare_count} comparisons")
 
+    print("🤖 Building unified agent catalog...")
+    catalog_count = build_catalog()
+    print(f"   ✅ {catalog_count} catalog items")
+
     print("📋 Building index...")
-    build_index(dest_count, picks_count, places_count, itin_count, compare_count)
+    build_index(dest_count, picks_count, places_count, itin_count, compare_count, catalog_count)
     print("   ✅ index.json")
 
     # Count total files
@@ -1135,6 +1301,7 @@ def main():
     print(f"   Picks guides:  {picks_count} ({places_count} places)")
     print(f"   Itineraries:   {itin_count}")
     print(f"   Comparisons:   {compare_count}")
+    print(f"   Catalog items: {catalog_count}")
     print(f"   Total files:   {total_files}")
     print(f"   Total size:    {total_size / 1024 / 1024:.1f} MB")
     print("=" * 50)
