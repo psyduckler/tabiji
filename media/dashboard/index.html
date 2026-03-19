@@ -130,6 +130,16 @@
     }
     .sidebar-nav {
       flex: 1; padding: 1.25rem 0.75rem;
+      /* Override shared-shell.css nav{position:fixed;top:0} which breaks sidebar layout */
+      position: static !important;
+      top: auto !important;
+      width: auto !important;
+      z-index: auto !important;
+      background: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-bottom: none !important;
+      display: block !important;
     }
     .nav-section-label {
       font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
@@ -155,7 +165,8 @@
       padding: 1px 6px; min-width: 18px; text-align: center;
     }
     .sidebar-footer {
-      padding: 1rem 1.5rem;
+      padding: 1.5rem 1.5rem 1rem;
+      margin-top: 1rem;
       border-top: 1px solid var(--sand);
       font-size: 0.72rem; color: var(--text-muted); text-align: center;
     }
@@ -790,6 +801,14 @@
       <button class="nav-item" onclick="window.open('/media/', '_blank')">
         <span class="nav-icon">↗</span> tabiji.ai
       </button>
+
+      <div class="nav-section-label">Legal</div>
+      <a class="nav-item" href="/terms/" target="_blank" style="text-decoration:none">
+        <span class="nav-icon">📋</span> Terms of Service
+      </a>
+      <a class="nav-item" href="/privacy/" target="_blank" style="text-decoration:none">
+        <span class="nav-icon">🔒</span> Privacy Policy
+      </a>
     </nav>
     <div class="sidebar-footer">
       Powered by <a href="https://tabiji.ai/media/" target="_blank">tabiji.ai</a>
@@ -882,14 +901,14 @@
 
       <div class="accounts-list">
 
-        <!-- TikTok -->
+        <!-- TikTok (real integration via Login Kit + Content Posting API) -->
         <div class="account-card" id="tiktok-card">
           <div class="account-platform-logo" style="background:#000;color:white;font-size:1.2rem">TT</div>
           <div class="account-info">
             <div class="account-name">TikTok</div>
-            <div class="account-handle" id="tiktok-handle">@wanderlust_travel</div>
+            <div class="account-handle" id="tiktok-handle">Not connected</div>
             <div class="account-status" id="tiktok-status">
-              <span class="acct-connected">● Connected</span>
+              <span class="acct-disconnected">○ Not connected</span>
             </div>
             <div class="permissions-pills">
               <span class="perm-pill">video.publish</span>
@@ -898,7 +917,7 @@
             </div>
           </div>
           <div class="account-actions" id="tiktok-actions">
-            <button class="btn-disconnect" onclick="disconnectPlatform('tiktok')">Disconnect</button>
+            <button class="btn-connect-acct" onclick="connectPlatform('tiktok')">Connect TikTok</button>
           </div>
         </div>
 
@@ -1225,12 +1244,20 @@
 
       <hr class="divider">
 
-      <button class="btn-publish" id="publishBtn" onclick="doPublish()">
-        Publish Now
-      </button>
+      <div style="display:flex;gap:0.75rem">
+        <button class="btn-publish" id="publishBtn" onclick="doPublish()" style="flex:1">
+          Publish Now
+        </button>
+        <button class="btn-publish" id="draftBtn" onclick="doSaveAsDraft()" style="flex:1;background:var(--earth)">
+          📥 Save as Draft
+        </button>
+      </div>
       <div class="success-msg" id="successMsg">
         ✅ Published successfully!
         <a class="success-link" onclick="window.open('https://tiktok.com/@wanderlust_travel','_blank')">View on TikTok ↗</a>
+      </div>
+      <div class="success-msg" id="draftSuccessMsg" style="display:none">
+        ✅ Sent to TikTok inbox as draft! Open TikTok to edit and post.
       </div>
     </div>
   </div>
@@ -1528,6 +1555,12 @@ function openVideo(id) {
   btn.disabled = false;
   btn.innerHTML = v.status === 'published' ? 'Re-publish' : 'Publish Now';
   document.getElementById('successMsg').classList.remove('visible');
+  document.getElementById('draftSuccessMsg').style.display = 'none';
+  // reset draft button
+  const draftBtn = document.getElementById('draftBtn');
+  draftBtn.disabled = false;
+  draftBtn.innerHTML = '📥 Save as Draft';
+  draftBtn.style.background = 'var(--earth)';
   // reset platform checkboxes to match video platforms
   ['tiktok','instagram','youtube','x'].forEach(p => {
     const row = document.getElementById('pr-' + p);
@@ -1559,18 +1592,35 @@ function selectSchedule(el, mode) {
 }
 
 // ══ PUBLISH ══
-function doPublish() {
+async function doPublish() {
   const btn = document.getElementById('publishBtn');
   const selected = Array.from(document.querySelectorAll('.platform-row.selected')).map(r => r.id.replace('pr-',''));
   if (!selected.length) { alert('Please select at least one platform.'); return; }
+
   // Loading state
   btn.disabled = true;
   btn.classList.add('loading');
   btn.innerHTML = '<div class="spinner"></div> Publishing...';
+
+  // If TikTok is selected and we have a real token, use real API
+  let tiktokResult = null;
+  if (selected.includes('tiktok') && sessionStorage.getItem('tiktok_access_token')) {
+    const title = document.getElementById('modalTitle').value || currentVideo.title;
+    // Use a sample video URL for demo purposes (replace with actual video URL in production)
+    const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
+    tiktokResult = await publishToTikTokReal(videoUrl, title);
+    console.log('TikTok publish result:', tiktokResult);
+  }
+
+  // Simulate delay for other platforms
   setTimeout(() => {
     btn.classList.remove('loading');
     btn.classList.add('success');
-    btn.innerHTML = '✅ Published!';
+    if (tiktokResult && !tiktokResult.success) {
+      btn.innerHTML = '⚠️ TikTok: ' + (tiktokResult.error || 'Error');
+    } else {
+      btn.innerHTML = '✅ Published!';
+    }
     document.getElementById('successMsg').classList.add('visible');
     // Update mock data
     if (currentVideo) {
@@ -1578,20 +1628,28 @@ function doPublish() {
       currentVideo.platforms = [...new Set([...currentVideo.platforms, ...selected])];
       initGrids();
     }
-  }, 2200);
+  }, tiktokResult ? 500 : 2200);
 }
 
 // ══ QUICK PUBLISH ══
-function quickPublish(id, btn) {
+async function quickPublish(id, btn) {
   btn.disabled = true;
   btn.textContent = '⏳ Publishing...';
+  const v = videos.find(x => x.id === id);
+
+  // Real TikTok publish if connected
+  if (sessionStorage.getItem('tiktok_access_token') && v) {
+    const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
+    const result = await publishToTikTokReal(videoUrl, v.title + ' ' + v.tags.join(' '));
+    console.log('Quick publish TikTok result:', result);
+  }
+
   setTimeout(() => {
     btn.textContent = '✅ Published!';
     btn.style.background = 'var(--success)';
-    const v = videos.find(x => x.id === id);
     if (v) { v.status = 'published'; v.platforms = ['tiktok','instagram','youtube']; }
     setTimeout(() => { initGrids(); renderPublishQueue(); }, 900);
-  }, 2000);
+  }, 1000);
 }
 
 // ══ MODALS ══
@@ -1658,6 +1716,9 @@ function confirmDisconnect() {
 }
 
 let oauthTarget = null;
+const TIKTOK_CLIENT_KEY = 'sbawp1liplfremr1dy'; // sandbox credentials
+const TIKTOK_REDIRECT_URI = 'https://tabiji.ai/media/dashboard/callback/';
+
 function connectPlatform(platform) {
   oauthTarget = platform;
   const cfg = platformConfig[platform];
@@ -1665,20 +1726,47 @@ function connectPlatform(platform) {
   document.getElementById('oauthLogo').textContent = cfg.emoji;
   document.getElementById('oauthHeading').textContent = `Connect Your ${cfg.name} Account`;
   document.getElementById('oauthSub').textContent = `Authorize Tabiji Media Studio to publish videos on your behalf. You can revoke access at any time from ${cfg.name} settings.`;
-  const urlMap = {
-    tiktok: 'https://www.tiktok.com/auth/authorize?client_key=aw6q83h0x1v04yvr&response_type=code&scope=video.publish,user.info.basic&redirect_uri=https://tabiji.ai/media/callback',
-    x: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=tabiji_media&scope=tweet.write',
-    pinterest: 'https://www.pinterest.com/oauth/?client_id=1551415&scope=boards:write,pins:write&response_type=code'
-  };
-  document.getElementById('oauthUrl').textContent = urlMap[platform] || `https://${platform}.com/oauth/authorize?client_id=tabiji_media`;
+
+  // Real TikTok OAuth URL
+  if (platform === 'tiktok') {
+    const csrfState = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    sessionStorage.setItem('tiktok_csrf_state', csrfState);
+    const oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${TIKTOK_CLIENT_KEY}&response_type=code&scope=user.info.basic,video.publish,video.upload&redirect_uri=${encodeURIComponent(TIKTOK_REDIRECT_URI)}&state=${csrfState}`;
+    document.getElementById('oauthUrl').textContent = oauthUrl.substring(0, 80) + '...';
+    sessionStorage.setItem('tiktok_oauth_url', oauthUrl);
+  } else {
+    const urlMap = {
+      x: 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=tabiji_media&scope=tweet.write',
+      pinterest: 'https://www.pinterest.com/oauth/?client_id=1551415&scope=boards:write,pins:write&response_type=code'
+    };
+    document.getElementById('oauthUrl').textContent = urlMap[platform] || `https://${platform}.com/oauth/authorize?client_id=tabiji_media`;
+  }
+
   document.getElementById('oauthBtn').style.background = platform === 'tiktok' ? '#000' : platform === 'x' ? '#000' : '#E60023';
   document.getElementById('oauthBtnText').textContent = `Continue with ${cfg.name}`;
   document.getElementById('oauthBtnIcon').textContent = cfg.emoji;
   document.getElementById('oauthProgressBar').style.width = '0';
+  // Update permissions display
+  if (platform === 'tiktok') {
+    document.getElementById('oauthPerm1').textContent = 'Publish videos directly to your TikTok (video.publish)';
+    document.getElementById('oauthPerm2').textContent = 'Upload videos as drafts (video.upload)';
+    document.getElementById('oauthPerm3').textContent = 'View basic profile information (user.info.basic)';
+    document.getElementById('oauthPerm3').style.display = '';
+  }
   openModal('oauthModal');
 }
 
 function triggerOAuth() {
+  if (oauthTarget === 'tiktok') {
+    // Real TikTok OAuth — redirect to TikTok authorization page
+    const oauthUrl = sessionStorage.getItem('tiktok_oauth_url');
+    if (oauthUrl) {
+      window.location.href = oauthUrl;
+      return;
+    }
+  }
+
+  // Mock flow for other platforms
   const btn = document.getElementById('oauthBtn');
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner"></div> Redirecting...';
@@ -1692,7 +1780,6 @@ function triggerOAuth() {
     btn.style.background = 'var(--success)';
     setTimeout(() => {
       closeModal('oauthModal');
-      // Update card
       if (oauthTarget) {
         const cfg = platformConfig[oauthTarget];
         const status = document.getElementById(oauthTarget + '-status');
@@ -1707,8 +1794,172 @@ function triggerOAuth() {
   }, 2500);
 }
 
+// ══ TIKTOK REAL INTEGRATION ══
+async function checkTikTokConnection() {
+  const token = sessionStorage.getItem('tiktok_access_token');
+  const openId = sessionStorage.getItem('tiktok_open_id');
+  if (!token) return;
+
+  // Token exists — update the TikTok card to show real connected state
+  const status = document.getElementById('tiktok-status');
+  const handle = document.getElementById('tiktok-handle');
+  const actions = document.getElementById('tiktok-actions');
+
+  if (status) status.innerHTML = '<span class="acct-connected">● Connected (Live)</span>';
+
+  // Try to fetch creator info for the display name
+  try {
+    const res = await fetch('/api/tiktok-creator', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ access_token: token }),
+    });
+    const data = await res.json();
+    if (data.data && data.data.creator_username) {
+      if (handle) handle.textContent = '@' + data.data.creator_username;
+      // Store creator info for publish flow
+      sessionStorage.setItem('tiktok_creator_info', JSON.stringify(data.data));
+    }
+  } catch (e) {
+    console.log('Could not fetch TikTok creator info:', e);
+  }
+
+  if (actions) {
+    actions.innerHTML = `<button class="btn-disconnect" onclick="disconnectTikTokReal()">Disconnect</button>`;
+  }
+}
+
+function disconnectTikTokReal() {
+  sessionStorage.removeItem('tiktok_access_token');
+  sessionStorage.removeItem('tiktok_open_id');
+  sessionStorage.removeItem('tiktok_scope');
+  sessionStorage.removeItem('tiktok_refresh_token');
+  sessionStorage.removeItem('tiktok_creator_info');
+  const status = document.getElementById('tiktok-status');
+  const handle = document.getElementById('tiktok-handle');
+  const actions = document.getElementById('tiktok-actions');
+  if (status) status.innerHTML = '<span class="acct-disconnected">○ Not connected</span>';
+  if (handle) { handle.textContent = 'Not connected'; handle.style.color = 'var(--text-muted)'; }
+  if (actions) actions.innerHTML = `<button class="btn-connect-acct" onclick="connectPlatform('tiktok')">Connect TikTok</button>`;
+}
+
+// Real TikTok publish via Content Posting API
+async function publishToTikTokReal(videoUrl, title) {
+  const token = sessionStorage.getItem('tiktok_access_token');
+  if (!token) {
+    alert('Please connect your TikTok account first.');
+    return { success: false, error: 'Not connected' };
+  }
+
+  // Step 1: Query creator info to get privacy options
+  const creatorInfo = JSON.parse(sessionStorage.getItem('tiktok_creator_info') || '{}');
+  const privacyLevel = (creatorInfo.privacy_level_options && creatorInfo.privacy_level_options[0]) || 'SELF_ONLY';
+
+  // Step 2: Initialize the post with PULL_FROM_URL
+  try {
+    const res = await fetch('/api/tiktok-post', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: token,
+        post_info: {
+          title: title || 'Published via Tabiji Media Studio',
+          privacy_level: privacyLevel,
+          disable_duet: false,
+          disable_comment: false,
+          disable_stitch: false,
+          is_aigc: true,
+        },
+        source_info: {
+          source: 'PULL_FROM_URL',
+          video_url: videoUrl,
+        },
+      }),
+    });
+
+    const data = await res.json();
+    if (data.data && data.data.publish_id) {
+      return { success: true, publish_id: data.data.publish_id };
+    } else {
+      return { success: false, error: data.error?.message || 'Unknown error' };
+    }
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+// Real TikTok draft upload via Content Posting API (video.upload scope)
+async function uploadToTikTokDraft(videoUrl) {
+  const token = sessionStorage.getItem('tiktok_access_token');
+  if (!token) {
+    alert('Please connect your TikTok account first.');
+    return { success: false, error: 'Not connected' };
+  }
+
+  try {
+    const res = await fetch('/api/tiktok-upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: token,
+        source_info: {
+          source: 'PULL_FROM_URL',
+          video_url: videoUrl,
+        },
+      }),
+    });
+
+    const data = await res.json();
+    if (data.data && data.data.publish_id) {
+      return { success: true, publish_id: data.data.publish_id };
+    } else {
+      return { success: false, error: data.error?.message || 'Unknown error' };
+    }
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+async function doSaveAsDraft() {
+  const btn = document.getElementById('draftBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Sending to TikTok...';
+
+  let result = null;
+  if (sessionStorage.getItem('tiktok_access_token')) {
+    const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
+    result = await uploadToTikTokDraft(videoUrl);
+    console.log('TikTok draft upload result:', result);
+  }
+
+  setTimeout(() => {
+    if (result && result.success) {
+      btn.innerHTML = '✅ Sent to Drafts!';
+      btn.style.background = 'var(--success)';
+      document.getElementById('draftSuccessMsg').style.display = 'block';
+    } else if (result && !result.success) {
+      btn.innerHTML = '⚠️ ' + (result.error || 'Error');
+    } else {
+      // Mock for non-TikTok
+      btn.innerHTML = '✅ Sent to Drafts!';
+      btn.style.background = 'var(--success)';
+      document.getElementById('draftSuccessMsg').style.display = 'block';
+    }
+  }, result ? 500 : 2000);
+}
+
+// Check on page load — handle return from OAuth callback
+if (window.location.hash === '#tiktok-connected') {
+  // Came back from successful OAuth callback
+  window.location.hash = '';
+  setTimeout(() => {
+    showView('accounts', document.querySelector('[onclick*="accounts"]'));
+  }, 100);
+}
+
 // ══ INIT ══
 initGrids();
+checkTikTokConnection();
 </script>
 </body>
 </html>
