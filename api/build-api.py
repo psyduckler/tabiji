@@ -35,6 +35,60 @@ API_BASE_URL = "https://tabiji.ai/api/v1"
 SITE_URL = "https://tabiji.ai"
 
 
+def isoformat_mtime(path):
+    return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def make_id(record_type, slug):
+    return f"{record_type}:{slug}"
+
+
+def normalize_record_type(record_type):
+    return "compare" if record_type == "comparison" else record_type
+
+
+def unique_list(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value in (None, '', []):
+            continue
+        value = clean_text(str(value)) if not isinstance(value, (int, float, bool)) else value
+        if value in (None, '', []):
+            continue
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
+
+
+def attach_record_meta(payload, *, record_type, slug, source_path, source_url, tags=None):
+    payload["id"] = make_id(record_type, slug)
+    payload["type"] = normalize_record_type(record_type)
+    payload["updatedAt"] = isoformat_mtime(source_path)
+    payload["sourceUrl"] = source_url
+    payload["tags"] = unique_list(tags or [])
+    return payload
+
+
+def build_search_item(item, *, item_type, slug, title, subtitle, url, site_url, tags=None, extra=None):
+    record = {
+        "id": make_id(item_type, slug),
+        "type": normalize_record_type(item_type),
+        "slug": slug,
+        "title": title,
+        "subtitle": subtitle,
+        "url": url,
+        "siteUrl": site_url,
+        "tags": unique_list(tags or []),
+    }
+    if extra:
+        record.update({k: v for k, v in extra.items() if v not in (None, '', [])})
+    record["tokens"] = unique_list([title, subtitle, *(record.get("tags", []))] + [str(v) for v in (extra or {}).values() if isinstance(v, str)])
+    return record
+
+
 def slugify(text):
     """Convert text to URL-safe slug."""
     text = text.lower().strip()
@@ -511,6 +565,402 @@ def extract_meta_content(soup, attr_name, attr_value):
     return tag.get('content', '').strip() if tag and tag.get('content') else ''
 
 
+def normalize_location_key(value):
+    value = clean_text(value).lower()
+    value = re.sub(r'[^a-z0-9\s-]', ' ', value)
+    value = re.sub(r'\s+', ' ', value).strip()
+    return value
+
+
+def slug_to_name(slug):
+    return clean_text(slug.replace('-', ' ').title())
+
+
+def infer_budget_band(budget_text):
+    budget_text = clean_text(budget_text)
+    if not budget_text:
+        return ''
+    dollar_count = budget_text.count('$')
+    if dollar_count <= 1:
+        return 'budget'
+    if dollar_count == 2:
+        return 'midrange'
+    if dollar_count == 3:
+        return 'medium-high'
+    return 'luxury'
+
+
+def clamp_score(value, minimum=0.0, maximum=1.0):
+    return max(minimum, min(maximum, round(value, 2)))
+
+
+def infer_destination_attributes(detail):
+    vibes = {clean_text(v).lower() for v in detail.get('vibes', [])}
+    travel_styles = {clean_text(v).lower() for v in detail.get('travelStyles', [])}
+    budget_band = infer_budget_band(detail.get('budget', ''))
+
+    nightlife = 0.92 if 'nightlife' in vibes else 0.62 if 'city' in vibes else 0.35
+    family = 0.86 if 'family' in vibes else 0.55
+    walkability = 0.8 if 'city' in vibes else 0.58
+    transit = 0.86 if 'city' in vibes else 0.52
+    safety = 0.72
+    hassle = 0.58 if 'adventure' in travel_styles else 0.36 if 'city' in vibes else 0.28
+
+    if budget_band == 'budget':
+        hassle += 0.06
+    elif budget_band == 'luxury':
+        family += 0.04
+        walkability += 0.02
+
+    if 'relaxation' in travel_styles:
+        trip_pace = 'slow'
+    elif 'adventure' in travel_styles:
+        trip_pace = 'fast'
+    elif 'photography' in travel_styles or 'cultural' in vibes:
+        trip_pace = 'medium'
+    else:
+        trip_pace = 'medium-fast' if 'city' in vibes else 'medium'
+
+    best_for_tags = unique_list([*(detail.get('travelStyles') or []), *(detail.get('vibes') or [])])
+    recommended_trip_lengths = [3, 4, 5] if 'city' in vibes else [4, 5, 7]
+
+    return {
+        'normalized': {
+            'budgetBand': budget_band,
+            'tripPace': trip_pace,
+            'familyFriendliness': clamp_score(family),
+            'nightlifeScore': clamp_score(nightlife),
+            'walkabilityScore': clamp_score(walkability),
+            'transitScore': clamp_score(transit),
+            'safetyScore': clamp_score(safety),
+            'hassleLevel': clamp_score(hassle),
+            'bestForTags': best_for_tags,
+            'recommendedTripLengthsDays': recommended_trip_lengths,
+        }
+    }
+
+
+def infer_price_tier(price_range):
+    price_range = clean_text(price_range)
+    if not price_range:
+        return None
+    if any(token in price_range for token in ['100–', '120–', '€3', '€4', '$3', '$4', '¥100', '¥200', '¥300']):
+        return 1
+    if any(token in price_range for token in ['¥3', '¥4', '¥5', '¥6', '¥7', '$8', '$9', '$10', '$11', '$12', '€8', '€9', '€10', '€11', '€12']):
+        return 2
+    if any(token in price_range for token in ['¥1,', '$13', '$14', '$15', '$16', '$17', '$18', '€13', '€14', '€15', '€16', '€17', '€18']):
+        return 3
+    return 4
+
+
+def infer_place_operational_fields(place, guide):
+    text = ' '.join([
+        clean_text(guide.get('title', '')),
+        clean_text(guide.get('category', '')),
+        clean_text(place.get('name', '')),
+        clean_text(place.get('whatToOrder', '')),
+        clean_text(place.get('insiderTip', '')),
+        clean_text(place.get('verdict', ''))
+    ]).lower()
+    cuisine_tags = [clean_text(tag) for tag in place.get('cuisineTags', [])]
+    category = cuisine_tags[0] if cuisine_tags else clean_text(guide.get('category', ''))
+
+    meal_types = []
+    if any(token in text for token in ['breakfast', 'brunch']):
+        meal_types.append('breakfast')
+    if any(token in text for token in ['lunch', 'market lunch']):
+        meal_types.append('lunch')
+    if any(token in text for token in ['dinner', 'izakaya', 'bar', 'cocktail', 'late-night']):
+        meal_types.append('dinner')
+    if any(token in text for token in ['late-night', 'golden gai', 'nightlife', 'bar']):
+        meal_types.append('late-night')
+    if not meal_types:
+        meal_types = ['anytime']
+
+    reservation_needed = any(token in text for token in ['reservation', 'reserve', 'book ahead', 'prebook'])
+    if any(token in text for token in ['arrive early', 'queue', 'line moves fast', 'wait']) and not reservation_needed:
+        wait_time_level = 'medium'
+    elif any(token in text for token in ['long waits', 'longest waits', 'crowded', 'fills up fast']):
+        wait_time_level = 'high'
+    else:
+        wait_time_level = 'low' if place.get('openNow') else 'unknown'
+
+    ideal_time = []
+    if place.get('openingHours'):
+        hours_blob = ' '.join(place['openingHours'].values()).lower()
+        if '24 hours' in hours_blob or '4:00 am' in hours_blob or '7:30 am' in hours_blob:
+            ideal_time.append('morning')
+        if '10:00 pm' in hours_blob or '11:00 pm' in hours_blob or '3:00 am' in hours_blob:
+            ideal_time.append('evening')
+    if any(token in text for token in ['sunset', 'evening']):
+        ideal_time.append('evening')
+    if any(token in text for token in ['late-night', 'nightlife']):
+        ideal_time.append('late-night')
+    if not ideal_time:
+        ideal_time = ['lunch', 'dinner'] if 'food' in text or 'restaurant' in text else ['daytime']
+
+    dietary_tags = []
+    if any(token in text for token in ['vegan', 'plant-based']):
+        dietary_tags.append('vegan-friendly')
+    if 'vegetarian' in text:
+        dietary_tags.append('vegetarian-friendly')
+    if any(token in text for token in ['seafood', 'sushi', 'fish']):
+        dietary_tags.append('seafood')
+    if any(token in text for token in ['beef', 'pork', 'meat', 'yakitori']):
+        dietary_tags.append('meat-focused')
+
+    payment_types = ['card'] if place.get('website') else []
+    if any(token in text for token in ['cash', 'cash-only', 'cash friendly']):
+        payment_types.append('cash')
+    if not payment_types:
+        payment_types = ['cash', 'card']
+
+    touristy = 'high' if any(token in text for token in ['tourist', 'first-timer', 'legendary', 'famous']) else 'medium'
+    if any(token in text for token in ['locals', 'neighborhood', 'under the tourist radar']):
+        touristy = 'low-medium'
+
+    known_for = unique_list(cuisine_tags + re.split(r',|\band\b', clean_text(place.get('whatToOrder', '')))[:3])
+    return {
+        'category': category,
+        'mealTypes': unique_list(meal_types),
+        'priceTier': infer_price_tier(place.get('priceRange', '')),
+        'reservationNeeded': reservation_needed,
+        'idealTimeToGo': unique_list(ideal_time),
+        'knownFor': unique_list(known_for)[:5],
+        'waitTimeLevel': wait_time_level,
+        'dietaryTags': unique_list(dietary_tags),
+        'paymentTypes': unique_list(payment_types),
+        'touristyLevel': touristy,
+    }
+
+
+def infer_itinerary_operational_fields(detail, destination_detail=None):
+    title = clean_text(detail.get('title', '')).lower()
+    duration_text = clean_text(detail.get('duration', ''))
+    match = re.search(r'(\d+)', duration_text)
+    duration_days = int(match.group(1)) if match else max(1, detail.get('dayCount', 1))
+    if 'relax' in title:
+        pace = 'slow'
+    elif any(token in title for token in ['food', 'nightlife', 'adventure']):
+        pace = 'medium-fast'
+    else:
+        pace = 'medium'
+
+    budget_band = ((destination_detail or {}).get('normalized') or {}).get('budgetBand', '')
+    if budget_band == 'budget':
+        budget = {'budget': 70, 'midrange': 130, 'high': 220}
+    elif budget_band == 'luxury':
+        budget = {'budget': 150, 'midrange': 280, 'high': 500}
+    else:
+        budget = {'budget': 90, 'midrange': 180, 'high': 320}
+
+    day_intensity = []
+    for day in detail.get('days', []):
+        neighborhoods = [part.strip() for part in clean_text(day.get('neighborhoods', '')).split('·') if part.strip()]
+        activities = day.get('activities', []) or []
+        score = 0.35 + (0.12 * min(len(neighborhoods), 4)) + (0.08 * min(len(activities), 4))
+        if pace == 'medium-fast':
+            score += 0.1
+        elif pace == 'slow':
+            score -= 0.08
+        day['dayIntensityScore'] = clamp_score(score)
+        day['transitSegments'] = day.get('transitSegments', [])
+        day['rainyDayAlternatives'] = day.get('rainyDayAlternatives', [])
+        day_intensity.append(day['dayIntensityScore'])
+
+    return {
+        'durationDays': duration_days,
+        'pace': pace,
+        'estimatedDailyBudget': budget,
+        'reservationRequirements': [],
+        'openingHoursVerified': False,
+        'familySuitability': clamp_score(0.72 if 'family' in title else 0.58),
+        'mobilityNotes': [],
+        'averageDayIntensityScore': clamp_score(sum(day_intensity) / len(day_intensity)) if day_intensity else None,
+    }
+
+
+def link_records(destinations, picks, itineraries, comparisons):
+    dest_by_key = {}
+    for dest in destinations:
+        keys = {normalize_location_key(dest.get('name', '')), normalize_location_key(dest.get('slug', ''))}
+        for key in keys:
+            if key:
+                dest_by_key[key] = dest
+
+    for dest in destinations:
+        dest.setdefault('related', {})
+        dest['related'].update({
+            'pickSlugs': [],
+            'itinerarySlugs': [],
+            'comparisonSlugs': [],
+            'nearbyDestinationSlugs': [],
+            'dayTripDestinationSlugs': [],
+        })
+
+    for pick in picks:
+        key = normalize_location_key(pick.get('city', ''))
+        if key and key in dest_by_key:
+            dest = dest_by_key[key]
+            pick['destinationSlug'] = dest['slug']
+            dest['related']['pickSlugs'].append(pick['slug'])
+
+    for itin in itineraries:
+        key = normalize_location_key(itin.get('destination', ''))
+        if key and key in dest_by_key:
+            dest = dest_by_key[key]
+            itin['destinationSlug'] = dest['slug']
+            dest['related']['itinerarySlugs'].append(itin['slug'])
+
+    for compare in comparisons:
+        compare['destinationSlugs'] = []
+        for field in ['destination1', 'destination2']:
+            key = normalize_location_key(compare.get(field, ''))
+            if key and key in dest_by_key:
+                dest = dest_by_key[key]
+                compare['destinationSlugs'].append(dest['slug'])
+                dest['related']['comparisonSlugs'].append(compare['slug'])
+
+    for compare in comparisons:
+        related_picks = []
+        related_itins = []
+        for slug in compare.get('destinationSlugs', []):
+            dest = next((d for d in destinations if d['slug'] == slug), None)
+            if not dest:
+                continue
+            related_picks.extend(dest['related']['pickSlugs'])
+            related_itins.extend(dest['related']['itinerarySlugs'])
+        compare['relatedPickSlugs'] = unique_list(related_picks)[:12]
+        compare['relatedItinerarySlugs'] = unique_list(related_itins)[:12]
+
+    for pick in picks:
+        pick['relatedItinerarySlugs'] = []
+        pick['relatedComparisonSlugs'] = []
+        if pick.get('destinationSlug'):
+            dest = next((d for d in destinations if d['slug'] == pick['destinationSlug']), None)
+            if dest:
+                pick['relatedItinerarySlugs'] = unique_list(dest['related']['itinerarySlugs'])[:8]
+                pick['relatedComparisonSlugs'] = unique_list(dest['related']['comparisonSlugs'])[:8]
+
+    for itin in itineraries:
+        itin['relatedPickSlugs'] = []
+        itin['relatedComparisonSlugs'] = []
+        if itin.get('destinationSlug'):
+            dest = next((d for d in destinations if d['slug'] == itin['destinationSlug']), None)
+            if dest:
+                itin['relatedPickSlugs'] = unique_list(dest['related']['pickSlugs'])[:10]
+                itin['relatedComparisonSlugs'] = unique_list(dest['related']['comparisonSlugs'])[:8]
+
+
+def enrich_generated_records(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+    dest_dir = OUTPUT_DIR / 'destinations'
+    pick_dir = OUTPUT_DIR / 'picks'
+    itin_dir = OUTPUT_DIR / 'itineraries'
+    compare_dir = OUTPUT_DIR / 'compare'
+
+    destinations = []
+    for summary in dest_summaries:
+        path = dest_dir / f"{summary['slug']}.json"
+        detail = json.loads(path.read_text())
+        detail.update(infer_destination_attributes(detail))
+        destinations.append(detail)
+
+    picks = []
+    for summary in pick_summaries:
+        path = pick_dir / f"{summary['slug']}.json"
+        detail = json.loads(path.read_text())
+        detail['operational'] = {
+            'guideCategory': clean_text(detail.get('category', '')),
+            'destinationHint': clean_text(detail.get('city', '')),
+        }
+        for place in detail.get('places', []):
+            place['operational'] = infer_place_operational_fields(place, detail)
+        picks.append(detail)
+
+    dest_lookup = {d['slug']: d for d in destinations}
+
+    itineraries = []
+    for summary in itin_summaries:
+        path = itin_dir / f"{summary['slug']}.json"
+        detail = json.loads(path.read_text())
+        detail.update(infer_itinerary_operational_fields(detail))
+        itineraries.append(detail)
+
+    comparisons = []
+    for summary in compare_summaries:
+        path = compare_dir / f"{summary['slug']}.json"
+        detail = json.loads(path.read_text())
+        detail['structured'] = {
+            'budgetWinner': '',
+            'foodWinner': '',
+            'cultureWinner': '',
+            'bestForFirstTimers': '',
+        }
+        for category in detail.get('categories', []):
+            title = clean_text(category.get('title', '')).lower()
+            winner = clean_text((category.get('winnerSummary') or {}).get('winner', ''))
+            if 'food' in title and winner:
+                detail['structured']['foodWinner'] = winner.lower()
+            elif 'culture' in title and winner:
+                detail['structured']['cultureWinner'] = winner.lower()
+            elif 'cost' in title and winner:
+                detail['structured']['budgetWinner'] = winner.lower()
+        verdict_summary = clean_text((detail.get('verdict') or {}).get('summary', '')).lower()
+        if 'tokyo is better' in verdict_summary:
+            detail['structured']['bestForFirstTimers'] = 'tokyo'
+        comparisons.append(detail)
+
+    link_records(destinations, picks, itineraries, comparisons)
+
+    for detail in itineraries:
+        detail.update(infer_itinerary_operational_fields(detail, dest_lookup.get(detail.get('destinationSlug', ''))))
+
+    for detail in destinations:
+        detail['related'] = {k: unique_list(v) for k, v in detail.get('related', {}).items()}
+        (dest_dir / f"{detail['slug']}.json").write_text(json.dumps(detail, indent=2, ensure_ascii=False), encoding='utf-8')
+        for summary in dest_summaries:
+            if summary['slug'] == detail['slug']:
+                summary['normalized'] = detail.get('normalized', {})
+                summary['related'] = {k: detail['related'].get(k, []) for k in ['pickSlugs', 'itinerarySlugs', 'comparisonSlugs']}
+                break
+
+    for detail in picks:
+        (pick_dir / f"{detail['slug']}.json").write_text(json.dumps(detail, indent=2, ensure_ascii=False), encoding='utf-8')
+        for summary in pick_summaries:
+            if summary['slug'] == detail['slug']:
+                summary['destinationSlug'] = detail.get('destinationSlug', '')
+                summary['relatedItinerarySlugs'] = detail.get('relatedItinerarySlugs', [])
+                summary['relatedComparisonSlugs'] = detail.get('relatedComparisonSlugs', [])
+                break
+
+    for detail in itineraries:
+        (itin_dir / f"{detail['slug']}.json").write_text(json.dumps(detail, indent=2, ensure_ascii=False), encoding='utf-8')
+        for summary in itin_summaries:
+            if summary['slug'] == detail['slug']:
+                summary['destinationSlug'] = detail.get('destinationSlug', '')
+                summary['pace'] = detail.get('pace', '')
+                summary['estimatedDailyBudget'] = detail.get('estimatedDailyBudget', {})
+                summary['relatedPickSlugs'] = detail.get('relatedPickSlugs', [])
+                summary['relatedComparisonSlugs'] = detail.get('relatedComparisonSlugs', [])
+                break
+
+    for detail in comparisons:
+        (compare_dir / f"{detail['slug']}.json").write_text(json.dumps(detail, indent=2, ensure_ascii=False), encoding='utf-8')
+        for summary in compare_summaries:
+            if summary['slug'] == detail['slug']:
+                summary['destinationSlugs'] = detail.get('destinationSlugs', [])
+                summary['structured'] = detail.get('structured', {})
+                break
+
+    (OUTPUT_DIR / 'destinations.json').write_text(json.dumps({'count': len(dest_summaries), 'destinations': dest_summaries}, indent=2, ensure_ascii=False), encoding='utf-8')
+    total_places = sum(p.get('placeCount', 0) for p in pick_summaries)
+    (OUTPUT_DIR / 'picks.json').write_text(json.dumps({'count': len(pick_summaries), 'totalPlaces': total_places, 'picks': pick_summaries}, indent=2, ensure_ascii=False), encoding='utf-8')
+    (OUTPUT_DIR / 'itineraries.json').write_text(json.dumps({'count': len(itin_summaries), 'itineraries': itin_summaries}, indent=2, ensure_ascii=False), encoding='utf-8')
+    (OUTPUT_DIR / 'compare.json').write_text(json.dumps({'count': len(compare_summaries), 'comparisons': compare_summaries}, indent=2, ensure_ascii=False), encoding='utf-8')
+
+    return dest_summaries, pick_summaries, itin_summaries, compare_summaries
+
+
 def extract_pick_hub_cards(soup):
     cards = []
     for link in soup.find_all('a', class_='pick-card'):
@@ -729,7 +1179,9 @@ def parse_itinerary_page(html_path, slug, source_dir):
         if dest_match2:
             destination = clean_itinerary_destination(dest_match2.group(1))
     slug_destination = clean_itinerary_destination(derive_destination_from_itinerary_slug(slug))
-    if (not destination) or any(token in destination.lower() for token in ['itinerary', 'guide']) or len(destination.split()) >= 3:
+    destination_words = {word.lower() for word in re.split(r'\s+', destination) if word}
+    noisy_destination_words = {'food', 'nightlife', 'romantic', 'relaxation', 'adventure', 'guide', 'itinerary', 'budget', 'family', 'solo', 'culture'}
+    if (not destination) or any(token in destination.lower() for token in ['itinerary', 'guide']) or (destination_words & noisy_destination_words):
         if slug_destination:
             destination = slug_destination
 
@@ -992,8 +1444,8 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
     index = {
         "name": "tabiji.ai API",
-        "version": "1.0.0",
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+        "version": "1.1.0",
+        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, unified search, and agent-friendly linked metadata. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
@@ -1045,6 +1497,10 @@ def main():
     print("⚔️  Building comparisons...")
     compare_summaries, compare_count = build_compare()
     print(f"   ✅ {compare_count} comparisons")
+
+    print("🧠 Enriching linked records...")
+    dest_summaries, picks_summaries, itin_summaries, compare_summaries = enrich_generated_records(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
+    print("   ✅ linked entities + normalized metadata")
 
     print("🔎 Building search index...")
     search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
