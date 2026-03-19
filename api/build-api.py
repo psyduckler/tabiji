@@ -667,6 +667,15 @@ def extract_itinerary_days(soup):
             paras = tb.find_all('p')
             if paras:
                 activity["description"] = ' '.join(clean_text(p.get_text()) for p in paras[:2])
+
+            spot_details = tb.find_all('div', class_='spot-detail')
+            if spot_details:
+                activity["details"] = [clean_text(sd.get_text()) for sd in spot_details if clean_text(sd.get_text())]
+
+            tips = tb.find_all('div', class_='tip')
+            if tips:
+                activity["tips"] = [clean_text(t.get_text()) for t in tips if clean_text(t.get_text())]
+
             if activity.get("name"):
                 activities.append(activity)
 
@@ -998,10 +1007,11 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 # ============================================================
 
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
+    catalog_items = dest_count + places_count
     index = {
         "name": "tabiji.ai API",
-        "version": "1.0.0",
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+        "version": "1.1.0",
+        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and agent-friendly search, filter, and recommend endpoints. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
@@ -1012,6 +1022,7 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "totalPlaces": places_count,
             "itineraries": itin_count,
             "comparisons": compare_count,
+            "catalogItems": catalog_items,
             "searchDocuments": search_count,
         },
         "endpoints": [
@@ -1023,7 +1034,11 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             {"path": "/itineraries/{slug}.json", "description": "Full itinerary with day-by-day activities", "method": "GET"},
             {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons", "method": "GET"},
             {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
-            {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
+            {"path": "/catalog.json", "description": f"Unified agent-ready catalog spanning {catalog_items} destinations and places with provenance/freshness fields", "method": "GET"},
+            {"path": "/search", "description": "Search destinations and places by natural-language query plus optional structured filters", "method": "GET|POST"},
+            {"path": "/filter", "description": "Apply deterministic hard constraints to the unified catalog", "method": "GET|POST"},
+            {"path": "/recommend", "description": "Rank candidates for a trip intent with explanations, tradeoffs, freshness, and provenance", "method": "GET|POST"},
+            {"path": "/search.json?q={query}", "description": f"Cross-collection compatibility search across {search_count} documents", "method": "GET"},
         ],
         "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links).",
         "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",

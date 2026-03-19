@@ -1,17 +1,18 @@
 {
   "name": "tabiji.ai API",
-  "version": "1.0.0",
-  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+  "version": "1.1.0",
+  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and agent-friendly search, filter, and recommend endpoints. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-19T20:11:22Z",
+  "lastUpdated": "2026-03-19T20:48:04Z",
   "stats": {
     "destinations": 706,
     "picksGuides": 467,
     "totalPlaces": 5388,
     "itineraries": 369,
     "comparisons": 91,
+    "catalogItems": 6094,
     "searchDocuments": 1633
   },
   "endpoints": [
@@ -56,8 +57,28 @@
       "method": "GET"
     },
     {
+      "path": "/catalog.json",
+      "description": "Unified agent-ready catalog spanning 6094 destinations and places with provenance/freshness fields",
+      "method": "GET"
+    },
+    {
+      "path": "/search",
+      "description": "Search destinations and places by natural-language query plus optional structured filters",
+      "method": "GET|POST"
+    },
+    {
+      "path": "/filter",
+      "description": "Apply deterministic hard constraints to the unified catalog",
+      "method": "GET|POST"
+    },
+    {
+      "path": "/recommend",
+      "description": "Rank candidates for a trip intent with explanations, tradeoffs, freshness, and provenance",
+      "method": "GET|POST"
+    },
+    {
       "path": "/search.json?q={query}",
-      "description": "Cross-collection search across 1633 documents",
+      "description": "Cross-collection compatibility search across 1633 documents",
       "method": "GET"
     }
   ],
