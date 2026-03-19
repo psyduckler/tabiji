@@ -674,6 +674,100 @@
             </div>
         </section>
 
+        <!-- Agent endpoints -->
+        <section>
+            <h2>Agent Endpoints</h2>
+            <p>New in v1.1: a unified catalog plus runtime search, filter, and recommend endpoints built for agents. These endpoints return freshness and provenance metadata so operational facts are easier to trust.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/catalog.json</span>
+                </div>
+                <p class="endpoint-desc">Unified catalog spanning destinations and picks with normalized tags, good-for signals, freshness, and provenance.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/catalog.json">https://tabiji.ai/api/v1/catalog.json</a>
+<pre>{
+  "version": "1.1.0",
+  "generatedAt": "2026-03-19T16:00:00Z",
+  "itemCount": 4000,
+  "items": [
+    {
+      "id": "place:tokyo-cheap-eats:1",
+      "entityType": "place",
+      "name": "Matsuya (松屋)",
+      "city": "Tokyo",
+      "category": "Cheap Eats",
+      "tags": ["food", "late_night"],
+      "priceLevel": "$",
+      "freshness": {
+        "confidence": "mixed",
+        "operationalFieldsMayChange": true
+      },
+      "provenance": {
+        "sources": ["tabiji_editorial", "reddit", "google_places"]
+      }
+    }
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/search</span>
+                </div>
+                <p class="endpoint-desc">Natural-language retrieval over the unified catalog with optional structured filters.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/search \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "quiet coffee shop with good wifi in tokyo",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "tags": ["remote_work"],
+    "limit": 5
+  }'</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/filter</span>
+                </div>
+                <p class="endpoint-desc">Deterministic hard constraints for city, entity type, budget band, tags, and open-now state.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/filter \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "budget": ["$", "$$"],
+    "open_now": true,
+    "limit": 10
+  }'</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/recommend</span>
+                </div>
+                <p class="endpoint-desc">Intent-based ranking with short explanations and tradeoffs.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/recommend \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "intent": "first_night_dinner",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "party": { "traveler_type": "couple" },
+    "preferences": {
+      "atmosphere": ["local_feeling", "romantic"],
+      "avoid": ["touristy"]
+    },
+    "limit": 5
+  }'</pre>
+            </div>
+        </section>
+
         <!-- Photo showcase -->
         <section>
             <h2>📸 Photos Included</h2>
