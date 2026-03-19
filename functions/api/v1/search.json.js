@@ -7,6 +7,8 @@ export async function onRequestGet(context) {
   const limit = Number.isFinite(limitParam) ? Math.min(Math.max(limitParam, 1), 100) : 20;
 
   const indexUrl = new URL('/api/v1/search-index.json', url);
+  // TODO: If search traffic grows, avoid fetching/parsing the full ~2MB index on every request.
+  // Options: KV caching, edge cache warming, or splitting the index by type/prefix.
   const assetFetch = context.env?.ASSETS?.fetch?.bind(context.env.ASSETS)
     || context.fetch?.bind(context)
     || fetch;

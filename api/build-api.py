@@ -259,6 +259,12 @@ def extract_pick_places(soup, slug):
         if img and img.get('src'):
             place["photo"] = img.get('src', '')
 
+        order_div = section.find('div', class_='what-to-order')
+        if order_div:
+            order_text = clean_text(order_div.get_text())
+            order_text = re.sub(r'^What to order:\s*', '', order_text, flags=re.IGNORECASE)
+            place["whatToOrder"] = order_text
+
         quotes = section.find_all('div', class_='reddit-quote')
         if quotes:
             place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
@@ -292,11 +298,206 @@ def extract_pick_places(soup, slug):
 
 
 def extract_pick_places_generic(soup, slug):
-    return []
+    """Extract places from pages with non-standard section classes (bath-section, lodge-section, pick-item, etc.)."""
+    places = []
+    items = (
+        soup.find_all('section', class_=re.compile(r'bath-section|lodge-section|hammam-section|club-section|bar-section|view-section|stay-section|spot-section'))
+        or soup.find_all('div', class_=re.compile(r'pick-item'))
+    )
+
+    if not items:
+        return places
+
+    for i, item in enumerate(items):
+        place = {"position": i + 1}
+
+        heading = item.find(['h2', 'h3'])
+        if heading:
+            num_span = heading.find('span', class_=re.compile(r'number|pick-number|bath-number'))
+            name_text = clean_text(heading.get_text())
+            if num_span:
+                num_text = clean_text(num_span.get_text())
+                if name_text.startswith(num_text):
+                    name_text = name_text[len(num_text):].strip()
+            name_text = re.sub(r'^\d+\.\s*', '', name_text)
+            place["name"] = name_text
+
+        tags = item.find_all('span', class_=re.compile(r'tag(?!-)|bath-tag|cuisine-tag'))
+        if tags:
+            tag_texts = [clean_text(t.get_text()) for t in tags if not any(skip in clean_text(t.get_text()) for skip in ['📍', '💰', '🪙', '🕐'])]
+            if tag_texts:
+                place["cuisineTags"] = tag_texts
+
+        details = item.find(class_=re.compile(r'details|meta|bath-details|pick-details|spot-details'))
+        if details:
+            spans = details.find_all('span')
+            for span in spans:
+                text = clean_text(span.get_text())
+                if any(c in text for c in ['💰', '💶', '💴', '¥', '€', '$', '£', '🪙']):
+                    place["priceRange"] = normalize_price_range(text)
+                elif '📍' in text:
+                    place["address"] = text.replace('📍', '').strip()
+            maps_link = details.find('a', href=re.compile(r'maps\.google|google.*maps'))
+            if maps_link:
+                place["googleMapsUrl"] = maps_link.get('href', '')
+
+        subtitle = item.find(class_='subtitle')
+        if subtitle and not place.get("address"):
+            parts = [clean_text(p) for p in subtitle.get_text(strip=True).split('•')]
+            if len(parts) >= 1:
+                place["address"] = parts[0].strip()
+            if len(parts) >= 3:
+                place["priceRange"] = normalize_price_range(parts[-1])
+
+        rating_el = item.find(class_='google-rating')
+        if rating_el:
+            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_el.get_text())
+            if match:
+                place["googleRating"] = float(match.group(1))
+                place["reviewCount"] = int(match.group(2).replace(',', ''))
+
+        img = item.find('img')
+        if img and img.get('src'):
+            place["photo"] = img.get('src', '')
+
+        order = item.find(class_=re.compile(r'what-to-order|what-to-know'))
+        if order:
+            text = clean_text(order.get_text())
+            text = re.sub(r'^(What to order|What to know):\s*', '', text, flags=re.IGNORECASE)
+            place["whatToOrder"] = text
+
+        desc_p = item.find('p', class_='description')
+        if desc_p and not place.get("whatToOrder"):
+            place["whatToOrder"] = clean_text(desc_p.get_text())
+
+        quotes = item.find_all('div', class_='reddit-quote')
+        if quotes:
+            place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
+
+        verdict = item.find(class_=re.compile(r'verdict|tabiji-verdict'))
+        if verdict:
+            text = clean_text(verdict.get_text())
+            text = re.sub(r'^tabiji verdict:\s*', '', text, flags=re.IGNORECASE)
+            place["insiderTip"] = text
+
+        hours_div = item.find(class_=re.compile(r'hours'))
+        if hours_div:
+            grid = hours_div.find(class_='hours-grid')
+            if grid:
+                spans = grid.find_all('span')
+                hours = {}
+                for j in range(0, len(spans) - 1, 2):
+                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
+                if hours:
+                    place["openingHours"] = hours
+
+        if place.get("name"):
+            places.append(place)
+
+    return places
 
 
 def extract_pick_places_alt(soup, slug):
-    return []
+    """Extract places from older-template popular-picks pages using entry-body structure."""
+    places = []
+    entries = soup.find_all('div', class_='entry-body')
+
+    for i, entry in enumerate(entries):
+        place = {"position": i + 1}
+
+        name_el = entry.find(class_='entry-name')
+        if name_el:
+            place["name"] = clean_text(name_el.get_text())
+
+        local_name = entry.find(class_='entry-local-name')
+        if local_name:
+            place["localName"] = clean_text(local_name.get_text())
+
+        tags = entry.find_all('span', class_=lambda x: x and 'tag' in x and x != 'entry-tags')
+        if tags:
+            place["cuisineTags"] = [clean_text(t.get_text()) for t in tags]
+
+        meta = entry.find(class_='entry-meta')
+        if meta:
+            spans = meta.find_all('span')
+            for span in spans:
+                text = clean_text(span.get_text())
+                if any(c in text for c in ['💶', '💰', '💴', '¥', '€', '$', '£', '🪙']):
+                    place["priceRange"] = normalize_price_range(text)
+                elif '📍' in text:
+                    place["address"] = text.replace('📍', '').strip()
+                    maps_link = span.find('a', href=re.compile(r'maps\.google|google.*maps'))
+                    if maps_link:
+                        place["googleMapsUrl"] = maps_link.get('href', '')
+                        place["address"] = clean_text(maps_link.get_text())
+                elif '🕐' in text or '🕑' in text:
+                    place["hoursText"] = re.sub(r'^[🕐🕑]\s*', '', text).strip()
+
+        rating_el = entry.find(class_='google-rating')
+        if rating_el:
+            rating_text = clean_text(rating_el.get_text())
+            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_text)
+            if match:
+                place["googleRating"] = float(match.group(1))
+                place["reviewCount"] = int(match.group(2).replace(',', ''))
+
+        img = entry.find('img')
+        if img and img.get('src'):
+            place["photo"] = img.get('src', '')
+
+        order_div = entry.find(class_='what-to-order')
+        if order_div:
+            p = order_div.find('p')
+            if p:
+                place["whatToOrder"] = clean_text(p.get_text())
+            else:
+                place["whatToOrder"] = clean_text(order_div.get_text())
+
+        quotes_div = entry.find(class_='quotes')
+        if quotes_div:
+            quote_blocks = quotes_div.find_all(class_='quote-block')
+            if quote_blocks:
+                place["redditQuotes"] = []
+                for qb in quote_blocks:
+                    cite = qb.find('cite')
+                    source = clean_text(cite.get_text()) if cite else ""
+                    quote_clone = BeautifulSoup(str(qb), 'html.parser')
+                    cite_clone = quote_clone.find('cite')
+                    if cite_clone:
+                        cite_clone.decompose()
+                    text = clean_text(quote_clone.get_text()).strip('""“”')
+                    place["redditQuotes"].append({"text": text, "source": source, "sourceUrl": ""})
+
+        verdict = entry.find(class_='verdict-box')
+        if verdict:
+            p = verdict.find('p')
+            if p:
+                place["insiderTip"] = clean_text(p.get_text())
+
+        contact = entry.find(class_='entry-contact') or entry.find(class_='shop-contact')
+        if contact:
+            phone_link = contact.find('a', href=re.compile(r'tel:'))
+            if phone_link:
+                place["phone"] = phone_link.get('href', '').replace('tel:', '')
+            website_link = contact.find('a', href=re.compile(r'^https?://'))
+            if website_link and 'maps.google' not in website_link.get('href', ''):
+                place["website"] = website_link.get('href', '')
+
+        hours_div = entry.find(class_='shop-hours') or entry.find(class_='hours-section')
+        if hours_div:
+            hours_grid = hours_div.find(class_='hours-grid')
+            if hours_grid:
+                spans = hours_grid.find_all('span')
+                hours = {}
+                for j in range(0, len(spans) - 1, 2):
+                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
+                if hours:
+                    place["openingHours"] = hours
+
+        if place.get("name"):
+            places.append(place)
+
+    return places
 
 
 def extract_meta_content(soup, attr_name, attr_value):
@@ -368,6 +569,10 @@ def build_picks():
             category = cat_match.group(1).strip()
 
         places = extract_pick_places(soup, slug)
+        if not places:
+            places = extract_pick_places_alt(soup, slug)
+        if not places:
+            places = extract_pick_places_generic(soup, slug)
         is_hub_page = False
         if not places:
             places = extract_pick_hub_cards(soup)
@@ -466,6 +671,29 @@ def extract_itinerary_days(soup):
     return days
 
 
+def derive_destination_from_itinerary_slug(slug):
+    slug_match = re.match(r'^(\d+)-(?:day|days|night|nights)-([a-z0-9-]+)', slug)
+    if not slug_match:
+        return ""
+    slug_tail = slug_match.group(2)
+    slug_parts = slug_tail.split('-')
+    stopwords = {'first','time','food','nightlife','romantic','relaxation','adventure','eco','culture','nature','march','april','may','june','july','august','september','october','november','december','winter','summer','spring','fall','classic','route','family','solo','budget','beach','countryside','road','trip','wellness','art','guide','itinerary','hopping'}
+    dest_parts = []
+    for part in slug_parts:
+        if dest_parts and part in stopwords:
+            break
+        dest_parts.append(part)
+        if len(dest_parts) >= 3:
+            break
+    return ' '.join(p.title() for p in dest_parts)
+
+
+def clean_itinerary_destination(value):
+    value = re.sub(r'\b(Itinerary|Guide)\b', '', value).strip(' :-—()')
+    value = re.sub(r'\s+', ' ', value).strip()
+    return value
+
+
 def parse_itinerary_page(html_path, slug, source_dir):
     try:
         html = html_path.read_text(encoding='utf-8')
@@ -487,18 +715,17 @@ def parse_itinerary_page(html_path, slug, source_dir):
         title = title_tag.text.strip().split('|')[0].strip() if title_tag else slug
 
     destination = ""
-    if source_dir == "itineraries":
-        parts = slug.split('-')
-        if len(parts) >= 3 and parts[0].isdigit() and parts[1] == 'day':
-            destination = parts[2].replace('-', ' ').title()
-    if not destination:
-        dest_match = re.match(r'^(\d+)-(?:day|days|night|nights)-([a-z0-9-]+)', slug)
-        if dest_match:
-            destination = dest_match.group(2).split('-')[0].title()
+    title_dest_match = re.search(r'(?:Day[s]?\s+(?:in\s+)?|Night[s]?\s+(?:in\s+)?)([A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*)', title)
+    if title_dest_match:
+        destination = clean_itinerary_destination(title_dest_match.group(1))
     if not destination:
         dest_match2 = re.search(r'in\s+([A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*)', title)
         if dest_match2:
-            destination = dest_match2.group(1)
+            destination = clean_itinerary_destination(dest_match2.group(1))
+    slug_destination = clean_itinerary_destination(derive_destination_from_itinerary_slug(slug))
+    if (not destination) or any(token in destination.lower() for token in ['itinerary', 'guide']) or len(destination.split()) >= 3:
+        if slug_destination:
+            destination = slug_destination
 
     duration = ""
     dur_match = re.match(r'^(\d+)-(?:day|days|night|nights)', slug)
