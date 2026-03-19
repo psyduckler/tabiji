@@ -72,28 +72,75 @@ def compact_dict(data):
 
 
 def derive_destination_city(name, slug, region):
+    """Derive a searchable city/location name for a destination.
+
+    For actual cities (Tokyo, Paris), the name works directly.
+    For landmarks (Banff National Park, Angel Falls), use the region if
+    available, otherwise keep the full clean name — truncating landmark
+    names produces nonsense like 'Angel' or 'Antelope'.
+    """
     clean_name = strip_emoji(name)
     clean_region = strip_emoji(region)
-    slug_parts = [part for part in slug.split('-') if part]
-    city_from_slug = humanize_slug(slug).split(' In ')[0]
-    landmark_markers = ['cathedral', 'park', 'falls', 'desert', 'coast', 'islands', 'island', 'valley', 'mountains', 'mountain', 'beach', 'reef', 'road', 'bay', 'river', 'forest', 'temple', 'lake', 'canyon']
+    landmark_markers = ['cathedral', 'park', 'falls', 'desert', 'coast',
+                        'islands', 'island', 'valley', 'mountains', 'mountain',
+                        'beach', 'reef', 'road', 'bay', 'river', 'forest',
+                        'temple', 'lake', 'canyon', 'national', 'gorge',
+                        'glacier', 'volcano', 'cliffs', 'caves', 'springs']
     lower_name = clean_name.lower()
-    if any(marker in lower_name for marker in landmark_markers):
-        for marker in landmark_markers:
-            if marker in slug_parts:
-                marker_index = slug_parts.index(marker)
-                if marker_index > 0:
-                    return humanize_slug('-'.join(slug_parts[:marker_index]))
-        if clean_region:
-            return clean_region
-        return city_from_slug
-    return clean_name or clean_region or city_from_slug
+    is_landmark = any(marker in lower_name for marker in landmark_markers)
+    if is_landmark:
+        # For landmarks, prefer region (actual geographic area) over
+        # truncated name.  Fall back to full name — "Angel Falls" is more
+        # useful than "Angel".
+        return clean_region or clean_name
+    return clean_name or clean_region
+
+
+def extract_city_from_title(title):
+    """Extract city name from guide titles like '16 Best Bookshop Cafés in Buenos Aires'."""
+    if not title:
+        return ''
+    # Match "in <City>" — each word must start uppercase.  We then trim
+    # trailing words that are clearly not part of the city name.
+    m = re.search(r'\bin\s+([A-Z][A-Za-zÀ-ÿ\-\'\.]+(?:\s+[A-Z][A-Za-zÀ-ÿ\-\'\.]+)*)', title)
+    if m:
+        city = m.group(1).strip().rstrip('.')
+        # Trim trailing non-city words (prepositions, qualifiers)
+        trim_words = {'Under', 'Over', 'With', 'Without', 'Near', 'Around',
+                      'For', 'During', 'After', 'Before', 'From', 'By'}
+        words = city.split()
+        while len(words) > 1 and words[-1] in trim_words:
+            words.pop()
+        city = ' '.join(words)
+        # Reject if it looks like a generic descriptor rather than a city
+        generic = {'the', 'a', 'an', 'your', 'every', 'all'}
+        if city.split()[0].lower() not in generic and len(city) > 1:
+            return city
+    return ''
 
 
 def derive_pick_city(data, slug, place):
+    """Derive city for a place entry, with multiple fallback strategies."""
     city = strip_emoji(data.get('city', ''))
-    if city:
+    # Check if this is a country-level rollup page (slug == city name means
+    # the "city" is actually a country: argentina, japan, etc.).
+    # In that case, try to extract the real city from place/guide titles first.
+    slug_as_city = humanize_slug(slug)
+    is_country_page = city and city.lower() == slug_as_city.lower()
+    if city and not is_country_page:
         return city
+    # Try extracting city from the place's own name/title (for country rollup pages
+    # where place names are sub-guide titles like "15 Best Empanadas in Buenos Aires")
+    place_name = strip_emoji(place.get('name', ''))
+    city_from_place = extract_city_from_title(place_name)
+    if city_from_place:
+        return city_from_place
+    # Try the guide-level title
+    guide_title = strip_emoji(data.get('title', ''))
+    city_from_guide = extract_city_from_title(guide_title)
+    if city_from_guide:
+        return city_from_guide
+    # Try address
     address = strip_emoji(place.get('address', ''))
     if address and address.lower() not in ['throughout tokyo', 'throughout seoul']:
         parts = [p.strip() for p in address.split(',') if p.strip()]
@@ -101,7 +148,13 @@ def derive_pick_city(data, slug, place):
             last = parts[-1]
             if len(last.split()) <= 4 and not re.search(r'\d', last):
                 return last
-    stopwords = {'best','cheap','eats','restaurants','bars','cafes','coffee','shops','shop','street','food','market','markets','night','rooftop','rooftops','things','to','do','hidden','temples','new','nordic','budget','craft','beer','cocktail','cocktails','vintage','fashion','sweets','patisseries','traditional','tea','houses','sunset','white','rose','dumplings'}
+    # Last resort: parse slug
+    stopwords = {'best','cheap','eats','restaurants','bars','cafes','coffee',
+                 'shops','shop','street','food','market','markets','night',
+                 'rooftop','rooftops','things','to','do','hidden','temples',
+                 'new','nordic','budget','craft','beer','cocktail','cocktails',
+                 'vintage','fashion','sweets','patisseries','traditional','tea',
+                 'houses','sunset','white','rose','dumplings'}
     parts = slug.split('-')
     city_parts = []
     for part in parts:
