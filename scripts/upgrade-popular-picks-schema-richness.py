@@ -115,8 +115,59 @@ def extract_geo_by_position(html: str):
     return geo
 
 
+def extract_existing_itemlist(html: str):
+    for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.DOTALL):
+        try:
+            data = json.loads(block)
+        except json.JSONDecodeError:
+            continue
+        if data.get("@type") == "ItemList":
+            return data
+    return None
+
+
+def index_existing_items(existing_itemlist: dict | None):
+    by_position = {}
+    by_name = {}
+    for entry in (existing_itemlist or {}).get("itemListElement", []):
+        if not isinstance(entry, dict):
+            continue
+        pos = entry.get("position")
+        item = entry.get("item") or {}
+        name = item.get("name")
+        if pos is not None:
+            by_position[pos] = entry
+        if name:
+            by_name[name] = entry
+    return by_position, by_name
+
+
+def merge_item_object(existing_obj: dict | None, new_obj: dict):
+    merged = dict(existing_obj or {})
+
+    # Keep existing rich Google Places / JSON-LD fields. Add priceRange from
+    # SerpAPI when present, plus any non-conflicting fields the old schema lacks.
+    for key, value in new_obj.items():
+        if value in (None, "", [], {}):
+            continue
+        if key == "priceRange":
+            merged[key] = value
+        elif key not in merged:
+            merged[key] = value
+
+    # Preserve sameAs as a de-duped union if both exist.
+    existing_same_as = merged.get("sameAs") or []
+    new_same_as = new_obj.get("sameAs") or []
+    if existing_same_as or new_same_as:
+        merged["sameAs"] = list(dict.fromkeys([*existing_same_as, *new_same_as]))
+
+    return merged
+
+
 def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
     geo_by_position = extract_geo_by_position(html)
+    existing_itemlist = extract_existing_itemlist(html)
+    existing_by_position, existing_by_name = index_existing_items(existing_itemlist)
     items = []
     title = page_data.get("title", "")
     category = page_data.get("category", "")
@@ -184,11 +235,16 @@ def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
         if geo:
             obj["geo"] = {"@type": "GeoCoordinates", **geo}
 
+        existing_entry = existing_by_position.get(position) or existing_by_name.get(place["name"])
+        existing_item = (existing_entry or {}).get("item") or {}
+        existing_url = (existing_entry or {}).get("url")
+        merged_item = merge_item_object(existing_item, obj)
+
         items.append({
             "@type": "ListItem",
             "position": position,
-            "url": f"{page_data['url']}#" + re.sub(r'[^a-z0-9]+', '-', place['name'].lower()).strip('-'),
-            "item": obj,
+            "url": existing_url or f"{page_data['url']}#" + re.sub(r'[^a-z0-9]+', '-', place['name'].lower()).strip('-'),
+            "item": merged_item,
         })
 
     return {
@@ -198,7 +254,7 @@ def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
         "description": page_data.get("description", ""),
         "url": page_data.get("url", ""),
         "numberOfItems": page_data.get("placeCount", len(items)),
-        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "itemListOrder": (existing_itemlist or {}).get("itemListOrder") or "https://schema.org/ItemListOrderAscending",
         "itemListElement": items,
     }
 
