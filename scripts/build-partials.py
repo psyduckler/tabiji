@@ -25,6 +25,7 @@ HTML_FILES = [
     p for p in ROOT.rglob("*.html")
     if ".git" not in p.parts
     and "node_modules" not in p.parts
+    and "tmp" not in p.parts
     and not p.is_relative_to(INCLUDES)
 ]
 
