@@ -1238,18 +1238,15 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
 
 
 def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count):
-    """Inject live counts into api/index.html using template placeholders.
+    """Render api/index.html from api/index.html.template with live counts.
 
-    The HTML uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
-    After a build has already run, those tokens will have been replaced with
-    rendered numbers. This function handles both cases: it first restores
-    any previously-rendered numbers back to placeholders, then replaces
-    placeholders with the current counts.
+    The template uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
+    Formatted tokens get comma-separated numbers; _RAW tokens get plain ints.
     """
+    template_path = BASE_DIR / 'api' / 'index.html.template'
     html_path = BASE_DIR / 'api' / 'index.html'
-    content = html_path.read_text(encoding='utf-8')
+    content = template_path.read_text(encoding='utf-8')
 
-    # Token → (formatted value, raw value)
     tokens = {
         'DEST_COUNT':    (f'{dest_count:,}', str(dest_count)),
         'PLACES_COUNT':  (f'{places_count:,}', str(places_count)),
@@ -1258,7 +1255,6 @@ def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_c
         'COMPARE_COUNT': (f'{compare_count:,}', str(compare_count)),
     }
 
-    # Replace formatted tokens (with commas) e.g. {{DEST_COUNT}}
     for name, (formatted, raw) in tokens.items():
         content = content.replace('{{' + name + '}}', formatted)
         content = content.replace('{{' + name + '_RAW}}', raw)
