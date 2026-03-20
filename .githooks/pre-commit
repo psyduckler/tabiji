@@ -6,7 +6,7 @@ python3 scripts/build-partials.py
 
 git add _includes assets/shared-shell.css assets/shared-shell.js scripts/build-partials.py
 
-git ls-files '*.html' | xargs git add --
+git ls-files '*.html' ':(exclude)tmp/**' | xargs git add --
 
 # Reject new itinerary HTML without hero-bg assets.
 staged_html=$(git diff --cached --name-only --diff-filter=A | grep '^i/.*/index\.html$' || true)
