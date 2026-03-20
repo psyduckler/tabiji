@@ -1237,6 +1237,31 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
     out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
 
 
+def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count):
+    """Render api/index.html from api/index.html.template with live counts.
+
+    The template uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
+    Formatted tokens get comma-separated numbers; _RAW tokens get plain ints.
+    """
+    template_path = BASE_DIR / 'api' / 'index.html.template'
+    html_path = BASE_DIR / 'api' / 'index.html'
+    content = template_path.read_text(encoding='utf-8')
+
+    tokens = {
+        'DEST_COUNT':    (f'{dest_count:,}', str(dest_count)),
+        'PLACES_COUNT':  (f'{places_count:,}', str(places_count)),
+        'PICKS_COUNT':   (f'{picks_count:,}', str(picks_count)),
+        'ITIN_COUNT':    (f'{itin_count:,}', str(itin_count)),
+        'COMPARE_COUNT': (f'{compare_count:,}', str(compare_count)),
+    }
+
+    for name, (formatted, raw) in tokens.items():
+        content = content.replace('{{' + name + '}}', formatted)
+        content = content.replace('{{' + name + '_RAW}}', raw)
+
+    html_path.write_text(content, encoding='utf-8')
+
+
 def build_openapi(dest_count, picks_count, places_count, itin_count, compare_count):
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
     spec = json.loads(open(openapi_path, encoding='utf-8').read())
@@ -1293,6 +1318,10 @@ def main():
     build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_count)
     build_agents_json(dest_count, picks_count, itin_count, compare_count)
     print("   ✅ openapi.json, llms.txt, agents.json")
+
+    print("📄 Updating API docs page...")
+    build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count)
+    print("   ✅ api/index.html")
 
 
 if __name__ == "__main__":
