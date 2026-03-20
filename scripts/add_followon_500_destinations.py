@@ -115,7 +115,6 @@ Toulouse	France	Europe	city
 Arles	France	Europe	city
 Cassis	France	Europe	coast
 Chamonix	France	Europe	mountain
-Menton	France	Europe	city
 Lille	France	Europe	city
 Strasbourg	France	Europe	city
 Reims	France	Europe	city
@@ -354,7 +353,6 @@ Socotra	Yemen	Asia	island
 Lhasa	Tibet	Asia	city
 Shigatse	Tibet	Asia	city
 Namtso	Tibet	Asia	lake
-Kathmandu Valley	Nepal	Asia	cultural
 Bhaktapur	Nepal	Asia	city
 Patan	Nepal	Asia	city
 Nagarkot	Nepal	Asia	mountain
@@ -555,7 +553,6 @@ Marrakesh Medina	Morocco	Africa	cultural
 Chefchaouen Hills	Morocco	Africa	mountain
 Fez Medina	Morocco	Africa	cultural
 Tangier	Morocco	Africa	city
-Essaouira	Morocco	Africa	coast
 Taghazout	Morocco	Africa	coast
 Merzouga	Morocco	Africa	desert
 Atlas Mountains	Morocco	Africa	mountain
@@ -744,7 +741,6 @@ Guayaquil	Ecuador	South America	city
 Galápagos	Ecuador	South America	island
 Medellín Hills	Colombia	South America	roadtrip
 Cartagena Walled City	Colombia	South America	cultural
-Salento	Colombia	South America	city
 Tayrona	Colombia	South America	park
 San Andrés	Colombia	South America	island
 Villa de Leyva	Colombia	South America	city
