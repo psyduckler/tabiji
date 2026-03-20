@@ -499,7 +499,12 @@
       body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; color:var(--text); background:var(--white); line-height:1.6; -webkit-font-smoothing:antialiased; }
       a { color:var(--terracotta); text-decoration:none; }
       nav { position:sticky; top:0; z-index:100; background:rgba(254,252,249,.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--sand); padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
-      .nav-logo { font-weight:700; font-size:1.15rem; color:var(--indigo); }
+      .logo { font-size:1.3rem; font-weight:700; color:var(--indigo); display:flex; align-items:center; gap:.4rem; }
+      .logo img { height:32px; }
+      .logo .owl-fly { display:none; }
+      .logo:hover .owl-default { display:none; }
+      .logo:hover .owl-fly { display:inline; }
+      .logo span { color:var(--terracotta); }
       .nav-links { display:flex; gap:1.25rem; align-items:center; }
       .nav-links a { color:var(--text-muted); font-size:.93rem; }
       .nav-dropdown { position:relative; }
@@ -578,20 +583,31 @@
     </style>
 </head>
 <body>
-    <nav>
-    <a class="nav-logo" href="/">tabiji.ai</a>
+  <!-- @include:nav:start -->
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
-                <a href="/destinations/">Destinations</a>
-                <a href="/itineraries/">Itineraries</a>
-                <a href="/popular-picks/">Popular Picks</a>
-                <a href="/compare/">Compare</a>
+                <a href="/compare/">🆚 Compare Destinations</a>
+                <a href="/find/">🔍 Destination Finder</a>
+                <a href="/spin/">🌎 Spin the Globe</a>
+                <a href="/resources/">📚 Resources</a>
+                <a href="/owl/">🧭 Tabiji Travel Agency</a>
+                <a href="/trends/">📊 Travel Trends</a>
+                <a href="/alerts/">🚨 Travel Alerts</a>
+                <a href="/api/">🔌 API</a>
             </div>
         </div>
+        <a href="/popular-picks/">Popular Picks</a>
+        <a href="/itineraries/">Itineraries</a>
+        <a href="/about/">About</a>
+        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
     </div>
-    </nav>
+</nav>
+<!-- @include:nav:end -->
     <section class="hero">
       <div class="hero-badge">🍜 Popular Picks — Los Angeles, USA</div>
       <h1>12 Best Ramen in Los Angeles (2026)</h1>
