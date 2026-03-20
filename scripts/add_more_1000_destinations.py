@@ -1775,28 +1775,41 @@ def parse_rows():
     return rows
 
 
+def generated_row(name: str, region: str, continent: str, kind: str) -> dict:
+    budget, season, vibes, travel, pitch = KIND_META[kind]
+    return {
+        'name': name,
+        'region': region,
+        'continent': continent,
+        'photo': FALLBACK_PHOTO,
+        'pitch': pitch,
+        'budget': REGION_BUDGET.get(continent, budget),
+        'season': REGION_SEASON.get(continent, season),
+        'vibes': vibes,
+        'travel': travel,
+    }
+
+
 def main():
     data = json.loads(SOURCE.read_text())
+    rows = parse_rows()
+    generated_rows = [generated_row(name, region, continent, kind) for name, region, continent, kind in rows]
+    generated_row_set = {json.dumps(row, sort_keys=True, ensure_ascii=False) for row in generated_rows}
+    already_present = [row for row in data if json.dumps(row, sort_keys=True, ensure_ascii=False) in generated_row_set]
+    if len(already_present) >= TARGET_ADD:
+        print(f'added=0 total={len(data)} already_present={len(already_present)}')
+        print('note=target batch already present; no changes written')
+        return
+
     existing_names = {row.get('name') for row in data if isinstance(row, dict)}
     existing_slugs = {slugify(row.get('name', '')) for row in data if isinstance(row, dict)}
     additions = []
     seen = set()
-    for name, region, continent, kind in parse_rows():
+    for name, region, continent, kind in rows:
         slug = slugify(name)
         if name in existing_names or slug in existing_slugs or slug in seen:
             continue
-        budget, season, vibes, travel, pitch = KIND_META[kind]
-        row = {
-            'name': name,
-            'region': region,
-            'continent': continent,
-            'photo': FALLBACK_PHOTO,
-            'pitch': pitch,
-            'budget': REGION_BUDGET.get(continent, budget),
-            'season': REGION_SEASON.get(continent, season),
-            'vibes': vibes,
-            'travel': travel,
-        }
+        row = generated_row(name, region, continent, kind)
         additions.append(row)
         seen.add(slug)
     if len(additions) < TARGET_ADD:
