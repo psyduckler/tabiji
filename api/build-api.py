@@ -1237,6 +1237,35 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
     out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
 
 
+def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count):
+    """Inject live counts into api/index.html using template placeholders.
+
+    The HTML uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
+    After a build has already run, those tokens will have been replaced with
+    rendered numbers. This function handles both cases: it first restores
+    any previously-rendered numbers back to placeholders, then replaces
+    placeholders with the current counts.
+    """
+    html_path = BASE_DIR / 'api' / 'index.html'
+    content = html_path.read_text(encoding='utf-8')
+
+    # Token → (formatted value, raw value)
+    tokens = {
+        'DEST_COUNT':    (f'{dest_count:,}', str(dest_count)),
+        'PLACES_COUNT':  (f'{places_count:,}', str(places_count)),
+        'PICKS_COUNT':   (f'{picks_count:,}', str(picks_count)),
+        'ITIN_COUNT':    (f'{itin_count:,}', str(itin_count)),
+        'COMPARE_COUNT': (f'{compare_count:,}', str(compare_count)),
+    }
+
+    # Replace formatted tokens (with commas) e.g. {{DEST_COUNT}}
+    for name, (formatted, raw) in tokens.items():
+        content = content.replace('{{' + name + '}}', formatted)
+        content = content.replace('{{' + name + '_RAW}}', raw)
+
+    html_path.write_text(content, encoding='utf-8')
+
+
 def build_openapi(dest_count, picks_count, places_count, itin_count, compare_count):
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
     spec = json.loads(open(openapi_path, encoding='utf-8').read())
@@ -1293,6 +1322,10 @@ def main():
     build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_count)
     build_agents_json(dest_count, picks_count, itin_count, compare_count)
     print("   ✅ openapi.json, llms.txt, agents.json")
+
+    print("📄 Updating API docs page...")
+    build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count)
+    print("   ✅ api/index.html")
 
 
 if __name__ == "__main__":
