@@ -68,6 +68,31 @@ def attach_record_meta(payload, *, record_type, slug, source_path, source_url, t
     return payload
 
 
+def load_json_if_exists(path):
+    if not path.exists():
+        return None
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def write_json(path, payload):
+    with open(path, 'w') as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+
+
+def same_record_ignoring_updated_at(left, right):
+    if not isinstance(left, dict) or not isinstance(right, dict):
+        return left == right
+    left = dict(left)
+    right = dict(right)
+    left.pop("updatedAt", None)
+    right.pop("updatedAt", None)
+    return left == right
+
+
 def build_search_item(*, item_type, slug, title, subtitle, url, site_url, tags=None, extra=None):
     record = {
         "id": make_id(item_type, slug),
@@ -200,6 +225,7 @@ def build_destinations():
         if not slug:
             continue
 
+        detail_path = dest_dir / f"{slug}.json"
         detail = attach_record_meta({
             "slug": slug,
             "name": dest.get("name", ""),
@@ -214,8 +240,12 @@ def build_destinations():
             "url": f"{SITE_URL}/find/?q={slug}"
         }, record_type="destination", slug=slug, source_path=src, source_url=f"{SITE_URL}/find/?q={slug}", tags=[dest.get("region", ""), dest.get("continent", ""), *(dest.get("vibes", []) or []), *(dest.get("travel", []) or [])])
 
-        with open(dest_dir / f"{slug}.json", 'w') as f:
-            json.dump(detail, f, indent=2, ensure_ascii=False)
+        existing_detail = load_json_if_exists(detail_path)
+        if same_record_ignoring_updated_at(existing_detail, detail) and existing_detail:
+            detail["updatedAt"] = existing_detail.get("updatedAt", detail["updatedAt"])
+            detail = existing_detail | {"updatedAt": detail["updatedAt"]}
+        else:
+            write_json(detail_path, detail)
 
         summaries.append({
             "id": make_id("destination", slug),
