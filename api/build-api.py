@@ -95,6 +95,20 @@ def normalize_name_key(value):
     return re.sub(r'\s+', ' ', value).strip()
 
 
+DESTINATION_ALIASES = {
+    'nyc': 'new-york-city',
+    'new york city': 'new-york-city',
+    'saigon': 'ho-chi-minh',
+    'hcmc': 'ho-chi-minh',
+    'ho chi minh city': 'ho-chi-minh',
+    'petaling jaya': 'petaling-jaya',
+    'pj': 'petaling-jaya',
+    'mauritius': 'mauritius',
+    'zanzibar': 'zanzibar',
+    'gili islands': 'gili-islands',
+}
+
+
 def truncate_list(items, limit=6):
     return items[:limit]
 
@@ -1155,6 +1169,11 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
     def destination_slug_for_name(name):
         key = normalize_name_key(name)
+        if not key:
+            return ''
+        alias_slug = DESTINATION_ALIASES.get(key, '')
+        if alias_slug in destination_lookup:
+            return alias_slug
         if key in destination_slug_by_name:
             return destination_slug_by_name[key]
         slug_guess = slugify(key.replace(' ', '-')) if key else ''
@@ -1188,7 +1207,10 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
     itin_detail_updates = {}
     for itin in itin_summaries:
-        destination_slug = destination_slug_for_name(itin.get("destination", ""))
+        destination_slug = (
+            destination_slug_for_name(itin.get("destination", ""))
+            or destination_slug_for_text(itin.get("title", ""), itin.get("description", ""), itin.get("destination", ""), itin.get("slug", "").replace('-', ' '))
+        )
         itin["destinationSlug"] = destination_slug
         if destination_slug:
             itins_by_destination.setdefault(destination_slug, []).append(itin)
@@ -1328,6 +1350,11 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             detail["relatedPicks"] = truncate_list(related_picks)
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
             write_json(detail_path, detail)
+
+    write_json(OUTPUT_DIR / "destinations.json", {"count": len(dest_summaries), "items": dest_summaries})
+    write_json(OUTPUT_DIR / "picks.json", {"count": len(pick_summaries), "items": pick_summaries})
+    write_json(OUTPUT_DIR / "itineraries.json", {"count": len(itin_summaries), "items": itin_summaries})
+    write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "items": compare_summaries})
 
 
 def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
@@ -1599,6 +1626,128 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         for param in search_get.get('parameters', []):
             if param.get('name') == 'type':
                 param.setdefault('schema', {})['enum'] = ['destination', 'pick', 'itinerary', 'compare']
+
+    schemas = spec.setdefault('components', {}).setdefault('schemas', {})
+
+    schemas['RelatedRecordSummary'] = {
+        'type': 'object',
+        'properties': {
+            'id': {'type': 'string', 'example': 'pick:tokyo-ramen'},
+            'type': {'type': 'string', 'enum': ['destination', 'pick', 'itinerary', 'compare']},
+            'slug': {'type': 'string', 'example': 'tokyo-ramen'},
+            'title': {'type': 'string', 'example': '12 Best Ramen in Tokyo'},
+            'url': {'type': 'string', 'format': 'uri'},
+        },
+        'additionalProperties': True,
+    }
+    schemas['RecordSourceMeta'] = {
+        'type': 'object',
+        'properties': {
+            'sourceType': {'type': 'string', 'example': 'tabiji-static-page'},
+            'sourcePath': {'type': 'string', 'example': 'popular-picks/tokyo-ramen/index.html'},
+            'sourceUrl': {'type': 'string', 'format': 'uri'},
+            'lastVerified': {'type': 'string', 'format': 'date-time'},
+        },
+    }
+    schemas['PlaceSourceMeta'] = {
+        'type': 'object',
+        'properties': {
+            'guideSlug': {'type': 'string'},
+            'guideTitle': {'type': 'string'},
+            'guideUrl': {'type': 'string', 'format': 'uri'},
+            'collectionCity': {'type': 'string'},
+            'collectionCategory': {'type': 'string'},
+            'fieldSources': {
+                'type': 'object',
+                'additionalProperties': {
+                    'type': 'array',
+                    'items': {'type': 'string'}
+                }
+            },
+        },
+    }
+
+    destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
+    destination_summary['id'] = {'type': 'string', 'example': 'destination:tokyo'}
+    destination_summary['type'] = {'type': 'string', 'enum': ['destination']}
+    destination_summary['updatedAt'] = {'type': 'string', 'format': 'date-time'}
+    destination_summary['sourceUrl'] = {'type': 'string', 'format': 'uri'}
+    destination_summary['tags'] = {'type': 'array', 'items': {'type': 'string'}}
+    destination_summary['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
+    destination_summary['editorialSummary'] = {'type': 'string'}
+    destination_summary['bestFor'] = {'type': 'array', 'items': {'type': 'string'}}
+    destination_summary['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    destination_summary['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    destination_summary['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    destination_summary['relatedDestinations'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+
+    place_props = schemas.setdefault('Place', {}).setdefault('properties', {})
+    place_props['area'] = {'type': 'string', 'example': 'De Pijp'}
+    place_props['verdict'] = {'type': 'string'}
+    place_props['editorialSummary'] = {'type': 'string'}
+    place_props['bestFor'] = {'type': 'string'}
+    place_props['comparison'] = {'type': 'object', 'additionalProperties': True}
+    place_props['mapsLinks'] = {
+        'type': 'object',
+        'properties': {'google': {'type': 'string', 'format': 'uri'}}
+    }
+    place_props['sourceMeta'] = {'$ref': '#/components/schemas/PlaceSourceMeta'}
+
+    picks_summary = schemas.setdefault('PicksSummary', {}).setdefault('properties', {})
+    picks_summary['description'] = {'type': 'string'}
+    picks_summary['destinationSlug'] = {'type': 'string'}
+    picks_summary['destinationName'] = {'type': 'string'}
+    picks_summary['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+
+    picks_detail = schemas.setdefault('PicksDetail', {}).setdefault('properties', {})
+    picks_detail['id'] = {'type': 'string', 'example': 'pick:tokyo-ramen'}
+    picks_detail['type'] = {'type': 'string', 'enum': ['pick']}
+    picks_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
+    picks_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
+    picks_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
+    picks_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
+    picks_detail['destinationSlug'] = {'type': 'string'}
+    picks_detail['destinationName'] = {'type': 'string'}
+    picks_detail['editorialSummary'] = {'type': 'string'}
+    picks_detail['bestFor'] = {'type': 'array', 'items': {'type': 'string'}}
+    picks_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    picks_detail['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    picks_detail['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+
+    itin_summary = schemas.setdefault('ItinerarySummary', {}).setdefault('properties', {})
+    itin_summary['destinationSlug'] = {'type': 'string'}
+
+    itin_detail = schemas.setdefault('ItineraryDetail', {}).setdefault('properties', {})
+    itin_detail['id'] = {'type': 'string', 'example': 'itinerary:tokyo-4-days'}
+    itin_detail['type'] = {'type': 'string', 'enum': ['itinerary']}
+    itin_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
+    itin_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
+    itin_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
+    itin_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
+    itin_detail['destinationSlug'] = {'type': 'string'}
+    itin_detail['editorialSummary'] = {'type': 'string'}
+    itin_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    itin_detail['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+
+    compare_summary = schemas.setdefault('ComparisonSummary', {}).setdefault('properties', {})
+    compare_summary['destination1Slug'] = {'type': 'string'}
+    compare_summary['destination2Slug'] = {'type': 'string'}
+    compare_summary['destinationSlugs'] = {'type': 'array', 'items': {'type': 'string'}}
+
+    compare_detail = schemas.setdefault('ComparisonDetail', {}).setdefault('properties', {})
+    compare_detail['id'] = {'type': 'string', 'example': 'compare:kyoto-vs-osaka'}
+    compare_detail['type'] = {'type': 'string', 'enum': ['compare']}
+    compare_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
+    compare_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
+    compare_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
+    compare_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
+    compare_detail['destination1Slug'] = {'type': 'string'}
+    compare_detail['destination2Slug'] = {'type': 'string'}
+    compare_detail['destinationSlugs'] = {'type': 'array', 'items': {'type': 'string'}}
+    compare_detail['editorialSummary'] = {'type': 'string'}
+    compare_detail['relatedDestinations'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    compare_detail['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    compare_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
 
     openapi_path.write_text(json.dumps(spec, indent=2, ensure_ascii=False), encoding='utf-8')
 
