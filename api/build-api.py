@@ -111,15 +111,11 @@ def build_search_item(*, item_type, slug, title, subtitle, url, site_url, tags=N
 
 
 def slugify(text):
-    """Convert text to URL-safe slug."""
+    """Convert text to URL-safe slug using Unicode NFKD normalization."""
+    import unicodedata
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ascii', 'ignore').decode('ascii')
     text = text.lower().strip()
-    text = re.sub(r'[àáâãäå]', 'a', text)
-    text = re.sub(r'[èéêë]', 'e', text)
-    text = re.sub(r'[ìíîï]', 'i', text)
-    text = re.sub(r'[òóôõö]', 'o', text)
-    text = re.sub(r'[ùúûü]', 'u', text)
-    text = re.sub(r'[ñ]', 'n', text)
-    text = re.sub(r'[ç]', 'c', text)
     text = re.sub(r'[^a-z0-9\s-]', '', text)
     text = re.sub(r'[\s]+', '-', text)
     text = re.sub(r'-+', '-', text)
