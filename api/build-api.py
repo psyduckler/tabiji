@@ -60,11 +60,18 @@ def unique_list(values):
 
 
 def attach_record_meta(payload, *, record_type, slug, source_path, source_url, tags=None):
+    updated_at = isoformat_mtime(source_path)
     payload["id"] = make_id(record_type, slug)
     payload["type"] = normalize_record_type(record_type)
-    payload["updatedAt"] = isoformat_mtime(source_path)
+    payload["updatedAt"] = updated_at
     payload["sourceUrl"] = source_url
     payload["tags"] = unique_list(tags or [])
+    payload["sourceMeta"] = {
+        "sourceType": "tabiji-static-page",
+        "sourcePath": str(source_path.relative_to(BASE_DIR)) if source_path.is_relative_to(BASE_DIR) else str(source_path),
+        "sourceUrl": source_url,
+        "lastVerified": updated_at,
+    }
     return payload
 
 
@@ -76,6 +83,96 @@ def load_json_if_exists(path):
             return json.load(f)
     except (OSError, json.JSONDecodeError):
         return None
+
+
+def title_case_slug(slug):
+    return ' '.join(part.capitalize() for part in (slug or '').split('-') if part)
+
+
+def normalize_name_key(value):
+    value = clean_text(value).lower()
+    value = re.sub(r'[^a-z0-9]+', ' ', value)
+    return re.sub(r'\s+', ' ', value).strip()
+
+
+def truncate_list(items, limit=6):
+    return items[:limit]
+
+
+def make_related_summary(*, item_type, slug, title, url, extra=None):
+    summary = {
+        "id": make_id(item_type, slug),
+        "type": normalize_record_type(item_type),
+        "slug": slug,
+        "title": title,
+        "url": url,
+    }
+    if extra:
+        summary.update({k: v for k, v in extra.items() if v not in (None, "", [])})
+    return summary
+
+
+def infer_area_from_address(address):
+    address = clean_text(address)
+    if not address:
+        return ""
+    parts = [part.strip() for part in re.split(r'[·•,|]', address) if part.strip()]
+    if not parts:
+        return ""
+    candidate = parts[0]
+    if re.search(r'\d', candidate) and len(parts) > 1:
+        candidate = parts[1]
+    candidate = re.sub(r'^(near|in|at|behind)\s+', '', candidate, flags=re.IGNORECASE).strip()
+    return candidate if len(candidate) <= 60 else ""
+
+
+def enrich_place(place, *, guide_slug, guide_title, guide_url, city, category):
+    place = dict(place)
+    if place.get("googleMapsUrl"):
+        place["mapsLinks"] = {"google": place["googleMapsUrl"]}
+    if place.get("address") and not place.get("area"):
+        area = infer_area_from_address(place.get("address", ""))
+        if area:
+            place["area"] = area
+    if place.get("verdict") and not place.get("editorialSummary"):
+        place["editorialSummary"] = place["verdict"]
+    if place.get("comparison", {}).get("best for") and not place.get("bestFor"):
+        place["bestFor"] = place["comparison"].get("best for")
+    if not place.get("sourceMeta"):
+        field_sources = {
+            "name": ["editorial"],
+            "position": ["editorial"],
+            "cuisineTags": ["editorial"],
+            "whatToOrder": ["editorial"],
+            "insiderTip": ["editorial"],
+            "verdict": ["editorial"],
+            "editorialSummary": ["editorial"],
+            "bestFor": ["editorial"],
+            "address": ["editorial", "maps"],
+            "area": ["editorial", "derived"],
+            "website": ["maps"],
+            "phone": ["maps"],
+            "googleRating": ["maps"],
+            "reviewCount": ["maps"],
+            "priceRange": ["maps", "editorial"],
+            "openingHours": ["maps"],
+            "googleMapsUrl": ["maps"],
+            "mapsLinks": ["derived"],
+            "photo": ["editorial"],
+            "redditQuotes": ["reddit"],
+        }
+        present_field_sources = {
+            key: value for key, value in field_sources.items() if key in place and place.get(key) not in (None, "", [])
+        }
+        place["sourceMeta"] = {
+            "guideSlug": guide_slug,
+            "guideTitle": guide_title,
+            "guideUrl": guide_url,
+            "collectionCity": city,
+            "collectionCategory": category,
+            "fieldSources": present_field_sources,
+        }
+    return place
 
 
 def write_json(path, payload):
@@ -111,11 +208,15 @@ def build_search_item(*, item_type, slug, title, subtitle, url, site_url, tags=N
 
 
 def slugify(text):
-    """Convert text to URL-safe slug using Unicode NFKD normalization."""
-    import unicodedata
-    text = unicodedata.normalize('NFKD', text)
-    text = text.encode('ascii', 'ignore').decode('ascii')
+    """Convert text to URL-safe slug."""
     text = text.lower().strip()
+    text = re.sub(r'[àáâãäå]', 'a', text)
+    text = re.sub(r'[èéêë]', 'e', text)
+    text = re.sub(r'[ìíîï]', 'i', text)
+    text = re.sub(r'[òóôõö]', 'o', text)
+    text = re.sub(r'[ùúûü]', 'u', text)
+    text = re.sub(r'[ñ]', 'n', text)
+    text = re.sub(r'[ç]', 'c', text)
     text = re.sub(r'[^a-z0-9\s-]', '', text)
     text = re.sub(r'[\s]+', '-', text)
     text = re.sub(r'-+', '-', text)
@@ -698,6 +799,7 @@ def build_picks():
             "type": "pick",
             "slug": slug,
             "title": title,
+            "description": desc,
             "city": city,
             "category": category,
             "placeCount": len(places),
@@ -1037,6 +1139,197 @@ def build_compare():
     return summaries, len(summaries)
 
 
+def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+    destination_lookup = {}
+    destination_slug_by_name = {}
+    for dest in dest_summaries:
+        destination_lookup[dest["slug"]] = dest
+        destination_slug_by_name[normalize_name_key(dest.get("name", ""))] = dest["slug"]
+
+    picks_by_destination = {}
+    itins_by_destination = {}
+    compares_by_destination = {}
+    compare_pairs = {}
+
+    destination_name_pairs = sorted(destination_slug_by_name.items(), key=lambda item: len(item[0]), reverse=True)
+
+    def destination_slug_for_name(name):
+        key = normalize_name_key(name)
+        if key in destination_slug_by_name:
+            return destination_slug_by_name[key]
+        slug_guess = slugify(key.replace(' ', '-')) if key else ''
+        return slug_guess if slug_guess in destination_lookup else ''
+
+    def destination_slug_for_text(*values):
+        haystack = normalize_name_key(' '.join(value for value in values if value))
+        if not haystack:
+            return ''
+        for name_key, slug in destination_name_pairs:
+            if len(name_key) < 4:
+                continue
+            if re.search(rf'(^| )' + re.escape(name_key) + r'( |$)', haystack):
+                return slug
+        return ''
+
+    pick_detail_updates = {}
+    for pick in pick_summaries:
+        destination_slug = (
+            destination_slug_for_name(pick.get("city", ""))
+            or destination_slug_for_text(pick.get("title", ""), pick.get("description", ""), pick.get("city", ""), pick.get("slug", "").replace('-', ' '))
+        )
+        pick["destinationSlug"] = destination_slug
+        pick["destinationName"] = destination_lookup.get(destination_slug, {}).get("name", pick.get("city", "")) if destination_slug else pick.get("city", "")
+        if destination_slug:
+            picks_by_destination.setdefault(destination_slug, []).append(pick)
+        pick_detail_updates[pick["slug"]] = {
+            "destinationSlug": destination_slug,
+            "destinationName": pick.get("destinationName", ""),
+        }
+
+    itin_detail_updates = {}
+    for itin in itin_summaries:
+        destination_slug = destination_slug_for_name(itin.get("destination", ""))
+        itin["destinationSlug"] = destination_slug
+        if destination_slug:
+            itins_by_destination.setdefault(destination_slug, []).append(itin)
+        itin_detail_updates[itin["slug"]] = {"destinationSlug": destination_slug}
+
+    compare_detail_updates = {}
+    for compare in compare_summaries:
+        dest1_slug = destination_slug_for_name(compare.get("destination1", ""))
+        dest2_slug = destination_slug_for_name(compare.get("destination2", ""))
+        compare["destination1Slug"] = dest1_slug
+        compare["destination2Slug"] = dest2_slug
+        compare["destinationSlugs"] = [slug for slug in [dest1_slug, dest2_slug] if slug]
+        for slug in compare["destinationSlugs"]:
+            compares_by_destination.setdefault(slug, []).append(compare)
+        if dest1_slug and dest2_slug:
+            compare_pairs[frozenset([dest1_slug, dest2_slug])] = compare
+        compare_detail_updates[compare["slug"]] = {
+            "destination1Slug": dest1_slug,
+            "destination2Slug": dest2_slug,
+            "destinationSlugs": compare["destinationSlugs"],
+        }
+
+    for dest in dest_summaries:
+        slug = dest["slug"]
+        related_picks = [
+            make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")})
+            for pick in picks_by_destination.get(slug, [])
+        ]
+        related_itins = [
+            make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")})
+            for itin in itins_by_destination.get(slug, [])
+        ]
+        related_compares = [
+            make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"], extra={"vs": [compare.get("destination1", ""), compare.get("destination2", "")]})
+            for compare in compares_by_destination.get(slug, [])
+        ]
+        nearby_destinations = []
+        seen_nearby = set()
+        for compare in compares_by_destination.get(slug, []):
+            other_slug = compare.get("destination1Slug") if compare.get("destination2Slug") == slug else compare.get("destination2Slug")
+            if not other_slug or other_slug in seen_nearby or other_slug not in destination_lookup:
+                continue
+            seen_nearby.add(other_slug)
+            other_dest = destination_lookup[other_slug]
+            nearby_destinations.append(make_related_summary(item_type="destination", slug=other_slug, title=other_dest["name"], url=f"{API_BASE_URL}/destinations/{other_slug}.json", extra={"region": other_dest.get("region", "")}))
+
+        detail_path = OUTPUT_DIR / "destinations" / f"{slug}.json"
+        detail = load_json_if_exists(detail_path)
+        if detail:
+            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("pitch", "")
+            detail["bestFor"] = detail.get("bestFor") or unique_list([*(detail.get("vibes", []) or []), *(detail.get("travelStyles", []) or [])])[:6]
+            detail["relatedPicks"] = truncate_list(related_picks)
+            detail["relatedItineraries"] = truncate_list(related_itins)
+            detail["relatedComparisons"] = truncate_list(related_compares)
+            detail["relatedDestinations"] = truncate_list(nearby_destinations)
+            write_json(detail_path, detail)
+
+        dest["relatedPicks"] = truncate_list(related_picks)
+        dest["relatedItineraries"] = truncate_list(related_itins)
+        dest["relatedComparisons"] = truncate_list(related_compares)
+        dest["relatedDestinations"] = truncate_list(nearby_destinations)
+
+    for pick in pick_summaries:
+        slug = pick["slug"]
+        destination_slug = pick.get("destinationSlug", "")
+        sibling_picks = []
+        if destination_slug:
+            sibling_picks = [
+                make_related_summary(item_type="pick", slug=other["slug"], title=other["title"], url=other["url"], extra={"category": other.get("category", "")})
+                for other in picks_by_destination.get(destination_slug, []) if other["slug"] != slug
+            ]
+        detail_path = OUTPUT_DIR / "picks" / f"{slug}.json"
+        detail = load_json_if_exists(detail_path)
+        if detail:
+            detail.update(pick_detail_updates.get(slug, {}))
+            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
+            detail["bestFor"] = detail.get("bestFor") or unique_list([detail.get("city", ""), detail.get("category", "")])
+            detail["relatedPicks"] = truncate_list(sibling_picks)
+            detail["relatedItineraries"] = truncate_list([
+                make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")})
+                for itin in itins_by_destination.get(destination_slug, [])
+            ])
+            detail["relatedComparisons"] = truncate_list([
+                make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"])
+                for compare in compares_by_destination.get(destination_slug, [])
+            ]) if destination_slug else []
+            detail["places"] = [enrich_place(place, guide_slug=slug, guide_title=detail.get("title", slug), guide_url=detail.get("url", ""), city=detail.get("city", ""), category=detail.get("category", "")) for place in detail.get("places", [])]
+            write_json(detail_path, detail)
+        pick["relatedPicks"] = truncate_list(sibling_picks)
+
+    for itin in itin_summaries:
+        slug = itin["slug"]
+        destination_slug = itin.get("destinationSlug", "")
+        detail_path = OUTPUT_DIR / "itineraries" / f"{slug}.json"
+        detail = load_json_if_exists(detail_path)
+        if detail:
+            detail.update(itin_detail_updates.get(slug, {}))
+            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
+            detail["relatedPicks"] = truncate_list([
+                make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")})
+                for pick in picks_by_destination.get(destination_slug, [])
+            ])
+            detail["relatedComparisons"] = truncate_list([
+                make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"])
+                for compare in compares_by_destination.get(destination_slug, [])
+            ]) if destination_slug else []
+            write_json(detail_path, detail)
+
+    for compare in compare_summaries:
+        slug = compare["slug"]
+        detail_path = OUTPUT_DIR / "compare" / f"{slug}.json"
+        detail = load_json_if_exists(detail_path)
+        if detail:
+            detail.update(compare_detail_updates.get(slug, {}))
+            related_destinations = []
+            for dest_slug in detail.get("destinationSlugs", []):
+                if dest_slug in destination_lookup:
+                    destination = destination_lookup[dest_slug]
+                    related_destinations.append(make_related_summary(item_type="destination", slug=dest_slug, title=destination.get("name", title_case_slug(dest_slug)), url=f"{API_BASE_URL}/destinations/{dest_slug}.json", extra={"region": destination.get("region", "")}))
+            detail["relatedDestinations"] = truncate_list(related_destinations)
+            related_itins = []
+            related_picks = []
+            seen_itins = set()
+            seen_picks = set()
+            for dest_slug in detail.get("destinationSlugs", []):
+                for itin in itins_by_destination.get(dest_slug, []):
+                    if itin["slug"] in seen_itins:
+                        continue
+                    seen_itins.add(itin["slug"])
+                    related_itins.append(make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")}))
+                for pick in picks_by_destination.get(dest_slug, []):
+                    if pick["slug"] in seen_picks:
+                        continue
+                    seen_picks.add(pick["slug"])
+                    related_picks.append(make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")}))
+            detail["relatedItineraries"] = truncate_list(related_itins)
+            detail["relatedPicks"] = truncate_list(related_picks)
+            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
+            write_json(detail_path, detail)
+
+
 def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
     records = []
     for d in dest_summaries:
@@ -1084,7 +1377,7 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
     index = {
         "name": "tabiji.ai API",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
@@ -1109,7 +1402,7 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
             {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
         ],
-        "dataSource": "Curated from Reddit discussions, enriched with Google Places data (ratings, hours, maps links).",
+        "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
         "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
         "contact": "hello@tabiji.ai"
     }
@@ -1136,7 +1429,7 @@ def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_co
 
 ### Popular Picks (Restaurant & Attraction Guides)
 - [All Picks](https://tabiji.ai/api/v1/picks.json): {picks_count} curated "best of" guides covering {places_count:,} places
-- [Single Picks Guide](https://tabiji.ai/api/v1/picks/{{slug}}.json): Full guide with all places, Google ratings, hours, maps links, "what to order" tips, Reddit quotes, and insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
+- [Single Picks Guide](https://tabiji.ai/api/v1/picks/{{slug}}.json): Full guide with all places, editorial summaries, maps links, source metadata, "what to order" tips, Reddit quotes, and insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
 
 ### Itineraries
 - [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): {itin_count} day-by-day travel itineraries
@@ -1152,16 +1445,16 @@ def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_co
 ## Data Fields
 
 ### Place Object (in Picks)
-Each place includes: name, position, cuisineTags, googleRating, reviewCount, priceRange, address, googleMapsUrl, openingHours (weekly grid), phone, website, photo, verdict, comparison, whatToOrder, redditQuotes (with source + sourceUrl), insiderTip
+Each place includes: name, position, cuisineTags, googleRating, reviewCount, priceRange, address, area, googleMapsUrl, mapsLinks, openingHours (weekly grid), phone, website, photo, verdict, editorialSummary, bestFor, comparison, whatToOrder, redditQuotes (with source + sourceUrl), insiderTip, sourceMeta
 
 ### Itinerary Day Object
 Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)
 
 ### Destination Object
-Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch
+Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch, editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta
 
 ## What Makes This Data Unique
-Unlike generic travel APIs, tabiji data is curated from real traveler discussions (Reddit, forums) and enriched with Google Places data (ratings, hours, maps links). Every pick includes "what to order" recommendations and actual traveler quotes. Itineraries are time-blocked daily plans with real logistics, not just lists of places.
+Unlike generic travel APIs, tabiji data is curated from real traveler discussions plus Tabiji editorial judgment, then cross-linked across destinations, picks, itineraries, and comparisons. Records now expose provenance/freshness metadata and lighter-weight enrichment fields so agents can traverse the graph instead of scraping pages.
 
 ## Usage
 No authentication required. All endpoints return static JSON files served via Cloudflare CDN. CORS is permissive — call from any origin. Free for non-commercial use.
@@ -1186,7 +1479,7 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
             {
                 "id": "find-restaurants",
                 "name": "Find Restaurants & Places",
-                "description": f"Find the best restaurants, cafes, bars, or attractions in any city. Returns curated picks with ratings, hours, 'what to order' tips, and traveler quotes across {picks_count} guides.",
+                "description": f"Find the best restaurants, cafes, bars, or attractions in any city. Returns curated picks with editorial summaries, source metadata, 'what to order' tips, and traveler quotes across {picks_count} guides.",
                 "tags": ["restaurants", "food", "travel", "bars", "cafes", "attractions"],
                 "examples": [
                     "Find the best ramen in Tokyo",
@@ -1292,7 +1585,7 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
     spec = json.loads(open(openapi_path, encoding='utf-8').read())
 
-    spec['info']['version'] = '1.2.0'
+    spec['info']['version'] = '1.3.0'
     spec['info']['description'] = (
         f"Free REST API for AI-curated travel data — {dest_count} destinations, "
         f"{picks_count} curated picks guides ({places_count:,} place records), "
@@ -1330,6 +1623,10 @@ def main():
     print("⚔️  Building comparisons...")
     compare_summaries, compare_count = build_compare()
     print(f"   ✅ {compare_count} comparisons")
+
+    print("🕸️  Building cross-links and editorial enrichment...")
+    build_relationships(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
+    print("   ✅ related records, provenance, freshness")
 
     print("🔎 Building search index...")
     search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
