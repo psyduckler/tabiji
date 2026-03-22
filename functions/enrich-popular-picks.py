@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enrich a tabiji popular-picks page with Google Places API data.
+Enrich a tabiji popular-picks page with SerpAPI Google Maps data.
 
 Usage:
     python3 enrich-popular-picks.py <path-to-index.html> [--dry-run] [--report-only]
@@ -9,35 +9,31 @@ Usage:
 Adds: Google rating badges, opening hours, contact info, direct Maps links, JSON-LD enrichment.
 Outputs a JSON report of all shops with ratings (for flagging low-rated places).
 
-Requires: GOOGLE_PLACES_API_KEY env var or reads from macOS Keychain.
+Uses SerpAPI Google Maps engine instead of Google Places API.
+Requires: SERPAPI_KEY env var or reads from macOS Keychain (serpapi-key).
 """
 
 import json, os, re, sys, subprocess, time, html, argparse
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
+from urllib.parse import quote_plus
 
 # --- Config ---
-PLACES_API_KEY = os.environ.get("GOOGLE_PLACES_API_KEY")
-if not PLACES_API_KEY:
+SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
+if not SERPAPI_KEY:
     try:
-        PLACES_API_KEY = subprocess.check_output(
-            ["security", "find-generic-password", "-s", "google-places-api-key", "-w"],
+        SERPAPI_KEY = subprocess.check_output(
+            ["security", "find-generic-password", "-s", "serpapi-key", "-w"],
             text=True, stderr=subprocess.DEVNULL
         ).strip()
     except Exception:
-        print("ERROR: No Google Places API key found. Set GOOGLE_PLACES_API_KEY or add to keychain.")
+        print("ERROR: No SerpAPI key found. Set SERPAPI_KEY or add 'serpapi-key' to keychain.")
         sys.exit(1)
 
-PLACES_API_URL = "https://places.googleapis.com/v1/places:searchText"
-FIELD_MASK = ",".join([
-    "places.displayName", "places.formattedAddress", "places.rating",
-    "places.userRatingCount", "places.currentOpeningHours.openNow",
-    "places.regularOpeningHours.weekdayDescriptions", "places.websiteUri",
-    "places.internationalPhoneNumber", "places.googleMapsUri", "places.id"
-])
+SERPAPI_URL = "https://serpapi.com/search.json"
 
-# Rate limiting
-REQUEST_DELAY = 0.15  # seconds between API calls
+# Rate limiting — SerpAPI is generous but let's be polite
+REQUEST_DELAY = 0.2  # seconds between API calls
 
 # --- CSS to inject ---
 ENRICHMENT_CSS = """
@@ -90,33 +86,109 @@ ENRICHMENT_CSS = """
 
 
 def search_place(query):
-    """Search Google Places API for a single place."""
-    body = json.dumps({"textQuery": query, "maxResultCount": 1}).encode()
-    req = Request(PLACES_API_URL, data=body, method="POST", headers={
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": PLACES_API_KEY,
-        "X-Goog-FieldMask": FIELD_MASK,
+    """Search SerpAPI Google Maps for a single place."""
+    params = {
+        "engine": "google_maps",
+        "q": query,
+        "api_key": SERPAPI_KEY,
+        "hl": "en",
+    }
+    url = SERPAPI_URL + "?" + "&".join(f"{k}={quote_plus(str(v))}" for k, v in params.items())
+    req = Request(url, method="GET", headers={
+        "Accept": "application/json",
     })
     try:
-        with urlopen(req, timeout=15) as resp:
+        with urlopen(req, timeout=20) as resp:
             data = json.loads(resp.read())
-            places = data.get("places", [])
-            return places[0] if places else None
+            # SerpAPI returns local_results for map searches
+            results = data.get("local_results", [])
+            if results:
+                return normalize_serpapi_result(results[0])
+            # Sometimes a single place_results is returned instead
+            place = data.get("place_results")
+            if place:
+                return normalize_serpapi_result(place)
+            return None
     except HTTPError as e:
         err_body = e.read().decode() if e.fp else ""
-        print(f"  API error ({e.code}): {err_body[:200]}", file=sys.stderr)
+        print(f"  SerpAPI error ({e.code}): {err_body[:200]}", file=sys.stderr)
         return None
     except Exception as e:
         print(f"  Request error: {e}", file=sys.stderr)
         return None
 
 
+def normalize_serpapi_result(result):
+    """Normalize SerpAPI Google Maps result to match the field structure we need."""
+    if not result:
+        return None
+
+    # Build Google Maps URI from place_id
+    place_id = result.get("place_id")
+    google_maps_uri = f"https://www.google.com/maps/place/?q=place_id:{place_id}" if place_id else None
+
+    # Parse operating hours into weekday descriptions format
+    op_hours = result.get("operating_hours", {})
+    weekday_descriptions = []
+    if op_hours:
+        day_order = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        for day in day_order:
+            hours_val = op_hours.get(day, "")
+            if hours_val:
+                day_cap = day.capitalize()
+                weekday_descriptions.append(f"{day_cap}: {hours_val}")
+
+    # Determine open_now from open_state
+    open_state = result.get("open_state", "")
+    open_now = None
+    if open_state:
+        lower_state = open_state.lower()
+        if "open" in lower_state and "closed" not in lower_state:
+            open_now = True
+        elif "closed" in lower_state:
+            open_now = False
+
+    # Build normalized result matching the fields render-page.js + enrich expects
+    normalized = {
+        "displayName": {"text": result.get("title", "")},
+        "rating": result.get("rating"),
+        "userRatingCount": result.get("reviews"),
+        "internationalPhoneNumber": result.get("phone"),
+        "websiteUri": result.get("website"),
+        "googleMapsUri": google_maps_uri,
+        "formattedAddress": result.get("address"),
+        "id": place_id,
+    }
+
+    if weekday_descriptions:
+        normalized["regularOpeningHours"] = {
+            "weekdayDescriptions": weekday_descriptions,
+        }
+
+    if open_now is not None:
+        normalized["currentOpeningHours"] = {"openNow": open_now}
+
+    # Bonus fields from SerpAPI not available in Places API
+    gps = result.get("gps_coordinates", {})
+    if gps:
+        normalized["_latitude"] = gps.get("latitude")
+        normalized["_longitude"] = gps.get("longitude")
+
+    normalized["_description"] = result.get("description")
+    normalized["_type"] = result.get("type")
+    normalized["_types"] = result.get("types", [])
+    normalized["_price"] = result.get("price")
+    normalized["_extensions"] = result.get("extensions", [])
+
+    return normalized
+
+
 def extract_shops(content):
     """Extract shop info from HTML content."""
     shops = []
-    # Find each restaurant-section
+    # Find each restaurant-section (may have extra data-* attributes after id)
     sections = list(re.finditer(
-        r'<section class="restaurant-section" id="([^"]+)">(.*?)</section>',
+        r'<section class="restaurant-section" id="([^"]+)"[^>]*>(.*?)</section>',
         content, re.DOTALL
     ))
     
@@ -159,7 +231,7 @@ def extract_shops(content):
 
 
 def build_search_query(shop):
-    """Build a good Places API search query from shop info."""
+    """Build a good search query from shop info."""
     name = shop["name"]
     location = shop["location"]
     
@@ -172,7 +244,7 @@ def build_search_query(shop):
 
 
 def build_hours_html(place_data):
-    """Build collapsible hours HTML from Places API data."""
+    """Build collapsible hours HTML from place data."""
     hours = place_data.get("regularOpeningHours", {}).get("weekdayDescriptions", [])
     if not hours:
         return ""
@@ -203,7 +275,7 @@ def build_hours_html(place_data):
 
 
 def build_contact_html(place_data):
-    """Build contact info HTML from Places API data."""
+    """Build contact info HTML from place data."""
     phone = place_data.get("internationalPhoneNumber")
     website = place_data.get("websiteUri")
     
@@ -233,7 +305,7 @@ def build_rating_html(place_data):
 
 
 def enrich_section(section_html, place_data):
-    """Enrich a single shop section with Places API data."""
+    """Enrich a single shop section with place data."""
     if not place_data:
         return section_html
     
@@ -278,7 +350,7 @@ def enrich_section(section_html, place_data):
 
 
 def enrich_jsonld(content, shops_data):
-    """Enrich JSON-LD ItemList with Places API data."""
+    """Enrich JSON-LD ItemList with place data."""
     # Find the ItemList JSON-LD block
     jsonld_pattern = r'(<script type="application/ld\+json">\s*\{[^}]*"@type":\s*"ItemList".*?</script>)'
     match = re.search(jsonld_pattern, content, re.DOTALL)
@@ -411,11 +483,14 @@ def enrich_page(filepath, dry_run=False, report_only=False):
                 "website": place_data.get("websiteUri"),
                 "has_hours": bool(place_data.get("regularOpeningHours", {}).get("weekdayDescriptions")),
                 "maps_uri": place_data.get("googleMapsUri"),
+                "latitude": place_data.get("_latitude"),
+                "longitude": place_data.get("_longitude"),
+                "place_type": place_data.get("_type"),
             })
             
             shops_data[shop["name"]] = place_data
         else:
-            print(f"    Not found in API")
+            print(f"    Not found via SerpAPI")
             report.append({
                 "page": os.path.basename(os.path.dirname(filepath)),
                 "shop_name": shop["name"],
@@ -431,7 +506,7 @@ def enrich_page(filepath, dry_run=False, report_only=False):
     
     # Apply enrichments to each section (process in reverse to preserve positions)
     sections = list(re.finditer(
-        r'<section class="restaurant-section" id="([^"]+)">(.*?)</section>',
+        r'<section class="restaurant-section" id="([^"]+)"[^>]*>(.*?)</section>',
         content, re.DOTALL
     ))
     
@@ -461,7 +536,7 @@ def enrich_page(filepath, dry_run=False, report_only=False):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Enrich popular-picks pages with Google Places data")
+    parser = argparse.ArgumentParser(description="Enrich popular-picks pages with SerpAPI Google Maps data")
     parser.add_argument("path", nargs="?", help="Path to a single index.html")
     parser.add_argument("--batch", action="store_true", help="Process all popular-picks pages")
     parser.add_argument("--dry-run", action="store_true", help="Don't write changes")
@@ -515,7 +590,7 @@ def main():
         # Git commit if not dry run
         if not args.dry_run and not args.report_only:
             print("\nCommitting changes...")
-            os.system("cd ~/tabiji && git add popular-picks/ && git commit -m 'Batch enrich popular-picks with Google Places API data' && git push")
+            os.system("cd ~/tabiji && git add popular-picks/ && git commit -m 'Batch enrich popular-picks with SerpAPI data' && git push")
     
     else:
         filepath = os.path.expanduser(args.path)
@@ -538,7 +613,7 @@ def main():
     print(f"ENRICHMENT REPORT")
     print(f"{'='*60}")
     print(f"Total shops processed: {total}")
-    print(f"Found in Google Places: {found}")
+    print(f"Found via SerpAPI: {found}")
     print(f"Not found: {not_found}")
     print(f"Below 3.0 stars: {len(low_rated)}")
     print(f"Below 3.5 stars: {len(below_35)}")
