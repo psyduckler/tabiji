@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "tabiji.ai API",
-    "version": "1.3.0",
-    "description": "Free REST API for AI-curated travel data — 6905 destinations, 527 curated picks guides (6,093 place records), 374 day-by-day itineraries, 117 destination comparisons, and unified search. No API key required.",
+    "version": "1.4.0",
+    "description": "Free REST API for AI-curated travel data — 6905 destinations, 250 countries, 527 curated picks guides (6,093 place records), 374 day-by-day itineraries, 117 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -333,6 +333,63 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries.json": {
+      "get": {
+        "operationId": "listCountries",
+        "summary": "List all countries with facts",
+        "description": "Returns 250 countries and territories with capitals, population, area, currencies, languages, borders, driving side, dial codes, timezones, flags, and maps links. Sourced from restcountries.com.",
+        "tags": [
+          "Countries"
+        ],
+        "responses": {
+          "200": {
+            "description": "Country catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountriesList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/{iso2}.json": {
+      "get": {
+        "operationId": "getCountry",
+        "summary": "Get country facts by ISO code",
+        "description": "Returns full facts for a single country. Use the lowercase 2-letter ISO 3166-1 alpha-2 code (e.g. jp, fr, us, sg).",
+        "tags": [
+          "Countries"
+        ],
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "description": "Lowercase ISO 3166-1 alpha-2 code (e.g. jp, fr, us)",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$"
+            },
+            "example": "jp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryFacts"
                 }
               }
             }
@@ -1388,6 +1445,190 @@
             }
           }
         }
+      },
+      "CountryFacts": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "country:jp"
+          },
+          "name": {
+            "type": "string",
+            "example": "Japan"
+          },
+          "officialName": {
+            "type": "string",
+            "example": "Japan"
+          },
+          "iso2": {
+            "type": "string",
+            "example": "JP"
+          },
+          "iso3": {
+            "type": "string",
+            "example": "JPN"
+          },
+          "capital": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Tokyo"
+            ]
+          },
+          "population": {
+            "type": "integer",
+            "example": 123210000
+          },
+          "area": {
+            "type": "number",
+            "example": 377930.0,
+            "description": "Total area in km²"
+          },
+          "region": {
+            "type": "string",
+            "example": "Asia"
+          },
+          "subregion": {
+            "type": "string",
+            "example": "Eastern Asia"
+          },
+          "borders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO3 codes of neighboring countries",
+            "example": []
+          },
+          "landlocked": {
+            "type": "boolean",
+            "example": false
+          },
+          "demonyms": {
+            "type": "object",
+            "properties": {
+              "male": {
+                "type": "string",
+                "example": "Japanese"
+              },
+              "female": {
+                "type": "string",
+                "example": "Japanese"
+              }
+            }
+          },
+          "startOfWeek": {
+            "type": "string",
+            "example": "monday"
+          },
+          "maps": {
+            "type": "object",
+            "properties": {
+              "googleMaps": {
+                "type": "string",
+                "format": "uri"
+              },
+              "openStreetMaps": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "currencies": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "symbol": {
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "JPY": {
+                "name": "Japanese yen",
+                "symbol": "¥"
+              }
+            }
+          },
+          "languages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "jpn": "Japanese"
+            }
+          },
+          "timezones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "UTC+09:00"
+            ]
+          },
+          "flag": {
+            "type": "string",
+            "description": "Emoji flag",
+            "example": "🇯🇵"
+          },
+          "flagSvg": {
+            "type": "string",
+            "format": "uri"
+          },
+          "flagPng": {
+            "type": "string",
+            "format": "uri"
+          },
+          "drivingSide": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ],
+            "example": "left"
+          },
+          "dialCode": {
+            "type": "string",
+            "example": "+81"
+          },
+          "tld": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              ".jp"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "const": "country"
+          }
+        }
+      },
+      "CountriesList": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "example": 250
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryFacts"
+            }
+          }
+        }
       }
     }
   },
@@ -1411,6 +1652,10 @@
     {
       "name": "Comparisons",
       "description": "Head-to-head destination comparisons"
+    },
+    {
+      "name": "Countries",
+      "description": "250 countries and territories with essential travel facts"
     }
   ]
 }
