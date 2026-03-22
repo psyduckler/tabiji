@@ -53,7 +53,7 @@
 
 ### Scene 7: Landing Page — ToS & Privacy (5s)
 - Navigate to `https://tabiji.ai/media/`
-- Show the page title: "Tabiji Media Studio"
+- Show the page title: "Tabiji"
 - Scroll to show the **prominent ToS & Privacy Policy links** bar
 - Scroll to footer showing ToS & Privacy links again
 
@@ -67,6 +67,6 @@
    - `video.publish` → Publish Now button calls Direct Post API
    - `video.upload` → Save as Draft button calls Inbox Upload API
 4. **Server-side token exchange** — client_secret never exposed to frontend
-5. **App name matches** — "Tabiji Media Studio" on both the TikTok app and the website
+5. **App name matches** — "Tabiji" on both the TikTok app and the website
 6. **ToS & Privacy Policy** — prominently displayed on the website
 7. **Domain matches** — all actions happen on tabiji.ai, matching the Web/Desktop URL
