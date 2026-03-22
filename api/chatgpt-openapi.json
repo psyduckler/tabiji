@@ -1,0 +1,391 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "tabiji Travel API",
+    "version": "1.4.0",
+    "description": "AI-curated travel data — search 6,900+ destinations, 527 restaurant/bar/cafe picks guides with Google ratings and Reddit quotes, 374 day-by-day itineraries, 117 destination comparisons, and 250 country fact sheets. Free, no API key required."
+  },
+  "servers": [
+    {
+      "url": "https://tabiji.ai/api/v1"
+    }
+  ],
+  "paths": {
+    "/search.json": {
+      "get": {
+        "operationId": "searchTravel",
+        "summary": "Search destinations, picks guides, itineraries, and comparisons",
+        "description": "Primary discovery endpoint. Search across all tabiji data by city name, food type, activity, or topic. Use type filter to narrow results. Returns slugs you can pass to detail endpoints for full data.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Search query — city name, food type, activity, or topic (e.g. 'tokyo ramen', 'paris romantic', 'bali budget')",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "Filter by content type: destination (city guides), pick (restaurant/bar/cafe lists), itinerary (day-by-day plans), compare (city vs city)",
+            "schema": {
+              "type": "string",
+              "enum": ["destination", "pick", "itinerary", "compare"]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Max results (1-100, default 20). Use 5-10 for focused answers.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results with slugs, titles, types, and links to detail endpoints and website pages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "query": { "type": "string" },
+                    "count": { "type": "integer" },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": { "type": "string", "description": "pick, destination, itinerary, or compare" },
+                          "slug": { "type": "string", "description": "Use this slug in detail endpoints" },
+                          "title": { "type": "string" },
+                          "subtitle": { "type": "string" },
+                          "url": { "type": "string", "description": "API detail URL" },
+                          "siteUrl": { "type": "string", "description": "Human-readable webpage URL" },
+                          "city": { "type": "string" },
+                          "tags": { "type": "array", "items": { "type": "string" } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/picks/{slug}.json": {
+      "get": {
+        "operationId": "getPicksGuide",
+        "summary": "Get a curated picks guide with all places, ratings, tips, and Reddit quotes",
+        "description": "Returns a complete 'best of' guide for a city category (e.g. best ramen in Tokyo). Each place includes Google rating, review count, price range, address, opening hours, what to order, insider tips, and real Reddit quotes from travelers.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Picks guide slug from search results (e.g. 'tokyo-ramen', 'amsterdam-brunch', 'paris-wine-bars')",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full picks guide with all places and details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": { "type": "string" },
+                    "title": { "type": "string" },
+                    "description": { "type": "string" },
+                    "city": { "type": "string" },
+                    "category": { "type": "string" },
+                    "placeCount": { "type": "integer" },
+                    "sourceUrl": { "type": "string", "description": "Link to the full guide on tabiji.ai" },
+                    "places": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": { "type": "string" },
+                          "position": { "type": "integer" },
+                          "cuisineTags": { "type": "array", "items": { "type": "string" } },
+                          "googleRating": { "type": "number" },
+                          "reviewCount": { "type": "integer" },
+                          "priceRange": { "type": "string" },
+                          "address": { "type": "string" },
+                          "googleMapsUrl": { "type": "string" },
+                          "openingHours": { "type": "object" },
+                          "phone": { "type": "string" },
+                          "website": { "type": "string" },
+                          "whatToOrder": { "type": "string", "description": "Specific dish or drink recommendation" },
+                          "insiderTip": { "type": "string" },
+                          "editorialSummary": { "type": "string" },
+                          "bestFor": { "type": "string" },
+                          "redditQuotes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": { "type": "string" },
+                                "source": { "type": "string" }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "relatedPicks": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Guide not found" }
+        }
+      }
+    },
+    "/destinations/{slug}.json": {
+      "get": {
+        "operationId": "getDestination",
+        "summary": "Get full destination info — budget, season, vibes, related guides and itineraries",
+        "description": "Returns a city/destination profile with budget level, best travel season, vibes, travel styles, editorial summary, and links to related picks guides, itineraries, and comparisons.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Destination slug (e.g. 'tokyo', 'new-york', 'buenos-aires'). City name lowercased with hyphens.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destination profile with metadata and related content links",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": { "type": "string" },
+                    "name": { "type": "string" },
+                    "region": { "type": "string" },
+                    "continent": { "type": "string" },
+                    "budget": { "type": "string", "description": "$, $$, or $$$" },
+                    "season": { "type": "string", "description": "Best months to visit" },
+                    "vibes": { "type": "array", "items": { "type": "string" } },
+                    "pitch": { "type": "string" },
+                    "photo": { "type": "string" },
+                    "editorialSummary": { "type": "string" },
+                    "bestFor": { "type": "array", "items": { "type": "string" } },
+                    "travelStyles": { "type": "array", "items": { "type": "string" } },
+                    "sourceUrl": { "type": "string" },
+                    "relatedPicks": { "type": "array", "items": { "type": "object" } },
+                    "relatedItineraries": { "type": "array", "items": { "type": "object" } },
+                    "relatedComparisons": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Destination not found" }
+        }
+      }
+    },
+    "/itineraries/{slug}.json": {
+      "get": {
+        "operationId": "getItinerary",
+        "summary": "Get a day-by-day travel itinerary with activities, times, and tips",
+        "description": "Returns a complete multi-day itinerary with morning/afternoon/evening activities, neighborhood suggestions, logistics tips, and related picks guides.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Itinerary slug from search results (e.g. '5-day-paris-romantic', '7-day-japan-first-timer')",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full itinerary with day-by-day schedule",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": { "type": "string" },
+                    "title": { "type": "string" },
+                    "description": { "type": "string" },
+                    "destination": { "type": "string" },
+                    "duration": { "type": "string" },
+                    "tripType": { "type": "array", "items": { "type": "string" } },
+                    "dayCount": { "type": "integer" },
+                    "sourceUrl": { "type": "string" },
+                    "days": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "dayLabel": { "type": "string" },
+                          "title": { "type": "string" },
+                          "neighborhoods": { "type": "string" },
+                          "description": { "type": "string" },
+                          "activities": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "time": { "type": "string" },
+                                "name": { "type": "string" },
+                                "description": { "type": "string" },
+                                "tips": { "type": "array", "items": { "type": "string" } }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "relatedPicks": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Itinerary not found" }
+        }
+      }
+    },
+    "/compare/{slug}.json": {
+      "get": {
+        "operationId": "getComparison",
+        "summary": "Get a head-to-head destination comparison with verdict and Reddit quotes",
+        "description": "Returns a detailed comparison between two destinations across categories like food, nightlife, cost, culture, safety. Includes Reddit traveler quotes, category winners, overall verdict, and FAQs.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Comparison slug (e.g. 'tokyo-vs-kyoto', 'bali-vs-thailand', 'mexico-city-vs-oaxaca')",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full comparison with categories, quotes, verdict, and FAQs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": { "type": "string" },
+                    "title": { "type": "string" },
+                    "description": { "type": "string" },
+                    "destination1": { "type": "string" },
+                    "destination2": { "type": "string" },
+                    "categoryCount": { "type": "integer" },
+                    "sourceUrl": { "type": "string" },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": { "type": "string" },
+                          "summary": { "type": "string" },
+                          "highlights": { "type": "array", "items": { "type": "string" } },
+                          "redditQuotes": { "type": "array", "items": { "type": "object" } },
+                          "winnerSummary": { "type": "object" }
+                        }
+                      }
+                    },
+                    "verdict": {
+                      "type": "object",
+                      "properties": {
+                        "summary": { "type": "string" },
+                        "takeaways": { "type": "array", "items": { "type": "string" } }
+                      }
+                    },
+                    "faqs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "question": { "type": "string" },
+                          "answer": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Comparison not found" }
+        }
+      }
+    },
+    "/countries/{iso2}.json": {
+      "get": {
+        "operationId": "getCountryFacts",
+        "summary": "Get country facts — capital, currency, language, timezone, driving side, visa info",
+        "description": "Returns essential travel facts for a country: capital, population, currencies, languages, timezones, driving side, dial code, borders, and map links. Use lowercase 2-letter ISO code.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "description": "Lowercase 2-letter country code (e.g. 'jp' for Japan, 'fr' for France, 'us' for USA, 'th' for Thailand)",
+            "schema": { "type": "string", "pattern": "^[a-z]{2}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country facts including currencies, languages, timezones, and more",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "officialName": { "type": "string" },
+                    "iso2": { "type": "string" },
+                    "capital": { "type": "array", "items": { "type": "string" } },
+                    "population": { "type": "integer" },
+                    "area": { "type": "number", "description": "km²" },
+                    "region": { "type": "string" },
+                    "subregion": { "type": "string" },
+                    "currencies": { "type": "object" },
+                    "languages": { "type": "object" },
+                    "timezones": { "type": "array", "items": { "type": "string" } },
+                    "drivingSide": { "type": "string" },
+                    "dialCode": { "type": "string" },
+                    "flag": { "type": "string" },
+                    "borders": { "type": "array", "items": { "type": "string" } },
+                    "maps": { "type": "object" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Country not found" }
+        }
+      }
+    }
+  }
+}
