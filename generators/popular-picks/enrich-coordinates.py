@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Batch-enrich popular-picks JSON picks with latitude/longitude via Google Places API.
+"""Batch-enrich popular-picks JSON picks with latitude/longitude via SerpAPI Google Maps.
 
 Usage:
-  GOOGLE_PLACES_API_KEY=... python3 generators/popular-picks/enrich-coordinates.py
+  python3 generators/popular-picks/enrich-coordinates.py
   python3 generators/popular-picks/enrich-coordinates.py --slug paris-jazz-clubs
 """
 
@@ -15,58 +15,53 @@ import time
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
-import ssl
+from urllib.parse import quote_plus
 
-REQUEST_DELAY = 0.12
-PLACES_API_URL = 'https://places.googleapis.com/v1/places:searchText'
-FIELD_MASK = ','.join([
-    'places.id',
-    'places.displayName',
-    'places.formattedAddress',
-    'places.googleMapsUri',
-    'places.location',
-])
+REQUEST_DELAY = 0.2
+SERPAPI_URL = 'https://serpapi.com/search.json'
 
 
 def load_api_key():
-    api_key = os.environ.get('GOOGLE_PLACES_API_KEY')
+    api_key = os.environ.get('SERPAPI_KEY')
     if api_key:
         return api_key
     try:
         return subprocess.check_output(
-            ['security', 'find-generic-password', '-s', 'google-places-api-key', '-w'],
+            ['security', 'find-generic-password', '-s', 'serpapi-key', '-w'],
             text=True,
             stderr=subprocess.DEVNULL,
         ).strip()
     except Exception:
-        print('ERROR: No Google Places API key found. Set GOOGLE_PLACES_API_KEY or add to keychain.', file=sys.stderr)
+        print('ERROR: No SerpAPI key found. Set SERPAPI_KEY or add serpapi-key to keychain.', file=sys.stderr)
         sys.exit(1)
 
 
 API_KEY = load_api_key()
-SSL_CONTEXT = ssl._create_unverified_context()
 
 
 def search_place(text_query):
-    body = json.dumps({'textQuery': text_query, 'maxResultCount': 1}).encode()
-    req = Request(
-        PLACES_API_URL,
-        data=body,
-        method='POST',
-        headers={
-            'Content-Type': 'application/json',
-            'X-Goog-Api-Key': API_KEY,
-            'X-Goog-FieldMask': FIELD_MASK,
-        },
-    )
+    """Search SerpAPI Google Maps for a place and return normalized result."""
+    params = {
+        'engine': 'google_maps',
+        'q': text_query,
+        'api_key': API_KEY,
+        'hl': 'en',
+    }
+    url = SERPAPI_URL + '?' + '&'.join(f'{k}={quote_plus(str(v))}' for k, v in params.items())
+    req = Request(url, method='GET', headers={'Accept': 'application/json'})
     try:
-        with urlopen(req, timeout=20, context=SSL_CONTEXT) as resp:
+        with urlopen(req, timeout=20) as resp:
             data = json.loads(resp.read())
-            places = data.get('places', [])
-            return places[0] if places else None
+            results = data.get('local_results', [])
+            if results:
+                return results[0]
+            place = data.get('place_results')
+            if place:
+                return place
+            return None
     except HTTPError as e:
         body = e.read().decode() if e.fp else ''
-        print(f'  API error ({e.code}): {body[:300]}', file=sys.stderr)
+        print(f'  SerpAPI error ({e.code}): {body[:300]}', file=sys.stderr)
         return None
     except Exception as e:
         print(f'  Request error: {e}', file=sys.stderr)
@@ -108,20 +103,26 @@ def enrich_file(path, dry_run=False):
             skipped += 1
             continue
 
-        place = None
+        result = None
         used_query = None
         for query in build_queries(data, pick):
             used_query = query
-            place = search_place(query)
+            result = search_place(query)
             time.sleep(REQUEST_DELAY)
-            if place and place.get('location', {}).get('latitude') is not None and place.get('location', {}).get('longitude') is not None:
-                break
+            if result:
+                gps = result.get('gps_coordinates', {})
+                if gps.get('latitude') is not None and gps.get('longitude') is not None:
+                    break
+                result = None  # No coordinates, try next query
 
-        if place and place.get('location', {}).get('latitude') is not None and place.get('location', {}).get('longitude') is not None:
-            pick['lat'] = place['location']['latitude']
-            pick['lng'] = place['location']['longitude']
-            if place.get('googleMapsUri') and not pick.get('googleMapsUrl'):
-                pick['googleMapsUrl'] = place['googleMapsUri']
+        if result:
+            gps = result.get('gps_coordinates', {})
+            pick['lat'] = gps['latitude']
+            pick['lng'] = gps['longitude']
+            # Build Google Maps URL from place_id
+            place_id = result.get('place_id')
+            if place_id and not pick.get('googleMapsUrl'):
+                pick['googleMapsUrl'] = f'https://www.google.com/maps/place/?q=place_id:{place_id}'
             changed = True
             found += 1
             print(f"  ✓ #{pick.get('rank')} {pick.get('name')} -> {pick['lat']:.6f}, {pick['lng']:.6f} [{used_query}]")

@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "tabiji.ai API",
-    "version": "1.3.0",
-    "description": "Free REST API for AI-curated travel data — 6905 destinations, 508 curated picks guides (5,864 place records), 373 day-by-day itineraries, 106 destination comparisons, and unified search. No API key required.",
+    "version": "1.4.0",
+    "description": "Free REST API for AI-curated travel data — 6905 destinations, 250 countries, 527 curated picks guides (6,093 place records), 374 day-by-day itineraries, 117 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -339,6 +339,63 @@
           }
         }
       }
+    },
+    "/countries.json": {
+      "get": {
+        "operationId": "listCountries",
+        "summary": "List all countries with facts",
+        "description": "Returns 250 countries and territories with capitals, population, area, currencies, languages, borders, driving side, dial codes, timezones, flags, and maps links. Sourced from restcountries.com.",
+        "tags": [
+          "Countries"
+        ],
+        "responses": {
+          "200": {
+            "description": "Country catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountriesList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/{iso2}.json": {
+      "get": {
+        "operationId": "getCountry",
+        "summary": "Get country facts by ISO code",
+        "description": "Returns full facts for a single country. Use the lowercase 2-letter ISO 3166-1 alpha-2 code (e.g. jp, fr, us, sg).",
+        "tags": [
+          "Countries"
+        ],
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "description": "Lowercase ISO 3166-1 alpha-2 code (e.g. jp, fr, us)",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$"
+            },
+            "example": "jp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryFacts"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -451,6 +508,66 @@
           "pitch": {
             "type": "string",
             "example": "Controlled chaos that somehow works perfectly."
+          },
+          "id": {
+            "type": "string",
+            "example": "destination:tokyo"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "destination"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceMeta": {
+            "$ref": "#/components/schemas/RecordSourceMeta"
+          },
+          "editorialSummary": {
+            "type": "string"
+          },
+          "bestFor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "relatedPicks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedItineraries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedComparisons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
           }
         }
       },
@@ -521,6 +638,21 @@
           "url": {
             "type": "string",
             "format": "uri"
+          },
+          "description": {
+            "type": "string"
+          },
+          "destinationSlug": {
+            "type": "string"
+          },
+          "destinationName": {
+            "type": "string"
+          },
+          "relatedPicks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
           }
         }
       },
@@ -622,6 +754,35 @@
           },
           "insiderTip": {
             "type": "string"
+          },
+          "area": {
+            "type": "string",
+            "example": "De Pijp"
+          },
+          "verdict": {
+            "type": "string"
+          },
+          "editorialSummary": {
+            "type": "string"
+          },
+          "bestFor": {
+            "type": "string"
+          },
+          "comparison": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "mapsLinks": {
+            "type": "object",
+            "properties": {
+              "google": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "sourceMeta": {
+            "$ref": "#/components/schemas/PlaceSourceMeta"
           }
         }
       },
@@ -659,6 +820,66 @@
             "items": {
               "$ref": "#/components/schemas/Place"
             }
+          },
+          "id": {
+            "type": "string",
+            "example": "pick:tokyo-ramen"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "pick"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceMeta": {
+            "$ref": "#/components/schemas/RecordSourceMeta"
+          },
+          "destinationSlug": {
+            "type": "string"
+          },
+          "destinationName": {
+            "type": "string"
+          },
+          "editorialSummary": {
+            "type": "string"
+          },
+          "bestFor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "relatedPicks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedItineraries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedComparisons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
           }
         }
       },
@@ -689,6 +910,9 @@
           },
           "dayCount": {
             "type": "integer"
+          },
+          "destinationSlug": {
+            "type": "string"
           }
         }
       },
@@ -800,6 +1024,51 @@
             "items": {
               "$ref": "#/components/schemas/ItineraryDay"
             }
+          },
+          "id": {
+            "type": "string",
+            "example": "itinerary:tokyo-4-days"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "itinerary"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceMeta": {
+            "$ref": "#/components/schemas/RecordSourceMeta"
+          },
+          "destinationSlug": {
+            "type": "string"
+          },
+          "editorialSummary": {
+            "type": "string"
+          },
+          "relatedPicks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedComparisons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
           }
         }
       },
@@ -829,6 +1098,18 @@
           "url": {
             "type": "string",
             "format": "uri"
+          },
+          "destination1Slug": {
+            "type": "string"
+          },
+          "destination2Slug": {
+            "type": "string"
+          },
+          "destinationSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -929,6 +1210,66 @@
             "items": {
               "$ref": "#/components/schemas/FAQ"
             }
+          },
+          "id": {
+            "type": "string",
+            "example": "compare:kyoto-vs-osaka"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "compare"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceMeta": {
+            "$ref": "#/components/schemas/RecordSourceMeta"
+          },
+          "destination1Slug": {
+            "type": "string"
+          },
+          "destination2Slug": {
+            "type": "string"
+          },
+          "destinationSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editorialSummary": {
+            "type": "string"
+          },
+          "relatedDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedItineraries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
+          },
+          "relatedPicks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedRecordSummary"
+            }
           }
         }
       },
@@ -1022,6 +1363,272 @@
             }
           }
         }
+      },
+      "RelatedRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "pick:tokyo-ramen"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "destination",
+              "pick",
+              "itinerary",
+              "compare"
+            ]
+          },
+          "slug": {
+            "type": "string",
+            "example": "tokyo-ramen"
+          },
+          "title": {
+            "type": "string",
+            "example": "12 Best Ramen in Tokyo"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "additionalProperties": true
+      },
+      "RecordSourceMeta": {
+        "type": "object",
+        "properties": {
+          "sourceType": {
+            "type": "string",
+            "example": "tabiji-static-page"
+          },
+          "sourcePath": {
+            "type": "string",
+            "example": "popular-picks/tokyo-ramen/index.html"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "lastVerified": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PlaceSourceMeta": {
+        "type": "object",
+        "properties": {
+          "guideSlug": {
+            "type": "string"
+          },
+          "guideTitle": {
+            "type": "string"
+          },
+          "guideUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "collectionCity": {
+            "type": "string"
+          },
+          "collectionCategory": {
+            "type": "string"
+          },
+          "fieldSources": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "CountryFacts": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "country:jp"
+          },
+          "name": {
+            "type": "string",
+            "example": "Japan"
+          },
+          "officialName": {
+            "type": "string",
+            "example": "Japan"
+          },
+          "iso2": {
+            "type": "string",
+            "example": "JP"
+          },
+          "iso3": {
+            "type": "string",
+            "example": "JPN"
+          },
+          "capital": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Tokyo"
+            ]
+          },
+          "population": {
+            "type": "integer",
+            "example": 123210000
+          },
+          "area": {
+            "type": "number",
+            "example": 377930.0,
+            "description": "Total area in km²"
+          },
+          "region": {
+            "type": "string",
+            "example": "Asia"
+          },
+          "subregion": {
+            "type": "string",
+            "example": "Eastern Asia"
+          },
+          "borders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO3 codes of neighboring countries",
+            "example": []
+          },
+          "landlocked": {
+            "type": "boolean",
+            "example": false
+          },
+          "demonyms": {
+            "type": "object",
+            "properties": {
+              "male": {
+                "type": "string",
+                "example": "Japanese"
+              },
+              "female": {
+                "type": "string",
+                "example": "Japanese"
+              }
+            }
+          },
+          "startOfWeek": {
+            "type": "string",
+            "example": "monday"
+          },
+          "maps": {
+            "type": "object",
+            "properties": {
+              "googleMaps": {
+                "type": "string",
+                "format": "uri"
+              },
+              "openStreetMaps": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "currencies": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "symbol": {
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "JPY": {
+                "name": "Japanese yen",
+                "symbol": "¥"
+              }
+            }
+          },
+          "languages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "jpn": "Japanese"
+            }
+          },
+          "timezones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "UTC+09:00"
+            ]
+          },
+          "flag": {
+            "type": "string",
+            "description": "Emoji flag",
+            "example": "🇯🇵"
+          },
+          "flagSvg": {
+            "type": "string",
+            "format": "uri"
+          },
+          "flagPng": {
+            "type": "string",
+            "format": "uri"
+          },
+          "drivingSide": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ],
+            "example": "left"
+          },
+          "dialCode": {
+            "type": "string",
+            "example": "+81"
+          },
+          "tld": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              ".jp"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "const": "country"
+          }
+        }
+      },
+      "CountriesList": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "example": 250
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryFacts"
+            }
+          }
+        }
       }
     }
   },
@@ -1045,6 +1652,10 @@
     {
       "name": "Comparisons",
       "description": "Head-to-head destination comparisons"
+    },
+    {
+      "name": "Countries",
+      "description": "250 countries and territories with essential travel facts"
     }
   ]
 }

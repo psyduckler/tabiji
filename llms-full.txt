@@ -1,0 +1,405 @@
+# tabiji.ai — Full LLM Context with API Response Examples
+
+> Free AI-curated travel data API — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, destination comparisons, and unified search for 6,905 destinations. No API key required.
+
+## What is tabiji?
+
+tabiji.ai is a read-only static travel data API. All data is editorially curated from real traveler discussions (Reddit) and cross-validated with Google Places. Content is served as static JSON files over Cloudflare CDN. CORS is fully open — call from any origin, any client.
+
+**Key stats:**
+- 6,905 destinations (cities, regions, countries)
+- 508 picks guides covering 5,864 curated places (restaurants, bars, cafes, attractions)
+- 373 day-by-day travel itineraries
+- 106 head-to-head destination comparisons
+- 250 countries with full factual metadata
+- 1 unified cross-collection search endpoint
+
+**No API key needed. No rate limits. No authentication.**
+
+---
+
+## API Documentation
+- [API Docs](https://tabiji.ai/api/): Full endpoint documentation with examples
+- [OpenAPI Spec](https://tabiji.ai/api/openapi.json): Machine-readable API specification (OpenAPI 3.1)
+- [agents.json](https://tabiji.ai/.well-known/agents.json): AI agent workflow definitions (OpenAgents format)
+- [agent.json](https://tabiji.ai/.well-known/agent.json): A2A Agent Card (Google A2A Protocol v1.0.0)
+
+---
+
+## Endpoints
+
+### Destinations
+- `GET /api/v1/destinations.json` — All 6,905 destinations (budget, season, vibes, travel styles, pitch)
+- `GET /api/v1/destinations/{slug}.json` — Full details for one destination (e.g., `tokyo.json`, `paris.json`)
+
+### Popular Picks (Restaurant & Attraction Guides)
+- `GET /api/v1/picks.json` — All 508 curated "best of" guides covering 5,864 places
+- `GET /api/v1/picks/{slug}.json` — Full guide with all places, editorial summaries, maps links, Reddit quotes, "what to order" tips, insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
+
+### Itineraries
+- `GET /api/v1/itineraries.json` — All 373 day-by-day travel itineraries
+- `GET /api/v1/itineraries/{slug}.json` — Full itinerary with day-by-day activities, neighborhoods, tips, and logistics
+
+### Comparisons
+- `GET /api/v1/compare.json` — All 106 head-to-head destination comparisons
+- `GET /api/v1/compare/{slug}.json` — Full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto.json`)
+
+### Countries
+- `GET /api/v1/countries.json` — All 250 countries with capitals, population, area, region, borders, currencies, languages, timezones, driving side, dial codes, flags, and maps links
+- `GET /api/v1/countries/{iso2}.json` — Facts for one country by lowercase ISO code (e.g., `jp.json`, `fr.json`, `us.json`)
+
+### Cross-Collection Search
+- `GET /api/v1/search.json` — Static search index (7,923 records) for client-side search
+- `GET /api/v1/search-index.json` — Full search index with tokens for fuzzy matching
+
+**Recommended agent workflow:** Use `search.json` to find matching slugs, then fetch the full record with the appropriate detail endpoint.
+
+---
+
+## Data Fields
+
+### Destination Object
+Each destination includes: `slug`, `name`, `region`, `continent`, `country`, `countryCode`, `currency` (code/name/symbol), `language`, `languages`, `coordinates` (lat/lng), `photo`, `pitch`, `budget` ($–$$$$), `season`, `vibes` (array), `travelStyles` (array), `editorialSummary`, `bestFor`, `relatedPicks`, `relatedItineraries`, `relatedComparisons`, `relatedDestinations`, `sourceMeta`, `flag`, `timezone`, `drivingSide`, `dialCode`, `tapWaterSafe`, `tippingCustom`, `visaNote`
+
+### Place Object (in Picks)
+Each place includes: `name`, `position`, `cuisineTags`, `googleRating`, `reviewCount`, `priceRange`, `address`, `area`, `googleMapsUrl`, `mapsLinks`, `openingHours` (weekly grid), `openNow`, `phone`, `website`, `photo`, `verdict`, `editorialSummary`, `bestFor`, `comparison`, `whatToOrder`, `insiderTip`, `redditQuotes` (with `text`, `source`, `sourceUrl`), `sourceMeta`
+
+### Itinerary Day Object
+Each day includes: `dayLabel`, `neighborhoods`, `title`, `description`, `activities` (with `time`, `name`, `description`, `details`, `tips`)
+
+### Comparison Object
+Each comparison includes: `slug`, `title`, `destination1`, `destination2`, `categories` (with `title`, `summary`, `highlights`, `redditQuotes`, `winnerSummary`), `verdict` (with `summary`, `takeaways`, `cards`), `faqs`
+
+### Country Object
+Each country includes: `id`, `name`, `officialName`, `iso2`, `iso3`, `capital`, `population`, `area` (km²), `region`, `subregion`, `borders` (ISO3 codes), `landlocked`, `demonyms`, `startOfWeek`, `maps`, `currencies`, `languages`, `timezones`, `flag` (emoji), `flagSvg`, `flagPng`, `drivingSide`, `dialCode`, `tld`
+
+---
+
+## Complete API Response Examples
+
+The following are real responses from the tabiji API, trimmed for brevity. Full responses contain more fields and more items.
+
+---
+
+### Example 1: Destination — `GET /api/v1/destinations/tokyo.json`
+
+```json
+{
+  "slug": "tokyo",
+  "name": "Tokyo",
+  "region": "Japan",
+  "continent": "Asia",
+  "country": "Japan",
+  "countryCode": "JP",
+  "currency": {
+    "code": "JPY",
+    "name": "Japanese yen",
+    "symbol": "¥"
+  },
+  "language": "Japanese",
+  "languages": ["Japanese"],
+  "coordinates": {
+    "lat": 35.6895,
+    "lng": 139.69171,
+    "source": "geonames-city"
+  },
+  "photo": "https://img.tabiji.ai/find/img/tokyo.webp",
+  "pitch": "Controlled chaos that somehow works perfectly. Vending machines on every corner, Michelin stars in basements.",
+  "budget": "$$$",
+  "season": "Mar–May, Oct–Nov",
+  "vibes": ["City", "Cultural", "Family", "Nightlife"],
+  "travelStyles": ["solo", "photography"],
+  "editorialSummary": "Controlled chaos that somehow works perfectly. Vending machines on every corner, Michelin stars in basements.",
+  "bestFor": ["City", "Cultural", "Family", "Nightlife", "solo", "photography"],
+  "drivingSide": "left",
+  "dialCode": "+81",
+  "timezone": "UTC+09:00",
+  "tippingCustom": "Tipping norms vary by venue and service level; check local custom.",
+  "visaNote": "Many passports get short-stay visa-free entry, but verify current eligibility before travel.",
+  "flag": {
+    "svg": "https://flagcdn.com/jp.svg",
+    "png": "https://flagcdn.com/w320/jp.png"
+  },
+  "relatedPicks": [
+    {
+      "slug": "akihabara-themed-cafes",
+      "title": "12 Best Themed Cafes in Akihabara",
+      "url": "https://tabiji.ai/popular-picks/akihabara-themed-cafes/",
+      "category": "Themed Cafes"
+    },
+    {
+      "slug": "tokyo-cheap-eats",
+      "title": "15 Best Cheap Eats in Tokyo",
+      "url": "https://tabiji.ai/popular-picks/tokyo-cheap-eats/",
+      "category": "Cheap Eats"
+    }
+  ],
+  "relatedItineraries": [
+    {
+      "slug": "bone-dew",
+      "title": "Tokyo with Tiny Explorers: 10 days of family adventure, street food & cultural wonder",
+      "url": "https://tabiji.ai/i/bone-dew/",
+      "duration": "10 days"
+    }
+  ],
+  "relatedComparisons": [
+    {
+      "slug": "tokyo-vs-kyoto",
+      "title": "Tokyo vs Kyoto: Which Should You Visit?",
+      "url": "https://tabiji.ai/compare/tokyo-vs-kyoto/"
+    }
+  ],
+  "sourceMeta": {
+    "sourceType": "tabiji-static-page",
+    "lastVerified": "2026-03-21T16:32:15Z"
+  }
+}
+```
+
+---
+
+### Example 2: Picks Guide — `GET /api/v1/picks/tokyo-cheap-eats.json`
+
+*(Showing 1 of 15 places for brevity)*
+
+```json
+{
+  "slug": "tokyo-cheap-eats",
+  "title": "15 Best Cheap Eats in Tokyo",
+  "description": "The best cheap eats in Tokyo — curated from thousands of Reddit reviews. Gyudon, udon, conveyor sushi, teishoku, standing bars & more. All under ¥1,000. Interactive map included.",
+  "city": "Tokyo",
+  "category": "Cheap Eats",
+  "placeCount": 15,
+  "url": "https://tabiji.ai/popular-picks/tokyo-cheap-eats/",
+  "places": [
+    {
+      "name": "Matsuya (松屋)",
+      "position": 1,
+      "cuisineTags": ["Gyudon"],
+      "googleRating": 3.5,
+      "reviewCount": 860,
+      "priceRange": "¥380–¥700",
+      "address": "Everywhere (1,000+ locations)",
+      "googleMapsUrl": "https://maps.google.com/?cid=404738267816126565",
+      "openingHours": {
+        "Mon": "Open 24 hours",
+        "Tue": "Open 24 hours",
+        "Wed": "Open 24 hours",
+        "Thu": "Open 24 hours",
+        "Fri": "Open 24 hours",
+        "Sat": "Open 24 hours",
+        "Sun": "Open 24 hours"
+      },
+      "openNow": true,
+      "phone": "+818059280437",
+      "website": "https://pkg.navitime.co.jp/matsuyafoods/spot/detail?code=0000000062",
+      "photo": "https://img.tabiji.ai/popular-picks/tokyo-cheap-eats/matsuya.jpg",
+      "redditQuotes": [
+        {
+          "text": "Matsuya has this morning set meal breakfast that gives you soup, two salads, beef, rice for 380 yen. Normally their set meals are 700 or more during regular hours.",
+          "source": "— r/japanlife · 64 upvotes",
+          "sourceUrl": ""
+        },
+        {
+          "text": "Matsuya is probably the best value chain in Japan. Free miso soup, generous portions, and the curry is underrated. I eat there at least 3 times a week.",
+          "source": "— r/japanlife · Budget eating thread"
+        }
+      ],
+      "verdict": "The undisputed king of cheap eats in Tokyo.",
+      "whatToOrder": "The morning set meal (朝定食) includes soup, salad, beef, and rice. During regular hours, the premium gyudon (プレミアム牛めし) is the move. Free miso soup is served with every meal.",
+      "insiderTip": "Matsuya edges out Yoshinoya with free miso soup, better breakfast sets, and a slightly more varied menu. The morning set is genuinely one of the best deals in all of Japan — a full meal for the price of a Starbucks coffee back home.",
+      "comparison": {
+        "best for": "Gyudon in Everywhere (1,000+ locations) with a ¥380–¥700 spend range",
+        "what to order": "The morning set meal (朝定食) includes soup, salad, beef, and rice."
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Example 3: Itinerary — `GET /api/v1/itineraries/10-day-italy-first-time.json`
+
+*(Showing 1 of 10 days for brevity)*
+
+```json
+{
+  "slug": "10-day-italy-first-time",
+  "title": "10 Day Italy Itinerary for First-Time Visitors (2026)",
+  "description": "The complete 10-day Italy itinerary for first timers: Rome, Florence, and Amalfi Coast day-by-day with train tips, budget breakdowns, and real traveler advice.",
+  "destination": "Italy",
+  "duration": "10 days",
+  "dayCount": 10,
+  "url": "https://tabiji.ai/itineraries/10-day-italy-first-time/",
+  "days": [
+    {
+      "dayLabel": "Day 1",
+      "neighborhoods": "Trastevere · Pantheon · Piazza Navona · Trevi Fountain",
+      "title": "Arrival + Rome's Living Heart"
+    }
+  ],
+  "relatedPicks": [
+    {
+      "slug": "italy",
+      "title": "🇮🇹 Italy",
+      "url": "https://tabiji.ai/popular-picks/italy/"
+    }
+  ],
+  "relatedComparisons": [
+    {
+      "slug": "spain-vs-italy",
+      "title": "Spain vs Italy: Which Should You Visit?",
+      "url": "https://tabiji.ai/compare/spain-vs-italy/"
+    }
+  ],
+  "editorialSummary": "The complete 10-day Italy itinerary for first timers: Rome, Florence, and Amalfi Coast day-by-day with train tips, budget breakdowns, and real traveler advice.",
+  "updatedAt": "2026-03-19T23:50:26Z"
+}
+```
+
+---
+
+### Example 4: Comparison — `GET /api/v1/compare/tokyo-vs-kyoto.json`
+
+*(Showing 1 of 8 categories and selected FAQs for brevity)*
+
+```json
+{
+  "slug": "tokyo-vs-kyoto",
+  "title": "Tokyo vs Kyoto: Which Should You Visit?",
+  "description": "A data-backed comparison of Tokyo and Kyoto based on Reddit discussions, real costs, weather data, and traveler preferences.",
+  "destination1": "Tokyo",
+  "destination2": "Kyoto",
+  "url": "https://tabiji.ai/compare/tokyo-vs-kyoto/",
+  "categoryCount": 8,
+  "categories": [
+    {
+      "title": "🍜 Food & Dining",
+      "summary": "Tokyo holds the world record for the most Michelin-starred restaurants — over 200 at last count. From ¥400 gyudon bowls to ¥50,000 omakase counters, the city's food scene is staggeringly deep. Every regional Japanese cuisine is represented, plus world-class Italian, French, Chinese, and more.",
+      "highlights": [
+        "Kyoto's food scene is more focused but equally remarkable — home of kaiseki, the best tofu in Japan, world-class matcha desserts, and an intimate izakaya culture. Nishiki Market alone is worth a half-day of grazing.",
+        "Budget meals cost roughly the same in both cities: ramen ¥800–1,200, gyudon ¥400–700. Kyoto pulls ahead with kaiseki-style lunch sets for ¥1,500–2,500. Tokyo wins on late-night options and sheer variety."
+      ],
+      "redditQuotes": [
+        {
+          "text": "Tokyo is where you eat everything. Kyoto is where you eat beautifully. Different vibes, both incredible.",
+          "source": "r/JapanTravelTips user",
+          "sourceUrl": "https://www.reddit.com/r/JapanTravelTips/comments/1clo589/"
+        }
+      ],
+      "winnerSummary": {
+        "winner": "Tokyo",
+        "why": "Tokyo for food diversity and late-night eating. Kyoto for traditional Japanese cuisine and the best value kaiseki lunches.",
+        "who_this_matters_for": "Matters most for first-timers, foodies, and pop culture fans vs culture seekers and slow travelers."
+      }
+    }
+  ],
+  "verdict": {
+    "summary": "Tokyo is better for first-timers, foodies, and pop culture fans. Kyoto is better for culture seekers, photographers, and slow travelers. Mid-range budget: Tokyo ¥12,000–18,000/day vs Kyoto ¥10,000–15,000/day.",
+    "takeaways": [
+      "Choose Tokyo: First-timers, foodies, pop culture fans.",
+      "Choose Kyoto: Culture seekers, photographers, slow travelers.",
+      "Budget snapshot: Tokyo ¥12,000–18,000 ($80–120); Kyoto ¥10,000–15,000 ($65–100)."
+    ],
+    "cards": [
+      { "title": "Choose Tokyo", "text": "First-timers, foodies, pop culture fans." },
+      { "title": "Choose Kyoto", "text": "Culture seekers, photographers, slow travelers." }
+    ]
+  },
+  "faqs": [
+    {
+      "question": "Is Tokyo or Kyoto better for first-time visitors to Japan?",
+      "answer": "If you can only pick one and want the full 'Japan experience,' Tokyo offers more variety. But if temples and traditional culture are your priority, Kyoto is unbeatable. Most experienced travelers recommend doing both — they're only 2h15m apart by Shinkansen."
+    },
+    {
+      "question": "Which is cheaper, Tokyo or Kyoto?",
+      "answer": "Kyoto is roughly 15–20% cheaper. Mid-range hotels: Kyoto ¥8,000–15,000/night vs Tokyo ¥10,000–20,000. Budget meals cost about the same. Note: Kyoto temple entry fees (¥400–800 each) add up."
+    }
+  ]
+}
+```
+
+---
+
+### Example 5: Search — `GET /api/v1/search-index.json` (client-side search index)
+
+The search index contains 7,923 records across all content types. Each record has:
+
+```json
+{
+  "count": 7923,
+  "types": {
+    "destination": 6905,
+    "pick": 527,
+    "itinerary": 374,
+    "compare": 117
+  },
+  "items": [
+    {
+      "id": "destination:tokyo",
+      "type": "destination",
+      "slug": "tokyo",
+      "title": "Tokyo",
+      "subtitle": "Controlled chaos that somehow works perfectly. Vending machines on every corner, Michelin stars in basements.",
+      "url": "https://tabiji.ai/api/v1/destinations/tokyo.json",
+      "siteUrl": "https://tabiji.ai/find/?q=tokyo",
+      "tags": ["Japan", "Asia", "JP", "City", "Cultural", "Family", "Nightlife", "solo", "photography"],
+      "region": "Japan",
+      "continent": "Asia",
+      "tokens": ["Tokyo", "Japan", "Asia", "City", "Cultural", "solo", "photography"]
+    },
+    {
+      "id": "pick:tokyo-cheap-eats",
+      "type": "pick",
+      "slug": "tokyo-cheap-eats",
+      "title": "15 Best Cheap Eats in Tokyo",
+      "subtitle": "Gyudon, udon, conveyor sushi, teishoku, standing bars & more. All under ¥1,000.",
+      "url": "https://tabiji.ai/api/v1/picks/tokyo-cheap-eats.json",
+      "siteUrl": "https://tabiji.ai/popular-picks/tokyo-cheap-eats/",
+      "tags": ["Tokyo", "Cheap Eats", "Japan"],
+      "tokens": ["tokyo", "cheap", "eats", "gyudon", "udon", "sushi"]
+    },
+    {
+      "id": "itinerary:10-day-italy-first-time",
+      "type": "itinerary",
+      "slug": "10-day-italy-first-time",
+      "title": "10 Day Italy Itinerary for First-Time Visitors (2026)",
+      "url": "https://tabiji.ai/api/v1/itineraries/10-day-italy-first-time.json",
+      "siteUrl": "https://tabiji.ai/itineraries/10-day-italy-first-time/",
+      "tags": ["Italy"],
+      "tokens": ["italy", "rome", "florence", "amalfi", "itinerary", "first", "time"]
+    },
+    {
+      "id": "compare:tokyo-vs-kyoto",
+      "type": "compare",
+      "slug": "tokyo-vs-kyoto",
+      "title": "Tokyo vs Kyoto: Which Should You Visit?",
+      "url": "https://tabiji.ai/api/v1/compare/tokyo-vs-kyoto.json",
+      "siteUrl": "https://tabiji.ai/compare/tokyo-vs-kyoto/",
+      "tags": ["Tokyo", "Kyoto", "Japan"],
+      "tokens": ["tokyo", "kyoto", "vs", "japan", "compare"]
+    }
+  ]
+}
+```
+
+**Recommended search workflow for agents:**
+1. Filter `items` by `type` if needed (`destination`, `pick`, `itinerary`, `compare`)
+2. Match query tokens against `tokens` or `title` fields
+3. Use the matched `slug` to call the detail endpoint (e.g., `GET /api/v1/picks/{slug}.json`)
+
+---
+
+## Usage Notes for LLMs
+
+- **All endpoints are GET-only.** tabiji is a read-only API — no writes, no auth, no API keys.
+- **Static JSON files served via Cloudflare CDN.** Response time is typically <50ms globally.
+- **Prefer detail endpoints over the index.** The index files (`picks.json`, `itineraries.json`, etc.) only contain metadata. Full content — Reddit quotes, opening hours, what to order, day-by-day activities — is in the individual slug files.
+- **Cross-linking is built in.** Every destination includes `relatedPicks`, `relatedItineraries`, and `relatedComparisons` arrays so you can traverse the content graph without searching.
+- **Data provenance is transparent.** Every record includes `sourceMeta` with source type, path, URL, and last verified timestamp.
+- **CORS is fully open.** Call from any origin, any client, no preflight needed.
+
+## What Makes tabiji Data Unique
+
+Unlike generic travel APIs, tabiji data is curated from real traveler discussions (Reddit) plus editorial judgment, then cross-linked across destinations, picks, itineraries, and comparisons. Records expose provenance/freshness metadata and lighter-weight enrichment fields so agents can traverse the content graph instead of scraping pages. Reddit quotes include upvote context and source links — this is what real travelers actually say, not marketing copy.
