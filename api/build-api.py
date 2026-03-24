@@ -1641,7 +1641,25 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
     out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
 
 
-def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count):
+def build_country_facts():
+    """Build country facts API from restcountries.com data. Idempotent."""
+    import subprocess
+    script = BASE_DIR / "api" / "build-country-facts.py"
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  ⚠️  Country facts build failed:\n{result.stderr}")
+        return 0
+    # Count generated files
+    countries_dir = OUTPUT_DIR / "countries"
+    if countries_dir.exists():
+        return len(list(countries_dir.glob("*.json")))
+    return 0
+
+
+def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count=0):
     """Render api/index.html from api/index.html.template with live counts.
 
     The template uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
@@ -1652,11 +1670,12 @@ def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_c
     content = template_path.read_text(encoding='utf-8')
 
     tokens = {
-        'DEST_COUNT':    (f'{dest_count:,}', str(dest_count)),
-        'PLACES_COUNT':  (f'{places_count:,}', str(places_count)),
-        'PICKS_COUNT':   (f'{picks_count:,}', str(picks_count)),
-        'ITIN_COUNT':    (f'{itin_count:,}', str(itin_count)),
-        'COMPARE_COUNT': (f'{compare_count:,}', str(compare_count)),
+        'DEST_COUNT':     (f'{dest_count:,}', str(dest_count)),
+        'PLACES_COUNT':   (f'{places_count:,}', str(places_count)),
+        'PICKS_COUNT':    (f'{picks_count:,}', str(picks_count)),
+        'ITIN_COUNT':     (f'{itin_count:,}', str(itin_count)),
+        'COMPARE_COUNT':  (f'{compare_count:,}', str(compare_count)),
+        'COUNTRY_COUNT':  (f'{country_count:,}', str(country_count)),
     }
 
     for name, (formatted, raw) in tokens.items():
@@ -1849,8 +1868,12 @@ def main():
     build_agents_json(dest_count, picks_count, itin_count, compare_count)
     print("   ✅ openapi.json, llms.txt, agents.json")
 
+    print("🌍 Building country facts...")
+    country_count = build_country_facts()
+    print(f"   ✅ {country_count} countries")
+
     print("📄 Updating API docs page...")
-    build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count)
+    build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
     print("   ✅ api/index.html")
 
 
