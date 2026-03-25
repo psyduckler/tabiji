@@ -1,0 +1,745 @@
+#!/usr/bin/env python3
+"""
+Batch compare page generator for tabiji.ai
+Generates compare-data JSON, HTML pages, API JSON, and updates inventory + sitemap.
+
+Usage:
+  python3 batch-compare-gen.py generate <slug>   # Generate one compare page JSON + HTML
+  python3 batch-compare-gen.py batch <slugs.json> # Process a batch of slugs from JSON file
+  python3 batch-compare-gen.py finalize           # Update inventory, sitemap, API index after all pages built
+"""
+
+import json
+import os
+import re
+import subprocess
+import sys
+import html as html_module
+import time
+from pathlib import Path
+from datetime import datetime, timezone
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+COMPARE_DIR = REPO_ROOT / "compare"
+DATA_DIR = REPO_ROOT / "compare-data"
+API_COMPARE_DIR = REPO_ROOT / "api" / "v1" / "compare"
+INVENTORY_PATH = COMPARE_DIR / "inventory.json"
+SITEMAP_PATH = REPO_ROOT / "sitemap.xml"
+QUEUE_PATH = REPO_ROOT / "compare-queue.json"
+SHELL_TEMPLATE_PATH = Path("/tmp/compare-shell-template.json")
+
+# Load shell template
+def get_shell():
+    return json.loads(SHELL_TEMPLATE_PATH.read_text())
+
+def slug_to_names(slug):
+    """Convert 'tokyo-vs-kyoto' to ('Tokyo', 'Kyoto')"""
+    parts = slug.split('-vs-')
+    if len(parts) != 2:
+        raise ValueError(f"Invalid slug format: {slug}")
+    def titleize(s):
+        # Handle special cases
+        specials = {
+            'st-lucia': 'St. Lucia',
+            'el-calafate': 'El Calafate',
+            'la-paz': 'La Paz',
+            'la-union': 'La Union',
+            'ho-chi-minh': 'Ho Chi Minh City',
+            'san-miguel-de-allende': 'San Miguel de Allende',
+            'pacific-coast-highway': 'Pacific Coast Highway',
+            'playa-del-carmen': 'Playa del Carmen',
+            'bocas-del-toro': 'Bocas del Toro',
+            'leon-nicaragua': 'León (Nicaragua)',
+            'san-blas': 'San Blas Islands',
+            'sacred-valley': 'Sacred Valley',
+            'colca-canyon': 'Colca Canyon',
+            'douro-valley': 'Douro Valley',
+            'costa-brava': 'Costa Brava',
+            'cinque-terre': 'Cinque Terre',
+            'death-valley': 'Death Valley',
+            'big-sur': 'Big Sur',
+            'trinidad-cuba': 'Trinidad (Cuba)',
+            'turks-and-caicos': 'Turks and Caicos',
+            'san-juan': 'San Juan',
+            'lake-atitlan': 'Lake Atitlán',
+            'amazon-ecuador': 'Amazon (Ecuador)',
+            'napa-valley': 'Napa Valley',
+            'santa-fe': 'Santa Fe',
+            'sharm-el-sheikh': 'Sharm El Sheikh',
+            'saint-louis': 'Saint-Louis',
+            'garden-route': 'Garden Route',
+            'ras-al-khaimah': 'Ras Al Khaimah',
+            'stone-town': 'Stone Town',
+            'wadi-rum': 'Wadi Rum',
+            'dead-sea': 'Dead Sea',
+            'red-sea': 'Red Sea',
+            'masai-mara': 'Masai Mara',
+            'okavango-delta': 'Okavango Delta',
+            'victoria-falls': 'Victoria Falls',
+            'iguazu-falls': 'Iguazu Falls',
+            'fish-river-canyon': 'Fish River Canyon',
+            'simien-mountains': 'Simien Mountains',
+            'al-ula': 'Al Ula',
+            'great-barrier-reef': 'Great Barrier Reef',
+            'ningaloo-reef': 'Ningaloo Reef',
+            'south-island': 'South Island (NZ)',
+            'abel-tasman': 'Abel Tasman',
+            'milford-sound': 'Milford Sound',
+            'byron-bay': 'Byron Bay',
+            'gold-coast': 'Gold Coast',
+            'margaret-river': 'Margaret River',
+            'barossa-valley': 'Barossa Valley',
+            'blue-mountains': 'Blue Mountains',
+            'hunter-valley': 'Hunter Valley',
+            'sunshine-coast': 'Sunshine Coast',
+            'bay-of-islands': 'Bay of Islands',
+            'new-caledonia': 'New Caledonia',
+            'kangaroo-island': 'Kangaroo Island',
+            'phillip-island': 'Phillip Island',
+            'da-nang': 'Da Nang',
+            'chiang-mai': 'Chiang Mai',
+            'buenos-aires': 'Buenos Aires',
+            'mexico-city': 'Mexico City',
+            'mont-blanc': 'Mont Blanc',
+            'rio-de-janeiro': 'Rio de Janeiro',
+            'lake-bled': 'Lake Bled',
+            'hoi-an': 'Hoi An',
+            'torres-del-paine': 'Torres del Paine',
+            'bora-bora': 'Bora Bora',
+            'cape-town': 'Cape Town',
+            'faroe-islands': 'Faroe Islands',
+            'abu-dhabi': 'Abu Dhabi',
+            'addis-ababa': 'Addis Ababa',
+        }
+        if s in specials:
+            return specials[s]
+        return ' '.join(word.capitalize() for word in s.split('-'))
+    return titleize(parts[0]), titleize(parts[1])
+
+
+def generate_compare_content(slug, dest1, dest2):
+    """Use Gemini to generate compare page content."""
+    api_key = subprocess.run(
+        ['security', 'find-generic-password', '-s', 'google-api-key', '-w'],
+        capture_output=True, text=True
+    ).stdout.strip()
+    
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today_display = datetime.now(timezone.utc).strftime("%B %Y")
+    
+    prompt = f"""You are creating a travel comparison page for tabiji.ai comparing {dest1} vs {dest2}.
+
+Generate a comprehensive, opinionated comparison with REAL travel data. Be specific with costs, distances, flight times.
+Write like a well-traveled friend giving honest advice — not generic AI filler.
+
+Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
+
+{{
+  "heroSubtitle": "One compelling sentence about this comparison — what makes it interesting",
+  "heroBadge": "🆚 Comparison — [Region/Country]",
+  "heroSources": "Relevant subreddits (e.g. r/travel, r/solotravel, r/[country]Travel)",
+  "heroDataTypes": "Real traveler costs, flight routes, local insights",
+  "verdictSummary": "2-3 sentences: who should pick which, with a rough daily budget range",
+  "verdictTakeaways": [
+    {{"choose": "{dest1}", "reason": "Who and why"}},
+    {{"choose": "{dest2}", "reason": "Who and why"}},
+    {{"choose": "Both", "reason": "When/why to do both and how long"}}
+  ],
+  "comparisonCategories": [
+    {{
+      "name": "Category Name",
+      "emoji": "🏖️",
+      "id": "kebab-case-id",
+      "dest1Summary": "Key points for {dest1}",
+      "dest2Summary": "Key points for {dest2}",
+      "winner": "{dest1}" or "{dest2}" or "Tie",
+      "deepDive": "One detailed paragraph (600-1200 chars) comparing this category with specific names, prices, tips. Include one realistic Reddit-style quote in double quotes.",
+      "winnerWhy": "One sentence on why this destination wins this category",
+      "winnerWhoMatters": "Who this matters most for"
+    }}
+  ],
+  "faqItems": [
+    {{
+      "question": "Natural question travelers ask about {dest1} vs {dest2}",
+      "answer": "Detailed, helpful answer (2-4 sentences)"
+    }}
+  ],
+  "ctaText": "Ready to plan your [region] trip?",
+  "ctaDescription": "Get a free custom itinerary for {dest1}, {dest2}, or both — built from real traveler insights.",
+  "ctaButton1": "Plan Your {dest1} Trip →",
+  "ctaButton2": "Plan Your {dest2} Trip →",
+  "methodologyPoints": [
+    "Reviewed X+ Reddit threads from r/travel, r/solotravel, etc.",
+    "Verified costs and logistics against current booking platforms",
+    "Cross-referenced seasonal patterns and weather data"
+  ]
+}}
+
+Requirements:
+- EXACTLY 10 comparison categories (pick the most relevant from: beaches, food, nightlife, culture, costs, getting there, getting around, accommodation, day trips, weather/seasons, safety, nature, shopping, families, digital nomads, solo travel, etc.)
+- EXACTLY 8 FAQ items
+- Each deepDive must be 600-1200 chars with specific place names, prices, and at least one Reddit-style quote
+- Be opinionated — pick real winners, don't hedge everything as "Tie"
+- Use real price ranges in local currency AND USD
+- Include specific restaurant/hotel/attraction names where relevant
+- Reddit quotes should feel authentic (short, casual, specific)
+"""
+
+    import urllib.request
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    body = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.9,
+            "maxOutputTokens": 8192,
+            "responseMimeType": "application/json"
+        }
+    })
+    
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, data=body.encode(), headers={"Content-Type": "application/json"})
+            resp = urllib.request.urlopen(req, timeout=120)
+            result = json.loads(resp.read())
+            text = result['candidates'][0]['content']['parts'][0]['text']
+            # Clean any markdown fences
+            text = re.sub(r'^```json\s*', '', text.strip())
+            text = re.sub(r'\s*```$', '', text.strip())
+            # Try to fix common JSON issues
+            # Replace literal newlines in strings
+            # First try direct parse
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                # Try fixing escaped quotes and newlines in strings
+                fixed = text.replace('\n', '\\n')
+                # That's too aggressive — instead try a more targeted fix
+                # Remove control characters
+                fixed = re.sub(r'[\x00-\x1f](?!["\\bfnrt/])', ' ', text)
+                try:
+                    return json.loads(fixed)
+                except json.JSONDecodeError:
+                    raise
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"  Retry {attempt+1} for {slug}: {e}")
+                time.sleep(2 + attempt * 2)
+            else:
+                raise
+
+
+def build_compare_json(slug, content_data):
+    """Build the full compare-data JSON from generated content."""
+    dest1, dest2 = slug_to_names(slug)
+    shell = get_shell()
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today_iso = f"{today}T00:00:00Z"
+    today_display = datetime.now(timezone.utc).strftime("%B %Y")
+    
+    d = content_data
+    
+    # Build title
+    title = f"{dest1} vs {dest2}: Which Should You Visit? (2026 Comparison) | tabiji.ai"
+    short_title = f"{dest1} vs {dest2}: Which Should You Visit?"
+    meta_desc = f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip."
+    
+    canonical = f"https://tabiji.ai/compare/{slug}/"
+    og_image = f"https://img.tabiji.ai/compare/{slug}/hero.jpg"
+    
+    # Build TOC items from categories
+    toc_items = [
+        {"href": "#the-tl-dr-verdict", "label": "⚡ The TL;DR Verdict"},
+        {"href": "#how-we-built-this-comparison", "label": "📊 Methodology"},
+        {"href": "#quick-comparison", "label": "📋 Quick Comparison"},
+    ]
+    for cat in d['comparisonCategories']:
+        toc_items.append({"href": f"#{cat['id']}", "label": f"{cat['emoji']} {cat['name']}"})
+    toc_items.append({"href": "#faq", "label": "❓ FAQ"})
+    
+    # Build TOC mobile HTML
+    toc_links = "\n".join(f'<a href="{t["href"]}">{t["label"]}</a>' for t in toc_items)
+    toc_mobile_html = f'''<div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
+<span class="toc-active-label">⚡ The TL;DR Verdict</span>
+<div class="toc-mobile-dropdown">
+{toc_links}
+</div>
+</div>'''
+    
+    # Build TOC sidebar HTML
+    toc_sidebar_links = "\n".join(f'<a href="{t["href"]}">{t["label"]}</a>' for t in toc_items)
+    toc_sidebar_html = f'''<aside class="toc-sidebar">
+<div class="toc-title">On this page</div>
+{toc_sidebar_links}
+</aside>'''
+    
+    # Hero HTML
+    hero_html = f'''<section class="hero">
+<div class="hero-badge">{html_module.escape(d.get('heroBadge', f'🆚 Destination Comparison'))}</div>
+<h1>{dest1} vs {dest2}: <em>Which Should You Visit?</em></h1>
+<p>{html_module.escape(d.get('heroSubtitle', f'A data-backed comparison to help you decide between {dest1} and {dest2}.'))}</p>
+<div class="hero-meta">
+<div><strong>Updated:</strong> {today_display}</div>
+<div><strong>Sources:</strong> {html_module.escape(d.get('heroSources', 'r/travel, r/solotravel'))}</div>
+<div><strong>Data:</strong> {html_module.escape(d.get('heroDataTypes', 'Real traveler costs, flight routes, local insights'))}</div>
+</div>
+</section>'''
+    
+    # Methodology HTML
+    method_points = "\n".join(f"<li>{html_module.escape(p)}</li>" for p in d.get('methodologyPoints', [
+        "Reviewed multiple Reddit threads from r/travel and r/solotravel.",
+        "Verified costs against current booking platforms.",
+        "Cross-referenced seasonal patterns and weather data."
+    ]))
+    methodology_html = f'''<div class="methodology-box"><h2 id="how-we-built-this-comparison">How we built this comparison</h2><p>This page combines traveler discussion patterns, published price ranges, flight schedules, and seasonal data to help you decide between {dest1} and {dest2}.</p><ul class="methodology-points">{method_points}</ul></div>'''
+    
+    # Photo grid (placeholder — no actual images needed)
+    photo_grid_html = f'''<div class="photo-grid">
+<div>
+<img alt="{dest1} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest1.jpg">
+<div class="caption">{dest1}</div>
+</img></div>
+<div>
+<img alt="{dest2} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest2.jpg">
+<div class="caption">{dest2}</div>
+</img></div>
+</div>'''
+    
+    # Verdict HTML
+    takeaways = "\n".join(
+        f'<li><strong>Choose {html_module.escape(t["choose"])}:</strong> {html_module.escape(t["reason"])}</li>'
+        for t in d.get('verdictTakeaways', [])
+    )
+    verdict_html = f'''<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>{html_module.escape(d.get("verdictSummary", ""))}</strong></p><ul class="verdict-takeaways">{takeaways}</ul></div>'''
+    
+    # Comparison table HTML
+    rows = "\n".join(f'''<tr>
+<td>{html_module.escape(cat["name"])}</td>
+<td>{html_module.escape(cat["dest1Summary"])}</td>
+<td>{html_module.escape(cat["dest2Summary"])}</td>
+<td><span class="edge-{cat['winner'].lower().replace(' ', '-')}">{html_module.escape(cat["winner"])}</span></td>
+</tr>''' for cat in d['comparisonCategories'])
+    
+    comparison_html = f'''<div class="comparison-section">
+<h2 id="quick-comparison">Quick Comparison</h2>
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Category</th>
+<th>{dest1}</th>
+<th>{dest2}</th>
+<th>Winner</th>
+</tr>
+</thead>
+<tbody>
+{rows}
+</tbody>
+</table>
+</div>'''
+    
+    # Deep dive sections
+    deep_dive_html = []
+    for cat in d['comparisonCategories']:
+        # Parse deepDive text into paragraphs, extract Reddit quotes
+        dive_text = cat.get('deepDive', '')
+        # Split into paragraphs
+        paragraphs = [p.strip() for p in dive_text.split('\n\n') if p.strip()]
+        if not paragraphs:
+            paragraphs = [dive_text]
+        
+        body_parts = []
+        for p in paragraphs:
+            # Check if it looks like a Reddit quote
+            if p.startswith('"') or p.startswith('"') or p.startswith("'"):
+                quote_text = p.strip('"').strip('"').strip("'").strip('"')
+                body_parts.append(f'''<div class="reddit-quote">
+            "{html_module.escape(quote_text)}"
+            <span class="source">— <a href="https://www.reddit.com/r/travel/">r/travel user</a></span>
+</div>''')
+            else:
+                body_parts.append(f'<p>{p}</p>')
+        
+        winner_section = f'''<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> {html_module.escape(cat["winner"])}</li><li><strong>Why:</strong> {html_module.escape(cat.get("winnerWhy", ""))}</li><li><strong>Who this matters for:</strong> {html_module.escape(cat.get("winnerWhoMatters", ""))}</li></ul></div>'''
+        
+        section = f'''<section class="deep-dive">
+<h2 id="{cat['id']}">{cat['emoji']} {html_module.escape(cat['name'])}</h2>
+{''.join(body_parts)}
+{winner_section}
+</section>'''
+        deep_dive_html.append(section)
+    
+    # FAQ HTML
+    faq_items_html = "\n".join(f'''<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<h3 itemprop="name">{html_module.escape(faq["question"])}</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>{html_module.escape(faq["answer"])}</p></div>
+</div>
+</div>''' for faq in d['faqItems'])
+    
+    faq_html = f'''<div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
+<h2>❓ Frequently Asked Questions</h2>
+{faq_items_html}
+</div>'''
+    
+    # CTA HTML
+    cta_html = f'''<div class="cta-section">
+<h2>{html_module.escape(d.get("ctaText", f"Ready to plan your trip?"))}</h2>
+<p>{html_module.escape(d.get("ctaDescription", f"Get a free custom itinerary for {dest1}, {dest2}, or both."))}</p>
+<div class="cta-buttons">
+<a class="cta-btn-primary" href="/plan">{html_module.escape(d.get("ctaButton1", f"Plan Your {dest1} Trip →"))}</a>
+<a class="cta-btn-secondary" href="/plan">{html_module.escape(d.get("ctaButton2", f"Plan Your {dest2} Trip →"))}</a>
+</div>
+</div>'''
+    
+    # Build schema
+    faq_schema = [
+        {
+            "@type": "Question",
+            "name": faq["question"],
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq["answer"]
+            }
+        }
+        for faq in d['faqItems']
+    ]
+    
+    full_json = {
+        "slug": slug,
+        "pageType": "compare-leaf",
+        "status": "published",
+        "destinations": {
+            "destination1": dest1,
+            "destination2": dest2
+        },
+        "seo": {
+            "title": title,
+            "metaDescription": meta_desc[:200],
+            "ogTitle": f"{dest1} vs {dest2}: Which Should You Visit? — tabiji.ai",
+            "ogDescription": f"Reddit-backed comparison of {dest1} and {dest2}. Real costs, honest verdicts from travelers who've been to both.",
+            "ogImage": og_image,
+            "twitterTitle": short_title,
+            "twitterDescription": f"Data-backed comparison of {dest1} vs {dest2}. Costs, culture, and traveler verdicts.",
+            "twitterImage": og_image,
+            "publishedTime": today_iso,
+            "modifiedTime": today_iso,
+            "canonical": canonical
+        },
+        "schema": {
+            "article": {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": short_title,
+                "description": meta_desc[:200],
+                "author": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"},
+                "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"},
+                "datePublished": today,
+                "dateModified": today,
+                "mainEntityOfPage": canonical,
+                "image": og_image,
+                "speakable": {
+                    "@type": "SpeakableSpecification",
+                    "cssSelector": [".hero h1", ".hero .subtitle", ".verdict-box", ".faq-section"]
+                }
+            },
+            "breadcrumb": {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
+                    {"@type": "ListItem", "position": 2, "name": "Compare", "item": "https://tabiji.ai/compare/"},
+                    {"@type": "ListItem", "position": 3, "name": f"{dest1} vs {dest2}", "item": canonical}
+                ]
+            },
+            "faq": {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": faq_schema
+            }
+        },
+        "shell": shell,
+        "content": {
+            "heroHtml": hero_html,
+            "tocMobileHtml": toc_mobile_html,
+            "methodologyHtml": methodology_html,
+            "tocSidebarHtml": toc_sidebar_html,
+            "tocItems": toc_items,
+            "photoGridHtml": photo_grid_html,
+            "verdictHtml": verdict_html,
+            "comparisonHtml": comparison_html,
+            "deepDiveHtml": deep_dive_html,
+            "faqHtml": faq_html,
+            "faqItems": [{"question": f["question"], "answer": f["answer"]} for f in d['faqItems']],
+            "ctaHtml": cta_html
+        }
+    }
+    
+    return full_json
+
+
+def build_api_json(compare_data):
+    """Build the API JSON from compare data."""
+    slug = compare_data['slug']
+    dest1 = compare_data['destinations']['destination1']
+    dest2 = compare_data['destinations']['destination2']
+    
+    # Extract verdict from content
+    verdict = ""
+    for t in compare_data['content'].get('faqItems', [])[:1]:
+        verdict = t.get('answer', '')[:300]
+    
+    # Use the verdict summary from verdictHtml if available
+    verdict_match = re.search(r'<strong>(.*?)</strong>', compare_data['content']['verdictHtml'])
+    if verdict_match:
+        verdict = html_module.unescape(re.sub(r'<[^>]+>', '', verdict_match.group(1)))
+    
+    categories = []
+    comparison_html = compare_data['content']['comparisonHtml']
+    # Parse from the deep dive sections
+    for dd in compare_data['content']['deepDiveHtml']:
+        h2_match = re.search(r'<h2[^>]*>.*?</h2>', dd)
+        name_match = re.search(r'<h2[^>]*>[^<]*?([A-Z][\w\s&]+)', dd)
+        winner_match = re.search(r'<strong>Winner:</strong>\s*(\w+)', dd)
+        why_match = re.search(r'<strong>Why:</strong>\s*(.*?)</li>', dd)
+        
+        if name_match:
+            # Clean emoji from name
+            raw_name = re.sub(r'^[^\w]+', '', h2_match.group(0) if h2_match else '')
+            raw_name = re.sub(r'<[^>]+>', '', raw_name).strip()
+            # Remove leading emoji
+            raw_name = re.sub(r'^[\U00010000-\U0010ffff\u2600-\u27bf\u2702-\u27b0]+\s*', '', raw_name).strip()
+            
+            categories.append({
+                "name": raw_name,
+                "edge": html_module.unescape(winner_match.group(1)) if winner_match else "Tie",
+                "summary": html_module.unescape(re.sub(r'<[^>]+>', '', why_match.group(1))) if why_match else ""
+            })
+    
+    return {
+        "slug": slug,
+        "title": compare_data['seo']['twitterTitle'],
+        "destination1": dest1,
+        "destination2": dest2,
+        "verdict": verdict[:300],
+        "categories": categories[:10],
+        "faq": [{"question": f["question"], "answer": f["answer"]} for f in compare_data['content']['faqItems']],
+        "url": f"/compare/{slug}/",
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    }
+
+
+def build_inventory_card(compare_data):
+    """Build an inventory card for the compare index page."""
+    slug = compare_data['slug']
+    dest1 = compare_data['destinations']['destination1']
+    dest2 = compare_data['destinations']['destination2']
+    
+    return {
+        "slug": slug,
+        "title": f"{dest1} vs {dest2}",
+        "description": compare_data['seo']['metaDescription'][:200],
+        "tags": [],
+        "image1": f"https://img.tabiji.ai/compare/{slug}/dest1.jpg",
+        "image2": f"https://img.tabiji.ai/compare/{slug}/dest2.jpg",
+        "destination1": dest1,
+        "destination2": dest2
+    }
+
+
+def process_slug(slug):
+    """Process a single slug: generate content, build JSON, render HTML, create API JSON."""
+    dest1, dest2 = slug_to_names(slug)
+    print(f"  Generating content for {dest1} vs {dest2}...")
+    
+    # Check if already exists
+    data_path = DATA_DIR / f"{slug}.json"
+    html_path = COMPARE_DIR / slug / "index.html"
+    
+    if html_path.exists():
+        print(f"  ⏭️  {slug} already has HTML, skipping")
+        return True
+    
+    # Generate content via Gemini
+    try:
+        content = generate_compare_content(slug, dest1, dest2)
+    except Exception as e:
+        print(f"  ❌ Failed to generate content for {slug}: {e}")
+        return False
+    
+    # Build full JSON
+    try:
+        compare_json = build_compare_json(slug, content)
+    except Exception as e:
+        print(f"  ❌ Failed to build JSON for {slug}: {e}")
+        return False
+    
+    # Save compare-data JSON
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    data_path.write_text(json.dumps(compare_json, indent=2, ensure_ascii=False) + "\n")
+    print(f"  ✅ Saved {data_path.name}")
+    
+    # Render HTML using build_compare.py's render function
+    sys.path.insert(0, str(REPO_ROOT / "generators" / "compare"))
+    from build_compare import render_page
+    
+    try:
+        html_output = render_page(compare_json)
+        html_path.parent.mkdir(parents=True, exist_ok=True)
+        html_path.write_text(html_output)
+        print(f"  ✅ Built {slug}/index.html")
+    except Exception as e:
+        print(f"  ❌ Failed to render HTML for {slug}: {e}")
+        return False
+    
+    # Create API JSON
+    api_json = build_api_json(compare_json)
+    API_COMPARE_DIR.mkdir(parents=True, exist_ok=True)
+    api_path = API_COMPARE_DIR / f"{slug}.json"
+    api_path.write_text(json.dumps(api_json, indent=2, ensure_ascii=False) + "\n")
+    print(f"  ✅ Created API JSON")
+    
+    return True
+
+
+def update_queue(slugs, status="complete"):
+    """Update compare-queue.json statuses."""
+    queue = json.loads(QUEUE_PATH.read_text())
+    slug_set = set(slugs)
+    for item in queue:
+        if item['slug'] in slug_set:
+            item['status'] = status
+    QUEUE_PATH.write_text(json.dumps(queue, indent=2, ensure_ascii=False) + "\n")
+    print(f"Updated queue: {len(slugs)} items → {status}")
+
+
+def update_inventory(new_cards):
+    """Add new cards to inventory.json."""
+    inv = json.loads(INVENTORY_PATH.read_text())
+    existing_slugs = {c['slug'] for c in inv.get('cards', [])}
+    added = 0
+    for card in new_cards:
+        if card['slug'] not in existing_slugs:
+            inv['cards'].append(card)
+            added += 1
+    INVENTORY_PATH.write_text(json.dumps(inv, indent=2, ensure_ascii=False) + "\n")
+    print(f"Inventory: added {added} new cards (total: {len(inv['cards'])})")
+
+
+def update_sitemap(slugs):
+    """Add new compare URLs to sitemap.xml."""
+    sitemap = SITEMAP_PATH.read_text()
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    
+    new_entries = []
+    for slug in slugs:
+        url = f"https://tabiji.ai/compare/{slug}/"
+        if url not in sitemap:
+            new_entries.append(f"""  <url>
+    <loc>{url}</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>""")
+    
+    if new_entries:
+        # Insert before closing </urlset>
+        insert_point = sitemap.rfind("</urlset>")
+        if insert_point > 0:
+            sitemap = sitemap[:insert_point] + "\n".join(new_entries) + "\n" + sitemap[insert_point:]
+            SITEMAP_PATH.write_text(sitemap)
+            print(f"Sitemap: added {len(new_entries)} new URLs")
+    else:
+        print("Sitemap: no new URLs to add")
+
+
+def cmd_generate(slug):
+    """Generate a single compare page."""
+    success = process_slug(slug)
+    if success:
+        update_queue([slug], "complete")
+    return 0 if success else 1
+
+
+def cmd_batch(slugs_file):
+    """Process a batch of slugs from a JSON file."""
+    slugs = json.loads(Path(slugs_file).read_text())
+    print(f"Processing batch of {len(slugs)} slugs...")
+    
+    succeeded = []
+    failed = []
+    
+    for i, slug in enumerate(slugs):
+        print(f"\n[{i+1}/{len(slugs)}] {slug}")
+        try:
+            success = process_slug(slug)
+            if success:
+                succeeded.append(slug)
+            else:
+                failed.append(slug)
+        except Exception as e:
+            print(f"  ❌ Exception: {e}")
+            failed.append(slug)
+        
+        # Small delay to avoid rate limits
+        if i < len(slugs) - 1:
+            time.sleep(0.5)
+    
+    # Update queue for succeeded items
+    if succeeded:
+        update_queue(succeeded, "complete")
+    
+    print(f"\n{'='*60}")
+    print(f"✅ Succeeded: {len(succeeded)}")
+    print(f"❌ Failed: {len(failed)}")
+    if failed:
+        print(f"Failed slugs: {json.dumps(failed)}")
+    
+    # Save results
+    results = {"succeeded": succeeded, "failed": failed}
+    results_path = Path(f"/tmp/compare-batch-results-{int(time.time())}.json")
+    results_path.write_text(json.dumps(results, indent=2))
+    print(f"Results saved to {results_path}")
+    
+    return 0 if not failed else 1
+
+
+def cmd_finalize():
+    """Update inventory, sitemap after all pages are built."""
+    # Find all compare-data JSONs that have HTML pages
+    new_cards = []
+    new_slugs = []
+    
+    for json_file in sorted(DATA_DIR.glob("*.json")):
+        slug = json_file.stem
+        html_path = COMPARE_DIR / slug / "index.html"
+        if html_path.exists():
+            data = json.loads(json_file.read_text())
+            card = build_inventory_card(data)
+            new_cards.append(card)
+            new_slugs.append(slug)
+    
+    update_inventory(new_cards)
+    update_sitemap(new_slugs)
+    print(f"Finalized {len(new_slugs)} compare pages")
+    return 0
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        return 1
+    
+    cmd = sys.argv[1]
+    if cmd == "generate" and len(sys.argv) >= 3:
+        return cmd_generate(sys.argv[2])
+    elif cmd == "batch" and len(sys.argv) >= 3:
+        return cmd_batch(sys.argv[2])
+    elif cmd == "finalize":
+        return cmd_finalize()
+    else:
+        print(__doc__)
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
