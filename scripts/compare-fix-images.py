@@ -154,7 +154,8 @@ def upload_to_r2(local_path, r2_key):
 def check_r2_exists(r2_path):
     """Check if image already exists on R2 CDN."""
     try:
-        req = urllib.request.Request(f"https://img.tabiji.ai/{r2_path}", method='HEAD')
+        req = urllib.request.Request(f"https://img.tabiji.ai/{r2_path}", method='HEAD',
+            headers={'User-Agent': 'Mozilla/5.0 (tabiji-bot/1.0)'})
         with urllib.request.urlopen(req, timeout=5) as resp:
             return resp.status == 200
     except:
