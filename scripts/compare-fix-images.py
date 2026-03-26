@@ -116,6 +116,7 @@ def search_destination_image(dest_name):
 def download_image(url, local_path):
     """Download image to local path. Returns True on success."""
     try:
+        Path(local_path).parent.mkdir(parents=True, exist_ok=True)
         req = urllib.request.Request(url, headers={
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
             'Accept': 'image/*,*/*'
@@ -225,9 +226,10 @@ def fix_page(slug, dry_run=False):
             results.append("dest2❌download")
     
     # Cleanup
-    for f in tmpdir.iterdir():
-        f.unlink()
-    tmpdir.rmdir()
+    if tmpdir.exists():
+        for f in tmpdir.iterdir():
+            f.unlink()
+        tmpdir.rmdir()
     
     success = any("✅" in r for r in results)
     return (slug, success, ", ".join(results))

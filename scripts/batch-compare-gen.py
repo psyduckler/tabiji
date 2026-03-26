@@ -707,6 +707,12 @@ def process_slug(slug):
     api_path.write_text(json.dumps(api_json, indent=2, ensure_ascii=False) + "\n")
     print(f"  ✅ Created API JSON")
     
+    # Upload destination images to R2
+    try:
+        upload_compare_images(slug, dest1, dest2)
+    except Exception as e:
+        print(f"  ⚠️ Image upload failed (non-fatal): {e}")
+    
     return True
 
 
