@@ -16,6 +16,8 @@ import subprocess
 import sys
 import html as html_module
 import time
+import urllib.request
+import urllib.error
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -546,8 +548,115 @@ def build_inventory_card(compare_data):
     }
 
 
+def _get_serpapi_key():
+    return subprocess.run(
+        ['security', 'find-generic-password', '-s', 'serpapi-key', '-w'],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+def _get_r2_token():
+    return subprocess.run(
+        ['security', 'find-generic-password', '-s', 'cloudflare-pages-token', '-w'],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+R2_ACCOUNT = "9ce95ed3e1df4a7e1d2a401e116c3c6f"
+R2_BUCKET = "tabiji-media"
+
+def search_destination_image(dest_name, serpapi_key):
+    """Search SerpAPI for a travel photo. Returns image URL or None."""
+    import urllib.parse
+    query = f"{dest_name} travel destination scenic"
+    url = f"https://serpapi.com/search.json?engine=google_images&q={urllib.parse.quote(query)}&api_key={serpapi_key}&ijn=0"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'tabiji/1.0'})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+        for img in data.get('images_results', [])[:10]:
+            w = img.get('original_width', 0)
+            h = img.get('original_height', 0)
+            orig = img.get('original', '')
+            if w >= 600 and h >= 400 and orig and not orig.endswith('.svg'):
+                return orig
+        results = data.get('images_results', [])
+        if results:
+            return results[0].get('original', '')
+    except Exception as e:
+        print(f"  ⚠️ Image search failed for {dest_name}: {e}")
+    return None
+
+def download_image(url, local_path):
+    """Download image to local path. Returns True on success."""
+    try:
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+            'Accept': 'image/*,*/*'
+        })
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = resp.read()
+            if len(data) < 5000:
+                return False
+            with open(local_path, 'wb') as f:
+                f.write(data)
+            return True
+    except Exception as e:
+        print(f"  ⚠️ Download failed: {e}")
+        return False
+
+def upload_to_r2(local_path, r2_key, r2_token):
+    """Upload file to R2. Returns True on success."""
+    try:
+        result = subprocess.run(
+            ['curl', '-s', '-X', 'PUT',
+             '-H', f'Authorization: Bearer {r2_token}',
+             '-H', 'Content-Type: image/jpeg',
+             '--data-binary', f'@{local_path}',
+             f'https://api.cloudflare.com/client/v4/accounts/{R2_ACCOUNT}/r2/buckets/{R2_BUCKET}/objects/{r2_key}'],
+            capture_output=True, text=True, timeout=30
+        )
+        resp = json.loads(result.stdout) if result.stdout else {}
+        return resp.get('success', False)
+    except Exception as e:
+        print(f"  ⚠️ R2 upload failed for {r2_key}: {e}")
+        return False
+
+def upload_compare_images(slug, dest1, dest2):
+    """Search, download, and upload dest1.jpg, dest2.jpg, hero.jpg for a compare page."""
+    serpapi_key = _get_serpapi_key()
+    r2_token = _get_r2_token()
+    if not serpapi_key or not r2_token:
+        print("  ⚠️ Missing SerpAPI or R2 credentials, skipping images")
+        return
+    
+    tmpdir = Path(f"/tmp/compare-images/{slug}")
+    tmpdir.mkdir(parents=True, exist_ok=True)
+    r2_prefix = f"compare/{slug}"
+    
+    for label, dest_name, filename in [("dest1", dest1, "dest1.jpg"), ("dest2", dest2, "dest2.jpg")]:
+        print(f"  📷 Searching image for {dest_name}...")
+        img_url = search_destination_image(dest_name, serpapi_key)
+        if not img_url:
+            print(f"  ⚠️ No image found for {dest_name}")
+            continue
+        local = tmpdir / filename
+        if download_image(img_url, local):
+            if upload_to_r2(local, f"{r2_prefix}/{filename}", r2_token):
+                print(f"  ✅ Uploaded {filename}")
+                # Also use dest1 as hero.jpg
+                if filename == "dest1.jpg":
+                    if upload_to_r2(local, f"{r2_prefix}/hero.jpg", r2_token):
+                        print(f"  ✅ Uploaded hero.jpg")
+            local.unlink(missing_ok=True)
+        time.sleep(0.3)
+    
+    # Cleanup
+    for f in tmpdir.iterdir():
+        f.unlink()
+    tmpdir.rmdir()
+
+
 def process_slug(slug):
-    """Process a single slug: generate content, build JSON, render HTML, create API JSON."""
+    """Process a single slug: generate content, build JSON, render HTML, create API JSON, upload images."""
     dest1, dest2 = slug_to_names(slug)
     print(f"  Generating content for {dest1} vs {dest2}...")
     
