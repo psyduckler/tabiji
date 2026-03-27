@@ -13,8 +13,8 @@ const api = JSON.parse(fs.readFileSync(apiPath, 'utf8')).comparisons || [];
 const apiBySlug = new Map(api.map(item => [item.slug, item]));
 
 const regionDefinitions = [
-  { slug: 'asia', label: 'Asia', intro: 'Compare Japan, Korea, Southeast Asia, and other Asia trip decisions.', needles: ['asia', 'japan', 'korea', 'thailand', 'taiwan', 'vietnam', 'indonesia', 'bali', 'philippines', 'india', 'sri lanka', 'malaysia', 'singapore', 'hong kong', 'china', 'nepal', 'bhutan', 'cambodia', 'laos', 'myanmar'] },
-  { slug: 'europe', label: 'Europe', intro: 'Compare city breaks, islands, and country trips across Europe.', needles: ['europe', 'italy', 'spain', 'france', 'greece', 'croatia', 'portugal', 'uk', 'england', 'scotland', 'ireland', 'netherlands', 'germany', 'austria', 'switzerland', 'norway', 'sweden', 'denmark', 'iceland', 'belgium', 'prague', 'budapest', 'vienna'] },
+  { slug: 'asia', label: 'Asia', intro: 'Compare Japan, Korea, Southeast Asia, and other Asia trip decisions.', needles: ['asia', 'japan', 'korea', 'thailand', 'taiwan', 'vietnam', 'indonesia', 'bali', 'philippines', 'india', 'sri lanka', 'malaysia', 'singapore', 'hong kong', 'china', 'nepal', 'bhutan', 'cambodia', 'laos', 'myanmar', 'tokyo', 'kyoto', 'osaka', 'bangkok', 'phuket', 'chiang mai', 'hanoi', 'ho chi minh', 'seoul', 'taipei', 'maldives', 'okinawa', 'hokkaido', 'fukuoka', 'sapporo', 'krabi', 'koh samui', 'penang', 'langkawi', 'cebu', 'palawan', 'ubud', 'lombok', 'goa', 'jaipur', 'delhi', 'mumbai', 'kathmandu', 'siem reap', 'luang prabang', 'sukhothai', 'ayutthaya'] },
+  { slug: 'europe', label: 'Europe', intro: 'Compare city breaks, islands, and country trips across Europe.', needles: ['europe', 'italy', 'spain', 'france', 'greece', 'croatia', 'portugal', 'england', 'scotland', 'ireland', 'netherlands', 'germany', 'austria', 'switzerland', 'norway', 'sweden', 'denmark', 'iceland', 'belgium', 'prague', 'budapest', 'vienna', 'london', 'paris', 'rome', 'barcelona', 'amsterdam', 'berlin', 'lisbon', 'madrid', 'florence', 'munich', 'dubrovnik', 'split', 'santorini', 'mykonos', 'mallorca', 'ibiza', 'amalfi', 'cinque terre', 'krakow', 'warsaw'] },
   { slug: 'north-america', label: 'North America', intro: 'Compare US, Canada, Mexico, Hawaii, and Caribbean-style decisions.', needles: ['north america', 'usa', 'united states', 'canada', 'mexico', 'hawaii', 'california', 'new york', 'texas', 'florida', 'quebec', 'alaska', 'caribbean'] },
   { slug: 'latin-america', label: 'Latin America', intro: 'Compare Central and South America routes, cities, and nature trips.', needles: ['latin america', 'south america', 'central america', 'peru', 'colombia', 'brazil', 'argentina', 'chile', 'guatemala', 'costa rica', 'ecuador', 'bolivia', 'uruguay'] },
   { slug: 'oceania', label: 'Oceania', intro: 'Compare Australia, New Zealand, Fiji, Tahiti, Bora Bora, and Pacific trips.', needles: ['oceania', 'australia', 'new zealand', 'fiji', 'tahiti', 'french polynesia', 'bora bora'] },
@@ -80,9 +80,20 @@ for (const item of inventory) {
   }
 }
 
+function needleMatch(haystack, needle) {
+  // Use word-boundary matching to avoid substring false positives (e.g. "uk" in "Phuket")
+  const re = new RegExp(`(?:^|\\W)${needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:$|\\W)`, 'i');
+  return re.test(haystack);
+}
+
 function inferRegion(item) {
-  const haystack = normalizeText(item.category, ...(item.tags || []), item.destination1, item.destination2, item.description, item.title);
-  const match = regionDefinitions.find(def => def.needles.length && def.needles.some(needle => haystack.includes(needle)));
+  // Check destination names first (high signal) before falling back to description text
+  const destHaystack = normalizeText(item.destination1, item.destination2);
+  const destMatch = regionDefinitions.find(def => def.needles.length && def.needles.some(needle => needleMatch(destHaystack, needle)));
+  if (destMatch) return destMatch.label;
+  // Fall back to full text including tags, category, description
+  const haystack = normalizeText(item.category, ...(item.tags || []), item.description, item.title);
+  const match = regionDefinitions.find(def => def.needles.length && def.needles.some(needle => needleMatch(haystack, needle)));
   return match ? match.label : 'Global & Mixed';
 }
 
@@ -124,6 +135,17 @@ const cards = inventory.map(item => {
     popularityScore
   };
 });
+
+// Deduplicate by slug — inventory.json may have both orderings (e.g. "A vs B" and "B vs A")
+const seenSlugs = new Set();
+const dedupedCards = [];
+for (const card of cards) {
+  if (seenSlugs.has(card.slug)) continue;
+  seenSlugs.add(card.slug);
+  dedupedCards.push(card);
+}
+cards.length = 0;
+cards.push(...dedupedCards);
 
 function sortByPopularity(list) {
   return [...list].sort((a, b) => b.popularityScore - a.popularityScore || b.inboundLinks - a.inboundLinks || a.title.localeCompare(b.title));
@@ -321,7 +343,7 @@ for (const def of typeDefinitions) {
     sidebarItems: top.slice(0,4).map(card => ({ href: card.url, title: `${card.destination1} vs ${card.destination2}`, text: `${card.inboundLinks} internal compare links · ${card.region}` })),
     sections: [
       `<section class="section"><div class="shell"><div class="section-header"><div><h2>Most popular ${safeText(def.label)} comparisons</h2><p>Use this hub as a better browse surface than the flat archive.</p></div></div><div class="mini-grid">${top.slice(0,6).map(renderMiniCard).join('')}</div></div></section>`,
-      `<section class="section"><div class="shell"><div class="section-header"><div><h2>Cross-links worth pushing</h2><p>These pages already attract internal compare links, so they are strong candidates for additional related-comparison modules.</p></div></div><div class="mini-grid">${sortByPopularity(items.filter(card => card.inboundLinks > 0)).slice(0,6).map(renderMiniCard).join('')}</div></div></section>`
+      `<section class="section"><div class="shell"><div class="section-header"><div><h2>Newest in ${safeText(def.label)}</h2><p>Recently updated pages in this category.</p></div></div><div class="mini-grid">${sortByNewest(items).slice(0,6).map(renderMiniCard).join('')}</div></div></section>`
     ],
     archiveCards: top,
     archivePrefillType: def.label
