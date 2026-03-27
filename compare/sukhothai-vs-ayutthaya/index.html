@@ -670,405 +670,416 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile-sticky" id="toc-mobile">
-    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
-    <span class="toc-active-label">📑 Contents</span>
-    <span class="toc-chevron">▼</span>
-    </button>
-    <div class="toc-mobile-dropdown">
-    <ul>
-        <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
-        <li><a href="#quick-comparison">Quick Comparison</a></li>
-        <li><a href="#temple-ruins-and-history">⛺ Temple Ruins &amp; History</a></li>
-        <li><a href="#getting-there-and-accessibility">✈️ Getting There</a></li>
-        <li><a href="#cycling-and-getting-around">🚲 Cycling &amp; Getting Around</a></li>
-        <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
-        <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
-        <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
-        <li><a href="#food-and-local-scene">🍜 Food &amp; Local Scene</a></li>
-        <li><a href="#day-trips">🎒 Day Trips</a></li>
-        <li><a href="#crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</a></li>
-        <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
-        <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
-    </ul>
-    </div>
-    </div>
+<button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+<span class="toc-active-label">📑 Contents</span>
+<span class="toc-chevron">▼</span>
+</button>
+<div class="toc-mobile-dropdown">
+<ul>
+<li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+<li><a href="#quick-comparison">Quick Comparison</a></li>
+<li><a href="#temple-ruins-and-history">⛺ Temple Ruins &amp; History</a></li>
+<li><a href="#getting-there-and-accessibility">✈️ Getting There</a></li>
+<li><a href="#cycling-and-getting-around">🚲 Cycling &amp; Getting Around</a></li>
+<li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+<li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+<li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+<li><a href="#food-and-local-scene">🍜 Food &amp; Local Scene</a></li>
+<li><a href="#day-trips">🎒 Day Trips</a></li>
+<li><a href="#crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</a></li>
+<li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+<li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+</ul>
+</div>
+</div>
 <section class="hero">
-    <div class="hero-badge">🆚 City Comparison — Thailand</div>
-    <h1>Sukhothai vs Ayutthaya: <em>Which Should You Visit?</em></h1>
-    <p>A data-backed comparison based on Reddit discussions, real costs, and traveler preferences — not generic AI filler.</p>
-    <div class="hero-meta">
-    <div><strong>Updated:</strong> March 2026</div>
-    <div><strong>Sources:</strong> r/ThailandTourism, r/travel, r/solotravel</div>
-    <div><strong>Data:</strong> Open-Meteo, Numbeo</div>
-    </div>
-    </section>
+<div class="hero-badge">🆚 City Comparison — Thailand</div>
+<h1>Sukhothai vs Ayutthaya: <em>Which Should You Visit?</em></h1>
+<p>A data-backed comparison based on Reddit discussions, real costs, and traveler preferences — not generic AI filler.</p>
+<div class="hero-meta">
+<div><strong>Updated:</strong> March 2026</div>
+<div><strong>Sources:</strong> r/ThailandTourism, r/travel, r/solotravel</div>
+<div><strong>Data:</strong> Open-Meteo, Numbeo</div>
+</div>
+</section>
 <div class="content-wrapper">
 <aside class="toc-sidebar">
-    <h2>Contents</h2>
-    <ul>
-        <li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
-        <li><a href="#quick-comparison">Quick Comparison</a></li>
-        <li><a href="#temple-ruins-and-history">⛺ Temple Ruins &amp; History</a></li>
-        <li><a href="#getting-there-and-accessibility">✈️ Getting There</a></li>
-        <li><a href="#cycling-and-getting-around">🚲 Cycling &amp; Getting Around</a></li>
-        <li><a href="#cost-comparison">💰 Cost Comparison</a></li>
-        <li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
-        <li><a href="#where-to-stay">🏨 Where to Stay</a></li>
-        <li><a href="#food-and-local-scene">🍜 Food &amp; Local Scene</a></li>
-        <li><a href="#day-trips">🎒 Day Trips</a></li>
-        <li><a href="#crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</a></li>
-        <li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
-        <li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
-    </ul>
-    </aside>
+<h2>Contents</h2>
+<ul>
+<li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+<li><a href="#quick-comparison">Quick Comparison</a></li>
+<li><a href="#temple-ruins-and-history">⛺ Temple Ruins &amp; History</a></li>
+<li><a href="#getting-there-and-accessibility">✈️ Getting There</a></li>
+<li><a href="#cycling-and-getting-around">🚲 Cycling &amp; Getting Around</a></li>
+<li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+<li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+<li><a href="#where-to-stay">🏨 Where to Stay</a></li>
+<li><a href="#food-and-local-scene">🍜 Food &amp; Local Scene</a></li>
+<li><a href="#day-trips">🎒 Day Trips</a></li>
+<li><a href="#crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</a></li>
+<li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+<li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+</ul>
+</aside>
 <div class="article-content">
 <div class="methodology-box"><h2>How we built this comparison</h2><p>This page synthesizes traveler discussion patterns from Reddit, published price data, real transit costs, and seasonal weather information to make the Sukhothai vs Ayutthaya decision clearer.</p><ul class="methodology-points"><li>Reviewed Reddit threads from r/ThailandTourism, r/travel, and r/solotravel comparing these two UNESCO World Heritage sites.</li><li>Checked numeric claims for entrance fees, accommodation, and transit costs against 2025–2026 real prices.</li><li>Every section ends with a clear verdict — not “both are great!” but an actual recommendation based on traveler type.</li></ul><p>Best read as a decision guide, not universal truth. The right pick depends entirely on your budget, travel style, and what you actually want out of a trip.</p></div>
 <div class="photo-grid">
-    <div>
-    <img alt="Sukhothai Historical Park with ancient Buddha statue and lotus pond" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/sukhothai-historical-park.jpg">
-    <div class="caption">Sukhothai Historical Park, Central Zone</div>
-    </div>
-    <div>
-    <img alt="Buddha head entwined in banyan tree roots at Wat Mahathat, Ayutthaya" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/ayutthaya-wat-mahathat.jpg">
-    <div class="caption">Wat Mahathat, Ayutthaya</div>
-    </div>
-    </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Sukhothai wins on atmosphere, cycling, and peaceful beauty. Ayutthaya wins on accessibility, scale, and iconic photo ops. If you only have one day and you're based in Bangkok, do Ayutthaya. If you have 2+ nights to spare, Sukhothai is worth the journey.</strong></p><div class="verdict-cards"><div class="verdict-card"><h3>Choose Sukhothai</h3><p>Travelers who want a serene, car-free park to explore by bike at sunrise with far fewer crowds.</p></div><div class="verdict-card"><h3>Choose Ayutthaya</h3><p>Travelers based in Bangkok who want a quick but spectacular ancient capital fix, just 1.5 hours away by train.</p></div></div></div>
+<div>
+<img alt="Sukhothai Historical Park with ancient Buddha statue and lotus pond" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/sukhothai-historical-park.jpg"/>
+<div class="caption">Sukhothai Historical Park, Central Zone</div>
+</div>
+<div>
+<img alt="Buddha head entwined in banyan tree roots at Wat Mahathat, Ayutthaya" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/ayutthaya-wat-mahathat.jpg"/>
+<div class="caption">Wat Mahathat, Ayutthaya</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Sukhothai if you want peaceful cycling, fewer crowds, deeper history Choose Ayutthaya if you want day trips, accessibility, iconic photos Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><div class="verdict-cards"><div class="verdict-card"><h3>Choose Sukhothai</h3><p>Travelers who want a serene, car-free park to explore by bike at sunrise with far fewer crowds.</p></div><div class="verdict-card"><h3>Choose Ayutthaya</h3><p>Travelers based in Bangkok who want a quick but spectacular ancient capital fix, just 1.5 hours away by train.</p></div><div class="verdict-card split-card"><h3>Split your trip</h3><p>Split your trip if you want Sukhothai for its strongest wins but still want Ayutthaya for the categories where it clearly does better.</p></div></div></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Tie</strong><p>Not a clean call from the comparison table, so treat this as situational.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Tie</strong><p>Not a clean call from the comparison table, so treat this as situational.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Tie</strong><p>Both have a credible case here: 800–1,800 THB/day ($23–53) vs 700–1,500 THB/day ($20–44).</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Ayutthaya</strong><p>Day trips, accessibility, iconic photos</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Sukhothai</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Ayutthaya</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">💰 Best for budget:</span> <span class="bf-winner">Tie</span></span>
 <span class="best-for-chip"><span class="bf-label">🏛️ Best for culture:</span> <span class="bf-winner">Tie</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Sukhothai</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Ayutthaya</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Sukhothai</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Ayutthaya</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
-    <h2 id="quick-comparison">Quick Comparison</h2>
-    <table class="comparison-table">
-    <thead>
-    <tr>
-    <th>Category</th>
-    <th>🚲 Sukhothai</th>
-    <th>⛺ Ayutthaya</th>
-    <th>Edge</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>Distance from Bangkok</td>
-    <td>427 km (6–7h bus or fly to Phitsanulok)</td>
-    <td>80 km (1.5–2h train or minibus)</td>
-    <td class="edge-ayutthaya">Ayutthaya</td>
-    </tr>
-    <tr>
-    <td>Daily Budget (mid-range)</td>
-    <td>800–1,800 THB/day ($23–53)</td>
-    <td>700–1,500 THB/day ($20–44)</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Temple Entry Fee (foreigner)</td>
-    <td>100 THB/zone (~$3)</td>
-    <td>50 THB/site ($1.50), many free</td>
-    <td class="edge-ayutthaya">Ayutthaya</td>
-    </tr>
-    <tr>
-    <td>Cycling Experience</td>
-    <td>Excellent — dedicated paths, car-free zones</td>
-    <td>Possible but shares roads with traffic</td>
-    <td class="edge-sukhothai">Sukhothai</td>
-    </tr>
-    <tr>
-    <td>Temple Preservation</td>
-    <td>Better preserved, more intact statues</td>
-    <td>More dramatic ruins, iconic photo spots</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Crowds</td>
-    <td>Much fewer tourists</td>
-    <td>Busy especially on weekends</td>
-    <td class="edge-sukhothai">Sukhothai</td>
-    </tr>
-    <tr>
-    <td>Overnight Stay</td>
-    <td>Worth 2 nights to explore fully</td>
-    <td>Easy day trip, overnight optional</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>UNESCO Status</td>
-    <td>World Heritage since 1991</td>
-    <td>World Heritage since 1991</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Era</td>
-    <td>13th–15th century (Thailand's first kingdom)</td>
-    <td>14th–18th century (second Thai kingdom)</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Best For</td>
-    <td>Peaceful cycling, fewer crowds, deeper history</td>
-    <td>Day trips, accessibility, iconic photos</td>
-    <td>—</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
+<h2 id="quick-comparison">Quick Comparison</h2>
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Category</th>
+<th>🚲 Sukhothai</th>
+<th>⛺ Ayutthaya</th>
+<th>Edge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distance from Bangkok</td>
+<td>427 km (6–7h bus or fly to Phitsanulok)</td>
+<td>80 km (1.5–2h train or minibus)</td>
+<td class="edge-ayutthaya">Ayutthaya</td>
+</tr>
+<tr>
+<td>Daily Budget (mid-range)</td>
+<td>800–1,800 THB/day ($23–53)</td>
+<td>700–1,500 THB/day ($20–44)</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Temple Entry Fee (foreigner)</td>
+<td>100 THB/zone (~$3)</td>
+<td>50 THB/site ($1.50), many free</td>
+<td class="edge-ayutthaya">Ayutthaya</td>
+</tr>
+<tr>
+<td>Cycling Experience</td>
+<td>Excellent — dedicated paths, car-free zones</td>
+<td>Possible but shares roads with traffic</td>
+<td class="edge-sukhothai">Sukhothai</td>
+</tr>
+<tr>
+<td>Temple Preservation</td>
+<td>Better preserved, more intact statues</td>
+<td>More dramatic ruins, iconic photo spots</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Crowds</td>
+<td>Much fewer tourists</td>
+<td>Busy especially on weekends</td>
+<td class="edge-sukhothai">Sukhothai</td>
+</tr>
+<tr>
+<td>Overnight Stay</td>
+<td>Worth 2 nights to explore fully</td>
+<td>Easy day trip, overnight optional</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>UNESCO Status</td>
+<td>World Heritage since 1991</td>
+<td>World Heritage since 1991</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Era</td>
+<td>13th–15th century (Thailand's first kingdom)</td>
+<td>14th–18th century (second Thai kingdom)</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Best For</td>
+<td>Peaceful cycling, fewer crowds, deeper history</td>
+<td>Day trips, accessibility, iconic photos</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
 <section class="deep-dive">
-    <h2 id="temple-ruins-and-history">⛺ Temple Ruins &amp; History</h2>
-    <img alt="Ancient Buddha statue at Sukhothai Historical Park surrounded by greenery" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/sukhothai-wat-si-chum.jpg"/>
-    <p>Sukhothai was the first capital of the Siamese kingdom, founded around 1238. Its name literally means "Dawn of Happiness." The <a href="/popular-picks/">Sukhothai Historical Park</a> covers about 70 sq km and contains over 190 ruins, including Wat Mahathat (the royal temple), Wat Si Sawai (with its Khmer-style towers), and Wat Si Chum — home to the Phra Achana, a massive seated Buddha whose face peers through a narrow opening in a stone enclosure. The ruins here are remarkably well-preserved and beautifully integrated into lotus ponds and manicured grounds.</p>
-    <p>Ayutthaya was the second Siamese capital, reigning for 417 years (1351–1767). At its height it was one of the largest cities in the world. The Burmese razed it in 1767, leaving the dramatic, decapitated prang towers and headless Buddha statues that define the site today. Wat Mahathat is famous for the iconic Buddha head entwined in banyan tree roots — one of Thailand's most recognizable images. Wat Phra Si Sanphet houses three massive chedis and was once the Versailles of Thailand.</p>
-    <div class="reddit-quote">
+<h2 id="temple-ruins-and-history">⛺ Temple Ruins &amp; History</h2>
+<img alt="Ancient Buddha statue at Sukhothai Historical Park surrounded by greenery" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/sukhothai-wat-si-chum.jpg"/>
+<p>Sukhothai was the first capital of the Siamese kingdom, founded around 1238. Its name literally means "Dawn of Happiness." The <a href="/popular-picks/">Sukhothai Historical Park</a> covers about 70 sq km and contains over 190 ruins, including Wat Mahathat (the royal temple), Wat Si Sawai (with its Khmer-style towers), and Wat Si Chum — home to the Phra Achana, a massive seated Buddha whose face peers through a narrow opening in a stone enclosure. The ruins here are remarkably well-preserved and beautifully integrated into lotus ponds and manicured grounds.</p>
+<p>Ayutthaya was the second Siamese capital, reigning for 417 years (1351–1767). At its height it was one of the largest cities in the world. The Burmese razed it in 1767, leaving the dramatic, decapitated prang towers and headless Buddha statues that define the site today. Wat Mahathat is famous for the iconic Buddha head entwined in banyan tree roots — one of Thailand's most recognizable images. Wat Phra Si Sanphet houses three massive chedis and was once the Versailles of Thailand.</p>
+<div class="reddit-quote">
         "Sukhothai is aesthetically pleasing. You can see the beautiful city plan. In contrast, Ayutthaya is more chaotic. But the ruin is a bit more preserved. The museum there has a lot of golden stuff."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/1c0y7tk/trying_to_decide_between_visiting_sukhothai_and/">r/ThailandTourism user</a></span>
-    </div>
-    <div class="reddit-quote">
+</div>
+<div class="reddit-quote">
         "We recently went to both and were blown away by Sukhothai! We can't believe more people aren't going there. If I had to choose, I'd definitely go to Sukhothai."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/1c0y7tk/trying_to_decide_between_visiting_sukhothai_and/">r/ThailandTourism user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Tie.</strong> Sukhothai offers a more beautiful, unified experience with better-preserved statues. Ayutthaya offers dramatic scale and the most iconic single image in Thai archaeology. Both deserve a visit; the question is just logistics.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Tie.</strong> Sukhothai offers a more beautiful, unified experience with better-preserved statues. Ayutthaya offers dramatic scale and the most iconic single image in Thai archaeology. Both deserve a visit; the question is just logistics.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="getting-there-and-accessibility">✈️ Getting There &amp; Accessibility</h2>
-    <p>This is where Ayutthaya wins decisively. From Bangkok's Hua Lamphong station, trains run throughout the day to Ayutthaya — the 3rd-class fare is just 15–20 THB ($0.50). The journey takes 1.5–2 hours. Minibuses from Victory Monument cost 60–100 THB and take about 90 minutes. You can literally decide to visit Ayutthaya on the morning you go.</p>
-    <p>Sukhothai is a different story. From Bangkok it's a 7-hour bus journey (300–450 THB one-way) or you can fly to Phitsanulok and take a 45-minute bus connection (flights from ~1,500 THB). There's no direct train. The effort required means Sukhothai tends to attract more committed travelers — which partly explains why it's less crowded.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="getting-there-and-accessibility">✈️ Getting There &amp; Accessibility</h2>
+<p>This is where Ayutthaya wins decisively. From Bangkok's Hua Lamphong station, trains run throughout the day to Ayutthaya — the 3rd-class fare is just 15–20 THB ($0.50). The journey takes 1.5–2 hours. Minibuses from Victory Monument cost 60–100 THB and take about 90 minutes. You can literally decide to visit Ayutthaya on the morning you go.</p>
+<p>Sukhothai is a different story. From Bangkok it's a 7-hour bus journey (300–450 THB one-way) or you can fly to Phitsanulok and take a 45-minute bus connection (flights from ~1,500 THB). There's no direct train. The effort required means Sukhothai tends to attract more committed travelers — which partly explains why it's less crowded.</p>
+<div class="reddit-quote">
         "Sukhothai is more interesting, but Ayutthaya is more accessible."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/1c0y7tk/trying_to_decide_between_visiting_sukhothai_and/">r/ThailandTourism user</a></span>
-    </div>
-    <div class="reddit-quote">
+</div>
+<div class="reddit-quote">
         "It is a cool place if you stay for longer in Thailand. If you have just a few days I'd recommend Ayutthaya over Sukhothai."
         <span class="source">— <a href="https://www.reddit.com/r/travel/comments/7ownp5/if_youre_planning_a_trip_to_thailand_sukhothai/">r/travel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Ayutthaya.</strong> For travelers with a 1–2 week Thailand trip, Ayutthaya is the smarter call purely on logistics. Sukhothai requires dedicated travel time that only makes sense if you're routing north anyway (e.g., Bangkok → Sukhothai → Chiang Mai).
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Ayutthaya.</strong> For travelers with a 1–2 week Thailand trip, Ayutthaya is the smarter call purely on logistics. Sukhothai requires dedicated travel time that only makes sense if you're routing north anyway (e.g., Bangkok → Sukhothai → Chiang Mai).
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="cycling-and-getting-around">🚲 Cycling &amp; Getting Around</h2>
-    <p>Sukhothai's historical park is purpose-built for cycling. You can rent a bicycle for just 30–50 THB ($1–1.50) per day at the park entrance. The central zone is largely car-free, with paved paths weaving between ruins, lotus ponds, and shade trees. Arriving at sunrise to cycle past ancient chedis in golden morning light with almost no other tourists is one of Thailand's genuinely magical experiences. There are five zones (Central, North, South, East, West) connected by roads — the outer zones have some traffic but light.</p>
-    <p>Ayutthaya can also be cycled, but it's a different experience. The ruins are spread across a 4x5 km island surrounded by rivers, connected by busy roads. You can rent bikes for 30–50 THB/day or motorbikes for 150–200 THB. Many travelers opt for tuk-tuks (200–400 THB for a half-day tour) or songthaews. You're cycling alongside Thai traffic, which is manageable but not the serene experience of Sukhothai.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="cycling-and-getting-around">🚲 Cycling &amp; Getting Around</h2>
+<p>Sukhothai's historical park is purpose-built for cycling. You can rent a bicycle for just 30–50 THB ($1–1.50) per day at the park entrance. The central zone is largely car-free, with paved paths weaving between ruins, lotus ponds, and shade trees. Arriving at sunrise to cycle past ancient chedis in golden morning light with almost no other tourists is one of Thailand's genuinely magical experiences. There are five zones (Central, North, South, East, West) connected by roads — the outer zones have some traffic but light.</p>
+<p>Ayutthaya can also be cycled, but it's a different experience. The ruins are spread across a 4x5 km island surrounded by rivers, connected by busy roads. You can rent bikes for 30–50 THB/day or motorbikes for 150–200 THB. Many travelers opt for tuk-tuks (200–400 THB for a half-day tour) or songthaews. You're cycling alongside Thai traffic, which is manageable but not the serene experience of Sukhothai.</p>
+<div class="reddit-quote">
         "I like Sukhothai. Very different experience to Ayutthaya — the sites are in a pleasant park which is nice to cycle around, rather than spread around a modern town, and they're much less ruined."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/xj9fdk/sukhothai_yay_or_nay/">r/ThailandTourism user</a></span>
-    </div>
-    <div class="reddit-quote">
+</div>
+<div class="reddit-quote">
         "Ayutthaya more impressive scale but I enjoyed Sukhothai more, being able to cycle around in relatively cooler temperatures and much fewer tourists made for a better overall experience."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/18n5t2u/disregarding_convenience_and_crowds_are_sukhothai/">r/ThailandTourism user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Sukhothai.</strong> For the cycling experience specifically, Sukhothai is superior in every way: better paths, fewer cars, cooler mornings, and a more organized layout. If cycling through ancient ruins is your thing, Sukhothai delivers it far more completely.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Sukhothai.</strong> For the cycling experience specifically, Sukhothai is superior in every way: better paths, fewer cars, cooler mornings, and a more organized layout. If cycling through ancient ruins is your thing, Sukhothai delivers it far more completely.
+</section><section class="deep-dive">
+<h2 id="cost-comparison">💰 Cost Comparison</h2>
+<p>Both are extraordinarily affordable by any standard, but there are some differences worth knowing. Here's a realistic daily budget breakdown for a budget-to-mid-range traveler:</p>
+<table class="cost-table">
+<thead>
+<tr>
+<th>Expense</th>
+<th>🚲 Sukhothai</th>
+<th>⛺ Ayutthaya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guesthouse/hostel</td>
+<td>300–700 THB/night ($9–20)</td>
+<td>300–600 THB/night ($9–18)</td>
+</tr>
+<tr>
+<td>Mid-range hotel</td>
+<td>700–1,500 THB/night ($20–44)</td>
+<td>600–1,200 THB/night ($18–35)</td>
+</tr>
+<tr>
+<td>Temple entry (foreigner)</td>
+<td>100 THB/zone (5 zones)</td>
+<td>50 THB/site, many sites free</td>
+</tr>
+<tr>
+<td>Bicycle rental</td>
+<td>30–50 THB/day</td>
+<td>30–50 THB/day</td>
+</tr>
+<tr>
+<td>Meals (local restaurants)</td>
+<td>60–150 THB/meal</td>
+<td>60–150 THB/meal</td>
+</tr>
+<tr>
+<td>Travel from Bangkok</td>
+<td>300–450 THB (bus, 7h)</td>
+<td>20–100 THB (train/minibus, 1.5h)</td>
+</tr>
+<tr class="total-row">
+<td>Daily total (budget)</td>
+<td>600–1,000 THB ($18–29)</td>
+<td>500–900 THB ($15–26)</td>
+</tr>
+</tbody>
+</table>
+<div class="tabiji-verdict">
+<strong>Edge: Ayutthaya (slightly).</strong> Ayutthaya is marginally cheaper once you factor in travel costs from Bangkok. But both destinations are so affordable that budget shouldn't be a deciding factor — the difference across a 2-night stay is maybe $10–20.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="cost-comparison">💰 Cost Comparison</h2>
-    <p>Both are extraordinarily affordable by any standard, but there are some differences worth knowing. Here's a realistic daily budget breakdown for a budget-to-mid-range traveler:</p>
-    <table class="cost-table">
-        <thead>
-        <tr>
-        <th>Expense</th>
-        <th>🚲 Sukhothai</th>
-        <th>⛺ Ayutthaya</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-        <td>Guesthouse/hostel</td>
-        <td>300–700 THB/night ($9–20)</td>
-        <td>300–600 THB/night ($9–18)</td>
-        </tr>
-        <tr>
-        <td>Mid-range hotel</td>
-        <td>700–1,500 THB/night ($20–44)</td>
-        <td>600–1,200 THB/night ($18–35)</td>
-        </tr>
-        <tr>
-        <td>Temple entry (foreigner)</td>
-        <td>100 THB/zone (5 zones)</td>
-        <td>50 THB/site, many sites free</td>
-        </tr>
-        <tr>
-        <td>Bicycle rental</td>
-        <td>30–50 THB/day</td>
-        <td>30–50 THB/day</td>
-        </tr>
-        <tr>
-        <td>Meals (local restaurants)</td>
-        <td>60–150 THB/meal</td>
-        <td>60–150 THB/meal</td>
-        </tr>
-        <tr>
-        <td>Travel from Bangkok</td>
-        <td>300–450 THB (bus, 7h)</td>
-        <td>20–100 THB (train/minibus, 1.5h)</td>
-        </tr>
-        <tr class="total-row">
-        <td>Daily total (budget)</td>
-        <td>600–1,000 THB ($18–29)</td>
-        <td>500–900 THB ($15–26)</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="tabiji-verdict">
-        <strong>Edge: Ayutthaya (slightly).</strong> Ayutthaya is marginally cheaper once you factor in travel costs from Bangkok. But both destinations are so affordable that budget shouldn't be a deciding factor — the difference across a 2-night stay is maybe $10–20.
+</section><section class="deep-dive">
+<h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
+<p>Both destinations share the same climate as central Thailand. The optimal window is <strong>November to February</strong>: dry season, temperatures of 25–32°C, and clear skies for photography. March–May is brutal hot season (35–40°C); visit early morning (before 9am) and return to air conditioning by noon. June–October is rainy season — Ayutthaya occasionally floods as it sits on an island at river confluence; the 2011 floods were catastrophic. Sukhothai handles rain better.</p>
+<p>Sukhothai has a special annual event: the <strong>Loy Krathong festival</strong> (usually November, at full moon). The historical park lights up with lanterns, candles, and fireworks — it's one of Thailand's most photogenic festivals and happens right where it was first celebrated. Thousands of lit lanterns float on the lotus ponds surrounding the ruins. If you can time your visit to Sukhothai's Loy Krathong, do it.</p>
+<div class="tabiji-verdict">
+<strong>Edge: Sukhothai (for Loy Krathong).</strong> Both are best Nov–Feb, but if you're visiting in November, Sukhothai's Loy Krathong festival is genuinely unmissable. Ayutthaya also celebrates but on a smaller scale. For year-round visits, either is fine November–February.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
-    <p>Both destinations share the same climate as central Thailand. The optimal window is <strong>November to February</strong>: dry season, temperatures of 25–32°C, and clear skies for photography. March–May is brutal hot season (35–40°C); visit early morning (before 9am) and return to air conditioning by noon. June–October is rainy season — Ayutthaya occasionally floods as it sits on an island at river confluence; the 2011 floods were catastrophic. Sukhothai handles rain better.</p>
-    <p>Sukhothai has a special annual event: the <strong>Loy Krathong festival</strong> (usually November, at full moon). The historical park lights up with lanterns, candles, and fireworks — it's one of Thailand's most photogenic festivals and happens right where it was first celebrated. Thousands of lit lanterns float on the lotus ponds surrounding the ruins. If you can time your visit to Sukhothai's Loy Krathong, do it.</p>
-    <div class="tabiji-verdict">
-        <strong>Edge: Sukhothai (for Loy Krathong).</strong> Both are best Nov–Feb, but if you're visiting in November, Sukhothai's Loy Krathong festival is genuinely unmissable. Ayutthaya also celebrates but on a smaller scale. For year-round visits, either is fine November–February.
+</section><section class="deep-dive">
+<h2 id="where-to-stay">🏨 Where to Stay</h2>
+<p>In Sukhothai, most travelers stay in <strong>New Sukhothai</strong> town (12 km from the historical park) or directly adjacent to the park itself. There are several guesthouses and small hotels right at the park entrance — staying here lets you beat the crowds by cycling in at 6am before buses arrive. Options range from backpacker guesthouses (300–500 THB/night) to pleasant boutique hotels (700–1,500 THB/night). There's also a beautiful canal area in New Sukhothai with good street food and a laid-back vibe.</p>
+<p>In Ayutthaya, the old city is a small island (you can walk or cycle across it). Most guesthouses and hotels cluster near the ruins on the island. Budget hostels run 300–500 THB/night. Because Ayutthaya is so close to Bangkok, many travelers do it as a day trip instead of staying overnight — which is fine for seeing the highlights but you miss the beautiful dawn light on the chedis.</p>
+<div class="tabiji-verdict">
+<strong>Edge: Tie.</strong> Both have solid accommodation near the ruins at budget prices. Sukhothai rewards an overnight stay more because there's more to see and the park experience is so much better early morning. Ayutthaya is great as a day trip from Bangkok if time is limited.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="where-to-stay">🏨 Where to Stay</h2>
-    <p>In Sukhothai, most travelers stay in <strong>New Sukhothai</strong> town (12 km from the historical park) or directly adjacent to the park itself. There are several guesthouses and small hotels right at the park entrance — staying here lets you beat the crowds by cycling in at 6am before buses arrive. Options range from backpacker guesthouses (300–500 THB/night) to pleasant boutique hotels (700–1,500 THB/night). There's also a beautiful canal area in New Sukhothai with good street food and a laid-back vibe.</p>
-    <p>In Ayutthaya, the old city is a small island (you can walk or cycle across it). Most guesthouses and hotels cluster near the ruins on the island. Budget hostels run 300–500 THB/night. Because Ayutthaya is so close to Bangkok, many travelers do it as a day trip instead of staying overnight — which is fine for seeing the highlights but you miss the beautiful dawn light on the chedis.</p>
-    <div class="tabiji-verdict">
-        <strong>Edge: Tie.</strong> Both have solid accommodation near the ruins at budget prices. Sukhothai rewards an overnight stay more because there's more to see and the park experience is so much better early morning. Ayutthaya is great as a day trip from Bangkok if time is limited.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="food-and-local-scene">🍜 Food &amp; Local Scene</h2>
-    <img alt="Thai street food stalls near Ayutthaya temples" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/ayutthaya-ruins-prang.jpg"/>
-    <p>Neither Sukhothai nor Ayutthaya is a food destination in the way Bangkok or Chiang Mai are, but both have excellent local Thai food. <strong>Sukhothai noodles</strong> (kuay teow Sukhothai) are actually a distinct regional dish — thin rice noodles in a slightly sweet broth with crispy pork rinds, ground peanuts, snake beans, and sometimes dried shrimp. You'll find them everywhere in Sukhothai for 50–70 THB. It's one of those rare dishes that's genuinely better where it originates. The night market in New Sukhothai is small but charming. Check out the popular <a href="/popular-picks/">street food options</a> before you go.</p>
-    <p>Ayutthaya has a broader food scene given the larger tourist population. There are several good riverside restaurants, a central night market, and plenty of cheap local spots around the ruins. The <strong>Ayutthaya floating market</strong> (near Wat Phanan Choeng) sells Thai snacks and street food in a photogenic riverside setting. For authentic local food, head to the market streets away from the temple zones where Thais eat.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="food-and-local-scene">🍜 Food &amp; Local Scene</h2>
+<img alt="Thai street food stalls near Ayutthaya temples" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/sukhothai-vs-ayutthaya/ayutthaya-ruins-prang.jpg"/>
+<p>Neither Sukhothai nor Ayutthaya is a food destination in the way Bangkok or Chiang Mai are, but both have excellent local Thai food. <strong>Sukhothai noodles</strong> (kuay teow Sukhothai) are actually a distinct regional dish — thin rice noodles in a slightly sweet broth with crispy pork rinds, ground peanuts, snake beans, and sometimes dried shrimp. You'll find them everywhere in Sukhothai for 50–70 THB. It's one of those rare dishes that's genuinely better where it originates. The night market in New Sukhothai is small but charming. Check out the popular <a href="/popular-picks/">street food options</a> before you go.</p>
+<p>Ayutthaya has a broader food scene given the larger tourist population. There are several good riverside restaurants, a central night market, and plenty of cheap local spots around the ruins. The <strong>Ayutthaya floating market</strong> (near Wat Phanan Choeng) sells Thai snacks and street food in a photogenic riverside setting. For authentic local food, head to the market streets away from the temple zones where Thais eat.</p>
+<div class="reddit-quote">
         "We love the Historical Park. Small town vibe around it, great little night market, very nice market at the Temple right in Old Town. Walking or biking, easy as can be."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/1c0y7tk/trying_to_decide_between_visiting_sukhothai_and/">r/ThailandTourism user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Sukhothai (for Sukhothai noodles).</strong> If you're a food nerd, eating kuay teow Sukhothai in its birthplace is worth the journey alone. Ayutthaya has a more developed tourist food scene, but Sukhothai has the more authentic local gem.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Sukhothai (for Sukhothai noodles).</strong> If you're a food nerd, eating kuay teow Sukhothai in its birthplace is worth the journey alone. Ayutthaya has a more developed tourist food scene, but Sukhothai has the more authentic local gem.
+</section><section class="deep-dive">
+<h2 id="day-trips">🎒 Day Trips &amp; Why Not Both?</h2>
+<p>Sukhothai's top day trip is <strong>Si Satchanalai Historical Park</strong>, about 56 km north. This satellite park of the Sukhothai kingdom features ruins in an even more natural, forested setting with far fewer tourists than the main park — several Reddit users call it superior. Entry is 100 THB and you can combine it with Sukhothai in a single day. Also worth seeing: the <strong>Sangkhalok Kiln Museum</strong> (ancient Thai ceramics, 30 THB).</p>
+<p>Ayutthaya day trips radiate from Bangkok: <strong>Bang Pa-In Royal Palace</strong> (20 km south of Ayutthaya, ornate 19th-century royal complex) and <strong>Ang Thong National Marine Park</strong> (further afield). Coming from Bangkok, you can also combine Ayutthaya with a stop at <a href="/compare/bangkok-vs-chiang-mai/">Chiang Mai route</a> for a multi-day northern Thailand itinerary. Check the <a href="/popular-picks/ayutthaya-street-food/">Ayutthaya street food guide</a> for food stops along the way.</p>
+<div class="tabiji-verdict">
+<strong>Edge: Sukhothai.</strong> Si Satchanalai is a genuine hidden gem that gives Sukhothai visitors a bonus full day of extraordinary ruins with almost no crowds. Ayutthaya's day trips are less compelling — most people visit Ayutthaya as the day trip, not from it.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="day-trips">🎒 Day Trips &amp; Why Not Both?</h2>
-    <p>Sukhothai's top day trip is <strong>Si Satchanalai Historical Park</strong>, about 56 km north. This satellite park of the Sukhothai kingdom features ruins in an even more natural, forested setting with far fewer tourists than the main park — several Reddit users call it superior. Entry is 100 THB and you can combine it with Sukhothai in a single day. Also worth seeing: the <strong>Sangkhalok Kiln Museum</strong> (ancient Thai ceramics, 30 THB).</p>
-    <p>Ayutthaya day trips radiate from Bangkok: <strong>Bang Pa-In Royal Palace</strong> (20 km south of Ayutthaya, ornate 19th-century royal complex) and <strong>Ang Thong National Marine Park</strong> (further afield). Coming from Bangkok, you can also combine Ayutthaya with a stop at <a href="/compare/bangkok-vs-chiang-mai/">Chiang Mai route</a> for a multi-day northern Thailand itinerary. Check the <a href="/popular-picks/ayutthaya-street-food/">Ayutthaya street food guide</a> for food stops along the way.</p>
-    <div class="tabiji-verdict">
-        <strong>Edge: Sukhothai.</strong> Si Satchanalai is a genuine hidden gem that gives Sukhothai visitors a bonus full day of extraordinary ruins with almost no crowds. Ayutthaya's day trips are less compelling — most people visit Ayutthaya as the day trip, not from it.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</h2>
-    <p>This might be the single most important factor separating the two experiences. Ayutthaya gets 2–3 million visitors per year, heavily weighted toward weekends and Thai holidays when tour buses from Bangkok flood the site. Wat Mahathat (Buddha head tree) requires queuing, and the famous photo spot gets crowded. It's still worthwhile, but you're sharing the experience with a lot of people.</p>
-    <p>Sukhothai gets far fewer visitors — partly because it's harder to reach, partly because it's less famous internationally. On a weekday morning, you can genuinely have major temple complexes to yourself. The park's scale means crowds dissipate even when tour groups are present. Multiple Reddit users describe Sukhothai as one of Thailand's most underrated destinations precisely because of the crowd difference.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="crowds-and-atmosphere">🌿 Crowds &amp; Atmosphere</h2>
+<p>This might be the single most important factor separating the two experiences. Ayutthaya gets 2–3 million visitors per year, heavily weighted toward weekends and Thai holidays when tour buses from Bangkok flood the site. Wat Mahathat (Buddha head tree) requires queuing, and the famous photo spot gets crowded. It's still worthwhile, but you're sharing the experience with a lot of people.</p>
+<p>Sukhothai gets far fewer visitors — partly because it's harder to reach, partly because it's less famous internationally. On a weekday morning, you can genuinely have major temple complexes to yourself. The park's scale means crowds dissipate even when tour groups are present. Multiple Reddit users describe Sukhothai as one of Thailand's most underrated destinations precisely because of the crowd difference.</p>
+<div class="reddit-quote">
         "Sukhothai is less visited than Ayutthaya because it's more difficult to get to."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/xj9fdk/sukhothai_yay_or_nay/">r/ThailandTourism user</a></span>
-    </div>
-    <div class="reddit-quote">
+</div>
+<div class="reddit-quote">
         "Rent a bicycle for the day for 30 baht. You can probably bike around all of them in a few hours. I spent like five because I was enjoying the morning light."
         <span class="source">— <a href="https://www.reddit.com/r/ThailandTourism/comments/ajrbx6/ayutthaya_vs_sukhotai/">r/ThailandTourism user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Sukhothai.</strong> For travelers who want space, silence, and the feeling of having ancient ruins to themselves, Sukhothai wins. Ayutthaya is accessible and impressive but increasingly busy. The best Ayutthaya experience is arriving at dawn before the tour buses, which takes planning.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Sukhothai.</strong> For travelers who want space, silence, and the feeling of having ancient ruins to themselves, Sukhothai wins. Ayutthaya is accessible and impressive but increasingly busy. The best Ayutthaya experience is arriving at dawn before the tour buses, which takes planning.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
-    <div class="decision-grid">
-    <div class="decision-card sukhothai-card">
-    <h3>Choose Sukhothai If…</h3>
-    <ul>
-    <li>You want a peaceful, crowd-free temple cycling experience</li>
-    <li>You're already routing north toward <a href="/compare/chiang-mai-vs-chiang-rai/">Chiang Mai</a></li>
-    <li>You want to experience Loy Krathong at its origin</li>
-    <li>You have 2+ full days to dedicate</li>
-    <li>You want to eat Sukhothai noodles where they were invented</li>
-    <li>You prefer beauty and serenity over iconic drama</li>
-    </ul>
-    </div>
-    <div class="decision-card ayutthaya-card">
-    <h3>Choose Ayutthaya If…</h3>
-    <ul>
-    <li>You're based in Bangkok and have a single day to spare</li>
-    <li>The Buddha-head-in-tree-roots photo is on your bucket list</li>
-    <li>You want the drama of a destroyed empire's ruins</li>
-    <li>You're short on time and want maximum accessibility</li>
-    <li>You're on a tight <a href="/compare/bali-vs-thailand/">Southeast Asia itinerary</a></li>
-    <li>You want a boat tour option around temple sites</li>
-    </ul>
-    </div>
-    </div>
-    </section>
+</section><section class="deep-dive">
+<h2 id="the-decision-framework">🎯 The Decision Framework</h2>
+<div class="decision-grid">
+<div class="decision-card sukhothai-card">
+<h3>Choose Sukhothai If…</h3>
+<ul>
+<li>You want a peaceful, crowd-free temple cycling experience</li>
+<li>You're already routing north toward <a href="/compare/chiang-mai-vs-chiang-rai/">Chiang Mai</a></li>
+<li>You want to experience Loy Krathong at its origin</li>
+<li>You have 2+ full days to dedicate</li>
+<li>You want to eat Sukhothai noodles where they were invented</li>
+<li>You prefer beauty and serenity over iconic drama</li>
+</ul>
+</div>
+<div class="decision-card ayutthaya-card">
+<h3>Choose Ayutthaya If…</h3>
+<ul>
+<li>You're based in Bangkok and have a single day to spare</li>
+<li>The Buddha-head-in-tree-roots photo is on your bucket list</li>
+<li>You want the drama of a destroyed empire's ruins</li>
+<li>You're short on time and want maximum accessibility</li>
+<li>You're on a tight <a href="/compare/bali-vs-thailand/">Southeast Asia itinerary</a></li>
+<li>You want a boat tour option around temple sites</li>
+</ul>
+</div>
+</div>
+</section>
 <section class="faq-section">
-    <h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
-    <div class="faq-item">
-    <h3>Should I visit Sukhothai or Ayutthaya?</h3>
-    <p>If you only have time for one, pick based on your priorities: Ayutthaya wins on accessibility (1.5 hours from Bangkok by train), scale, and the famous Buddha head in tree roots. Sukhothai wins on atmosphere, cycling experience, and fewer crowds. Most Reddit travelers who visit both say Sukhothai is the better experience, but Ayutthaya is the more practical choice if time is short.</p>
-    </div>
-    <div class="faq-item">
-    <h3>How far is Sukhothai from Ayutthaya?</h3>
-    <p>Sukhothai and Ayutthaya are about 340 km apart by road (roughly 5 hours by bus or car). They are not easily combined in a single day trip from Bangkok. Ayutthaya is 80 km north of Bangkok; Sukhothai is 427 km north. Treat them as separate destinations on a Thailand itinerary.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Can you do Ayutthaya as a day trip from Bangkok?</h3>
-    <p>Yes, easily. The train from Hua Lamphong station takes 1.5–2 hours and costs just 15–20 THB (~$0.50). Minibuses from Victory Monument cost 60–100 THB and take 90 minutes. You can comfortably see the main temples in a full day. Sukhothai requires either an overnight stay or a direct bus/flight (7 hours by bus, or fly to Phitsanulok and transfer).</p>
-    </div>
-    <div class="faq-item">
-    <h3>Is Sukhothai worth the extra effort to get to?</h3>
-    <p>The majority of Reddit travelers say yes. The extra travel time pays off: the historical park is vehicle-free (mostly), cycling paths connect the ruins, and crowds are a fraction of Ayutthaya's. If you have 2+ nights to spare, Sukhothai consistently gets described as "one of Thailand's most underrated destinations." If you only have a tight 2-week itinerary, Ayutthaya is the smarter call.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Which ruins are more impressive, Sukhothai or Ayutthaya?</h3>
-    <p>They're impressive in different ways. Ayutthaya's ruins are grander in scale and feature the iconic Buddha head entwined in banyan tree roots at Wat Mahathat. Sukhothai's temples are better preserved, with more intact Buddha statues and a unified city plan that's beautiful to explore by bike at sunrise. Reddit consensus: Sukhothai is more beautiful; Ayutthaya is more dramatic.</p>
-    </div>
-    <div class="faq-item">
-    <h3>How much does it cost to visit Sukhothai vs Ayutthaya?</h3>
-    <p>Ayutthaya temple entry fees range from free to 50 THB ($1.50) per site. Sukhothai Historical Park charges 100 THB ($3) per zone for foreigners. A bicycle rental at both parks is 30–50 THB/day. Both are extremely affordable, but Ayutthaya is cheaper if you're visiting multiple temples. Budget travelers can see the highlights of Ayutthaya for under 300 THB total.</p>
-    </div>
-    <div class="faq-item">
-    <h3>When is the best time to visit Sukhothai and Ayutthaya?</h3>
-    <p>November to February is peak season for both — dry, cooler temperatures (25–30°C), and ideal for temple-hopping. Sukhothai's Loy Krathong festival (usually November) is celebrated with lanterns and is spectacular. March to May brings brutal heat (35–40°C); visit early morning and be done by 10am. June to October is rainy season — temples flood occasionally at Ayutthaya; Sukhothai's park handles rain better.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Do both Sukhothai and Ayutthaya have elephants?</h3>
-    <p>Ayutthaya historically had elephant rides at some temples, though this has become increasingly controversial and is advised against. Reddit travelers consistently recommend avoiding elephant rides anywhere in Thailand due to animal welfare concerns. Sukhothai does not have elephant tourism within the historical park. The temples and ruins are the draw at both sites — you don't need elephants for a great experience.</p>
-    </div>
-    </section>
+<h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
+<div class="faq-item">
+<h3>Should I visit Sukhothai or Ayutthaya?</h3>
+<p>If you only have time for one, pick based on your priorities: Ayutthaya wins on accessibility (1.5 hours from Bangkok by train), scale, and the famous Buddha head in tree roots. Sukhothai wins on atmosphere, cycling experience, and fewer crowds. Most Reddit travelers who visit both say Sukhothai is the better experience, but Ayutthaya is the more practical choice if time is short.</p>
+</div>
+<div class="faq-item">
+<h3>How far is Sukhothai from Ayutthaya?</h3>
+<p>Sukhothai and Ayutthaya are about 340 km apart by road (roughly 5 hours by bus or car). They are not easily combined in a single day trip from Bangkok. Ayutthaya is 80 km north of Bangkok; Sukhothai is 427 km north. Treat them as separate destinations on a Thailand itinerary.</p>
+</div>
+<div class="faq-item">
+<h3>Can you do Ayutthaya as a day trip from Bangkok?</h3>
+<p>Yes, easily. The train from Hua Lamphong station takes 1.5–2 hours and costs just 15–20 THB (~$0.50). Minibuses from Victory Monument cost 60–100 THB and take 90 minutes. You can comfortably see the main temples in a full day. Sukhothai requires either an overnight stay or a direct bus/flight (7 hours by bus, or fly to Phitsanulok and transfer).</p>
+</div>
+<div class="faq-item">
+<h3>Is Sukhothai worth the extra effort to get to?</h3>
+<p>The majority of Reddit travelers say yes. The extra travel time pays off: the historical park is vehicle-free (mostly), cycling paths connect the ruins, and crowds are a fraction of Ayutthaya's. If you have 2+ nights to spare, Sukhothai consistently gets described as "one of Thailand's most underrated destinations." If you only have a tight 2-week itinerary, Ayutthaya is the smarter call.</p>
+</div>
+<div class="faq-item">
+<h3>Which ruins are more impressive, Sukhothai or Ayutthaya?</h3>
+<p>They're impressive in different ways. Ayutthaya's ruins are grander in scale and feature the iconic Buddha head entwined in banyan tree roots at Wat Mahathat. Sukhothai's temples are better preserved, with more intact Buddha statues and a unified city plan that's beautiful to explore by bike at sunrise. Reddit consensus: Sukhothai is more beautiful; Ayutthaya is more dramatic.</p>
+</div>
+<div class="faq-item">
+<h3>How much does it cost to visit Sukhothai vs Ayutthaya?</h3>
+<p>Ayutthaya temple entry fees range from free to 50 THB ($1.50) per site. Sukhothai Historical Park charges 100 THB ($3) per zone for foreigners. A bicycle rental at both parks is 30–50 THB/day. Both are extremely affordable, but Ayutthaya is cheaper if you're visiting multiple temples. Budget travelers can see the highlights of Ayutthaya for under 300 THB total.</p>
+</div>
+<div class="faq-item">
+<h3>When is the best time to visit Sukhothai and Ayutthaya?</h3>
+<p>November to February is peak season for both — dry, cooler temperatures (25–30°C), and ideal for temple-hopping. Sukhothai's Loy Krathong festival (usually November) is celebrated with lanterns and is spectacular. March to May brings brutal heat (35–40°C); visit early morning and be done by 10am. June to October is rainy season — temples flood occasionally at Ayutthaya; Sukhothai's park handles rain better.</p>
+</div>
+<div class="faq-item">
+<h3>Do both Sukhothai and Ayutthaya have elephants?</h3>
+<p>Ayutthaya historically had elephant rides at some temples, though this has become increasingly controversial and is advised against. Reddit travelers consistently recommend avoiding elephant rides anywhere in Thailand due to animal welfare concerns. Sukhothai does not have elephant tourism within the historical park. The temples and ruins are the draw at both sites — you don't need elephants for a great experience.</p>
+</div>
+</section>
 <!-- compare-related:start -->
 <section class="related-comparisons">
 <h2>Related comparisons</h2>
@@ -1085,41 +1096,41 @@
 </section>
 <!-- compare-related:end -->
 <div class="cta-section">
-    <h2>Ready to plan your Thailand trip?</h2>
-    <p>Get a free custom itinerary for Sukhothai, Ayutthaya, or both — built from real traveler insights, not generic templates.</p>
-    <div class="cta-buttons">
-    <a class="cta-btn-sukhothai" href="/plan">Plan Your Sukhothai Trip →</a>
-    <a class="cta-btn-ayutthaya" href="/plan">Plan Your Ayutthaya Trip →</a>
-    </div>
-    </div>
+<h2>Ready to plan your Thailand trip?</h2>
+<p>Get a free custom itinerary for Sukhothai, Ayutthaya, or both — built from real traveler insights, not generic templates.</p>
+<div class="cta-buttons">
+<a class="cta-btn-sukhothai" href="/plan">Plan Your Sukhothai Trip →</a>
+<a class="cta-btn-ayutthaya" href="/plan">Plan Your Ayutthaya Trip →</a>
+</div>
+</div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Sukhothai+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Sukhothai</span>
-        <span class="tour-name">Sukhothai Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Sukhothai+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Sukhothai Day Trip</span>
-        <span class="tour-name">Sukhothai Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Ayutthaya+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Ayutthaya</span>
-        <span class="tour-name">Ayutthaya Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Ayutthaya+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Ayutthaya Day Trip</span>
-        <span class="tour-name">Ayutthaya Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Sukhothai+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Sukhothai</span>
+<span class="tour-name">Sukhothai Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Sukhothai+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Sukhothai Day Trip</span>
+<span class="tour-name">Sukhothai Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Ayutthaya+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Ayutthaya</span>
+<span class="tour-name">Ayutthaya Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Ayutthaya+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Ayutthaya Day Trip</span>
+<span class="tour-name">Ayutthaya Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

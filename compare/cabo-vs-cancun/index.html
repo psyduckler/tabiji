@@ -670,36 +670,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -708,16 +733,16 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#beaches-water">🏖️ Beaches & Water</a>
-<a href="#food-dining">🍽️ Food & Dining</a>
-<a href="#nightlife-parties">🥳 Nightlife & Parties</a>
-<a href="#culture-history">🏛️ Culture & History</a>
-<a href="#cost-budget">💰 Cost & Budget</a>
+<a href="#beaches-water">🏖️ Beaches &amp; Water</a>
+<a href="#food-dining">🍽️ Food &amp; Dining</a>
+<a href="#nightlife-parties">🥳 Nightlife &amp; Parties</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
+<a href="#cost-budget">💰 Cost &amp; Budget</a>
 <a href="#getting-there">✈️ Getting There</a>
 <a href="#getting-around">🚗 Getting Around</a>
 <a href="#accommodation">🏨 Accommodation</a>
-<a href="#day-trips-nature">🌴 Day Trips & Nature</a>
-<a href="#safety-vibe">🛡️ Safety & Vibe</a>
+<a href="#day-trips-nature">🌴 Day Trips &amp; Nature</a>
+<a href="#safety-vibe">🛡️ Safety &amp; Vibe</a>
 <a href="#faq">❓ FAQ</a>
 </div>
 </div>
@@ -737,16 +762,16 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#beaches-water">🏖️ Beaches & Water</a>
-<a href="#food-dining">🍽️ Food & Dining</a>
-<a href="#nightlife-parties">🥳 Nightlife & Parties</a>
-<a href="#culture-history">🏛️ Culture & History</a>
-<a href="#cost-budget">💰 Cost & Budget</a>
+<a href="#beaches-water">🏖️ Beaches &amp; Water</a>
+<a href="#food-dining">🍽️ Food &amp; Dining</a>
+<a href="#nightlife-parties">🥳 Nightlife &amp; Parties</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
+<a href="#cost-budget">💰 Cost &amp; Budget</a>
 <a href="#getting-there">✈️ Getting There</a>
 <a href="#getting-around">🚗 Getting Around</a>
 <a href="#accommodation">🏨 Accommodation</a>
-<a href="#day-trips-nature">🌴 Day Trips & Nature</a>
-<a href="#safety-vibe">🛡️ Safety & Vibe</a>
+<a href="#day-trips-nature">🌴 Day Trips &amp; Nature</a>
+<a href="#safety-vibe">🛡️ Safety &amp; Vibe</a>
 <a href="#faq">❓ FAQ</a>
 </aside>
 <div class="article-content">
@@ -755,17 +780,17 @@
 <li>Cross-referenced seasonal weather patterns, hurricane data, and local event calendars to provide accurate timing recommendations.</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="Cabo travel destination" loading="lazy" src="https://img.tabiji.ai/compare/cabo-vs-cancun/dest1.jpg">
+<img alt="Cabo travel destination" loading="lazy" src="https://img.tabiji.ai/compare/cabo-vs-cancun/dest1.jpg"/>
 <div class="caption">Cabo</div>
-</img></div>
-<div>
-<img alt="Cancun travel destination" loading="lazy" src="https://img.tabiji.ai/compare/cabo-vs-cancun/dest2.jpg">
-<div class="caption">Cancun</div>
-</img></div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Cabo is your go-to for a luxurious, slightly more laid-back experience with stunning desert-meets-ocean landscapes, ideal for couples or friends seeking upscale dining and water activities ($200-400+ per day). Cancun, on the other hand, is a vibrant, bustling hub offering a mix of party culture, ancient Mayan history, and incredible nature, perfect for families, budget travelers, or those wanting diverse excursions ($120-300+ per day).</strong></p><ul class="verdict-takeaways"><li><strong>Choose Cabo:</strong> If you prioritize luxury resorts, world-class fishing, dramatic scenery, and a more concentrated, upscale party scene (think Las Vegas by the sea). Best for romantic getaways, golf trips, or a sophisticated group vacation.</li>
-<li><strong>Choose Cancun:</strong> If you&#x27;re looking for white-sand beaches, crystal-clear turquoise waters, ancient ruins, cenotes, and a wider range of activities from wild nightlife to family-friendly resorts. Excellent value for money and cultural immersion.</li>
-<li><strong>Choose Both:</strong> While geographically distinct, if you have 10+ days and want to experience both coasts of Mexico, you could fly between them. However, for a typical 5-7 day trip, it&#x27;s best to pick one and truly immerse yourself.</li></ul></div>
+<div>
+<img alt="Cancun travel destination" loading="lazy" src="https://img.tabiji.ai/compare/cabo-vs-cancun/dest2.jpg"/>
+<div class="caption">Cancun</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Cabo if you want food &amp; dining. Choose Cancun if you want beaches &amp; water, nightlife &amp; parties, culture &amp; history. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Cabo: </strong>food &amp; dining.</li>
+<li><strong>Choose Cancun: </strong>beaches &amp; water, nightlife &amp; parties, culture &amp; history.</li>
+<li><strong>Choose Both:</strong> While geographically distinct, if you have 10+ days and want to experience both coasts of Mexico, you could fly between them. However, for a typical 5-7 day trip, it's best to pick one and truly immerse yourself.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Cabo for its strongest wins but still want Cancun for the categories where it clearly does better.</li></ul></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Cabo</strong><p>Upscale farm-to-table, fresh seafood, fine dining, and growing culinary scene, especially in San Jose del Cabo.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Cancun</strong><p>Massive, sprawling party scene, especially during Spring Break, with mega-clubs and themed nights.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Cancun</strong><p>Wider range of options from budget-friendly hostels to luxury resorts; generally better value for money, especially outside the Hotel Zone.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Cancun</strong><p>Rich Mayan heritage with easy access to world-famous archaeological sites and strong indigenous influences.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Cabo</strong><p>Upscale farm-to-table, fresh seafood, fine dining, and growing culinary scene, especially in San Jose del Cabo.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Cancun</strong><p>Wider range of options from budget-friendly hostels to luxury resorts; generally better value for money, especially outside the Hotel Zone.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Cabo</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div></div><div class="scorecard"><h3>Cancun</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="score-val">5/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="score-val">5/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Cabo</span></span>
@@ -775,35 +800,6 @@
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">Cabo</span></span>
 <span class="best-for-chip"><span class="bf-label">👨‍👩‍👧‍👦 Best for families:</span> <span class="bf-winner">Cabo</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cabo</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cancun</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cabo</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cancun</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cabo</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cancun</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏔️ Scenery</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cabo</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cancun</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cabo</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Cancun</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -882,7 +878,7 @@
 <section class="deep-dive">
 <h2 id="beaches-water">🏖️ Beaches &amp; Water</h2>
 <p>Cabo offers incredible scenery where the desert meets the sea, especially around Land's End with iconic formations like El Arco and the famous Lover's Beach and Divorce Beach. While the Pacific side can be rough, Medano Beach is swimmable and lively, and the Sea of Cortez side boasts calmer waters for snorkeling. However, Cancun's beaches are truly postcard-perfect. Playa Delfines (El Mirador) offers stunning panoramic views and photo ops, while the Hotel Zone's stretch provides miles of soft, cool, white sand and incredibly clear, calm turquoise waters perfect for swimming, floating, and watersports. The sand is crushed coral, so it never gets hot. 'Honestly, the water in Cancun is just next-level. I've never seen such vivid blues anywhere else, it's like a swimming pool.' For sheer swim-ability, vibrant color, and consistent beauty, Cancun takes the crown, but Cabo's dramatic backdrops are undeniably unique.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun&#x27;s consistent, calm, and breathtakingly blue Caribbean waters and powdery white sand offer a more traditional and universally appealing beach experience.</li><li><strong>Who this matters for:</strong> Families with young children, avid swimmers, snorkelers, and those seeking iconic tropical beach aesthetics.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun's consistent, calm, and breathtakingly blue Caribbean waters and powdery white sand offer a more traditional and universally appealing beach experience.</li><li><strong>Who this matters for:</strong> Families with young children, avid swimmers, snorkelers, and those seeking iconic tropical beach aesthetics.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="food-dining">🍽️ Food &amp; Dining</h2>
 <p>Cabo has quietly become a culinary powerhouse, especially in the high-end and farm-to-table sectors. Places like Flora Farms and Acre Restaurant in San Jose del Cabo offer incredible, fresh, organic dining experiences that rival top restaurants globally, with main courses often costing $30-60 USD (500-1000 MXN). Even casual spots like Tacos Guss or Mariscos Mazatlán serve excellent, fresh seafood tacos for around $3-5 USD (50-80 MXN) each. Cancun offers a wider variety, from delicious cochinita pibil street tacos (around $1-2 USD / 20-40 MXN) to high-end resort dining. You can find authentic Yucatecan cuisine at places like La Parrilla, or splurge at restaurants like RosaNegra or Puerto Madero in the Hotel Zone, where a steak dinner might be $50-100 USD (850-1700 MXN). However, Cabo’s commitment to quality, unique concepts, and fresh, local ingredients gives it an edge for foodies looking beyond typical resort fare. 'Cabo surprised me with its food scene, honestly. Flora Farms was mind-blowing, totally worth the splurge.'</p>
@@ -890,11 +886,11 @@
 </section><section class="deep-dive">
 <h2 id="nightlife-parties">🥳 Nightlife &amp; Parties</h2>
 <p>Cabo San Lucas boasts a legendary party scene, largely concentrated around the Marina and downtown area. Iconic spots like Sammy Hagar's Cabo Wabo Cantina, El Squid Roe, and The Giggling Marlin offer a high-energy, walk-able nightlife experience. Expect cover charges around $10-20 USD (170-340 MXN) and drinks averaging $8-15 USD (135-250 MXN). While lively, it's a more contained 'party strip.' Cancun, however, is on a completely different scale. Its Hotel Zone is home to mega-clubs like Coco Bongo, The City, and Mandala, which offer elaborate shows, multiple dance floors, and often all-you-can-drink packages for $70-100+ USD (1200-1700+ MXN) per night. The sheer size, spectacle, and capacity for large crowds (especially during Spring Break) make Cancun an unparalleled party destination. 'Cancun's nightlife is just wild, like nothing I've ever seen. Coco Bongo is a must-do, even if you're not a huge club person.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun&#x27;s mega-clubs, diverse party zones, and capacity for massive crowds offer a more intense, varied, and world-renowned nightlife experience.</li><li><strong>Who this matters for:</strong> Younger travelers, Spring Breakers, bachelor/bachelorette parties, and anyone seeking high-energy, large-scale clubbing.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun's mega-clubs, diverse party zones, and capacity for massive crowds offer a more intense, varied, and world-renowned nightlife experience.</li><li><strong>Who this matters for:</strong> Younger travelers, Spring Breakers, bachelor/bachelorette parties, and anyone seeking high-energy, large-scale clubbing.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="culture-history">🏛️ Culture &amp; History</h2>
 <p>Cabo San Lucas is primarily a modern resort town, so true historical immersion is limited. However, a short drive to San Jose del Cabo reveals a charming colonial town center with an active Art Walk (Thursdays, Nov-June), showcasing local galleries, boutiques, and a more traditional Mexican vibe. There are no ancient ruins nearby. Cancun, on the other hand, is a gateway to the ancient Mayan world. Day trips to Chichen Itza, a UNESCO World Heritage site, are a must ($50-80 USD / 850-1350 MXN for tours, plus entry fees around $35 USD / 600 MXN). Tulum and Coba are also easily accessible, offering impressive ruins with unique backdrops and opportunities to climb pyramids. Local markets like Mercado 28 in downtown Cancun provide a glimpse into local life and handicrafts. 'If you're into history, Cancun is a no-brainer. Seeing Chichen Itza in person was absolutely breathtaking.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun provides unparalleled access to world-renowned Mayan archaeological sites and a deeper connection to Mexico&#x27;s pre-Hispanic history.</li><li><strong>Who this matters for:</strong> History buffs, culture seekers, and travelers who want to explore ancient civilizations and traditional Mexican heritage.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun provides unparalleled access to world-renowned Mayan archaeological sites and a deeper connection to Mexico's pre-Hispanic history.</li><li><strong>Who this matters for:</strong> History buffs, culture seekers, and travelers who want to explore ancient civilizations and traditional Mexican heritage.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="cost-budget">💰 Cost &amp; Budget</h2>
 <p>Cabo, with its focus on upscale tourism, tends to be pricier across the board. A mid-range hotel might cost $250-400+ USD per night, and a decent dinner for two can easily exceed $100 USD (1700 MXN). Excursions like deep-sea fishing can run $500-1000+ USD (8500-17000 MXN) for a half-day. Cancun offers a far broader spectrum. You can find hostels in downtown Cancun for $20-40 USD (340-680 MXN) per night, mid-range hotels for $100-200 USD (1700-3400 MXN), and all-inclusive resorts varying widely from $200-600+ USD per night. Food ranges from cheap street eats to high-end dining, offering flexibility. A local meal might be $10-20 USD (170-340 MXN). Flights to Cancun (CUN) are often more frequent and competitive than to Cabo (SJD) from many US cities. 'I saved a ton by staying downtown in Cancun and using the local buses. Cabo felt like everything was just a bit more.'</p>
@@ -902,11 +898,11 @@
 </section><section class="deep-dive">
 <h2 id="getting-there">✈️ Getting There</h2>
 <p>Getting to Cabo means flying into Los Cabos International Airport (SJD). From major West Coast US cities like LAX, flights are typically 2.5-3 hours, costing around $300-500 USD roundtrip. From East Coast hubs like JFK or MIA, flights are longer (5-7+ hours, often with a connection) and can be more expensive ($450-700+ USD). Cancun International Airport (CUN) is one of the busiest in Mexico, boasting exceptional connectivity. Direct flights from almost every major US and Canadian city are common, with flight times from NYC around 4 hours, from Dallas 2.5 hours, and from Toronto 4-5 hours. Roundtrip flights often range from $250-450 USD, making it highly accessible. The sheer volume and frequency of flights to Cancun often result in better prices and more convenient schedules. 'Flying into Cancun was a breeze, so many direct options from my city compared to Cabo where I usually have to connect.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun&#x27;s international airport (CUN) offers superior direct flight connectivity, more frequent routes, and often better pricing from a wider range of global origins.</li><li><strong>Who this matters for:</strong> Travelers from the East Coast US, Canada, Europe, and anyone prioritizing direct, convenient, and affordable air travel.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun's international airport (CUN) offers superior direct flight connectivity, more frequent routes, and often better pricing from a wider range of global origins.</li><li><strong>Who this matters for:</strong> Travelers from the East Coast US, Canada, Europe, and anyone prioritizing direct, convenient, and affordable air travel.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="getting-around">🚗 Getting Around</h2>
 <p>In Cabo, many opt for rental cars to explore beyond the immediate Cabo San Lucas area (e.g., to San Jose del Cabo, Todos Santos), with daily rates starting around $30-50 USD (500-850 MXN). Taxis are abundant but can be quite expensive, with short rides in town costing $10-20 USD (170-340 MXN). Ride-sharing services like Uber exist but are often limited in reach or face friction from local taxi unions, sometimes having designated pickup spots. Cancun offers fantastic public transport within the Hotel Zone: the R1 and R2 buses run frequently, 24/7, and cost just 12 MXN ($0.70 USD) per ride. Taxis are plentiful and reasonably priced ($10-25 USD / 170-425 MXN for Hotel Zone trips), and Uber and DiDi are generally reliable and more widespread. For day trips, the ADO bus system is excellent, offering comfortable, affordable travel to places like Tulum or Playa del Carmen for around $10-15 USD (170-250 MXN) one-way. 'The Cancun bus system is a lifesaver, so easy and cheap to get around the hotel zone without needing taxis for every little thing.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun&#x27;s robust public bus system, readily available and regulated ride-shares, and extensive ADO bus network for regional travel offer more convenient and affordable transportation options.</li><li><strong>Who this matters for:</strong> Budget travelers, independent explorers, and those who prefer not to rent a car or rely solely on expensive taxis.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun's robust public bus system, readily available and regulated ride-shares, and extensive ADO bus network for regional travel offer more convenient and affordable transportation options.</li><li><strong>Who this matters for:</strong> Budget travelers, independent explorers, and those who prefer not to rent a car or rely solely on expensive taxis.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="accommodation">🏨 Accommodation</h2>
 <p>Cabo's accommodation scene leans heavily towards luxury. You'll find world-renowned resorts like The Cape, A Thompson Hotel, Waldorf Astoria Los Cabos Pedregal, or Le Blanc Spa Resort, where nightly rates often start at $500 USD (8500 MXN) and can soar much higher. Even mid-range options can be $200-350 USD (3400-6000 MXN). While there are some budget-friendlier hotels in downtown Cabo San Lucas, the selection is limited. Cancun, by contrast, caters to every budget and style. Its Hotel Zone is packed with everything from budget-friendly all-inclusive resorts starting at $150-250 USD (2500-4250 MXN) per night for two, to mega-resorts like Live Aqua Beach Resort or Secrets The Vine (often $400-800+ USD / 6800-13500+ MXN). Downtown Cancun offers hostels for $20-40 USD (340-680 MXN) and local hotels for under $100 USD (1700 MXN). This incredible diversity means you can tailor your stay much more precisely to your wallet and preferences. 'You can literally find anything in Cancun, from a cheap hostel to a five-star resort. Cabo felt like it was all high-end, which is great but limits options.'</p>
@@ -914,60 +910,60 @@
 </section><section class="deep-dive">
 <h2 id="day-trips-nature">🌴 Day Trips &amp; Nature</h2>
 <p>Cabo offers distinct natural beauty, primarily defined by its unique desert-to-ocean transition. Popular day trips include visiting the charming 'Magic Town' of Todos Santos (about an hour north), known for its art galleries and Hotel California ($15-25 USD / 250-425 MXN for bus). Snorkeling or diving around Pelican Rock or a boat trip to see El Arco are staples. Whale watching (Dec-April) is a huge draw, with tours starting around $80-120 USD (1350-2000 MXN). For a more secluded experience, a trip to Isla Espíritu Santo near La Paz offers pristine beaches and sea lion colonies. Cancun, however, is surrounded by an ecological wonderland. The sheer number of accessible cenotes (natural swimming holes) like Gran Cenote or Ik Kil (entry $10-25 USD / 170-425 MXN) is incredible. Excursions to Isla Mujeres (ferry $25-30 USD / 425-500 MXN RT) for snorkeling and golf carts, or the ecological theme parks like Xcaret ($100-150 USD / 1700-2500 MXN entry) offer endless entertainment. Add in the proximity to coral reefs for world-class diving and snorkeling, and the biodiversity is unmatched. 'Cancun's day trip options are insane. Cenotes, ruins, islands... you could spend weeks exploring and not run out of things to do.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun&#x27;s proximity to ancient Mayan ruins, countless cenotes, diverse ecological parks, and vibrant reef systems offers a broader and more varied range of natural and cultural excursions.</li><li><strong>Who this matters for:</strong> Adventure seekers, nature lovers, families, and those interested in exploring diverse ecosystems and ancient sites.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Cancun</li><li><strong>Why:</strong> Cancun's proximity to ancient Mayan ruins, countless cenotes, diverse ecological parks, and vibrant reef systems offers a broader and more varied range of natural and cultural excursions.</li><li><strong>Who this matters for:</strong> Adventure seekers, nature lovers, families, and those interested in exploring diverse ecosystems and ancient sites.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="safety-vibe">🛡️ Safety &amp; Vibe</h2>
 <p>Both Cabo San Lucas and Cancun are generally safe destinations for tourists, especially within the well-trafficked hotel zones and resort areas. Standard travel precautions apply: don't flash large amounts of cash, be aware of your surroundings, and avoid isolated areas late at night. In Cabo, the vibe is often described as more upscale, relaxed, and 'desert chic.' While it has its party spots, it generally feels a bit more mature and less frenetic than Cancun. San Jose del Cabo offers a calmer, artsier atmosphere. Cancun, especially in the Hotel Zone, has a very energetic and bustling vibe. It can feel more commercialized, but also offers a constant buzz of activity. Downtown Cancun, while safe, requires a bit more street smarts like any city. Both destinations have a visible police presence in tourist areas. 'I felt totally safe walking around Cabo at night, even alone. Just use common sense like anywhere.' and 'Cancun's Hotel Zone felt super secure, always people around, always security. Downtown was fine too, just a different feel.' Neither destination is immune to petty crime, but serious incidents targeting tourists are rare. The 'winner' here depends entirely on your preferred atmosphere.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both destinations maintain a high level of safety within their primary tourist zones, with the &#x27;better&#x27; choice depending purely on individual preference for atmosphere and energy level.</li><li><strong>Who this matters for:</strong> This category is subjective; those preferring a luxurious, calmer setting might lean Cabo, while those seeking vibrant energy might prefer Cancun.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both destinations maintain a high level of safety within their primary tourist zones, with the 'better' choice depending purely on individual preference for atmosphere and energy level.</li><li><strong>Who this matters for:</strong> This category is subjective; those preferring a luxurious, calmer setting might lean Cabo, while those seeking vibrant energy might prefer Cancun.</li></ul></div>
 </section>
 <div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
 <h2>❓ Frequently Asked Questions</h2>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which destination is better for families with young children?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Cancun generally edges out Cabo for families. Its calm, shallow Caribbean beaches are ideal for kids, and there&#x27;s a wider array of family-friendly all-inclusive resorts, water parks like Xcaret, and easily accessible natural attractions like cenotes that appeal to all ages.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Cancun generally edges out Cabo for families. Its calm, shallow Caribbean beaches are ideal for kids, and there's a wider array of family-friendly all-inclusive resorts, water parks like Xcaret, and easily accessible natural attractions like cenotes that appeal to all ages.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Is whale watching better in Cabo or Cancun?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Cabo is unequivocally the winner for whale watching. Located on the Pacific side, it&#x27;s a prime breeding ground and migration route for humpback whales, grey whales, and more. The season runs from mid-December to mid-April, with numerous tour operators guaranteeing sightings.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Cabo is unequivocally the winner for whale watching. Located on the Pacific side, it's a prime breeding ground and migration route for humpback whales, grey whales, and more. The season runs from mid-December to mid-April, with numerous tour operators guaranteeing sightings.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which has better diving and snorkeling?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Cancun and the Riviera Maya offer superior diving and snorkeling due to the Mesoamerican Barrier Reef System, the second-largest coral reef in the world. You&#x27;ll find vibrant coral, diverse marine life, and unique opportunities to dive in cenotes. Cabo has good snorkeling around Pelican Rock and the Sea of Cortez, but it doesn&#x27;t compare to the Caribbean&#x27;s biodiversity.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Cancun and the Riviera Maya offer superior diving and snorkeling due to the Mesoamerican Barrier Reef System, the second-largest coral reef in the world. You'll find vibrant coral, diverse marine life, and unique opportunities to dive in cenotes. Cabo has good snorkeling around Pelican Rock and the Sea of Cortez, but it doesn't compare to the Caribbean's biodiversity.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Are all-inclusive resorts better in Cabo or Cancun?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Cancun has a greater density and variety of all-inclusive resorts, ranging from budget-friendly to ultra-luxury, often offering better value due to competition. Cabo also has excellent all-inclusive options, but they tend to be concentrated at the higher end of the luxury spectrum, often with a more exclusive feel.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which destination is better for a romantic getaway or honeymoon?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>This is a tough one, as both excel. Cabo&#x27;s dramatic sunsets, upscale dining, and luxurious boutique resorts might appeal more to couples seeking an exclusive, romantic escape. Cancun offers beautiful beaches and romantic resorts as well, but its busier atmosphere might detract slightly for those seeking ultimate tranquility. Consider Cabo for luxury romance, Cancun for energetic romance.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>This is a tough one, as both excel. Cabo's dramatic sunsets, upscale dining, and luxurious boutique resorts might appeal more to couples seeking an exclusive, romantic escape. Cancun offers beautiful beaches and romantic resorts as well, but its busier atmosphere might detract slightly for those seeking ultimate tranquility. Consider Cabo for luxury romance, Cancun for energetic romance.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the best time of year to visit each?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the best time of year to visit each?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Both destinations have similar peak seasons. For Cabo, October to May offers pleasant, dry weather, with December to April being prime for whale watching. For Cancun, late November to May provides ideal temperatures and lower humidity, avoiding hurricane season (June-November), though shoulder seasons can offer deals with slightly higher risk of rain.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Can you easily visit Mayan ruins from Cabo?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>No, you cannot. Cabo San Lucas is on the Baja California Peninsula, far from the Mayan heartland. All major Mayan ruins like Chichen Itza, Tulum, and Coba are located on the Yucatán Peninsula, easily accessible from Cancun.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which destination is more walkable?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Cabo San Lucas&#x27;s downtown and Marina area are very walkable, with many restaurants, bars, and shops concentrated together. Cancun&#x27;s Hotel Zone is walkable along the main boulevard but very spread out, making public buses or taxis necessary to cover distances between attractions. Downtown Cancun is also quite walkable for local exploration.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Cabo San Lucas's downtown and Marina area are very walkable, with many restaurants, bars, and shops concentrated together. Cancun's Hotel Zone is walkable along the main boulevard but very spread out, making public buses or taxis necessary to cover distances between attractions. Downtown Cancun is also quite walkable for local exploration.</p></div>
 </div>
 </div>
 </div>
@@ -995,33 +991,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Cabo+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Cabo</span>
-        <span class="tour-name">Cabo Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Cabo+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Cabo Day Trip</span>
-        <span class="tour-name">Cabo Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Cancun+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Cancun</span>
-        <span class="tour-name">Cancun Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Cancun+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Cancun Day Trip</span>
-        <span class="tour-name">Cancun Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Cabo+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Cabo</span>
+<span class="tour-name">Cabo Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Cabo+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Cabo Day Trip</span>
+<span class="tour-name">Cabo Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Cancun+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Cancun</span>
+<span class="tour-name">Cancun Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Cancun+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Cancun Day Trip</span>
+<span class="tour-name">Cancun Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

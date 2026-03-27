@@ -670,36 +670,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -708,23 +733,23 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#nature-scenery">🏞️ Nature & Scenery</a>
-<a href="#adventure-activities">🤸 Adventure & Activities</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#cities-culture">🏙️ Cities & Culture</a>
-<a href="#beaches-coastline">🏖️ Beaches & Coastline</a>
+<a href="#nature-scenery">🏞️ Nature &amp; Scenery</a>
+<a href="#adventure-activities">🤸 Adventure &amp; Activities</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#cities-culture">🏙️ Cities &amp; Culture</a>
+<a href="#beaches-coastline">🏖️ Beaches &amp; Coastline</a>
 <a href="#wildlife">🐨 Wildlife</a>
 <a href="#getting-around">🚗 Getting Around</a>
-<a href="#food-drink">🍽️ Food & Drink</a>
+<a href="#food-drink">🍽️ Food &amp; Drink</a>
 <a href="#accommodation">🛌 Accommodation</a>
-<a href="#safety-solo-travel">🛡️ Safety & Solo Travel</a>
+<a href="#safety-solo-travel">🛡️ Safety &amp; Solo Travel</a>
 <a href="#faq">❓ FAQ</a>
 </div>
 </div>
 <section class="hero">
 <div class="hero-badge">🆚 Comparison — Oceania</div>
 <h1>New Zealand vs Australia: <em>Which Should You Visit?</em></h1>
-<p>Choosing between New Zealand&#x27;s dramatic landscapes and Australia&#x27;s vast, diverse continent is a dream dilemma for any adventurer.</p>
+<p>Choosing between New Zealand's dramatic landscapes and Australia's vast, diverse continent is a dream dilemma for any adventurer.</p>
 <div class="hero-meta">
 <div><strong>Updated:</strong> March 2026</div>
 <div><strong>Sources:</strong> r/travel, r/solotravel, r/NZTravel, r/AusTravel, r/ backpacking</div>
@@ -737,16 +762,16 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#nature-scenery">🏞️ Nature & Scenery</a>
-<a href="#adventure-activities">🤸 Adventure & Activities</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#cities-culture">🏙️ Cities & Culture</a>
-<a href="#beaches-coastline">🏖️ Beaches & Coastline</a>
+<a href="#nature-scenery">🏞️ Nature &amp; Scenery</a>
+<a href="#adventure-activities">🤸 Adventure &amp; Activities</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#cities-culture">🏙️ Cities &amp; Culture</a>
+<a href="#beaches-coastline">🏖️ Beaches &amp; Coastline</a>
 <a href="#wildlife">🐨 Wildlife</a>
 <a href="#getting-around">🚗 Getting Around</a>
-<a href="#food-drink">🍽️ Food & Drink</a>
+<a href="#food-drink">🍽️ Food &amp; Drink</a>
 <a href="#accommodation">🛌 Accommodation</a>
-<a href="#safety-solo-travel">🛡️ Safety & Solo Travel</a>
+<a href="#safety-solo-travel">🛡️ Safety &amp; Solo Travel</a>
 <a href="#faq">❓ FAQ</a>
 </aside>
 <div class="article-content">
@@ -755,17 +780,17 @@
 <li>Cross-referenced seasonal patterns, weather data, and major event calendars to provide optimal travel timing and advice.</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="New Zealand travel destination" loading="lazy" src="https://img.tabiji.ai/compare/new-zealand-vs-australia/dest1.jpg">
+<img alt="New Zealand travel destination" loading="lazy" src="https://img.tabiji.ai/compare/new-zealand-vs-australia/dest1.jpg"/>
 <div class="caption">New Zealand</div>
-</img></div>
-<div>
-<img alt="Australia travel destination" loading="lazy" src="https://img.tabiji.ai/compare/new-zealand-vs-australia/dest2.jpg">
-<div class="caption">Australia</div>
-</img></div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>For raw, jaw-dropping natural beauty and adrenaline-fueled activities on a slightly tighter budget, New Zealand is your champion. If sprawling cities, iconic beaches, unique wildlife, and a more diverse cultural scene are your priority, Australia beckons. Expect to budget USD $70-120/day for NZ, and USD $80-150/day for Australia, excluding long-haul flights.</strong></p><ul class="verdict-takeaways"><li><strong>Choose New Zealand:</strong> Perfect for nature lovers, hikers, thrill-seekers, and those prioritizing breathtaking scenery and outdoor adventures over bustling city life. Ideal for a 2-4 week trip focusing on one or both islands.</li>
-<li><strong>Choose Australia:</strong> Best for beach enthusiasts, wildlife watchers, foodies, and travelers who enjoy vibrant multicultural cities and vast, diverse landscapes from deserts to reefs. Great for a month-long trip or longer.</li>
-<li><strong>Choose Both:</strong> If you have 6+ weeks and a generous budget, combining both offers an unparalleled Oceania experience. Fly into Auckland, spend 3 weeks exploring NZ, then catch a flight to Sydney or Melbourne for another 3+ weeks in Australia.</li></ul></div>
+<div>
+<img alt="Australia travel destination" loading="lazy" src="https://img.tabiji.ai/compare/new-zealand-vs-australia/dest2.jpg"/>
+<div class="caption">Australia</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose New Zealand if you want nature &amp; scenery, adventure &amp; activities, costs &amp; budget. Choose Australia if you want cities &amp; culture, beaches &amp; coastline, wildlife. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose New Zealand: </strong>nature &amp; scenery, adventure &amp; activities, costs &amp; budget.</li>
+<li><strong>Choose Australia: </strong>cities &amp; culture, beaches &amp; coastline, wildlife.</li>
+<li><strong>Choose Both:</strong> If you have 6+ weeks and a generous budget, combining both offers an unparalleled Oceania experience. Fly into Auckland, spend 3 weeks exploring NZ, then catch a flight to Sydney or Melbourne for another 3+ weeks in Australia.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want New Zealand for its strongest wins but still want Australia for the categories where it clearly does better.</li></ul></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Australia</strong><p>Diverse culinary scene, multicultural influences, world-class coffee, fresh produce, vibrant fine dining and casual eats.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Tie</strong><p>Not a clean call from the comparison table, so treat this as situational.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>New Zealand</strong><p>Slightly more affordable for activities and food, but accommodations can be similar. Public transport is limited.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>New Zealand</strong><p>Unrivaled dramatic landscapes: fjords, mountains, glaciers, volcanic zones. Every turn is a postcard.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Australia</strong><p>Diverse culinary scene, multicultural influences, world-class coffee, fresh produce, vibrant fine dining and casual eats.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>New Zealand</strong><p>Slightly more affordable for activities and food, but accommodations can be similar. Public transport is limited.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>New Zealand</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Australia</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Australia</span></span>
@@ -773,35 +798,6 @@
 <span class="best-for-chip"><span class="bf-label">🏛️ Best for culture:</span> <span class="bf-winner">Australia</span></span>
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">New Zealand</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">New Zealand</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Australia</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">New Zealand</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Australia</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">New Zealand</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Australia</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏔️ Scenery</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">New Zealand</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Australia</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">New Zealand</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Australia</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -880,7 +876,7 @@
 <section class="deep-dive">
 <h2 id="nature-scenery">🏞️ Nature &amp; Scenery</h2>
 <p>New Zealand is a nature photographer's dream, a place where you can wake up to glacial lakes like Lake Pukaki, hike through temperate rainforests in Fiordland National Park, and explore geothermal wonders in Rotorua all within a few days. Milford Sound's sheer cliffs and waterfalls are legendary, best experienced on a cruise (NZD $100-150 / USD $60-90). The hiking is world-class, from day walks like Roy's Peak near Wanaka to multi-day Great Walks such as the Kepler Track or Routeburn Track (booking huts months in advance, NZD $70-150 / USD $45-95 per night). Australia’s nature is spectacular but spread out; the Great Barrier Reef (AUD $200-350 / USD $130-230 for a day trip) is incredible, as are the Daintree Rainforest and the red landscapes of Uluru, but they require significant travel time and cost to access individually. "Honestly, the sheer variety of landscapes in NZ for such a small country is just mind-blowing. Every drive is epic." While Australia has immense natural beauty, NZ packs more 'wow' per square kilometer.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> New Zealand</li><li><strong>Why:</strong> New Zealand offers a higher density of utterly breathtaking, diverse natural landscapes that are more accessible for a typical vacation.</li><li><strong>Who this matters for:</strong> Hikers, photographers, nature lovers, and anyone seeking &#x27;epic&#x27; views around every corner.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> New Zealand</li><li><strong>Why:</strong> New Zealand offers a higher density of utterly breathtaking, diverse natural landscapes that are more accessible for a typical vacation.</li><li><strong>Who this matters for:</strong> Hikers, photographers, nature lovers, and anyone seeking 'epic' views around every corner.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="adventure-activities">🤸 Adventure &amp; Activities</h2>
 <p>New Zealand practically invented the commercial adventure tourism industry, and Queenstown is its undisputed capital. Here you can bungy jump off the Kawarau Bridge (NZD $299 / USD $180) or Nevis Bungy (NZD $349 / USD $210), skydive over Lake Taupo (NZD $299-499 / USD $180-300), go whitewater rafting on the Kaituna River (NZD $100-130 / USD $60-80), or jet boat through the Shotover River canyons (NZD $179 / USD $110). The sheer variety and concentration of high-octane activities are unmatched. Australia offers fantastic adventure too, particularly surfing at places like Bells Beach or the Gold Coast, diving the Great Barrier Reef, or tackling the iconic Sydney Harbour Bridge Climb (AUD $200-400 / USD $130-260). However, these are often isolated experiences rather than the 'choose-your-adventure' buffet NZ provides. "After skydiving in Taupo and then canyoning in Queenstown, I felt like I'd lived a year in a week. NZ just hits different for adrenaline junkies." If you're chasing thrills, NZ delivers them in spades, closer together and often with better views.</p>
@@ -896,7 +892,7 @@
 </section><section class="deep-dive">
 <h2 id="beaches-coastline">🏖️ Beaches &amp; Coastline</h2>
 <p>Australia is undeniably the beach champion. With over 10,000 beaches, it offers unparalleled variety from the iconic golden sands of Bondi Beach in Sydney (free entry, surf lessons AUD $80-100 / USD $50-65) to the pristine white sands of Whitehaven Beach in the Whitsundays (part of sailing tours, AUD $200-400 / USD $130-260). The Great Barrier Reef, off the coast of Queensland, is a wonder of the world, offering incredible snorkeling and diving. You can spend weeks exploring the diverse coastlines of Queensland, NSW, and Western Australia, finding perfect surf breaks, calm swimming coves, and dramatic cliff walks. New Zealand's beaches are beautiful, particularly in the Coromandel Peninsula (Hot Water Beach, Cathedral Cove) and Abel Tasman National Park, but they are fewer in number and often more rugged. "If you're coming to Oceania for beaches, Australia is just on another level. Nothing beats a day at a perfect Aussie beach, then a BBQ." While NZ has its gems, Australia's sheer scale, accessibility, and variety of world-class beaches and marine environments make it the clear winner.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Australia</li><li><strong>Why:</strong> Australia&#x27;s immense coastline offers an unmatched quantity and variety of world-famous beaches, iconic surf spots, and unparalleled marine life.</li><li><strong>Who this matters for:</strong> Beach lovers, surfers, divers, sun-worshippers, and anyone dreaming of endless golden sands.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Australia</li><li><strong>Why:</strong> Australia's immense coastline offers an unmatched quantity and variety of world-famous beaches, iconic surf spots, and unparalleled marine life.</li><li><strong>Who this matters for:</strong> Beach lovers, surfers, divers, sun-worshippers, and anyone dreaming of endless golden sands.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="wildlife">🐨 Wildlife</h2>
 <p>Australia is synonymous with unique and iconic wildlife. Where else can you easily spot kangaroos hopping in the wild (e.g., at Murramarang National Park) or see koalas clinging to eucalyptus trees (e.g., at Lone Pine Koala Sanctuary in Brisbane, entry AUD $54 / USD $35)? Beyond the famous marsupials, there are platypuses, wombats, quokkas, and an incredible array of colorful birds. Its marine life is equally impressive, with the Great Barrier Reef home to countless fish species, turtles, and dugongs. New Zealand has its own unique ecosystem, with fascinating endemic birds like the flightless kiwi (best seen at dedicated sanctuaries like Orokonui Ecosanctuary, NZD $30 / USD $18). You can also spot seals, dolphins, and whales (Kaikoura whale watching, NZD $180-200 / USD $110-125). "Seeing wild kangaroos hop past my campsite in Australia was a core memory. NZ has cool birds, but nothing beats a koala selfie." While NZ offers incredible marine encounters and birdlife, Australia's iconic, easily recognizable land mammals give it the edge for a broader, more memorable wildlife experience.</p>
@@ -904,14 +900,14 @@
 </section><section class="deep-dive">
 <h2 id="getting-around">🚗 Getting Around</h2>
 <p>New Zealand's compact size makes it an absolute dream for road trips. You can easily drive the length of one island in a week or two, linking major attractions without excessive travel time. Renting a car or campervan (from NZD $80-150 / USD $50-95 per day) is the most popular way to explore, offering unparalleled freedom and access to scenic routes like the Haast Pass. Fuel costs are high (NZD $2.80-3.20/L / USD $7-8/gallon), but distances are shorter. Public transport between towns is mainly by intercity buses like InterCity (a route from Auckland to Wellington could be NZD $70-100 / USD $45-60). Australia, by contrast, is enormous. While epic road trips like the Great Ocean Road or Perth to Broome are incredible, covering significant distances often necessitates expensive domestic flights (e.g., Sydney to Cairns, AUD $150-300 / USD $100-200). Within cities, Australian public transport networks (trains, trams, buses) are generally more comprehensive and efficient than NZ's. "Honestly, driving New Zealand was stress-free compared to planning how to get between cities in Australia without blowing my budget on flights." NZ's smaller scale and focused road network make self-drive travel immensely more enjoyable and practical for a typical vacation.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> New Zealand</li><li><strong>Why:</strong> New Zealand&#x27;s compact size and stunning, well-maintained roads make it the ultimate road trip destination, allowing easier and more scenic exploration.</li><li><strong>Who this matters for:</strong> Road trippers, independent travelers, and those who prefer self-drive exploration.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> New Zealand</li><li><strong>Why:</strong> New Zealand's compact size and stunning, well-maintained roads make it the ultimate road trip destination, allowing easier and more scenic exploration.</li><li><strong>Who this matters for:</strong> Road trippers, independent travelers, and those who prefer self-drive exploration.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="food-drink">🍽️ Food &amp; Drink</h2>
 <p>Australia's multicultural population has created a culinary landscape that is incredibly diverse, innovative, and world-class. Melbourne and Sydney are consistently ranked among the best food cities globally, offering everything from Michelin-starred restaurants to incredible street food, vibrant Asian eateries, and superb Mediterranean influences. Coffee culture is paramount, and a flat white is an art form (AUD $5-6 / USD $3.30-4). You'll find fantastic fresh seafood, modern Australian cuisine, and exceptional wines from regions like the Barossa Valley. New Zealand also boasts excellent fresh produce, particularly lamb and seafood (e.g., Bluff oysters). Its coffee scene is strong, and craft beer is a big deal, especially in Wellington. Māori hāngi (traditional earth oven cooking) is a unique cultural experience. However, the sheer breadth, sophistication, and global influence of Australia's food scene are unmatched. "I loved the fresh seafood in NZ, but Australia's diversity, from Vietnamese in Footscray to Greek in Lonsdale Street, just blew me away." While NZ has great food, Australia takes the win for its sheer range and quality.</p>
 <div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Australia</li><li><strong>Why:</strong> Australia offers a far more diverse, sophisticated, and globally influenced culinary scene, especially in its major multicultural cities.</li><li><strong>Who this matters for:</strong> Foodies, gourmands, coffee aficionados, and those who love exploring diverse culinary traditions.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="accommodation">🛌 Accommodation</h2>
-<p>Both New Zealand and Australia offer a comprehensive range of accommodation options, from budget-friendly hostels to mid-range motels, boutique hotels, and luxury resorts. In New Zealand, you'll find excellent backpacker hostels (NZD $35-50 / USD $20-30 for a dorm bed), well-maintained motels (NZD $120-200 / USD $75-125 for a private room), and unique farm stays or eco-lodges that immerse you in nature. Quality is generally high, even at lower price points. Australia, being larger, has a broader quantity of options, especially in its major cities like Sydney and Melbourne, where you can find everything from a basic dorm for AUD $40-60 (USD $26-40) to high-end luxury hotels for AUD $300-600+ (USD $200-400+). However, these city options often come at a premium, and mid-range hotels can feel less value-for-money. "Hostels in both countries are surprisingly clean, but I found more unique, cozy B&Bs scattered around New Zealand's smaller towns." For camping and campervan parks, both countries excel, with numerous well-equipped sites. It's a tie because while Australia has more sheer volume, NZ's smaller scale means quality is consistently good across its options without the highest city price tags.</p>
+<p>Both New Zealand and Australia offer a comprehensive range of accommodation options, from budget-friendly hostels to mid-range motels, boutique hotels, and luxury resorts. In New Zealand, you'll find excellent backpacker hostels (NZD $35-50 / USD $20-30 for a dorm bed), well-maintained motels (NZD $120-200 / USD $75-125 for a private room), and unique farm stays or eco-lodges that immerse you in nature. Quality is generally high, even at lower price points. Australia, being larger, has a broader quantity of options, especially in its major cities like Sydney and Melbourne, where you can find everything from a basic dorm for AUD $40-60 (USD $26-40) to high-end luxury hotels for AUD $300-600+ (USD $200-400+). However, these city options often come at a premium, and mid-range hotels can feel less value-for-money. "Hostels in both countries are surprisingly clean, but I found more unique, cozy B&amp;Bs scattered around New Zealand's smaller towns." For camping and campervan parks, both countries excel, with numerous well-equipped sites. It's a tie because while Australia has more sheer volume, NZ's smaller scale means quality is consistently good across its options without the highest city price tags.</p>
 <div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both countries offer excellent and varied accommodation choices, catering to all budgets and travel styles, with good quality across the board.</li><li><strong>Who this matters for:</strong> All travelers, as both countries provide suitable lodging regardless of budget or preference.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="safety-solo-travel">🛡️ Safety &amp; Solo Travel</h2>
@@ -920,52 +916,52 @@
 </section>
 <div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
 <h2>❓ Frequently Asked Questions</h2>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Do I need a visa for New Zealand or Australia?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Yes, most non-citizens will need an Electronic Travel Authority (ETA) or a visa. For New Zealand, many nationalities require an NZeTA. For Australia, an eVisitor visa or ETA is common. Always check the official government immigration websites for the most up-to-date requirements based on your nationality.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the best time to visit each country?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>For New Zealand, summer (Dec-Feb) is ideal for hiking and outdoor activities, but also busiest. Shoulder seasons (Oct-Nov, Mar-Apr) offer good weather and fewer crowds. Australia&#x27;s best time varies by region: southern states (Sydney, Melbourne) are best in spring/autumn (Sept-Nov, Mar-May), while the tropical north (Cairns, Darwin) is best in the dry season (May-Oct).</p></div>
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the best time to visit each country?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>For New Zealand, summer (Dec-Feb) is ideal for hiking and outdoor activities, but also busiest. Shoulder seasons (Oct-Nov, Mar-Apr) offer good weather and fewer crowds. Australia's best time varies by region: southern states (Sydney, Melbourne) are best in spring/autumn (Sept-Nov, Mar-May), while the tropical north (Cairns, Darwin) is best in the dry season (May-Oct).</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Can I drive in New Zealand or Australia with my foreign license?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Yes, generally you can drive for up to 12 months with a valid overseas driver&#x27;s license, provided it&#x27;s in English or accompanied by an accurate English translation or International Driving Permit (IDP). You must carry your license with you at all times while driving. Always check specific state/territory or regional requirements.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Yes, generally you can drive for up to 12 months with a valid overseas driver's license, provided it's in English or accompanied by an accurate English translation or International Driving Permit (IDP). You must carry your license with you at all times while driving. Always check specific state/territory or regional requirements.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which country is better for a working holiday?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Both countries offer excellent working holiday visa programs for young travelers (typically 18-30, sometimes up to 35). Australia often has more job opportunities, especially in hospitality, agriculture, and construction, due to its larger economy and population. New Zealand offers a more relaxed pace and incredible natural beauty during your downtime. It really depends on your priorities: job volume or lifestyle.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">What are the essential items to pack for a trip to either country?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Regardless of your destination, pack layers as weather can change quickly, especially in NZ. Sunscreen and a wide-brimmed hat are crucial due to strong UV rays. Comfortable walking shoes for exploring cities and nature are a must. A universal travel adapter, insect repellent (especially for sandflies in NZ), and a reusable water bottle are also highly recommended.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Are there any dangerous animals I should be aware of?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>In New Zealand, there are no dangerous native land animals; the biggest &#x27;threats&#x27; are sandflies and potentially aggressive kea birds. Australia, however, is famous for its venomous snakes and spiders, and marine stingers in tropical waters. While encounters are rare, it&#x27;s wise to be aware, follow local advice, and use common sense like wearing appropriate footwear and swimming only in designated areas.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>In New Zealand, there are no dangerous native land animals; the biggest 'threats' are sandflies and potentially aggressive kea birds. Australia, however, is famous for its venomous snakes and spiders, and marine stingers in tropical waters. While encounters are rare, it's wise to be aware, follow local advice, and use common sense like wearing appropriate footwear and swimming only in designated areas.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">How long should I plan for a trip to New Zealand vs. Australia?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>For New Zealand, a minimum of 2-3 weeks is recommended to see one island thoroughly, or 3-4 weeks to cover both islands without rushing. For Australia, due to its vast size, 3-4 weeks is a good start for exploring one major region (e.g., East Coast), but you could easily spend 2-3 months to truly experience diverse areas like the Outback, West Coast, and cities.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which country has better hiking opportunities?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>New Zealand is generally considered superior for hiking, offering an incredible density of world-class trails, including its famous Great Walks (e.g., Milford Track, Tongariro Northern Circuit). Its varied terrain of mountains, glaciers, and forests provides dramatic backdrops for day hikes and multi-day treks. Australia has fantastic hikes too, like the Overland Track in Tasmania or sections of the Bibbulmun Track, but they are fewer and farther between compared to NZ&#x27;s concentrated offerings.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>New Zealand is generally considered superior for hiking, offering an incredible density of world-class trails, including its famous Great Walks (e.g., Milford Track, Tongariro Northern Circuit). Its varied terrain of mountains, glaciers, and forests provides dramatic backdrops for day hikes and multi-day treks. Australia has fantastic hikes too, like the Overland Track in Tasmania or sections of the Bibbulmun Track, but they are fewer and farther between compared to NZ's concentrated offerings.</p></div>
 </div>
 </div>
 </div>
@@ -993,33 +989,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/New+Zealand+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore New Zealand</span>
-        <span class="tour-name">New Zealand Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/New+Zealand+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">New Zealand Day Trip</span>
-        <span class="tour-name">New Zealand Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Australia+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Australia</span>
-        <span class="tour-name">Australia Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Australia+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Australia Day Trip</span>
-        <span class="tour-name">Australia Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/New+Zealand+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore New Zealand</span>
+<span class="tour-name">New Zealand Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/New+Zealand+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">New Zealand Day Trip</span>
+<span class="tour-name">New Zealand Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Australia+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Australia</span>
+<span class="tour-name">Australia Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Australia+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Australia Day Trip</span>
+<span class="tour-name">Australia Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

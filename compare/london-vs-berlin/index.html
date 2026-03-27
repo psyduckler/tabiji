@@ -670,36 +670,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -708,23 +733,23 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#culture-history">🏛️ Culture & History</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
 <a href="#nightlife">🌃 Nightlife</a>
 <a href="#food-scene">🍽️ Food Scene</a>
 <a href="#accommodation">🏨 Accommodation</a>
 <a href="#getting-around">🚇 Getting Around</a>
 <a href="#getting-there">✈️ Getting There</a>
 <a href="#day-trips">🗺️ Day Trips</a>
-<a href="#weather-seasons">☀️ Weather & Seasons</a>
-<a href="#safety-vibe">☮️ Safety & Vibe</a>
+<a href="#weather-seasons">☀️ Weather &amp; Seasons</a>
+<a href="#safety-vibe">☮️ Safety &amp; Vibe</a>
 <a href="#faq">❓ FAQ</a>
 </div>
 </div>
 <section class="hero">
 <div class="hero-badge">🆚 Comparison — Western Europe</div>
 <h1>London vs Berlin: <em>Which Should You Visit?</em></h1>
-<p>Two of Europe&#x27;s most vibrant capitals, London and Berlin offer wildly different experiences – one a historic global powerhouse, the other a creative, edgy hub reborn.</p>
+<p>Two of Europe's most vibrant capitals, London and Berlin offer wildly different experiences – one a historic global powerhouse, the other a creative, edgy hub reborn.</p>
 <div class="hero-meta">
 <div><strong>Updated:</strong> March 2026</div>
 <div><strong>Sources:</strong> r/travel, r/solotravel, r/London, r/Berlin, r/EuropeTravel</div>
@@ -737,16 +762,16 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#culture-history">🏛️ Culture & History</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
 <a href="#nightlife">🌃 Nightlife</a>
 <a href="#food-scene">🍽️ Food Scene</a>
 <a href="#accommodation">🏨 Accommodation</a>
 <a href="#getting-around">🚇 Getting Around</a>
 <a href="#getting-there">✈️ Getting There</a>
 <a href="#day-trips">🗺️ Day Trips</a>
-<a href="#weather-seasons">☀️ Weather & Seasons</a>
-<a href="#safety-vibe">☮️ Safety & Vibe</a>
+<a href="#weather-seasons">☀️ Weather &amp; Seasons</a>
+<a href="#safety-vibe">☮️ Safety &amp; Vibe</a>
 <a href="#faq">❓ FAQ</a>
 </aside>
 <div class="article-content">
@@ -756,17 +781,17 @@
 <li>Consulted multiple travel blogs and expert guides for up-to-date local insights and recommendations.</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="London travel destination" loading="lazy" src="https://img.tabiji.ai/compare/london-vs-berlin/dest1.jpg">
+<img alt="London travel destination" loading="lazy" src="https://img.tabiji.ai/compare/london-vs-berlin/dest1.jpg"/>
 <div class="caption">London</div>
-</img></div>
-<div>
-<img alt="Berlin travel destination" loading="lazy" src="https://img.tabiji.ai/compare/london-vs-berlin/dest2.jpg">
-<div class="caption">Berlin</div>
-</img></div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>For those craving grand history, world-class museums, diverse food, and endless entertainment with a higher budget, London beckons. If you&#x27;re after an edgier, more alternative vibe, legendary nightlife, rich modern history, and a much friendlier price tag, Berlin is your pick. A rough daily budget for London is $150-250+, while Berlin is closer to $80-150+.</strong></p><ul class="verdict-takeaways"><li><strong>Choose London:</strong> You&#x27;re a history buff, love grand architecture, enjoy West End theatre, seek diverse culinary experiences, or don&#x27;t mind a higher travel budget.</li>
-<li><strong>Choose Berlin:</strong> You&#x27;re into electronic music, modern history (especially WWII and Cold War), street art, a more relaxed and alternative atmosphere, and prefer to travel on a more modest budget.</li>
-<li><strong>Choose Both:</strong> If you have at least 10-14 days and want to experience both sides of European urban life. A high-speed train or short flight connects them easily, offering a compelling contrast.</li></ul></div>
+<div>
+<img alt="Berlin travel destination" loading="lazy" src="https://img.tabiji.ai/compare/london-vs-berlin/dest2.jpg"/>
+<div class="caption">Berlin</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose London if you want culture &amp; history, food scene, day trips. Choose Berlin if you want costs &amp; budget, nightlife, accommodation. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose London: </strong>culture &amp; history, food scene, day trips.</li>
+<li><strong>Choose Berlin: </strong>costs &amp; budget, nightlife, accommodation.</li>
+<li><strong>Choose Both:</strong> If you have at least 10-14 days and want to experience both sides of European urban life. A high-speed train or short flight connects them easily, offering a compelling contrast.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want London for its strongest wins but still want Berlin for the categories where it clearly does better.</li></ul></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>London</strong><p>Incredibly diverse, from Michelin-starred dining to global street food, traditional pubs, and vibrant markets.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Berlin</strong><p>Legendary for its electronic music scene, 24/7 clubs, 'anything goes' attitude, and more affordable drinks.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Berlin</strong><p>One of Europe's most affordable major capitals, offering great value for money on nearly everything.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>London</strong><p>Rich in ancient history, royal heritage, world-class museums (many free), and a thriving theatre scene.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Berlin</strong><p>Legendary for its electronic music scene, 24/7 clubs, 'anything goes' attitude, and more affordable drinks.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Berlin</strong><p>One of Europe's most affordable major capitals, offering great value for money on nearly everything.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>London</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div></div><div class="scorecard"><h3>Berlin</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Tie</span></span>
@@ -777,35 +802,6 @@
 <span class="best-for-chip"><span class="bf-label">👫 Best for couples:</span> <span class="bf-winner">London</span></span>
 <span class="best-for-chip"><span class="bf-label">👨‍👩‍👧‍👦 Best for families:</span> <span class="bf-winner">London</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">London</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Berlin</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">London</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Berlin</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">London</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Berlin</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🌙 Nightlife</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">London</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Berlin</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">London</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Berlin</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -821,7 +817,7 @@
 <tr>
 <td>Costs &amp; Budget</td>
 <td>Significantly more expensive across the board – accommodation, transport, food, and entertainment can quickly add up.</td>
-<td>One of Europe&#x27;s most affordable major capitals, offering great value for money on nearly everything.</td>
+<td>One of Europe's most affordable major capitals, offering great value for money on nearly everything.</td>
 <td><span class="edge-berlin">Berlin</span></td>
 </tr>
 <tr>
@@ -833,7 +829,7 @@
 <tr>
 <td>Nightlife</td>
 <td>Diverse pub scene, cocktail bars, live music venues, and world-class clubs, though often with stricter closing times.</td>
-<td>Legendary for its electronic music scene, 24/7 clubs, &#x27;anything goes&#x27; attitude, and more affordable drinks.</td>
+<td>Legendary for its electronic music scene, 24/7 clubs, 'anything goes' attitude, and more affordable drinks.</td>
 <td><span class="edge-berlin">Berlin</span></td>
 </tr>
 <tr>
@@ -868,7 +864,7 @@
 </tr>
 <tr>
 <td>Weather &amp; Seasons</td>
-<td>Mild climate, famous for its &#x27;grey&#x27; skies and occasional rain, pleasant springs and autumns, moderate summers.</td>
+<td>Mild climate, famous for its 'grey' skies and occasional rain, pleasant springs and autumns, moderate summers.</td>
 <td>Distinct four seasons: hot summers, cold and often snowy winters, mild springs and autumns.</td>
 <td><span class="edge-tie">Tie</span></td>
 </tr>
@@ -884,7 +880,7 @@
 <section class="deep-dive">
 <h2 id="costs-budget">💰 Costs &amp; Budget</h2>
 <p>When it comes to your wallet, Berlin is the undisputed champion. A typical day in London, including a decent meal (£15-25/$19-32), a few Tube rides (£2.80-6.70/$3.50-8.50 per journey within Zone 1-2 depending on peak/off-peak), and an attraction (£20-30/$25-38), easily pushes your budget to £100+ ($125+), even without lavish spending. Accommodation is particularly steep, with a basic hotel room starting at £120-150 ($150-190) in a decent area. In Berlin, you can enjoy a hearty meal (e.g., a good döner or currywurst for €5-8/$5.50-9, or a sit-down meal for €12-20/$13-22), efficient public transport (€3.20/$3.50 for a single ticket, €9.90/$11 for a day pass), and a museum entry (€10-15/$11-17) for a daily spend closer to €60-80 ($65-90). Even hostels in London are pricier than mid-range hotels in Berlin. 'Honestly, I nearly cried when I saw how much a pint cost in London compared to Berlin. My wallet felt it for weeks.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Berlin</li><li><strong>Why:</strong> Berlin offers significantly better value for money across almost all travel categories, making it a budget traveler&#x27;s dream.</li><li><strong>Who this matters for:</strong> Budget-conscious travelers, backpackers, and anyone looking to maximize their travel duration without breaking the bank.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Berlin</li><li><strong>Why:</strong> Berlin offers significantly better value for money across almost all travel categories, making it a budget traveler's dream.</li><li><strong>Who this matters for:</strong> Budget-conscious travelers, backpackers, and anyone looking to maximize their travel duration without breaking the bank.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="culture-history">🏛️ Culture &amp; History</h2>
 <p>London's cultural offerings span millennia, from Roman ruins to royal palaces. You can explore the British Museum with its Rosetta Stone (free entry), marvel at the Tower of London (£33.60/$42.50 entry), catch a West End show (tickets from £30-150+/$38-190+), or wander through the National Gallery (free). The sheer breadth and depth of its historical institutions are staggering. Berlin, on the other hand, provides a powerful and often sobering journey through modern history. Sites like the Brandenburg Gate, Reichstag Building, Checkpoint Charlie (€16/$17.50 for the museum), and the Berlin Wall Memorial (free) are essential. Museum Island is home to incredible collections, particularly the Pergamon Museum (€12/$13). While London boasts more 'ancient' history, Berlin's narrative is intensely compelling and directly relevant to understanding the contemporary world. 'Berlin's history just hits different, it's so raw and recent. But for pure museum hopping and grand architecture, London's tough to beat.'</p>
@@ -896,7 +892,7 @@
 </section><section class="deep-dive">
 <h2 id="food-scene">🍽️ Food Scene</h2>
 <p>London is a global culinary melting pot. You can find literally any cuisine done exceptionally well, often within walking distance. Borough Market offers gourmet delights and street food, Brick Lane is famous for its curry houses, and areas like Soho and Mayfair boast Michelin stars galore. Traditional British fare like fish and chips or a Sunday roast are also abundant. A good sit-down meal can range from £15 for casual fare to £50+ for mid-range. Berlin has a fantastic street food scene – you absolutely must try a Currywurst from Curry 36 or a Döner Kebab, often considered the best outside Turkey (€5-8/$5.50-9). The city also has a growing number of excellent international restaurants, especially Vietnamese and Middle Eastern, and a creative vegan scene. While Berlin offers better value, London's sheer volume, diversity, and top-tier quality across all price points give it the edge. 'London's food scene is just insane, you can eat something new and amazing every single day. Berlin has great döner, but London has the whole world.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> London</li><li><strong>Why:</strong> London’s unparalleled diversity, quality, and sheer volume of culinary options, from global street food to Michelin stars, make it a foodie&#x27;s paradise.</li><li><strong>Who this matters for:</strong> Foodies, gourmands, those who love international cuisine, and travelers who enjoy exploring diverse dining experiences.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> London</li><li><strong>Why:</strong> London’s unparalleled diversity, quality, and sheer volume of culinary options, from global street food to Michelin stars, make it a foodie's paradise.</li><li><strong>Who this matters for:</strong> Foodies, gourmands, those who love international cuisine, and travelers who enjoy exploring diverse dining experiences.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="accommodation">🏨 Accommodation</h2>
 <p>Accommodation in London is notoriously expensive, reflecting its status as a global financial hub. A decent, centrally located hotel room (e.g., in Bloomsbury or South Kensington) can easily cost £180-300+ ($225-380+) per night. Budget travelers often resort to hostels or staying far out and commuting, which adds travel time and cost (e.g., a hostel bed in central London might still be £40-60/$50-75). Berlin, in stark contrast, offers excellent value. You can find stylish boutique hotels in popular neighborhoods like Mitte or Prenzlauer Berg for €100-180 ($110-200) per night, often with more generous room sizes. Hostels are plentiful and often high quality, with beds starting around €25-40 ($28-45). This allows travelers to stay in more desirable areas without breaking the bank. 'I stayed in a really nice design hotel in Kreuzberg for what a basic chain hotel room would cost me near Heathrow. Berlin definitely wins for value and style.'</p>
@@ -904,7 +900,7 @@
 </section><section class="deep-dive">
 <h2 id="getting-around">🚇 Getting Around</h2>
 <p>London's transport system, centered around the iconic 'Tube' (Underground), is comprehensive and reaches almost everywhere. However, it's also one of the most expensive city transport systems globally, with single journeys in Zone 1-2 often costing £2.80-6.70 ($3.50-8.50) and a 7-day Travelcard for Zones 1-2 at £40.70 ($51). Buses are cheaper but slower. The system can be overwhelmingly busy, especially during peak hours. Berlin's BVG system (U-Bahn, S-Bahn, trams, buses) is a marvel of efficiency and simplicity. A single ticket costs €3.20 ($3.50), a day pass is €9.90 ($11), and a 7-day ticket is €38 ($42), covering a vast network. It's generally less crowded, cleaner, and easier to understand for first-time visitors. Walking and cycling are also very popular and safe options in Berlin due to its flatter terrain and wider streets. 'Navigating Berlin was a breeze with their day pass, and I barely spent anything. London's Tube swallowed my budget whole, and I felt like a sardine.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Berlin</li><li><strong>Why:</strong> Berlin&#x27;s public transport system is more affordable, easier to navigate, and generally less crowded than London&#x27;s.</li><li><strong>Who this matters for:</strong> Travelers prioritizing budget and ease of navigation, those who prefer less crowded public spaces, and active travelers who enjoy walking or cycling.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Berlin</li><li><strong>Why:</strong> Berlin's public transport system is more affordable, easier to navigate, and generally less crowded than London's.</li><li><strong>Who this matters for:</strong> Travelers prioritizing budget and ease of navigation, those who prefer less crowded public spaces, and active travelers who enjoy walking or cycling.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="getting-there">✈️ Getting There</h2>
 <p>Both London and Berlin are major European travel hubs, making them easily accessible from most parts of the world. London boasts several international airports, with Heathrow (LHR) and Gatwick (LGW) being the largest, handling millions of passengers annually and offering direct flights to virtually every major city globally. Flights from New York to London can range from $400-800+ return. Berlin's new Brandenburg Airport (BER) has consolidated its air traffic and offers extensive connections, particularly within Europe, and a growing number of intercontinental routes. Flights from New York to Berlin typically range from $500-900+ return. From continental Europe, both are well-connected by high-speed rail and budget airlines. The journey between London and Berlin typically involves a 1.5-hour flight (approx. £50-150/$60-190) or a more scenic but longer train journey with a Eurostar connection through Brussels. 'Both are super easy to fly into from the US, depends more on flight deals than anything else. Intra-Europe, they're both well-connected by budget airlines.'</p>
@@ -916,59 +912,59 @@
 </section><section class="deep-dive">
 <h2 id="weather-seasons">☀️ Weather &amp; Seasons</h2>
 <p>London has a generally mild, oceanic climate. Summers (June-August) are pleasantly warm, averaging 20-25°C (68-77°F), but rain is always a possibility. Winters (December-February) are cool and damp, rarely freezing, with averages around 5-10°C (40-50°F). Spring and autumn are mild and beautiful, making them popular times to visit, though you should always pack layers and an umbrella. Berlin experiences a more continental climate, meaning more extreme seasons. Summers are often hot and sunny, reaching 25-30°C (77-86°F) with occasional thunderstorms, perfect for beer gardens and lakes. Winters are significantly colder, often below freezing, with snow a common occurrence, making it a picturesque but chilly destination for Christmas markets. Spring and autumn are lovely, with pleasant temperatures and colorful foliage. 'I prefer Berlin's distinct seasons; a proper snowy winter or a hot summer just feels more defined. London's weather always feels a bit... indecisive.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both cities offer distinct seasonal experiences, with neither being a clear &#x27;winner&#x27; as preference depends entirely on individual taste and timing.</li><li><strong>Who this matters for:</strong> Travelers whose trip timing is flexible, or those with specific preferences for hot summers, snowy winters, or mild shoulder seasons.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both cities offer distinct seasonal experiences, with neither being a clear 'winner' as preference depends entirely on individual taste and timing.</li><li><strong>Who this matters for:</strong> Travelers whose trip timing is flexible, or those with specific preferences for hot summers, snowy winters, or mild shoulder seasons.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="safety-vibe">☮️ Safety &amp; Vibe</h2>
 <p>Both London and Berlin are generally very safe for tourists, particularly in central areas and major attractions. Common sense precautions against pickpocketing, especially in crowded tourist spots or on public transport, are advised in both. London, while diverse, often retains a sense of traditional British formality, coupled with a fast-paced, bustling energy. It feels grand, historic, and constantly moving. Berlin, by contrast, has a more relaxed, creative, and slightly gritty 'anything goes' vibe. It's known for its open-mindedness, street art, and a strong sense of individuality. It feels more spacious, with wide boulevards and extensive green spaces. The historical weight of Berlin's past often gives it a reflective, thoughtful atmosphere that differs from London's imperial grandeur. 'London felt a bit overwhelming and expensive, very polished. Berlin was more my speed – chill, artsy, and you can just breathe. Both felt safe though.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both cities are very safe for tourists, but offer distinctly different atmospheres and vibes, appealing to different preferences.</li><li><strong>Who this matters for:</strong> Travelers prioritizing a specific atmosphere, whether it&#x27;s grand and traditional or edgy and alternative; solo female travelers seeking reassurance.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Tie</li><li><strong>Why:</strong> Both cities are very safe for tourists, but offer distinctly different atmospheres and vibes, appealing to different preferences.</li><li><strong>Who this matters for:</strong> Travelers prioritizing a specific atmosphere, whether it's grand and traditional or edgy and alternative; solo female travelers seeking reassurance.</li></ul></div>
 </section>
 <div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
 <h2>❓ Frequently Asked Questions</h2>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city is better for a first-time European traveler?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>London often feels more approachable for first-timers, especially English speakers, due to the language and familiar cultural touchstones. Its extensive public transport and world-renowned attractions make navigation straightforward. Berlin is also very welcoming, but its unique history and more alternative vibe might be a richer experience for those who&#x27;ve already dipped their toes into European travel.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>London often feels more approachable for first-timers, especially English speakers, due to the language and familiar cultural touchstones. Its extensive public transport and world-renowned attractions make navigation straightforward. Berlin is also very welcoming, but its unique history and more alternative vibe might be a richer experience for those who've already dipped their toes into European travel.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">How many days should I spend in each city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>For London, aim for at least 4-5 full days to cover the main sights and soak in the atmosphere, plus an extra day if you plan a day trip to places like Windsor or Bath. For Berlin, 3-4 full days are usually sufficient to explore its historical sites, museums, and key neighborhoods. If you plan to delve deep into its nightlife or modern art scene, add another day or two.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Is English widely spoken in Berlin?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Yes, English is very widely spoken in Berlin, especially in tourist areas, restaurants, hotels, and among younger generations. You&#x27;ll have no problem getting by solely with English. However, learning a few basic German phrases like &#x27;hello&#x27; (Guten Tag), &#x27;please&#x27; (Bitte), and &#x27;thank you&#x27; (Danke) is always appreciated by locals.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Yes, English is very widely spoken in Berlin, especially in tourist areas, restaurants, hotels, and among younger generations. You'll have no problem getting by solely with English. However, learning a few basic German phrases like 'hello' (Guten Tag), 'please' (Bitte), and 'thank you' (Danke) is always appreciated by locals.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city has better art museums?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Both cities boast incredible art scenes. London&#x27;s National Gallery and Tate Modern are world-class, offering immense collections. Berlin&#x27;s Museum Island, with the Pergamon Museum and Alte Nationalgalerie, is equally impressive, particularly for ancient and 19th-century art. If you prefer contemporary and edgy art, Berlin&#x27;s gallery scene is arguably more vibrant and experimental. For sheer volume and classical breadth, London slightly edges it.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Both cities boast incredible art scenes. London's National Gallery and Tate Modern are world-class, offering immense collections. Berlin's Museum Island, with the Pergamon Museum and Alte Nationalgalerie, is equally impressive, particularly for ancient and 19th-century art. If you prefer contemporary and edgy art, Berlin's gallery scene is arguably more vibrant and experimental. For sheer volume and classical breadth, London slightly edges it.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Can I easily travel between London and Berlin?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Yes, traveling between London and Berlin is straightforward. The quickest way is by plane, with direct flights taking around 1.5-2 hours. Budget airlines like Ryanair or EasyJet often have affordable fares. Alternatively, you can take a train, which involves a Eurostar journey from London to Brussels or Paris, then a high-speed train to Berlin. This is longer (6-8+ hours) but offers a more scenic and relaxed journey.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city is better for shopping?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>London is a global shopping mecca, famous for Oxford Street (department stores like Selfridges), Regent Street, Covent Garden, and luxury boutiques in Mayfair. You&#x27;ll find everything from high-street fashion to unique vintage markets. Berlin offers a more diverse shopping experience with independent boutiques, concept stores, and quirky vintage shops in neighborhoods like Mitte, Prenzlauer Berg, and Kreuzberg. While London wins for sheer scale and luxury, Berlin offers more unique, indie finds.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>London is a global shopping mecca, famous for Oxford Street (department stores like Selfridges), Regent Street, Covent Garden, and luxury boutiques in Mayfair. You'll find everything from high-street fashion to unique vintage markets. Berlin offers a more diverse shopping experience with independent boutiques, concept stores, and quirky vintage shops in neighborhoods like Mitte, Prenzlauer Berg, and Kreuzberg. While London wins for sheer scale and luxury, Berlin offers more unique, indie finds.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">What are the best times of year to visit each city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>For London, late spring (April-May) and early autumn (September-October) offer pleasant weather, fewer crowds, and beautiful scenery. Summer is also popular but can be crowded and more expensive. For Berlin, summer (June-August) is fantastic for outdoor activities, beer gardens, and festivals, though it can be hot. Late spring/early autumn are also ideal. If you don&#x27;t mind the cold, Berlin&#x27;s Christmas markets in winter are magical.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>For London, late spring (April-May) and early autumn (September-October) offer pleasant weather, fewer crowds, and beautiful scenery. Summer is also popular but can be crowded and more expensive. For Berlin, summer (June-August) is fantastic for outdoor activities, beer gardens, and festivals, though it can be hot. Late spring/early autumn are also ideal. If you don't mind the cold, Berlin's Christmas markets in winter are magical.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">Are there any &#x27;must-try&#x27; local foods in each city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">Are there any 'must-try' local foods in each city?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>In London, you must try classic Fish and Chips, a traditional Sunday Roast at a pub, and explore the diverse street food at Borough Market. For Berlin, the absolute essentials are Currywurst (sausage with curry ketchup), a Döner Kebab (often cited as the best outside Turkey), and a Berliner Weisse (a sour wheat beer often served with a shot of raspberry or woodruff syrup).</p></div>
 </div>
 </div>
@@ -985,7 +981,6 @@
 <a class="related-card" href="/compare/cape-town-vs-lisbon/"><h3>Cape Town vs Lisbon</h3><p>Cape Town vs Lisbon — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip.</p><div class="related-meta">Global &amp; Mixed · City breaks</div></a>
 <a class="related-card" href="/compare/chiang-mai-vs-chiang-rai/"><h3>Chiang Mai vs Chiang Rai</h3><p>Chiang Mai vs Chiang Rai — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Budget breakdowns, temples, day trips, and honest verdicts.</p><div class="related-meta">Global &amp; Mixed · City breaks</div></a>
 </div>
-
 </section>
 <!-- compare-related:end -->
 <div class="cta-section">
@@ -997,33 +992,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/London+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore London</span>
-        <span class="tour-name">London Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/London+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">London Day Trip</span>
-        <span class="tour-name">London Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Berlin+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Berlin</span>
-        <span class="tour-name">Berlin Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Berlin+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Berlin Day Trip</span>
-        <span class="tour-name">Berlin Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/London+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore London</span>
+<span class="tour-name">London Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/London+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">London Day Trip</span>
+<span class="tour-name">London Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Berlin+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Berlin</span>
+<span class="tour-name">Berlin Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Berlin+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Berlin Day Trip</span>
+<span class="tour-name">Berlin Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

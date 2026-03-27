@@ -670,36 +670,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -708,9 +733,9 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#food-drink">🍷 Food & Drink</a>
-<a href="#culture-history">🏛️ Culture & History</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#food-drink">🍷 Food &amp; Drink</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
 <a href="#nightlife">🕺 Nightlife</a>
 <a href="#safety">🛡️ Safety</a>
 <a href="#getting-there">✈️ Getting There</a>
@@ -724,7 +749,7 @@
 <section class="hero">
 <div class="hero-badge">🆚 Comparison — Europe vs. South America</div>
 <h1>Porto vs Buenos Aires: <em>Which Should You Visit?</em></h1>
-<p>Deciding between Porto&#x27;s old-world charm and Buenos Aires&#x27; vibrant Latin flair? It&#x27;s a clash of continents with distinct cultures, costs, and travel experiences.</p>
+<p>Deciding between Porto's old-world charm and Buenos Aires' vibrant Latin flair? It's a clash of continents with distinct cultures, costs, and travel experiences.</p>
 <div class="hero-meta">
 <div><strong>Updated:</strong> March 2026</div>
 <div><strong>Sources:</strong> r/travel, r/solotravel, r/digitalnomad, r/Portugal, r/BuenosAires</div>
@@ -737,9 +762,9 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💰 Costs & Budget</a>
-<a href="#food-drink">🍷 Food & Drink</a>
-<a href="#culture-history">🏛️ Culture & History</a>
+<a href="#costs-budget">💰 Costs &amp; Budget</a>
+<a href="#food-drink">🍷 Food &amp; Drink</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
 <a href="#nightlife">🕺 Nightlife</a>
 <a href="#safety">🛡️ Safety</a>
 <a href="#getting-there">✈️ Getting There</a>
@@ -755,17 +780,17 @@
 <li>Cross-referenced seasonal patterns, weather data, and local event calendars for optimal timing</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="Porto travel destination" loading="lazy" src="https://img.tabiji.ai/compare/porto-vs-buenos-aires/dest1.jpg">
+<img alt="Porto travel destination" loading="lazy" src="https://img.tabiji.ai/compare/porto-vs-buenos-aires/dest1.jpg"/>
 <div class="caption">Porto</div>
-</img></div>
-<div>
-<img alt="Buenos Aires travel destination" loading="lazy" src="https://img.tabiji.ai/compare/porto-vs-buenos-aires/dest2.jpg">
-<div class="caption">Buenos Aires</div>
-</img></div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Porto for an effortlessly charming, safe, and culturally rich European getaway with fantastic food and wine, ideal for a budget of €60-€100 ($65-$110) a day. Opt for Buenos Aires if you crave a vibrant, passionate, and incredibly affordable city experience, ready to embrace late nights, tango, and a more adventurous budget of AR$20,000-AR$40,000 ($20-$40) a day, excluding flights.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Porto:</strong> Best for those seeking a picturesque, walkable European city, exceptional food and wine, a relaxed pace, and high safety, without breaking the bank.</li>
-<li><strong>Choose Buenos Aires:</strong> Ideal for travelers who want an exhilarating, culturally immersive, and incredibly budget-friendly urban adventure, filled with late-night energy, tango, and world-class steak.</li>
-<li><strong>Choose Both:</strong> For the truly adventurous with 3-4 weeks to spare and a love for diverse urban experiences. Spend a week in each, plus travel time, to compare two of the world&#x27;s most unique cities.</li></ul></div>
+<div>
+<img alt="Buenos Aires travel destination" loading="lazy" src="https://img.tabiji.ai/compare/porto-vs-buenos-aires/dest2.jpg"/>
+<div class="caption">Buenos Aires</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Porto if you want safety, getting there, getting around. Choose Buenos Aires if you want costs &amp; budget, food &amp; drink, nightlife. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Porto: </strong>safety, getting there, getting around.</li>
+<li><strong>Choose Buenos Aires: </strong>costs &amp; budget, food &amp; drink, nightlife.</li>
+<li><strong>Choose Both:</strong> For the truly adventurous with 3-4 weeks to spare and a love for diverse urban experiences. Spend a week in each, plus travel time, to compare two of the world's most unique cities.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Porto for its strongest wins but still want Buenos Aires for the categories where it clearly does better.</li></ul></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Buenos Aires</strong><p>Epic steak, Malbec wine, empanadas, and a strong Italian influence. Late-night dining culture is key.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Buenos Aires</strong><p>Legendary for its late-night energy. Diverse clubs, bars, milongas (tango halls), and a culture of dining and socializing past midnight.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Buenos Aires</strong><p>Extremely budget-friendly due to favorable exchange rates for tourists. A comfortable daily budget can be as low as AR$20,000-AR$40,000 ($20-$40 USD) if you're savvy.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Buenos Aires</strong><p>Epic steak, Malbec wine, empanadas, and a strong Italian influence. Late-night dining culture is key.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Buenos Aires</strong><p>Extremely budget-friendly due to favorable exchange rates for tourists. A comfortable daily budget can be as low as AR$20,000-AR$40,000 ($20-$40 USD) if you're savvy.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Porto</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div></div><div class="scorecard"><h3>Buenos Aires</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Buenos Aires</span></span>
@@ -774,35 +799,6 @@
 <span class="best-for-chip"><span class="bf-label">🏛️ Best for culture:</span> <span class="bf-winner">Tie</span></span>
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">Porto</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Porto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Porto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Porto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🌙 Nightlife</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Porto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Porto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -818,7 +814,7 @@
 <tr>
 <td>Costs &amp; Budget</td>
 <td>Affordable for Western Europe, but costs are rising. Expect €60-€100 ($65-$110) daily for comfortable travel.</td>
-<td>Extremely budget-friendly due to favorable exchange rates for tourists. A comfortable daily budget can be as low as AR$20,000-AR$40,000 ($20-$40 USD) if you&#x27;re savvy.</td>
+<td>Extremely budget-friendly due to favorable exchange rates for tourists. A comfortable daily budget can be as low as AR$20,000-AR$40,000 ($20-$40 USD) if you're savvy.</td>
 <td><span class="edge-buenos-aires">Buenos Aires</span></td>
 </tr>
 <tr>
@@ -830,7 +826,7 @@
 <tr>
 <td>Culture &amp; History</td>
 <td>Ancient Roman roots, maritime history, stunning azulejo tiles, Fado music, and a strong sense of Portuguese identity.</td>
-<td>A &#x27;Paris of South America&#x27; feel with grand European architecture, passionate tango culture, rich political history, and vibrant street art.</td>
+<td>A 'Paris of South America' feel with grand European architecture, passionate tango culture, rich political history, and vibrant street art.</td>
 <td><span class="edge-tie">Tie</span></td>
 </tr>
 <tr>
@@ -905,7 +901,7 @@
 </section><section class="deep-dive">
 <h2 id="getting-around">🚇 Getting Around</h2>
 <p>Porto is a dream for walkers and public transport users. Its historic center is compact and best explored on foot, albeit with some steep hills that add to its charm. For longer distances, the Porto Metro is clean, efficient, and covers all major areas, costing around €1.20-€2 ($1.30-$2.20) per trip with a rechargeable Andante card. Iconic trams (like Line 1) and funiculars add to the experience. Getting around is largely stress-free. Buenos Aires is a sprawling metropolis, and while it boasts an extensive public transport system including the historic Subte (metro) and numerous colectivos (buses), navigating it can be more challenging. You'll need a Sube card (around AR$900 or $0.90 USD) to use public transport, with rides costing as little as AR$180 ($0.18 USD). However, traffic can be horrendous, making bus journeys slow, and while taxis/ride-shares (Uber, Cabify) are affordable, the sheer size of the city means you'll spend more time commuting. "Porto felt like I could just wander and stumble upon everything. In BA, I was constantly checking Google Maps and calculating Subte routes." For sheer ease, pleasantness, and walkability, Porto is superior.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Porto</li><li><strong>Why:</strong> Porto&#x27;s compact, walkable nature and excellent, user-friendly public transport make it far easier and more pleasant to navigate.</li><li><strong>Who this matters for:</strong> Walkers, those who prefer public transport over taxis, and travelers who enjoy a relaxed pace without traffic stress.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Porto</li><li><strong>Why:</strong> Porto's compact, walkable nature and excellent, user-friendly public transport make it far easier and more pleasant to navigate.</li><li><strong>Who this matters for:</strong> Walkers, those who prefer public transport over taxis, and travelers who enjoy a relaxed pace without traffic stress.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="day-trips">🏞️ Day Trips</h2>
 <p>Porto truly shines when it comes to the quality and variety of its day trip options. The most famous is undoubtedly the Douro Valley, a UNESCO World Heritage site known for its terraced vineyards and stunning river cruises. You can easily spend a day or more exploring wineries, enjoying scenic drives, and tasting Port wine. Historic cities like Braga (with its Bom Jesus do Monte sanctuary) and Guimarães (Portugal's birthplace, a UNESCO site) are also just a short train ride away, offering deep dives into Portuguese history and architecture. Charming coastal towns like Aveiro ('Venice of Portugal') are also within easy reach. Buenos Aires, while magnificent, doesn't quite match this caliber of nearby excursions. The most popular day trip is to the Tigre Delta, a picturesque network of waterways and islands where you can take boat tours. Colonia del Sacramento in Uruguay is a popular ferry trip, but it's an international journey. Other options like San Antonio de Areco offer a taste of the Pampas cowboy culture, but lack the 'wow' factor of Porto's offerings. "The Douro Valley trip from Porto was one of the most beautiful things I've ever seen. BA's day trips felt a bit less impactful." For truly iconic and diverse day trip experiences, Porto is the winner.</p>
@@ -921,52 +917,52 @@
 </section>
 <div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
 <h2>❓ Frequently Asked Questions</h2>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city is better for solo travelers?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Porto is generally better for solo travelers, especially women, due to its exceptional safety and ease of navigation. You can explore freely and comfortably, even at night. Buenos Aires is vibrant but requires more vigilance, particularly with personal belongings, which can add a layer of stress for solo adventurers.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the best time to visit each city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the best time to visit each city?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>For Porto, late spring (April-May) and early autumn (September-October) offer pleasant weather, fewer crowds, and vibrant festivals. Summers can be hot but are lively. For Buenos Aires, spring (September-November) and autumn (March-May) are ideal, with comfortable temperatures, less humidity, and beautiful foliage, avoiding the intense summer heat and winter chill.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Do I need to speak Portuguese or Spanish?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>In Porto, many locals, especially in tourist areas, speak English. However, learning a few basic Portuguese phrases (hello, thank you, please) is always appreciated. In Buenos Aires, while English is spoken in tourist-heavy areas, knowing some basic Spanish will significantly enhance your experience, especially for interacting with locals, ordering food, and navigating outside the main tourist bubbles.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the visa situation for US citizens?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the visa situation for US citizens?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>US citizens can enter Portugal (Schengen Area) visa-free for up to 90 days within any 180-day period. For Argentina, US citizens can also enter visa-free for up to 90 days for tourism. Always check the latest requirements before travel, as policies can change.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city offers better shopping?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Buenos Aires offers a more diverse and unique shopping experience, especially for leather goods, local fashion, and artisan crafts at markets like San Telmo. Porto has good shopping for local crafts, cork products, and typical European high street brands, but it&#x27;s less unique than BA.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Buenos Aires offers a more diverse and unique shopping experience, especially for leather goods, local fashion, and artisan crafts at markets like San Telmo. Porto has good shopping for local crafts, cork products, and typical European high street brands, but it's less unique than BA.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">How do the vibes compare?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 <div itemprop="text"><p>Porto has a charming, laid-back, and historical European vibe – think cobblestone streets, riverside cafes, and Fado music. Buenos Aires is a passionate, energetic, and sophisticated Latin American metropolis with a strong European influence, known for its late-night culture, tango, and grand boulevards. Porto feels cozy; BA feels grand and alive.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Is internet connectivity reliable for remote work?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Porto offers excellent and reliable internet connectivity, especially in urban areas and accommodations, making it highly suitable for remote work. Buenos Aires generally has good internet in major neighborhoods, but it can be less consistent than Porto, and power outages can occasionally occur. You&#x27;ll also want to consider time zone differences for work.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Porto offers excellent and reliable internet connectivity, especially in urban areas and accommodations, making it highly suitable for remote work. Buenos Aires generally has good internet in major neighborhoods, but it can be less consistent than Porto, and power outages can occasionally occur. You'll also want to consider time zone differences for work.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city has better outdoor activities and nature close by?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Porto wins for immediate access to diverse natural beauty and outdoor activities. The stunning Douro Valley is an easy day trip for hiking and river cruises, and the Atlantic coast offers beautiful beaches and surfing opportunities a short drive away. Buenos Aires is surrounded by flat plains (Pampas), with the most prominent &#x27;nature&#x27; day trip being the unique Tigre Delta, which is more about waterways than dramatic landscapes.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Porto wins for immediate access to diverse natural beauty and outdoor activities. The stunning Douro Valley is an easy day trip for hiking and river cruises, and the Atlantic coast offers beautiful beaches and surfing opportunities a short drive away. Buenos Aires is surrounded by flat plains (Pampas), with the most prominent 'nature' day trip being the unique Tigre Delta, which is more about waterways than dramatic landscapes.</p></div>
 </div>
 </div>
 </div>
@@ -994,33 +990,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Porto+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Porto</span>
-        <span class="tour-name">Porto Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Porto+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Porto Day Trip</span>
-        <span class="tour-name">Porto Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Buenos Aires</span>
-        <span class="tour-name">Buenos Aires Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Buenos Aires Day Trip</span>
-        <span class="tour-name">Buenos Aires Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Porto+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Porto</span>
+<span class="tour-name">Porto Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Porto+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Porto Day Trip</span>
+<span class="tour-name">Porto Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Buenos Aires</span>
+<span class="tour-name">Buenos Aires Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Buenos Aires Day Trip</span>
+<span class="tour-name">Buenos Aires Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

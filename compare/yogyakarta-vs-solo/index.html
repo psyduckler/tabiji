@@ -411,36 +411,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile-sticky" id="toc-mobile">
@@ -501,15 +526,15 @@
 <div class="methodology-box"><h2 id="how-we-built-this-comparison">How we built this comparison</h2><p>This page combines traveler discussion patterns, published price ranges, transit details, and seasonal data to make the Yogyakarta vs Solo decision easier to resolve.</p><ul class="methodology-points"><li>Reviewed Reddit discussions from r/indonesia, r/solotravel, r/travel, r/digitalnomad, and r/backpacking.</li><li>Cross-checked cost claims against Numbeo 2026 data and recent Reddit trip reports.</li><li>Verified weather patterns against Open-Meteo monthly archive data for Central Java.</li></ul><p>Best read as a decision guide, not a universal truth: the right pick depends on your travel style, budget, and what kind of Java experience you actually want.</p></div>
 <div class="photo-grid">
 <div>
-<img src="https://img.tabiji.ai/compare/yogyakarta-vs-solo/yogyakarta-kraton.jpg" alt="Kraton Yogyakarta Sultan's Palace interior courtyard — traditional Javanese architecture with ornate wooden pillars" loading="lazy">
+<img alt="Kraton Yogyakarta Sultan's Palace interior courtyard — traditional Javanese architecture with ornate wooden pillars" loading="lazy" src="https://img.tabiji.ai/compare/yogyakarta-vs-solo/yogyakarta-kraton.jpg"/>
 <p class="caption">Yogyakarta — the Sultan's Palace (Kraton), heart of Javanese culture</p>
 </div>
 <div>
-<img src="https://img.tabiji.ai/compare/yogyakarta-vs-solo/solo-keraton.jpg" alt="Keraton Surakarta Solo palace facade — colonial-influenced Javanese royal architecture" loading="lazy">
+<img alt="Keraton Surakarta Solo palace facade — colonial-influenced Javanese royal architecture" loading="lazy" src="https://img.tabiji.ai/compare/yogyakarta-vs-solo/solo-keraton.jpg"/>
 <p class="caption">Solo — the Kasunanan Palace, more authentic and far fewer tourists</p>
 </div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Yogyakarta wins for first-timers: best gateway to Borobudur, more infrastructure, better backpacker scene. Solo wins for authenticity: cheaper, fewer tourists, better food, and a more genuinely Javanese experience. Do both — the train takes 1 hour and costs less than $1.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Yogyakarta:</strong> UNESCO temple circuit (Borobudur + Prambanan), organized tour infrastructure, bigger accommodation range, Malioboro shopping street, $25–55/day.</li><li><strong>Choose Solo:</strong> Authentic Javanese culture, legendary street food scene, genuine batik craftsmanship, far fewer Western tourists, $20–45/day.</li><li><strong>Do both:</strong> 3–4 nights Yogyakarta + 1–2 nights Solo is the optimal Central Java itinerary.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>Choose Yogyakarta</h3><p>Gateway city with the best access to Borobudur, Prambanan, and Mount Merapi. More hostels, tour operators, and tourist services.</p></div><div class="verdict-card"><h3>Choose Solo</h3><p>Authentic Java without the backpacker crowds. Best batik, best street food, and a real Kraton experience for budget travelers.</p></div><div class="verdict-card"><h3>Do Both</h3><p>65km apart, 1 hour by train, less than $1 fare. Solo makes the perfect 1–2 day extension from Yogyakarta — or vice versa.</p></div></div></div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Yogyakarta if you want authentic food culture is your primary travel motivation, you've already done the yogyakarta temple circuit on a previous trip, you want to experience javanese culture without the backpacker tourism overlay Choose Solo (Surakarta) if you want solo (surakarta) brings the stronger version of its biggest wins on this page. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Yogyakarta: </strong>Authentic food culture is your primary travel motivation, You've already done the Yogyakarta temple circuit on a previous trip, You want to experience Javanese culture without the backpacker tourism overlay</li><li><strong>Choose Solo (Surakarta): </strong>Solo (Surakarta) brings the stronger version of its biggest wins on this page.</li><li><strong>Do both:</strong> 3–4 nights Yogyakarta + 1–2 nights Solo is the optimal Central Java itinerary.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Yogyakarta for its strongest wins but still want Solo (Surakarta) for the categories where it clearly does better.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>Choose Yogyakarta</h3><p>Gateway city with the best access to Borobudur, Prambanan, and Mount Merapi. More hostels, tour operators, and tourist services.</p></div><div class="verdict-card"><h3>Choose Solo</h3><p>Authentic Java without the backpacker crowds. Best batik, best street food, and a real Kraton experience for budget travelers.</p></div><div class="verdict-card"><h3>Do Both</h3><p>65km apart, 1 hour by train, less than $1 fare. Solo makes the perfect 1–2 day extension from Yogyakarta — or vice versa.</p></div><div class="verdict-card split-card"><h3>Split your trip</h3><p>Split your trip if you want Yogyakarta for its strongest wins but still want Solo (Surakarta) for the categories where it clearly does better.</p></div></div></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Tie</strong><p>Both have a credible case here: Excellent (gudeg, bakpia) vs Legendary (nasi liwet, serabi).</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Yogyakarta</strong><p>Moderate (Prawirotaman area)</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Tie</strong><p>Both have a credible case here: $25–55 per person vs $20–45 per person.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Yogyakarta</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Solo (Surakarta)</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Solo</span></span>
@@ -518,25 +543,6 @@
 <span class="best-for-chip"><span class="bf-label">🏖️ Best for first-timers:</span> <span class="bf-winner">Yogyakarta</span></span>
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">Yogyakarta</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Yogyakarta</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Solo</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Yogyakarta</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Solo</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🌙 Nightlife</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Yogyakarta</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Solo</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -719,9 +725,9 @@
 </section><section class="deep-dive">
 <h2 id="day-trips">🗺️ Day Trips</h2>
 <p><strong>From Yogyakarta, the day trip options are exceptional:</strong></p>
-<p><em>Borobudur</em> (40km, 1hr): The essential day trip — UNESCO Buddhist temple at sunrise. Go early, go on a clear day.<br><em>Prambanan</em> (17km, 30min): UNESCO Hindu temple complex, best visited late afternoon for golden light and the Ramayana ballet on full-moon nights.<br><em>Mount Merapi</em> (25km, 45min): Indonesia's most active volcano. Jeep tours to the lava fields depart from Kaliurang. IDR 350,000–500,000 for a half-day tour.<br><em>Imogiri Royal Tombs</em> (20km, 40min): The royal cemetery of the Yogyakarta and Solo dynasties — a surprisingly moving site.<br><em>Kaliurang</em> (20km, 40min): Hill resort with jungle walks and views of Merapi.<br><em>Solo</em> (65km, 1hr by train): The perfect full-day cultural and food excursion.</p>
+<p><em>Borobudur</em> (40km, 1hr): The essential day trip — UNESCO Buddhist temple at sunrise. Go early, go on a clear day.<br/><em>Prambanan</em> (17km, 30min): UNESCO Hindu temple complex, best visited late afternoon for golden light and the Ramayana ballet on full-moon nights.<br/><em>Mount Merapi</em> (25km, 45min): Indonesia's most active volcano. Jeep tours to the lava fields depart from Kaliurang. IDR 350,000–500,000 for a half-day tour.<br/><em>Imogiri Royal Tombs</em> (20km, 40min): The royal cemetery of the Yogyakarta and Solo dynasties — a surprisingly moving site.<br/><em>Kaliurang</em> (20km, 40min): Hill resort with jungle walks and views of Merapi.<br/><em>Solo</em> (65km, 1hr by train): The perfect full-day cultural and food excursion.</p>
 <p><strong>From Solo, day trips are more limited:</strong></p>
-<p><em>Yogyakarta</em> (65km, 1hr): The obvious choice — and both Borobudur and Prambanan can technically be reached in a day from Solo, but it's long. Better to overnight in Yogyakarta.<br><em>Sukuh Temple</em> (35km, 1hr): An unusual 15th-century Hindu temple on the slopes of Mount Lawu — erotic carvings and a mysterious Majapahit atmosphere. Rarely visited.<br><em>Sangiran</em> (15km, 30min): UNESCO World Heritage prehistoric site where <em>Homo erectus</em> fossils were discovered. Good museum, great for archaeology enthusiasts.<br><em>Mount Lawu</em> (90km): Challenging multi-day trek for serious hikers.</p>
+<p><em>Yogyakarta</em> (65km, 1hr): The obvious choice — and both Borobudur and Prambanan can technically be reached in a day from Solo, but it's long. Better to overnight in Yogyakarta.<br/><em>Sukuh Temple</em> (35km, 1hr): An unusual 15th-century Hindu temple on the slopes of Mount Lawu — erotic carvings and a mysterious Majapahit atmosphere. Rarely visited.<br/><em>Sangiran</em> (15km, 30min): UNESCO World Heritage prehistoric site where <em>Homo erectus</em> fossils were discovered. Good museum, great for archaeology enthusiasts.<br/><em>Mount Lawu</em> (90km): Challenging multi-day trek for serious hikers.</p>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Yogyakarta wins on day trips — it's not close. Borobudur, Prambanan, Merapi, and the option to train to Solo make Yogyakarta the superior hub for a Central Java trip. Solo's day trip options (Sukuh Temple, Sangiran) are worthwhile but niche. The ideal itinerary uses Yogyakarta as base with a 1–2 day extension to Solo rather than the reverse.</div>
 </section><section class="deep-dive">
 <h2 id="shopping">🛍️ Shopping &amp; Batik</h2>
@@ -737,9 +743,9 @@
 </section><section class="deep-dive">
 <h2 id="why-not-both">🔀 Why Not Both?</h2>
 <p>The Prameks train changes the calculation entirely: at under $1 and 1 hour, there's almost no reason NOT to do both cities if you're spending 4+ days in Central Java. The question is just how to structure your time.</p>
-<p><strong>Classic 5-night Central Java itinerary:</strong><br>Nights 1–3: Yogyakarta — arrive, Borobudur sunrise day 1, Prambanan + Kraton + Malioboro day 2, Merapi jeep tour or Kaliurang day 3.<br>Nights 4–5: Solo — Kasunanan Palace + Pasar Gede food tour day 4, Klewer batik market + Mangkunegaran Palace day 5, train back to Yogyakarta for onward travel.</p>
-<p><strong>Shorter: 4 nights with day trip:</strong><br>Nights 1–4: Yogyakarta base. Day 3 as a full-day trip to Solo: train from Lempuyangan (1hr), Pasar Gede market and nasi liwet lunch, Kasunanan Palace, Klewer Market, train back. This is the most common approach for travelers with limited time.</p>
-<p><strong>For the authentic-first traveler:</strong><br>Reverse the itinerary — start in Solo for 2 nights, then base in Yogyakarta for 3 nights. Starting in Solo sets expectations correctly: you arrive somewhere genuinely local, eat extraordinary food, and then appreciate Yogyakarta's temple access while also understanding that the "tourist Jogja" experience is a curated version of Java.</p>
+<p><strong>Classic 5-night Central Java itinerary:</strong><br/>Nights 1–3: Yogyakarta — arrive, Borobudur sunrise day 1, Prambanan + Kraton + Malioboro day 2, Merapi jeep tour or Kaliurang day 3.<br/>Nights 4–5: Solo — Kasunanan Palace + Pasar Gede food tour day 4, Klewer batik market + Mangkunegaran Palace day 5, train back to Yogyakarta for onward travel.</p>
+<p><strong>Shorter: 4 nights with day trip:</strong><br/>Nights 1–4: Yogyakarta base. Day 3 as a full-day trip to Solo: train from Lempuyangan (1hr), Pasar Gede market and nasi liwet lunch, Kasunanan Palace, Klewer Market, train back. This is the most common approach for travelers with limited time.</p>
+<p><strong>For the authentic-first traveler:</strong><br/>Reverse the itinerary — start in Solo for 2 nights, then base in Yogyakarta for 3 nights. Starting in Solo sets expectations correctly: you arrive somewhere genuinely local, eat extraordinary food, and then appreciate Yogyakarta's temple access while also understanding that the "tourist Jogja" experience is a curated version of Java.</p>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Do both. The Prameks train makes Solo a day trip from Yogyakarta for less than $1 — there's no excuse not to go. See also: <a href="/compare/ubud-vs-canggu/">Ubud vs Canggu</a> for the equivalent two-city Bali decision, or <a href="/compare/bali-vs-thailand/">Bali vs Thailand</a> if you're still deciding between Indonesian regions entirely. Check the <a href="/popular-picks/yogyakarta-gudeg/">Yogyakarta gudeg guide</a> and <a href="/popular-picks/yogyakarta-satay/">Yogyakarta satay picks</a> for where to eat in Jogja.</div>
 </section><section class="deep-dive">
 <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
@@ -819,7 +825,6 @@
 <a class="related-card" href="/compare/vilnius-vs-kaunas/"><h3>Vilnius vs Kaunas</h3><p>Deciding between Vilnius and Kaunas for your Lithuanian adventure? This in-depth comparison covers everything from culture, cost, food, and attractions to help you pick your perfect city break.</p><div class="related-meta">Global &amp; Mixed · Food &amp; culture</div></a>
 <a class="related-card" href="/compare/hokkaido-vs-kyushu/"><h3>Hokkaido vs Kyushu</h3><p>Hokkaido vs Kyushu — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Transit tips, food breakdowns, onsen guides, and honest verdicts.</p><div class="related-meta">Global &amp; Mixed · Food &amp; culture</div></a>
 </div>
-
 </section>
 <!-- compare-related:end -->
 <div class="cta-section">
@@ -831,33 +836,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Yogyakarta+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Yogyakarta</span>
-        <span class="tour-name">Yogyakarta Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Yogyakarta+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Yogyakarta Day Trip</span>
-        <span class="tour-name">Yogyakarta Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Solo+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Solo</span>
-        <span class="tour-name">Solo Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Solo+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Solo Day Trip</span>
-        <span class="tour-name">Solo Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Yogyakarta+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Yogyakarta</span>
+<span class="tour-name">Yogyakarta Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Yogyakarta+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Yogyakarta Day Trip</span>
+<span class="tour-name">Yogyakarta Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Solo+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Solo</span>
+<span class="tour-name">Solo Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Solo+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Solo Day Trip</span>
+<span class="tour-name">Solo Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

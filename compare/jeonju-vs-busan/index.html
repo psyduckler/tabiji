@@ -397,36 +397,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile-sticky">
@@ -491,45 +516,16 @@
 </ul>
 </div>
 <div class="photo-grid">
-<img src="https://img.tabiji.ai/compare/jeonju-vs-busan/jeonju-hanok.jpg" alt="Jeonju Hanok Village at dawn — traditional Korean wooden houses with curved tile roofs stretching across the neighborhood" loading="lazy">
-<img src="https://img.tabiji.ai/compare/jeonju-vs-busan/busan-gamcheon.jpg" alt="Gamcheon Culture Village in Busan — colorful hillside houses cascading down toward the sea" loading="lazy">
+<img alt="Jeonju Hanok Village at dawn — traditional Korean wooden houses with curved tile roofs stretching across the neighborhood" loading="lazy" src="https://img.tabiji.ai/compare/jeonju-vs-busan/jeonju-hanok.jpg"/>
+<img alt="Gamcheon Culture Village in Busan — colorful hillside houses cascading down toward the sea" loading="lazy" src="https://img.tabiji.ai/compare/jeonju-vs-busan/busan-gamcheon.jpg"/>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Jeonju wins on food culture and traditional atmosphere — it's the best place in Korea to eat bibimbap, drink makgeolli, and stay in a hanok. Busan wins on everything else: beaches, seafood markets, coastal temples, nightlife, and sheer variety. For most Korea itineraries, do both — they're only 2.5 hours apart by bus and complement each other perfectly.</strong></p><ul class="verdict-takeaways"><li>Go to <strong>Jeonju</strong> if food is your primary motivation for traveling, if you want to sleep in a traditional hanok guesthouse, or if you want a slower-paced cultural interlude between Seoul and Busan. The bibimbap, kongnamul gukbap, and makgeolli bar scene are genuinely world-class and you can't replicate them elsewhere. Reddit consensus: "If you're a foodie, Jeonju is non-negotiable."</li><li>Go to <strong>Busan</strong> if you want Korea's most dynamic non-Seoul experience — a proper city with beaches, fresh seafood, Gamcheon Culture Village, a coastal Buddhist temple on cliffs, and lively neighborhoods to explore. Busan needs 2-3 nights minimum to do justice. It's also the gateway to Gyeongju, one of the best heritage destinations in Asia.</li><li><strong>Do both if you have 10+ days in Korea.</strong> Seoul (4-5 nights) → Jeonju (1-2 nights) → Busan (2-3 nights) is one of the most popular and most satisfying Korea itineraries for a reason. The bus between Jeonju and Busan takes 2.5-3 hours.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>🍜 Best for Food Travelers</h3><p>Jeonju — bibimbap, kongnamul gukbap, makgeolli, and street snacks in the Hanok Village are why food-focused travelers make the trip.</p></div><div class="verdict-card"><h3>🏖️ Best for City + Beach</h3><p>Busan — Haeundae Beach, Jagalchi seafood market, Gamcheon Village, and coastal Haedong Yonggungsa Temple in one package.</p></div><div class="verdict-card"><h3>🏛️ Best for Traditional Korea</h3><p>Jeonju — 735 hanok buildings in one neighborhood, traditional crafts, hanji paper-making, and a slower tempo than anywhere else in Korea.</p></div><div class="verdict-card"><h3>🌊 Best for Variety</h3><p>Busan — you can go from beach to seafood market to mountain temple to art village to night bar in a single day. Nothing in Korea matches this range.</p></div></div></div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Jeonju if you want food is your primary motivation — bibimbap, kongnamul gukbap, and makgeolli bars are non-negotiables, you want to stay in an authentic hanok guesthouse, you're on a tight budget ($30–50/day is realistic) Choose Busan if you want beaches matter — haeundae and gwangalli are legitimately excellent urban beaches, you want the widest range of experiences in one city: seafood, temples, art, nightlife, nature, you plan to day-trip to gyeongju, which is easily one of korea's best heritage cities Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Jeonju: </strong>Food is your primary motivation — bibimbap, kongnamul gukbap, and makgeolli bars are non-negotiables, You want to stay in an authentic hanok guesthouse, You're on a tight budget ($30–50/day is realistic)</li><li><strong>Choose Busan: </strong>Beaches matter — Haeundae and Gwangalli are legitimately excellent urban beaches, You want the widest range of experiences in one city: seafood, temples, art, nightlife, nature, You plan to day-trip to Gyeongju, which is easily one of Korea's best heritage cities</li><li><strong>Do both if you have 10+ days in Korea.</strong> Seoul (4-5 nights) → Jeonju (1-2 nights) → Busan (2-3 nights) is one of the most popular and most satisfying Korea itineraries for a reason. The bus between Jeonju and Busan takes 2.5-3 hours.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Jeonju for its strongest wins but still want Busan for the categories where it clearly does better.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>🍜 Best for Food Travelers</h3><p>Jeonju — bibimbap, kongnamul gukbap, makgeolli, and street snacks in the Hanok Village are why food-focused travelers make the trip.</p></div><div class="verdict-card"><h3>🏖️ Best for City + Beach</h3><p>Busan — Haeundae Beach, Jagalchi seafood market, Gamcheon Village, and coastal Haedong Yonggungsa Temple in one package.</p></div><div class="verdict-card"><h3>🏛️ Best for Traditional Korea</h3><p>Jeonju — 735 hanok buildings in one neighborhood, traditional crafts, hanji paper-making, and a slower tempo than anywhere else in Korea.</p></div><div class="verdict-card"><h3>🌊 Best for Variety</h3><p>Busan — you can go from beach to seafood market to mountain temple to art village to night bar in a single day. Nothing in Korea matches this range.</p></div><div class="verdict-card split-card"><h3>Split your trip</h3><p>Split your trip if you want Jeonju for its strongest wins but still want Busan for the categories where it clearly does better.</p></div></div></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Jeonju</strong><p>Bibimbap birthplace, kongnamul gukbap, makgeolli bars, Hanok Village street food</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Busan</strong><p>Seomyeon district, Haeundae clubs, Gwangalli bars — proper nightlife city</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Jeonju</strong><p>40,000–70,000 KRW ($30–52)</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Jeonju</strong><p>Bibimbap birthplace, kongnamul gukbap, makgeolli bars, Hanok Village street food</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Jeonju</strong><p>Bibimbap birthplace, kongnamul gukbap, makgeolli bars, Hanok Village street food</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Jeonju</strong><p>40,000–70,000 KRW ($30–52)</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Jeonju</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Busan</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Jeonju</span></span>
 <span class="best-for-chip"><span class="bf-label">🌙 Best for nightlife:</span> <span class="bf-winner">Busan</span></span>
 <span class="best-for-chip"><span class="bf-label">💰 Best for budget:</span> <span class="bf-winner">Jeonju</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Jeonju</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Busan</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Jeonju</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Busan</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏔️ Scenery</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Jeonju</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Busan</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🌙 Nightlife</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Jeonju</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Busan</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Jeonju</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Busan</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -553,7 +549,7 @@
 </div>
 <section class="deep-dive">
 <h2 id="food-and-dining">🍜 Food &amp; Dining</h2>
-<img src="https://img.tabiji.ai/compare/jeonju-vs-busan/jeonju-bibimbap.jpg" alt="Traditional Jeonju bibimbap served in a stone pot with colorful vegetable toppings and red gochujang" class="section-img" loading="lazy">
+<img alt="Traditional Jeonju bibimbap served in a stone pot with colorful vegetable toppings and red gochujang" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/jeonju-vs-busan/jeonju-bibimbap.jpg"/>
 <p>Food is where Jeonju has no rival in Korea. The city is the acknowledged birthplace of bibimbap and takes its food identity seriously — the Jeonju Food Special District is UNESCO-recognized, the culinary traditions run deep, and visiting without eating properly here would be a genuine waste. Busan is no slouch food-wise either, with some of Korea's finest seafood and its own regional specialties, but Jeonju wins on the food-as-identity dimension.</p>
 <p><strong>Jeonju food highlights:</strong></p>
 <ul>
@@ -571,7 +567,7 @@
 <li><strong>Gukje Market Street Food</strong> — Busan's largest traditional market has an entire alley (Biff Square / Gukje) dedicated to street food: ssiat hotteok (nut-filled hotteok, 1,500 KRW), assorted jeon pancakes, sundae (Korean blood sausage), and tteokbokki.</li>
 </ul>
 <blockquote class="reddit-quote">"Jeonju is the best place for food trip. I lived in Korea for 3 years and I think it's the food capital of the country. The bibimbap, kongnamul gukbap, makgeolli bars — you won't eat this well anywhere else at these prices."
-<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1qhtwxe/is_jeonju_a_trap/" target="_blank" rel="noopener">r/koreatravel</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1qhtwxe/is_jeonju_a_trap/" rel="noopener" target="_blank">r/koreatravel</a></span></blockquote>
 <blockquote class="reddit-quote">"Busan's seafood market (Jagalchi) is absolutely incredible — get there early and just walk around the stalls before deciding where to eat upstairs. The raw fish platters are incredibly fresh."
 <span class="source">— r/koreatravel</span></blockquote>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Jeonju wins the food comparison decisively if you're measuring on tradition, regional identity, and value. No other Korean city takes food as seriously as Jeonju does, and the combination of bibimbap + kongnamul gukbap + street food + makgeolli bars is genuinely irreplaceable. Busan's seafood is world-class, but Busan's overall food scene is broader and more cosmopolitan — Jeonju's food is deeper and more rooted. Go to Jeonju to eat Korean food the way Koreans who grew up eating Korean food eat it.</div>
@@ -596,7 +592,7 @@
 <li><strong>BIFF Square (부산국제영화제 광장)</strong> — the handprint-studded square named for the Busan International Film Festival, surrounded by cinemas and street food stalls. Lively at night.</li>
 </ul>
 <blockquote class="reddit-quote">"Jeonju Hanok Village is definitely worth seeing, but go early — by 10am on weekends it's packed. The real magic is wandering the back alleys away from the tourist shops, or just sitting in a hanok guesthouse courtyard with a cup of traditional tea."
-<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1cit875/has_anyone_gone_to_jeonju/" target="_blank" rel="noopener">r/koreatravel</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1cit875/has_anyone_gone_to_jeonju/" rel="noopener" target="_blank">r/koreatravel</a></span></blockquote>
 <blockquote class="reddit-quote">"Gamcheon is touristy but it's still really beautiful and worth a visit. Get there before 10am. Haedong Yonggungsa is honestly one of the most visually striking temples in Korea — don't skip it just because it's outside the city."
 <span class="source">— r/koreatravel</span></blockquote>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Different kinds of cultural richness. Jeonju offers the most authentic traditional Korean architecture and craft culture in one walkable neighborhood — it's the best hanok experience in Korea by volume. Busan offers more variety and visual drama: a coastal temple on cliffs, a hillside art village, and a historic seafood market culture. If traditional Korea is your priority, Jeonju. If visual variety and coastal culture matter more, Busan.</div>
@@ -650,7 +646,7 @@
 <li><strong>From Gyeongju:</strong> Local train or bus: 40–70 minutes. Busan and Gyeongju form the most popular two-city combo in southeastern Korea.</li>
 </ul>
 <blockquote class="reddit-quote">"Seoul to Jeonju and then bus from Jeonju to Busan is very doable. Bus from Busan to Jeonju is likely best for that leg. KTX from Seoul to either is excellent but the bus saves a lot of money if time isn't tight."
-<span class="source">— <a href="https://www.reddit.com/r/korea/comments/1jfbb86/seoul_to_jeonju_and_busan/" target="_blank" rel="noopener">r/korea</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/korea/comments/1jfbb86/seoul_to_jeonju_and_busan/" rel="noopener" target="_blank">r/korea</a></span></blockquote>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Both cities are easy to reach from Seoul by KTX. Jeonju is marginally faster from Seoul and significantly cheaper by bus. Busan has better internal city transport (subway) and more connections to other destinations (direct KTX to Gyeongju, flights from Gimhae Airport). For a circuit trip, the standard routing is Seoul → Jeonju → Busan (or add Gyeongju between them), finishing in Busan with a flight or train home.</div>
 </section><section class="deep-dive">
 <h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
@@ -733,11 +729,11 @@
 <li><strong>Jinhae</strong> — 1 hour by bus/train. Famous for the Jinhae Gunhangje Cherry Blossom Festival (late March/early April) — one of Korea's most celebrated spring events. Outside of festival season it's a quiet naval base town.</li>
 </ul>
 <blockquote class="reddit-quote">"If you're already going to Busan you should absolutely go to Gyeongju! I would spend 3–4 days between those two and the other days in Seoul. Gyeongju is an incredible historical city, super easy day trip from Busan."
-<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/17vkmq2/on_my_8day_trip_i_want_to_go_to_jeonju_and_busan/" target="_blank" rel="noopener">r/koreatravel</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/17vkmq2/on_my_8day_trip_i_want_to_go_to_jeonju_and_busan/" rel="noopener" target="_blank">r/koreatravel</a></span></blockquote>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> Busan wins decisively as a day-trip base — the Gyeongju connection alone is worth the price of admission, and Tongyeong and Geoje make excellent half-day escapes. Jeonju's day-trip options are more limited and require more planning. If mobility and exploring a region is important to you, Busan is the superior base city.</div>
 </section><section class="deep-dive">
 <h2 id="why-not-both">🔀 Why Not Both? The Seoul–Jeonju–Busan Circuit</h2>
-<img src="https://img.tabiji.ai/compare/jeonju-vs-busan/busan-coastal.jpg" alt="Gamcheon Culture Village in Busan — colorful stacked houses cascading down the hillside above the port" class="section-img" loading="lazy">
+<img alt="Gamcheon Culture Village in Busan — colorful stacked houses cascading down the hillside above the port" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/jeonju-vs-busan/busan-coastal.jpg"/>
 <p>The honest recommendation for most Korea visitors: do both. Jeonju and Busan are only 2.5–3 hours apart by bus, serve completely different purposes, and together with Seoul constitute Korea's most popular itinerary for good reason.</p>
 <p><strong>The Classic Seoul–Jeonju–Busan Circuit:</strong></p>
 <ul>
@@ -748,9 +744,9 @@
 </ul>
 <p>This circuit takes 10–14 days total and gives you the full Korean experience arc: East Asian megacity → traditional food/culture capital → dynamic coastal second city. Reddit travelers who've done this circuit consistently rate it as one of the best first Korea trips possible.</p>
 <blockquote class="reddit-quote">"My itinerary: Seoul 5 nights → Jeonju 1 night → Busan 3 nights. This worked perfectly. Jeonju was a great palate cleanser between the two cities — slower, food-focused, charming. I'd never skip it."
-<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1f12b9p/15day_itinerary_check_seoul_jeonju_and_busan/" target="_blank" rel="noopener">r/koreatravel</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1f12b9p/15day_itinerary_check_seoul_jeonju_and_busan/" rel="noopener" target="_blank">r/koreatravel</a></span></blockquote>
 <blockquote class="reddit-quote">"Jeonju is great for relaxing, it's a pretty nice place. Busan is a huge and beautiful city. They're so different that it's really up to you — but if you have the time, do both. They complement each other perfectly."
-<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1ntdv54/jeonju_vs_busan_which_would_you_pick/" target="_blank" rel="noopener">r/koreatravel</a></span></blockquote>
+<span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1ntdv54/jeonju_vs_busan_which_would_you_pick/" rel="noopener" target="_blank">r/koreatravel</a></span></blockquote>
 <div class="tabiji-verdict"><strong>tabiji verdict:</strong> If you have 10+ days in Korea, there's no reason to choose. Jeonju (1–2 nights) and Busan (2–3 nights) fit neatly into any southern Korea itinerary without conflict. The cities serve completely different purposes — Jeonju is where you eat the best Korean food and sleep in a hanok; Busan is where you eat the best Korean seafood, swim at a beach, and explore a proper coastal city. Both belong on your itinerary.</div>
 </section><section class="deep-dive">
 <h2 id="the-decision-framework">🎯 The Decision Framework</h2>
@@ -830,45 +826,44 @@
 <a class="related-card" href="/compare/dalat-vs-da-nang/"><h3>Da Lat vs Da Nang</h3><p>Da Lat vs Da Nang — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Mountains and mist vs beaches and city energy. Which wins for your Vietnam trip?</p><div class="related-meta">Asia · Islands &amp; beaches</div></a>
 <a class="related-card" href="/compare/nha-trang-vs-phu-quoc/"><h3>Nha Trang vs Phu Quoc</h3><p>Nha Trang vs Phu Quoc — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. City beach vs resort island: which Vietnam destination is right for you?</p><div class="related-meta">Asia · Islands &amp; beaches</div></a>
 </div>
-
 </section>
 <!-- compare-related:end -->
 <div class="cta-section">
 <h2>Ready to Plan Your Korea Trip?</h2>
 <p>Whether you pick Jeonju's hanok atmosphere, Busan's coastal energy, or both — let tabiji build your perfect Korea itinerary.</p>
 <div class="cta-buttons">
-<a href="/plan" class="cta-buttons-link cta-btn-jeonju">Plan My Korea Trip →</a>
-<a href="/compare/" class="cta-buttons-link cta-btn-busan">More Korea Comparisons</a>
+<a class="cta-buttons-link cta-btn-jeonju" href="/plan">Plan My Korea Trip →</a>
+<a class="cta-buttons-link cta-btn-busan" href="/compare/">More Korea Comparisons</a>
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Jeonju+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Jeonju</span>
-        <span class="tour-name">Jeonju Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Jeonju+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Jeonju Day Trip</span>
-        <span class="tour-name">Jeonju Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Busan+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Busan</span>
-        <span class="tour-name">Busan Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Busan+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Busan Day Trip</span>
-        <span class="tour-name">Busan Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Jeonju+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Jeonju</span>
+<span class="tour-name">Jeonju Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Jeonju+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Jeonju Day Trip</span>
+<span class="tour-name">Jeonju Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Busan+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Busan</span>
+<span class="tour-name">Busan Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Busan+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Busan Day Trip</span>
+<span class="tour-name">Busan Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

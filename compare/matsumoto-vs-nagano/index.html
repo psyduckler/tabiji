@@ -692,36 +692,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile-sticky" id="toc-mobile">
@@ -780,39 +805,20 @@
 <div class="methodology-box"><h2 id="how-we-built-this-comparison">How we built this comparison</h2><p>This page combines traveler discussion patterns, published price ranges, transit details, and seasonal data to make the Matsumoto vs Nagano decision easier to resolve.</p><ul class="methodology-points"><li>Reviewed Reddit discussions across r/JapanTravel and r/JapanTravelTips — hundreds of threads about choosing between Matsumoto and Nagano as a base or destination.</li><li>Cross-referenced accommodation pricing from Booking.com and Jalan.net for both cities (March 2026 rates).</li><li>Transit times and fares verified against JR East and Alpico Bus timetables.</li><li>Cultural attraction details from official Japan Tourism Agency and city tourism board publications.</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="Matsumoto Castle — Japan's oldest surviving original castle, nicknamed Crow Castle for its dramatic black-and-white exterior" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/matsumoto-castle.jpg">
-<div class="caption">Matsumoto — Crow Castle & City Arts</div>
-</img></div>
-<div>
-<img alt="Zenkoji Temple in Nagano — one of Japan's most important Buddhist temples, founded over 1,400 years ago" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/nagano-zenkoji.jpg">
-<div class="caption">Nagano — Zenkoji Temple & Snow Country</div>
-</img></div>
+<img alt="Matsumoto Castle — Japan's oldest surviving original castle, nicknamed Crow Castle for its dramatic black-and-white exterior" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/matsumoto-castle.jpg"/>
+<div class="caption">Matsumoto — Crow Castle &amp; City Arts</div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Matsumoto wins as a standalone city destination — better food scene, more walkable, and the castle alone justifies the stop. Nagano wins as a regional base — it's the better launchpad for the Snow Monkey Park, Togakushi Shrine, and ski resorts. Budget snapshot: both cities are similar mid-range Japan costs, ¥8,000–15,000/day excluding accommodation.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Matsumoto:</strong> City explorers, foodies, cherry blossom photographers, castle enthusiasts, Kamikochi hikers, art lovers (Yayoi Kusama museum).</li><li><strong>Choose Nagano:</strong> Snow monkey seekers, Zenkoji pilgrims, Togakushi Shrine visitors, skiers using Nagano as a hub, regional explorers needing a base.</li><li><strong>Do both:</strong> They're only 50 minutes apart — most travelers with 4+ days in the region should visit both.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>Choose Matsumoto</h3><p>City explorers, foodies, castle fans, cherry blossom photographers, Kamikochi hikers.</p></div><div class="verdict-card"><h3>Choose Nagano</h3><p>Snow monkey seekers, regional base travelers, Zenkoji pilgrims, Togakushi visitors.</p></div></div></div>
+<div>
+<img alt="Zenkoji Temple in Nagano — one of Japan's most important Buddhist temples, founded over 1,400 years ago" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/nagano-zenkoji.jpg"/>
+<div class="caption">Nagano — Zenkoji Temple &amp; Snow Country</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Matsumoto if you want matsumoto castle is a must-see on your japan list, cherry blossom season and you want the iconic castle + sakura scene, kamikochi alpine valley is your summer/autumn goal Choose Nagano if you want the snow monkey park at jigokudani is your goal, zenkoji temple is a spiritual priority, togakushi shrine's cedar avenue appeals to you Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Matsumoto: </strong>Matsumoto Castle is a must-see on your Japan list, Cherry blossom season and you want the iconic castle + sakura scene, Kamikochi alpine valley is your summer/autumn goal</li><li><strong>Choose Nagano: </strong>The Snow Monkey Park at Jigokudani is your goal, Zenkoji Temple is a spiritual priority, Togakushi Shrine's cedar avenue appeals to you</li><li><strong>Do both:</strong> They're only 50 minutes apart — most travelers with 4+ days in the region should visit both.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Matsumoto for its strongest wins but still want Nagano for the categories where it clearly does better.</li></ul><div class="verdict-cards"><div class="verdict-card"><h3>Choose Matsumoto</h3><p>City explorers, foodies, castle fans, cherry blossom photographers, Kamikochi hikers.</p></div><div class="verdict-card"><h3>Choose Nagano</h3><p>Snow monkey seekers, regional base travelers, Zenkoji pilgrims, Togakushi visitors.</p></div><div class="verdict-card split-card"><h3>Split your trip</h3><p>Split your trip if you want Matsumoto for its strongest wins but still want Nagano for the categories where it clearly does better.</p></div></div></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Matsumoto</strong><p>Excellent — soba, craft beer, Nawate dining</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Tie</strong><p>Not a clean call from the comparison table, so treat this as situational.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Tie</strong><p>Not a clean call from the comparison table, so treat this as situational.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Matsumoto</strong><p>Excellent — soba, craft beer, Nawate dining</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Matsumoto</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Nagano</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🏛️ Best for culture:</span> <span class="bf-winner">Matsumoto</span></span>
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">Matsumoto</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Matsumoto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Nagano</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏔️ Scenery</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Matsumoto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Nagano</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Matsumoto</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Nagano</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -899,7 +905,7 @@
 <p><strong>Matsumoto Castle</strong> (Matsumoto-jo) is the undisputed centerpiece of the city — one of Japan's 12 surviving original feudal castles, designated a National Treasure. Built in the late 16th century, its striking black-and-white exterior has earned the nickname "Crow Castle" (Karasu-jo). The five-story keep is surrounded by a wide moat that reflects the castle beautifully, especially during cherry blossom season. Interior admission is ¥700 for adults; budget 1.5–2 hours. The castle grounds are free to enter and walkable from the station (15 minutes on foot).</p>
 <p>Beyond the castle, Matsumoto has genuine cultural density: the <strong>Matsumoto City Museum of Art</strong> (¥410) houses an entire wing dedicated to hometown artist <strong>Yayoi Kusama</strong> — polka-dot installations, pumpkin sculptures, and infinity mirror rooms that justify the visit alone. The <strong>Japan Ukiyo-e Museum</strong> holds the world's largest collection of Japanese woodblock prints (100,000+ pieces, rotating exhibitions). The <strong>Matsumoto Timepiece Museum</strong> (clock museum) is quirky and underrated.</p>
 <p>Nagano's cultural heavyweight is <strong>Zenkoji Temple</strong> — founded in the 7th century and said to house Japan's oldest statue of the Buddha (the Ikko Sanzon Amida Nyorai, normally hidden from view and only displayed every 7 years during the Gokaicho festival). Over 6 million visitors and pilgrims arrive annually. The predawn <em>otsutome</em> morning ceremony, held daily at 5:30–6:00am, draws pilgrims who queue for the head priest's benediction. The tunnel beneath the main hall (Kaidan Meguri) leads through complete darkness to a sacred door-pull — a must-do experience.</p>
-<img alt="Nakamachi district in Matsumoto — Edo-era kura warehouses converted into cafes, galleries and craft shops" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/matsumoto-nakamachi.jpg">
+<img alt="Nakamachi district in Matsumoto — Edo-era kura warehouses converted into cafes, galleries and craft shops" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/matsumoto-nakamachi.jpg"/>
 <div class="reddit-quote">
             "Matsumoto has more stuff to see than Nagano (which really only has temples) but both of those can be done as day trips from Hakuba."
             <span class="source">— <a href="https://www.reddit.com/r/JapanTravelTips/comments/1jdvt9r/nagano_city_or_matsumoto_where_to_stay_in_nagano/">r/JapanTravelTips</a></span>
@@ -924,7 +930,7 @@
 <p>Both cities sit in <strong>Nagano Prefecture</strong> (they share the same prefecture), so the surrounding natural assets are connected — the question is which city provides better access to each highlight.</p>
 <p><strong>From Matsumoto:</strong> The crown jewel is <strong>Kamikochi</strong> (上高地) — a stunning alpine valley in the Northern Japanese Alps, accessible only by bus (no private cars allowed) and only open May through November. From Matsumoto, the bus takes about 1.5 hours and runs frequently during the season. The 5km riverside walk between Kappa Bridge and Myojin Pond is among Japan's finest mountain hikes. Matsumoto is also the gateway to <strong>Lake Suwa</strong> (30 min by train) — scenic lakeside hot spring foot baths, Suwa Grand Shrine, and local sake breweries. <strong>Azumino</strong> (30 min north) offers wasabi farms, cycling, and the Daio Wasabi Farm (free entry).</p>
 <p><strong>From Nagano:</strong> The <strong>Jigokudani Snow Monkey Park</strong> in Yamanouchi is the region's most famous draw globally — wild Japanese macaques bathing in thermal hot springs surrounded by snow, accessible via train to Yudanaka (40 min, ¥1,250) then bus or walk. From Matsumoto, this journey takes an extra hour each way and adds roughly ¥2,000 round trip. <strong>Togakushi Shrine</strong> sits at the end of a 2km avenue of 400-year-old cedar trees, a 50-minute bus ride from Nagano Station. <strong>Ski resorts</strong> — Hakuba, Shiga Kogen, Nozawa Onsen — are all 60–90 minutes from Nagano, considerably closer than from Matsumoto.</p>
-<img alt="Nagano Zenkoji Temple at dawn — the approach street and ancient Buddhist shrine visited by 6 million people annually" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/nagano-zenkoji2.jpg">
+<img alt="Nagano Zenkoji Temple at dawn — the approach street and ancient Buddhist shrine visited by 6 million people annually" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/matsumoto-vs-nagano/nagano-zenkoji2.jpg"/>
 <div class="reddit-quote">
             "Nagano is close to Karuizawa while Matsumoto is close to Kamikochi. Nagano is close to Kusatsu Onsen and Nozawa Onsen, but Matsumoto is still within reach of a lot of things too."
             <span class="source">— <a href="https://www.reddit.com/r/JapanTravel/comments/10qbo94/which_city_as_a_base_for_one_month/">r/JapanTravel</a></span>
@@ -1095,7 +1101,6 @@
 <a class="related-card" href="/compare/tokyo-vs-seoul/"><h3>Seoul vs Tokyo</h3><p>Seoul vs Tokyo — a data-backed comparison based on Reddit discussions, real costs, K-pop vs anime culture, food scenes, nightlife, transit, and honest verdicts. Which East Asian megacity wins?</p><div class="related-meta">Asia · Food &amp; culture</div></a>
 <a class="related-card" href="/compare/south-korea-vs-japan/"><h3>South Korea vs Japan</h3><p>South Korea vs Japan — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Budget breakdowns, food, culture, transit, and honest verdicts.</p><div class="related-meta">Asia · Food &amp; culture</div></a>
 </div>
-
 </section>
 <!-- compare-related:end -->
 <div class="cta-section">
@@ -1107,33 +1112,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Matsumoto+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Matsumoto</span>
-        <span class="tour-name">Matsumoto Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Matsumoto+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Matsumoto Day Trip</span>
-        <span class="tour-name">Matsumoto Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Nagano+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Nagano</span>
-        <span class="tour-name">Nagano Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Nagano+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Nagano Day Trip</span>
-        <span class="tour-name">Nagano Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Matsumoto+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Matsumoto</span>
+<span class="tour-name">Matsumoto Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Matsumoto+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Matsumoto Day Trip</span>
+<span class="tour-name">Matsumoto Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Nagano+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Nagano</span>
+<span class="tour-name">Nagano Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Nagano+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Nagano Day Trip</span>
+<span class="tour-name">Nagano Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>

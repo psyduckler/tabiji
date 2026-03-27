@@ -670,36 +670,61 @@
             .best-for-chip { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
         }
 
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;" loading="lazy">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;vertical-align:middle;margin-right:6px;"/><img alt="tabiji.ai" class="owl-fly" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;vertical-align:middle;margin-right:6px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -708,15 +733,15 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💸 Costs & Budget</a>
+<a href="#costs-budget">💸 Costs &amp; Budget</a>
 <a href="#nightlife">🕺 Nightlife</a>
 <a href="#food-scene">🍽️ Food Scene</a>
-<a href="#culture-history">🏛️ Culture & History</a>
-<a href="#nature-day-trips">🌳 Nature & Day Trips</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
+<a href="#nature-day-trips">🌳 Nature &amp; Day Trips</a>
 <a href="#safety">🛡️ Safety</a>
 <a href="#getting-around">🚇 Getting Around</a>
 <a href="#digital-nomad-vibe">💻 Digital Nomad Vibe</a>
-<a href="#weather-seasons">☀️ Weather & Seasons</a>
+<a href="#weather-seasons">☀️ Weather &amp; Seasons</a>
 <a href="#accommodation">🏨 Accommodation</a>
 <a href="#faq">❓ FAQ</a>
 </div>
@@ -724,7 +749,7 @@
 <section class="hero">
 <div class="hero-badge">🆚 Comparison — South America</div>
 <h1>Medellin vs Buenos Aires: <em>Which Should You Visit?</em></h1>
-<p>Deciding between the vibrant &#x27;City of Eternal Spring&#x27; and the &#x27;Paris of South America&#x27; comes down to your budget, desired pace, and cultural palate.</p>
+<p>Deciding between the vibrant 'City of Eternal Spring' and the 'Paris of South America' comes down to your budget, desired pace, and cultural palate.</p>
 <div class="hero-meta">
 <div><strong>Updated:</strong> March 2026</div>
 <div><strong>Sources:</strong> r/travel, r/solotravel, r/colombia, r/argentina, r/medellin, r/buenosaires</div>
@@ -737,35 +762,35 @@
 <a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a>
 <a href="#how-we-built-this-comparison">📊 Methodology</a>
 <a href="#quick-comparison">📋 Quick Comparison</a>
-<a href="#costs-budget">💸 Costs & Budget</a>
+<a href="#costs-budget">💸 Costs &amp; Budget</a>
 <a href="#nightlife">🕺 Nightlife</a>
 <a href="#food-scene">🍽️ Food Scene</a>
-<a href="#culture-history">🏛️ Culture & History</a>
-<a href="#nature-day-trips">🌳 Nature & Day Trips</a>
+<a href="#culture-history">🏛️ Culture &amp; History</a>
+<a href="#nature-day-trips">🌳 Nature &amp; Day Trips</a>
 <a href="#safety">🛡️ Safety</a>
 <a href="#getting-around">🚇 Getting Around</a>
 <a href="#digital-nomad-vibe">💻 Digital Nomad Vibe</a>
-<a href="#weather-seasons">☀️ Weather & Seasons</a>
+<a href="#weather-seasons">☀️ Weather &amp; Seasons</a>
 <a href="#accommodation">🏨 Accommodation</a>
 <a href="#faq">❓ FAQ</a>
 </aside>
 <div class="article-content">
 <div class="methodology-box"><h2 id="how-we-built-this-comparison">How we built this comparison</h2><p>This page combines traveler discussion patterns, published price ranges, flight schedules, and seasonal data to help you decide between Medellin and Buenos Aires.</p><ul class="methodology-points"><li>Reviewed 100+ Reddit threads from r/travel, r/solotravel, r/colombia, r/argentina, r/medellin, r/buenosaires, etc.</li>
 <li>Verified costs and logistics against current booking platforms (Booking.com, Airbnb, Google Flights, Numbeo) and recent traveler reports.</li>
-<li>Cross-referenced seasonal patterns, weather data, and currency exchange rates (official and &#x27;blue dollar&#x27;).</li></ul></div>
+<li>Cross-referenced seasonal patterns, weather data, and currency exchange rates (official and 'blue dollar').</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="Medellin travel destination" loading="lazy" src="https://img.tabiji.ai/compare/medellin-vs-buenos-aires/dest1.jpg">
+<img alt="Medellin travel destination" loading="lazy" src="https://img.tabiji.ai/compare/medellin-vs-buenos-aires/dest1.jpg"/>
 <div class="caption">Medellin</div>
-</img></div>
-<div>
-<img alt="Buenos Aires travel destination" loading="lazy" src="https://img.tabiji.ai/compare/medellin-vs-buenos-aires/dest2.jpg">
-<div class="caption">Buenos Aires</div>
-</img></div>
 </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>For those seeking an incredibly vibrant, affordable, and warm-weather destination with stunning nature, Medellin is your pick, budget around $40-70/day. If you crave European grandeur, world-class cuisine, and a rich, late-night culture, Buenos Aires awaits, expect to spend $60-100+/day using the &#x27;blue dollar&#x27; strategy.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Medellin:</strong> If you prioritize a consistent &#x27;eternal spring&#x27; climate, lush mountain views, an incredible Metro system, and a more budget-friendly experience with delicious tropical fruits and a burgeoning nightlife. Perfect for solo travelers and digital nomads seeking community.</li>
-<li><strong>Choose Buenos Aires:</strong> If you&#x27;re drawn to grand European architecture, world-class steak and wine, passionate tango culture, extensive museums, and a sophisticated urban environment. Ideal for foodies, culture vultures, and those who love late-night dining and entertainment.</li>
-<li><strong>Choose Both:</strong> For a comprehensive South American experience, combining both offers the best of both worlds. Dedicate at least 7-10 days to each city, flying between them (BOG or MDE to EZE) will take roughly 7-9 hours with layovers.</li></ul></div>
+<div>
+<img alt="Buenos Aires travel destination" loading="lazy" src="https://img.tabiji.ai/compare/medellin-vs-buenos-aires/dest2.jpg"/>
+<div class="caption">Buenos Aires</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Medellin if you want costs &amp; budget, nature &amp; day trips, getting around. Choose Buenos Aires if you want nightlife, food scene, culture &amp; history. Split your trip if you want both experiences without forcing one destination to do the other's job.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Medellin: </strong>costs &amp; budget, nature &amp; day trips, getting around.</li>
+<li><strong>Choose Buenos Aires: </strong>nightlife, food scene, culture &amp; history.</li>
+<li><strong>Choose Both:</strong> For a comprehensive South American experience, combining both offers the best of both worlds. Dedicate at least 7-10 days to each city, flying between them (BOG or MDE to EZE) will take roughly 7-9 hours with layovers.</li><li class="split-takeaway"><strong>Split your trip: </strong>Split your trip if you want Medellin for its strongest wins but still want Buenos Aires for the categories where it clearly does better.</li></ul></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Buenos Aires</strong><p>World-renowned for steak, wine, Italian influences, and sweet treats like dulce de leche.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Buenos Aires</strong><p>Sophisticated, diverse, with late-night tango, electronic clubs, and classic bars.</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Medellin</strong><p>Significantly more affordable across the board; excellent value for money.</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Buenos Aires</strong><p>Rich European heritage, grand architecture, tango, and a vibrant arts scene.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Buenos Aires</strong><p>Sophisticated, diverse, with late-night tango, electronic clubs, and classic bars.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Medellin</strong><p>Significantly more affordable across the board; excellent value for money.</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability - a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Medellin</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div></div><div class="scorecard"><h3>Buenos Aires</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div></div></div></section>
 <div class="best-for-snapshot">
 <h3>Best For at a Glance</h3>
 <span class="best-for-chip"><span class="bf-label">🍽️ Best for food:</span> <span class="bf-winner">Medellin</span></span>
@@ -774,40 +799,6 @@
 <span class="best-for-chip"><span class="bf-label">🏛️ Best for culture:</span> <span class="bf-winner">Buenos Aires</span></span>
 <span class="best-for-chip"><span class="bf-label">🎒 Best for solo travelers:</span> <span class="bf-winner">Medellin</span></span>
 </div>
-<div class="scorecard-section">
-<h3>📊 Head-to-Head Scorecard</h3>
-<div class="scorecard-row">
-<span class="scorecard-cat">💰 Budget</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🍽️ Food</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏛️ Culture</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🏔️ Scenery</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🌙 Nightlife</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span></div></div>
-</div>
-<div class="scorecard-row">
-<span class="scorecard-cat">🚆 Ease/Logistics</span>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Medellin</span><div class="scorecard-dots"><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot filled-alt"></span><span class="scorecard-dot"></span></div></div>
-<div class="scorecard-bar-wrap"><span class="scorecard-dest-name">Buenos Aires</span><div class="scorecard-dots"><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot filled"></span><span class="scorecard-dot"></span><span class="scorecard-dot"></span></div></div>
-</div>
-</div>
-
 <div class="comparison-section">
 <h2 id="quick-comparison">Quick Comparison</h2>
 <table class="comparison-table">
@@ -823,7 +814,7 @@
 <tr>
 <td>Costs &amp; Budget</td>
 <td>Significantly more affordable across the board; excellent value for money.</td>
-<td>More expensive, but strategic use of the &#x27;blue dollar&#x27; can offer value.</td>
+<td>More expensive, but strategic use of the 'blue dollar' can offer value.</td>
 <td><span class="edge-medellin">Medellin</span></td>
 </tr>
 <tr>
@@ -865,12 +856,12 @@
 <tr>
 <td>Digital Nomad Vibe</td>
 <td>Thriving, established hub with a strong community, excellent infrastructure, and affordability.</td>
-<td>Popular and vibrant, but perhaps less tailored infrastructure than Medellin&#x27;s dedicated scene.</td>
+<td>Popular and vibrant, but perhaps less tailored infrastructure than Medellin's dedicated scene.</td>
 <td><span class="edge-medellin">Medellin</span></td>
 </tr>
 <tr>
 <td>Weather &amp; Seasons</td>
-<td>Known as the &#x27;City of Eternal Spring&#x27; with consistent, pleasant temperatures year-round.</td>
+<td>Known as the 'City of Eternal Spring' with consistent, pleasant temperatures year-round.</td>
 <td>Four distinct seasons; hot, humid summers and cool, sometimes chilly, winters.</td>
 <td><span class="edge-medellin">Medellin</span></td>
 </tr>
@@ -894,11 +885,11 @@
 </section><section class="deep-dive">
 <h2 id="food-scene">🍽️ Food Scene</h2>
 <p>Medellin's food scene is comforting and flavorful, deeply rooted in Paisa culture. You must try a Bandeja Paisa (a massive platter of beans, rice, ground beef, chicharrón, egg, avocado, plantain, and arepa) or an Ajiaco (a hearty chicken and potato soup). The fresh tropical fruits are exceptional and inexpensive. While traditional, Medellin is also seeing a surge in creative fusion restaurants, particularly in Provenza. Buenos Aires is a foodie paradise, especially for meat lovers. The parrillas (steakhouses) like Don Julio or La Cabrera serve incredible cuts of grass-fed beef. Empanadas, choripán, and pizzas (owing to Italian influence) are everywhere. The city's café culture is strong, and don't leave without indulging in helado (ice cream) and alfajores with dulce de leche. Expect to pay ARS 20,000-40,000 (~$20-40) for a proper steak dinner with wine. 'Honestly, I gained 5 pounds in BA just from steak and dulce de leche. No regrets.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Buenos Aires</li><li><strong>Why:</strong> Buenos Aires&#x27;s culinary reputation for world-class steak, wine, and its rich Italian-influenced cuisine gives it an edge for dedicated foodies.</li><li><strong>Who this matters for:</strong> Foodies, carnivores, wine enthusiasts, and anyone who loves dessert.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Buenos Aires</li><li><strong>Why:</strong> Buenos Aires's culinary reputation for world-class steak, wine, and its rich Italian-influenced cuisine gives it an edge for dedicated foodies.</li><li><strong>Who this matters for:</strong> Foodies, carnivores, wine enthusiasts, and anyone who loves dessert.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="culture-history">🏛️ Culture &amp; History</h2>
 <p>Medellin's recent history of transformation is compelling. The Comuna 13 tour, once a dangerous neighborhood, is now a symbol of urban innovation through art, music, and escalators. Plaza Botero, with Fernando Botero's voluminous sculptures, and the Museo de Antioquia offer significant cultural insights. The city also showcases a strong coffee culture and a passion for salsa. Buenos Aires is often called the 'Paris of South America' for a reason. Its European architecture is breathtaking – from the grandeur of Teatro Colón to the ornate Recoleta Cemetery (where Eva Perón is buried). San Telmo's Sunday market is a cultural institution, brimming with antiques, street performers, and tango dancers. The city has countless museums, art galleries, and historic cafés (like Café Tortoni) that transport you back in time. Tango is woven into the city's fabric, from street performances to elaborate dinner shows. 'BA just oozes history and art from every corner, it's like stepping into an old European film set.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Buenos Aires</li><li><strong>Why:</strong> Buenos Aires offers a deeper, more classical &#x27;grand city&#x27; cultural experience with its iconic architecture, world-renowned tango, and extensive historical sites.</li><li><strong>Who this matters for:</strong> History buffs, architecture enthusiasts, art lovers, and those passionate about performing arts like tango.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Buenos Aires</li><li><strong>Why:</strong> Buenos Aires offers a deeper, more classical 'grand city' cultural experience with its iconic architecture, world-renowned tango, and extensive historical sites.</li><li><strong>Who this matters for:</strong> History buffs, architecture enthusiasts, art lovers, and those passionate about performing arts like tango.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="nature-day-trips">🌳 Nature &amp; Day Trips</h2>
 <p>Medellin is nestled in the Aburrá Valley, surrounded by verdant mountains, making nature incredibly accessible. The most famous day trip is to Guatapé, a colorful town with the iconic El Peñol rock offering panoramic views – a bus costs around COP 20,000-30,000 (~$5-8) each way. Parque Arví, a natural reserve, is easily reached via the MetroCable for just the price of a Metro ticket. Coffee farm tours are also within easy reach, offering insight into Colombia's famous brew. Buenos Aires offers different kinds of natural escapes. The Tigre Delta, a vast network of rivers and islands, is a popular half-day trip for boat tours, easily accessible by train (~ARS 500-1000/$0.5-1). You can also visit traditional estancias (ranches) for a taste of gaucho culture, though these are pricier organized tours. A unique international day trip is a ferry ride to Colonia del Sacramento in Uruguay, a charming UNESCO World Heritage site, costing around $60-100 round trip. 'Medellin's surrounding nature is just next level, Guatapé photos don't even do it justice.'</p>
@@ -910,7 +901,7 @@
 </section><section class="deep-dive">
 <h2 id="getting-around">🚇 Getting Around</h2>
 <p>Medellin boasts Colombia's only Metro system, and it's a source of immense civic pride. It's clean, safe, efficient, and well-integrated with Metrocable lines that offer stunning views as they climb the hills. A single ride costs COP 2,950 (~$0.75). Ride-sharing apps like Uber and Didi are plentiful and affordable. Traffic can be an issue during peak hours, but the Metro generally bypasses it. Buenos Aires has an extensive public transport network, including the Subte (subway) and countless colectivos (buses). While comprehensive, the Subte can be hot and crowded, and buses require knowledge of routes. You'll need a Sube card (ARS 1,000-2,000 / ~$1-2 for the card, then load credit) for both. Ride-sharing apps are widely used and relatively cheap, but BA traffic is notoriously bad. 'Medellin's Metro is a dream, seriously. You can get almost anywhere and it's spotless.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Medellin</li><li><strong>Why:</strong> Medellin&#x27;s Metro system is exceptionally modern, clean, efficient, and seamlessly integrated with its unique cable cars, providing a superior and more pleasant urban transit experience.</li><li><strong>Who this matters for:</strong> Travelers who prioritize easy, efficient, and affordable public transportation.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Medellin</li><li><strong>Why:</strong> Medellin's Metro system is exceptionally modern, clean, efficient, and seamlessly integrated with its unique cable cars, providing a superior and more pleasant urban transit experience.</li><li><strong>Who this matters for:</strong> Travelers who prioritize easy, efficient, and affordable public transportation.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="digital-nomad-vibe">💻 Digital Nomad Vibe</h2>
 <p>Medellin has firmly established itself as a top digital nomad destination. El Poblado, especially Provenza, is saturated with co-working spaces (e.g., Selina, coworking spaces in The Click Clack Hotel), cafes with strong Wi-Fi, and a large, visible international community. Internet speeds are generally excellent and reliable. The 'eternal spring' climate, affordability, and the ease of meeting other remote workers make it incredibly appealing for long-term stays. Buenos Aires is also very popular with digital nomads, offering a vibrant cultural scene, excellent cafes, and a more European lifestyle. Palermo and Recoleta are prime areas for nomads, with numerous cafes suitable for working. While there are co-working spaces, the dedicated infrastructure and palpable community feel might not be as concentrated as in Medellin's most popular neighborhoods. The cost of living in BA is higher, which can impact long-term budget planning. 'Medellin is like DN central, everyone's there, super easy to find friends and a good workspace.'</p>
@@ -918,7 +909,7 @@
 </section><section class="deep-dive">
 <h2 id="weather-seasons">☀️ Weather &amp; Seasons</h2>
 <p>Medellin truly lives up to its nickname, 'The City of Eternal Spring.' Thanks to its elevation and equatorial proximity, the weather is remarkably consistent year-round, typically ranging from 22-28°C (72-82°F) during the day. While there are wet and dry seasons, rainfall often comes in short, heavy bursts, leaving the rest of the day pleasant. You can pack light and enjoy comfortable weather almost any time. Buenos Aires experiences four distinct seasons. Summers (December-February) are hot and humid, often reaching 30-35°C (86-95°F), which can be uncomfortable for sightseeing. Winters (June-August) are cool, with temperatures around 10-15°C (50-59°F), sometimes dropping lower, requiring warm layers. Spring and autumn are generally mild and pleasant. 'If you hate extreme weather, Medellin is your happy place. Perfect every single day.'</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Medellin</li><li><strong>Why:</strong> Medellin&#x27;s consistent, pleasant &#x27;eternal spring&#x27; climate makes it an ideal destination for those who prefer stable, comfortable temperatures year-round.</li><li><strong>Who this matters for:</strong> Travelers sensitive to extreme heat or cold, and those seeking consistent pleasant weather for outdoor activities.</li></ul></div>
+<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Medellin</li><li><strong>Why:</strong> Medellin's consistent, pleasant 'eternal spring' climate makes it an ideal destination for those who prefer stable, comfortable temperatures year-round.</li><li><strong>Who this matters for:</strong> Travelers sensitive to extreme heat or cold, and those seeking consistent pleasant weather for outdoor activities.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="accommodation">🏨 Accommodation</h2>
 <p>Medellin offers excellent value for accommodation. In popular neighborhoods like El Poblado (Provenza) and Laureles, you'll find a plethora of stylish hostels with private rooms starting at COP 50,000-80,000 (~$13-20) and modern Airbnb apartments for $40-70/night. Boutique hotels are also popping up, offering great amenities at competitive prices. You can often get more space and better quality for your money compared to other major South American cities. Buenos Aires has a more traditional hotel scene, with grand, historic hotels in areas like Recoleta and micro-centro, and numerous boutique options in Palermo. While options abound, prices for comparable quality are generally higher than in Medellin. Hostels typically start from ARS 15,000-25,000 (~$15-25 using blue rate), and mid-range hotel rooms often begin at $70-120. Booking an apartment via Airbnb can offer better value for longer stays, but still expect to pay more than in Medellin. 'Found a gorgeous Airbnb in Laureles for way less than I'd pay for a basic hotel in BA.'</p>
@@ -926,52 +917,52 @@
 </section>
 <div class="faq-section" id="faq" itemscope="" itemtype="https://schema.org/FAQPage">
 <h2>❓ Frequently Asked Questions</h2>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city is better for solo female travelers?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Both cities require similar precautions for solo female travelers: avoid walking alone at night in unfamiliar areas, use trusted ride-sharing apps, and be aware of your surroundings. Medellin&#x27;s established expat community can make it easier to meet people, while Buenos Aires offers a more independent urban exploration vibe.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Both cities require similar precautions for solo female travelers: avoid walking alone at night in unfamiliar areas, use trusted ride-sharing apps, and be aware of your surroundings. Medellin's established expat community can make it easier to meet people, while Buenos Aires offers a more independent urban exploration vibe.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the best way to fly between Medellin and Buenos Aires?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>There are no direct flights. You&#x27;ll typically fly from Medellín (MDE) to Buenos Aires (EZE) with a layover, most commonly in Bogotá (BOG), Lima (LIM), or Santiago (SCL). The total travel time, including layovers, is usually 7-9 hours. Book in advance for better prices, often around $300-600 USD round trip.</p></div>
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the best way to fly between Medellin and Buenos Aires?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>There are no direct flights. You'll typically fly from Medellín (MDE) to Buenos Aires (EZE) with a layover, most commonly in Bogotá (BOG), Lima (LIM), or Santiago (SCL). The total travel time, including layovers, is usually 7-9 hours. Book in advance for better prices, often around $300-600 USD round trip.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Is it safe to drink tap water in either city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>In Medellin, tap water is generally considered safe to drink and is of good quality. In Buenos Aires, tap water is also considered safe to drink and meets international standards. However, some sensitive travelers might prefer bottled water due to differences in mineral content. Always check with locals if you&#x27;re unsure.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>In Medellin, tap water is generally considered safe to drink and is of good quality. In Buenos Aires, tap water is also considered safe to drink and meets international standards. However, some sensitive travelers might prefer bottled water due to differences in mineral content. Always check with locals if you're unsure.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city has better Spanish language immersion opportunities?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Both cities offer excellent Spanish immersion. Medellin is popular for its clear accent (often considered easier to understand for learners) and numerous language schools, attracting many students. Buenos Aires has its distinct &#x27;Rioplatense&#x27; accent (using &#x27;vos&#x27; instead of &#x27;tú&#x27; and &#x27;sh&#x27; for &#x27;ll&#x27; and &#x27;y&#x27;), which can be a unique and enriching challenge for learners. Both have strong expat communities but also ample opportunities to practice with locals.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Both cities offer excellent Spanish immersion. Medellin is popular for its clear accent (often considered easier to understand for learners) and numerous language schools, attracting many students. Buenos Aires has its distinct 'Rioplatense' accent (using 'vos' instead of 'tú' and 'sh' for 'll' and 'y'), which can be a unique and enriching challenge for learners. Both have strong expat communities but also ample opportunities to practice with locals.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-<h3 itemprop="name">What&#x27;s the best time of year to visit each city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Medellin is &#x27;eternal spring,&#x27; so any time is good, though the drier months (December-February and June-August) might be slightly preferable. For Buenos Aires, aim for spring (September-November) or autumn (March-May) when the weather is mild and pleasant. Summers (December-February) can be very hot and humid, and winters (June-August) can be quite chilly.</p></div>
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<h3 itemprop="name">What's the best time of year to visit each city?</h3>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Medellin is 'eternal spring,' so any time is good, though the drier months (December-February and June-August) might be slightly preferable. For Buenos Aires, aim for spring (September-November) or autumn (March-May) when the weather is mild and pleasant. Summers (December-February) can be very hot and humid, and winters (June-August) can be quite chilly.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Can I use credit cards everywhere, or do I need cash?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Credit cards are widely accepted in both cities, especially in larger establishments, hotels, and nicer restaurants. However, always carry some local currency for smaller vendors, street food, local markets, and smaller cafes. In Buenos Aires, cash (specifically USD exchanged at the &#x27;blue rate&#x27;) is highly advantageous for significant savings.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Credit cards are widely accepted in both cities, especially in larger establishments, hotels, and nicer restaurants. However, always carry some local currency for smaller vendors, street food, local markets, and smaller cafes. In Buenos Aires, cash (specifically USD exchanged at the 'blue rate') is highly advantageous for significant savings.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Which city is better for art and street art?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>Buenos Aires offers a more traditional art scene with numerous museums and galleries (MALBA, Bellas Artes), plus a vibrant street art scene, particularly in Palermo and Colegiales. Medellin&#x27;s street art is powerful and historically significant, especially in Comuna 13, which has become a living gallery of transformation and resilience.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>Buenos Aires offers a more traditional art scene with numerous museums and galleries (MALBA, Bellas Artes), plus a vibrant street art scene, particularly in Palermo and Colegiales. Medellin's street art is powerful and historically significant, especially in Comuna 13, which has become a living gallery of transformation and resilience.</p></div>
 </div>
 </div>
-<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+<div class="faq-item" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 <h3 itemprop="name">Are there any specific cultural events I should aim to visit in either city?</h3>
-<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-<div itemprop="text"><p>In Medellin, try to visit during the &#x27;Feria de las Flores&#x27; (Flower Festival) in August, a spectacular celebration of flowers and Paisa culture. In Buenos Aires, consider visiting during the &#x27;Buenos Aires Tango Festival and World Cup&#x27; in August, or catch a football match (Boca Juniors vs River Plate) for an unforgettable local experience.</p></div>
+<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<div itemprop="text"><p>In Medellin, try to visit during the 'Feria de las Flores' (Flower Festival) in August, a spectacular celebration of flowers and Paisa culture. In Buenos Aires, consider visiting during the 'Buenos Aires Tango Festival and World Cup' in August, or catch a football match (Boca Juniors vs River Plate) for an unforgettable local experience.</p></div>
 </div>
 </div>
 </div>
@@ -999,33 +990,33 @@
 </div>
 </div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Medellin+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Medellin</span>
-        <span class="tour-name">Medellin Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Medellin+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Medellin Day Trip</span>
-        <span class="tour-name">Medellin Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Buenos Aires</span>
-        <span class="tour-name">Buenos Aires Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Buenos Aires Day Trip</span>
-        <span class="tour-name">Buenos Aires Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Medellin+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Medellin</span>
+<span class="tour-name">Medellin Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Medellin+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Medellin Day Trip</span>
+<span class="tour-name">Medellin Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Buenos Aires</span>
+<span class="tour-name">Buenos Aires Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Buenos+Aires+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Buenos Aires Day Trip</span>
+<span class="tour-name">Buenos Aires Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
