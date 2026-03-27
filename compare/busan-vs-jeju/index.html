@@ -607,437 +607,462 @@
       .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
       .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
       .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
+
+
+.bestfor-snapshot { margin: 2rem 0; padding: 1.5rem; background: rgba(245, 240, 232, 0.45); border: 1px solid var(--sand); border-radius: 16px; }
+.bestfor-snapshot h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.bestfor-snapshot > p { color: var(--text-muted); margin-bottom: 1rem; }
+.bestfor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.bestfor-card { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.bestfor-card h3 { font-size: 0.95rem; color: var(--earth); margin-bottom: 0.35rem; }
+.bestfor-card strong { display: block; font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.35rem; }
+.bestfor-card p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.scorecard-section { margin: 2rem 0; }
+.scorecard-section h2 { font-size: 1.35rem; color: var(--indigo); margin-bottom: 0.55rem; }
+.scorecard-section > p { color: var(--text-muted); margin-bottom: 1rem; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.scorecard { background: var(--white); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem; }
+.scorecard h3 { font-size: 1.05rem; color: var(--indigo); margin-bottom: 0.8rem; }
+.score-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+.score-row span { font-size: 0.9rem; color: var(--text-muted); }
+.score-dots { display: inline-flex; gap: 0.24rem; }
+.score-dots i { width: 12px; height: 12px; display: inline-block; border-radius: 999px; background: var(--sand); }
+.score-dots i.on { background: var(--terracotta); }
+.score-val { font-size: 0.86rem; color: var(--earth); font-weight: 700; }
+.verdict-card.split-card { border: 1px dashed var(--sage); }
+.verdict-card.split-card h3 { color: var(--sage); }
+@media (max-width: 900px) { .bestfor-grid, .scorecard-grid { grid-template-columns: 1fr; } }
 </style>
 <!-- @include:shared-head:start -->
-<link rel="stylesheet" href="/assets/shared-shell.css">
-<script defer src="/assets/shared-shell.js"></script>
+<link href="/assets/shared-shell.css" rel="stylesheet"/>
+<script defer="" src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 <nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
-                <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
-        <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
-    </div>
+<a class="logo" href="/"><img alt="tabiji.ai" class="owl-default" loading="lazy" src="https://img.tabiji.ai/tabiji-owl-logo.png" style="height:32px;"/><img alt="" class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" style="height:32px;"/>tabiji<span>.ai</span></a>
+<button aria-label="Menu" class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<div class="nav-links">
+<div class="nav-dropdown">
+<button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+<div class="nav-dropdown-menu">
+<a href="/compare/">🆚 Compare Destinations</a>
+<a href="/find/">🔍 Destination Finder</a>
+<a href="/spin/">🌎 Spin the Globe</a>
+<a href="/resources/">📚 Resources</a>
+<a href="/owl/">🧭 Tabiji Travel Agency</a>
+<a href="/trends/">📊 Travel Trends</a>
+<a href="/alerts/">🚨 Travel Alerts</a>
+<a href="/api/">🔌 API</a>
+</div>
+</div>
+<a href="/popular-picks/">Popular Picks</a>
+<a href="/itineraries/">Itineraries</a>
+<a href="/about/">About</a>
+<a class="cta-nav" href="/plan">Get a Free Itinerary</a>
+</div>
 </nav>
 <!-- @include:nav:end -->
 <div class="toc-mobile-sticky" id="toc-mobile">
-    <button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
-    <span class="toc-active-label">&#128209; Contents</span>
-    <span class="toc-chevron">&#9660;</span>
-    </button>
-    <div class="toc-mobile-dropdown">
-    <ul>
-    <li><a href="#the-tl-dr-verdict" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#9889; The TL;DR Verdict</a></li>
-    <li><a href="#quick-comparison" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">Quick Comparison</a></li>
-    <li><a href="#food-and-dining" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127829; Food &amp; Dining</a></li>
-    <li><a href="#beaches" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127958; Beaches</a></li>
-    <li><a href="#nature-and-outdoors" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127807; Nature &amp; Outdoors</a></li>
-    <li><a href="#getting-around" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#128643; Getting Around</a></li>
-    <li><a href="#cost-comparison" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#128176; Cost Comparison</a></li>
-    <li><a href="#nightlife" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127881; Nightlife &amp; Entertainment</a></li>
-    <li><a href="#cultural-sights" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#9956;&#65039; Cultural Sights</a></li>
-    <li><a href="#best-time-to-visit" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127800; Best Time to Visit</a></li>
-    <li><a href="#day-trips" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127752; Day Trips &amp; Exploration</a></li>
-    <li><a href="#the-decision-framework" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#127919; The Decision Framework</a></li>
-    <li><a href="#frequently-asked-questions" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">&#10067; Frequently Asked Questions</a></li>
-    </ul>
-    </div>
-    </div>
+<button class="toc-mobile-toggle" onclick="this.closest('.toc-mobile-sticky').classList.toggle('open')">
+<span class="toc-active-label">📑 Contents</span>
+<span class="toc-chevron">▼</span>
+</button>
+<div class="toc-mobile-dropdown">
+<ul>
+<li><a href="#the-tl-dr-verdict" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">⚡ The TL;DR Verdict</a></li>
+<li><a href="#quick-comparison" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">Quick Comparison</a></li>
+<li><a href="#food-and-dining" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🍕 Food &amp; Dining</a></li>
+<li><a href="#beaches" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🏖 Beaches</a></li>
+<li><a href="#nature-and-outdoors" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🌿 Nature &amp; Outdoors</a></li>
+<li><a href="#getting-around" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🚃 Getting Around</a></li>
+<li><a href="#cost-comparison" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">💰 Cost Comparison</a></li>
+<li><a href="#nightlife" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🎉 Nightlife &amp; Entertainment</a></li>
+<li><a href="#cultural-sights" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">⛤️ Cultural Sights</a></li>
+<li><a href="#best-time-to-visit" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🌸 Best Time to Visit</a></li>
+<li><a href="#day-trips" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🌈 Day Trips &amp; Exploration</a></li>
+<li><a href="#the-decision-framework" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">🎯 The Decision Framework</a></li>
+<li><a href="#frequently-asked-questions" onclick="this.closest('.toc-mobile-sticky').classList.remove('open')">❓ Frequently Asked Questions</a></li>
+</ul>
+</div>
+</div>
 <section class="hero">
-    <div class="hero-badge">&#127472;&#127479; City vs Island Comparison &mdash; South Korea</div>
-    <h1>Busan vs Jeju: <em>Which Should You Visit?</em></h1>
-    <p>A data-backed comparison based on Reddit discussions, real costs, and traveler preferences &mdash; not generic AI filler.</p>
-    <div class="hero-meta">
-    <div><strong>Updated:</strong> March 2026</div>
-    <div><strong>Sources:</strong> r/koreatravel, r/travel, r/KoreaTravelAdvice</div>
-    <div><strong>Data:</strong> KTX, Jeju Air fares, Numbeo</div>
-    </div>
-    </section>
+<div class="hero-badge">🇰🇷 City vs Island Comparison — South Korea</div>
+<h1>Busan vs Jeju: <em>Which Should You Visit?</em></h1>
+<p>A data-backed comparison based on Reddit discussions, real costs, and traveler preferences — not generic AI filler.</p>
+<div class="hero-meta">
+<div><strong>Updated:</strong> March 2026</div>
+<div><strong>Sources:</strong> r/koreatravel, r/travel, r/KoreaTravelAdvice</div>
+<div><strong>Data:</strong> KTX, Jeju Air fares, Numbeo</div>
+</div>
+</section>
 <div class="content-wrapper">
 <aside class="toc-sidebar">
-    <h2>Contents</h2>
-    <ul>
-        <li><a href="#the-tl-dr-verdict">&#9889; The TL;DR Verdict</a></li>
-        <li><a href="#quick-comparison">Quick Comparison</a></li>
-        <li><a href="#food-and-dining">&#127829; Food &amp; Dining</a></li>
-        <li><a href="#beaches">&#127958; Beaches</a></li>
-        <li><a href="#nature-and-outdoors">&#127807; Nature &amp; Outdoors</a></li>
-        <li><a href="#getting-around">&#128643; Getting Around</a></li>
-        <li><a href="#cost-comparison">&#128176; Cost Comparison</a></li>
-        <li><a href="#nightlife">&#127881; Nightlife &amp; Entertainment</a></li>
-        <li><a href="#cultural-sights">&#9956;&#65039; Cultural Sights</a></li>
-        <li><a href="#best-time-to-visit">&#127800; Best Time to Visit</a></li>
-        <li><a href="#day-trips">&#127752; Day Trips &amp; Exploration</a></li>
-        <li><a href="#the-decision-framework">&#127919; The Decision Framework</a></li>
-        <li><a href="#frequently-asked-questions">&#10067; Frequently Asked Questions</a></li>
-    </ul>
-    </aside>
+<h2>Contents</h2>
+<ul>
+<li><a href="#the-tl-dr-verdict">⚡ The TL;DR Verdict</a></li>
+<li><a href="#quick-comparison">Quick Comparison</a></li>
+<li><a href="#food-and-dining">🍕 Food &amp; Dining</a></li>
+<li><a href="#beaches">🏖 Beaches</a></li>
+<li><a href="#nature-and-outdoors">🌿 Nature &amp; Outdoors</a></li>
+<li><a href="#getting-around">🚃 Getting Around</a></li>
+<li><a href="#cost-comparison">💰 Cost Comparison</a></li>
+<li><a href="#nightlife">🎉 Nightlife &amp; Entertainment</a></li>
+<li><a href="#cultural-sights">⛤️ Cultural Sights</a></li>
+<li><a href="#best-time-to-visit">🌸 Best Time to Visit</a></li>
+<li><a href="#day-trips">🌈 Day Trips &amp; Exploration</a></li>
+<li><a href="#the-decision-framework">🎯 The Decision Framework</a></li>
+<li><a href="#frequently-asked-questions">❓ Frequently Asked Questions</a></li>
+</ul>
+</aside>
 <div class="article-content">
-<div class="methodology-box"><h2>How we built this comparison</h2><p>This page synthesizes traveler discussion patterns from Reddit, published price data, real transit costs, and seasonal information to make the Busan vs Jeju decision clearer.</p><ul class="methodology-points"><li>Reviewed Reddit threads from r/koreatravel, r/travel, r/KoreaTravelAdvice, and r/solotravel comparing these two destinations.</li><li>Checked numeric claims for accommodation, food, and transit against 2025&ndash;2026 real prices.</li><li>Fact-checked transport times and costs against official KTX and airline schedules.</li></ul></div>
+<div class="methodology-box"><h2>How we built this comparison</h2><p>This page synthesizes traveler discussion patterns from Reddit, published price data, real transit costs, and seasonal information to make the Busan vs Jeju decision clearer.</p><ul class="methodology-points"><li>Reviewed Reddit threads from r/koreatravel, r/travel, r/KoreaTravelAdvice, and r/solotravel comparing these two destinations.</li><li>Checked numeric claims for accommodation, food, and transit against 2025–2026 real prices.</li><li>Fact-checked transport times and costs against official KTX and airline schedules.</li></ul></div>
 <div class="photo-grid">
-    <div>
-    <img alt="Busan Haeundae Beach coastline with city skyscrapers at dusk" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/busan-haeundae.jpg">
-    <div class="caption">Haeundae Beach, Busan</div>
-    </img></div>
-    <div>
-    <img alt="Jeju Island volcanic landscape with lush green hills and scenic coastline" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/jeju-landscape.jpg">
-    <div class="caption">Volcanic Coastline, Jeju Island</div>
-    </img></div>
-    </div>
-<div class="verdict-box"><h2 id="the-tl-dr-verdict">&#9889; The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Busan for city energy, world-class seafood, great nightlife, and zero logistics headaches &mdash; no car needed, beach plus skyline in one place. Choose Jeju for jaw-dropping nature, volcano hikes, and an island escape &mdash; but budget for a rental car and 3&ndash;4 days minimum.</strong></p><div class="verdict-cards"><div class="verdict-card"><h3>Choose Busan</h3><p>Travelers who want top-tier Korean food, urban beaches, lively nightlife, and effortless navigation by subway. Perfect 2&ndash;3 day add-on to any Seoul trip.</p></div><div class="verdict-card"><h3>Choose Jeju</h3><p>Nature lovers, hikers, and beach purists willing to rent a car and spend 3&ndash;4+ days exploring Korea&rsquo;s most dramatic island at their own pace.</p></div></div></div>
+<div>
+<img alt="Busan Haeundae Beach coastline with city skyscrapers at dusk" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/busan-haeundae.jpg"/>
+<div class="caption">Haeundae Beach, Busan</div>
+</div>
+<div>
+<img alt="Jeju Island volcanic landscape with lush green hills and scenic coastline" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/jeju-landscape.jpg"/>
+<div class="caption">Volcanic Coastline, Jeju Island</div>
+</div>
+</div>
+<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Choose Busan if you want you don’t want to drive or can’t get an international driving permit., you want great korean food — especially seafood — at the best prices., you want beaches with city energy, nightlife, and restaurants nearby. Choose Jeju Island if you want jeju island brings the stronger version of its biggest wins on this page. Split your trip if you want both experiences without forcing one city to do the other’s job.</strong></p><div class="verdict-cards"><div class="verdict-card"><h3>Choose Busan</h3><p>Travelers who want top-tier Korean food, urban beaches, lively nightlife, and effortless navigation by subway. Perfect 2–3 day add-on to any Seoul trip.</p></div><div class="verdict-card"><h3>Choose Jeju</h3><p>Nature lovers, hikers, and beach purists willing to rent a car and spend 3–4+ days exploring Korea’s most dramatic island at their own pace.</p></div><div class="verdict-card split-card"><h3>Split your trip</h3><p>Split your trip if you want Busan for its strongest wins but still want Jeju Island for the categories where it clearly does better.</p></div></div></div><section class="bestfor-snapshot"><h2>Best-for snapshot</h2><p>Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.</p><div class="bestfor-grid"><div class="bestfor-card"><h3>Best for food</h3><strong>Tie</strong><p>Both have a credible case here: Jagalchi seafood market, dwaeji gukbap (pork soup), raw fish vs Black pork (heukdwaeji), abalone, hallabong tangerines.</p></div><div class="bestfor-card"><h3>Best for nightlife</h3><strong>Busan</strong><p>Gwangalli Beach bars, Seomyeon nightlife district</p></div><div class="bestfor-card"><h3>Best for budget</h3><strong>Busan</strong><p>120,000–180,000 KRW ($88–133)</p></div><div class="bestfor-card"><h3>Best for first-timers</h3><strong>Tie</strong><p>A softer call based on overall ease and beginner-friendliness.</p></div><div class="bestfor-card"><h3>Best for couples</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for solo travelers</h3><strong>Tie</strong><p>This one depends more on your exact trip style than on a universal winner.</p></div><div class="bestfor-card"><h3>Best for families</h3><strong>Busan</strong><p>120,000–180,000 KRW ($88–133)</p></div></div></section><section class="scorecard-section"><h2>Quick scorecards</h2><p>Lightweight scoring for scanability — a decision aid, not fake precision.</p><div class="scorecard-grid"><div class="scorecard"><h3>Busan</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="score-val">4/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div><div class="scorecard"><h3>Jeju Island</h3><div class="score-row"><span>Budget</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Food</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Culture</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Scenery</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div><div class="score-row"><span>Nightlife</span><div class="score-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="score-val">2/5</div></div><div class="score-row"><span>Ease / logistics</span><div class="score-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="score-val">3/5</div></div></div></div></section>
 <div class="comparison-section">
-    <h2 id="quick-comparison">Quick Comparison</h2>
-    <table class="comparison-table">
-    <thead>
-    <tr>
-    <th>Category</th>
-    <th>&#127981; Busan</th>
-    <th>&#127963; Jeju Island</th>
-    <th>Edge</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>Daily Budget (mid-range)</td>
-    <td>120,000&ndash;180,000 KRW ($88&ndash;133)</td>
-    <td>180,000&ndash;260,000 KRW ($133&ndash;192 incl. car)</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    <tr>
-    <td>Getting There from Seoul</td>
-    <td>KTX train 2h15m, ~60,000 KRW ($44)</td>
-    <td>Flight 1h, 50,000&ndash;150,000 KRW ($37&ndash;110)</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    <tr>
-    <td>Getting Around</td>
-    <td>Excellent subway + bus network</td>
-    <td>Car rental essential (50,000&ndash;80,000 KRW/day)</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    <tr>
-    <td>Food Scene</td>
-    <td>Jagalchi seafood market, dwaeji gukbap (pork soup), raw fish</td>
-    <td>Black pork (heukdwaeji), abalone, hallabong tangerines</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Beaches</td>
-    <td>Haeundae and Gwangalli &mdash; busy urban beaches with great vibe</td>
-    <td>Hyeopjae and Hamdeok &mdash; pristine turquoise and white sand</td>
-    <td class="edge-jeju">Jeju</td>
-    </tr>
-    <tr>
-    <td>Nature &amp; Outdoors</td>
-    <td>Taejongdae cliffs, Geumjeong Fortress hike</td>
-    <td>Hallasan (1,950m), Seongsan Ilchulbong, Manjanggul lava cave</td>
-    <td class="edge-jeju">Jeju</td>
-    </tr>
-    <tr>
-    <td>Nightlife</td>
-    <td>Gwangalli Beach bars, Seomyeon nightlife district</td>
-    <td>Quiet &mdash; island shuts down early outside resorts</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    <tr>
-    <td>Cultural Sights</td>
-    <td>Gamcheon Culture Village, Haedong Yonggungsa Temple</td>
-    <td>Haenyeo (diving women) culture, Seongeup Folk Village</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Best Season</td>
-    <td>Summer (beach), Spring/Fall (sightseeing)</td>
-    <td>Spring, Fall, or Winter (snow on Hallasan)</td>
-    <td class="edge-tie">Tie</td>
-    </tr>
-    <tr>
-    <td>Days Needed</td>
-    <td>2&ndash;3 days</td>
-    <td>3&ndash;5 days</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    <tr>
-    <td>Solo Travel Ease</td>
-    <td>Very easy &mdash; great transit, English signage</td>
-    <td>Moderate &mdash; car required, language barrier outside resorts</td>
-    <td class="edge-busan">Busan</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
+<h2 id="quick-comparison">Quick Comparison</h2>
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Category</th>
+<th>🏭 Busan</th>
+<th>🏛 Jeju Island</th>
+<th>Edge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily Budget (mid-range)</td>
+<td>120,000–180,000 KRW ($88–133)</td>
+<td>180,000–260,000 KRW ($133–192 incl. car)</td>
+<td class="edge-busan">Busan</td>
+</tr>
+<tr>
+<td>Getting There from Seoul</td>
+<td>KTX train 2h15m, ~60,000 KRW ($44)</td>
+<td>Flight 1h, 50,000–150,000 KRW ($37–110)</td>
+<td class="edge-busan">Busan</td>
+</tr>
+<tr>
+<td>Getting Around</td>
+<td>Excellent subway + bus network</td>
+<td>Car rental essential (50,000–80,000 KRW/day)</td>
+<td class="edge-busan">Busan</td>
+</tr>
+<tr>
+<td>Food Scene</td>
+<td>Jagalchi seafood market, dwaeji gukbap (pork soup), raw fish</td>
+<td>Black pork (heukdwaeji), abalone, hallabong tangerines</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Beaches</td>
+<td>Haeundae and Gwangalli — busy urban beaches with great vibe</td>
+<td>Hyeopjae and Hamdeok — pristine turquoise and white sand</td>
+<td class="edge-jeju">Jeju</td>
+</tr>
+<tr>
+<td>Nature &amp; Outdoors</td>
+<td>Taejongdae cliffs, Geumjeong Fortress hike</td>
+<td>Hallasan (1,950m), Seongsan Ilchulbong, Manjanggul lava cave</td>
+<td class="edge-jeju">Jeju</td>
+</tr>
+<tr>
+<td>Nightlife</td>
+<td>Gwangalli Beach bars, Seomyeon nightlife district</td>
+<td>Quiet — island shuts down early outside resorts</td>
+<td class="edge-busan">Busan</td>
+</tr>
+<tr>
+<td>Cultural Sights</td>
+<td>Gamcheon Culture Village, Haedong Yonggungsa Temple</td>
+<td>Haenyeo (diving women) culture, Seongeup Folk Village</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Best Season</td>
+<td>Summer (beach), Spring/Fall (sightseeing)</td>
+<td>Spring, Fall, or Winter (snow on Hallasan)</td>
+<td class="edge-tie">Tie</td>
+</tr>
+<tr>
+<td>Days Needed</td>
+<td>2–3 days</td>
+<td>3–5 days</td>
+<td class="edge-busan">Busan</td>
+</tr>
+<tr>
+<td>Solo Travel Ease</td>
+<td>Very easy — great transit, English signage</td>
+<td>Moderate — car required, language barrier outside resorts</td>
+<td class="edge-busan">Busan</td>
+</tr>
+</tbody>
+</table>
+</div>
 <section class="deep-dive">
-    <h2 id="food-and-dining">&#127829; Food &amp; Dining</h2>
-    <p>Both Busan and Jeju punch above their weight in Korean food culture, but in completely different ways. Busan is Korea&rsquo;s seafood capital &mdash; Jagalchi Fish Market is the largest in the country, sprawling across a full harbor-front building where you pick live fish downstairs and have it prepared upstairs for around 30,000&ndash;50,000 KRW ($22&ndash;37). The city&rsquo;s signature <em>dwaeji gukbap</em> (pork rice soup) runs just 10,000 KRW ($7) at casual spots, and Gwangan Bridge views from a street food tent elevate everything.</p>
-    <p>Jeju has its own culinary identity built around three things: Jeju black pork (<em>heukdwaeji</em>), abalone (<em>jeonbok</em>), and hallabong tangerines. A black pork BBQ dinner for two will run 60,000&ndash;80,000 KRW ($44&ndash;59), noticeably pricier than mainland pork. Haenyeo (female divers) still harvest abalone and sea urchin fresh from the ocean daily &mdash; it&rsquo;s one of the most authentic culinary experiences in Korea.</p>
-    <div class="reddit-quote">
+<h2 id="food-and-dining">🍕 Food &amp; Dining</h2>
+<p>Both Busan and Jeju punch above their weight in Korean food culture, but in completely different ways. Busan is Korea’s seafood capital — Jagalchi Fish Market is the largest in the country, sprawling across a full harbor-front building where you pick live fish downstairs and have it prepared upstairs for around 30,000–50,000 KRW ($22–37). The city’s signature <em>dwaeji gukbap</em> (pork rice soup) runs just 10,000 KRW ($7) at casual spots, and Gwangan Bridge views from a street food tent elevate everything.</p>
+<p>Jeju has its own culinary identity built around three things: Jeju black pork (<em>heukdwaeji</em>), abalone (<em>jeonbok</em>), and hallabong tangerines. A black pork BBQ dinner for two will run 60,000–80,000 KRW ($44–59), noticeably pricier than mainland pork. Haenyeo (female divers) still harvest abalone and sea urchin fresh from the ocean daily — it’s one of the most authentic culinary experiences in Korea.</p>
+<div class="reddit-quote">
         "Busan food is just insane. Jagalchi market, hoe (raw fish), the pork belly restaurants near Seomyeon... I ate more there in 3 days than I ate in a week in Seoul."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
-    </div>
-    <div class="reddit-quote">
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
+</div>
+<div class="reddit-quote">
         "The black pork in Jeju is genuinely different. Local breed, outdoor-raised, the fat-to-meat ratio is unlike anything on the mainland. Worth going just for that."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
+</div>
+<p>For more on Busan's incredible food scene, see our <a href="/popular-picks/busan-milmyeon/">Busan milmyeon guide</a> and <a href="/popular-picks/busan-gamcheon-village-cafes/">Gamcheon Village cafes</a>. Jeju's coffee culture is equally distinctive — read our <a href="/popular-picks/jeju-cafe-culture/">Jeju cafe guide</a> and <a href="/popular-picks/jeju-city-black-pork-bbq/">Jeju black pork BBQ picks</a>.</p>
+<div class="tabiji-verdict">
+<strong>Edge: Tie.</strong> Busan wins on variety and value — more options at lower prices. Jeju wins on uniqueness — black pork and abalone you genuinely can’t get elsewhere. If budget is a concern, Busan feeds you better per dollar. If you want the most distinctive Korean culinary experience, Jeju’s haenyeo culture and island ingredients are hard to beat.
     </div>
-    <p>For more on Busan's incredible food scene, see our <a href="/popular-picks/busan-milmyeon/">Busan milmyeon guide</a> and <a href="/popular-picks/busan-gamcheon-village-cafes/">Gamcheon Village cafes</a>. Jeju's coffee culture is equally distinctive — read our <a href="/popular-picks/jeju-cafe-culture/">Jeju cafe guide</a> and <a href="/popular-picks/jeju-city-black-pork-bbq/">Jeju black pork BBQ picks</a>.</p>
-    <div class="tabiji-verdict">
-        <strong>Edge: Tie.</strong> Busan wins on variety and value &mdash; more options at lower prices. Jeju wins on uniqueness &mdash; black pork and abalone you genuinely can&rsquo;t get elsewhere. If budget is a concern, Busan feeds you better per dollar. If you want the most distinctive Korean culinary experience, Jeju&rsquo;s haenyeo culture and island ingredients are hard to beat.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="beaches">&#127958; Beaches</h2>
-    <img alt="Jeju Island Jeongbang waterfall spilling directly into the sea" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/jeju-waterfall.jpg"/>
-    <p>This is where the comparison gets interesting. Busan has two world-class urban beaches: <strong>Haeundae</strong> (1.5km of wide golden sand, backed by skyscrapers and lined with restaurants) and <strong>Gwangalli</strong> (smaller, hipper, with the lit Gwangan Bridge as a backdrop). Both are easily accessible by subway. In July-August, Haeundae draws 1.5 million visitors on a single weekend &mdash; it&rsquo;s a scene unto itself, packed with beach tents, food vendors, and nightlife.</p>
-    <p>Jeju&rsquo;s beaches require a car to reach, but the payoff is real. <strong>Hyeopjae Beach</strong> on the west coast has crystalline turquoise water and white sand backed by lava rock &mdash; looks more Caribbean than Korean. <strong>Hamdeok Beach</strong> in the northeast is one of Korea&rsquo;s most Instagram-worthy, with shallow clear water and volcanic sea stacks. <strong>Jungmun</strong> is the big resort beach on the south coast. None of these face Seoul-scale crowds.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="beaches">🏖 Beaches</h2>
+<img alt="Jeju Island Jeongbang waterfall spilling directly into the sea" class="section-img" loading="lazy" src="https://img.tabiji.ai/compare/busan-vs-jeju/jeju-waterfall.jpg"/>
+<p>This is where the comparison gets interesting. Busan has two world-class urban beaches: <strong>Haeundae</strong> (1.5km of wide golden sand, backed by skyscrapers and lined with restaurants) and <strong>Gwangalli</strong> (smaller, hipper, with the lit Gwangan Bridge as a backdrop). Both are easily accessible by subway. In July-August, Haeundae draws 1.5 million visitors on a single weekend — it’s a scene unto itself, packed with beach tents, food vendors, and nightlife.</p>
+<p>Jeju’s beaches require a car to reach, but the payoff is real. <strong>Hyeopjae Beach</strong> on the west coast has crystalline turquoise water and white sand backed by lava rock — looks more Caribbean than Korean. <strong>Hamdeok Beach</strong> in the northeast is one of Korea’s most Instagram-worthy, with shallow clear water and volcanic sea stacks. <strong>Jungmun</strong> is the big resort beach on the south coast. None of these face Seoul-scale crowds.</p>
+<div class="reddit-quote">
         "If you like the beach and city, Busan. Beautiful beach, and the city is right there, dang good food as well."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/travel/comments/1q5vbnw/south_korea_busan_or_jeju_island/">r/travel user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1q5vbnw/south_korea_busan_or_jeju_island/">r/travel user</a></span>
+</div>
+<div class="reddit-quote">
+        "Jeju beaches blew me away. Hyeopjae looks like you’re in the Maldives. Busan beaches are fun but they’re just city beaches."
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1q5utid/busan_or_jeju/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Jeju.</strong> For pure beach quality, Jeju’s clear water and volcanic scenery beats Busan. But Busan’s beaches win on convenience and vibe — you can swim at Gwangalli then eat raw fish across the street and watch Gwangan Bridge light up. If beach aesthetics are your priority, fly to Jeju. If beach-plus-city energy is your vibe, Busan is the call.
     </div>
-    <div class="reddit-quote">
-        "Jeju beaches blew me away. Hyeopjae looks like you&rsquo;re in the Maldives. Busan beaches are fun but they&rsquo;re just city beaches."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1q5utid/busan_or_jeju/">r/koreatravel user</a></span>
+</section><section class="deep-dive">
+<h2 id="nature-and-outdoors">🌿 Nature &amp; Outdoors</h2>
+<p>This one isn’t close. Jeju is built on a dormant shield volcano (<strong>Hallasan</strong>, 1,950m) and the entire island is a UNESCO World Heritage Site. The Hallasan summit hike via the Gwaneumsa trail is 9km one-way and takes a full day. The <strong>Seongsan Ilchulbong</strong> (Sunrise Peak) is a UNESCO-listed tuff cone you can climb in 30 minutes for one of Korea’s most iconic views. <strong>Manjanggul</strong> is one of the world’s largest lava tube caves, 7.4km long. Jeju also has dozens of <em>oreum</em> (parasitic volcanic cones) scattered across the island for easy hikes with panoramic views.</p>
+<p>Busan has its own outdoors highlight reel. <strong>Taejongdae</strong> cliffs on Yeongdo Island offer dramatic sea views with a walking trail. <strong>Geumjeong Mountain Fortress</strong> (the longest in Korea at 18km of walls) is a half-day hike with city views. And the coastal walk from Igidae to Oryukdo is genuinely beautiful. But it’s all city-scale nature, not island-scale.</p>
+<div class="reddit-quote">
+        "Jeju is gorgeous but harder to get around. I rented a scooter and just drove the coast road all day. The oreums are underrated — 10,000 steps and you feel like you’re on the moon."
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Jeju, decisively.</strong> If hiking Hallasan, crawling through lava tubes, and watching the sunrise from a UNESCO volcanic crater are on your Korea bucket list, Jeju delivers on all of them. Busan’s nature is pleasant but can’t compete with a whole island built on volcanic geology. Serious hikers should build their entire Korea trip around Jeju.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Jeju.</strong> For pure beach quality, Jeju&rsquo;s clear water and volcanic scenery beats Busan. But Busan&rsquo;s beaches win on convenience and vibe &mdash; you can swim at Gwangalli then eat raw fish across the street and watch Gwangan Bridge light up. If beach aesthetics are your priority, fly to Jeju. If beach-plus-city energy is your vibe, Busan is the call.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="nature-and-outdoors">&#127807; Nature &amp; Outdoors</h2>
-    <p>This one isn&rsquo;t close. Jeju is built on a dormant shield volcano (<strong>Hallasan</strong>, 1,950m) and the entire island is a UNESCO World Heritage Site. The Hallasan summit hike via the Gwaneumsa trail is 9km one-way and takes a full day. The <strong>Seongsan Ilchulbong</strong> (Sunrise Peak) is a UNESCO-listed tuff cone you can climb in 30 minutes for one of Korea&rsquo;s most iconic views. <strong>Manjanggul</strong> is one of the world&rsquo;s largest lava tube caves, 7.4km long. Jeju also has dozens of <em>oreum</em> (parasitic volcanic cones) scattered across the island for easy hikes with panoramic views.</p>
-    <p>Busan has its own outdoors highlight reel. <strong>Taejongdae</strong> cliffs on Yeongdo Island offer dramatic sea views with a walking trail. <strong>Geumjeong Mountain Fortress</strong> (the longest in Korea at 18km of walls) is a half-day hike with city views. And the coastal walk from Igidae to Oryukdo is genuinely beautiful. But it&rsquo;s all city-scale nature, not island-scale.</p>
-    <div class="reddit-quote">
-        "Jeju is gorgeous but harder to get around. I rented a scooter and just drove the coast road all day. The oreums are underrated &mdash; 10,000 steps and you feel like you&rsquo;re on the moon."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Jeju, decisively.</strong> If hiking Hallasan, crawling through lava tubes, and watching the sunrise from a UNESCO volcanic crater are on your Korea bucket list, Jeju delivers on all of them. Busan&rsquo;s nature is pleasant but can&rsquo;t compete with a whole island built on volcanic geology. Serious hikers should build their entire Korea trip around Jeju.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="getting-around">&#128643; Getting Around</h2>
-    <p>This is the single biggest practical difference between the two destinations. <strong>Busan</strong> has one of South Korea&rsquo;s best subway systems: 4 lines covering virtually every tourist area, fares at 1,500 KRW (~$1.10) per ride, clean and punctual. Buses fill in the gaps. You never need a taxi unless going to a very specific spot at night. No car, no stress, no logistics.</p>
-    <p><strong>Jeju</strong> is the opposite. The island has buses, but r/koreatravel threads are unanimous: they&rsquo;re infrequent, don&rsquo;t reach key spots, and make day-tripping by public transit genuinely frustrating. Rental cars cost 50,000&ndash;80,000 KRW/day ($37&ndash;59) for a compact. You need a valid International Driving Permit (IDP) issued in your home country before departure &mdash; can&rsquo;t get one in Korea. Scooters and bikes cover short distances but won&rsquo;t get you across the island.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="getting-around">🚃 Getting Around</h2>
+<p>This is the single biggest practical difference between the two destinations. <strong>Busan</strong> has one of South Korea’s best subway systems: 4 lines covering virtually every tourist area, fares at 1,500 KRW (~$1.10) per ride, clean and punctual. Buses fill in the gaps. You never need a taxi unless going to a very specific spot at night. No car, no stress, no logistics.</p>
+<p><strong>Jeju</strong> is the opposite. The island has buses, but r/koreatravel threads are unanimous: they’re infrequent, don’t reach key spots, and make day-tripping by public transit genuinely frustrating. Rental cars cost 50,000–80,000 KRW/day ($37–59) for a compact. You need a valid International Driving Permit (IDP) issued in your home country before departure — can’t get one in Korea. Scooters and bikes cover short distances but won’t get you across the island.</p>
+<div class="reddit-quote">
         "You will need a car to fully experience Jeju island. Public transportation is not reliable compared to Busan. I stayed in Busan near the subway and it was incredibly convenient."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1k723kc/busan_or_jeju_which_one_should_i_choose_for_a/">r/koreatravel user</a></span>
-    </div>
-    <div class="reddit-quote">
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1k723kc/busan_or_jeju_which_one_should_i_choose_for_a/">r/koreatravel user</a></span>
+</div>
+<div class="reddit-quote">
         "Getting around Jeju is harder than Busan. Renting a car gives you much more mobility to explore the island properly. Busan you can do entirely by subway."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1fnbnqk/jeju_or_busan/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Busan, clearly.</strong> If you can’t or don’t want to drive, Busan is the obvious choice. If you’re comfortable driving abroad and have sorted your IDP, Jeju’s driving routes (especially the Coastal Road 1132 circling the island) are part of what makes the trip magical. Don’t underestimate this factor — it’s the single biggest barrier to a great Jeju trip.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Busan, clearly.</strong> If you can&rsquo;t or don&rsquo;t want to drive, Busan is the obvious choice. If you&rsquo;re comfortable driving abroad and have sorted your IDP, Jeju&rsquo;s driving routes (especially the Coastal Road 1132 circling the island) are part of what makes the trip magical. Don&rsquo;t underestimate this factor &mdash; it&rsquo;s the single biggest barrier to a great Jeju trip.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="cost-comparison">&#128176; Cost Comparison</h2>
-    <p>Busan is genuinely cheaper, and the gap is wider than it looks on paper. Here&rsquo;s a realistic daily budget breakdown for a mid-range solo traveler:</p>
-    <table class="cost-table">
-        <thead>
-        <tr>
-        <th>Expense</th>
-        <th>&#127981; Busan</th>
-        <th>&#127963; Jeju</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-        <td>Hostel dorm</td>
-        <td>25,000&ndash;40,000 KRW/night</td>
-        <td>30,000&ndash;50,000 KRW/night</td>
-        </tr>
-        <tr>
-        <td>Mid-range hotel</td>
-        <td>80,000&ndash;150,000 KRW/night</td>
-        <td>100,000&ndash;200,000 KRW/night</td>
-        </tr>
-        <tr>
-        <td>Casual meal</td>
-        <td>8,000&ndash;15,000 KRW</td>
-        <td>10,000&ndash;18,000 KRW</td>
-        </tr>
-        <tr>
-        <td>Sit-down dinner</td>
-        <td>20,000&ndash;40,000 KRW</td>
-        <td>30,000&ndash;60,000 KRW (black pork BBQ)</td>
-        </tr>
-        <tr>
-        <td>Transit per day</td>
-        <td>5,000&ndash;10,000 KRW (subway)</td>
-        <td>50,000&ndash;80,000 KRW (car rental)</td>
-        </tr>
-        <tr class="total-row">
-        <td>Daily total (mid-range)</td>
-        <td>120,000&ndash;180,000 KRW ($88&ndash;133)</td>
-        <td>180,000&ndash;260,000 KRW ($133&ndash;192)</td>
-        </tr>
-        </tbody>
-    </table>
-    <p>The car rental is the big number in Jeju. Even if you split it with a travel companion, it adds 25,000&ndash;40,000 KRW/person per day. Jeju attraction fees (Hallasan is free, but Manjanggul cave is 4,000 KRW, Seongsan 5,000 KRW) add up too. Accommodation on the island is pricier, especially at popular resort areas in the south.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="cost-comparison">💰 Cost Comparison</h2>
+<p>Busan is genuinely cheaper, and the gap is wider than it looks on paper. Here’s a realistic daily budget breakdown for a mid-range solo traveler:</p>
+<table class="cost-table">
+<thead>
+<tr>
+<th>Expense</th>
+<th>🏭 Busan</th>
+<th>🏛 Jeju</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hostel dorm</td>
+<td>25,000–40,000 KRW/night</td>
+<td>30,000–50,000 KRW/night</td>
+</tr>
+<tr>
+<td>Mid-range hotel</td>
+<td>80,000–150,000 KRW/night</td>
+<td>100,000–200,000 KRW/night</td>
+</tr>
+<tr>
+<td>Casual meal</td>
+<td>8,000–15,000 KRW</td>
+<td>10,000–18,000 KRW</td>
+</tr>
+<tr>
+<td>Sit-down dinner</td>
+<td>20,000–40,000 KRW</td>
+<td>30,000–60,000 KRW (black pork BBQ)</td>
+</tr>
+<tr>
+<td>Transit per day</td>
+<td>5,000–10,000 KRW (subway)</td>
+<td>50,000–80,000 KRW (car rental)</td>
+</tr>
+<tr class="total-row">
+<td>Daily total (mid-range)</td>
+<td>120,000–180,000 KRW ($88–133)</td>
+<td>180,000–260,000 KRW ($133–192)</td>
+</tr>
+</tbody>
+</table>
+<p>The car rental is the big number in Jeju. Even if you split it with a travel companion, it adds 25,000–40,000 KRW/person per day. Jeju attraction fees (Hallasan is free, but Manjanggul cave is 4,000 KRW, Seongsan 5,000 KRW) add up too. Accommodation on the island is pricier, especially at popular resort areas in the south.</p>
+<div class="reddit-quote">
         "Jeju costs more, especially with the car rental. Budget travelers should know that before choosing it over Busan."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/KoreaTravelAdvice/comments/1le5vwv/heading_to_korea_for_9_days_advice_on_choosing/">r/KoreaTravelAdvice user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/KoreaTravelAdvice/comments/1le5vwv/heading_to_korea_for_9_days_advice_on_choosing/">r/KoreaTravelAdvice user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Busan.</strong> On a tight budget, Busan is the clear winner — cheaper accommodation, transit covered by subway, and food at unbeatable value. Jeju is worth the extra spend for the right traveler, but eyes open: you’re paying 50–70% more per day when you factor in the car.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Busan.</strong> On a tight budget, Busan is the clear winner &mdash; cheaper accommodation, transit covered by subway, and food at unbeatable value. Jeju is worth the extra spend for the right traveler, but eyes open: you&rsquo;re paying 50&ndash;70% more per day when you factor in the car.
+</section><section class="deep-dive">
+<h2 id="nightlife">🎉 Nightlife &amp; Entertainment</h2>
+<p>Busan wins this one without a fight. The <strong>Gwangalli Beach</strong> strip is one of Korea’s best bar scenes — dozens of open-air bars and rooftop venues with the illuminated Gwangan Bridge as a backdrop, busy until 2–3am in summer. <strong>Seomyeon</strong> is Busan’s nightlife district — dense with bars, clubs, and pojangmacha (street food tents) in every direction. The city has a younger, more local crowd than Hongdae in Seoul, with lower prices and less of a tourist bubble.</p>
+<p>Jeju’s nightlife is minimal. <strong>Jeju City</strong> (the north) has a small bar and club scene near Shinchon neighborhood, and the Jungmun resort area has hotel bars in the south. But the island is fundamentally a nature destination — most visitors are families and couples, most restaurants and bars close by 10pm outside of resort zones. The evening activity is dinner and early sleep for next morning’s hike.</p>
+<div class="reddit-quote">
+        "Busan is definitely different to Seoul — a bit more chill and has beach. The nightlife at Gwangalli is great, sitting with a beer watching the bridge light up is a great evening."
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1lwowvn/jeju_or_busan/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Busan, easily.</strong> If nights matter to you, this isn’t close. Busan has the full package — bar strips, clubs, street food tents, live music. Jeju’s “nightlife” is a hotel bar and calling it a night. Plan accordingly.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="nightlife">&#127881; Nightlife &amp; Entertainment</h2>
-    <p>Busan wins this one without a fight. The <strong>Gwangalli Beach</strong> strip is one of Korea&rsquo;s best bar scenes &mdash; dozens of open-air bars and rooftop venues with the illuminated Gwangan Bridge as a backdrop, busy until 2&ndash;3am in summer. <strong>Seomyeon</strong> is Busan&rsquo;s nightlife district &mdash; dense with bars, clubs, and pojangmacha (street food tents) in every direction. The city has a younger, more local crowd than Hongdae in Seoul, with lower prices and less of a tourist bubble.</p>
-    <p>Jeju&rsquo;s nightlife is minimal. <strong>Jeju City</strong> (the north) has a small bar and club scene near Shinchon neighborhood, and the Jungmun resort area has hotel bars in the south. But the island is fundamentally a nature destination &mdash; most visitors are families and couples, most restaurants and bars close by 10pm outside of resort zones. The evening activity is dinner and early sleep for next morning&rsquo;s hike.</p>
-    <div class="reddit-quote">
-        "Busan is definitely different to Seoul &mdash; a bit more chill and has beach. The nightlife at Gwangalli is great, sitting with a beer watching the bridge light up is a great evening."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1lwowvn/jeju_or_busan/">r/koreatravel user</a></span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Busan, easily.</strong> If nights matter to you, this isn&rsquo;t close. Busan has the full package &mdash; bar strips, clubs, street food tents, live music. Jeju&rsquo;s &ldquo;nightlife&rdquo; is a hotel bar and calling it a night. Plan accordingly.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="cultural-sights">&#9956;&#65039; Cultural Sights</h2>
-    <p>Busan&rsquo;s cultural highlight is <strong>Gamcheon Culture Village</strong> &mdash; a hillside maze of pastel-painted houses built by Korean War refugees, now transformed into an art installation with murals, tiny museums, and cafes. It&rsquo;s genuinely beautiful and photogenic, not a Disneyfied tourist trap. <strong>Haedong Yonggungsa Temple</strong> is Korea&rsquo;s only coastal temple, set on dramatic sea cliffs &mdash; one of the most dramatic temple locations in the country. The <strong>UN Memorial Cemetery</strong> is the only one of its kind in the world and oddly moving even for non-history buffs.</p>
-    <p>Jeju&rsquo;s cultural standout is the <strong>haenyeo</strong> tradition &mdash; female free-divers who harvest seafood without equipment, a UNESCO-listed intangible cultural heritage practice still alive on the island. You can watch haenyeo demonstrations and eat their catch. <strong>Seongeup Folk Village</strong> is a preserved traditional village with centuries-old stone buildings. <strong>Jeju Stone Park</strong> covers the island&rsquo;s volcanic myth and stonework. Jeju also has Harubang stone statues (the island&rsquo;s symbol) scattered everywhere.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="cultural-sights">⛤️ Cultural Sights</h2>
+<p>Busan’s cultural highlight is <strong>Gamcheon Culture Village</strong> — a hillside maze of pastel-painted houses built by Korean War refugees, now transformed into an art installation with murals, tiny museums, and cafes. It’s genuinely beautiful and photogenic, not a Disneyfied tourist trap. <strong>Haedong Yonggungsa Temple</strong> is Korea’s only coastal temple, set on dramatic sea cliffs — one of the most dramatic temple locations in the country. The <strong>UN Memorial Cemetery</strong> is the only one of its kind in the world and oddly moving even for non-history buffs.</p>
+<p>Jeju’s cultural standout is the <strong>haenyeo</strong> tradition — female free-divers who harvest seafood without equipment, a UNESCO-listed intangible cultural heritage practice still alive on the island. You can watch haenyeo demonstrations and eat their catch. <strong>Seongeup Folk Village</strong> is a preserved traditional village with centuries-old stone buildings. <strong>Jeju Stone Park</strong> covers the island’s volcanic myth and stonework. Jeju also has Harubang stone statues (the island’s symbol) scattered everywhere.</p>
+<div class="reddit-quote">
         "Gamcheon Village is a must. Go in the morning before tour buses arrive. Genuinely one of the most unique neighborhoods in Korea."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/10yor4g/10_days_in_south_korea_jeju_or_busan/">r/koreatravel user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/10yor4g/10_days_in_south_korea_jeju_or_busan/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Tie.</strong> Both destinations offer legitimately distinct cultural experiences. Busan’s war history and temple architecture are excellent for history and architecture lovers. Jeju’s haenyeo culture is something you won’t see anywhere else on Earth. Pick based on what resonates — neither disappoints.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Tie.</strong> Both destinations offer legitimately distinct cultural experiences. Busan&rsquo;s war history and temple architecture are excellent for history and architecture lovers. Jeju&rsquo;s haenyeo culture is something you won&rsquo;t see anywhere else on Earth. Pick based on what resonates &mdash; neither disappoints.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="best-time-to-visit">&#127800; Best Time to Visit</h2>
-    <p>For <strong>Busan</strong>: peak beach season is July&ndash;August (hot, humid, Haeundae packs out completely). Spring (April&ndash;May) and fall (September&ndash;October) offer the best balance of good weather and manageable crowds. Cherry blossoms hit Busan&rsquo;s Nakdong River and Gyeongju (a short day trip away) in late March to mid-April. Winter (December&ndash;February) is cold but not brutal, and the city is far less crowded &mdash; a good time for food and temple visits.</p>
-    <p>For <strong>Jeju</strong>: spring (March&ndash;May) is the most popular, with cherry blossoms blooming a week or two earlier than the mainland due to the island&rsquo;s milder climate. Fall (September&ndash;October) offers clear skies and foliage on Hallasan. Winter has its own appeal &mdash; Hallasan gets snow, creating an almost surreal snowy volcanic landscape. Summer (July&ndash;August) is busy and humid, with typhoon risk July&ndash;September. Avoid hitting Jeju during Korean national holidays (Chuseok, Seollal) when domestic travel surges.</p>
-    <div class="reddit-quote">
+</section><section class="deep-dive">
+<h2 id="best-time-to-visit">🌸 Best Time to Visit</h2>
+<p>For <strong>Busan</strong>: peak beach season is July–August (hot, humid, Haeundae packs out completely). Spring (April–May) and fall (September–October) offer the best balance of good weather and manageable crowds. Cherry blossoms hit Busan’s Nakdong River and Gyeongju (a short day trip away) in late March to mid-April. Winter (December–February) is cold but not brutal, and the city is far less crowded — a good time for food and temple visits.</p>
+<p>For <strong>Jeju</strong>: spring (March–May) is the most popular, with cherry blossoms blooming a week or two earlier than the mainland due to the island’s milder climate. Fall (September–October) offers clear skies and foliage on Hallasan. Winter has its own appeal — Hallasan gets snow, creating an almost surreal snowy volcanic landscape. Summer (July–August) is busy and humid, with typhoon risk July–September. Avoid hitting Jeju during Korean national holidays (Chuseok, Seollal) when domestic travel surges.</p>
+<div class="reddit-quote">
         "Went to Jeju in early spring and the entire island was covered in yellow canola flowers. Looked like screensaver wallpaper. Worth it just for that."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Tie.</strong> Both cities hit their stride in spring and fall. If you’re visiting in summer and want beaches, Busan is the easier and cheaper call. If you’re visiting in winter and want something scenic and unique, Jeju’s snow-dusted Hallasan beats any Busan winter attraction.
     </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Tie.</strong> Both cities hit their stride in spring and fall. If you&rsquo;re visiting in summer and want beaches, Busan is the easier and cheaper call. If you&rsquo;re visiting in winter and want something scenic and unique, Jeju&rsquo;s snow-dusted Hallasan beats any Busan winter attraction.
+</section><section class="deep-dive">
+<h2 id="day-trips">🌈 Day Trips &amp; Exploration</h2>
+<p>Busan is an exceptional base for day trips. <strong>Gyeongju</strong> is 50 minutes away by KTX (10,000 KRW, ~$7) — the ancient capital of the Silla Kingdom with royal burial mounds, Bulguksa Temple (UNESCO), and Cheomseongdae observatory. It’s one of Korea’s most rewarding day trips and pairs perfectly with Busan. <strong>Geoje Island</strong> is 1.5 hours by bus, with dramatic coastal scenery and a POW museum. <strong>Tongyeong</strong> is 1.5 hours away, often called the “Naples of Korea” for its harbor. The Korea Train Express (KTX) connects Busan to Daegu in 40 minutes, useful for onward travel.</p>
+<p>Jeju is itself the day trip — there’s no meaningful place to easily escape to on a day trip. The island rewards exploration of its own quadrants: north coast (Hallasan, Seongsan), south (Jungmun, Jeongbang Waterfall), west (Hyeopjae Beach, Yongmeori Coast), east (Manjanggul Cave, Udo Island). <strong>Udo Island</strong> is a 15-minute ferry from Seongsan and worth a half-day by rental bike.</p>
+<div class="reddit-quote">
+        "Do Busan first, then take the KTX for a Gyeongju day trip. It’s incredible — temple complex, royal tombs, the whole ancient Korea experience. Then fly to Jeju from Busan airport. Perfect Korea trip."
+        <span class="source">— <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
+</div>
+<div class="tabiji-verdict">
+<strong>Edge: Busan</strong> as a day-trip base. The Gyeongju connection alone makes Busan an extraordinary anchor point — you can add Silla Dynasty history to your Korea trip without an overnight. Jeju rewards staying on the island, not leaving it.
     </div>
-    </section><section class="deep-dive">
-    <h2 id="day-trips">&#127752; Day Trips &amp; Exploration</h2>
-    <p>Busan is an exceptional base for day trips. <strong>Gyeongju</strong> is 50 minutes away by KTX (10,000 KRW, ~$7) &mdash; the ancient capital of the Silla Kingdom with royal burial mounds, Bulguksa Temple (UNESCO), and Cheomseongdae observatory. It&rsquo;s one of Korea&rsquo;s most rewarding day trips and pairs perfectly with Busan. <strong>Geoje Island</strong> is 1.5 hours by bus, with dramatic coastal scenery and a POW museum. <strong>Tongyeong</strong> is 1.5 hours away, often called the &ldquo;Naples of Korea&rdquo; for its harbor. The Korea Train Express (KTX) connects Busan to Daegu in 40 minutes, useful for onward travel.</p>
-    <p>Jeju is itself the day trip &mdash; there&rsquo;s no meaningful place to easily escape to on a day trip. The island rewards exploration of its own quadrants: north coast (Hallasan, Seongsan), south (Jungmun, Jeongbang Waterfall), west (Hyeopjae Beach, Yongmeori Coast), east (Manjanggul Cave, Udo Island). <strong>Udo Island</strong> is a 15-minute ferry from Seongsan and worth a half-day by rental bike.</p>
-    <div class="reddit-quote">
-        "Do Busan first, then take the KTX for a Gyeongju day trip. It&rsquo;s incredible &mdash; temple complex, royal tombs, the whole ancient Korea experience. Then fly to Jeju from Busan airport. Perfect Korea trip."
-        <span class="source">&mdash; <a href="https://www.reddit.com/r/koreatravel/comments/1epuiod/jeju_busan_or_both/">r/koreatravel user</a></span>
-    </div>
-    <div class="tabiji-verdict">
-        <strong>Edge: Busan</strong> as a day-trip base. The Gyeongju connection alone makes Busan an extraordinary anchor point &mdash; you can add Silla Dynasty history to your Korea trip without an overnight. Jeju rewards staying on the island, not leaving it.
-    </div>
-    </section><section class="deep-dive">
-    <h2 id="the-decision-framework">&#127919; The Decision Framework</h2>
-    <div class="decision-grid">
-    <div class="decision-card busan-card">
-    <h3>Choose Busan If&hellip;</h3>
-    <ul>
-    <li>You don&rsquo;t want to drive or can&rsquo;t get an International Driving Permit.</li>
-    <li>You want great Korean food &mdash; especially seafood &mdash; at the best prices.</li>
-    <li>You want beaches <em>with</em> city energy, nightlife, and restaurants nearby.</li>
-    <li>You&rsquo;re adding a 2&ndash;3 day trip after Seoul on a tight schedule.</li>
-    <li>You want a base to day-trip to Gyeongju, Tongyeong, or Daegu.</li>
-    <li>You prioritize nightlife, bar scenes, and late-night food tents.</li>
-    </ul>
-    </div>
-    <div class="decision-card jeju-card">
-    <h3>Choose Jeju If&hellip;</h3>
-    <ul>
-    <li>Hiking a dormant volcano and crawling through lava tubes is on your list.</li>
-    <li>You want Korea&rsquo;s most pristine beaches &mdash; and can handle the logistics.</li>
-    <li>You&rsquo;re comfortable renting a car and have an IDP ready.</li>
-    <li>You have 3&ndash;4+ days to spend on the island.</li>
-    <li>You want to see haenyeo culture and taste truly unique Korean ingredients.</li>
-    <li>You&rsquo;re visiting in spring for canola flowers and cherry blossoms, or winter for snow on Hallasan.</li>
-    </ul>
-    </div>
-    </div>
-    <p>Also compare: <a href="/compare/okinawa-vs-jeju/">Okinawa vs Jeju</a> | <a href="/compare/seoul-vs-taipei/">Seoul vs Taipei</a> | <a href="/compare/south-korea-vs-japan/">South Korea vs Japan</a></p>
-    </section>
+</section><section class="deep-dive">
+<h2 id="the-decision-framework">🎯 The Decision Framework</h2>
+<div class="decision-grid">
+<div class="decision-card busan-card">
+<h3>Choose Busan If…</h3>
+<ul>
+<li>You don’t want to drive or can’t get an International Driving Permit.</li>
+<li>You want great Korean food — especially seafood — at the best prices.</li>
+<li>You want beaches <em>with</em> city energy, nightlife, and restaurants nearby.</li>
+<li>You’re adding a 2–3 day trip after Seoul on a tight schedule.</li>
+<li>You want a base to day-trip to Gyeongju, Tongyeong, or Daegu.</li>
+<li>You prioritize nightlife, bar scenes, and late-night food tents.</li>
+</ul>
+</div>
+<div class="decision-card jeju-card">
+<h3>Choose Jeju If…</h3>
+<ul>
+<li>Hiking a dormant volcano and crawling through lava tubes is on your list.</li>
+<li>You want Korea’s most pristine beaches — and can handle the logistics.</li>
+<li>You’re comfortable renting a car and have an IDP ready.</li>
+<li>You have 3–4+ days to spend on the island.</li>
+<li>You want to see haenyeo culture and taste truly unique Korean ingredients.</li>
+<li>You’re visiting in spring for canola flowers and cherry blossoms, or winter for snow on Hallasan.</li>
+</ul>
+</div>
+</div>
+<p>Also compare: <a href="/compare/okinawa-vs-jeju/">Okinawa vs Jeju</a> | <a href="/compare/seoul-vs-taipei/">Seoul vs Taipei</a> | <a href="/compare/south-korea-vs-japan/">South Korea vs Japan</a></p>
+</section>
 <section class="faq-section">
-    <h2 id="frequently-asked-questions">&#10067; Frequently Asked Questions</h2>
-    <div class="faq-item">
-    <h3>Is Busan or Jeju better for first-time visitors to Korea?</h3>
-    <p>For first-timers, Busan is generally easier and more rewarding. It has excellent subway transit, world-class seafood at Jagalchi Market, iconic beaches at Haeundae, and Gamcheon Culture Village &mdash; all without needing a car. Jeju requires a rental car (around 50,000&ndash;80,000 KRW/day) to see its best spots, which adds complexity. Most r/koreatravel users recommend Busan as the more hassle-free option.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Do I need a car in Jeju?</h3>
-    <p>Almost certainly yes. The consensus on r/koreatravel is clear: Jeju&rsquo;s public buses are infrequent and don&rsquo;t reach many of the best spots. Without a car, you&rsquo;re limited to tourist buses or expensive taxis. Rental cars cost 50,000&ndash;80,000 KRW/day (~$37&ndash;59). If you don&rsquo;t have an International Driving Permit or aren&rsquo;t comfortable driving abroad, Busan is the far better choice.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Which is cheaper, Busan or Jeju?</h3>
-    <p>Busan is cheaper overall. Mid-range hotels run 80,000&ndash;150,000 KRW/night ($59&ndash;110) vs Jeju&rsquo;s 100,000&ndash;200,000 KRW/night ($74&ndash;147). Jeju also adds mandatory car rental costs. A mid-range traveler spends roughly 120,000&ndash;180,000 KRW/day in Busan vs 180,000&ndash;260,000 KRW/day in Jeju including a car.</p>
-    </div>
-    <div class="faq-item">
-    <h3>How do you get from Seoul to Busan vs Jeju?</h3>
-    <p>Busan: KTX bullet train from Seoul Station in 2h15m&ndash;2h40m, costing 59,800&ndash;63,600 KRW ($44&ndash;47). Trains run every 30&ndash;60 minutes. Jeju: 1-hour flight from Gimpo or Incheon, costing 50,000&ndash;150,000 KRW ($37&ndash;110) depending on advance booking. Budget airlines like Jeju Air and T-way offer cheap fares booked early.</p>
-    </div>
-    <div class="faq-item">
-    <h3>How many days do you need in Busan vs Jeju?</h3>
-    <p>Busan: 2&ndash;3 full days covers the main highlights &mdash; Haeundae, Gamcheon, Jagalchi Market, Gwangalli, and Beomeosa Temple. Jeju: 3&ndash;4 days minimum, ideally 4&ndash;5. The Hallasan hike alone takes a full day, and driving the full coastline takes time. Rushing Jeju in 2 days means barely scratching the surface.</p>
-    </div>
-    <div class="faq-item">
-    <h3>Is it worth visiting both Busan and Jeju on one trip?</h3>
-    <p>Yes, if you have 7+ days in Korea. A common itinerary is Seoul (3&ndash;4 days) + Busan (2&ndash;3 days) + Jeju (3&ndash;4 days), feasible in 10&ndash;12 days total. You can fly direct Busan to Jeju in 1 hour for 40,000&ndash;80,000 KRW. Many r/koreatravel users say doing both transforms the trip from &ldquo;good&rdquo; to &ldquo;epic.&rdquo;</p>
-    </div>
-    <div class="faq-item">
-    <h3>Which is better for beaches, Busan or Jeju?</h3>
-    <p>Jeju wins for natural beach beauty &mdash; Hyeopjae and Hamdeok have pristine turquoise water and dramatic volcanic scenery. Busan&rsquo;s Haeundae and Gwangalli are fantastic urban beaches with incredible nightlife nearby, but water clarity can&rsquo;t match Jeju. For pure aesthetics, Jeju. For beach-plus-city energy, Busan.</p>
-    </div>
-    <div class="faq-item">
-    <h3>What is the best time to visit Busan vs Jeju?</h3>
-    <p>Both cities shine in spring (April&ndash;May) and fall (September&ndash;October). Busan beach season peaks July&ndash;August. Jeju is good year-round, including winter for snow on Hallasan. Summer in Jeju brings humidity and typhoon risk. October is the safest peak season for both destinations.</p>
-    </div>
-    </section>
+<h2 id="frequently-asked-questions">❓ Frequently Asked Questions</h2>
+<div class="faq-item">
+<h3>Is Busan or Jeju better for first-time visitors to Korea?</h3>
+<p>For first-timers, Busan is generally easier and more rewarding. It has excellent subway transit, world-class seafood at Jagalchi Market, iconic beaches at Haeundae, and Gamcheon Culture Village — all without needing a car. Jeju requires a rental car (around 50,000–80,000 KRW/day) to see its best spots, which adds complexity. Most r/koreatravel users recommend Busan as the more hassle-free option.</p>
+</div>
+<div class="faq-item">
+<h3>Do I need a car in Jeju?</h3>
+<p>Almost certainly yes. The consensus on r/koreatravel is clear: Jeju’s public buses are infrequent and don’t reach many of the best spots. Without a car, you’re limited to tourist buses or expensive taxis. Rental cars cost 50,000–80,000 KRW/day (~$37–59). If you don’t have an International Driving Permit or aren’t comfortable driving abroad, Busan is the far better choice.</p>
+</div>
+<div class="faq-item">
+<h3>Which is cheaper, Busan or Jeju?</h3>
+<p>Busan is cheaper overall. Mid-range hotels run 80,000–150,000 KRW/night ($59–110) vs Jeju’s 100,000–200,000 KRW/night ($74–147). Jeju also adds mandatory car rental costs. A mid-range traveler spends roughly 120,000–180,000 KRW/day in Busan vs 180,000–260,000 KRW/day in Jeju including a car.</p>
+</div>
+<div class="faq-item">
+<h3>How do you get from Seoul to Busan vs Jeju?</h3>
+<p>Busan: KTX bullet train from Seoul Station in 2h15m–2h40m, costing 59,800–63,600 KRW ($44–47). Trains run every 30–60 minutes. Jeju: 1-hour flight from Gimpo or Incheon, costing 50,000–150,000 KRW ($37–110) depending on advance booking. Budget airlines like Jeju Air and T-way offer cheap fares booked early.</p>
+</div>
+<div class="faq-item">
+<h3>How many days do you need in Busan vs Jeju?</h3>
+<p>Busan: 2–3 full days covers the main highlights — Haeundae, Gamcheon, Jagalchi Market, Gwangalli, and Beomeosa Temple. Jeju: 3–4 days minimum, ideally 4–5. The Hallasan hike alone takes a full day, and driving the full coastline takes time. Rushing Jeju in 2 days means barely scratching the surface.</p>
+</div>
+<div class="faq-item">
+<h3>Is it worth visiting both Busan and Jeju on one trip?</h3>
+<p>Yes, if you have 7+ days in Korea. A common itinerary is Seoul (3–4 days) + Busan (2–3 days) + Jeju (3–4 days), feasible in 10–12 days total. You can fly direct Busan to Jeju in 1 hour for 40,000–80,000 KRW. Many r/koreatravel users say doing both transforms the trip from “good” to “epic.”</p>
+</div>
+<div class="faq-item">
+<h3>Which is better for beaches, Busan or Jeju?</h3>
+<p>Jeju wins for natural beach beauty — Hyeopjae and Hamdeok have pristine turquoise water and dramatic volcanic scenery. Busan’s Haeundae and Gwangalli are fantastic urban beaches with incredible nightlife nearby, but water clarity can’t match Jeju. For pure aesthetics, Jeju. For beach-plus-city energy, Busan.</p>
+</div>
+<div class="faq-item">
+<h3>What is the best time to visit Busan vs Jeju?</h3>
+<p>Both cities shine in spring (April–May) and fall (September–October). Busan beach season peaks July–August. Jeju is good year-round, including winter for snow on Hallasan. Summer in Jeju brings humidity and typhoon risk. October is the safest peak season for both destinations.</p>
+</div>
+</section>
 <div class="cta-section">
-    <h2>Ready to plan your Korea trip?</h2>
-    <p>Get a free custom itinerary for Busan, Jeju Island, or both &mdash; built from real traveler insights, not generic templates.</p>
-    <div class="cta-buttons">
-    <a class="cta-btn-busan" href="/plan">Plan Your Busan Trip &rarr;</a>
-    <a class="cta-btn-jeju" href="/plan">Plan Your Jeju Trip &rarr;</a>
-    </div>
-    </div>
+<h2>Ready to plan your Korea trip?</h2>
+<p>Get a free custom itinerary for Busan, Jeju Island, or both — built from real traveler insights, not generic templates.</p>
+<div class="cta-buttons">
+<a class="cta-btn-busan" href="/plan">Plan Your Busan Trip →</a>
+<a class="cta-btn-jeju" href="/plan">Plan Your Jeju Trip →</a>
+</div>
+</div>
 <section class="viator-section">
-        <h2>&#127903;&#65039; Book Tours & Experiences</h2>
-        <p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
-        <div class="viator-cards">
-      <a class="viator-card" href="https://www.viator.com/search/Busan+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Busan</span>
-        <span class="tour-name">Busan Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Busan+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Busan Day Trip</span>
-        <span class="tour-name">Busan Day Trips & Excursions</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Jeju+tours?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Explore Jeju</span>
-        <span class="tour-name">Jeju Tours & Activities →</span>
-      </a>
-      <a class="viator-card" href="https://www.viator.com/search/Jeju+day+trips?pid=P00292930&mcid=42383&medium=link" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">Jeju Day Trip</span>
-        <span class="tour-name">Jeju Day Trips & Excursions</span>
-      </a>
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
-      </section>
+<h2>🎟️ Book Tours &amp; Experiences</h2>
+<p class="viator-subtitle">Hand-picked tours and activities for both destinations — book with free cancellation</p>
+<div class="viator-cards">
+<a class="viator-card" href="https://www.viator.com/search/Busan+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Busan</span>
+<span class="tour-name">Busan Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Busan+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Busan Day Trip</span>
+<span class="tour-name">Busan Day Trips &amp; Excursions</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Jeju+tours?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Explore Jeju</span>
+<span class="tour-name">Jeju Tours &amp; Activities →</span>
+</a>
+<a class="viator-card" href="https://www.viator.com/search/Jeju+day+trips?pid=P00292930&amp;mcid=42383&amp;medium=link" rel="noopener sponsored" target="_blank">
+<span class="tour-type">Jeju Day Trip</span>
+<span class="tour-name">Jeju Day Trips &amp; Excursions</span>
+</a>
+</div>
+<p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+</section>
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->
 <footer>
-    <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+<p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">Pinterest</a> · <a href="https://x.com/tabijiai" rel="noopener" style="color: inherit; text-decoration: underline;" target="_blank">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
 <script>document.addEventListener('click',function(e){document.querySelectorAll('.nav-dropdown.open').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open')})});</script>
