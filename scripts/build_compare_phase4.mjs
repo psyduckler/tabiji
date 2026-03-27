@@ -61,6 +61,7 @@ const intentKeywords = {
 function slugify(text='') { return String(text).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
 function safeText(v='') { return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function normalizeText(...parts) { return parts.filter(Boolean).join(' ').toLowerCase(); }
+function wordMatch(text, needle) { return new RegExp(`\\b${needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(text); }
 
 function scanInboundLinks() {
   const inbound = new Map();
@@ -116,7 +117,7 @@ function inferIntents(card) {
 
 function inferCluster(card) {
   const text = normalizeText(card.destination1, card.destination2, card.title, ...(card.tags || []));
-  const hit = clusterDefinitions.find(def => def.aliases.some(alias => text.includes(alias)));
+  const hit = clusterDefinitions.find(def => def.aliases.some(alias => wordMatch(text, alias)));
   if (hit) return hit.slug;
   const d1 = slugify(card.destination1 || '');
   if ((destinationCounts.get(d1) || 0) >= 4) return d1;
@@ -254,7 +255,7 @@ for (const def of clusterDefinitions) {
 if (fs.existsSync(sitemapPath)) {
   let sitemap = fs.readFileSync(sitemapPath, 'utf8');
   const existing = new Set([...sitemap.matchAll(/<loc>https:\/\/tabiji\.ai([^<]+)<\/loc>/g)].map(m => m[1]));
-  const additions = clusterPages.filter(url => !existing.has(url)).map(url => `  <url>\n    <loc>https://tabiji.ai${url}</loc>\n  </url>`).join('\n');
+  const additions = clusterPages.filter(url => !existing.has(url)).map(url => `  <url>\n    <loc>https://tabiji.ai${url}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`).join('\n');
   if (additions) sitemap = sitemap.replace('</urlset>', `${additions}\n</urlset>`);
   fs.writeFileSync(sitemapPath, sitemap);
 }
