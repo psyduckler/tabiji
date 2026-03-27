@@ -76,7 +76,7 @@ def winner_for_row(row, d1, d2):
         return d1
     if d2.lower() in w:
         return d2
-    if 'tie' in w or w in {'—', '-', 'n/a'}:
+    if 'tie' in w or w in {'-', '-', 'n/a'}:
         return 'Tie'
     if row['winner'] == d1:
         return d1
@@ -191,7 +191,7 @@ def build_bestfor_section(soup, rows, d1, d2):
     h2.string = 'Best-for snapshot'
     section.append(h2)
     p = soup.new_tag('p')
-    p.string = 'Fast answers first: who each destination tends to serve best, pulled from the page’s own comparison table and verdict.'
+    p.string = "Fast answers first: who each destination tends to serve best, pulled from the page\u2019s own comparison table and verdict."
     section.append(p)
     grid = soup.new_tag('div', attrs={'class': 'bestfor-grid'})
     for title, winner, expl in cards:
@@ -215,7 +215,7 @@ def build_scorecard_section(soup, rows, d1, d2):
     h2.string = 'Quick scorecards'
     section.append(h2)
     p = soup.new_tag('p')
-    p.string = 'Lightweight scoring for scanability — a decision aid, not fake precision.'
+    p.string = 'Lightweight scoring for scanability - a decision aid, not fake precision.'
     section.append(p)
     grid = soup.new_tag('div', attrs={'class': 'scorecard-grid'})
     labels = [('budget', 'Budget'), ('food', 'Food'), ('culture', 'Culture'), ('scenery', 'Scenery'), ('nightlife', 'Nightlife'), ('ease', 'Ease / logistics')]
@@ -290,11 +290,18 @@ def tighten_verdict(soup, rows, d1, d2):
     d2_reason = best['d2'] if best else (card_d2_reason or row_d2_reason or f'{d2} brings the stronger version of its biggest wins on this page.')
     split_reason = f'Split your trip if you want {d1} for its strongest wins but still want {d2} for the categories where it clearly does better.'
 
+    def choose_phrase(dest, reason):
+        """Build 'Choose X if ...' without doubling 'you want'."""
+        r = reason.strip().lower()
+        if r.startswith('you want ') or r.startswith('you\'re ') or r.startswith('you prefer '):
+            return f'Choose {dest} if {r}'
+        return f'Choose {dest} if you want {r}'
+
     summary = verdict.select_one('.verdict-summary')
     if summary:
         summary.string = ''
         strong = soup.new_tag('strong')
-        strong.string = f'Choose {d1} if you want {d1_reason.lower()} Choose {d2} if you want {d2_reason.lower()} Split your trip if you want both experiences without forcing one city to do the other’s job.'
+        strong.string = f'{choose_phrase(d1, d1_reason)} {choose_phrase(d2, d2_reason)} Split your trip if you want both experiences without forcing one destination to do the other\'s job.'
         summary.append(strong)
 
     takeaways = verdict.select_one('.verdict-takeaways')
