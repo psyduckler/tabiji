@@ -392,9 +392,17 @@ def render_card(card: Dict) -> str:
 
 def build_compare_index(inventory: Dict) -> str:
     cards_html = "\n".join(render_card(card) for card in inventory["cards"])
+    meta_description = inventory.get(
+        "metaDescription",
+        "Compare destination head-to-head with data-backed verdicts, key differences, and honest tradeoffs.",
+    )
+    hero_dek = inventory.get(
+        "heroDek",
+        "Side-by-side destination comparisons backed by traveler data, real costs, and practical tradeoffs.",
+    )
     return HEAD_TEMPLATE.format(
-        meta_description=inventory["metaDescription"],
-        hero_dek=inventory["heroDek"],
+        meta_description=meta_description,
+        hero_dek=hero_dek,
         cards=cards_html,
     )
 
@@ -402,14 +410,18 @@ def build_compare_index(inventory: Dict) -> str:
 def build_compare_aggregate(inventory: Dict) -> Dict:
     comparisons = []
     for card in inventory["cards"]:
-        per_page = load_json(API_DIR / "compare" / f"{card['slug']}.json")
+        api_path = API_DIR / "compare" / f"{card['slug']}.json"
+        per_page = load_json(api_path) if api_path.exists() else {}
+        category_count = per_page.get("categoryCount")
+        if category_count is None:
+            category_count = len(per_page.get("categories", []))
         comparisons.append({
             "slug": card["slug"],
-            "title": per_page["title"],
-            "destination1": per_page["destination1"],
-            "destination2": per_page["destination2"],
-            "categoryCount": per_page["categoryCount"],
-            "url": per_page["url"],
+            "title": per_page.get("title", card.get("title", f"{card.get('destination1', '')} vs {card.get('destination2', '')}")),
+            "destination1": per_page.get("destination1", card.get("destination1")),
+            "destination2": per_page.get("destination2", card.get("destination2")),
+            "categoryCount": category_count,
+            "url": per_page.get("url", f"{BASE_URL}/compare/{card['slug']}/"),
         })
     return {"count": len(comparisons), "comparisons": comparisons}
 
@@ -421,6 +433,29 @@ def compare_leaf_slugs() -> List[str]:
 def sitemap_compare_slugs() -> List[str]:
     text = read_text(SITEMAP_PATH)
     return re.findall(r"<loc>https://tabiji.ai/compare/([^<]+)/</loc>", text)
+
+
+def validate_leaf_page(slug: str) -> Tuple[List[str], List[str]]:
+    errors: List[str] = []
+    warnings: List[str] = []
+    html = read_text(COMPARE_DIR / slug / "index.html")
+
+    toc_targets = re.findall(r'href="#([^"]+)"', html)
+    ids = set(re.findall(r'id="([^"]+)"', html))
+    for target in sorted(set(toc_targets)):
+        if target not in ids:
+            errors.append(f"{slug}: anchor target missing #{target}")
+
+    placeholder_patterns = {
+        r"NT,": "unresolved NT currency placeholder",
+        r"~ USD": "unresolved USD currency placeholder",
+        r"/bin/zsh\\.": "shell output leaked into page copy",
+    }
+    for pattern, label in placeholder_patterns.items():
+        if re.search(pattern, html):
+            errors.append(f"{slug}: {label}")
+
+    return errors, warnings
 
 
 def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
@@ -456,6 +491,10 @@ def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
             warnings.append(f"{slug}: tags missing or empty")
         if slug not in leaf_set:
             errors.append(f"{slug}: missing compare leaf HTML")
+        else:
+            leaf_errors, leaf_warnings = validate_leaf_page(slug)
+            errors.extend(leaf_errors)
+            warnings.extend(leaf_warnings)
         api_path = API_DIR / "compare" / f"{slug}.json"
         if not api_path.exists():
             errors.append(f"{slug}: missing per-page API JSON")
