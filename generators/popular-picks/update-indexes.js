@@ -2,6 +2,35 @@ const fs = require('fs');
 const path = require('path');
 const { readJson, writeText } = require('./utils');
 
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function updateSitemap(repoRoot, data) {
+  const sitemapPath = path.join(repoRoot, 'sitemap.xml');
+  let xml = fs.readFileSync(sitemapPath, 'utf8');
+  const pageUrl = `https://tabiji.ai/popular-picks/${data.slug}/`;
+
+  // Skip if already present
+  if (xml.includes(`<loc>${pageUrl}</loc>`)) {
+    return false;
+  }
+
+  const entry = [
+    '  <url>',
+    `    <loc>${pageUrl}</loc>`,
+    `    <lastmod>${todayISO()}</lastmod>`,
+    '    <changefreq>monthly</changefreq>',
+    '    <priority>0.6</priority>',
+    '  </url>',
+  ].join('\n');
+
+  // Insert before closing </urlset>
+  xml = xml.replace('</urlset>', `${entry}\n</urlset>`);
+  fs.writeFileSync(sitemapPath, xml);
+  return true;
+}
+
 function buildMetadataEntry(data) {
   return {
     slug: data.slug,
@@ -21,6 +50,12 @@ function updateIndexes(repoRoot, data) {
   metadata[data.slug] = buildMetadataEntry(data);
   const ordered = Object.fromEntries(Object.entries(metadata).sort(([a], [b]) => a.localeCompare(b)));
   writeText(metadataPath, `${JSON.stringify(ordered, null, 2)}\n`);
+
+  // Add to sitemap.xml if not already present
+  const added = updateSitemap(repoRoot, data);
+  if (added) {
+    console.log(`Added ${data.slug} to sitemap.xml`);
+  }
 }
 
 if (require.main === module) {
@@ -34,4 +69,4 @@ if (require.main === module) {
   updateIndexes(repoRoot, data);
 }
 
-module.exports = { updateIndexes, buildMetadataEntry };
+module.exports = { updateIndexes, updateSitemap, buildMetadataEntry };
