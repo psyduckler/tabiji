@@ -262,7 +262,7 @@ function pageHtml({ title, metaDescription, canonicalPath, heroKicker, heroTitle
   const regionOptions = [...new Set(cards.map(card => card.region))].sort();
   const typeOptions = [...new Set(cards.map(card => card.tripType))].sort();
   const canonicalUrl = `https://tabiji.ai${canonicalPath}`;
-  const ogImage = 'https://img.tabiji.ai/og/compare-default.jpg';
+  const ogImage = 'https://img.tabiji.ai/compare-default-og.jpg';
   const breadcrumbName = heroTitle;
   const faqItems = [
     {

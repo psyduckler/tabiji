@@ -238,7 +238,7 @@ for (const card of enriched) {
 
 function basePage(title, desc, canonical, heroTitle, heroText, cards) {
   const canonicalUrl = `https://tabiji.ai${canonical}`;
-  const ogImage = 'https://img.tabiji.ai/og/compare-default.jpg';
+  const ogImage = 'https://img.tabiji.ai/compare-default-og.jpg';
   const faqItems = [
     {
       question: `What is the ${heroTitle} compare hub?`,
