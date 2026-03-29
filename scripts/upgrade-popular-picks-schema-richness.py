@@ -310,12 +310,18 @@ def maybe_add_speakable_to_article(html: str):
 
 def main():
     changed = 0
+    skipped_invalid = 0
     for api_file in sorted(API_DIR.glob('*.json')):
         slug = api_file.stem
         html_file = PP_DIR / slug / 'index.html'
         if not html_file.exists():
             continue
-        page_data = json.loads(api_file.read_text())
+        try:
+            page_data = json.loads(api_file.read_text())
+        except json.JSONDecodeError as exc:
+            skipped_invalid += 1
+            print(f'skipped {slug}: invalid api json ({exc})')
+            continue
         html = html_file.read_text()
         updated = replace_itemlist_block(html, build_itemlist_schema(slug, page_data, html))
         updated = maybe_add_speakable_to_article(updated)
@@ -323,7 +329,7 @@ def main():
             html_file.write_text(updated)
             changed += 1
             print(f'updated {slug}')
-    print(f'changed {changed} pages')
+    print(f'changed {changed} pages; skipped invalid api json: {skipped_invalid}')
 
 
 if __name__ == '__main__':
