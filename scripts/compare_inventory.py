@@ -440,6 +440,21 @@ def validate_leaf_page(slug: str) -> Tuple[List[str], List[str]]:
     warnings: List[str] = []
     html = read_text(COMPARE_DIR / slug / "index.html")
 
+    toc_targets = re.findall(r'href="#([^"]+)"', html)
+    ids = set(re.findall(r'id="([^"]+)"', html))
+    for target in sorted(set(toc_targets)):
+        if target not in ids:
+            errors.append(f"{slug}: anchor target missing #{target}")
+
+    placeholder_patterns = {
+        r"NT,": "unresolved NT currency placeholder",
+        r"~ USD": "unresolved USD currency placeholder",
+        r"/bin/zsh\\.": "shell output leaked into page copy",
+    }
+    for pattern, label in placeholder_patterns.items():
+        if re.search(pattern, html):
+            errors.append(f"{slug}: {label}")
+
     has_verdict = 'class="verdict-box"' in html
     has_toc_ui = any(marker in html for marker in ['class="toc-sidebar"', 'class="toc-mobile-sticky"', 'id="toc-mobile"'])
     if has_verdict and not has_toc_ui:
