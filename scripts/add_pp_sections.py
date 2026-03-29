@@ -8,9 +8,9 @@ import re
 import sys
 from pathlib import Path
 
-TABIJI = Path.home() / "tabiji"
-PP_DIR = TABIJI / "popular-picks"
-DEST_DIR = TABIJI / "destinations"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PP_DIR = REPO_ROOT / "popular-picks"
+DEST_DIR = REPO_ROOT / "destinations"
 
 METHODOLOGY_HTML = """    <section class="methodology-section">
       <h2>How we built this list</h2>
