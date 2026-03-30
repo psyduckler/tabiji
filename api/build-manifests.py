@@ -2,15 +2,31 @@
 import hashlib
 import json
 import mimetypes
+import re
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 API_DIR = BASE_DIR / "api"
 V1_DIR = API_DIR / "v1"
 COUNTRIES_DIR = V1_DIR / "countries"
-API_VERSION = "1.5.0"
+STALE_TTL_DAYS = 7  # manifests considered stale after this many days
+
+
+def _read_api_version() -> str:
+    """Read API_VERSION from build-api.py to avoid duplicating the constant."""
+    try:
+        src = (API_DIR / "build-api.py").read_text(encoding="utf-8")
+        match = re.search(r'^API_VERSION\s*=\s*["\']([^"\']+)["\']', src, re.MULTILINE)
+        if match:
+            return match.group(1)
+    except Exception:
+        pass
+    return "1.5.0"
+
+
+API_VERSION = _read_api_version()
 SCHEMA_VERSION = "1.0"
 COMPATIBILITY = {
     "manifest": "1.0",
@@ -71,7 +87,8 @@ def build_country_indexes() -> tuple[dict[str, Counter], dict[str, list[str]]]:
     counts: dict[str, Counter] = defaultdict(Counter)
     slugs: dict[str, list[str]] = defaultdict(list)
 
-    destinations = load_json(V1_DIR / "destinations.json").get("destinations", [])
+    dest_data = load_json(V1_DIR / "destinations.json")
+    destinations = dest_data.get("items") or dest_data.get("destinations") or []
     for dest in destinations:
         iso2 = (dest.get("countryCode") or "").upper()
         if not iso2:
@@ -130,7 +147,7 @@ def build_country_manifest(country_path: Path, country_record: dict, counts: Cou
         },
         "entityCounts": dict(counts),
         "relatedDestinationSlugs": sorted([slug for slug in slugs if slug])[:50],
-        "staleAfter": iso_mtime(country_path),
+        "staleAfter": (datetime.now(timezone.utc) + timedelta(days=STALE_TTL_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     return manifest
 

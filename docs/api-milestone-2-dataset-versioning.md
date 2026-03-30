@@ -52,6 +52,7 @@ Rules:
 - additive fields may ship under the same major version
 - file checksum changes always produce a new `datasetVersion`
 - offline clients should trust `datasetVersion` + `sha256`, not only timestamps
+- `staleAfter` = `generatedAt` + 7 days (configurable via `STALE_TTL_DAYS`); clients should re-fetch when past this date
 
 ## Low-CPU implementation note
 
