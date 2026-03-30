@@ -1,327 +1,435 @@
 #!/usr/bin/env python3
 """
-Build safety profiles for 18 remaining priority countries.
-JP and TH already done by sub-agent.
-Merges emergency numbers + advisories + generated content.
+Build safety profiles for 20 priority countries.
+
+Assembles data from existing sources — does NOT generate or scrape new data:
+  - app/data/emergency-numbers.json  (192 countries)
+  - app/data/advisories-us.json      (208 US State Dept advisories)
+  - app/data/advisories-uk.json      (226 UK FCDO advisories)
+  - health/{slug}/index.html         (BeautifulSoup extraction)
+  - scams/{city}/index.html          (BeautifulSoup extraction)
+
+JP and TH profiles already exist at app/data/safety/ and are NOT modified.
+
+Output: app/data/safety/{iso2_lower}.json for each of the 20 countries.
+
+Usage: python3 app/scripts/build-safety-profiles.py
 """
-import json, os
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, '..', 'data')
-SAFETY = os.path.join(DATA, 'safety')
-os.makedirs(SAFETY, exist_ok=True)
+import json
+import re
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
 
-# Load existing data
-with open(os.path.join(DATA, 'emergency-numbers.json')) as f:
-    EMERGENCY = json.load(f)['countries']
-with open(os.path.join(DATA, 'advisories-us.json')) as f:
-    US_ADV = json.load(f)['advisories']
-with open(os.path.join(DATA, 'advisories-uk.json')) as f:
-    UK_ADV = json.load(f)['advisories']
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    print("Missing dependency: beautifulsoup4\nInstall: pip install beautifulsoup4", file=sys.stderr)
+    raise SystemExit(1)
 
-COUNTRIES = {
-    "MX": {
-        "name": "Mexico",
-        "emergency_notes": "Tourist emergency line: 078 (English-speaking operators).",
-        "embassies": [
-            {"name": "U.S. Embassy Mexico City", "city": "Mexico City", "address": "Paseo de la Reforma 305, Col. Cuauhtémoc, 06500 CDMX", "phone": "+52-55-5080-2000", "emergencyPhone": "+52-55-5080-2000", "email": "ACSMexicoCity@state.gov", "website": "https://mx.usembassy.gov/", "lat": 19.4270, "lng": -99.1677, "type": "embassy"},
-            {"name": "U.S. Consulate General Guadalajara", "city": "Guadalajara", "address": "Progreso 175, Col. Americana, 44160 Guadalajara", "phone": "+52-33-3268-2100", "emergencyPhone": "+52-55-5080-2000", "email": None, "website": "https://mx.usembassy.gov/embassy-consulates/guadalajara/", "lat": 20.6751, "lng": -103.3608, "type": "consulate"},
-        ],
-        "healthcare": {"systemType": "Mixed public/private", "qualityRating": "good", "walkInAccess": True, "costForTourists": "Private hospitals are good quality in major cities. Clinic visit $30-60. ER visit $100-300. Private hospital stay $150-400/night. Public hospitals (IMSS) treat emergencies but are overcrowded.", "pharmacyAccess": "Farmacias del Ahorro and Farmacias Similares on every corner. Many antibiotics and medications available OTC. Pharmacists often provide basic medical advice.", "hospitalNotes": "Hospital Angeles, Médica Sur, and ABC Hospital in CDMX are excellent. Quality decreases significantly in rural areas. Cancún and tourist zones have adequate private facilities.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Hepatitis B", "Typhoid"], "malariaRisk": False, "insuranceAdvice": "Travel insurance strongly recommended. Private hospitals require proof of insurance or cash deposit. Medical evacuation coverage essential if visiting remote areas."},
-        "medications": {"controlledSubstances": [{"drug": "Adderall / amphetamines", "status": "restricted", "note": "Controlled substance. Bring original prescription and doctor's letter. Max 30-day supply."}, {"drug": "Pseudoephedrine", "status": "restricted", "note": "Restricted due to methamphetamine precursor laws. Products containing pseudoephedrine require ID."}, {"drug": "CBD / cannabis", "status": "restricted", "note": "Medical cannabis legal but recreational is in legal gray area. Do not bring cannabis products across the border."}], "generalAdvice": "Carry medications in original packaging with prescription labels. Mexico's pharmacies sell many drugs OTC that require prescriptions elsewhere — quality and dosing may vary."},
-        "scams": [{"name": "Taxi meter scam", "city": "Mexico City", "description": "Unlicensed taxis overcharge or take circuitous routes. Some unlicensed cabs are used for express kidnappings (paseo millonario) — victim forced to withdraw cash from ATMs.", "avoidance": "Only use Uber, DiDi, or official sitio taxis from authorized stands. Never hail a cab on the street in CDMX."}, {"name": "Timeshare presentations", "city": "Cancún, Puerto Vallarta, Los Cabos", "description": "Friendly people at airports or tourist areas offer free tours, meals, or activities in exchange for attending a 90-minute timeshare pitch that becomes a 4-hour high-pressure sales session.", "avoidance": "Politely decline all 'free' tour offers. If you engage, set a hard time limit and don't bring credit cards."}, {"name": "Police bribery (mordida)", "city": "Nationwide", "description": "Police may stop you for minor or fabricated traffic violations and hint at an on-the-spot 'fine' (bribe) of 500-2000 pesos to avoid a ticket.", "avoidance": "Ask for an official ticket (boleta). Say you'll pay at the station. Most officers will let you go rather than do paperwork."}, {"name": "ATM skimming", "city": "Tourist areas nationwide", "description": "Card skimmers attached to ATMs, especially at convenience stores and standalone ATMs. Also fake ATMs that capture your card entirely.", "avoidance": "Use ATMs inside banks only, during business hours. Cover the keypad. Use tap/NFC payments where possible."}],
-        "connectivity": {"simOptions": "Telcel (best coverage), AT&T Mexico, or Movistar SIM cards at airports and OXXO stores. $10-20 for 30 days with 5-15GB. eSIM via Airalo $5-10.", "wifiAvailability": "Free WiFi at most hotels, restaurants, and cafes in tourist areas. Starbucks and OXXO have reliable free WiFi. Patchy in rural areas.", "bestOption": "Telcel SIM or eSIM for best nationwide coverage including rural areas."},
-        "cultural": {"tipping": "Expected and important. Restaurants 10-15%. Hotel porters $1-2/bag. Gas station attendants 10-20 pesos. Grocery baggers (often elderly volunteers) 5-10 pesos.", "dressCode": "Casual in beach towns. Business casual in Mexico City. Cover shoulders at churches. Dress smartly for upscale restaurants in CDMX — Polanco restaurants may turn away shorts/sandals.", "greetings": "Handshake for first meeting. Friends greet with a single kiss on the cheek (or air kiss). 'Buenos días/tardes/noches' for different times of day.", "taboos": ["Making the 'OK' hand gesture (considered vulgar)", "Comparing Mexico unfavorably to the US", "Refusing offered food or drink (considered rude)", "Blowing your nose loudly at the table"], "haggling": "Expected at markets and street stalls. Start at 60-70% of asking price. Not appropriate in restaurants, shops, or malls."},
-        "phrases": [{"english": "Hello", "local": "Hola", "phonetic": "OH-lah"}, {"english": "Thank you", "local": "Gracias", "phonetic": "GRAH-see-ahs"}, {"english": "Excuse me", "local": "Disculpe", "phonetic": "dees-KOOL-peh"}, {"english": "Help!", "local": "¡Ayuda!", "phonetic": "ah-YOO-dah"}, {"english": "Hospital", "local": "Hospital", "phonetic": "ohs-pee-TAHL"}, {"english": "Police", "local": "Policía", "phonetic": "poh-lee-SEE-ah"}, {"english": "I don't understand", "local": "No entiendo", "phonetic": "no en-tee-EN-doh"}, {"english": "Where is...?", "local": "¿Dónde está...?", "phonetic": "DOHN-deh es-TAH"}, {"english": "How much?", "local": "¿Cuánto cuesta?", "phonetic": "KWAHN-toh KWES-tah"}, {"english": "Yes / No", "local": "Sí / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "moderate", "violentCrime": "moderate", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "hurricanes (Pacific & Gulf coasts)", "volcanic activity"], "lgbtSafety": "Legal protections in major cities (CDMX, Guadalajara). Same-sex marriage legal nationwide. Rural areas can be conservative. CDMX has vibrant LGBTQ+ scene in Zona Rosa.", "soloFemaleSafety": "Exercise caution. Avoid walking alone at night. Use ride-hailing apps instead of street taxis. Tourist areas are generally safe during the day. Certain states (Guerrero, Sinaloa, Tamaulipas) have travel advisories.", "notes": "Tourist areas are generally safe. Violent crime is concentrated in specific states and rarely targets tourists. The biggest risks are petty theft and taxi scams. Always use registered transportation."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["A", "B"], "voltage": "127V / 60Hz", "dialCode": "+52", "visaFreeCountries": "US citizens: 180 days visa-free. UK/EU/Canada/Australia: 180 days.", "timeZone": "UTC-06:00 (Central), varies by region", "bestTimeToVisit": "November-April (dry season). Avoid hurricane season (June-November) on coasts. Mexico City is pleasant year-round."}
-    },
-    "IT": {
-        "name": "Italy",
-        "emergency_notes": None,
-        "embassies": [
-            {"name": "U.S. Embassy Rome", "city": "Rome", "address": "Via Vittorio Veneto 121, 00187 Rome", "phone": "+39-06-46741", "emergencyPhone": "+39-06-46741", "email": "uscitizensrome@state.gov", "website": "https://it.usembassy.gov/", "lat": 41.9068, "lng": 12.4891, "type": "embassy"},
-            {"name": "U.S. Consulate General Florence", "city": "Florence", "address": "Lungarno Amerigo Vespucci 38, 50123 Florence", "phone": "+39-055-266-951", "emergencyPhone": "+39-06-46741", "email": None, "website": "https://it.usembassy.gov/embassy-consulates/florence/", "lat": 43.7711, "lng": 11.2417, "type": "consulate"},
-            {"name": "U.S. Consulate General Milan", "city": "Milan", "address": "Via Principe Amedeo 2/10, 20121 Milan", "phone": "+39-02-290-351", "emergencyPhone": "+39-06-46741", "email": None, "website": "https://it.usembassy.gov/embassy-consulates/milan/", "lat": 45.4743, "lng": 9.1968, "type": "consulate"},
-        ],
-        "healthcare": {"systemType": "Universal (Servizio Sanitario Nazionale)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "EU citizens get emergency care with EHIC card. Non-EU tourists pay — ER visit €100-300, clinic visit €50-150. Private clinics in Rome/Milan €100-200 for consultation.", "pharmacyAccess": "Pharmacies (farmacie) marked with green cross, widely available. Pharmacists are trained and can recommend OTC treatments. Night pharmacies rotate on a schedule posted on every pharmacy door.", "hospitalNotes": "Public hospitals provide good emergency care but can be crowded and slow. Private clinics (cliniche private) in major cities offer faster, English-speaking service. Northern Italy generally has better public healthcare than the south.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended. EU citizens should carry EHIC. Non-EU visitors will be billed for non-emergency care."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "restricted", "note": "Available OTC in low doses combined with paracetamol. Higher doses require prescription."}, {"drug": "Benzodiazepines", "status": "restricted", "note": "Prescription required. Carry original prescription and doctor's letter."}], "generalAdvice": "Most common medications available at pharmacies. Bring original packaging and prescriptions for controlled substances. Italian pharmacists are very knowledgeable and can often help with minor ailments."},
-        "scams": [{"name": "Friendship bracelet scam", "city": "Rome, Florence, Milan", "description": "Men approach you and tie a 'friendship bracelet' on your wrist, then demand €10-20 payment. They target couples and solo women near tourist sites.", "avoidance": "Keep hands in pockets near major monuments. Firmly say 'No' and walk away. Don't let anyone touch your wrist."}, {"name": "Restaurant tourist trap", "city": "Venice, Rome", "description": "Restaurants near major attractions charge €15-20 for a coffee or €50+ for a simple pasta. Menus may not show prices, or a 'coperto' (cover charge) and service charge are added.", "avoidance": "Always check the menu and prices before sitting down. Eat where locals eat — one block off the main tourist street. 'Coperto' of €1-3 is normal; more than €5 is a tourist trap."}, {"name": "Fake designer goods sellers", "city": "Florence, Rome, Naples", "description": "Street vendors sell counterfeit bags, sunglasses, etc. While buying seems harmless, Italian law fines BUYERS of counterfeit goods up to €10,000.", "avoidance": "Don't buy from street vendors. The fine applies to the buyer, not just the seller."}, {"name": "Pickpocketing on public transit", "city": "Rome (Line A metro), Naples, Milan", "description": "Professional pickpocket teams work crowded buses and metro lines, especially around Termini station in Rome. They use distraction techniques — bumping, spilling, asking questions.", "avoidance": "Use a money belt or front pocket. Keep bags zipped and in front of you on transit. Be extra vigilant on Rome Metro Line A and the 64 bus to Vatican."}],
-        "connectivity": {"simOptions": "TIM, Vodafone, or WindTre SIM cards at airport shops or tabacchi. €10-20 for 30 days with 20-50GB. eSIM via Airalo or Holafly €5-12.", "wifiAvailability": "Free WiFi at most hotels and restaurants. Public WiFi in some piazzas. Quality varies — can be slow.", "bestOption": "TIM tourist SIM (best coverage) or eSIM. Buy at the airport — tabacchi shops may require an Italian tax code."},
-        "cultural": {"tipping": "Not expected but appreciated. Round up the bill or leave €1-2 at restaurants. Coperto (cover charge) replaces the tip. No tipping at bars for coffee.", "dressCode": "Cover shoulders and knees at churches (strictly enforced at Vatican, Duomo). Smart casual for dinner — Italians dress well. Beach attire only at the beach.", "greetings": "Handshake for strangers. Friends do two cheek kisses (left then right). 'Buongiorno' until lunch, 'buonasera' after.", "taboos": ["Ordering cappuccino after 11am (it's a breakfast drink)", "Putting parmesan on seafood pasta", "Eating pizza with a knife and fork in Naples (use hands)", "Rushing meals — lunch and dinner are social events"], "haggling": "Not practiced. Prices are fixed in shops and restaurants. Only at outdoor flea markets."},
-        "phrases": [{"english": "Hello", "local": "Ciao / Buongiorno", "phonetic": "CHOW / bwon-JOOR-no"}, {"english": "Thank you", "local": "Grazie", "phonetic": "GRAH-tsee-eh"}, {"english": "Excuse me", "local": "Scusi", "phonetic": "SKOO-zee"}, {"english": "Help!", "local": "Aiuto!", "phonetic": "ah-YOO-toh"}, {"english": "Hospital", "local": "Ospedale", "phonetic": "os-peh-DAH-leh"}, {"english": "Police", "local": "Polizia", "phonetic": "poh-lee-TSEE-ah"}, {"english": "I don't understand", "local": "Non capisco", "phonetic": "non kah-PEE-sko"}, {"english": "Where is...?", "local": "Dov'è...?", "phonetic": "doh-VEH"}, {"english": "How much?", "local": "Quanto costa?", "phonetic": "KWAHN-toh KOS-tah"}, {"english": "Yes / No", "local": "Sì / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes (central/southern Italy)", "volcanic activity (Vesuvius, Etna, Stromboli)", "flooding (Venice)"], "lgbtSafety": "Legal but no same-sex marriage (civil unions since 2016). Major cities are tolerant — Rome, Milan, Bologna have active LGBTQ+ scenes. Rural south can be conservative.", "soloFemaleSafety": "Generally safe. May experience catcalling, especially in southern Italy. Avoid poorly lit areas at night. Tourist areas are well-policed.", "notes": "Italy is very safe for tourists. Main risk is petty theft — especially pickpocketing in Rome, Naples, and Florence. Violent crime against tourists is rare."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F", "L"], "voltage": "230V / 50Hz", "dialCode": "+39", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area. UK: 90 days. EU: unlimited.", "timeZone": "UTC+01:00 (CET)", "bestTimeToVisit": "April-June and September-October. July-August is hot, crowded, and many locals take vacation (some restaurants close)."}
-    },
-    "FR": {
-        "name": "France",
-        "emergency_notes": "SAMU (15) for medical, Pompiers (18) for fire also handles medical. 112 works everywhere.",
-        "embassies": [
-            {"name": "U.S. Embassy Paris", "city": "Paris", "address": "2 Avenue Gabriel, 75008 Paris", "phone": "+33-1-43-12-22-22", "emergencyPhone": "+33-1-43-12-22-22", "email": "citizeninfo@state.gov", "website": "https://fr.usembassy.gov/", "lat": 48.8683, "lng": 2.3175, "type": "embassy"},
-            {"name": "U.S. Consulate General Marseille", "city": "Marseille", "address": "Place Varian Fry, 13006 Marseille", "phone": "+33-4-91-54-92-00", "emergencyPhone": "+33-1-43-12-22-22", "email": None, "website": "https://fr.usembassy.gov/embassy-consulates/marseille/", "lat": 43.2865, "lng": 5.3698, "type": "consulate"},
-        ],
-        "healthcare": {"systemType": "Universal (Sécurité Sociale)", "qualityRating": "excellent", "walkInAccess": True, "costForTourists": "Excellent quality, often ranked #1 globally. GP visit €25-50. ER visit €100-300. Tourists pay upfront and claim back with travel insurance. EU citizens use EHIC.", "pharmacyAccess": "Pharmacies marked with green cross are everywhere. French pharmacists are highly trained — they can diagnose minor conditions and recommend treatment. Open late and on Sundays on rotation.", "hospitalNotes": "French hospitals are world-class. English-speaking staff available at major Paris hospitals (Hôpital Américain de Paris, Hôpital Européen Georges-Pompidou). Outside Paris, English may be limited.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended. France has reciprocal agreements with many countries. EU citizens use EHIC for public healthcare."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "restricted", "note": "Now prescription-only in France since 2017 (was previously OTC). Bring your own supply with prescription."}, {"drug": "Benzodiazepines", "status": "restricted", "note": "Prescription required. Carry original prescription."}], "generalAdvice": "French pharmacies are excellent. Bring prescriptions in generic/international names — French pharmacists can often provide equivalents. Most common medications available."},
-        "scams": [{"name": "Gold ring scam", "city": "Paris", "description": "Someone 'finds' a gold ring near you and offers it as a gift, then asks for money as a 'finder's fee.' The ring is worthless brass.", "avoidance": "Ignore anyone who 'finds' something near you. Walk away without engaging."}, {"name": "Petition clipboard scam", "city": "Paris (Trocadéro, Sacré-Cœur)", "description": "Groups of young people ask you to sign a petition for deaf/mute charity. While you're distracted signing, an accomplice pickpockets you. Or they demand a 'donation' after signing.", "avoidance": "Don't stop for petition-holders near tourist sites. Say 'Non merci' and keep walking."}, {"name": "Three-card Monte / shell game", "city": "Paris (Champs-Élysées, Sacré-Cœur steps)", "description": "Street gambling game where 'plants' in the audience appear to win big. You cannot win — it's sleight of hand. The crowd may include pickpockets.", "avoidance": "Never engage with street gambling. Don't even stop to watch — it makes you a pickpocket target."}, {"name": "Bracelet sellers at Sacré-Cœur", "city": "Paris (Montmartre)", "description": "Men aggressively tie string bracelets on your wrist at the steps of Sacré-Cœur and demand €5-10. They may grab your arm.", "avoidance": "Keep hands in pockets on the Sacré-Cœur steps. Firmly refuse and don't let anyone touch your hands."}],
-        "connectivity": {"simOptions": "Orange, SFR, or Free Mobile SIM at airports, tabac shops, or Free stores. €10-20 for 30 days with 20-100GB. eSIM via Airalo €5-10. Free Mobile offers excellent value.", "wifiAvailability": "Free WiFi at most cafes, restaurants, and public spaces. Paris has free WiFi in parks and public buildings. Generally reliable.", "bestOption": "Free Mobile SIM (best value) or Orange (best coverage). eSIM if your phone supports it."},
-        "cultural": {"tipping": "Service charge (service compris) is included in all restaurant bills by law. Round up or leave €1-2 for great service. No obligation to tip beyond this.", "dressCode": "Smart casual in Paris — jeans are fine but not athletic wear or flip-flops. Cover shoulders at churches. Parisians dress well; you'll stand out in shorts and sneakers.", "greetings": "La bise — cheek kiss greeting (2 in Paris, 3 or 4 in some regions). Handshake in formal settings. Always say 'Bonjour' when entering a shop — it's considered rude not to.", "taboos": ["Speaking loudly in restaurants or on public transit", "Not greeting shopkeepers with 'Bonjour' before asking anything", "Discussing money/salary openly", "Assuming everyone speaks English without first trying French"], "haggling": "Not practiced except at flea markets (marchés aux puces). Prices are fixed everywhere else."},
-        "phrases": [{"english": "Hello", "local": "Bonjour", "phonetic": "bon-ZHOOR"}, {"english": "Thank you", "local": "Merci", "phonetic": "mair-SEE"}, {"english": "Excuse me", "local": "Excusez-moi", "phonetic": "ex-koo-zay-MWAH"}, {"english": "Help!", "local": "Au secours!", "phonetic": "oh suh-KOOR"}, {"english": "Hospital", "local": "Hôpital", "phonetic": "oh-pee-TAHL"}, {"english": "Police", "local": "Police", "phonetic": "poh-LEES"}, {"english": "I don't understand", "local": "Je ne comprends pas", "phonetic": "zhuh nuh kom-PRAHN pah"}, {"english": "Where is...?", "local": "Où est...?", "phonetic": "oo EH"}, {"english": "How much?", "local": "Combien?", "phonetic": "kom-bee-EN"}, {"english": "Yes / No", "local": "Oui / Non", "phonetic": "wee / non"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["flooding", "forest fires (southern France, summer)", "avalanches (Alps)"], "lgbtSafety": "Same-sex marriage legal since 2013. Very tolerant in cities. Paris has one of the largest LGBTQ+ communities in Europe (Le Marais district). Rural areas can be more conservative.", "soloFemaleSafety": "Generally safe. Some catcalling, especially in northern Paris suburbs. Avoid RER B late at night. Tourist areas are well-policed.", "notes": "France is safe for tourists. Main risks are pickpocketing in Paris (metro, tourist sites) and occasional strikes that disrupt transportation. Avoid protests/demonstrations — they can turn confrontational."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "E"], "voltage": "230V / 50Hz", "dialCode": "+33", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area. UK: 90 days. EU: unlimited.", "timeZone": "UTC+01:00 (CET)", "bestTimeToVisit": "April-June and September-October. Paris is lovely in spring. August many Parisians leave and some shops close. Winter is cold but atmospheric."}
-    },
-    "ES": {
-        "name": "Spain",
-        "emergency_notes": "112 is the universal number and operators speak English.",
-        "embassies": [
-            {"name": "U.S. Embassy Madrid", "city": "Madrid", "address": "Calle de Serrano 75, 28006 Madrid", "phone": "+34-91-587-2200", "emergencyPhone": "+34-91-587-2200", "email": "askacs@state.gov", "website": "https://es.usembassy.gov/", "lat": 40.4320, "lng": -3.6853, "type": "embassy"},
-            {"name": "U.S. Consulate General Barcelona", "city": "Barcelona", "address": "Passeig de la Reina Elisenda de Montcada 23, 08034 Barcelona", "phone": "+34-93-280-2227", "emergencyPhone": "+34-91-587-2200", "email": None, "website": "https://es.usembassy.gov/embassy-consulates/barcelona/", "lat": 41.3952, "lng": 2.1146, "type": "consulate"},
-        ],
-        "healthcare": {"systemType": "Universal (Sistema Nacional de Salud)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "EU citizens use EHIC for public care. Non-EU tourists: ER €100-400, private clinic €50-100 for consultation. Public hospitals treat emergencies regardless of insurance.", "pharmacyAccess": "Farmacias with green cross, one per neighborhood. 24-hour pharmacies (farmacias de guardia) in every city. Pharmacists can recommend treatments for minor conditions.", "hospitalNotes": "Good public hospitals in major cities. Private hospitals (Quirónsalud, HM Hospitales) offer faster service with English-speaking staff. Rural healthcare is adequate but slower.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended for non-EU visitors. EU citizens should carry EHIC."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "restricted", "note": "Prescription-only. Available only with a Spanish or EU prescription."}], "generalAdvice": "Spanish pharmacies are excellent and pharmacists highly trained. Most medications available. Bring prescriptions for any controlled substances."},
-        "scams": [{"name": "La Rambla pickpocketing", "city": "Barcelona", "description": "Professional pickpocket teams target tourists on La Rambla, in the Gothic Quarter, and on the metro. Techniques include bumping, distraction with maps, and fake bird droppings.", "avoidance": "Use money belt. Keep bags zipped and in front. Be extra vigilant in crowds. Don't leave phones on cafe tables."}, {"name": "Fake police officers", "city": "Madrid, Barcelona", "description": "People in fake police uniforms approach tourists saying they need to check your wallet for counterfeit bills. They pocket some bills during 'inspection.'", "avoidance": "Real police never ask to see your wallet. Ask for ID and say you'll walk to the nearest police station."}, {"name": "Beach theft", "city": "Barcelona (Barceloneta), Malaga", "description": "Thieves steal bags and valuables from beach-goers while they swim. Sometimes someone 'watches' your stuff and disappears with it.", "avoidance": "Only bring what you can take in the water. Use a waterproof phone pouch. Never leave valuables unattended on the beach."}],
-        "connectivity": {"simOptions": "Movistar, Vodafone, or Orange SIM at airports and phone shops. €10-15 for 30 days with 10-20GB. eSIM via Airalo €5-10. Lycamobile for budget option.", "wifiAvailability": "Free WiFi at most hotels, restaurants, and cafes. Many public spaces have WiFi. Generally good quality in cities.", "bestOption": "Movistar or Orange SIM. eSIM works well throughout Spain."},
-        "cultural": {"tipping": "Not expected. Locals might leave small change (€1-2) at restaurants. More common at upscale restaurants (5-10%). No tipping at bars for drinks.", "dressCode": "Casual but neat. Cover shoulders at churches. Beachwear only at the beach. Spaniards dress up more for dinner than Americans.", "greetings": "Two cheek kisses (right then left) for friends and introductions. Handshake in formal settings. 'Hola' or 'Buenos días.'", "taboos": ["Eating dinner before 9pm (restaurants may not be open)", "Being punctual (arriving 15-30 min late is normal socially)", "Disrespecting the siesta tradition (2-5pm many shops close)", "Comparing regions — Catalans, Basques, etc. have strong identities"], "haggling": "Not practiced in shops or restaurants. Only at flea markets (El Rastro in Madrid)."},
-        "phrases": [{"english": "Hello", "local": "Hola", "phonetic": "OH-lah"}, {"english": "Thank you", "local": "Gracias", "phonetic": "GRAH-thee-ahs (Spain) / GRAH-see-ahs (Latin America)"}, {"english": "Excuse me", "local": "Perdone", "phonetic": "pair-DOH-neh"}, {"english": "Help!", "local": "¡Socorro!", "phonetic": "soh-KOH-roh"}, {"english": "Hospital", "local": "Hospital", "phonetic": "ohs-pee-TAHL"}, {"english": "Police", "local": "Policía", "phonetic": "poh-lee-THEE-ah"}, {"english": "I don't understand", "local": "No entiendo", "phonetic": "no en-tee-EN-doh"}, {"english": "Where is...?", "local": "¿Dónde está...?", "phonetic": "DOHN-deh es-TAH"}, {"english": "How much?", "local": "¿Cuánto cuesta?", "phonetic": "KWAHN-toh KWES-tah"}, {"english": "Yes / No", "local": "Sí / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["forest fires (summer)", "flooding (Mediterranean coast, autumn)"], "lgbtSafety": "Same-sex marriage legal since 2005 — one of the first countries. Very tolerant. Madrid and Barcelona have vibrant LGBTQ+ scenes (Chueca district in Madrid).", "soloFemaleSafety": "Very safe. Spain is one of the safest European countries for solo female travelers. Normal urban precautions apply.", "notes": "Spain is very safe. Biggest risk by far is petty theft — pickpocketing in Barcelona is legendary. Violent crime against tourists is extremely rare."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "230V / 50Hz", "dialCode": "+34", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area. UK: 90 days. EU: unlimited.", "timeZone": "UTC+01:00 (CET)", "bestTimeToVisit": "April-June and September-October. July-August is extremely hot inland (40°C+). Winter is mild on the coast."}
-    },
-    "PT": {
-        "name": "Portugal",
-        "emergency_notes": "112 is the universal number. Operators speak English.",
-        "embassies": [{"name": "U.S. Embassy Lisbon", "city": "Lisbon", "address": "Avenida das Forças Armadas, 1600-081 Lisbon", "phone": "+351-21-727-3300", "emergencyPhone": "+351-21-727-3300", "email": "conslisbon@state.gov", "website": "https://pt.usembassy.gov/", "lat": 38.7508, "lng": -9.1595, "type": "embassy"}],
-        "healthcare": {"systemType": "Universal (Serviço Nacional de Saúde)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "EU citizens use EHIC. Non-EU: ER €50-200, private clinic €40-80. Public system is good but can have long waits. Private clinics are affordable by Western standards.", "pharmacyAccess": "Pharmacies (farmácias) well-distributed. Pharmacists are knowledgeable. Some medications available without prescription that would require one elsewhere.", "hospitalNotes": "Hospital da Luz and CUF in Lisbon are excellent private options. Public hospitals handle emergencies well. Algarve tourist areas have adequate facilities.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended for non-EU visitors."},
-        "medications": {"controlledSubstances": [{"drug": "All drugs (personal use)", "status": "decriminalized", "note": "Portugal decriminalized personal possession of all drugs in 2001. Possession of small amounts (10-day supply) is not criminal but may result in a referral to a 'dissuasion commission.' Trafficking remains illegal."}], "generalAdvice": "Portugal has progressive drug policies. However, don't mistake decriminalization for legalization — buying and selling is still illegal. Prescription medications: bring original packaging and prescriptions."},
-        "scams": [{"name": "Tuk-tuk overcharging", "city": "Lisbon", "description": "Tuk-tuk drivers in Alfama and Bairro Alto charge €50-80 for short rides through the old town. No meters.", "avoidance": "Agree on price before getting in. A 30-minute tour should be €20-30 max. Use Bolt or Uber for transportation instead."}, {"name": "Drug dealers in Bairro Alto/Rossio", "city": "Lisbon", "description": "Street dealers approach tourists offering drugs (often fake) in nightlife areas. Some work with pickpockets who steal from distracted buyers.", "avoidance": "Ignore and walk away. Don't engage in conversation."}, {"name": "Fake restaurant reviews luring tourists", "city": "Lisbon, Porto", "description": "Restaurants near tourist sites with aggressive touts and inflated prices. Some have staff standing outside waving menus.", "avoidance": "Avoid restaurants where someone is trying to pull you in from the street. Walk one block off the main tourist streets for better food and prices."}],
-        "connectivity": {"simOptions": "MEO, NOS, or Vodafone SIM at airports or stores. €10-15 for 30 days. eSIM via Airalo €5-8.", "wifiAvailability": "Excellent free WiFi throughout Lisbon and Porto — cafes, restaurants, public spaces. Portugal has great internet infrastructure.", "bestOption": "WiFi is so good in Portugal you might not need a SIM. eSIM as backup."},
-        "cultural": {"tipping": "Not expected. Rounding up the bill or leaving 5-10% for good service is appreciated. No obligation.", "dressCode": "Casual. Cover shoulders at churches. Lisbon is hilly — wear comfortable shoes. Beachwear at the beach only.", "greetings": "Two cheek kisses for friends (women). Handshake for men. 'Olá' or 'Bom dia' (morning) / 'Boa tarde' (afternoon).", "taboos": ["Comparing Portugal to Spain (they're proud of their distinct identity)", "Speaking Spanish and assuming they'll understand (try Portuguese first)", "Rushing meals", "Disrespecting fado music traditions"], "haggling": "Not common. Only at flea markets (Feira da Ladra in Lisbon)."},
-        "phrases": [{"english": "Hello", "local": "Olá", "phonetic": "oh-LAH"}, {"english": "Thank you", "local": "Obrigado/Obrigada", "phonetic": "oh-bree-GAH-doo (male) / oh-bree-GAH-dah (female)"}, {"english": "Excuse me", "local": "Desculpe", "phonetic": "desh-KOOL-peh"}, {"english": "Help!", "local": "Socorro!", "phonetic": "soh-KOH-roo"}, {"english": "Hospital", "local": "Hospital", "phonetic": "osh-pee-TAHL"}, {"english": "Police", "local": "Polícia", "phonetic": "poh-LEE-see-ah"}, {"english": "I don't understand", "local": "Não entendo", "phonetic": "now en-TEN-doo"}, {"english": "Where is...?", "local": "Onde é...?", "phonetic": "OHN-deh EH"}, {"english": "How much?", "local": "Quanto custa?", "phonetic": "KWAHN-too KOOSH-tah"}, {"english": "Yes / No", "local": "Sim / Não", "phonetic": "seem / now"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "low", "naturalDisasters": ["earthquakes (rare but possible)", "forest fires (summer)"], "lgbtSafety": "Same-sex marriage legal since 2010. Very tolerant. Lisbon has a growing LGBTQ+ scene.", "soloFemaleSafety": "Very safe. One of the safest countries in Europe for solo female travelers.", "notes": "Portugal is one of the safest countries in Europe. Petty theft exists in tourist areas of Lisbon (Tram 28, Bairro Alto) but violent crime is very rare."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "230V / 50Hz", "dialCode": "+351", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area.", "timeZone": "UTC+00:00 (WET)", "bestTimeToVisit": "April-October. Best weather June-September. Spring is beautiful and less crowded."}
-    },
-    "GR": {
-        "name": "Greece",
-        "emergency_notes": "112 is universal. Tourist police: 171.",
-        "embassies": [{"name": "U.S. Embassy Athens", "city": "Athens", "address": "91 Vasilissis Sofias Avenue, 10160 Athens", "phone": "+30-210-721-2951", "emergencyPhone": "+30-210-721-2951", "email": "athensamericancitizenservices@state.gov", "website": "https://gr.usembassy.gov/", "lat": 37.9756, "lng": 23.7466, "type": "embassy"}],
-        "healthcare": {"systemType": "Universal (ESY/EOPYY)", "qualityRating": "moderate", "walkInAccess": True, "costForTourists": "EU citizens use EHIC. Non-EU: public ER treated but billed later. Private clinics €40-100 for consultation. Island healthcare is limited — serious cases evacuated to Athens.", "pharmacyAccess": "Pharmacies (farmakeio) widely available. Marked with green cross. Can dispense some medications without prescription. Hours vary — closed Sunday and Wednesday afternoon.", "hospitalNotes": "Athens has good hospitals (Hygeia, Metropolitan). Island healthcare is basic — small health centers (kentro ygeias) handle minor issues. Serious emergencies require helicopter evacuation to Athens. Santorini and Mykonos have small hospitals.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance essential, especially for island travel — helicopter evacuation is expensive."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "banned", "note": "Codeine is illegal in Greece even with a prescription. Do not bring any codeine-containing medications (including co-codamol, Tylenol #3)."}, {"drug": "Some cold medicines", "status": "restricted", "note": "Medications containing codeine or certain decongestants may be prohibited. Check specific medications before travel."}], "generalAdvice": "Greece has strict rules on codeine — this catches many British and American travelers off guard. Bring a doctor's letter for all prescription medications. Use generic names as brand names differ."},
-        "scams": [{"name": "Overpriced taxis from airport", "city": "Athens", "description": "Taxi drivers take longer routes or 'forget' to start the meter from Athens airport. Standard fare to city center is fixed at €38 (day) / €54 (night).", "avoidance": "Know the fixed airport fare. Insist on the meter for other routes. Use Uber/Beat app."}, {"name": "Drink price bait-and-switch", "city": "Athens (Plaka, Syntagma)", "description": "Bars offer free drinks or cheap prices to lure you in. The bill includes hidden charges — €20 per drink, 'entertainment tax,' mandatory tips.", "avoidance": "Check prices on the menu before ordering. Avoid bars with aggressive touts, especially around Syntagma Square."}, {"name": "Souvenir shop overcharging", "city": "Santorini, Mykonos", "description": "Tourist shops on islands charge 3-5x mainland prices for the same items. 'Authentic' olive oil or sponges at inflated prices.", "avoidance": "Compare prices across multiple shops. Buy souvenirs in Athens or smaller towns instead of Santorini/Mykonos."}],
-        "connectivity": {"simOptions": "Cosmote (best coverage), Vodafone, or Wind SIM at airports or stores. €10-15 for 30 days. eSIM via Airalo. Cosmote has best island coverage.", "wifiAvailability": "Free WiFi at most hotels and restaurants. Island WiFi can be slow. Some ferries have WiFi.", "bestOption": "Cosmote SIM for best coverage, especially on islands."},
-        "cultural": {"tipping": "Round up the bill or leave 5-10%. Tavernas: leave change. Taxis: round up.", "dressCode": "Casual. Cover shoulders and knees at monasteries and churches (strictly enforced). Beachwear at the beach only — Greeks dress up for dinner.", "greetings": "Handshake. Close friends: embrace and cheek kisses. 'Yia sas' (formal) or 'Yia sou' (informal).", "taboos": ["Showing the palm of your hand with fingers spread (moutza gesture — very offensive)", "Confusing Greeks with Turks", "Not haggling at markets but also not haggling at restaurants", "Rushing through meals"], "haggling": "Acceptable at markets and some souvenir shops. Not at restaurants or fixed-price shops."},
-        "phrases": [{"english": "Hello", "local": "Γεια σας (Yia sas)", "phonetic": "YAH-sahs"}, {"english": "Thank you", "local": "Ευχαριστώ (Efcharistó)", "phonetic": "ef-hah-ree-STOH"}, {"english": "Excuse me", "local": "Συγνώμη (Signómi)", "phonetic": "see-GNOH-mee"}, {"english": "Help!", "local": "Βοήθεια! (Voítheia!)", "phonetic": "voh-EE-thee-ah"}, {"english": "Hospital", "local": "Νοσοκομείο (Nosokomío)", "phonetic": "noh-soh-koh-MEE-oh"}, {"english": "Police", "local": "Αστυνομία (Astinomía)", "phonetic": "ah-stee-noh-MEE-ah"}, {"english": "I don't understand", "local": "Δεν καταλαβαίνω (Den katalavéno)", "phonetic": "then kah-tah-lah-VEH-noh"}, {"english": "Where is...?", "local": "Πού είναι...? (Poú íne...?)", "phonetic": "POO EE-neh"}, {"english": "How much?", "local": "Πόσο κάνει; (Póso káni?)", "phonetic": "POH-soh KAH-nee"}, {"english": "Yes / No", "local": "Ναι / Όχι (Ne / Óchi)", "phonetic": "neh / OH-hee"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "wildfires (summer)", "extreme heat (summer)"], "lgbtSafety": "Same-sex marriage legalized in 2024. Athens is tolerant; islands are generally welcoming. Rural mainland can be more conservative.", "soloFemaleSafety": "Very safe. Greece is welcoming to solo female travelers. Islands are particularly safe.", "notes": "Greece is very safe for tourists. Main risk is petty theft in Athens (Monastiraki, metro). Summer heat can be extreme — stay hydrated. Island medical facilities are limited."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "230V / 50Hz", "dialCode": "+30", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area.", "timeZone": "UTC+02:00 (EET)", "bestTimeToVisit": "May-June and September-October. July-August is peak season — hot, crowded, expensive. Shoulder season has great weather and fewer tourists."}
-    },
-    "GB": {
-        "name": "United Kingdom", "emergency_notes": "999 or 112 — both work for all services.",
-        "embassies": [{"name": "U.S. Embassy London", "city": "London", "address": "33 Nine Elms Lane, London SW11 7US", "phone": "+44-20-7499-9000", "emergencyPhone": "+44-20-7499-9000", "email": None, "website": "https://uk.usembassy.gov/", "lat": 51.4815, "lng": -0.1349, "type": "embassy"}, {"name": "U.S. Consulate General Edinburgh", "city": "Edinburgh", "address": "3 Regent Terrace, Edinburgh EH7 5BW", "phone": "+44-131-556-8315", "emergencyPhone": "+44-20-7499-9000", "email": None, "website": "https://uk.usembassy.gov/embassy-consulates/edinburgh/", "lat": 55.9547, "lng": -3.1810, "type": "consulate"}],
-        "healthcare": {"systemType": "Universal (NHS)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "Emergency treatment at A&E (ER) is free for everyone. Non-emergency GP visits and prescriptions are charged to non-UK residents. Walk-in centres handle minor issues. Private clinics £80-150 for consultation.", "pharmacyAccess": "Boots and Lloyds pharmacies everywhere. Pharmacists can provide advice and sell many OTC medications. Some medications that require prescriptions in the US are OTC in the UK (e.g., stronger pain relief).", "hospitalNotes": "NHS hospitals provide good emergency care. Wait times can be long for non-emergencies. Private hospitals (Bupa, HCA) offer faster service but are expensive. London has excellent specialist hospitals.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Emergency A&E is free. Travel insurance recommended for non-emergency care, dental, and repatriation."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "available", "note": "Low-dose codeine (co-codamol, Nurofen Plus) available OTC at pharmacies."}, {"drug": "CBD products", "status": "legal", "note": "CBD products legal if they contain less than 0.2% THC. Available in health food shops."}], "generalAdvice": "The UK is relatively relaxed on medications. Bring prescriptions for controlled substances. Many common medications available OTC at pharmacies that would require prescriptions in the US."},
-        "scams": [{"name": "Card skimming at tourist ATMs", "city": "London", "description": "ATMs near tourist sites may have skimming devices. Also, currency conversion ATMs offer poor exchange rates.", "avoidance": "Use ATMs inside banks. Always choose to be charged in local currency (GBP), not USD."}, {"name": "Fake ticket sellers", "city": "London", "description": "Touts outside West End theatres and sporting events sell fake or overpriced tickets.", "avoidance": "Only buy from official box offices or authorized resellers (TKTS booth in Leicester Square for discounted theatre tickets)."}, {"name": "Unlicensed minicabs", "city": "London", "description": "Unlicensed cars offer rides outside clubs and bars late at night. Safety risk — some involve robbery.", "avoidance": "Only use black cabs (can be hailed) or pre-booked minicabs via apps (Uber, Bolt, Free Now). Licensed minicabs cannot be hailed on the street."}],
-        "connectivity": {"simOptions": "Three, EE, or Vodafone SIM at airports and high-street shops. £10-15 for 30 days. eSIM via Airalo. Three and EE have excellent UK coverage.", "wifiAvailability": "Free WiFi widely available — cafes, pubs, restaurants, trains, the Tube (in stations). Very reliable.", "bestOption": "Three SIM (great value, includes roaming in 71 countries) or eSIM."},
-        "cultural": {"tipping": "10-12.5% at restaurants if service charge not included (check the bill). £1 per drink at bars is generous. Black cab drivers: round up. Not expected at pubs or for counter service.", "dressCode": "Casual but Brits dress smartly for dinner, theatre, and pubs on weekends. No dress code for most venues. Smart casual covers most situations.", "greetings": "Handshake for first meetings. Friends may hug. 'Alright?' is a greeting, not a question — respond with 'Alright' or 'Good, thanks.'", "taboos": ["Queue-jumping (the cardinal sin)", "Being overly loud or enthusiastic (keep volume down)", "Asking how much someone earns", "Confusing England with Britain, or Scotland with England"], "haggling": "Not practiced. Only at car boot sales and some markets."},
-        "phrases": [{"english": "Hello", "local": "Hello / Hiya / Alright?", "phonetic": "heh-LOH / HY-ah / all-RIGHT"}, {"english": "Thank you", "local": "Cheers / Ta", "phonetic": "cheerz / tah"}, {"english": "Excuse me", "local": "Sorry / Excuse me", "phonetic": "SOR-ee"}, {"english": "Help!", "local": "Help!", "phonetic": "help"}, {"english": "Hospital", "local": "Hospital / A&E", "phonetic": "AY-and-EE"}, {"english": "Police", "local": "Police", "phonetic": "poh-LEES"}, {"english": "Toilet (essential!)", "local": "Loo / Toilet / WC", "phonetic": "loo"}, {"english": "Where is...?", "local": "Where's the...?", "phonetic": "wairz thuh"}, {"english": "How much?", "local": "How much is it?", "phonetic": "how much iz it"}, {"english": "Yes / No", "local": "Yeah / Nah", "phonetic": "yeh / nah"}],
-        "safety": {"overallRisk": "low", "violentCrime": "low", "pettyCrime": "moderate", "naturalDisasters": ["flooding", "winter storms"], "lgbtSafety": "Same-sex marriage legal. Very tolerant. London has one of the world's largest LGBTQ+ communities (Soho). Other major cities are welcoming.", "soloFemaleSafety": "Generally safe. Normal urban precautions at night. Well-lit, well-policed city centers.", "notes": "The UK is safe for tourists. Pickpocketing in London tourist areas and late-night antisocial behavior in city centers after pubs close are the main concerns. Knife crime exists but rarely affects tourist areas."},
-        "practical": {"tapWater": True, "drivingSide": "left", "plugType": ["G"], "voltage": "230V / 50Hz", "dialCode": "+44", "visaFreeCountries": "US citizens: 6 months visa-free. EU citizens: pre-settled/settled status or ETA required post-Brexit.", "timeZone": "UTC+00:00 (GMT)", "bestTimeToVisit": "May-September for best weather. June-August warmest. December for Christmas markets. Rain is possible year-round — bring layers."}
-    },
-    "DE": {
-        "name": "Germany", "emergency_notes": "112 for fire/medical, 110 for police.",
-        "embassies": [{"name": "U.S. Embassy Berlin", "city": "Berlin", "address": "Pariser Platz 2, 10117 Berlin", "phone": "+49-30-8305-0", "emergencyPhone": "+49-30-8305-0", "email": None, "website": "https://de.usembassy.gov/", "lat": 52.5163, "lng": 13.3810, "type": "embassy"}, {"name": "U.S. Consulate General Munich", "city": "Munich", "address": "Königinstrasse 5, 80539 Munich", "phone": "+49-89-28880", "emergencyPhone": "+49-30-8305-0", "email": None, "website": "https://de.usembassy.gov/embassy-consulates/munich/", "lat": 48.1536, "lng": 11.5859, "type": "consulate"}, {"name": "U.S. Consulate General Frankfurt", "city": "Frankfurt", "address": "Gießener Str. 30, 60435 Frankfurt", "phone": "+49-69-7535-0", "emergencyPhone": "+49-30-8305-0", "email": None, "website": "https://de.usembassy.gov/embassy-consulates/frankfurt/", "lat": 50.1406, "lng": 8.6879, "type": "consulate"}],
-        "healthcare": {"systemType": "Universal (Gesetzliche Krankenversicherung)", "qualityRating": "excellent", "walkInAccess": True, "costForTourists": "Excellent quality. EU citizens use EHIC. Non-EU: doctor visit €50-100, ER €100-500. Germany has one of the world's best healthcare systems.", "pharmacyAccess": "Apotheke (pharmacy) marked with red 'A'. Highly regulated — pharmacists are very knowledgeable. Many OTC medications require going to the pharmacy counter. 24-hour emergency pharmacies rotate.", "hospitalNotes": "Excellent hospitals everywhere. German healthcare is renowned. Most doctors speak English, especially in cities. University hospitals (Universitätskliniken) are particularly good.", "vaccinationsRecommended": ["Routine", "Tick-borne encephalitis (if hiking in southern forests)"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended for non-EU visitors. EU citizens use EHIC."},
-        "medications": {"controlledSubstances": [{"drug": "Benzodiazepines", "status": "restricted", "note": "Prescription-only. Carry original prescription."}, {"drug": "Strong painkillers", "status": "restricted", "note": "Opioid medications require a German or EU prescription. Carry documentation for personal use."}], "generalAdvice": "Germany is strict about prescription medications — carry documentation. German pharmacies are excellent but more regulated than US pharmacies. Ibuprofen and basic pain relief available OTC."},
-        "scams": [{"name": "Fake charity workers / clipboard", "city": "Berlin, Munich", "description": "People with clipboards approach tourists claiming to collect for charities. Some pickpocket while you're distracted.", "avoidance": "Politely decline. Legitimate charities don't solicit on the street this way."}, {"name": "Pub crawl overcharging", "city": "Berlin, Munich", "description": "Pub crawl organizers charge €15-25 then take you to bars that serve watered-down drinks. Additional drinks are overpriced.", "avoidance": "Research bars independently. If doing a pub crawl, use a reputable company with good reviews."}, {"name": "Fake Oktoberfest tickets", "city": "Munich", "description": "Scalpers sell fake or overpriced tickets to beer tents during Oktoberfest. Regular tent entry is actually free.", "avoidance": "Beer tent entry is free (no tickets needed). Arrive early for seats. Only reserve tables directly through the tent's website."}],
-        "connectivity": {"simOptions": "Telekom, Vodafone, or O2 SIM at airports or electronics stores. €10-15 for 30 days. Aldi Talk is a great budget option (available at Aldi supermarkets). eSIM via Airalo.", "wifiAvailability": "Free WiFi at most cafes and restaurants. German WiFi was historically limited due to liability laws (Störerhaftung) but has improved significantly. Hotels always have WiFi.", "bestOption": "Aldi Talk SIM (best value) or Telekom (best coverage). eSIM works well."},
-        "cultural": {"tipping": "Round up the bill or add 5-10%. Tell the server the total you want to pay when they bring the bill — don't leave money on the table.", "dressCode": "Smart casual. Germans dress practically and well. Lederhosen only at Oktoberfest in Bavaria. Cover up at churches.", "greetings": "Firm handshake. 'Guten Tag' (hello). Use 'Sie' (formal you) until invited to use 'du' (informal). Germans value punctuality highly.", "taboos": ["Being late (punctuality is sacred)", "Jaywalking (Germans will correct you)", "Making Nazi jokes or salutes (illegal and deeply offensive)", "Being loud or rowdy in residential areas after 10pm (Ruhezeit)"], "haggling": "Not practiced. Germany is a fixed-price culture. Only at flea markets."},
-        "phrases": [{"english": "Hello", "local": "Guten Tag", "phonetic": "GOO-ten tahg"}, {"english": "Thank you", "local": "Danke", "phonetic": "DAHN-kuh"}, {"english": "Excuse me", "local": "Entschuldigung", "phonetic": "ent-SHOOL-dee-goong"}, {"english": "Help!", "local": "Hilfe!", "phonetic": "HILL-fuh"}, {"english": "Hospital", "local": "Krankenhaus", "phonetic": "KRAN-ken-house"}, {"english": "Police", "local": "Polizei", "phonetic": "poh-lee-TSAI"}, {"english": "I don't understand", "local": "Ich verstehe nicht", "phonetic": "ikh fer-SHTAY-uh nikht"}, {"english": "Where is...?", "local": "Wo ist...?", "phonetic": "voh ist"}, {"english": "How much?", "local": "Wie viel kostet das?", "phonetic": "vee feel KOS-tet dahs"}, {"english": "Yes / No", "local": "Ja / Nein", "phonetic": "yah / nine"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "low", "naturalDisasters": ["flooding (river valleys)", "winter storms"], "lgbtSafety": "Same-sex marriage legal since 2017. Very tolerant in cities. Berlin is one of Europe's most LGBTQ+-friendly cities. Cologne also has a major Pride scene.", "soloFemaleSafety": "Very safe. Germany is one of the safest countries in Europe for solo travelers.", "notes": "Germany is very safe. Pickpocketing at train stations and tourist areas is the main concern. Violent crime against tourists is extremely rare."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "230V / 50Hz", "dialCode": "+49", "visaFreeCountries": "US citizens: 90 days visa-free in Schengen area.", "timeZone": "UTC+01:00 (CET)", "bestTimeToVisit": "May-September for warmth. December for Christmas markets. Oktoberfest in late September-early October."}
-    },
-    "CR": {
-        "name": "Costa Rica", "emergency_notes": "911 for all emergencies.",
-        "embassies": [{"name": "U.S. Embassy San José", "city": "San José", "address": "Calle 98 Vía 104, Pavas, San José", "phone": "+506-2519-2000", "emergencyPhone": "+506-2519-2000", "email": "acssanjose@state.gov", "website": "https://cr.usembassy.gov/", "lat": 9.9365, "lng": -84.1119, "type": "embassy"}],
-        "healthcare": {"systemType": "Universal (CCSS/Caja)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "Costa Rica is a medical tourism destination. Private hospitals are excellent and affordable. Clinic visit $50-100. ER $100-300. Private hospital (CIMA, Clinica Biblica) comparable to US quality at 30-50% of the cost.", "pharmacyAccess": "Pharmacies (farmacias) common in towns. Many medications available without prescription. Rural areas have limited pharmacy access.", "hospitalNotes": "San José has excellent private hospitals (CIMA, Clinica Biblica). Outside the Central Valley, medical facilities are basic. Remote beach and rainforest areas require evacuation for serious injuries.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Typhoid"], "malariaRisk": False, "insuranceAdvice": "Travel insurance essential, especially for adventure activities (zip-lining, surfing). Medical evacuation coverage recommended if visiting remote areas."},
-        "medications": {"controlledSubstances": [{"drug": "Pseudoephedrine", "status": "restricted", "note": "Some cold medicines with pseudoephedrine may be restricted. Bring original packaging."}], "generalAdvice": "Costa Rica's pharmacies are well-stocked. Many medications available OTC. Bring prescriptions for controlled substances."},
-        "scams": [{"name": "Rental car tire slash", "city": "San José, near airport", "description": "Someone slashes your rental car tire near the airport or at a gas station. When you stop to change it, an accomplice steals bags from the car.", "avoidance": "If you get a flat near the airport, drive slowly to the nearest gas station before stopping. Never leave bags visible in the car."}, {"name": "Fake tour operators", "city": "Manuel Antonio, Monteverde", "description": "Unlicensed guides offer cheaper tours that cut safety corners. Some tours are outright scams — payment taken, no tour delivered.", "avoidance": "Book tours through your hotel or established operators with TripAdvisor reviews. Check for ICT (tourism board) certification."}, {"name": "Beach theft", "city": "Manuel Antonio, Tamarindo, Jacó", "description": "Theft from unattended belongings at beaches, including from locked cars in parking lots.", "avoidance": "Use hotel safes. Don't bring valuables to the beach. Use paid guarded parking lots."}],
-        "connectivity": {"simOptions": "Kölbi (ICE), Movistar, or Claro SIM at airports. $5-15 for 30 days. eSIM via Airalo. Kölbi has best national coverage.", "wifiAvailability": "Free WiFi at most hotels, restaurants, and cafes. Rural and rainforest areas may have limited connectivity.", "bestOption": "Kölbi SIM for best coverage, including rural areas."},
-        "cultural": {"tipping": "Restaurants add 10% service charge (servicio) automatically. Extra tip not required but appreciated. Tour guides: $5-10/person. Taxi drivers: not expected.", "dressCode": "Very casual. T-shirts and shorts are fine everywhere except upscale restaurants in San José. Bring rain gear.", "greetings": "'Pura vida' (pure life) is the national greeting, response, and philosophy. Used for hello, goodbye, thank you, and 'how are you?' Handshakes and cheek kisses.", "taboos": ["Being negative or complaining (not the 'pura vida' way)", "Littering (Costa Ricans are proud of their environment)", "Calling someone 'tico' in a condescending way"], "haggling": "Not common. Fixed prices at most places. Some negotiation possible at souvenir markets."},
-        "phrases": [{"english": "Hello", "local": "¡Hola! / ¡Pura vida!", "phonetic": "OH-lah / POO-rah VEE-dah"}, {"english": "Thank you", "local": "Gracias / Pura vida", "phonetic": "GRAH-see-ahs"}, {"english": "Excuse me", "local": "Disculpe", "phonetic": "dees-KOOL-peh"}, {"english": "Help!", "local": "¡Ayuda!", "phonetic": "ah-YOO-dah"}, {"english": "Hospital", "local": "Hospital", "phonetic": "ohs-pee-TAHL"}, {"english": "Police", "local": "Policía", "phonetic": "poh-lee-SEE-ah"}, {"english": "I don't understand", "local": "No entiendo", "phonetic": "no en-tee-EN-doh"}, {"english": "Where is...?", "local": "¿Dónde está...?", "phonetic": "DOHN-deh es-TAH"}, {"english": "How much?", "local": "¿Cuánto cuesta?", "phonetic": "KWAHN-toh KWES-tah"}, {"english": "Yes / No", "local": "Sí / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "low", "violentCrime": "low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "volcanic eruptions", "flooding (rainy season)", "riptides"], "lgbtSafety": "Same-sex marriage legal since 2020 — first in Central America. San José is welcoming. Rural areas more conservative but generally tolerant.", "soloFemaleSafety": "Generally safe. Exercise caution in San José at night. Tourist areas and beach towns are safe. Use ride-hailing apps.", "notes": "Costa Rica is one of the safest countries in Central America. Biggest risk is petty theft — car break-ins at beaches and tourist areas. Riptides are a serious danger at Pacific beaches."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["A", "B"], "voltage": "120V / 60Hz", "dialCode": "+506", "visaFreeCountries": "US citizens: 90 days visa-free.", "timeZone": "UTC-06:00", "bestTimeToVisit": "December-April (dry season). Green season (May-November) has lower prices and fewer crowds but afternoon rain."}
-    },
-    "CO": {
-        "name": "Colombia", "emergency_notes": "123 for all emergencies. Tourist police: 112.",
-        "embassies": [{"name": "U.S. Embassy Bogotá", "city": "Bogotá", "address": "Calle 24 Bis No. 48-50, Bogotá", "phone": "+57-1-275-2000", "emergencyPhone": "+57-1-275-2000", "email": "ACSBogota@state.gov", "website": "https://co.usembassy.gov/", "lat": 4.6418, "lng": -74.0929, "type": "embassy"}],
-        "healthcare": {"systemType": "Mixed public/private (EPS system)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "Private healthcare is excellent and affordable. Clinic visit $20-50. ER $50-200. Colombia is a growing medical tourism destination. Medellín and Bogotá have world-class private hospitals.", "pharmacyAccess": "Droguerías everywhere (chains like Drogas La Rebaja, Cruz Verde). Many medications available without prescription. Very affordable.", "hospitalNotes": "Fundación Santa Fe (Bogotá), Clínica Las Américas (Medellín) are excellent. Cartagena has adequate private facilities. Rural and small-town healthcare is limited.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Typhoid", "Yellow Fever (required for some regions)"], "malariaRisk": True, "insuranceAdvice": "Travel insurance recommended. Very affordable private healthcare but evacuation insurance important for remote areas."},
-        "medications": {"controlledSubstances": [{"drug": "Pseudoephedrine", "status": "restricted", "note": "Restricted due to narcotics precursor laws."}, {"drug": "CBD / cannabis", "status": "legal", "note": "Medical cannabis is legal. CBD products widely available. Recreational use decriminalized in small amounts."}], "generalAdvice": "Colombian pharmacies are well-stocked and affordable. Bring prescriptions for controlled substances. Many common medications available OTC."},
-        "scams": [{"name": "Scopolamine drugging", "city": "Bogotá, Medellín", "description": "Criminals use scopolamine (burundanga) to incapacitate victims — administered through drinks, food, or blown in face. Victims are robbed or led to ATMs while in a zombie-like state.", "avoidance": "Never accept food, drinks, cigarettes, or papers from strangers. Don't leave drinks unattended. This is the most dangerous scam in Colombia."}, {"name": "Fake police checks", "city": "Bogotá", "description": "People posing as plainclothes police ask to inspect your wallet or passport. They steal money during the 'inspection.'", "avoidance": "Real police wear uniforms with badge numbers. Ask to see ID and suggest walking to the nearest police station. Never hand over your wallet."}, {"name": "Taxi overcharging / express kidnapping", "city": "Bogotá", "description": "Unlicensed taxis overcharge or in rare cases conduct 'paseo millonario' — forced ATM withdrawals.", "avoidance": "Always use Uber, DiDi, or InDriver. Never hail taxis on the street in Bogotá. If you must use a taxi, use authorized ones from malls or hotels."}, {"name": "WhatsApp 'friend' scam", "city": "Cartagena, Santa Marta", "description": "Friendly locals exchange WhatsApp numbers and invite you to a party or bar. You're drugged and robbed.", "avoidance": "Be cautious of overly friendly strangers, especially in nightlife settings. Go out in groups."}],
-        "connectivity": {"simOptions": "Claro (best coverage), Movistar, or Tigo SIM at airports. $5-10 for 30 days. eSIM via Airalo. Claro has the best nationwide coverage.", "wifiAvailability": "Free WiFi at most hotels, cafes, and restaurants in cities. Good quality in Bogotá, Medellín, Cartagena. Rural areas limited.", "bestOption": "Claro SIM for best coverage."},
-        "cultural": {"tipping": "10% propina voluntaria usually added to restaurant bills — you can decline. Additional tip appreciated for great service. Tour guides: $5-10.", "dressCode": "Casual in coastal cities (Cartagena, Santa Marta). More formal in Bogotá (paisas dress smartly). Cover up at churches.", "greetings": "Cheek kiss for women (one kiss). Handshake for men. Colombians are very warm and physical. 'Buenos días/tardes/noches.'", "taboos": ["Drug/narco jokes (deeply offensive — Colombians are tired of the stereotype)", "Calling Colombian coffee inferior", "Being impatient (relationships come before business)", "Wearing expensive jewelry or flashing electronics in public"], "haggling": "Expected at markets and with street vendors. Not at restaurants or shops."},
-        "phrases": [{"english": "Hello", "local": "Hola / ¿Qué más?", "phonetic": "OH-lah / keh mahs"}, {"english": "Thank you", "local": "Gracias", "phonetic": "GRAH-see-ahs"}, {"english": "Excuse me", "local": "Disculpe / Con permiso", "phonetic": "dees-KOOL-peh / kon pair-MEE-so"}, {"english": "Help!", "local": "¡Ayuda!", "phonetic": "ah-YOO-dah"}, {"english": "Hospital", "local": "Hospital", "phonetic": "ohs-pee-TAHL"}, {"english": "Police", "local": "Policía", "phonetic": "poh-lee-SEE-ah"}, {"english": "I don't understand", "local": "No entiendo", "phonetic": "no en-tee-EN-doh"}, {"english": "Where is...?", "local": "¿Dónde queda...?", "phonetic": "DOHN-deh KEH-dah"}, {"english": "How much?", "local": "¿Cuánto vale?", "phonetic": "KWAHN-toh VAH-leh"}, {"english": "Yes / No", "local": "Sí / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "moderate", "violentCrime": "moderate", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "volcanic eruptions", "flooding", "landslides"], "lgbtSafety": "Same-sex marriage legal since 2016. Bogotá and Medellín have active LGBTQ+ scenes. Smaller cities and rural areas less tolerant.", "soloFemaleSafety": "Exercise caution. Avoid walking alone at night. Use ride-hailing apps. Cartagena and tourist areas are generally safe during the day. Scopolamine drugging is a real risk — watch your drinks.", "notes": "Colombia has improved dramatically in safety. Tourist areas in Bogotá, Medellín, Cartagena, and Santa Marta are generally safe. Avoid non-tourist neighborhoods, especially at night. The scopolamine threat is unique to Colombia and Ecuador."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["A", "B"], "voltage": "110V / 60Hz", "dialCode": "+57", "visaFreeCountries": "US citizens: 90 days visa-free.", "timeZone": "UTC-05:00", "bestTimeToVisit": "December-March and July-August (dry seasons). Colombia has no seasons — weather depends on altitude. Bogotá is always cool (14°C), Cartagena always hot (30°C+)."}
-    },
-    "PE": {
-        "name": "Peru", "emergency_notes": "105 for police, 116 for fire, 117 for ambulance.",
-        "embassies": [{"name": "U.S. Embassy Lima", "city": "Lima", "address": "Avenida La Encalada cdra. 17 s/n, Surco, Lima 33", "phone": "+51-1-618-2000", "emergencyPhone": "+51-1-618-2000", "email": "LimaACS@state.gov", "website": "https://pe.usembassy.gov/", "lat": -12.1065, "lng": -76.9611, "type": "embassy"}],
-        "healthcare": {"systemType": "Mixed public/private", "qualityRating": "moderate", "walkInAccess": True, "costForTourists": "Private clinics in Lima are good. Clinic visit $30-60. ER $50-200. Outside Lima, healthcare drops significantly. Cusco has basic private clinics.", "pharmacyAccess": "Farmacias (InkaFarma, MiFarma) common in cities. Many medications available without prescription. Rural areas have very limited pharmacy access.", "hospitalNotes": "Clinica Anglo Americana and Clinica Ricardo Palma in Lima are good private options. Cusco has basic facilities — altitude sickness is the main medical issue. Serious cases require evacuation to Lima.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Typhoid", "Yellow Fever (required for Amazon region)"], "malariaRisk": True, "insuranceAdvice": "Travel insurance essential. Altitude sickness (soroche) is very common in Cusco (3,400m). Medical evacuation coverage important for trekkers."},
-        "medications": {"controlledSubstances": [{"drug": "Altitude sickness medication (Diamox/acetazolamide)", "status": "available", "note": "Available at Cusco pharmacies without prescription. Essential for most visitors. Start taking 24 hours before ascending."}], "generalAdvice": "Bring altitude sickness medication if visiting Cusco/Machu Picchu. Most common medications available at pharmacies in cities. Rural and mountain areas have very limited access."},
-        "scams": [{"name": "Fake travel agencies for Machu Picchu", "city": "Cusco", "description": "Unlicensed agencies on the Plaza de Armas sell Inca Trail treks and Machu Picchu tours at low prices but cut safety corners, use poorly maintained equipment, and underpay porters.", "avoidance": "Book through licensed operators listed on the DIRCETUR (tourism authority) website. Legitimate Inca Trail permits sell out months in advance."}, {"name": "Taxi overcharging", "city": "Lima, Cusco", "description": "Taxis don't use meters. Drivers quote inflated prices to tourists, especially at airports.", "avoidance": "Agree on price before getting in. Use Uber or InDriver. Airport to Miraflores should be 50-70 soles."}, {"name": "Fake altitude sickness remedy sellers", "city": "Cusco", "description": "Street vendors sell 'coca candy' or 'oxygen cans' at massively inflated prices. Some remedies are ineffective.", "avoidance": "Buy coca tea and altitude medication at pharmacies or supermarkets for a fraction of the price."}],
-        "connectivity": {"simOptions": "Claro, Movistar, or Bitel SIM at airports. $5-10 for 30 days. Claro has best coverage. eSIM via Airalo.", "wifiAvailability": "Free WiFi at most hotels and restaurants in cities. Cusco has good WiFi. Remote areas and trekking routes have no connectivity.", "bestOption": "Claro SIM for best coverage."},
-        "cultural": {"tipping": "Restaurants: 10% if not included. Tour guides: $5-10/person/day. Porters on Inca Trail: $20-30 total. Taxi: not expected.", "dressCode": "Casual. Layers essential in highlands (temperature swings). Cover shoulders at churches. Comfortable hiking shoes for Cusco's cobblestones.", "greetings": "Cheek kiss for women (one kiss). Handshake for men. 'Buenos días/tardes/noches.'", "taboos": ["Disrespecting Inca heritage and ruins (touching or climbing on ruins)", "Refusing coca tea (it's a cultural offering and altitude remedy)", "Taking photos of indigenous people without asking"], "haggling": "Expected at markets and with street vendors. Start at 50-60% of asking price. Not at restaurants."},
-        "phrases": [{"english": "Hello", "local": "Hola", "phonetic": "OH-lah"}, {"english": "Thank you", "local": "Gracias", "phonetic": "GRAH-see-ahs"}, {"english": "Excuse me", "local": "Disculpe", "phonetic": "dees-KOOL-peh"}, {"english": "Help!", "local": "¡Ayuda!", "phonetic": "ah-YOO-dah"}, {"english": "Hospital", "local": "Hospital", "phonetic": "ohs-pee-TAHL"}, {"english": "Police", "local": "Policía", "phonetic": "poh-lee-SEE-ah"}, {"english": "I don't understand", "local": "No entiendo", "phonetic": "no en-tee-EN-doh"}, {"english": "Where is...?", "local": "¿Dónde está...?", "phonetic": "DOHN-deh es-TAH"}, {"english": "How much?", "local": "¿Cuánto cuesta?", "phonetic": "KWAHN-toh KWES-tah"}, {"english": "Yes / No", "local": "Sí / No", "phonetic": "see / no"}],
-        "safety": {"overallRisk": "moderate", "violentCrime": "low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "flooding", "landslides (rainy season)", "altitude sickness"], "lgbtSafety": "No legal recognition of same-sex couples. Lima is relatively tolerant. Cusco and smaller cities are conservative. Avoid public displays of affection.", "soloFemaleSafety": "Generally safe in tourist areas during the day. Avoid walking alone at night. Catcalling is common. Use Uber/taxi apps.", "notes": "Peru is generally safe for tourists. Main concerns: altitude sickness in highlands (serious — acclimatize properly), petty theft in Lima and Cusco, and unlicensed tour operators."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["A", "B", "C"], "voltage": "220V / 60Hz", "dialCode": "+51", "visaFreeCountries": "US citizens: 183 days visa-free.", "timeZone": "UTC-05:00", "bestTimeToVisit": "May-September (dry season in highlands). June-August is best for Machu Picchu and Inca Trail. Lima is overcast May-November (garúa season)."}
-    },
-    "VN": {
-        "name": "Vietnam", "emergency_notes": "Police 113, ambulance 115, fire 114. English support is very limited.",
-        "embassies": [{"name": "U.S. Embassy Hanoi", "city": "Hanoi", "address": "7 Lang Ha Street, Ba Dinh District, Hanoi", "phone": "+84-24-3850-5000", "emergencyPhone": "+84-24-3850-5000", "email": "ACShanoi@state.gov", "website": "https://vn.usembassy.gov/", "lat": 21.0186, "lng": 105.8175, "type": "embassy"}, {"name": "U.S. Consulate General Ho Chi Minh City", "city": "Ho Chi Minh City", "address": "4 Le Duan, District 1, HCMC", "phone": "+84-28-3520-4200", "emergencyPhone": "+84-24-3850-5000", "email": None, "website": "https://vn.usembassy.gov/embassy-consulates/ho-chi-minh-city/", "lat": 10.7810, "lng": 106.6998, "type": "consulate"}],
-        "healthcare": {"systemType": "Mixed public/private", "qualityRating": "moderate", "walkInAccess": True, "costForTourists": "Private clinics in Hanoi/HCMC are decent. International clinics $50-150 per visit. Public hospitals are cheap ($5-20) but overcrowded with limited English. Serious cases may require evacuation to Bangkok or Singapore.", "pharmacyAccess": "Pharmacies everywhere. Many medications available without prescription. Very cheap. Quality of generics can vary — buy from reputable chain pharmacies.", "hospitalNotes": "FV Hospital (HCMC), Vinmec (Hanoi/HCMC) are good international-standard hospitals. Outside major cities, healthcare is very basic. Da Nang and Hoi An have limited facilities.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Hepatitis B", "Typhoid", "Japanese Encephalitis", "Rabies (if rural)"], "malariaRisk": True, "insuranceAdvice": "Travel insurance essential. Medical evacuation coverage strongly recommended — serious cases often evacuated to Bangkok or Singapore."},
-        "medications": {"controlledSubstances": [{"drug": "All narcotics / controlled substances", "status": "banned", "note": "Vietnam has extremely harsh drug penalties including the death penalty for trafficking. Even small amounts of controlled substances can result in long prison sentences."}, {"drug": "Pseudoephedrine", "status": "restricted", "note": "Methamphetamine precursor. Restricted."}], "generalAdvice": "Vietnam has extremely strict drug laws. Carry all medications in original packaging with prescriptions and doctor's letters. Bring enough for your entire trip — the same brand may not be available."},
-        "scams": [{"name": "Motorbike snatching", "city": "Ho Chi Minh City, Hanoi", "description": "Thieves on motorbikes snatch phones, bags, and cameras from pedestrians and other motorbike passengers. Very common in HCMC.", "avoidance": "Walk on the inside of the sidewalk. Don't use your phone while walking near the road. Use a crossbody bag on the building side. Don't hold cameras by the strap."}, {"name": "Xe ôm (motorbike taxi) overcharging", "city": "Hanoi, HCMC", "description": "Motorbike taxi drivers quote 200,000-500,000 VND for short rides worth 20,000-50,000 VND.", "avoidance": "Use Grab app exclusively for motorbike taxis and regular taxis. Never negotiate with street xe ôm drivers."}, {"name": "Shoe shine / shoe glue scam", "city": "Hanoi (Old Quarter)", "description": "A shoe shiner squirts glue on your shoe, then 'helpfully' cleans it and demands $10-20.", "avoidance": "Wear sandals in the Old Quarter. If someone touches your shoes, walk away immediately."}, {"name": "Halong Bay tour bait-and-switch", "city": "Hanoi (for Halong Bay)", "description": "Budget tour operators advertise luxury cruises at $50 but deliver cramped boats, bad food, and hidden fees. Photos on brochures are of different boats.", "avoidance": "Book directly with established cruise operators with verifiable reviews. Budget tours ($50-80) are consistently reported as disappointing. $150+ gets a decent experience."}],
-        "connectivity": {"simOptions": "Viettel (best coverage), Mobifone, or Vinaphone SIM at airports. $5-8 for 30 days with 60-120GB. eSIM via Airalo. Incredible value.", "wifiAvailability": "Free WiFi at virtually every cafe, restaurant, and hotel. Vietnam has excellent internet infrastructure. Coffee shops are basically co-working spaces.", "bestOption": "Viettel SIM at the airport — best coverage nationwide, especially rural areas. Extremely cheap."},
-        "cultural": {"tipping": "Not traditionally expected. Rounding up is appreciated. Tour guides: $5-10/person/day. Restaurants: small change.", "dressCode": "Cover shoulders and knees at temples and pagodas. Remove shoes before entering temples and homes. Casual elsewhere. Vietnamese dress modestly.", "greetings": "Light handshake, slight bow. Both hands for older people. 'Xin chào' for hello. Address people by title + given name (not family name).", "taboos": ["Touching someone's head", "Pointing with your finger (use your whole hand)", "Standing with hands on hips (aggressive posture)", "Losing your temper publicly (major loss of face)", "Disrespecting Ho Chi Minh or the government"], "haggling": "Essential at markets and with street vendors. Start at 40-50% of asking price. Not at restaurants or shops with price tags."},
-        "phrases": [{"english": "Hello", "local": "Xin chào", "phonetic": "sin CHOW"}, {"english": "Thank you", "local": "Cảm ơn", "phonetic": "kahm UHN"}, {"english": "Excuse me", "local": "Xin lỗi", "phonetic": "sin LOY"}, {"english": "Help!", "local": "Cứu tôi!", "phonetic": "KOO-oo toy"}, {"english": "Hospital", "local": "Bệnh viện", "phonetic": "ben vee-EN"}, {"english": "Police", "local": "Công an", "phonetic": "kohng ahn"}, {"english": "I don't understand", "local": "Tôi không hiểu", "phonetic": "toy kohng hee-OO"}, {"english": "Where is...?", "local": "...ở đâu?", "phonetic": "uh DOW"}, {"english": "How much?", "local": "Bao nhiêu?", "phonetic": "bow nyee-OO"}, {"english": "Yes / No", "local": "Vâng / Không", "phonetic": "vuhng / kohng"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["typhoons (central coast, Sep-Nov)", "flooding", "landslides"], "lgbtSafety": "No legal recognition but decriminalized. Vietnamese society is increasingly tolerant, especially in cities. Hanoi and HCMC have small but growing LGBTQ+ scenes. Rural areas are conservative.", "soloFemaleSafety": "Generally safe. Catcalling is uncommon. Main risk is bag snatching. Avoid walking alone late at night in unlit areas.", "notes": "Vietnam is very safe for tourists. Violent crime against foreigners is rare. Main concerns are bag snatching (HCMC), traffic (crossing the street is an art form — walk slowly and steadily), and petty scams."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["A", "B", "C"], "voltage": "220V / 50Hz", "dialCode": "+84", "visaFreeCountries": "US citizens: e-visa required ($25, 90 days). UK: 90 days visa-free. Many others visa-free for 15-45 days.", "timeZone": "UTC+07:00", "bestTimeToVisit": "North: Oct-Apr. Central: Feb-Aug. South: Dec-Apr. Vietnam's weather varies greatly by region."}
-    },
-    "ID": {
-        "name": "Indonesia", "emergency_notes": "110 police, 118/119 ambulance, 113 fire. 112 works in some areas.",
-        "embassies": [{"name": "U.S. Embassy Jakarta", "city": "Jakarta", "address": "Jl. Medan Merdeka Selatan No.3-5, Jakarta 10110", "phone": "+62-21-5083-1000", "emergencyPhone": "+62-21-5083-1000", "email": "jakartaacs@state.gov", "website": "https://id.usembassy.gov/", "lat": -6.1862, "lng": 106.8293, "type": "embassy"}, {"name": "U.S. Consular Agency Bali", "city": "Denpasar (Bali)", "address": "Jl. Hayam Wuruk 188, Denpasar, Bali", "phone": "+62-361-233-605", "emergencyPhone": "+62-21-5083-1000", "email": None, "website": "https://id.usembassy.gov/embassy-consulates/surabaya/bali/", "lat": -8.6555, "lng": 115.2165, "type": "consular agency"}],
-        "healthcare": {"systemType": "Universal (JKN/BPJS for citizens)", "qualityRating": "moderate", "walkInAccess": True, "costForTourists": "Bali has good private clinics (BIMC, Siloam). Clinic visit $30-80. Serious cases require evacuation to Singapore. Jakarta has good hospitals. Most of Indonesia outside Bali/Jakarta has very limited facilities.", "pharmacyAccess": "Apotek (pharmacies) in cities. Many medications available OTC. Rural areas and small islands have very limited access.", "hospitalNotes": "BIMC Hospital (Bali) is the go-to for tourists. SOS International Clinic for emergencies. Outside Bali and Jakarta, hospitals are basic. Medical evacuation to Singapore common for serious cases.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Hepatitis B", "Typhoid", "Japanese Encephalitis", "Rabies (stray dogs common in Bali)"], "malariaRisk": True, "insuranceAdvice": "Travel insurance essential. Medical evacuation coverage critical — evacuation to Singapore costs $20,000+. Bali's healthcare is adequate for minor issues only."},
-        "medications": {"controlledSubstances": [{"drug": "All narcotics", "status": "banned", "note": "Indonesia has the death penalty for drug trafficking. Zero tolerance policy. Even small amounts of marijuana can result in 4-12 years in prison."}, {"drug": "Pseudoephedrine", "status": "restricted", "note": "Restricted. Bring original packaging and prescription."}], "generalAdvice": "Indonesia has extremely strict drug laws — death penalty for trafficking. Carry all medications in original packaging with prescriptions. Bring a doctor's letter for any controlled substance."},
-        "scams": [{"name": "Money changer short-changing", "city": "Bali (Kuta, Seminyak)", "description": "Unofficial money changers use sleight of hand to shortchange you — fast counting, hidden bills, rigged calculators. Some give counterfeit bills.", "avoidance": "Only use banks or authorized money changers (BMC, Central Kuta). Count your money carefully before leaving the counter. Avoid places advertising rates that seem too good."}, {"name": "Motorbike rental damage scam", "city": "Bali", "description": "Rental shops claim you damaged the motorbike and demand $200-500 for 'repairs.' Some track you via GPS and send people to confront you.", "avoidance": "Take photos/video of the bike from all angles before renting. Only rent from reputable shops. Get the rental terms in writing."}, {"name": "Temple ceremony donation scam", "city": "Bali", "description": "'Guides' at temples tell you a ceremony requires a large 'donation' of $20-50. Real temple entry fees are 15,000-50,000 IDR ($1-3).", "avoidance": "Know the official entry fees before visiting. Only pay at the official ticket counter. Decline unsolicited 'guides.'"}, {"name": "Taxi meter tricks", "city": "Bali", "description": "Taxis refuse to use meters or use rigged meters. Some start the meter at a high base rate.", "avoidance": "Use Blue Bird taxis (reliable, metered) or Grab app. Avoid taxis at tourist traps that refuse meters."}],
-        "connectivity": {"simOptions": "Telkomsel (best coverage), XL, or Indosat SIM at airports. $3-8 for 30 days with 10-30GB. eSIM via Airalo. Telkomsel has the best coverage on remote islands.", "wifiAvailability": "Free WiFi at most hotels, cafes, and restaurants in Bali and Java. Can be slow. Remote islands and rural areas have limited connectivity.", "bestOption": "Telkomsel SIM for best coverage. Buy at airport — registration required (passport photo)."},
-        "cultural": {"tipping": "Not expected but appreciated. Restaurants: round up or 5-10%. Spa: 10-15%. Tour guides: $5-10. Drivers: $3-5/day.", "dressCode": "Cover shoulders and knees at temples (sarong required — usually provided). Modest dress in Muslim areas (Java, Lombok). Bali beach towns are casual.", "greetings": "Slight bow or nod. Handshake is common (right hand only). Muslims may not shake hands with opposite gender — follow their lead. 'Selamat pagi/siang/sore/malam' for different times of day.", "taboos": ["Using your left hand (considered unclean — always eat, give, and receive with right hand)", "Touching someone's head", "Pointing with your index finger (use thumb)", "Standing with hands on hips", "Public displays of affection in Muslim areas"], "haggling": "Essential at markets, with drivers, and at souvenir shops. Start at 30-40% of asking price. Not at restaurants, hotels, or shops with price tags."},
-        "phrases": [{"english": "Hello", "local": "Halo / Selamat pagi", "phonetic": "HAH-lo / suh-LAH-maht PAH-gee (morning)"}, {"english": "Thank you", "local": "Terima kasih", "phonetic": "tuh-REE-mah KAH-see"}, {"english": "Excuse me", "local": "Permisi", "phonetic": "per-MEE-see"}, {"english": "Help!", "local": "Tolong!", "phonetic": "TOH-long"}, {"english": "Hospital", "local": "Rumah sakit", "phonetic": "ROO-mah SAH-kit"}, {"english": "Police", "local": "Polisi", "phonetic": "poh-LEE-see"}, {"english": "I don't understand", "local": "Saya tidak mengerti", "phonetic": "SAH-yah TEE-dahk mung-AIR-tee"}, {"english": "Where is...?", "local": "Di mana...?", "phonetic": "dee MAH-nah"}, {"english": "How much?", "local": "Berapa?", "phonetic": "buh-RAH-pah"}, {"english": "Yes / No", "local": "Ya / Tidak", "phonetic": "yah / TEE-dahk"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "tsunamis", "volcanic eruptions", "flooding"], "lgbtSafety": "Not illegal nationally (except Aceh province under Sharia law). Bali is tolerant. Java and other Muslim-majority areas are conservative. Avoid public displays of affection.", "soloFemaleSafety": "Generally safe in Bali and tourist areas. Dress modestly outside Bali. Be cautious at night. Use Grab for transport.", "notes": "Bali is very safe for tourists. Main risks: motorbike accidents (leading cause of tourist injury), petty theft, and monkeys stealing things at Ubud Monkey Forest. Be aware of rip currents at beaches."},
-        "practical": {"tapWater": False, "drivingSide": "left", "plugType": ["C", "F"], "voltage": "230V / 50Hz", "dialCode": "+62", "visaFreeCountries": "US citizens: visa on arrival 30 days ($35), extendable once. Some nationalities get 30-day free visa.", "timeZone": "UTC+07:00 to UTC+09:00 (3 time zones)", "bestTimeToVisit": "April-October (dry season). Bali: May-September best. Avoid Dec-Mar (heavy rain)."}
-    },
-    "MA": {
-        "name": "Morocco", "emergency_notes": "19 for police, 15 for ambulance/fire.",
-        "embassies": [{"name": "U.S. Embassy Rabat", "city": "Rabat", "address": "Km 5.7, Avenue Mohamed VI, Souissi, Rabat", "phone": "+212-537-637-200", "emergencyPhone": "+212-537-637-200", "email": "ACSCasablanca@state.gov", "website": "https://ma.usembassy.gov/", "lat": 33.9589, "lng": -6.8704, "type": "embassy"}, {"name": "U.S. Consulate General Casablanca", "city": "Casablanca", "address": "8 Boulevard Moulay Youssef, Casablanca", "phone": "+212-522-642-099", "emergencyPhone": "+212-537-637-200", "email": None, "website": "https://ma.usembassy.gov/embassy-consulates/casablanca/", "lat": 33.5895, "lng": -7.6129, "type": "consulate"}],
-        "healthcare": {"systemType": "Mixed public/private", "qualityRating": "moderate", "walkInAccess": True, "costForTourists": "Private clinics in Casablanca and Rabat are decent. Clinic visit $20-50. Marrakech has adequate private facilities. Public hospitals are underfunded — avoid if possible. Rural areas have very limited healthcare.", "pharmacyAccess": "Pharmacies (pharmacie) common in cities, marked with green crescent. Many medications available without prescription. Pharmacists speak French and often Arabic.", "hospitalNotes": "Clinique du Parc (Casablanca), Clinique Internationale (Marrakech) are adequate private options. Serious cases may require evacuation to Europe. Desert and mountain areas have no medical facilities.", "vaccinationsRecommended": ["Routine", "Hepatitis A", "Typhoid"], "malariaRisk": False, "insuranceAdvice": "Travel insurance essential. Medical evacuation coverage recommended if visiting Sahara, Atlas Mountains, or remote areas."},
-        "medications": {"controlledSubstances": [{"drug": "Cannabis / hashish", "status": "banned", "note": "Despite being widely sold in some areas (Rif Mountains), cannabis is illegal. Possession can result in prison. Police sometimes use tourists' purchases as leverage for bribes."}, {"drug": "Tramadol", "status": "restricted", "note": "Controlled substance. Carry prescription."}], "generalAdvice": "Morocco has strict drug laws despite the cultural prevalence of hashish. Don't be fooled by availability — it's a trap. Carry prescriptions for all medications."},
-        "scams": [{"name": "Faux guide (fake guide)", "city": "Marrakech, Fes", "description": "Young men offer to guide you through the medina, then demand €20-50. Some lead you to shops where they earn commission. Others may lead you to dead ends and demand more money.", "avoidance": "Hire official guides through your riad or hotel. Official guides have badges. Decline all street offers. Learn your route before entering the medina."}, {"name": "Carpet shop trap", "city": "Marrakech, Fes", "description": "A 'friendly' local takes you to a carpet shop for 'mint tea.' After an hour of viewing carpets, there's extreme pressure to buy at inflated prices.", "avoidance": "Only visit shops you chose yourself. If you enter, know that 'just looking' will be a 30-minute ordeal. Don't feel obligated to buy."}, {"name": "Spice shop scam", "city": "Marrakech", "description": "Shops in the souk sell 'saffron' that's actually safflower (1/100th the value). 'Natural' cosmetics may contain harmful chemicals.", "avoidance": "Buy saffron only from established shops (real saffron costs $10+/gram). Test: real saffron doesn't dissolve in cold water."}, {"name": "Henna hand grab", "city": "Marrakech (Jemaa el-Fnaa)", "description": "Women grab your hand and start applying henna without consent, then demand €20-30.", "avoidance": "Don't let anyone touch your hands in Jemaa el-Fnaa. If you want henna, go to a salon."}],
-        "connectivity": {"simOptions": "Maroc Telecom (best coverage), Orange, or Inwi SIM at airports. $5-10 for 30 days. eSIM via Airalo. Maroc Telecom has best coverage including rural areas.", "wifiAvailability": "Free WiFi at most hotels, riads, and cafes in cities. Medina WiFi can be unreliable. Sahara and mountain areas have limited connectivity.", "bestOption": "Maroc Telecom SIM at the airport for best coverage."},
-        "cultural": {"tipping": "10% at restaurants. Small tips for anyone who helps you (porters, bathroom attendants, parking attendants: 5-10 MAD). Tour guides: 50-100 MAD. Tipping is a way of life in Morocco.", "dressCode": "Dress modestly — cover shoulders and knees, especially women. Loose-fitting clothes in the heat. Headscarves not required for tourists but appreciated at mosques (most mosques closed to non-Muslims anyway).", "greetings": "'Salam alaikum' (peace be upon you) — response: 'Wa alaikum as-salam.' Handshake common. Close friends: cheek kisses. Touch heart after handshake.", "taboos": ["Eating, giving, or receiving with the left hand (considered unclean)", "Photographing people without permission (especially women)", "Drinking alcohol in public outside licensed establishments", "Disrespecting Islam or the King", "Public displays of affection"], "haggling": "Essential in souks and medinas. Start at 30-40% of asking price. Expected and enjoyable — it's a social interaction. Never haggle and then walk away after agreeing on a price."},
-        "phrases": [{"english": "Hello", "local": "السلام عليكم (Salam alaikum)", "phonetic": "sah-LAHM ah-LAY-koom"}, {"english": "Thank you", "local": "شكرا (Shukran)", "phonetic": "SHOO-krahn"}, {"english": "Excuse me", "local": "سمحلي (Smeh-li)", "phonetic": "SMEH-lee"}, {"english": "Help!", "local": "عاونوني (Aawnouni)", "phonetic": "ah-oo-NOO-nee"}, {"english": "Hospital", "local": "سبيطار (Sbitar)", "phonetic": "sbee-TAR"}, {"english": "Police", "local": "بوليس (Boulis)", "phonetic": "boo-LEES"}, {"english": "I don't understand", "local": "ما فهمتش (Ma fhemtch)", "phonetic": "mah FHEM-tsh"}, {"english": "Where is...?", "local": "فين...? (Fin...?)", "phonetic": "feen"}, {"english": "How much?", "local": "بشحال? (Bshhal?)", "phonetic": "bish-HAHL"}, {"english": "Yes / No", "local": "إيه / لا (Iyeh / La)", "phonetic": "ee-YEH / lah"}],
-        "safety": {"overallRisk": "moderate", "violentCrime": "low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes", "flooding", "extreme heat"], "lgbtSafety": "Homosexuality is illegal (up to 3 years in prison). Enforcement is rare but the law exists. Exercise extreme discretion. No visible LGBTQ+ scene.", "soloFemaleSafety": "Moderate caution needed. Harassment and catcalling are common, especially in Marrakech medina. Dress modestly. Travel in pairs when possible. Riads and tourist infrastructure are very safe.", "notes": "Morocco is generally safe but the medinas can be overwhelming. The biggest challenge is persistent touts and salespeople. Violent crime against tourists is rare. The biggest risk is being scammed, not being attacked."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["C", "E"], "voltage": "220V / 50Hz", "dialCode": "+212", "visaFreeCountries": "US citizens: 90 days visa-free. EU: 90 days. UK: 90 days.", "timeZone": "UTC+01:00 (permanent since 2018)", "bestTimeToVisit": "March-May and September-November. Summer (June-August) is extremely hot inland. December-February is cool, especially in mountains."}
-    },
-    "TR": {
-        "name": "Turkey", "emergency_notes": "112 universal emergency number.",
-        "embassies": [{"name": "U.S. Embassy Ankara", "city": "Ankara", "address": "110 Atatürk Blvd, Kavaklıdere, 06100 Ankara", "phone": "+90-312-455-5555", "emergencyPhone": "+90-312-455-5555", "email": None, "website": "https://tr.usembassy.gov/", "lat": 39.9163, "lng": 32.8607, "type": "embassy"}, {"name": "U.S. Consulate General Istanbul", "city": "Istanbul", "address": "İstinye Mahallesi, Kaplıcalar Mevkii No.2, 34460 Sarıyer/İstanbul", "phone": "+90-212-335-9000", "emergencyPhone": "+90-312-455-5555", "email": None, "website": "https://tr.usembassy.gov/embassy-consulates/istanbul/", "lat": 41.1122, "lng": 29.0617, "type": "consulate"}],
-        "healthcare": {"systemType": "Universal (SGK)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "Turkey is a major medical tourism destination. Private hospitals are excellent and affordable. Clinic visit $30-60. Private hospital ER $50-200. Istanbul hospitals rival European quality at a fraction of the cost.", "pharmacyAccess": "Eczane (pharmacies) everywhere, marked with red 'E'. Well-stocked. Pharmacists often speak English. Many medications available without prescription.", "hospitalNotes": "Acibadem, Memorial, and Florence Nightingale hospitals in Istanbul are world-class. Antalya and Ankara also have good private hospitals. Eastern Turkey has limited facilities.", "vaccinationsRecommended": ["Routine", "Hepatitis A"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended but private healthcare is affordable enough to pay out-of-pocket for minor issues."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "restricted", "note": "Prescription-only. Available with documentation."}, {"drug": "CBD / cannabis", "status": "banned", "note": "Cannabis is illegal. Even CBD products may cause legal issues."}], "generalAdvice": "Turkish pharmacies are well-stocked and pharmacists are knowledgeable. Bring prescriptions for controlled substances."},
-        "scams": [{"name": "Shoe shiner drop", "city": "Istanbul", "description": "A shoe shiner 'accidentally' drops his brush in front of you. When you pick it up and hand it back, he insists on shining your shoes out of gratitude, then charges $20-30.", "avoidance": "Don't pick up dropped brushes. Walk past."}, {"name": "Friendly local bar scam", "city": "Istanbul (Taksim/Beyoğlu)", "description": "A local man befriends you and suggests a 'local bar.' Women appear, everyone orders drinks, and the bill is $500-2,000. Bouncers appear if you resist paying.", "avoidance": "Never go to bars suggested by strangers on the street. Only visit venues you chose yourself."}, {"name": "Carpet/leather shop guided tour", "city": "Istanbul (Grand Bazaar)", "description": "Friendly shop workers offer tea and a tour of how carpets/leather are made. What starts as cultural education ends with extreme sales pressure. Prices are inflated 3-10x.", "avoidance": "It's fine to look and drink tea — but know the real price of Turkish carpets before shopping. Don't feel pressured. 'I'll think about it' is a valid response."}, {"name": "Taxi long-route scam", "city": "Istanbul", "description": "Taxi drivers take long routes, especially from airports. Some switch your 50 lira note for a 5 lira note and claim you underpaid.", "avoidance": "Use BiTaksi app. Monitor the route on Google Maps. Pay with card when possible. Know approximate fares (airport to Sultanahmet: ~150-200 TL)."}],
-        "connectivity": {"simOptions": "Turkcell (best coverage), Vodafone, or Türk Telekom SIM. Tourist SIM packs available at airports $10-20 for 20GB/30 days. eSIM via Airalo.", "wifiAvailability": "Free WiFi at most hotels, restaurants, and cafes. Istanbul has excellent connectivity. Eastern Turkey is spottier.", "bestOption": "Turkcell tourist SIM at the airport."},
-        "cultural": {"tipping": "10-15% at restaurants. Hotel porters 10-20 TL. Tour guides 50-100 TL/day. Taxi: round up.", "dressCode": "Women must cover hair, shoulders, and knees at mosques (scarves usually provided at entrance). Remove shoes. Otherwise casual — Istanbul is cosmopolitan.", "greetings": "Handshake. Close friends: cheek kisses. 'Merhaba' for hello. Turks are extremely hospitable — expect lots of tea offers.", "taboos": ["Insulting Atatürk (it's actually illegal)", "Disrespecting the Turkish flag", "Blowing your nose at the dinner table", "Refusing offered tea (it's a social bond)", "Showing the sole of your shoe to someone"], "haggling": "Expected at the Grand Bazaar, markets, and some shops. Start at 50% of asking price. Not at restaurants or fixed-price shops."},
-        "phrases": [{"english": "Hello", "local": "Merhaba", "phonetic": "MARE-hah-bah"}, {"english": "Thank you", "local": "Teşekkür ederim", "phonetic": "teh-shek-KOOR eh-deh-REEM"}, {"english": "Excuse me", "local": "Bakar mısınız", "phonetic": "bah-KAR muh-suh-nuhz"}, {"english": "Help!", "local": "İmdat!", "phonetic": "IM-daht"}, {"english": "Hospital", "local": "Hastane", "phonetic": "hah-stah-NEH"}, {"english": "Police", "local": "Polis", "phonetic": "poh-LEES"}, {"english": "I don't understand", "local": "Anlamıyorum", "phonetic": "ahn-lah-muh-YOR-oom"}, {"english": "Where is...?", "local": "...nerede?", "phonetic": "neh-reh-DEH"}, {"english": "How much?", "local": "Ne kadar?", "phonetic": "neh kah-DAHR"}, {"english": "Yes / No", "local": "Evet / Hayır", "phonetic": "eh-VET / HAH-yuhr"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "moderate", "naturalDisasters": ["earthquakes (major risk — Turkey sits on active fault lines)", "flooding"], "lgbtSafety": "Legal but no anti-discrimination protections. Istanbul is relatively tolerant (Beyoğlu/Taksim). Pride parades have been banned since 2015. Exercise discretion outside Istanbul.", "soloFemaleSafety": "Generally safe. Some catcalling and unwanted attention, especially in eastern Turkey. Istanbul tourist areas are well-policed. Dress modestly outside tourist areas.", "notes": "Turkey is safe for tourists. Istanbul is very well-policed. Earthquake risk is significant — know where exits are in buildings. Avoid the Syrian border region."},
-        "practical": {"tapWater": False, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "220V / 50Hz", "dialCode": "+90", "visaFreeCountries": "US citizens: e-visa required ($50, 90 days). UK: 90 days visa-free. Some EU: 90 days visa-free.", "timeZone": "UTC+03:00", "bestTimeToVisit": "April-June and September-November. July-August is hot (35°C+). Istanbul is pleasant year-round. Cappadocia best in spring/fall."}
-    },
-    "KR": {
-        "name": "South Korea", "emergency_notes": "112 for police (English available), 119 for fire/ambulance.",
-        "embassies": [{"name": "U.S. Embassy Seoul", "city": "Seoul", "address": "188 Sejong-daero, Jongno-gu, Seoul 03141", "phone": "+82-2-397-4114", "emergencyPhone": "+82-2-397-4114", "email": "seoulacs@state.gov", "website": "https://kr.usembassy.gov/", "lat": 37.5660, "lng": 126.9739, "type": "embassy"}],
-        "healthcare": {"systemType": "Universal (NHI)", "qualityRating": "excellent", "walkInAccess": True, "costForTourists": "South Korea is a medical tourism powerhouse. Even without insurance, costs are reasonable. Clinic visit $30-60. ER $100-300. World-class hospitals at 30-50% of US prices.", "pharmacyAccess": "Pharmacies (약국, yakguk) common. Some medications that are prescription-only in the US are OTC in Korea. Pharmacists may not speak English — use Google Translate.", "hospitalNotes": "Samsung Medical Center, Asan Medical Center, Severance Hospital are world-class. International clinics in Itaewon/Gangnam cater to foreigners with English-speaking staff. Healthcare quality is excellent throughout the country.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance recommended but healthcare is affordable even out-of-pocket."},
-        "medications": {"controlledSubstances": [{"drug": "Adderall / amphetamines", "status": "banned", "note": "Classified as 'psychotropic substances.' Extremely strict — even with a valid foreign prescription, you can be arrested."}, {"drug": "CBD / cannabis", "status": "banned", "note": "All cannabis products are illegal. Korean law applies even to consumption abroad — Korean nationals can be prosecuted for cannabis use in countries where it's legal."}, {"drug": "Pseudoephedrine", "status": "restricted", "note": "Available only at pharmacies with ID registration."}], "generalAdvice": "South Korea has extremely strict drug laws. Bring a doctor's letter and original prescriptions for ALL medications. When in doubt, contact the Korean embassy before travel."},
-        "scams": [{"name": "Overpriced soju tent (pojangmacha) bills", "city": "Seoul (Myeongdong, Itaewon)", "description": "Tourist-area tents charge 3-5x normal prices. A few soju bottles and snacks become a $100+ bill.", "avoidance": "Check prices before ordering. Real pojangmacha prices: soju ~3,000-5,000 KRW, snacks ~10,000-20,000 KRW. Go to non-tourist areas."}, {"name": "Taxi refusal and overcharging", "city": "Seoul", "description": "Some taxi drivers refuse to use meters for foreigners or take long routes. Late at night, some demand flat rates.", "avoidance": "Use KakaoTaxi app (Korea's Uber). Insist on the meter. Orange international taxis have English-speaking drivers."}],
-        "connectivity": {"simOptions": "KT, SKT, or LG U+ SIM/eSIM at airports. $15-30 for 5-30 days with unlimited data. Korea has the world's fastest mobile internet. eSIM via Airalo.", "wifiAvailability": "Free WiFi literally everywhere — subway, buses, public spaces, cafes. Korea has the best public WiFi infrastructure in the world.", "bestOption": "WiFi alone might be sufficient in Seoul. For travel outside Seoul, grab a KT SIM/eSIM at the airport."},
-        "cultural": {"tipping": "Not expected and can be seen as rude in traditional settings. No tipping at restaurants, taxis, or hotels. International hotels may accept tips.", "dressCode": "Smart casual. Koreans are fashion-conscious. Cover up at temples. Modest dress is appreciated.", "greetings": "Bow — deeper for elders. Handshake with both hands for respect. Use two hands when giving/receiving objects. 'Annyeonghaseyo' for hello.", "taboos": ["Writing someone's name in red ink (associated with death)", "Blowing your nose at the table", "Sticking chopsticks upright in rice (funeral ritual)", "Pouring your own drink (someone else should pour for you)", "Refusing a drink from an elder (at least accept and sip)"], "haggling": "Only at traditional markets (Namdaemun, Dongdaemun). Not at restaurants, department stores, or convenience stores."},
-        "phrases": [{"english": "Hello", "local": "안녕하세요 (Annyeonghaseyo)", "phonetic": "ahn-nyeong-hah-SEH-yo"}, {"english": "Thank you", "local": "감사합니다 (Gamsahamnida)", "phonetic": "kahm-sah-HAHM-nee-dah"}, {"english": "Excuse me", "local": "실례합니다 (Sillyehamnida)", "phonetic": "shil-lyeh-HAHM-nee-dah"}, {"english": "Help!", "local": "도와주세요! (Dowajuseyo!)", "phonetic": "doh-wah-joo-SEH-yo"}, {"english": "Hospital", "local": "병원 (Byeongwon)", "phonetic": "byeong-WON"}, {"english": "Police", "local": "경찰 (Gyeongchal)", "phonetic": "gyeong-CHAHL"}, {"english": "I don't understand", "local": "이해 못해요 (Ihae mothaeyo)", "phonetic": "ee-heh moht-HEH-yo"}, {"english": "Where is...?", "local": "어디에요? (Eodieyo?)", "phonetic": "uh-DEE-eh-yo"}, {"english": "How much?", "local": "얼마에요? (Eolmaeyo?)", "phonetic": "UHL-mah-eh-yo"}, {"english": "Yes / No", "local": "네 / 아니요 (Ne / Aniyo)", "phonetic": "neh / ah-NEE-yo"}],
-        "safety": {"overallRisk": "very-low", "violentCrime": "very-low", "pettyCrime": "low", "naturalDisasters": ["typhoons", "earthquakes (rare)"], "lgbtSafety": "No anti-discrimination law. Socially conservative but safe. Seoul has LGBTQ+ scene in Itaewon/Jongno.", "soloFemaleSafety": "Very safe. South Korea has low crime rates. Well-lit cities, excellent public transit. Some drunk men can be pushy late at night.", "notes": "South Korea is one of the safest countries in the world. Violent crime is extremely rare. Main concern is the omnipresent hidden camera issue (molka) in some public restrooms."},
-        "practical": {"tapWater": True, "drivingSide": "right", "plugType": ["C", "F"], "voltage": "220V / 60Hz", "dialCode": "+82", "visaFreeCountries": "US citizens: K-ETA required ($10), 90 days. UK: 90 days visa-free. Most EU: 90 days.", "timeZone": "UTC+09:00", "bestTimeToVisit": "April-May (spring, cherry blossoms) and September-November (autumn foliage). Summer is hot and humid. Winter is cold."}
-    },
-    "AU": {
-        "name": "Australia", "emergency_notes": "000 for all emergencies. 112 works from mobile phones.",
-        "embassies": [{"name": "U.S. Embassy Canberra", "city": "Canberra", "address": "Moonah Place, Yarralumla, ACT 2600", "phone": "+61-2-6214-5600", "emergencyPhone": "+61-2-6214-5600", "email": None, "website": "https://au.usembassy.gov/", "lat": -35.3050, "lng": 149.1244, "type": "embassy"}, {"name": "U.S. Consulate General Sydney", "city": "Sydney", "address": "Level 10, MLC Centre, 19-29 Martin Place, Sydney NSW 2000", "phone": "+61-2-9373-9200", "emergencyPhone": "+61-2-6214-5600", "email": None, "website": "https://au.usembassy.gov/embassy-consulates/sydney/", "lat": -33.8688, "lng": 151.2093, "type": "consulate"}, {"name": "U.S. Consulate General Melbourne", "city": "Melbourne", "address": "553 St Kilda Road, Melbourne VIC 3004", "phone": "+61-3-9526-5900", "emergencyPhone": "+61-2-6214-5600", "email": None, "website": "https://au.usembassy.gov/embassy-consulates/melbourne/", "lat": -37.8544, "lng": 144.9839, "type": "consulate"}],
-        "healthcare": {"systemType": "Universal (Medicare — citizens/residents only)", "qualityRating": "excellent", "walkInAccess": True, "costForTourists": "Excellent quality. US citizens pay full price (no Medicare reciprocity). GP visit $50-100 AUD. ER: treated regardless but billed — $300-1,000+ AUD. Reciprocal Healthcare Agreements with UK, NZ, and some EU countries.", "pharmacyAccess": "Pharmacies (chemists) like Priceline and Chemist Warehouse everywhere. Good range of OTC medications. Pharmacists are well-trained.", "hospitalNotes": "World-class hospitals in all major cities. Flying Doctor Service covers remote outback areas. Healthcare in remote/outback areas is limited — evacuation may be needed.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "Travel insurance essential for US citizens — no reciprocal healthcare agreement. Medical bills can be very expensive without insurance."},
-        "medications": {"controlledSubstances": [{"drug": "Codeine", "status": "restricted", "note": "Prescription-only since 2018 (was previously OTC). Cannot be purchased at pharmacies without Australian prescription."}, {"drug": "Pseudoephedrine", "status": "restricted", "note": "Available only at pharmacies with ID (tracked due to methamphetamine concerns)."}, {"drug": "CBD / cannabis", "status": "restricted", "note": "Medical cannabis legal with prescription. Recreational use varies by state — decriminalized in ACT, illegal elsewhere. Don't bring CBD products."}], "generalAdvice": "Australia has strict biosecurity laws — declare ALL medications at customs. Bring prescriptions and a doctor's letter. Border Force takes undeclared medications seriously."},
-        "scams": [{"name": "Drop bear joke", "city": "Nationwide", "description": "Not a scam — Australians will tell you about 'drop bears' (fictional aggressive koalas). This is just Australian humor.", "avoidance": "Laugh along. It's a rite of passage."}, {"name": "Rental car excess insurance upsell", "city": "Nationwide", "description": "Rental car companies push expensive excess reduction insurance ($30-50/day) at the counter. Makes a $50/day rental cost $100.", "avoidance": "Buy standalone excess reduction insurance online before your trip ($5-8/day from providers like RentalCover) or use your credit card's coverage."}, {"name": "Opal/Myki card confusion", "city": "Sydney, Melbourne", "description": "Tourists buy single-journey tickets at a huge premium instead of getting a reusable transport card that's much cheaper per trip.", "avoidance": "Get an Opal card (Sydney) or Myki card (Melbourne) immediately at the airport or any station."}],
-        "connectivity": {"simOptions": "Telstra (best coverage), Optus, or Vodafone SIM at airports. $20-40 AUD for 30 days. eSIM via Airalo. Telstra has the only decent outback coverage.", "wifiAvailability": "Free WiFi at most cafes, restaurants, and libraries. Australian data plans are more expensive than Asia/Europe.", "bestOption": "Telstra SIM if going outside cities. Optus or eSIM for cities only."},
-        "cultural": {"tipping": "Not expected or common. Australians are paid living wages. Rounding up at restaurants is appreciated but never expected. No tip jars.", "dressCode": "Very casual. Thongs (flip-flops) and shorts are acceptable almost everywhere. Smart casual for upscale restaurants. Sun protection is essential.", "greetings": "'G'day' or 'Hey, how ya going?' Handshake. Very informal culture. First names immediately, even in business.", "taboos": ["Don't call them British", "Not wearing sunscreen (skin cancer rates are highest in the world)", "Littering in natural areas (heavy fines)", "Being pretentious or boastful ('tall poppy syndrome')"], "haggling": "Not practiced. Prices are fixed. Only at weekend markets and garage sales."},
-        "phrases": [{"english": "Hello", "local": "G'day / Hey", "phonetic": "guh-DAY"}, {"english": "Thank you", "local": "Cheers / Ta", "phonetic": "cheerz / tah"}, {"english": "Excuse me", "local": "Sorry / Excuse me", "phonetic": "SOR-ee"}, {"english": "Help!", "local": "Help!", "phonetic": "help"}, {"english": "Hospital", "local": "Hospital / Emergency", "phonetic": "HOS-pih-tul"}, {"english": "Police", "local": "Police / Coppers", "phonetic": "poh-LEES"}, {"english": "Bathroom", "local": "Dunny / Toilet / Loo", "phonetic": "DUN-ee"}, {"english": "Beer", "local": "Schooner / Pot / Pint (varies by state)", "phonetic": "SKOO-ner"}, {"english": "How much?", "local": "How much is it?", "phonetic": "how much iz it"}, {"english": "Yes / No", "local": "Yeah / Nah", "phonetic": "yeh / nah"}],
-        "safety": {"overallRisk": "low", "violentCrime": "very-low", "pettyCrime": "low", "naturalDisasters": ["bushfires", "cyclones (northern coast)", "flooding", "extreme heat"], "lgbtSafety": "Same-sex marriage legal since 2017. Very tolerant. Sydney has one of the world's largest Mardi Gras celebrations.", "soloFemaleSafety": "Very safe. Australia is one of the safest countries for solo travelers.", "notes": "Australia is very safe. The main dangers are natural — extreme heat, bushfires, dangerous wildlife (snakes, spiders, box jellyfish, crocodiles in the north), and rip currents at beaches. Always swim between the flags at patrolled beaches."},
-        "practical": {"tapWater": True, "drivingSide": "left", "plugType": ["I"], "voltage": "230V / 50Hz", "dialCode": "+61", "visaFreeCountries": "US citizens: ETA required ($20 AUD), 90 days. UK: eVisitor, free, 90 days. NZ: unlimited.", "timeZone": "UTC+08:00 to UTC+11:00 (multiple time zones)", "bestTimeToVisit": "September-November (spring) and March-May (autumn). Summer (Dec-Feb) is hot. Seasons are reversed from Northern Hemisphere."}
-    },
-    "NZ": {
-        "name": "New Zealand", "emergency_notes": "111 for all emergencies.",
-        "embassies": [{"name": "U.S. Embassy Wellington", "city": "Wellington", "address": "29 Fitzherbert Terrace, Thorndon, Wellington 6011", "phone": "+64-4-462-6000", "emergencyPhone": "+64-4-462-6000", "email": "WellingtonACS@state.gov", "website": "https://nz.usembassy.gov/", "lat": -41.2784, "lng": 174.7773, "type": "embassy"}],
-        "healthcare": {"systemType": "Universal (ACC for accidents)", "qualityRating": "good", "walkInAccess": True, "costForTourists": "New Zealand's ACC (Accident Compensation Corporation) covers accident-related treatment for ALL visitors — free. Illness (non-accident) costs: GP visit $50-80 NZD, ER $300+. This is a unique benefit.", "pharmacyAccess": "Pharmacies common in towns. Well-stocked. Pharmacists knowledgeable. Some medications available without prescription.", "hospitalNotes": "Good hospitals in Auckland, Wellington, Christchurch. Rural and remote areas have limited facilities. Helicopter evacuation available for tramping (hiking) accidents but can be expensive without insurance.", "vaccinationsRecommended": ["Routine"], "malariaRisk": False, "insuranceAdvice": "ACC covers accidents for free, but insurance still recommended for illness, repatriation, and trip cancellation. Tramping and adventure activities may not be fully covered by ACC."},
-        "medications": {"controlledSubstances": [{"drug": "Pseudoephedrine", "status": "restricted", "note": "Prescription-only in New Zealand since 2011."}, {"drug": "CBD / cannabis", "status": "restricted", "note": "Medical cannabis legal with prescription. Recreational cannabis remains illegal (referendum failed in 2020)."}], "generalAdvice": "Declare all medications at customs — New Zealand has strict biosecurity. Bring prescriptions and doctor's letters for controlled substances."},
-        "scams": [{"name": "Freedom camping fines", "city": "Nationwide", "description": "Not a scam but a common trap — camping outside designated areas in a non-self-contained vehicle results in $200+ NZD fines.", "avoidance": "Only freedom camp in designated areas. Use CamperMate or WikiCamps NZ apps. Self-contained vehicles have more options."}, {"name": "Overpriced tourist activities", "city": "Queenstown", "description": "Queenstown is the 'adventure capital' but prices are inflated. Bungee jumping, skydiving, and jet boats are 20-30% more expensive than comparable activities elsewhere.", "avoidance": "Book online in advance for discounts. Check Bookme.co.nz for last-minute deals (up to 50% off)."}],
-        "connectivity": {"simOptions": "Spark (best coverage), Vodafone, or 2degrees SIM at airports. $20-30 NZD for 30 days. eSIM via Airalo. Spark has best rural coverage.", "wifiAvailability": "Free WiFi at most cafes and accommodation. Public WiFi in libraries and some towns. Rural areas and national parks have no connectivity.", "bestOption": "Spark SIM for best coverage, especially South Island and rural areas."},
-        "cultural": {"tipping": "Not expected or common. New Zealanders are paid fair wages. No tipping culture. Leaving change is fine for exceptional service.", "dressCode": "Very casual. New Zealanders are laid-back. Barefoot is acceptable in some casual settings. Layers important — weather changes quickly.", "greetings": "Handshake. Māori greeting: hongi (pressing noses together) at cultural events. 'Kia ora' is a common greeting (both Māori and general use).", "taboos": ["Sitting on tables or desks (especially disrespectful in Māori culture)", "Disrespecting Māori culture or mispronouncing place names without trying", "Comparing NZ to Australia (they're very different)", "Littering in nature (Kiwis are environmental stewards)"], "haggling": "Not practiced. Prices are fixed."},
-        "phrases": [{"english": "Hello", "local": "Kia ora", "phonetic": "kee-OR-ah"}, {"english": "Thank you", "local": "Thank you / Ka pai", "phonetic": "kah PIE"}, {"english": "Excuse me", "local": "Excuse me", "phonetic": "ex-KYOOZ mee"}, {"english": "Help!", "local": "Help!", "phonetic": "help"}, {"english": "Hospital", "local": "Hospital", "phonetic": "HOS-pih-tul"}, {"english": "Police", "local": "Police", "phonetic": "poh-LEES"}, {"english": "Beautiful (for scenery)", "local": "Sweet as", "phonetic": "sweet az"}, {"english": "Good / Great", "local": "Choice / Sweet as", "phonetic": "choyss / sweet az"}, {"english": "How much?", "local": "How much?", "phonetic": "how much"}, {"english": "Yes / No", "local": "Yeah / Nah", "phonetic": "yeh / nah"}],
-        "safety": {"overallRisk": "very-low", "violentCrime": "very-low", "pettyCrime": "low", "naturalDisasters": ["earthquakes (significant risk)", "volcanic activity", "flooding", "severe weather"], "lgbtSafety": "Same-sex marriage legal since 2013. Very tolerant. New Zealand is one of the most LGBTQ+-friendly countries in the world.", "soloFemaleSafety": "Very safe. One of the safest countries in the world for solo female travelers.", "notes": "New Zealand is extremely safe. The main risks are natural — earthquakes, unpredictable weather on hikes, and river crossings on tramping tracks. The 'Great Walks' are well-maintained but backcountry tracks require experience."},
-        "practical": {"tapWater": True, "drivingSide": "left", "plugType": ["I"], "voltage": "230V / 50Hz", "dialCode": "+64", "visaFreeCountries": "US citizens: NZeTA required ($12 NZD), 90 days. UK: 6 months visa-free. Australia: unlimited.", "timeZone": "UTC+12:00", "bestTimeToVisit": "December-March (summer). January is peak and most expensive. March-May (autumn) has stunning foliage. Great Walks require advance booking."}
-    },
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = BASE_DIR / "app" / "data"
+SAFETY_DIR = DATA_DIR / "safety"
+HEALTH_DIR = BASE_DIR / "health"
+SCAMS_DIR = BASE_DIR / "scams"
+
+TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+# ── Country configuration ────────────────────────────────────────────────────
+
+PRIORITY_COUNTRIES = {
+    "JP": {"name": "Japan",          "health_slug": "japan",          "scam_cities": ["tokyo", "osaka"]},
+    "TH": {"name": "Thailand",       "health_slug": "thailand",       "scam_cities": ["bangkok", "phuket"]},
+    "MX": {"name": "Mexico",         "health_slug": "mexico",         "scam_cities": ["mexico-city", "cancun"]},
+    "IT": {"name": "Italy",          "health_slug": "italy",          "scam_cities": ["rome", "florence"]},
+    "FR": {"name": "France",         "health_slug": "france",         "scam_cities": ["paris", "nice"]},
+    "ES": {"name": "Spain",          "health_slug": "spain",          "scam_cities": ["barcelona", "madrid"]},
+    "PT": {"name": "Portugal",       "health_slug": "portugal",       "scam_cities": ["lisbon"]},
+    "GR": {"name": "Greece",         "health_slug": "greece",         "scam_cities": ["athens", "santorini"]},
+    "GB": {"name": "United Kingdom", "health_slug": "united-kingdom", "scam_cities": ["london", "edinburgh"]},
+    "DE": {"name": "Germany",        "health_slug": "germany",        "scam_cities": ["berlin"]},
+    "CR": {"name": "Costa Rica",     "health_slug": "costa-rica",     "scam_cities": []},
+    "CO": {"name": "Colombia",       "health_slug": "colombia",       "scam_cities": ["medellin"]},
+    "PE": {"name": "Peru",           "health_slug": "peru",           "scam_cities": ["lima"]},
+    "VN": {"name": "Vietnam",        "health_slug": "vietnam",        "scam_cities": ["hanoi", "ho-chi-minh-city"]},
+    "ID": {"name": "Indonesia",      "health_slug": "indonesia-bali", "scam_cities": []},
+    "MA": {"name": "Morocco",        "health_slug": "morocco",        "scam_cities": ["marrakech"]},
+    "TR": {"name": "Turkey",         "health_slug": "turkey",         "scam_cities": ["istanbul"]},
+    "KR": {"name": "South Korea",    "health_slug": "south-korea",    "scam_cities": ["seoul"]},
+    "AU": {"name": "Australia",      "health_slug": "australia",      "scam_cities": []},
+    "NZ": {"name": "New Zealand",    "health_slug": "new-zealand",    "scam_cities": []},
 }
 
-def build_profile(iso2, data):
-    """Build a complete safety profile for a country."""
-    emergency = EMERGENCY.get(iso2, {})
-    us_adv = US_ADV.get(iso2, {})
-    uk_adv = UK_ADV.get(iso2, {})
+# Quality rating: numeric → text
+QUALITY_MAP = {"1": "poor", "2": "fair", "3": "moderate", "4": "good", "5": "excellent"}
+
+# ── Data loaders ─────────────────────────────────────────────────────────────
+
+def load_json(path):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_emergency_numbers():
+    data = load_json(DATA_DIR / "emergency-numbers.json")
+    return data.get("countries", {})
+
+
+def load_us_advisories():
+    data = load_json(DATA_DIR / "advisories-us.json")
+    return data.get("advisories", {})
+
+
+def load_uk_advisories():
+    data = load_json(DATA_DIR / "advisories-uk.json")
+    raw = data.get("advisories", {})
+    # Build two indexes: by iso2 and by slug
+    by_iso2 = {}
+    by_slug = {}
+    for _key, entry in raw.items():
+        iso2 = entry.get("iso2")
+        slug = entry.get("slug")
+        if iso2:
+            by_iso2[iso2] = entry
+        if slug:
+            by_slug[slug] = entry
+    return by_iso2, by_slug
+
+
+def parse_date(date_str):
+    """Parse 'Fri, 20 Mar 2026' or 'YYYY-MM-DD' → 'YYYY-MM-DD'. Returns original on failure."""
+    if not date_str:
+        return None
+    if re.match(r"\d{4}-\d{2}-\d{2}", date_str):
+        return date_str[:10]
+    try:
+        dt = datetime.strptime(date_str.strip(), "%a, %d %b %Y")
+        return dt.strftime("%Y-%m-%d")
+    except ValueError:
+        pass
+    return date_str
+
+# ── HTML parsers ─────────────────────────────────────────────────────────────
+
+def parse_health_page(iso2):
+    """Extract healthcare data from health/{slug}/index.html."""
+    cfg = PRIORITY_COUNTRIES[iso2]
+    slug = cfg["health_slug"]
+    path = HEALTH_DIR / slug / "index.html"
+    if not path.exists():
+        return None
+
+    soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+
+    # Quick facts
+    qf = {}
+    for item in soup.select("#quick-facts .qf-item"):
+        label_el = item.select_one(".qf-label")
+        value_el = item.select_one(".qf-value")
+        if label_el and value_el:
+            label = label_el.get_text(strip=True)
+            value = value_el.get_text(strip=True)
+            qf[label] = value
+
+    system_type = qf.get("Healthcare System", "").strip() or None
+    quality_raw = qf.get("Care Quality", "").strip()
+    quality_rating = QUALITY_MAP.get(quality_raw, quality_raw.lower() if quality_raw else None)
+    tap_water_raw = qf.get("Tap Water", "").strip().lower()
+    tap_water = tap_water_raw in ("safe", "safe to drink", "yes", "true")
+    pharmacy_access_raw = qf.get("Pharmacy Access", "").strip().lower()
+
+    # Overview section
+    overview_text = ""
+    overview = soup.find("section", id="overview")
+    if overview:
+        paras = [p.get_text(" ", strip=True) for p in overview.find_all("p")]
+        overview_text = " ".join(paras).strip()
+
+    # Vaccinations section
+    vaccinations = []
+    vax_section = soup.find("section", id="vaccinations")
+    if vax_section:
+        for li in vax_section.find_all("li"):
+            text = li.get_text(strip=True)
+            # Strip emoji prefix like "🟡 "
+            text = re.sub(r"^[\U0001F000-\U0001FFFF\u2600-\u26FF\u2700-\u27BF\s]+", "", text).strip()
+            if text:
+                vaccinations.append(text)
+
+    # Insurance section
+    insurance_text = ""
+    insurance = soup.find("section", id="insurance")
+    if insurance:
+        paras = [p.get_text(" ", strip=True) for p in insurance.find_all("p")]
+        tips = insurance.select(".callout p")
+        tip_texts = [t.get_text(" ", strip=True) for t in tips]
+        insurance_text = " ".join(paras + tip_texts).strip()
+
+    # Pharmacy section
+    pharmacy_notes = ""
+    pharmacy = soup.find("section", id="pharmacy")
+    if pharmacy:
+        paras = [p.get_text(" ", strip=True) for p in pharmacy.find_all("p")]
+        pharmacy_notes = " ".join(paras).strip()
+
+    # Malaria risk — look for the word in overview or vaccinations section
+    page_text = soup.get_text(" ", strip=True).lower()
+    malaria_risk = "malaria" in page_text and "no malaria" not in page_text and "malaria risk: none" not in page_text
+
+    return {
+        "systemType": system_type,
+        "qualityRating": quality_rating,
+        "walkInAccess": None,
+        "costForTourists": overview_text or None,
+        "pharmacyAccess": pharmacy_access_raw or None,
+        "hospitalNotes": pharmacy_notes or None,
+        "vaccinationsRecommended": vaccinations,
+        "malariaRisk": malaria_risk,
+        "insuranceAdvice": insurance_text or None,
+        "tapWater": tap_water,
+    }
+
+
+def parse_scam_page(city_slug):
+    """Extract scam entries from scams/{city}/index.html."""
+    path = SCAMS_DIR / city_slug / "index.html"
+    if not path.exists():
+        return []
+
+    soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    scams = []
+
+    for card in soup.select(".scam-card"):
+        name_el = card.select_one(".scam-title")
+        location_el = card.select_one(".scam-location")
+        story_el = card.select_one(".scam-story")
+        avoid_block = card.select_one(".detail-block.avoid")
+
+        name = name_el.get_text(strip=True) if name_el else None
+        if not name:
+            continue
+
+        location = ""
+        if location_el:
+            raw_loc = location_el.get_text(strip=True)
+            # Strip leading emoji + "📍 "
+            location = re.sub(r"^[^\w]*", "", raw_loc).strip()
+            # Take first location before comma
+            location = location.split(",")[0].strip()
+
+        description = story_el.get_text(" ", strip=True) if story_el else ""
+
+        avoidance_parts = []
+        if avoid_block:
+            for li in avoid_block.find_all("li"):
+                avoidance_parts.append(li.get_text(" ", strip=True))
+        avoidance = " | ".join(avoidance_parts) if avoidance_parts else ""
+
+        scams.append({
+            "name": name,
+            "city": location or city_slug.replace("-", " ").title(),
+            "description": description,
+            "avoidance": avoidance,
+        })
+
+    return scams
+
+# ── Profile builder ───────────────────────────────────────────────────────────
+
+LEVEL_TEXT_MAP = {
+    1: "Exercise Normal Precautions",
+    2: "Exercise Increased Caution",
+    3: "Reconsider Travel",
+    4: "Do Not Travel",
+}
+
+US_ADV_URL_TEMPLATE = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/{slug}-travel-advisory.html"
+
+
+def country_slug_for_us(name):
+    """Convert country name to URL slug used by State Dept."""
+    return name.lower().replace(" ", "-").replace("'", "")
+
+
+def build_profile(iso2, emergency_data, us_advisories, uk_by_iso2, uk_by_slug):
+    cfg = PRIORITY_COUNTRIES[iso2]
+    name = cfg["name"]
+
+    # Emergency numbers
+    emrg_raw = emergency_data.get(iso2, {})
+    emergency = {
+        "police": emrg_raw.get("police"),
+        "ambulance": emrg_raw.get("ambulance"),
+        "fire": emrg_raw.get("fire"),
+        "universal": emrg_raw.get("universal"),
+        "notes": None,
+    }
+
+    # US advisory
+    us_adv = us_advisories.get(iso2)
+    if us_adv:
+        travel_advisory = {
+            "source": "US State Department",
+            "level": us_adv.get("level"),
+            "levelText": us_adv.get("levelText"),
+            "summary": us_adv.get("summary", "")[:500] if us_adv.get("summary") else None,
+            "lastUpdated": parse_date(us_adv.get("publishedDate")),
+            "url": us_adv.get("url"),
+        }
+    else:
+        travel_advisory = {
+            "source": "US State Department",
+            "level": None,
+            "levelText": None,
+            "summary": None,
+            "lastUpdated": None,
+            "url": None,
+        }
+
+    # UK advisory
+    uk_adv = uk_by_iso2.get(iso2) or uk_by_slug.get(cfg["health_slug"])
+    if uk_adv:
+        travel_advisory_uk = {
+            "source": "UK FCDO",
+            "summary": uk_adv.get("summary") or None,
+            "lastUpdated": uk_adv.get("lastUpdated"),
+            "url": uk_adv.get("url"),
+        }
+    else:
+        travel_advisory_uk = {
+            "source": "UK FCDO",
+            "summary": None,
+            "lastUpdated": None,
+            "url": None,
+        }
+
+    # Healthcare from health page
+    health_data = parse_health_page(iso2)
+    if health_data:
+        tap_water = health_data.pop("tapWater", None)
+        healthcare = health_data
+    else:
+        tap_water = None
+        healthcare = {
+            "systemType": None,
+            "qualityRating": None,
+            "walkInAccess": None,
+            "costForTourists": None,
+            "pharmacyAccess": None,
+            "hospitalNotes": None,
+            "vaccinationsRecommended": [],
+            "malariaRisk": None,
+            "insuranceAdvice": None,
+        }
+
+    # Scams
+    scams = []
+    for city_slug in cfg["scam_cities"]:
+        city_scams = parse_scam_page(city_slug)
+        scams.extend(city_scams)
 
     profile = {
         "id": f"country-safety:{iso2.lower()}",
         "iso2": iso2,
-        "name": data["name"],
-        "lastUpdated": "2026-03-30T00:00:00Z",
-        "emergency": {
-            "police": emergency.get("police"),
-            "ambulance": emergency.get("ambulance"),
-            "fire": emergency.get("fire"),
-            "universal": emergency.get("universal"),
-            "notes": data.get("emergency_notes") or emergency.get("notes")
+        "name": name,
+        "lastUpdated": TODAY,
+
+        "emergency": emergency,
+
+        "embassies": [],
+
+        "travelAdvisory": travel_advisory,
+
+        "travelAdvisoryUK": travel_advisory_uk,
+
+        "healthcare": healthcare,
+
+        "medications": {
+            "controlledSubstances": [],
+            "generalAdvice": None,
         },
-        "embassies": data["embassies"],
-        "travelAdvisory": {
-            "source": "US State Department",
-            "level": us_adv.get("level"),
-            "levelText": us_adv.get("levelText"),
-            "summary": us_adv.get("summary", ""),
-            "lastUpdated": us_adv.get("publishedDate"),
-            "url": us_adv.get("url")
+
+        "scams": scams,
+
+        "connectivity": {
+            "simOptions": None,
+            "wifiAvailability": None,
+            "bestOption": None,
         },
-        "travelAdvisoryUK": {
-            "source": "UK FCDO",
-            "summary": uk_adv.get("summary", ""),
-            "lastUpdated": uk_adv.get("lastUpdated"),
-            "url": uk_adv.get("url")
+
+        "cultural": {
+            "tipping": None,
+            "dressCode": None,
+            "greetings": None,
+            "taboos": [],
+            "haggling": None,
         },
-        "healthcare": data["healthcare"],
-        "medications": data["medications"],
-        "scams": data["scams"],
-        "connectivity": data["connectivity"],
-        "cultural": data["cultural"],
-        "phrases": data["phrases"],
-        "safety": data["safety"],
-        "practical": data["practical"]
+
+        "phrases": [],
+
+        "safety": {
+            "overallRisk": None,
+            "violentCrime": None,
+            "pettyCrime": None,
+            "naturalDisasters": [],
+            "lgbtSafety": None,
+            "soloFemaleSafety": None,
+            "notes": None,
+        },
+
+        "practical": {
+            "tapWater": tap_water,
+            "drivingSide": None,
+            "plugType": [],
+            "voltage": None,
+            "dialCode": None,
+            "visaFreeCountries": None,
+            "timeZone": None,
+            "bestTimeToVisit": None,
+        },
     }
+
     return profile
 
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
 def main():
-    built = 0
-    for iso2, data in COUNTRIES.items():
-        out_path = os.path.join(SAFETY, f"{iso2.lower()}.json")
-        profile = build_profile(iso2, data)
-        with open(out_path, 'w') as f:
-            json.dump(profile, f, indent=2, ensure_ascii=False)
-        # Validate
-        with open(out_path) as f:
-            json.load(f)
-        size = os.path.getsize(out_path)
-        print(f"✅ {iso2} ({data['name']}) — {size:,} bytes")
-        built += 1
+    SAFETY_DIR.mkdir(parents=True, exist_ok=True)
 
-    print(f"\n{'='*50}")
-    print(f"Built {built} safety profiles")
-    # Count total including JP and TH
-    all_files = [f for f in os.listdir(SAFETY) if f.endswith('.json')]
-    print(f"Total safety profiles in directory: {len(all_files)}")
-    total_size = sum(os.path.getsize(os.path.join(SAFETY, f)) for f in all_files)
-    print(f"Total size: {total_size:,} bytes ({total_size/1024:.1f} KB)")
+    print("Loading data sources...")
+    emergency_data = load_emergency_numbers()
+    us_advisories = load_us_advisories()
+    uk_by_iso2, uk_by_slug = load_uk_advisories()
+    print(f"  Emergency numbers: {len(emergency_data)} countries")
+    print(f"  US advisories: {len(us_advisories)} countries")
+    print(f"  UK advisories: {len(uk_by_iso2)} by iso2, {len(uk_by_slug)} by slug")
 
-if __name__ == '__main__':
+    skipped = []
+    built = []
+
+    for iso2 in PRIORITY_COUNTRIES:
+        out_path = SAFETY_DIR / f"{iso2.lower()}.json"
+
+        # JP and TH already have complete profiles — do not overwrite
+        if iso2 in ("JP", "TH"):
+            if out_path.exists():
+                print(f"  ⏭️  {iso2}: skipping (existing complete profile)")
+                skipped.append(iso2)
+                continue
+            # If somehow missing, fall through and build
+
+        print(f"  🔨 {iso2} ({PRIORITY_COUNTRIES[iso2]['name']})...")
+        profile = build_profile(iso2, emergency_data, us_advisories, uk_by_iso2, uk_by_slug)
+        out_path.write_text(json.dumps(profile, indent=2, ensure_ascii=False), encoding="utf-8")
+        built.append(iso2)
+
+    print(f"\n✅ Built {len(built)} profiles: {', '.join(built)}")
+    if skipped:
+        print(f"⏭️  Skipped {len(skipped)} existing: {', '.join(skipped)}")
+    print(f"\nOutput: {SAFETY_DIR}")
+
+
+if __name__ == "__main__":
     main()
