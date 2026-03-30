@@ -166,7 +166,7 @@ def render_card_page(card):
         covers = ', '.join(trip_cancel.get('covers', []))
         cancel_html = f'''<div class="benefit-card">
             <h3>🚫 Trip Cancellation & Interruption</h3>
-            <p>Reimburses up to <strong>${trip_cancel.get('coveragePerPerson',0):,}/person</strong> (max ${trip_cancel.get('coveragePerTrip',0):,}/trip) if you must cancel or cut short your trip.</p>
+            <p>Reimburses up to <strong>${trip_cancel.get('coveragePerPerson') or 0):,}/person</strong> (max ${trip_cancel.get('coveragePerTrip') or 0):,}/trip) if you must cancel or cut short your trip.</p>
             <p><strong>Covered reasons:</strong> {covers}</p>
             {'<p class="benefit-note">' + trip_cancel.get('notes','') + '</p>' if trip_cancel.get('notes') else ''}
         </div>'''
@@ -180,9 +180,9 @@ def render_card_page(card):
     if lost_bag:
         bag_html += f'''<div class="benefit-card">
             <h3>🧳 Baggage Insurance</h3>
-            <p><strong>Lost/stolen/damaged baggage:</strong> Up to <strong>${lost_bag.get('coveragePerPerson',0):,}/person</strong></p>'''
+            <p><strong>Lost/stolen/damaged baggage:</strong> Up to <strong>${(lost_bag.get('coveragePerPerson') or 0):,}/person</strong></p>'''
         if lost_bag.get('checkedBagCoverage'):
-            bag_html += f'<p>Checked bags: up to ${lost_bag.get("checkedBagCoverage"):,} | Carry-on: up to ${lost_bag.get("carryOnCoverage", lost_bag.get("coveragePerPerson",0)):,}</p>'
+            bag_html += f'<p>Checked bags: up to ${(lost_bag.get("checkedBagCoverage") or 0):,} | Carry-on: up to ${(lost_bag.get("carryOnCoverage") or lost_bag.get("coveragePerPerson") or 0):,}</p>'
         if lost_bag.get('notes'):
             bag_html += f'<p class="benefit-note">{lost_bag.get("notes")}</p>'
         if bag_delay:
@@ -764,7 +764,7 @@ def build_pros_cons(card):
 
     if tb.get('tripCancellation'):
         tc = tb['tripCancellation']
-        pros.append(f"Trip cancellation coverage (up to ${tc.get('coveragePerPerson',0):,}/person)")
+        pros.append(f"Trip cancellation coverage (up to ${tc.get('coveragePerPerson') or 0):,}/person)")
     else:
         cons.append("No trip cancellation/interruption insurance")
 
