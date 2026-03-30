@@ -1293,6 +1293,27 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
         destination_lookup[dest["slug"]] = dest
         destination_slug_by_name[normalize_name_key(dest.get("name", ""))] = dest["slug"]
 
+    # Build cross-ref lookups for safety/alerts/scams
+    safety_data_dir = BASE_DIR / "app" / "data" / "safety"
+    scam_data_dir = BASE_DIR / "app" / "data" / "scams"
+    _safety_iso2s = set()
+    if safety_data_dir.exists():
+        _safety_iso2s = {f.stem.upper() for f in safety_data_dir.glob("*.json")}
+    _alert_iso2s = set()
+    _alerts_api_dir = OUTPUT_DIR / "alerts"
+    if _alerts_api_dir.exists():
+        _alert_iso2s = {f.stem.upper() for f in _alerts_api_dir.glob("*.json")}
+    _scams_by_country = {}
+    if scam_data_dir.exists():
+        for _scam_path in scam_data_dir.glob("*.json"):
+            try:
+                _scam_info = json.loads(_scam_path.read_text(encoding="utf-8"))
+                _cc = _scam_info.get("countryCode", "")
+                if _cc:
+                    _scams_by_country.setdefault(_cc, []).append(_scam_path.stem)
+            except (json.JSONDecodeError, OSError):
+                continue
+
     picks_by_destination = {}
     itins_by_destination = {}
     compares_by_destination = {}
@@ -1399,6 +1420,20 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             detail["relatedItineraries"] = truncate_list(related_itins)
             detail["relatedComparisons"] = truncate_list(related_compares)
             detail["relatedDestinations"] = truncate_list(nearby_destinations)
+
+            # Cross-references to safety, alerts, and scams endpoints
+            _dest_cc = detail.get("countryCode", "")
+            if _dest_cc:
+                _dest_cc_upper = _dest_cc.upper()
+                _dest_cc_lower = _dest_cc.lower()
+                if _dest_cc_upper in _safety_iso2s:
+                    detail["safetyRef"] = f"{API_BASE_URL}/safety/{_dest_cc_lower}.json"
+                if _dest_cc_upper in _alert_iso2s:
+                    detail["alertsRef"] = f"{API_BASE_URL}/alerts/{_dest_cc_lower}.json"
+                _dest_scam_slugs = _scams_by_country.get(_dest_cc_upper, [])
+                if _dest_scam_slugs:
+                    detail["scamsRef"] = [f"{API_BASE_URL}/scams/{s}.json" for s in sorted(_dest_scam_slugs)]
+
             write_json(detail_path, detail)
 
         dest["relatedPicks"] = truncate_list(related_picks)
