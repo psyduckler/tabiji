@@ -1,19 +1,20 @@
 {
   "name": "tabiji.ai API",
   "version": "1.4.0",
-  "description": "Free REST API for AI-curated travel data — destinations, countries, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-22T16:28:20Z",
+  "lastUpdated": "2026-03-30T21:27:23Z",
   "stats": {
     "destinations": 6905,
-    "picksGuides": 527,
-    "totalPlaces": 6093,
-    "itineraries": 374,
-    "comparisons": 117,
-    "searchDocuments": 7923,
-    "countries": 250
+    "picksGuides": 1209,
+    "totalPlaces": 14255,
+    "itineraries": 398,
+    "comparisons": 881,
+    "searchDocuments": 9393,
+    "safetyProfiles": 20,
+    "alertCountries": 211
   },
   "endpoints": [
     {
@@ -28,7 +29,7 @@
     },
     {
       "path": "/picks.json",
-      "description": "All 527 curated 'best of' guides",
+      "description": "All 1209 curated 'best of' guides",
       "method": "GET"
     },
     {
@@ -38,7 +39,7 @@
     },
     {
       "path": "/itineraries.json",
-      "description": "All 374 day-by-day travel itineraries",
+      "description": "All 398 day-by-day travel itineraries",
       "method": "GET"
     },
     {
@@ -48,7 +49,7 @@
     },
     {
       "path": "/compare.json",
-      "description": "All 117 head-to-head destination comparisons",
+      "description": "All 881 head-to-head destination comparisons",
       "method": "GET"
     },
     {
@@ -57,18 +58,33 @@
       "method": "GET"
     },
     {
+      "path": "/catalog.json",
+      "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
+      "method": "GET"
+    },
+    {
       "path": "/search.json?q={query}",
-      "description": "Cross-collection search across 7923 documents",
+      "description": "Cross-collection search across 9393 documents",
       "method": "GET"
     },
     {
-      "path": "/countries.json",
-      "description": "All 250 countries with capitals, population, currencies, borders, and more",
+      "path": "/safety.json",
+      "description": "All 20 country safety profiles (emergency numbers, advisories, healthcare, scams)",
       "method": "GET"
     },
     {
-      "path": "/countries/{iso2}.json",
-      "description": "Single country facts by lowercase ISO code (e.g. jp, fr, us)",
+      "path": "/safety/{iso2}.json",
+      "description": "Full safety profile for one country (e.g., jp.json, th.json)",
+      "method": "GET"
+    },
+    {
+      "path": "/alerts.json",
+      "description": "Travel advisory index for 211 countries (US State Dept + UK FCDO)",
+      "method": "GET"
+    },
+    {
+      "path": "/alerts/{iso2}.json",
+      "description": "Combined US + UK travel advisory for one country",
       "method": "GET"
     }
   ],

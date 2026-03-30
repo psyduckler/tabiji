@@ -1674,10 +1674,211 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
 
 
 # ============================================================
+# SAFETY
+# ============================================================
+
+def build_safety():
+    """Build /api/v1/safety.json index and /api/v1/safety/{iso2}.json detail files."""
+    safety_data_dir = BASE_DIR / "app" / "data" / "safety"
+    if not safety_data_dir.exists():
+        return 0
+
+    safety_profiles = []
+    out_dir = OUTPUT_DIR / "safety"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    for profile_path in sorted(safety_data_dir.glob("*.json")):
+        try:
+            profile = json.loads(profile_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+
+        iso2 = profile.get("iso2", "")
+        if not iso2:
+            continue
+
+        # Write individual safety detail file
+        out_file = out_dir / f"{iso2.lower()}.json"
+        out_file.write_text(json.dumps(profile, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        # Build summary for index
+        ta = profile.get("travelAdvisory") or {}
+        safety_profiles.append({
+            "id": profile.get("id"),
+            "iso2": iso2,
+            "name": profile.get("name"),
+            "lastUpdated": profile.get("lastUpdated"),
+            "advisoryLevel": ta.get("level"),
+            "advisoryLevelText": ta.get("levelText"),
+            "url": f"{API_BASE_URL}/safety/{iso2.lower()}.json",
+        })
+
+    index = {
+        "count": len(safety_profiles),
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "profiles": safety_profiles,
+    }
+    (OUTPUT_DIR / "safety.json").write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
+    return len(safety_profiles)
+
+
+# ============================================================
+# ALERTS
+# ============================================================
+
+_COMBINED_LEVEL_MAP = {1: "low", 2: "moderate", 3: "high", 4: "extreme"}
+
+
+def build_alerts():
+    """Build /api/v1/alerts.json index and /api/v1/alerts/{iso2}.json detail files."""
+    us_path = BASE_DIR / "app" / "data" / "advisories-us.json"
+    uk_path = BASE_DIR / "app" / "data" / "advisories-uk.json"
+
+    if not us_path.exists() and not uk_path.exists():
+        return 0
+
+    us_advisories = {}
+    if us_path.exists():
+        try:
+            us_advisories = json.loads(us_path.read_text(encoding="utf-8")).get("advisories", {})
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    uk_raw = {}
+    if uk_path.exists():
+        try:
+            uk_raw = json.loads(uk_path.read_text(encoding="utf-8")).get("advisories", {})
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    # Build UK lookup by iso2 and by slug
+    uk_by_iso2 = {}
+    uk_by_slug = {}
+    for _key, entry in uk_raw.items():
+        iso2 = entry.get("iso2")
+        slug = entry.get("slug")
+        if iso2:
+            uk_by_iso2[iso2] = entry
+        if slug:
+            uk_by_slug[slug] = entry
+
+    # Load country names from countries.json for enrichment
+    country_names = {}
+    countries_path = OUTPUT_DIR / "countries.json"
+    if countries_path.exists():
+        try:
+            cdata = json.loads(countries_path.read_text(encoding="utf-8"))
+            for c in cdata.get("countries", []):
+                if c.get("iso2"):
+                    country_names[c["iso2"]] = c.get("name", c["iso2"])
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    # Collect all iso2 codes that have US or UK data
+    all_iso2 = set(us_advisories.keys()) | set(uk_by_iso2.keys())
+
+    out_dir = OUTPUT_DIR / "alerts"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    alert_summaries = []
+
+    for iso2 in sorted(all_iso2):
+        us_adv = us_advisories.get(iso2)
+        uk_adv = uk_by_iso2.get(iso2)
+
+        def _clean_country_name(raw):
+            if not raw:
+                return ""
+            return re.sub(r"\s+travel\s+advi\w+", "", raw, flags=re.IGNORECASE).strip()
+
+        name = (
+            country_names.get(iso2)
+            or _clean_country_name(us_adv and us_adv.get("country"))
+            or _clean_country_name(uk_adv and uk_adv.get("country", ""))
+            or iso2
+        )
+
+        # US section
+        if us_adv:
+            us_level = us_adv.get("level")
+            us_section = {
+                "level": us_level,
+                "levelText": us_adv.get("levelText"),
+                "summary": us_adv.get("summary"),
+                "dateIssued": us_adv.get("publishedDate"),
+                "url": us_adv.get("url"),
+                "regions": [],
+            }
+        else:
+            us_level = None
+            us_section = None
+
+        # UK section
+        if uk_adv:
+            uk_section = {
+                "summary": uk_adv.get("summary") or None,
+                "dateIssued": uk_adv.get("lastUpdated"),
+                "url": uk_adv.get("url"),
+                "entryRequirements": None,
+                "healthNotes": None,
+                "safetyWarnings": [],
+            }
+        else:
+            uk_section = None
+
+        # Combined level based on US level
+        combined_level = _COMBINED_LEVEL_MAP.get(us_level) if us_level else None
+        if combined_level == "low":
+            combined_summary = f"Normal precautions apply for {name}."
+        elif combined_level == "moderate":
+            combined_summary = f"Exercise increased caution in {name}."
+        elif combined_level == "high":
+            combined_summary = f"Reconsider travel to {name}."
+        elif combined_level == "extreme":
+            combined_summary = f"Do not travel to {name}."
+        else:
+            combined_summary = None
+
+        detail = {
+            "id": f"alerts:{iso2.lower()}",
+            "iso2": iso2,
+            "name": name,
+            "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "combinedLevel": combined_level,
+            "combinedSummary": combined_summary,
+        }
+        if us_section:
+            detail["us"] = us_section
+        if uk_section:
+            detail["uk"] = uk_section
+
+        out_file = out_dir / f"{iso2.lower()}.json"
+        out_file.write_text(json.dumps(detail, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        alert_summaries.append({
+            "id": detail["id"],
+            "iso2": iso2,
+            "name": name,
+            "combinedLevel": combined_level,
+            "usLevel": us_level,
+            "url": f"{API_BASE_URL}/alerts/{iso2.lower()}.json",
+        })
+
+    index = {
+        "count": len(alert_summaries),
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "alerts": alert_summaries,
+    }
+    (OUTPUT_DIR / "alerts.json").write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
+    return len(alert_summaries)
+
+
+# ============================================================
 # INDEX
 # ============================================================
 
-def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
+def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count,
+                safety_count=0, alerts_count=0):
     index = {
         "name": "tabiji.ai API",
         "version": API_VERSION,
@@ -1693,6 +1894,8 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "itineraries": itin_count,
             "comparisons": compare_count,
             "searchDocuments": search_count,
+            "safetyProfiles": safety_count,
+            "alertCountries": alerts_count,
         },
         "endpoints": [
             {"path": "/destinations.json", "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles", "method": "GET"},
@@ -1705,6 +1908,10 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
             {"path": "/catalog.json", "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons", "method": "GET"},
             {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
+            {"path": "/safety.json", "description": f"All {safety_count} country safety profiles (emergency numbers, advisories, healthcare, scams)", "method": "GET"},
+            {"path": "/safety/{iso2}.json", "description": "Full safety profile for one country (e.g., jp.json, th.json)", "method": "GET"},
+            {"path": "/alerts.json", "description": f"Travel advisory index for {alerts_count} countries (US State Dept + UK FCDO)", "method": "GET"},
+            {"path": "/alerts/{iso2}.json", "description": "Combined US + UK travel advisory for one country", "method": "GET"},
         ],
         "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
         "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
@@ -2147,8 +2354,17 @@ def main():
     search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
     print(f"   ✅ {search_payload['count']} documents")
 
+    print("🛡️  Building safety profiles...")
+    safety_count = build_safety()
+    print(f"   ✅ {safety_count} safety profiles")
+
+    print("🚨 Building travel alerts...")
+    alerts_count = build_alerts()
+    print(f"   ✅ {alerts_count} countries with alerts")
+
     print("📋 Building index...")
-    build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'])
+    build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'],
+                safety_count=safety_count, alerts_count=alerts_count)
     print("   ✅ index.json")
 
     print("🧭 Regenerating agent/discovery docs...")
