@@ -295,8 +295,8 @@ def render_card_page(card):
         <div class="point-values">
             <h3>Point / Mile Values</h3>
             <ul>
-                <li><strong>Cash back / statement credit:</strong> ~{int(rewards.get('pointValue',{}).get('cashBack',0.01)*100)}¢ per point</li>
-                <li><strong>Travel portal redemption:</strong> ~{int(rewards.get('pointValue',{}).get('travelPortal',0.01)*100 + 0.5 if rewards.get('pointValue',{}).get('travelPortal') else 1)}¢ per point</li>
+                <li><strong>Cash back / statement credit:</strong> ~{int((rewards.get('pointValue',{}).get('cashBack') or 0.01)*100)}¢ per point</li>
+                <li><strong>Travel portal redemption:</strong> ~{int((rewards.get('pointValue',{}).get('travelPortal') or 0.01)*100)}¢ per point</li>
                 <li><strong>Transfer partners:</strong> {rewards.get('pointValue',{}).get('transferPartners','Varies')}</li>
             </ul>
         </div>
