@@ -1,28 +1,25 @@
 {
   "name": "tabiji.ai API",
-  "version": "1.5.0",
-  "description": "Free REST API for AI-curated travel data — destinations, countries, restaurant picks, itineraries, comparisons, travel alerts, safety profiles, insurance carrier guides, travel credit cards, and unified search. No API key required.",
+  "version": "1.4.0",
+  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-30T22:16:58Z",
+  "lastUpdated": "2026-03-30T22:17:44Z",
   "stats": {
     "destinations": 6905,
-    "picksGuides": 1209,
-    "totalPlaces": 14255,
+    "picksGuides": 1213,
+    "totalPlaces": 14303,
     "itineraries": 398,
-    "comparisons": 881,
-    "searchDocuments": 7923,
-    "countries": 250,
-    "travelAlerts": 211,
+    "comparisons": 883,
+    "searchDocuments": 9399,
     "safetyProfiles": 20,
-    "insuranceCarriers": 15,
-    "travelCreditCards": 38
+    "alertCountries": 208
   },
   "endpoints": [
     {
       "path": "/destinations.json",
-      "description": "All destinations with budget, season, vibes, and travel styles",
+      "description": "All 6905 destinations with budget, season, vibes, and travel styles",
       "method": "GET"
     },
     {
@@ -32,7 +29,7 @@
     },
     {
       "path": "/picks.json",
-      "description": "All curated 'best of' guides",
+      "description": "All 1213 curated 'best of' guides",
       "method": "GET"
     },
     {
@@ -42,78 +39,56 @@
     },
     {
       "path": "/itineraries.json",
-      "description": "All day-by-day travel itineraries",
+      "description": "All 398 day-by-day travel itineraries",
       "method": "GET"
     },
     {
       "path": "/itineraries/{slug}.json",
-      "description": "Full itinerary with daily activities, restaurants, transport",
+      "description": "Full itinerary with day-by-day activities",
       "method": "GET"
     },
     {
       "path": "/compare.json",
-      "description": "All head-to-head destination comparisons",
+      "description": "All 883 head-to-head destination comparisons",
       "method": "GET"
     },
     {
       "path": "/compare/{slug}.json",
-      "description": "Comparison detail with category breakdowns and verdicts",
+      "description": "Full comparison with structured verdicts, categories, and FAQs",
+      "method": "GET"
+    },
+    {
+      "path": "/catalog.json",
+      "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
       "method": "GET"
     },
     {
       "path": "/search.json?q={query}",
-      "description": "Cross-collection search",
-      "method": "GET"
-    },
-    {
-      "path": "/countries.json",
-      "description": "All 250 countries with essential facts",
-      "method": "GET"
-    },
-    {
-      "path": "/countries/{iso2}.json",
-      "description": "Single country facts by ISO 2-letter code",
-      "method": "GET"
-    },
-    {
-      "path": "/alerts.json",
-      "description": "All 211 travel advisories with combined risk levels",
-      "method": "GET"
-    },
-    {
-      "path": "/alerts/{iso2}.json",
-      "description": "Travel advisory for a specific country",
+      "description": "Cross-collection search across 9399 documents",
       "method": "GET"
     },
     {
       "path": "/safety.json",
-      "description": "All 20 country safety profiles with advisory levels",
+      "description": "All 20 country safety profiles (emergency numbers, advisories, healthcare, scams)",
       "method": "GET"
     },
     {
       "path": "/safety/{iso2}.json",
-      "description": "Detailed safety profile with emergency numbers, embassies, scams, hazards",
+      "description": "Full safety profile for one country (e.g., jp.json, th.json)",
       "method": "GET"
     },
     {
-      "path": "/insurance.json",
-      "description": "All 15 US health insurance carriers with international coverage levels",
+      "path": "/alerts.json",
+      "description": "Travel advisory index for 208 countries (US State Dept + UK FCDO)",
       "method": "GET"
     },
     {
-      "path": "/insurance/{slug}.json",
-      "description": "Carrier detail: coverage, PPO vs HMO, alerts, plan verification checklist",
-      "method": "GET"
-    },
-    {
-      "path": "/cards.json",
-      "description": "All 38 travel credit cards with travel benefits",
-      "method": "GET"
-    },
-    {
-      "path": "/cards/{slug}.json",
-      "description": "Card detail with lounge access, trip delay, baggage, rental car insurance",
+      "path": "/alerts/{iso2}.json",
+      "description": "Combined US + UK travel advisory for one country",
       "method": "GET"
     }
-  ]
+  ],
+  "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
+  "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
+  "contact": "hello@tabiji.ai"
 }
