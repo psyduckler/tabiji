@@ -396,6 +396,108 @@
           }
         }
       }
+    },
+    "/v1/insurance.json": {
+      "get": {
+        "summary": "List all insurance carriers",
+        "description": "Returns all 15 US health insurance carriers with international travel coverage levels and supplemental insurance recommendations.",
+        "operationId": "listInsuranceCarriers",
+        "tags": [
+          "Insurance"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of insurance carriers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "lastUpdated": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "carriers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "abbreviation": {
+                            "type": "string"
+                          },
+                          "internationalCoverageLevel": {
+                            "type": "string",
+                            "enum": [
+                              "strong",
+                              "moderate",
+                              "limited",
+                              "emergency-only"
+                            ]
+                          },
+                          "coverageSummary": {
+                            "type": "string"
+                          },
+                          "supplementalRecommendation": {
+                            "type": "string",
+                            "enum": [
+                              "recommended",
+                              "strongly-recommended",
+                              "essential"
+                            ]
+                          },
+                          "pageUrl": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/insurance/{slug}.json": {
+      "get": {
+        "summary": "Get insurance carrier details",
+        "description": "Returns detailed international travel coverage information for a specific US health insurance carrier.",
+        "operationId": "getInsuranceCarrier",
+        "tags": [
+          "Insurance"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Carrier slug (e.g., blue-cross-blue-shield, kaiser-permanente)",
+            "example": "blue-cross-blue-shield"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrier detail with coverage info, alerts, and plan verification checklist"
+          }
+        }
+      }
     }
   },
   "components": {

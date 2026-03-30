@@ -779,6 +779,75 @@
             </div>
         </section>
 
+        <!-- Insurance Carriers -->
+        <section>
+            <h2>Insurance Carriers</h2>
+            <p>15 major US health insurance carriers with international travel coverage details — coverage levels, PPO vs HMO differences, what's covered/not covered, alerts, plan verification checklists, and supplemental insurance recommendations.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/insurance.json</span>
+                </div>
+                <p class="endpoint-desc">List all 15 carriers with coverage levels and supplemental insurance recommendations.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/insurance.json">https://tabiji.ai/api/v1/insurance.json</a>
+<pre>{
+  "count": 15,
+  "carriers": [
+    {
+      "id": "insurance:blue-cross-blue-shield",
+      "slug": "blue-cross-blue-shield",
+      "name": "Blue Cross Blue Shield",
+      "abbreviation": "BCBS",
+      "internationalCoverageLevel": "moderate",
+      "coverageSummary": "International via Global Core",
+      "supplementalRecommendation": "strongly-recommended",
+      "pageUrl": "https://tabiji.ai/health/insurance/blue-cross-blue-shield/"
+    },
+    ...
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/v1/insurance/{slug}.json</span>
+                </div>
+                <p class="endpoint-desc">Get detailed international travel coverage info for a specific carrier. Includes coverage overview, PPO vs HMO, covered/not covered lists, alerts, plan verification checklist with questions to ask, and supplemental insurance recommendation.</p>
+                <div class="example-label">Try it</div>
+                <a class="example-link" href="https://tabiji.ai/api/v1/insurance/kaiser-permanente.json">https://tabiji.ai/api/v1/insurance/kaiser-permanente.json</a>
+<pre>{
+  "id": "insurance:kaiser-permanente",
+  "slug": "kaiser-permanente",
+  "name": "Kaiser Permanente",
+  "abbreviation": "Kaiser",
+  "internationalCoverage": {
+    "level": "emergency-only",
+    "summary": "Emergency Only Abroad",
+    "overview": "Kaiser Permanente operates as a closed-system HMO...",
+    "planDifferences": { "description": "Kaiser is primarily an HMO..." }
+  },
+  "covered": ["Emergency care to stabilize a life-threatening condition", ...],
+  "notCovered": ["Any routine, preventive, or planned care abroad", ...],
+  "alerts": [
+    { "severity": "danger", "title": "Worst Major Carrier for International Travel", "message": "..." }
+  ],
+  "supplementalInsurance": {
+    "recommendation": "essential",
+    "details": "Absolutely essential — non-negotiable..."
+  },
+  "planVerification": {
+    "phone": "1-951-268-3900 — Kaiser Away From Home Travel Line",
+    "questionsToAsk": ["What does Kaiser define as an 'emergency'?", ...]
+  },
+  "sources": ["Kaiser Permanente — kp.org", ...],
+  "pageUrl": "https://tabiji.ai/health/insurance/kaiser-permanente/"
+}</pre>
+            </div>
+        </section>
+
         <!-- Agent endpoints -->
         <section>
             <h2>Agent Endpoints</h2>
