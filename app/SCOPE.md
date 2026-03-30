@@ -268,9 +268,17 @@ South Korea, Australia, New Zealand
 
 These cover ~80% of our audience's travel destinations based on our GA4 data.
 
-## Open Questions
+## Decisions Made
+- [x] **PWA-first, graduate to native iOS when ready** (Bernard, Mar 30). Apple Developer account secured for future native wrap (Capacitor/TWA).
 - [ ] Do we scope to US embassies only, or include other Five Eyes (UK, Canada, Australia)?
 - [ ] Healthcare cost estimates — how granular? (per-procedure? or just "expensive/moderate/cheap"?)
 - [ ] Scam database — structured per-city or per-country?
 - [ ] Should country packs include offline map tile regions? (big storage implications)
-- [ ] PWA-first or native iOS from day 1?
+
+## PWA Architecture
+- Host on Cloudflare Pages (existing infra, zero cost)
+- Service worker caches downloaded country packs for offline use
+- URL: `tabiji.ai/app/` or `app.tabiji.ai`
+- Stack: Vanilla JS or lightweight framework (Preact/Svelte — TBD)
+- Offline storage: IndexedDB for country packs, Cache API for app shell
+- Future: Wrap with Capacitor for App Store listing
