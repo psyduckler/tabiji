@@ -37,6 +37,12 @@ API_SCHEMA_VERSION = "1.0"
 COUNTRY_FACTS_PATH = BASE_DIR / "api" / "data" / "country-facts.json"
 DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-map.json"
 
+CONFIDENCE_EDITORIAL = 0.9
+CONFIDENCE_PICK_SUMMARY = 0.78
+CONFIDENCE_PLACE_CATALOG = 0.74
+EDITORIAL_SIGNAL_STRONG = 0.7
+EDITORIAL_SIGNAL_WEAK = 0.35
+
 
 def isoformat_mtime(path):
     return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -64,7 +70,7 @@ def unique_list(values):
     return result
 
 
-def make_freshness(updated_at, *, confidence="editorial", confidence_score=0.9, operational_fields_may_change=False):
+def make_freshness(updated_at, *, confidence="editorial", confidence_score=CONFIDENCE_EDITORIAL, operational_fields_may_change=False):
     return {
         "updatedAt": updated_at,
         "lastVerifiedAt": updated_at,
@@ -75,15 +81,17 @@ def make_freshness(updated_at, *, confidence="editorial", confidence_score=0.9, 
 
 
 def make_provenance(*, source_path, source_url, updated_at, sources=None):
-    return {
-        "sources": sources or ["tabiji_static_page"],
-        "sourcePath": source_path,
+    provenance = {
+        "sources": unique_list(sources or ["tabiji_static_page"]),
         "sourceUrl": source_url,
         "lastVerifiedAt": updated_at,
     }
+    if source_path:
+        provenance["sourcePath"] = source_path
+    return provenance
 
 
-def make_summary_meta(*, record_type, slug, updated_at, source_url, tags=None, source_path=None, confidence="editorial", confidence_score=0.9, operational_fields_may_change=False):
+def make_summary_meta(*, record_type, slug, updated_at, source_url, tags=None, source_path=None, confidence="editorial", confidence_score=CONFIDENCE_EDITORIAL, operational_fields_may_change=False):
     normalized_type = normalize_record_type(record_type)
     meta = {
         "id": make_id(record_type, slug),
@@ -94,6 +102,7 @@ def make_summary_meta(*, record_type, slug, updated_at, source_url, tags=None, s
         "sourceUrl": source_url,
         "tags": unique_list(tags or []),
         "freshness": make_freshness(updated_at, confidence=confidence, confidence_score=confidence_score, operational_fields_may_change=operational_fields_may_change),
+        "provenance": make_provenance(source_path=source_path, source_url=source_url, updated_at=updated_at),
     }
     if source_path:
         meta["sourceMeta"] = {
@@ -102,29 +111,20 @@ def make_summary_meta(*, record_type, slug, updated_at, source_url, tags=None, s
             "sourceUrl": source_url,
             "lastVerified": updated_at,
         }
-        meta["provenance"] = make_provenance(source_path=source_path, source_url=source_url, updated_at=updated_at)
     return meta
 
 
 def attach_record_meta(payload, *, record_type, slug, source_path, source_url, tags=None):
     updated_at = isoformat_mtime(source_path)
-    normalized_type = normalize_record_type(record_type)
     source_path_value = str(source_path.relative_to(BASE_DIR)) if source_path.is_relative_to(BASE_DIR) else str(source_path)
-    payload["id"] = make_id(record_type, slug)
-    payload["type"] = normalized_type
-    payload["entityType"] = normalized_type
-    payload["schemaVersion"] = API_SCHEMA_VERSION
-    payload["updatedAt"] = updated_at
-    payload["sourceUrl"] = source_url
-    payload["tags"] = unique_list(tags or [])
-    payload["sourceMeta"] = {
-        "sourceType": "tabiji-static-page",
-        "sourcePath": source_path_value,
-        "sourceUrl": source_url,
-        "lastVerified": updated_at,
-    }
-    payload["freshness"] = make_freshness(updated_at)
-    payload["provenance"] = make_provenance(source_path=source_path_value, source_url=source_url, updated_at=updated_at)
+    payload.update(make_summary_meta(
+        record_type=record_type,
+        slug=slug,
+        updated_at=updated_at,
+        source_url=source_url,
+        source_path=source_path_value,
+        tags=tags,
+    ))
     return payload
 
 
@@ -197,6 +197,16 @@ def make_related_summary(*, item_type, slug, title, url, extra=None):
     if extra:
         summary.update({k: v for k, v in extra.items() if v not in (None, "", [])})
     return summary
+
+
+def collect_field_source_labels(field_sources):
+    labels = []
+    for values in (field_sources or {}).values():
+        if isinstance(values, list):
+            labels.extend(values)
+        elif values:
+            labels.append(values)
+    return unique_list(labels)
 
 
 def infer_area_from_address(address):
@@ -1521,6 +1531,8 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 
 
 def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+    # Catalog place entities are hydrated from generated pick detail files,
+    # so this must run after build_picks() has written api/v1/picks/*.json.
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     items = []
 
@@ -1565,13 +1577,13 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "highlights": unique_list([pick.get("city", ""), pick.get("category", "")]),
             "itemCount": pick.get("placeCount", 0),
             "url": f"{API_BASE_URL}/picks/{pick['slug']}.json",
-            "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=0.78, operational_fields_may_change=True)),
+            "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=CONFIDENCE_PICK_SUMMARY, operational_fields_may_change=True)),
             "provenance": pick.get("provenance", {}),
         })
 
         detail = load_json_if_exists(OUTPUT_DIR / "picks" / f"{pick['slug']}.json") or {}
-        for index, place in enumerate(detail.get("places", []), start=1):
-            place_id = place.get("id") or f"place:{pick['slug']}:{index}"
+        for place in detail.get("places", []):
+            place_id = place.get("id") or f"place:{pick['slug']}:{slugify(place.get('name', 'place'))}"
             items.append({
                 "id": place_id,
                 "entityType": "place",
@@ -1590,16 +1602,16 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
                 "highlights": place.get("bestFor") if isinstance(place.get("bestFor"), list) else unique_list([place.get("bestFor", ""), *(place.get("highlights", []) or [])]),
                 "priceLevel": place.get("priceRange", ""),
                 "ratingNormalized": place.get("googleRating"),
-                "editorialSignal": 0.7 if place.get("editorialSummary") or place.get("verdict") else 0.35,
+                "editorialSignal": EDITORIAL_SIGNAL_STRONG if place.get("editorialSummary") or place.get("verdict") else EDITORIAL_SIGNAL_WEAK,
                 "url": f"{API_BASE_URL}/picks/{pick['slug']}.json#{slugify(place.get('name', 'place'))}",
                 "freshness": make_freshness(
                     detail.get("updatedAt", generated_at),
                     confidence="mixed",
-                    confidence_score=0.74,
+                    confidence_score=CONFIDENCE_PLACE_CATALOG,
                     operational_fields_may_change=True,
                 ),
                 "provenance": {
-                    "sources": ["tabiji_static_page", "tabiji_editorial", *(place.get("sourceMeta", {}).get("fieldSources", {}).keys() or [])],
+                    "sources": unique_list(["tabiji_static_page", "tabiji_editorial", *collect_field_source_labels(place.get("sourceMeta", {}).get("fieldSources", {}))]),
                     "parentId": pick["id"],
                     "sourceUrl": detail.get("sourceUrl", pick.get("sourceUrl", "")),
                     "lastVerifiedAt": detail.get("updatedAt", generated_at),
@@ -1989,6 +2001,7 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     }
     schemas['CatalogEntity'] = {
         'type': 'object',
+        'required': ['id', 'entityType', 'schemaVersion', 'source', 'slug', 'tags', 'freshness', 'provenance'],
         'properties': {
             'id': {'type': 'string'},
             'entityType': {'type': 'string', 'enum': ['destination', 'pick', 'place', 'itinerary', 'compare']},

@@ -7,6 +7,7 @@ This milestone introduces a stable internal/app-facing contract without breaking
 - added a shared entity envelope across destinations, picks, itineraries, and comparisons
 - added stable canonical IDs everywhere (`destination:*`, `pick:*`, `itinerary:*`, `comparison:*`)
 - added `entityType` and `schemaVersion` to record payloads
+- kept `type` as a deprecated compatibility alias for older consumers; new integrations should use `entityType`
 - added `freshness` and `provenance` metadata to major record summaries/details
 - promoted `/api/v1/catalog.json` into a generated normalized catalog instead of a stale checked-in artifact
 - added JSON Schema files for the entity envelope and catalog contract
