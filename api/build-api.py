@@ -947,7 +947,7 @@ def build_picks():
             source_path=str(html_path.relative_to(BASE_DIR)) if html_path.is_relative_to(BASE_DIR) else str(html_path),
             tags=[city, category],
             confidence="mixed",
-            confidence_score=0.78,
+            confidence_score=CONFIDENCE_PICK_SUMMARY,
             operational_fields_may_change=True,
         ))
 
