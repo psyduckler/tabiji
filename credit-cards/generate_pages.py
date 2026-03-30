@@ -290,7 +290,7 @@ def render_card_page(card):
             </div>
             {'<div class="reward-item highlight"><div class="reward-rate">' + rewards.get('travelRate','') + '</div><div class="reward-label">Travel purchases</div></div>' if rewards.get('travelRate') else ''}
             {'<div class="reward-item"><div class="reward-rate">' + rewards.get('diningRate','') + '</div><div class="reward-label">Dining</div></div>' if rewards.get('diningRate') and rewards.get('diningRate') != rewards.get('baseRate') else ''}
-            {''.join('<div class="reward-item"><div class="reward-rate">' + cat.get('rate','') + '</div><div class="reward-label">' + cat.get('category','') + '</div></div>' for cat in rewards.get('otherBonusCategories',[]))}
+            {''.join('<div class="reward-item"><div class="reward-rate">' + (cat.get('rate','') if isinstance(cat, dict) else '') + '</div><div class="reward-label">' + (cat.get('category','') if isinstance(cat, dict) else str(cat)) + '</div></div>' for cat in rewards.get('otherBonusCategories',[]))}
         </div>
         <div class="point-values">
             <h3>Point / Mile Values</h3>
