@@ -1,43 +1,28 @@
 {
   "name": "tabiji.ai API",
-<<<<<<< HEAD
-  "version": "1.4.1",
-  "description": "Free REST API for AI-curated travel data — destinations, countries, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+  "version": "1.5.0",
+  "description": "Free REST API for AI-curated travel data — destinations, countries, restaurant picks, itineraries, comparisons, travel alerts, safety profiles, insurance carrier guides, travel credit cards, and unified search. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-30T21:48:20Z",
-  "stats": {
-    "destinations": 6905,
-    "picksGuides": 527,
-    "totalPlaces": 6093,
-    "itineraries": 374,
-    "comparisons": 117,
-    "searchDocuments": 7923,
-    "countries": 250,
-    "insuranceCarriers": 15
-=======
-  "version": "1.4.0",
-  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
-  "baseUrl": "https://tabiji.ai/api/v1",
-  "documentation": "https://tabiji.ai/api/",
-  "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-30T21:27:23Z",
+  "lastUpdated": "2026-03-30T22:07:40Z",
   "stats": {
     "destinations": 6905,
     "picksGuides": 1209,
     "totalPlaces": 14255,
     "itineraries": 398,
     "comparisons": 881,
-    "searchDocuments": 9393,
+    "searchDocuments": 7923,
+    "countries": 250,
+    "travelAlerts": 211,
     "safetyProfiles": 20,
-    "alertCountries": 211
->>>>>>> a6b77d204 (api: add safety & alerts endpoints (Sprint 1) — 20 safety profiles, 208+ alerts)
+    "insuranceCarriers": 15,
+    "travelCreditCards": 38
   },
   "endpoints": [
     {
       "path": "/destinations.json",
-      "description": "All 6905 destinations with budget, season, vibes, and travel styles",
+      "description": "All destinations with budget, season, vibes, and travel styles",
       "method": "GET"
     },
     {
@@ -47,7 +32,7 @@
     },
     {
       "path": "/picks.json",
-      "description": "All 1209 curated 'best of' guides",
+      "description": "All curated 'best of' guides",
       "method": "GET"
     },
     {
@@ -57,66 +42,78 @@
     },
     {
       "path": "/itineraries.json",
-      "description": "All 398 day-by-day travel itineraries",
+      "description": "All day-by-day travel itineraries",
       "method": "GET"
     },
     {
       "path": "/itineraries/{slug}.json",
-      "description": "Full itinerary with day-by-day activities",
+      "description": "Full itinerary with daily activities, restaurants, transport",
       "method": "GET"
     },
     {
       "path": "/compare.json",
-      "description": "All 881 head-to-head destination comparisons",
+      "description": "All head-to-head destination comparisons",
       "method": "GET"
     },
     {
       "path": "/compare/{slug}.json",
-      "description": "Full comparison with structured verdicts, categories, and FAQs",
-      "method": "GET"
-    },
-    {
-      "path": "/catalog.json",
-      "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
+      "description": "Comparison detail with category breakdowns and verdicts",
       "method": "GET"
     },
     {
       "path": "/search.json?q={query}",
-      "description": "Cross-collection search across 9393 documents",
+      "description": "Cross-collection search",
       "method": "GET"
     },
     {
-      "path": "/safety.json",
-      "description": "All 20 country safety profiles (emergency numbers, advisories, healthcare, scams)",
+      "path": "/countries.json",
+      "description": "All 250 countries with essential facts",
       "method": "GET"
     },
     {
-      "path": "/safety/{iso2}.json",
-      "description": "Full safety profile for one country (e.g., jp.json, th.json)",
+      "path": "/countries/{iso2}.json",
+      "description": "Single country facts by ISO 2-letter code",
       "method": "GET"
     },
     {
       "path": "/alerts.json",
-      "description": "Travel advisory index for 211 countries (US State Dept + UK FCDO)",
+      "description": "All 211 travel advisories with combined risk levels",
       "method": "GET"
     },
     {
       "path": "/alerts/{iso2}.json",
-      "description": "Combined US + UK travel advisory for one country",
+      "description": "Travel advisory for a specific country",
+      "method": "GET"
+    },
+    {
+      "path": "/safety.json",
+      "description": "All 20 country safety profiles with advisory levels",
+      "method": "GET"
+    },
+    {
+      "path": "/safety/{iso2}.json",
+      "description": "Detailed safety profile with emergency numbers, embassies, scams, hazards",
       "method": "GET"
     },
     {
       "path": "/insurance.json",
-      "description": "All 15 US health insurance carriers with international travel coverage levels",
+      "description": "All 15 US health insurance carriers with international coverage levels",
       "method": "GET"
     },
     {
       "path": "/insurance/{slug}.json",
-      "description": "Detailed carrier guide: coverage overview, PPO vs HMO, covered/not covered, alerts, plan verification checklist",
+      "description": "Carrier detail: coverage, PPO vs HMO, alerts, plan verification checklist",
+      "method": "GET"
+    },
+    {
+      "path": "/cards.json",
+      "description": "All 38 travel credit cards with travel benefits",
+      "method": "GET"
+    },
+    {
+      "path": "/cards/{slug}.json",
+      "description": "Card detail with lounge access, trip delay, baggage, rental car insurance",
       "method": "GET"
     }
-  ],
-  "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
-  "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
-  "contact": "hello@tabiji.ai"
+  ]
 }
