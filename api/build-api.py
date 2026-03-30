@@ -1728,6 +1728,23 @@ def build_safety():
 
 _COMBINED_LEVEL_MAP = {1: "low", 2: "moderate", 3: "high", 4: "extreme"}
 
+# US State Dept uses FIPS 10-4 codes; tabiji uses ISO 3166-1 alpha-2.
+# This map normalizes non-standard keys before writing files.
+_FIPS_TO_ISO = {
+    "AV": "AI",   # Anguilla
+    "AY": "AQ",   # Antarctica
+    "CJ": "KY",   # Cayman Islands
+    "KV": "XK",   # Kosovo
+    "NN": "SX",   # Sint Maarten
+    "UC": "CW",   # Cura\u00e7ao
+    "A1": None,    # Saba \u2014 no standalone ISO alpha-2 (part of BQ)
+    "A2": "GF",   # French Guiana
+    "A3": None,    # French West Indies \u2014 no single ISO code (GP/MQ)
+    # Full-name keys from US data
+    "Hong Kong": "HK",
+    "Macau": "MO",
+}
+
 
 def build_alerts():
     """Build /api/v1/alerts.json index and /api/v1/alerts/{iso2}.json detail files."""
@@ -1737,24 +1754,43 @@ def build_alerts():
     if not us_path.exists() and not uk_path.exists():
         return 0
 
-    us_advisories = {}
+    us_raw = {}
     if us_path.exists():
         try:
-            us_advisories = json.loads(us_path.read_text(encoding="utf-8")).get("advisories", {})
+            us_raw = json.loads(us_path.read_text(encoding="utf-8")).get("advisories", {})
         except (json.JSONDecodeError, OSError):
             pass
 
-    uk_raw = {}
+    # Normalize US advisory keys: FIPS->ISO, full names->ISO, skip unmappable
+    us_advisories = {}
+    for raw_key, entry in us_raw.items():
+        if raw_key in _FIPS_TO_ISO:
+            mapped = _FIPS_TO_ISO[raw_key]
+            if mapped is None:
+                continue  # Skip entries with no valid ISO code (Saba, French West Indies)
+            iso2 = mapped
+        else:
+            iso2 = raw_key
+        # Merge duplicates (e.g. HK appears as both "HK" and "Hong Kong"):
+        # keep the entry with a non-None level, or the first one
+        if iso2 in us_advisories:
+            existing = us_advisories[iso2]
+            if existing.get("level") is None and entry.get("level") is not None:
+                us_advisories[iso2] = entry
+        else:
+            us_advisories[iso2] = entry
+
+    uk_raw_data = {}
     if uk_path.exists():
         try:
-            uk_raw = json.loads(uk_path.read_text(encoding="utf-8")).get("advisories", {})
+            uk_raw_data = json.loads(uk_path.read_text(encoding="utf-8")).get("advisories", {})
         except (json.JSONDecodeError, OSError):
             pass
 
     # Build UK lookup by iso2 and by slug
     uk_by_iso2 = {}
     uk_by_slug = {}
-    for _key, entry in uk_raw.items():
+    for _key, entry in uk_raw_data.items():
         iso2 = entry.get("iso2")
         slug = entry.get("slug")
         if iso2:
@@ -1779,6 +1815,10 @@ def build_alerts():
 
     out_dir = OUTPUT_DIR / "alerts"
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Clean previous alert files to avoid stale entries from renamed/removed codes
+    for old_file in out_dir.glob("*.json"):
+        old_file.unlink()
 
     alert_summaries = []
 
@@ -1826,8 +1866,12 @@ def build_alerts():
         else:
             uk_section = None
 
-        # Combined level based on US level
+        # Combined level: prefer US level, fall back to UK-derived level
         combined_level = _COMBINED_LEVEL_MAP.get(us_level) if us_level else None
+        if combined_level is None and uk_adv:
+            # UK FCDO doesn't use numbered levels, so default to "unknown"
+            # rather than leaving null -- lets consumers know data exists
+            combined_level = "unknown"
         if combined_level == "low":
             combined_summary = f"Normal precautions apply for {name}."
         elif combined_level == "moderate":
@@ -1836,6 +1880,8 @@ def build_alerts():
             combined_summary = f"Reconsider travel to {name}."
         elif combined_level == "extreme":
             combined_summary = f"Do not travel to {name}."
+        elif combined_level == "unknown":
+            combined_summary = f"UK FCDO advisory available for {name}. No US State Dept level assigned."
         else:
             combined_summary = None
 
