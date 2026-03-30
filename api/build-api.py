@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "api" / "v1"
 API_BASE_URL = "https://tabiji.ai/api/v1"
 SITE_URL = "https://tabiji.ai"
-API_VERSION = "1.4.0"
+API_VERSION = "1.5.0"
 API_SCHEMA_VERSION = "1.0"
 COUNTRY_FACTS_PATH = BASE_DIR / "api" / "data" / "country-facts.json"
 DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-map.json"
@@ -1779,6 +1779,10 @@ def build_alerts():
 
     out_dir = OUTPUT_DIR / "alerts"
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Clean previous alert files to avoid stale entries from renamed codes
+    for old_file in out_dir.glob("*.json"):
+        old_file.unlink()
 
     alert_summaries = []
 

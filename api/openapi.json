@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "tabiji.ai API",
-    "version": "1.4.0",
-    "description": "Free REST API for AI-curated travel data — 6905 destinations, 250 countries, 527 curated picks guides (6,093 place records), 374 day-by-day itineraries, 117 destination comparisons, and unified search. No API key required.",
+    "version": "1.5.0",
+    "description": "Free REST API for AI-curated travel data — 6905 destinations, 1209 curated picks guides (14,255 place records), 398 day-by-day itineraries, 881 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -390,6 +390,23 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CountryFacts"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog.json": {
+      "get": {
+        "summary": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
+        "responses": {
+          "200": {
+            "description": "Catalog response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogResponse"
                 }
               }
             }
@@ -1629,6 +1646,144 @@
             }
           }
         }
+      },
+      "FreshnessMeta": {
+        "type": "object",
+        "properties": {
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastVerifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "confidenceScore": {
+            "type": "number"
+          },
+          "operationalFieldsMayChange": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProvenanceMeta": {
+        "type": "object",
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourcePath": {
+            "type": "string"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "lastVerifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "CatalogEntity": {
+        "type": "object",
+        "required": [
+          "id",
+          "entityType",
+          "schemaVersion",
+          "source",
+          "slug",
+          "tags",
+          "freshness",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "destination",
+              "pick",
+              "place",
+              "itinerary",
+              "compare"
+            ]
+          },
+          "schemaVersion": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "freshness": {
+            "$ref": "#/components/schemas/FreshnessMeta"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ProvenanceMeta"
+          }
+        },
+        "additionalProperties": true
+      },
+      "CatalogResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "schemaVersion": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "itemCount": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntity"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "schemaVersion",
+          "generatedAt",
+          "itemCount",
+          "items"
+        ]
       }
     }
   },

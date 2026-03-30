@@ -1,11 +1,11 @@
 {
   "name": "tabiji.ai API",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-03-30T21:27:23Z",
+  "lastUpdated": "2026-03-30T21:51:23Z",
   "stats": {
     "destinations": 6905,
     "picksGuides": 1209,
@@ -14,7 +14,8 @@
     "comparisons": 881,
     "searchDocuments": 9393,
     "safetyProfiles": 20,
-    "alertCountries": 211
+    "alertCountries": 208,
+    "scamCities": 52
   },
   "endpoints": [
     {
@@ -79,12 +80,37 @@
     },
     {
       "path": "/alerts.json",
-      "description": "Travel advisory index for 211 countries (US State Dept + UK FCDO)",
+      "description": "Travel advisory index for 208 countries (US State Dept + UK FCDO)",
       "method": "GET"
     },
     {
       "path": "/alerts/{iso2}.json",
       "description": "Combined US + UK travel advisory for one country",
+      "method": "GET"
+    },
+    {
+      "path": "/scams.json",
+      "description": "Tourist scam index for 52 cities",
+      "method": "GET"
+    },
+    {
+      "path": "/scams/{slug}.json",
+      "description": "Full scam guide for one city (e.g., tokyo.json, paris.json)",
+      "method": "GET"
+    },
+    {
+      "path": "/countries/{iso2}/scams.json",
+      "description": "All scams aggregated by country",
+      "method": "GET"
+    },
+    {
+      "path": "/countries/{iso2}/safety.json",
+      "description": "Safety profile for a country (alias for /safety/{iso2}.json)",
+      "method": "GET"
+    },
+    {
+      "path": "/countries/{iso2}/alerts.json",
+      "description": "Travel alerts for a country (alias for /alerts/{iso2}.json)",
       "method": "GET"
     }
   ],
