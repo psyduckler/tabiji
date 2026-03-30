@@ -1763,6 +1763,23 @@ def build_safety():
 
 _COMBINED_LEVEL_MAP = {1: "low", 2: "moderate", 3: "high", 4: "extreme"}
 
+# US State Dept uses FIPS 10-4 codes; tabiji uses ISO 3166-1 alpha-2.
+# This map normalizes non-standard keys before writing files.
+_FIPS_TO_ISO = {
+    "AV": "AI",   # Anguilla
+    "AY": "AQ",   # Antarctica
+    "CJ": "KY",   # Cayman Islands
+    "KV": "XK",   # Kosovo
+    "NN": "SX",   # Sint Maarten
+    "UC": "CW",   # Cura\u00e7ao
+    "A1": None,    # Saba \u2014 no standalone ISO alpha-2 (part of BQ)
+    "A2": "GF",   # French Guiana
+    "A3": None,    # French West Indies \u2014 no single ISO code (GP/MQ)
+    # Full-name keys from US data
+    "Hong Kong": "HK",
+    "Macau": "MO",
+}
+
 
 def build_alerts():
     """Build /api/v1/alerts.json index and /api/v1/alerts/{iso2}.json detail files."""
@@ -1772,24 +1789,43 @@ def build_alerts():
     if not us_path.exists() and not uk_path.exists():
         return 0
 
-    us_advisories = {}
+    us_raw = {}
     if us_path.exists():
         try:
-            us_advisories = json.loads(us_path.read_text(encoding="utf-8")).get("advisories", {})
+            us_raw = json.loads(us_path.read_text(encoding="utf-8")).get("advisories", {})
         except (json.JSONDecodeError, OSError):
             pass
 
-    uk_raw = {}
+    # Normalize US advisory keys: FIPS->ISO, full names->ISO, skip unmappable
+    us_advisories = {}
+    for raw_key, entry in us_raw.items():
+        if raw_key in _FIPS_TO_ISO:
+            mapped = _FIPS_TO_ISO[raw_key]
+            if mapped is None:
+                continue  # Skip entries with no valid ISO code (Saba, French West Indies)
+            iso2 = mapped
+        else:
+            iso2 = raw_key
+        # Merge duplicates (e.g. HK appears as both "HK" and "Hong Kong"):
+        # keep the entry with a non-None level, or the first one
+        if iso2 in us_advisories:
+            existing = us_advisories[iso2]
+            if existing.get("level") is None and entry.get("level") is not None:
+                us_advisories[iso2] = entry
+        else:
+            us_advisories[iso2] = entry
+
+    uk_raw_data = {}
     if uk_path.exists():
         try:
-            uk_raw = json.loads(uk_path.read_text(encoding="utf-8")).get("advisories", {})
+            uk_raw_data = json.loads(uk_path.read_text(encoding="utf-8")).get("advisories", {})
         except (json.JSONDecodeError, OSError):
             pass
 
     # Build UK lookup by iso2 and by slug
     uk_by_iso2 = {}
     uk_by_slug = {}
-    for _key, entry in uk_raw.items():
+    for _key, entry in uk_raw_data.items():
         iso2 = entry.get("iso2")
         slug = entry.get("slug")
         if iso2:
@@ -1815,7 +1851,7 @@ def build_alerts():
     out_dir = OUTPUT_DIR / "alerts"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Clean previous alert files to avoid stale entries from renamed codes
+    # Clean previous alert files to avoid stale entries from renamed/removed codes
     for old_file in out_dir.glob("*.json"):
         old_file.unlink()
 
@@ -1865,8 +1901,12 @@ def build_alerts():
         else:
             uk_section = None
 
-        # Combined level based on US level
+        # Combined level: prefer US level, fall back to UK-derived level
         combined_level = _COMBINED_LEVEL_MAP.get(us_level) if us_level else None
+        if combined_level is None and uk_adv:
+            # UK FCDO doesn't use numbered levels, so default to "unknown"
+            # rather than leaving null -- lets consumers know data exists
+            combined_level = "unknown"
         if combined_level == "low":
             combined_summary = f"Normal precautions apply for {name}."
         elif combined_level == "moderate":
@@ -1875,6 +1915,8 @@ def build_alerts():
             combined_summary = f"Reconsider travel to {name}."
         elif combined_level == "extreme":
             combined_summary = f"Do not travel to {name}."
+        elif combined_level == "unknown":
+            combined_summary = f"UK FCDO advisory available for {name}. No US State Dept level assigned."
         else:
             combined_summary = None
 
@@ -2360,6 +2402,282 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     openapi_path.write_text(json.dumps(spec, indent=2, ensure_ascii=False), encoding='utf-8')
 
 
+# ============================================================
+# FILTER, FACETS & RECOMMENDATIONS (Sprint 3)
+# ============================================================
+
+_BUDGET_TIER_MAP = {"$": "budget", "$$": "moderate", "$$$": "premium", "$$$$": "luxury"}
+
+_MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+_MONTH_LOOKUP = {m.lower(): m for m in _MONTH_NAMES}
+_MONTH_IDX = {m.lower(): i for i, m in enumerate(_MONTH_NAMES)}
+
+
+def _parse_season(raw):
+    """Parse season strings like 'Mar–May, Oct–Nov' or 'Year-round' into month arrays."""
+    if not raw:
+        return []
+    raw_clean = raw.replace("\u2013", "-").replace("\u2014", "-").strip()
+    if raw_clean.lower() in ("year-round", "year round", "all year"):
+        return list(_MONTH_NAMES)
+    months = []
+    for part in raw_clean.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        if "-" in part:
+            pieces = [p.strip()[:3] for p in part.split("-", 1)]
+            start = _MONTH_IDX.get(pieces[0].lower())
+            end = _MONTH_IDX.get(pieces[1].lower()) if len(pieces) > 1 else None
+            if start is not None and end is not None:
+                if end >= start:
+                    months.extend(_MONTH_NAMES[start:end + 1])
+                else:
+                    months.extend(_MONTH_NAMES[start:] + _MONTH_NAMES[:end + 1])
+            elif start is not None:
+                months.append(_MONTH_NAMES[start])
+        else:
+            m = _MONTH_LOOKUP.get(part[:3].lower())
+            if m:
+                months.append(m)
+    seen = set()
+    return [m for m in months if not (m in seen or seen.add(m))]
+
+
+def build_filter():
+    """Build /api/v1/filter.json — filterable destination index with normalized dimensions."""
+    dest_dir = OUTPUT_DIR / "destinations"
+    if not dest_dir.exists():
+        return [], 0
+
+    # Load safety data by iso2
+    safety_by_iso2 = {}
+    safety_dir = OUTPUT_DIR / "safety"
+    if safety_dir.exists():
+        for sp in safety_dir.glob("*.json"):
+            try:
+                sd = json.loads(sp.read_text(encoding="utf-8"))
+                iso2 = sd.get("iso2", sp.stem.upper())
+                safety_section = sd.get("safety", {})
+                ta = sd.get("travelAdvisory", {})
+                # Normalize soloFemaleSafety/lgbtSafety from free text to enum
+                def _normalize_safety_text(text):
+                    if not text:
+                        return None
+                    t = text.lower()
+                    if "very safe" in t or "extremely safe" in t:
+                        return "very-safe"
+                    if "generally safe" in t or "safe" in t:
+                        return "safe"
+                    if "moderate" in t or "exercise caution" in t:
+                        return "moderate"
+                    if "caution" in t or "avoid" in t:
+                        return "caution"
+                    return None
+
+                safety_by_iso2[iso2.upper()] = {
+                    "overallRisk": safety_section.get("overallRisk"),
+                    "soloFemaleSafety": _normalize_safety_text(safety_section.get("soloFemaleSafety")),
+                    "lgbtSafety": _normalize_safety_text(safety_section.get("lgbtSafety")),
+                    "advisoryLevel": ta.get("level"),
+                }
+            except (json.JSONDecodeError, OSError):
+                continue
+
+    # Load alert combinedLevel by iso2
+    alert_levels = {}
+    alerts_dir = OUTPUT_DIR / "alerts"
+    if alerts_dir.exists():
+        for ap in alerts_dir.glob("*.json"):
+            try:
+                ad = json.loads(ap.read_text(encoding="utf-8"))
+                iso2 = ad.get("iso2", ap.stem.upper())
+                alert_levels[iso2.upper()] = {
+                    "combinedLevel": ad.get("combinedLevel"),
+                    "advisoryLevel": ad.get("us", {}).get("level") if ad.get("us") else None,
+                }
+            except (json.JSONDecodeError, OSError):
+                continue
+
+    items = []
+    for dest_path in sorted(dest_dir.glob("*.json")):
+        try:
+            d = json.loads(dest_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+
+        cc = (d.get("countryCode") or "").upper()
+        budget_raw = d.get("budget", "")
+        budget_tier = _BUDGET_TIER_MAP.get(budget_raw)
+
+        season_raw = d.get("season", "")
+        season_best = _parse_season(season_raw)
+
+        vibes = [v.lower() for v in (d.get("vibes") or [])]
+        travel_styles = [s.lower() for s in (d.get("travelStyles") or [])]
+
+        # Safety data
+        safety_data = safety_by_iso2.get(cc, {})
+        alert_data = alert_levels.get(cc, {})
+        safety_entry = {
+            "overallRisk": safety_data.get("overallRisk"),
+            "advisoryLevel": safety_data.get("advisoryLevel") or alert_data.get("advisoryLevel"),
+            "combinedLevel": alert_data.get("combinedLevel"),
+            "soloFemaleSafety": safety_data.get("soloFemaleSafety"),
+            "lgbtSafety": safety_data.get("lgbtSafety"),
+        }
+
+        practical = {
+            "tapWaterSafe": d.get("tapWaterSafe"),
+            "drivingSide": d.get("drivingSide"),
+            "dialCode": d.get("dialCode"),
+        }
+
+        editorial_score = (d.get("freshness") or {}).get("confidenceScore", 0.7)
+
+        items.append({
+            "slug": d.get("slug", dest_path.stem),
+            "name": d.get("name", ""),
+            "country": d.get("country", ""),
+            "countryCode": cc,
+            "continent": d.get("continent", ""),
+            "region": d.get("region", ""),
+            "budget": {"tier": budget_tier, "raw": budget_raw} if budget_raw else None,
+            "season": {"best": season_best, "raw": season_raw} if season_raw else None,
+            "vibes": vibes,
+            "travelStyles": travel_styles,
+            "safety": safety_entry,
+            "practical": practical,
+            "scores": {"editorial": editorial_score},
+            "url": f"{API_BASE_URL}/destinations/{d.get('slug', dest_path.stem)}.json",
+        })
+
+    payload = {
+        "count": len(items),
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "facetsUrl": f"{API_BASE_URL}/facets.json",
+        "items": items,
+    }
+    write_json(OUTPUT_DIR / "filter.json", payload)
+    return items, len(items)
+
+
+def build_facets(filter_items):
+    """Build /api/v1/facets.json — dimension value counts for UI faceted search."""
+    from collections import Counter
+
+    facet_defs = {
+        "continent": lambda it: [it.get("continent")] if it.get("continent") else [],
+        "budget.tier": lambda it: [it["budget"]["tier"]] if it.get("budget") and it["budget"].get("tier") else [],
+        "safety.overallRisk": lambda it: [it["safety"]["overallRisk"]] if it.get("safety") and it["safety"].get("overallRisk") else [],
+        "safety.advisoryLevel": lambda it: [it["safety"]["advisoryLevel"]] if it.get("safety") and it["safety"].get("advisoryLevel") is not None else [],
+        "safety.soloFemaleSafety": lambda it: [it["safety"]["soloFemaleSafety"]] if it.get("safety") and it["safety"].get("soloFemaleSafety") else [],
+        "vibes": lambda it: it.get("vibes", []),
+        "practical.tapWaterSafe": lambda it: [it["practical"]["tapWaterSafe"]] if it.get("practical") and it["practical"].get("tapWaterSafe") is not None else [],
+    }
+
+    facets = {}
+    for facet_name, extractor in facet_defs.items():
+        counter = Counter()
+        for item in filter_items:
+            for val in extractor(item):
+                counter[val] += 1
+        values = [{"value": v, "count": c} for v, c in counter.most_common()]
+        if values:
+            facets[facet_name] = {"values": values}
+
+    payload = {
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "facets": facets,
+    }
+    write_json(OUTPUT_DIR / "facets.json", payload)
+
+
+def build_recommend(filter_items):
+    """Build /api/v1/recommend.json — pre-computed recommendation sets for common queries."""
+
+    def _match(item, filters):
+        for key, allowed in filters.items():
+            parts = key.split(".")
+            val = item
+            for p in parts:
+                val = val.get(p) if isinstance(val, dict) else None
+                if val is None:
+                    break
+            if isinstance(val, list):
+                if not any(v in allowed for v in val):
+                    return False
+            elif val not in allowed:
+                return False
+        return True
+
+    def _reason_text(item):
+        reasons = []
+        s = item.get("safety", {})
+        if s.get("soloFemaleSafety"):
+            reasons.append(f"Solo female safety: {s['soloFemaleSafety']}")
+        if s.get("overallRisk"):
+            reasons.append(f"Overall risk: {s['overallRisk']}")
+        b = item.get("budget", {})
+        if b and b.get("raw"):
+            reasons.append(f"Budget: {b['raw']}")
+        if item.get("vibes"):
+            reasons.append(f"Vibes: {', '.join(item['vibes'][:3])}")
+        return reasons[:3]
+
+    presets_def = [
+        ("solo-female-safe-budget", "safe, budget-friendly solo female travel",
+         {"safety.soloFemaleSafety": ["very-safe", "safe"], "budget.tier": ["budget", "moderate"]}),
+        ("warm-beach-budget", "warm beach destinations on a budget",
+         {"vibes": ["beach"], "budget.tier": ["budget", "moderate"]}),
+        ("cultural-europe", "cultural destinations in Europe",
+         {"continent": ["Europe"], "vibes": ["cultural"]}),
+        ("foodie-asia", "food-focused destinations in Asia",
+         {"continent": ["Asia"], "vibes": ["food"]}),
+        ("adventure-south-america", "adventure travel in South America",
+         {"continent": ["South America"], "vibes": ["adventure"]}),
+        ("family-safe", "safe, family-friendly destinations",
+         {"vibes": ["family"], "safety.overallRisk": ["very-low", "low"]}),
+        ("digital-nomad-budget", "budget-friendly digital nomad destinations",
+         {"budget.tier": ["budget"], "vibes": ["city"]}),
+        ("romantic-europe", "romantic getaways in Europe",
+         {"continent": ["Europe"], "vibes": ["romantic"]}),
+        ("nature-wildlife", "nature and wildlife destinations",
+         {"vibes": ["nature", "wildlife"]}),
+        ("off-beaten-path", "off the beaten path destinations",
+         {"vibes": ["unfrequented"]}),
+    ]
+
+    presets = []
+    for preset_id, query, filters in presets_def:
+        matches = [it for it in filter_items if _match(it, filters)]
+        matches.sort(key=lambda x: x.get("scores", {}).get("editorial", 0), reverse=True)
+        top = matches[:25]
+        results = [
+            {
+                "slug": m["slug"],
+                "name": m["name"],
+                "country": m.get("country", ""),
+                "score": round(m.get("scores", {}).get("editorial", 0.7), 2),
+                "reasons": _reason_text(m),
+            }
+            for m in top
+        ]
+        presets.append({
+            "id": preset_id,
+            "query": query,
+            "filters": filters,
+            "results": results,
+            "resultCount": len(matches),
+        })
+
+    payload = {
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "presets": presets,
+    }
+    write_json(OUTPUT_DIR / "recommend.json", payload)
+
+
 def main():
     print("🦉 Building Tabiji API v1...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -2415,6 +2733,18 @@ def main():
     print("🌍 Building country facts...")
     country_count = build_country_facts()
     print(f"   ✅ {country_count} countries")
+
+    print("🔍 Building filterable index...")
+    filter_items, filter_count = build_filter()
+    print(f"   ✅ {filter_count} destinations in filter index")
+
+    print("📊 Building facets...")
+    build_facets(filter_items)
+    print("   ✅ facets.json")
+
+    print("💡 Building recommendations...")
+    build_recommend(filter_items)
+    print("   ✅ recommend.json")
 
     print("📄 Updating API docs page...")
     build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
