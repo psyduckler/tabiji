@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tabiji.ai/api/schemas/entity-envelope.schema.json",
+  "title": "TabijiEntityEnvelope",
+  "type": "object",
+  "required": [
+    "id",
+    "entityType",
+    "schemaVersion",
+    "updatedAt",
+    "sourceUrl",
+    "tags",
+    "freshness",
+    "provenance"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "type": {
+      "type": "string",
+      "deprecated": true,
+      "description": "Deprecated compatibility alias for entityType. New consumers should use entityType."
+    },
+    "entityType": {"type": "string"},
+    "schemaVersion": {"type": "string", "pattern": "^\\d+\\.\\d+$"},
+    "updatedAt": {"type": "string", "format": "date-time"},
+    "sourceUrl": {"type": "string", "format": "uri"},
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["updatedAt", "lastVerifiedAt", "confidence", "confidenceScore", "operationalFieldsMayChange"],
+      "properties": {
+        "updatedAt": {"type": "string", "format": "date-time"},
+        "lastVerifiedAt": {"type": "string", "format": "date-time"},
+        "confidence": {"type": "string"},
+        "confidenceScore": {"type": "number", "minimum": 0, "maximum": 1},
+        "operationalFieldsMayChange": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sources", "lastVerifiedAt"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "sourcePath": {"type": "string"},
+        "sourceUrl": {"type": "string", "format": "uri"},
+        "lastVerifiedAt": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
