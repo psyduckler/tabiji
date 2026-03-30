@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tabiji.ai/api/schemas/catalog-entity.schema.json",
+  "title": "TabijiCatalogEntity",
+  "allOf": [
+    {"$ref": "./entity-envelope.schema.json"},
+    {
+      "type": "object",
+      "required": ["source", "slug"],
+      "properties": {
+        "entityType": {
+          "type": "string",
+          "enum": ["destination", "pick", "place", "itinerary", "compare"]
+        },
+        "source": {
+          "type": "string",
+          "enum": ["destinations", "picks", "itineraries", "compare"]
+        },
+        "slug": {"type": "string"},
+        "title": {"type": "string"},
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "locationLabel": {"type": "string"},
+        "category": {"type": "string"},
+        "highlights": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "url": {"type": "string", "format": "uri-reference"}
+      },
+      "additionalProperties": true
+    }
+  ]
+}

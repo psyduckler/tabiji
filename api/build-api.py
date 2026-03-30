@@ -32,6 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "api" / "v1"
 API_BASE_URL = "https://tabiji.ai/api/v1"
 SITE_URL = "https://tabiji.ai"
+API_VERSION = "1.4.0"
+API_SCHEMA_VERSION = "1.0"
 COUNTRY_FACTS_PATH = BASE_DIR / "api" / "data" / "country-facts.json"
 DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-map.json"
 
@@ -62,19 +64,67 @@ def unique_list(values):
     return result
 
 
+def make_freshness(updated_at, *, confidence="editorial", confidence_score=0.9, operational_fields_may_change=False):
+    return {
+        "updatedAt": updated_at,
+        "lastVerifiedAt": updated_at,
+        "confidence": confidence,
+        "confidenceScore": confidence_score,
+        "operationalFieldsMayChange": operational_fields_may_change,
+    }
+
+
+def make_provenance(*, source_path, source_url, updated_at, sources=None):
+    return {
+        "sources": sources or ["tabiji_static_page"],
+        "sourcePath": source_path,
+        "sourceUrl": source_url,
+        "lastVerifiedAt": updated_at,
+    }
+
+
+def make_summary_meta(*, record_type, slug, updated_at, source_url, tags=None, source_path=None, confidence="editorial", confidence_score=0.9, operational_fields_may_change=False):
+    normalized_type = normalize_record_type(record_type)
+    meta = {
+        "id": make_id(record_type, slug),
+        "type": normalized_type,
+        "entityType": normalized_type,
+        "schemaVersion": API_SCHEMA_VERSION,
+        "updatedAt": updated_at,
+        "sourceUrl": source_url,
+        "tags": unique_list(tags or []),
+        "freshness": make_freshness(updated_at, confidence=confidence, confidence_score=confidence_score, operational_fields_may_change=operational_fields_may_change),
+    }
+    if source_path:
+        meta["sourceMeta"] = {
+            "sourceType": "tabiji-static-page",
+            "sourcePath": source_path,
+            "sourceUrl": source_url,
+            "lastVerified": updated_at,
+        }
+        meta["provenance"] = make_provenance(source_path=source_path, source_url=source_url, updated_at=updated_at)
+    return meta
+
+
 def attach_record_meta(payload, *, record_type, slug, source_path, source_url, tags=None):
     updated_at = isoformat_mtime(source_path)
+    normalized_type = normalize_record_type(record_type)
+    source_path_value = str(source_path.relative_to(BASE_DIR)) if source_path.is_relative_to(BASE_DIR) else str(source_path)
     payload["id"] = make_id(record_type, slug)
-    payload["type"] = normalize_record_type(record_type)
+    payload["type"] = normalized_type
+    payload["entityType"] = normalized_type
+    payload["schemaVersion"] = API_SCHEMA_VERSION
     payload["updatedAt"] = updated_at
     payload["sourceUrl"] = source_url
     payload["tags"] = unique_list(tags or [])
     payload["sourceMeta"] = {
         "sourceType": "tabiji-static-page",
-        "sourcePath": str(source_path.relative_to(BASE_DIR)) if source_path.is_relative_to(BASE_DIR) else str(source_path),
+        "sourcePath": source_path_value,
         "sourceUrl": source_url,
         "lastVerified": updated_at,
     }
+    payload["freshness"] = make_freshness(updated_at)
+    payload["provenance"] = make_provenance(source_path=source_path_value, source_url=source_url, updated_at=updated_at)
     return payload
 
 
@@ -403,9 +453,9 @@ def build_destinations():
         else:
             write_json(detail_path, detail)
 
+        updated_at = isoformat_mtime(src)
+        summary_tags = [dest.get("region", ""), dest.get("continent", ""), country_fact.get("country", ""), country_mapping.get("countryCode", ""), *(dest.get("vibes", []) or []), *(dest.get("travel", []) or [])]
         summaries.append({
-            "id": make_id("destination", slug),
-            "type": "destination",
             "slug": slug,
             "name": dest.get("name", ""),
             "region": dest.get("region", ""),
@@ -427,11 +477,15 @@ def build_destinations():
             "season": dest.get("season", ""),
             "vibes": dest.get("vibes", []),
             "photo": dest.get("photo", ""),
-            "pitch": dest.get("pitch", ""),
-            "updatedAt": isoformat_mtime(src),
-            "sourceUrl": f"{SITE_URL}/find/?q={slug}",
-            "tags": unique_list([dest.get("region", ""), dest.get("continent", ""), country_fact.get("country", ""), country_mapping.get("countryCode", ""), *(dest.get("vibes", []) or []), *(dest.get("travel", []) or [])])
-        })
+            "pitch": dest.get("pitch", "")
+        } | make_summary_meta(
+            record_type="destination",
+            slug=slug,
+            updated_at=updated_at,
+            source_url=f"{SITE_URL}/find/?q={slug}",
+            source_path=str(src.relative_to(BASE_DIR)) if src.is_relative_to(BASE_DIR) else str(src),
+            tags=summary_tags,
+        ))
 
     with open(OUTPUT_DIR / "destinations.json", 'w') as f:
         json.dump({"count": len(summaries), "destinations": summaries}, f, indent=2, ensure_ascii=False)
@@ -866,20 +920,26 @@ def build_picks():
         with open(output_picks_dir / f"{slug}.json", 'w') as f:
             json.dump(detail, f, indent=2, ensure_ascii=False)
 
+        updated_at = isoformat_mtime(html_path)
         summaries.append({
-            "id": make_id("pick", slug),
-            "type": "pick",
             "slug": slug,
             "title": title,
             "description": desc,
             "city": city,
             "category": category,
             "placeCount": len(places),
-            "url": f"{SITE_URL}/popular-picks/{slug}/",
-            "updatedAt": isoformat_mtime(html_path),
-            "sourceUrl": f"{SITE_URL}/popular-picks/{slug}/",
-            "tags": unique_list([city, category])
-        })
+            "url": f"{SITE_URL}/popular-picks/{slug}/"
+        } | make_summary_meta(
+            record_type="pick",
+            slug=slug,
+            updated_at=updated_at,
+            source_url=f"{SITE_URL}/popular-picks/{slug}/",
+            source_path=str(html_path.relative_to(BASE_DIR)) if html_path.is_relative_to(BASE_DIR) else str(html_path),
+            tags=[city, category],
+            confidence="mixed",
+            confidence_score=0.78,
+            operational_fields_may_change=True,
+        ))
 
     with open(OUTPUT_DIR / "picks.json", 'w') as f:
         json.dump({"count": len(summaries), "totalPlaces": total_places, "picks": summaries}, f, indent=2, ensure_ascii=False)
@@ -1059,19 +1119,21 @@ def build_itineraries():
         with open(output_itin_dir / f"{filename}.json", 'w') as f:
             json.dump(api_itin, f, indent=2, ensure_ascii=False)
         summaries.append({
-            "id": make_id("itinerary", filename),
-            "type": "itinerary",
             "slug": filename,
             "title": itin["title"],
             "destination": itin["destination"],
             "duration": itin["duration"],
             "tripType": itin["tripType"],
             "url": itin["url"],
-            "dayCount": itin["dayCount"],
-            "updatedAt": itin["updatedAt"],
-            "sourceUrl": itin["sourceUrl"],
-            "tags": unique_list([itin["destination"], *(itin["tripType"] or [])])
-        })
+            "dayCount": itin["dayCount"]
+        } | make_summary_meta(
+            record_type="itinerary",
+            slug=filename,
+            updated_at=itin["updatedAt"],
+            source_url=itin["sourceUrl"],
+            source_path=itin.get("sourceMeta", {}).get("sourcePath"),
+            tags=[itin["destination"], *(itin["tripType"] or [])],
+        ))
 
     with open(OUTPUT_DIR / "itineraries.json", 'w') as f:
         json.dump({"count": len(summaries), "itineraries": summaries}, f, indent=2, ensure_ascii=False)
@@ -1192,19 +1254,22 @@ def build_compare():
         with open(output_compare_dir / f"{slug}.json", 'w') as f:
             json.dump(detail, f, indent=2, ensure_ascii=False)
 
+        updated_at = isoformat_mtime(html_path)
         summaries.append({
-            "id": make_id("comparison", slug),
-            "type": normalize_record_type("comparison"),
             "slug": slug,
             "title": title,
             "destination1": destination1,
             "destination2": destination2,
             "categoryCount": len(categories),
-            "url": f"{SITE_URL}/compare/{slug}/",
-            "updatedAt": isoformat_mtime(html_path),
-            "sourceUrl": f"{SITE_URL}/compare/{slug}/",
-            "tags": unique_list([destination1, destination2])
-        })
+            "url": f"{SITE_URL}/compare/{slug}/"
+        } | make_summary_meta(
+            record_type="comparison",
+            slug=slug,
+            updated_at=updated_at,
+            source_url=f"{SITE_URL}/compare/{slug}/",
+            source_path=str(html_path.relative_to(BASE_DIR)) if html_path.is_relative_to(BASE_DIR) else str(html_path),
+            tags=[destination1, destination2],
+        ))
 
     with open(OUTPUT_DIR / "compare.json", 'w') as f:
         json.dump({"count": len(summaries), "comparisons": summaries}, f, indent=2, ensure_ascii=False)
@@ -1455,6 +1520,147 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
     return payload
 
 
+def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    items = []
+
+    for dest in dest_summaries:
+        items.append({
+            "id": dest["id"],
+            "entityType": "destination",
+            "schemaVersion": dest.get("schemaVersion", API_SCHEMA_VERSION),
+            "source": "destinations",
+            "slug": dest["slug"],
+            "name": dest.get("name", ""),
+            "title": dest.get("name", ""),
+            "description": dest.get("pitch", ""),
+            "countryCode": dest.get("countryCode", ""),
+            "country": dest.get("country", ""),
+            "region": dest.get("region", ""),
+            "continent": dest.get("continent", ""),
+            "locationLabel": dest.get("country", "") or dest.get("region", ""),
+            "category": "destination",
+            "tags": dest.get("tags", []),
+            "highlights": unique_list([*(dest.get("vibes", []) or []), *(dest.get("travelStyles", []) or [])]),
+            "priceLevel": dest.get("budget", ""),
+            "url": f"{API_BASE_URL}/destinations/{dest['slug']}.json",
+            "freshness": dest.get("freshness", make_freshness(dest.get("updatedAt", generated_at))),
+            "provenance": dest.get("provenance", {}),
+        })
+
+    for pick in pick_summaries:
+        items.append({
+            "id": pick["id"],
+            "entityType": "pick",
+            "schemaVersion": pick.get("schemaVersion", API_SCHEMA_VERSION),
+            "source": "picks",
+            "slug": pick["slug"],
+            "title": pick.get("title", ""),
+            "description": pick.get("description", ""),
+            "city": pick.get("city", ""),
+            "destinationSlug": pick.get("destinationSlug", ""),
+            "locationLabel": pick.get("city", ""),
+            "category": pick.get("category", ""),
+            "tags": pick.get("tags", []),
+            "highlights": unique_list([pick.get("city", ""), pick.get("category", "")]),
+            "itemCount": pick.get("placeCount", 0),
+            "url": f"{API_BASE_URL}/picks/{pick['slug']}.json",
+            "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=0.78, operational_fields_may_change=True)),
+            "provenance": pick.get("provenance", {}),
+        })
+
+        detail = load_json_if_exists(OUTPUT_DIR / "picks" / f"{pick['slug']}.json") or {}
+        for index, place in enumerate(detail.get("places", []), start=1):
+            place_id = place.get("id") or f"place:{pick['slug']}:{index}"
+            items.append({
+                "id": place_id,
+                "entityType": "place",
+                "schemaVersion": API_SCHEMA_VERSION,
+                "source": "picks",
+                "slug": pick["slug"],
+                "parentId": pick["id"],
+                "name": place.get("name", ""),
+                "title": pick.get("title", ""),
+                "description": place.get("editorialSummary") or place.get("verdict") or pick.get("description", ""),
+                "city": detail.get("city", pick.get("city", "")),
+                "destinationSlug": pick.get("destinationSlug", ""),
+                "locationLabel": place.get("address") or place.get("area") or detail.get("city", pick.get("city", "")),
+                "category": detail.get("category", pick.get("category", "")),
+                "tags": unique_list([*(place.get("tags", []) or []), *(place.get("cuisineTags", []) or []), *(pick.get("tags", []) or [])]),
+                "highlights": place.get("bestFor") if isinstance(place.get("bestFor"), list) else unique_list([place.get("bestFor", ""), *(place.get("highlights", []) or [])]),
+                "priceLevel": place.get("priceRange", ""),
+                "ratingNormalized": place.get("googleRating"),
+                "editorialSignal": 0.7 if place.get("editorialSummary") or place.get("verdict") else 0.35,
+                "url": f"{API_BASE_URL}/picks/{pick['slug']}.json#{slugify(place.get('name', 'place'))}",
+                "freshness": make_freshness(
+                    detail.get("updatedAt", generated_at),
+                    confidence="mixed",
+                    confidence_score=0.74,
+                    operational_fields_may_change=True,
+                ),
+                "provenance": {
+                    "sources": ["tabiji_static_page", "tabiji_editorial", *(place.get("sourceMeta", {}).get("fieldSources", {}).keys() or [])],
+                    "parentId": pick["id"],
+                    "sourceUrl": detail.get("sourceUrl", pick.get("sourceUrl", "")),
+                    "lastVerifiedAt": detail.get("updatedAt", generated_at),
+                },
+            })
+
+    for itin in itin_summaries:
+        items.append({
+            "id": itin["id"],
+            "entityType": "itinerary",
+            "schemaVersion": itin.get("schemaVersion", API_SCHEMA_VERSION),
+            "source": "itineraries",
+            "slug": itin["slug"],
+            "title": itin.get("title", ""),
+            "description": itin.get("editorialSummary") or itin.get("title", ""),
+            "destination": itin.get("destination", ""),
+            "destinationSlug": itin.get("destinationSlug", ""),
+            "locationLabel": itin.get("destination", ""),
+            "category": "itinerary",
+            "tags": itin.get("tags", []),
+            "highlights": itin.get("tripType", []),
+            "duration": itin.get("duration", ""),
+            "itemCount": itin.get("dayCount", 0),
+            "url": f"{API_BASE_URL}/itineraries/{itin['slug']}.json",
+            "freshness": itin.get("freshness", make_freshness(itin.get("updatedAt", generated_at))),
+            "provenance": itin.get("provenance", {}),
+        })
+
+    for compare in compare_summaries:
+        items.append({
+            "id": compare["id"],
+            "entityType": "compare",
+            "schemaVersion": compare.get("schemaVersion", API_SCHEMA_VERSION),
+            "source": "compare",
+            "slug": compare["slug"],
+            "title": compare.get("title", ""),
+            "description": compare.get("editorialSummary") or compare.get("title", ""),
+            "destination1": compare.get("destination1", ""),
+            "destination2": compare.get("destination2", ""),
+            "destinationSlugs": compare.get("destinationSlugs", []),
+            "locationLabel": f"{compare.get('destination1', '')} vs {compare.get('destination2', '')}".strip(),
+            "category": "compare",
+            "tags": compare.get("tags", []),
+            "highlights": unique_list(compare.get("destinationSlugs", [])),
+            "itemCount": compare.get("categoryCount", 0),
+            "url": f"{API_BASE_URL}/compare/{compare['slug']}.json",
+            "freshness": compare.get("freshness", make_freshness(compare.get("updatedAt", generated_at))),
+            "provenance": compare.get("provenance", {}),
+        })
+
+    payload = {
+        "version": API_VERSION,
+        "schemaVersion": API_SCHEMA_VERSION,
+        "generatedAt": generated_at,
+        "itemCount": len(items),
+        "items": items,
+    }
+    write_json(OUTPUT_DIR / "catalog.json", payload)
+    return payload
+
+
 # ============================================================
 # INDEX
 # ============================================================
@@ -1462,8 +1668,8 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count):
     index = {
         "name": "tabiji.ai API",
-        "version": "1.3.0",
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, and unified search. No API key required.",
+        "version": API_VERSION,
+        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
@@ -1485,6 +1691,7 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             {"path": "/itineraries/{slug}.json", "description": "Full itinerary with day-by-day activities", "method": "GET"},
             {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons", "method": "GET"},
             {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
+            {"path": "/catalog.json", "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons", "method": "GET"},
             {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
         ],
         "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
@@ -1689,7 +1896,7 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
     spec = json.loads(open(openapi_path, encoding='utf-8').read())
 
-    spec['info']['version'] = '1.3.0'
+    spec['info']['version'] = API_VERSION
     spec['info']['description'] = (
         f"Free REST API for AI-curated travel data — {dest_count} destinations, "
         f"{picks_count} curated picks guides ({places_count:,} place records), "
@@ -1703,6 +1910,22 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         for param in search_get.get('parameters', []):
             if param.get('name') == 'type':
                 param.setdefault('schema', {})['enum'] = ['destination', 'pick', 'itinerary', 'compare']
+
+    paths['/catalog.json'] = {
+        'get': {
+            'summary': 'Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons',
+            'responses': {
+                '200': {
+                    'description': 'Catalog response',
+                    'content': {
+                        'application/json': {
+                            'schema': {'$ref': '#/components/schemas/CatalogResponse'}
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     schemas = spec.setdefault('components', {}).setdefault('schemas', {})
 
@@ -1742,6 +1965,55 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
                 }
             },
         },
+    }
+    schemas['FreshnessMeta'] = {
+        'type': 'object',
+        'properties': {
+            'updatedAt': {'type': 'string', 'format': 'date-time'},
+            'lastVerifiedAt': {'type': 'string', 'format': 'date-time'},
+            'confidence': {'type': 'string'},
+            'confidenceScore': {'type': 'number'},
+            'operationalFieldsMayChange': {'type': 'boolean'},
+        },
+    }
+    schemas['ProvenanceMeta'] = {
+        'type': 'object',
+        'properties': {
+            'sources': {'type': 'array', 'items': {'type': 'string'}},
+            'sourcePath': {'type': 'string'},
+            'sourceUrl': {'type': 'string', 'format': 'uri'},
+            'lastVerifiedAt': {'type': 'string', 'format': 'date-time'},
+            'parentId': {'type': 'string'},
+        },
+        'additionalProperties': True,
+    }
+    schemas['CatalogEntity'] = {
+        'type': 'object',
+        'properties': {
+            'id': {'type': 'string'},
+            'entityType': {'type': 'string', 'enum': ['destination', 'pick', 'place', 'itinerary', 'compare']},
+            'schemaVersion': {'type': 'string'},
+            'source': {'type': 'string'},
+            'slug': {'type': 'string'},
+            'title': {'type': 'string'},
+            'name': {'type': 'string'},
+            'description': {'type': 'string'},
+            'tags': {'type': 'array', 'items': {'type': 'string'}},
+            'freshness': {'$ref': '#/components/schemas/FreshnessMeta'},
+            'provenance': {'$ref': '#/components/schemas/ProvenanceMeta'},
+        },
+        'additionalProperties': True,
+    }
+    schemas['CatalogResponse'] = {
+        'type': 'object',
+        'properties': {
+            'version': {'type': 'string'},
+            'schemaVersion': {'type': 'string'},
+            'generatedAt': {'type': 'string', 'format': 'date-time'},
+            'itemCount': {'type': 'integer'},
+            'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
+        },
+        'required': ['version', 'schemaVersion', 'generatedAt', 'itemCount', 'items'],
     }
 
     destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
@@ -1853,6 +2125,10 @@ def main():
     print("🕸️  Building cross-links and editorial enrichment...")
     build_relationships(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
     print("   ✅ related records, provenance, freshness")
+
+    print("🧭 Building normalized catalog...")
+    catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
+    print(f"   ✅ {catalog_payload['itemCount']} entities")
 
     print("🔎 Building search index...")
     search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)

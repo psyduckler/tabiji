@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tabiji.ai/api/schemas/catalog-response.schema.json",
+  "title": "TabijiCatalogResponse",
+  "type": "object",
+  "required": ["version", "schemaVersion", "generatedAt", "itemCount", "items"],
+  "properties": {
+    "version": {"type": "string"},
+    "schemaVersion": {"type": "string", "pattern": "^\\d+\\.\\d+$"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "itemCount": {"type": "integer", "minimum": 0},
+    "items": {
+      "type": "array",
+      "items": {"$ref": "./catalog-entity.schema.json"}
+    }
+  },
+  "additionalProperties": false
+}
