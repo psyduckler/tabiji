@@ -2,6 +2,7 @@
 """Generate scam pages for all cities based on Barcelona template."""
 import json
 import os
+import glob
 
 # Emergency numbers per country
 EMERGENCY_INFO = {
@@ -340,6 +341,158 @@ EMERGENCY_INFO = {
         "report_url": "https://www.scotland.police.uk/",
         "report_site": "scotland.police.uk",
         "lost_passport": "Contact your nearest embassy or consulate. The US Consulate General in Edinburgh is at 3 Regent Terrace, Edinburgh EH7 5BW. For emergencies: +44 131 556 8315.",
+    },
+    "Indonesia": {
+        "police_name": "Indonesian National Police (Polri)",
+        "police_number": "110 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.polri.go.id/",
+        "report_site": "polri.go.id",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Jakarta is at Jl. Merdeka Selatan No. 3-5, Jakarta 10110. For emergencies: +62 21-5083-1000.",
+    },
+    "India": {
+        "police_name": "Indian Police",
+        "police_number": "100 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.citizenservices.gov.in/",
+        "report_site": "citizenservices.gov.in",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in New Delhi is at Shantipath, Chanakyapuri, New Delhi 110021. For emergencies: +91 11-2419-8000.",
+    },
+    "Taiwan": {
+        "police_name": "National Police Agency (NPA)",
+        "police_number": "110 (Police) or 119 (Fire/Ambulance)",
+        "emergency_number": "110",
+        "report_url": "https://www.npa.gov.tw/",
+        "report_site": "npa.gov.tw",
+        "lost_passport": "Contact the American Institute in Taiwan (AIT) at No. 100, Jinhu Road, Neihu District, Taipei 11461. For emergencies: +886 2-2162-2000.",
+    },
+    "Nepal": {
+        "police_name": "Nepal Police",
+        "police_number": "100 (Police) or 102 (Emergency)",
+        "emergency_number": "100",
+        "report_url": "https://www.nepalpolice.gov.np/",
+        "report_site": "nepalpolice.gov.np",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Kathmandu is at Maharajgunj, Kathmandu. For emergencies: +977 1-423-4000.",
+    },
+    "China": {
+        "police_name": "Chinese Police (公安局)",
+        "police_number": "110 (Police) or 120 (Ambulance)",
+        "emergency_number": "110",
+        "report_url": "https://www.mps.gov.cn/",
+        "report_site": "mps.gov.cn",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Beijing is at No. 55 An Jia Lou Road, Chaoyang District, Beijing 100600. For emergencies: +86 10-8531-3000.",
+    },
+    "China (SAR)": {
+        "police_name": "Macau Public Security Police (治安警察局)",
+        "police_number": "999 (Police) or 110 (Emergency)",
+        "emergency_number": "999",
+        "report_url": "https://www.fsm.gov.mo/",
+        "report_site": "fsm.gov.mo",
+        "lost_passport": "Contact the US Consulate General in Hong Kong at 26 Garden Road, Central, Hong Kong. For emergencies: +852 2523-9011.",
+    },
+    "Laos": {
+        "police_name": "Lao Police",
+        "police_number": "1191 (Police) or 1195 (Ambulance)",
+        "emergency_number": "1191",
+        "report_url": "https://www.laopdr.gov.la/",
+        "report_site": "laopdr.gov.la",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Vientiane is at Thadeua Road, Km 9, Ban Somvang Tai, Hatsayfong District, Vientiane. For emergencies: +856 21-48-7000.",
+    },
+    "Romania": {
+        "police_name": "Romanian Police (Poliția Română)",
+        "police_number": "112",
+        "emergency_number": "112",
+        "report_url": "https://www.politiaromana.ro/",
+        "report_site": "politiaromana.ro",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Bucharest is at Bulevardul Dr. Liviu Librescu 4-6, Sector 1, 015118 Bucharest. For emergencies: +40 21-200-3300.",
+    },
+    "Bulgaria": {
+        "police_name": "Bulgarian Police (Полиция)",
+        "police_number": "166 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.mvr.bg/",
+        "report_site": "mvr.bg",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Sofia is at 16 Kozyak Street, Sofia 1408. For emergencies: +359 2-937-5100.",
+    },
+    "Serbia": {
+        "police_name": "Serbian Police (Полиција)",
+        "police_number": "192 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.mup.gov.rs/",
+        "report_site": "mup.gov.rs",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Belgrade is at Bulevar kneza Aleksandra Karađorđevića 92, 11040 Belgrade. For emergencies: +381 11-706-4000.",
+    },
+    "Estonia": {
+        "police_name": "Estonian Police and Border Guard Board",
+        "police_number": "110 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.politsei.ee/",
+        "report_site": "politsei.ee",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Tallinn is at Kentmanni 20, 15099 Tallinn. For emergencies: +372 668-8100.",
+    },
+    "Montenegro": {
+        "police_name": "Montenegrin Police (Uprava Policije)",
+        "police_number": "122 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.gov.me/mup",
+        "report_site": "gov.me/mup",
+        "lost_passport": "Contact the US Embassy in Podgorica at Dzona Dzeksona bb, 81000 Podgorica. For emergencies: +382 20-410-500.",
+    },
+    "South Africa": {
+        "police_name": "South African Police Service (SAPS)",
+        "police_number": "10111 (Police) or 112 (Emergency from mobile)",
+        "emergency_number": "10111",
+        "report_url": "https://www.saps.gov.za/",
+        "report_site": "saps.gov.za",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Consulate General in Cape Town is at 2 Reddam Avenue, Westlake 7945. For emergencies: +27 21-702-7300.",
+    },
+    "Kenya": {
+        "police_name": "Kenya Police Service",
+        "police_number": "999 or 112 (Emergency)",
+        "emergency_number": "999",
+        "report_url": "https://www.nationalpolice.go.ke/",
+        "report_site": "nationalpolice.go.ke",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Nairobi is at United Nations Avenue, Gigiri, Nairobi. For emergencies: +254 20-363-6000.",
+    },
+    "Tanzania": {
+        "police_name": "Tanzania Police Force",
+        "police_number": "112 or 114 (Police)",
+        "emergency_number": "112",
+        "report_url": "https://www.polisi.go.tz/",
+        "report_site": "polisi.go.tz",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Dar es Salaam is at 686 Old Bagamoyo Road, Msasani, Dar es Salaam. For emergencies: +255 22-229-4000.",
+    },
+    "Ghana": {
+        "police_name": "Ghana Police Service",
+        "police_number": "191 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://police.gov.gh/",
+        "report_site": "police.gov.gh",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Accra is at No. 24, Fourth Circular Road, Cantonments, Accra. For emergencies: +233 30-274-1000.",
+    },
+    "Australia": {
+        "police_name": "Australian Federal Police / State Police",
+        "police_number": "000 (Emergency) or 131 444 (Non-emergency)",
+        "emergency_number": "000",
+        "report_url": "https://www.police.nsw.gov.au/",
+        "report_site": "police.nsw.gov.au",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Consulate General in Sydney is at MLC Centre, Level 10, 19-29 Martin Place, Sydney NSW 2000. For emergencies: +61 2-9373-9200.",
+    },
+    "Sri Lanka": {
+        "police_name": "Sri Lanka Police",
+        "police_number": "119 (Police) or 110 (Emergency)",
+        "emergency_number": "119",
+        "report_url": "https://www.police.lk/",
+        "report_site": "police.lk",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Colombo is at 210 Galle Road, Colombo 03. For emergencies: +94 11-249-8500.",
+    },
+    "The Bahamas": {
+        "police_name": "Royal Bahamas Police Force",
+        "police_number": "919 (Police) or 911 (Emergency)",
+        "emergency_number": "919",
+        "report_url": "https://www.royalbahamaspolice.org/",
+        "report_site": "royalbahamaspolice.org",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Nassau is at 42 Queen Street, Nassau. For emergencies: +1 242-322-1181.",
     },
 }
 
@@ -1941,8 +2094,8 @@ def main():
     
     # Load all batch files
     all_cities = []
-    for batch_file in ["batch1.json", "batch2.json", "batch3.json", "batch5.json", "batch6.json", "batch7.json", "batch8.json", "batch9.json", "batch10.json"]:
-        path = os.path.join(base_dir, "research", batch_file)
+    batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")))
+    for path in batch_files:
         with open(path) as f:
             data = json.load(f)
             all_cities.extend(data)
