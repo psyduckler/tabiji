@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tabiji.ai/api/schemas/country-manifest.schema.json",
+  "title": "TabijiCountryManifest",
+  "type": "object",
+  "required": ["apiVersion", "schemaVersion", "manifestType", "iso2", "name", "datasetVersion", "generatedAt", "compatibility", "files", "entityCounts", "relatedDestinationSlugs", "staleAfter"],
+  "properties": {
+    "apiVersion": {"type": "string"},
+    "schemaVersion": {"type": "string", "pattern": "^\\d+\\.\\d+$"},
+    "manifestType": {"const": "country"},
+    "iso2": {"type": "string", "pattern": "^[A-Z]{2}$"},
+    "iso3": {"type": "string"},
+    "name": {"type": "string"},
+    "datasetVersion": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "compatibility": {"type": "object", "additionalProperties": true},
+    "files": {
+      "type": "object",
+      "required": ["countryFacts"],
+      "properties": {
+        "countryFacts": {"$ref": "./manifest-file-meta.schema.json"}
+      },
+      "additionalProperties": true
+    },
+    "entityCounts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "relatedDestinationSlugs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "staleAfter": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

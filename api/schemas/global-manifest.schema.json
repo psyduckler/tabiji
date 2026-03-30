@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tabiji.ai/api/schemas/global-manifest.schema.json",
+  "title": "TabijiGlobalManifest",
+  "type": "object",
+  "required": ["apiVersion", "schemaVersion", "datasetVersion", "generatedAt", "compatibility", "datasets", "countries"],
+  "properties": {
+    "apiVersion": {"type": "string"},
+    "schemaVersion": {"type": "string", "pattern": "^\\d+\\.\\d+$"},
+    "datasetVersion": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "compatibility": {"type": "object", "additionalProperties": true},
+    "datasets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "./manifest-file-meta.schema.json"
+      }
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["iso2", "manifestPath", "datasetVersion", "countryFactsPath", "countryFactsSha256", "updatedAt"],
+        "properties": {
+          "iso2": {"type": "string", "pattern": "^[A-Z]{2}$"},
+          "manifestPath": {"type": "string"},
+          "datasetVersion": {"type": "string"},
+          "entityCounts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+          "countryFactsPath": {"type": "string"},
+          "countryFactsSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "updatedAt": {"type": "string", "format": "date-time"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

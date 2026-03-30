@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "api" / "v1"
 API_BASE_URL = "https://tabiji.ai/api/v1"
 SITE_URL = "https://tabiji.ai"
-API_VERSION = "1.4.0"
+API_VERSION = "1.5.0"
 API_SCHEMA_VERSION = "1.0"
 COUNTRY_FACTS_PATH = BASE_DIR / "api" / "data" / "country-facts.json"
 DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-map.json"
@@ -1704,6 +1704,8 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons", "method": "GET"},
             {"path": "/compare/{slug}.json", "description": "Full comparison with structured verdicts, categories, and FAQs", "method": "GET"},
             {"path": "/catalog.json", "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons", "method": "GET"},
+            {"path": "/manifest.json", "description": "Global dataset manifest with versions, checksums, and file metadata", "method": "GET"},
+            {"path": "/countries/{iso2}/manifest.json", "description": "Per-country manifest with version/checksum metadata for importable country data", "method": "GET"},
             {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
         ],
         "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
@@ -1878,6 +1880,20 @@ def build_country_facts():
     return 0
 
 
+def build_manifests():
+    """Build lightweight dataset manifests from already-generated api/v1 outputs."""
+    import subprocess
+    script = BASE_DIR / "api" / "build-manifests.py"
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  ⚠️  Manifest build failed:\n{result.stderr}")
+        return False
+    return True
+
+
 def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count=0):
     """Render api/index.html from api/index.html.template with live counts.
 
@@ -1932,6 +1948,44 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
                     'content': {
                         'application/json': {
                             'schema': {'$ref': '#/components/schemas/CatalogResponse'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    paths['/manifest.json'] = {
+        'get': {
+            'summary': 'Global dataset manifest with versions, checksums, and file metadata',
+            'responses': {
+                '200': {
+                    'description': 'Global manifest response',
+                    'content': {
+                        'application/json': {
+                            'schema': {'$ref': '#/components/schemas/GlobalManifest'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    paths['/countries/{iso2}/manifest.json'] = {
+        'get': {
+            'summary': 'Per-country manifest with versions, checksums, and file metadata',
+            'parameters': [
+                {
+                    'name': 'iso2',
+                    'in': 'path',
+                    'required': True,
+                    'schema': {'type': 'string', 'pattern': '^[A-Z]{2}$'}
+                }
+            ],
+            'responses': {
+                '200': {
+                    'description': 'Country manifest response',
+                    'content': {
+                        'application/json': {
+                            'schema': {'$ref': '#/components/schemas/CountryManifest'}
                         }
                     }
                 }
@@ -2027,6 +2081,64 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
             'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
         },
         'required': ['version', 'schemaVersion', 'generatedAt', 'itemCount', 'items'],
+    }
+    schemas['ManifestFileMeta'] = {
+        'type': 'object',
+        'required': ['path', 'contentType', 'sizeBytes', 'sha256', 'updatedAt'],
+        'properties': {
+            'path': {'type': 'string'},
+            'contentType': {'type': 'string'},
+            'sizeBytes': {'type': 'integer'},
+            'sha256': {'type': 'string'},
+            'updatedAt': {'type': 'string', 'format': 'date-time'},
+        },
+    }
+    schemas['GlobalManifest'] = {
+        'type': 'object',
+        'required': ['apiVersion', 'schemaVersion', 'datasetVersion', 'generatedAt', 'compatibility', 'datasets', 'countries'],
+        'properties': {
+            'apiVersion': {'type': 'string'},
+            'schemaVersion': {'type': 'string'},
+            'datasetVersion': {'type': 'string'},
+            'generatedAt': {'type': 'string', 'format': 'date-time'},
+            'compatibility': {'type': 'object', 'additionalProperties': True},
+            'datasets': {'type': 'object', 'additionalProperties': {'$ref': '#/components/schemas/ManifestFileMeta'}},
+            'countries': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'iso2': {'type': 'string'},
+                        'manifestPath': {'type': 'string'},
+                        'datasetVersion': {'type': 'string'},
+                        'entityCounts': {'type': 'object', 'additionalProperties': {'type': 'integer'}},
+                        'countryFactsPath': {'type': 'string'},
+                        'countryFactsSha256': {'type': 'string'},
+                        'updatedAt': {'type': 'string', 'format': 'date-time'},
+                    },
+                    'required': ['iso2', 'manifestPath', 'datasetVersion', 'countryFactsPath', 'countryFactsSha256', 'updatedAt'],
+                }
+            },
+        },
+    }
+    schemas['CountryManifest'] = {
+        'type': 'object',
+        'required': ['apiVersion', 'schemaVersion', 'manifestType', 'iso2', 'name', 'datasetVersion', 'generatedAt', 'compatibility', 'files', 'entityCounts', 'relatedDestinationSlugs', 'staleAfter'],
+        'properties': {
+            'apiVersion': {'type': 'string'},
+            'schemaVersion': {'type': 'string'},
+            'manifestType': {'type': 'string', 'enum': ['country']},
+            'iso2': {'type': 'string'},
+            'iso3': {'type': 'string'},
+            'name': {'type': 'string'},
+            'datasetVersion': {'type': 'string'},
+            'generatedAt': {'type': 'string', 'format': 'date-time'},
+            'compatibility': {'type': 'object', 'additionalProperties': True},
+            'files': {'type': 'object', 'additionalProperties': {'$ref': '#/components/schemas/ManifestFileMeta'}},
+            'entityCounts': {'type': 'object', 'additionalProperties': {'type': 'integer'}},
+            'relatedDestinationSlugs': {'type': 'array', 'items': {'type': 'string'}},
+            'staleAfter': {'type': 'string', 'format': 'date-time'},
+        },
     }
 
     destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
@@ -2160,6 +2272,10 @@ def main():
     print("🌍 Building country facts...")
     country_count = build_country_facts()
     print(f"   ✅ {country_count} countries")
+
+    print("🧾 Building dataset manifests...")
+    manifest_ok = build_manifests()
+    print("   ✅ manifest.json and country manifests" if manifest_ok else "   ⚠️ manifest generation skipped")
 
     print("📄 Updating API docs page...")
     build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
