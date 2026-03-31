@@ -526,8 +526,11 @@
     if (!wf) return '<p>No emergency workflow data available.</p>';
 
     function workflowCard(icon, title, steps, phoneLabel, phoneNumber, url, notes) {
+      const isRealPhone = phoneNumber && /^[\d+\-\s()]+$/.test(phoneNumber.trim());
       const phoneLink = phoneNumber
-        ? `<p style="margin:8px 0 4px"><strong>${escHtml(phoneLabel)}:</strong> <a href="tel:${escHtml(phoneNumber)}" style="color:var(--primary)">${escHtml(phoneNumber)}</a></p>`
+        ? isRealPhone
+          ? `<p style="margin:8px 0 4px"><strong>${escHtml(phoneLabel)}:</strong> <a href="tel:${escHtml(phoneNumber)}" style="color:var(--primary)">${escHtml(phoneNumber)}</a></p>`
+          : `<p style="margin:8px 0 4px"><strong>${escHtml(phoneLabel)}:</strong> ${escHtml(phoneNumber)}</p>`
         : '';
       const urlLink = url
         ? `<p style="margin:4px 0 8px"><a href="${escHtml(url)}" target="_blank" rel="noopener" style="color:var(--primary)">🌐 Website →</a></p>`
