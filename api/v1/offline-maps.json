@@ -1,0 +1,110 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-03-31T00:00:00Z",
+  "description": "Guidance for integrating offline map tiles with Tabiji safety data. GPS coordinates in safety profiles (embassies, hospitals) are WGS84 and compatible with all major mapping providers.",
+  "coordinateFormat": "WGS84 (EPSG:4326). All lat/lng values in safety profiles are decimal degrees.",
+  "providers": [
+    {
+      "id": "openstreetmap",
+      "name": "OpenStreetMap + Leaflet.js",
+      "offlineSupport": true,
+      "license": "ODbL (open)",
+      "cost": "free",
+      "tileCaching": "manual via service worker",
+      "description": "Best for web/PWA apps. Cache tiles via service worker for offline use. Tabiji Kit uses this approach.",
+      "integrationGuide": {
+        "library": "Leaflet.js (leafletjs.com)",
+        "tileUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "offlineCaching": "Pre-cache tiles at zoom 10-15 for target areas using the Leaflet.offline plugin (github.com/allartk/leaflet.offline). Each 256x256 tile is ~5-15KB; a city at z13 = ~200 tiles (~2MB).",
+        "embassyMarker": "Use embassy lat/lng from safety profile: L.marker([embassy.lat, embassy.lng]).bindPopup(embassy.name + ' ' + embassy.phone)",
+        "hospitalMarker": "No structured hospital coordinates in current safety profiles. Use geocoded data or embed hospital lat/lng if added to future profile versions.",
+        "sampleCode": "const map = L.map('map').setView([embassy.lat, embassy.lng], 13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);"
+      }
+    },
+    {
+      "id": "mapbox",
+      "name": "Mapbox GL JS",
+      "offlineSupport": true,
+      "license": "commercial",
+      "cost": "free tier (50k loads/month), then paid",
+      "tileCaching": "Mapbox Maps SDK offline regions",
+      "description": "High-quality vector tiles with offline region download support. Best for native mobile apps.",
+      "integrationGuide": {
+        "library": "Mapbox GL JS (mapbox.com/mapbox-gljs) or Mapbox Maps SDK for iOS/Android",
+        "tileUrl": "mapbox://styles/mapbox/streets-v12 (via Mapbox SDK)",
+        "offlineCaching": "Use OfflineManager (iOS/Android SDK) to download regions: OfflineManager.shared.createTilePack(for: region). Supports up to 750 offline regions.",
+        "embassyMarker": "embassy.lat and embassy.lng from safety profile → MGLPointAnnotation (iOS) or LatLng (Android)",
+        "hospitalMarker": "No structured hospital coordinates in current safety profiles.",
+        "sampleCode": "mapboxMap.offlineManager.downloadRegion(bounds: coordinateBounds, minZoom: 10, maxZoom: 15)"
+      }
+    },
+    {
+      "id": "googlemaps",
+      "name": "Google Maps Platform",
+      "offlineSupport": false,
+      "license": "commercial",
+      "cost": "pay-per-use (~$7/1000 map loads)",
+      "tileCaching": "not available for web; limited via Android/iOS SDK",
+      "description": "Excellent geocoding and POI data but no tile caching in web. Mobile SDKs support limited offline caching per user account (Google's offline maps feature). Not recommended for PWA offline use.",
+      "integrationGuide": {
+        "library": "Google Maps JavaScript API (for web), Google Maps SDK for iOS/Android",
+        "tileUrl": "managed by SDK — not user-cacheable in browser",
+        "offlineCaching": "Android/iOS: users can save offline areas via Google Maps app. SDK-level offline tile caching is not available. Avoid for PWA offline requirements.",
+        "embassyMarker": "new google.maps.Marker({ position: { lat: embassy.lat, lng: embassy.lng }, title: embassy.name })",
+        "hospitalMarker": "No structured hospital coordinates in current safety profiles."
+      }
+    },
+    {
+      "id": "applemaps",
+      "name": "Apple Maps (MapKit JS)",
+      "offlineSupport": false,
+      "license": "commercial (free with Apple developer account)",
+      "cost": "free up to 250k map initializations/day",
+      "tileCaching": "none for web",
+      "description": "Available via MapKit JS for web and MapKit for iOS/macOS. No offline tile caching for web. iOS only — not suitable for Android or cross-platform PWA offline use.",
+      "integrationGuide": {
+        "library": "MapKit JS (developer.apple.com/maps/web)",
+        "tileUrl": "managed by SDK",
+        "offlineCaching": "Not available for web. iOS MapKit supports some caching but is not developer-controlled.",
+        "embassyMarker": "new mapkit.MarkerAnnotation(new mapkit.Coordinate(embassy.lat, embassy.lng), { title: embassy.name })",
+        "hospitalMarker": "No structured hospital coordinates in current safety profiles."
+      }
+    },
+    {
+      "id": "here",
+      "name": "HERE Maps",
+      "offlineSupport": true,
+      "license": "commercial",
+      "cost": "free tier (250k transactions/month)",
+      "tileCaching": "HERE SDK for iOS/Android supports offline maps",
+      "description": "Strong offline support via HERE SDK. Good alternative to Mapbox for mobile apps needing offline routing and maps.",
+      "integrationGuide": {
+        "library": "HERE Maps JavaScript API (web), HERE SDK for iOS/Android",
+        "tileUrl": "https://{1-4}.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey={API_KEY}",
+        "offlineCaching": "HERE SDK: use OfflineSearchEngine and offline map download via MapDownloader. Supports region-based downloads.",
+        "embassyMarker": "new H.map.Marker({ lat: embassy.lat, lng: embassy.lng })",
+        "hospitalMarker": "No structured hospital coordinates in current safety profiles."
+      }
+    }
+  ],
+  "tileEstimates": {
+    "description": "Approximate tile counts and download sizes for offline caching at common zoom levels",
+    "zoom10": { "tileCount": "~4 tiles per city", "sizePerCity": "~60KB" },
+    "zoom12": { "tileCount": "~50 tiles per city", "sizePerCity": "~750KB" },
+    "zoom13": { "tileCount": "~200 tiles per city", "sizePerCity": "~2MB" },
+    "zoom14": { "tileCount": "~800 tiles per city", "sizePerCity": "~8MB" },
+    "zoom15": { "tileCount": "~3200 tiles per city", "sizePerCity": "~32MB" },
+    "recommendation": "Cache z10-z13 for a country overview plus key city tiles at z14-z15. Total for one country: ~50-100MB."
+  },
+  "coordinateFields": {
+    "embassies": "Each embassy in the embassies[] array has lat and lng fields (decimal degrees, WGS84). Use directly as map coordinates.",
+    "hospitals": "Not currently available in safety profiles. Hospital data is narrative (hospitalNotes) rather than structured coordinates.",
+    "safeZones": "Not available in current profiles."
+  },
+  "usageNotes": [
+    "All coordinate data in Tabiji safety profiles uses WGS84 (EPSG:4326) — compatible with all major mapping libraries without conversion.",
+    "Embassy coordinates are sourced from public records and may drift slightly from actual building locations. Always verify for production use.",
+    "For PWA offline use, OpenStreetMap + Leaflet.js is the only fully open, cost-free option that supports service worker tile caching.",
+    "Tile caching in service workers requires special handling of tile responses — see the Leaflet.offline plugin for a reference implementation."
+  ]
+}

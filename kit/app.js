@@ -36,7 +36,8 @@
     { id: 'phrases', icon: '🗣️', label: 'Phrases' },
     { id: 'practical', icon: '🔌', label: 'Practical' },
     { id: 'safety', icon: '🛡️', label: 'Safety' },
-    { id: 'workflows', icon: '🆘', label: 'Workflows' },
+    { id: 'cards', icon: '💳', label: 'Card Coverage' },
+    { id: 'maps', icon: '🗺️', label: 'Offline Maps' },
   ];
 
   // === Init ===
@@ -182,37 +183,13 @@
       case 'phrases': return renderPhrases(d);
       case 'practical': return renderPractical(d);
       case 'safety': return renderSafety(d);
-      case 'workflows': return renderWorkflows(d);
+      case 'cards': return renderCardCoverage(d);
+      case 'maps': return renderOfflineMaps(d);
       default: return '<p>Coming soon</p>';
     }
   }
 
   // === Tab Renderers ===
-
-  function renderStalenessWarning(d) {
-    const sf = d.sectionFreshness;
-    if (!sf) return '';
-
-    const now = Date.now();
-    let maxStaleDays = 0;
-
-    Object.values(sf).forEach((section) => {
-      if (!section.lastUpdated || !section.ttlDays) return;
-      const ageMs = now - new Date(section.lastUpdated).getTime();
-      const ageDays = ageMs / (24 * 60 * 60 * 1000);
-      if (ageDays > section.ttlDays && ageDays > maxStaleDays) {
-        maxStaleDays = ageDays;
-      }
-    });
-
-    if (maxStaleDays === 0) return '';
-
-    const daysAgo = Math.floor(maxStaleDays);
-    return `
-      <div style="background:#fef3c7;border:1px solid #f59e0b;padding:12px;border-radius:8px;margin-bottom:16px">
-        ⚠️ Some info may be outdated (last updated ${daysAgo} days ago). Connect to refresh.
-      </div>`;
-  }
 
   function renderEmergency(d) {
     const em = d.emergency || {};
@@ -251,7 +228,7 @@
         </a>`);
     }
 
-    let html = renderStalenessWarning(d) + `<div class="emergency-grid">${cards.join('')}</div>`;
+    let html = `<div class="emergency-grid">${cards.join('')}</div>`;
     if (em.notes) {
       html += `<div class="emergency-note">ℹ️ ${escHtml(em.notes)}</div>`;
     }
@@ -521,69 +498,52 @@
     return html || '<p>No safety data available.</p>';
   }
 
-  function renderWorkflows(d) {
-    const wf = d.emergencyWorkflows;
-    if (!wf) return '<p>No emergency workflow data available.</p>';
+  function renderCardCoverage(d) {
+    const cc = d.cardCoverage || {};
+    const topCards = cc.topCards || [];
+    if (!topCards.length) return '<p>No card coverage data available for this country.</p>';
 
-    function workflowCard(icon, title, steps, phoneLabel, phoneNumber, url, notes) {
-      const isRealPhone = phoneNumber && /^[\d+\-\s()]+$/.test(phoneNumber.trim());
-      const phoneLink = phoneNumber
-        ? isRealPhone
-          ? `<p style="margin:8px 0 4px"><strong>${escHtml(phoneLabel)}:</strong> <a href="tel:${escHtml(phoneNumber)}" style="color:var(--primary)">${escHtml(phoneNumber)}</a></p>`
-          : `<p style="margin:8px 0 4px"><strong>${escHtml(phoneLabel)}:</strong> ${escHtml(phoneNumber)}</p>`
-        : '';
-      const urlLink = url
-        ? `<p style="margin:4px 0 8px"><a href="${escHtml(url)}" target="_blank" rel="noopener" style="color:var(--primary)">🌐 Website →</a></p>`
-        : '';
-      const stepsHtml = steps.map((s, i) => `<li style="margin-bottom:6px">${escHtml(s)}</li>`).join('');
-      const notesHtml = notes ? `<p style="margin-top:10px;font-size:0.875rem;color:var(--gray-600)">💡 ${escHtml(notes)}</p>` : '';
+    let html = `<div class="section-card"><h3>Best cards for ${escHtml(d.name)}</h3>`;
+    topCards.forEach((card) => {
+      html += `
+        <div class="card-coverage-item">
+          <div class="card-coverage-name">${escHtml(card.name)}</div>
+          <div class="card-coverage-benefits">${escHtml((card.relevantBenefits || []).join(', '))}</div>
+        </div>`;
+    });
+    html += '</div>';
+    return html;
+  }
 
-      return `
-        <details style="border:1px solid var(--gray-200);border-radius:8px;margin-bottom:12px;overflow:hidden">
-          <summary style="padding:14px 16px;cursor:pointer;font-weight:600;font-size:1rem;list-style:none;display:flex;align-items:center;gap:8px;background:var(--gray-50)">
-            ${icon} ${escHtml(title)}
-          </summary>
-          <div style="padding:14px 16px">
-            <ol style="margin:0 0 8px;padding-left:20px">${stepsHtml}</ol>
-            ${phoneLink}${urlLink}${notesHtml}
-          </div>
-        </details>`;
+  function renderOfflineMaps(d) {
+    const mi = d.mapIntegration || {};
+    let html = '<div class="section-card"><h3>Offline Map Setup</h3>';
+
+    if (mi.offlineTileSizeEstimate) {
+      html += `<p><strong>Estimated download size:</strong> ${escHtml(mi.offlineTileSizeEstimate)}</p>`;
+    }
+    if (mi.recommendedZoom) {
+      const z = mi.recommendedZoom;
+      html += `<p><strong>Recommended zoom levels:</strong> City: z${escHtml(String(z.city || ''))}, Country: z${escHtml(String(z.country || ''))}</p>`;
     }
 
-    let html = '<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:14px">🆘 Emergency Workflows</h2>';
+    html += `
+      <p><strong>Embassy coordinates:</strong> ${mi.embassyCoordinatesAvailable ? '✅ Available in this profile' : '—'}</p>
+      <p><strong>Coordinate system:</strong> WGS84 (decimal degrees)</p>
+    </div>`;
 
-    const sp = wf.stolenPassport;
-    if (sp) {
-      html += workflowCard(
-        '🛂', 'Stolen Passport',
-        sp.steps || [],
-        'Embassy Emergency Line', sp.embassyPhone,
-        sp.embassyUrl,
-        sp.notes,
-      );
-    }
-
-    const pr = wf.policeReport;
-    if (pr) {
-      html += workflowCard(
-        '🚔', 'Police Report',
-        pr.steps || [],
-        'Police', pr.policeNumber,
-        null,
-        pr.notes,
-      );
-    }
-
-    const ra = wf.roadsideAssistance;
-    if (ra) {
-      html += workflowCard(
-        '🚗', 'Roadside Assistance',
-        ra.steps || [],
-        'Police', ra.policeNumber,
-        null,
-        ra.notes,
-      );
-    }
+    html += `
+      <div class="section-card">
+        <h3>Recommended: OpenStreetMap + Leaflet.js</h3>
+        <p>Free, open-license map tiles. Cache via service worker for offline use.</p>
+        <p style="font-size:0.8rem;color:var(--gray-500)">Tile URL: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</p>
+        <p style="font-size:0.8rem;color:var(--gray-500)">Offline plugin: leaflet.offline (allartk/leaflet.offline)</p>
+        <p style="font-size:0.8rem;color:var(--gray-500)">~200 tiles at z13 per city ≈ 2MB</p>
+      </div>
+      <div class="section-card">
+        <h3>Full Provider Guide</h3>
+        <p style="font-size:0.875rem">See <code>/api/v1/offline-maps.json</code> for detailed integration guidance for OSM, Mapbox, Google Maps, and Apple Maps.</p>
+      </div>`;
 
     return html;
   }
