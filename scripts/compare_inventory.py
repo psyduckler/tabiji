@@ -415,6 +415,63 @@ def canonical_compare_url(url: str | None, slug: str) -> str:
     return url
 
 
+def compare_hub_slugs() -> List[str]:
+    return sorted([
+        p.name for p in COMPARE_DIR.iterdir()
+        if p.is_dir() and (p / "index.html").exists() and "-vs-" not in p.name
+    ])
+
+
+def compare_leaf_slugs() -> List[str]:
+    return sorted([
+        p.name for p in COMPARE_DIR.iterdir()
+        if p.is_dir() and (p / "index.html").exists() and "-vs-" in p.name
+    ])
+
+
+def sitemap_compare_slugs() -> List[str]:
+    text = read_text(SITEMAP_PATH)
+    return re.findall(r"<loc>https://tabiji.ai/compare/([^<]+)/</loc>", text)
+
+
+def extract_compare_hub_entry(slug: str) -> Dict:
+    html = read_text(COMPARE_DIR / slug / "index.html")
+
+    def grab(pattern: str, default: str = "") -> str:
+        match = re.search(pattern, html, flags=re.S)
+        return match.group(1).strip() if match else default
+
+    title = grab(r"<title>(.*?)</title>", f"{slug.replace('-', ' ').title()} Travel Comparisons | Tabiji")
+    description = grab(r'<meta name="description" content="([^"]*)"', f"Browse {slug.replace('-', ' ')} destination comparisons.")
+    canonical = grab(r'<link rel="canonical" href="([^"]+)"', f"{BASE_URL}/compare/{slug}/")
+    item_count = grab(r'"numberOfItems":\s*(\d+)', "0")
+    hub_kind = "trip-type" if slug in {"cities", "countries", "islands", "nature", "culture", "luxury", "trip-style-guides"} else "region"
+    return {
+        "slug": slug,
+        "title": title,
+        "description": description,
+        "categoryCount": int(item_count),
+        "url": canonical,
+        "id": f"compare:{slug}",
+        "type": "compare-hub",
+        "entityType": "compare",
+        "hubKind": hub_kind,
+        "schemaVersion": "1.0",
+        "tags": [slug.replace('-', ' '), "compare hub"],
+        "sourceUrl": canonical,
+        "provenance": {
+            "sources": ["tabiji_static_page"],
+            "sourceUrl": canonical,
+            "sourcePath": f"compare/{slug}/index.html",
+        },
+        "sourceMeta": {
+            "sourceType": "tabiji-static-page",
+            "sourcePath": f"compare/{slug}/index.html",
+            "sourceUrl": canonical,
+        },
+    }
+
+
 def build_compare_aggregate(inventory: Dict) -> Dict:
     comparisons = []
     for card in inventory["cards"]:
@@ -431,16 +488,8 @@ def build_compare_aggregate(inventory: Dict) -> Dict:
             "categoryCount": category_count,
             "url": canonical_compare_url(per_page.get("url"), card["slug"]),
         })
-    return {"count": len(comparisons), "comparisons": comparisons}
-
-
-def compare_leaf_slugs() -> List[str]:
-    return sorted([p.name for p in COMPARE_DIR.iterdir() if p.is_dir() and (p / "index.html").exists()])
-
-
-def sitemap_compare_slugs() -> List[str]:
-    text = read_text(SITEMAP_PATH)
-    return re.findall(r"<loc>https://tabiji.ai/compare/([^<]+)/</loc>", text)
+    hubs = [extract_compare_hub_entry(slug) for slug in compare_hub_slugs()]
+    return {"count": len(comparisons), "comparisons": comparisons, "hubCount": len(hubs), "hubs": hubs}
 
 
 def validate_leaf_page(slug: str) -> Tuple[List[str], List[str]]:
@@ -477,12 +526,15 @@ def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
     seen = set()
     leaf_slugs = compare_leaf_slugs()
     leaf_set = set(leaf_slugs)
+    hub_set = set(compare_hub_slugs())
     sitemap_set = set(sitemap_compare_slugs())
 
     agg = build_compare_aggregate(inventory)
 
     if agg["count"] != len(cards):
         errors.append(f"Aggregate count mismatch: {agg['count']} vs cards {len(cards)}")
+    if agg.get("hubCount") != len(hub_set):
+        errors.append(f"Aggregate hub count mismatch: {agg.get('hubCount')} vs compare hubs {len(hub_set)}")
 
     for index, card in enumerate(cards, start=1):
         slug = card.get("slug")
@@ -519,14 +571,23 @@ def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
     if extra_leaves:
         warnings.append(f"Compare leaf dirs not in inventory: {', '.join(extra_leaves)}")
 
-    extra_sitemap = sorted(sitemap_set - seen)
+    missing_hubs = sorted(hub_set - {item['slug'] for item in agg.get('hubs', [])})
+    if missing_hubs:
+        errors.append(f"Compare hubs missing from aggregate API: {', '.join(missing_hubs)}")
+
+    extra_sitemap = sorted(sitemap_set - seen - hub_set)
     if extra_sitemap:
-        warnings.append(f"Sitemap compare URLs not in inventory: {', '.join(extra_sitemap)}")
+        warnings.append(f"Sitemap compare URLs not in inventory or hub set: {', '.join(extra_sitemap)}")
 
     for item in agg["comparisons"]:
         url = item.get("url")
         if not isinstance(url, str) or not url.startswith(f"{BASE_URL}/compare/"):
             errors.append(f"{item.get('slug')}: aggregate compare URL must be absolute and under /compare/ (got {url})")
+
+    for hub in agg.get("hubs", []):
+        url = hub.get("url")
+        if not isinstance(url, str) or not url.startswith(f"{BASE_URL}/compare/"):
+            errors.append(f"{hub.get('slug')}: aggregate hub URL must be absolute and under /compare/ (got {url})")
 
     current_agg = load_json(COMPARE_AGG_PATH) if COMPARE_AGG_PATH.exists() else None
     if current_agg is not None and current_agg != agg:
