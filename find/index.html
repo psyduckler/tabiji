@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Your Perfect Destination | tabiji.ai</title>
-<meta name="description" content="Filter 100 destinations by style, continent, and travel type. Find your next trip in seconds.">
+<meta name="description" content="Filter 6,975 destinations by vibe, continent, budget, safety level, and more. Find your next trip in seconds.">
 <meta property="og:title" content="Find Your Perfect Destination | tabiji.ai">
-<meta property="og:description" content="Filter 100 destinations by style, continent, and travel type.">
+<meta property="og:description" content="Filter 6,975 destinations by vibe, continent, budget, and safety. Find your next trip.">
 <meta property="og:url" content="https://tabiji.ai/find/">
 <meta property="og:type" content="website">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="index, follow, max-image-preview:large">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -43,6 +43,11 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .chip:hover{border-color:var(--indigo);background:#f0f4fa}
 .chip.active{background:var(--indigo);color:#fff;border-color:var(--indigo)}
 .chip.active:hover{background:#2a4a7a;border-color:#2a4a7a}
+.chip-count{font-size:0.78em;opacity:0.6;font-weight:400}
+.chip-safe-1.active{background:#16a34a!important;border-color:#16a34a!important;color:#fff!important}
+.chip-safe-2.active{background:#a16207!important;border-color:#a16207!important;color:#fff!important}
+.chip-safe-3.active{background:#ea580c!important;border-color:#ea580c!important;color:#fff!important}
+.chip-safe-4.active{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}
 
 .filter-actions{display:flex;gap:12px;justify-content:center;margin-top:28px;align-items:center}
 .find-btn{background:var(--indigo);color:#fff;border:none;padding:16px 52px;border-radius:50px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
@@ -50,6 +55,11 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 .find-btn:active{transform:translateY(0)}
 .clear-btn{background:none;border:none;color:var(--terracotta);font-size:0.9rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
 .clear-btn:hover{text-decoration:underline}
+
+/* Loading */
+.loading-msg{text-align:center;padding:40px 20px;color:var(--light-text);font-size:0.95rem}
+.loading-spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--sand);border-top-color:var(--indigo);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* Results */
 .results-section{display:none}
@@ -65,14 +75,21 @@ h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .card img{width:100%;height:200px;object-fit:cover}
 .card-body{padding:16px 20px 20px}
-.card-body h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--indigo);margin-bottom:2px}
+.card-header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:2px}
+.card-body h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--indigo);min-width:0}
 .card-body .region{color:var(--light-text);font-size:0.8rem;margin-bottom:10px}
 .card-body .pitch{font-size:0.9rem;line-height:1.55;color:#444;margin-bottom:12px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .tag{padding:4px 10px;border-radius:16px;font-size:0.72rem;font-weight:600}
 .tag.vibe{background:#eef2ff;color:var(--indigo)}
-
 .card-meta{display:flex;gap:14px;font-size:0.8rem;color:var(--light-text)}
+
+/* Safety badges */
+.safety-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:8px;font-size:0.7rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+.sb-1{background:#f0fdf4;color:#16a34a}
+.sb-2{background:#fefce8;color:#a16207}
+.sb-3{background:#fff7ed;color:#ea580c}
+.sb-4{background:#fef2f2;color:#dc2626}
 
 .empty{text-align:center;padding:60px 20px;max-width:720px;margin:0 auto}
 .empty h2{font-family:'Playfair Display',serif;color:var(--indigo);font-size:1.5rem;margin-bottom:8px}
@@ -137,24 +154,24 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 
 <div class="header" style="padding-top:80px">
   <h1>Find Your Perfect Destination</h1>
-  <p class="subtitle">Pick what matters to you.</p>
+  <p class="subtitle">Filter 6,975 destinations by what matters to you.</p>
 </div>
 
 <div class="filters">
   <div class="filter-section">
     <label>Trip Style</label>
     <div class="chips" id="tripChips">
-      <button class="chip" data-value="Adventure">🧗 Adventure</button>
-      <button class="chip" data-value="Beach">🏖 Beach</button>
-      <button class="chip" data-value="City">🏙 City</button>
-      <button class="chip" data-value="Cultural">🏛 Cultural</button>
-      <button class="chip" data-value="Family">👨‍👩‍👧‍👦 Family</button>
-      <button class="chip" data-value="Hiking">🥾 Hiking</button>
-      <button class="chip" data-value="Nature">🌿 Nature</button>
-      <button class="chip" data-value="Nightlife">🌃 Nightlife</button>
-      <button class="chip" data-value="Relaxation">🧘 Relaxation</button>
-      <button class="chip" data-value="Romantic">💕 Romantic</button>
-      <button class="chip" data-value="Unfrequented">🗺 Unfrequented</button>
+      <button class="chip" data-value="adventure">🧗 Adventure</button>
+      <button class="chip" data-value="beach">🏖 Beach</button>
+      <button class="chip" data-value="city">🏙 City</button>
+      <button class="chip" data-value="cultural">🏛 Cultural</button>
+      <button class="chip" data-value="family">👨‍👩‍👧‍👦 Family</button>
+      <button class="chip" data-value="hiking">🥾 Hiking</button>
+      <button class="chip" data-value="nature">🌿 Nature</button>
+      <button class="chip" data-value="nightlife">🌃 Nightlife</button>
+      <button class="chip" data-value="relaxation">🧘 Relaxation</button>
+      <button class="chip" data-value="romantic">💕 Romantic</button>
+      <button class="chip" data-value="unfrequented">🗺 Unfrequented</button>
     </div>
   </div>
 
@@ -168,13 +185,55 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
       <button class="chip" data-value="South America">South America</button>
       <button class="chip" data-value="Oceania">Oceania</button>
       <button class="chip" data-value="Middle East">Middle East</button>
-      <button class="chip" data-value="Polar">Polar & Arctic</button>
+      <button class="chip" data-value="Polar">Polar &amp; Arctic</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <label>Budget</label>
+    <div class="chips" id="budgetChips">
+      <button class="chip" data-value="budget">$ Budget</button>
+      <button class="chip" data-value="moderate">$$ Moderate</button>
+      <button class="chip" data-value="premium">$$$ Premium</button>
+      <button class="chip" data-value="luxury">$$$$ Luxury</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <label>Advisory Level</label>
+    <div class="chips" id="safetyChips">
+      <button class="chip chip-safe-1" data-value="1">🟢 Level 1 — Normal</button>
+      <button class="chip chip-safe-2" data-value="2">🟡 Level 2 — Caution</button>
+      <button class="chip chip-safe-3" data-value="3">🟠 Level 3 — Reconsider</button>
+      <button class="chip chip-safe-4" data-value="4">🔴 Level 4 — Do Not Travel</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <label>Solo Female Safety</label>
+    <div class="chips" id="soloFemaleChips">
+      <button class="chip" data-value="very-safe">⭐ Very Safe</button>
+      <button class="chip" data-value="safe">✓ Safe</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <label>Tap Water</label>
+    <div class="chips" id="tapWaterChips">
+      <button class="chip" data-value="yes">💧 Safe to Drink</button>
+      <button class="chip" data-value="no">🚫 Not Safe to Drink</button>
     </div>
   </div>
 
   <div class="filter-actions">
     <button class="find-btn" onclick="findDestinations()">Find Destinations →</button>
+    <button class="clear-btn" onclick="clearFilters()">Clear</button>
   </div>
+</div>
+
+<!-- Loading indicator -->
+<div id="loadingMsg" class="loading-msg" style="display:none">
+  <span class="loading-spinner"></span>Loading destinations…
 </div>
 
 <!-- Destination Preview Carousel -->
@@ -212,119 +271,102 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 </div>
 
 <script>
-let destinations=[];
-async function loadDestinations(){try{const r=await fetch('destinations.json?v=3');destinations=await r.json()}catch(e){console.error(e)}}
-loadDestinations();
-const _INLINE_FALLBACK=[
-{name:"Paris",region:"France",continent:"Europe",photo:"photo-1502602898657-3e91760cbb34",pitch:"The city that invented being romantic. Every cobblestone has a story, every café has better pastries than yours.",budget:"$$$",season:"Apr–Jun, Sep–Oct",vibes:["Cultural","Romantic"],travel:["photography"]},
-{name:"Tokyo",region:"Japan",continent:"Asia",photo:"photo-1540959733332-eab4deabeeaf",pitch:"Controlled chaos that somehow works perfectly. Vending machines on every corner, Michelin stars in basements.",budget:"$$$",season:"Mar–May, Oct–Nov",vibes:["City","Cultural"],travel:["solo","photography"]},
-{name:"Bali",region:"Indonesia",continent:"Asia",photo:"photo-1537996194471-e657df975ab4",pitch:"Rice terraces, temple ceremonies, and $3 smoothie bowls. Your yoga teacher was right about this one.",budget:"$",season:"Apr–Oct",vibes:["Beach","Relaxation"],travel:["solo","budget"]},
-{name:"New York",region:"USA",continent:"North America",photo:"photo-1496442226666-8d4d0e62e6e9",pitch:"8 million people all convinced they live in the center of the universe. They might be right.",budget:"$$$$",season:"Sep–Nov, Apr–Jun",vibes:["City","Cultural"],travel:["solo","photography"]},
-{name:"Santorini",region:"Greece",continent:"Europe",photo:"photo-1613395877344-13d4a8e0d49e",pitch:"White walls, blue domes, sunsets that break Instagram. Yes it's crowded. Yes it's worth it.",budget:"$$$",season:"May–Sep",vibes:["Beach","Nature","Romantic"],travel:["photography"]},
-{name:"Barcelona",region:"Spain",continent:"Europe",photo:"photo-1583422409516-2895a77efded",pitch:"Gaudí buildings, late dinners, beaches within city limits. Spain figured out the good life.",budget:"$$",season:"May–Jun, Sep–Oct",vibes:["Beach","Cultural","Nightlife"],travel:["solo"]},
-{name:"Maldives",region:"Indian Ocean",continent:"Asia",photo:"photo-1514282401047-d79a71a590e8",pitch:"Overwater bungalows above water so clear it looks fake. Honeymoon tax included.",budget:"$$$$",season:"Nov–Apr",vibes:["Beach","Romantic"],travel:["luxury"]},
-{name:"Dubai",region:"UAE",continent:"Middle East",photo:"photo-1512453979798-5ea266f8880c",pitch:"The city that said 'what if we just built the future?' Air-conditioned everything, including the outdoors.",budget:"$$$$",season:"Nov–Mar",vibes:["City","Romantic"],travel:["luxury"]},
-{name:"Iceland",region:"Nordic",continent:"Europe",photo:"photo-1504829857797-ddff29c27927",pitch:"Waterfalls, glaciers, hot springs, and northern lights. Nature showing off.",budget:"$$$",season:"Jun–Aug, Sep–Mar",vibes:["Adventure","Nature"],travel:["solo","photography"]},
-{name:"Kyoto",region:"Japan",continent:"Asia",photo:"photo-1493976040374-85c8e12f0c0e",pitch:"Bamboo groves, geisha districts, 2,000 temples. Old Japan preserved in amber.",budget:"$$$",season:"Mar–May, Oct–Nov",vibes:["Cultural"],travel:["solo","photography"]},
-{name:"Morocco",region:"North Africa",continent:"Africa",photo:"photo-1489749798305-4fea3ae63b43",pitch:"Medinas that swallow you whole. Tagine, mint tea, and riads hidden behind unmarked doors.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["Adventure","Cultural"],travel:["solo","budget","photography"]},
-{name:"Vietnam",region:"Southeast Asia",continent:"Asia",photo:"photo-1528127269322-539801943592",pitch:"Motorbikes, phở at 6am, limestone karsts rising from emerald water. $30/day if you're smart about it.",budget:"$",season:"Oct–Apr",vibes:["Adventure","Cultural"],travel:["solo","budget"]},
-{name:"Croatia",region:"Europe",continent:"Europe",photo:"photo-1555990538-1e6e49b78916",pitch:"Game of Thrones walls with Adriatic blues. Island-hopping by ferry with wine that costs less than water.",budget:"$$",season:"May–Sep",vibes:["Beach","Cultural"],travel:["solo"]},
-{name:"Patagonia",region:"Argentina/Chile",continent:"South America",photo:"photo-1531761535209-180857e963b9",pitch:"Wind-blasted peaks, glaciers calving into lakes, condors overhead. The end of the world looks incredible.",budget:"$$",season:"Nov–Mar",vibes:["Adventure","Hiking","Nature"],travel:["solo","photography"]},
-{name:"Peru",region:"South America",continent:"South America",photo:"photo-1526392060635-9d6019884377",pitch:"Machu Picchu is just the headliner. Ceviche in Lima, floating islands on Titicaca, Rainbow Mountain.",budget:"$",season:"May–Sep",vibes:["Adventure","Cultural","Hiking"],travel:["solo","budget"]},
-{name:"Portugal",region:"Europe",continent:"Europe",photo:"photo-1555881400-74d7acaacd8b",pitch:"Lisbon's hills, Porto's port wine, Algarve's cliffs. Europe's best-kept secret that everyone now knows about.",budget:"$$",season:"Mar–Oct",vibes:["Beach","Cultural"],travel:["solo","budget"]},
-{name:"Thailand",region:"Southeast Asia",continent:"Asia",photo:"photo-1528181304800-259b08848526",pitch:"Pad thai for $1, temples that sparkle, islands for every vibe. The backpacker classic that still delivers.",budget:"$",season:"Nov–Mar",vibes:["Beach","Cultural"],travel:["solo","budget"]},
-{name:"Costa Rica",region:"Central America",continent:"North America",photo:"photo-1519999482648-25049ddd37b1",pitch:"Sloths, surf breaks, cloud forests, and 'pura vida' as an actual lifestyle. Nature's theme park.",budget:"$$",season:"Dec–Apr",vibes:["Adventure","Nature"],travel:["solo"]},
-{name:"New Zealand",region:"Oceania",continent:"Oceania",photo:"photo-1469521669194-babb45599def",pitch:"Middle-earth is real and they have bungee jumping. Every landscape looks like a screensaver.",budget:"$$$",season:"Dec–Feb",vibes:["Adventure","Nature"],travel:["solo","photography"]},
-{name:"Mexico City",region:"Mexico",continent:"North America",photo:"photo-1585464231875-d9ef1f5ad396",pitch:"World-class food scene at street-food prices. Museums, mezcal, and neighborhoods that each feel like different cities.",budget:"$",season:"Mar–May",vibes:["City","Cultural"],travel:["solo","budget"]},
-{name:"Cape Town",region:"South Africa",continent:"Africa",photo:"photo-1580060839134-75a5edca2e99",pitch:"Table Mountain, penguins, wine country 30 minutes away. Africa's most beautiful city isn't subtle about it.",budget:"$$",season:"Nov–Mar",vibes:["Adventure","Nature"],travel:["solo","photography"]},
-{name:"Amalfi Coast",region:"Italy",continent:"Europe",photo:"photo-1534113414509-0eec2bfb493f",pitch:"Cliffside villages in gelato colors. Limoncello with every meal. Hairpin turns that test your marriage.",budget:"$$$$",season:"May–Sep",vibes:["Nature","Romantic"],travel:["luxury","photography"]},
-{name:"Buenos Aires",region:"Argentina",continent:"South America",photo:"photo-1589909202802-8f4aadce1849",pitch:"Steak, tango, bookshops in old theaters. A European city that accidentally ended up in South America.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["Cultural","Nightlife"],travel:["solo","budget"]},
-{name:"Svalbard",region:"Arctic Norway",continent:"Polar",photo:"photo-1601440972598-26d04e650e0f",pitch:"Polar bears outnumber people. 24-hour darkness in winter, 24-hour sun in summer. Not for the casual traveler.",budget:"$$$$",season:"Mar–Sep",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Bhutan",region:"South Asia",continent:"Asia",photo:"photo-1553856622-d1b352e24012",pitch:"The kingdom that measures Gross National Happiness. Tiger's Nest monastery clinging to a cliff. Daily fee keeps it uncrowded.",budget:"$$$",season:"Mar–May, Sep–Nov",vibes:["Cultural","Hiking"],travel:["offbeat"]},
-{name:"Madagascar",region:"East Africa",continent:"Africa",photo:"photo-1577023311546-cdc07a8454d9",pitch:"90% of wildlife found nowhere else on earth. Baobab alleys, lemurs, and beaches that haven't been 'discovered' yet.",budget:"$$",season:"Apr–Nov",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Faroe Islands",region:"Nordic",continent:"Europe",photo:"photo-1529655683826-aba9b3e77383",pitch:"18 volcanic islands with more sheep than people. Grass-roofed houses, dramatic cliffs, perpetual mist.",budget:"$$$",season:"Jun–Aug",vibes:["Hiking","Nature"],travel:["offbeat","photography","solo"]},
-{name:"Mongolia",region:"Central Asia",continent:"Asia",photo:"photo-1545205597-3d9d02c29597",pitch:"Endless steppe, nomadic families, eagle hunters. Sleep in a ger, ride a horse to nowhere. Time stops here.",budget:"$",season:"Jun–Sep",vibes:["Adventure","Cultural"],travel:["offbeat","solo","budget"]},
-{name:"Uzbekistan",region:"Central Asia",continent:"Asia",photo:"photo-1565107928735-3663f6e6ec5b",pitch:"Silk Road cities with turquoise domes that look AI-generated but aren't. Samarkand alone is worth the visa.",budget:"$",season:"Apr–Jun, Sep–Oct",vibes:["Cultural"],travel:["offbeat","budget","photography"]},
-{name:"Socotra",region:"Yemen",continent:"Middle East",photo:"photo-1585829365295-ab7cd400c167",pitch:"Dragon blood trees on an alien landscape. One of Earth's most isolated inhabited islands. You'll be the only tourist.",budget:"$$",season:"Oct–Apr",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Colombia",region:"South America",continent:"South America",photo:"photo-1533050487297-09b450131914",pitch:"Cartagena's colors, Medellín's reinvention, coffee country's green hills. Way past the outdated stereotypes.",budget:"$",season:"Dec–Mar",vibes:["Adventure","Cultural","Nightlife"],travel:["solo","budget"]},
-{name:"Japan Alps",region:"Japan",continent:"Asia",photo:"photo-1522623349500-de288ebc5e01",pitch:"Snow monkeys in hot springs, thatched-roof villages, sake breweries. The Japan most tourists miss entirely.",budget:"$$",season:"Jan–Mar, Jun–Oct",vibes:["Cultural","Hiking","Nature"],travel:["offbeat"]},
-{name:"Jordan",region:"Middle East",continent:"Middle East",photo:"photo-1547234856-0571817d5e34",pitch:"Petra carved from rose stone, Wadi Rum's Mars-like desert, floating in the Dead Sea. Biblical landscapes, modern hospitality.",budget:"$$",season:"Mar–May, Sep–Nov",vibes:["Adventure","Cultural"],travel:["solo","photography"]},
-{name:"Sri Lanka",region:"South Asia",continent:"Asia",photo:"photo-1586613835259-55e0fba7295f",pitch:"Tea plantations, ancient ruins, leopards, and surf — all on an island smaller than Ireland.",budget:"$",season:"Dec–Mar, Apr–Sep",vibes:["Beach","Cultural","Nature"],travel:["solo","budget"]},
-{name:"Norway Fjords",region:"Scandinavia",continent:"Europe",photo:"photo-1531366936337-7c912a4589a7",pitch:"Vertical green walls dropping into mirror-still water. Vikings had taste in real estate.",budget:"$$$$",season:"Jun–Aug",vibes:["Hiking","Nature"],travel:["photography"]},
-{name:"Oman",region:"Middle East",continent:"Middle East",photo:"photo-1559339936-87a0a94c90e1",pitch:"Dubai's neighbor without the flash. Wadis, dunes, frankincense markets, and a sultan's opera house.",budget:"$$",season:"Oct–Mar",vibes:["Cultural","Nature"],travel:["offbeat"]},
-{name:"Cuba",region:"Caribbean",continent:"North America",photo:"photo-1500759285222-a95626b934cb",pitch:"Frozen in the '50s but not frozen in spirit. Salsa, cigars, classic cars, and conversations with strangers.",budget:"$",season:"Nov–Apr",vibes:["Cultural"],travel:["solo","budget"]},
-{name:"Tasmania",region:"Australia",continent:"Oceania",photo:"photo-1516117172878-fd2c41f4a759",pitch:"Australia's overlooked island. Ancient rainforests, empty beaches, and a food scene that punches way above its weight.",budget:"$$$",season:"Dec–Feb",vibes:["Beach","Cultural","Nature"],travel:["offbeat"]},
-{name:"Georgia",region:"Caucasus",continent:"Asia",photo:"photo-1565008576549-57569a49371d",pitch:"8,000-year-old winemaking tradition, Tbilisi's sulfur baths, churches on impossible clifftops. $20/day easy.",budget:"$",season:"May–Jun, Sep–Oct",vibes:["Cultural"],travel:["solo","budget","offbeat"]},
-{name:"Namibia",region:"Southern Africa",continent:"Africa",photo:"photo-1547471080-7cc2caa01a7e",pitch:"Tallest sand dunes on earth, skeleton coastlines, desert-adapted elephants. Landscapes from another planet.",budget:"$$",season:"May–Oct",vibes:["Beach","Nature"],travel:["photography","offbeat"]},
-{name:"Lofoten",region:"Norway",continent:"Europe",photo:"photo-1516466723877-e4ec1d736c8a",pitch:"Fishing villages in arctic Norway that look photoshopped. Northern lights reflecting off fjords.",budget:"$$$",season:"Jun–Aug, Sep–Mar",vibes:["Cultural","Nature"],travel:["photography","offbeat"]},
-{name:"Oaxaca",region:"Mexico",continent:"North America",photo:"photo-1571260899304-425eee4c7efc",pitch:"Mexico's culinary capital. Mole with 30 ingredients, mezcal from village distilleries, Day of the Dead celebrations.",budget:"$",season:"Oct–Nov, Mar–May",vibes:["Cultural"],travel:["solo","budget"]},
-{name:"Slovenia",region:"Europe",continent:"Europe",photo:"photo-1587974928442-77dc3e0dba72",pitch:"A country the size of New Jersey with Alps, caves, vineyards, and a fairytale lake. Europe's hidden gem.",budget:"$$",season:"May–Sep",vibes:["Adventure","Nature"],travel:["solo","offbeat"]},
-{name:"Rajasthan",region:"India",continent:"Asia",photo:"photo-1477587458883-47145ed94245",pitch:"Pink cities, tiger reserves, desert fortresses, and the most colorful chaos you'll ever experience.",budget:"$",season:"Oct–Mar",vibes:["Cultural","Nature"],travel:["solo","budget","photography"]},
-{name:"Ethiopia",region:"East Africa",continent:"Africa",photo:"photo-1523805009345-7448845a9e53",pitch:"Rock-hewn churches, coffee's birthplace, tribal cultures untouched by tourism. Africa's most underrated country.",budget:"$",season:"Oct–Mar",vibes:["Cultural"],travel:["offbeat","budget"]},
-{name:"Azores",region:"Portugal",continent:"Europe",photo:"photo-1555881400-69bead652188",pitch:"Volcanic lakes, hot springs, whale watching — Portugal's mid-Atlantic secret. Like Iceland but warmer and cheaper.",budget:"$$",season:"Jun–Sep",vibes:["Adventure","Nature"],travel:["offbeat","solo"]},
-{name:"Laos",region:"Southeast Asia",continent:"Asia",photo:"photo-1539367628448-4bc5c9d171c8",pitch:"Southeast Asia before the crowds found it. Monks collecting alms at dawn, Mekong sunsets, $2 meals.",budget:"$",season:"Nov–Mar",vibes:["Cultural","Nature"],travel:["solo","budget","offbeat"]},
-{name:"Scotland",region:"UK",continent:"Europe",photo:"photo-1506377585622-bedcbb027afc",pitch:"Moody highlands, single malts, castles in the mist. Dramatic in every sense of the word.",budget:"$$$",season:"May–Sep",vibes:["Cultural","Nature"],travel:["solo"]},
-{name:"Galápagos",region:"Ecuador",continent:"South America",photo:"photo-1544979590-37e9b47eb705",pitch:"Evolution's laboratory. Sea lions that don't fear you, blue-footed boobies, tortoises older than your country.",budget:"$$$$",season:"Jun–Sep, Dec–May",vibes:["Cultural","Nature"],travel:["photography"]},
-{name:"Swiss Alps",region:"Switzerland",continent:"Europe",photo:"photo-1531973576160-7125cd663d86",pitch:"Precision engineering applied to mountains. Train rides that cost as much as flights but are worth every franc.",budget:"$$$$",season:"Jun–Sep, Dec–Mar",vibes:["Hiking","Nature","Romantic"],travel:["luxury","photography"]},
-{name:"Kenya",region:"East Africa",continent:"Africa",photo:"photo-1547970810-dc1eac37435b",pitch:"The Great Migration, Masai Mara sunsets, Nairobi's tech-forward energy. Safari, but make it the original.",budget:"$$",season:"Jul–Oct, Jan–Feb",vibes:["Cultural","Nature"],travel:["photography"]},
-{name:"Cinque Terre",region:"Italy",continent:"Europe",photo:"photo-1516483638261-f4dbaf036963",pitch:"Five fishing villages in candy colors. Hike between them, eat pesto in all five.",budget:"$$$",season:"May–Sep",vibes:["Hiking","Nature"],travel:["photography"]},
-{name:"Marrakech",region:"Morocco",continent:"Africa",photo:"photo-1597212618440-806262de4f6b",pitch:"Jemaa el-Fnaa at sunset is sensory overload in the best way. Souks that sell everything you didn't know you wanted.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["City","Cultural"],travel:["solo","budget"]},
-{name:"Borneo",region:"Malaysia/Indonesia",continent:"Asia",photo:"photo-1570737543098-2806c3ee8a2c",pitch:"Orangutans in ancient rainforest, dive sites at Sipadan, tribes in longhouses. Wild in every sense.",budget:"$",season:"Mar–Oct",vibes:["Adventure","Beach","Nature"],travel:["offbeat"]},
-{name:"Prague",region:"Czech Republic",continent:"Europe",photo:"photo-1541849546-216549ae216d",pitch:"Gothic spires, cheap beer, a bridge full of saints. Central Europe's most photogenic city.",budget:"$",season:"Apr–Jun, Sep–Oct",vibes:["City","Cultural"],travel:["solo","budget"]},
-{name:"Atacama",region:"Chile",continent:"South America",photo:"photo-1510017803434-a899398421b3",pitch:"The driest desert on Earth with the clearest skies. Salt flats, geysers, and stargazing that ruins all future stargazing.",budget:"$$",season:"Year-round",vibes:["Adventure","Nature"],travel:["offbeat","photography"]},
-{name:"Zanzibar",region:"Tanzania",continent:"Africa",photo:"photo-1548304806-eae4e8e4e4d2",pitch:"Spice island with turquoise water, Stone Town alleyways, and the freshest seafood markets in East Africa.",budget:"$",season:"Jun–Oct",vibes:["Beach","Cultural"],travel:["solo","budget"]},
-{name:"Provence",region:"France",continent:"Europe",photo:"photo-1499002238440-d264edd596ec",pitch:"Lavender fields, rosé at lunch, hilltop villages. The French art of doing nothing, perfected.",budget:"$$$",season:"Jun–Aug",vibes:["Relaxation","Romantic"],travel:["luxury"]},
-{name:"Greenland",region:"Arctic",continent:"Polar",photo:"photo-1531168556467-80aace0d0144",pitch:"Icebergs the size of buildings, Inuit culture, dog sled rides. The world's largest island, barely touched.",budget:"$$$$",season:"Jun–Sep",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Seoul",region:"South Korea",continent:"Asia",photo:"photo-1546874177-9e664107314e",pitch:"K-pop energy meets Joseon dynasty temples. Street food alleys, rooftop bars, skincare shopping on every block.",budget:"$$",season:"Mar–May, Sep–Nov",vibes:["City","Cultural"],travel:["solo"]},
-{name:"Medellín",region:"Colombia",continent:"South America",photo:"photo-1599493758267-c6c884c7071f",pitch:"City of eternal spring. Cable cars over green valleys, creative neighborhoods, and a reinvention story that inspires.",budget:"$",season:"Dec–Mar",vibes:["City","Nightlife"],travel:["solo","budget"]},
-{name:"Tuscany",region:"Italy",continent:"Europe",photo:"photo-1534445867742-43195f401b6c",pitch:"Rolling hills, cypress lines, Chianti with lunch. Every villa looks like a movie set because it probably was.",budget:"$$$",season:"May–Jun, Sep–Oct",vibes:["Cultural","Romantic"],travel:["luxury","photography"]},
-{name:"Belize",region:"Central America",continent:"North America",photo:"photo-1544982503-9f984c14501a",pitch:"The Great Blue Hole, jungle ruins, reef snorkeling. Caribbean meets Central America without the crowds.",budget:"$$",season:"Nov–Apr",vibes:["Adventure","Beach","Nature"],travel:["offbeat"]},
-{name:"Kyrgyzstan",region:"Central Asia",continent:"Asia",photo:"photo-1530587191325-3db32d826c18",pitch:"Horse treks through alpine meadows, yurt stays, eagle hunters. Nomadic culture alive and welcoming.",budget:"$",season:"Jun–Sep",vibes:["Adventure","Unfrequented"],travel:["offbeat","budget","solo"]},
-{name:"Lisbon",region:"Portugal",continent:"Europe",photo:"photo-1536663815808-535e2280d2c2",pitch:"Tram 28, pastéis de nata, rooftop bars with river views. Europe's coolest capital — for now.",budget:"$$",season:"Mar–Oct",vibes:["Cultural","Nightlife"],travel:["solo","budget"]},
-{name:"Rwanda",region:"East Africa",continent:"Africa",photo:"photo-1580746738099-6c398625e041",pitch:"Gorilla trekking in volcanic mist. Africa's cleanest, safest country with a story of resilience that humbles.",budget:"$$$",season:"Jun–Sep",vibes:["Cultural","Nature"],travel:["offbeat"]},
-{name:"Dubrovnik",region:"Croatia",continent:"Europe",photo:"photo-1580139614172-0cc25c08a1a9",pitch:"King's Landing IRL. Marble streets, cliff bars, crystal-clear Adriatic. Small city, massive character.",budget:"$$$",season:"May–Jun, Sep–Oct",vibes:["Beach","Cultural","Nature"],travel:["photography"]},
-{name:"Hokkaido",region:"Japan",continent:"Asia",photo:"photo-1578271887552-5ac3a72752bc",pitch:"Powder snow, hot springs, ramen, and lavender fields. Japan's wild northern island does every season perfectly.",budget:"$$$",season:"Dec–Feb, Jul–Aug",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Iran",region:"Middle East",continent:"Middle East",photo:"photo-1564769625905-50e93615e769",pitch:"Persian hospitality is legendary. Isfahan's mosques, Persepolis ruins, saffron ice cream. The gap between headlines and reality is enormous.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["Cultural"],travel:["offbeat","budget"]},
-{name:"Seychelles",region:"Indian Ocean",continent:"Africa",photo:"photo-1559628233-100c798642d4",pitch:"Granite boulders on white sand, giant tortoises, water in impossible shades of blue. Honeymoon island done right.",budget:"$$$$",season:"Apr–May, Oct–Nov",vibes:["Beach","Romantic"],travel:["luxury"]},
-{name:"Lake Bled",region:"Slovenia",continent:"Europe",photo:"photo-1503990095-b5313e5a151f",pitch:"A church on an island in an emerald lake under a castle. It's almost annoyingly picturesque.",budget:"$$",season:"May–Sep",vibes:["Nature","Romantic"],travel:["photography"]},
-{name:"Réunion",region:"Indian Ocean",continent:"Africa",photo:"photo-1591625677520-67c87000e8a5",pitch:"A French island with active volcanoes, tropical forests, and creole cuisine. Basically Hawaii but French.",budget:"$$",season:"May–Nov",vibes:["Hiking","Nature"],travel:["offbeat"]},
-{name:"Antarctica",region:"Polar",continent:"Polar",photo:"photo-1489493887464-892be6d1daae",pitch:"The last continent. Penguin colonies, icebergs, silence so deep it changes you. Once-in-a-lifetime means it.",budget:"$$$$",season:"Nov–Mar",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Fez",region:"Morocco",continent:"Africa",photo:"photo-1545071036-66eda2b4ec4d",pitch:"The world's largest car-free urban area. Get lost in the medina — you will anyway. That's the point.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["City","Cultural"],travel:["offbeat","budget"]},
-{name:"Palawan",region:"Philippines",continent:"Asia",photo:"photo-1518509562904-e7ef99cdcc86",pitch:"Underground rivers, lagoons ringed by limestone, and El Nido's island-hopping that ruins all future beach trips.",budget:"$",season:"Nov–May",vibes:["Adventure","Beach"],travel:["solo","budget"]},
-{name:"Transylvania",region:"Romania",continent:"Europe",photo:"photo-1560703650-ef3e0f254ae0",pitch:"Forget Dracula — it's medieval villages, Carpathian hikes, and the most underrated wine region in Europe.",budget:"$",season:"May–Sep",vibes:["Cultural","Hiking"],travel:["offbeat","budget"]},
-{name:"Bruges",region:"Belgium",continent:"Europe",photo:"photo-1491557345352-5929e343eb89",pitch:"Chocolate, beer, canals, and medieval everything. Small enough to walk in a day, charming enough to stay a week.",budget:"$$",season:"Apr–Oct",vibes:["Cultural","Romantic"],travel:[]},
-{name:"Salar de Uyuni",region:"Bolivia",continent:"South America",photo:"photo-1510459384256-8b438f8cfebe",pitch:"The world's largest salt flat becomes a perfect mirror when wet. Stand in the sky. Bring sunglasses.",budget:"$",season:"Dec–Apr, May–Nov",vibes:["Adventure","Nature"],travel:["photography","offbeat"]},
-{name:"Chefchaouen",region:"Morocco",continent:"Africa",photo:"photo-1553244256-1c95e6b40f3e",pitch:"The blue city. Every wall, every door, every stairway. Nobody knows exactly why. Nobody cares — it's gorgeous.",budget:"$",season:"Mar–May, Sep–Nov",vibes:["Cultural","Nature","Relaxation"],travel:["photography","budget"]},
-{name:"Easter Island",region:"Chile",continent:"South America",photo:"photo-1591800081580-753baa6b0499",pitch:"Stone heads staring at the Pacific from the most remote inhabited island on Earth. More questions than answers.",budget:"$$$",season:"Oct–Mar",vibes:["Cultural","Unfrequented"],travel:["offbeat"]},
-{name:"Valletta",region:"Malta",continent:"Europe",photo:"photo-1579004170242-75b1a19e70d8",pitch:"A fortified city built by knights on a Mediterranean rock. Honey-colored limestone, rooftop bars, 300 sunny days.",budget:"$$",season:"Apr–Jun, Sep–Nov",vibes:["Beach","Cultural"],travel:["solo"]},
-{name:"Luang Prabang",region:"Laos",continent:"Asia",photo:"photo-1583083527882-4bee9aba004a",pitch:"Monks in saffron robes at dawn, French colonial cafes, waterfalls outside town. Southeast Asia's most serene city.",budget:"$",season:"Nov–Mar",vibes:["City","Cultural"],travel:["solo","budget","offbeat"]},
-{name:"Dolomites",region:"Italy",continent:"Europe",photo:"photo-1589308078059-be1415eab4c3",pitch:"Jagged pink peaks, alpine meadows, rifugios with wine lists. Italy decided mountains should also be elegant.",budget:"$$$",season:"Jun–Sep, Dec–Mar",vibes:["Adventure","Hiking","Nature"],travel:["photography"]},
-{name:"Helsinki",region:"Finland",continent:"Europe",photo:"photo-1538332576228-eb5b4c4de6f5",pitch:"Saunas, design, and the world's best public library. Nordic minimalism with a warm core.",budget:"$$$",season:"Jun–Aug, Dec–Jan",vibes:["City","Cultural"],travel:["solo"]},
-{name:"Mendoza",region:"Argentina",continent:"South America",photo:"photo-1510410320785-95a35a1fdbab",pitch:"Malbec straight from the vineyard with Andes views. Wine tasting as a lifestyle, not just an activity.",budget:"$$",season:"Mar–May, Sep–Nov",vibes:["Cultural"],travel:["solo"]},
-{name:"Tulum",region:"Mexico",continent:"North America",photo:"photo-1504730655501-24f2952b1015",pitch:"Mayan ruins over turquoise sea, cenote swimming, jungle yoga. The bohemian beach town.",budget:"$$",season:"Nov–Apr",vibes:["Beach","Cultural","Relaxation"],travel:["solo"]},
-{name:"Tromsø",region:"Norway",continent:"Europe",photo:"photo-1507272931001-fc06c17e4f43",pitch:"The gateway to the Arctic. Northern lights, midnight sun, whale watching, and the world's northernmost everything.",budget:"$$$$",season:"Sep–Mar, Jun–Jul",vibes:["Cultural","Nature"],travel:["photography","offbeat"]},
-{name:"Cartagena",region:"Colombia",continent:"South America",photo:"photo-1583531352515-8884af27e8d5",pitch:"Candy-colored colonial walls, salsa on every corner, ceviche by the water. The Caribbean's best-dressed city.",budget:"$",season:"Dec–Apr",vibes:["Beach","Cultural","Nightlife"],travel:["solo","budget"]},
-{name:"Cappadocia",region:"Turkey",continent:"Asia",photo:"photo-1570939274717-7eda259b50ed",pitch:"Hot air balloons over fairy chimneys at sunrise. Yes, it's as magical as every photo suggests.",budget:"$",season:"Apr–Jun, Sep–Oct",vibes:["Adventure","Nature","Romantic"],travel:["photography"]},
-{name:"Lake Como",region:"Italy",continent:"Europe",photo:"photo-1553783324-91d5aa0e6776",pitch:"George Clooney's neighborhood, basically. Villas, gardens, espresso with lake views. Old money energy.",budget:"$$$$",season:"Apr–Oct",vibes:["Nature","Romantic"],travel:["luxury"]},
-{name:"Queenstown",region:"New Zealand",continent:"Oceania",photo:"photo-1507699622108-4be3abd695ad",pitch:"Adventure capital of the world. Bungee, skydive, jet boat — or just stare at the lake. Both are valid.",budget:"$$$",season:"Dec–Feb, Jun–Aug",vibes:["Adventure","Nature"],travel:["solo"]},
-{name:"Tbilisi",region:"Georgia",continent:"Asia",photo:"photo-1565008576549-57569a49371d",pitch:"Sulfur baths, natural wine, dumplings called khinkali, and a tech scene under Soviet-era facades. $25/day paradise.",budget:"$",season:"May–Jun, Sep–Oct",vibes:["Cultural"],travel:["solo","budget","offbeat"]},
-{name:"Wadi Rum",region:"Jordan",continent:"Middle East",photo:"photo-1553484771-11998c592b9c",pitch:"Mars on Earth. Red sand, sandstone arches, Bedouin camps under a sky that has too many stars.",budget:"$$",season:"Mar–May, Sep–Nov",vibes:["Adventure","Nature"],travel:["photography","offbeat"]},
-{name:"Hallstatt",region:"Austria",continent:"Europe",photo:"photo-1507925921958-8a62f3d1a50d",pitch:"The lakeside village so pretty China literally built a replica. Alpine postcard energy, population 800.",budget:"$$$",season:"May–Sep",vibes:["Cultural","Nature"],travel:["photography"]},
-{name:"Jaipur",region:"India",continent:"Asia",photo:"photo-1524492412937-b28074a5d7da",pitch:"The Pink City. Forts, palaces, elephant encounters, and textiles in every color. Sensory overload in the best way.",budget:"$",season:"Oct–Mar",vibes:["Cultural","Nature"],travel:["solo","budget","photography"]},
-{name:"Sahara Desert",region:"North Africa",continent:"Africa",photo:"photo-1509023464722-18d996393ca8",pitch:"Dune seas that stretch to the horizon. Camel treks, Berber camps, silence so loud you can hear the stars.",budget:"$",season:"Oct–Apr",vibes:["Adventure","Nature"],travel:["offbeat"]},
-{name:"Bogotá",region:"Colombia",continent:"South America",photo:"photo-1568385247005-0d371d214862",pitch:"Graffiti tours, craft coffee, Andean sunsets at 8,600 feet. South America's most underrated capital.",budget:"$",season:"Dec–Mar",vibes:["City","Cultural"],travel:["solo","budget"]},
-];
-// Use loaded JSON if available, fallback to inline
-function getDestinations(){return destinations.length>0?destinations:_INLINE_FALLBACK}
+// === FILTER STATE ===
+let filterData = null; // lazy-loaded from /api/v1/filter.json
+let facetsData = null;
 
-// State
 let selectedTrip = [];
 let selectedContinent = [];
+let selectedBudget = [];
+let selectedAdvisoryLevel = [];
+let selectedSoloFemale = [];
+let selectedTapWater = null; // null | 'yes' | 'no'
 let filtered = [];
 
-// Chip toggle logic
+// === LOAD FACETS ON INIT (for chip counts) ===
+fetch('/api/v1/facets.json').then(r => r.json()).then(json => {
+  facetsData = json.facets;
+  populateFacetCounts();
+}).catch(() => {});
+
+function populateFacetCounts() {
+  if (!facetsData) return;
+
+  function addCount(containerId, facetKey, getKey) {
+    const vals = {};
+    (facetsData[facetKey] && facetsData[facetKey].values || []).forEach(v => {
+      vals[getKey(v)] = v.count;
+    });
+    document.querySelectorAll('#' + containerId + ' .chip').forEach(chip => {
+      const c = vals[chip.dataset.value];
+      if (c != null) {
+        const sp = document.createElement('span');
+        sp.className = 'chip-count';
+        sp.textContent = ' (' + c.toLocaleString() + ')';
+        chip.appendChild(sp);
+      }
+    });
+  }
+
+  addCount('tripChips', 'vibes', v => v.value.toLowerCase());
+  addCount('continentChips', 'continent', v => v.value);
+  addCount('budgetChips', 'budget.tier', v => v.value);
+
+  // Safety level — chip data-value is string "1","2", etc.; facet values are numbers
+  const safetyVals = {};
+  (facetsData['safety.advisoryLevel'] && facetsData['safety.advisoryLevel'].values || []).forEach(v => {
+    safetyVals[String(v.value)] = v.count;
+  });
+  document.querySelectorAll('#safetyChips .chip').forEach(chip => {
+    const c = safetyVals[chip.dataset.value];
+    if (c != null) {
+      const sp = document.createElement('span');
+      sp.className = 'chip-count';
+      sp.textContent = ' (' + c.toLocaleString() + ')';
+      chip.appendChild(sp);
+    }
+  });
+
+  addCount('soloFemaleChips', 'safety.soloFemaleSafety', v => v.value);
+
+  // Tap water — facet value is boolean
+  const twVals = {};
+  (facetsData['practical.tapWaterSafe'] && facetsData['practical.tapWaterSafe'].values || []).forEach(v => {
+    twVals[v.value ? 'yes' : 'no'] = v.count;
+  });
+  document.querySelectorAll('#tapWaterChips .chip').forEach(chip => {
+    const c = twVals[chip.dataset.value];
+    if (c != null) {
+      const sp = document.createElement('span');
+      sp.className = 'chip-count';
+      sp.textContent = ' (' + c.toLocaleString() + ')';
+      chip.appendChild(sp);
+    }
+  });
+}
+
+// === LAZY-LOAD FILTER.JSON ===
+async function fetchFilterData() {
+  if (filterData) return true;
+  const msg = document.getElementById('loadingMsg');
+  if (msg) msg.style.display = 'block';
+  try {
+    const r = await fetch('/api/v1/filter.json');
+    const json = await r.json();
+    filterData = json.items || [];
+    return true;
+  } catch(e) {
+    console.error('filter.json load failed', e);
+    return false;
+  } finally {
+    if (msg) msg.style.display = 'none';
+  }
+}
+
+// === CHIP SETUP ===
 function setupChips(containerId, stateArr, multiSelect) {
   const container = document.getElementById(containerId);
+  if (!container) return;
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const val = chip.dataset.value;
@@ -334,14 +376,10 @@ function setupChips(containerId, stateArr, multiSelect) {
         if (idx >= 0) stateArr.splice(idx, 1);
         else stateArr.push(val);
       } else {
-        // Single select — toggle or switch
         const wasActive = chip.classList.contains('active');
         container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         stateArr.length = 0;
-        if (!wasActive) {
-          chip.classList.add('active');
-          stateArr.push(val);
-        }
+        if (!wasActive) { chip.classList.add('active'); stateArr.push(val); }
       }
     });
   });
@@ -349,24 +387,95 @@ function setupChips(containerId, stateArr, multiSelect) {
 
 setupChips('tripChips', selectedTrip, true);
 setupChips('continentChips', selectedContinent, true);
+setupChips('budgetChips', selectedBudget, true);
+setupChips('safetyChips', selectedAdvisoryLevel, true);
+setupChips('soloFemaleChips', selectedSoloFemale, true);
 
-function photoUrl(photo, w, q) {
-  if (!photo) return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=' + w + '&q=' + (q||80);
-  if (photo.startsWith('photo-')) return 'https://images.unsplash.com/' + photo + '?w=' + w + '&q=' + (q||80) + '&fit=crop&auto=format';
-  return photo;
-}
-
-// Carousel
-(function(){
-  const allDest = getDestinations();
-  const preview = [...allDest].filter(d=>d.photo).sort(()=>Math.random()-.5).slice(0,16);
-  const track = document.getElementById('carouselTrack');
-  if(!track||!preview.length)return;
-  const html = (d) => {const idx = allDest.indexOf(d); return `<div class="carousel-card" onclick="openModal(${idx})"><img src="${photoUrl(d.photo, 440, 80)}" alt="${d.name}" loading="lazy" onerror="this.closest('.carousel-card').style.display='none'"><div class="cc-overlay"><div class="cc-name">${d.name}</div><div class="cc-region">${d.region}</div></div></div>`;};
-  const cards = preview.map(html).join('');
-  track.innerHTML = cards + cards;
+// Tap water: single-select toggle
+(function() {
+  const c = document.getElementById('tapWaterChips');
+  if (!c) return;
+  c.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.value;
+      const was = chip.classList.contains('active');
+      c.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      selectedTapWater = null;
+      if (!was) { chip.classList.add('active'); selectedTapWater = val; }
+    });
+  });
 })();
 
+// === PHOTO UTIL ===
+// Pool of varied travel photos for deterministic slug-based assignment
+const _PHOTO_POOL = [
+  'photo-1488646953014-85cb44e25828','photo-1476514525535-07fb3b4ae5f1',
+  'photo-1530521954074-e64f6810b32d','photo-1501854140801-50d01698950b',
+  'photo-1507525428034-b723cf961d3e','photo-1469474968028-56623f02e42e',
+  'photo-1476673160081-cf065607f449','photo-1500534314209-a25ddb2bd429',
+  'photo-1485470733090-0aae1788d5af','photo-1464822759023-fed622ff2c3b',
+  'photo-1528360983277-13d401cdc186','photo-1499678329028-101435549a4e',
+  'photo-1504214208698-ea1916a2195a','photo-1518998053901-5348d3961a04',
+  'photo-1506905925346-21bda4d32df4','photo-1542314831-068cd1dbfeeb',
+  'photo-1539037116277-4db20889f2d4','photo-1533105079780-92b9be482077',
+  'photo-1502301103665-0b95cc738daf','photo-1580639569904-7a4b27cfb6e3'
+];
+
+function photoForSlug(slug, w, q) {
+  let h = 5381;
+  const s = slug || '';
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h) + s.charCodeAt(i);
+  const photo = _PHOTO_POOL[Math.abs(h) % _PHOTO_POOL.length];
+  return 'https://images.unsplash.com/' + photo + '?w=' + w + '&q=' + (q || 80) + '&fit=crop&auto=format';
+}
+
+// === SAFETY BADGE ===
+function safetyBadge(level) {
+  if (!level) return '';
+  const labels = {1: 'L1', 2: 'L2', 3: 'L3', 4: 'L4'};
+  return '<span class="safety-badge sb-' + level + '" title="Advisory Level ' + level + '">' + (labels[level] || 'L' + level) + '</span>';
+}
+
+// === FIND DESTINATIONS ===
+async function findDestinations() {
+  const ok = await fetchFilterData();
+  if (!ok || !filterData) {
+    document.getElementById('grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--light-text)">Failed to load destinations. Please try again.</div>';
+    document.getElementById('resultsSection').classList.add('show');
+    return;
+  }
+
+  filtered = filterData.filter(d => {
+    if (selectedTrip.length && !(d.vibes && selectedTrip.some(t => d.vibes.some(v => v.toLowerCase() === t.toLowerCase())))) return false;
+    if (selectedContinent.length && !selectedContinent.includes(d.continent)) return false;
+    if (selectedBudget.length && !selectedBudget.includes(d.budget && d.budget.tier)) return false;
+    if (selectedAdvisoryLevel.length && !selectedAdvisoryLevel.includes(String(d.safety && d.safety.advisoryLevel))) return false;
+    if (selectedSoloFemale.length && !selectedSoloFemale.includes(d.safety && d.safety.soloFemaleSafety)) return false;
+    if (selectedTapWater === 'yes' && !(d.practical && d.practical.tapWaterSafe === true)) return false;
+    if (selectedTapWater === 'no' && !(d.practical && d.practical.tapWaterSafe === false)) return false;
+    return true;
+  });
+
+  shuffle(filtered);
+  document.getElementById('resultsSection').classList.add('show');
+  render();
+  document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
+}
+
+function clearFilters() {
+  selectedTrip.length = 0;
+  selectedContinent.length = 0;
+  selectedBudget.length = 0;
+  selectedAdvisoryLevel.length = 0;
+  selectedSoloFemale.length = 0;
+  selectedTapWater = null;
+  document.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
+  document.getElementById('resultsSection').classList.remove('show');
+}
+
+function shuffleResults() { shuffle(filtered); visibleCount = PAGE_SIZE; renderPage(); }
+
+// === SHUFFLE ===
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -375,44 +484,16 @@ function shuffle(arr) {
   return arr;
 }
 
-function findDestinations() {
-  filtered = getDestinations().filter(d => {
-    const vibeMap = {};
-    if (selectedTrip.length && !selectedTrip.some(t => {const expanded = vibeMap[t.toLowerCase()] || [t.toLowerCase()]; return d.vibes.some(v => expanded.some(e => v.toLowerCase().includes(e)));})) return false;
-    if (selectedContinent.length && !selectedContinent.includes(d.continent)) return false;
-    return true;
-  });
-  shuffle(filtered);
-  document.getElementById('resultsSection').classList.add('show');
-  render();
-  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'});
-}
-
-function clearFilters() {
-  selectedTrip.length = 0;
-  selectedContinent.length = 0;
-  document.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
-  document.getElementById('resultsSection').classList.remove('show');
-}
-
-function shuffleResults() {
-  shuffle(filtered);
-  visibleCount = PAGE_SIZE;
-  renderPage();
-}
-
+// === RENDER ===
 const PAGE_SIZE = 12;
 let visibleCount = PAGE_SIZE;
 
-function render() {
-  visibleCount = PAGE_SIZE;
-  renderPage();
-}
+function render() { visibleCount = PAGE_SIZE; renderPage(); }
 
 function renderPage() {
   const grid = document.getElementById('grid');
   const empty = document.getElementById('empty');
-  document.getElementById('resultsCount').textContent = `${filtered.length} destination${filtered.length !== 1 ? 's' : ''} found`;
+  document.getElementById('resultsCount').textContent = filtered.length + ' destination' + (filtered.length !== 1 ? 's' : '') + ' found';
 
   if (filtered.length === 0) {
     grid.innerHTML = '';
@@ -423,30 +504,30 @@ function renderPage() {
   empty.style.display = 'none';
 
   const visible = filtered.slice(0, visibleCount);
-  grid.innerHTML = visible.map((d, i) => `
-    <div class="card" onclick="openModal(${getDestinations().indexOf(d)})" style="animation-delay:${Math.min(i*0.05,0.5)}s">
-      <img src="${photoUrl(d.photo, 600, 80)}" alt="${d.name}" loading="${i < 6 ? 'eager' : 'lazy'}">
-      <div class="card-body">
-        <h2>${d.name}</h2>
-        <div class="region">${d.region}</div>
-        <p class="pitch">${d.pitch}</p>
-        <div class="tags">
-          ${d.vibes.map(v => `<span class="tag vibe">${v}</span>`).join('')}
-        </div>
-        <div class="card-meta">
-          <span>📅 ${d.season}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  grid.innerHTML = visible.map((d, i) => {
+    const badge = safetyBadge(d.safety && d.safety.advisoryLevel);
+    const budgetStr = (d.budget && d.budget.raw) || '';
+    const seasonStr = (d.season && d.season.raw) || '';
+    const metaParts = [];
+    if (budgetStr) metaParts.push(budgetStr);
+    if (seasonStr) metaParts.push('📅 ' + seasonStr);
+    return '<div class="card" onclick="openModal(' + i + ')" style="animation-delay:' + Math.min(i * 0.05, 0.5) + 's">' +
+      '<img src="' + photoForSlug(d.slug || d.name, 600, 80) + '" alt="' + d.name + '" loading="' + (i < 6 ? 'eager' : 'lazy') + '">' +
+      '<div class="card-body">' +
+      '<div class="card-header-row"><h2>' + d.name + '</h2>' + badge + '</div>' +
+      '<div class="region">' + (d.country || d.continent || '') + '</div>' +
+      '<div class="tags">' + (d.vibes || []).slice(0, 3).map(v => '<span class="tag vibe">' + v + '</span>').join('') + '</div>' +
+      '<div class="card-meta">' + metaParts.join(' · ') + '</div>' +
+      '</div></div>';
+  }).join('');
 
   updateLoadMore();
 }
 
 function updateLoadMore() {
   let btn = document.getElementById('loadMoreBtn');
-  const remaining = filtered.length - visibleCount;
-  if (remaining > 0) {
+  const rem = filtered.length - visibleCount;
+  if (rem > 0) {
     if (!btn) {
       btn = document.createElement('button');
       btn.id = 'loadMoreBtn';
@@ -456,34 +537,43 @@ function updateLoadMore() {
       btn.onclick = loadMore;
       document.getElementById('grid').insertAdjacentElement('afterend', btn);
     }
-    btn.textContent = `Load More (${remaining} remaining)`;
+    btn.textContent = 'Load More (' + rem + ' remaining)';
     btn.style.display = 'block';
   } else {
     removeLoadMore();
   }
 }
 
-function removeLoadMore() {
-  const btn = document.getElementById('loadMoreBtn');
-  if (btn) btn.style.display = 'none';
-}
+function removeLoadMore() { const btn = document.getElementById('loadMoreBtn'); if (btn) btn.style.display = 'none'; }
+function loadMore() { visibleCount += PAGE_SIZE; renderPage(); }
 
-function loadMore() {
-  visibleCount += PAGE_SIZE;
-  renderPage();
-}
-
+// === MODAL ===
 function openModal(idx) {
-  const d = getDestinations()[idx];
-  document.getElementById('mImg').src = photoUrl(d.photo, 800, 80);
+  const d = filtered[idx];
+  if (!d) return;
+  document.getElementById('mImg').src = photoForSlug(d.slug || d.name, 800, 80);
   document.getElementById('mImg').alt = d.name;
   document.getElementById('mName').textContent = d.name;
-  document.getElementById('mRegion').textContent = d.region;
-  document.getElementById('mPitch').textContent = d.pitch;
-  document.getElementById('mSeason').textContent = '📅 ' + d.season;
+  document.getElementById('mRegion').textContent = (d.country || '') + (d.continent ? ' · ' + d.continent : '');
+  document.getElementById('mPitch').textContent = '';
+
+  const budgetStr = (d.budget && d.budget.raw) || '';
+  const seasonStr = (d.season && d.season.raw) || '';
+  const metaParts = [];
+  if (budgetStr) metaParts.push(budgetStr);
+  if (seasonStr) metaParts.push('📅 ' + seasonStr);
+  document.getElementById('mSeason').textContent = metaParts.join(' · ');
+
   const tags = document.getElementById('mTags');
-  tags.innerHTML = d.vibes.map(v => `<span class="tag vibe">${v}</span>`).join('');
-  document.getElementById('mCta').href = `/plan.html?destination=${encodeURIComponent(d.name)}`;
+  const lvl = d.safety && d.safety.advisoryLevel;
+  const badge = lvl ? '<span class="safety-badge sb-' + lvl + '" style="font-size:0.8rem;padding:4px 10px;margin-bottom:8px;display:inline-flex">Advisory Level ' + lvl + '</span><br>' : '';
+  tags.innerHTML = badge + (d.vibes || []).map(v => '<span class="tag vibe">' + v + '</span>').join('');
+
+  const ctaUrl = d.url || ('/plan.html?destination=' + encodeURIComponent(d.name));
+  const ctaEl = document.getElementById('mCta');
+  ctaEl.href = ctaUrl;
+  ctaEl.textContent = d.url ? 'View Destination →' : 'Plan this trip →';
+
   document.getElementById('modal').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
@@ -514,4 +604,3 @@ document.addEventListener('click', function(e) {
 </script>
 </body>
 </html>
-<!-- cache bust 1771634529 -->
