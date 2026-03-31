@@ -2750,6 +2750,871 @@ def main():
     build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
     print("   ✅ api/index.html")
 
+    print("📦 Building manifest...")
+    build_manifest()
+    print("   ✅ manifest.json")
+
+    print("🗃️  Building offline packs...")
+    packs_count = build_packs()
+    print(f"   ✅ {packs_count} packs")
+
+    print("🧠 Building knowledge chunks...")
+    knowledge_chunks = build_knowledge_chunks()
+    print(f"   ✅ {len(knowledge_chunks)} chunks")
+
+    print("🔗 Building per-pack knowledge chunks...")
+    pack_chunk_count = build_knowledge_pack_chunks()
+    print(f"   ✅ {pack_chunk_count} pack chunk files")
+
+
+# ---------------------------------------------------------------------------
+# Sprint 4 — Manifest, Offline Packs & Knowledge Chunks
+# ---------------------------------------------------------------------------
+
+import hashlib
+
+
+def _sha256_file(path):
+    """Return sha256 hex digest of a file's contents."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _dir_size(directory):
+    """Return total byte size of all .json files in a directory."""
+    total = 0
+    p = Path(directory)
+    if p.is_dir():
+        for fp in p.rglob("*.json"):
+            total += fp.stat().st_size
+    return total
+
+
+def build_manifest():
+    """Scan all api/v1/ collections and emit manifest.json with counts, sizes, checksums."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    collections_def = [
+        ("destinations",  "/api/v1/destinations.json",   "/api/v1/destinations/{slug}.json"),
+        ("countries",     "/api/v1/countries.json",       "/api/v1/countries/{iso2}.json"),
+        ("picks",         "/api/v1/picks.json",           "/api/v1/picks/{slug}.json"),
+        ("itineraries",   "/api/v1/itineraries.json",     "/api/v1/itineraries/{slug}.json"),
+        ("compare",       "/api/v1/compare.json",         "/api/v1/compare/{slug}.json"),
+        ("safety",        "/api/v1/safety.json",          "/api/v1/safety/{iso2}.json"),
+        ("alerts",        "/api/v1/alerts.json",          "/api/v1/alerts/{iso2}.json"),
+        ("scams",         "/api/v1/scams.json",           "/api/v1/scams/{slug}.json"),
+        ("filter",        "/api/v1/filter.json",          None),
+        ("facets",        "/api/v1/facets.json",          None),
+        ("recommend",     "/api/v1/recommend.json",       None),
+        ("cards",         "/api/v1/cards.json",           "/api/v1/cards/{slug}.json"),
+        ("insurance",     "/api/v1/insurance.json",       "/api/v1/insurance/{slug}.json"),
+    ]
+
+    collections = {}
+    total_bytes = 0
+
+    for col_name, index_url, detail_pattern in collections_def:
+        index_path = OUTPUT_DIR / f"{col_name}.json"
+        if not index_path.exists():
+            continue
+
+        # Count from index file
+        try:
+            with open(index_path) as f:
+                index_data = json.load(f)
+            count = index_data.get("count", 0)
+            if count == 0:
+                # Try common count keys
+                for key in ("itemCount", "totalCount"):
+                    if key in index_data:
+                        count = index_data[key]
+                        break
+        except Exception:
+            count = 0
+
+        index_size = index_path.stat().st_size
+        detail_dir = OUTPUT_DIR / col_name
+        detail_size = _dir_size(detail_dir)
+        size_bytes = index_size + detail_size
+        total_bytes += size_bytes
+        checksum = _sha256_file(index_path)
+        updated_at = isoformat_mtime(index_path)
+
+        entry = {
+            "count": count,
+            "indexUrl": index_url,
+            "sizeBytes": size_bytes,
+            "checksum": f"sha256:{checksum}",
+            "updatedAt": updated_at,
+        }
+        if detail_pattern:
+            entry["detailPattern"] = detail_pattern
+
+        collections[col_name] = entry
+
+    manifest = {
+        "version": API_VERSION,
+        "generatedAt": now,
+        "collections": collections,
+        "totalSizeBytes": total_bytes,
+        "packsUrl": "/api/v1/packs.json",
+    }
+    write_json(OUTPUT_DIR / "manifest.json", manifest)
+    return manifest
+
+
+# Pack definitions -------------------------------------------------------
+
+COUNTRY_PACKS = [
+    ("japan",          "Japan Travel Pack",           "JP", ["asia", "safe", "cultural"],       "Japanese",   "110"),
+    ("thailand",       "Thailand Travel Pack",        "TH", ["asia", "beach", "budget"],         "Thai",       "191"),
+    ("italy",          "Italy Travel Pack",           "IT", ["europe", "cultural", "food"],       "Italian",    "112"),
+    ("france",         "France Travel Pack",          "FR", ["europe", "cultural", "romantic"],   "French",     "15"),
+    ("spain",          "Spain Travel Pack",           "ES", ["europe", "beach", "food"],          "Spanish",    "112"),
+    ("mexico",         "Mexico Travel Pack",          "MX", ["latin-america", "beach", "food"],   "Spanish",    "911"),
+    ("germany",        "Germany Travel Pack",         "DE", ["europe", "cultural", "beer"],       "German",     "112"),
+    ("australia",      "Australia Travel Pack",       "AU", ["oceania", "nature", "beach"],       "English",    "000"),
+    ("south-korea",    "South Korea Travel Pack",     "KR", ["asia", "cultural", "food"],         "Korean",     "112"),
+    ("united-kingdom", "United Kingdom Travel Pack",  "GB", ["europe", "cultural", "city"],       "English",    "999"),
+]
+
+REGION_PACKS = [
+    ("se-asia",          "Southeast Asia Pack",     ["TH","VN","ID","MY","PH","KH","LA","MM","SG"],    ["asia","backpacker","beach"]),
+    ("europe-western",   "Western Europe Pack",     ["FR","ES","PT","IT","DE","NL","BE","AT","CH"],    ["europe","cultural","city"]),
+    ("europe-eastern",   "Eastern Europe Pack",     ["PL","CZ","HU","HR","RO","BG","RS","SI","SK","BA","ME","MK","AL"], ["europe","budget","cultural"]),
+    ("central-america",  "Central America Pack",    ["CR","PA","BZ","GT","HN","NI","SV","MX"],         ["latin-america","nature","adventure"]),
+    ("south-america",    "South America Pack",      ["CO","PE","AR","BR","CL","EC","BO","UY"],         ["latin-america","adventure","nature"]),
+]
+
+THEME_PACKS = [
+    ("solo-female-safe",   "Solo Female Safe Pack"),
+    ("budget-backpacker",  "Budget Backpacker Pack"),
+]
+
+
+def _load_index_items(index_file, list_key):
+    """Load items list from an index JSON file."""
+    path = OUTPUT_DIR / index_file
+    if not path.exists():
+        return []
+    with open(path) as f:
+        data = json.load(f)
+    return data.get(list_key, [])
+
+
+def _read_json_file(path):
+    """Read a JSON file, return None if missing."""
+    p = Path(path)
+    if not p.exists():
+        return None
+    try:
+        with open(p) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _pack_checksum(data_bytes):
+    return "sha256:" + hashlib.sha256(data_bytes).hexdigest()
+
+
+def _build_single_pack(pack_id, name, description, pack_type, countries,
+                       dest_slug_to_country, all_dest_summaries,
+                       all_picks_summaries, all_itin_summaries,
+                       scam_slugs_by_country, tags, primary_language="", emergency_number=""):
+    """Build a single pack file and return its catalog entry."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    country_set = set(c.upper() for c in countries)
+
+    # countries data
+    countries_data = []
+    for iso2 in countries:
+        c_data = _read_json_file(OUTPUT_DIR / "countries" / f"{iso2.lower()}.json")
+        if c_data:
+            countries_data.append(c_data)
+
+    # safety data
+    safety_data = []
+    for iso2 in countries:
+        s_data = _read_json_file(OUTPUT_DIR / "safety" / f"{iso2.lower()}.json")
+        if s_data:
+            safety_data.append(s_data)
+
+    # alerts data
+    alerts_data = []
+    for iso2 in countries:
+        a_data = _read_json_file(OUTPUT_DIR / "alerts" / f"{iso2.lower()}.json")
+        if a_data:
+            alerts_data.append(a_data)
+
+    # destinations — filter summaries by countryCode
+    dest_summaries = [d for d in all_dest_summaries if d.get("countryCode", "").upper() in country_set]
+
+    # picks — filter by destination country
+    picks_summaries = [
+        p for p in all_picks_summaries
+        if dest_slug_to_country.get(p.get("destinationSlug", ""), "").upper() in country_set
+    ]
+
+    # itineraries — filter by destination country
+    itin_summaries = [
+        i for i in all_itin_summaries
+        if dest_slug_to_country.get(i.get("destinationSlug", ""), "").upper() in country_set
+    ]
+
+    # scams — filter by countryCode
+    scam_cities = []
+    scams_data = []
+    for iso2 in countries:
+        for slug in scam_slugs_by_country.get(iso2.upper(), []):
+            scam_detail = _read_json_file(OUTPUT_DIR / "scams" / f"{slug}.json")
+            if scam_detail:
+                scams_data.append(scam_detail)
+                scam_cities.append(scam_detail.get("city", slug))
+
+    payload = {
+        "id": f"pack:{pack_id}",
+        "name": name,
+        "description": description,
+        "version": 1,
+        "generatedAt": now,
+        "coverage": {
+            "countries": list(countries),
+            "destinationCount": len(dest_summaries),
+            "picksCount": len(picks_summaries),
+            "itineraryCount": len(itin_summaries),
+            "scamCities": scam_cities,
+        },
+        "data": {
+            "countries": countries_data,
+            "safety": safety_data,
+            "alerts": alerts_data,
+            "destinations": dest_summaries,
+            "scams": scams_data,
+            "picks": picks_summaries,
+            "itineraries": itin_summaries,
+        },
+        "metadata": {
+            "packType": pack_type,
+            "tags": tags,
+            "primaryLanguage": primary_language,
+            "emergencyNumber": emergency_number,
+        },
+    }
+
+    # Compute size/checksum from serialised payload
+    raw = json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8")
+    payload["sizeBytes"] = len(raw)
+    payload["checksum"] = _pack_checksum(raw)
+
+    packs_dir = OUTPUT_DIR / "packs"
+    packs_dir.mkdir(parents=True, exist_ok=True)
+    write_json(packs_dir / f"{pack_id}.json", payload)
+
+    return {
+        "id": f"pack:{pack_id}",
+        "name": name,
+        "packType": pack_type,
+        "countries": list(countries),
+        "destinationCount": len(dest_summaries),
+        "sizeBytes": payload["sizeBytes"],
+        "url": f"/api/v1/packs/{pack_id}.json",
+    }
+
+
+def build_packs():
+    """Build all offline pack files and the packs.json index."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Load shared indexes once
+    all_dest_summaries = _load_index_items("destinations.json", "destinations")
+    all_picks_summaries = _load_index_items("picks.json", "picks")
+    all_itin_summaries = _load_index_items("itineraries.json", "itineraries")
+    all_filter_items = _load_index_items("filter.json", "items")
+
+    # Build slug -> countryCode lookup from destinations index
+    dest_slug_to_country = {d["slug"]: d.get("countryCode", "") for d in all_dest_summaries}
+
+    # Build scam city slugs grouped by countryCode
+    scam_cities_list = _load_index_items("scams.json", "cities")
+    scam_slugs_by_country = {}
+    for city in scam_cities_list:
+        cc = city.get("countryCode", "").upper()
+        scam_slugs_by_country.setdefault(cc, []).append(city["slug"])
+
+    # Collect recommend preset destinations for theme packs
+    recommend_data = _read_json_file(OUTPUT_DIR / "recommend.json") or {}
+    solo_female_slugs = set()
+    budget_slugs = set()
+    for preset in recommend_data.get("presets", []):
+        if preset.get("id") == "solo-female-safe-budget":
+            solo_female_slugs = {r["slug"] for r in preset.get("results", [])}
+    # Budget backpacker: budget=$ destinations from filter
+    budget_countries = set()
+    for item in all_filter_items:
+        if item.get("budget", {}).get("raw") == "$":
+            budget_countries.add(item.get("countryCode", "").upper())
+            budget_slugs.add(item.get("slug", ""))
+
+    catalog_entries = []
+
+    # --- Country packs ---
+    for pack_id, pack_name, iso2, tags, lang, emergency in COUNTRY_PACKS:
+        desc = f"Complete offline guide: destinations, safety, scams, picks, and itineraries for {pack_name.replace(' Travel Pack', '')}."
+        entry = _build_single_pack(
+            pack_id=pack_id,
+            name=pack_name,
+            description=desc,
+            pack_type="country",
+            countries=[iso2],
+            dest_slug_to_country=dest_slug_to_country,
+            all_dest_summaries=all_dest_summaries,
+            all_picks_summaries=all_picks_summaries,
+            all_itin_summaries=all_itin_summaries,
+            scam_slugs_by_country=scam_slugs_by_country,
+            tags=tags,
+            primary_language=lang,
+            emergency_number=emergency,
+        )
+        catalog_entries.append(entry)
+
+    # --- Region packs ---
+    for pack_id, pack_name, countries, tags in REGION_PACKS:
+        desc = f"Offline travel bundle covering {len(countries)} countries in {pack_name.replace(' Pack', '')}: destinations, safety, scams, picks, and itineraries."
+        entry = _build_single_pack(
+            pack_id=pack_id,
+            name=pack_name,
+            description=desc,
+            pack_type="region",
+            countries=countries,
+            dest_slug_to_country=dest_slug_to_country,
+            all_dest_summaries=all_dest_summaries,
+            all_picks_summaries=all_picks_summaries,
+            all_itin_summaries=all_itin_summaries,
+            scam_slugs_by_country=scam_slugs_by_country,
+            tags=tags,
+        )
+        catalog_entries.append(entry)
+
+    # --- Theme packs ---
+    # solo-female-safe
+    solo_countries = list({dest_slug_to_country.get(s, "") for s in solo_female_slugs if dest_slug_to_country.get(s)})
+    solo_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in solo_female_slugs]
+    solo_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "") in set(solo_countries)]
+    solo_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "") in set(solo_countries)]
+
+    solo_payload = {
+        "id": "pack:solo-female-safe",
+        "name": "Solo Female Safe Pack",
+        "description": "Top destinations rated safest for solo female travel — curated from editorial recommendations.",
+        "version": 1,
+        "generatedAt": now,
+        "coverage": {
+            "countries": solo_countries,
+            "destinationCount": len(solo_dest_summaries),
+            "picksCount": len(solo_picks),
+            "itineraryCount": len(solo_itin),
+            "scamCities": [],
+        },
+        "data": {
+            "countries": [],
+            "safety": [],
+            "alerts": [],
+            "destinations": solo_dest_summaries,
+            "scams": [],
+            "picks": solo_picks,
+            "itineraries": solo_itin,
+        },
+        "metadata": {"packType": "theme", "tags": ["solo-female", "safe", "recommended"]},
+    }
+    raw = json.dumps(solo_payload, indent=2, ensure_ascii=False).encode("utf-8")
+    solo_payload["sizeBytes"] = len(raw)
+    solo_payload["checksum"] = _pack_checksum(raw)
+    packs_dir = OUTPUT_DIR / "packs"
+    packs_dir.mkdir(parents=True, exist_ok=True)
+    write_json(packs_dir / "solo-female-safe.json", solo_payload)
+    catalog_entries.append({
+        "id": "pack:solo-female-safe",
+        "name": "Solo Female Safe Pack",
+        "packType": "theme",
+        "countries": solo_countries,
+        "destinationCount": len(solo_dest_summaries),
+        "sizeBytes": solo_payload["sizeBytes"],
+        "url": "/api/v1/packs/solo-female-safe.json",
+    })
+
+    # budget-backpacker
+    budget_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in budget_slugs]
+    budget_countries_list = list(budget_countries)
+    budget_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "").upper() in budget_countries]
+    budget_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "").upper() in budget_countries]
+
+    budget_payload = {
+        "id": "pack:budget-backpacker",
+        "name": "Budget Backpacker Pack",
+        "description": "Destinations where a daily budget under $50 is realistic — the definitive budget travel collection.",
+        "version": 1,
+        "generatedAt": now,
+        "coverage": {
+            "countries": budget_countries_list,
+            "destinationCount": len(budget_dest_summaries),
+            "picksCount": len(budget_picks),
+            "itineraryCount": len(budget_itin),
+            "scamCities": [],
+        },
+        "data": {
+            "countries": [],
+            "safety": [],
+            "alerts": [],
+            "destinations": budget_dest_summaries,
+            "scams": [],
+            "picks": budget_picks,
+            "itineraries": budget_itin,
+        },
+        "metadata": {"packType": "theme", "tags": ["budget", "backpacker", "cheap"]},
+    }
+    raw = json.dumps(budget_payload, indent=2, ensure_ascii=False).encode("utf-8")
+    budget_payload["sizeBytes"] = len(raw)
+    budget_payload["checksum"] = _pack_checksum(raw)
+    write_json(packs_dir / "budget-backpacker.json", budget_payload)
+    catalog_entries.append({
+        "id": "pack:budget-backpacker",
+        "name": "Budget Backpacker Pack",
+        "packType": "theme",
+        "countries": budget_countries_list,
+        "destinationCount": len(budget_dest_summaries),
+        "sizeBytes": budget_payload["sizeBytes"],
+        "url": "/api/v1/packs/budget-backpacker.json",
+    })
+
+    packs_index = {
+        "count": len(catalog_entries),
+        "lastUpdated": now,
+        "packs": catalog_entries,
+    }
+    write_json(OUTPUT_DIR / "packs.json", packs_index)
+    return len(catalog_entries)
+
+
+# ---------------------------------------------------------------------------
+# Knowledge chunks
+# ---------------------------------------------------------------------------
+
+def _chunk_id(*parts):
+    return "chunk:" + ":".join(str(p).lower().replace(" ", "-") for p in parts)
+
+
+def _safety_chunks(safety_detail, source_url_base):
+    """Generate all chunk types from a single safety profile."""
+    chunks = []
+    iso2 = safety_detail.get("iso2", "").lower()
+    name = safety_detail.get("name", iso2.upper())
+    updated = safety_detail.get("lastUpdated", datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    source_url = f"{source_url_base}/safety/{iso2}.json"
+
+    # countrySafetySummary
+    safety = safety_detail.get("safety", {})
+    overall = safety.get("overallRisk", "unknown")
+    violent = safety.get("violentCrime", "unknown")
+    petty = safety.get("pettyCrime", "unknown")
+    lgbt = safety.get("lgbtSafety", "")
+    solo = safety.get("soloFemaleSafety", "")
+    disasters = ", ".join(safety.get("naturalDisasters", [])) or "none documented"
+    advisory = safety_detail.get("travelAdvisory", {})
+    adv_text = advisory.get("summary", "")
+    adv_level = advisory.get("levelText", "")
+
+    text = (
+        f"{name} has an overall safety risk rated as {overall}. "
+        f"Violent crime is {violent} and petty crime (pickpocketing, scams) is {petty}. "
+    )
+    if adv_level:
+        text += f"The US State Department advises: {adv_level}. "
+    if adv_text:
+        text += f"{adv_text} "
+    if solo:
+        text += f"For solo female travelers: {solo}. "
+    if lgbt:
+        text += f"LGBTQ+ safety: {lgbt}. "
+    if disasters != "none documented":
+        text += f"Natural disaster risks include: {disasters}."
+
+    chunks.append({
+        "id": _chunk_id("safety", iso2, "summary"),
+        "type": "countrySafetySummary",
+        "entityId": f"safety:{iso2}",
+        "text": text.strip(),
+        "tags": [iso2, name.lower(), "safety", "risk", overall],
+        "sourceUrl": source_url,
+        "updatedAt": updated,
+        "confidence": CONFIDENCE_EDITORIAL,
+        "provenance": "official-sources + editorial",
+    })
+
+    # emergencyContact
+    emergency = safety_detail.get("emergency", {})
+    police = emergency.get("police", "unknown")
+    ambulance = emergency.get("ambulance", "unknown")
+    fire = emergency.get("fire", "unknown")
+    notes = emergency.get("notes", "")
+    text = (
+        f"In {name}, call {police} for police, {ambulance} for ambulance/medical emergency, "
+        f"and {fire} for fire services. "
+    )
+    if notes:
+        text += notes
+    embassies = safety_detail.get("embassies", [])
+    if embassies:
+        emb = embassies[0]
+        emb_name = emb.get("name", "US Embassy")
+        emb_phone = emb.get("phone", "")
+        emb_city = emb.get("city", "")
+        if emb_phone:
+            text += f" The {emb_name} in {emb_city} can be reached at {emb_phone}."
+
+    chunks.append({
+        "id": _chunk_id("safety", iso2, "emergency"),
+        "type": "emergencyContact",
+        "entityId": f"safety:{iso2}",
+        "text": text.strip(),
+        "tags": [iso2, name.lower(), "emergency", "police", "ambulance"],
+        "sourceUrl": source_url,
+        "updatedAt": updated,
+        "confidence": CONFIDENCE_EDITORIAL,
+        "provenance": "official-sources + editorial",
+    })
+
+    # healthcareGuide
+    hc = safety_detail.get("healthcare", {})
+    if hc:
+        system = hc.get("systemType", "")
+        quality = hc.get("qualityRating", "")
+        cost = hc.get("costForTourists", "")
+        pharmacy = hc.get("pharmacyAccess", "")
+        hospital_notes = hc.get("hospitalNotes", "")
+        vaccinations = ", ".join(hc.get("vaccinationsRecommended", [])) or "routine vaccinations"
+        malaria = hc.get("malariaRisk", False)
+        insurance_advice = hc.get("insuranceAdvice", "")
+
+        text = f"{name} has a {system} healthcare system, rated {quality} quality. "
+        if cost:
+            text += f"Typical costs for tourists: {cost}. "
+        if pharmacy:
+            text += f"Pharmacy access: {pharmacy}. "
+        if hospital_notes:
+            text += f"{hospital_notes} "
+        text += f"Recommended vaccinations: {vaccinations}. "
+        if malaria:
+            text += "Malaria risk is present — consult a travel doctor before visiting. "
+        else:
+            text += "Malaria risk is negligible. "
+        if insurance_advice:
+            text += f"Travel insurance advice: {insurance_advice}"
+
+        chunks.append({
+            "id": _chunk_id("safety", iso2, "healthcare"),
+            "type": "healthcareGuide",
+            "entityId": f"safety:{iso2}",
+            "text": text.strip(),
+            "tags": [iso2, name.lower(), "healthcare", "hospital", "medical"],
+            "sourceUrl": source_url,
+            "updatedAt": updated,
+            "confidence": CONFIDENCE_EDITORIAL,
+            "provenance": "official-sources + editorial",
+        })
+
+    # medicationRestriction — one chunk per controlled substance entry
+    medications = safety_detail.get("medications", {})
+    if isinstance(medications, dict):
+        controlled = medications.get("controlledSubstances", [])
+    else:
+        controlled = medications if isinstance(medications, list) else []
+    for med in controlled:
+        if not isinstance(med, dict):
+            continue
+        med_name = med.get("drug") or med.get("name", "")
+        status = med.get("status", "")
+        notes = med.get("note") or med.get("notes", "")
+        if not med_name:
+            continue
+        text = f"{med_name} is {status} in {name}. "
+        if notes:
+            text += notes
+        chunks.append({
+            "id": _chunk_id("safety", iso2, "medication", med_name),
+            "type": "medicationRestriction",
+            "entityId": f"safety:{iso2}",
+            "text": text.strip(),
+            "tags": [iso2, name.lower(), "medication", status, med_name.lower()],
+            "sourceUrl": source_url,
+            "updatedAt": updated,
+            "confidence": CONFIDENCE_EDITORIAL,
+            "provenance": "official-sources + editorial",
+        })
+
+    return chunks
+
+
+def _alert_chunk(alert_detail, source_url_base):
+    """Generate an advisorySnapshot chunk from an alerts detail file."""
+    iso2 = alert_detail.get("iso2", "").lower()
+    name = alert_detail.get("name", iso2.upper())
+    updated = alert_detail.get("lastUpdated", datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    source_url = f"{source_url_base}/alerts/{iso2}.json"
+    combined_level = alert_detail.get("combinedLevel", "unknown")
+    combined_summary = alert_detail.get("combinedSummary", "")
+
+    us = alert_detail.get("us", {})
+    uk = alert_detail.get("uk", {})
+    us_summary = us.get("summary", "")
+    uk_summary = uk.get("summary", "")
+
+    text = f"Travel advisory for {name}: overall risk level is {combined_level}. "
+    if combined_summary:
+        text += f"{combined_summary} "
+    if us_summary:
+        text += f"US State Department: {us_summary} "
+    if uk_summary:
+        text += f"UK FCDO: {uk_summary}"
+
+    return {
+        "id": _chunk_id("alert", iso2, "snapshot"),
+        "type": "advisorySnapshot",
+        "entityId": f"alerts:{iso2}",
+        "text": text.strip(),
+        "tags": [iso2, name.lower(), "advisory", "travel-warning", combined_level],
+        "sourceUrl": source_url,
+        "updatedAt": updated,
+        "confidence": CONFIDENCE_EDITORIAL,
+        "provenance": "official-sources + editorial",
+    }
+
+
+def _scam_chunks(scam_detail, source_url_base):
+    """Generate scamPattern chunks from a scam city detail file."""
+    chunks = []
+    iso2 = scam_detail.get("countryCode", "").lower()
+    city = scam_detail.get("city", "")
+    country = scam_detail.get("country", "")
+    updated = scam_detail.get("lastUpdated", datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    source_url = f"{source_url_base}/scams/{scam_detail.get('slug', '')}.json"
+
+    for scam in scam_detail.get("scams", []):
+        scam_name = scam.get("name", "")
+        description = scam.get("description", "")
+        avoidance = scam.get("avoidance", "")
+        category = scam.get("category", "")
+        severity = scam.get("severity", "")
+        if not scam_name:
+            continue
+
+        text = f"Scam alert in {city}, {country} — {scam_name} ({category}, severity: {severity}). "
+        if description:
+            text += f"{description} "
+        if avoidance:
+            text += f"How to avoid: {avoidance}"
+
+        slug_part = scam.get("id", scam_name).split(":")[-1]
+        chunks.append({
+            "id": _chunk_id("scam", iso2, city, slug_part),
+            "type": "scamPattern",
+            "entityId": scam.get("id", f"scam:{city.lower()}:{slug_part}"),
+            "text": text.strip(),
+            "tags": [iso2, city.lower(), "scam", category, severity],
+            "sourceUrl": source_url,
+            "updatedAt": updated,
+            "confidence": CONFIDENCE_EDITORIAL,
+            "provenance": "official-sources + editorial",
+        })
+    return chunks
+
+
+def _destination_chunk(dest_detail, source_url_base):
+    """Generate a destinationPracticalSummary chunk from a destination detail file."""
+    slug = dest_detail.get("slug", "")
+    name = dest_detail.get("name", slug)
+    country = dest_detail.get("country", "")
+    cc = dest_detail.get("countryCode", "").lower()
+    updated = dest_detail.get("updatedAt", datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    source_url = f"{source_url_base}/destinations/{slug}.json"
+
+    budget = dest_detail.get("budget", "")
+    season = dest_detail.get("season", "")
+    vibes = ", ".join(dest_detail.get("vibes", [])) or ""
+    currency = dest_detail.get("currency", {})
+    currency_name = currency.get("name", "") if isinstance(currency, dict) else str(currency)
+    currency_code = currency.get("code", "") if isinstance(currency, dict) else ""
+    language = dest_detail.get("language", "")
+    tap_water = dest_detail.get("tapWaterSafe")
+    tipping = dest_detail.get("tippingCustom", "")
+    visa = dest_detail.get("visaNote", "")
+    pitch = dest_detail.get("pitch", "")
+    timezone_str = dest_detail.get("timezone", "")
+
+    text = f"{name} is a destination in {country}. "
+    if pitch:
+        text += f"{pitch} "
+    if vibes:
+        text += f"Known for: {vibes}. "
+    if budget:
+        text += f"Budget level: {budget}. "
+    if season:
+        text += f"Best time to visit: {season}. "
+    if currency_name:
+        text += f"Currency: {currency_name}"
+        if currency_code:
+            text += f" ({currency_code})"
+        text += ". "
+    if language:
+        text += f"Primary language: {language}. "
+    if tap_water is not None:
+        text += f"Tap water is {'safe to drink' if tap_water else 'not safe to drink — buy bottled water'}. "
+    if tipping:
+        text += f"Tipping: {tipping}. "
+    if visa:
+        text += f"Visa: {visa}."
+
+    tags = [cc, country.lower(), name.lower(), "destination", "practical"]
+    if vibes:
+        tags += [v.lower() for v in dest_detail.get("vibes", [])]
+
+    return {
+        "id": _chunk_id("destination", slug, "practical"),
+        "type": "destinationPracticalSummary",
+        "entityId": f"destination:{slug}",
+        "text": text.strip(),
+        "tags": list(dict.fromkeys(tags)),
+        "sourceUrl": source_url,
+        "updatedAt": updated,
+        "confidence": CONFIDENCE_EDITORIAL,
+        "provenance": "editorial",
+    }
+
+
+def build_knowledge_chunks():
+    """Generate AI-ready text chunks from all API data."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    chunks = []
+
+    # Safety chunks (all profiles)
+    safety_dir = OUTPUT_DIR / "safety"
+    if safety_dir.is_dir():
+        for fp in sorted(safety_dir.glob("*.json")):
+            detail = _read_json_file(fp)
+            if detail and detail.get("iso2"):
+                chunks.extend(_safety_chunks(detail, API_BASE_URL))
+
+    # Advisory chunks (all alert detail files)
+    alerts_dir = OUTPUT_DIR / "alerts"
+    if alerts_dir.is_dir():
+        for fp in sorted(alerts_dir.glob("*.json")):
+            detail = _read_json_file(fp)
+            if detail and detail.get("iso2"):
+                chunks.append(_alert_chunk(detail, API_BASE_URL))
+
+    # Scam chunks
+    scams_dir = OUTPUT_DIR / "scams"
+    if scams_dir.is_dir():
+        for fp in sorted(scams_dir.glob("*.json")):
+            detail = _read_json_file(fp)
+            if detail and detail.get("scams"):
+                chunks.extend(_scam_chunks(detail, API_BASE_URL))
+
+    # Destination practical summaries — top 500 by editorial score
+    filter_items = _load_index_items("filter.json", "items")
+    filter_items_sorted = sorted(
+        filter_items,
+        key=lambda x: x.get("scores", {}).get("editorial", 0),
+        reverse=True,
+    )
+    top_dest_slugs = [item["slug"] for item in filter_items_sorted[:500]]
+
+    dest_dir = OUTPUT_DIR / "destinations"
+    added = 0
+    for slug in top_dest_slugs:
+        if added >= 500:
+            break
+        detail = _read_json_file(dest_dir / f"{slug}.json")
+        if detail:
+            chunks.append(_destination_chunk(detail, API_BASE_URL))
+            added += 1
+
+    knowledge_dir = OUTPUT_DIR / "knowledge"
+    knowledge_dir.mkdir(parents=True, exist_ok=True)
+
+    payload = {
+        "version": API_VERSION,
+        "generatedAt": now,
+        "chunkCount": len(chunks),
+        "chunks": chunks,
+    }
+    write_json(knowledge_dir / "chunks.json", payload)
+    return chunks
+
+
+def build_knowledge_pack_chunks():
+    """For each pack, generate knowledge/chunks/{pack}.json with relevant chunks."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Load all chunks
+    chunks_path = OUTPUT_DIR / "knowledge" / "chunks.json"
+    if not chunks_path.exists():
+        return 0
+
+    with open(chunks_path) as f:
+        all_chunks_data = json.load(f)
+    all_chunks = all_chunks_data.get("chunks", [])
+
+    # Load packs index
+    packs_index = _read_json_file(OUTPUT_DIR / "packs.json") or {}
+    packs_list = packs_index.get("packs", [])
+
+    chunks_dir = OUTPUT_DIR / "knowledge" / "chunks"
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+
+    count = 0
+    for pack_entry in packs_list:
+        pack_id = pack_entry.get("id", "").replace("pack:", "")
+        pack_countries = set(c.upper() for c in pack_entry.get("countries", []))
+
+        # Load the pack detail to get destination slugs
+        pack_detail = _read_json_file(OUTPUT_DIR / "packs" / f"{pack_id}.json") or {}
+        pack_dest_slugs = set(d.get("slug", "") for d in pack_detail.get("data", {}).get("destinations", []))
+
+        relevant = []
+        for chunk in all_chunks:
+            tags = set(chunk.get("tags", []))
+            entity_id = chunk.get("entityId", "")
+            chunk_type = chunk.get("type", "")
+
+            # Match by country code in tags or entityId
+            tags_upper = {t.upper() for t in tags if t}
+            iso2_from_entity = entity_id.split(":")[-1].upper() if ":" in entity_id else ""
+            if (iso2_from_entity and iso2_from_entity in pack_countries) or (tags_upper & pack_countries):
+                relevant.append(chunk)
+                continue
+
+            # Match destination chunks by slug
+            if chunk_type == "destinationPracticalSummary":
+                slug = entity_id.replace("destination:", "")
+                if slug in pack_dest_slugs:
+                    relevant.append(chunk)
+
+        payload = {
+            "version": API_VERSION,
+            "packId": f"pack:{pack_id}",
+            "generatedAt": now,
+            "chunkCount": len(relevant),
+            "chunks": relevant,
+        }
+        write_json(chunks_dir / f"{pack_id}.json", payload)
+        count += 1
+
+    return count
+
 
 if __name__ == "__main__":
     main()
