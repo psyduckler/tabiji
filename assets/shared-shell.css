@@ -141,6 +141,46 @@ footer a {
   text-underline-offset: 2px;
 }
 
+/* Offline indicator pill */
+.offline-indicator {
+  display: none;
+  align-items: center;
+  gap: 0.35rem;
+  background: #FFF5F2;
+  border: 1px solid #F0C8BB;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--terracotta, #C1694F);
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.offline-indicator.visible {
+  display: inline-flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.offline-indicator::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--terracotta, #C1694F);
+  flex-shrink: 0;
+  animation: offline-pulse 2s ease-in-out infinite;
+}
+
+@keyframes offline-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 @media (max-width: 768px) {
   nav {
     position: fixed;
