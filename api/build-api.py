@@ -3590,9 +3590,10 @@ def build_knowledge_pack_chunks():
             entity_id = chunk.get("entityId", "")
             chunk_type = chunk.get("type", "")
 
-            # Match by country code (iso2 in tags or entityId)
+            # Match by country code in tags or entityId
+            tags_upper = {t.upper() for t in tags if t}
             iso2_from_entity = entity_id.split(":")[-1].upper() if ":" in entity_id else ""
-            if iso2_from_entity and iso2_from_entity in pack_countries:
+            if (iso2_from_entity and iso2_from_entity in pack_countries) or (tags_upper & pack_countries):
                 relevant.append(chunk)
                 continue
 
