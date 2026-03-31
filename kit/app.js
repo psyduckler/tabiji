@@ -329,6 +329,27 @@
         </div>`;
     }
 
+    if (d.hospitals && d.hospitals.length) {
+      html += `<div class="section-card"><h3>🏥 Hospitals</h3>`;
+      d.hospitals.forEach((hosp) => {
+        html += `
+          <div class="hospital-item">
+            <div class="hospital-name">${escHtml(hosp.name)}</div>
+            <div class="hospital-meta">
+              ${escHtml(hosp.city)}${hosp.address ? ` · ${escHtml(hosp.address)}` : ''}
+            </div>
+            ${hosp.phone ? `<a href="tel:${escHtml(hosp.phone)}" class="hospital-phone">📞 ${escHtml(hosp.phone)}</a>` : ''}
+            <div class="hospital-flags">
+              ${hosp.open24h ? '<span class="hospital-flag">24h</span>' : ''}
+              ${hosp.englishSpeaking ? '<span class="hospital-flag english">🇬🇧 English</span>' : ''}
+              ${hosp.type === 'international' ? '<span class="hospital-flag intl">🌐 International</span>' : ''}
+            </div>
+            ${hosp.notes ? `<div class="hospital-notes">${escHtml(hosp.notes)}</div>` : ''}
+          </div>`;
+      });
+      html += `</div>`;
+    }
+
     return html;
   }
 
@@ -481,6 +502,23 @@
             ${s.naturalDisasters.map((nd) => `<span class="disaster-tag">${escHtml(nd)}</span>`).join('')}
           </div>
         </div>`;
+    }
+
+    if (d.disasterResponse && d.disasterResponse.protocols && d.disasterResponse.protocols.length) {
+      html += `<div class="section-card"><h3>🆘 Emergency Protocols</h3>`;
+      d.disasterResponse.protocols.forEach((p) => {
+        html += `
+          <div class="protocol-item">
+            <div class="protocol-type">${escHtml(p.type)}</div>
+            ${p.immediate && p.immediate.length ? `
+              <div class="protocol-section"><strong>Immediate actions:</strong>
+                <ul>${p.immediate.map((a) => `<li>${escHtml(a)}</li>`).join('')}</ul>
+              </div>` : ''}
+            ${p.resources && p.resources.length ? `
+              <div class="protocol-resources">${p.resources.map((r) => `<small>${escHtml(r)}</small>`).join('<br>')}</div>` : ''}
+          </div>`;
+      });
+      html += `</div>`;
     }
 
     if (s.lgbtSafety) {
