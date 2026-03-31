@@ -407,6 +407,14 @@ def build_compare_index(inventory: Dict) -> str:
     )
 
 
+def canonical_compare_url(url: str | None, slug: str) -> str:
+    if not url:
+        return f"{BASE_URL}/compare/{slug}/"
+    if url.startswith("/compare/"):
+        return f"{BASE_URL}{url}"
+    return url
+
+
 def build_compare_aggregate(inventory: Dict) -> Dict:
     comparisons = []
     for card in inventory["cards"]:
@@ -421,7 +429,7 @@ def build_compare_aggregate(inventory: Dict) -> Dict:
             "destination1": per_page.get("destination1", card.get("destination1")),
             "destination2": per_page.get("destination2", card.get("destination2")),
             "categoryCount": category_count,
-            "url": per_page.get("url", f"{BASE_URL}/compare/{card['slug']}/"),
+            "url": canonical_compare_url(per_page.get("url"), card["slug"]),
         })
     return {"count": len(comparisons), "comparisons": comparisons}
 
@@ -514,6 +522,11 @@ def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
     extra_sitemap = sorted(sitemap_set - seen)
     if extra_sitemap:
         warnings.append(f"Sitemap compare URLs not in inventory: {', '.join(extra_sitemap)}")
+
+    for item in agg["comparisons"]:
+        url = item.get("url")
+        if not isinstance(url, str) or not url.startswith(f"{BASE_URL}/compare/"):
+            errors.append(f"{item.get('slug')}: aggregate compare URL must be absolute and under /compare/ (got {url})")
 
     current_agg = load_json(COMPARE_AGG_PATH) if COMPARE_AGG_PATH.exists() else None
     if current_agg is not None and current_agg != agg:
