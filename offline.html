@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Emergency Kit — Tabiji</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D3A5C">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --indigo: #2D3A5C;
+  --terracotta: #C1694F;
+  --cream: #FEFCF9;
+  --warm-gray: #E8E4DF;
+  --sand: #E8DFD0;
+  --text: #2C2419;
+  --warm-cream: #F5F0E8;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+  padding-top: 70px;
+}
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; color: var(--indigo); }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(254,252,249,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--sand); padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 1.4rem; font-weight: 700; color: var(--indigo);
+  text-decoration: none; letter-spacing: -0.02em;
+}
+.logo span { color: var(--terracotta); }
+.logo img { width: 28px; height: 28px; }
+.offline-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: var(--warm-cream); border: 1px solid var(--sand);
+  border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.75rem;
+  color: var(--indigo); font-weight: 500;
+}
+.offline-badge::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--terracotta); display: inline-block;
+}
+
+/* Container */
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+/* Hero */
+.hero {
+  text-align: center; margin-bottom: 2.5rem; padding: 2rem 0;
+}
+.hero .owl { width: 80px; height: 80px; margin-bottom: 1rem; }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.hero p { font-size: 1.05rem; color: #6B6358; max-width: 500px; margin: 0 auto; }
+
+/* Status bar */
+.status-bar {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.status-pill {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: #fff; border: 1px solid var(--sand); border-radius: 20px;
+  padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: 500;
+}
+.status-pill .num { color: var(--terracotta); font-weight: 600; }
+
+/* Section cards */
+.section {
+  background: #fff; border-radius: 12px; border: 1px solid var(--sand);
+  padding: 1.5rem; margin-bottom: 1.5rem;
+}
+.section h2 {
+  font-size: 1.3rem; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section h2 .icon { font-size: 1.4rem; }
+
+/* Search */
+.search-box {
+  width: 100%; padding: 0.7rem 1rem; border: 1px solid var(--sand);
+  border-radius: 8px; font-size: 0.95rem; font-family: inherit;
+  background: var(--cream); outline: none; margin-bottom: 1rem;
+}
+.search-box:focus { border-color: var(--terracotta); }
+
+/* Destination list */
+.dest-list { list-style: none; max-height: 350px; overflow-y: auto; }
+.dest-list li {
+  border-bottom: 1px solid var(--warm-cream);
+}
+.dest-list li:last-child { border-bottom: none; }
+.dest-list a {
+  display: block; padding: 0.6rem 0.3rem; text-decoration: none;
+  color: var(--indigo); font-weight: 500; font-size: 0.95rem;
+  transition: background 0.15s;
+}
+.dest-list a:hover { background: var(--warm-cream); border-radius: 6px; }
+.dest-list .slug { color: #9A928A; font-weight: 400; font-size: 0.8rem; margin-left: 0.3rem; }
+
+/* Pack items */
+.pack-item {
+  border: 1px solid var(--sand); border-radius: 10px;
+  margin-bottom: 0.75rem; overflow: hidden;
+}
+.pack-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.8rem 1rem; cursor: pointer; background: var(--warm-cream);
+  transition: background 0.15s; user-select: none;
+}
+.pack-header:hover { background: var(--sand); }
+.pack-name { font-weight: 600; color: var(--indigo); }
+.pack-meta { font-size: 0.8rem; color: #6B6358; }
+.pack-body { display: none; padding: 0.8rem 1rem; border-top: 1px solid var(--sand); }
+.pack-item.open .pack-body { display: block; }
+.pack-item.open .pack-chevron { transform: rotate(180deg); }
+.pack-chevron { transition: transform 0.2s; display: inline-block; }
+
+/* Emergency panel */
+.emergency-card {
+  background: #FFF5F2; border: 1px solid #F0C8BB; border-radius: 10px;
+  padding: 1rem 1.2rem; margin-bottom: 0.75rem;
+}
+.emergency-card h3 { font-size: 1rem; color: var(--terracotta); margin-bottom: 0.5rem; }
+.emergency-card p { font-size: 0.9rem; margin-bottom: 0.3rem; }
+.emergency-card .number { font-weight: 600; font-size: 1.1rem; color: var(--terracotta); }
+
+/* Phrases */
+.phrase-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem;
+}
+.phrase-card {
+  background: var(--warm-cream); border-radius: 8px; padding: 0.8rem;
+}
+.phrase-card .lang { font-weight: 600; color: var(--indigo); font-size: 0.85rem; margin-bottom: 0.4rem; }
+.phrase-card .phrase { font-size: 0.85rem; margin-bottom: 0.2rem; }
+.phrase-card .phrase em { color: var(--terracotta); font-style: normal; font-weight: 500; }
+
+/* Empty state */
+.empty {
+  text-align: center; padding: 2rem 1rem; color: #9A928A;
+}
+.empty .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 2rem; color: #9A928A; font-size: 0.85rem;
+  border-top: 1px solid var(--sand); margin-top: 2rem;
+}
+footer .tagline { font-family: 'Playfair Display', Georgia, serif; color: var(--indigo); font-size: 1rem; margin-bottom: 0.3rem; }
+
+/* Loading spinner */
+.loading { text-align: center; padding: 2rem; color: #9A928A; }
+.spinner {
+  display: inline-block; width: 24px; height: 24px;
+  border: 3px solid var(--sand); border-top-color: var(--terracotta);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.5rem; }
+  .container { padding: 1.5rem 1rem 3rem; }
+  .phrase-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="/">
+    <img src="/owl/tabiji-owl.png" alt="" width="28" height="28">
+    tabi<span>ji</span>
+  </a>
+  <div class="offline-badge">Offline Mode</div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="owl" src="/owl/tabiji-owl.png" alt="Tabiji owl" width="80" height="80">
+    <h1>Your Travel Emergency Kit</h1>
+    <p>You planned ahead. Here's everything you saved.</p>
+  </div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="status-pill">📄 <span class="num" id="stat-pages">–</span> pages saved</div>
+    <div class="status-pill">📦 <span class="num" id="stat-packs">–</span> packs downloaded</div>
+  </div>
+
+  <!-- Cached Destinations -->
+  <div class="section" id="section-destinations">
+    <h2><span class="icon">🗺️</span> Saved Destinations</h2>
+    <input class="search-box" type="text" id="dest-search" placeholder="Search your saved pages…" autocomplete="off">
+    <div id="dest-loading" class="loading"><div class="spinner"></div></div>
+    <ul class="dest-list" id="dest-list" style="display:none"></ul>
+    <div class="empty" id="dest-empty" style="display:none">
+      <div class="icon">🌍</div>
+      <p>No pages cached yet. Visit some destinations while online and they'll be saved here automatically.</p>
+    </div>
+  </div>
+
+  <!-- Downloaded Packs -->
+  <div class="section" id="section-packs">
+    <h2><span class="icon">📦</span> Downloaded Packs</h2>
+    <div id="packs-loading" class="loading"><div class="spinner"></div></div>
+    <div id="packs-list" style="display:none"></div>
+    <div class="empty" id="packs-empty" style="display:none">
+      <div class="icon">📥</div>
+      <p>No region packs downloaded yet. Download a pack from a destination page to get offline data for an entire country.</p>
+    </div>
+  </div>
+
+  <!-- Emergency Info -->
+  <div class="section" id="section-emergency" style="display:none">
+    <h2><span class="icon">🚨</span> Emergency Information</h2>
+    <div id="emergency-content"></div>
+  </div>
+
+  <!-- Quick Phrases -->
+  <div class="section" id="section-phrases" style="display:none">
+    <h2><span class="icon">💬</span> Quick Phrases</h2>
+    <p style="font-size:0.9rem;color:#6B6358;margin-bottom:1rem;">Essential phrases from your downloaded packs</p>
+    <div class="phrase-grid" id="phrases-content"></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="tagline">The travel guide that works where Wi-Fi doesn't.</div>
+  <p>tabiji.ai</p>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  const PAGE_CACHE_NAME = 'pages-tabiji-v1';
+  const PACK_CACHE_NAME = 'packs-tabiji-v1';
+
+  // ── Init ─────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    loadCachedPages();
+    loadCachedPacks();
+  });
+
+  // ── Cached Pages ─────────────────────────
+  async function loadCachedPages() {
+    const loading = document.getElementById('dest-loading');
+    const list = document.getElementById('dest-list');
+    const empty = document.getElementById('dest-empty');
+    const search = document.getElementById('dest-search');
+    const stat = document.getElementById('stat-pages');
+
+    try {
+      const cache = await caches.open(PAGE_CACHE_NAME);
+      const keys = await cache.keys();
+      const pages = keys
+        .map(req => new URL(req.url).pathname)
+        .filter(p => p !== '/offline.html' && p !== '/')
+        .sort();
+
+      stat.textContent = pages.length;
+      loading.style.display = 'none';
+
+      if (pages.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      list.style.display = 'block';
+      renderPages(pages, list);
+
+      search.addEventListener('input', () => {
+        const q = search.value.toLowerCase().trim();
+        const filtered = q ? pages.filter(p => p.toLowerCase().includes(q)) : pages;
+        renderPages(filtered, list);
+      });
+    } catch {
+      loading.style.display = 'none';
+      empty.style.display = 'block';
+      stat.textContent = '0';
+    }
+  }
+
+  function renderPages(pages, list) {
+    list.innerHTML = '';
+    if (pages.length === 0) {
+      list.innerHTML = '<li style="padding:1rem;color:#9A928A;text-align:center">No matching pages</li>';
+      return;
+    }
+    pages.forEach(path => {
+      const name = path.replace(/^\/|\/$/g, '').split('/').pop()
+        .replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const li = document.createElement('li');
+      li.innerHTML = '<a href="' + path + '">' + name + '<span class="slug">' + path + '</span></a>';
+      list.appendChild(li);
+    });
+  }
+
+  // ── Cached Packs ─────────────────────────
+  async function loadCachedPacks() {
+    const loading = document.getElementById('packs-loading');
+    const container = document.getElementById('packs-list');
+    const empty = document.getElementById('packs-empty');
+    const stat = document.getElementById('stat-packs');
+    const emergencySection = document.getElementById('section-emergency');
+    const emergencyContent = document.getElementById('emergency-content');
+    const phrasesSection = document.getElementById('section-phrases');
+    const phrasesContent = document.getElementById('phrases-content');
+
+    try {
+      const cache = await caches.open(PACK_CACHE_NAME);
+      const keys = await cache.keys();
+
+      loading.style.display = 'none';
+      stat.textContent = keys.length;
+
+      if (keys.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      container.style.display = 'block';
+
+      let allEmergency = [];
+      let allPhrases = [];
+      let allScams = [];
+
+      for (const request of keys) {
+        try {
+          const resp = await cache.match(request);
+          const data = await resp.json();
+          const packId = new URL(request.url).pathname.split('/').pop().replace('.json', '');
+
+          // Render pack card
+          const packEl = renderPackCard(data, packId);
+          container.appendChild(packEl);
+
+          // Re-cache since we consumed the response
+          const freshResp = await cache.match(request);
+
+          // Collect emergency info
+          if (data.safety) {
+            data.safety.forEach(s => {
+              if (s.emergencyNumbers || s.embassy) {
+                allEmergency.push({
+                  country: s.country || s.countryName || packId,
+                  emergencyNumbers: s.emergencyNumbers,
+                  embassy: s.embassy,
+                  police: s.police,
+                  ambulance: s.ambulance,
+                  fire: s.fire
+                });
+              }
+            });
+          }
+
+          // Collect scam alerts
+          if (data.scams && Array.isArray(data.scams)) {
+            allScams = allScams.concat(data.scams.slice(0, 5).map(s => ({
+              country: packId,
+              name: s.name || s.title,
+              description: s.description || s.summary
+            })));
+          }
+
+          // Collect phrases
+          if (data.countries && Array.isArray(data.countries)) {
+            data.countries.forEach(c => {
+              if (c.phrases || c.quickPhrases) {
+                allPhrases.push({
+                  country: c.name || c.countryName || packId,
+                  language: c.language || c.primaryLanguage,
+                  phrases: c.phrases || c.quickPhrases
+                });
+              }
+            });
+          }
+        } catch {
+          // Skip malformed pack
+        }
+      }
+
+      // Render emergency info
+      if (allEmergency.length > 0) {
+        emergencySection.style.display = 'block';
+        allEmergency.forEach(info => {
+          const card = document.createElement('div');
+          card.className = 'emergency-card';
+          let html = '<h3>🏥 ' + capitalize(info.country) + '</h3>';
+          if (info.emergencyNumbers) {
+            if (typeof info.emergencyNumbers === 'object') {
+              Object.entries(info.emergencyNumbers).forEach(([type, num]) => {
+                html += '<p>' + capitalize(type) + ': <span class="number">' + num + '</span></p>';
+              });
+            } else {
+              html += '<p>Emergency: <span class="number">' + info.emergencyNumbers + '</span></p>';
+            }
+          }
+          if (info.police) html += '<p>Police: <span class="number">' + info.police + '</span></p>';
+          if (info.ambulance) html += '<p>Ambulance: <span class="number">' + info.ambulance + '</span></p>';
+          if (info.fire) html += '<p>Fire: <span class="number">' + info.fire + '</span></p>';
+          if (info.embassy) html += '<p style="margin-top:0.5rem;font-size:0.85rem">' + info.embassy + '</p>';
+          card.innerHTML = html;
+          emergencyContent.appendChild(card);
+        });
+
+        // Add scam alerts
+        if (allScams.length > 0) {
+          const scamCard = document.createElement('div');
+          scamCard.className = 'emergency-card';
+          let html = '<h3>⚠️ Common Scams to Watch For</h3>';
+          allScams.forEach(s => {
+            html += '<p><strong>' + (s.name || 'Scam') + '</strong>';
+            if (s.description) html += ' — ' + s.description.substring(0, 120);
+            html += '</p>';
+          });
+          scamCard.innerHTML = html;
+          emergencyContent.appendChild(scamCard);
+        }
+      }
+
+      // Render phrases
+      if (allPhrases.length > 0) {
+        phrasesSection.style.display = 'block';
+        allPhrases.forEach(info => {
+          const card = document.createElement('div');
+          card.className = 'phrase-card';
+          let html = '<div class="lang">' + capitalize(info.country);
+          if (info.language) html += ' · ' + info.language;
+          html += '</div>';
+          if (typeof info.phrases === 'object' && !Array.isArray(info.phrases)) {
+            Object.entries(info.phrases).forEach(([key, val]) => {
+              html += '<div class="phrase">' + capitalize(key) + ': <em>' + val + '</em></div>';
+            });
+          } else if (Array.isArray(info.phrases)) {
+            info.phrases.forEach(p => {
+              if (typeof p === 'string') {
+                html += '<div class="phrase"><em>' + p + '</em></div>';
+              } else if (p.english && p.local) {
+                html += '<div class="phrase">' + p.english + ': <em>' + p.local + '</em></div>';
+              }
+            });
+          }
+          card.innerHTML = html;
+          phrasesContent.appendChild(card);
+        });
+      }
+
+    } catch {
+      loading.style.display = 'none';
+      empty.style.display = 'block';
+      stat.textContent = '0';
+    }
+  }
+
+  function renderPackCard(data, packId) {
+    const el = document.createElement('div');
+    el.className = 'pack-item';
+
+    const name = data.name || capitalize(packId) + ' Travel Pack';
+    const destCount = data.destinations ? data.destinations.length : (data.destinationCount || '?');
+    const countries = data.countries ? data.countries.length : 0;
+
+    const header = document.createElement('div');
+    header.className = 'pack-header';
+    header.innerHTML = '<span class="pack-name">' + name + '</span>' +
+      '<span class="pack-meta">' + destCount + ' destinations' +
+      (countries ? ' · ' + countries + ' countries' : '') +
+      ' <span class="pack-chevron">▾</span></span>';
+
+    header.addEventListener('click', () => el.classList.toggle('open'));
+
+    const body = document.createElement('div');
+    body.className = 'pack-body';
+
+    if (data.destinations && Array.isArray(data.destinations)) {
+      const shown = data.destinations.slice(0, 30);
+      let html = '<ul class="dest-list" style="max-height:250px">';
+      shown.forEach(d => {
+        const dName = d.name || d.title || d.slug;
+        const slug = d.slug || '';
+        html += '<li><a href="/' + slug + '/">' + dName + '</a></li>';
+      });
+      if (data.destinations.length > 30) {
+        html += '<li style="padding:0.5rem;color:#9A928A;text-align:center">+ ' +
+          (data.destinations.length - 30) + ' more destinations</li>';
+      }
+      html += '</ul>';
+      body.innerHTML = html;
+    } else {
+      body.innerHTML = '<p style="color:#9A928A">Pack data available offline</p>';
+    }
+
+    el.appendChild(header);
+    el.appendChild(body);
+    return el;
+  }
+
+  function capitalize(str) {
+    return str.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+})();
+</script>
+
+</body>
+</html>

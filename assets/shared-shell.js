@@ -5,3 +5,7 @@ document.addEventListener('click', function (event) {
     }
   });
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function () {});
+}
