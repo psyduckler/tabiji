@@ -169,7 +169,7 @@ def render_card(result, filter_item, i):
     score_pct = int(score * 100)
     link = dest_link(slug)
     img_src = photo_for_slug(slug)
-    delay = min(i * 0.05, 0.5)
+    delay = round(min(i * 0.05, 0.5), 2)
 
     return f'''<a class="card" href="{link}" style="animation-delay:{delay}s">
   <div class="card-img-wrap">
@@ -281,7 +281,7 @@ def build_hub_page(presets):
         count = len(preset.get("results", []))
         emoji, label = PRESET_LABELS.get(pid, ("✈️", query.title()))
         img_src = photo_for_slug(pid)
-        delay = min(i * 0.05, 0.3)
+        delay = round(min(i * 0.05, 0.3), 2)
         cards_html_parts.append(f'''<a class="card" href="/recommend/{pid}/" style="animation-delay:{delay}s">
   <div class="card-img-wrap">
     <img src="{img_src}" alt="{html.escape(label)}" loading="{'eager' if i < 6 else 'lazy'}">
@@ -369,13 +369,13 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
         page_html = build_preset_page(preset, filter_lookup)
         out_path = out_dir / "index.html"
-        out_path.write_text(page_html, encoding="utf-8")
+        out_path.write_text(page_html + '\n', encoding="utf-8")
         print(f"  ✓ recommend/{pid}/index.html  ({len(preset['results'][:25])} cards)")
 
     # Build hub page
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     hub_html = build_hub_page(presets)
-    (OUT_DIR / "index.html").write_text(hub_html, encoding="utf-8")
+    (OUT_DIR / "index.html").write_text(hub_html + "\n", encoding="utf-8")
     print(f"  ✓ recommend/index.html  ({len(presets)} presets)")
 
     print("Done.")
