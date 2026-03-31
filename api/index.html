@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
-    <meta name="description" content="Free REST API for AI-curated travel data — 6,905 destinations, 14,555 place records across 1,234 picks guides, 398 itineraries, and 887 destination comparisons. No API key required.">
+    <meta name="description" content="Free REST API for AI-curated travel data — 6,905 destinations, 15,227 place records across 1,290 picks guides, 398 itineraries, and 996 destination comparisons. No API key required.">
     <meta property="og:title" content="Tabiji API — Free Travel Data API">
     <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
     <meta property="og:type" content="website">
@@ -384,11 +384,11 @@
                 <div class="stat-label">Destinations</div>
             </div>
             <div class="stat">
-                <div class="stat-value">14,555</div>
+                <div class="stat-value">15,227</div>
                 <div class="stat-label">Places</div>
             </div>
             <div class="stat">
-                <div class="stat-value">1,234</div>
+                <div class="stat-value">1,290</div>
                 <div class="stat-label">Picks Guides</div>
             </div>
             <div class="stat">
@@ -488,8 +488,8 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/picks.json">https://tabiji.ai/api/v1/picks.json</a>
 <pre>{
-  "count": 1234,
-  "totalPlaces": 14555,
+  "count": 1290,
+  "totalPlaces": 15227,
   "picks": [
     {
       "slug": "amsterdam-brunch",
@@ -627,7 +627,7 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/compare.json">https://tabiji.ai/api/v1/compare.json</a>
 <pre>{
-  "count": 887,
+  "count": 996,
   "comparisons": [
     {
       "slug": "tokyo-vs-kyoto",
@@ -782,71 +782,10 @@
             </div>
         </section>
 
-        <!-- Safety profiles -->
-        <section>
-            <h2>Safety Profiles</h2>
-            <p>40 country safety profiles with emergency numbers, embassy GPS coordinates, US + UK travel advisories, healthcare, medications, scams, connectivity, cultural norms, key phrases, and safety ratings.</p>
-
-            <div class="endpoint">
-                <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/safety.json</span>
-                </div>
-                <p class="endpoint-desc">Index of all 40 country safety profiles with advisory levels, last updated timestamps, and links to individual profiles.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/safety.json">https://tabiji.ai/api/v1/safety.json</a>
-<pre>{
-  "count": 40,
-  "lastUpdated": "2026-03-19T16:00:00Z",
-  "profiles": [
-    {
-      "id": "safety:jp",
-      "iso2": "JP",
-      "name": "Japan",
-      "lastUpdated": "2026-03-01T00:00:00Z",
-      "advisoryLevel": 1,
-      "advisoryLevelText": "Exercise Normal Precautions",
-      "url": "/api/v1/safety/jp.json"
-    }
-  ]
-}</pre>
-            </div>
-
-            <div class="endpoint">
-                <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/safety/{iso2}.json</span>
-                </div>
-                <p class="endpoint-desc">Full safety profile for a single country. Use lowercase ISO 3166-1 alpha-2 codes (e.g. <code>jp</code>, <code>fr</code>, <code>us</code>). Includes emergency numbers, embassies with GPS, US + UK travel advisories, healthcare, medications, common scams, connectivity, cultural norms, key phrases, and safety ratings.</p>
-                <div class="example-label">Try it — Japan</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/safety/jp.json">https://tabiji.ai/api/v1/safety/jp.json</a>
-<pre>{
-  "iso2": "JP",
-  "name": "Japan",
-  "emergency": { "police": "110", "ambulance": "119", "fire": "119" },
-  "embassies": [
-    { "country": "United States", "address": "1-10-5 Akasaka, Minato-ku, Tokyo",
-      "lat": 35.6742, "lng": 139.7372, "phone": "+81-3-3224-5000" }
-  ],
-  "travelAdvisory": { "level": 1, "levelText": "Exercise Normal Precautions",
-    "summary": "...", "source": "US State Department" },
-  "travelAdvisoryUK": { "level": "Normal", "summary": "...", "source": "FCDO" },
-  "healthcare": { "quality": "excellent", "notes": "...", "vaccinations": [] },
-  "medications": { "banned": [], "restricted": [], "notes": "..." },
-  "scams": [{ "name": "Overpriced tourist bars", "description": "...", "avoidance": "..." }],
-  "connectivity": { "simCards": "...", "esim": true, "averageSpeedMbps": 120 },
-  "cultural": { "tipping": "not expected", "dresscode": "...", "taboos": [] },
-  "phrases": [{ "phrase": "Sumimasen", "meaning": "Excuse me / Sorry", "pronunciation": "soo-mee-mah-sen" }],
-  "safety": { "overallRating": 9.2, "soloFemaleRating": 9.0, "nightSafetyRating": 9.5 },
-  "practical": { "currency": "JPY", "voltage": "100V", "plug": "A/B", "drivingSide": "left" }
-}</pre>
-            </div>
-        </section>
-
         <!-- Agent endpoints -->
         <section>
             <h2>Agent Endpoints</h2>
-            <p>Static pre-computed endpoints built for AI agents — unified catalog, cross-collection search, filterable index, and curated recommendation presets. All GET, no API key, globally CDN-cached.</p>
+            <p>New in v1.1: a unified catalog plus runtime search, filter, and recommend endpoints built for agents. The compatibility `/search.json` endpoint is also available for lighter cross-collection lookup.</p>
 
             <div class="endpoint">
                 <div class="endpoint-header">
@@ -883,70 +822,57 @@
 
             <div class="endpoint">
                 <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/search.json?q={query}</span>
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/search</span>
                 </div>
-                <p class="endpoint-desc">Cross-collection search over destinations, picks, itineraries, and comparisons. Pass <code>q</code> for keyword/city lookup, optional <code>type</code> to narrow to one collection, and optional <code>limit</code>.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/search.json?q=tokyo">https://tabiji.ai/api/v1/search.json?q=tokyo</a>
-<pre>{
-  "query": "tokyo",
-  "count": 12,
-  "results": [
-    { "type": "destination", "slug": "tokyo", "name": "Tokyo", "score": 1.0 },
-    { "type": "picks", "slug": "tokyo-cheap-eats", "name": "Tokyo Cheap Eats", "score": 0.92 }
-  ]
-}</pre>
+                <p class="endpoint-desc">Natural-language retrieval over the unified catalog with optional structured filters.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/search \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "quiet coffee shop with good wifi in tokyo",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "tags": ["remote_work"],
+    "limit": 5
+  }'</pre>
             </div>
 
             <div class="endpoint">
                 <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/filter.json</span>
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/filter</span>
                 </div>
-                <p class="endpoint-desc">Pre-computed filterable index with facets. Use this to build city/category/budget filters client-side or in an agent. Schema: <code>{count, lastUpdated, facetsUrl, items[]}</code>. See <a href="https://tabiji.ai/api/v1/facets.json" style="color:var(--link);">/api/v1/facets.json</a> for all available filter dimensions.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/filter.json">https://tabiji.ai/api/v1/filter.json</a>
-<pre>{
-  "count": 14555,
-  "lastUpdated": "2026-03-19T16:00:00Z",
-  "facetsUrl": "/api/v1/facets.json",
-  "items": [
-    {
-      "id": "place:tokyo-cheap-eats:1",
-      "name": "Matsuya (松屋)",
-      "city": "Tokyo",
-      "country": "Japan",
-      "category": "Cheap Eats",
-      "entityType": "place",
-      "priceLevel": "$",
-      "tags": ["food", "late_night"]
-    }
-  ]
-}</pre>
+                <p class="endpoint-desc">Deterministic hard constraints for city, entity type, budget band, tags, and open-now state.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/filter \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "budget": ["$", "$$"],
+    "open_now": true,
+    "limit": 10
+  }'</pre>
             </div>
 
             <div class="endpoint">
                 <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/recommend.json</span>
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/recommend</span>
                 </div>
-                <p class="endpoint-desc">Pre-computed recommendation presets covering 10 intent categories (honeymoon, budget, foodie, adventure, family, solo, remote-work, cultural, beach, city-break). Each preset includes a curated shortlist with tradeoffs. Individual preset pages at <code>/recommend/{slug}</code>.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/recommend.json">https://tabiji.ai/api/v1/recommend.json</a>
-<pre>{
-  "lastUpdated": "2026-03-19T16:00:00Z",
-  "presets": [
-    {
-      "id": "honeymoon",
-      "query": "romantic destinations for couples",
-      "filters": { "vibes": ["romantic"], "budget": ["$$", "$$$"] },
-      "results": [
-        { "slug": "santorini", "name": "Santorini", "pitch": "Iconic sunsets and private villas" }
-      ]
-    }
-  ]
-}</pre>
+                <p class="endpoint-desc">Intent-based ranking with short explanations and tradeoffs.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/recommend \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "intent": "first_night_dinner",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "party": { "traveler_type": "couple" },
+    "preferences": {
+      "atmosphere": ["local_feeling", "romantic"],
+      "avoid": ["touristy"]
+    },
+    "limit": 5
+  }'</pre>
             </div>
         </section>
 
