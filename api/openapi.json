@@ -397,6 +397,86 @@
         }
       }
     },
+    "/cards.json": {
+      "get": {
+        "operationId": "listCreditCards",
+        "summary": "List all credit cards with travel benefits",
+        "description": "Returns all 48 travel credit cards with issuer, network, annual fee, and best-for tags.",
+        "tags": ["Credit Cards"],
+        "responses": {
+          "200": {
+            "description": "List of credit cards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "cards": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": { "type": "string" },
+                          "name": { "type": "string" },
+                          "issuer": { "type": "string" },
+                          "network": { "type": "string" },
+                          "annualFee": { "type": "string" },
+                          "bestFor": { "type": "array", "items": { "type": "string" } },
+                          "url": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards/{slug}.json": {
+      "get": {
+        "operationId": "getCreditCard",
+        "summary": "Get a single credit card's travel benefits",
+        "description": "Returns full travel benefit details for a credit card including trip delay/cancellation insurance, baggage coverage, rental car CDW, lounge access, and rewards structure.",
+        "tags": ["Credit Cards"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Card slug (e.g., 'chase-sapphire-reserve', 'amex-platinum')",
+            "schema": { "type": "string" },
+            "example": "chase-sapphire-reserve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit card detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": { "type": "string" },
+                    "name": { "type": "string" },
+                    "issuer": { "type": "string" },
+                    "network": { "type": "string" },
+                    "annualFee": { "type": "string" },
+                    "travelBenefits": { "type": "object" },
+                    "rewards": { "type": "object" },
+                    "travelPerks": { "type": "array" },
+                    "bestFor": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Card not found" }
+        }
+      }
+    },
     "/catalog.json": {
       "get": {
         "summary": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
