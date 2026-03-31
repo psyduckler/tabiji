@@ -1525,7 +1525,9 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
     write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "comparisons": compare_summaries})
 
 
-def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
+                 country_items=None, safety_items=None, alert_items=None,
+                 scam_items=None, insurance_items=None, card_items=None):
     records = []
     for d in dest_summaries:
         records.append(build_search_item(
@@ -1550,14 +1552,73 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
             extra={"destination1": c.get("destination1", ""), "destination2": c.get("destination2", "")}
         ))
 
+    # New entity types
+    for ct in (country_items or []):
+        records.append(build_search_item(
+            item_type="country", slug=ct.get("slug", ""), title=ct.get("name", ""),
+            subtitle=ct.get("region", ""),
+            url=ct.get("url", f"{API_BASE_URL}/countries/{ct.get('slug','')}.json"),
+            site_url=f"{SITE_URL}/countries/{ct.get('slug','')}/",
+            tags=[ct.get("iso2","").lower(), ct.get("region","").lower()],
+            extra={"iso2": ct.get("iso2",""), "capital": ct.get("capital","")}
+        ))
+    for sf in (safety_items or []):
+        records.append(build_search_item(
+            item_type="safety", slug=sf.get("slug", sf.get("iso2","").lower()),
+            title=sf.get("name", ""), subtitle=sf.get("advisoryLevelText", ""),
+            url=sf.get("url", f"{API_BASE_URL}/safety/{sf.get('iso2','').lower()}.json"),
+            site_url=f"{SITE_URL}/safety/{sf.get('iso2','').lower()}/",
+            tags=[sf.get("iso2","").lower(), "safety"],
+        ))
+    for al in (alert_items or []):
+        records.append(build_search_item(
+            item_type="alert", slug=al.get("slug", al.get("iso2","").lower()),
+            title=al.get("name", ""), subtitle=al.get("combinedLevel", "") or "",
+            url=al.get("url", f"{API_BASE_URL}/alerts/{al.get('iso2','').lower()}.json"),
+            site_url=f"{SITE_URL}/alerts/{al.get('iso2','').lower()}/",
+            tags=[al.get("iso2","").lower(), "alert"],
+        ))
+    for sc in (scam_items or []):
+        records.append(build_search_item(
+            item_type="scam", slug=sc.get("slug", ""),
+            title=f"{sc.get('city','')} Scams" if sc.get("city") else sc.get("name",""),
+            subtitle=sc.get("country", ""),
+            url=sc.get("url", f"{API_BASE_URL}/scams/{sc.get('slug','')}.json"),
+            site_url=f"{SITE_URL}/scams/{sc.get('slug','')}/",
+            tags=[sc.get("countryCode","").lower(), sc.get("city","").lower(), "scam"],
+        ))
+    for ins in (insurance_items or []):
+        records.append(build_search_item(
+            item_type="insurance", slug=ins.get("slug", ""),
+            title=ins.get("name", ""), subtitle=ins.get("coverageSummary", ""),
+            url=ins.get("pageUrl", ins.get("url", f"{API_BASE_URL}/insurance/{ins.get('slug','')}.json")),
+            site_url=f"{SITE_URL}/insurance/{ins.get('slug','')}/",
+            tags=["insurance", "travel-insurance"],
+        ))
+    for cd in (card_items or []):
+        records.append(build_search_item(
+            item_type="card", slug=cd.get("slug", ""),
+            title=cd.get("name", ""), subtitle=cd.get("bestFor", ""),
+            url=cd.get("url", f"{API_BASE_URL}/cards/{cd.get('slug','')}.json"),
+            site_url=f"{SITE_URL}/cards/{cd.get('slug','')}/",
+            tags=["card", "travel-card", cd.get("issuer","").lower()],
+        ))
+
+    type_counts = {
+        "destination": len(dest_summaries),
+        "pick": len(pick_summaries),
+        "itinerary": len(itin_summaries),
+        "compare": len(compare_summaries),
+        "country": len(country_items or []),
+        "safety": len(safety_items or []),
+        "alert": len(alert_items or []),
+        "scam": len(scam_items or []),
+        "insurance": len(insurance_items or []),
+        "card": len(card_items or []),
+    }
     payload = {
         "count": len(records),
-        "types": {
-            "destination": len(dest_summaries),
-            "pick": len(pick_summaries),
-            "itinerary": len(itin_summaries),
-            "compare": len(compare_summaries),
-        },
+        "types": {k: v for k, v in type_counts.items() if v > 0},
         "items": records,
     }
     with open(OUTPUT_DIR / "search-index.json", 'w') as f:
@@ -1565,7 +1626,84 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
     return payload
 
 
-def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+CATALOG_MAX_CHUNK_BYTES = 10 * 1024 * 1024  # 10 MB item budget (wrapper overhead brings actual file to ~12 MB)
+
+
+def _write_catalog_chunks(items, generated_at):
+    """Write chunked catalog files and per-type shard files. Returns (chunks_written, shard_names)."""
+    catalog_dir = OUTPUT_DIR / "catalog"
+    catalog_dir.mkdir(parents=True, exist_ok=True)
+
+    # --- Per-type shard files ---
+    items_by_type = {}
+    for item in items:
+        et = item.get("entityType", "unknown")
+        items_by_type.setdefault(et, []).append(item)
+
+    shard_names = []
+    type_to_shard = {
+        "destination": "destinations",
+        "pick": "picks",
+        "place": "places",
+        "itinerary": "itineraries",
+        "compare": "comparisons",
+        "country": "countries",
+        "safety": "safety",
+        "alert": "alerts",
+        "scam": "scams",
+        "insurance": "insurance",
+        "card": "cards",
+    }
+    for entity_type, shard_file in type_to_shard.items():
+        type_items = items_by_type.get(entity_type, [])
+        if not type_items:
+            continue
+        shard_payload = {
+            "version": API_VERSION,
+            "schemaVersion": API_SCHEMA_VERSION,
+            "generatedAt": generated_at,
+            "entityType": entity_type,
+            "itemCount": len(type_items),
+            "items": type_items,
+        }
+        write_json(catalog_dir / f"{shard_file}.json", shard_payload)
+        shard_names.append(shard_file)
+
+    # --- Numbered chunk files (max 12MB each) ---
+    # Use indent=2 size estimate since write_json uses indent=2
+    chunks = []
+    current_chunk = []
+    current_size = 0
+    for item in items:
+        item_bytes = len(json.dumps(item, indent=2, ensure_ascii=False).encode("utf-8"))
+        if current_chunk and (current_size + item_bytes) > CATALOG_MAX_CHUNK_BYTES:
+            chunks.append(current_chunk)
+            current_chunk = []
+            current_size = 0
+        current_chunk.append(item)
+        current_size += item_bytes
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    total_chunks = len(chunks)
+    for i, chunk_items in enumerate(chunks, 1):
+        chunk_payload = {
+            "version": API_VERSION,
+            "schemaVersion": API_SCHEMA_VERSION,
+            "generatedAt": generated_at,
+            "chunk": i,
+            "totalChunks": total_chunks,
+            "itemCount": len(chunk_items),
+            "items": chunk_items,
+        }
+        write_json(catalog_dir / f"{i}.json", chunk_payload)
+
+    return total_chunks, shard_names
+
+
+def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
+                  country_items=None, safety_items=None, alert_items=None,
+                  scam_items=None, insurance_items=None, card_items=None):
     # Catalog place entities are hydrated from generated pick detail files,
     # so this must run after build_picks() has written api/v1/picks/*.json.
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -1697,15 +1835,133 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "provenance": compare.get("provenance", {}),
         })
 
-    payload = {
+    # --- New entity types from index files ---
+    for country in (country_items or _load_index_items("countries.json", "countries")):
+        iso2 = country.get("iso2", "")
+        items.append({
+            "id": f"country:{iso2.lower()}",
+            "entityType": "country",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "countries",
+            "slug": iso2.lower(),
+            "name": country.get("name", ""),
+            "iso2": country.get("iso2", ""),
+            "iso3": country.get("iso3", ""),
+            "capital": country.get("capital", ""),
+            "region": country.get("region", ""),
+            "subregion": country.get("subregion", ""),
+            "tags": unique_list([iso2.lower(), country.get("region","").lower(), country.get("subregion","").lower()]),
+            "url": f"{API_BASE_URL}/countries/{iso2.lower()}.json",
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["countries"], "lastVerifiedAt": generated_at},
+        })
+
+    for profile in (safety_items or _load_index_items("safety.json", "profiles")):
+        iso2 = profile.get("iso2", "")
+        items.append({
+            "id": profile.get("id", f"safety:{iso2.lower()}"),
+            "entityType": "safety",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "safety",
+            "slug": iso2.lower(),
+            "name": profile.get("name", ""),
+            "iso2": iso2,
+            "advisoryLevel": profile.get("advisoryLevel"),
+            "advisoryLevelText": profile.get("advisoryLevelText", ""),
+            "tags": unique_list([iso2.lower(), "safety"]),
+            "url": profile.get("url", f"{API_BASE_URL}/safety/{iso2.lower()}.json"),
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["safety"], "lastVerifiedAt": generated_at},
+        })
+
+    for alert in (alert_items or _load_index_items("alerts.json", "alerts")):
+        iso2 = alert.get("iso2", "")
+        items.append({
+            "id": alert.get("id", f"alerts:{iso2.lower()}"),
+            "entityType": "alert",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "alerts",
+            "slug": iso2.lower(),
+            "name": alert.get("name", ""),
+            "iso2": iso2,
+            "combinedLevel": alert.get("combinedLevel"),
+            "usLevel": alert.get("usLevel"),
+            "tags": unique_list([iso2.lower(), "alert", str(alert.get("combinedLevel",""))]),
+            "url": alert.get("url", f"{API_BASE_URL}/alerts/{iso2.lower()}.json"),
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["alerts"], "lastVerifiedAt": generated_at},
+        })
+
+    for city in (scam_items or _load_index_items("scams.json", "cities")):
+        slug = city.get("slug", "")
+        items.append({
+            "id": city.get("id", f"scam:{slug}"),
+            "entityType": "scam",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "scams",
+            "slug": city.get("slug", ""),
+            "name": f"{city.get('city','')} Scams",
+            "city": city.get("city", ""),
+            "country": city.get("country", ""),
+            "countryCode": city.get("countryCode", ""),
+            "scamCount": city.get("scamCount", 0),
+            "tags": unique_list([city.get("countryCode","").lower(), city.get("city","").lower(), "scam"]),
+            "url": city.get("url", f"{API_BASE_URL}/scams/{slug}.json"),
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["scams"], "lastVerifiedAt": generated_at},
+        })
+
+    for carrier in (insurance_items or _load_index_items("insurance.json", "carriers")):
+        slug = carrier.get("slug", "")
+        items.append({
+            "id": carrier.get("id", f"insurance:{slug}"),
+            "entityType": "insurance",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "insurance",
+            "slug": carrier.get("slug", ""),
+            "name": carrier.get("name", ""),
+            "coverageSummary": carrier.get("coverageSummary", ""),
+            "internationalCoverageLevel": carrier.get("internationalCoverageLevel", ""),
+            "tags": unique_list(["insurance", "travel-insurance"]),
+            "url": carrier.get("pageUrl", f"{API_BASE_URL}/insurance/{slug}.json"),
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["insurance"], "lastVerifiedAt": generated_at},
+        })
+
+    for card in (card_items or _load_index_items("cards.json", "cards")):
+        items.append({
+            "id": f"card:{card.get('slug','')}",
+            "entityType": "card",
+            "schemaVersion": API_SCHEMA_VERSION,
+            "source": "cards",
+            "slug": card.get("slug", ""),
+            "name": card.get("name", ""),
+            "issuer": card.get("issuer", ""),
+            "network": card.get("network", ""),
+            "annualFee": card.get("annualFee", ""),
+            "bestFor": card.get("bestFor", ""),
+            "tags": unique_list(["card", "travel-card", card.get("issuer","").lower()]),
+            "url": card.get("url", f"{API_BASE_URL}/cards/{card.get('slug','')}.json"),
+            "freshness": make_freshness(generated_at),
+            "provenance": {"sources": ["cards"], "lastVerifiedAt": generated_at},
+        })
+
+    # --- Write chunked output ---
+    total_chunks, shard_names = _write_catalog_chunks(items, generated_at)
+
+    # Write catalog.json as lightweight index pointing to chunks
+    chunk_urls = [f"/api/v1/catalog/{i}.json" for i in range(1, total_chunks + 1)]
+    catalog_index = {
         "version": API_VERSION,
         "schemaVersion": API_SCHEMA_VERSION,
         "generatedAt": generated_at,
         "itemCount": len(items),
-        "items": items,
+        "chunks": total_chunks,
+        "chunkUrls": chunk_urls,
+        "shards": {name: f"/api/v1/catalog/{name}.json" for name in shard_names},
     }
-    write_json(OUTPUT_DIR / "catalog.json", payload)
-    return payload
+    write_json(OUTPUT_DIR / "catalog.json", catalog_index)
+    return {"itemCount": len(items), "chunks": total_chunks, "shards": shard_names}
 
 
 # ============================================================
@@ -1959,7 +2215,8 @@ def build_alerts():
 # ============================================================
 
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count,
-                safety_count=0, alerts_count=0):
+                safety_count=0, alerts_count=0, country_count=0, scam_count=0,
+                insurance_count=0, card_count=0):
     index = {
         "name": "tabiji.ai API",
         "version": API_VERSION,
@@ -1977,6 +2234,10 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "searchDocuments": search_count,
             "safetyProfiles": safety_count,
             "alertCountries": alerts_count,
+            "countries": country_count,
+            "scamCities": scam_count,
+            "insuranceCarriers": insurance_count,
+            "travelCards": card_count,
         },
         "endpoints": [
             {"path": "/destinations.json", "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles", "method": "GET"},
@@ -2734,12 +2995,26 @@ def main():
     build_relationships(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
     print("   ✅ related records, provenance, freshness")
 
+    # Load new entity type indexes for catalog/search
+    country_items = _load_index_items("countries.json", "countries")
+    safety_items = _load_index_items("safety.json", "profiles")
+    alert_items = _load_index_items("alerts.json", "alerts")
+    scam_items = _load_index_items("scams.json", "cities")
+    insurance_items = _load_index_items("insurance.json", "carriers")
+    card_items = _load_index_items("cards.json", "cards")
+
     print("🧭 Building normalized catalog...")
-    catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
-    print(f"   ✅ {catalog_payload['itemCount']} entities")
+    catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
+                                    country_items=country_items, safety_items=safety_items,
+                                    alert_items=alert_items, scam_items=scam_items,
+                                    insurance_items=insurance_items, card_items=card_items)
+    print(f"   ✅ {catalog_payload['itemCount']} entities in {catalog_payload['chunks']} chunks")
 
     print("🔎 Building search index...")
-    search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
+    search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
+                                  country_items=country_items, safety_items=safety_items,
+                                  alert_items=alert_items, scam_items=scam_items,
+                                  insurance_items=insurance_items, card_items=card_items)
     print(f"   ✅ {search_payload['count']} documents")
 
     print("🛡️  Building safety profiles...")
@@ -2752,7 +3027,9 @@ def main():
 
     print("📋 Building index...")
     build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'],
-                safety_count=safety_count, alerts_count=alerts_count)
+                safety_count=safety_count, alerts_count=alerts_count,
+                country_count=len(country_items), scam_count=len(scam_items),
+                insurance_count=len(insurance_items), card_count=len(card_items))
     print("   ✅ index.json")
 
     print("🧭 Regenerating agent/discovery docs...")
