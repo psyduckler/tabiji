@@ -106,8 +106,39 @@ PERMALINK=$(curl -s "https://graph.facebook.com/v21.0/${POST_ID}?fields=permalin
 
 echo "✅ Published! ${PERMALINK}"
 
-# 6. Cleanup — delete video from R2
-echo "🗑️  Cleaning up R2..."
+# 6. Copy to TikTok staging folder on R2 (for manual TikTok posting)
+echo "📎 Copying to TikTok staging folder..."
+TIKTOK_KEY="tmp/tiktok/${FILENAME}"
+TIKTOK_TXT_KEY="tmp/tiktok/${FILENAME%.mp4}.txt"
+
+cat "$VIDEO_PATH" | wrangler r2 object put "${R2_BUCKET}/${TIKTOK_KEY}" \
+  --pipe --content-type="video/mp4" --remote 2>/dev/null
+
+# Generate TikTok metadata sidecar
+TIKTOK_CAPTION=$(echo "$CAPTION" | sed 's/#\([a-zA-Z0-9_]*\)/#\1/g')
+TIKTOK_META=$(cat <<EOF
+TITLE: ${TIKTOK_CAPTION}
+
+HASHTAGS: $(echo "$CAPTION" | grep -oE '#[a-zA-Z0-9_]+' | tr '\n' ' ')
+
+PRIVACY: PUBLIC_TO_EVERYONE
+ALLOW COMMENTS: Yes
+ALLOW DUET: Yes
+ALLOW STITCH: Yes
+AI-GENERATED CONTENT: Yes
+
+VIDEO URL: ${R2_PUBLIC_BASE}/${TIKTOK_KEY}
+SOURCE REEL: ${PERMALINK}
+DATE: $(date '+%Y-%m-%d %H:%M')
+EOF
+)
+echo "$TIKTOK_META" | wrangler r2 object put "${R2_BUCKET}/${TIKTOK_TXT_KEY}" \
+  --pipe --content-type="text/plain; charset=utf-8" --remote 2>/dev/null
+
+echo "✅ TikTok staging: ${R2_PUBLIC_BASE}/${TIKTOK_KEY}"
+
+# 7. Cleanup — delete temp IG video from R2 (TikTok copy persists)
+echo "🗑️  Cleaning up R2 (IG temp)..."
 wrangler r2 object delete "${R2_BUCKET}/${R2_KEY}" --remote 2>/dev/null
 echo "✅ R2 cleanup complete"
 
@@ -115,3 +146,5 @@ echo ""
 echo "📊 Summary:"
 echo "  Post ID:   ${POST_ID}"
 echo "  Permalink: ${PERMALINK}"
+echo "  TikTok:    ${R2_PUBLIC_BASE}/${TIKTOK_KEY}"
+echo "  TikTok txt: ${R2_PUBLIC_BASE}/${TIKTOK_TXT_KEY}"
