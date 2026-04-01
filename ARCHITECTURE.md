@@ -7,44 +7,53 @@
 
 ## 1. System Overview
 
+tabiji.ai is a **static HTML site** deployed on **Cloudflare Pages**. There is no framework — no Next.js, no SSR, no build step. Every page is a self-contained `index.html` with inline `<style>` and `<script>`. The site is generated and maintained by Python and JavaScript scripts orchestrated by Psy (an AI agent running on OpenClaw).
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        CUSTOMER FLOW                            │
 │                                                                 │
-│  Customer → Landing Page → Order Form → Stripe Checkout         │
+│  Customer → tabiji.ai → /plan.html → Stripe Checkout            │
 │                                              │                  │
 │                                    webhook (payment.success)    │
 │                                              │                  │
 │                                              ▼                  │
 │                                   ┌──────────────────┐          │
-│                                   │   Order Queue    │          │
-│                                   │  (KV / D1 / R2)  │          │
+│                                   │ orders/pending.json│         │
 │                                   └────────┬─────────┘          │
 │                                            │                    │
 │                                            ▼                    │
 │                              ┌─────────────────────────┐        │
 │                              │     PSY (AI Agent)      │        │
 │                              │                         │        │
-│                              │  1. Research (Reddit,   │        │
-│                              │     web, forums)        │        │
-│                              │  2. Generate itinerary  │        │
-│                              │  3. Format & QA         │        │
-│                              │  4. Email to customer   │        │
+│                              │  fulfill-order.js:      │        │
+│                              │  1. Generate slug       │        │
+│                              │  2. Build HTML page     │        │
+│                              │  3. Generate hero image │        │
+│                              │  4. Git push → CF Pages │        │
+│                              │  5. Poll until live     │        │
+│                              │  6. Email customer      │        │
 │                              └─────────────────────────┘        │
 │                                            │                    │
-│                                            ▼                    │
-│                                   Gmail (psyduckler)            │
-│                                   → Customer inbox              │
+│                                   orders/fulfilled.json         │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│                     MARKETING FLOW                              │
+│                     MARKETING / SEO FLOW                        │
 │                                                                 │
-│  Psy → Research trending destinations → Generate SEO pages      │
-│      → Publish to /destinations/[slug]                          │
-│      → Monitor rankings → Refresh stale content                 │
+│  Psy → Research destinations → Generate static HTML pages       │
+│      → Enrich with Google Places data → AEO upgrade             │
+│      → Git push → Cloudflare Pages auto-deploys                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+### Deploy Flow
+
+```
+git push to main → GitHub → Cloudflare Pages auto-builds → Live at tabiji.ai
+```
+
+No build command. Cloudflare Pages serves the repo directory as-is. `deploy.sh` is a convenience wrapper for clean commits + push.
 
 ---
 
@@ -57,7 +66,25 @@ Do NOT manually:
 - Send email without verifying the Cloudflare Pages deployment is live
 - Bypass the polling/verification logic
 
-`fulfill-order.js` handles: slug generation → HTML build → git push → **poll URL until 200** → send email → update pending.json.
+`fulfill-order.js` handles: slug generation → HTML build → hero image → git push → **poll URL until 200** → send email → update pending.json → fulfilled.json.
+
+### Pipeline Detail
+
+```
+Stripe webhook → orders/pending.json → Psy claims order →
+  fulfill-order.js runs:
+    1. generate-slug.js (unique slug)
+    2. generate-itinerary-html.js (full HTML page)
+    3. day-photos.js (hero image via AI)
+    4. git add + commit + push
+    5. Poll Cloudflare until page returns 200 (wait-for-deploy.sh)
+    6. send-email.sh (Resend, from hello@tabiji.ai)
+    7. Move order from pending.json → fulfilled.json
+```
+
+**Locking:** `fulfill-order.js` uses atomic mkdir (`.fulfillment.lockdir/`) to prevent concurrent fulfillments.
+
+**Git hook:** `.githooks/pre-commit` rejects new `/i/` pages without a `hero-bg.png` or `hero-bg.jpg`.
 
 ### Utilities
 - **`functions/wait-for-deploy.sh <url> [max_seconds] [interval_seconds]`** — standalone deploy verification. Used by fulfill-order.js internally. Also available as a safety net.
@@ -70,337 +97,251 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 
 ## 2. Tech Stack
 
-| Layer | Choice | Rationale |
-|-------|--------|-----------|
-| **Frontend** | Next.js (App Router) | SSR/SSG for SEO, React ecosystem, easy programmatic pages |
-| **Hosting** | Cloudflare Pages | Edge-first, cheap at scale, D1/KV/R2 built-in, no cold starts |
-| **Payments** | Stripe Checkout | Industry standard, webhooks, no PCI hassle |
-| **Database** | Cloudflare D1 (SQLite) | Orders, customers, itinerary metadata. Free tier is generous |
-| **File Storage** | Cloudflare R2 | Store generated itinerary PDFs, images. S3-compatible, no egress fees |
-| **KV Store** | Cloudflare KV | Session data, feature flags, rate limits |
-| **Email (outbound)** | Gmail API (psyduckler@gmail.com) | Already set up, works now. Migrate to Resend/Postmark at scale |
-| **Email (inbound)** | Cloudflare Email Workers | Route support@tabiji.ai to Psy |
-| **AI Agent** | Psy (OpenClaw) | Already has Reddit scraping, web research, Playwright, Gmail |
-| **Monitoring** | Cloudflare Analytics + UptimeRobot | Free, sufficient for v1 |
-| **CI/CD** | GitHub Actions → Cloudflare Pages | Auto-deploy on push to main |
-
-### Why Cloudflare over Vercel?
-- D1/KV/R2 = integrated data layer, no external DB needed
-- Email Workers = inbound email handling without third-party service
-- Cheaper at scale (generous free tier, no per-seat pricing)
-- Edge-first = fast globally (travel customers are worldwide)
+| Layer | Choice | Notes |
+|-------|--------|-------|
+| **Frontend** | Static HTML (no framework) | Self-contained `index.html` pages with inline CSS/JS |
+| **Hosting** | Cloudflare Pages | Auto-deploys from `main` branch, edge-served globally |
+| **Payments** | Stripe Checkout | Webhooks trigger order fulfillment |
+| **Media Storage** | Cloudflare R2 | All images at `https://img.tabiji.ai/`, no images in git |
+| **Email (outbound)** | Resend (hello@tabiji.ai) | Via `functions/send-email.sh` |
+| **AI Agent** | Psy (OpenClaw) | Generates content, fulfills orders, manages SEO |
+| **Maps** | Google Maps Embed API | Key: `AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc` |
+| **API** | Static JSON (`/api/v1/`) | Pre-built by `api/build-api.py`, zero runtime cost |
+| **CI/CD** | GitHub → Cloudflare Pages | Push to `main` auto-deploys, no build step |
+| **DNS** | Cloudflare | `tabiji.ai` nameservers on Cloudflare |
+| **Monitoring** | Cloudflare Analytics + Google Search Console | |
 
 ---
 
 ## 3. Repo Structure
 
+### 3.1 Current Stats
+
+| Metric | Value |
+|--------|-------|
+| **Total HTML pages** | ~3,542 |
+| **Total JSON files** | ~12,913 |
+| **JS scripts** | ~142 |
+| **Python scripts** | ~97 |
+| **Repo size** | ~1.7 GB (1.1 GB in `.git`) |
+
+### 3.2 Content Directories (Live Pages)
+
+| Directory | Count | Description |
+|-----------|-------|-------------|
+| `popular-picks/` | ~1,439 | Food & activity guides (SEO backbone) |
+| `compare/` | ~1,158 | VS comparison pages (e.g., Bali vs Thailand) |
+| `i/` | ~352 | Paid customer itineraries (delivered products) |
+| `alerts/` | ~224 | Travel safety alerts by country |
+| `scams/` | ~99 | Scam awareness pages by destination |
+| `health/` | ~52 | Health & vaccination info by destination |
+| `credit-cards/` | ~50 | Travel credit card reviews |
+| `itineraries/` | ~49 | Free curated itineraries |
+| `resources/` | ~35 | Blog / resource articles |
+| `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
+| `destinations/` | 9 | Legacy city destination pages |
+
+### 3.3 Top-Level Layout
+
 ```
 tabiji/
-├── README.md
 ├── ARCHITECTURE.md          ← this file
-├── package.json
-├── next.config.js
-├── wrangler.toml            ← Cloudflare config
+├── REFACTOR-BRIEF.md        ← refactor guide for contributors
+├── index.html               ← landing page
+├── plan.html                ← order form (revenue-critical)
+├── success.html             ← post-payment confirmation
+├── 404.html                 ← custom error page
+├── robots.txt / sitemap.xml ← SEO
+├── manifest.json / sw.js    ← PWA support
+├── deploy.sh                ← clean-push deploy helper
 │
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx       ← root layout, nav, footer
-│   │   ├── page.tsx         ← landing page
-│   │   ├── order/
-│   │   │   └── page.tsx     ← order form (destination, dates, preferences)
-│   │   ├── checkout/
-│   │   │   ├── page.tsx     ← Stripe checkout redirect
-│   │   │   └── success/
-│   │   │       └── page.tsx ← post-payment confirmation
-│   │   ├── destinations/
-│   │   │   ├── page.tsx     ← destination index (SEO hub)
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx ← programmatic SEO pages
-│   │   ├── blog/
-│   │   │   ├── page.tsx
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx
-│   │   └── api/
-│   │       ├── webhook/
-│   │       │   └── stripe/route.ts   ← Stripe webhook handler
-│   │       ├── order/route.ts        ← create order
-│   │       └── contact/route.ts      ← support form
-│   │
-│   ├── lib/
-│   │   ├── stripe.ts
-│   │   ├── db.ts            ← D1 helpers
-│   │   ├── email.ts         ← Gmail send wrapper
-│   │   └── queue.ts         ← order queue helpers
-│   │
-│   ├── components/
-│   │   ├── Hero.tsx
-│   │   ├── Pricing.tsx
-│   │   ├── OrderForm.tsx
-│   │   └── ...
-│   │
-│   └── content/
-│       ├── destinations/    ← MDX or JSON for programmatic pages
-│       └── blog/            ← blog posts
+├── i/                       ← paid itineraries (352 slugs)
+├── popular-picks/           ← food/activity guides (1,439 slugs)
+├── compare/                 ← VS comparison pages (1,158 slugs)
+├── alerts/                  ← travel safety alerts (224 countries)
+├── scams/                   ← scam awareness pages (99 destinations)
+├── health/                  ← health info pages (52 destinations)
+├── credit-cards/            ← credit card reviews (50 cards)
+├── itineraries/             ← free curated itineraries (49 slugs)
+├── resources/               ← blog/articles (35 slugs)
+├── best-places-to-visit-in-*/ ← monthly guides (12 months)
+├── destinations/            ← legacy city pages (9 cities)
+├── country/                 ← country info pages
 │
-├── scripts/
-│   ├── generate-seo-pages.ts    ← Psy runs this to create destination content
-│   └── seed-destinations.ts
+├── find/                    ← destination finder tool
+├── owl/                     ← Owl interactive assistant
+├── spin/                    ← destination spinner tool
+├── kit/                     ← travel kit builder
+├── recommend/               ← recommendation pages by theme
+├── trends/                  ← travel trends tool
+├── about/                   ← about page
+├── privacy/                 ← privacy policy
+├── terms/                   ← terms of service
+├── delete-data/             ← data deletion page
 │
-├── public/
-│   ├── favicon.ico
-│   ├── og-image.png
-│   └── ...
+├── functions/               ← core scripts (fulfillment, enrichment, email)
+├── scripts/                 ← batch generators, one-off scripts, utilities
+├── generators/              ← page generators (compare, popular-picks)
+├── api/                     ← static JSON API + build script (~10,991 JSON files)
+├── _includes/               ← shared HTML partials (nav, footer, head)
+├── .well-known/             ← agent discovery (ai-plugin.json, agents.json)
+├── .githooks/               ← pre-commit hooks (itinerary safeguards)
 │
-└── .github/
-    └── workflows/
-        └── deploy.yml
+├── orders/                  ← order data (pending.json, fulfilled.json)
+├── popular-picks-data/      ← data files for popular picks
+├── popular-picks-hub-data/  ← hub page data
+├── compare-data/            ← data files for compare pages
+├── emergency-data/          ← emergency info data
+├── health-data/             ← health data files
+├── research/                ← research notes and data
+├── docs/                    ← internal documentation
+├── logs/                    ← operation logs
+├── emails/                  ← email drafts/records
+├── archive/                 ← archived scripts and data
+├── tmp/                     ← temporary working files
+├── samples/                 ← sample pages/templates
+│
+├── *-queue.json             ← batch processing queues (root)
+└── export-doc/              ← export utilities
 ```
+
+### 3.4 Key Scripts
+
+**Fulfillment Pipeline** (`functions/`):
+| Script | Purpose |
+|--------|---------|
+| `fulfill-order.js` | **Orchestrator** — runs the entire fulfillment pipeline |
+| `generate-itinerary-html.js` | Generates HTML for paid itineraries |
+| `generate-slug.js` | Creates unique URL slugs |
+| `day-photos.js` | Generates hero images via AI |
+| `send-email.sh` | Sends delivery email via Resend |
+| `wait-for-deploy.sh` | Polls Cloudflare until page is live |
+| `email-template.js` | Email formatting |
+
+**Content Generation** (`functions/` + `scripts/`):
+| Script | Purpose |
+|--------|---------|
+| `functions/enrich-popular-picks.py` | Google Places enrichment (ratings, hours, links) |
+| `scripts/aeo-upgrade-popular-picks.py` | AEO answer-first + JSON-LD injection |
+| `functions/add-related-links.js` | Cross-links between related picks |
+| `functions/build-travel-alerts.py` | Generates all 224 alert pages |
+| `api/build-api.py` | Builds static JSON API from HTML pages |
+
+**Publishing** (`functions/`):
+| Script | Purpose |
+|--------|---------|
+| `publish-reel.sh` | Publish video reel to Instagram |
+| `publish-tiktok.sh` | Publish to TikTok |
+| `publish-youtube-short.sh` | Publish to YouTube Shorts |
 
 ---
 
 ## 4. The "Psy as Operator" Model
 
-Psy is not a microservice — Psy is the operator. The system is designed so webhooks and queues trigger Psy to do work, like a human checking their inbox.
+Psy is not a microservice — Psy is the operator. The system is designed so that Psy runs scripts, generates content, fulfills orders, and manages the site like a human operator would.
 
 ### Trigger → Work → Deliver Pattern
 
 ```
-Trigger (webhook/cron/email)
-    → OpenClaw receives notification
+Trigger (Stripe webhook / queue file / Bernard's request)
     → Psy picks up task
-    → Psy does research + generation
-    → Psy delivers output (email/publish/reply)
-    → Psy logs completion
+    → Psy runs appropriate script(s)
+    → Output generated (HTML pages, emails, data)
+    → Git push → Cloudflare Pages auto-deploys
+    → Psy confirms delivery / logs completion
 ```
 
 ### Queue System
 
-Orders are stored in D1 with status tracking:
+Orders and batch jobs are tracked via JSON files:
 
-```sql
-CREATE TABLE orders (
-    id TEXT PRIMARY KEY,
-    stripe_session_id TEXT,
-    customer_email TEXT NOT NULL,
-    customer_name TEXT,
-    destination TEXT NOT NULL,
-    travel_dates TEXT,
-    preferences TEXT,        -- JSON: budget, pace, interests, dietary, etc.
-    status TEXT DEFAULT 'paid',  -- paid → researching → generating → review → delivered → complete
-    itinerary_url TEXT,      -- R2 URL to final PDF
-    created_at INTEGER,
-    updated_at INTEGER
-);
-```
-
-Status flow: `paid → researching → generating → review → delivered`
+| File | Purpose |
+|------|---------|
+| `orders/pending.json` | Active paid order queue |
+| `orders/fulfilled.json` | Completed orders archive |
+| `popular-picks-queue.json` | Batch popular-picks creation queue |
+| `compare-queue.json` | Compare page batch queue |
+| `country-fills-queue.json` | Country page fill queue |
 
 ### Escalation Paths
 
-- **Generation fails 2x** → Psy alerts Bernard via Slack
-- **Customer complaint** → Psy attempts resolution, escalates if unresolved after 1 exchange
+- **Fulfillment fails** → Psy alerts Bernard via Slack
+- **Customer complaint** → Psy attempts resolution, escalates if unresolved
 - **Refund request** → Psy processes if within policy, otherwise escalates
 - **System error** → Logged + Slack alert to Bernard
 
 ---
 
-## 5. Itinerary Generation Pipeline
+## 5. Page Architecture
 
-When Psy receives a new order:
+### 5.1 Self-Contained Pages
 
-### Step 1: Research (5-10 min)
-```
-1. Reddit search: "best things to do in {destination}" across:
-   - r/travel, r/solotravel, r/backpacking
-   - r/{destination} (city-specific subs)
-   - Sort by top/year for current recs
-2. Web scraping: local blogs, tourism sites
-3. Google Maps: distances, opening hours, logistics
-4. Cross-reference: identify consensus recommendations vs tourist traps
-```
+Every page is **fully self-contained HTML** with inline CSS. There are NO shared stylesheets or JS bundles in production. Each page type uses CSS variables for theming:
 
-### Step 2: Generate (2-5 min)
-```
-1. Build day-by-day itinerary based on:
-   - Travel dates & duration
-   - Customer preferences (budget, pace, interests)
-   - Logical geographic clustering (minimize transit)
-   - Mix of highlights + hidden gems from Reddit
-2. Include for each activity:
-   - Why it's recommended (cite Reddit/source)
-   - Practical details (hours, cost, booking links)
-   - Insider tips from real travelers
-3. Add logistics: transport between areas, SIM card, money tips
+```css
+:root {
+  --indigo: #1a1a2e;
+  --sand: #c2b280;
+  --cream: #faf8f5;
+}
 ```
 
-### Step 3: Format & QA
-```
-1. Generate clean HTML email version
-2. Generate PDF version (store in R2)
-3. Self-review: check for hallucinated info, broken links
-4. Verify all dates/days-of-week are correct
-```
+### 5.2 Page Generation Sources
 
-### Step 4: Deliver
-```
-1. Send email via Gmail with:
-   - Inline HTML itinerary
-   - PDF attachment link
-   - "Reply to this email for questions" CTA
-2. Update order status to 'delivered'
-3. Schedule follow-up email (3 days post-trip-start)
-```
+| Page Type | Generated By |
+|-----------|-------------|
+| `/i/` (paid itineraries) | `functions/fulfill-order.js` → `generate-itinerary-html.js` |
+| `/popular-picks/` | Sub-agents + enrichment pipeline |
+| `/compare/` | Sub-agents + generator scripts |
+| `/alerts/` | `functions/build-travel-alerts.py` |
+| `/scams/` | Sub-agents |
+| `/health/` | `scripts/build-health-page.py` |
+| `/credit-cards/` | Sub-agents |
+| `/best-places-to-visit-in-*/` | Sub-agents (reference: `best-places-template.html`) |
+| Landing pages | Hand-crafted (`index.html`, `plan.html`, `success.html`) |
+
+### 5.3 Navigation & Footer
+
+Every page has its **own copy** of the nav and footer baked in. Shared partials exist in `_includes/` (`nav-main.html`, `footer-default.html`, `shared-head.html`) but are injected at generation time, not at serve time.
+
+**⚠️ Changing the nav/footer means updating ~3,500 pages.** Use `_includes/` partials + a build script for bulk updates.
+
+### 5.4 Images & Media
+
+- **ALL images served from Cloudflare R2** via `https://img.tabiji.ai/`
+- The git repo has **no content images** — only HTML/CSS/JS/JSON
+- R2 key structure mirrors repo paths: `i/{slug}/hero-bg.jpg`, `popular-picks/{slug}/{photo}.jpg`
+- Google Maps embeds use the shared API key
 
 ---
 
-## 6. Customer Support Flow
+## 6. API Layer
 
-```
-Inbound email (support@tabiji.ai or reply)
-    → Cloudflare Email Worker → forwards to Psy
-    → Psy classifies:
-        ├─ Question about itinerary → Answer from order context
-        ├─ Modification request → Update + re-deliver
-        ├─ Complaint → Attempt resolution → escalate if needed
-        ├─ Refund → Check policy → process or escalate
-        └─ Spam → Ignore
-    → Psy responds via Gmail
-    → Log interaction
-```
+Static JSON API at `/api/v1/` — **~10,991 pre-built JSON files**. Built by `api/build-api.py` which reads all HTML pages and extracts structured data. Zero runtime cost — just static files served by Cloudflare Pages.
 
-### Support Policies (Psy enforces autonomously)
-- **Free modifications**: up to 2 revisions within 7 days of delivery
-- **Refunds**: full refund if itinerary not delivered within 48h
-- **Response time**: within 4 hours during business hours
-- **Escalation**: anything Psy is uncertain about → Slack ping to Bernard
+Agent discovery files in `.well-known/` (`ai-plugin.json`, `agents.json`) allow AI tools to discover and use the API.
+
+OpenAPI spec at `api/openapi.json`.
 
 ---
 
-## 7. Marketing / SEO / AEO Automation
+## 7. Enrichment & Content Pipelines
 
-### Programmatic SEO Pages
+### 7.1 Popular Picks Pipeline
 
-Psy generates destination pages at `/destinations/{city-slug}`:
+After creating a new popular-picks page:
+1. `python3 functions/enrich-popular-picks.py <slug>` — Google Places data (ratings, hours, Maps links)
+2. `python3 scripts/aeo-upgrade-popular-picks.py --slug <slug>` — AEO answer-first + JSON-LD
+3. `node functions/add-related-links.js` — cross-links to related picks
+4. Git commit + push
 
-```
-/destinations/tokyo
-/destinations/kyoto
-/destinations/barcelona
-/destinations/lisbon
-...
-```
+### 7.2 Compare Pipeline
 
-Each page includes:
-- H1: "{City} Travel Itinerary — AI-Powered, Reddit-Backed"
-- Best time to visit, budget breakdown, top neighborhoods
-- Sample 3-day itinerary teaser
-- Reddit quotes/testimonials
-- CTA: "Get your custom {city} itinerary"
-- Schema.org markup (TravelAction, Place)
+Compare pages are generated in batches via queue files and generator scripts in `generators/compare/`.
 
-**Generation cadence**: Psy creates 5-10 new destination pages per week, prioritizing:
-1. High search volume destinations
-2. Trending destinations (from Reddit/social signals)
-3. Destinations with existing orders (social proof)
+### 7.3 Travel Alerts Pipeline
 
-### AEO (Answer Engine Optimization)
-
-- FAQ schema on every destination page
-- Direct answers in H2s ("How many days do you need in Tokyo?")
-- Structured data for Google's AI Overviews
-- Conversational content style that LLMs can extract
-
-### Blog Content
-
-Psy writes 2-3 blog posts per week:
-- "X Days in {Destination}: What Reddit Actually Recommends"
-- "Hidden Gems in {City} That Tourists Miss"
-- Seasonal content: "Best {Season} Destinations 2026"
-
-### Social (v2+)
-- Auto-generate Twitter/X threads from itinerary highlights
-- Reddit participation (helpful comments linking back, carefully)
-
----
-
-## 8. Infrastructure
-
-### Hosting & Deploy
-```
-GitHub (psyduckler/tabiji)
-    → Push to main
-    → GitHub Actions
-    → Build Next.js
-    → Deploy to Cloudflare Pages
-```
-
-### Environment Variables
-```
-STRIPE_SECRET_KEY        → Cloudflare env (encrypted)
-STRIPE_WEBHOOK_SECRET    → Cloudflare env (encrypted)
-GMAIL_CREDENTIALS        → macOS Keychain (Psy's machine)
-DATABASE_URL             → Cloudflare D1 binding
-R2_BUCKET                → Cloudflare R2 binding
-```
-
-### Monitoring
-- **Uptime**: UptimeRobot (free, pings every 5 min)
-- **Errors**: Cloudflare dashboard + Sentry (free tier)
-- **Orders**: D1 query for stuck orders (status != delivered after 24h)
-- **Revenue**: Stripe dashboard
-- **SEO**: Google Search Console (Psy checks weekly)
-
-### Domain & DNS
-- `tabiji.ai` → Cloudflare DNS (nameservers)
-- `@` → Cloudflare Pages deployment
-- `mail` → Cloudflare Email Routing (support@tabiji.ai → Psy)
-
----
-
-## 9. Gaps & Open Questions
-
-- **Gmail sending limits**: 500/day free, 2000/day with Workspace. Fine for v1, need Resend/Postmark at scale.
-- **PDF generation**: Need a solution. Options: Puppeteer on Cloudflare (no), or generate on Psy's machine and upload to R2.
-- **Payment for custom domain email**: Need Google Workspace or Cloudflare email routing + Gmail send-as.
-- **Order notification to Psy**: Webhook → where? Options: OpenClaw webhook endpoint, or Slack notification that Psy monitors.
-- **Rate limiting**: Need to prevent order spam. Cloudflare rate limiting (free tier).
-- **Legal**: Terms of service, refund policy, privacy policy pages needed.
-
----
-
-## 10. Phased Rollout
-
-### v1 — MVP (Week 1-2)
-- Landing page live on tabiji.ai
-- Stripe checkout for single itinerary ($29)
-- Manual-ish pipeline: Stripe webhook → Slack notification → Psy generates → emails customer
-- 3-5 destination SEO pages
-- Basic support via email reply
-
-**Goal**: First paying customer. Validate demand.
-
-### v2 — Automation (Week 3-6)
-- Full automated pipeline: webhook → queue → Psy auto-generates
-- Order status tracking (customer can check)
-- 50+ destination SEO pages
-- Blog content engine running
-- Support email auto-routing
-- Follow-up emails (feedback request, review ask)
-- Itinerary PDF generation
-
-**Goal**: Psy handles 90% of operations without Bernard.
-
-### v3 — Scale (Month 2-3)
-- Tiered pricing: Basic ($19) / Premium ($39) / Luxury ($79)
-- Customer accounts + order history
-- Itinerary customization UI (drag-and-drop days)
-- Referral program
-- Multi-language support (Japanese market!)
-- Social media automation
-- Migrate email to Resend/Postmark
-- A/B testing on landing page
-
-**Goal**: $1k+ MRR, fully autonomous.
+`functions/build-travel-alerts.py` generates all 224 country alert pages from State Department data.
 
 ---
 
@@ -452,4 +393,68 @@ For any new popular-picks page, the complete post-creation pipeline is:
 
 ---
 
-*Document authored by Psy. Last updated: 2026-03-12.*
+## 8. Infrastructure
+
+### Domain & DNS
+- `tabiji.ai` → Cloudflare DNS (nameservers)
+- `img.tabiji.ai` → Cloudflare R2 (media bucket: `tabiji-media`)
+
+### Environment & Secrets
+```
+STRIPE_SECRET_KEY        → macOS Keychain
+STRIPE_WEBHOOK_SECRET    → macOS Keychain
+RESEND_API_KEY           → macOS Keychain
+CLOUDFLARE_PAGES_TOKEN   → macOS Keychain (cloudflare-pages-token)
+R2_BUCKET                → tabiji-media (account: 9ce95ed3e1df4a7e1d2a401e116c3c6f)
+```
+
+All secrets accessed via `security find-generic-password` at runtime. Nothing hardcoded in the repo.
+
+### Monitoring
+- **Uptime**: Cloudflare Analytics
+- **SEO**: Google Search Console (Psy checks regularly)
+- **Revenue**: Stripe dashboard
+- **Orders**: `orders/pending.json` monitored for stuck orders
+
+---
+
+## 9. Critical Path Dependencies
+
+```
+                    ┌─────────────────┐
+                    │  Stripe Webhook  │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  pending.json   │ ◄── DO NOT change schema
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ fulfill-order.js│ ◄── Orchestrator (DO NOT refactor)
+                    ├─────────────────┤
+                    │ • generate-slug │
+                    │ • generate-html │
+                    │ • day-photos    │
+                    │ • git push      │
+                    │ • wait-for-deploy│
+                    │ • send-email    │
+                    │ • update json   │
+                    └─────────────────┘
+                             │
+                    ┌────────┴────────┐
+                    │  fulfilled.json │
+                    └─────────────────┘
+```
+
+**If fulfill-order.js breaks, customers don't get their itineraries and revenue stops.**
+
+Other dependency chains:
+- Popular-picks creation → `enrich-popular-picks.py` → `aeo-upgrade-popular-picks.py` → `add-related-links.js`
+- Travel alerts → `build-travel-alerts.py` generates all 224 alert pages
+- API → `api/build-api.py` reads all HTML pages to generate ~10,991 JSON files
+
+---
+
+*Document authored by Psy. Last updated: 2026-04-01.*
