@@ -75,6 +75,8 @@
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
+      .map-legend li a { color:var(--terracotta); font-size:.88rem; }
+      .map-legend li { margin-bottom:.3rem; }
       .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
       .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
       .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
@@ -128,6 +130,7 @@
     </style>
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <script defer src="/assets/shared-shell.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </head>
 <body>
     <!-- @include:nav:start -->
@@ -171,13 +174,24 @@
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
-        <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q=Best+Street+Food+in+Amsterdam+Amsterdam&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
+      <div class="map-sidebar" data-map-panel="desktop">
+        <h2>Street Food Map — Amsterdam</h2>
+        <div class="map-active-pick" data-map-active-pick>1. Vleminckx Friteshuis</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map — Amsterdam"></div>
+        <div class="map-legend">
+          <strong>Start with:</strong>
+          <ul>
+            <li><a href="#vleminckx-friteshuis">1. Vleminckx Friteshuis</a></li>
+            <li><a href="#maoz-vegetarian">2. Maoz Vegetarian</a></li>
+            <li><a href="#febo">3. FEBO</a></li>
+            <li><a href="#original-stroopwafels">4. Original Stroopwafels</a></li>
+            <li><a href="#vishandel-albert-cuyp">5. Vishandel Albert Cuyp</a></li>
+            <li><a href="#warung-spang-makandra">6. Warung Spang Makandra</a></li>
+          </ul>
+          <p><a href="https://www.google.com/maps/search/Street+Food+in+Amsterdam" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
         </div>
       </div>
-      
+
       <div class="content">
         <section class="quick-answer-section">
           <div class="quick-answer-card">
@@ -192,19 +206,35 @@
           </div>
         </section>
 
+        <section class="map-inline" data-map-panel="mobile">
+          <h2>Street Food Map — Amsterdam</h2>
+          <div class="map-active-pick" data-map-active-pick>1. Vleminckx Friteshuis</div>
+          <div class="popular-picks-map" data-map-canvas aria-label="Street Food Map — Amsterdam"></div>
+          <div class="map-legend">
+            <strong>Start with:</strong>
+            <ul>
+              <li><a href="#vleminckx-friteshuis">1. Vleminckx Friteshuis</a></li>
+              <li><a href="#maoz-vegetarian">2. Maoz Vegetarian</a></li>
+              <li><a href="#febo">3. FEBO</a></li>
+              <li><a href="#original-stroopwafels">4. Original Stroopwafels</a></li>
+              <li><a href="#vishandel-albert-cuyp">5. Vishandel Albert Cuyp</a></li>
+              <li><a href="#warung-spang-makandra">6. Warung Spang Makandra</a></li>
+            </ul>
+            <p><a href="https://www.google.com/maps/search/Street+Food+in+Amsterdam" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
+          </div>
+        </section>
+
         <section class="methodology-box">
           <h2>How we picked these</h2>
           <p>Our selection of Amsterdam's best street food venues for 2026 is based on extensive local research, popular reviews, critical acclaim, and unique cultural significance. We prioritized venues offering exceptional taste, value, and an authentic on-the-go dining experience, ensuring a diverse representation of both traditional Dutch snacks and international flavors.</p>
         </section>
 
         
-    <section class="restaurant-section" id="vleminckx-friteshuis">
+    <section class="restaurant-section" id="vleminckx-friteshuis" data-map-name="1. Vleminckx Friteshuis" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJW8FgycEJxkcRImIYQha8SXI" data-map-query="Vleminckx Friteshuis, Voetboogstraat 33, Amsterdam, Netherlands" data-map-lat="52.3678913" data-map-lng="4.8909863">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#1</div>
-        <div>
-          <h2>Vleminckx Friteshuis</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Fries</span> <span class="cuisine-tag">Snacks</span></div>
-        </div>
+        <h2><span class="restaurant-number">1</span>Vleminckx Friteshuis</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Fries</span> <span class="cuisine-tag">Snacks</span>
+        <span class="google-rating"><span class="star">★</span> 4.5 · 5,632 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Vleminckx Friteshuis" loading="lazy">
@@ -214,6 +244,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Centrum</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€4-7 / $4.30-7.50 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJW8FgycEJxkcRImIYQha8SXI" target="_blank" rel="noopener">Voetboogstraat 33, 1012 XK Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Vleminckx Friteshuis has been serving what many call the best Belgian-style fries in Amsterdam since 1957. Located on a quaint side street, this no-frills fry shop is famous for its perfectly crispy, fluffy fries served in a paper cone with your choice of over 25 sauces. It's a true Amsterdam institution and a must-visit for any snack lover.</p>
@@ -232,13 +263,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="maoz-vegetarian">
+    <section class="restaurant-section" id="maoz-vegetarian" data-map-name="2. Maoz Vegetarian" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJD8eGiscJxkcREF1OddAutQ4" data-map-query="Maoz Vegetarian, Damrak 40, Amsterdam, Netherlands" data-map-lat="52.3758228" data-map-lng="4.8961416">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#2</div>
-        <div>
-          <h2>Maoz Vegetarian</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Vegetarian</span> <span class="cuisine-tag">Falafel</span> <span class="cuisine-tag">Middle Eastern</span></div>
-        </div>
+        <h2><span class="restaurant-number">2</span>Maoz Vegetarian</h2>
+        <span class="cuisine-tag">Vegetarian</span> <span class="cuisine-tag">Falafel</span> <span class="cuisine-tag">Middle Eastern</span>
+        <span class="google-rating"><span class="star">★</span> 4.2 · 1,887 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Maoz Vegetarian" loading="lazy">
@@ -248,6 +277,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Multiple locations (e.g., Leidsestraat, Muntplein)</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€7-10 / $7.50-10.80 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJD8eGiscJxkcREF1OddAutQ4" target="_blank" rel="noopener">Damrak 40, 1012 LK Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Maoz Vegetarian is a global falafel chain that originated in Amsterdam and remains a beloved street food staple. Known for its fresh, crispy falafel balls served in warm pita bread, the real draw is the extensive salad bar where you can load up on unlimited fresh toppings like hummus, baba ghanoush, pickled turnips, and various salads. It’s quick, healthy, and incredibly satisfying.</p>
@@ -266,13 +296,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="febo">
+    <section class="restaurant-section" id="febo" data-map-name="3. FEBO" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ7818HscJxkcRD4KgKOwUCkY" data-map-query="FEBO, Nieuwendijk 50, Amsterdam, Netherlands" data-map-lat="52.3778727" data-map-lng="4.8957916">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#3</div>
-        <div>
-          <h2>FEBO</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Automat</span> <span class="cuisine-tag">Snacks</span></div>
-        </div>
+        <h2><span class="restaurant-number">3</span>FEBO</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Automat</span> <span class="cuisine-tag">Snacks</span>
+        <span class="google-rating"><span class="star">★</span> 4.2 · 1,849 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="FEBO" loading="lazy">
@@ -282,6 +310,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Multiple locations (e.g., Leidsestraat, Kalverstraat)</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€2-5 / $2.20-5.40 per item</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJ7818HscJxkcRD4KgKOwUCkY" target="_blank" rel="noopener">Nieuwendijk 50, 1012 MN Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>FEBO is a quintessential Dutch experience. This automat chain offers a range of hot, freshly fried snacks dispensed directly from heated compartments after you insert coins. It's a unique and fun way to grab a quick bite, offering classic Dutch comfort food like croquettes, frikandellen, and 'kaassoufflés' (cheese soufflé). Perfect for a late-night snack or a quirky culinary adventure.</p>
@@ -300,13 +329,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="original-stroopwafels-(albert-">
+    <section class="restaurant-section" id="original-stroopwafels" data-map-name="4. Original Stroopwafels (Albert Cuyp Market)" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJIY8-Y40JxkcRBw2QcBx7H8E" data-map-query="Rudi's Original Stroopwafels, Albert Cuyp Straat, Amsterdam, Netherlands" data-map-lat="52.3558047" data-map-lng="4.8950112">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#4</div>
-        <div>
-          <h2>Original Stroopwafels (Albert Cuyp Market)</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Dessert</span> <span class="cuisine-tag">Waffles</span></div>
-        </div>
+        <h2><span class="restaurant-number">4</span>Original Stroopwafels (Albert Cuyp Market)</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Dessert</span> <span class="cuisine-tag">Waffles</span>
+        <span class="google-rating"><span class="star">★</span> 4.9 · 2,179 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Original Stroopwafels (Albert Cuyp Market)" loading="lazy">
@@ -316,6 +343,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>De Pijp</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€2.50-5 / $2.70-5.40 per stroopwafel</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJIY8-Y40JxkcRBw2QcBx7H8E" target="_blank" rel="noopener">Albert Cuyp Straat t/o 182, 1073 BK Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>No trip to Amsterdam is complete without a fresh, warm stroopwafel, and the stall at the Albert Cuyp Market is legendary. Watch as these thin waffle cookies are pressed, sliced, and filled with gooey caramel syrup right before your eyes. The warmth melts the caramel to perfection, creating an irresistible treat. It's an iconic Dutch snack and a sweet delight.</p>
@@ -334,13 +362,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="vishandel-albert-cuyp">
+    <section class="restaurant-section" id="vishandel-albert-cuyp" data-map-name="5. Vishandel Albert Cuyp" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJYXSKWo0JxkcReJTskyPNM20" data-map-query="Vishandel Albert Cuyp, Albert Cuypstraat 155, Amsterdam, Netherlands" data-map-lat="52.3556303" data-map-lng="4.8934085">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#5</div>
-        <div>
-          <h2>Vishandel Albert Cuyp</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Seafood</span> <span class="cuisine-tag">Snacks</span></div>
-        </div>
+        <h2><span class="restaurant-number">5</span>Vishandel Albert Cuyp</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Seafood</span> <span class="cuisine-tag">Snacks</span>
+        <span class="google-rating"><span class="star">★</span> 4.5 · 377 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Vishandel Albert Cuyp" loading="lazy">
@@ -350,6 +376,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>De Pijp</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€6-12 / $6.50-13 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJYXSKWo0JxkcReJTskyPNM20" target="_blank" rel="noopener">Albert Cuypstraat 155, 1073 BC Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Located within the bustling Albert Cuyp Market, this fish stall is famous for its incredibly fresh seafood snacks. From the traditional 'Hollandse Nieuwe Haring' (Dutch new herring), eaten raw with onions and pickles, to crispy 'Kibbeling' (battered and fried cod pieces), it's a true taste of the North Sea. The quality is consistently high, drawing locals and tourists alike.</p>
@@ -368,13 +395,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="warung-spang-makandra">
+    <section class="restaurant-section" id="warung-spang-makandra" data-map-name="6. Warung Spang Makandra" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJv5gqjPIJxkcR-Z3A4af3ZmI" data-map-query="Warung Spang Makandra, Gerard Doustraat 33, Amsterdam, Netherlands" data-map-lat="52.3553736" data-map-lng="4.8896417">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#6</div>
-        <div>
-          <h2>Warung Spang Makandra</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Surinamese</span> <span class="cuisine-tag">Indonesian</span> <span class="cuisine-tag">Street Food</span></div>
-        </div>
+        <h2><span class="restaurant-number">6</span>Warung Spang Makandra</h2>
+        <span class="cuisine-tag">Surinamese</span> <span class="cuisine-tag">Indonesian</span> <span class="cuisine-tag">Street Food</span>
+        <span class="google-rating"><span class="star">★</span> 4.2 · 1,857 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Warung Spang Makandra" loading="lazy">
@@ -384,6 +409,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>De Pijp</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€9-15 / $9.70-16.20 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJv5gqjPIJxkcR-Z3A4af3ZmI" target="_blank" rel="noopener">Gerard Doustraat 33, 1072 VK Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Amsterdam has a thriving Surinamese food scene, and Warung Spang Makandra is a beloved institution. Offering authentic Surinamese-Javanese and Creole dishes, this no-frills eatery serves up incredibly flavorful curries, roti, and loaded sandwiches. The portions are generous, the prices are reasonable, and the complex spice blends are a delight for the taste buds, making it a local favorite for a hearty meal.</p>
@@ -402,13 +428,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="fabel-friet">
+    <section class="restaurant-section" id="fabel-friet" data-map-name="7. Fabel Friet" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJrftMriIJxkcRmsYdm9XycFA" data-map-query="Fabel Friet, Runstraat 1, Amsterdam, Netherlands" data-map-lat="52.3688273" data-map-lng="4.8840617">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#7</div>
-        <div>
-          <h2>Fabel Friet</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Fries</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">Snacks</span></div>
-        </div>
+        <h2><span class="restaurant-number">7</span>Fabel Friet</h2>
+        <span class="cuisine-tag">Fries</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">Snacks</span>
+        <span class="google-rating"><span class="star">★</span> 4.5 · 8,379 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Fabel Friet" loading="lazy">
@@ -418,6 +442,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Centrum</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€5-9 / $5.40-9.70 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJrftMriIJxkcRmsYdm9XycFA" target="_blank" rel="noopener">Runstraat 1, 1016 GJ Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Fabel Friet has quickly become one of Amsterdam's most popular destinations for gourmet fries. Using fresh, hand-cut potatoes and frying them to golden perfection, they offer an array of unique toppings and high-quality sauces beyond the traditional mayo. Their truffle mayonnaise is a standout, elevating the humble fry into a luxurious street snack. It's a modern take on a classic.</p>
@@ -436,13 +461,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="the-butcher">
+    <section class="restaurant-section" id="the-butcher" data-map-name="8. The Butcher" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJkbfErMYJxkcRPdHbrqwb4jE" data-map-query="The Butcher, Paleisstraat 14, Amsterdam, Netherlands" data-map-lat="52.3723042" data-map-lng="4.8891365">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#8</div>
-        <div>
-          <h2>The Butcher</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Burgers</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">American</span></div>
-        </div>
+        <h2><span class="restaurant-number">8</span>The Butcher</h2>
+        <span class="cuisine-tag">Burgers</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">American</span>
+        <span class="google-rating"><span class="star">★</span> 4.3 · 4,470 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="The Butcher" loading="lazy">
@@ -452,6 +475,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Multiple locations (e.g., Albert Cuypstraat, Nine Streets)</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€12-18 / $13-19.50 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJkbfErMYJxkcRPdHbrqwb4jE" target="_blank" rel="noopener">Paleisstraat 14, 1012 RB Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>The Butcher is renowned for serving some of the best gourmet burgers in Amsterdam. Using only the finest quality Angus beef, fresh buns, and premium toppings, their burgers are juicy, flavorful, and incredibly satisfying. While there are a few sit-down locations, their original Albert Cuyp Market spot and other 'Social Club' versions retain a high-end street food vibe, perfect for a quick yet indulgent meal.</p>
@@ -470,13 +494,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="the-happy-pig-pancake-shop">
+    <section class="restaurant-section" id="the-happy-pig-pancake-shop" data-map-name="9. The Happy Pig Pancake Shop" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJab10ZcEJxkcR8CYO6k5eB4E" data-map-query="The Happy Pig Pancake Shop, Rosmarijnsteeg 12, Amsterdam, Netherlands" data-map-lat="52.3703464" data-map-lng="4.8891604">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#9</div>
-        <div>
-          <h2>The Happy Pig Pancake Shop</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Pancakes</span> <span class="cuisine-tag">Dessert</span></div>
-        </div>
+        <h2><span class="restaurant-number">9</span>The Happy Pig Pancake Shop</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Pancakes</span> <span class="cuisine-tag">Dessert</span>
+        <span class="google-rating"><span class="star">★</span> 4.4 · 3,547 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="The Happy Pig Pancake Shop" loading="lazy">
@@ -486,6 +508,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Centrum</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€8-14 / $8.70-15.10 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJab10ZcEJxkcR8CYO6k5eB4E" target="_blank" rel="noopener">Rosmarijnsteeg 12, 1012 RP Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>For a delightful sweet or savory street food experience, The Happy Pig Pancake Shop offers a modern twist on traditional Dutch pancakes. These aren't the thick American style, but rather thin, crêpe-like pancakes, often served rolled up with a wide variety of fresh, organic fillings. It’s a charming spot with friendly service, perfect for a breakfast on the go, a light lunch, or a sweet treat.</p>
@@ -504,13 +527,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="foodhallen">
+    <section class="restaurant-section" id="foodhallen" data-map-name="10. Foodhallen" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJtWMWEeAJxkcR7PV7zX9aRh0" data-map-query="Foodhallen, Hannie Dankbaarpassage 16, Amsterdam, Netherlands" data-map-lat="52.36679" data-map-lng="4.8679147">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#10</div>
-        <div>
-          <h2>Foodhallen</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">International</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">Market</span></div>
-        </div>
+        <h2><span class="restaurant-number">10</span>Foodhallen</h2>
+        <span class="cuisine-tag">International</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">Market</span>
+        <span class="google-rating"><span class="star">★</span> 4.5 · 22,350 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Foodhallen" loading="lazy">
@@ -520,6 +541,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Oud-West</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€10-25 / $10.80-27 per person (per dish)</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJtWMWEeAJxkcR7PV7zX9aRh0" target="_blank" rel="noopener">Hannie Dankbaarpassage 16, 1053 RT Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>While technically an indoor food market, Foodhallen brings the best of Amsterdam's gourmet street food under one roof. Housed in a beautifully restored tram depot, it features over 20 different food stalls, offering everything from Vietnamese summer rolls and Spanish tapas to artisanal burgers and classic Dutch bitterballen. It’s a lively, bustling atmosphere with communal seating and multiple bars, perfect for sampling a wide variety of cuisines.</p>
@@ -538,13 +560,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="typical-poffertjeskraam">
+    <section class="restaurant-section" id="typical-poffertjeskraam" data-map-name="11. Typical Poffertjeskraam" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ04yPeOMJxkcRtpiLOoj6_cM" data-map-query="Pat's Poffertjes, Oude Leliestraat 7, Amsterdam, Netherlands" data-map-lat="52.3746282" data-map-lng="4.8885922">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#11</div>
-        <div>
-          <h2>Typical Poffertjeskraam</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Dessert</span> <span class="cuisine-tag">Pancakes</span></div>
-        </div>
+        <h2><span class="restaurant-number">11</span>Typical Poffertjeskraam</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Dessert</span> <span class="cuisine-tag">Pancakes</span>
+        <span class="google-rating"><span class="star">★</span> 4.8 · 1,590 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Typical Poffertjeskraam" loading="lazy">
@@ -554,6 +574,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Various Markets (e.g., Bloemenmarkt, Albert Cuyp)</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€4-8 / $4.30-8.70 per portion</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJ04yPeOMJxkcRtpiLOoj6_cM" target="_blank" rel="noopener">Oude Leliestraat 7, 1016 BD Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Poffertjes are a delightful Dutch treat, small, fluffy pancakes traditionally served with a generous dusting of powdered sugar and a dollop of butter. These are a quintessential street food experience, often found at dedicated 'Poffertjeskramen' (stalls) in markets, festivals, or even temporary setups in popular squares. Watching them being cooked on a special cast-iron plate is part of the charm.</p>
@@ -572,13 +593,11 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="mister-meatball">
+    <section class="restaurant-section" id="mister-meatball" data-map-name="12. Mister Meatball" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJXZcH-akJxkcRmA5D2QSJg0I" data-map-query="Mister Meatball, Haarlemmerstraat 118, Amsterdam, Netherlands" data-map-lat="52.3809096" data-map-lng="4.8904897">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#12</div>
-        <div>
-          <h2>Mister Meatball</h2>
-          <div class="cuisine-tags"><span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Meatballs</span> <span class="cuisine-tag">Comfort Food</span></div>
-        </div>
+        <h2><span class="restaurant-number">12</span>Mister Meatball</h2>
+        <span class="cuisine-tag">Dutch</span> <span class="cuisine-tag">Meatballs</span> <span class="cuisine-tag">Comfort Food</span>
+        <span class="google-rating"><span class="star">★</span> 4.7 · 2,119 reviews</span>
       </div>
       <div class="restaurant-photo">
         <img src="https://img.tabiji.ai/popular-picks/amsterdam-street-food/hero-bg.jpg" alt="Mister Meatball" loading="lazy">
@@ -588,6 +607,7 @@
           <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>De Pijp</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>€6-10 / $6.50-10.80 per person</span></div>
         </div>
+        <div class="detail-item"><span class="detail-label">📍 Address</span><span><a href="https://www.google.com/maps/place/?q=place_id:ChIJXZcH-akJxkcRmA5D2QSJg0I" target="_blank" rel="noopener">Haarlemmerstraat 118, 1013 EX Amsterdam</a></span></div>
       </div>
       <div class="restaurant-body">
         <p>Mister Meatball offers a delicious, modern take on a classic Dutch comfort food: the humble meatball. These aren't just any meatballs; they're handcrafted from quality ingredients, seasoned perfectly, and served with a choice of sauces and often on a fresh bun or with simple sides. It’s a hearty, satisfying street food option that's truly Dutch, perfect for a quick, filling lunch or snack while exploring De Pijp.</p>
@@ -630,5 +650,123 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+<script>
+window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Street Food Map — Amsterdam","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Street+Food+in+Amsterdam","picks":[{"anchorId":"vleminckx-friteshuis","rank":1,"name":"Vleminckx Friteshuis","label":"1. Vleminckx Friteshuis","lat":52.3678913,"lng":4.8909863,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJW8FgycEJxkcRImIYQha8SXI","mapQuery":"Vleminckx Friteshuis, Voetboogstraat 33, Amsterdam, Netherlands"},{"anchorId":"maoz-vegetarian","rank":2,"name":"Maoz Vegetarian","label":"2. Maoz Vegetarian","lat":52.3758228,"lng":4.8961416,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJD8eGiscJxkcREF1OddAutQ4","mapQuery":"Maoz Vegetarian, Damrak 40, Amsterdam, Netherlands"},{"anchorId":"febo","rank":3,"name":"FEBO","label":"3. FEBO","lat":52.3778727,"lng":4.8957916,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJ7818HscJxkcRD4KgKOwUCkY","mapQuery":"FEBO, Nieuwendijk 50, Amsterdam, Netherlands"},{"anchorId":"original-stroopwafels","rank":4,"name":"Original Stroopwafels (Albert Cuyp Market)","label":"4. Original Stroopwafels","lat":52.3558047,"lng":4.8950112,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJIY8-Y40JxkcRBw2QcBx7H8E","mapQuery":"Rudi's Original Stroopwafels, Albert Cuyp Straat, Amsterdam, Netherlands"},{"anchorId":"vishandel-albert-cuyp","rank":5,"name":"Vishandel Albert Cuyp","label":"5. Vishandel Albert Cuyp","lat":52.3556303,"lng":4.8934085,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJYXSKWo0JxkcReJTskyPNM20","mapQuery":"Vishandel Albert Cuyp, Albert Cuypstraat 155, Amsterdam, Netherlands"},{"anchorId":"warung-spang-makandra","rank":6,"name":"Warung Spang Makandra","label":"6. Warung Spang Makandra","lat":52.3553736,"lng":4.8896417,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJv5gqjPIJxkcR-Z3A4af3ZmI","mapQuery":"Warung Spang Makandra, Gerard Doustraat 33, Amsterdam, Netherlands"},{"anchorId":"fabel-friet","rank":7,"name":"Fabel Friet","label":"7. Fabel Friet","lat":52.3688273,"lng":4.8840617,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJrftMriIJxkcRmsYdm9XycFA","mapQuery":"Fabel Friet, Runstraat 1, Amsterdam, Netherlands"},{"anchorId":"the-butcher","rank":8,"name":"The Butcher","label":"8. The Butcher","lat":52.3723042,"lng":4.8891365,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJkbfErMYJxkcRPdHbrqwb4jE","mapQuery":"The Butcher, Paleisstraat 14, Amsterdam, Netherlands"},{"anchorId":"the-happy-pig-pancake-shop","rank":9,"name":"The Happy Pig Pancake Shop","label":"9. The Happy Pig Pancake Shop","lat":52.3703464,"lng":4.8891604,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJab10ZcEJxkcR8CYO6k5eB4E","mapQuery":"The Happy Pig Pancake Shop, Rosmarijnsteeg 12, Amsterdam, Netherlands"},{"anchorId":"foodhallen","rank":10,"name":"Foodhallen","label":"10. Foodhallen","lat":52.36679,"lng":4.8679147,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJtWMWEeAJxkcR7PV7zX9aRh0","mapQuery":"Foodhallen, Hannie Dankbaarpassage 16, Amsterdam, Netherlands"},{"anchorId":"typical-poffertjeskraam","rank":11,"name":"Typical Poffertjeskraam","label":"11. Typical Poffertjeskraam","lat":52.3746282,"lng":4.8885922,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJ04yPeOMJxkcRtpiLOoj6_cM","mapQuery":"Pat's Poffertjes, Oude Leliestraat 7, Amsterdam, Netherlands"},{"anchorId":"mister-meatball","rank":12,"name":"Mister Meatball","label":"12. Mister Meatball","lat":52.3809096,"lng":4.8904897,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJXZcH-akJxkcRmA5D2QSJg0I","mapQuery":"Mister Meatball, Haarlemmerstraat 118, Amsterdam, Netherlands"}]};
+</script>
+<script>
+(function () {
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+  var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+  var mapState = { maps: [] };
+  if (!sections.length || !panels.length) return;
+
+  function findPickBySection(section) {
+    var id = section && section.id;
+    if (!id || !Array.isArray(mapConfig.picks)) return null;
+    return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+  }
+
+  function syncPanels(section, pick) {
+    panels.forEach(function (panel) {
+      var title = panel.querySelector('[data-map-active-pick]');
+      var cta = panel.querySelector('[data-map-cta]');
+      if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+      if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+    });
+  }
+
+  function highlightMarker(activePick) {
+    mapState.maps.forEach(function (entry) {
+      entry.markers.forEach(function (markerEntry) {
+        var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+        markerEntry.marker.setIcon({
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: isActive ? 12 : 9,
+          fillColor: isActive ? '#2D3A5C' : '#C4704B',
+          fillOpacity: 1,
+          strokeColor: '#FFFFFF',
+          strokeWeight: 2,
+        });
+        markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+      });
+      if (activePick) {
+        entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+      }
+    });
+  }
+
+  function setActive(section) {
+    if (!section) return;
+    var activePick = findPickBySection(section);
+    sections.forEach(function (item) {
+      item.classList.toggle('active', item === section);
+    });
+    syncPanels(section, activePick);
+    if (window.google && google.maps && activePick) highlightMarker(activePick);
+  }
+
+  function initMaps() {
+    if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+    panels.forEach(function (panel) {
+      var canvas = panel.querySelector('[data-map-canvas]');
+      if (!canvas) return;
+      var map = new google.maps.Map(canvas, {
+        center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+        zoom: 13,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        clickableIcons: false,
+        styles: [
+          { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+          { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+        ]
+      });
+      var bounds = new google.maps.LatLngBounds();
+      var markers = mapConfig.picks.map(function (pick) {
+        var marker = new google.maps.Marker({
+          position: { lat: pick.lat, lng: pick.lng },
+          map: map,
+          title: pick.label,
+          label: {
+            text: String(pick.rank),
+            color: '#FFFFFF',
+            fontWeight: '700'
+          }
+        });
+        var infoWindow = new google.maps.InfoWindow({
+          content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+        });
+        marker.addListener('click', function () {
+          infoWindow.open({ anchor: marker, map: map });
+          var target = document.getElementById(pick.anchorId);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        bounds.extend(marker.getPosition());
+        return { pick: pick, marker: marker, infoWindow: infoWindow };
+      });
+      if (mapConfig.picks.length > 1) {
+        map.fitBounds(bounds, 48);
+      }
+      mapState.maps.push({ panel: panel, map: map, markers: markers });
+    });
+    setTimeout(function () { setActive(sections[0]); }, 0);
+  }
+
+  window.initPopularPicksMaps = initMaps;
+  setActive(sections[0]);
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      var visible = entries
+        .filter(function (entry) { return entry.isIntersecting; })
+        .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+      if (visible[0]) setActive(visible[0].target);
+    }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+    sections.forEach(function (section) { observer.observe(section); });
+  }
+}());
+</script>
 </body>
 </html>
