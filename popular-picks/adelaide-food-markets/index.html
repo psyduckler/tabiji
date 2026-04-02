@@ -125,6 +125,14 @@
       .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
       .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
       .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
+      .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .map-legend li { margin:.25rem 0; }
+      .map-legend a { color:var(--terracotta); font-size:.9rem; }
+      .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
+      .restaurant-rank { display:none; }
     </style>
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <script defer src="/assets/shared-shell.js"></script>
@@ -178,10 +186,21 @@
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
+      <div class="map-sidebar" data-map-panel="desktop">
         <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q=Best+Food+Markets+in+Adelaide+Adelaide&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
+        <div class="map-active-pick" data-map-active-pick>1. Adelaide Central Market</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="Food Markets Map — Adelaide"></div>
+        <div class="map-legend">
+          <strong>Start with:</strong>
+          <ul>
+            <li><a href="#adelaide-central-market">1. Adelaide Central Market</a></li>
+            <li><a href="#adelaide-showground-farmers-ma">2. Adelaide Showground Farmers Market</a></li>
+            <li><a href="#willunga-farmers-market">3. Willunga Farmers Market</a></li>
+            <li><a href="#plant-4-bowden">4. Plant 4 Bowden</a></li>
+            <li><a href="#prospect-farmers-market">5. Prospect Farmers Market</a></li>
+            <li><a href="#gilles-at-the-grounds">6. Gilles at the Grounds</a></li>
+          </ul>
+          <p><a href="https://www.google.com/maps/search/Adelaide+Central+Market" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
         </div>
       </div>
       
@@ -199,17 +218,34 @@
           </div>
         </section>
 
+    <section class="map-inline" data-map-panel="mobile">
+      <h2>📍 Map</h2>
+      <div class="map-active-pick" data-map-active-pick>1. Adelaide Central Market</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Food Markets Map — Adelaide"></div>
+      <div class="map-legend">
+        <strong>Start with:</strong>
+        <ul>
+          <li><a href="#adelaide-central-market">1. Adelaide Central Market</a></li>
+          <li><a href="#adelaide-showground-farmers-ma">2. Adelaide Showground Farmers Market</a></li>
+          <li><a href="#willunga-farmers-market">3. Willunga Farmers Market</a></li>
+          <li><a href="#plant-4-bowden">4. Plant 4 Bowden</a></li>
+          <li><a href="#prospect-farmers-market">5. Prospect Farmers Market</a></li>
+          <li><a href="#gilles-at-the-grounds">6. Gilles at the Grounds</a></li>
+        </ul>
+        <p><a href="https://www.google.com/maps/search/Adelaide+Central+Market" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
+      </div>
+    </section>
+
         <section class="methodology-box">
           <h2>How we picked these</h2>
           <p>Our expert team meticulously researched and visited numerous food markets across Adelaide and its surrounding regions. Venues were selected based on their variety of produce and food stalls, atmosphere, local significance, community impact, and overall visitor experience, ensuring a comprehensive guide to the city's best culinary hubs.</p>
         </section>
 
         
-    <section class="restaurant-section" id="adelaide-central-market">
+    <section class="restaurant-section" id="adelaide-central-market" data-map-name="1. Adelaide Central Market" data-map-lat="-34.9294838" data-map-lng="138.5974186">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#1</div>
         <div>
-          <h2>Adelaide Central Market</h2>
+          <h2><span class="restaurant-number">1</span>Adelaide Central Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">International</span> <span class="cuisine-tag">Fresh Produce</span></div>
         </div>
       </div>
@@ -239,9 +275,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="adelaide-showground-farmers-ma">
+    <section class="restaurant-section" id="adelaide-showground-farmers-ma" data-map-name="2. Adelaide Showground Farmers Market" data-map-lat="-34.9457174" data-map-lng="138.5854667">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#2</div>
+        <div>
+          <h2><span class="restaurant-number">2</span>Adelaide Showground Farmers Market</h2>
         <div>
           <h2>Adelaide Showground Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Local Produce</span> <span class="cuisine-tag">Artisanal</span> <span class="cuisine-tag">Organic</span></div>
@@ -273,9 +310,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="willunga-farmers-market">
+    <section class="restaurant-section" id="willunga-farmers-market" data-map-name="3. Willunga Farmers Market" data-map-lat="-35.2639884" data-map-lng="138.5545654">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#3</div>
+        <div>
+          <h2><span class="restaurant-number">3</span>Willunga Farmers Market</h2>
         <div>
           <h2>Willunga Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Regional Produce</span> <span class="cuisine-tag">Artisanal</span> <span class="cuisine-tag">Sustainable</span></div>
@@ -307,9 +345,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="plant-4-bowden">
+    <section class="restaurant-section" id="plant-4-bowden" data-map-name="4. Plant 4 Bowden" data-map-lat="-34.9061482" data-map-lng="138.5782974">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#4</div>
+        <div>
+          <h2><span class="restaurant-number">4</span>Plant 4 Bowden</h2>
         <div>
           <h2>Plant 4 Bowden</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Street Food</span> <span class="cuisine-tag">Vegan-Friendly</span> <span class="cuisine-tag">Artisanal</span></div>
@@ -341,9 +380,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="prospect-farmers-market">
+    <section class="restaurant-section" id="prospect-farmers-market" data-map-name="5. Prospect Farmers Market" data-map-lat="-34.8924182" data-map-lng="138.5962018">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#5</div>
+        <div>
+          <h2><span class="restaurant-number">5</span>Prospect Farmers Market</h2>
         <div>
           <h2>Prospect Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Local Produce</span> <span class="cuisine-tag">Community-Focused</span> <span class="cuisine-tag">Baked Goods</span></div>
@@ -375,9 +415,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="gilles-at-the-grounds">
+    <section class="restaurant-section" id="gilles-at-the-grounds" data-map-name="6. Gilles at the Grounds" data-map-lat="-34.9481399" data-map-lng="138.5868908">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#6</div>
+        <div>
+          <h2><span class="restaurant-number">6</span>Gilles at the Grounds</h2>
         <div>
           <h2>Gilles at the Grounds</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Street Food</span> <span class="cuisine-tag">Vintage</span> <span class="cuisine-tag">Local Makers</span></div>
@@ -409,9 +450,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="barossa-farmers-market">
+    <section class="restaurant-section" id="barossa-farmers-market" data-map-name="7. Barossa Farmers Market" data-map-lat="-34.49236" data-map-lng="139.0270944">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#7</div>
+        <div>
+          <h2><span class="restaurant-number">7</span>Barossa Farmers Market</h2>
         <div>
           <h2>Barossa Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Regional Produce</span> <span class="cuisine-tag">Gourmet</span> <span class="cuisine-tag">Wine Country</span></div>
@@ -443,9 +485,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="stirling-market">
+    <section class="restaurant-section" id="stirling-market" data-map-name="8. Stirling Market" data-map-lat="-35.0051944" data-map-lng="138.7159477">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#8</div>
+        <div>
+          <h2><span class="restaurant-number">8</span>Stirling Market</h2>
         <div>
           <h2>Stirling Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Artisanal</span> <span class="cuisine-tag">Local Produce</span> <span class="cuisine-tag">Hills Delights</span></div>
@@ -477,9 +520,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="mount-pleasant-farmers-market">
+    <section class="restaurant-section" id="mount-pleasant-farmers-market" data-map-name="9. Mount Pleasant Farmers Market" data-map-lat="-34.7769334" data-map-lng="139.0421323">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#9</div>
+        <div>
+          <h2><span class="restaurant-number">9</span>Mount Pleasant Farmers Market</h2>
         <div>
           <h2>Mount Pleasant Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Small Scale</span> <span class="cuisine-tag">Authentic</span> <span class="cuisine-tag">Hills Produce</span></div>
@@ -511,9 +555,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="victor-harbor-farmers-market">
+    <section class="restaurant-section" id="victor-harbor-farmers-market" data-map-name="10. Victor Harbor Farmers Market" data-map-lat="-35.5537176" data-map-lng="138.6217559">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#10</div>
+        <div>
+          <h2><span class="restaurant-number">10</span>Victor Harbor Farmers Market</h2>
         <div>
           <h2>Victor Harbor Farmers Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Coastal Produce</span> <span class="cuisine-tag">Regional</span> <span class="cuisine-tag">Community</span></div>
@@ -545,9 +590,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="pooraka-sunday-market">
+    <section class="restaurant-section" id="pooraka-sunday-market" data-map-name="11. Pooraka Sunday Market" data-map-lat="-34.8305726" data-map-lng="138.6087439">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#11</div>
+        <div>
+          <h2><span class="restaurant-number">11</span>Pooraka Sunday Market</h2>
         <div>
           <h2>Pooraka Sunday Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Budget-Friendly</span> <span class="cuisine-tag">Bulk Produce</span> <span class="cuisine-tag">Flea Market</span></div>
@@ -579,9 +625,10 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="adelaide-night-market">
+    <section class="restaurant-section" id="adelaide-night-market" data-map-name="12. Adelaide Night Market" data-map-lat="-34.9227146" data-map-lng="138.6093796">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#12</div>
+        <div>
+          <h2><span class="restaurant-number">12</span>Adelaide Night Market</h2>
         <div>
           <h2>Adelaide Night Market</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Global Street Food</span> <span class="cuisine-tag">Festive</span> <span class="cuisine-tag">Seasonal</span></div>
@@ -631,6 +678,141 @@
         </section>
       </div>
     </div>
+
+    <script>
+      window.__POPULAR_PICKS_MAP__ = {
+        enabled: true,
+        title: "Food Markets Map \u2014 Adelaide",
+        ctaLabel: "Open in Google Maps",
+        defaultCtaUrl: "https://www.google.com/maps/search/Adelaide+Central+Market",
+        picks: [
+          { anchorId: "adelaide-central-market", rank: 1, name: "Adelaide Central Market", label: "1. Adelaide Central Market", lat: -34.9294838, lng: 138.5974186 },
+          { anchorId: "adelaide-showground-farmers-ma", rank: 2, name: "Adelaide Showground Farmers Market", label: "2. Adelaide Showground Farmers Market", lat: -34.9457174, lng: 138.5854667 },
+          { anchorId: "willunga-farmers-market", rank: 3, name: "Willunga Farmers Market", label: "3. Willunga Farmers Market", lat: -35.2639884, lng: 138.5545654 },
+          { anchorId: "plant-4-bowden", rank: 4, name: "Plant 4 Bowden", label: "4. Plant 4 Bowden", lat: -34.9061482, lng: 138.5782974 },
+          { anchorId: "prospect-farmers-market", rank: 5, name: "Prospect Farmers Market", label: "5. Prospect Farmers Market", lat: -34.8924182, lng: 138.5962018 },
+          { anchorId: "gilles-at-the-grounds", rank: 6, name: "Gilles at the Grounds", label: "6. Gilles at the Grounds", lat: -34.9481399, lng: 138.5868908 },
+          { anchorId: "barossa-farmers-market", rank: 7, name: "Barossa Farmers Market", label: "7. Barossa Farmers Market", lat: -34.49236, lng: 139.0270944 },
+          { anchorId: "stirling-market", rank: 8, name: "Stirling Market", label: "8. Stirling Market", lat: -35.0051944, lng: 138.7159477 },
+          { anchorId: "mount-pleasant-farmers-market", rank: 9, name: "Mount Pleasant Farmers Market", label: "9. Mount Pleasant Farmers Market", lat: -34.7769334, lng: 139.0421323 },
+          { anchorId: "victor-harbor-farmers-market", rank: 10, name: "Victor Harbor Farmers Market", label: "10. Victor Harbor Farmers Market", lat: -35.5537176, lng: 138.6217559 },
+          { anchorId: "pooraka-sunday-market", rank: 11, name: "Pooraka Sunday Market", label: "11. Pooraka Sunday Market", lat: -34.8305726, lng: 138.6087439 },
+          { anchorId: "adelaide-night-market", rank: 12, name: "Adelaide Night Market", label: "12. Adelaide Night Market", lat: -34.9227146, lng: 138.6093796 }
+        ]
+      };
+    </script>
+    <script>
+      (function () {
+        var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+        var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+        var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+        var mapState = { maps: [] };
+        if (!sections.length || !panels.length) return;
+
+        function findPickBySection(section) {
+          var id = section && section.id;
+          if (!id || !Array.isArray(mapConfig.picks)) return null;
+          return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+        }
+
+        function syncPanels(section, pick) {
+          panels.forEach(function (panel) {
+            var title = panel.querySelector('[data-map-active-pick]');
+            var cta = panel.querySelector('[data-map-cta]');
+            if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+            if (cta) cta.href = (pick && pick.ctaUrl) || mapConfig.defaultCtaUrl || '#';
+          });
+        }
+
+        function highlightMarker(activePick) {
+          mapState.maps.forEach(function (entry) {
+            entry.markers.forEach(function (markerEntry) {
+              var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+              markerEntry.marker.setIcon({
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: isActive ? 12 : 9,
+                fillColor: isActive ? '#2D3A5C' : '#C4704B',
+                fillOpacity: 1,
+                strokeColor: '#FFFFFF',
+                strokeWeight: 2,
+              });
+              markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+            });
+            if (activePick) {
+              entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+            }
+          });
+        }
+
+        function setActive(section) {
+          if (!section) return;
+          var activePick = findPickBySection(section);
+          sections.forEach(function (item) {
+            item.classList.toggle('active', item === section);
+          });
+          syncPanels(section, activePick);
+          if (window.google && google.maps && activePick) highlightMarker(activePick);
+        }
+
+        function initMaps() {
+          if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+          panels.forEach(function (panel) {
+            var canvas = panel.querySelector('[data-map-canvas]');
+            if (!canvas) return;
+            var map = new google.maps.Map(canvas, {
+              center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+              zoom: 11,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false,
+              clickableIcons: false,
+              styles: [
+                { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+                { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+              ]
+            });
+            var bounds = new google.maps.LatLngBounds();
+            var markers = mapConfig.picks.map(function (pick) {
+              var marker = new google.maps.Marker({
+                position: { lat: pick.lat, lng: pick.lng },
+                map: map,
+                title: pick.label,
+                label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' }
+              });
+              var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+              });
+              marker.addListener('click', function () {
+                infoWindow.open({ anchor: marker, map: map });
+                var target = document.getElementById(pick.anchorId);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+              bounds.extend(marker.getPosition());
+              return { pick: pick, marker: marker, infoWindow: infoWindow };
+            });
+            if (mapConfig.picks.length > 1) {
+              map.fitBounds(bounds, 48);
+            }
+            mapState.maps.push({ panel: panel, map: map, markers: markers });
+          });
+          setTimeout(function () { setActive(sections[0]); }, 0);
+        }
+
+        window.initPopularPicksMaps = initMaps;
+        setActive(sections[0]);
+
+        if ('IntersectionObserver' in window) {
+          var observer = new IntersectionObserver(function (entries) {
+            var visible = entries
+              .filter(function (entry) { return entry.isIntersecting; })
+              .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+            if (visible[0]) setActive(visible[0].target);
+          }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+          sections.forEach(function (section) { observer.observe(section); });
+        }
+      }());
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
     <!-- @include:footer:start -->
 <footer>
