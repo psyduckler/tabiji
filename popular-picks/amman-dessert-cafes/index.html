@@ -69,6 +69,7 @@
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:320px minmax(0,1fr); gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
+      .map-sidebar[data-map-panel] { display:block; }
       .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
       .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
       .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
@@ -114,8 +115,9 @@
       .intent-card:hover { border-color:var(--terracotta); transform:translateY(-1px); }
       .intent-type { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; font-weight:700; color:var(--earth); margin-bottom:.45rem; }
       footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
-      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
+      /* responsive handled inline above */
       .viator-section { background:linear-gradient(135deg,#fff9f0 0%,#fff 100%); border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar[data-map-panel] { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
       .viator-section h2 { font-size:1.3em; margin-bottom:6px; }
       .viator-subtitle { font-size:0.95em; color:#666; margin-bottom:20px; }
       .viator-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
@@ -171,12 +173,24 @@
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
-        <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q=Best+Dessert+Cafés+in+Amman+Amman&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
+      <aside>
+      <section class="map-sidebar" data-map-panel="desktop">
+        <h2>Dessert Cafés Map — Amman</h2>
+        <div class="map-active-pick" data-map-active-pick>1. Habibah Sweets (Downtown)</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="Dessert Cafés Map — Amman"></div>
+        <div class="map-legend">
+          <strong>Start with:</strong>
+          <ul>
+      <li><a href="#habibah-sweets-(downtown)">1. Habibah Sweets (Downtown)</a></li>
+      <li><a href="#the-cakery">2. The Cakery</a></li>
+      <li><a href="#shams-el-balad">3. Shams El Balad</a></li>
+      <li><a href="#gerard-premium-ice-cream">4. Gerard Premium Ice Cream</a></li>
+      <li><a href="#sugar-daddys-bakery">5. Sugar Daddy's Bakery</a></li>
+      <li><a href="#al-saif-sweets">6. Al-Saif Sweets</a></li></ul>
+          <p><a href="https://www.google.com/maps/search/?api=1&query=Dessert+Cafés+Amman+Jordan" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
         </div>
-      </div>
+      </section>
+      </aside>
       
       <div class="content">
         <section class="quick-answer-section">
@@ -192,15 +206,32 @@
           </div>
         </section>
 
+      <section class="map-inline" data-map-panel="mobile">
+        <h2>Dessert Cafés Map — Amman</h2>
+        <div class="map-active-pick" data-map-active-pick>1. Habibah Sweets (Downtown)</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="Dessert Cafés Map — Amman"></div>
+        <div class="map-legend">
+          <strong>Start with:</strong>
+          <ul>
+      <li><a href="#habibah-sweets-(downtown)">1. Habibah Sweets (Downtown)</a></li>
+      <li><a href="#the-cakery">2. The Cakery</a></li>
+      <li><a href="#shams-el-balad">3. Shams El Balad</a></li>
+      <li><a href="#gerard-premium-ice-cream">4. Gerard Premium Ice Cream</a></li>
+      <li><a href="#sugar-daddys-bakery">5. Sugar Daddy's Bakery</a></li>
+      <li><a href="#al-saif-sweets">6. Al-Saif Sweets</a></li></ul>
+          <p><a href="https://www.google.com/maps/search/?api=1&query=Dessert+Cafés+Amman+Jordan" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
+        </div>
+      </section>
+
         <section class="methodology-box">
           <h2>How we picked these</h2>
           <p>Our selection for Amman's best dessert cafés is based on extensive local research, online reviews, culinary expert recommendations, and personal visits. We prioritized authenticity, ingredient quality, innovation, ambiance, and overall value to bring you a comprehensive guide to the city's sweetest spots.</p>
         </section>
 
         
-    <section class="restaurant-section" id="habibah-sweets-(downtown)">
+    <section class="restaurant-section" id="habibah-sweets-(downtown)" data-map-name="1. Habibah Sweets (Downtown)" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJg-ToWZdfGxURBtKhj6UAm8M" data-map-query="Habibah Sweets, K. Hussein St., Amman, Jordan" data-map-lat="31.9526316" data-map-lng="35.9323831">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#1</div>
+        <span class="restaurant-number">1</span>
         <div>
           <h2>Habibah Sweets (Downtown)</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Arabic Sweets</span> <span class="cuisine-tag">Kanafa</span> <span class="cuisine-tag">Traditional</span></div>
@@ -232,9 +263,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="the-cakery">
+    <section class="restaurant-section" id="the-cakery" data-map-name="2. The Cakery" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJk-sHZzqiHBURPtJ_xg1D6CE" data-map-query="The Cakery, Abdoun, Amman, Jordan" data-map-lat="31.9919061" data-map-lng="35.8138532">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#2</div>
+        <span class="restaurant-number">2</span>
         <div>
           <h2>The Cakery</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Modern Patisserie</span> <span class="cuisine-tag">Cakes</span> <span class="cuisine-tag">European Desserts</span></div>
@@ -266,9 +297,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="shams-el-balad">
+    <section class="restaurant-section" id="shams-el-balad" data-map-name="3. Shams El Balad" data-map-cta-url="https://www.google.com/maps/search/?api=1&query=Shams+El+Balad+Amman+Jordan" data-map-query="Shams El Balad, Rainbow Street, Jabal Amman, Jordan" data-map-lat="31.950" data-map-lng="35.930">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#3</div>
+        <span class="restaurant-number">3</span>
         <div>
           <h2>Shams El Balad</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Local Ingredients</span> <span class="cuisine-tag">Farm-To-Table</span> <span class="cuisine-tag">Unique Desserts</span></div>
@@ -300,9 +331,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="gerard-premium-ice-cream">
+    <section class="restaurant-section" id="gerard-premium-ice-cream" data-map-name="4. Gerard Premium Ice Cream" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJT8Y_IvOgHBURiWjUn_lhrOU" data-map-query="Gerard Premium Ice Cream, Abdoun Circle, Amman, Jordan" data-map-lat="31.9483799" data-map-lng="35.8920685">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#4</div>
+        <span class="restaurant-number">4</span>
         <div>
           <h2>Gerard Premium Ice Cream</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Ice Cream</span> <span class="cuisine-tag">Gelato</span> <span class="cuisine-tag">Dairy-Free Options</span></div>
@@ -334,9 +365,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="sugar-daddys-bakery">
+    <section class="restaurant-section" id="sugar-daddys-bakery" data-map-name="5. Sugar Daddy's Bakery" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJYaHpEt6gHBURqjwQVYJpRUs" data-map-query="Sugar Daddy's Bakery, Fawzi Al-Mughrabi St. 15, Amman, Jordan" data-map-lat="31.9396489" data-map-lng="35.8762991">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#5</div>
+        <span class="restaurant-number">5</span>
         <div>
           <h2>Sugar Daddy's Bakery</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">American Bakery</span> <span class="cuisine-tag">Cupcakes</span> <span class="cuisine-tag">Cookies</span></div>
@@ -368,9 +399,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="al-saif-sweets">
+    <section class="restaurant-section" id="al-saif-sweets" data-map-name="6. Al-Saif Sweets" data-map-cta-url="https://www.google.com/maps/search/?api=1&query=Al-Saif+Sweets+Wadi+Saqra+Amman" data-map-query="Al-Saif Sweets, Wadi Saqra, Amman, Jordan" data-map-lat="31.953" data-map-lng="35.910">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#6</div>
+        <span class="restaurant-number">6</span>
         <div>
           <h2>Al-Saif Sweets</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Arabic Sweets</span> <span class="cuisine-tag">Baklava</span> <span class="cuisine-tag">Ma'amoul</span></div>
@@ -402,9 +433,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="books@cafe">
+    <section class="restaurant-section" id="books@cafe" data-map-name="7. Books@Cafe" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJN4-z_ZtfGxURcToI5DW8B2I" data-map-query="Books@Cafe, Omar Bin Al-Khattab St 12, Amman, Jordan" data-map-lat="31.9480916" data-map-lng="35.931306">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#7</div>
+        <span class="restaurant-number">7</span>
         <div>
           <h2>Books@Cafe</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Cafe Desserts</span> <span class="cuisine-tag">Relaxed Atmosphere</span> <span class="cuisine-tag">International</span></div>
@@ -436,9 +467,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="crumbs">
+    <section class="restaurant-section" id="crumbs" data-map-name="8. Crumbs" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ23zHROigHBURCnPgaw3aipg" data-map-query="Crumbs, Salwadi St. 27, Amman, Jordan" data-map-lat="31.94028" data-map-lng="35.8852644">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#8</div>
+        <span class="restaurant-number">8</span>
         <div>
           <h2>Crumbs</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">High-End Patisserie</span> <span class="cuisine-tag">Chocolate</span> <span class="cuisine-tag">Artisanal</span></div>
@@ -470,9 +501,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="rumi-cafe">
+    <section class="restaurant-section" id="rumi-cafe" data-map-name="9. Rumi Cafe" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ6a5e2o9fGxURCQ1m1ViKn0c" data-map-query="Rumi Cafe, Al-Shariaah College St. 14, Jabal Al Weibdeh, Amman, Jordan" data-map-lat="31.9561361" data-map-lng="35.9258616">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#9</div>
+        <span class="restaurant-number">9</span>
         <div>
           <h2>Rumi Cafe</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Bohemian Cafe</span> <span class="cuisine-tag">Homestyle Desserts</span> <span class="cuisine-tag">Vegan Options</span></div>
@@ -504,9 +535,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="turtle-green-tea-bar">
+    <section class="restaurant-section" id="turtle-green-tea-bar" data-map-name="10. Turtle Green Tea Bar" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJS_JG2h5fGxUR7nZrL75CEDo" data-map-query="Turtle Green Tea Bar, Shukri Sha'asha'a St. 48, Jabal Amman, Jordan" data-map-lat="31.9499436" data-map-lng="35.9268">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#10</div>
+        <span class="restaurant-number">10</span>
         <div>
           <h2>Turtle Green Tea Bar</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Matcha</span> <span class="cuisine-tag">Japanese Inspired</span> <span class="cuisine-tag">Unique Desserts</span></div>
@@ -538,9 +569,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="aani-&-dani">
+    <section class="restaurant-section" id="aani-&-dani" data-map-name="11. Aani & Dani" data-map-cta-url="https://www.google.com/maps/search/?api=1&query=Aani+Dani+Mecca+Street+Amman+Jordan" data-map-query="Aani & Dani, Mecca Street, Amman, Jordan" data-map-lat="31.975" data-map-lng="35.860">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#11</div>
+        <span class="restaurant-number">11</span>
         <div>
           <h2>Aani & Dani</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Luxury Chocolates</span> <span class="cuisine-tag">Arabic Confectionery</span> <span class="cuisine-tag">European Pastries</span></div>
@@ -572,9 +603,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="zalatimo-brothers-for-sweets">
+    <section class="restaurant-section" id="zalatimo-brothers-for-sweets" data-map-name="12. Zalatimo Brothers for Sweets" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJMSP378uhHBUR_-c7mi0BaEM" data-map-query="Zalatimo Brothers for Sweets, Al-Madina Al-Monawara St, Amman, Jordan" data-map-lat="31.9789983" data-map-lng="35.8652052">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#12</div>
+        <span class="restaurant-number">12</span>
         <div>
           <h2>Zalatimo Brothers for Sweets</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Traditional Sweets</span> <span class="cuisine-tag">Kanafa</span> <span class="cuisine-tag">Warbat</span></div>
@@ -630,5 +661,108 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+
+  <script>
+  window.__POPULAR_PICKS_MAP__ = {
+    apiKey: 'AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc',
+    center: { lat: 31.950, lng: 35.900 },
+    zoom: 12,
+    picks: [
+      { name: '1. Habibah Sweets (Downtown)', lat: 31.9526316, lng: 35.9323831, query: 'Habibah Sweets, K. Hussein St., Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJg-ToWZdfGxURBtKhj6UAm8M' },
+      { name: '2. The Cakery', lat: 31.9919061, lng: 35.8138532, query: 'The Cakery, Abdoun, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJk-sHZzqiHBURPtJ_xg1D6CE' },
+      { name: '3. Shams El Balad', lat: 31.950, lng: 35.930, query: 'Shams El Balad, Rainbow Street, Jabal Amman, Jordan', url: 'https://www.google.com/maps/search/?api=1&query=Shams+El+Balad+Amman+Jordan' },
+      { name: '4. Gerard Premium Ice Cream', lat: 31.9483799, lng: 35.8920685, query: 'Gerard Premium Ice Cream, Abdoun Circle, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJT8Y_IvOgHBURiWjUn_lhrOU' },
+      { name: "5. Sugar Daddy's Bakery", lat: 31.9396489, lng: 35.8762991, query: "Sugar Daddy's Bakery, Fawzi Al-Mughrabi St. 15, Amman, Jordan", url: 'https://www.google.com/maps/place/?q=place_id:ChIJYaHpEt6gHBURqjwQVYJpRUs' },
+      { name: '6. Al-Saif Sweets', lat: 31.953, lng: 35.910, query: 'Al-Saif Sweets, Wadi Saqra, Amman, Jordan', url: 'https://www.google.com/maps/search/?api=1&query=Al-Saif+Sweets+Wadi+Saqra+Amman' },
+      { name: '7. Books@Cafe', lat: 31.9480916, lng: 35.931306, query: 'Books@Cafe, Omar Bin Al-Khattab St 12, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJN4-z_ZtfGxURcToI5DW8B2I' },
+      { name: '8. Crumbs', lat: 31.94028, lng: 35.8852644, query: 'Crumbs, Salwad St. 27, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJ23zHROigHBURCnPgaw3aipg' },
+      { name: '9. Rumi Cafe', lat: 31.9561361, lng: 35.9258616, query: 'Rumi Cafe, Al-Shariaah College St. 14, Jabal Al Weibdeh, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJ6a5e2o9fGxURCQ1m1ViKn0c' },
+      { name: '10. Turtle Green Tea Bar', lat: 31.9499436, lng: 35.9268, query: "Turtle Green Tea Bar, Shukri Sha'asha'a St. 48, Jabal Amman, Jordan", url: 'https://www.google.com/maps/place/?q=place_id:ChIJS_JG2h5fGxUR7nZrL75CEDo' },
+      { name: '11. Aani & Dani', lat: 31.975, lng: 35.860, query: 'Aani & Dani, Mecca Street, Amman, Jordan', url: 'https://www.google.com/maps/search/?api=1&query=Aani+Dani+Mecca+Street+Amman+Jordan' },
+      { name: '12. Zalatimo Brothers for Sweets', lat: 31.9789983, lng: 35.8652052, query: 'Zalatimo Brothers for Sweets, Al-Madina Al-Monawara St, Amman, Jordan', url: 'https://www.google.com/maps/place/?q=place_id:ChIJMSP378uhHBUR_-c7mi0BaEM' }
+    ]
+  };
+
+  function initPopularPicksMaps() {
+    var mapData = window.__POPULAR_PICKS_MAP__;
+    var maps = {};
+
+    document.querySelectorAll('[data-map-canvas]').forEach(function(canvas) {
+      var panel = canvas.closest('[data-map-panel]');
+      var panelType = panel ? panel.dataset.mapPanel : 'inline';
+
+      var map = new google.maps.Map(canvas, {
+        center: mapData.center,
+        zoom: mapData.zoom,
+        disableDefaultUI: false,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        styles: [
+          { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+          { featureType: 'transit', stylers: [{ visibility: 'simplified' }] }
+        ]
+      });
+
+      maps[panelType] = map;
+      canvas._map = map;
+
+      var markers = [];
+      mapData.picks.forEach(function(pick, i) {
+        var marker = new google.maps.Marker({
+          position: { lat: parseFloat(pick.lat), lng: parseFloat(pick.lng) },
+          map: map,
+          title: pick.name,
+          label: { text: String(i + 1), color: '#fff', fontSize: '11px', fontWeight: '700' },
+          icon: { path: google.maps.SymbolPath.CIRCLE, scale: 14, fillColor: '#C4704B', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2 }
+        });
+
+        var infoWindow = new google.maps.InfoWindow({ content: '<strong style="font-family:sans-serif;font-size:14px;color:#2D3A5C">' + pick.name + '</strong>' });
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
+
+        markers.push(marker);
+      });
+
+      canvas._markers = markers;
+    });
+
+    var sections = document.querySelectorAll('.restaurant-section[data-map-name]');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var sectionEl = entry.target;
+          var name = sectionEl.dataset.mapName;
+          var lat = parseFloat(sectionEl.dataset.mapLat);
+          var lng = parseFloat(sectionEl.dataset.mapLng);
+
+          document.querySelectorAll('[data-map-active-pick]').forEach(function(el) {
+            el.textContent = name;
+          });
+
+          document.querySelectorAll('[data-map-cta]').forEach(function(el) {
+            if (sectionEl.dataset.mapCtaUrl) el.href = sectionEl.dataset.mapCtaUrl;
+          });
+
+          document.querySelectorAll('.restaurant-section.active').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          sectionEl.classList.add('active');
+
+          Object.values(maps).forEach(function(map) {
+            map.panTo({ lat: lat, lng: lng });
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(function(section) {
+      observer.observe(section);
+    });
+  }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>
