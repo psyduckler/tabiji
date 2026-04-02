@@ -70,9 +70,10 @@
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
       .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
-      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
       .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-number { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--terracotta); color:white; font-size:.8rem; font-weight:700; margin-right:.5rem; flex-shrink:0; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
       .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
       .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
@@ -91,7 +92,6 @@
       .restaurant-section:last-of-type { border-bottom:none; }
       .restaurant-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.75rem; flex-wrap:wrap; gap:.5rem; }
       .restaurant-header h2 { font-size:1.35rem; font-weight:700; color:var(--indigo); }
-      .restaurant-number { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--terracotta); color:white; font-size:.8rem; font-weight:700; margin-right:.5rem; flex-shrink:0; }
       .cuisine-tag { display:inline-block; padding:.2rem .6rem; border-radius:6px; font-size:.78rem; font-weight:600; white-space:nowrap; }
       .tag-artcafe { background:#F3E5F5; color:#7B1FA2; } .tag-specialty { background:#E3F2FD; color:#1565C0; } .tag-traditional { background:#EFEBE9; color:#4E342E; } .tag-brunch { background:#FFF3E0; color:#E65100; } .tag-filter { background:#E8EAF6; color:#283593; } .tag-regional { background:#ECEFF1; color:#455A64; }
       .google-rating { color:var(--earth); font-size:.95rem; }
@@ -178,12 +178,11 @@
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
+      <section class="map-sidebar" data-map-panel="desktop">
         <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q=Best+Coffee+Shops+in+Adelaide+Adelaide&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
+        <div class="map-active-pick" data-map-active-pick></div>
+        <div class="popular-picks-map" id="popular-picks-map-desktop"></div>
+      </section>
       
       <div class="content">
         <section class="quick-answer-section">
@@ -205,9 +204,9 @@
         </section>
 
         
-    <section class="restaurant-section" id="exchange-specialty-coffee">
+    <section class="restaurant-section" id="exchange-specialty-coffee" data-map-title="Exchange Specialty Coffee" data-map-lat="-34.9228308" data-map-lng="138.6097945" data-map-rating="4.5" data-map-reviews="1067">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#1</div>
+        <span class="restaurant-number">1</span>
         <div>
           <h2>Exchange Specialty Coffee</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Specialty Coffee</span> <span class="cuisine-tag">Breakfast</span> <span class="cuisine-tag">Pastries</span></div>
@@ -239,9 +238,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="peter-rabbit">
+    <section class="restaurant-section" id="peter-rabbit" data-map-title="Peter Rabbit" data-map-lat="-34.923215" data-map-lng="138.5902293" data-map-rating="4.4" data-map-reviews="1990">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#2</div>
+        <span class="restaurant-number">2</span>
         <div>
           <h2>Peter Rabbit</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Brunch</span> <span class="cuisine-tag">Garden Cafe</span> <span class="cuisine-tag">Coffee & Cocktails</span></div>
@@ -273,9 +272,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="my-kingdom-for-a-horse">
+    <section class="restaurant-section" id="my-kingdom-for-a-horse" data-map-title="My Kingdom For A Horse" data-map-lat="-34.932057" data-map-lng="138.592773" data-map-rating="4.2" data-map-reviews="936">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#3</div>
+        <span class="restaurant-number">3</span>
         <div>
           <h2>My Kingdom For A Horse</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Roastery Cafe</span> <span class="cuisine-tag">Brunch</span> <span class="cuisine-tag">All-Day Dining</span></div>
@@ -307,9 +306,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="karma-and-crow">
+    <section class="restaurant-section" id="karma-and-crow" data-map-title="Karma and Crow" data-map-lat="-34.9355048" data-map-lng="138.5523605" data-map-rating="4.5" data-map-reviews="1452">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#4</div>
+        <span class="restaurant-number">4</span>
         <div>
           <h2>Karma and Crow</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Brunch</span> <span class="cuisine-tag">Artisan Coffee</span> <span class="cuisine-tag">Pet-Friendly</span></div>
@@ -341,9 +340,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="crack-kitchen">
+    <section class="restaurant-section" id="crack-kitchen" data-map-title="Crack Kitchen" data-map-lat="-34.9273694" data-map-lng="138.5984599" data-map-rating="4.2" data-map-reviews="868">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#5</div>
+        <span class="restaurant-number">5</span>
         <div>
           <h2>Crack Kitchen</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Modern Australian</span> <span class="cuisine-tag">Specialty Coffee</span> <span class="cuisine-tag">Brunch</span></div>
@@ -375,9 +374,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="hey-jupiter">
+    <section class="restaurant-section" id="hey-jupiter" data-map-title="Hey Jupiter" data-map-lat="-34.9229742" data-map-lng="138.609112" data-map-rating="4.1" data-map-reviews="1317">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#6</div>
+        <span class="restaurant-number">6</span>
         <div>
           <h2>Hey Jupiter</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">French Bistro</span> <span class="cuisine-tag">Coffee & Wine</span> <span class="cuisine-tag">Breakfast</span></div>
@@ -409,9 +408,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="luigi-delicatessen">
+    <section class="restaurant-section" id="luigi-delicatessen" data-map-title="Luigi Delicatessen" data-map-lat="-34.9274564" data-map-lng="138.5974514" data-map-rating="4.6" data-map-reviews="2805">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#7</div>
+        <span class="restaurant-number">7</span>
         <div>
           <h2>Luigi Delicatessen</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Italian Cafe</span> <span class="cuisine-tag">Deli</span> <span class="cuisine-tag">Lunch</span></div>
@@ -443,9 +442,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="sibling-espresso">
+    <section class="restaurant-section" id="sibling-espresso" data-map-title="Sibling Espresso" data-map-lat="-34.9339252" data-map-lng="138.6039108" data-map-rating="4.7" data-map-reviews="225">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#8</div>
+        <span class="restaurant-number">8</span>
         <div>
           <h2>Sibling Espresso</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Specialty Coffee</span> <span class="cuisine-tag">Takeaway</span> <span class="cuisine-tag">Quick Bites</span></div>
@@ -477,9 +476,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="coffee-branch">
+    <section class="restaurant-section" id="coffee-branch" data-map-title="Coffee Branch" data-map-lat="-34.9241609" data-map-lng="138.5977499" data-map-rating="4.6" data-map-reviews="317">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#9</div>
+        <span class="restaurant-number">9</span>
         <div>
           <h2>Coffee Branch</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Specialty Coffee</span> <span class="cuisine-tag">Breakfast</span> <span class="cuisine-tag">Pastries</span></div>
@@ -511,9 +510,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="please-say-please">
+    <section class="restaurant-section" id="please-say-please" data-map-title="Please Say Please" data-map-lat="-34.9240321" data-map-lng="138.6017107" data-map-rating="4.7" data-map-reviews="556">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#10</div>
+        <span class="restaurant-number">10</span>
         <div>
           <h2>Please Say Please</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Quick Coffee</span> <span class="cuisine-tag">Breakfast Bar</span> <span class="cuisine-tag">Specialty Coffee</span></div>
@@ -545,9 +544,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="octeine-coffee">
+    <section class="restaurant-section" id="octeine-coffee" data-map-title="Octeine Coffee" data-map-lat="-34.9244063" data-map-lng="138.6042339" data-map-rating="4.8" data-map-reviews="57">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#11</div>
+        <span class="restaurant-number">11</span>
         <div>
           <h2>Octeine Coffee</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Health-Focused</span> <span class="cuisine-tag">Specialty Coffee</span> <span class="cuisine-tag">Smoothies</span></div>
@@ -579,9 +578,9 @@
       </div>
     </section>
 
-    <section class="restaurant-section" id="argo-on-the-parade">
+    <section class="restaurant-section" id="argo-on-the-parade" data-map-title="Argo on The Parade" data-map-lat="-34.9212444" data-map-lng="138.6378583" data-map-rating="4.2" data-map-reviews="1720">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#12</div>
+        <span class="restaurant-number">12</span>
         <div>
           <h2>Argo on The Parade</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">All-Day Dining</span> <span class="cuisine-tag">Brunch</span> <span class="cuisine-tag">Casual Cafe</span></div>
@@ -613,6 +612,12 @@
       </div>
     </section>
 
+        <section class="map-inline" data-map-panel="mobile">
+          <h2>📍 Map</h2>
+          <div class="map-active-pick" data-map-active-pick></div>
+          <div class="popular-picks-map" id="popular-picks-map-mobile"></div>
+        </section>
+
         <section class="faq-section">
           <h2>❓ Frequently Asked Questions</h2>
           <div class="faq-item"><h3>What defines Adelaide's coffee scene?</h3><p>Adelaide's coffee scene is characterized by a strong emphasis on specialty coffee, with many independent cafes focusing on quality beans, expert baristas, and diverse brewing methods. There's a blend of sleek, modern minimalist spaces and charming, quirky cafes, often integrated with brunch menus and local produce.</p></div>
@@ -637,5 +642,23 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+    <script>
+    window.__POPULAR_PICKS_MAP__ = [
+      {id:"exchange-specialty-coffee",title:"Exchange Specialty Coffee",lat:-34.9228308,lng:138.6097945,rating:4.5,reviews:1067,address:"12/18 Vardon Ave, Adelaide SA 5000"},
+      {id:"peter-rabbit",title:"Peter Rabbit",lat:-34.923215,lng:138.5902293,rating:4.4,reviews:1990,address:"234-244 Hindley St, Adelaide SA 5000"},
+      {id:"my-kingdom-for-a-horse",title:"My Kingdom For A Horse",lat:-34.932057,lng:138.592773,rating:4.2,reviews:936,address:"191 Wright St, Adelaide SA 5000"},
+      {id:"karma-and-crow",title:"Karma and Crow",lat:-34.9355048,lng:138.5523605,rating:4.5,reviews:1452,address:"Office 18/108 Marion Rd, Brooklyn Park SA 5032"},
+      {id:"crack-kitchen",title:"Crack Kitchen",lat:-34.9273694,lng:138.5984599,rating:4.2,reviews:868,address:"13 Franklin St, Adelaide SA 5000"},
+      {id:"hey-jupiter",title:"Hey Jupiter",lat:-34.9229742,lng:138.609112,rating:4.1,reviews:1317,address:"11 Ebenezer Pl, Adelaide SA 5000"},
+      {id:"luigi-delicatessen",title:"Luigi Delicatessen",lat:-34.9274564,lng:138.5974514,rating:4.6,reviews:2805,address:"43 Franklin St, Adelaide SA 5000"},
+      {id:"sibling-espresso",title:"Sibling Espresso",lat:-34.9339252,lng:138.6039108,rating:4.7,reviews:225,address:"96 Gilles St, Adelaide SA 5000"},
+      {id:"coffee-branch",title:"Coffee Branch",lat:-34.9241609,lng:138.5977499,rating:4.6,reviews:317,address:"32 Leigh St, Adelaide SA 5000"},
+      {id:"please-say-please",title:"Please Say Please",lat:-34.9240321,lng:138.6017107,rating:4.7,reviews:556,address:"50 Grenfell St, Adelaide SA 5000"},
+      {id:"octeine-coffee",title:"Octeine Coffee",lat:-34.9244063,lng:138.6042339,rating:4.8,reviews:57,address:"121 Grenfell St, Adelaide SA 5000"},
+      {id:"argo-on-the-parade",title:"Argo on The Parade",lat:-34.9212444,lng:138.6378583,rating:4.2,reviews:1720,address:"212 The Parade, Norwood SA 5067"}
+    ];
+    function initPopularPicksMaps(){var a=window.__POPULAR_PICKS_MAP__||[];if(!a.length)return;var b='undefined'!=typeof google&&google.maps,d=document;if(!b){console.warn('Google Maps not loaded');return}var e={46:{lat:-34.9283,lng:138.5989}},c={zoom:13,mapTypeId:'roadmap',styles:[{featureType:'poi',elementType:'labels',stylers:[{visibility:'off'}]}]},g={desktop:d.getElementById('popular-picks-map-desktop'),mobile:d.getElementById('popular-picks-map-mobile')};function h(k){var l={adelaide:{lat:-34.9283,lng:138.5989}},m=k.id&&l[k.id];if(m)return m;var n=parseFloat(k.lat),o=parseFloat(k.lng);if(n&&o)return{lat:n,lng:o};return l.adelaide}function i(k){var p=k.querySelector('[data-map-active-pick]');if(p)p.textContent=k.getAttribute('data-map-title')||''}function j(k,l){a.forEach(function(m){m.marker&&m.marker.setMap(null)});a.forEach(function(m){var n=d.getElementById(m.id);if(n){n.classList.remove('active');n.removeAttribute('data-map-active')}});if(k&&l){l.classList.add('active');l.setAttribute('data-map-active','true');var q=l.querySelector('[data-map-active-pick]');if(q)q.textContent=(l.getAttribute('data-map-title')||'')+' — '+(l.getAttribute('data-map-rating')?'★ '+l.getAttribute('data-map-rating')+' ('+l.getAttribute('data-map-reviews')+' reviews)':'')}Object.keys(g).forEach(function(m){if(!g[m]||!g[m].map)return;var r=h(a.find(function(n){return n.id===(k&&k.id)}));var s=new google.maps.Map(g[m],Object.assign({},c,{center:r}));a.forEach(function(n){var t=new google.maps.Marker({position:{lat:parseFloat(n.lat)||r.lat,lng:parseFloat(n.lng)||r.lng},map:s,title:n.title,label:{text:a.indexOf(n)+1+'',color:'white',fontWeight:'bold'},icon:{path:google.maps.SymbolPath.CIRCLE,scale:12,fillColor:'#C4704B',fillOpacity:1,strokeColor:'white',strokeWeight:2}});n.marker=t;var u=d.getElementById(n.id);if(u){(function(v,w){google.maps.event.addListener(v,'click',function(){j(v,w)})})(t,u)}})})}j();var f=document.querySelectorAll('.restaurant-section');f.forEach(function(k){k.addEventListener('mouseenter',function(){var l=k.getAttribute('id');var m=a.find(function(n){return n.id===l});var n=document.getElementById('popular-picks-map-desktop');if(m&&n&&n.map){var o=h(m);n.map.setCenter(o);a.forEach(function(p){p.marker&&p.marker.setMap(null)});a.forEach(function(p){var q=document.getElementById(p.id);if(q)q.classList.remove('active')});k.classList.add('active');var r=new google.maps.Map(n,Object.assign({},c,{center:o}));a.forEach(function(p){var t=new google.maps.Marker({position:{lat:parseFloat(p.lat)||o.lat,lng:parseFloat(p.lng)||o.lng},map:r,title:p.title,label:{text:a.indexOf(p)+1+'',color:'white',fontWeight:'bold'},icon:{path:google.maps.SymbolPath.CIRCLE,scale:12,fillColor:'#C4704B',fillOpacity:1,strokeColor:'white',strokeWeight:2}});p.marker=t;var u=document.getElementById(p.id);if(u){(function(v,w){google.maps.event.addListener(v,'click',function(){j(v,w)})})(t,u)}})}k.scrollIntoView({behavior:'smooth',block:'center'})})});var w=document.querySelectorAll('.restaurant-section');w.forEach(function(k){k.addEventListener('mouseleave',function(){a.forEach(function(m){m.marker&&m.marker.setMap(null)});a.forEach(function(m){var n=document.getElementById(m.id);if(n)n.classList.remove('active')});j()})})}window.initPopularPicksMaps=initPopularPicksMaps;
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>
