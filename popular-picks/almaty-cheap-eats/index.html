@@ -125,6 +125,16 @@
       .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
       .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
       .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
+    
+      .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
+      .popular-picks-map { width:100%; height:360px; border-radius:12px; background:var(--sand); overflow:hidden; }
+      .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
+      .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
+      .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
+      .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
+      @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } }
     </style>
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <script defer src="/assets/shared-shell.js"></script>
@@ -178,10 +188,21 @@
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
-        <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q=Best+Cheap+Eats+in+Almaty+Almaty&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
+      <div class="map-sidebar" data-map-panel="desktop">
+        <h2>📍 Cheap Eats Map — Almaty</h2>
+        <div class="map-active-pick" data-map-active-pick>1. Navat</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map — Almaty"></div>
+        <div class="map-legend">
+          <strong>Start with:</strong>
+          <ul>
+            <li><a href="#navat-(multiple-locations)">1. Navat</a></li>
+            <li><a href="#manana">2. Manana</a></li>
+            <li><a href="#kagat">3. Kagat</a></li>
+            <li><a href="#plov-center-(various-locations">4. Plov Center</a></li>
+            <li><a href="#korean-house">5. Korean House</a></li>
+            <li><a href="#dastarkhan">6. Dastarkhan</a></li>
+          </ul>
+          <p><a href="https://www.google.com/maps/place/?q=place_id:ChIJlY1TF_FugzgR5vsFQTILPLw" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
         </div>
       </div>
       
@@ -199,15 +220,33 @@
           </div>
         </section>
 
-        <section class="methodology-box">
+        
+    <section class="map-inline" data-map-panel="mobile">
+      <h2>📍 Cheap Eats Map — Almaty</h2>
+      <div class="map-active-pick" data-map-active-pick>1. Navat</div>
+      <div class="popular-picks-map" data-map-canvas aria-label="Cheap Eats Map — Almaty"></div>
+      <div class="map-legend">
+        <strong>Start with:</strong>
+        <ul>
+          <li><a href="#navat-(multiple-locations)">1. Navat</a></li>
+          <li><a href="#manana">2. Manana</a></li>
+          <li><a href="#kagat">3. Kagat</a></li>
+          <li><a href="#plov-center-(various-locations">4. Plov Center</a></li>
+          <li><a href="#korean-house">5. Korean House</a></li>
+          <li><a href="#dastarkhan">6. Dastarkhan</a></li>
+        </ul>
+        <p><a href="https://www.google.com/maps/place/?q=place_id:ChIJlY1TF_FugzgR5vsFQTILPLw" target="_blank" rel="noopener" data-map-cta>Open in Google Maps →</a></p>
+      </div>
+    </section>
+
+    <section class="methodology-box">
           <h2>How we picked these</h2>
           <p>Our selection for Almaty's best cheap eats is based on extensive research of local recommendations, online reviews, and expert insights from food bloggers and travel guides. We prioritized venues offering high-quality, authentic cuisine at prices typically under 5000 KZT per person, ensuring both value and a memorable dining experience.</p>
         </section>
 
         
-    <section class="restaurant-section" id="navat-(multiple-locations)">
+    <section class="restaurant-section" id="navat-(multiple-locations)" data-map-name="1. Navat" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJlY1TF_FugzgR5vsFQTILPLw" data-map-query="Navat Almaty Kazakhstan" data-map-lat="43.246296799999996" data-map-lng="76.95692319999999">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#1</div>
         <div>
           <h2>Navat (multiple locations)</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Central Asian</span></div>
@@ -237,11 +276,43 @@
         <blockquote>"Navat is my go-to for guests visiting Almaty. It’s a bit touristy, sure, but the food is consistently good and the atmosphere at Navat is just spot-on for getting a feel for local culture."</blockquote>
         <cite>— r/travel user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">1</span>Navat (multiple locations)</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Central Asian</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/navat.jpg" alt="Navat restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Dostyk Plaza / Gorky Park Area (main branches)</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2500-5000 KZT / $5-11 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Navat is a beloved chain famous for its traditional decor, welcoming atmosphere, and extensive menu of Central Asian classics. It's an excellent spot to try various regional dishes in a comfortable setting that feels both authentic and modern. Their plov and lagman are particularly popular.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Assorted Manti (steamed dumplings) or Beshbarmak (traditional Kazakh noodle dish) if you're feeling adventurous.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>Navat can get very busy, especially during lunch and dinner hours. Try to visit during off-peak times or make a reservation if you're with a larger group.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Navat is my go-to for guests visiting Almaty. It’s a bit touristy, sure, but the food is consistently good and the atmosphere at Navat is just spot-on for getting a feel for local culture."</blockquote>
+        <cite>— r/travel user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="manana">
+    <section class="restaurant-section" id="manana" data-map-name="2. Manana" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJlywqnntCgzgRdcZ9RTNQTpE" data-map-query="Manana Almaty Kazakhstan" data-map-lat="43.2037773" data-map-lng="76.9767162">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#2</div>
         <div>
           <h2>Manana</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Georgian</span> <span class="cuisine-tag">Caucasian</span></div>
@@ -271,11 +342,43 @@
         <blockquote>"You *have* to try Manana if you're in Almaty. Their khachapuri is divine, seriously. We went twice it was so good and surprisingly affordable for the quality."</blockquote>
         <cite>— r/food user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">2</span>Manana</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Georgian</span> <span class="cuisine-tag">Caucasian</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/manana.jpg" alt="Manana restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Kunaev Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>3000-6000 KZT / $7-13 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Manana brings the vibrant flavors of Georgia to Almaty with its cozy ambiance and mouth-watering dishes. Famous for its khachapuri and khinkali, this restaurant offers a delightful culinary journey. The portions are generous, and the ingredients are always fresh.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Adjarian Khachapuri (boat-shaped bread with cheese, egg, and butter) and a plate of juicy Khinkali (dumplings).</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>They often have live music in the evenings, which adds to the lively atmosphere. It’s a great place for a fun dinner with friends.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"You *have* to try Manana if you're in Almaty. Their khachapuri is divine, seriously. We went twice it was so good and surprisingly affordable for the quality."</blockquote>
+        <cite>— r/food user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="kagat">
+    <section class="restaurant-section" id="kagat" data-map-name="3. Qaganat" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJqTj3MEZpgzgRy5eb-jhiJm0" data-map-query="Qaganat Almaty Kazakhstan" data-map-lat="43.220712899999995" data-map-lng="76.8714565">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#3</div>
         <div>
           <h2>Kagat</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">European</span> <span class="cuisine-tag">Cafe</span></div>
@@ -305,11 +408,43 @@
         <blockquote>"For a chill vibe and good food that isn't just traditional plov, Kagat is a solid choice. Their pastries are surprisingly good too."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">3</span>Kagat</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">European</span> <span class="cuisine-tag">Cafe</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/hero-bg.jpg" alt="Kagat in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Abay Avenue</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2000-4500 KZT / $4-10 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Kagat is a popular modern cafe offering a diverse menu that blends traditional Kazakh dishes with European influences. It's known for its stylish interior, friendly service, and delicious pastries. It’s a great spot for a casual meal, a quick coffee, or a hearty breakfast.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Their signature Syrne (tender lamb or beef stew) or one of their freshly baked cakes with a strong coffee.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>Kagat is particularly good for breakfast or brunch, offering a wide array of options beyond traditional Kazakh fare.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"For a chill vibe and good food that isn't just traditional plov, Kagat is a solid choice. Their pastries are surprisingly good too."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="plov-center-(various-locations">
+    <section class="restaurant-section" id="plov-center-(various-locations" data-map-name="4. Max Plov Center" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ8VDkO0JpgzgRi9SAukRC9Qw" data-map-query="Max Plov Center Almaty Kazakhstan" data-map-lat="43.237201299999995" data-map-lng="76.87777919999999">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#4</div>
         <div>
           <h2>Plov Center (various locations)</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Plov</span> <span class="cuisine-tag">Central Asian</span></div>
@@ -339,11 +474,43 @@
         <blockquote>"If you're looking for cheap and delicious plov, Plov Center is it. No frills, just amazing plov every single time. Get the Kazy plov if you're brave!"</blockquote>
         <cite>— r/food user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">4</span>Plov Center (various locations)</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Plov</span> <span class="cuisine-tag">Central Asian</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/plov-center.jpg" alt="Plov Center restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Zhibek Zholy / Gogol Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>1500-3000 KZT / $3-7 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>True to its name, Plov Center specializes in plov, the iconic Central Asian rice dish. With several locations around the city, it’s a go-to for a quick, hearty, and incredibly affordable meal. They offer different variations of plov, all cooked to perfection in large kazan pots.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Tashkent Plov with horse meat (kazy) or Lamb Plov, paired with a fresh Achik-chuchuk salad.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>Arrive during lunch hours (12 PM - 2 PM) for the freshest batches, as plov is often cooked in the morning and served until it runs out.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"If you're looking for cheap and delicious plov, Plov Center is it. No frills, just amazing plov every single time. Get the Kazy plov if you're brave!"</blockquote>
+        <cite>— r/food user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="korean-house">
+    <section class="restaurant-section" id="korean-house" data-map-name="5. Korean House Family Restaurant" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJO4B9gGJugzgRlzbRlOziqPY" data-map-query="Korean House Family Restaurant Almaty Kazakhstan" data-map-lat="43.261119699999995" data-map-lng="76.9642892">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#5</div>
         <div>
           <h2>Korean House</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Korean</span> <span class="cuisine-tag">Asian</span></div>
@@ -373,11 +540,43 @@
         <blockquote>"Korean House is my absolute favorite for good, cheap Korean food in Almaty. The kimchi is legit, and their bibimbap hits different after a long day."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">5</span>Korean House</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Korean</span> <span class="cuisine-tag">Asian</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/korean-house.jpg" alt="Korean House restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Tole Bi Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>3500-6000 KZT / $8-13 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Almaty has a significant Korean diaspora, and Korean House is one of the best places to experience authentic Korean cuisine. The restaurant offers a wide range of classic dishes, from bibimbap to bulgogi, in a cozy and family-friendly setting. The portions are generous and come with plenty of banchan (side dishes).</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Kimchi Jjigae (kimchi stew) or Bulgogi (marinated grilled beef) served with rice and various banchan.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>They often have lunch specials that offer great value. Don't be afraid to ask for refills on your banchan!</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Korean House is my absolute favorite for good, cheap Korean food in Almaty. The kimchi is legit, and their bibimbap hits different after a long day."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="dastarkhan">
+    <section class="restaurant-section" id="dastarkhan" data-map-name="6. Kulinariya Dastarkhan" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJj5B-KclugzgRx099hbu5sxI" data-map-query="Kulinariya Dastarkhan Almaty Kazakhstan" data-map-lat="43.2452781" data-map-lng="76.927532">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#6</div>
         <div>
           <h2>Dastarkhan</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Halal</span></div>
@@ -407,11 +606,43 @@
         <blockquote>"If you want to eat like a local, find a Dastarkhan. They're usually no-frills but serve up proper Kazakh food without fuss. I had the best Kuyrdak there."</blockquote>
         <cite>— r/travel user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">6</span>Dastarkhan</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Kazakh</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Halal</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/dastarkhan.jpg" alt="Dastarkhan restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Shevchenko Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2000-4500 KZT / $4-10 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Dastarkhan, meaning 'tablecloth' or 'feast' in Kazakh, lives up to its name by offering a spread of traditional Kazakh and Central Asian dishes in a homely environment. It's less touristy than some other options, providing a more local dining experience. Expect hearty meals and classic recipes.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Kuyrdak (fried lamb or beef offal with potatoes and vegetables) or a rich Shurpa (meat and vegetable soup).</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>This is a great place to try traditional dishes that might not be as common in more modern establishments.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"If you want to eat like a local, find a Dastarkhan. They're usually no-frills but serve up proper Kazakh food without fuss. I had the best Kuyrdak there."</blockquote>
+        <cite>— r/travel user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="rumi">
+    <section class="restaurant-section" id="rumi" data-map-name="7. RUMI on Abylay Khan" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJwypTs-pugzgRAzsQmyZ8MUQ" data-map-query="RUMI on Abylay Khan Almaty Kazakhstan" data-map-lat="43.250648399999996" data-map-lng="76.94220729999999">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#7</div>
         <div>
           <h2>Rumi</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Turkish</span> <span class="cuisine-tag">Middle Eastern</span></div>
@@ -441,11 +672,43 @@
         <blockquote>"Rumi has some of the best kebabs in Almaty, hands down. Plus, their lentil soup is ridiculously good and super cheap."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">7</span>Rumi</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Turkish</span> <span class="cuisine-tag">Middle Eastern</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/rumi.jpg" alt="Rumi restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Nazarbayev Avenue</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2500-5000 KZT / $5-11 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Rumi offers a taste of Turkey in the heart of Almaty with its array of delicious kebabs, pides, and traditional Turkish breakfasts. The atmosphere is warm and inviting, perfect for both a quick meal or a relaxed dinner. Their fresh-baked bread is a highlight.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Adana Kebab or Iskender Kebab, accompanied by freshly baked pide bread and a glass of Ayran.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>They have fantastic breakfast sets that are incredibly filling and great value, often including tea and multiple spreads.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Rumi has some of the best kebabs in Almaty, hands down. Plus, their lentil soup is ridiculously good and super cheap."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="lagman-centre-(multiple-locati">
+    <section class="restaurant-section" id="lagman-centre-(multiple-locati" data-map-name="8. Lagman-Tsentr As-Kazan Mukanova" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ7TgXfUxpgzgRQZcuesM0IsU" data-map-query="Lagman-Tsentr As-Kazan Mukanova Almaty Kazakhstan" data-map-lat="43.2534084" data-map-lng="76.9150844">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#8</div>
         <div>
           <h2>Lagman Centre (multiple locations)</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Uighur</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Noodles</span></div>
@@ -475,11 +738,43 @@
         <blockquote>"When I need a noodle fix, Lagman Centre is my spot. Gou-rou lagman is a game changer, and it's so cheap for how much food you get."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">8</span>Lagman Centre (multiple locations)</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Uighur</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Noodles</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/lagman-centre.jpg" alt="Lagman Centre restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Tole Bi Street / Al-Farabi Avenue</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>1800-3500 KZT / $4-8 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Specializing in lagman, the hand-pulled noodle dish popular across Central Asia, Lagman Centre provides a focused and delicious experience. You can choose from various types of lagman, each with unique broths and toppings. It's a casual, fast-food style establishment perfect for a quick, satisfying meal.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Gou-rou Lagman (stir-fried noodles with meat and vegetables) or Suyuk Lagman (noodle soup).</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>The noodles are made fresh daily, so you can often see them being hand-pulled through the kitchen window in some locations.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"When I need a noodle fix, Lagman Centre is my spot. Gou-rou lagman is a game changer, and it's so cheap for how much food you get."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="tandoor-house">
+    <section class="restaurant-section" id="tandoor-house" data-map-name="9. Tandoor Indian Restaurant" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJy0Qzu7ZugzgRLHqnyyE9_q0" data-map-query="Tandoor Indian Restaurant Almaty Kazakhstan" data-map-lat="43.253091999999995" data-map-lng="76.9245115">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#9</div>
         <div>
           <h2>Tandoor House</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Indian</span> <span class="cuisine-tag">Pakistani</span> <span class="cuisine-tag">Halal</span></div>
@@ -509,11 +804,43 @@
         <blockquote>"Found Tandoor House and it immediately became my favorite Indian place in Almaty. Their naan is phenomenal, and the curries are packed with flavor without being overly expensive."</blockquote>
         <cite>— r/food user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">9</span>Tandoor House</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Indian</span> <span class="cuisine-tag">Pakistani</span> <span class="cuisine-tag">Halal</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/tandoor-house.jpg" alt="Tandoor House restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Gogol Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2500-4800 KZT / $5-10 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Tandoor House offers authentic Indian and Pakistani cuisine with a focus on dishes cooked in a traditional tandoor oven. The aroma of freshly baked naan and spicy curries fills the air, promising a flavorful meal. It's a popular choice for those craving aromatic spices and rich gravies.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Chicken Tikka Masala with Garlic Naan and a side of Palak Paneer.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>The spice levels can be authentic, so if you're sensitive to heat, ask them to make it mild.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Found Tandoor House and it immediately became my favorite Indian place in Almaty. Their naan is phenomenal, and the curries are packed with flavor without being overly expensive."</blockquote>
+        <cite>— r/food user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="stolovaya-(various-locations)">
+    <section class="restaurant-section" id="stolovaya-(various-locations)" data-map-name="10. Stolovaya Tagam" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJ1zVKvL9vgzgRC-ZwemoxRZs" data-map-query="Stolovaya Tagam Almaty Kazakhstan" data-map-lat="43.2614018" data-map-lng="76.957309">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#10</div>
         <div>
           <h2>Stolovaya (various locations)</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Russian</span> <span class="cuisine-tag">Soviet</span> <span class="cuisine-tag">Diner</span></div>
@@ -543,11 +870,43 @@
         <blockquote>"If you truly want cheap eats, just find any 'Stolovaya'. It's not fancy but the food is solid, filling, and unbelievably cheap. Perfect for a quick lunch break."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">10</span>Stolovaya (various locations)</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Russian</span> <span class="cuisine-tag">Soviet</span> <span class="cuisine-tag">Diner</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/stolovaya.jpg" alt="Stolovaya cafeteria in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Near Green Bazaar / Student areas</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>1000-2500 KZT / $2-5 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Stolovaya (canteen) offers the ultimate budget dining experience, serving traditional Soviet-style comfort food cafeteria-style. You'll find a wide array of salads, hot dishes like pelmeni and vareniki, and hearty soups. It's an authentic glimpse into everyday Kazakh dining for many locals.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Borscht (beetroot soup), Olivie salad (Russian potato salad), and a plate of Pelmeni (meat dumplings) with smetana (sour cream).</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>Grab a tray and point to what you want. Prices are usually displayed per 100g or per dish. It's a no-frills experience but great for cheap, filling food.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"If you truly want cheap eats, just find any 'Stolovaya'. It's not fancy but the food is solid, filling, and unbelievably cheap. Perfect for a quick lunch break."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="cafe-central">
+    <section class="restaurant-section" id="cafe-central" data-map-name="11. Central Coffee" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJl3cFnF5vgzgRq5r6LCys6AU" data-map-query="Central Coffee Almaty Kazakhstan" data-map-lat="43.2519542" data-map-lng="76.91056789999999">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#11</div>
         <div>
           <h2>Cafe Central</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">European</span> <span class="cuisine-tag">Coffee Shop</span> <span class="cuisine-tag">Bakery</span></div>
@@ -577,11 +936,43 @@
         <blockquote>"Cafe Central is my favorite for a quick and easy bite. Their coffee is decent, and the pastries are always fresh. Good spot to chill after walking around."</blockquote>
         <cite>— r/travel user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">11</span>Cafe Central</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">European</span> <span class="cuisine-tag">Coffee Shop</span> <span class="cuisine-tag">Bakery</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/hero-bg.jpg" alt="Cafe Central in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Panfilov Park / Arbat Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2000-4000 KZT / $4-9 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Cafe Central is a charming spot located near major attractions, offering a selection of European-style sandwiches, salads, pastries, and excellent coffee. It's a perfect place for a light meal, a coffee break, or to enjoy a sweet treat while people-watching. The ambiance is relaxed and friendly.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>A freshly baked croissant with a cappuccino, or a substantial chicken and avocado sandwich.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>It's a great spot to grab a quick, affordable breakfast before exploring the city's sights like Panfilov Park or Zenkov Cathedral.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Cafe Central is my favorite for a quick and easy bite. Their coffee is decent, and the pastries are always fresh. Good spot to chill after walking around."</blockquote>
+        <cite>— r/travel user</cite>
+      </div>
+    </section>
     </section>
 
-    <section class="restaurant-section" id="kishlak">
+    <section class="restaurant-section" id="kishlak" data-map-name="12. Kishlak" data-map-cta-url="https://www.google.com/maps/place/?q=place_id:ChIJZ-kMTdtugzgRK1Q8o5oMicE" data-map-query="Kishlak Almaty Kazakhstan" data-map-lat="43.2407317" data-map-lng="76.9346157">
       <div class="restaurant-header">
-        <div class="restaurant-rank">#12</div>
         <div>
           <h2>Kishlak</h2>
           <div class="cuisine-tags"><span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Plov</span></div>
@@ -611,6 +1002,39 @@
         <blockquote>"Kishlak is super authentic for Uzbek food, way better than some of the fancier places if you just want good plov and samsa without the frills. Solid choice."</blockquote>
         <cite>— r/almaty user</cite>
       </div>
+    
+      <div class="restaurant-header">
+        
+        <div>
+          <h2><span class="restaurant-number">12</span>Kishlak</h2>
+          <div class="cuisine-tags"><span class="cuisine-tag">Uzbek</span> <span class="cuisine-tag">Central Asian</span> <span class="cuisine-tag">Plov</span></div>
+        </div>
+      </div>
+      <div class="restaurant-photo">
+        <img src="https://img.tabiji.ai/popular-picks/almaty-cheap-eats/kishlak.jpg" alt="Kishlak restaurant in Almaty, Kazakhstan" loading="lazy">
+      </div>
+      <div class="restaurant-details">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>Gogol Street</span></div>
+          <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>2000-4500 KZT / $4-10 per person</span></div>
+        </div>
+      </div>
+      <div class="restaurant-body">
+        <p>Kishlak, meaning 'village' in Central Asian languages, aims to recreate the cozy, rustic feeling of a traditional Uzbek eatery. They specialize in various types of plov and other Uzbek delicacies like shashlik and samsa. It's known for its authentic flavors and welcoming, slightly traditional decor.</p>
+        <div class="what-to-order">
+          <h3>🍽️ What to order</h3>
+          <p>Ferghana Plov or their flavorful Samsa (baked savory pastries) filled with meat.</p>
+        </div>
+        <div class="insider-tip">
+          <h3>💡 Insider tip</h3>
+          <p>Like other plov-centric places, it's best to go for lunch to ensure the freshest plov. Their fresh salads are a great accompaniment to the rich main courses.</p>
+        </div>
+      </div>
+      <div class="reddit-quote-block">
+        <blockquote>"Kishlak is super authentic for Uzbek food, way better than some of the fancier places if you just want good plov and samsa without the frills. Solid choice."</blockquote>
+        <cite>— r/almaty user</cite>
+      </div>
+    </section>
     </section>
 
         <section class="faq-section">
@@ -637,5 +1061,137 @@
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 <!-- @include:footer:end -->
+  <script>
+    window.__POPULAR_PICKS_MAP__ = {"enabled":true,"title":"Cheap Eats Map \u2014 Almaty","ctaLabel":"Open in Google Maps","defaultCtaUrl":"https://www.google.com/maps/search/Cheap+Eats+in+Almaty","picks":[
+{"anchorId":"navat-(multiple-locations)","rank":1,"name":"Navat","label":"1. Navat","lat":43.246296799999996,"lng":76.95692319999999,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJlY1TF_FugzgR5vsFQTILPLw","mapQuery":"Navat Almaty Kazakhstan"},
+{"anchorId":"manana","rank":2,"name":"Manana","label":"2. Manana","lat":43.2037773,"lng":76.9767162,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJlywqnntCgzgRdcZ9RTNQTpE","mapQuery":"Manana Almaty Kazakhstan"},
+{"anchorId":"kagat","rank":3,"name":"Qaganat","label":"3. Qaganat","lat":43.220712899999995,"lng":76.8714565,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJqTj3MEZpgzgRy5eb-jhiJm0","mapQuery":"Qaganat Almaty Kazakhstan"},
+{"anchorId":"plov-center-(various-locations","rank":4,"name":"Max Plov Center","label":"4. Max Plov Center","lat":43.237201299999995,"lng":76.87777919999999,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJ8VDkO0JpgzgRi9SAukRC9Qw","mapQuery":"Max Plov Center Almaty Kazakhstan"},
+{"anchorId":"korean-house","rank":5,"name":"Korean House Family Restaurant","label":"5. Korean House Family Restaurant","lat":43.261119699999995,"lng":76.9642892,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJO4B9gGJugzgRlzbRlOziqPY","mapQuery":"Korean House Family Restaurant Almaty Kazakhstan"},
+{"anchorId":"dastarkhan","rank":6,"name":"Kulinariya Dastarkhan","label":"6. Kulinariya Dastarkhan","lat":43.2452781,"lng":76.927532,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJj5B-KclugzgRx099hbu5sxI","mapQuery":"Kulinariya Dastarkhan Almaty Kazakhstan"},
+{"anchorId":"rumi","rank":7,"name":"RUMI on Abylay Khan","label":"7. RUMI on Abylay Khan","lat":43.250648399999996,"lng":76.94220729999999,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJwypTs-pugzgRAzsQmyZ8MUQ","mapQuery":"RUMI on Abylay Khan Almaty Kazakhstan"},
+{"anchorId":"lagman-centre-(multiple-locati","rank":8,"name":"Lagman-Tsentr As-Kazan Mukanova","label":"8. Lagman-Tsentr As-Kazan Mukanova","lat":43.2534084,"lng":76.9150844,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJ7TgXfUxpgzgRQZcuesM0IsU","mapQuery":"Lagman-Tsentr As-Kazan Mukanova Almaty Kazakhstan"},
+{"anchorId":"tandoor-house","rank":9,"name":"Tandoor Indian Restaurant","label":"9. Tandoor Indian Restaurant","lat":43.253091999999995,"lng":76.9245115,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJy0Qzu7ZugzgRLHqnyyE9_q0","mapQuery":"Tandoor Indian Restaurant Almaty Kazakhstan"},
+{"anchorId":"stolovaya-(various-locations)","rank":10,"name":"Stolovaya Tagam","label":"10. Stolovaya Tagam","lat":43.2614018,"lng":76.957309,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJ1zVKvL9vgzgRC-ZwemoxRZs","mapQuery":"Stolovaya Tagam Almaty Kazakhstan"},
+{"anchorId":"cafe-central","rank":11,"name":"Central Coffee","label":"11. Central Coffee","lat":43.2519542,"lng":76.91056789999999,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJl3cFnF5vgzgRq5r6LCys6AU","mapQuery":"Central Coffee Almaty Kazakhstan"},
+{"anchorId":"kishlak","rank":12,"name":"Kishlak","label":"12. Kishlak","lat":43.2407317,"lng":76.9346157,"ctaUrl":"https://www.google.com/maps/place/?q=place_id:ChIJZ-kMTdtugzgRK1Q8o5oMicE","mapQuery":"Kishlak Almaty Kazakhstan"}
+]};
+  </script>
+  <script>
+    (function () {
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
+      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
+      var mapState = { maps: [] };
+      if (!sections.length || !panels.length) return;
+
+      function findPickBySection(section) {
+        var id = section && section.id;
+        if (!id || !Array.isArray(mapConfig.picks)) return null;
+        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
+      }
+
+      function syncPanels(section, pick) {
+        panels.forEach(function (panel) {
+          var title = panel.querySelector('[data-map-active-pick]');
+          var cta = panel.querySelector('[data-map-cta]');
+          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
+          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
+        });
+      }
+
+      function highlightMarker(activePick) {
+        mapState.maps.forEach(function (entry) {
+          entry.markers.forEach(function (markerEntry) {
+            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
+            markerEntry.marker.setIcon({
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: isActive ? 12 : 9,
+              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+            });
+            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
+          });
+          if (activePick) {
+            entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
+          }
+        });
+      }
+
+      function setActive(section) {
+        if (!section) return;
+        var activePick = findPickBySection(section);
+        sections.forEach(function (item) {
+          item.classList.toggle('active', item === section);
+        });
+        syncPanels(section, activePick);
+        if (window.google && google.maps && activePick) highlightMarker(activePick);
+      }
+
+      function initMaps() {
+        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
+        panels.forEach(function (panel) {
+          var canvas = panel.querySelector('[data-map-canvas]');
+          if (!canvas) return;
+          var map = new google.maps.Map(canvas, {
+            center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng },
+            zoom: 13,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+            clickableIcons: false,
+            styles: [
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+            ]
+          });
+          var bounds = new google.maps.LatLngBounds();
+          var markers = mapConfig.picks.map(function (pick) {
+            var marker = new google.maps.Marker({
+              position: { lat: pick.lat, lng: pick.lng },
+              map: map,
+              title: pick.label,
+              label: {
+                text: String(pick.rank),
+                color: '#FFFFFF',
+                fontWeight: '700'
+              }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
+            });
+            marker.addListener('click', function () {
+              infoWindow.open({ anchor: marker, map: map });
+              var target = document.getElementById(pick.anchorId);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            bounds.extend(marker.getPosition());
+            return { pick: pick, marker: marker, infoWindow: infoWindow };
+          });
+          if (mapConfig.picks.length > 1) {
+            map.fitBounds(bounds, 48);
+          }
+          mapState.maps.push({ panel: panel, map: map, markers: markers });
+        });
+        setTimeout(function () { setActive(sections[0]); }, 0);
+      }
+
+      window.initPopularPicksMaps = initMaps;
+      setActive(sections[0]);
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActive(visible[0].target);
+        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 </body>
 </html>
