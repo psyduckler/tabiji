@@ -137,6 +137,15 @@ echo "$TIKTOK_META" | wrangler r2 object put "${R2_BUCKET}/${TIKTOK_TXT_KEY}" \
 
 echo "✅ TikTok staging: ${R2_PUBLIC_BASE}/${TIKTOK_KEY}"
 
+# 6b. Facebook Page Reel cross-post
+echo "📘 Cross-posting to Facebook Page Reel..."
+FB_URL=$(python3 "$HOME/.openclaw/workspace/scripts/publish_fb_reel.py" "$VIDEO_PATH" "$CAPTION" 2>&1 | tail -1)
+if [[ "$FB_URL" == https* ]]; then
+  echo "✅ Facebook: ${FB_URL}"
+else
+  echo "⚠️  FB Reel cross-post failed (non-blocking)"
+fi
+
 # 7. Cleanup — delete temp IG video from R2 (TikTok copy persists)
 echo "🗑️  Cleaning up R2 (IG temp)..."
 wrangler r2 object delete "${R2_BUCKET}/${R2_KEY}" --remote 2>/dev/null
