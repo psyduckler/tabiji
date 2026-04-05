@@ -556,7 +556,7 @@ def _get_serpapi_key():
 
 def _get_r2_token():
     return subprocess.run(
-        ['security', 'find-generic-password', '-s', 'cloudflare-pages-token', '-w'],
+        ['security', 'find-generic-password', '-s', 'cloudflare-api-token', '-w'],
         capture_output=True, text=True
     ).stdout.strip()
 
