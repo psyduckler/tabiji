@@ -47,17 +47,38 @@ function renderHubSchema(data) {
   const modifiedDate = typeof data?.seo?.modifiedTime === 'string' ? data.seo.modifiedTime.slice(0, 10) : undefined;
   const faq = getHubFaq(data);
 
-  const article = {
+  const totalGuides = (data.sections || []).reduce((sum, s) => sum + (s.cards || []).length, 0);
+  const itemListElements = [];
+  let position = 0;
+  for (const section of (data.sections || [])) {
+    for (const card of (section.cards || [])) {
+      position++;
+      itemListElements.push({
+        '@type': 'ListItem',
+        position,
+        url: absoluteUrl(card.href || `/popular-picks/${card.slug}/`),
+        name: card.title,
+      });
+    }
+  }
+
+  const collectionPage = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: data.hero?.title || data.seo?.h1,
+    '@type': 'CollectionPage',
+    name: data.hero?.title || data.seo?.h1,
     description: data.seo?.metaDescription,
+    url: canonical,
     author: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
     publisher: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
     ...(publishedDate ? { datePublished: publishedDate } : {}),
     ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     mainEntityOfPage: canonical,
-    ...(heroImage ? { image: heroImage } : {})
+    ...(heroImage ? { image: heroImage } : {}),
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: totalGuides,
+      itemListElement: itemListElements,
+    },
   };
 
   const breadcrumb = {
@@ -80,7 +101,7 @@ function renderHubSchema(data) {
     }))
   };
 
-  return [article, breadcrumb, faqSchema].map(renderJsonLd).join('\n    ');
+  return [collectionPage, breadcrumb, faqSchema].map(renderJsonLd).join('\n    ');
 }
 
 function renderToc(data) {
