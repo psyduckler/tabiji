@@ -8,6 +8,21 @@ ROOT = Path(__file__).resolve().parents[1]
 PP_DIR = ROOT / "popular-picks"
 API_DIR = ROOT / "api" / "v1" / "picks"
 
+_NON_CUISINE_RE = re.compile(
+    r'^(local favorite|hidden gem|traditional|luxury|classic|premium|mid-range|budget'
+    r'|boutique|historic|legendary|iconic|neighborhood gem|upscale|fine dining'
+    r'|budget pick|budget-friendly|local gem|advanced|intermediate|beginner'
+    r'|landmark|modern|restaurant|night market|street stall|hawker centre'
+    r'|cocktail bar|beer bar|brewpub|natural wine|mezcal bar|specialty coffee'
+    r'|\d+(?:st|nd|rd|th)\s+floor'
+    r'|[\U0001F300-\U0001F9FF])',  # emoji-only tags
+    re.IGNORECASE,
+)
+
+
+def is_likely_cuisine(tag: str) -> bool:
+    return bool(tag.strip()) and not _NON_CUISINE_RE.match(tag.strip())
+
 DAY_MAP = {
     "Mon": "Monday",
     "Tue": "Tuesday",
@@ -22,7 +37,13 @@ DAY_MAP = {
 def clean_price(value: str | None) -> str | None:
     if not value:
         return None
-    return re.sub(r"^[^\d$€£¥₩฿₺₹]+\s*", "", value).strip()
+    cleaned = re.sub(r"^[^\d$€£¥₩฿₺₹]+\s*", "", value).strip()
+    if not cleaned:
+        return None
+    # Validate result looks like an actual price (contains currency symbol or price-like pattern)
+    if not re.search(r'[$€£¥₩฿₵₫₹₺]|\bfree\b|\d+\s*[-–]\s*\d+', cleaned, re.IGNORECASE):
+        return None
+    return cleaned
 
 
 def infer_place_type(page_slug: str, title: str, category: str, tags: list[str], name: str) -> str:
@@ -181,10 +202,11 @@ def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
             "name": place["name"],
         }
 
-        if tags and place_type in {"Restaurant", "CafeOrCoffeeShop", "BarOrPub"}:
-            obj["servesCuisine"] = ", ".join(tags)
-        elif tags:
-            obj["additionalType"] = "https://schema.org/" + tags[0].replace(" ", "")
+        cuisine_tags = [t for t in tags if is_likely_cuisine(t)] if tags else []
+        if cuisine_tags and place_type in {"Restaurant", "CafeOrCoffeeShop", "BarOrPub"}:
+            obj["servesCuisine"] = ", ".join(cuisine_tags)
+        elif cuisine_tags:
+            obj["additionalType"] = "https://schema.org/" + cuisine_tags[0].replace(" ", "")
 
         address = place.get("address")
         if address:
