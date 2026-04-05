@@ -98,8 +98,184 @@ const CITY_MAP = {
   // Americas
   'new-york':       'New York',
   'new-orleans':    'New Orleans',
+  'boston':          'Boston',
   // India
   'delhi':          'Delhi',
+  'kolkata':        'Kolkata',
+  'mylapore':       'Chennai',
+  'old-delhi':      'Delhi',
+  // Germany
+  'berlin':         'Berlin',
+  'munich':         'Munich',
+  // Japan (extended)
+  'fukuoka':        'Fukuoka',
+  'hakone':         'Hakone',
+  'hiroshima':      'Hiroshima',
+  'hokkaido':       'Hokkaido',
+  'kobe':           'Kobe',
+  'miyajima':       'Hiroshima',
+  'nagoya':         'Nagoya',
+  'nara':           'Nara',
+  'nikko':          'Nikko',
+  'okinawa':        'Okinawa',
+  'sapporo':        'Sapporo',
+  'takayama':       'Takayama',
+  // Korea (neighborhoods → cities)
+  'bukchon':        'Seoul',
+  'bukhansan':      'Seoul',
+  'busan':          'Busan',
+  'biff-square':    'Busan',
+  'dongmyo':        'Seoul',
+  'gangnam':        'Seoul',
+  'gukje-market':   'Busan',
+  'gwangjang':      'Seoul',
+  'gyeongju':       'Gyeongju',
+  'haeundae':       'Busan',
+  'hongdae':        'Seoul',
+  'itaewon':        'Seoul',
+  'jagalchi':       'Busan',
+  'jeju':           'Jeju',
+  'jeju-city':      'Jeju',
+  'jeonju':         'Jeonju',
+  'jongno':         'Seoul',
+  'mapo-gu':        'Seoul',
+  'myeongdong':     'Seoul',
+  'namdaemun':      'Seoul',
+  'samcheong-dong': 'Seoul',
+  'seogwipo':       'Jeju',
+  'sinchon':        'Seoul',
+  'sindang-dong':   'Seoul',
+  'yeonnam-dong':   'Seoul',
+  'chuncheon':      'Chuncheon',
+  'boseong':        'Boseong',
+  // Taiwan
+  'shilin':         'Taipei',
+  // SE Asia (extended)
+  'bang-rak':       'Bangkok',
+  'banglamphu':     'Bangkok',
+  'victory-monument': 'Bangkok',
+  'chiang-rai':     'Chiang Rai',
+  'khon-kaen':      'Khon Kaen',
+  'old-town-phuket':'Phuket',
+  'rawai':          'Phuket',
+  'pai':            'Pai',
+  'angkor':         'Siem Reap',
+  'siem-reap':      'Siem Reap',
+  'luang-prabang':  'Luang Prabang',
+  'phnom-penh':     'Phnom Penh',
+  'da-nang':        'Da Nang',
+  'da-lat':         'Da Lat',
+  'hoi-an':         'Hoi An',
+  'saigon':         'Ho Chi Minh City',
+  'yangon':         'Yangon',
+  'mandalay':       'Mandalay',
+  'bandung':        'Bandung',
+  'padang':         'Padang',
+  'seminyak':       'Bali',
+  'tegallalang':    'Bali',
+  'uluwatu':        'Bali',
+  'yogyakarta':     'Yogyakarta',
+  'cebu-city':      'Cebu',
+  'moalboal':       'Cebu',
+  'el-nido':        'El Nido',
+  'boracay':        'Boracay',
+  'poblacion-makati':'Manila',
+  'chinatown-singapore': 'Singapore',
+  'tiong-bahru':    'Singapore',
+  'east-coast-singapore': 'Singapore',
+  'gili-islands':   'Gili Islands',
+  'ipoh':           'Ipoh',
+  'georgetown':     'Penang',
+  'kuala-lumpur':   'Kuala Lumpur',
+  'malacca':        'Malacca',
+  'pj':             'Petaling Jaya',
+  // Malaysia
+  // Europe (extended)
+  'antwerp':        'Antwerp',
+  'bruges':         'Bruges',
+  'brussels':       'Brussels',
+  'ghent':          'Ghent',
+  'liege':          'Liège',
+  'mechelen':       'Mechelen',
+  'jordaan':        'Amsterdam',
+  'edinburgh':      'Edinburgh',
+  'florence':        'Florence',
+  'rovinj':         'Rovinj',
+  'dubrovnik':      'Dubrovnik',
+  'split':          'Split',
+  'monastiraki':    'Athens',
+  'lyon':           'Lyon',
+  'seville':        'Seville',
+  'vienna':         'Vienna',
+  'stockholm':      'Stockholm',
+  'skagen':         'Skagen',
+  'aarhus':         'Aarhus',
+  // Middle East (extended)
+  'jerusalem':      'Jerusalem',
+  'jaffa':          'Tel Aviv',
+  'wadi-rum':       'Wadi Rum',
+  'khan-el-khalili':'Cairo',
+  'downtown-cairo': 'Cairo',
+  'aswan':          'Aswan',
+  'luxor':          'Luxor',
+  'dahab':          'Dahab',
+  'essaouira':      'Essaouira',
+  'merzouga':       'Merzouga',
+  'taghazout':      'Taghazout',
+  // Africa
+  'accra':          'Accra',
+  'addis-ababa':    'Addis Ababa',
+  'cape-coast':     'Cape Coast',
+  'diani':          'Diani Beach',
+  'durban':         'Durban',
+  'stellenbosch':   'Stellenbosch',
+  'woodstock-cape-town': 'Cape Town',
+  'camps-bay':      'Cape Town',
+  'kampala':        'Kampala',
+  'kigali':         'Kigali',
+  'kilimanjaro':    'Kilimanjaro',
+  'nairobi':        'Nairobi',
+  'soweto':         'Soweto',
+  'stone-town':     'Zanzibar',
+  'nungwi':         'Zanzibar',
+  'zanzibar':       'Zanzibar',
+  'mnemba':         'Zanzibar',
+  'serengeti':      'Serengeti',
+  'kruger':         'Kruger',
+  'namibrand':      'NamibRand',
+  'nata':           'Nata',
+  'chobe':          'Chobe',
+  'okavango':       'Okavango Delta',
+  'makgadikgadi':   'Makgadikgadi',
+  'tsodilo':        'Tsodilo Hills',
+  'maun':           'Maun',
+  'lalibela':       'Lalibela',
+  'andasibe':       'Andasibe',
+  'jeffreys-bay':   'Jeffreys Bay',
+  // South America (extended)
+  'barranco':       'Lima',
+  'miraflores':     'Lima',
+  'medellin':       'Medellín',
+  'cali':           'Cali',
+  'salento':        'Salento',
+  'san-gil':        'San Gil',
+  'tayrona':        'Tayrona',
+  'montego-bay':    'Montego Bay',
+  'negril':         'Negril',
+  'port-louis':     'Port Louis',
+  // Hong Kong neighborhoods
+  'tsim-sha-tsui':  'Hong Kong',
+  // Misc additions
+  'dakar':          'Dakar',
+  'san-sebastian':  'San Sebastián',
+  'naples':         'Naples',
+  'kanazawa':       'Kanazawa',
+  'south-korea':    'South Korea',
+  'telluride':      'Telluride',
+  'denmark':        'Denmark',
+  'hungary':        'Hungary',
+  'taiwan':         'Taiwan',
+  'kalahari':       'Kalahari',
 };
 
 // ─── Infer city from slug ─────────────────────────────────────────────────────
@@ -110,7 +286,15 @@ function inferCity(slug) {
     const prefix = parts.slice(0, len).join('-');
     if (CITY_MAP[prefix]) return CITY_MAP[prefix];
   }
-  return slug; // fallback
+  // For "best-X-in-city" patterns, try substrings (not just prefixes)
+  for (let start = 1; start < parts.length; start++) {
+    for (let end = parts.length; end > start; end--) {
+      const sub = parts.slice(start, end).join('-');
+      if (CITY_MAP[sub]) return CITY_MAP[sub];
+    }
+  }
+  // Final fallback: title-case the slug
+  return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
 }
 
 // ─── Infer category from slug + badge ────────────────────────────────────────
@@ -165,7 +349,7 @@ function parseIndexCards() {
     let heroImage = null;
     if (imgM) {
       const src = imgM[1];
-      heroImage = src.startsWith('/') ? src : `/popular-picks/${src}`;
+      heroImage = (src.startsWith('/') || src.startsWith('http')) ? src : `/popular-picks/${src}`;
     }
 
     const badgeM = block.match(/class="card-badge">([^<]+)<\/span>/);
@@ -358,8 +542,19 @@ function selectRelated(slug, metadata) {
 }
 
 // ─── HTML helpers ─────────────────────────────────────────────────────────────
-function esc(str) {
+function unesc(str) {
   return String(str)
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&apos;/g, "'");
+}
+
+function esc(str) {
+  return unesc(String(str))
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')

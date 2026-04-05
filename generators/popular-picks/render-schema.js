@@ -4,6 +4,12 @@ function isLikelyPriceRange(value = '') {
   return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
 }
 
+const NON_CUISINE_PATTERNS = /^(local favorite|hidden gem|traditional|luxury|classic|premium|mid-range|budget|boutique|historic|legendary|iconic|neighborhood gem|upscale|fine dining|budget pick|budget-friendly|local gem|advanced|intermediate|beginner|landmark|modern|restaurant|night market|street stall|hawker centre|cocktail bar|beer bar|brewpub|natural wine|mezcal bar|specialty coffee|\d+(st|nd|rd|th)\s+floor|[🏖🐠🐢🚢🌱🐙🦈🪸🚤🗿])/i;
+
+function isLikelyCuisine(tag = '') {
+  return tag.trim().length > 0 && !NON_CUISINE_PATTERNS.test(tag.trim());
+}
+
 function renderJsonLd(obj) {
   return `<script type="application/ld+json">${JSON.stringify(obj, null, 2)}</script>`;
 }
@@ -46,7 +52,11 @@ function renderSchema(data) {
       item: {
         '@type': resolvedType,
         name: pick.name,
-        ...(pick.cuisineTags?.[0] && foodTypes.has(resolvedType) ? { servesCuisine: pick.cuisineTags.join(' / ') } : {}),
+        ...(() => {
+          if (!foodTypes.has(resolvedType)) return {};
+          const cuisines = (pick.cuisineTags || []).filter(isLikelyCuisine);
+          return cuisines.length ? { servesCuisine: cuisines.join(' / ') } : {};
+        })(),
         ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),
         ...(pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? { priceRange: pick.priceRangeLocal } : {}),
         ...(pick.googleMapsUrl ? { url: pick.googleMapsUrl } : {})
