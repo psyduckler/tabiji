@@ -131,7 +131,7 @@ def render_enrichment(safety, scam_files, slug, iso2):
         hc_html = f"""<div class="alert-section" style="margin-top:1.5rem">
   <h2>🏥 Healthcare Summary</h2>
   {'<div style="display:inline-flex;background:#f0fdf4;color:' + quality_color + ';padding:3px 10px;border-radius:8px;font-size:0.8rem;font-weight:700;margin-bottom:10px">' + html_lib.escape(quality_str) + ' quality</div>' if quality_str else ''}
-  {'<p>' + html_lib.escape(hc_notes[:300]) + ('…' if len(hc_notes) > 300 else '') + '</p>' if hc_notes else ''}
+  {'<p>' + html_lib.escape(hc_notes) + '</p>' if hc_notes else ''}
   {'<p style="margin-top:8px;font-size:0.85rem;color:var(--text-muted)"><strong>Insurance:</strong> ' + html_lib.escape(insurance_advice) + '</p>' if insurance_advice else ''}
 </div>"""
 
@@ -148,11 +148,11 @@ def render_enrichment(safety, scam_files, slug, iso2):
             items_html += (
                 f'<li style="margin-bottom:6px"><strong>{html_lib.escape(m.get("drug",""))}</strong>'
                 f' — <span style="color:{color};font-weight:600">{html_lib.escape(status.upper())}</span>'
-                f'{": " + html_lib.escape(m.get("note","")[:120]) if m.get("note") else ""}</li>'
+                f'{": " + html_lib.escape(m.get("note","")) if m.get("note") else ""}</li>'
             )
         meds_html = f"""<div class="alert-section" style="margin-top:1.5rem">
   <h2>💊 Medication Restrictions</h2>
-  {'<p style="font-size:0.9rem;margin-bottom:10px">' + html_lib.escape(general_advice[:200]) + '</p>' if general_advice else ''}
+  {'<p style="font-size:0.9rem;margin-bottom:10px">' + html_lib.escape(general_advice) + '</p>' if general_advice else ''}
   {'<ul style="padding-left:18px;font-size:0.85rem;color:var(--text-muted)">' + items_html + '</ul>' if items_html else ''}
 </div>"""
 
