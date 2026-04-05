@@ -122,7 +122,7 @@ def slug_to_names(slug):
 def generate_compare_content(slug, dest1, dest2):
     """Use Gemini to generate compare page content."""
     api_key = subprocess.run(
-        ['security', 'find-generic-password', '-s', 'google-api-key', '-w'],
+        ['security', 'find-generic-password', '-s', 'gemini-api-key', '-w'],
         capture_output=True, text=True
     ).stdout.strip()
     
