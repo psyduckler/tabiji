@@ -134,6 +134,14 @@ def generate_compare_content(slug, dest1, dest2):
 Generate a comprehensive, opinionated comparison with REAL travel data. Be specific with costs, distances, flight times.
 Write like a well-traveled friend giving honest advice — not generic AI filler.
 
+BANNED WORDS AND PHRASES — do NOT use any of these:
+- "vibrant", "bustling", "unforgettable", "hidden gem", "rich tapestry"
+- "unique blend", "something for everyone", "whether you're", "no matter what"
+- "a feast for the senses", "steeped in history", "melting pot", "picture-perfect"
+- "world-class", "must-visit", "breathtaking", "stunning", "enchanting"
+- "seamlessly blends", "offers something", "it depends on your preferences"
+Instead: use specific, concrete language. Say what IS there, not how it FEELS.
+
 Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 
 {{
@@ -141,10 +149,11 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
   "heroBadge": "🆚 Comparison — [Region/Country]",
   "heroSources": "Relevant subreddits (e.g. r/travel, r/solotravel, r/[country]Travel)",
   "heroDataTypes": "Real traveler costs, flight routes, local insights",
-  "verdictSummary": "2-3 sentences: who should pick which, with a rough daily budget range",
+  "metaDescription": "Write a unique, specific meta description for this comparison (max 155 chars). Include at least one specific number (budget, flight time, or price). Example: 'Paris vs New York compared: $80-150/day vs $120-200/day, 7h direct flights, café culture vs skyscraper energy. Honest picks.'",
+  "verdictSummary": "2-3 sentences: who should pick which, with a rough daily budget range. Be opinionated — pick a side for most travelers.",
   "verdictTakeaways": [
-    {{"choose": "{dest1}", "reason": "Who and why"}},
-    {{"choose": "{dest2}", "reason": "Who and why"}},
+    {{"choose": "{dest1}", "reason": "Who and why — be specific about traveler type"}},
+    {{"choose": "{dest2}", "reason": "Who and why — be specific about traveler type"}},
     {{"choose": "Both", "reason": "When/why to do both and how long"}}
   ],
   "comparisonCategories": [
@@ -155,15 +164,19 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
       "dest1Summary": "Key points for {dest1}",
       "dest2Summary": "Key points for {dest2}",
       "winner": "{dest1}" or "{dest2}" or "Tie",
-      "deepDive": "One detailed paragraph (600-1200 chars) comparing this category with specific names, prices, tips. Include one realistic Reddit-style quote in double quotes.",
+      "deepDive": "One detailed paragraph (600-1200 chars) comparing this category with specific names, prices, tips. Do NOT embed quotes — keep this as pure analysis.",
       "winnerWhy": "One sentence on why this destination wins this category",
       "winnerWhoMatters": "Who this matters most for"
     }}
   ],
+  "decisionFramework": {{
+    "dest1Reasons": ["7-9 specific, concrete reasons to choose {dest1} — e.g. 'You want $2 street tacos at 2am'"],
+    "dest2Reasons": ["7-9 specific, concrete reasons to choose {dest2} — e.g. 'You want temples and 6am monks' alms ceremonies'"]
+  }},
   "faqItems": [
     {{
       "question": "Natural question travelers ask about {dest1} vs {dest2}",
-      "answer": "Detailed, helpful answer (2-4 sentences)"
+      "answer": "Detailed, helpful answer (2-4 sentences) with specific numbers"
     }}
   ],
   "ctaText": "Ready to plan your [region] trip?",
@@ -180,11 +193,12 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 Requirements:
 - EXACTLY 10 comparison categories (pick the most relevant from: beaches, food, nightlife, culture, costs, getting there, getting around, accommodation, day trips, weather/seasons, safety, nature, shopping, families, digital nomads, solo travel, etc.)
 - EXACTLY 8 FAQ items
-- Each deepDive must be 600-1200 chars with specific place names, prices, and at least one Reddit-style quote
+- Each deepDive must be 600-1200 chars with specific place names, prices in local currency AND USD
 - Be opinionated — pick real winners, don't hedge everything as "Tie"
-- Use real price ranges in local currency AND USD
 - Include specific restaurant/hotel/attraction names where relevant
-- Reddit quotes should feel authentic (short, casual, specific)
+- decisionFramework: 7-9 bullet points per destination, each concrete and specific
+- metaDescription: max 155 chars, include at least one number
+- ZERO banned words/phrases — every single one will be flagged and rejected
 """
 
     import urllib.request
@@ -244,7 +258,7 @@ def build_compare_json(slug, content_data):
     # Build title
     title = f"{dest1} vs {dest2}: Which Should You Visit? (2026 Comparison) | tabiji.ai"
     short_title = f"{dest1} vs {dest2}: Which Should You Visit?"
-    meta_desc = f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip."
+    meta_desc = d.get('metaDescription', f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip.")
     
     canonical = f"https://tabiji.ai/compare/{slug}/"
     og_image = f"https://img.tabiji.ai/compare/{slug}/hero.jpg"
@@ -257,8 +271,9 @@ def build_compare_json(slug, content_data):
     ]
     for cat in d['comparisonCategories']:
         toc_items.append({"href": f"#{cat['id']}", "label": f"{cat['emoji']} {cat['name']}"})
+    toc_items.append({"href": "#the-decision-framework", "label": "🎯 Decision Framework"})
     toc_items.append({"href": "#faq", "label": "❓ FAQ"})
-    
+
     # Build TOC mobile HTML
     toc_links = "\n".join(f'<a href="{t["href"]}">{t["label"]}</a>' for t in toc_items)
     toc_mobile_html = f'''<div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -370,6 +385,31 @@ def build_compare_json(slug, content_data):
 </section>'''
         deep_dive_html.append(section)
     
+    # Decision Framework HTML
+    df = d.get('decisionFramework', {})
+    dest1_reasons = df.get('dest1Reasons', [f"You want the {dest1} experience"])
+    dest2_reasons = df.get('dest2Reasons', [f"You want the {dest2} experience"])
+    dest1_li = "\n".join(f"<li>{html_module.escape(r)}</li>" for r in dest1_reasons)
+    dest2_li = "\n".join(f"<li>{html_module.escape(r)}</li>" for r in dest2_reasons)
+    decision_framework_html = f'''<section class="deep-dive">
+<h2 id="the-decision-framework">🎯 The Decision Framework</h2>
+<div class="decision-grid">
+<div class="decision-card dest1-card">
+<h3>Choose {dest1} If…</h3>
+<ul>
+{dest1_li}
+</ul>
+</div>
+<div class="decision-card dest2-card">
+<h3>Choose {dest2} If…</h3>
+<ul>
+{dest2_li}
+</ul>
+</div>
+</div>
+</section>'''
+    deep_dive_html.append(decision_framework_html)
+
     # FAQ HTML
     faq_items_html = "\n".join(f'''<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
 <h3 itemprop="name">{html_module.escape(faq["question"])}</h3>
