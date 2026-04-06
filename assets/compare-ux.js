@@ -78,7 +78,8 @@
         else ties++;
     });
 
-    // ─── 1. Score Ticker ───
+    // ─── 1. Score Ticker (skip if page already has one) ───
+    if (!document.getElementById('score-ticker') && !document.getElementById('ux-ticker')) {
     var ticker = document.createElement('div');
     ticker.className = 'ux-ticker';
     ticker.id = 'ux-ticker';
@@ -86,6 +87,7 @@
     var nav = document.querySelector('nav');
     if (nav && nav.nextSibling) {
         nav.parentNode.insertBefore(ticker, nav.nextSibling);
+    }
     }
 
     // ─── 2. Filter Tags ───
@@ -116,7 +118,7 @@
     }
 
     var hero = document.querySelector('.hero');
-    if (hero) {
+    if (hero && !document.querySelector('.ux-filters, .priority-filter')) {
         var filtersDiv = document.createElement('div');
         filtersDiv.className = 'ux-filters';
         filtersDiv.innerHTML = '<p class="ux-filters-label">What matters most to you?</p><div class="ux-filters-row"></div>';
@@ -137,10 +139,10 @@
         hero.parentNode.insertBefore(filtersDiv, hero.nextSibling);
     }
 
-    // ─── 3. Quick Answers (from comparison table) ───
+    // ─── 3. Quick Answers (skip if page already has them) ───
     var compTable = document.querySelector('.comparison-table');
     var verdictBox = document.querySelector('.verdict-box');
-    if (compTable && verdictBox) {
+    if (compTable && verdictBox && !document.querySelector('.ux-quick-answers, .quick-answers')) {
         var qaDiv = document.createElement('div');
         qaDiv.className = 'ux-quick-answers';
         qaDiv.innerHTML = '<h2>⚡ Quick Answers</h2><div class="ux-qa-grid"></div>';
@@ -181,9 +183,9 @@
         }
     }
 
-    // ─── 4. Visual Scorecard (after comparison-section) ───
+    // ─── 4. Visual Scorecard (skip if page already has one) ───
     var compSection = document.querySelector('.comparison-section');
-    if (compSection) {
+    if (compSection && !document.querySelector('.ux-scorecard, .scorecard')) {
         var scDiv = document.createElement('div');
         scDiv.className = 'ux-scorecard';
         var scRows = '';
@@ -218,7 +220,17 @@
     }
 
     // ─── 5. Collapsible Deep Dives ───
-    sections.forEach(function(s, i) {
+    // Skip if page already has its own collapsible structure (e.g. madrid-vs-barcelona manual rewrite)
+    var alreadyCollapsible = document.querySelector('.dd-header');
+    if (alreadyCollapsible) {
+        // Just wire up existing dd-header click handlers if not already wired
+        document.querySelectorAll('.dd-header').forEach(function(h) {
+            h.style.cursor = 'pointer';
+            h.addEventListener('click', function() { this.parentElement.classList.toggle('open'); });
+        });
+    }
+
+    if (!alreadyCollapsible) sections.forEach(function(s, i) {
         var dd = s.el;
         var h2 = dd.querySelector('h2[id]');
         if (!h2) return;
