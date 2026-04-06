@@ -49,12 +49,13 @@ ALL_PICKS = sorted([
 ]) if PP_DIR.is_dir() else []
 
 
-def load_tier1_slugs():
+def load_slugs(min_vol=500, max_vol=999999):
     slugs = []
     with open(ROOT / "compare-search-volumes.csv") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if int(row["best_vol"]) >= 500:
+            vol = int(row["best_vol"])
+            if min_vol <= vol <= max_vol:
                 slugs.append(row["slug"])
     return slugs
 
@@ -651,14 +652,22 @@ def process_page(slug):
 # ════════════════════════════════════════════════════════════════
 
 def main():
-    if '--reset' in sys.argv:
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--reset', action='store_true')
+    parser.add_argument('--min-vol', type=int, default=500)
+    parser.add_argument('--max-vol', type=int, default=999999)
+    parser.add_argument('start', nargs='?', type=int, default=0)
+    parser.add_argument('batch', nargs='?', type=int, default=999)
+    args = parser.parse_args()
+
+    if args.reset:
         if PROGRESS_FILE.exists():
             PROGRESS_FILE.unlink()
         print("Progress reset.")
-        return
 
-    slugs = load_tier1_slugs()
-    print(f"Loaded {len(slugs)} Tier 1 slugs")
+    slugs = load_slugs(args.min_vol, args.max_vol)
+    print(f"Loaded {len(slugs)} slugs (vol {args.min_vol}-{args.max_vol})")
 
     done = set()
     if PROGRESS_FILE.exists():
@@ -674,11 +683,7 @@ def main():
         print("All pages already processed!")
         return
 
-    # Optional batch slicing
-    args = [a for a in sys.argv[1:] if a != '--reset']
-    start_idx = int(args[0]) if len(args) >= 1 else 0
-    batch_size = int(args[1]) if len(args) >= 2 else 999
-    batch = remaining[start_idx:start_idx + batch_size]
+    batch = remaining[args.start:args.start + args.batch]
 
     success = 0
     failed = []
