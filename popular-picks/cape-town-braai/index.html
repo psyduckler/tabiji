@@ -312,9 +312,7 @@
       * { margin:0; padding:0; box-sizing:border-box; }
       body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; color:var(--text); background:var(--white); line-height:1.6; -webkit-font-smoothing:antialiased; }
       a { color:var(--terracotta); text-decoration:none; }
-      nav { position:sticky; top:0; z-index:100; background:rgba(254,252,249,.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--sand); padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
-      .logo { font-size:1.3rem; font-weight:700; color:var(--indigo); }
-      .cta-nav { background:var(--terracotta); color:white; padding:.55rem 1rem; border-radius:8px; }
+      /* nav styles moved to shared-shell.css */
       .hero { padding:6.5rem 1.5rem 2rem; max-width:840px; margin:0 auto; }
       .hero-badge { display:inline-block; background:var(--sand); color:var(--earth); padding:.35rem 1rem; border-radius:999px; font-size:.9rem; margin-bottom:1rem; }
       .hero h1 { font-size:clamp(2rem,4.7vw,3rem); line-height:1.12; color:var(--indigo); margin:0 0 1rem; letter-spacing:-.03em; }
@@ -383,12 +381,40 @@
       .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
       .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
     </style>
+<link rel="stylesheet" href="/assets/shared-shell.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D3A5C">
+<script defer src="/assets/shared-shell.js"></script>
 </head>
 <body>
-  <nav>
-    <a class="logo" href="/">tabiji.ai</a>
-    <a class="cta-nav" href="/plan.html">Plan My Trip</a>
-  </nav>
+  <!-- @include:nav:start -->
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/compare/">&#x1F19A; Compare Destinations</a>
+                <a href="/find/">&#x1F50D; Destination Finder</a>
+                <a href="/spin/">&#x1F30E; Spin the Globe</a>
+                <a href="/resources/">&#x1F4DA; Resources</a>
+                <a href="/owl/">&#x1F9ED; Tabiji Travel Agency</a>
+                <a href="/trends/">&#x1F4CA; Travel Trends</a>
+                <a href="/alerts/">&#x1F6A8; Travel Alerts</a>
+                <a href="/scams/">&#x1F6A8; Tourist Scams</a>
+                <a href="/credit-cards/">&#x1F4B3; Credit Card Benefits</a>
+                <a href="/health/">&#x1F3E5; Travel Health Tips</a>
+                <a href="/api/">&#x1F50C; API</a>
+            </div>
+        </div>
+        <a href="/popular-picks/">Popular Picks</a>
+        <a href="/itineraries/">Itineraries</a>
+        <a href="/about/">About</a>
+        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
+    </div>
+</nav>
+<!-- @include:nav:end -->
 
   
     <section class="hero">
