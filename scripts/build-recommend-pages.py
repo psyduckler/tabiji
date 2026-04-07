@@ -33,7 +33,6 @@ NAV_HTML = """<nav>
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
                 <a href="/scams/">🚨 Tourist Scams</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>

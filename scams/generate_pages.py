@@ -2387,7 +2387,6 @@ def generate_page(city_data, related_cities_map):
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">🚨 Travel Alerts</a>
                 <a href="/scams/">🚨 Tourist Scams</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
