@@ -194,13 +194,13 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
   <p class="subtitle" id="heroSubtitle">Filter 6,683 destinations by what matters to you.</p>
 </div>
 
-<div class="mode-tabs">
-  <button class="mode-tab active" data-mode="filter" onclick="switchMode('filter')">🔍 Filter</button>
-  <button class="mode-tab" data-mode="spin" onclick="switchMode('spin')">🌍 Spin the Globe</button>
+<div class="mode-tabs" role="tablist">
+  <button class="mode-tab active" data-mode="filter" onclick="switchMode('filter')" role="tab" aria-selected="true" aria-controls="filterMode" id="tab-filter">🔍 Filter</button>
+  <button class="mode-tab" data-mode="spin" onclick="switchMode('spin')" role="tab" aria-selected="false" aria-controls="spinMode" id="tab-spin">🌍 Spin the Globe</button>
 </div>
 
 <!-- ===== FILTER MODE ===== -->
-<div class="mode-content active" id="filterMode">
+<div class="mode-content active" id="filterMode" role="tabpanel" aria-labelledby="tab-filter">
 
 <div class="filters">
   <div class="filter-section">
@@ -300,7 +300,7 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--sand);colo
 </div><!-- end filterMode -->
 
 <!-- ===== SPIN MODE ===== -->
-<div class="mode-content" id="spinMode">
+<div class="mode-content" id="spinMode" role="tabpanel" aria-labelledby="tab-spin">
 <div class="spin-container">
   <div class="wheel-wrap">
     <div class="pointer"></div>
@@ -673,7 +673,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 // ===== MODE SWITCHING =====
 function switchMode(mode) {
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.querySelectorAll('.mode-tab').forEach(t => {
+    const isActive = t.dataset.mode === mode;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
   document.querySelectorAll('.mode-content').forEach(c => c.classList.toggle('active', c.id === mode + 'Mode'));
 
   const sub = document.getElementById('heroSubtitle');
