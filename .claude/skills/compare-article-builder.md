@@ -19,7 +19,21 @@ Build a complete tabiji.ai compare page from queue to deployment.
 A slug in `{dest1}-vs-{dest2}` format (e.g., `madrid-vs-barcelona`, `tokyo-vs-kyoto`), or the word `batch` to process pending items from `compare-queue.json`.
 
 ## Reference implementation
-**`tokyo-vs-kyoto`** and **`amsterdam-vs-berlin`** are the current reference implementations. New pages must match their structure, tone, and quality bar.
+**`madrid-vs-barcelona`** is the gold standard. New pages must match its structure, tone, and quality bar. It includes: collapsible deep-dive sections, score ticker, visual scorecard with bars, quick answers grid, cost comparison widget, monthly weather chart, 4-tab sample itineraries, Reddit quotes throughout, verdict cards, and related comparisons section.
+
+## Quality standard (mandatory)
+Every compare page MUST include these premium components (generated via the rich content pipeline):
+1. **Score ticker** — sticky header showing dest1 X — Y dest2 | Z ties
+2. **Quick answers** — 6 Q&A cards with winner badges linking to sections
+3. **Visual scorecard** — bar chart per category showing relative strength
+4. **Cost comparison widget** — 7-item daily expense table with savings summary
+5. **Monthly weather chart** — 12-month temperature grid with best/avoid months
+6. **Sample itineraries** — 4 tabbed panels (3-day + 7-day for each destination)
+7. **Collapsible deep-dive sections** — toggle open/closed with winner badges
+8. **Reddit quotes** — 1-2 per section (real via reddit_research.py, or synthesized via enrich)
+9. **Verdict cards** — "Choose A" / "Choose B" structured cards
+10. **Related comparisons** — 3 "Travelers Also Compared" cards
+11. **Photos** — hero grid (2) + section images where available
 
 ## Full Workflow (6 steps)
 
@@ -32,12 +46,16 @@ python3 scripts/batch-compare-gen.py generate <slug>
 ```
 
 This creates:
-- `compare-data/<slug>.json` — master data file (~70KB)
-- `compare/<slug>/index.html` — rendered HTML page
+- `compare-data/<slug>.json` — master data file (~100KB, includes richContent)
+- `compare/<slug>/index.html` — rendered premium HTML page (~100-110KB, ~1400 lines)
 - `api/v1/compare/<slug>.json` — API endpoint
 - Uploads hero photos (dest1.jpg, dest2.jpg, hero.jpg) to R2
 
-If the page already exists, it will be skipped. To force regeneration, delete the HTML first.
+The generator makes TWO Gemini API calls:
+1. **Base content** — categories, verdicts, FAQ, decision framework
+2. **Rich structured data** — cost table, weather data, itineraries, quick answers, scorecard, related comparisons
+
+If the rich content call fails, it falls back gracefully to a basic template. If the page already exists, it will be skipped. To force regeneration, delete the HTML first.
 
 ### Step 2: Reddit Research (Real Quotes)
 

@@ -245,6 +245,165 @@ Requirements:
                 raise
 
 
+def generate_rich_content(slug, dest1, dest2, base_content):
+    """Second Gemini call for rich structured data: cost table, weather, itineraries, quick answers, scorecard."""
+    api_key = subprocess.run(
+        ['security', 'find-generic-password', '-s', 'gemini-api-key', '-w'],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+    # Extract category winners for scorecard
+    categories_info = ""
+    for cat in base_content.get('comparisonCategories', []):
+        categories_info += f"- {cat['name']}: winner={cat['winner']}\n"
+
+    prompt = f"""You are generating structured travel data for a {dest1} vs {dest2} comparison page on tabiji.ai.
+
+Based on these comparison categories and winners:
+{categories_info}
+
+Generate ALL of the following as valid JSON. Be specific with real prices, temperatures, and place names.
+
+BANNED: "vibrant", "bustling", "unforgettable", "hidden gem", "rich tapestry", "unique blend", "something for everyone", "world-class", "must-visit", "breathtaking"
+
+{{
+  "quickAnswers": [
+    {{
+      "question": "Which is cheaper?",
+      "answer": "Short specific answer with numbers (1-2 sentences)",
+      "winner": "{dest1}" or "{dest2}" or "Tie",
+      "linkId": "kebab-case-section-id"
+    }}
+  ],
+  "costTable": {{
+    "items": [
+      {{"label": "🛏️ Hostel dorm", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🏨 Budget hotel", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🍽️ Meal (mid-range)", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🍺 Beer/drink", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🚇 Local transport", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "☕ Coffee", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "📊 Daily total (mid-range)", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}}
+    ],
+    "savingsSummary": "Which city saves how much per day and over a 5-day trip"
+  }},
+  "weatherData": [
+    {{"month": "Jan", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Feb", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Mar", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Apr", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "May", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Jun", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Jul", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Aug", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "avoid"}},
+    {{"month": "Sep", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Oct", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Nov", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Dec", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}}
+  ],
+  "itineraries": [
+    {{
+      "tabLabel": "3 Days in {dest1}",
+      "title": "Weekend in {dest1} (3 Days)",
+      "days": [
+        {{"dayNum": "Day 1", "desc": "Specific activities with costs and tips (2-3 sentences)"}},
+        {{"dayNum": "Day 2", "desc": "Specific activities with costs and tips (2-3 sentences)"}},
+        {{"dayNum": "Day 3", "desc": "Specific activities with costs and tips (2-3 sentences)"}}
+      ],
+      "tip": "One insider tip with a specific cost or time-saving hack"
+    }},
+    {{
+      "tabLabel": "3 Days in {dest2}",
+      "title": "Weekend in {dest2} (3 Days)",
+      "days": [
+        {{"dayNum": "Day 1", "desc": "..."}},
+        {{"dayNum": "Day 2", "desc": "..."}},
+        {{"dayNum": "Day 3", "desc": "..."}}
+      ],
+      "tip": "..."
+    }},
+    {{
+      "tabLabel": "7 Days in {dest1}",
+      "title": "One Week in {dest1} (7 Days)",
+      "days": [
+        {{"dayNum": "Days 1–2", "desc": "..."}},
+        {{"dayNum": "Days 3–4", "desc": "..."}},
+        {{"dayNum": "Days 5–6", "desc": "..."}},
+        {{"dayNum": "Day 7", "desc": "..."}}
+      ],
+      "tip": "..."
+    }},
+    {{
+      "tabLabel": "7 Days in {dest2}",
+      "title": "One Week in {dest2} (7 Days)",
+      "days": [
+        {{"dayNum": "Days 1–2", "desc": "..."}},
+        {{"dayNum": "Days 3–4", "desc": "..."}},
+        {{"dayNum": "Days 5–6", "desc": "..."}},
+        {{"dayNum": "Day 7", "desc": "..."}}
+      ],
+      "tip": "..."
+    }}
+  ],
+  "scorecardRows": [
+    {{"emoji": "💰", "label": "Budget", "dest1Pct": 80, "dest2Pct": 60, "winner": "{dest1}" or "{dest2}" or "Tie"}}
+  ],
+  "dest1Score": 0,
+  "dest2Score": 0,
+  "tieCount": 0,
+  "relatedComparisons": [
+    {{
+      "slug": "similar-comparison-slug",
+      "title": "City A vs City B",
+      "desc": "One sentence description"
+    }}
+  ]
+}}
+
+Requirements:
+- quickAnswers: exactly 6 items covering cost, food, safety, culture, weather, and one unique category
+- costTable: 7 items including daily total. Use USD prices. Be realistic.
+- weatherData: 12 months. Use average high temps in °C. Mark 2-3 months as "best", 1-2 as "avoid"
+- itineraries: 4 total (3-day + 7-day for each destination). Each day description should mention specific places, costs, and tips.
+- scorecardRows: One row per comparison category from the base content. dest1Pct/dest2Pct are 0-100 showing relative strength (winner gets 70-90, loser gets 40-60, ties get similar numbers)
+- dest1Score/dest2Score/tieCount: count of category wins for each destination
+- relatedComparisons: 3 items with slugs of real travel comparisons that would interest the same audience
+- All prices in USD
+"""
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    body = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.8,
+            "maxOutputTokens": 6144,
+            "responseMimeType": "application/json"
+        }
+    })
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, data=body.encode(), headers={"Content-Type": "application/json"})
+            resp = urllib.request.urlopen(req, timeout=120)
+            result = json.loads(resp.read())
+            text = result['candidates'][0]['content']['parts'][0]['text']
+            text = re.sub(r'^```json\s*', '', text.strip())
+            text = re.sub(r'\s*```$', '', text.strip())
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                fixed = re.sub(r'[\x00-\x1f](?!["\\bfnrt/])', ' ', text)
+                return json.loads(fixed)
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"  Rich content retry {attempt+1} for {slug}: {e}")
+                time.sleep(2 + attempt * 2)
+            else:
+                print(f"  ⚠️ Rich content generation failed (non-fatal): {e}")
+                return None
+
+
 def build_compare_json(slug, content_data):
     """Build the full compare-data JSON from generated content."""
     dest1, dest2 = slug_to_names(slug)
@@ -513,9 +672,10 @@ def build_compare_json(slug, content_data):
             "faqHtml": faq_html,
             "faqItems": [{"question": f["question"], "answer": f["answer"]} for f in d['faqItems']],
             "ctaHtml": cta_html
-        }
+        },
+        "richContent": content_data.get("_richContent", {})
     }
-    
+
     return full_json
 
 
@@ -714,7 +874,17 @@ def process_slug(slug):
     except Exception as e:
         print(f"  ❌ Failed to generate content for {slug}: {e}")
         return False
-    
+
+    # Generate rich structured data (cost table, weather, itineraries, etc.)
+    print(f"  Generating rich structured data...")
+    rich = generate_rich_content(slug, dest1, dest2, content)
+    if rich:
+        content['_richContent'] = rich
+        print(f"  ✅ Rich content generated")
+    else:
+        content['_richContent'] = {}
+        print(f"  ⚠️ Rich content skipped (will use basic template)")
+
     # Build full JSON
     try:
         compare_json = build_compare_json(slug, content)
