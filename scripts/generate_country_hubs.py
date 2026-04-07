@@ -832,6 +832,35 @@ def get_advisory(country_name):
     return ADVISORY_DATA.get(country_name)
 
 
+def extract_alert_content(alert_slug):
+    """Extract the full advisory detail content from an alert HTML page."""
+    alert_path = os.path.join(BASE_DIR, "alerts", alert_slug, "index.html")
+    if not os.path.exists(alert_path):
+        return ""
+    with open(alert_path) as f:
+        html = f.read()
+
+    # Extract the detail-content section
+    parts = []
+
+    # 1. Risk tags (if present)
+    risk_match = re.search(r'<div class="risk-tags">(.*?)</div>', html, re.DOTALL)
+    if risk_match:
+        parts.append(f'<div class="risk-tags">{risk_match.group(1)}</div>')
+
+    # 2. Main detail content (US State Dept, UK FCDO, etc.)
+    detail_match = re.search(r'<div class="detail-content">(.*?)(?:<p class="updated-text">|<!-- @include:footer)', html, re.DOTALL)
+    if detail_match:
+        parts.append(detail_match.group(1).strip())
+
+    # 3. Enrichment section (emergency numbers, healthcare, medication, cultural tips, scam guides)
+    enrich_match = re.search(r'<div id="alert-enrichment-section">(.*?)</div>\s*<footer', html, re.DOTALL)
+    if enrich_match:
+        parts.append(enrich_match.group(1).strip())
+
+    return "\n".join(parts)
+
+
 # ---------------------------------------------------------------------------
 # HTML helpers
 # ---------------------------------------------------------------------------
@@ -1011,7 +1040,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         alert_exists = has_alert_page(alert_slug) or has_alert
         if alert_exists:
             level = advisory["level"]
-            # Colors by level
             level_colors = {
                 1: ("#16A34A", "#F0FDF4"),
                 2: ("#F59E0B", "#FFFBEB"),
@@ -1020,16 +1048,33 @@ def generate_country_page(name, slug, iso2, flag, continent):
             }
             color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
             label = f"Level {level} \u2014 {advisory['lt']}"
-            advisory_html = f"""
+
+            # Try to extract full alert content from the alert page
+            full_alert = extract_alert_content(alert_slug)
+            if not full_alert:
+                full_alert = extract_alert_content(slug)
+
+            if full_alert:
+                advisory_html = f"""
+    <section class="section advisory-full">
+        <h2 class="section-title">Travel Advisory</h2>
+        <div class="advisory-badge-inline" style="background: {bg}; color: {color};">
+            {h(label)}
+        </div>
+        <div class="alert-detail-content">
+            {full_alert}
+        </div>
+    </section>"""
+            else:
+                advisory_html = f"""
     <section class="section">
         <h2 class="section-title">Travel Advisory</h2>
-        <a href="/alerts/{alert_slug}/" class="advisory-card" style="border-left: 4px solid {color};">
+        <div class="advisory-card" style="border-left: 4px solid {color};">
             <div class="advisory-badge" style="background: {bg}; color: {color};">
                 {h(label)}
             </div>
             <p class="advisory-desc">View the full {name} travel advisory, entry requirements, and safety updates.</p>
-            <span class="advisory-link">Read full advisory &rarr;</span>
-        </a>
+        </div>
     </section>"""
 
     # --- Health ---
