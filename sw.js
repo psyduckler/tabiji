@@ -15,7 +15,8 @@ const SHELL_ASSETS = [
   '/assets/shared-shell.js',
   '/manifest.json',
   '/favicon.ico',
-  '/offline.html'
+  '/offline.html',
+  '/owl/tabiji-owl.png'
 ];
 
 const SHELL_EXTERNAL = [
