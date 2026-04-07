@@ -396,35 +396,58 @@ def cmd_add_photos(slug, hero_only=False):
                 skipped += 1
             time.sleep(1)
 
-        # ── Section photos ──
+        # ── Section photos (dest-specific pairs) ──
         if not hero_only:
             topics = extract_section_topics(slug)
-            # Pick 2-3 most imageable sections
+            # Pick most imageable sections
             imageable_topics = []
             for topic in topics:
                 lower = topic.lower()
-                # Prioritize visual topics
                 if any(kw in lower for kw in ['food', 'beach', 'architecture', 'temple',
                                                 'nature', 'nightlife', 'culture', 'museum',
-                                                'neighborhood', 'market', 'shopping']):
+                                                'neighborhood', 'market', 'shopping',
+                                                'character', 'vibe', 'cost', 'safety']):
                     imageable_topics.append(topic)
-            # Fill remaining slots with other topics
             for topic in topics:
                 if topic not in imageable_topics:
                     imageable_topics.append(topic)
-            imageable_topics = imageable_topics[:3]
+            imageable_topics = imageable_topics[:5]
+
+            # Check if we have section photo queries from rich content
+            photo_queries = {}
+            data_path = DATA_DIR / f"{slug}.json"
+            if data_path.exists():
+                import json as _json
+                _data = _json.load(open(data_path))
+                for sq in _data.get("richContent", {}).get("sectionPhotoQueries", []):
+                    idx = sq.get("sectionIndex", -1)
+                    photo_queries[idx] = sq
 
             for i, topic in enumerate(imageable_topics):
-                r2_key = f"{r2_prefix}/section-{i+1}.jpg"
-                # Build a search query that combines topic + both destinations
-                query = f"{topic} {dest1} {dest2} travel"
-                description = f"{topic} — {dest1} vs {dest2}"
+                # Upload dest1 image for this section
+                pq = photo_queries.get(i, {})
+                d1_query = pq.get("dest1Query", f"{dest1} {topic} travel scenic")
+                d2_query = pq.get("dest2Query", f"{dest2} {topic} travel scenic")
+
                 print(f"\n📷 Section {i+1}: {topic}")
-                if process_photo(query, description, r2_key, tmpdir, f"section-{i+1}"):
+
+                # Dest1 photo
+                d1_key = f"{r2_prefix}/section-{i+1}-dest1.jpg"
+                print(f"  → {dest1}")
+                if process_photo(d1_query, f"{dest1} {topic}", d1_key, tmpdir, f"s{i+1}-d1"):
                     uploaded += 1
                 else:
                     skipped += 1
-                time.sleep(1)
+                time.sleep(0.5)
+
+                # Dest2 photo
+                d2_key = f"{r2_prefix}/section-{i+1}-dest2.jpg"
+                print(f"  → {dest2}")
+                if process_photo(d2_query, f"{dest2} {topic}", d2_key, tmpdir, f"s{i+1}-d2"):
+                    uploaded += 1
+                else:
+                    skipped += 1
+                time.sleep(0.5)
 
     print(f"\n{'='*60}")
     print(f"DONE: {uploaded} photos uploaded, {skipped} skipped")

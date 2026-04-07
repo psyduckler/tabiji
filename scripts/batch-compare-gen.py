@@ -164,7 +164,7 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
       "dest1Summary": "Key points for {dest1}",
       "dest2Summary": "Key points for {dest2}",
       "winner": "{dest1}" or "{dest2}" or "Tie",
-      "deepDive": "One detailed paragraph (600-1200 chars) comparing this category with specific names, prices, tips. Do NOT embed quotes — keep this as pure analysis.",
+      "deepDive": "Two paragraphs joined by \\n\\n. Para 1: dest1 specifics (places, prices, tips). Para 2: dest2 specifics. End with tabiji verdict: one opinionated sentence. Total 1000-1800 chars. CRITICAL: use \\n\\n between paragraphs, never literal newlines. Avoid apostrophes and special quotes.",
       "winnerWhy": "One sentence on why this destination wins this category",
       "winnerWhoMatters": "Who this matters most for"
     }}
@@ -193,7 +193,7 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 Requirements:
 - EXACTLY 10 comparison categories (pick the most relevant from: beaches, food, nightlife, culture, costs, getting there, getting around, accommodation, day trips, weather/seasons, safety, nature, shopping, families, digital nomads, solo travel, etc.)
 - EXACTLY 8 FAQ items
-- Each deepDive must be 600-1200 chars with specific place names, prices in local currency AND USD
+- Each deepDive must be 1000-1800 chars (two paragraphs + verdict) with specific place names, prices in local currency AND USD. Use \\n\\n between paragraphs in the JSON string.
 - Be opinionated — pick real winners, don't hedge everything as "Tie"
 - Include specific restaurant/hotel/attraction names where relevant
 - decisionFramework: 7-9 bullet points per destination, each concrete and specific
@@ -351,12 +351,29 @@ BANNED: "vibrant", "bustling", "unforgettable", "hidden gem", "rich tapestry", "
   "dest1Score": 0,
   "dest2Score": 0,
   "tieCount": 0,
+  "personalizeRecommendations": {{
+    "solo_backpacker_food": "For a <strong>solo backpacker into food</strong>, pick <strong>[winner]</strong>. [1 sentence with specific place and price].",
+    "solo_midrange_culture": "...",
+    "solo_midrange_beaches": "...",
+    "couple_midrange_food": "...",
+    "couple_midrange_culture": "...",
+    "couple_midrange_beaches": "...",
+    "couple_luxury_food": "...",
+    "family_midrange_food": "...",
+    "family_midrange_beaches": "...",
+    "friends_midrange_nightlife": "...",
+    "friends_midrange_food": "...",
+    "friends_backpacker_nightlife": "..."
+  }},
   "relatedComparisons": [
     {{
       "slug": "similar-comparison-slug",
       "title": "City A vs City B",
       "desc": "One sentence description"
     }}
+  ],
+  "sectionPhotoQueries": [
+    {{"sectionIndex": 0, "dest1Query": "[dest1] [topic] travel photo", "dest2Query": "[dest2] [topic] travel photo"}}
   ]
 }}
 
@@ -368,6 +385,8 @@ Requirements:
 - scorecardRows: One row per comparison category from the base content. dest1Pct/dest2Pct are 0-100 showing relative strength (winner gets 70-90, loser gets 40-60, ties get similar numbers)
 - dest1Score/dest2Score/tieCount: count of category wins for each destination
 - relatedComparisons: 3 items with slugs of real travel comparisons that would interest the same audience
+- personalizeRecommendations: 12 entries covering key combos. Each 1 sentence with a specific place/price. Use <strong> tags. Always pick a winner.
+- sectionPhotoQueries: One entry per comparison category. dest1Query and dest2Query should be specific Google Images search queries for each destination's version of that category topic (e.g., "Madrid tapas bar food" and "Barcelona paella restaurant food").
 - All prices in USD
 """
 
@@ -376,7 +395,7 @@ Requirements:
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.8,
-            "maxOutputTokens": 6144,
+            "maxOutputTokens": 8192,
             "responseMimeType": "application/json"
         }
     })

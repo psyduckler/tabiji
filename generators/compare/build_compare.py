@@ -433,12 +433,20 @@ def render_page(data: Dict) -> str:
         # data-winner attribute for CSS hooks
         dw_attr = f' data-winner="{badge_cls}"' if not is_decision else ' data-winner="depends"'
 
-        # Photo pair for this section (use dest images if available)
+        # Photo pair for this section
         photo_pair_html = ""
-        if not is_decision and i < 3:  # First 3 deep-dives get photo pairs
+        if not is_decision and i < 5:  # First 5 deep-dives get photo pairs
+            # Use section-specific images if available, else fall back to dest images
+            d1_img = f"https://img.tabiji.ai/compare/{slug}/section-{i+1}-dest1.jpg"
+            d2_img = f"https://img.tabiji.ai/compare/{slug}/section-{i+1}-dest2.jpg"
+            d1_fallback = f"https://img.tabiji.ai/compare/{slug}/dest1.jpg"
+            d2_fallback = f"https://img.tabiji.ai/compare/{slug}/dest2.jpg"
+            # Extract section title for alt text
+            sec_title = re.sub(r'<[^>]+>', '', full_title).strip() if full_title else f"Section {i+1}"
+            sec_title = re.sub(r'^[\U00010000-\U0010ffff\u2600-\u27bf\u2702-\u27b0]+\s*', '', sec_title).strip()
             photo_pair_html = f'''<div class="photo-pair">
-<div><img src="https://img.tabiji.ai/compare/{slug}/dest1.jpg" alt="{html.escape(dest1)}" loading="lazy"><p class="photo-caption">{html.escape(dest1)}</p></div>
-<div><img src="https://img.tabiji.ai/compare/{slug}/dest2.jpg" alt="{html.escape(dest2)}" loading="lazy"><p class="photo-caption">{html.escape(dest2)}</p></div>
+<div><img src="{d1_img}" alt="{html.escape(dest1)} — {html.escape(sec_title)}" loading="lazy" onerror="this.src='{d1_fallback}'"><p class="photo-caption">{html.escape(dest1)}</p></div>
+<div><img src="{d2_img}" alt="{html.escape(dest2)} — {html.escape(sec_title)}" loading="lazy" onerror="this.src='{d2_fallback}'"><p class="photo-caption">{html.escape(dest2)}</p></div>
 </div>'''
 
         # Convert section-winner to tabiji-verdict if present
@@ -466,6 +474,46 @@ def render_page(data: Dict) -> str:
 {body_content}
 </div></div>
 </section>\n'''
+
+    # ── Personalization widget ──
+    personalize_html = ""
+    recs = rich.get("personalizeRecommendations", {})
+    if recs:
+        fallbacks_js = json.dumps({
+            "food": f"For <strong>food lovers</strong>, compare the food sections below for {html.escape(dest1)} vs {html.escape(dest2)}.",
+            "culture": f"For <strong>culture seekers</strong>, both offer rich experiences — scroll to the culture section for specifics.",
+            "beaches": f"If <strong>beaches</strong> matter, check the beaches section for a detailed comparison.",
+            "nightlife": f"For <strong>nightlife</strong>, see the nightlife section for specific venue recommendations.",
+        }, ensure_ascii=False)
+        recs_js = json.dumps(recs, ensure_ascii=False)
+        personalize_html = f'''<div class="personalize-widget" id="personalize">
+<h2>&#127919; Tell me about your trip</h2>
+<div class="personalize-row"><label>Traveling&hellip;</label><div class="pill-group" data-group="style">
+<button class="personalize-pill" data-val="solo" onclick="selectPill(this)">Solo</button>
+<button class="personalize-pill" data-val="couple" onclick="selectPill(this)">Couple</button>
+<button class="personalize-pill" data-val="family" onclick="selectPill(this)">Family</button>
+<button class="personalize-pill" data-val="friends" onclick="selectPill(this)">Friends</button>
+</div></div>
+<div class="personalize-row"><label>Budget&hellip;</label><div class="pill-group" data-group="budget">
+<button class="personalize-pill" data-val="backpacker" onclick="selectPill(this)">Backpacker</button>
+<button class="personalize-pill" data-val="midrange" onclick="selectPill(this)">Mid-range</button>
+<button class="personalize-pill" data-val="luxury" onclick="selectPill(this)">Luxury</button>
+</div></div>
+<div class="personalize-row"><label>I care about&hellip;</label><div class="pill-group" data-group="priority">
+<button class="personalize-pill" data-val="food" onclick="selectPill(this)">Food</button>
+<button class="personalize-pill" data-val="culture" onclick="selectPill(this)">Culture</button>
+<button class="personalize-pill" data-val="beaches" onclick="selectPill(this)">Beaches</button>
+<button class="personalize-pill" data-val="nightlife" onclick="selectPill(this)">Nightlife</button>
+</div></div>
+<div class="personalize-result" id="personalize-result"></div>
+</div>
+<script>
+var personState={{}};
+var recommendations={recs_js};
+var fallbacks={fallbacks_js};
+function selectPill(btn){{var g=btn.parentElement.getAttribute('data-group');btn.parentElement.querySelectorAll('.personalize-pill').forEach(function(p){{p.classList.remove('selected')}});btn.classList.add('selected');personState[g]=btn.getAttribute('data-val');showRecommendation()}}
+function showRecommendation(){{var s=personState;if(!s.style||!s.budget||!s.priority)return;var key=s.style+'_'+s.budget+'_'+s.priority;var result=document.getElementById('personalize-result');var text=recommendations[key]||fallbacks[s.priority]||'Both destinations are excellent. Scroll down to compare specific categories.';result.innerHTML=text;result.classList.add('visible')}}
+</script>'''
 
     # ── Related comparisons ──
     related_html = ""
@@ -538,6 +586,7 @@ def render_page(data: Dict) -> str:
 {content['methodologyHtml']}
 {content['photoGridHtml']}
 {qa_html}
+{personalize_html}
 {content['verdictHtml']}
 {sc_html}
 {cost_html}
