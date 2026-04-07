@@ -109,8 +109,11 @@
     <div class="map-section">
         <div id="countryMap"></div>
         <div class="map-legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#2D3A5C;"></div> Guide Available</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> Coming Soon</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Level 1: Normal Precautions</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div> Level 2: Increased Caution</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Level 3: Reconsider Travel</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Level 4: Do Not Travel</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> No Data</div>
         </div>
     </div>
 
@@ -154,12 +157,11 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// Countries with hub pages
-const hubCountries = {
-    "Japan": {slug:"japan", flag:"🇯🇵", stats:"467 destinations · 3 scam guides"},
-    "Mexico": {slug:"mexico", flag:"🇲🇽", stats:"147 destinations · 9 scam guides"},
-    "Italy": {slug:"italy", flag:"🇮🇹", stats:"165 destinations · 5 scam guides"},
-};
+// Countries with full hub pages
+const hubCountries = {"Japan":"japan","Mexico":"mexico","Italy":"italy"};
+
+// Full advisory data (from US State Dept)
+const advisoryData = {"Saudi Arabia":{"level":3,"slug":"saudi-arabia","lt":"Reconsider Travel"},"Oman":{"level":3,"slug":"oman","lt":"Reconsider Travel"},"Finland":{"level":1,"slug":"finland","lt":"Exercise Normal Precautions"},"Guatemala":{"level":3,"slug":"guatemala","lt":"Reconsider Travel"},"Azerbaijan":{"level":3,"slug":"azerbaijan","lt":"Reconsider Travel"},"Belize":{"level":2,"slug":"belize","lt":"Exercise Increased Caution"},"Togo":{"level":2,"slug":"togo","lt":"Exercise Increased Caution"},"Singapore":{"level":1,"slug":"singapore","lt":"Exercise Normal Precautions"},"Kuwait":{"level":3,"slug":"kuwait","lt":"Reconsider Travel"},"Turkey":{"level":2,"slug":"turkey","lt":"Exercise Increased Caution"},"Pakistan":{"level":3,"slug":"pakistan","lt":"Reconsider Travel"},"Cyprus":{"level":3,"slug":"cyprus","lt":"Reconsider Travel"},"United Arab Emirates":{"level":3,"slug":"united-arab-emirates","lt":"Reconsider Travel"},"Qatar":{"level":3,"slug":"qatar","lt":"Reconsider Travel"},"Jordan":{"level":3,"slug":"jordan","lt":"Reconsider Travel"},"Iraq":{"level":4,"slug":"iraq","lt":"Do Not Travel"},"Bahrain":{"level":3,"slug":"bahrain","lt":"Reconsider Travel"},"Guinea":{"level":2,"slug":"guinea","lt":"Exercise Increased Caution"},"Malawi":{"level":2,"slug":"malawi","lt":"Exercise Increased Caution"},"Lebanon":{"level":4,"slug":"lebanon","lt":"Do Not Travel"},"Malaysia":{"level":1,"slug":"malaysia","lt":"Exercise Normal Precautions"},"Afghanistan":{"level":4,"slug":"afghanistan","lt":"Do Not Travel"},"Slovakia":{"level":1,"slug":"slovakia","lt":"Exercise Normal Precautions"},"Niger":{"level":4,"slug":"niger","lt":"Do Not Travel"},"Uzbekistan":{"level":1,"slug":"uzbekistan","lt":"Exercise Normal Precautions"},"Bangladesh":{"level":3,"slug":"bangladesh","lt":"Reconsider Travel"},"Jamaica":{"level":2,"slug":"jamaica","lt":"Exercise Increased Caution"},"Central African Republic":{"level":4,"slug":"central-african-republic","lt":"Do Not Travel"},"Mali":{"level":4,"slug":"mali","lt":"Do Not Travel"},"Czech Republic":{"level":1,"slug":"czech-republic","lt":"Exercise Normal Precautions"},"Benin":{"level":2,"slug":"benin","lt":"Exercise Increased Caution"},"Russia":{"level":4,"slug":"russia","lt":"Do Not Travel"},"Belarus":{"level":4,"slug":"belarus","lt":"Do Not Travel"},"Portugal":{"level":1,"slug":"portugal","lt":"Exercise Normal Precautions"},"Yemen":{"level":4,"slug":"yemen","lt":"Do Not Travel"},"Syria":{"level":4,"slug":"syria","lt":"Do Not Travel"},"Mauritius":{"level":2,"slug":"mauritius","lt":"Exercise Increased Caution"},"Uganda":{"level":3,"slug":"uganda","lt":"Reconsider Travel"},"Iran":{"level":4,"slug":"iran","lt":"Do Not Travel"},"Venezuela":{"level":4,"slug":"venezuela","lt":"Do Not Travel"},"Taiwan":{"level":1,"slug":"taiwan","lt":"Exercise Normal Precautions"},"South Sudan":{"level":4,"slug":"south-sudan","lt":"Do Not Travel"},"Tanzania":{"level":3,"slug":"tanzania","lt":"Reconsider Travel"},"Greece":{"level":1,"slug":"greece","lt":"Exercise Normal Precautions"},"Sudan":{"level":4,"slug":"sudan","lt":"Do Not Travel"},"Romania":{"level":1,"slug":"romania","lt":"Exercise Normal Precautions"},"Sri Lanka":{"level":2,"slug":"sri-lanka","lt":"Exercise Increased Caution"},"Ecuador":{"level":2,"slug":"ecuador","lt":"Exercise Increased Caution"},"Bulgaria":{"level":1,"slug":"bulgaria","lt":"Exercise Normal Precautions"},"Croatia":{"level":1,"slug":"croatia","lt":"Exercise Normal Precautions"},"Maldives":{"level":2,"slug":"maldives","lt":"Exercise Increased Caution"},"Nepal":{"level":3,"slug":"nepal","lt":"Reconsider Travel"},"Armenia":{"level":2,"slug":"armenia","lt":"Exercise Increased Caution"},"Mexico":{"level":2,"slug":"mexico-travel-advisory","lt":"Exercise Increased Caution"},"Democratic Republic of the Congo":{"level":3,"slug":"democratic-republic-of-the-congo","lt":"Reconsider Travel"},"Cambodia":{"level":2,"slug":"cambodia","lt":"Exercise Increased Caution"},"Thailand":{"level":2,"slug":"thailand","lt":"Exercise Increased Caution"},"Rwanda":{"level":2,"slug":"rwanda","lt":"Exercise Increased Caution"},"Libya":{"level":4,"slug":"libya","lt":"Do Not Travel"},"Egypt":{"level":2,"slug":"egypt","lt":"Exercise Increased Caution"},"Nigeria":{"level":3,"slug":"nigeria","lt":"Reconsider Travel"},"Haiti":{"level":4,"slug":"haiti","lt":"Do Not Travel"},"India":{"level":2,"slug":"india","lt":"Exercise Increased Caution"},"Mozambique":{"level":2,"slug":"mozambique","lt":"Exercise Increased Caution"},"Dominican Republic":{"level":2,"slug":"dominican-republic","lt":"Exercise Increased Caution"},"Canada":{"level":1,"slug":"canada","lt":"Exercise Normal Precautions"},"Poland":{"level":1,"slug":"poland","lt":"Exercise Normal Precautions"},"Australia":{"level":1,"slug":"australia","lt":"Exercise Normal Precautions"},"Brazil":{"level":2,"slug":"brazil","lt":"Exercise Increased Caution"},"France":{"level":2,"slug":"france","lt":"Exercise Increased Caution"},"South Korea":{"level":1,"slug":"south-korea","lt":"Exercise Normal Precautions"},"South Africa":{"level":2,"slug":"south-africa","lt":"Exercise Increased Caution"},"Italy":{"level":2,"slug":"italy","lt":"Exercise Increased Caution"},"Belgium":{"level":2,"slug":"belgium","lt":"Exercise Increased Caution"},"Switzerland":{"level":1,"slug":"switzerland","lt":"Exercise Normal Precautions"},"Peru":{"level":2,"slug":"peru","lt":"Exercise Increased Caution"},"Japan":{"level":1,"slug":"japan","lt":"Exercise Normal Precautions"},"Somalia":{"level":4,"slug":"somalia","lt":"Do Not Travel"},"Germany":{"level":2,"slug":"germany","lt":"Exercise Increased Caution"},"Spain":{"level":2,"slug":"spain","lt":"Exercise Increased Caution"},"Burma (Myanmar)":{"level":4,"slug":"burma-myanmar","lt":"Do Not Travel"},"United Kingdom":{"level":2,"slug":"united-kingdom","lt":"Exercise Increased Caution"},"Philippines":{"level":2,"slug":"philippines","lt":"Exercise Increased Caution"},"Cuba":{"level":2,"slug":"cuba","lt":"Exercise Increased Caution"},"Indonesia":{"level":2,"slug":"indonesia","lt":"Exercise Increased Caution"},"North Korea":{"level":4,"slug":"north-korea","lt":"Do Not Travel"},"Morocco":{"level":2,"slug":"morocco","lt":"Exercise Increased Caution"},"Colombia":{"level":3,"slug":"colombia","lt":"Reconsider Travel"},"Burkina Faso":{"level":4,"slug":"burkina-faso","lt":"Do Not Travel"},"Serbia":{"level":2,"slug":"serbia","lt":"Exercise Increased Caution"},"Ghana":{"level":2,"slug":"ghana","lt":"Exercise Increased Caution"},"El Salvador":{"level":1,"slug":"el-salvador","lt":"Exercise Normal Precautions"},"Kenya":{"level":2,"slug":"kenya","lt":"Exercise Increased Caution"},"Georgia":{"level":1,"slug":"georgia","lt":"Exercise Normal Precautions"},"Chile":{"level":2,"slug":"chile","lt":"Exercise Increased Caution"},"New Zealand":{"level":1,"slug":"new-zealand","lt":"Exercise Normal Precautions"},"Albania":{"level":2,"slug":"albania","lt":"Exercise Increased Caution"},"Namibia":{"level":2,"slug":"namibia","lt":"Exercise Increased Caution"},"Vietnam":{"level":1,"slug":"vietnam","lt":"Exercise Normal Precautions"},"Nicaragua":{"level":3,"slug":"nicaragua","lt":"Reconsider Travel"},"Costa Rica":{"level":2,"slug":"costa-rica","lt":"Exercise Increased Caution"},"Honduras":{"level":3,"slug":"honduras","lt":"Reconsider Travel"},"Bolivia":{"level":2,"slug":"bolivia","lt":"Exercise Increased Caution"},"Ethiopia":{"level":3,"slug":"ethiopia","lt":"Reconsider Travel"},"Argentina":{"level":1,"slug":"argentina","lt":"Exercise Normal Precautions"},"Ireland":{"level":1,"slug":"ireland","lt":"Exercise Normal Precautions"},"Austria":{"level":1,"slug":"austria","lt":"Exercise Normal Precautions"},"Iceland":{"level":1,"slug":"iceland","lt":"Exercise Normal Precautions"},"Hungary":{"level":1,"slug":"hungary","lt":"Exercise Normal Precautions"},"Netherlands":{"level":2,"slug":"netherlands","lt":"Exercise Increased Caution"},"Sweden":{"level":2,"slug":"sweden","lt":"Exercise Increased Caution"},"Estonia":{"level":1,"slug":"estonia","lt":"Exercise Normal Precautions"},"Slovenia":{"level":1,"slug":"slovenia","lt":"Exercise Normal Precautions"},"Ukraine":{"level":4,"slug":"ukraine","lt":"Do Not Travel"},"Tunisia":{"level":2,"slug":"tunisia","lt":"Exercise Increased Caution"},"Algeria":{"level":2,"slug":"algeria","lt":"Exercise Increased Caution"},"Panama":{"level":2,"slug":"panama","lt":"Exercise Increased Caution"},"Latvia":{"level":1,"slug":"latvia","lt":"Exercise Normal Precautions"},"Mongolia":{"level":1,"slug":"mongolia","lt":"Exercise Normal Precautions"},"Norway":{"level":1,"slug":"norway","lt":"Exercise Normal Precautions"},"Lithuania":{"level":1,"slug":"lithuania","lt":"Exercise Normal Precautions"},"Kazakhstan":{"level":1,"slug":"kazakhstan","lt":"Exercise Normal Precautions"},"Montenegro":{"level":1,"slug":"montenegro","lt":"Exercise Normal Precautions"}};
 
 const geoNameMap = {
     "United States of America":"United States","Russian Federation":"Russia",
@@ -168,17 +170,27 @@ const geoNameMap = {
     "Czechia":"Czech Republic","Bosnia and Herz.":"Bosnia and Herzegovina",
     "Dominican Rep.":"Dominican Republic","Central African Rep.":"Central African Republic",
     "Eq. Guinea":"Equatorial Guinea","eSwatini":"Eswatini","S. Sudan":"South Sudan",
-    "Solomon Is.":"Solomon Islands","Lao PDR":"Laos","Myanmar":"Burma",
+    "Solomon Is.":"Solomon Islands","Lao PDR":"Laos","Myanmar":"Burma (Myanmar)",
     "Macedonia":"North Macedonia","N. Macedonia":"North Macedonia",
     "Timor-Leste":"East Timor","Turkiye":"Turkey","Türkiye":"Turkey",
+    "Côte d'Ivoire":"Cote d Ivoire","Ivory Coast":"Cote d Ivoire",
+    "Kyrgyzstan":"The Kyrgyz Republic","Brunei Darussalam":"Brunei",
+    "Taiwan":"Taiwan","Palestine":"Palestinian Territories",
+    "Somaliland":"Somalia","N. Cyprus":"Cyprus","Kosovo":"Kosovo",
 };
 
-function getHub(name) {
-    if (hubCountries[name]) return hubCountries[name];
+function getAdvisory(name) {
+    if (advisoryData[name]) return advisoryData[name];
     const mapped = geoNameMap[name];
-    if (mapped && hubCountries[mapped]) return hubCountries[mapped];
+    if (mapped && advisoryData[mapped]) return advisoryData[mapped];
+    const lower = name.toLowerCase();
+    for (const [k, v] of Object.entries(advisoryData)) {
+        if (k.toLowerCase() === lower) return v;
+    }
     return null;
 }
+
+const levelColors = {1:'#22c55e', 2:'#eab308', 3:'#f97316', 4:'#ef4444'};
 
 const map = L.map('countryMap', {
     center:[25,10], zoom:2, minZoom:2, maxZoom:6,
@@ -194,32 +206,50 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
     .then(r=>r.json())
     .then(geojson=>{
         L.geoJSON(geojson,{
-            style:function(feature){
+            style: function(feature){
                 const name = feature.properties.NAME || feature.properties.NAME_EN || '';
-                const hub = getHub(name);
+                const info = getAdvisory(name);
+                const level = info ? info.level : 0;
+                const color = levelColors[level] || '#d1d5db';
                 return {
-                    fillColor: hub ? '#2D3A5C' : '#d1d5db',
-                    fillOpacity: hub ? 0.6 : 0.15,
-                    weight:0.8, color:'#fff', opacity:0.8
+                    fillColor: color,
+                    fillOpacity: level === 4 ? 0.7 : level === 3 ? 0.55 : level ? 0.4 : 0.15,
+                    weight: 0.8, color: '#fff', opacity: 0.8
                 };
             },
-            onEachFeature:function(feature,layer){
+            onEachFeature: function(feature, layer){
                 const name = feature.properties.NAME_EN || feature.properties.NAME || '';
-                const hub = getHub(name);
-                if(hub){
+                const info = getAdvisory(name);
+                const hubSlug = hubCountries[name];
+
+                if (info) {
+                    const level = info.level;
+                    const color = levelColors[level] || '#94a3b8';
+                    const label = info.lt || 'No advisory';
+                    const hubBadge = hubSlug ? ' · <span style="color:#2D3A5C;font-weight:700;">Guide available</span>' : '';
                     layer.bindTooltip(
-                        '<div class="map-tooltip"><div class="tt-country">' + hub.flag + ' ' + name + '</div>' +
-                        '<div class="tt-level" style="color:#2D3A5C;">' + hub.stats + '</div></div>',
-                        {sticky:true,className:'map-tooltip'}
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:' + color + ';">Level ' + level + ': ' + label + '</div>' +
+                        hubBadge + '</div>',
+                        {sticky:true, className:'map-tooltip'}
                     );
-                    layer.on('click',function(){ window.location.href='/countries/'+hub.slug+'/'; });
-                    layer.on('mouseover',function(e){ e.target.setStyle({weight:2,color:'#2D3A5C',fillOpacity:0.8}); this._path.style.cursor='pointer'; });
-                    layer.on('mouseout',function(e){ e.target.setStyle({weight:0.8,color:'#fff',fillOpacity:0.6}); });
+                    layer.on('click', function(){
+                        if (hubSlug) window.location.href = '/countries/' + hubSlug + '/';
+                        else window.location.href = '/alerts/' + info.slug + '/';
+                    });
+                    layer.on('mouseover', function(e){
+                        e.target.setStyle({weight:2, color:'#2D3A5C', fillOpacity:0.8});
+                        this._path.style.cursor = 'pointer';
+                    });
+                    layer.on('mouseout', function(e){
+                        const l = info.level;
+                        e.target.setStyle({weight:0.8, color:'#fff', fillOpacity: l===4?0.7:l===3?0.55:l?0.4:0.15});
+                    });
                 } else {
                     layer.bindTooltip(
                         '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
-                        '<div class="tt-level" style="color:#94a3b8;">Coming soon</div></div>',
-                        {sticky:true,className:'map-tooltip'}
+                        '<div class="tt-level" style="color:#94a3b8;">No data</div></div>',
+                        {sticky:true, className:'map-tooltip'}
                     );
                 }
             }
