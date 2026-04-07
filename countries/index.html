@@ -26,8 +26,24 @@
     <meta name="twitter:description" content="Browse travel guides by country. In-depth destination guides, scam alerts, health tips, itineraries, and local picks for 3 countries.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/countries/">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <link rel="stylesheet" href="/assets/countries.css">
+    <style>
+        #countryMap { width:100%; height:420px; border-radius:12px; border:1px solid var(--sand); margin-top:1.5rem; z-index:1; }
+        .map-section { max-width:900px; margin:0 auto; padding:0 2rem; }
+        .map-legend { display:flex; gap:1rem; justify-content:center; margin-top:0.75rem; flex-wrap:wrap; }
+        .legend-item { display:flex; align-items:center; gap:0.35rem; font-size:0.8rem; color:var(--text-muted); }
+        .legend-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+        .map-tooltip { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:0.85rem; padding:0.5rem 0.75rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.15); border:none; }
+        .map-tooltip .tt-country { font-weight:700; font-size:0.95rem; }
+        .map-tooltip .tt-level { margin-top:0.2rem; }
+        .leaflet-popup-content-wrapper { border-radius:8px; }
+        .controls { max-width:900px; margin:1.5rem auto 0; padding:0 2rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; }
+        .search-input { flex:1; min-width:200px; padding:0.6rem 1rem; border:1px solid var(--sand); border-radius:8px; font-size:0.95rem; background:white; color:var(--text); }
+        .search-input:focus { outline:none; border-color:var(--terracotta); }
+        @media(max-width:640px) { #countryMap{height:280px;} .controls{flex-direction:column;} }
+    </style>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2D3A5C">
     <script defer src="/assets/shared-shell.js"></script>
@@ -90,8 +106,20 @@
         </div>
     </section>
 
+    <div class="map-section">
+        <div id="countryMap"></div>
+        <div class="map-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#2D3A5C;"></div> Guide Available</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> Coming Soon</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="search-input" placeholder="Search countries…" id="countrySearch" oninput="filterCountries()">
+    </div>
+
     <section class="section">
-        <div class="countries-list">
+        <div class="countries-list" id="countriesList">
             <a href="/countries/japan/" class="country-card">
                 <span class="country-flag">🇯🇵</span>
                 <div class="country-info">
@@ -124,5 +152,89 @@
     <p>&copy; 2026 tabiji.ai &middot; <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> &middot; <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> &middot; <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> &middot; <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> &middot; <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> &middot; <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> &middot; <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> &middot; <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> &middot; <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Countries with hub pages
+const hubCountries = {
+    "Japan": {slug:"japan", flag:"🇯🇵", stats:"467 destinations · 3 scam guides"},
+    "Mexico": {slug:"mexico", flag:"🇲🇽", stats:"147 destinations · 9 scam guides"},
+    "Italy": {slug:"italy", flag:"🇮🇹", stats:"165 destinations · 5 scam guides"},
+};
+
+const geoNameMap = {
+    "United States of America":"United States","Russian Federation":"Russia",
+    "Republic of Korea":"South Korea","Dem. Rep. Korea":"North Korea",
+    "Dem. Rep. Congo":"Democratic Republic of the Congo","Congo":"Republic of the Congo",
+    "Czechia":"Czech Republic","Bosnia and Herz.":"Bosnia and Herzegovina",
+    "Dominican Rep.":"Dominican Republic","Central African Rep.":"Central African Republic",
+    "Eq. Guinea":"Equatorial Guinea","eSwatini":"Eswatini","S. Sudan":"South Sudan",
+    "Solomon Is.":"Solomon Islands","Lao PDR":"Laos","Myanmar":"Burma",
+    "Macedonia":"North Macedonia","N. Macedonia":"North Macedonia",
+    "Timor-Leste":"East Timor","Turkiye":"Turkey","Türkiye":"Turkey",
+};
+
+function getHub(name) {
+    if (hubCountries[name]) return hubCountries[name];
+    const mapped = geoNameMap[name];
+    if (mapped && hubCountries[mapped]) return hubCountries[mapped];
+    return null;
+}
+
+const map = L.map('countryMap', {
+    center:[25,10], zoom:2, minZoom:2, maxZoom:6,
+    zoomControl:true, attributionControl:false, worldCopyJump:false,
+    maxBounds:[[-85,-200],[85,200]], maxBoundsViscosity:0.8,
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png',{
+    subdomains:'abcd', maxZoom:19
+}).addTo(map);
+
+fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson')
+    .then(r=>r.json())
+    .then(geojson=>{
+        L.geoJSON(geojson,{
+            style:function(feature){
+                const name = feature.properties.NAME || feature.properties.NAME_EN || '';
+                const hub = getHub(name);
+                return {
+                    fillColor: hub ? '#2D3A5C' : '#d1d5db',
+                    fillOpacity: hub ? 0.6 : 0.15,
+                    weight:0.8, color:'#fff', opacity:0.8
+                };
+            },
+            onEachFeature:function(feature,layer){
+                const name = feature.properties.NAME_EN || feature.properties.NAME || '';
+                const hub = getHub(name);
+                if(hub){
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + hub.flag + ' ' + name + '</div>' +
+                        '<div class="tt-level" style="color:#2D3A5C;">' + hub.stats + '</div></div>',
+                        {sticky:true,className:'map-tooltip'}
+                    );
+                    layer.on('click',function(){ window.location.href='/countries/'+hub.slug+'/'; });
+                    layer.on('mouseover',function(e){ e.target.setStyle({weight:2,color:'#2D3A5C',fillOpacity:0.8}); });
+                    layer.on('mouseout',function(e){ e.target.setStyle({weight:0.8,color:'#fff',fillOpacity:0.6}); });
+                    layer.on('mouseover',function(){ this._path.style.cursor='pointer'; });
+                } else {
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:#94a3b8;">Coming soon</div></div>',
+                        {sticky:true,className:'map-tooltip'}
+                    );
+                }
+            }
+        }).addTo(map);
+    });
+
+// Search filter
+function filterCountries(){
+    const q = document.getElementById('countrySearch').value.toLowerCase();
+    document.querySelectorAll('.country-card').forEach(card=>{
+        const name = card.querySelector('.country-name').textContent.toLowerCase();
+        card.style.display = (!q || name.includes(q)) ? '' : 'none';
+    });
+}
+</script>
 </body>
 </html>
