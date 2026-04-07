@@ -426,7 +426,7 @@ def _load_scams():
                     if raw_slug not in _SCAM_DIRS_SET:
                         continue
 
-                    key = (city, country)
+                    key = (raw_slug, country)
                     if key in seen:
                         continue
                     seen.add(key)
@@ -455,7 +455,7 @@ def _load_scams():
                     raw_slug = slugify(city)
                     if raw_slug not in _SCAM_DIRS_SET:
                         continue
-                    key = (city, country)
+                    key = (raw_slug, country)
                     if key in seen:
                         continue
                     seen.add(key)
