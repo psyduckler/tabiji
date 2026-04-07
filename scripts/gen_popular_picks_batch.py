@@ -108,28 +108,41 @@ REQUIREMENTS:
     return json.loads(text)
 
 
-def build_venue_section(venue: dict, slug: str) -> str:
+def venue_to_section_id(name: str) -> str:
+    """Convert venue name to a URL-safe section ID."""
+    sid = re.sub(r'\([^)]*\)', '', name).strip()
+    sid = re.sub(r'[^\w\s-]', '', sid.lower())
+    sid = re.sub(r'[\s_]+', '-', sid).strip('-')
+    return re.sub(r'-+', '-', sid)[:40]
+
+
+def build_venue_section(venue: dict, slug: str, city: str) -> str:
     """Build HTML for a single venue section."""
     tags_html = " ".join(f'<span class="cuisine-tag">{t}</span>' for t in venue.get("cuisineTags", []))
     quote = venue.get("redditQuote", "")
     source = venue.get("redditSource", "r/travel")
-    
+    section_id = venue_to_section_id(venue['name'])
+    neighborhood = venue.get('neighborhood', '')
+    maps_query = f"{venue['name']}+{neighborhood}+{city}".replace(' ', '+')
+    maps_url = f"https://maps.google.com/?q={maps_query}"
+
     return f"""
-    <section class="restaurant-section" id="{venue['name'].lower().replace(' ', '-').replace("'", '').replace(',', '')[:30]}">
+    <section class="restaurant-section" id="{section_id}" data-map-name="{venue['rank']}. {venue['name']}" data-map-cta-url="{maps_url}" data-map-query="{venue['name']}, {neighborhood}, {city}">
       <div class="restaurant-header">
         <div class="restaurant-rank">#{venue['rank']}</div>
         <div>
-          <h2>{venue['name']}</h2>
+          <h2><span class="restaurant-number">#{venue['rank']}</span> {venue['name']}</h2>
           <div class="cuisine-tags">{tags_html}</div>
         </div>
       </div>
       <div class="restaurant-photo">
-        <img src="https://img.tabiji.ai/popular-picks/{slug}/hero-bg.jpg" alt="{venue['name']}" loading="lazy">
+        <img src="https://img.tabiji.ai/popular-picks/{slug}/{section_id}.jpg" alt="{venue['name']}" loading="lazy">
       </div>
       <div class="restaurant-details">
         <div class="detail-grid">
-          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>{venue.get('neighborhood', '')}</span></div>
+          <div class="detail-item"><span class="detail-label">📍 Neighborhood</span><span>{neighborhood}</span></div>
           <div class="detail-item"><span class="detail-label">💰 Price Range</span><span>{venue.get('priceRange', '')}</span></div>
+          <div class="detail-item"><span class="detail-label">🗺️ Map</span><span><a href="{maps_url}" target="_blank" rel="noopener">Open in Google Maps →</a></span></div>
         </div>
       </div>
       <div class="restaurant-body">
@@ -150,13 +163,42 @@ def build_venue_section(venue: dict, slug: str) -> str:
     </section>"""
 
 
+def build_map_config(venues: list, slug: str, city: str, category: str) -> dict:
+    """Build the __POPULAR_PICKS_MAP__ config for interactive Google Maps."""
+    first = venues[0] if venues else {}
+    first_name = first.get('name', category)
+    default_query = f"{category}+in+{city}".replace(' ', '+')
+    picks = []
+    for v in venues:
+        sid = venue_to_section_id(v['name'])
+        neighborhood = v.get('neighborhood', '')
+        maps_query = f"{v['name']}+{neighborhood}+{city}".replace(' ', '+')
+        picks.append({
+            "anchorId": sid,
+            "rank": v["rank"],
+            "name": v["name"],
+            "label": f"{v['rank']}. {v['name']}",
+            "ctaUrl": f"https://maps.google.com/?q={maps_query}",
+            "mapQuery": f"{v['name']}, {neighborhood}, {city}",
+        })
+    return {
+        "enabled": True,
+        "title": f"{category.title()} Map",
+        "ctaLabel": "Open in Google Maps",
+        "defaultCtaUrl": f"https://www.google.com/maps/search/{default_query}",
+        "picks": picks,
+    }
+
+
 def build_full_page(slug: str, city: str, country: str, title: str, category: str, content: dict, template: dict) -> str:
     """Build the complete HTML page."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     venue_count = len(content["venues"])
-    
+    first_section_id = venue_to_section_id(content['venues'][0]['name']) if content['venues'] else 'hero-bg'
+    og_image = f"https://img.tabiji.ai/popular-picks/{slug}/{first_section_id}.jpg"
+
     # Build venue sections
-    venues_html = "\n".join(build_venue_section(v, slug) for v in content["venues"])
+    venues_html = "\n".join(build_venue_section(v, slug, city) for v in content["venues"])
     
     # Build FAQ HTML
     faq_html = ""
@@ -184,7 +226,7 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
         "datePublished": today,
         "dateModified": today,
         "mainEntityOfPage": f"https://tabiji.ai/popular-picks/{slug}/",
-        "image": f"https://img.tabiji.ai/popular-picks/{slug}/hero-bg.jpg"
+        "image": f"{og_image}"
     }
     
     # Build ItemList JSON-LD
@@ -220,7 +262,7 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
     }
 
     qa = content["quickAnswer"]
-    
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -236,12 +278,12 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
     <meta property="og:description" content="{content['metaDescription']}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/popular-picks/{slug}/">
-    <meta property="og:image" content="https://img.tabiji.ai/popular-picks/{slug}/hero-bg.jpg">
+    <meta property="og:image" content="{og_image}">
     <meta property="og:site_name" content="tabiji.ai">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{content['pageTitle']}">
     <meta name="twitter:description" content="{content['metaDescription']}">
-    <meta name="twitter:image" content="https://img.tabiji.ai/popular-picks/{slug}/hero-bg.jpg">
+    <meta name="twitter:image" content="{og_image}">
     <meta property="article:published_time" content="{today}T00:00:00Z">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://tabiji.ai/popular-picks/{slug}/">
@@ -269,13 +311,19 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
     </div>
 
     <div class="page-layout">
-      <div class="map-sidebar">
+      <section class="map-sidebar" data-map-panel="desktop">
         <h2>📍 Map</h2>
-        <div class="popular-picks-map">
-          <iframe src="https://www.google.com/maps/embed/v1/search?q={title.replace(' ', '+')}+{city.replace(' ', '+')}&key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc" width="100%" height="360" style="border:0;" allowfullscreen loading="lazy"></iframe>
+        <div class="map-active-pick" data-map-active-pick>1. {content['venues'][0]['name']}</div>
+        <div class="popular-picks-map" data-map-canvas aria-label="{category.title()} Map"></div>
+        <div class="map-legend">
+          <ul>
+            <li>Click a pin to jump to that pick</li>
+            <li>Numbers match the ranking above</li>
+          </ul>
+          <p><a href="https://maps.google.com/?q={content['venues'][0]['name'].replace(' ', '+')}+{city.replace(' ', '+')}" target="_blank" rel="noopener" data-map-cta>Open in Google Maps &rarr;</a></p>
         </div>
-      </div>
-      
+      </section>
+
       <div class="content">
         <section class="quick-answer-section">
           <div class="quick-answer-card">
@@ -285,7 +333,7 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
               <div class="comparison-row"><dt>Best overall</dt><dd>{qa['bestOverall']}</dd></div>
               <div class="comparison-row"><dt>Best budget</dt><dd>{qa['bestBudget']}</dd></div>
               <div class="comparison-row"><dt>Best experience</dt><dd>{qa['bestExperience']}</dd></div>
-              <div class="comparison-row"><dt>Last verified</dt><dd>2026-03</dd></div>
+              <div class="comparison-row"><dt>Last verified</dt><dd>{today[:7]}</dd></div>
             </dl>
           </div>
         </section>
@@ -293,6 +341,19 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
         <section class="methodology-box">
           <h2>How we picked these</h2>
           <p>{content.get('methodology', '')}</p>
+        </section>
+
+        <section class="map-inline" data-map-panel="mobile">
+          <h2>📍 Map</h2>
+          <div class="map-active-pick" data-map-active-pick>1. {content['venues'][0]['name']}</div>
+          <div class="popular-picks-map" data-map-canvas aria-label="{category.title()} Map"></div>
+          <div class="map-legend">
+            <ul>
+              <li>Click a pin to jump to that pick</li>
+              <li>Numbers match the ranking above</li>
+            </ul>
+            <p><a href="https://maps.google.com/?q={content['venues'][0]['name'].replace(' ', '+')}+{city.replace(' ', '+')}" target="_blank" rel="noopener" data-map-cta>Open in Google Maps &rarr;</a></p>
+          </div>
         </section>
 
         {venues_html}
@@ -309,6 +370,10 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
         </section>
       </div>
     </div>
+
+    <script>
+    window.__POPULAR_PICKS_MAP__ = {json.dumps(build_map_config(content['venues'], slug, city, category), ensure_ascii=False)};
+    </script>
 
     {template['footer']}
 </body>

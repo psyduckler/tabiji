@@ -209,9 +209,15 @@ def main():
         print(f"File not found: {html_path}")
         sys.exit(1)
 
-    city = slug.split('-')[0].title()  # Best guess from slug
+    # Extract city and category from the page or slug
+    html_raw = html_path.read_text()
+    city_m = re.search(r'📍\s*([^,<]+)', html_raw)
+    city = city_m.group(1).strip() if city_m else slug.rsplit('-', 1)[0].replace('-', ' ').title()
+    # Extract category: last word(s) of slug after city prefix
+    cat_m = re.search(r'<h1>\d+\s+Best\s+(.+?)\s+in\s+', html_raw)
+    category = cat_m.group(1).strip() if cat_m else slug.split('-')[-1].replace('-', ' ')
     picks = extract_picks_from_html(html_path)
-    print(f"Found {len(picks)} picks in {slug}")
+    print(f"Found {len(picks)} picks in {slug} (city={city}, category={category})")
 
     html = html_path.read_text()
     updated = 0
@@ -227,7 +233,7 @@ def main():
             # Check if the image actually exists on CDN
             print(f"\n[{i+1}/{len(picks)}] {name}")
 
-            query = f"{name} Detroit Michigan pizza restaurant food"
+            query = f"{name} {city} {category} restaurant food"
             print(f"    Searching: {query}")
 
             images = search_images(query)

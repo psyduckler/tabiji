@@ -616,8 +616,13 @@ function injectRelated(slug, relatedArticles) {
     html = html.replace(/\n{3,}(<\/body>)/g, '\n\n$1');
   }
 
-  // Inject before </body>
-  html = html.replace('</body>', `\n${section}\n</body>`);
+  // Inject before <footer> (above footer), or fall back to before </body>
+  const footerIdx = html.indexOf('<footer');
+  if (footerIdx !== -1) {
+    html = html.slice(0, footerIdx) + `\n${section}\n` + html.slice(footerIdx);
+  } else {
+    html = html.replace('</body>', `\n${section}\n</body>`);
+  }
 
   fs.writeFileSync(file, html, 'utf8');
 }
