@@ -430,7 +430,29 @@ def render_page(data: Dict) -> str:
 
         badge_html = f'<span class="dd-winner-badge {badge_cls}">{html.escape(winner_text)}</span>' if not is_decision else ""
 
-        deep_dives_html += f'''<section class="deep-dive{open_class}" id="sec-{section_id}">
+        # data-winner attribute for CSS hooks
+        dw_attr = f' data-winner="{badge_cls}"' if not is_decision else ' data-winner="depends"'
+
+        # Photo pair for this section (use dest images if available)
+        photo_pair_html = ""
+        if not is_decision and i < 3:  # First 3 deep-dives get photo pairs
+            photo_pair_html = f'''<div class="photo-pair">
+<div><img src="https://img.tabiji.ai/compare/{slug}/dest1.jpg" alt="{html.escape(dest1)}" loading="lazy"><p class="photo-caption">{html.escape(dest1)}</p></div>
+<div><img src="https://img.tabiji.ai/compare/{slug}/dest2.jpg" alt="{html.escape(dest2)}" loading="lazy"><p class="photo-caption">{html.escape(dest2)}</p></div>
+</div>'''
+
+        # Convert section-winner to tabiji-verdict if present
+        body_content = body_content.replace(
+            '<div class="section-winner"><h3>Winner takeaway</h3>',
+            '<div class="tabiji-verdict"><strong>tabiji verdict:</strong> '
+        )
+        # Close the tabiji-verdict properly
+        body_content = re.sub(
+            r'</ul>\s*</div>\s*$', '</ul></div>',
+            body_content
+        )
+
+        deep_dives_html += f'''<section class="deep-dive{open_class}"{dw_attr} id="sec-{section_id}">
 <div class="dd-header" onclick="toggleSection(this.parentElement)">
 {full_title}
 <div class="dd-header-meta">
@@ -440,6 +462,7 @@ def render_page(data: Dict) -> str:
 </div>
 <p class="dd-summary">{html.escape(summary_text)}</p>
 <div class="dd-body"><div class="dd-content">
+{photo_pair_html}
 {body_content}
 </div></div>
 </section>\n'''
