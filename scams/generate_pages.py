@@ -208,12 +208,28 @@ EMERGENCY_INFO = {
         "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Buenos Aires is at Avenida Colombia 4300, C1425GMN Buenos Aires. For emergencies: +54 11-5777-4533.",
     },
     "United States": {
+        "police_name": "Local Police Department",
+        "police_number": "911",
+        "emergency_number": "911",
+        "report_url": "https://www.usa.gov/crimes",
+        "report_site": "usa.gov/crimes",
+        "lost_passport": "Visit the nearest US Passport Agency. For international visitors, contact your country's consulate or embassy directly. US State Department emergency line: +1-888-407-4747 (from US) or +1-202-501-4444 (international).",
+    },
+    "United States (New York City)": {
         "police_name": "New York City Police Department (NYPD)",
         "police_number": "911",
         "emergency_number": "911",
         "report_url": "https://www.nyc.gov/site/nypd/index.page",
         "report_site": "nyc.gov/nypd",
         "lost_passport": "Visit the nearest US Passport Agency. The New York Passport Agency is at 376 Hudson Street, New York, NY 10014. For international visitors, contact your country's consulate directly.",
+    },
+    "United States (New Orleans)": {
+        "police_name": "New Orleans Police Department (NOPD)",
+        "police_number": "911 (Emergency) or 504-821-2222 (Non-Emergency)",
+        "emergency_number": "911",
+        "report_url": "https://nola.gov/next/nopd/",
+        "report_site": "nola.gov/nopd",
+        "lost_passport": "For international visitors, contact your country's consulate. Many nations maintain consulates in New Orleans or Houston. US State Department emergency line: +1-888-407-4747 (from US) or +1-202-501-4444 (international).",
     },
     "Austria": {
         "police_name": "Austrian Federal Police (Bundespolizei)",
@@ -495,6 +511,30 @@ EMERGENCY_INFO = {
         "report_site": "royalbahamaspolice.org",
         "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Nassau is at 42 Queen Street, Nassau. For emergencies: +1 242-322-1181.",
     },
+    "Aruba": {
+        "police_name": "Korps Politie Aruba (KPA)",
+        "police_number": "100 (Police) or 911 (Emergency)",
+        "emergency_number": "911",
+        "report_url": "https://kpa.aw/",
+        "report_site": "kpa.aw",
+        "lost_passport": "Contact the US Consulate General in Curacao at +(599)(9) 461-3066. After-hours: +(599)(9) 510-6870. There is no US embassy on Aruba — the nearest consular services are in Curacao.",
+    },
+    "Dominican Republic": {
+        "police_name": "POLITUR (Tourist Police)",
+        "police_number": "+1 809-200-3500 (Tourist Police) or 911 (Emergency)",
+        "emergency_number": "911",
+        "report_url": "https://politur.gob.do/",
+        "report_site": "politur.gob.do",
+        "lost_passport": "Contact the US Embassy in Santo Domingo at +1 (809) 567-7775 (24/7). Address: 57 Avenida Republica de Colombia, Arroyo Hondo, Santo Domingo.",
+    },
+    "Turks and Caicos Islands": {
+        "police_name": "Royal Turks and Caicos Islands Police Force (RTCIPF)",
+        "police_number": "911 or 999",
+        "emergency_number": "911",
+        "report_url": "https://www.rtcipf.tc/",
+        "report_site": "rtcipf.tc",
+        "lost_passport": "Contact the US Embassy in Nassau, Bahamas at +1 242-322-1181. There is no US consulate in TCI — the nearest is in Nassau.",
+    },
 }
 
 # City slugs mapping
@@ -594,6 +634,12 @@ CITY_SLUGS = {
     "Las Vegas": "las-vegas",
     "San Francisco": "san-francisco",
     "Nassau": "nassau",
+    "Aruba": "aruba",
+    "Puerto Vallarta": "puerto-vallarta",
+    "Cabo San Lucas": "cabo-san-lucas",
+    "Punta Cana": "punta-cana",
+    "Turks and Caicos": "turks-and-caicos",
+    "New Orleans": "new-orleans",
 }
 
 # City-specific safety tips
@@ -897,6 +943,42 @@ SAFETY_TIPS = {
         "Use the Osaka Metro or JR lines instead of taxis — taxi fares in Osaka are legitimate but expensive, and trains go everywhere tourists need",
         "At Kuromon Market, prices have risen significantly for tourists — compare stall prices before buying, as some charge 3x for the same sashimi",
         "Keep wallets secure in crowds at Shinsekai and Namba — while Osaka is very safe, pickpocketing in dense tourist areas has been increasing",
+    ],
+    "Aruba": [
+        "Aruba's taxis have no meters — fares are government-fixed by destination. Airport to Palm Beach is approximately $22-25 USD. Only use vehicles with 'TX' license plates and a roof-mounted taxi sign",
+        "Avoid the San Nicolas district after dark — while daytime street art and Charlie's Bar are legitimate, the area has a documented reputation for car break-ins and confrontational individuals at night",
+        "Leave your actual passport locked in your hotel safe — carry a photocopy and a photo on your phone. Police accept copies for routine checks",
+        "The east and north coasts have powerful Atlantic surf with dangerous rip currents and no lifeguards — stick to calm west coast beaches (Palm Beach, Eagle Beach) for swimming",
+    ],
+    "Puerto Vallarta": [
+        "Download offline maps before exploring — cell service is spotty outside the Zona Romantica and hotel zone, and getting lost triggers aggressive tuk-tuk and tour approaches",
+        "Use Uber for all transport — it works throughout PV and eliminates taxi negotiation. If you must take a taxi, agree on the fare in pesos before getting in",
+        "At restaurants, always ask for 'la cuenta desglosada' (itemized bill) and check if service charge is already included before tipping on top",
+        "Walk straight through the airport arrivals area without stopping — the gauntlet of timeshare promoters is designed to intercept you before you reach your transfer",
+    ],
+    "Cabo San Lucas": [
+        "Always pay in Mexican pesos (MXN) rather than USD — restaurants, taxis, and shops that accept dollars set their own exchange rates, typically 5-15% worse than the bank rate",
+        "Pre-book all airport transportation before you land — the walk from SJD arrivals runs a gauntlet of timeshare promoters and pirate taxi operators",
+        "Stick to licensed vendors on Medano Beach who wear white uniforms with visible ID badges — unlicensed operators in street clothes are most likely to overcharge or run damage scams",
+        "Uber works in Cabo and is significantly safer and cheaper than street taxis — download the app before your trip, especially for nighttime rides near the bar district",
+    ],
+    "Punta Cana": [
+        "Do not drink tap water anywhere in Punta Cana, including at all-inclusive resorts — stick to sealed bottled water and avoid ice at non-resort establishments",
+        "Apply mosquito repellent every evening, especially during sunset — Dengue fever is present in the region and prevention through avoiding bites is the only protection",
+        "Carry only small amounts of cash and leave your passport in the hotel safe — credit card cloning is widespread, so use cash outside your resort whenever possible",
+        "Avoid walking outside resort areas after dark — use Uber Select or arrange transportation through your hotel rather than flagging unmarked vehicles",
+    ],
+    "Turks and Caicos": [
+        "Bringing even a single round of ammunition into TCI is a criminal offense carrying mandatory prison time — check all bags carefully before travel if you are a firearm owner",
+        "Avoid the 'Five Cays' and 'The Bight' areas of Providenciales after dark — these neighborhoods have higher crime rates than the Grace Bay tourist corridor",
+        "Check restaurant bills for automatic gratuity before tipping — many tourist restaurants add 15-18% service charge that is easy to miss",
+        "TCI has limited medical facilities — travel with comprehensive health insurance that includes medical evacuation, as serious conditions require airlifting to Miami or Nassau",
+    ],
+    "New Orleans": [
+        "Regulate your alcohol on Bourbon Street — intoxicated tourists are the #1 target for pickpockets and scammers, and open container laws make it easy to drink more than you realize while walking between bars",
+        "Take Uber or Lyft after dark rather than walking — stick to well-lit main streets like Bourbon, Royal, and Decatur, and travel in groups of three or more",
+        "Dress down and blend in — visible Mardi Gras beads, tourist T-shirts, and fanny packs mark you as a visitor and make you a magnet for every hustler in the Quarter",
+        "Never accept a bet from a stranger on the street — whether it's about your shoes, your name, or anything else, the answer is always a wordplay trick designed to take your money",
     ],
 }
 
@@ -1502,6 +1584,78 @@ FAQS = {
         ("Is Vancouver good for hiking?",
          "Yes — Vancouver's proximity to the North Shore Mountains makes it exceptional for accessible hiking. Grouse Grind (nicknamed 'Mother Nature's Stairmaster') is 45 minutes from Downtown by public transit. Lynn Canyon offers free suspension bridge and swimming holes (vs the expensive Capilano bridge). Mount Seymour and Cypress Provincial Park have trails for all levels. Always inform someone of your hiking plans, carry water and a rain layer — Vancouver weather changes quickly."),
     ],
+    "Aruba": [
+        ("Is Aruba safe for tourists?",
+         "Aruba is widely considered one of the safest Caribbean islands for tourists. The US State Department assigns it the lowest risk Level 1 advisory. The tourist zones of Palm Beach, Eagle Beach, and Oranjestad are well-lit with visible police presence. Violent crime against visitors is rare. The primary risks are financial scams — timeshare traps, rental car damage shakedowns, and watersport hustles. Avoid the San Nicolas district after dark and take standard precautions."),
+        ("How much should a taxi cost in Aruba?",
+         "Aruba taxis operate on a government-fixed flat-rate system with no meters. Airport to Palm Beach high-rise area is approximately $22-25, Airport to Eagle Beach is approximately $20, Airport to Oranjestad is approximately $10. These rates are per trip, not per person, for up to 4 passengers. Only use taxis with 'TX' license plates and a roof-mounted sign. There is no Uber or Lyft in Aruba."),
+        ("Is it safe to rent a car in Aruba?",
+         "Driving in Aruba is straightforward — traffic drives on the right and the island is only 20 miles long. However, rental car break-ins are common at remote parking areas like the Natural Pool trailhead. Some budget rental companies charge for pre-existing damage upon return. Use a credit card with built-in rental protection, photograph the vehicle thoroughly at pickup, and never leave valuables inside. Off-road driving may void your basic insurance."),
+        ("What should I do if my passport is stolen in Aruba?",
+         "File a police report with the Korps Politie Aruba by calling 100. Then contact the US Consulate General in Curacao at +(599)(9) 461-3066 — there is no US embassy on Aruba itself. The consulate can issue an emergency passport but the process may take several days. Always keep a photocopy stored separately from the original."),
+        ("Are there dangerous areas in Aruba?",
+         "Aruba is generally very safe, but avoid the San Nicolas district after dark — while daytime street art is a legitimate attraction, the area has higher crime rates at night. The east and north coasts have powerful Atlantic surf with dangerous rip currents and no lifeguards. Stick to west coast beaches for swimming. Remote parking areas at Arikok National Park trailheads are hotspots for car break-ins."),
+    ],
+    "Puerto Vallarta": [
+        ("Is Puerto Vallarta safe for tourists?",
+         "Puerto Vallarta is one of Mexico's safest tourist destinations. The Zona Romantica, Malecon, and hotel zone are heavily patrolled and welcoming. Violent crime targeting tourists is rare. The primary risks are timeshare presentations, taxi overcharging, and ATM skimming. Use Uber, stay in well-trafficked areas, and avoid walking alone on isolated streets late at night."),
+        ("Should I use taxis or Uber in Puerto Vallarta?",
+         "Uber is generally safer and cheaper. PV taxis have no meters — all fares are negotiated, putting tourists at a disadvantage. If you must take a taxi, agree on the price in pesos before getting in. Never take an unmarked vehicle. From the airport, pre-book a transfer or use the official taxi counter inside the terminal."),
+        ("How do I avoid timeshare salespeople at the airport?",
+         "Walk straight through arrivals to your pre-booked transportation without stopping. Do not make eye contact or accept 'free' tequila or gifts. A firm 'No gracias' without slowing down is the most effective response. If someone claims your shuttle didn't show up, verify with your hotel by phone before accepting any alternative ride."),
+        ("Is the Malecon safe to walk at night?",
+         "The Malecon boardwalk is generally safe in the evening due to regular police patrols, street performers, and restaurant crowds. Be aware of the mustard/sauce distraction theft scam and keep phones in front pockets. The busiest and safest stretch is between the amphitheater and the Hotel Rosita. Avoid the far ends of the Malecon past midnight."),
+        ("Is tap water safe in Puerto Vallarta?",
+         "No — tap water in PV is not safe to drink. Stick to sealed bottled water or filtered water. Most restaurants use purified water for cooking and ice, but street stalls may not. The large 20-liter garrafones of purified water available at OXXO stores are very cheap if you're staying in an Airbnb."),
+    ],
+    "Cabo San Lucas": [
+        ("Is Cabo San Lucas safe for tourists?",
+         "Cabo San Lucas remains one of Mexico's safest tourist destinations. Approximately 89% of tourists report feeling safe during their visit. The primary risks are financial scams — timeshare pressure, taxi overcharging, jet ski damage shakedowns, and restaurant bill padding. The Tourist Corridor is heavily patrolled. The US State Department rates Baja California Sur at Level 2, the same as most of Europe."),
+        ("Should I use taxis or Uber in Cabo?",
+         "Uber is generally safer and more affordable. It provides upfront pricing, GPS tracking, and receipts. Cabo taxis don't use meters — all fares are negotiated. Official airport taxis cost $50-70 USD one way to the Hotel Zone; Uber is usually $25-40. Avoid pirate taxis — unlicensed vehicles posing as taxis that have no insurance or accountability."),
+        ("How do I avoid timeshare salespeople at Cabo airport?",
+         "The area past customs at SJD is called the 'Shark Tank.' Pre-book your transfer and walk directly to your confirmed ride. Don't make eye contact, don't accept gifts, and don't reveal your hotel name. A firm 'No gracias' without stopping is the most effective strategy. If someone claims your shuttle didn't show, verify by phone before accepting alternatives."),
+        ("Is it safe to rent jet skis on Medano Beach?",
+         "Jet ski rentals can be safe with precautions, but the damage-shakedown scam is well-documented. Only use licensed operators with branded tents (not freelancers in street clothes). Record a 360-degree video of the equipment before riding. Never hand over your passport. Use a credit card with fraud protection. If confronted with a fake damage claim, show your video and refuse to pay cash."),
+        ("What should I do if police ask me for money in Cabo?",
+         "Police bribery ('mordida') does occur during traffic stops. Remain calm, be polite, ask to see the badge and write down the number. Request a formal written citation rather than paying any on-the-spot 'fine.' Real fines are paid at a government office, never in cash to an officer. If threatened, call the US Consular Agency in Los Cabos at +52 (624) 143-3566."),
+    ],
+    "Punta Cana": [
+        ("Is Punta Cana safe for tourists?",
+         "Punta Cana is generally considered one of the safest Caribbean destinations. The Dominican government invests heavily in tourism security, and POLITUR (tourist police) patrols resort areas 24/7. Violent crime against tourists is rare within the resort zones. However, petty crime, scams, and overcharging are common outside resort grounds. The resort areas are significantly safer than Dominican cities like Santo Domingo."),
+        ("Should I exchange money at the Punta Cana airport?",
+         "No. Airport exchange booths offer rates approximately 15-20% worse than the real rate. Withdraw Dominican pesos from bank ATMs (Banreservas, Popular, BHD Leon) instead. Many places accept US dollars. For credit card purchases, always confirm the exchange rate being applied. Bring some USD cash for tips and use a no-foreign-transaction-fee card for larger expenses."),
+        ("Are excursions booked on the beach safe?",
+         "Generally no. Beach vendors operate without licenses, insurance, or accountability. If a tour goes wrong, you have zero recourse. Book through Viator, GetYourGuide, or your resort's official concierge. You'll pay $10-20 more but get insured boats, English-speaking guides, and cancellation policies. Verify whether lobby 'tour desks' are hotel-operated or independent."),
+        ("Is Uber available in Punta Cana?",
+         "Yes, Uber operates in Punta Cana. Uber Select uses licensed cab drivers with upfront pricing and GPS tracking. Standard taxis have no meters and fares must be negotiated. A taxi from the airport to Bavaro should cost $25-40 when pre-booked, but unlicensed drivers at the airport have charged $200-300 for the same trip."),
+        ("What is the Sanky Panky scam?",
+         "Sanky Panky is well-known Dominican slang for professional romance scammers who work as resort staff — bartenders, entertainers, or beach activity coordinators. They target solo female travelers, escalate to declarations of love within days, then extract money via wire transfers over months after you return home. Never send money to anyone you met on vacation."),
+    ],
+    "Turks and Caicos": [
+        ("Is Turks and Caicos safe for tourists?",
+         "TCI is one of the safest Caribbean destinations. Grace Bay and the resort areas of Providenciales are very well-maintained and secure. Violent crime against tourists is rare. The main risks are financial — taxi overcharging, unlicensed water sports operators, and vacation rental scams. Avoid the Five Cays and The Bight areas after dark."),
+        ("Are there Uber or ride-sharing apps in TCI?",
+         "No, there is no Uber or Lyft in Turks and Caicos. Taxis are the primary transport and do not use meters — fares are per person, not per trip, which surprises many visitors. Agree on the total fare before getting in. Pre-book airport transfers through your hotel. Renting a car is recommended for flexibility, though driving is on the left side of the road."),
+        ("What is the ammunition law in Turks and Caicos?",
+         "Bringing even a single round of ammunition into TCI is a criminal offense carrying mandatory prison time of up to 12 years. This has caught several US tourists unaware — a stray round in a range bag or carry-on can lead to arrest. Check all bags thoroughly before travel if you are a firearm owner. TCI customs actively scans for ammunition."),
+        ("Is it safe to rent a car in Turks and Caicos?",
+         "Renting a car is generally safe and recommended for exploring beyond Grace Bay. Drive on the left side of the road. Be aware that international brand rental companies in TCI are actually independent local licensees, so corporate offices may not help with disputes. Photograph the vehicle thoroughly at pickup and review your insurance terms carefully."),
+        ("What should I do if I get scammed in TCI?",
+         "Contact the Royal Turks and Caicos Islands Police Force (RTCIPF) at 911 or 999. For anonymous tips, use Crime Stoppers at 1-800-8477. For US citizens needing consular assistance, contact the US Embassy in Nassau at +1 242-322-1181 — there is no US consulate in TCI. Report vacation rental fraud to the TCI Tourist Board."),
+    ],
+    "New Orleans": [
+        ("Is the French Quarter safe at night?",
+         "The main streets — Bourbon, Royal, and Decatur — are generally safe at night due to heavy foot traffic and police patrols. The risk increases on darker side streets, especially after midnight when you're alone or visibly intoxicated. Stick to streets with open businesses, walk with at least one other person, and avoid blocks between Bourbon and Rampart or near Armstrong Park after dark."),
+        ("What is the most common scam in New Orleans?",
+         "The 'I bet I can tell you where you got your shoes' hustle is the most frequently reported scam and has operated for decades. A man makes the bet, reveals the wordplay answer ('You got your shoes on your feet, and your feet are on Bourbon Street'), then demands payment. Simply say 'no thanks' and keep walking. The freestyle rap welcome and bead/bracelet force are close runners-up."),
+        ("Which areas of New Orleans should tourists avoid?",
+         "Avoid Central City (away from Oretha Castle Haley Boulevard), the Desire and Florida neighborhoods, and Hoffman Triangle — these are high-crime residential areas far from attractions. Within the tourist zone, use caution around Rampart Street, Armstrong Park after dark, and the Irish Channel near the waterfront at night."),
+        ("Is it safe to use ATMs in the French Quarter?",
+         "Use ATMs inside banks or hotels, not standalone machines on the street or in bars. The French Quarter has documented cases of skimming devices. Always inspect the card reader, cover the keypad when entering your PIN, and use tap-to-pay or chip transactions. Set up transaction alerts on your banking app."),
+        ("How can I tell if a street performer is running a scam?",
+         "Legitimate buskers set up in a fixed spot, perform for anyone, and have a tip jar — they never demand a specific amount. Scammers approach you directly, ask personal questions, initiate an unsolicited performance, then demand payment. The key is consent: if you chose to stop and watch, tipping is courteous. If someone targeted you, that's a hustle."),
+    ],
 }
 
 def danger_badge(level):
@@ -1583,7 +1737,8 @@ def generate_page(city_data, related_cities_map):
     slug = CITY_SLUGS[city]
     n = len(scams)
     
-    em = EMERGENCY_INFO.get(country, EMERGENCY_INFO["United Kingdom"])
+    # Check for city-specific emergency info first, then country, then fallback
+    em = EMERGENCY_INFO.get(f"{country} ({city})", EMERGENCY_INFO.get(country, EMERGENCY_INFO["United Kingdom"]))
     safety_tips = SAFETY_TIPS.get(city, [
         "Keep phones and valuables in secure pockets when in crowded areas",
         "Use only licensed taxis or app-based ride services",
@@ -1653,7 +1808,8 @@ def generate_page(city_data, related_cities_map):
     high_risk = [s['scam_name'] for s in scams if s.get('danger_level', '').lower() == 'high']
     takeaway_top = f"The #1 reported scam is the {scam_names[0] if scam_names else 'financial deception'}"
     takeaway_high = f"{len(high_risk)} of {n} scams are rated high risk" if high_risk else f"Most scams in {city} are low-to-medium risk"
-    takeaway_transport = "Use app-based ride services (Uber, Grab, Bolt) instead of street taxis"
+    no_rideshare_cities = {"Aruba", "Turks and Caicos"}
+    takeaway_transport = "Only use official taxis with government-set rates — confirm the fare before getting in" if city in no_rideshare_cities else "Use app-based ride services (Uber, Grab, Bolt) instead of street taxis"
     takeaway_avoid = f"Never accept unsolicited offers from strangers near tourist sites in {city}"
 
     takeaways_html = f"""            <li>{takeaway_top}</li>
