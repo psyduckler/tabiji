@@ -1,298 +1,808 @@
 #!/usr/bin/env python3
 """
-Generate country hub pages for tabiji.ai.
+Generate country hub pages for tabiji.ai — fully data-driven.
 
 Usage:
     python3 scripts/generate_country_hubs.py
 
 Generates:
-    - /countries/{slug}/index.html  for each country
+    - /countries/{slug}/index.html  for each discovered country
     - /countries/index.html         master index of all countries
 
-To add a new country, add an entry to COUNTRIES below with the required fields.
+All content is auto-discovered by scanning the filesystem:
+  - Destinations from api/v1/destinations/*.json
+  - Scam guides from scams/research/batch*.json
+  - Popular picks from api/v1/picks/*.json
+  - Compare pages from compare/*/index.html
+  - Itineraries from itineraries/*/index.html
+  - Alerts from alerts/{slug}/index.html & api/v1/alerts/*.json
+  - Health from health/{slug}/index.html
 """
 
 import json
 import os
 import glob
+import re
 from datetime import date
+from html import escape as _html_escape
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TODAY = date.today().isoformat()
 YEAR = date.today().year
 
 # ---------------------------------------------------------------------------
-# Country definitions
+# Country registry: name -> (iso2, flag emoji, continent)
 # ---------------------------------------------------------------------------
 
-COUNTRIES = [
-    {
-        "name": "Japan",
-        "slug": "japan",
-        "iso2": "JP",
-        "flag": "\U0001F1EF\U0001F1F5",
-        "continent": "Asia",
-        "capital": "Tokyo",
-        "currency": "\u00a5 (JPY)",
-        "language": "Japanese",
-        "best_time": "Mar\u2013May / Oct\u2013Nov",
-        "budget": "$$\u2013$$$",
-        "visa": "90-day visa-free for most",
-        "advisory_level": 1,
-        "advisory_color": "#16A34A",
-        "advisory_bg": "#F0FDF4",
-        "advisory_label": "Level 1 \u2014 Exercise Normal Precautions",
-        "health_bullets": [
-            "No required vaccines for most travelers",
-            "Tap water is safe to drink nationwide",
-            "Universal healthcare system \u2014 clinics widely available",
-        ],
-        "scam_cities": [
-            {"city": "Tokyo", "slug": "tokyo", "count": 6},
-            {"city": "Osaka", "slug": "osaka", "count": 6},
-            {"city": "Kyoto", "slug": "kyoto", "count": 7},
-        ],
-        "itineraries": [
-            {"title": "7-Day Classic Route", "slug": "7-day-japan-classic-route", "days": 7},
-            {"title": "5-Day Tokyo Food & Nightlife", "slug": "5-day-tokyo-food-nightlife", "days": 5},
-            {"title": "10-Day First Time", "slug": "10-day-japan-first-time", "days": 10},
-            {"title": "14-Day Family", "slug": "14-day-japan-family", "days": 14},
-            {"title": "7-Day Cherry Blossom", "slug": "7-day-japan-cherry-blossom", "days": 7},
-        ],
-        "picks_cities": [
-            "tokyo", "osaka", "kyoto", "kobe", "nara", "hiroshima",
-            "yokohama", "fukuoka", "sapporo", "nagoya", "sendai",
-            "kanazawa", "hakone", "nikko", "kamakura", "takayama",
-        ],
-        "compare_keywords": [
-            "japan", "tokyo", "osaka", "kyoto", "kobe", "nara",
-            "hiroshima", "yokohama", "fukuoka", "sapporo", "nagoya",
-            "sendai", "matsumoto", "kanazawa", "hakone", "nikko",
-            "kamakura", "takayama", "nagano", "hakodate",
-        ],
-        "top_destinations": [
-            {"name": "Tokyo", "slug": "tokyo", "photo": "https://img.tabiji.ai/find/img/tokyo.webp"},
-            {"name": "Kyoto", "slug": "kyoto", "photo": "https://img.tabiji.ai/find/img/kyoto.webp"},
-            {"name": "Osaka", "slug": "osaka", "photo": "https://img.tabiji.ai/find/img/osaka.webp"},
-            {"name": "Sapporo", "slug": "sapporo", "photo": "https://img.tabiji.ai/find/img/sapporo.webp"},
-            {"name": "Nagoya", "slug": "nagoya", "photo": "https://img.tabiji.ai/find/img/nagoya.webp"},
-            {"name": "Kanazawa", "slug": "kanazawa", "photo": "https://img.tabiji.ai/find/img/kanazawa.webp"},
-            {"name": "Hokkaido", "slug": "hokkaido", "photo": "https://img.tabiji.ai/find/img/hokkaido.webp"},
-            {"name": "Hakuba", "slug": "hakuba", "photo": "https://img.tabiji.ai/find/img/hakuba.webp"},
-            {"name": "Niseko", "slug": "niseko", "photo": "https://img.tabiji.ai/find/img/niseko.webp"},
-            {"name": "Yokohama", "slug": "yokohama", "photo": "https://img.tabiji.ai/find/img/yokohama.webp"},
-            {"name": "Japan Alps", "slug": "japan-alps", "photo": "https://img.tabiji.ai/find/img/japan-alps.webp"},
-            {"name": "Lake Biwa", "slug": "lake-biwa", "photo": "https://img.tabiji.ai/find/img/lake-biwa.webp"},
-        ],
-    },
-    {
-        "name": "Mexico",
-        "slug": "mexico",
-        "iso2": "MX",
-        "flag": "\U0001F1F2\U0001F1FD",
-        "continent": "Americas",
-        "capital": "Mexico City",
-        "currency": "MXN",
-        "language": "Spanish",
-        "best_time": "Nov\u2013Apr",
-        "budget": "$\u2013$$",
-        "visa": "180-day visa-free for most",
-        "advisory_level": 2,
-        "advisory_color": "#F59E0B",
-        "advisory_bg": "#FFFBEB",
-        "advisory_label": "Level 2 \u2014 Exercise Increased Caution",
-        "health_bullets": [
-            "Hepatitis A vaccine recommended",
-            "Tap water is NOT safe \u2014 drink bottled or filtered",
-            "High altitude in Mexico City (2,240 m) \u2014 take it easy day one",
-        ],
-        "scam_cities": [
-            {"city": "Canc\u00fan", "slug": "cancun", "count": 6},
-            {"city": "Mexico City", "slug": "mexico-city", "count": 6},
-            {"city": "Puerto Vallarta", "slug": "puerto-vallarta", "count": 7},
-            {"city": "Cabo San Lucas", "slug": "cabo-san-lucas", "count": 7},
-            {"city": "Guadalajara", "slug": "guadalajara", "count": 7},
-            {"city": "Tulum", "slug": "tulum", "count": 7},
-            {"city": "Playa del Carmen", "slug": "playa-del-carmen", "count": 7},
-            {"city": "Cozumel", "slug": "cozumel", "count": 7},
-            {"city": "Oaxaca", "slug": "oaxaca", "count": 7},
-        ],
-        "itineraries": [
-            {"title": "5-Day Mexico City Food & Art", "slug": "5-day-mexico-city-food-art", "days": 5},
-        ],
-        "picks_cities": [
-            "mexico-city", "cancun", "tulum", "cabo-san-lucas", "cozumel",
-            "guadalajara", "oaxaca", "playa-del-carmen", "puerto-vallarta",
-            "merida",
-        ],
-        "compare_keywords": [
-            "mexico", "cancun", "tulum", "cabo", "cozumel", "guadalajara",
-            "oaxaca", "playa", "puerto-vallarta",
-        ],
-        "top_destinations": [
-            {"name": "Mexico City", "slug": "mexico-city", "photo": "https://img.tabiji.ai/find/img/mexico-city.webp"},
-            {"name": "Tulum", "slug": "tulum", "photo": "https://img.tabiji.ai/find/img/tulum.webp"},
-            {"name": "Oaxaca", "slug": "oaxaca", "photo": "https://img.tabiji.ai/find/img/oaxaca.webp"},
-            {"name": "Cozumel", "slug": "cozumel", "photo": "https://img.tabiji.ai/find/img/cozumel.webp"},
-            {"name": "Chich\u00e9n Itz\u00e1", "slug": "chichen-itza", "photo": "https://img.tabiji.ai/find/img/chichen-itza.webp"},
-            {"name": "San Miguel de Allende", "slug": "san-miguel-de-allende", "photo": "https://img.tabiji.ai/find/img/san-miguel-de-allende.webp"},
-            {"name": "Puerto Escondido", "slug": "puerto-escondido", "photo": "https://img.tabiji.ai/find/img/puerto-escondido.webp"},
-            {"name": "Lake Chapala", "slug": "lake-chapala", "photo": "https://img.tabiji.ai/find/img/lake-chapala.webp"},
-            {"name": "Canc\u00fan", "slug": "cancun", "photo": "https://img.tabiji.ai/owl-logo.png"},
-            {"name": "Guadalajara", "slug": "guadalajara", "photo": "https://img.tabiji.ai/owl-logo.png"},
-            {"name": "Puerto Vallarta", "slug": "puerto-vallarta", "photo": "https://img.tabiji.ai/owl-logo.png"},
-            {"name": "Playa del Carmen", "slug": "playa-del-carmen", "photo": "https://img.tabiji.ai/owl-logo.png"},
-        ],
-    },
-    {
-        "name": "Italy",
-        "slug": "italy",
-        "iso2": "IT",
-        "flag": "\U0001F1EE\U0001F1F9",
-        "continent": "Europe",
-        "capital": "Rome",
-        "currency": "\u20ac (EUR)",
-        "language": "Italian",
-        "best_time": "Apr\u2013Jun / Sep\u2013Oct",
-        "budget": "$$\u2013$$$",
-        "visa": "90-day Schengen visa-free",
-        "advisory_level": 1,
-        "advisory_color": "#16A34A",
-        "advisory_bg": "#F0FDF4",
-        "advisory_label": "Level 1 \u2014 Exercise Normal Precautions",
-        "health_bullets": [
-            "No required vaccines for most travelers",
-            "Tap water is safe to drink \u2014 even the street fountains in Rome",
-            "EU Health Insurance Card (EHIC) accepted for EU/EEA citizens",
-        ],
-        "scam_cities": [
-            {"city": "Rome", "slug": "rome", "count": 6},
-            {"city": "Florence", "slug": "florence", "count": 6},
-            {"city": "Venice", "slug": "venice", "count": 7},
-            {"city": "Milan", "slug": "milan", "count": 6},
-            {"city": "Naples", "slug": "naples", "count": 7},
-        ],
-        "itineraries": [
-            {"title": "10-Day First Time Italy", "slug": "10-day-italy-first-time", "days": 10},
-            {"title": "7-Day Amalfi Coast", "slug": "7-day-amalfi-coast", "days": 7},
-            {"title": "5-Day Amalfi Coast", "slug": "5-day-amalfi-coast", "days": 5},
-            {"title": "14-Day Amalfi & Southern Italy", "slug": "14-day-italy-amalfi-coast", "days": 14},
-            {"title": "7-Day Rome & Southern Italy", "slug": "7-day-rome-southern-italy", "days": 7},
-        ],
-        "picks_cities": [
-            "rome", "florence", "venice", "milan", "naples", "bologna",
-            "turin", "palermo", "verona", "siena", "pisa", "lucca",
-        ],
-        "compare_keywords": [
-            "italy", "rome", "florence", "venice", "milan", "naples",
-            "bologna", "turin", "palermo", "sicily", "amalfi",
-            "northern-italy", "southern-italy", "bari", "cinque-terre",
-        ],
-        "top_destinations": [
-            {"name": "Rome", "slug": "rome", "photo": "https://img.tabiji.ai/find/img/rome.webp"},
-            {"name": "Amalfi Coast", "slug": "amalfi-coast", "photo": "https://img.tabiji.ai/find/img/amalfi-coast.webp"},
-            {"name": "Cinque Terre", "slug": "cinque-terre", "photo": "https://img.tabiji.ai/find/img/cinque-terre.webp"},
-            {"name": "Lake Como", "slug": "lake-como", "photo": "https://img.tabiji.ai/find/img/lake-como.webp"},
-            {"name": "Dolomites", "slug": "dolomites", "photo": "https://img.tabiji.ai/find/img/dolomites.webp"},
-            {"name": "Tuscany", "slug": "tuscany", "photo": "https://img.tabiji.ai/find/img/tuscany.webp"},
-            {"name": "Piedmont", "slug": "piedmont", "photo": "https://img.tabiji.ai/find/img/piedmont.webp"},
-            {"name": "Palermo", "slug": "palermo-italy", "photo": "https://img.tabiji.ai/find/img/palermo-italy.webp"},
-            {"name": "Cortina d'Ampezzo", "slug": "cortina-dampezzo", "photo": "https://img.tabiji.ai/find/img/cortina-dampezzo.webp"},
-            {"name": "Alghero", "slug": "alghero-sardinia-italy", "photo": "https://img.tabiji.ai/find/img/alghero-sardinia-italy.webp"},
-            {"name": "Cefal\u00f9", "slug": "cefalu-sicily-italy", "photo": "https://img.tabiji.ai/find/img/cefal-sicily-italy.webp"},
-            {"name": "Lampedusa", "slug": "lampedusa-italy", "photo": "https://img.tabiji.ai/find/img/lampedusa-italy.webp"},
-        ],
-    },
-]
+COUNTRY_REGISTRY = {
+    "Japan":                ("JP", "\U0001F1EF\U0001F1F5", "Asia"),
+    "Mexico":               ("MX", "\U0001F1F2\U0001F1FD", "Americas"),
+    "Italy":                ("IT", "\U0001F1EE\U0001F1F9", "Europe"),
+    "India":                ("IN", "\U0001F1EE\U0001F1F3", "Asia"),
+    "United States":        ("US", "\U0001F1FA\U0001F1F8", "Americas"),
+    "United Kingdom":       ("GB", "\U0001F1EC\U0001F1E7", "Europe"),
+    "Turkey":               ("TR", "\U0001F1F9\U0001F1F7", "Europe"),
+    "Brazil":               ("BR", "\U0001F1E7\U0001F1F7", "Americas"),
+    "Thailand":             ("TH", "\U0001F1F9\U0001F1ED", "Asia"),
+    "Vietnam":              ("VN", "\U0001F1FB\U0001F1F3", "Asia"),
+    "Spain":                ("ES", "\U0001F1EA\U0001F1F8", "Europe"),
+    "France":               ("FR", "\U0001F1EB\U0001F1F7", "Europe"),
+    "Germany":              ("DE", "\U0001F1E9\U0001F1EA", "Europe"),
+    "Colombia":             ("CO", "\U0001F1E8\U0001F1F4", "Americas"),
+    "Poland":               ("PL", "\U0001F1F5\U0001F1F1", "Europe"),
+    "Philippines":          ("PH", "\U0001F1F5\U0001F1ED", "Asia"),
+    "Argentina":            ("AR", "\U0001F1E6\U0001F1F7", "Americas"),
+    "Portugal":             ("PT", "\U0001F1F5\U0001F1F9", "Europe"),
+    "Egypt":                ("EG", "\U0001F1EA\U0001F1EC", "Africa"),
+    "Greece":               ("GR", "\U0001F1EC\U0001F1F7", "Europe"),
+    "South Korea":          ("KR", "\U0001F1F0\U0001F1F7", "Asia"),
+    "South Africa":         ("ZA", "\U0001F1FF\U0001F1E6", "Africa"),
+    "Sri Lanka":            ("LK", "\U0001F1F1\U0001F1F0", "Asia"),
+    "Tanzania":             ("TZ", "\U0001F1F9\U0001F1FF", "Africa"),
+    "Netherlands":          ("NL", "\U0001F1F3\U0001F1F1", "Europe"),
+    "Morocco":              ("MA", "\U0001F1F2\U0001F1E6", "Africa"),
+    "Nepal":                ("NP", "\U0001F1F3\U0001F1F5", "Asia"),
+    "Peru":                 ("PE", "\U0001F1F5\U0001F1EA", "Americas"),
+    "Malaysia":             ("MY", "\U0001F1F2\U0001F1FE", "Asia"),
+    "Canada":               ("CA", "\U0001F1E8\U0001F1E6", "Americas"),
+    "Kenya":                ("KE", "\U0001F1F0\U0001F1EA", "Africa"),
+    "Ireland":              ("IE", "\U0001F1EE\U0001F1EA", "Europe"),
+    "Hungary":              ("HU", "\U0001F1ED\U0001F1FA", "Europe"),
+    "Australia":            ("AU", "\U0001F1E6\U0001F1FA", "Oceania"),
+    "Cuba":                 ("CU", "\U0001F1E8\U0001F1FA", "Americas"),
+    "Jordan":               ("JO", "\U0001F1EF\U0001F1F4", "Asia"),
+    "Croatia":              ("HR", "\U0001F1ED\U0001F1F7", "Europe"),
+    "Austria":              ("AT", "\U0001F1E6\U0001F1F9", "Europe"),
+    "Iceland":              ("IS", "\U0001F1EE\U0001F1F8", "Europe"),
+    "Belgium":              ("BE", "\U0001F1E7\U0001F1EA", "Europe"),
+    "Israel":               ("IL", "\U0001F1EE\U0001F1F1", "Asia"),
+    "Cambodia":             ("KH", "\U0001F1F0\U0001F1ED", "Asia"),
+    "China":                ("CN", "\U0001F1E8\U0001F1F3", "Asia"),
+    "Indonesia":            ("ID", "\U0001F1EE\U0001F1E9", "Asia"),
+    "Sweden":               ("SE", "\U0001F1F8\U0001F1EA", "Europe"),
+    "Romania":              ("RO", "\U0001F1F7\U0001F1F4", "Europe"),
+    "Chile":                ("CL", "\U0001F1E8\U0001F1F1", "Americas"),
+    "Norway":               ("NO", "\U0001F1F3\U0001F1F4", "Europe"),
+    "Switzerland":          ("CH", "\U0001F1E8\U0001F1ED", "Europe"),
+    "Taiwan":               ("TW", "\U0001F1F9\U0001F1FC", "Asia"),
+    "Bulgaria":             ("BG", "\U0001F1E7\U0001F1EC", "Europe"),
+    "Denmark":              ("DK", "\U0001F1E9\U0001F1F0", "Europe"),
+    "Serbia":               ("RS", "\U0001F1F7\U0001F1F8", "Europe"),
+    "Montenegro":           ("ME", "\U0001F1F2\U0001F1EA", "Europe"),
+    "United Arab Emirates": ("AE", "\U0001F1E6\U0001F1EA", "Asia"),
+    "Ghana":                ("GH", "\U0001F1EC\U0001F1ED", "Africa"),
+    "Dominican Republic":   ("DO", "\U0001F1E9\U0001F1F4", "Americas"),
+    "New Zealand":          ("NZ", "\U0001F1F3\U0001F1FF", "Oceania"),
+    "Laos":                 ("LA", "\U0001F1F1\U0001F1E6", "Asia"),
+    "Puerto Rico":          ("PR", "\U0001F1F5\U0001F1F7", "Americas"),
+    "Costa Rica":           ("CR", "\U0001F1E8\U0001F1F7", "Americas"),
+    "Panama":               ("PA", "\U0001F1F5\U0001F1E6", "Americas"),
+    "Estonia":              ("EE", "\U0001F1EA\U0001F1EA", "Europe"),
+    "Honduras":             ("HN", "\U0001F1ED\U0001F1F3", "Americas"),
+    "Jamaica":              ("JM", "\U0001F1EF\U0001F1F2", "Americas"),
+    "Mauritius":            ("MU", "\U0001F1F2\U0001F1FA", "Africa"),
+    "El Salvador":          ("SV", "\U0001F1F8\U0001F1FB", "Americas"),
+}
 
+# Name used in destinations.json may differ from our canonical name
+DEST_COUNTRY_ALIASES = {
+    "Czechia": "Czech Republic",
+    "Ivory Coast": "Cote d'Ivoire",
+    "Burma (Myanmar)": "Myanmar",
+}
+
+# Reverse: our canonical name -> name(s) that may appear in destinations.json
+CANONICAL_TO_DEST_NAMES = {}
+for k, v in DEST_COUNTRY_ALIASES.items():
+    CANONICAL_TO_DEST_NAMES.setdefault(v, []).append(k)
+# Also add identity mappings
+for name in COUNTRY_REGISTRY:
+    CANONICAL_TO_DEST_NAMES.setdefault(name, []).append(name)
+
+# Slug helpers
+def slugify(name):
+    """Convert a country name to a URL slug."""
+    import unicodedata
+    s = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
+    s = s.lower().strip()
+    s = s.replace("'", "").replace("'", "")
+    s = re.sub(r'[^a-z0-9]+', '-', s)
+    return s.strip('-')
+
+# Build slug -> name mapping
+SLUG_TO_NAME = {}
+for name in COUNTRY_REGISTRY:
+    SLUG_TO_NAME[slugify(name)] = name
 
 # ---------------------------------------------------------------------------
-# Data scanning helpers
+# Quick Facts for 66 countries
 # ---------------------------------------------------------------------------
 
-def scan_popular_picks(country):
-    """Find popular-picks pages that belong to this country's cities."""
-    picks_dir = os.path.join(BASE_DIR, "popular-picks")
-    matches = []
-    for city_prefix in country["picks_cities"]:
-        pattern = os.path.join(picks_dir, f"{city_prefix}*")
-        for path in sorted(glob.glob(pattern)):
-            slug = os.path.basename(path)
-            if os.path.isdir(path) and os.path.exists(os.path.join(path, "index.html")):
-                # Convert slug to title: kyoto-ramen -> Kyoto Ramen
-                title = slug.replace("-", " ").title()
-                matches.append({"slug": slug, "title": title})
-    # Also check for country-level picks like "best-pizza-naples"
-    special_patterns = {
-        "Italy": ["best-pizza-naples"],
-        "Mexico": ["mexico"],
-        "Japan": [],
-    }
-    for extra in special_patterns.get(country["name"], []):
-        path = os.path.join(picks_dir, extra)
-        if os.path.isdir(path) and os.path.exists(os.path.join(path, "index.html")):
-            title = extra.replace("-", " ").title()
-            matches.append({"slug": extra, "title": title})
-    return matches
+QUICK_FACTS = {
+    "Japan":                {"capital": "Tokyo",           "currency": "\u00a5 (JPY)",     "language": "Japanese",       "best_time": "Mar\u2013May / Oct\u2013Nov",  "budget": "$$\u2013$$$", "visa": "90-day visa-free for most"},
+    "Mexico":               {"capital": "Mexico City",     "currency": "MXN ($)",          "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$\u2013$$",   "visa": "180-day visa-free for most"},
+    "Italy":                {"capital": "Rome",            "currency": "\u20ac (EUR)",      "language": "Italian",        "best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$$\u2013$$$", "visa": "90-day Schengen visa-free"},
+    "India":                {"capital": "New Delhi",       "currency": "\u20b9 (INR)",      "language": "Hindi / English","best_time": "Oct\u2013Mar",                 "budget": "$",           "visa": "e-Visa required"},
+    "United States":        {"capital": "Washington, D.C.","currency": "$ (USD)",           "language": "English",        "best_time": "Year-round",                   "budget": "$$$",         "visa": "ESTA / visa required"},
+    "United Kingdom":       {"capital": "London",          "currency": "\u00a3 (GBP)",      "language": "English",        "best_time": "May\u2013Sep",                 "budget": "$$$",         "visa": "6-month visa-free for most"},
+    "Turkey":               {"capital": "Ankara",          "currency": "\u20ba (TRY)",      "language": "Turkish",        "best_time": "Apr\u2013Jun / Sep\u2013Nov",  "budget": "$\u2013$$",   "visa": "e-Visa for most"},
+    "Brazil":               {"capital": "Bras\u00edlia",   "currency": "R$ (BRL)",          "language": "Portuguese",     "best_time": "Apr\u2013Oct",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Thailand":             {"capital": "Bangkok",         "currency": "\u0e3f (THB)",      "language": "Thai",           "best_time": "Nov\u2013Mar",                 "budget": "$",           "visa": "60-day visa-free for most"},
+    "Vietnam":              {"capital": "Hanoi",           "currency": "\u20ab (VND)",      "language": "Vietnamese",     "best_time": "Feb\u2013Apr / Oct\u2013Dec",  "budget": "$",           "visa": "e-Visa or 45-day visa-free"},
+    "Spain":                {"capital": "Madrid",          "currency": "\u20ac (EUR)",      "language": "Spanish",        "best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "France":               {"capital": "Paris",           "currency": "\u20ac (EUR)",      "language": "French",         "best_time": "May\u2013Sep",                 "budget": "$$\u2013$$$", "visa": "90-day Schengen visa-free"},
+    "Germany":              {"capital": "Berlin",          "currency": "\u20ac (EUR)",      "language": "German",         "best_time": "May\u2013Sep",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Colombia":             {"capital": "Bogot\u00e1",     "currency": "COP ($)",           "language": "Spanish",        "best_time": "Dec\u2013Mar / Jul\u2013Aug",  "budget": "$",           "visa": "90-day visa-free for most"},
+    "Poland":               {"capital": "Warsaw",          "currency": "z\u0142 (PLN)",     "language": "Polish",         "best_time": "May\u2013Sep",                 "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Philippines":          {"capital": "Manila",          "currency": "\u20b1 (PHP)",      "language": "Filipino / English","best_time": "Dec\u2013May",               "budget": "$",           "visa": "30-day visa-free for most"},
+    "Argentina":            {"capital": "Buenos Aires",    "currency": "ARS ($)",           "language": "Spanish",        "best_time": "Oct\u2013Apr",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Portugal":             {"capital": "Lisbon",          "currency": "\u20ac (EUR)",      "language": "Portuguese",     "best_time": "Apr\u2013Oct",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Egypt":                {"capital": "Cairo",           "currency": "E\u00a3 (EGP)",     "language": "Arabic",         "best_time": "Oct\u2013Apr",                 "budget": "$",           "visa": "Visa on arrival for most"},
+    "Greece":               {"capital": "Athens",          "currency": "\u20ac (EUR)",      "language": "Greek",          "best_time": "May\u2013Oct",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "South Korea":          {"capital": "Seoul",           "currency": "\u20a9 (KRW)",      "language": "Korean",         "best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$$",          "visa": "90-day visa-free for most"},
+    "South Africa":         {"capital": "Pretoria",        "currency": "R (ZAR)",           "language": "English / Zulu / Afrikaans","best_time": "May\u2013Sep",       "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Sri Lanka":            {"capital": "Colombo",         "currency": "Rs (LKR)",          "language": "Sinhala / Tamil","best_time": "Dec\u2013Mar",                  "budget": "$",           "visa": "ETA required"},
+    "Tanzania":             {"capital": "Dodoma",          "currency": "TSh (TZS)",         "language": "Swahili / English","best_time": "Jun\u2013Oct",                "budget": "$\u2013$$",   "visa": "Visa on arrival"},
+    "Netherlands":          {"capital": "Amsterdam",       "currency": "\u20ac (EUR)",      "language": "Dutch",          "best_time": "Apr\u2013Sep",                 "budget": "$$\u2013$$$", "visa": "90-day Schengen visa-free"},
+    "Morocco":              {"capital": "Rabat",           "currency": "MAD (MAD)",         "language": "Arabic / French","best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$",           "visa": "90-day visa-free for most"},
+    "Nepal":                {"capital": "Kathmandu",       "currency": "Rs (NPR)",          "language": "Nepali",         "best_time": "Oct\u2013Dec / Mar\u2013May",  "budget": "$",           "visa": "Visa on arrival"},
+    "Peru":                 {"capital": "Lima",            "currency": "S/ (PEN)",          "language": "Spanish",        "best_time": "May\u2013Oct",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Malaysia":             {"capital": "Kuala Lumpur",    "currency": "RM (MYR)",          "language": "Malay / English","best_time": "Mar\u2013Oct",                  "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Canada":               {"capital": "Ottawa",          "currency": "C$ (CAD)",          "language": "English / French","best_time": "Jun\u2013Sep",                 "budget": "$$$",         "visa": "eTA or visa required"},
+    "Kenya":                {"capital": "Nairobi",         "currency": "KSh (KES)",         "language": "Swahili / English","best_time": "Jun\u2013Oct",                "budget": "$\u2013$$",   "visa": "eTA required"},
+    "Ireland":              {"capital": "Dublin",          "currency": "\u20ac (EUR)",      "language": "English / Irish","best_time": "May\u2013Sep",                  "budget": "$$\u2013$$$", "visa": "90-day visa-free for most"},
+    "Hungary":              {"capital": "Budapest",        "currency": "Ft (HUF)",          "language": "Hungarian",      "best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Australia":            {"capital": "Canberra",        "currency": "A$ (AUD)",          "language": "English",        "best_time": "Sep\u2013Nov / Mar\u2013May",  "budget": "$$$",         "visa": "eVisitor or ETA required"},
+    "Cuba":                 {"capital": "Havana",          "currency": "CUP (\u20b1)",      "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$",           "visa": "Tourist card required"},
+    "Jordan":               {"capital": "Amman",           "currency": "JOD (JD)",          "language": "Arabic",         "best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$$",          "visa": "Visa on arrival / Jordan Pass"},
+    "Croatia":              {"capital": "Zagreb",          "currency": "\u20ac (EUR)",      "language": "Croatian",       "best_time": "May\u2013Sep",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Austria":              {"capital": "Vienna",          "currency": "\u20ac (EUR)",      "language": "German",         "best_time": "Apr\u2013Oct",                 "budget": "$$\u2013$$$", "visa": "90-day Schengen visa-free"},
+    "Iceland":              {"capital": "Reykjav\u00edk",  "currency": "kr (ISK)",          "language": "Icelandic",      "best_time": "Jun\u2013Aug",                 "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Belgium":              {"capital": "Brussels",        "currency": "\u20ac (EUR)",      "language": "Dutch / French / German","best_time": "May\u2013Sep",          "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Israel":               {"capital": "Jerusalem",       "currency": "\u20aa (ILS)",      "language": "Hebrew / Arabic","best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$$$",         "visa": "90-day visa-free for most"},
+    "Cambodia":             {"capital": "Phnom Penh",      "currency": "$ / \u17db (KHR)",  "language": "Khmer",          "best_time": "Nov\u2013Apr",                 "budget": "$",           "visa": "Visa on arrival / e-Visa"},
+    "China":                {"capital": "Beijing",         "currency": "\u00a5 (CNY)",      "language": "Mandarin",       "best_time": "Apr\u2013May / Sep\u2013Oct",  "budget": "$\u2013$$",   "visa": "Visa required (some transit exemptions)"},
+    "Indonesia":            {"capital": "Jakarta",         "currency": "Rp (IDR)",          "language": "Indonesian",     "best_time": "Apr\u2013Oct",                 "budget": "$",           "visa": "30-day visa on arrival"},
+    "Sweden":               {"capital": "Stockholm",       "currency": "kr (SEK)",          "language": "Swedish",        "best_time": "Jun\u2013Aug",                 "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Romania":              {"capital": "Bucharest",       "currency": "lei (RON)",         "language": "Romanian",       "best_time": "May\u2013Sep",                 "budget": "$",           "visa": "90-day Schengen visa-free"},
+    "Chile":                {"capital": "Santiago",        "currency": "CLP ($)",           "language": "Spanish",        "best_time": "Oct\u2013Mar",                 "budget": "$$",          "visa": "90-day visa-free for most"},
+    "Norway":               {"capital": "Oslo",            "currency": "kr (NOK)",          "language": "Norwegian",      "best_time": "Jun\u2013Aug",                 "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Switzerland":          {"capital": "Bern",            "currency": "CHF (Fr.)",         "language": "German / French / Italian","best_time": "Jun\u2013Sep / Dec\u2013Mar","budget": "$$$", "visa": "90-day Schengen visa-free"},
+    "Taiwan":               {"capital": "Taipei",          "currency": "NT$ (TWD)",         "language": "Mandarin",       "best_time": "Oct\u2013Apr",                 "budget": "$$",          "visa": "90-day visa-free for most"},
+    "Bulgaria":             {"capital": "Sofia",           "currency": "\u043b\u0432 (BGN)","language": "Bulgarian",      "best_time": "May\u2013Sep",                 "budget": "$",           "visa": "90-day Schengen visa-free"},
+    "Denmark":              {"capital": "Copenhagen",      "currency": "kr (DKK)",          "language": "Danish",         "best_time": "May\u2013Sep",                 "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Serbia":               {"capital": "Belgrade",        "currency": "RSD (din.)",        "language": "Serbian",        "best_time": "May\u2013Sep",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    "Montenegro":           {"capital": "Podgorica",       "currency": "\u20ac (EUR)",      "language": "Montenegrin",    "best_time": "May\u2013Sep",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "United Arab Emirates": {"capital": "Abu Dhabi",       "currency": "AED (Dh)",          "language": "Arabic / English","best_time": "Nov\u2013Mar",                "budget": "$$\u2013$$$", "visa": "30-day visa on arrival for most"},
+    "Ghana":                {"capital": "Accra",           "currency": "GH\u20b5 (GHS)",    "language": "English",        "best_time": "Nov\u2013Mar",                 "budget": "$",           "visa": "Visa required for most"},
+    "Dominican Republic":   {"capital": "Santo Domingo",   "currency": "RD$ (DOP)",         "language": "Spanish",        "best_time": "Dec\u2013Apr",                 "budget": "$\u2013$$",   "visa": "30-day tourist card on arrival"},
+    "New Zealand":          {"capital": "Wellington",      "currency": "NZ$ (NZD)",         "language": "English / M\u0101ori","best_time": "Dec\u2013Feb",              "budget": "$$\u2013$$$", "visa": "NZeTA required"},
+    "Laos":                 {"capital": "Vientiane",       "currency": "\u20ad (LAK)",      "language": "Lao",            "best_time": "Nov\u2013Feb",                 "budget": "$",           "visa": "Visa on arrival for most"},
+    "Puerto Rico":          {"capital": "San Juan",        "currency": "$ (USD)",           "language": "Spanish / English","best_time": "Dec\u2013Apr",                "budget": "$$",          "visa": "No visa needed (U.S. territory)"},
+    "Costa Rica":           {"capital": "San Jos\u00e9",   "currency": "\u20a1 (CRC)",      "language": "Spanish",        "best_time": "Dec\u2013Apr",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Panama":               {"capital": "Panama City",     "currency": "B/. / $ (PAB/USD)", "language": "Spanish",        "best_time": "Dec\u2013Apr",                 "budget": "$\u2013$$",   "visa": "90-day visa-free for most"},
+    "Estonia":              {"capital": "Tallinn",         "currency": "\u20ac (EUR)",      "language": "Estonian",       "best_time": "Jun\u2013Aug",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Honduras":             {"capital": "Tegucigalpa",     "currency": "L (HNL)",           "language": "Spanish",        "best_time": "Dec\u2013Apr",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    "Jamaica":              {"capital": "Kingston",        "currency": "J$ (JMD)",          "language": "English",        "best_time": "Nov\u2013Apr",                 "budget": "$$",          "visa": "90-day visa-free for most"},
+    "Mauritius":            {"capital": "Port Louis",      "currency": "Rs (MUR)",          "language": "English / French / Creole","best_time": "May\u2013Dec",        "budget": "$$",          "visa": "60-day visa-free for most"},
+    "El Salvador":          {"capital": "San Salvador",    "currency": "$ (USD)",           "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$",           "visa": "90-day visa-free for most"},
+}
+
+# Health slug overrides (when health directory slug differs from country slug)
+HEALTH_SLUG_OVERRIDES = {
+    "United Arab Emirates": "uae",
+    "Indonesia":            "indonesia-bali",
+}
+
+# Advisory data from countries/index.html (extracted)
+ADVISORY_DATA = {
+    "Saudi Arabia": {"level": 3, "slug": "saudi-arabia", "lt": "Reconsider Travel"},
+    "Oman": {"level": 3, "slug": "oman", "lt": "Reconsider Travel"},
+    "Finland": {"level": 1, "slug": "finland", "lt": "Exercise Normal Precautions"},
+    "Guatemala": {"level": 3, "slug": "guatemala", "lt": "Reconsider Travel"},
+    "Azerbaijan": {"level": 3, "slug": "azerbaijan", "lt": "Reconsider Travel"},
+    "Belize": {"level": 2, "slug": "belize", "lt": "Exercise Increased Caution"},
+    "Togo": {"level": 2, "slug": "togo", "lt": "Exercise Increased Caution"},
+    "Singapore": {"level": 1, "slug": "singapore", "lt": "Exercise Normal Precautions"},
+    "Kuwait": {"level": 3, "slug": "kuwait", "lt": "Reconsider Travel"},
+    "Turkey": {"level": 2, "slug": "turkey", "lt": "Exercise Increased Caution"},
+    "Pakistan": {"level": 3, "slug": "pakistan", "lt": "Reconsider Travel"},
+    "Cyprus": {"level": 3, "slug": "cyprus", "lt": "Reconsider Travel"},
+    "United Arab Emirates": {"level": 3, "slug": "united-arab-emirates", "lt": "Reconsider Travel"},
+    "Qatar": {"level": 3, "slug": "qatar", "lt": "Reconsider Travel"},
+    "Jordan": {"level": 3, "slug": "jordan", "lt": "Reconsider Travel"},
+    "Iraq": {"level": 4, "slug": "iraq", "lt": "Do Not Travel"},
+    "Bahrain": {"level": 3, "slug": "bahrain", "lt": "Reconsider Travel"},
+    "Guinea": {"level": 2, "slug": "guinea", "lt": "Exercise Increased Caution"},
+    "Malawi": {"level": 2, "slug": "malawi", "lt": "Exercise Increased Caution"},
+    "Lebanon": {"level": 4, "slug": "lebanon", "lt": "Do Not Travel"},
+    "Malaysia": {"level": 1, "slug": "malaysia", "lt": "Exercise Normal Precautions"},
+    "Afghanistan": {"level": 4, "slug": "afghanistan", "lt": "Do Not Travel"},
+    "Slovakia": {"level": 1, "slug": "slovakia", "lt": "Exercise Normal Precautions"},
+    "Niger": {"level": 4, "slug": "niger", "lt": "Do Not Travel"},
+    "Uzbekistan": {"level": 1, "slug": "uzbekistan", "lt": "Exercise Normal Precautions"},
+    "Bangladesh": {"level": 3, "slug": "bangladesh", "lt": "Reconsider Travel"},
+    "Jamaica": {"level": 2, "slug": "jamaica", "lt": "Exercise Increased Caution"},
+    "Central African Republic": {"level": 4, "slug": "central-african-republic", "lt": "Do Not Travel"},
+    "Mali": {"level": 4, "slug": "mali", "lt": "Do Not Travel"},
+    "Czech Republic": {"level": 1, "slug": "czech-republic", "lt": "Exercise Normal Precautions"},
+    "Benin": {"level": 2, "slug": "benin", "lt": "Exercise Increased Caution"},
+    "Russia": {"level": 4, "slug": "russia", "lt": "Do Not Travel"},
+    "Belarus": {"level": 4, "slug": "belarus", "lt": "Do Not Travel"},
+    "Portugal": {"level": 1, "slug": "portugal", "lt": "Exercise Normal Precautions"},
+    "Yemen": {"level": 4, "slug": "yemen", "lt": "Do Not Travel"},
+    "Syria": {"level": 4, "slug": "syria", "lt": "Do Not Travel"},
+    "Mauritius": {"level": 2, "slug": "mauritius", "lt": "Exercise Increased Caution"},
+    "Uganda": {"level": 3, "slug": "uganda", "lt": "Reconsider Travel"},
+    "Iran": {"level": 4, "slug": "iran", "lt": "Do Not Travel"},
+    "Venezuela": {"level": 4, "slug": "venezuela", "lt": "Do Not Travel"},
+    "Taiwan": {"level": 1, "slug": "taiwan", "lt": "Exercise Normal Precautions"},
+    "South Sudan": {"level": 4, "slug": "south-sudan", "lt": "Do Not Travel"},
+    "Tanzania": {"level": 3, "slug": "tanzania", "lt": "Reconsider Travel"},
+    "Greece": {"level": 1, "slug": "greece", "lt": "Exercise Normal Precautions"},
+    "Sudan": {"level": 4, "slug": "sudan", "lt": "Do Not Travel"},
+    "Romania": {"level": 1, "slug": "romania", "lt": "Exercise Normal Precautions"},
+    "Sri Lanka": {"level": 2, "slug": "sri-lanka", "lt": "Exercise Increased Caution"},
+    "Ecuador": {"level": 2, "slug": "ecuador", "lt": "Exercise Increased Caution"},
+    "Bulgaria": {"level": 1, "slug": "bulgaria", "lt": "Exercise Normal Precautions"},
+    "Croatia": {"level": 1, "slug": "croatia", "lt": "Exercise Normal Precautions"},
+    "Maldives": {"level": 2, "slug": "maldives", "lt": "Exercise Increased Caution"},
+    "Nepal": {"level": 3, "slug": "nepal", "lt": "Reconsider Travel"},
+    "Armenia": {"level": 2, "slug": "armenia", "lt": "Exercise Increased Caution"},
+    "Mexico": {"level": 2, "slug": "mexico-travel-advisory", "lt": "Exercise Increased Caution"},
+    "Democratic Republic of the Congo": {"level": 3, "slug": "democratic-republic-of-the-congo", "lt": "Reconsider Travel"},
+    "Cambodia": {"level": 2, "slug": "cambodia", "lt": "Exercise Increased Caution"},
+    "Thailand": {"level": 2, "slug": "thailand", "lt": "Exercise Increased Caution"},
+    "Rwanda": {"level": 2, "slug": "rwanda", "lt": "Exercise Increased Caution"},
+    "Libya": {"level": 4, "slug": "libya", "lt": "Do Not Travel"},
+    "Egypt": {"level": 2, "slug": "egypt", "lt": "Exercise Increased Caution"},
+    "Nigeria": {"level": 3, "slug": "nigeria", "lt": "Reconsider Travel"},
+    "Haiti": {"level": 4, "slug": "haiti", "lt": "Do Not Travel"},
+    "India": {"level": 2, "slug": "india", "lt": "Exercise Increased Caution"},
+    "Mozambique": {"level": 2, "slug": "mozambique", "lt": "Exercise Increased Caution"},
+    "Dominican Republic": {"level": 2, "slug": "dominican-republic", "lt": "Exercise Increased Caution"},
+    "Canada": {"level": 1, "slug": "canada", "lt": "Exercise Normal Precautions"},
+    "Poland": {"level": 1, "slug": "poland", "lt": "Exercise Normal Precautions"},
+    "Australia": {"level": 1, "slug": "australia", "lt": "Exercise Normal Precautions"},
+    "Brazil": {"level": 2, "slug": "brazil", "lt": "Exercise Increased Caution"},
+    "France": {"level": 2, "slug": "france", "lt": "Exercise Increased Caution"},
+    "South Korea": {"level": 1, "slug": "south-korea", "lt": "Exercise Normal Precautions"},
+    "South Africa": {"level": 2, "slug": "south-africa", "lt": "Exercise Increased Caution"},
+    "Italy": {"level": 2, "slug": "italy", "lt": "Exercise Increased Caution"},
+    "Belgium": {"level": 2, "slug": "belgium", "lt": "Exercise Increased Caution"},
+    "Switzerland": {"level": 1, "slug": "switzerland", "lt": "Exercise Normal Precautions"},
+    "Peru": {"level": 2, "slug": "peru", "lt": "Exercise Increased Caution"},
+    "Japan": {"level": 1, "slug": "japan", "lt": "Exercise Normal Precautions"},
+    "Somalia": {"level": 4, "slug": "somalia", "lt": "Do Not Travel"},
+    "Germany": {"level": 2, "slug": "germany", "lt": "Exercise Increased Caution"},
+    "Spain": {"level": 2, "slug": "spain", "lt": "Exercise Increased Caution"},
+    "Burma (Myanmar)": {"level": 4, "slug": "burma-myanmar", "lt": "Do Not Travel"},
+    "United Kingdom": {"level": 2, "slug": "united-kingdom", "lt": "Exercise Increased Caution"},
+    "Philippines": {"level": 2, "slug": "philippines", "lt": "Exercise Increased Caution"},
+    "Cuba": {"level": 2, "slug": "cuba", "lt": "Exercise Increased Caution"},
+    "Indonesia": {"level": 2, "slug": "indonesia", "lt": "Exercise Increased Caution"},
+    "North Korea": {"level": 4, "slug": "north-korea", "lt": "Do Not Travel"},
+    "Morocco": {"level": 2, "slug": "morocco", "lt": "Exercise Increased Caution"},
+    "Colombia": {"level": 3, "slug": "colombia", "lt": "Reconsider Travel"},
+    "Burkina Faso": {"level": 4, "slug": "burkina-faso", "lt": "Do Not Travel"},
+    "Serbia": {"level": 2, "slug": "serbia", "lt": "Exercise Increased Caution"},
+    "Ghana": {"level": 2, "slug": "ghana", "lt": "Exercise Increased Caution"},
+    "El Salvador": {"level": 1, "slug": "el-salvador", "lt": "Exercise Normal Precautions"},
+    "Kenya": {"level": 2, "slug": "kenya", "lt": "Exercise Increased Caution"},
+    "Georgia": {"level": 1, "slug": "georgia", "lt": "Exercise Normal Precautions"},
+    "Chile": {"level": 2, "slug": "chile", "lt": "Exercise Increased Caution"},
+    "New Zealand": {"level": 1, "slug": "new-zealand", "lt": "Exercise Normal Precautions"},
+    "Albania": {"level": 2, "slug": "albania", "lt": "Exercise Increased Caution"},
+    "Namibia": {"level": 2, "slug": "namibia", "lt": "Exercise Increased Caution"},
+    "Vietnam": {"level": 1, "slug": "vietnam", "lt": "Exercise Normal Precautions"},
+    "Nicaragua": {"level": 3, "slug": "nicaragua", "lt": "Reconsider Travel"},
+    "Costa Rica": {"level": 2, "slug": "costa-rica", "lt": "Exercise Increased Caution"},
+    "Honduras": {"level": 3, "slug": "honduras", "lt": "Reconsider Travel"},
+    "Bolivia": {"level": 2, "slug": "bolivia", "lt": "Exercise Increased Caution"},
+    "Ethiopia": {"level": 3, "slug": "ethiopia", "lt": "Reconsider Travel"},
+    "Argentina": {"level": 1, "slug": "argentina", "lt": "Exercise Normal Precautions"},
+    "Ireland": {"level": 1, "slug": "ireland", "lt": "Exercise Normal Precautions"},
+    "Austria": {"level": 1, "slug": "austria", "lt": "Exercise Normal Precautions"},
+    "Iceland": {"level": 1, "slug": "iceland", "lt": "Exercise Normal Precautions"},
+    "Hungary": {"level": 1, "slug": "hungary", "lt": "Exercise Normal Precautions"},
+    "Netherlands": {"level": 2, "slug": "netherlands", "lt": "Exercise Increased Caution"},
+    "Sweden": {"level": 2, "slug": "sweden", "lt": "Exercise Increased Caution"},
+    "Estonia": {"level": 1, "slug": "estonia", "lt": "Exercise Normal Precautions"},
+    "Slovenia": {"level": 1, "slug": "slovenia", "lt": "Exercise Normal Precautions"},
+    "Ukraine": {"level": 4, "slug": "ukraine", "lt": "Do Not Travel"},
+    "Tunisia": {"level": 2, "slug": "tunisia", "lt": "Exercise Increased Caution"},
+    "Algeria": {"level": 2, "slug": "algeria", "lt": "Exercise Increased Caution"},
+    "Panama": {"level": 2, "slug": "panama", "lt": "Exercise Increased Caution"},
+    "Latvia": {"level": 1, "slug": "latvia", "lt": "Exercise Normal Precautions"},
+    "Mongolia": {"level": 1, "slug": "mongolia", "lt": "Exercise Normal Precautions"},
+    "Norway": {"level": 1, "slug": "norway", "lt": "Exercise Normal Precautions"},
+    "Lithuania": {"level": 1, "slug": "lithuania", "lt": "Exercise Normal Precautions"},
+    "Kazakhstan": {"level": 1, "slug": "kazakhstan", "lt": "Exercise Normal Precautions"},
+    "Montenegro": {"level": 1, "slug": "montenegro", "lt": "Exercise Normal Precautions"},
+    "China": {"level": 3, "slug": "china", "lt": "Reconsider Travel"},
+    "Denmark": {"level": 1, "slug": "denmark", "lt": "Exercise Normal Precautions"},
+    "Puerto Rico": {"level": 1, "slug": "puerto-rico", "lt": "Exercise Normal Precautions"},
+    "Laos": {"level": 2, "slug": "laos", "lt": "Exercise Increased Caution"},
+    "United States": {"level": 1, "slug": "united-states", "lt": "Exercise Normal Precautions"},
+}
+
+# ---------------------------------------------------------------------------
+# Data scanning — runs once, caches globally
+# ---------------------------------------------------------------------------
+
+_DESTINATIONS_BY_COUNTRY = None
+_DEST_DETAILS_CACHE = None
+_SCAMS_BY_COUNTRY = None
+_SCAM_DIRS_SET = None
+_PICKS_BY_COUNTRY = None
+_COMPARE_DIRS_SET = None
+_ITIN_DIRS = None
+_DEST_PAGES_SET = None
 
 
-def scan_comparisons(country):
-    """Find compare pages that match this country's cities/keywords."""
-    compare_dir = os.path.join(BASE_DIR, "compare")
-    matches = []
-    seen = set()
-    for kw in country["compare_keywords"]:
-        for entry in sorted(os.listdir(compare_dir)):
-            if entry in seen:
-                continue
-            path = os.path.join(compare_dir, entry)
-            if not os.path.isdir(path):
-                continue
-            # Match if keyword appears in the slug
-            parts = entry.split("-vs-")
-            if len(parts) == 2:
-                if kw in entry.split("-"):
-                    # Check it's a real match (not partial word match)
-                    if kw in parts[0].split("-") or kw in parts[1].split("-"):
-                        title = entry.replace("-vs-", " vs ").replace("-", " ").title()
-                        matches.append({"slug": entry, "title": title})
-                        seen.add(entry)
-            elif entry == kw:
-                # Hub page like "japan", "italy", "mexico"
-                title = entry.replace("-", " ").title()
-                matches.append({"slug": entry, "title": title})
-                seen.add(entry)
-    return matches
-
-
-def scan_destinations_count(country_name):
-    """Count destinations for a country from the API data."""
-    api_path = os.path.join(BASE_DIR, "api", "v1", "destinations.json")
+def _load_destinations():
+    """Load destinations.json and group by country. Also cache per-dest detail."""
+    global _DESTINATIONS_BY_COUNTRY, _DEST_DETAILS_CACHE
+    if _DESTINATIONS_BY_COUNTRY is not None:
+        return
+    _DESTINATIONS_BY_COUNTRY = {}
+    _DEST_DETAILS_CACHE = {}
+    fp = os.path.join(BASE_DIR, "api", "v1", "destinations.json")
     try:
-        with open(api_path) as f:
+        with open(fp) as f:
             data = json.load(f)
-        return sum(1 for d in data["destinations"] if d.get("country") == country_name)
     except Exception:
-        return 0
+        return
+    for d in data.get("destinations", []):
+        country = d.get("country", "")
+        _DESTINATIONS_BY_COUNTRY.setdefault(country, []).append(d)
+        _DEST_DETAILS_CACHE[d.get("slug", "")] = d
 
 
-def scan_picks_from_api(country_name):
-    """Count picks from the API directory."""
-    picks_dir = os.path.join(BASE_DIR, "api", "v1", "picks")
-    count = 0
-    for path in glob.glob(os.path.join(picks_dir, "*.json")):
+def _load_dest_details(slug):
+    """Load individual destination JSON for photo etc."""
+    fp = os.path.join(BASE_DIR, "api", "v1", "destinations", f"{slug}.json")
+    try:
+        with open(fp) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _load_scams():
+    """Load scam data from all batch files, grouped by country."""
+    global _SCAMS_BY_COUNTRY, _SCAM_DIRS_SET
+    if _SCAMS_BY_COUNTRY is not None:
+        return
+
+    # Get set of actual scam directories
+    scams_dir = os.path.join(BASE_DIR, "scams")
+    _SCAM_DIRS_SET = set()
+    if os.path.isdir(scams_dir):
+        for d in os.listdir(scams_dir):
+            if os.path.isdir(os.path.join(scams_dir, d)) and d != "research":
+                _SCAM_DIRS_SET.add(d)
+
+    _SCAMS_BY_COUNTRY = {}
+    seen = set()  # avoid dups (city, country)
+
+    for pattern in ["scams/research/batch*.json", "scams/research/tier_b_batch*.json"]:
+        for fp in sorted(glob.glob(os.path.join(BASE_DIR, pattern))):
+            try:
+                with open(fp) as f:
+                    data = json.load(f)
+                if not isinstance(data, list):
+                    continue
+                for entry in data:
+                    country = entry.get("country", "").strip()
+                    city = entry.get("city", "").strip()
+                    scam_count = len(entry.get("scams", []))
+                    if not country or not city:
+                        continue
+
+                    # Derive slug
+                    raw_slug = slugify(city)
+                    # Check if slug actually exists as a scam directory
+                    if raw_slug not in _SCAM_DIRS_SET:
+                        continue
+
+                    key = (raw_slug, country)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+
+                    _SCAMS_BY_COUNTRY.setdefault(country, []).append({
+                        "city": city,
+                        "slug": raw_slug,
+                        "count": scam_count,
+                    })
+            except Exception:
+                pass
+
+    # Also check batch_tier_a.json
+    tier_a_path = os.path.join(BASE_DIR, "scams", "research", "batch_tier_a.json")
+    if os.path.exists(tier_a_path):
         try:
-            with open(path) as f:
+            with open(tier_a_path) as f:
                 data = json.load(f)
-            if data.get("country") == country_name:
-                count += 1
+            if isinstance(data, list):
+                for entry in data:
+                    country = entry.get("country", "").strip()
+                    city = entry.get("city", "").strip()
+                    scam_count = len(entry.get("scams", []))
+                    if not country or not city:
+                        continue
+                    raw_slug = slugify(city)
+                    if raw_slug not in _SCAM_DIRS_SET:
+                        continue
+                    key = (raw_slug, country)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    _SCAMS_BY_COUNTRY.setdefault(country, []).append({
+                        "city": city,
+                        "slug": raw_slug,
+                        "count": scam_count,
+                    })
         except Exception:
             pass
+
+    # Map aliases: "Scotland" -> "United Kingdom", "China (SAR)" -> "China" etc
+    scam_country_merge = {
+        "Scotland": "United Kingdom",
+        "China (SAR)": "China",
+        "The Bahamas": "Jamaica",  # skip — different country
+    }
+    for alias, canonical in scam_country_merge.items():
+        if alias in _SCAMS_BY_COUNTRY:
+            _SCAMS_BY_COUNTRY.setdefault(canonical, []).extend(_SCAMS_BY_COUNTRY.pop(alias))
+
+
+def _load_picks():
+    """Load picks from api/v1/picks/*.json, grouped by country."""
+    global _PICKS_BY_COUNTRY
+    if _PICKS_BY_COUNTRY is not None:
+        return
+
+    _PICKS_BY_COUNTRY = {}
+    picks_api_dir = os.path.join(BASE_DIR, "api", "v1", "picks")
+    picks_html_dir = os.path.join(BASE_DIR, "popular-picks")
+
+    if not os.path.isdir(picks_api_dir):
+        return
+
+    for fn in sorted(os.listdir(picks_api_dir)):
+        if not fn.endswith(".json"):
+            continue
+        slug = fn[:-5]
+        # Verify the HTML page exists
+        if not os.path.isdir(os.path.join(picks_html_dir, slug)):
+            continue
+
+        fp = os.path.join(picks_api_dir, fn)
+        try:
+            with open(fp) as f:
+                data = json.load(f)
+        except Exception:
+            continue
+
+        city = data.get("city", "").strip()
+        title = data.get("title", "").strip()
+        if not title:
+            title = slug.replace("-", " ").title()
+
+        # Determine country from places
+        country = ""
+        places = data.get("places", [])
+        if isinstance(places, list):
+            for p in places:
+                if isinstance(p, dict) and p.get("country"):
+                    country = p["country"]
+                    break
+
+        if not country and city:
+            # Fallback: look up destination
+            _load_destinations()
+            city_slug = slugify(city)
+            detail = _DEST_DETAILS_CACHE.get(city_slug)
+            if detail:
+                country = detail.get("country", "")
+            else:
+                # Try loading individual
+                dd = _load_dest_details(city_slug)
+                if dd:
+                    country = dd.get("country", "")
+
+        if country:
+            _PICKS_BY_COUNTRY.setdefault(country, []).append({
+                "slug": slug,
+                "title": title,
+            })
+
+
+def _load_compare_dirs():
+    """Get the set of all compare directory slugs."""
+    global _COMPARE_DIRS_SET
+    if _COMPARE_DIRS_SET is not None:
+        return
+    compare_dir = os.path.join(BASE_DIR, "compare")
+    _COMPARE_DIRS_SET = set()
+    if os.path.isdir(compare_dir):
+        for d in os.listdir(compare_dir):
+            if os.path.isdir(os.path.join(compare_dir, d)):
+                _COMPARE_DIRS_SET.add(d)
+
+
+def _load_itin_dirs():
+    """Get all itinerary directory slugs."""
+    global _ITIN_DIRS
+    if _ITIN_DIRS is not None:
+        return
+    itin_dir = os.path.join(BASE_DIR, "itineraries")
+    _ITIN_DIRS = set()
+    if os.path.isdir(itin_dir):
+        for d in os.listdir(itin_dir):
+            if os.path.isdir(os.path.join(itin_dir, d)):
+                _ITIN_DIRS.add(d)
+
+
+def _load_dest_pages():
+    """Get set of destination slugs that have actual HTML pages."""
+    global _DEST_PAGES_SET
+    if _DEST_PAGES_SET is not None:
+        return
+    dest_dir = os.path.join(BASE_DIR, "destinations")
+    _DEST_PAGES_SET = set()
+    if os.path.isdir(dest_dir):
+        for d in os.listdir(dest_dir):
+            if os.path.isdir(os.path.join(dest_dir, d)):
+                _DEST_PAGES_SET.add(d)
+
+
+# ---------------------------------------------------------------------------
+# Per-country data collectors
+# ---------------------------------------------------------------------------
+
+def get_destination_count(country_name):
+    """Count destinations for a country."""
+    _load_destinations()
+    # Check canonical name and aliases
+    count = len(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
+    # Also check alternate names
+    for alt in CANONICAL_TO_DEST_NAMES.get(country_name, []):
+        if alt != country_name:
+            count += len(_DESTINATIONS_BY_COUNTRY.get(alt, []))
     return count
 
 
+def get_top_destinations(country_name, limit=12):
+    """Get top destinations with photos for a country."""
+    _load_destinations()
+    _load_dest_pages()
+
+    # Gather all dests for this country
+    dests = list(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
+    for alt in CANONICAL_TO_DEST_NAMES.get(country_name, []):
+        if alt != country_name:
+            dests.extend(_DESTINATIONS_BY_COUNTRY.get(alt, []))
+
+    if not dests:
+        return []
+
+    # Sort by some heuristic: prioritize those with real photos and destination pages
+    results = []
+    for d in dests:
+        slug = d.get("slug", "")
+        name = d.get("name", "")
+        if not slug or not name:
+            continue
+
+        # Load individual dest JSON for photo
+        detail = _load_dest_details(slug)
+        photo = ""
+        if detail:
+            photo = detail.get("photo", "")
+
+        has_real_photo = photo and "owl-logo" not in photo and "tabiji-owl" not in photo
+        has_page = slug in _DEST_PAGES_SET
+
+        results.append({
+            "name": name,
+            "slug": slug,
+            "photo": photo if has_real_photo else "",
+            "has_page": has_page,
+            "has_photo": has_real_photo,
+        })
+
+    # Sort: has_page + has_photo first, then has_photo, then has_page, then rest
+    results.sort(key=lambda x: (
+        -(x["has_page"] and x["has_photo"]),
+        -x["has_photo"],
+        -x["has_page"],
+        x["name"],
+    ))
+
+    return results[:limit]
+
+
+def get_scam_guides(country_name):
+    """Get scam guides for a country."""
+    _load_scams()
+    return _SCAMS_BY_COUNTRY.get(country_name, [])
+
+
+def get_popular_picks(country_name):
+    """Get popular picks for a country."""
+    _load_picks()
+    return _PICKS_BY_COUNTRY.get(country_name, [])
+
+
+def get_comparisons(country_name, country_slug):
+    """Find compare pages matching this country."""
+    _load_compare_dirs()
+    _load_destinations()
+
+    # Build list of city slugs for this country
+    dests = list(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
+    for alt in CANONICAL_TO_DEST_NAMES.get(country_name, []):
+        if alt != country_name:
+            dests.extend(_DESTINATIONS_BY_COUNTRY.get(alt, []))
+
+    # Get a set of significant city name tokens for matching
+    city_slugs = set()
+    city_slugs.add(country_slug)
+    for d in dests:
+        s = d.get("slug", "")
+        if s:
+            city_slugs.add(s)
+            # Also add individual words for multi-word slugs
+            parts = s.split("-")
+            if len(parts) <= 2:
+                for p in parts:
+                    if len(p) > 3:  # skip short tokens
+                        city_slugs.add(p)
+
+    matches = []
+    seen = set()
+
+    for entry in sorted(_COMPARE_DIRS_SET):
+        if entry in seen:
+            continue
+
+        # Check if it's a hub page (e.g., "japan", "italy")
+        if entry == country_slug:
+            title = entry.replace("-", " ").title()
+            matches.append({"slug": entry, "title": title})
+            seen.add(entry)
+            continue
+
+        # Check vs comparisons
+        parts = entry.split("-vs-")
+        if len(parts) != 2:
+            continue
+
+        matched = False
+        for part in parts:
+            part_tokens = set(part.split("-"))
+            # Match if country slug is in the part OR a significant city slug matches
+            if country_slug in part.split("-"):
+                matched = True
+                break
+            # Check city name matches (full slug match to avoid false positives)
+            if part in city_slugs:
+                matched = True
+                break
+            # Check country name as part of the slug
+            if country_slug in part:
+                matched = True
+                break
+
+        if matched:
+            title = entry.replace("-vs-", " vs ").replace("-", " ").title()
+            # Clean up common title issues
+            title = title.replace(" Vs ", " vs ")
+            matches.append({"slug": entry, "title": title})
+            seen.add(entry)
+
+    return matches
+
+
+def get_itineraries(country_name, country_slug):
+    """Find itineraries matching this country."""
+    _load_itin_dirs()
+    _load_destinations()
+
+    # Build keyword set from country and major cities
+    keywords = set()
+    keywords.add(country_slug)
+    # Add country name words
+    for w in country_name.lower().split():
+        if len(w) > 2:
+            keywords.add(w)
+
+    # Add top city slugs
+    dests = list(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
+    for alt in CANONICAL_TO_DEST_NAMES.get(country_name, []):
+        if alt != country_name:
+            dests.extend(_DESTINATIONS_BY_COUNTRY.get(alt, []))
+
+    # Only add well-known cities (those with scam guides or picks)
+    _load_scams()
+    _load_picks()
+    known_cities = set()
+    for sc in _SCAMS_BY_COUNTRY.get(country_name, []):
+        known_cities.add(sc["slug"])
+    for pk in _PICKS_BY_COUNTRY.get(country_name, []):
+        # Extract city from pick slug (e.g., "tokyo-brunch" -> "tokyo")
+        parts = pk["slug"].split("-")
+        if parts:
+            known_cities.add(parts[0])
+
+    for city_slug in known_cities:
+        if len(city_slug) > 3:
+            keywords.add(city_slug)
+
+    matches = []
+    for itin_slug in sorted(_ITIN_DIRS):
+        itin_lower = itin_slug.lower()
+        for kw in keywords:
+            if kw in itin_lower.split("-"):
+                # Extract title and days from slug
+                title = itin_slug.replace("-", " ").title()
+                # Try to parse days
+                day_match = re.match(r"(\d+)-day", itin_slug)
+                days = int(day_match.group(1)) if day_match else 0
+                # Shorter title: remove the country name from title if present
+                display_title = title
+                matches.append({"slug": itin_slug, "title": display_title, "days": days})
+                break
+
+    return matches
+
+
+def has_alert_page(country_slug):
+    """Check if an alert page exists for this country."""
+    return os.path.exists(os.path.join(BASE_DIR, "alerts", country_slug, "index.html"))
+
+
+def has_health_page(country_name, country_slug):
+    """Check if a health page exists for this country. Return the slug if found."""
+    health_slug = HEALTH_SLUG_OVERRIDES.get(country_name, country_slug)
+    if os.path.exists(os.path.join(BASE_DIR, "health", health_slug, "index.html")):
+        return health_slug
+    # Fallback: try the country slug directly
+    if health_slug != country_slug and os.path.exists(os.path.join(BASE_DIR, "health", country_slug, "index.html")):
+        return country_slug
+    return None
+
+
+def get_advisory(country_name):
+    """Get advisory data for a country."""
+    return ADVISORY_DATA.get(country_name)
+
+
 # ---------------------------------------------------------------------------
-# HTML generation helpers
+# HTML helpers
 # ---------------------------------------------------------------------------
 
 def h(text):
@@ -321,6 +831,7 @@ def nav_html():
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
+                <a href="/countries/">\U0001F30D Country Guides</a>
                 <a href="/compare/">\U0001F19A Compare Destinations</a>
                 <a href="/find/">\U0001F50D Destination Finder</a>
                 <a href="/resources/">\U0001F4DA Resources</a>
@@ -333,7 +844,7 @@ def nav_html():
             </div>
         </div>
         <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
+        <a href="/countries/">Country Guides</a>
         <a href="/about/">About</a>
         <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
     </div>
@@ -350,23 +861,27 @@ def footer_html():
 # Country page generator
 # ---------------------------------------------------------------------------
 
-def generate_country_page(country):
+def generate_country_page(name, slug, iso2, flag, continent):
     """Generate the full HTML for a country hub page."""
-    name = country["name"]
-    slug = country["slug"]
-    flag = country["flag"]
-    iso2 = country["iso2"]
 
-    # Scan live data
-    picks = scan_popular_picks(country)
-    comparisons = scan_comparisons(country)
-    dest_count = scan_destinations_count(name)
+    # Gather all data
+    dest_count = get_destination_count(name)
+    scams = get_scam_guides(name)
+    picks = get_popular_picks(name)
+    comparisons = get_comparisons(name, slug)
+    itineraries = get_itineraries(name, slug)
+    top_dests = get_top_destinations(name, limit=12)
+    advisory = get_advisory(name)
+    health_slug = has_health_page(name, slug)
+    facts = QUICK_FACTS.get(name)
+    has_alert = has_alert_page(slug)
 
-    scam_count = len(country["scam_cities"])
+    scam_count = len(scams)
     compare_count = len(comparisons)
-    itin_count = len(country["itineraries"])
+    itin_count = len(itineraries)
     picks_count = len(picks)
 
+    # Build subtitle
     subtitle_parts = []
     if dest_count:
         subtitle_parts.append(pl(dest_count, "destination"))
@@ -386,13 +901,8 @@ def generate_country_page(country):
         f"itineraries, and curated local picks \u2014 all backed by real traveler data."
     )
 
-    # Compare cards (top 12)
-    compare_top = comparisons[:12]
-    compare_remaining = len(comparisons) - 12
-
-    # Picks cards (top 12)
-    picks_top = picks[:12]
-    picks_remaining = len(picks) - 12
+    # og:image
+    og_image = "https://img.tabiji.ai/tabiji-owl-logo.png"
 
     # JSON-LD
     breadcrumb_json = json.dumps({
@@ -420,47 +930,59 @@ def generate_country_page(country):
         ]
     }, indent=4)
 
-    # Build sections
-
     # --- Quick Facts ---
-    quick_facts_html = f"""
+    quick_facts_html = ""
+    if facts:
+        quick_facts_html = f"""
     <section class="section">
         <h2 class="section-title">Quick Facts</h2>
         <div class="facts-grid">
             <div class="fact-item">
                 <div class="fact-label">Capital</div>
-                <div class="fact-value">{h(country['capital'])}</div>
+                <div class="fact-value">{h(facts['capital'])}</div>
             </div>
             <div class="fact-item">
                 <div class="fact-label">Currency</div>
-                <div class="fact-value">{h(country['currency'])}</div>
+                <div class="fact-value">{h(facts['currency'])}</div>
             </div>
             <div class="fact-item">
                 <div class="fact-label">Language</div>
-                <div class="fact-value">{h(country['language'])}</div>
+                <div class="fact-value">{h(facts['language'])}</div>
             </div>
             <div class="fact-item">
                 <div class="fact-label">Best Time to Visit</div>
-                <div class="fact-value">{h(country['best_time'])}</div>
+                <div class="fact-value">{h(facts['best_time'])}</div>
             </div>
             <div class="fact-item">
                 <div class="fact-label">Budget Level</div>
-                <div class="fact-value">{h(country['budget'])}</div>
+                <div class="fact-value">{h(facts['budget'])}</div>
             </div>
             <div class="fact-item">
                 <div class="fact-label">Visa</div>
-                <div class="fact-value">{h(country['visa'])}</div>
+                <div class="fact-value">{h(facts['visa'])}</div>
             </div>
         </div>
     </section>"""
 
     # --- Travel Advisory ---
-    advisory_html = f"""
+    advisory_html = ""
+    if advisory and has_alert:
+        level = advisory["level"]
+        # Colors by level
+        level_colors = {
+            1: ("#16A34A", "#F0FDF4"),
+            2: ("#F59E0B", "#FFFBEB"),
+            3: ("#F97316", "#FFF7ED"),
+            4: ("#EF4444", "#FEF2F2"),
+        }
+        color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
+        label = f"Level {level} \u2014 {advisory['lt']}"
+        advisory_html = f"""
     <section class="section">
         <h2 class="section-title">Travel Advisory</h2>
-        <a href="/alerts/{slug}/" class="advisory-card" style="border-left: 4px solid {country['advisory_color']};">
-            <div class="advisory-badge" style="background: {country['advisory_bg']}; color: {country['advisory_color']};">
-                {h(country['advisory_label'])}
+        <a href="/alerts/{slug}/" class="advisory-card" style="border-left: 4px solid {color};">
+            <div class="advisory-badge" style="background: {bg}; color: {color};">
+                {h(label)}
             </div>
             <p class="advisory-desc">View the full {name} travel advisory, entry requirements, and safety updates.</p>
             <span class="advisory-link">Read full advisory &rarr;</span>
@@ -468,31 +990,32 @@ def generate_country_page(country):
     </section>"""
 
     # --- Health ---
-    health_bullets = "\n".join(
-        f'                <li>{h(b)}</li>' for b in country["health_bullets"]
-    )
-    health_html = f"""
+    health_html = ""
+    if health_slug:
+        health_html = f"""
     <section class="section">
         <h2 class="section-title">Health &amp; Safety</h2>
         <div class="health-card">
-            <ul class="health-list">
-{health_bullets}
-            </ul>
-            <a href="/health/{slug}/" class="section-link">Full health guide for {name} &rarr;</a>
+            <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.55;">
+                View vaccination recommendations, tap water safety, and healthcare tips for {name}.
+            </p>
+            <a href="/health/{health_slug}/" class="section-link">Full health guide for {name} &rarr;</a>
         </div>
     </section>"""
 
     # --- Scam Guides ---
-    scam_cards = ""
-    for sc in country["scam_cities"]:
-        scam_cards += f"""
+    scam_html = ""
+    if scams:
+        scam_cards = ""
+        for sc in scams:
+            scam_cards += f"""
             <a href="/scams/{sc['slug']}/" class="card">
                 <div class="card-body">
                     <h3 class="card-title">{h(sc['city'])}</h3>
                     <p class="card-meta">{sc['count']} scams documented</p>
                 </div>
             </a>"""
-    scam_html = f"""
+        scam_html = f"""
     <section class="section">
         <h2 class="section-title">Scam Guides</h2>
         <p class="section-desc">Real tourist scams reported by Reddit travelers. Know what to watch for before you arrive.</p>
@@ -501,79 +1024,95 @@ def generate_country_page(country):
     </section>"""
 
     # --- Popular Picks ---
-    picks_cards = ""
-    for pk in picks_top:
-        picks_cards += f"""
+    picks_html = ""
+    if picks:
+        picks_top = picks[:12]
+        picks_cards = ""
+        for pk in picks_top:
+            picks_cards += f"""
             <a href="/popular-picks/{pk['slug']}/" class="card">
                 <div class="card-body">
                     <h3 class="card-title">{h(pk['title'])}</h3>
                 </div>
             </a>"""
-    picks_view_all = ""
-    if picks_remaining > 0:
-        picks_view_all = f'\n        <div class="view-all-wrap"><a href="/popular-picks/" class="view-all-link">View all {picks_count} popular picks &rarr;</a></div>'
-    picks_html = f"""
+        picks_view_all = ""
+        if picks_count > 12:
+            picks_view_all = f'\n        <div class="view-all-wrap"><a href="/popular-picks/" class="view-all-link">View all {picks_count} popular picks &rarr;</a></div>'
+        picks_html = f"""
     <section class="section">
         <h2 class="section-title">Popular Picks</h2>
         <p class="section-desc">Curated lists of the best restaurants, bars, and experiences \u2014 backed by real reviews.</p>
         <div class="card-grid">{picks_cards}
         </div>{picks_view_all}
-    </section>""" if picks else ""
+    </section>"""
 
     # --- Compare ---
-    compare_cards = ""
-    for cp in compare_top:
-        compare_cards += f"""
+    compare_html = ""
+    if comparisons:
+        compare_top = comparisons[:12]
+        compare_cards = ""
+        for cp in compare_top:
+            compare_cards += f"""
             <a href="/compare/{cp['slug']}/" class="card">
                 <div class="card-body">
                     <h3 class="card-title">{h(cp['title'])}</h3>
                 </div>
             </a>"""
-    compare_view_all = ""
-    if compare_remaining > 0:
-        compare_view_all = f'\n        <div class="view-all-wrap"><a href="/compare/" class="view-all-link">View all {compare_count} comparisons &rarr;</a></div>'
-    compare_html = f"""
+        compare_view_all = ""
+        if compare_count > 12:
+            compare_view_all = f'\n        <div class="view-all-wrap"><a href="/compare/" class="view-all-link">View all {compare_count} comparisons &rarr;</a></div>'
+        compare_html = f"""
     <section class="section">
         <h2 class="section-title">Destination Comparisons</h2>
         <p class="section-desc">Side-by-side breakdowns to help you choose the right destination.</p>
         <div class="card-grid">{compare_cards}
         </div>{compare_view_all}
-    </section>""" if comparisons else ""
+    </section>"""
 
     # --- Itineraries ---
-    itin_cards = ""
-    for it in country["itineraries"]:
-        itin_cards += f"""
+    itin_html = ""
+    if itineraries:
+        itin_cards = ""
+        for it in itineraries:
+            days_meta = f'<p class="card-meta">{it["days"]} days</p>' if it["days"] else ""
+            itin_cards += f"""
             <a href="/itineraries/{it['slug']}/" class="card">
                 <div class="card-body">
                     <h3 class="card-title">{h(it['title'])}</h3>
-                    <p class="card-meta">{it['days']} days</p>
+                    {days_meta}
                 </div>
             </a>"""
-    itin_html = f"""
+        itin_html = f"""
     <section class="section">
         <h2 class="section-title">Sample Itineraries</h2>
         <p class="section-desc">Day-by-day itineraries built from thousands of real traveler recommendations.</p>
         <div class="card-grid">{itin_cards}
         </div>
-    </section>""" if country["itineraries"] else ""
+    </section>"""
 
     # --- Top Destinations ---
-    dest_cards = ""
-    for td in country["top_destinations"]:
-        dest_cards += f"""
-            <a href="/destinations/{td['slug']}/" class="dest-card">
-                <img src="{h(td['photo'])}" alt="{h(td['name'])}" loading="lazy" width="400" height="260">
+    dest_html = ""
+    if top_dests:
+        dest_cards = ""
+        for td in top_dests:
+            photo = td["photo"] if td["has_photo"] else f"https://img.tabiji.ai/find/img/{td['slug']}.webp"
+            if td["has_page"]:
+                href = f"/destinations/{td['slug']}/"
+            else:
+                href = f"/plan/?destination={h(td['name'])}"
+            dest_cards += f"""
+            <a href="{href}" class="dest-card">
+                <img src="{h(photo)}" alt="{h(td['name'])}" loading="lazy" width="400" height="260">
                 <div class="dest-overlay">
                     <h3>{h(td['name'])}</h3>
                 </div>
             </a>"""
-    dest_html = f"""
+        dest_html = f"""
     <section class="section">
         <h2 class="section-title">Top Destinations</h2>
         <div class="dest-grid">{dest_cards}
         </div>
-        <div class="view-all-wrap"><a href="/find/?continent={h(country['continent'])}" class="view-all-link">Explore all {name} destinations &rarr;</a></div>
+        <div class="view-all-wrap"><a href="/find/" class="view-all-link">Explore all {name} destinations &rarr;</a></div>
     </section>"""
 
     # --- CTA ---
@@ -607,6 +1146,7 @@ def generate_country_page(country):
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/countries/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
+    <meta property="og:image" content="{og_image}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{h(name)} Travel Guide {YEAR} | tabiji.ai">
     <meta name="twitter:description" content="{h(meta_desc)}">
@@ -657,18 +1197,25 @@ def generate_country_page(country):
 </body>
 </html>"""
 
-    return html
+    return html, {
+        "dest_count": dest_count,
+        "scam_count": scam_count,
+        "compare_count": compare_count,
+        "itin_count": itin_count,
+        "picks_count": picks_count,
+    }
 
 
 # ---------------------------------------------------------------------------
 # Index page generator
 # ---------------------------------------------------------------------------
 
-def generate_index_page(countries_data):
+def generate_index_page(all_countries_data):
     """Generate the /countries/index.html listing all countries."""
+    count = len(all_countries_data)
     meta_desc = (
         f"Browse travel guides by country. In-depth destination guides, scam alerts, "
-        f"health tips, itineraries, and local picks for {len(countries_data)} countries."
+        f"health tips, itineraries, and local picks for {count} countries."
     )
 
     breadcrumb_json = json.dumps({
@@ -680,23 +1227,20 @@ def generate_index_page(countries_data):
         ],
     }, indent=4)
 
+    # Build country cards
     country_cards = ""
-    for c in countries_data:
-        dest_count = scan_destinations_count(c["name"])
-        scam_count = len(c["scam_cities"])
-        itin_count = len(c["itineraries"])
-        picks = scan_popular_picks(c)
-        comparisons = scan_comparisons(c)
-
+    for c in all_countries_data:
         stats_parts = []
-        if dest_count:
-            stats_parts.append(pl(dest_count, "destination"))
-        if scam_count:
-            stats_parts.append(pl(scam_count, "scam guide"))
-        if len(comparisons):
-            stats_parts.append(pl(len(comparisons), "comparison"))
-        if itin_count:
-            stats_parts.append(pl(itin_count, "itinerary", "itineraries"))
+        if c["dest_count"]:
+            stats_parts.append(pl(c["dest_count"], "destination"))
+        if c["scam_count"]:
+            stats_parts.append(pl(c["scam_count"], "scam guide"))
+        if c["compare_count"]:
+            stats_parts.append(pl(c["compare_count"], "comparison"))
+        if c["itin_count"]:
+            stats_parts.append(pl(c["itin_count"], "itinerary", "itineraries"))
+        if c["picks_count"]:
+            stats_parts.append(pl(c["picks_count"], "popular pick"))
         stats = " &middot; ".join(stats_parts)
 
         country_cards += f"""
@@ -708,6 +1252,20 @@ def generate_index_page(countries_data):
                 </div>
                 <span class="country-arrow">&rarr;</span>
             </a>"""
+
+    # Build hubCountries JS object
+    hub_js_entries = []
+    for c in all_countries_data:
+        hub_js_entries.append(f'"{_js_escape(c["name"])}":"{c["slug"]}"')
+    hub_js = "{" + ",".join(hub_js_entries) + "}"
+
+    # Advisory data JS (keep full set from original)
+    advisory_js_entries = []
+    for name, info in sorted(ADVISORY_DATA.items()):
+        advisory_js_entries.append(
+            f'"{_js_escape(name)}":{{"level":{info["level"]},"slug":"{_js_escape(info["slug"])}","lt":"{_js_escape(info["lt"])}"}}'
+        )
+    advisory_js = "{" + ",".join(advisory_js_entries) + "}"
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -731,13 +1289,30 @@ def generate_index_page(countries_data):
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/countries/">
     <meta property="og:site_name" content="tabiji.ai">
+    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Travel Guides by Country | tabiji.ai">
     <meta name="twitter:description" content="{h(meta_desc)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/countries/">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <link rel="stylesheet" href="/assets/countries.css">
+    <style>
+        #countryMap {{ width:100%; height:420px; border-radius:12px; border:1px solid var(--sand); margin-top:1.5rem; z-index:1; }}
+        .map-section {{ max-width:900px; margin:0 auto; padding:0 2rem; }}
+        .map-legend {{ display:flex; gap:1rem; justify-content:center; margin-top:0.75rem; flex-wrap:wrap; }}
+        .legend-item {{ display:flex; align-items:center; gap:0.35rem; font-size:0.8rem; color:var(--text-muted); }}
+        .legend-dot {{ width:12px; height:12px; border-radius:3px; flex-shrink:0; }}
+        .map-tooltip {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:0.85rem; padding:0.5rem 0.75rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.15); border:none; }}
+        .map-tooltip .tt-country {{ font-weight:700; font-size:0.95rem; }}
+        .map-tooltip .tt-level {{ margin-top:0.2rem; }}
+        .leaflet-popup-content-wrapper {{ border-radius:8px; }}
+        .controls {{ max-width:900px; margin:1.5rem auto 0; padding:0 2rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; }}
+        .search-input {{ flex:1; min-width:200px; padding:0.6rem 1rem; border:1px solid var(--sand); border-radius:8px; font-size:0.95rem; background:white; color:var(--text); }}
+        .search-input:focus {{ outline:none; border-color:var(--terracotta); }}
+        @media(max-width:640px) {{ #countryMap{{height:280px;}} .controls{{flex-direction:column;}} }}
+    </style>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2D3A5C">
     <script defer src="/assets/shared-shell.js"></script>
@@ -759,494 +1334,148 @@ def generate_index_page(countries_data):
         </div>
     </section>
 
+    <div class="map-section">
+        <div id="countryMap"></div>
+        <div class="map-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Level 1: Normal Precautions</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div> Level 2: Increased Caution</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Level 3: Reconsider Travel</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Level 4: Do Not Travel</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> No Data</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="search-input" placeholder="Search countries\u2026" id="countrySearch" oninput="filterCountries()">
+    </div>
+
     <section class="section">
-        <div class="countries-list">{country_cards}
+        <div class="countries-list" id="countriesList">{country_cards}
         </div>
     </section>
 </main>
 
 {footer_html()}
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Countries with full hub pages
+const hubCountries = {hub_js};
+
+// Full advisory data (from US State Dept)
+const advisoryData = {advisory_js};
+
+const geoNameMap = {{
+    "United States of America":"United States","Russian Federation":"Russia",
+    "Republic of Korea":"South Korea","Dem. Rep. Korea":"North Korea",
+    "Dem. Rep. Congo":"Democratic Republic of the Congo","Congo":"Republic of the Congo",
+    "Czechia":"Czech Republic","Bosnia and Herz.":"Bosnia and Herzegovina",
+    "Dominican Rep.":"Dominican Republic","Central African Rep.":"Central African Republic",
+    "Eq. Guinea":"Equatorial Guinea","eSwatini":"Eswatini","S. Sudan":"South Sudan",
+    "Solomon Is.":"Solomon Islands","Lao PDR":"Laos","Myanmar":"Burma (Myanmar)",
+    "Macedonia":"North Macedonia","N. Macedonia":"North Macedonia",
+    "Timor-Leste":"East Timor","Turkiye":"Turkey","T\\u00fcrkiye":"Turkey",
+    "C\\u00f4te d'Ivoire":"Cote d Ivoire","Ivory Coast":"Cote d Ivoire",
+    "Kyrgyzstan":"The Kyrgyz Republic","Brunei Darussalam":"Brunei",
+    "Taiwan":"Taiwan","Palestine":"Palestinian Territories",
+    "Somaliland":"Somalia","N. Cyprus":"Cyprus","Kosovo":"Kosovo",
+}};
+
+function getAdvisory(name) {{
+    if (advisoryData[name]) return advisoryData[name];
+    const mapped = geoNameMap[name];
+    if (mapped && advisoryData[mapped]) return advisoryData[mapped];
+    const lower = name.toLowerCase();
+    for (const [k, v] of Object.entries(advisoryData)) {{
+        if (k.toLowerCase() === lower) return v;
+    }}
+    return null;
+}}
+
+const levelColors = {{1:'#22c55e', 2:'#eab308', 3:'#f97316', 4:'#ef4444'}};
+
+const map = L.map('countryMap', {{
+    center:[25,10], zoom:2, minZoom:2, maxZoom:6,
+    zoomControl:true, attributionControl:false, worldCopyJump:false,
+    maxBounds:[[-85,-200],[85,200]], maxBoundsViscosity:0.8,
+}});
+
+L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_nolabels/{{z}}/{{x}}/{{y}}@2x.png',{{
+    subdomains:'abcd', maxZoom:19
+}}).addTo(map);
+
+fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson')
+    .then(r=>r.json())
+    .then(geojson=>{{
+        L.geoJSON(geojson,{{
+            style: function(feature){{
+                const name = feature.properties.NAME || feature.properties.NAME_EN || '';
+                const info = getAdvisory(name);
+                const level = info ? info.level : 0;
+                const color = levelColors[level] || '#d1d5db';
+                return {{
+                    fillColor: color,
+                    fillOpacity: level === 4 ? 0.7 : level === 3 ? 0.55 : level ? 0.4 : 0.15,
+                    weight: 0.8, color: '#fff', opacity: 0.8
+                }};
+            }},
+            onEachFeature: function(feature, layer){{
+                const name = feature.properties.NAME_EN || feature.properties.NAME || '';
+                const info = getAdvisory(name);
+                const hubSlug = hubCountries[name];
+
+                if (info) {{
+                    const level = info.level;
+                    const color = levelColors[level] || '#94a3b8';
+                    const label = info.lt || 'No advisory';
+                    const hubBadge = hubSlug ? ' \\u00b7 <span style="color:#2D3A5C;font-weight:700;">Guide available</span>' : '';
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:' + color + ';">Level ' + level + ': ' + label + '</div>' +
+                        hubBadge + '</div>',
+                        {{sticky:true, className:'map-tooltip'}}
+                    );
+                    layer.on('click', function(){{
+                        if (hubSlug) window.location.href = '/countries/' + hubSlug + '/';
+                        else window.location.href = '/alerts/' + info.slug + '/';
+                    }});
+                    layer.on('mouseover', function(e){{
+                        e.target.setStyle({{weight:2, color:'#2D3A5C', fillOpacity:0.8}});
+                        this._path.style.cursor = 'pointer';
+                    }});
+                    layer.on('mouseout', function(e){{
+                        const l = info.level;
+                        e.target.setStyle({{weight:0.8, color:'#fff', fillOpacity: l===4?0.7:l===3?0.55:l?0.4:0.15}});
+                    }});
+                }} else {{
+                    layer.bindTooltip(
+                        '<div class="map-tooltip"><div class="tt-country">' + name + '</div>' +
+                        '<div class="tt-level" style="color:#94a3b8;">No data</div></div>',
+                        {{sticky:true, className:'map-tooltip'}}
+                    );
+                }}
+            }}
+        }}).addTo(map);
+    }});
+
+// Search filter
+function filterCountries(){{
+    const q = document.getElementById('countrySearch').value.toLowerCase();
+    document.querySelectorAll('.country-card').forEach(card=>{{
+        const name = card.querySelector('.country-name').textContent.toLowerCase();
+        card.style.display = (!q || name.includes(q)) ? '' : 'none';
+    }});
+}}
+</script>
 </body>
 </html>"""
 
     return html
 
 
-# ---------------------------------------------------------------------------
-# CSS generation
-# ---------------------------------------------------------------------------
-
-def generate_css():
-    return """:root {
-    --indigo: #2D3A5C;
-    --indigo-light: #3D4E7A;
-    --warm-cream: #F5F0E8;
-    --sand: #E8DFD0;
-    --earth: #8B7355;
-    --terracotta: #C4704B;
-    --white: #FEFCF9;
-    --text: #2C2419;
-    --text-muted: #6B5D4F;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    color: var(--text);
-    background: var(--white);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* ── Breadcrumb ──────────────────────────────────────── */
-
-.breadcrumb {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 5rem 2rem 0;
-    font-size: 0.82rem;
-    color: var(--text-muted);
-}
-
-.breadcrumb a {
-    color: var(--text-muted);
-    text-decoration: none;
-}
-
-.breadcrumb a:hover {
-    color: var(--indigo);
-    text-decoration: underline;
-}
-
-.breadcrumb .sep {
-    margin: 0 0.4rem;
-    opacity: 0.5;
-}
-
-/* ── Hero ────────────────────────────────────────────── */
-
-.hero {
-    background: var(--indigo);
-    color: #fff;
-    padding: 3rem 2rem 3rem;
-    text-align: center;
-}
-
-.breadcrumb + .hero {
-    padding-top: 2.5rem;
-}
-
-.hero-inner {
-    max-width: 860px;
-    margin: 0 auto;
-}
-
-.hero-flag {
-    font-size: 3.5rem;
-    display: block;
-    margin-bottom: 0.75rem;
-}
-
-.hero h1 {
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.02em;
-}
-
-.hero-subtitle {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.75);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* ── Sections ────────────────────────────────────────── */
-
-.section {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem 0;
-}
-
-.section-title {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--indigo);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
-}
-
-.section-desc {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    margin-bottom: 1.25rem;
-    line-height: 1.55;
-}
-
-.section-link {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--terracotta);
-    text-decoration: none;
-}
-
-.section-link:hover {
-    text-decoration: underline;
-}
-
-/* ── Quick Facts ─────────────────────────────────────── */
-
-.facts-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    background: var(--warm-cream);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    padding: 1.5rem;
-}
-
-.fact-item {
-    text-align: center;
-}
-
-.fact-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 0.3rem;
-}
-
-.fact-value {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text);
-}
-
-/* ── Advisory ────────────────────────────────────────── */
-
-.advisory-card {
-    display: block;
-    background: var(--white);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    padding: 1.5rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.advisory-card:hover {
-    border-color: var(--indigo);
-    box-shadow: 0 2px 12px rgba(45, 58, 92, 0.08);
-}
-
-.advisory-badge {
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 0.35rem 0.85rem;
-    border-radius: 99px;
-    margin-bottom: 0.75rem;
-}
-
-.advisory-desc {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
-    line-height: 1.55;
-}
-
-.advisory-link {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--terracotta);
-}
-
-/* ── Health ───────────────────────────────────────────── */
-
-.health-card {
-    background: var(--white);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    padding: 1.5rem;
-}
-
-.health-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin-bottom: 0.5rem;
-}
-
-.health-list li {
-    font-size: 0.92rem;
-    color: var(--text);
-    padding-left: 1.5rem;
-    position: relative;
-    line-height: 1.5;
-}
-
-.health-list li::before {
-    content: "\\2713";
-    position: absolute;
-    left: 0;
-    color: #16A34A;
-    font-weight: 700;
-}
-
-/* ── Card Grid ───────────────────────────────────────── */
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 0.75rem;
-}
-
-.card {
-    display: block;
-    background: var(--white);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    padding: 1.15rem 1.25rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-    border-color: var(--indigo);
-    box-shadow: 0 2px 10px rgba(45, 58, 92, 0.08);
-}
-
-.card-title {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--indigo);
-    margin-bottom: 0.2rem;
-}
-
-.card-meta {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-}
-
-.view-all-wrap {
-    text-align: center;
-    margin-top: 1.25rem;
-}
-
-.view-all-link {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--terracotta);
-    text-decoration: none;
-}
-
-.view-all-link:hover {
-    text-decoration: underline;
-}
-
-/* ── Destination Photo Grid ──────────────────────────── */
-
-.dest-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 0.75rem;
-}
-
-.dest-card {
-    position: relative;
-    display: block;
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 3 / 2;
-    text-decoration: none;
-}
-
-.dest-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.dest-card:hover img {
-    transform: scale(1.05);
-}
-
-.dest-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.75rem 1rem;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
-}
-
-.dest-overlay h3 {
-    color: #fff;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* ── CTA Box ─────────────────────────────────────────── */
-
-.cta-box {
-    max-width: 860px;
-    margin: 2.5rem auto;
-    padding: 2.5rem 2rem;
-    background: var(--warm-cream);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    text-align: center;
-}
-
-.cta-box h2 {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--indigo);
-    margin-bottom: 0.5rem;
-}
-
-.cta-box p {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-bottom: 1.25rem;
-}
-
-.cta-btn {
-    display: inline-block;
-    background: var(--terracotta);
-    color: #fff;
-    padding: 0.8rem 1.75rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.97rem;
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-
-.cta-btn:hover {
-    opacity: 0.88;
-}
-
-/* ── Footer ──────────────────────────────────────────── */
-
-footer {
-    padding: 3rem 2rem;
-    text-align: center;
-    border-top: 1px solid var(--sand);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* ── Countries Index ─────────────────────────────────── */
-
-.countries-list {
-    max-width: 860px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.country-card {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    background: var(--white);
-    border: 1.5px solid var(--sand);
-    border-radius: 14px;
-    padding: 1.25rem 1.5rem;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.country-card:hover {
-    border-color: var(--indigo);
-    box-shadow: 0 2px 12px rgba(45, 58, 92, 0.08);
-}
-
-.country-flag {
-    font-size: 2.5rem;
-    flex-shrink: 0;
-}
-
-.country-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.country-name {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--indigo);
-    margin-bottom: 0.15rem;
-}
-
-.country-stats {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.country-arrow {
-    font-size: 1.2rem;
-    color: var(--terracotta);
-    flex-shrink: 0;
-    font-weight: 700;
-}
-
-/* ── Responsive ──────────────────────────────────────── */
-
-@media (max-width: 600px) {
-    .facts-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .dest-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero-flag {
-        font-size: 2.5rem;
-    }
-
-    .hero h1 {
-        font-size: 1.6rem;
-    }
-
-    .breadcrumb {
-        padding-top: 4.5rem;
-    }
-}
-
-@media (max-width: 400px) {
-    .dest-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .facts-grid {
-        grid-template-columns: 1fr;
-    }
-}
-"""
+def _js_escape(s):
+    """Escape a string for use inside a JS string literal (single/double quotes)."""
+    return s.replace("\\", "\\\\").replace('"', '\\"').replace("'", "\\'").replace("\n", "\\n")
 
 
 # ---------------------------------------------------------------------------
@@ -1254,45 +1483,63 @@ footer {
 # ---------------------------------------------------------------------------
 
 def main():
-    print("Generating country hub pages...")
+    print(f"Generating country hub pages...")
     print(f"Base directory: {BASE_DIR}")
 
-    # Create CSS
-    css_path = os.path.join(BASE_DIR, "assets", "countries.css")
-    css = generate_css()
-    with open(css_path, "w") as f:
-        f.write(css)
-    print(f"  Wrote {css_path}")
+    # Pre-load all data caches
+    print("  Loading destinations...")
+    _load_destinations()
+    print("  Loading scams...")
+    _load_scams()
+    print("  Loading picks...")
+    _load_picks()
+    print("  Loading compare dirs...")
+    _load_compare_dirs()
+    print("  Loading itinerary dirs...")
+    _load_itin_dirs()
+    print("  Loading destination pages...")
+    _load_dest_pages()
 
     # Generate each country page
-    for country in COUNTRIES:
-        slug = country["slug"]
+    all_countries_data = []
+    generated = 0
+
+    for name, (iso2, flag, continent) in sorted(COUNTRY_REGISTRY.items()):
+        slug = slugify(name)
         out_dir = os.path.join(BASE_DIR, "countries", slug)
         os.makedirs(out_dir, exist_ok=True)
         out_path = os.path.join(out_dir, "index.html")
-        html = generate_country_page(country)
+
+        html, stats = generate_country_page(name, slug, iso2, flag, continent)
         with open(out_path, "w") as f:
             f.write(html)
 
-        # Print summary
-        picks = scan_popular_picks(country)
-        comparisons = scan_comparisons(country)
-        dest_count = scan_destinations_count(country["name"])
+        generated += 1
+        all_countries_data.append({
+            "name": name,
+            "slug": slug,
+            "flag": flag,
+            **stats,
+        })
+
         print(
-            f"  {country['name']:8s} -> {out_path}"
-            f"  ({dest_count} dests, {len(comparisons)} compares, {len(picks)} picks)"
+            f"  {name:25s} -> countries/{slug}/"
+            f"  ({stats['dest_count']} dests, {stats['scam_count']} scams, "
+            f"{stats['compare_count']} compares, {stats['itin_count']} itins, "
+            f"{stats['picks_count']} picks)"
         )
 
+    # Sort countries for the index by name
+    all_countries_data.sort(key=lambda c: c["name"])
+
     # Generate index page
-    index_dir = os.path.join(BASE_DIR, "countries")
-    os.makedirs(index_dir, exist_ok=True)
-    index_path = os.path.join(index_dir, "index.html")
-    html = generate_index_page(COUNTRIES)
+    index_path = os.path.join(BASE_DIR, "countries", "index.html")
+    html = generate_index_page(all_countries_data)
     with open(index_path, "w") as f:
         f.write(html)
-    print(f"  Index  -> {index_path}")
+    print(f"  Index  -> countries/index.html ({len(all_countries_data)} countries)")
 
-    print("Done.")
+    print(f"\nDone. Generated {generated} country pages + 1 index page.")
 
 
 if __name__ == "__main__":
