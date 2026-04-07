@@ -2385,7 +2385,6 @@ def generate_page(city_data, related_cities_map):
             <div class="nav-dropdown-menu">
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/trends/">📊 Travel Trends</a>
                 <a href="/alerts/">🚨 Travel Alerts</a>

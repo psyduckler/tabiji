@@ -211,7 +211,6 @@ body {{ font-family: 'Inter', system-ui, sans-serif; background: var(--warm-crea
 
     <div class="hub-discovery">
       <a href="/quiz/">🎯 Take the Quiz</a>
-      <a href="/spin/">🌏 Spin the Globe</a>
       <a href="/find/">🔍 Destination Finder</a>
     </div>
   </div>
