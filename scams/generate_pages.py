@@ -3,6 +3,7 @@
 import json
 import os
 import glob
+from collections import defaultdict
 
 # Emergency numbers per country
 EMERGENCY_INFO = {
@@ -1510,7 +1511,7 @@ def danger_badge(level):
     elif level == "medium":
         return '<span class="danger-badge danger-medium">🔶 Medium</span>'
     else:
-        return '<span class="danger-badge danger-low">🟡 Low</span>'
+        return '<span class="danger-badge danger-low">🟢 Low</span>'
 
 def generate_scam_cards(scams):
     html = ""
@@ -1574,7 +1575,7 @@ def generate_faq_html(faqs):
 """
     return html
 
-def generate_page(city_data):
+def generate_page(city_data, related_cities_map):
     city = city_data["city"]
     country = city_data["country"]
     flag = city_data.get("flag", "🌍")
@@ -1597,8 +1598,10 @@ def generate_page(city_data):
     
     faq_schema_items = generate_faq_schema(city, faqs)
     
-    faq_html = generate_faq_html(faqs)
+    faq_html = generate_faq_html(faqs) if faqs else ""
     
+    country_code = city_data.get("country_code", "")
+
     schema = {
         "@context": "https://schema.org",
         "@graph": [
@@ -1615,20 +1618,72 @@ def generate_page(city_data):
                 "headline": f"{n} Tourist Scams in {city} (2026)",
                 "description": f"{n} real {city} tourist scams documented from Reddit travelers in 2026. Know what to watch for before you arrive.",
                 "url": f"https://tabiji.ai/scams/{slug}/",
+                "image": f"https://img.tabiji.ai/scams-{slug}-og.jpg",
                 "datePublished": "2026-03-29",
-                "dateModified": "2026-03-29",
+                "dateModified": "2026-04-07",
                 "author": {"@type": "Organization", "name": "tabiji.ai"},
-                "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"}
+                "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"},
+                "speakable": {
+                    "@type": "SpeakableSpecification",
+                    "cssSelector": [".takeaways-box"] + ([".faq-a"] if faqs else [])
+                }
             },
+            *(
+                [{
+                    "@type": "FAQPage",
+                    "mainEntity": faq_schema_items
+                }] if faq_schema_items else []
+            ),
             {
-                "@type": "FAQPage",
-                "mainEntity": faq_schema_items
+                "@type": "Place",
+                "name": city,
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": city,
+                    "addressCountry": country_code
+                }
             }
         ]
     }
     
     schema_json = json.dumps(schema, indent=4, ensure_ascii=False)
     
+    # Build key takeaways from scam data
+    scam_names = [s['scam_name'] for s in scams]
+    high_risk = [s['scam_name'] for s in scams if s.get('danger_level', '').lower() == 'high']
+    takeaway_top = f"The #1 reported scam is the {scam_names[0] if scam_names else 'financial deception'}"
+    takeaway_high = f"{len(high_risk)} of {n} scams are rated high risk" if high_risk else f"Most scams in {city} are low-to-medium risk"
+    takeaway_transport = "Use app-based ride services (Uber, Grab, Bolt) instead of street taxis"
+    takeaway_avoid = f"Never accept unsolicited offers from strangers near tourist sites in {city}"
+
+    takeaways_html = f"""            <li>{takeaway_top}</li>
+            <li>{takeaway_high}</li>
+            <li>{takeaway_transport}</li>
+            <li>{takeaway_avoid}</li>"""
+
+    # Build related cities section
+    related_html = ""
+    if city in related_cities_map and related_cities_map[city]:
+        related_items = ""
+        for rc in related_cities_map[city]:
+            rc_slug = CITY_SLUGS.get(rc["city"], "")
+            if rc_slug:
+                related_items += f"""
+            <a href="/scams/{rc_slug}/" class="related-card">
+                <span class="related-flag">{rc.get('flag', '🌍')}</span>
+                <span class="related-info">
+                    <span class="related-city">{rc['city']}</span>
+                    <span class="related-country">{rc['country']}</span>
+                </span>
+            </a>"""
+        if related_items:
+            related_html = f"""
+    <div class="related-section">
+        <h2 class="section-heading">More Scam Guides</h2>
+        <div class="related-grid">{related_items}
+        </div>
+    </div>"""
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1652,6 +1707,8 @@ def generate_page(city_data):
     <meta property="og:url" content="https://tabiji.ai/scams/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
     <meta property="og:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
+    <meta property="article:published_time" content="2026-03-29">
+    <meta property="article:modified_time" content="2026-04-07">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{n} Tourist Scams in {city} (2026)">
     <meta name="twitter:description" content="Real scams, real stories, real advice. From Reddit travelers who got caught out in {city}.">
@@ -1659,333 +1716,13 @@ def generate_page(city_data):
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/scams/{slug}/">
     <link rel="stylesheet" href="/assets/shared-shell.css">
+    <link rel="stylesheet" href="/assets/scams.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2D3A5C">
 
     <script type="application/ld+json">
     {schema_json}
     </script>
-
-    <style>
-        :root {{
-            --indigo: #2D3A5C;
-            --indigo-light: #3D4E7A;
-            --warm-cream: #F5F0E8;
-            --sand: #E8DFD0;
-            --earth: #8B7355;
-            --terracotta: #C4704B;
-            --white: #FEFCF9;
-            --text: #2C2419;
-            --text-muted: #6B5D4F;
-            --danger: #DC2626;
-            --danger-bg: #FEF2F2;
-            --warning: #F59E0B;
-            --warning-bg: #FFFBEB;
-            --low: #16A34A;
-            --low-bg: #F0FDF4;
-        }}
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            color: var(--text);
-            background: var(--white);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }}
-
-        /* Hero */
-        .hero {{
-            background: var(--indigo);
-            color: white;
-            padding: 5rem 2rem 3rem;
-            text-align: center;
-        }}
-        .hero-badge {{
-            display: inline-block;
-            background: rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.9);
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.35rem 0.9rem;
-            border-radius: 99px;
-            margin-bottom: 1.25rem;
-        }}
-        .hero h1 {{
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }}
-        .hero p {{
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.8);
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
-        }}
-        .hero-meta {{
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.65);
-        }}
-        .hero-meta span {{ display: flex; align-items: center; gap: 0.35rem; }}
-
-        /* Breadcrumb */
-        .breadcrumb {{
-            background: var(--sand);
-            padding: 0.6rem 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }}
-        .breadcrumb a {{ color: var(--text-muted); text-decoration: none; }}
-        .breadcrumb a:hover {{ color: var(--indigo); }}
-        .breadcrumb span {{ margin: 0 0.4rem; }}
-
-        /* Content */
-        .content {{
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem;
-        }}
-
-        /* Safety box */
-        .safety-box {{
-            background: var(--warning-bg);
-            border: 1.5px solid var(--warning);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 2.5rem;
-        }}
-        .safety-box h2 {{
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }}
-        .safety-box ul {{
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }}
-        .safety-box li {{
-            font-size: 0.92rem;
-            color: var(--text);
-            display: flex;
-            gap: 0.5rem;
-        }}
-        .safety-box li::before {{ content: "✓"; color: var(--low); font-weight: 700; flex-shrink: 0; }}
-
-        /* Section heading */
-        .section-heading {{
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--indigo);
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.6rem;
-            border-bottom: 2px solid var(--sand);
-        }}
-
-        /* Scam card */
-        .scam-card {{
-            background: var(--white);
-            border: 1.5px solid var(--sand);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1.25rem;
-            transition: box-shadow 0.2s;
-        }}
-        .scam-card:hover {{ box-shadow: 0 4px 20px rgba(45,58,92,0.08); }}
-
-        .scam-header {{
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 0.9rem;
-            flex-wrap: wrap;
-        }}
-        .scam-number {{
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }}
-        .scam-title {{
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--indigo);
-            margin-top: 0.2rem;
-        }}
-        .danger-badge {{
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.25rem 0.65rem;
-            border-radius: 99px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }}
-        .danger-high {{ background: var(--danger-bg); color: var(--danger); }}
-        .danger-medium {{ background: var(--warning-bg); color: #B45309; }}
-        .danger-low {{ background: var(--low-bg); color: var(--low); }}
-
-        .scam-location {{
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }}
-        .scam-story {{
-            font-size: 0.97rem;
-            color: var(--text);
-            margin-bottom: 1rem;
-            line-height: 1.7;
-        }}
-        .scam-details {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }}
-        @media (max-width: 600px) {{
-            .scam-details {{ grid-template-columns: 1fr; }}
-        }}
-        .detail-block h4 {{
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }}
-        .detail-block ul {{
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-        }}
-        .detail-block li {{
-            font-size: 0.87rem;
-            color: var(--text);
-            display: flex;
-            gap: 0.5rem;
-        }}
-        .red-flags li::before {{ content: "🚩"; flex-shrink: 0; }}
-        .avoid li::before {{ content: "✓"; color: var(--low); font-weight: 700; flex-shrink: 0; }}
-
-        /* What to do section */
-        .action-section {{
-            background: var(--indigo);
-            color: white;
-            border-radius: 14px;
-            padding: 2rem;
-            margin: 2.5rem 0;
-        }}
-        .action-section h2 {{
-            font-size: 1.35rem;
-            font-weight: 800;
-            margin-bottom: 1.25rem;
-        }}
-        .action-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.25rem;
-        }}
-        .action-item {{
-            background: rgba(255,255,255,0.08);
-            border-radius: 10px;
-            padding: 1rem;
-        }}
-        .action-item h3 {{
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }}
-        .action-item p {{
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.8);
-            line-height: 1.5;
-        }}
-        .action-item a {{ color: #93C5FD; }}
-
-        /* FAQ */
-        .faq-section {{ margin: 2.5rem 0; }}
-        .faq-item {{
-            border: 1.5px solid var(--sand);
-            border-radius: 10px;
-            margin-bottom: 0.75rem;
-            overflow: hidden;
-        }}
-        .faq-q {{
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 1rem 1.25rem;
-            text-align: left;
-            font-size: 0.97rem;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }}
-        .faq-q:hover {{ background: var(--warm-cream); }}
-        .faq-arrow {{ font-size: 0.9rem; transition: transform 0.2s; }}
-        .faq-item.open .faq-arrow {{ transform: rotate(180deg); }}
-        .faq-a {{
-            display: none;
-            padding: 0 1.25rem 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.65;
-        }}
-        .faq-item.open .faq-a {{ display: block; }}
-
-        /* CTA */
-        .cta-box {{
-            background: var(--warm-cream);
-            border: 1.5px solid var(--sand);
-            border-radius: 14px;
-            padding: 2rem;
-            text-align: center;
-            margin: 2.5rem 0;
-        }}
-        .cta-box h2 {{
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--indigo);
-            margin-bottom: 0.5rem;
-        }}
-        .cta-box p {{
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-        }}
-        .cta-btn {{
-            display: inline-block;
-            background: var(--terracotta);
-            color: white;
-            padding: 0.8rem 1.75rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.97rem;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }}
-        .cta-btn:hover {{ opacity: 0.88; }}
-    </style>
 </head>
 <body>
 <nav>
@@ -2003,13 +1740,15 @@ def generate_page(city_data):
                 <a href="/trends/">📊 Travel Trends</a>
                 <a href="/alerts/">🚨 Travel Alerts</a>
                 <a href="/scams/">🚨 Tourist Scams</a>
+                <a href="/credit-cards/">💳 Credit Card Benefits</a>
+                <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
         <a href="/popular-picks/">Popular Picks</a>
         <a href="/itineraries/">Itineraries</a>
         <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
+        <a href="/plan/" class="cta-nav">Get a Free Itinerary</a>
     </div>
 </nav>
 
@@ -2017,19 +1756,27 @@ def generate_page(city_data):
     <a href="/">Home</a><span>›</span><a href="/scams/">Scams</a><span>›</span>{city}
 </div>
 
+<main>
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
     <h1>{n} Tourist Scams in {city}</h1>
     <p>Real stories from Reddit travelers. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
-        <span>📅 Updated March 2026</span>
+        <span>📅 Updated April 2026</span>
         <span>💬 {n} scams documented</span>
         <span>⭐ Reddit-sourced & verified</span>
     </div>
 </div>
 
 <div class="content">
+
+    <div class="takeaways-box">
+        <h2>Key Takeaways</h2>
+        <ul>
+{takeaways_html}
+        </ul>
+    </div>
 
     <div class="safety-box">
         <h2>⚡ Quick Safety Tips</h2>
@@ -2064,34 +1811,86 @@ def generate_page(city_data):
         </div>
     </div>
 
-    <!-- FAQ -->
+    {"" if not faq_html else '''<!-- FAQ -->
     <div class="faq-section">
         <h2 class="section-heading">Frequently Asked Questions</h2>
-{faq_html}
-    </div>
+''' + faq_html + '''
+    </div>'''}
+{related_html}
 
     <!-- CTA -->
     <div class="cta-box">
         <h2>Ready to Plan Your {city} Trip?</h2>
         <p>Now you know what to watch for. Get a custom {city} itinerary with local tips, hidden spots, and restaurant picks — free.</p>
-        <a href="/plan" class="cta-btn">Plan Your {city} Trip →</a>
+        <a href="/plan/" class="cta-btn">Plan Your {city} Trip →</a>
     </div>
 
 </div>
+</main>
 
 <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
 
 <script defer src="/assets/shared-shell.js"></script>
+<script defer src="/assets/offline-download.js"></script>
 </body>
 </html>"""
     return html
 
 
+def build_related_cities_map(all_cities):
+    """Build a mapping of city -> list of related cities (same country + nearby popular cities)."""
+    # Group cities by country
+    country_cities = defaultdict(list)
+    for city_data in all_cities:
+        city = city_data["city"]
+        if city in CITY_SLUGS:
+            country_cities[city_data["country"]].append({
+                "city": city,
+                "country": city_data["country"],
+                "flag": city_data.get("flag", "🌍"),
+                "scam_count": len(city_data.get("scams", [])),
+            })
+
+    # For each city, related = same-country cities + a few popular global cities
+    popular_global = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo"]
+    related_map = {}
+
+    for city_data in all_cities:
+        city = city_data["city"]
+        if city not in CITY_SLUGS:
+            continue
+        country = city_data["country"]
+
+        # Same-country cities (excluding self)
+        same_country = [c for c in country_cities[country] if c["city"] != city]
+
+        # Add popular global cities if we have fewer than 4 related
+        related = same_country[:]
+        if len(related) < 4:
+            for pg in popular_global:
+                if pg != city and pg not in [r["city"] for r in related]:
+                    for cd in all_cities:
+                        if cd["city"] == pg and pg in CITY_SLUGS:
+                            related.append({
+                                "city": pg,
+                                "country": cd["country"],
+                                "flag": cd.get("flag", "🌍"),
+                                "scam_count": len(cd.get("scams", [])),
+                            })
+                            break
+                if len(related) >= 6:
+                    break
+
+        related_map[city] = related[:6]
+
+    return related_map
+
+
 def main():
-    base_dir = os.path.expanduser("~/tabiji/scams")
-    
+    base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+
     # Load all batch files
     all_cities = []
     batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")))
@@ -2099,32 +1898,35 @@ def main():
         with open(path) as f:
             data = json.load(f)
             all_cities.extend(data)
-    
+
     print(f"Loaded {len(all_cities)} cities total")
-    
+
+    # Build related cities map
+    related_cities_map = build_related_cities_map(all_cities)
+
     built = []
     for city_data in all_cities:
         city = city_data["city"]
         if city not in CITY_SLUGS:
             print(f"  Skipping {city} — no slug mapping")
             continue
-        
+
         slug = CITY_SLUGS[city]
         out_dir = os.path.join(base_dir, slug)
         os.makedirs(out_dir, exist_ok=True)
         out_path = os.path.join(out_dir, "index.html")
-        
-        html = generate_page(city_data)
+
+        html = generate_page(city_data, related_cities_map)
         with open(out_path, "w") as f:
             f.write(html)
-        
+
         print(f"  ✅ {city} → {slug}/index.html ({len(city_data['scams'])} scams, {len(html)} chars)")
         built.append((city, slug, len(city_data['scams'])))
-    
+
     print(f"\nBuilt {len(built)} pages:")
     for city, slug, n in built:
         print(f"  - {city} ({n} scams) → /scams/{slug}/")
-    
+
     return built
 
 if __name__ == "__main__":
