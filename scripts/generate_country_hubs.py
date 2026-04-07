@@ -34,81 +34,66 @@ YEAR = date.today().year
 # Country registry: name -> (iso2, flag emoji, continent)
 # ---------------------------------------------------------------------------
 
-COUNTRY_REGISTRY = {
-    "Japan":                ("JP", "\U0001F1EF\U0001F1F5", "Asia"),
-    "Mexico":               ("MX", "\U0001F1F2\U0001F1FD", "Americas"),
-    "Italy":                ("IT", "\U0001F1EE\U0001F1F9", "Europe"),
-    "India":                ("IN", "\U0001F1EE\U0001F1F3", "Asia"),
-    "United States":        ("US", "\U0001F1FA\U0001F1F8", "Americas"),
-    "United Kingdom":       ("GB", "\U0001F1EC\U0001F1E7", "Europe"),
-    "Turkey":               ("TR", "\U0001F1F9\U0001F1F7", "Europe"),
-    "Brazil":               ("BR", "\U0001F1E7\U0001F1F7", "Americas"),
-    "Thailand":             ("TH", "\U0001F1F9\U0001F1ED", "Asia"),
-    "Vietnam":              ("VN", "\U0001F1FB\U0001F1F3", "Asia"),
-    "Spain":                ("ES", "\U0001F1EA\U0001F1F8", "Europe"),
-    "France":               ("FR", "\U0001F1EB\U0001F1F7", "Europe"),
-    "Germany":              ("DE", "\U0001F1E9\U0001F1EA", "Europe"),
-    "Colombia":             ("CO", "\U0001F1E8\U0001F1F4", "Americas"),
-    "Poland":               ("PL", "\U0001F1F5\U0001F1F1", "Europe"),
-    "Philippines":          ("PH", "\U0001F1F5\U0001F1ED", "Asia"),
-    "Argentina":            ("AR", "\U0001F1E6\U0001F1F7", "Americas"),
-    "Portugal":             ("PT", "\U0001F1F5\U0001F1F9", "Europe"),
-    "Egypt":                ("EG", "\U0001F1EA\U0001F1EC", "Africa"),
-    "Greece":               ("GR", "\U0001F1EC\U0001F1F7", "Europe"),
-    "South Korea":          ("KR", "\U0001F1F0\U0001F1F7", "Asia"),
-    "South Africa":         ("ZA", "\U0001F1FF\U0001F1E6", "Africa"),
-    "Sri Lanka":            ("LK", "\U0001F1F1\U0001F1F0", "Asia"),
-    "Tanzania":             ("TZ", "\U0001F1F9\U0001F1FF", "Africa"),
-    "Netherlands":          ("NL", "\U0001F1F3\U0001F1F1", "Europe"),
-    "Morocco":              ("MA", "\U0001F1F2\U0001F1E6", "Africa"),
-    "Nepal":                ("NP", "\U0001F1F3\U0001F1F5", "Asia"),
-    "Peru":                 ("PE", "\U0001F1F5\U0001F1EA", "Americas"),
-    "Malaysia":             ("MY", "\U0001F1F2\U0001F1FE", "Asia"),
-    "Canada":               ("CA", "\U0001F1E8\U0001F1E6", "Americas"),
-    "Kenya":                ("KE", "\U0001F1F0\U0001F1EA", "Africa"),
-    "Ireland":              ("IE", "\U0001F1EE\U0001F1EA", "Europe"),
-    "Hungary":              ("HU", "\U0001F1ED\U0001F1FA", "Europe"),
-    "Australia":            ("AU", "\U0001F1E6\U0001F1FA", "Oceania"),
-    "Cuba":                 ("CU", "\U0001F1E8\U0001F1FA", "Americas"),
-    "Jordan":               ("JO", "\U0001F1EF\U0001F1F4", "Asia"),
-    "Croatia":              ("HR", "\U0001F1ED\U0001F1F7", "Europe"),
-    "Austria":              ("AT", "\U0001F1E6\U0001F1F9", "Europe"),
-    "Iceland":              ("IS", "\U0001F1EE\U0001F1F8", "Europe"),
-    "Belgium":              ("BE", "\U0001F1E7\U0001F1EA", "Europe"),
-    "Israel":               ("IL", "\U0001F1EE\U0001F1F1", "Asia"),
-    "Cambodia":             ("KH", "\U0001F1F0\U0001F1ED", "Asia"),
-    "China":                ("CN", "\U0001F1E8\U0001F1F3", "Asia"),
-    "Indonesia":            ("ID", "\U0001F1EE\U0001F1E9", "Asia"),
-    "Sweden":               ("SE", "\U0001F1F8\U0001F1EA", "Europe"),
-    "Romania":              ("RO", "\U0001F1F7\U0001F1F4", "Europe"),
-    "Chile":                ("CL", "\U0001F1E8\U0001F1F1", "Americas"),
-    "Norway":               ("NO", "\U0001F1F3\U0001F1F4", "Europe"),
-    "Switzerland":          ("CH", "\U0001F1E8\U0001F1ED", "Europe"),
-    "Taiwan":               ("TW", "\U0001F1F9\U0001F1FC", "Asia"),
-    "Bulgaria":             ("BG", "\U0001F1E7\U0001F1EC", "Europe"),
-    "Denmark":              ("DK", "\U0001F1E9\U0001F1F0", "Europe"),
-    "Serbia":               ("RS", "\U0001F1F7\U0001F1F8", "Europe"),
-    "Montenegro":           ("ME", "\U0001F1F2\U0001F1EA", "Europe"),
-    "United Arab Emirates": ("AE", "\U0001F1E6\U0001F1EA", "Asia"),
-    "Ghana":                ("GH", "\U0001F1EC\U0001F1ED", "Africa"),
-    "Dominican Republic":   ("DO", "\U0001F1E9\U0001F1F4", "Americas"),
-    "New Zealand":          ("NZ", "\U0001F1F3\U0001F1FF", "Oceania"),
-    "Laos":                 ("LA", "\U0001F1F1\U0001F1E6", "Asia"),
-    "Puerto Rico":          ("PR", "\U0001F1F5\U0001F1F7", "Americas"),
-    "Costa Rica":           ("CR", "\U0001F1E8\U0001F1F7", "Americas"),
-    "Panama":               ("PA", "\U0001F1F5\U0001F1E6", "Americas"),
-    "Estonia":              ("EE", "\U0001F1EA\U0001F1EA", "Europe"),
-    "Honduras":             ("HN", "\U0001F1ED\U0001F1F3", "Americas"),
-    "Jamaica":              ("JM", "\U0001F1EF\U0001F1F2", "Americas"),
-    "Mauritius":            ("MU", "\U0001F1F2\U0001F1FA", "Africa"),
-    "El Salvador":          ("SV", "\U0001F1F8\U0001F1FB", "Americas"),
-}
+def _iso2_to_flag(code):
+    """Convert ISO2 country code to flag emoji."""
+    return ''.join(chr(ord(c) + 0x1F1A5) for c in code.upper())
+
+def _build_country_registry():
+    """Build the full country registry from api/v1/alerts/*.json files."""
+    EUROPE = set('AL,AD,AT,BY,BE,BA,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IS,IE,IT,XK,LV,LI,LT,LU,MT,MD,MC,ME,NL,MK,NO,PL,PT,RO,RS,SK,SI,ES,SE,CH,UA,GB'.split(','))
+    ASIA = set('AF,AM,AZ,BH,BD,BT,BN,KH,CN,GE,HK,IN,ID,IR,IQ,IL,JP,JO,KZ,KW,KG,LA,LB,MO,MY,MV,MN,MM,NP,KP,OM,PK,PH,QA,SA,SG,KR,LK,SY,TW,TJ,TH,TL,TR,TM,AE,UZ,VN,YE'.split(','))
+    AFRICA = set('DZ,AO,BJ,BW,BF,BI,CV,CM,CF,TD,KM,CG,CD,CI,DJ,EG,GQ,ER,SZ,ET,GA,GM,GH,GN,GW,KE,LS,LR,LY,MG,MW,ML,MR,MU,MA,MZ,NA,NE,NG,RW,ST,SN,SC,SL,SO,ZA,SS,SD,TZ,TG,TN,UG,ZM,ZW'.split(','))
+    AMERICAS = set('AG,AR,BS,BB,BZ,BM,BO,BR,CA,KY,CL,CO,CR,CU,DM,DO,EC,SV,GF,GD,GT,GY,HT,HN,JM,MX,MS,NI,PA,PY,PE,PR,KN,LC,VC,SR,TT,TC,US,UY,VE,VI'.split(','))
+    OCEANIA = set('AU,FJ,KI,MH,FM,NR,NZ,PW,PG,WS,SB,TO,TV,VU,NC,FP'.split(','))
+
+    def _continent(iso2):
+        if iso2 in EUROPE: return 'Europe'
+        if iso2 in ASIA: return 'Asia'
+        if iso2 in AFRICA: return 'Africa'
+        if iso2 in AMERICAS: return 'Americas'
+        if iso2 in OCEANIA: return 'Oceania'
+        return 'Other'
+
+    registry = {}
+    alerts_dir = os.path.join(BASE_DIR, "api", "v1", "alerts")
+    if os.path.isdir(alerts_dir):
+        for fn in sorted(os.listdir(alerts_dir)):
+            if not fn.endswith('.json'):
+                continue
+            iso2 = fn[:-5].upper()
+            fp = os.path.join(alerts_dir, fn)
+            try:
+                with open(fp) as f:
+                    data = json.load(f)
+                name = data.get('name', '')
+                if name:
+                    registry[name] = (iso2, _iso2_to_flag(iso2), _continent(iso2))
+            except Exception:
+                pass
+
+    # Add entries that don't have alert JSON files but are important
+    if "United States" not in registry:
+        registry["United States"] = ("US", _iso2_to_flag("US"), "Americas")
+    if "Puerto Rico" not in registry:
+        registry["Puerto Rico"] = ("PR", _iso2_to_flag("PR"), "Americas")
+
+    return registry
+
+COUNTRY_REGISTRY = _build_country_registry()
 
 # Name used in destinations.json may differ from our canonical name
 DEST_COUNTRY_ALIASES = {
-    "Czechia": "Czech Republic",
-    "Ivory Coast": "Cote d'Ivoire",
+    "Czech Republic": "Czechia",
+    "Ivory Coast": "Ivory Coast",
+    "Cote d'Ivoire": "Ivory Coast",
     "Burma (Myanmar)": "Myanmar",
+    "Burma": "Myanmar",
+    "Democratic Republic of the Congo": "DR Congo",
+    "Swaziland": "Eswatini",
+    "East Timor": "Timor-Leste",
+    "Sao Tome and Principe": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+    "Macedonia": "North Macedonia",
+    "Curacao": "Cura\u00e7ao",
 }
 
 # Reverse: our canonical name -> name(s) that may appear in destinations.json
@@ -206,6 +191,138 @@ QUICK_FACTS = {
     "Jamaica":              {"capital": "Kingston",        "currency": "J$ (JMD)",          "language": "English",        "best_time": "Nov\u2013Apr",                 "budget": "$$",          "visa": "90-day visa-free for most"},
     "Mauritius":            {"capital": "Port Louis",      "currency": "Rs (MUR)",          "language": "English / French / Creole","best_time": "May\u2013Dec",        "budget": "$$",          "visa": "60-day visa-free for most"},
     "El Salvador":          {"capital": "San Salvador",    "currency": "$ (USD)",           "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    # --- Additional countries (alphabetical) ---
+    "Afghanistan":          {"capital": "Kabul",           "currency": "AFN (\u060b)",      "language": "Pashto / Dari",  "best_time": "Apr\u2013Jun / Sep\u2013Nov"},
+    "Albania":              {"capital": "Tirana",          "currency": "ALL (Lek)",         "language": "Albanian",       "best_time": "May\u2013Sep",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    "Algeria":              {"capital": "Algiers",         "currency": "DZD (DA)",          "language": "Arabic / French","best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$"},
+    "Andorra":              {"capital": "Andorra la Vella","currency": "\u20ac (EUR)",      "language": "Catalan",        "best_time": "Jun\u2013Sep / Dec\u2013Mar",  "budget": "$$$",         "visa": "90-day visa-free for most"},
+    "Angola":               {"capital": "Luanda",          "currency": "AOA (Kz)",          "language": "Portuguese",     "best_time": "May\u2013Oct",                 "budget": "$$"},
+    "Antigua and Barbuda":  {"capital": "St. John's",      "currency": "XCD (EC$)",         "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$\u2013$$$"},
+    "Armenia":              {"capital": "Yerevan",         "currency": "AMD (\u058f)",      "language": "Armenian",       "best_time": "May\u2013Oct",                 "budget": "$",           "visa": "180-day visa-free for most"},
+    "Azerbaijan":           {"capital": "Baku",            "currency": "AZN (\u20bc)",      "language": "Azerbaijani",    "best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$\u2013$$"},
+    "Bahamas":              {"capital": "Nassau",          "currency": "BSD ($)",           "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$$"},
+    "Bahrain":              {"capital": "Manama",          "currency": "BHD (BD)",          "language": "Arabic",         "best_time": "Nov\u2013Mar",                 "budget": "$$\u2013$$$"},
+    "Bangladesh":           {"capital": "Dhaka",           "currency": "BDT (\u09f3)",      "language": "Bengali",        "best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "Barbados":             {"capital": "Bridgetown",      "currency": "BBD ($)",           "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$\u2013$$$"},
+    "Belarus":              {"capital": "Minsk",           "currency": "BYN (Br)",          "language": "Belarusian / Russian","best_time": "May\u2013Sep",              "budget": "$"},
+    "Belize":               {"capital": "Belmopan",        "currency": "BZD ($)",           "language": "English",        "best_time": "Nov\u2013Apr",                 "budget": "$\u2013$$"},
+    "Benin":                {"capital": "Porto-Novo",      "currency": "XOF (CFA)",         "language": "French",         "best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "Bhutan":               {"capital": "Thimphu",         "currency": "BTN (Nu)",          "language": "Dzongkha",       "best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$$$"},
+    "Bolivia":              {"capital": "Sucre / La Paz",  "currency": "BOB (Bs)",          "language": "Spanish",        "best_time": "May\u2013Oct",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    "Bosnia and Herzegovina": {"capital": "Sarajevo",      "currency": "BAM (KM)",          "language": "Bosnian / Croatian / Serbian","best_time": "May\u2013Sep",      "budget": "$",           "visa": "90-day visa-free for most"},
+    "Botswana":             {"capital": "Gaborone",        "currency": "BWP (P)",           "language": "English / Tswana","best_time": "May\u2013Oct",                 "budget": "$$\u2013$$$"},
+    "Brunei":               {"capital": "Bandar Seri Begawan","currency": "BND ($)",         "language": "Malay",          "best_time": "Feb\u2013Oct",                 "budget": "$$"},
+    "Burkina Faso":         {"capital": "Ouagadougou",     "currency": "XOF (CFA)",         "language": "French",         "best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "Burundi":              {"capital": "Gitega",          "currency": "BIF (FBu)",         "language": "Kirundi / French","best_time": "Jun\u2013Sep",                 "budget": "$"},
+    "Cambodia":             {"capital": "Phnom Penh",      "currency": "$ / \u17db (KHR)",  "language": "Khmer",          "best_time": "Nov\u2013Apr",                 "budget": "$",           "visa": "Visa on arrival / e-Visa"},
+    "Cameroon":             {"capital": "Yaound\u00e9",    "currency": "XAF (CFA)",         "language": "French / English","best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "Cape Verde":           {"capital": "Praia",           "currency": "CVE (Esc)",         "language": "Portuguese / Creole","best_time": "Nov\u2013Jun",               "budget": "$$"},
+    "Central African Republic": {"capital": "Bangui",      "currency": "XAF (CFA)",         "language": "French / Sango"},
+    "Chad":                 {"capital": "N'Djamena",       "currency": "XAF (CFA)",         "language": "French / Arabic"},
+    "Comoros":              {"capital": "Moroni",          "currency": "KMF (CF)",          "language": "Comorian / French / Arabic","best_time": "May\u2013Nov",         "budget": "$"},
+    "Republic of the Congo": {"capital": "Brazzaville",   "currency": "XAF (CFA)",         "language": "French"},
+    "DR Congo":             {"capital": "Kinshasa",        "currency": "CDF (FC)",          "language": "French"},
+    "Cura\u00e7ao":         {"capital": "Willemstad",      "currency": "ANG (\u0192)",      "language": "Dutch / Papiamentu","best_time": "Jan\u2013Sep",                "budget": "$$"},
+    "Cyprus":               {"capital": "Nicosia",         "currency": "\u20ac (EUR)",      "language": "Greek / Turkish","best_time": "Apr\u2013Oct",                  "budget": "$$",          "visa": "90-day visa-free for most"},
+    "Czechia":              {"capital": "Prague",          "currency": "CZK (K\u010d)",     "language": "Czech",          "best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Djibouti":             {"capital": "Djibouti",        "currency": "DJF (Fdj)",         "language": "French / Arabic"},
+    "Dominica":             {"capital": "Roseau",          "currency": "XCD (EC$)",         "language": "English",        "best_time": "Nov\u2013Apr",                 "budget": "$$"},
+    "Ecuador":              {"capital": "Quito",           "currency": "$ (USD)",           "language": "Spanish",        "best_time": "Jun\u2013Sep",                 "budget": "$",           "visa": "90-day visa-free for most"},
+    "Equatorial Guinea":    {"capital": "Malabo",          "currency": "XAF (CFA)",         "language": "Spanish / French"},
+    "Eritrea":              {"capital": "Asmara",          "currency": "ERN (Nfk)",         "language": "Tigrinya / Arabic"},
+    "Eswatini":             {"capital": "Mbabane",         "currency": "SZL (E / L)",       "language": "English / Swazi","best_time": "May\u2013Sep",                  "budget": "$"},
+    "Ethiopia":             {"capital": "Addis Ababa",     "currency": "ETB (Br)",          "language": "Amharic",        "best_time": "Oct\u2013Mar",                 "budget": "$"},
+    "Fiji":                 {"capital": "Suva",            "currency": "FJD ($)",           "language": "English / Fijian","best_time": "May\u2013Oct",                  "budget": "$$"},
+    "Finland":              {"capital": "Helsinki",        "currency": "\u20ac (EUR)",      "language": "Finnish / Swedish","best_time": "Jun\u2013Aug / Dec\u2013Mar", "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "French Polynesia":     {"capital": "Papeete",         "currency": "XPF (CFP)",         "language": "French / Tahitian","best_time": "May\u2013Oct",                "budget": "$$$"},
+    "Gabon":                {"capital": "Libreville",      "currency": "XAF (CFA)",         "language": "French"},
+    "Gambia":               {"capital": "Banjul",          "currency": "GMD (D)",           "language": "English",        "best_time": "Nov\u2013May",                 "budget": "$"},
+    "Georgia":              {"capital": "Tbilisi",         "currency": "GEL (\u20be)",      "language": "Georgian",       "best_time": "May\u2013Oct",                 "budget": "$",           "visa": "365-day visa-free for most"},
+    "Greenland":            {"capital": "Nuuk",            "currency": "DKK (kr)",          "language": "Greenlandic / Danish","best_time": "Jun\u2013Sep",              "budget": "$$$"},
+    "Grenada":              {"capital": "St. George's",    "currency": "XCD (EC$)",         "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$"},
+    "Guatemala":            {"capital": "Guatemala City",  "currency": "GTQ (Q)",           "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$"},
+    "Guinea":               {"capital": "Conakry",         "currency": "GNF (FG)",          "language": "French"},
+    "Guinea-Bissau":        {"capital": "Bissau",          "currency": "XOF (CFA)",         "language": "Portuguese"},
+    "Guyana":               {"capital": "Georgetown",      "currency": "GYD ($)",           "language": "English",        "best_time": "Feb\u2013Apr / Sep\u2013Nov"},
+    "Haiti":                {"capital": "Port-au-Prince",  "currency": "HTG (G)",           "language": "Haitian Creole / French"},
+    "Hong Kong":            {"capital": "Hong Kong (SAR)", "currency": "HKD ($)",           "language": "Cantonese / English","best_time": "Oct\u2013Dec",               "budget": "$$\u2013$$$", "visa": "90-day visa-free for most"},
+    "Iran":                 {"capital": "Tehran",          "currency": "IRR (\ufdfc)",      "language": "Persian (Farsi)"},
+    "Iraq":                 {"capital": "Baghdad",         "currency": "IQD (\u0639.\u062f)","language": "Arabic / Kurdish"},
+    "Ivory Coast":          {"capital": "Yamoussoukro",    "currency": "XOF (CFA)",         "language": "French",         "best_time": "Nov\u2013Mar",                 "budget": "$"},
+    "Kazakhstan":           {"capital": "Astana",          "currency": "KZT (\u20b8)",      "language": "Kazakh / Russian","best_time": "Apr\u2013Jun / Sep\u2013Oct",  "budget": "$",           "visa": "30-day visa-free for most"},
+    "Kiribati":             {"capital": "Tarawa",          "currency": "AUD (A$)",          "language": "Gilbertese / English"},
+    "Kosovo":               {"capital": "Pristina",        "currency": "\u20ac (EUR)",      "language": "Albanian / Serbian","best_time": "May\u2013Sep",                "budget": "$"},
+    "Kuwait":               {"capital": "Kuwait City",     "currency": "KWD (KD)",          "language": "Arabic",         "best_time": "Nov\u2013Mar",                 "budget": "$$\u2013$$$"},
+    "Kyrgyzstan":           {"capital": "Bishkek",         "currency": "KGS (som)",         "language": "Kyrgyz / Russian","best_time": "Jun\u2013Sep",                  "budget": "$"},
+    "Latvia":               {"capital": "Riga",            "currency": "\u20ac (EUR)",      "language": "Latvian",        "best_time": "May\u2013Sep",                 "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Lebanon":              {"capital": "Beirut",          "currency": "LBP (LL)",          "language": "Arabic / French"},
+    "Lesotho":              {"capital": "Maseru",          "currency": "LSL (L / M)",       "language": "Sesotho / English"},
+    "Liberia":              {"capital": "Monrovia",        "currency": "LRD ($)",           "language": "English"},
+    "Libya":                {"capital": "Tripoli",         "currency": "LYD (LD)",          "language": "Arabic"},
+    "Liechtenstein":        {"capital": "Vaduz",           "currency": "CHF (Fr.)",         "language": "German",         "best_time": "Jun\u2013Sep / Dec\u2013Mar",  "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Lithuania":            {"capital": "Vilnius",         "currency": "\u20ac (EUR)",      "language": "Lithuanian",     "best_time": "May\u2013Sep",                 "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Luxembourg":           {"capital": "Luxembourg City", "currency": "\u20ac (EUR)",      "language": "Luxembourgish / French / German","best_time": "May\u2013Sep",    "budget": "$$$",         "visa": "90-day Schengen visa-free"},
+    "Macau":                {"capital": "Macau (SAR)",     "currency": "MOP ($)",           "language": "Cantonese / Portuguese","best_time": "Oct\u2013Dec",             "budget": "$$\u2013$$$"},
+    "Madagascar":           {"capital": "Antananarivo",    "currency": "MGA (Ar)",          "language": "Malagasy / French","best_time": "Apr\u2013Nov",                 "budget": "$"},
+    "Malawi":               {"capital": "Lilongwe",        "currency": "MWK (MK)",          "language": "English / Chewa","best_time": "May\u2013Oct",                  "budget": "$"},
+    "Maldives":             {"capital": "Mal\u00e9",       "currency": "MVR (Rf)",          "language": "Dhivehi",        "best_time": "Nov\u2013Apr",                 "budget": "$$$",         "visa": "30-day visa on arrival"},
+    "Mali":                 {"capital": "Bamako",          "currency": "XOF (CFA)",         "language": "French / Bambara"},
+    "Malta":                {"capital": "Valletta",        "currency": "\u20ac (EUR)",      "language": "Maltese / English","best_time": "Apr\u2013Jun / Sep\u2013Nov", "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Mauritania":           {"capital": "Nouakchott",      "currency": "MRU (UM)",          "language": "Arabic / French"},
+    "Micronesia":           {"capital": "Palikir",         "currency": "$ (USD)",           "language": "English"},
+    "Moldova":              {"capital": "Chi\u0219in\u0103u","currency": "MDL (lei)",       "language": "Romanian",       "best_time": "May\u2013Sep",                 "budget": "$"},
+    "Monaco":               {"capital": "Monaco",          "currency": "\u20ac (EUR)",      "language": "French",         "best_time": "May\u2013Sep",                 "budget": "$$$"},
+    "Mongolia":             {"capital": "Ulaanbaatar",     "currency": "MNT (\u20ae)",      "language": "Mongolian",      "best_time": "Jun\u2013Sep",                 "budget": "$"},
+    "Mozambique":           {"capital": "Maputo",          "currency": "MZN (MT)",          "language": "Portuguese",     "best_time": "May\u2013Nov",                 "budget": "$"},
+    "Myanmar":              {"capital": "Naypyidaw",       "currency": "MMK (Ks)",          "language": "Burmese"},
+    "Namibia":              {"capital": "Windhoek",        "currency": "NAD ($)",           "language": "English",        "best_time": "May\u2013Oct",                 "budget": "$\u2013$$"},
+    "Nicaragua":            {"capital": "Managua",         "currency": "NIO (C$)",          "language": "Spanish",        "best_time": "Nov\u2013Apr",                 "budget": "$"},
+    "Niger":                {"capital": "Niamey",          "currency": "XOF (CFA)",         "language": "French"},
+    "Nigeria":              {"capital": "Abuja",           "currency": "NGN (\u20a6)",      "language": "English",        "best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "North Korea":          {"capital": "Pyongyang",       "currency": "KPW (\u20a9)",      "language": "Korean"},
+    "North Macedonia":      {"capital": "Skopje",          "currency": "MKD (den)",         "language": "Macedonian / Albanian","best_time": "May\u2013Sep",             "budget": "$"},
+    "Oman":                 {"capital": "Muscat",          "currency": "OMR (RO)",          "language": "Arabic",         "best_time": "Oct\u2013Mar",                 "budget": "$$\u2013$$$"},
+    "Pakistan":             {"capital": "Islamabad",       "currency": "PKR (Rs)",          "language": "Urdu / English"},
+    "Palau":                {"capital": "Ngerulmud",       "currency": "$ (USD)",           "language": "Palauan / English","best_time": "Nov\u2013Apr",                "budget": "$$\u2013$$$"},
+    "Papua New Guinea":     {"capital": "Port Moresby",    "currency": "PGK (K)",           "language": "English / Tok Pisin"},
+    "Paraguay":             {"capital": "Asunci\u00f3n",   "currency": "PYG (\u20b2)",      "language": "Spanish / Guaran\u00ed","best_time": "May\u2013Sep",            "budget": "$"},
+    "Qatar":                {"capital": "Doha",            "currency": "QAR (QR)",          "language": "Arabic",         "best_time": "Nov\u2013Mar",                 "budget": "$$$"},
+    "Russia":               {"capital": "Moscow",          "currency": "RUB (\u20bd)",      "language": "Russian"},
+    "Rwanda":               {"capital": "Kigali",          "currency": "RWF (RF)",          "language": "Kinyarwanda / French / English","best_time": "Jun\u2013Sep",     "budget": "$\u2013$$"},
+    "Saint Kitts and Nevis": {"capital": "Basseterre",     "currency": "XCD (EC$)",         "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$\u2013$$$"},
+    "Saint Lucia":          {"capital": "Castries",        "currency": "XCD (EC$)",         "language": "English",        "best_time": "Dec\u2013Apr",                 "budget": "$$\u2013$$$"},
+    "Saint Vincent and the Grenadines": {"capital": "Kingstown","currency": "XCD (EC$)",     "language": "English",        "best_time": "Dec\u2013May",                 "budget": "$$"},
+    "Samoa":                {"capital": "Apia",            "currency": "WST (T)",           "language": "Samoan / English","best_time": "May\u2013Oct"},
+    "Saudi Arabia":         {"capital": "Riyadh",          "currency": "SAR (SR)",          "language": "Arabic",         "best_time": "Nov\u2013Feb",                 "budget": "$$\u2013$$$"},
+    "Senegal":              {"capital": "Dakar",           "currency": "XOF (CFA)",         "language": "French / Wolof", "best_time": "Nov\u2013May",                 "budget": "$"},
+    "Seychelles":           {"capital": "Victoria",        "currency": "SCR (Rs)",          "language": "Creole / English / French","best_time": "Apr\u2013May / Oct\u2013Nov","budget": "$$$"},
+    "Sierra Leone":         {"capital": "Freetown",        "currency": "SLE (Le)",          "language": "English"},
+    "Singapore":            {"capital": "Singapore",       "currency": "SGD ($)",           "language": "English / Malay / Mandarin / Tamil","best_time": "Feb\u2013Apr", "budget": "$$$",         "visa": "90-day visa-free for most"},
+    "Slovakia":             {"capital": "Bratislava",      "currency": "\u20ac (EUR)",      "language": "Slovak",         "best_time": "May\u2013Sep",                 "budget": "$\u2013$$",   "visa": "90-day Schengen visa-free"},
+    "Slovenia":             {"capital": "Ljubljana",       "currency": "\u20ac (EUR)",      "language": "Slovenian",      "best_time": "May\u2013Sep",                 "budget": "$$",          "visa": "90-day Schengen visa-free"},
+    "Solomon Islands":      {"capital": "Honiara",         "currency": "SBD ($)",           "language": "English"},
+    "Somalia":              {"capital": "Mogadishu",       "currency": "SOS (Sh)",          "language": "Somali / Arabic"},
+    "South Sudan":          {"capital": "Juba",            "currency": "SSP (\u00a3)",      "language": "English / Arabic"},
+    "Sudan":                {"capital": "Khartoum",        "currency": "SDG (LS)",          "language": "Arabic / English"},
+    "Suriname":             {"capital": "Paramaribo",      "currency": "SRD ($)",           "language": "Dutch",          "best_time": "Feb\u2013Apr / Aug\u2013Nov",  "budget": "$\u2013$$"},
+    "Syria":                {"capital": "Damascus",        "currency": "SYP (\u00a3S)",     "language": "Arabic"},
+    "S\u00e3o Tom\u00e9 and Pr\u00edncipe": {"capital": "S\u00e3o Tom\u00e9","currency": "STN (Db)",  "language": "Portuguese"},
+    "Tajikistan":           {"capital": "Dushanbe",        "currency": "TJS (SM)",          "language": "Tajik / Russian","best_time": "Apr\u2013Jun / Sep\u2013Oct"},
+    "Timor-Leste":          {"capital": "Dili",            "currency": "$ (USD)",           "language": "Tetum / Portuguese"},
+    "Togo":                 {"capital": "Lom\u00e9",       "currency": "XOF (CFA)",         "language": "French",         "best_time": "Nov\u2013Feb",                 "budget": "$"},
+    "Tonga":                {"capital": "Nuku\u02bbalofa", "currency": "TOP (T$)",          "language": "Tongan / English","best_time": "May\u2013Oct"},
+    "Trinidad and Tobago":  {"capital": "Port of Spain",   "currency": "TTD ($)",           "language": "English",        "best_time": "Jan\u2013May",                 "budget": "$$"},
+    "Tunisia":              {"capital": "Tunis",           "currency": "TND (DT)",          "language": "Arabic / French","best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$"},
+    "Turkmenistan":         {"capital": "Ashgabat",        "currency": "TMT (T)",           "language": "Turkmen"},
+    "Uganda":               {"capital": "Kampala",         "currency": "UGX (USh)",         "language": "English / Swahili","best_time": "Jun\u2013Sep / Dec\u2013Feb", "budget": "$"},
+    "Ukraine":              {"capital": "Kyiv",            "currency": "UAH (\u20b4)",      "language": "Ukrainian"},
+    "Uruguay":              {"capital": "Montevideo",      "currency": "UYU ($U)",          "language": "Spanish",        "best_time": "Dec\u2013Mar",                 "budget": "$$"},
+    "Uzbekistan":           {"capital": "Tashkent",        "currency": "UZS (so\u2018m)",   "language": "Uzbek / Russian","best_time": "Mar\u2013May / Sep\u2013Nov",  "budget": "$",           "visa": "30-day visa-free for most"},
+    "Vanuatu":              {"capital": "Port Vila",       "currency": "VUV (VT)",          "language": "Bislama / English / French","best_time": "Apr\u2013Oct"},
+    "Venezuela":            {"capital": "Caracas",         "currency": "VES (Bs.S)",        "language": "Spanish"},
+    "Yemen":                {"capital": "Sana'a",          "currency": "YER (\ufdfc)",      "language": "Arabic"},
+    "Zambia":               {"capital": "Lusaka",          "currency": "ZMW (ZK)",          "language": "English",        "best_time": "May\u2013Oct",                 "budget": "$\u2013$$"},
+    "Zimbabwe":             {"capital": "Harare",          "currency": "ZiG / $ (USD)",     "language": "English / Shona / Ndebele","best_time": "May\u2013Oct",         "budget": "$\u2013$$"},
 }
 
 # Health slug overrides (when health directory slug differs from country slug)
@@ -214,137 +331,51 @@ HEALTH_SLUG_OVERRIDES = {
     "Indonesia":            "indonesia-bali",
 }
 
-# Advisory data from countries/index.html (extracted)
-ADVISORY_DATA = {
-    "Saudi Arabia": {"level": 3, "slug": "saudi-arabia", "lt": "Reconsider Travel"},
-    "Oman": {"level": 3, "slug": "oman", "lt": "Reconsider Travel"},
-    "Finland": {"level": 1, "slug": "finland", "lt": "Exercise Normal Precautions"},
-    "Guatemala": {"level": 3, "slug": "guatemala", "lt": "Reconsider Travel"},
-    "Azerbaijan": {"level": 3, "slug": "azerbaijan", "lt": "Reconsider Travel"},
-    "Belize": {"level": 2, "slug": "belize", "lt": "Exercise Increased Caution"},
-    "Togo": {"level": 2, "slug": "togo", "lt": "Exercise Increased Caution"},
-    "Singapore": {"level": 1, "slug": "singapore", "lt": "Exercise Normal Precautions"},
-    "Kuwait": {"level": 3, "slug": "kuwait", "lt": "Reconsider Travel"},
-    "Turkey": {"level": 2, "slug": "turkey", "lt": "Exercise Increased Caution"},
-    "Pakistan": {"level": 3, "slug": "pakistan", "lt": "Reconsider Travel"},
-    "Cyprus": {"level": 3, "slug": "cyprus", "lt": "Reconsider Travel"},
-    "United Arab Emirates": {"level": 3, "slug": "united-arab-emirates", "lt": "Reconsider Travel"},
-    "Qatar": {"level": 3, "slug": "qatar", "lt": "Reconsider Travel"},
-    "Jordan": {"level": 3, "slug": "jordan", "lt": "Reconsider Travel"},
-    "Iraq": {"level": 4, "slug": "iraq", "lt": "Do Not Travel"},
-    "Bahrain": {"level": 3, "slug": "bahrain", "lt": "Reconsider Travel"},
-    "Guinea": {"level": 2, "slug": "guinea", "lt": "Exercise Increased Caution"},
-    "Malawi": {"level": 2, "slug": "malawi", "lt": "Exercise Increased Caution"},
-    "Lebanon": {"level": 4, "slug": "lebanon", "lt": "Do Not Travel"},
-    "Malaysia": {"level": 1, "slug": "malaysia", "lt": "Exercise Normal Precautions"},
-    "Afghanistan": {"level": 4, "slug": "afghanistan", "lt": "Do Not Travel"},
-    "Slovakia": {"level": 1, "slug": "slovakia", "lt": "Exercise Normal Precautions"},
-    "Niger": {"level": 4, "slug": "niger", "lt": "Do Not Travel"},
-    "Uzbekistan": {"level": 1, "slug": "uzbekistan", "lt": "Exercise Normal Precautions"},
-    "Bangladesh": {"level": 3, "slug": "bangladesh", "lt": "Reconsider Travel"},
-    "Jamaica": {"level": 2, "slug": "jamaica", "lt": "Exercise Increased Caution"},
-    "Central African Republic": {"level": 4, "slug": "central-african-republic", "lt": "Do Not Travel"},
-    "Mali": {"level": 4, "slug": "mali", "lt": "Do Not Travel"},
-    "Czech Republic": {"level": 1, "slug": "czech-republic", "lt": "Exercise Normal Precautions"},
-    "Benin": {"level": 2, "slug": "benin", "lt": "Exercise Increased Caution"},
-    "Russia": {"level": 4, "slug": "russia", "lt": "Do Not Travel"},
-    "Belarus": {"level": 4, "slug": "belarus", "lt": "Do Not Travel"},
-    "Portugal": {"level": 1, "slug": "portugal", "lt": "Exercise Normal Precautions"},
-    "Yemen": {"level": 4, "slug": "yemen", "lt": "Do Not Travel"},
-    "Syria": {"level": 4, "slug": "syria", "lt": "Do Not Travel"},
-    "Mauritius": {"level": 2, "slug": "mauritius", "lt": "Exercise Increased Caution"},
-    "Uganda": {"level": 3, "slug": "uganda", "lt": "Reconsider Travel"},
-    "Iran": {"level": 4, "slug": "iran", "lt": "Do Not Travel"},
-    "Venezuela": {"level": 4, "slug": "venezuela", "lt": "Do Not Travel"},
-    "Taiwan": {"level": 1, "slug": "taiwan", "lt": "Exercise Normal Precautions"},
-    "South Sudan": {"level": 4, "slug": "south-sudan", "lt": "Do Not Travel"},
-    "Tanzania": {"level": 3, "slug": "tanzania", "lt": "Reconsider Travel"},
-    "Greece": {"level": 1, "slug": "greece", "lt": "Exercise Normal Precautions"},
-    "Sudan": {"level": 4, "slug": "sudan", "lt": "Do Not Travel"},
-    "Romania": {"level": 1, "slug": "romania", "lt": "Exercise Normal Precautions"},
-    "Sri Lanka": {"level": 2, "slug": "sri-lanka", "lt": "Exercise Increased Caution"},
-    "Ecuador": {"level": 2, "slug": "ecuador", "lt": "Exercise Increased Caution"},
-    "Bulgaria": {"level": 1, "slug": "bulgaria", "lt": "Exercise Normal Precautions"},
-    "Croatia": {"level": 1, "slug": "croatia", "lt": "Exercise Normal Precautions"},
-    "Maldives": {"level": 2, "slug": "maldives", "lt": "Exercise Increased Caution"},
-    "Nepal": {"level": 3, "slug": "nepal", "lt": "Reconsider Travel"},
-    "Armenia": {"level": 2, "slug": "armenia", "lt": "Exercise Increased Caution"},
-    "Mexico": {"level": 2, "slug": "mexico-travel-advisory", "lt": "Exercise Increased Caution"},
-    "Democratic Republic of the Congo": {"level": 3, "slug": "democratic-republic-of-the-congo", "lt": "Reconsider Travel"},
-    "Cambodia": {"level": 2, "slug": "cambodia", "lt": "Exercise Increased Caution"},
-    "Thailand": {"level": 2, "slug": "thailand", "lt": "Exercise Increased Caution"},
-    "Rwanda": {"level": 2, "slug": "rwanda", "lt": "Exercise Increased Caution"},
-    "Libya": {"level": 4, "slug": "libya", "lt": "Do Not Travel"},
-    "Egypt": {"level": 2, "slug": "egypt", "lt": "Exercise Increased Caution"},
-    "Nigeria": {"level": 3, "slug": "nigeria", "lt": "Reconsider Travel"},
-    "Haiti": {"level": 4, "slug": "haiti", "lt": "Do Not Travel"},
-    "India": {"level": 2, "slug": "india", "lt": "Exercise Increased Caution"},
-    "Mozambique": {"level": 2, "slug": "mozambique", "lt": "Exercise Increased Caution"},
-    "Dominican Republic": {"level": 2, "slug": "dominican-republic", "lt": "Exercise Increased Caution"},
-    "Canada": {"level": 1, "slug": "canada", "lt": "Exercise Normal Precautions"},
-    "Poland": {"level": 1, "slug": "poland", "lt": "Exercise Normal Precautions"},
-    "Australia": {"level": 1, "slug": "australia", "lt": "Exercise Normal Precautions"},
-    "Brazil": {"level": 2, "slug": "brazil", "lt": "Exercise Increased Caution"},
-    "France": {"level": 2, "slug": "france", "lt": "Exercise Increased Caution"},
-    "South Korea": {"level": 1, "slug": "south-korea", "lt": "Exercise Normal Precautions"},
-    "South Africa": {"level": 2, "slug": "south-africa", "lt": "Exercise Increased Caution"},
-    "Italy": {"level": 2, "slug": "italy", "lt": "Exercise Increased Caution"},
-    "Belgium": {"level": 2, "slug": "belgium", "lt": "Exercise Increased Caution"},
-    "Switzerland": {"level": 1, "slug": "switzerland", "lt": "Exercise Normal Precautions"},
-    "Peru": {"level": 2, "slug": "peru", "lt": "Exercise Increased Caution"},
-    "Japan": {"level": 1, "slug": "japan", "lt": "Exercise Normal Precautions"},
-    "Somalia": {"level": 4, "slug": "somalia", "lt": "Do Not Travel"},
-    "Germany": {"level": 2, "slug": "germany", "lt": "Exercise Increased Caution"},
-    "Spain": {"level": 2, "slug": "spain", "lt": "Exercise Increased Caution"},
-    "Burma (Myanmar)": {"level": 4, "slug": "burma-myanmar", "lt": "Do Not Travel"},
-    "United Kingdom": {"level": 2, "slug": "united-kingdom", "lt": "Exercise Increased Caution"},
-    "Philippines": {"level": 2, "slug": "philippines", "lt": "Exercise Increased Caution"},
-    "Cuba": {"level": 2, "slug": "cuba", "lt": "Exercise Increased Caution"},
-    "Indonesia": {"level": 2, "slug": "indonesia", "lt": "Exercise Increased Caution"},
-    "North Korea": {"level": 4, "slug": "north-korea", "lt": "Do Not Travel"},
-    "Morocco": {"level": 2, "slug": "morocco", "lt": "Exercise Increased Caution"},
-    "Colombia": {"level": 3, "slug": "colombia", "lt": "Reconsider Travel"},
-    "Burkina Faso": {"level": 4, "slug": "burkina-faso", "lt": "Do Not Travel"},
-    "Serbia": {"level": 2, "slug": "serbia", "lt": "Exercise Increased Caution"},
-    "Ghana": {"level": 2, "slug": "ghana", "lt": "Exercise Increased Caution"},
-    "El Salvador": {"level": 1, "slug": "el-salvador", "lt": "Exercise Normal Precautions"},
-    "Kenya": {"level": 2, "slug": "kenya", "lt": "Exercise Increased Caution"},
-    "Georgia": {"level": 1, "slug": "georgia", "lt": "Exercise Normal Precautions"},
-    "Chile": {"level": 2, "slug": "chile", "lt": "Exercise Increased Caution"},
-    "New Zealand": {"level": 1, "slug": "new-zealand", "lt": "Exercise Normal Precautions"},
-    "Albania": {"level": 2, "slug": "albania", "lt": "Exercise Increased Caution"},
-    "Namibia": {"level": 2, "slug": "namibia", "lt": "Exercise Increased Caution"},
-    "Vietnam": {"level": 1, "slug": "vietnam", "lt": "Exercise Normal Precautions"},
-    "Nicaragua": {"level": 3, "slug": "nicaragua", "lt": "Reconsider Travel"},
-    "Costa Rica": {"level": 2, "slug": "costa-rica", "lt": "Exercise Increased Caution"},
-    "Honduras": {"level": 3, "slug": "honduras", "lt": "Reconsider Travel"},
-    "Bolivia": {"level": 2, "slug": "bolivia", "lt": "Exercise Increased Caution"},
-    "Ethiopia": {"level": 3, "slug": "ethiopia", "lt": "Reconsider Travel"},
-    "Argentina": {"level": 1, "slug": "argentina", "lt": "Exercise Normal Precautions"},
-    "Ireland": {"level": 1, "slug": "ireland", "lt": "Exercise Normal Precautions"},
-    "Austria": {"level": 1, "slug": "austria", "lt": "Exercise Normal Precautions"},
-    "Iceland": {"level": 1, "slug": "iceland", "lt": "Exercise Normal Precautions"},
-    "Hungary": {"level": 1, "slug": "hungary", "lt": "Exercise Normal Precautions"},
-    "Netherlands": {"level": 2, "slug": "netherlands", "lt": "Exercise Increased Caution"},
-    "Sweden": {"level": 2, "slug": "sweden", "lt": "Exercise Increased Caution"},
-    "Estonia": {"level": 1, "slug": "estonia", "lt": "Exercise Normal Precautions"},
-    "Slovenia": {"level": 1, "slug": "slovenia", "lt": "Exercise Normal Precautions"},
-    "Ukraine": {"level": 4, "slug": "ukraine", "lt": "Do Not Travel"},
-    "Tunisia": {"level": 2, "slug": "tunisia", "lt": "Exercise Increased Caution"},
-    "Algeria": {"level": 2, "slug": "algeria", "lt": "Exercise Increased Caution"},
-    "Panama": {"level": 2, "slug": "panama", "lt": "Exercise Increased Caution"},
-    "Latvia": {"level": 1, "slug": "latvia", "lt": "Exercise Normal Precautions"},
-    "Mongolia": {"level": 1, "slug": "mongolia", "lt": "Exercise Normal Precautions"},
-    "Norway": {"level": 1, "slug": "norway", "lt": "Exercise Normal Precautions"},
-    "Lithuania": {"level": 1, "slug": "lithuania", "lt": "Exercise Normal Precautions"},
-    "Kazakhstan": {"level": 1, "slug": "kazakhstan", "lt": "Exercise Normal Precautions"},
-    "Montenegro": {"level": 1, "slug": "montenegro", "lt": "Exercise Normal Precautions"},
-    "China": {"level": 3, "slug": "china", "lt": "Reconsider Travel"},
-    "Denmark": {"level": 1, "slug": "denmark", "lt": "Exercise Normal Precautions"},
-    "Puerto Rico": {"level": 1, "slug": "puerto-rico", "lt": "Exercise Normal Precautions"},
-    "Laos": {"level": 2, "slug": "laos", "lt": "Exercise Increased Caution"},
-    "United States": {"level": 1, "slug": "united-states", "lt": "Exercise Normal Precautions"},
-}
+# ---------------------------------------------------------------------------
+# Advisory data — dynamically loaded from api/v1/alerts/*.json
+# ---------------------------------------------------------------------------
+
+def _build_advisory_data():
+    """Build advisory data from alert JSON files + hardcoded overrides."""
+    data = {}
+    alerts_dir = os.path.join(BASE_DIR, "api", "v1", "alerts")
+
+    # Alert slug overrides (when the alerts/ page slug differs from the country slug)
+    _ALERT_SLUG_OVERRIDES = {
+        "Mexico": "mexico-travel-advisory",
+        "Myanmar": "burma-myanmar",
+    }
+
+    if os.path.isdir(alerts_dir):
+        for fn in sorted(os.listdir(alerts_dir)):
+            if not fn.endswith('.json'):
+                continue
+            fp = os.path.join(alerts_dir, fn)
+            try:
+                with open(fp) as f:
+                    jdata = json.load(fp=f)
+                name = jdata.get('name', '')
+                us = jdata.get('us', {})
+                level = us.get('level', 0)
+                lt = us.get('levelText', '')
+                if name and level > 0:
+                    alert_slug = _ALERT_SLUG_OVERRIDES.get(name, slugify(name))
+                    data[name] = {"level": level, "slug": alert_slug, "lt": lt}
+            except Exception:
+                pass
+
+    # Hardcoded entries for countries without alert JSON or with special names
+    _HARDCODED = {
+        "United States": {"level": 1, "slug": "united-states", "lt": "Exercise Normal Precautions"},
+        "Puerto Rico": {"level": 1, "slug": "puerto-rico", "lt": "Exercise Normal Precautions"},
+    }
+    for k, v in _HARDCODED.items():
+        if k not in data:
+            data[k] = v
+
+    return data
+
+ADVISORY_DATA = _build_advisory_data()
 
 # ---------------------------------------------------------------------------
 # Data scanning — runs once, caches globally
@@ -894,12 +925,34 @@ def generate_country_page(name, slug, iso2, flag, continent):
     if picks_count:
         subtitle_parts.append(pl(picks_count, "popular pick"))
     subtitle = " &middot; ".join(subtitle_parts)
+    if not subtitle:
+        subtitle = continent
 
-    meta_desc = (
-        f"Your complete {name} travel guide for {YEAR}. "
-        f"Explore {dest_count} destinations, scam alerts, health tips, "
-        f"itineraries, and curated local picks \u2014 all backed by real traveler data."
-    )
+    # Build meta description dynamically based on available content
+    meta_parts = []
+    if dest_count:
+        meta_parts.append(f"{dest_count} destinations")
+    if scam_count:
+        meta_parts.append("scam alerts")
+    if health_slug:
+        meta_parts.append("health tips")
+    if itin_count:
+        meta_parts.append("itineraries")
+    if picks_count:
+        meta_parts.append("curated local picks")
+    if advisory:
+        meta_parts.append("travel advisory")
+    if meta_parts:
+        meta_detail = ", ".join(meta_parts)
+        meta_desc = (
+            f"Your complete {name} travel guide for {YEAR}. "
+            f"Explore {meta_detail} \u2014 all backed by real traveler data."
+        )
+    else:
+        meta_desc = (
+            f"{name} travel guide for {YEAR}. "
+            f"Travel advisory, entry requirements, and safety information."
+        )
 
     # og:image
     og_image = "https://img.tabiji.ai/tabiji-owl-logo.png"
@@ -933,54 +986,44 @@ def generate_country_page(name, slug, iso2, flag, continent):
     # --- Quick Facts ---
     quick_facts_html = ""
     if facts:
-        quick_facts_html = f"""
+        fact_items = ""
+        for fkey, flabel in [("capital", "Capital"), ("currency", "Currency"), ("language", "Language"),
+                              ("best_time", "Best Time to Visit"), ("budget", "Budget Level"), ("visa", "Visa")]:
+            if fkey in facts:
+                fact_items += f"""
+            <div class="fact-item">
+                <div class="fact-label">{flabel}</div>
+                <div class="fact-value">{h(facts[fkey])}</div>
+            </div>"""
+        if fact_items:
+            quick_facts_html = f"""
     <section class="section">
         <h2 class="section-title">Quick Facts</h2>
-        <div class="facts-grid">
-            <div class="fact-item">
-                <div class="fact-label">Capital</div>
-                <div class="fact-value">{h(facts['capital'])}</div>
-            </div>
-            <div class="fact-item">
-                <div class="fact-label">Currency</div>
-                <div class="fact-value">{h(facts['currency'])}</div>
-            </div>
-            <div class="fact-item">
-                <div class="fact-label">Language</div>
-                <div class="fact-value">{h(facts['language'])}</div>
-            </div>
-            <div class="fact-item">
-                <div class="fact-label">Best Time to Visit</div>
-                <div class="fact-value">{h(facts['best_time'])}</div>
-            </div>
-            <div class="fact-item">
-                <div class="fact-label">Budget Level</div>
-                <div class="fact-value">{h(facts['budget'])}</div>
-            </div>
-            <div class="fact-item">
-                <div class="fact-label">Visa</div>
-                <div class="fact-value">{h(facts['visa'])}</div>
-            </div>
+        <div class="facts-grid">{fact_items}
         </div>
     </section>"""
 
     # --- Travel Advisory ---
     advisory_html = ""
-    if advisory and has_alert:
-        level = advisory["level"]
-        # Colors by level
-        level_colors = {
-            1: ("#16A34A", "#F0FDF4"),
-            2: ("#F59E0B", "#FFFBEB"),
-            3: ("#F97316", "#FFF7ED"),
-            4: ("#EF4444", "#FEF2F2"),
-        }
-        color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
-        label = f"Level {level} \u2014 {advisory['lt']}"
-        advisory_html = f"""
+    if advisory:
+        alert_slug = advisory.get("slug", slug)
+        # Check that an alert page actually exists (try advisory slug first, then country slug)
+        alert_exists = has_alert_page(alert_slug) or has_alert
+        if alert_exists:
+            level = advisory["level"]
+            # Colors by level
+            level_colors = {
+                1: ("#16A34A", "#F0FDF4"),
+                2: ("#F59E0B", "#FFFBEB"),
+                3: ("#F97316", "#FFF7ED"),
+                4: ("#EF4444", "#FEF2F2"),
+            }
+            color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
+            label = f"Level {level} \u2014 {advisory['lt']}"
+            advisory_html = f"""
     <section class="section">
         <h2 class="section-title">Travel Advisory</h2>
-        <a href="/alerts/{slug}/" class="advisory-card" style="border-left: 4px solid {color};">
+        <a href="/alerts/{alert_slug}/" class="advisory-card" style="border-left: 4px solid {color};">
             <div class="advisory-badge" style="background: {bg}; color: {color};">
                 {h(label)}
             </div>
