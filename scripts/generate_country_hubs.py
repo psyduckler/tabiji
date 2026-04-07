@@ -122,7 +122,9 @@ for name in COUNTRY_REGISTRY:
 # Slug helpers
 def slugify(name):
     """Convert a country name to a URL slug."""
-    s = name.lower().strip()
+    import unicodedata
+    s = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
+    s = s.lower().strip()
     s = s.replace("'", "").replace("'", "")
     s = re.sub(r'[^a-z0-9]+', '-', s)
     return s.strip('-')
