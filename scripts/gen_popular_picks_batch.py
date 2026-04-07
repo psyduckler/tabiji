@@ -216,6 +216,8 @@ Return a JSON object with this EXACT structure (no markdown fences, no trailing 
       "strengths": "X.X★ from N Google reviews · Key strength · Another strength",
       "whatToOrder": "Specific dish recommendation with details.",
       "insiderTip": "Practical insider tip for visiting.",
+      "lat": 0.0000,
+      "lng": 0.0000,
       "phone": "+1XXXXXXXXXX (E.164 format)",
       "website": "https://example.com",
       "redditQuotes": [
@@ -239,6 +241,7 @@ Return a JSON object with this EXACT structure (no markdown fences, no trailing 
 REQUIREMENTS:
 - venues: exactly 10 items, ranked 1-10. Use REAL venue names that actually exist in {city}.
 - Each venue must have a real neighborhood, realistic price range, real phone number, real website URL
+- Each venue MUST have accurate lat/lng coordinates (decimal degrees, e.g. 38.1157, 13.3615 for Palermo). Use the real location of the venue.
 - faqs: exactly 8 items, detailed and specific
 - cuisineTags: 2 tags per venue
 - filterStyles: unique style values derived from venue cuisineStyle fields (no duplicates)
@@ -347,7 +350,11 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
     # Image alt text
     img_alt = f"{_esc(venue['name'])} in {_esc(neighborhood)} — {_esc(description[:80])}"
 
-    return f"""<section class="restaurant-section" id="{_esc(section_id)}" data-filter-style="{_esc(cuisine_style)}" data-filter-price="{_esc(price_tier)}" data-filter-area="{_esc(neighborhood)}" data-map-name="{rank}. {_esc(venue['name'])}" data-map-cta-url="{_esc(maps_url)}" data-map-query="{_esc(venue['name'])}, {_esc(neighborhood)}, {_esc(city)}">
+    lat = venue.get('lat', 0)
+    lng = venue.get('lng', 0)
+    lat_lng_attrs = f' data-map-lat="{lat}" data-map-lng="{lng}"' if lat and lng else ''
+
+    return f"""<section class="restaurant-section" id="{_esc(section_id)}" data-filter-style="{_esc(cuisine_style)}" data-filter-price="{_esc(price_tier)}" data-filter-area="{_esc(neighborhood)}" data-map-name="{rank}. {_esc(venue['name'])}" data-map-cta-url="{_esc(maps_url)}" data-map-query="{_esc(venue['name'])}, {_esc(neighborhood)}, {_esc(city)}"{lat_lng_attrs}>
     <div class="restaurant-header">
         <h2><span class="restaurant-number">{rank}</span>{_esc(venue['name'])}</h2>
         <span class="cuisine-tag">{_esc(cuisine_style)}</span>
@@ -401,14 +408,18 @@ def build_map_config(venues: list, slug: str, city: str, category: str) -> dict:
         sid = venue_to_section_id(v['name'])
         neighborhood = v.get('neighborhood', '')
         maps_query = f"{v['name']}+{neighborhood}+{city}".replace(' ', '+')
-        picks.append({
+        pick = {
             "anchorId": sid,
             "rank": v["rank"],
             "name": v["name"],
             "label": f"{v['rank']}. {v['name']}",
             "ctaUrl": f"https://maps.google.com/?q={maps_query}",
             "mapQuery": f"{v['name']}, {neighborhood}, {city}",
-        })
+        }
+        if v.get("lat") and v.get("lng"):
+            pick["lat"] = v["lat"]
+            pick["lng"] = v["lng"]
+        picks.append(pick)
     return {
         "enabled": True,
         "title": f"{category.title()} Map",
