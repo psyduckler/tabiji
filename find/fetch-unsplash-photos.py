@@ -123,8 +123,8 @@ def git_commit_and_push(count, batch_num):
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
         return result
 
-    # Stash everything (staged + unstaged) so pull works on a clean tree
-    stash_result = run_git(["git", "stash", "--include-untracked"])
+    # Stash tracked changes so pull --rebase works on a clean tree
+    stash_result = run_git(["git", "stash"])
     stashed = "No local changes" not in stash_result.stdout
 
     # Pull latest from origin
