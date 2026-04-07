@@ -258,7 +258,7 @@ HEAD_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
         <a href=\"/popular-picks/\">Popular Picks</a>
-        <a href=\"/itineraries/\">Itineraries</a>
+        <a href="/countries/">Country Guides</a>
         <a href=\"/about/\">About</a>
         <a href=\"/plan\" class=\"cta-nav\">Get a Free Itinerary</a>
     </div>
