@@ -1523,7 +1523,7 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
                     );
                     layer.on('click', function(){{
                         if (hubSlug) window.location.href = '/countries/' + hubSlug + '/';
-                        else window.location.href = '/alerts/' + info.slug + '/';
+                        else window.location.href = '/countries/';
                     }});
                     layer.on('mouseover', function(e){{
                         e.target.setStyle({{weight:2, color:'#2D3A5C', fillOpacity:0.8}});
