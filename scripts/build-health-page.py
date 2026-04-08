@@ -316,6 +316,132 @@ def gen_pharmacy_guide(d: dict) -> str:
         html += '</ul></div>\n'
     if tips:
         html += f'<div class="callout callout-tip"><p><strong>💡 Tips</strong></p><p>{tips}</p></div>\n'
+
+    # Tier 2 additions: pharmacy chains + drug name translation map
+    html += gen_pharmacy_chains(d)
+    html += gen_drug_name_map(d)
+    return html
+
+
+# ── Tier 2 sub-section generators ────────────────────────────────────────
+
+UNIVERSAL_PHARMACY_MARKER_HTML = (
+    "Most pharmacies in this country are independent rather than chain-branded. "
+    "Look for the universal pharmacy markers: a green cross sign in most of "
+    "Europe and Latin America, a red &lsquo;A&rsquo; (Apotheke) in German-speaking "
+    "countries, or local-language signage like apteka, lék&aacute;rna, or farmacia."
+)
+
+
+def gen_pharmacy_chains(d: dict) -> str:
+    """Render the pharmacy chain block. Field is `pharmacyChains` (list).
+    Empty list = render the universal-marker fallback. Missing field =
+    render nothing (so existing pages without the data don't get a stub)."""
+    chains = d.get("pharmacyChains")
+    if chains is None:
+        return ""
+    html = '<h3>🏪 Pharmacy Chains You&rsquo;ll See</h3>\n'
+    if not chains:
+        html += f'<p>{UNIVERSAL_PHARMACY_MARKER_HTML}</p>\n'
+        return html
+    html += '<div class="callout callout-info"><p><strong>Look for these storefronts:</strong></p>\n<ul>\n'
+    for c in chains:
+        if not isinstance(c, dict):
+            continue
+        name = escape(c.get("name", ""))
+        ident = escape(c.get("identifier", ""))
+        where = escape(c.get("where", ""))
+        line = f'  <li><strong>{name}</strong>'
+        if ident:
+            line += f' &mdash; {ident}'
+        if where:
+            line += f'. <em>{where}</em>'
+        line += '</li>\n'
+        html += line
+    html += '</ul></div>\n'
+    return html
+
+
+def gen_drug_name_map(d: dict) -> str:
+    """Render the drug name translation table. Helps travelers ask for the
+    right OTC medication by local brand name."""
+    dm = d.get("drugNameMap")
+    if not dm:
+        return ""
+    html = '<h3>💊 Common OTC Medications by Local Brand</h3>\n'
+    html += '<p>Knowing the local brand name makes asking for common over-the-counter medications much easier.</p>\n'
+    html += '<div class="callout callout-tip"><ul>\n'
+    for entry in dm:
+        if not isinstance(entry, dict):
+            continue
+        generic = escape(entry.get("generic", ""))
+        local = escape(entry.get("localName", ""))
+        note = escape(entry.get("note", ""))
+        html += f'  <li><strong>{generic}</strong> &rarr; <em>{local}</em>'
+        if note:
+            html += f'<br><span style="color:var(--text-muted);font-size:0.92em;">{note}</span>'
+        html += '</li>\n'
+    html += '</ul></div>\n'
+    return html
+
+
+def gen_common_costs(d: dict) -> str:
+    """Render the cost cheat-sheet table. Used inside gen_insurance."""
+    costs = d.get("commonCosts")
+    if not isinstance(costs, dict):
+        return ""
+    rows = [
+        ("Doctor visit (private clinic)", costs.get("doctorVisit", "")),
+        ("ER visit (no admission)", costs.get("erVisit", "")),
+        ("Overnight hospital stay", costs.get("overnightStay", "")),
+        ("Ambulance call-out", costs.get("ambulance", "")),
+    ]
+    rows = [(label, val) for label, val in rows if val]
+    if not rows:
+        return ""
+    note = escape(costs.get("note", ""))
+    currency = escape(costs.get("currency", "USD"))
+    html = '<h3>💵 Typical Out-of-Pocket Costs</h3>\n'
+    html += '<div class="callout callout-info"><p><strong>Estimated cash prices ({}):</strong></p>\n'.format(currency)
+    html += '<ul style="list-style:none;padding-left:0;">\n'
+    for label, val in rows:
+        html += f'  <li><strong>{escape(label)}:</strong> {escape(val)}</li>\n'
+    html += '</ul>\n'
+    if note:
+        html += f'<p style="font-size:0.88em;color:var(--text-muted);margin-top:0.5rem;">{note}</p>\n'
+    html += '</div>\n'
+    return html
+
+
+def gen_medical_evacuation(d: dict) -> str:
+    """Render the medical-evacuation callout. Used inside gen_insurance."""
+    evac = d.get("medicalEvacuation")
+    if not isinstance(evac, dict):
+        return ""
+    primary = escape(evac.get("primaryDestination", ""))
+    secondary = escape(evac.get("secondaryDestination", ""))
+    cost = escape(evac.get("typicalCost", ""))
+    note = escape(evac.get("note", ""))
+    providers = evac.get("providers", [])
+
+    html = '<h3>🚁 Medical Evacuation</h3>\n'
+    html += '<div class="callout callout-warn">\n'
+    if note:
+        html += f'  <p>{note}</p>\n'
+    if primary:
+        html += f'  <p><strong>Primary destination:</strong> {primary}</p>\n'
+    if secondary:
+        html += f'  <p><strong>Secondary destination:</strong> {secondary}</p>\n'
+    if cost:
+        html += f'  <p><strong>Typical cost band:</strong> {cost}</p>\n'
+    if providers:
+        prov_str = ", ".join(escape(str(p)) for p in providers if p)
+        html += (
+            f'  <p><strong>Common providers:</strong> {prov_str} '
+            '— compare current quotes and policy terms before relying on any '
+            'single provider.</p>\n'
+        )
+    html += '</div>\n'
     return html
 
 
@@ -408,6 +534,10 @@ def gen_insurance(d: dict) -> str:
         html += '  <li>Take photos of all documents before submitting</li>\n'
         html += '  <li>File your claim within the deadline stated in your policy (usually 30-90 days)</li>\n'
         html += '</ol>\n'
+
+    # Tier 2 additions: cost cheat sheet + medical evacuation block
+    html += gen_common_costs(d)
+    html += gen_medical_evacuation(d)
     return html
 
 
