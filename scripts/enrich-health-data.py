@@ -193,7 +193,7 @@ ENRICHMENT = {
         "hospitals": [
             {"name": "University College London Hospital (UCLH)", "nearTouristArea": "Central London / British Museum", "phone": "+44-20-3456-7890", "englishSpeaking": True, "notes": "Major teaching hospital in the heart of London. A&E department."},
             {"name": "St Thomas' Hospital", "nearTouristArea": "Westminster / London Eye", "phone": "+44-20-7188-7188", "englishSpeaking": True, "notes": "Directly opposite Houses of Parliament. Major A&E."},
-            {"name": "Royal Edinburgh Hospital", "nearTouristArea": "Edinburgh Old Town", "phone": "+44-131-537-6000", "englishSpeaking": True, "notes": "Central Edinburgh location near tourist areas."},
+            {"name": "Royal Infirmary of Edinburgh", "nearTouristArea": "Little France, Edinburgh (near Old Town)", "phone": "+44-131-536-1000", "englishSpeaking": True, "notes": "Edinburgh's main A&E hospital. Handles all emergency cases."},
             {"name": "Manchester Royal Infirmary", "nearTouristArea": "Manchester city center", "phone": "+44-161-276-1234", "englishSpeaking": True, "notes": "Major A&E department serving central Manchester."},
         ],
         "pharmacyPhrases": [
@@ -273,7 +273,7 @@ ENRICHMENT = {
 
     "DE": {
         "hospitals": [
-            {"name": "Charité – Universitätsmedizin Berlin", "nearTouristArea": "Berlin Mitte / Brandenburg Gate", "phone": "+49-30-450-50", "englishSpeaking": True, "notes": "Europe's largest university hospital. International patient office."},
+            {"name": "Charité – Universitätsmedizin Berlin", "nearTouristArea": "Berlin Mitte / Brandenburg Gate", "phone": "+49-30-450-0", "englishSpeaking": True, "notes": "Europe's largest university hospital. International patient office."},
             {"name": "Klinikum rechts der Isar", "nearTouristArea": "Munich city center / Marienplatz", "phone": "+49-89-4140-0", "englishSpeaking": True, "notes": "Technical University of Munich hospital. Excellent emergency care."},
             {"name": "Universitätsklinikum Hamburg-Eppendorf", "nearTouristArea": "Hamburg city center", "phone": "+49-40-7410-0", "englishSpeaking": True, "notes": "Major university hospital with international patient services."},
             {"name": "Universitätsklinikum Frankfurt", "nearTouristArea": "Frankfurt city center", "phone": "+49-69-6301-0", "englishSpeaking": True, "notes": "University hospital near Frankfurt's main tourist areas."},
@@ -960,9 +960,9 @@ ENRICHMENT = {
 
     "CO": {
         "hospitals": [
-            {"name": "Fundación Santa Fe de Bogotá", "nearTouristArea": "Northern Bogotá", "phone": "+57-1-603-0303", "englishSpeaking": True, "notes": "JCI-accredited. One of Latin America's best hospitals."},
-            {"name": "Hospital Pablo Tobón Uribe", "nearTouristArea": "Medellín", "phone": "+57-4-441-0855", "englishSpeaking": True, "notes": "Top hospital in Medellín. International patient services."},
-            {"name": "Clínica Imbanaco", "nearTouristArea": "Cali", "phone": "+57-2-682-1000", "englishSpeaking": True, "notes": "JCI-accredited hospital in Cali."},
+            {"name": "Fundación Santa Fe de Bogotá", "nearTouristArea": "Northern Bogotá", "phone": "+57-601-603-0303", "englishSpeaking": True, "notes": "JCI-accredited. One of Latin America's best hospitals."},
+            {"name": "Hospital Pablo Tobón Uribe", "nearTouristArea": "Medellín", "phone": "+57-604-441-0855", "englishSpeaking": True, "notes": "Top hospital in Medellín. International patient services."},
+            {"name": "Clínica Imbanaco", "nearTouristArea": "Cali", "phone": "+57-602-682-1000", "englishSpeaking": True, "notes": "JCI-accredited hospital in Cali."},
         ],
         "pharmacyPhrases": [
             {"english": "I need medicine for a headache", "local": "Necesito medicina para el dolor de cabeza", "transliteration": ""},
@@ -1004,7 +1004,7 @@ ENRICHMENT = {
             {"english": "I need a doctor", "local": "Necesito un médico", "transliteration": ""},
         ],
         "dentalCare": {"availability": "Dental care available but supplies may be limited. Clínica Cira García serves foreigners.", "costRange": "$20-50 for consultation; $30-80 for fillings", "notes": "Cuba has well-trained dentists but limited supplies and equipment. Bring dental supplies if you have ongoing dental needs.", "emergencyTip": "Go to Clínica Cira García for dental emergencies. Bring cash as payment."},
-        "mentalHealth": {"crisisLine": "Contact your embassy or Clínica Cira García", "notes": "Mental health services in English are very limited. Contact your embassy for assistance."},
+        "mentalHealth": {"crisisLine": "Contact your embassy or Clínica Cira García", "internationalLine": "", "englishTherapists": "Not available. Contact your embassy for referrals.", "notes": "Mental health services in English are very limited. Contact your embassy for assistance."},
         "accessibilityInfo": {"overview": "Cuba's accessibility is very limited. Havana's colonial architecture includes many steps and narrow sidewalks.", "hospitalAccess": "Clínica Cira García has some wheelchair access. Other facilities are limited.", "transport": "No accessible public transport. Classic cars used as taxis are not wheelchair friendly.", "tips": "Cuba is very challenging for wheelchair users. Plan carefully and consider hiring a private driver with an accessible vehicle."},
         "covidStatus": {"entryRequirements": "No COVID requirements.", "maskPolicy": "No mandates.", "testing": "Available at hospitals.", "notes": "Cuba removed COVID entry requirements. Bring sufficient medications as pharmacies may have limited stock."},
         "insuranceClaimProcess": "Travel insurance is required for Cuba entry. Clínica Cira García handles foreigner billing. Pay in cash (USD/EUR) and keep all receipts. Cuban medical documentation may need translation for insurance claims.",
@@ -1032,7 +1032,7 @@ ENRICHMENT = {
     "GR": {
         "hospitals": [
             {"name": "Athens Medical Center", "nearTouristArea": "Maroussi, Athens", "phone": "+30-210-686-7000", "englishSpeaking": True, "notes": "Private hospital group. International patient services."},
-            {"name": "Hygeia Hospital", "nearTouristArea": "Maroussi, Athens", "phone": "+30-210-686-7000", "englishSpeaking": True, "notes": "Top-rated private hospital. English widely spoken."},
+            {"name": "Hygeia Hospital", "nearTouristArea": "Maroussi, Athens", "phone": "+30-210-682-7000", "englishSpeaking": True, "notes": "Top-rated private hospital. English widely spoken."},
             {"name": "Venizeleio Hospital", "nearTouristArea": "Heraklion, Crete", "phone": "+30-2810-368-000", "englishSpeaking": True, "notes": "Main hospital serving Crete's tourist areas."},
         ],
         "pharmacyPhrases": [

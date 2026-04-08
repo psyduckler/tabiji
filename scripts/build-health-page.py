@@ -484,7 +484,7 @@ def gen_related_links(d: dict) -> str:
     flag = d.get("flag", "")
     country_slug = COUNTRY_PAGE_SLUGS.get(slug, slug)
 
-    html = '<h2>🔗 Related {{COUNTRY_NAME}} Guides</h2>\n'
+    html = f'<h2>🔗 Related {escape(name)} Guides</h2>\n'
     html += '<div class="callout callout-info"><p><strong>Explore more about ' + escape(name) + '</strong></p>\n'
     html += '<ul>\n'
     html += f'  <li>🌍 <a href="/countries/{escape(country_slug)}/" style="color:var(--terracotta);text-decoration:underline;">{flag} {escape(name)} Country Guide</a> — visa, culture, weather &amp; travel tips</li>\n'
@@ -594,23 +594,23 @@ def build_page(template: str, d: dict) -> str:
     # Check if data has pre-rendered HTML (sample format) or structured data (enrichment format)
     has_html = any(k.endswith("_html") for k in d.keys())
 
-    # Map template variables → values
+    # Map template variables → values (escape for safe HTML insertion)
     replacements = {
-        "COUNTRY_NAME": get_val(d, "countryName", "country_name"),
-        "COUNTRY_SLUG": get_val(d, "countrySlug", "country_slug"),
-        "COUNTRY_FLAG": get_val(d, "flag", "country_flag"),
-        "ISO2": get_val(d, "iso2", "iso2"),
-        "EMERGENCY_NUMBER": get_val(d, "emergencyNumber", "emergency_number"),
-        "HEALTHCARE_SYSTEM": get_val(d, "healthcareSystem", "healthcare_system"),
-        "QUALITY_RATING": get_val(d, "qualityRating", "quality_rating"),
-        "PHARMACY_ACCESS": get_val(d, "pharmacyAccess", "pharmacy_access"),
-        "WATER_SAFETY": get_val(d, "waterSafety", "water_safety"),
-        "META_DESCRIPTION": get_val(d, "metaDescription", "meta_description",
-            f"Health & medication guide for {get_val(d, 'countryName', 'country_name')}"),
-        "OG_IMAGE": get_val(d, "ogImage", "og_image",
-            f"https://img.tabiji.ai/health/{get_val(d, 'countrySlug', 'country_slug')}/hero.jpg"),
-        "LAST_UPDATED": get_val(d, "lastUpdated", "last_updated", "2026-03-30"),
-        "DATE_PUBLISHED": get_val(d, "datePublished", "date_published", "2026-03-15"),
+        "COUNTRY_NAME": escape(get_val(d, "countryName", "country_name")),
+        "COUNTRY_SLUG": escape(get_val(d, "countrySlug", "country_slug")),
+        "COUNTRY_FLAG": get_val(d, "flag", "country_flag"),  # emoji, no escaping needed
+        "ISO2": escape(get_val(d, "iso2", "iso2")),
+        "EMERGENCY_NUMBER": escape(get_val(d, "emergencyNumber", "emergency_number")),
+        "HEALTHCARE_SYSTEM": escape(get_val(d, "healthcareSystem", "healthcare_system")),
+        "QUALITY_RATING": escape(get_val(d, "qualityRating", "quality_rating")),
+        "PHARMACY_ACCESS": escape(get_val(d, "pharmacyAccess", "pharmacy_access")),
+        "WATER_SAFETY": escape(get_val(d, "waterSafety", "water_safety")),
+        "META_DESCRIPTION": escape(get_val(d, "metaDescription", "meta_description",
+            f"Health & medication guide for {get_val(d, 'countryName', 'country_name')}")),
+        "OG_IMAGE": escape(get_val(d, "ogImage", "og_image",
+            f"https://img.tabiji.ai/health/{get_val(d, 'countrySlug', 'country_slug')}/hero.jpg")),
+        "LAST_UPDATED": escape(get_val(d, "lastUpdated", "last_updated", "2026-03-30")),
+        "DATE_PUBLISHED": escape(get_val(d, "datePublished", "date_published", "2026-03-15")),
     }
 
     # HTML sections: use pre-rendered if available, otherwise generate
