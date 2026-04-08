@@ -895,8 +895,6 @@ def nav_html():
                 <a href="/compare/">\U0001F19A Compare Destinations</a>
                 <a href="/find/">\U0001F50D Destination Finder</a>
                 <a href="/resources/">\U0001F4DA Resources</a>
-                <a href="/trends/">\U0001F4CA Travel Trends</a>
-                <a href="/alerts/">\U0001F6A8 Travel Alerts</a>
                 <a href="/scams/">\U0001F6A8 Tourist Scams</a>
                 <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/health/">\U0001F3E5 Travel Health Tips</a>
