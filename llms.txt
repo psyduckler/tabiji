@@ -1,6 +1,6 @@
 # tabiji.ai
 
-> Free AI-curated travel data API — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, and trending travel data for 6905 destinations. No API key required.
+> Free AI-curated travel data API — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, scam alerts, country travel guides, and travel data for 6,975 destinations across 210 countries. No API key required.
 
 ## API Documentation
 - [API Docs](https://tabiji.ai/api/): Full endpoint documentation with examples
@@ -10,20 +10,30 @@
 ## Endpoints
 
 ### Destinations
-- [All Destinations](https://tabiji.ai/api/v1/destinations.json): 6905 destinations with budget, season, vibes, travel styles, and pitch
+- [All Destinations](https://tabiji.ai/api/v1/destinations.json): 6,975 destinations with budget, season, vibes, travel styles, and pitch
 - [Single Destination](https://tabiji.ai/api/v1/destinations/{slug}.json): Full details for one destination (e.g., `tokyo.json`, `paris.json`)
 
 ### Popular Picks (Restaurant & Attraction Guides)
-- [All Picks](https://tabiji.ai/api/v1/picks.json): 1545 curated "best of" guides covering 15,227 places
+- [All Picks](https://tabiji.ai/api/v1/picks.json): 1,545 curated "best of" guides covering 15,227+ places
 - [Single Picks Guide](https://tabiji.ai/api/v1/picks/{slug}.json): Full guide with all places, editorial summaries, maps links, source metadata, "what to order" tips, Reddit quotes, and insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
 
 ### Itineraries
-- [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): 398 day-by-day travel itineraries
+- [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): 410 day-by-day travel itineraries
 - [Single Itinerary](https://tabiji.ai/api/v1/itineraries/{slug}.json): Full itinerary with day-by-day activities, times, tips, and logistics
 
 ### Comparisons
 - [All Comparisons](https://tabiji.ai/api/v1/compare.json): 1,194 head-to-head destination comparisons
 - [Single Comparison](https://tabiji.ai/api/v1/compare/{slug}.json): Full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto.json`)
+
+### Scam Guides
+- [All Scam Guides](https://tabiji.ai/api/v1/scams.json): 122 city-specific tourist scam guides
+- [Single Scam Guide](https://tabiji.ai/api/v1/scams/{slug}.json): Full guide with documented scams, red flags, avoidance tips, and emergency contacts (e.g., `bangkok.json`, `paris.json`)
+
+### Travel Advisories
+- [All Alerts](https://tabiji.ai/api/v1/alerts/{iso2}.json): US State Dept advisory levels for 208 countries (e.g., `jp.json`, `mx.json`)
+
+### Country Travel Guides
+- [Country Hub](https://tabiji.ai/countries/): 210 country travel guide pages with advisory levels, emergency numbers, healthcare info, scam guides, popular picks, destination comparisons, and itineraries
 
 ### Cross-Collection Search
 - [Unified Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Search destinations, picks, itineraries, and comparisons from one endpoint (`q`, optional `type`, optional `limit`)
@@ -37,10 +47,13 @@ Each place includes: name, position, cuisineTags, googleRating, reviewCount, pri
 Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)
 
 ### Destination Object
-Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch, editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta
+Each destination includes: slug, name, region, continent, budget ($-$$$$), season, vibes (array), travelStyles (array), photo, pitch, editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta
+
+### Scam Guide Object
+Each scam includes: scam_name, danger_level, location, story, red_flags (array), how_to_avoid (array). Each city guide includes emergency contacts, safety tips, and FAQs.
 
 ## What Makes This Data Unique
-Unlike generic travel APIs, tabiji data is curated from real traveler discussions plus Tabiji editorial judgment, then cross-linked across destinations, picks, itineraries, and comparisons. Records now expose provenance/freshness metadata and lighter-weight enrichment fields so agents can traverse the graph instead of scraping pages.
+Unlike generic travel APIs, tabiji data is curated from real traveler discussions (Reddit, TripAdvisor, travel forums) plus editorial judgment, then cross-linked across destinations, picks, itineraries, scam guides, and comparisons. Records expose provenance/freshness metadata so agents can traverse the graph instead of scraping pages.
 
 ## Usage
 No authentication required. All endpoints return static JSON files served via Cloudflare CDN. CORS is permissive — call from any origin. Free for non-commercial use.
