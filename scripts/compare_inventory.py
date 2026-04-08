@@ -252,7 +252,6 @@ HEAD_TEMPLATE = """<!DOCTYPE html>
                 <a href=\"/find/\">🔍 Destination Finder</a>
                 <a href=\"/spin/\">🌎 Spin the Globe</a>
                 <a href=\"/resources/\">📚 Resources</a>
-                <a href=\"/trends/\">📊 Travel Trends</a>
                 <a href=\"/alerts/\">🚨 Travel Alerts</a>
                 <a href=\"/api/\">🔌 API</a>
             </div>

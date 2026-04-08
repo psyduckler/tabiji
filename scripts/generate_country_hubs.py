@@ -704,14 +704,8 @@ def get_comparisons(country_name, country_slug):
     city_slugs.add(country_slug)
     for d in dests:
         s = d.get("slug", "")
-        if s:
+        if s and len(s) > 3:
             city_slugs.add(s)
-            # Also add individual words for multi-word slugs
-            parts = s.split("-")
-            if len(parts) <= 2:
-                for p in parts:
-                    if len(p) > 3:  # skip short tokens
-                        city_slugs.add(p)
 
     matches = []
     seen = set()
