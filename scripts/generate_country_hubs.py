@@ -437,7 +437,7 @@ def _load_scams():
     _SCAMS_BY_COUNTRY = {}
     seen = set()  # avoid dups (city, country)
 
-    for pattern in ["scams/research/batch*.json", "scams/research/tier_b_batch*.json"]:
+    for pattern in ["scams/research/batch*.json", "scams/research/tier_b_batch*.json", "scams/research/tier_c_batch*.json", "scams/research/tier_d_batch*.json"]:
         for fp in sorted(glob.glob(os.path.join(BASE_DIR, pattern))):
             try:
                 with open(fp) as f:
