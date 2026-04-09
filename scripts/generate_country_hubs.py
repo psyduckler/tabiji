@@ -40,11 +40,11 @@ def _iso2_to_flag(code):
 
 def _build_country_registry():
     """Build the full country registry from api/v1/alerts/*.json files."""
-    EUROPE = set('AL,AD,AT,BY,BE,BA,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IS,IE,IT,XK,LV,LI,LT,LU,MT,MD,MC,ME,NL,MK,NO,PL,PT,RO,RS,SK,SI,ES,SE,CH,UA,GB'.split(','))
+    EUROPE = set('AL,AD,AT,BY,BE,BA,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IS,IE,IT,XK,LV,LI,LT,LU,MT,MD,MC,ME,NL,MK,NO,PL,PT,RO,RS,SK,SI,ES,SE,CH,UA,GB,RU,GL'.split(','))
     ASIA = set('AF,AM,AZ,BH,BD,BT,BN,KH,CN,GE,HK,IN,ID,IR,IQ,IL,JP,JO,KZ,KW,KG,LA,LB,MO,MY,MV,MN,MM,NP,KP,OM,PK,PH,QA,SA,SG,KR,LK,SY,TW,TJ,TH,TL,TR,TM,AE,UZ,VN,YE'.split(','))
     AFRICA = set('DZ,AO,BJ,BW,BF,BI,CV,CM,CF,TD,KM,CG,CD,CI,DJ,EG,GQ,ER,SZ,ET,GA,GM,GH,GN,GW,KE,LS,LR,LY,MG,MW,ML,MR,MU,MA,MZ,NA,NE,NG,RW,ST,SN,SC,SL,SO,ZA,SS,SD,TZ,TG,TN,UG,ZM,ZW'.split(','))
-    AMERICAS = set('AG,AR,BS,BB,BZ,BM,BO,BR,CA,KY,CL,CO,CR,CU,DM,DO,EC,SV,GF,GD,GT,GY,HT,HN,JM,MX,MS,NI,PA,PY,PE,PR,KN,LC,VC,SR,TT,TC,US,UY,VE,VI'.split(','))
-    OCEANIA = set('AU,FJ,KI,MH,FM,NR,NZ,PW,PG,WS,SB,TO,TV,VU,NC,FP'.split(','))
+    AMERICAS = set('AG,AR,BS,BB,BZ,BM,BO,BR,CA,KY,CL,CO,CR,CU,DM,DO,EC,SV,GF,GD,GT,GY,HT,HN,JM,MX,MS,NI,PA,PY,PE,PR,KN,LC,VC,SR,TT,TC,US,UY,VE,VI,AI,AW,CW,SX'.split(','))
+    OCEANIA = set('AU,FJ,KI,MH,FM,NR,NZ,PW,PG,WS,SB,TO,TV,VU,NC,FP,TK'.split(','))
 
     def _continent(iso2):
         if iso2 in EUROPE: return 'Europe'
@@ -826,6 +826,56 @@ def get_advisory(country_name):
     return ADVISORY_DATA.get(country_name)
 
 
+# Maps the country slug used by /countries/{slug}/ to the slug used by
+# popular-picks-hub-data/{slug}.json (where they differ).
+_HUB_DATA_SLUG_OVERRIDES = {
+    "czechia": "czech-republic",
+    "united-arab-emirates": "uae",
+    "united-states": "usa",
+}
+
+
+def _get_country_hero_image(country_name, country_slug):
+    """Best-effort hero image for a country card.
+
+    Tries (in order):
+      1. popular-picks-hub-data/{slug}.json → seo.heroImage
+      2. The first destination's photo from api/v1/destinations/<dest_slug>.json
+      3. None (caller renders a gradient placeholder)
+    """
+    # 1. Popular-picks hub heroImage
+    hub_slug = _HUB_DATA_SLUG_OVERRIDES.get(country_slug, country_slug)
+    hub_path = os.path.join(BASE_DIR, "popular-picks-hub-data", f"{hub_slug}.json")
+    if os.path.exists(hub_path):
+        try:
+            with open(hub_path) as f:
+                hub = json.load(f)
+            img = (hub.get("seo") or {}).get("heroImage")
+            if img:
+                return img
+        except Exception:
+            pass
+
+    # 2. Destination photo (need destinations loaded)
+    dests = (_DESTINATIONS_BY_COUNTRY or {}).get(country_name) or []
+    # Try aliases too if direct lookup yields nothing
+    if not dests:
+        for alias, canonical in DEST_COUNTRY_ALIASES.items():
+            if canonical == country_name:
+                dests = (_DESTINATIONS_BY_COUNTRY or {}).get(alias) or []
+                if dests:
+                    break
+    for d in dests:
+        slug = d.get("slug")
+        if not slug:
+            continue
+        details = (_DEST_DETAILS_CACHE or {}).get(slug) or _load_dest_details(slug)
+        if details and details.get("photo"):
+            return details["photo"]
+
+    return None
+
+
 def extract_alert_content(alert_slug):
     """Extract the full advisory detail content from an alert HTML page."""
     alert_path = os.path.join(BASE_DIR, "alerts", alert_slug, "index.html")
@@ -878,21 +928,23 @@ def pl(n, singular, plural=None):
 
 
 def nav_html():
-    return """<nav>
+    # Marker comments are required so scripts/build-partials.py can keep this
+    # block in sync with _includes/nav-main.html across the whole site.
+    return """<!-- @include:nav:start -->
+<nav>
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">\u2630</button>
     <div class="nav-links">
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
-                <a href="/countries/">\U0001F30D Country Guides</a>
+                <a href="/api/">\U0001F50C API</a>
                 <a href="/compare/">\U0001F19A Compare Destinations</a>
+                <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/find/">\U0001F50D Destination Finder</a>
                 <a href="/resources/">\U0001F4DA Resources</a>
                 <a href="/scams/">\U0001F6A8 Tourist Scams</a>
-                <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/health/">\U0001F3E5 Travel Health Tips</a>
-                <a href="/api/">\U0001F50C API</a>
             </div>
         </div>
         <a href="/popular-picks/">Popular Picks</a>
@@ -900,13 +952,16 @@ def nav_html():
         <a href="/about/">About</a>
         <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
     </div>
-</nav>"""
+</nav>
+<!-- @include:nav:end -->"""
 
 
 def footer_html():
-    return f"""<footer>
-    <p>&copy; {YEAR} tabiji.ai &middot; <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> &middot; <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> &middot; <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> &middot; <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> &middot; <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> &middot; <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> &middot; <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> &middot; <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> &middot; <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
-</footer>"""
+    return f"""<!-- @include:footer:start -->
+<footer>
+    <p>\u00a9 {YEAR} tabiji.ai \u00b7 <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> \u00b7 <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> \u00b7 <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> \u00b7 <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> \u00b7 <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> \u00b7 <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> \u00b7 <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> \u00b7 <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> \u00b7 <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+</footer>
+<!-- @include:footer:end -->"""
 
 
 # ---------------------------------------------------------------------------
@@ -1232,12 +1287,14 @@ def generate_country_page(name, slug, iso2, flag, continent):
     <meta name="twitter:description" content="{h(meta_desc)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/countries/{slug}/">
-    <link rel="stylesheet" href="/assets/shared-shell.css">
     <link rel="stylesheet" href="/assets/countries.css">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2D3A5C">
-    <script defer src="/assets/shared-shell.js"></script>
-    <script defer src="/assets/offline-download.js"></script>
+<!-- @include:shared-head:start -->
+<link rel="stylesheet" href="/assets/shared-shell.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D3A5C">
+<script defer src="/assets/shared-shell.js"></script>
+<script defer src="/assets/offline-download.js"></script>
+<!-- @include:shared-head:end -->
 
     <script type="application/ld+json">
 {breadcrumb_json}
@@ -1293,9 +1350,16 @@ def generate_country_page(name, slug, iso2, flag, continent):
 def generate_index_page(all_countries_data):
     """Generate the /countries/index.html listing all countries."""
     count = len(all_countries_data)
+    total_dests = sum(c["dest_count"] for c in all_countries_data)
+    total_scams = sum(c["scam_count"] for c in all_countries_data)
+    total_compares = sum(c["compare_count"] for c in all_countries_data)
+    total_picks = sum(c["picks_count"] for c in all_countries_data)
+    total_itins = sum(c["itin_count"] for c in all_countries_data)
+
     meta_desc = (
-        f"Browse travel guides by country. In-depth destination guides, scam alerts, "
-        f"health tips, itineraries, and local picks for {count} countries."
+        f"Browse {count} country travel guides — {total_dests:,} destinations, "
+        f"{total_picks:,} popular picks, {total_compares:,} comparisons, and "
+        f"{total_scams:,} scam alerts. Backed by real Reddit reviews and traveler intel."
     )
 
     breadcrumb_json = json.dumps({
@@ -1307,31 +1371,100 @@ def generate_index_page(all_countries_data):
         ],
     }, indent=4)
 
-    # Build country cards
-    country_cards = ""
-    for c in all_countries_data:
-        stats_parts = []
-        if c["dest_count"]:
-            stats_parts.append(pl(c["dest_count"], "destination"))
-        if c["scam_count"]:
-            stats_parts.append(pl(c["scam_count"], "scam guide"))
-        if c["compare_count"]:
-            stats_parts.append(pl(c["compare_count"], "comparison"))
-        if c["itin_count"]:
-            stats_parts.append(pl(c["itin_count"], "itinerary", "itineraries"))
-        if c["picks_count"]:
-            stats_parts.append(pl(c["picks_count"], "popular pick"))
-        stats = " &middot; ".join(stats_parts)
+    # Sort countries by total content count desc (default view), with name as tiebreaker.
+    # Empty-stats countries fall to the bottom naturally because their total = 0.
+    def total_content(c):
+        return (
+            c["dest_count"] + c["scam_count"] + c["compare_count"]
+            + c["itin_count"] + c["picks_count"]
+        )
 
-        country_cards += f"""
-            <a href="/countries/{c['slug']}/" class="country-card">
-                <span class="country-flag">{c['flag']}</span>
-                <div class="country-info">
-                    <h2 class="country-name">{h(c['name'])}</h2>
-                    <p class="country-stats">{stats}</p>
+    sorted_countries = sorted(
+        all_countries_data,
+        key=lambda c: (-total_content(c), c["name"].lower()),
+    )
+
+    # Build country cards
+    LEVEL_COLORS = {1: "#22c55e", 2: "#eab308", 3: "#f97316", 4: "#ef4444", 0: "#d1d5db"}
+
+    def render_card(c, eager=False):
+        total = total_content(c)
+        is_empty = total == 0
+        level = c.get("advisory_level") or 0
+        adv_color = LEVEL_COLORS.get(level, "#d1d5db")
+        adv_label = c.get("advisory_label") or ("No data" if level == 0 else f"Level {level}")
+        hero = c.get("hero_image") or ""
+        continent = c.get("continent") or "Other"
+
+        # Stats icons row — pl() handles singular/plural
+        stat_pills = []
+        if c["dest_count"]:
+            stat_pills.append(
+                f'<span class="stat-pill" title="{pl(c["dest_count"], "destination guide")}">🏙️ {c["dest_count"]}</span>'
+            )
+        if c["picks_count"]:
+            stat_pills.append(
+                f'<span class="stat-pill" title="{pl(c["picks_count"], "popular pick")}">📍 {c["picks_count"]}</span>'
+            )
+        if c["compare_count"]:
+            stat_pills.append(
+                f'<span class="stat-pill" title="{pl(c["compare_count"], "side-by-side comparison")}">🆚 {c["compare_count"]}</span>'
+            )
+        if c["scam_count"]:
+            stat_pills.append(
+                f'<span class="stat-pill" title="{pl(c["scam_count"], "scam alert guide")}">🛡️ {c["scam_count"]}</span>'
+            )
+        if c["itin_count"]:
+            stat_pills.append(
+                f'<span class="stat-pill" title="{pl(c["itin_count"], "itinerary", "itineraries")}">🗺️ {c["itin_count"]}</span>'
+            )
+        stat_pills_html = "".join(stat_pills) if stat_pills else (
+            '<span class="stat-pill stat-empty">No content yet</span>'
+        )
+
+        if hero:
+            img_attrs = (
+                'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
+            )
+            img_html = f'<img class="country-card-img" src="{h(hero)}" alt="" {img_attrs}>'
+        else:
+            img_html = '<div class="country-card-img country-card-img-fallback"></div>'
+
+        data_attrs = (
+            f'data-name="{h(c["name"]).lower()}"'
+            f' data-total="{total}"'
+            f' data-empty="{"1" if is_empty else "0"}"'
+            f' data-has-picks="{"1" if c["picks_count"] else "0"}"'
+            f' data-has-scams="{"1" if c["scam_count"] else "0"}"'
+            f' data-has-compares="{"1" if c["compare_count"] else "0"}"'
+            f' data-has-itins="{"1" if c["itin_count"] else "0"}"'
+            f' data-advisory="{level}"'
+            f' data-continent="{h(continent)}"'
+            f' data-iso2="{h(c.get("iso2") or "")}"'
+        )
+
+        empty_class = " is-empty" if is_empty else ""
+
+        return f"""
+            <a href="/countries/{c['slug']}/" class="country-card{empty_class}" {data_attrs} style="border-left-color: {adv_color};">
+                {img_html}
+                <div class="country-card-body">
+                    <div class="country-card-header">
+                        <span class="country-flag">{c['flag']}</span>
+                        <h2 class="country-name">{h(c['name'])}</h2>
+                    </div>
+                    <div class="country-card-stats">{stat_pills_html}</div>
+                    <div class="country-card-advisory" title="{h(adv_label)}">
+                        <span class="advisory-dot" style="background:{adv_color};"></span>
+                        <span class="advisory-text">{h(adv_label) if level else "Advisory: no data"}</span>
+                    </div>
                 </div>
-                <span class="country-arrow">&rarr;</span>
             </a>"""
+
+    # First row (4 cards on widescreen) gets eager loading for LCP.
+    country_cards = "".join(
+        render_card(c, eager=(i < 4)) for i, c in enumerate(sorted_countries)
+    )
 
     # Build hubCountries JS object
     hub_js_entries = []
@@ -1376,27 +1509,115 @@ def generate_index_page(all_countries_data):
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/countries/">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="/assets/shared-shell.css">
     <link rel="stylesheet" href="/assets/countries.css">
     <style>
-        #countryMap {{ width:100%; height:420px; border-radius:12px; border:1px solid var(--sand); margin-top:1.5rem; z-index:1; }}
-        .map-section {{ max-width:900px; margin:0 auto; padding:0 2rem; }}
-        .map-legend {{ display:flex; gap:1rem; justify-content:center; margin-top:0.75rem; flex-wrap:wrap; }}
-        .legend-item {{ display:flex; align-items:center; gap:0.35rem; font-size:0.8rem; color:var(--text-muted); }}
-        .legend-dot {{ width:12px; height:12px; border-radius:3px; flex-shrink:0; }}
-        .map-tooltip {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:0.85rem; padding:0.5rem 0.75rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.15); border:none; }}
-        .map-tooltip .tt-country {{ font-weight:700; font-size:0.95rem; }}
-        .map-tooltip .tt-level {{ margin-top:0.2rem; }}
-        .leaflet-popup-content-wrapper {{ border-radius:8px; }}
-        .controls {{ max-width:900px; margin:1.5rem auto 0; padding:0 2rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; }}
-        .search-input {{ flex:1; min-width:200px; padding:0.6rem 1rem; border:1px solid var(--sand); border-radius:8px; font-size:0.95rem; background:white; color:var(--text); }}
+        :root {{
+            --indigo:#2D3A5C; --warm-cream:#F5F0E8; --sand:#E8DFD0;
+            --earth:#8B7355; --terracotta:#C4704B; --white:#FEFCF9;
+            --text:#2C2419; --text-muted:#6B5D4F;
+        }}
+
+        /* hero with stats pill */
+        .hero {{ padding:6rem 2rem 2.5rem; max-width:980px; margin:0 auto; text-align:center; }}
+        .hero-inner h1 {{ font-size:clamp(2rem,4.5vw,2.8rem); color:var(--indigo); font-weight:800; letter-spacing:-0.02em; margin-bottom:.5rem; }}
+        .hero-subtitle {{ color:var(--text-muted); font-size:1.05rem; max-width:640px; margin:0 auto 1.4rem; }}
+        .hero-stats {{ display:flex; flex-wrap:wrap; gap:.6rem .8rem; justify-content:center; }}
+        .hero-stats span {{ background:var(--warm-cream); border:1px solid var(--sand); color:var(--indigo); padding:.45rem 1rem; border-radius:999px; font-size:.88rem; font-weight:600; }}
+
+        /* layout: map + list side by side on desktop */
+        .layout {{ max-width:1320px; margin:0 auto; padding:0 2rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:2rem; align-items:start; }}
+        @media(max-width:1100px) {{ .layout {{ grid-template-columns:1fr; }} }}
+
+        /* map (sticky right sidebar on desktop) */
+        .map-wrap {{ position:sticky; top:84px; }}
+        @media(max-width:1100px) {{ .map-wrap {{ position:static; margin-bottom:1.5rem; }} }}
+        #countryMap {{ width:100%; height:380px; border-radius:14px; border:1px solid var(--sand); z-index:1; background:#f4eedf; }}
+        @media(max-width:1100px) {{ #countryMap {{ height:300px; }} }}
+        @media(max-width:640px)  {{ #countryMap {{ height:240px; }} }}
+        .map-legend {{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.75rem; }}
+        .legend-chip {{ display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .7rem; border:1px solid var(--sand); border-radius:999px; background:var(--white); cursor:pointer; font-size:.78rem; color:var(--text-muted); transition:all .15s; user-select:none; }}
+        .legend-chip:hover {{ border-color:var(--terracotta); }}
+        .legend-chip.active {{ border-color:var(--terracotta); background:#fff5ef; color:var(--indigo); font-weight:600; }}
+        .legend-dot {{ width:10px; height:10px; border-radius:3px; flex-shrink:0; }}
+        .map-tooltip {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:.85rem; padding:.5rem .75rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.15); border:none; }}
+        .map-tooltip .tt-country {{ font-weight:700; font-size:.95rem; }}
+        .map-tooltip .tt-level {{ margin-top:.2rem; }}
+
+        /* controls bar */
+        .controls {{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:1.25rem; }}
+        .search-input {{ flex:1; min-width:200px; padding:.65rem 1rem; border:1px solid var(--sand); border-radius:10px; font-size:.95rem; background:var(--white); color:var(--text); font-family:inherit; }}
         .search-input:focus {{ outline:none; border-color:var(--terracotta); }}
-        @media(max-width:640px) {{ #countryMap{{height:280px;}} .controls{{flex-direction:column;}} }}
+        .filter-chips {{ display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.5rem; }}
+        .filter-chip {{ background:var(--white); border:1px solid var(--sand); color:var(--text-muted); padding:.4rem .85rem; border-radius:999px; cursor:pointer; font-size:.83rem; font-weight:500; transition:all .15s; user-select:none; font-family:inherit; }}
+        .filter-chip:hover {{ border-color:var(--terracotta); color:var(--indigo); }}
+        .filter-chip.active {{ background:var(--terracotta); border-color:var(--terracotta); color:#fff; font-weight:600; }}
+        .filter-chip-spacer {{ flex:1; min-width:1rem; }}
+        .sort-select {{ padding:.4rem .8rem; border:1px solid var(--sand); border-radius:999px; background:var(--white); color:var(--indigo); font-size:.83rem; font-weight:600; cursor:pointer; font-family:inherit; }}
+
+        /* country grid */
+        .country-grid {{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }}
+        @media(max-width:1100px) {{ .country-grid {{ grid-template-columns:repeat(3,1fr); }} }}
+        @media(max-width:920px)  {{ .country-grid {{ grid-template-columns:repeat(2,1fr); }} }}
+        @media(max-width:520px)  {{ .country-grid {{ grid-template-columns:1fr; }} }}
+
+        /* group headings (region grouping mode) */
+        .group-heading {{ grid-column:1/-1; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--earth); border-bottom:1px solid var(--sand); padding:1.5rem 0 .5rem; margin-top:.5rem; }}
+        .group-heading:first-child {{ margin-top:0; padding-top:0; }}
+
+        /* country card */
+        .country-card {{
+            background:var(--white);
+            border:1px solid var(--sand);
+            border-left:4px solid #d1d5db;
+            border-radius:14px;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            text-decoration:none;
+            color:inherit;
+            transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }}
+        .country-card:hover {{
+            transform:translateY(-3px);
+            box-shadow:0 8px 24px rgba(0,0,0,.08);
+            border-color:var(--terracotta) !important;
+        }}
+        .country-card.is-empty {{ opacity:.55; }}
+        .country-card.is-highlighted {{
+            box-shadow:0 0 0 3px var(--terracotta), 0 8px 24px rgba(196,112,75,.2);
+            border-color:var(--terracotta) !important;
+        }}
+        .country-card-img {{
+            width:100%;
+            aspect-ratio: 16 / 9;
+            object-fit:cover;
+            display:block;
+            background:linear-gradient(135deg, var(--warm-cream), var(--sand));
+        }}
+        .country-card-img-fallback {{ display:block; }}
+        .country-card-body {{ padding:1rem 1.1rem 1.1rem; display:flex; flex-direction:column; gap:.5rem; }}
+        .country-card-header {{ display:flex; align-items:center; gap:.55rem; }}
+        .country-flag {{ font-size:1.4rem; line-height:1; }}
+        .country-name {{ font-size:1.05rem; font-weight:700; color:var(--indigo); margin:0; line-height:1.25; }}
+        .country-card-stats {{ display:flex; flex-wrap:wrap; gap:.35rem; }}
+        .stat-pill {{ display:inline-flex; align-items:center; gap:.25rem; background:var(--warm-cream); color:var(--text-muted); padding:.2rem .55rem; border-radius:999px; font-size:.75rem; font-weight:600; }}
+        .stat-pill.stat-empty {{ font-style:italic; font-weight:500; opacity:.7; }}
+        .country-card-advisory {{ display:flex; align-items:center; gap:.4rem; font-size:.75rem; color:var(--text-muted); }}
+        .advisory-dot {{ width:8px; height:8px; border-radius:2px; flex-shrink:0; }}
+        .advisory-text {{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
+
+        /* Empty results state */
+        .empty-state {{ text-align:center; padding:3rem 2rem; color:var(--text-muted); grid-column:1/-1; }}
+        .empty-state h3 {{ color:var(--indigo); margin-bottom:.5rem; }}
+        .empty-state button {{ margin-top:1rem; background:var(--terracotta); color:#fff; border:none; padding:.6rem 1.4rem; border-radius:10px; font-weight:600; cursor:pointer; font-family:inherit; }}
     </style>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2D3A5C">
-    <script defer src="/assets/shared-shell.js"></script>
-    <script defer src="/assets/offline-download.js"></script>
+<!-- @include:shared-head:start -->
+<link rel="stylesheet" href="/assets/shared-shell.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D3A5C">
+<script defer src="/assets/shared-shell.js"></script>
+<script defer src="/assets/offline-download.js"></script>
+<!-- @include:shared-head:end -->
 
     <script type="application/ld+json">
 {breadcrumb_json}
@@ -1410,29 +1631,51 @@ def generate_index_page(all_countries_data):
     <section class="hero">
         <div class="hero-inner">
             <h1>Travel Guides by Country</h1>
-            <p class="hero-subtitle">In-depth guides with scam alerts, health tips, itineraries, and curated local picks</p>
+            <p class="hero-subtitle">{count} countries, backed by real Reddit reviews and traveler intel — not generic AI filler.</p>
+            <div class="hero-stats">
+                <span>🌍 {count} countries</span>
+                <span>🏙️ {total_dests:,} destinations</span>
+                <span>📍 {total_picks:,} popular picks</span>
+                <span>🆚 {total_compares:,} comparisons</span>
+                <span>🛡️ {total_scams:,} scam guides</span>
+            </div>
         </div>
     </section>
 
-    <div class="map-section">
-        <div id="countryMap"></div>
-        <div class="map-legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Level 1: Normal Precautions</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div> Level 2: Increased Caution</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Level 3: Reconsider Travel</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Level 4: Do Not Travel</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> No Data</div>
+    <div class="layout">
+        <div>
+            <div class="controls">
+                <input type="text" class="search-input" placeholder="Search countries\u2026" id="countrySearch" oninput="applyFilters()">
+                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                    <option value="content-desc">Sort: Most content</option>
+                    <option value="name-asc">Sort: A → Z</option>
+                    <option value="name-desc">Sort: Z → A</option>
+                    <option value="advisory-asc">Sort: Safest first</option>
+                    <option value="region">Group by region</option>
+                </select>
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <button type="button" class="filter-chip" data-filter="picks">📍 Has popular picks</button>
+                <button type="button" class="filter-chip" data-filter="compares">🆚 Has comparisons</button>
+                <button type="button" class="filter-chip" data-filter="scams">🛡️ Has scam guides</button>
+                <button type="button" class="filter-chip" data-filter="itins">🗺️ Has itineraries</button>
+                <button type="button" class="filter-chip" data-filter="hide-empty">Hide empty</button>
+            </div>
+            <div class="country-grid" id="countriesList">{country_cards}
+            </div>
         </div>
-    </div>
 
-    <div class="controls">
-        <input type="text" class="search-input" placeholder="Search countries\u2026" id="countrySearch" oninput="filterCountries()">
+        <aside class="map-wrap">
+            <div id="countryMap"></div>
+            <div class="map-legend">
+                <button type="button" class="legend-chip" data-level="1"><span class="legend-dot" style="background:#22c55e;"></span> Level 1</button>
+                <button type="button" class="legend-chip" data-level="2"><span class="legend-dot" style="background:#eab308;"></span> Level 2</button>
+                <button type="button" class="legend-chip" data-level="3"><span class="legend-dot" style="background:#f97316;"></span> Level 3</button>
+                <button type="button" class="legend-chip" data-level="4"><span class="legend-dot" style="background:#ef4444;"></span> Level 4</button>
+                <button type="button" class="legend-chip" data-level="0"><span class="legend-dot" style="background:#d1d5db;"></span> No data</button>
+            </div>
+        </aside>
     </div>
-
-    <section class="section">
-        <div class="countries-list" id="countriesList">{country_cards}
-        </div>
-    </section>
 </main>
 
 {footer_html()}
@@ -1475,7 +1718,7 @@ function getAdvisory(name) {{
 const levelColors = {{1:'#22c55e', 2:'#eab308', 3:'#f97316', 4:'#ef4444'}};
 
 const map = L.map('countryMap', {{
-    center:[25,10], zoom:2, minZoom:2, maxZoom:6,
+    center:[25,10], zoom:1.5, minZoom:1.5, maxZoom:6,
     zoomControl:true, attributionControl:false, worldCopyJump:false,
     maxBounds:[[-85,-200],[85,200]], maxBoundsViscosity:0.8,
 }});
@@ -1483,6 +1726,9 @@ const map = L.map('countryMap', {{
 L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_nolabels/{{z}}/{{x}}/{{y}}@2x.png',{{
     subdomains:'abcd', maxZoom:19
 }}).addTo(map);
+
+// hold layer references by canonical country name so we can highlight from list hover
+const countryLayers = {{}};
 
 fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson')
     .then(r=>r.json())
@@ -1503,6 +1749,9 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
                 const name = feature.properties.NAME_EN || feature.properties.NAME || '';
                 const info = getAdvisory(name);
                 const hubSlug = hubCountries[name];
+                // Save layer ref under the canonical (advisory/hub) name where possible
+                const canonical = (info && Object.keys(advisoryData).find(k=>k===name)) || geoNameMap[name] || name;
+                countryLayers[canonical.toLowerCase()] = {{layer, level: info ? info.level : 0}};
 
                 if (info) {{
                     const level = info.level;
@@ -1516,8 +1765,18 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
                         {{sticky:true, className:'map-tooltip'}}
                     );
                     layer.on('click', function(){{
-                        if (hubSlug) window.location.href = '/countries/' + hubSlug + '/';
-                        else window.location.href = '/countries/';
+                        if (hubSlug) {{
+                            // scroll to and highlight the matching card in the list
+                            const card = document.querySelector('.country-card[data-name="' + (canonical || name).toLowerCase().replace(/"/g,'\\\\"') + '"]');
+                            if (card) {{
+                                card.scrollIntoView({{behavior:'smooth', block:'center'}});
+                                document.querySelectorAll('.country-card.is-highlighted').forEach(c=>c.classList.remove('is-highlighted'));
+                                card.classList.add('is-highlighted');
+                                setTimeout(()=>card.classList.remove('is-highlighted'), 2400);
+                            }} else {{
+                                window.location.href = '/countries/' + hubSlug + '/';
+                            }}
+                        }}
                     }});
                     layer.on('mouseover', function(e){{
                         e.target.setStyle({{weight:2, color:'#2D3A5C', fillOpacity:0.8}});
@@ -1538,14 +1797,151 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
         }}).addTo(map);
     }});
 
-// Search filter
-function filterCountries(){{
-    const q = document.getElementById('countrySearch').value.toLowerCase();
-    document.querySelectorAll('.country-card').forEach(card=>{{
-        const name = card.querySelector('.country-name').textContent.toLowerCase();
-        card.style.display = (!q || name.includes(q)) ? '' : 'none';
+// ---------- filter / sort / group state ----------
+const state = {{
+    query: '',
+    filters: new Set(),         // 'picks' | 'compares' | 'scams' | 'itins' | 'hide-empty'
+    levelFilter: null,          // null | 0..4
+    sort: 'content-desc',       // 'content-desc' | 'name-asc' | 'name-desc' | 'advisory-asc' | 'region'
+}};
+
+const REGIONS = ['Africa','Americas','Asia','Europe','Oceania','Other'];
+
+function applyFilters() {{
+    state.query = (document.getElementById('countrySearch').value || '').toLowerCase().trim();
+    state.sort = document.getElementById('sortSelect').value;
+    const list = document.getElementById('countriesList');
+    const cards = Array.from(list.querySelectorAll('.country-card'));
+
+    // Pass 1: filter (visible vs hidden)
+    cards.forEach(card => {{
+        const name = card.dataset.name;
+        const empty = card.dataset.empty === '1';
+        const adv = parseInt(card.dataset.advisory, 10) || 0;
+        const matches = (
+            (!state.query || name.includes(state.query))
+            && (!state.filters.has('picks') || card.dataset.hasPicks === '1')
+            && (!state.filters.has('compares') || card.dataset.hasCompares === '1')
+            && (!state.filters.has('scams') || card.dataset.hasScams === '1')
+            && (!state.filters.has('itins') || card.dataset.hasItins === '1')
+            && (!state.filters.has('hide-empty') || !empty)
+            && (state.levelFilter === null || adv === state.levelFilter)
+        );
+        card.style.display = matches ? '' : 'none';
+        card.classList.toggle('filtered-out', !matches);
     }});
+
+    // Remove any prior group headings (so re-runs are clean)
+    list.querySelectorAll('.group-heading').forEach(h => h.remove());
+
+    // Pass 2: sort visible cards
+    const visible = cards.filter(c => c.style.display !== 'none');
+    const cmp = {{
+        'content-desc': (a, b) => (parseInt(b.dataset.total,10) - parseInt(a.dataset.total,10)) || a.dataset.name.localeCompare(b.dataset.name),
+        'name-asc':     (a, b) => a.dataset.name.localeCompare(b.dataset.name),
+        'name-desc':    (a, b) => b.dataset.name.localeCompare(a.dataset.name),
+        'advisory-asc': (a, b) => {{
+            const la = parseInt(a.dataset.advisory,10) || 99;
+            const lb = parseInt(b.dataset.advisory,10) || 99;
+            return la - lb || a.dataset.name.localeCompare(b.dataset.name);
+        }},
+        'region': (a, b) => {{
+            const ra = REGIONS.indexOf(a.dataset.continent || 'Other');
+            const rb = REGIONS.indexOf(b.dataset.continent || 'Other');
+            return (ra - rb) || ((parseInt(b.dataset.total,10)) - parseInt(a.dataset.total,10)) || a.dataset.name.localeCompare(b.dataset.name);
+        }},
+    }}[state.sort] || ((a,b)=>0);
+    visible.sort(cmp);
+
+    // Pass 3: re-attach in order, inserting group headings if region mode
+    const frag = document.createDocumentFragment();
+    let lastRegion = null;
+    visible.forEach(card => {{
+        if (state.sort === 'region') {{
+            const r = card.dataset.continent || 'Other';
+            if (r !== lastRegion) {{
+                const h = document.createElement('h3');
+                h.className = 'group-heading';
+                h.textContent = r;
+                frag.appendChild(h);
+                lastRegion = r;
+            }}
+        }}
+        frag.appendChild(card);
+    }});
+    // Hidden cards stay in DOM but at the end (style display:none)
+    cards.filter(c => c.style.display === 'none').forEach(c => frag.appendChild(c));
+
+    // Empty state
+    list.querySelectorAll('.empty-state').forEach(e => e.remove());
+    if (visible.length === 0) {{
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.innerHTML = '<h3>No countries match those filters</h3><p>Try removing a filter or clearing the search.</p><button type="button" onclick="clearFilters()">Clear filters</button>';
+        frag.appendChild(empty);
+    }}
+
+    list.replaceChildren(frag);
 }}
+
+function clearFilters() {{
+    state.query = '';
+    state.filters.clear();
+    state.levelFilter = null;
+    document.getElementById('countrySearch').value = '';
+    document.getElementById('sortSelect').value = 'content-desc';
+    document.querySelectorAll('.filter-chip.active').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.legend-chip.active').forEach(c => c.classList.remove('active'));
+    applyFilters();
+}}
+
+// Wire up filter chips
+document.querySelectorAll('.filter-chip').forEach(chip => {{
+    chip.addEventListener('click', () => {{
+        const f = chip.dataset.filter;
+        if (state.filters.has(f)) {{ state.filters.delete(f); chip.classList.remove('active'); }}
+        else {{ state.filters.add(f); chip.classList.add('active'); }}
+        applyFilters();
+    }});
+}});
+
+// Wire up legend chips (advisory level filter)
+document.querySelectorAll('.legend-chip').forEach(chip => {{
+    chip.addEventListener('click', () => {{
+        const lvl = parseInt(chip.dataset.level, 10);
+        if (state.levelFilter === lvl) {{
+            state.levelFilter = null;
+            chip.classList.remove('active');
+        }} else {{
+            state.levelFilter = lvl;
+            document.querySelectorAll('.legend-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+        }}
+        applyFilters();
+    }});
+}});
+
+// Hover a card → highlight on map
+document.querySelectorAll('.country-card').forEach(card => {{
+    card.addEventListener('mouseenter', () => {{
+        const name = card.dataset.name;
+        const entry = countryLayers[name];
+        if (entry && entry.layer && entry.layer.setStyle) {{
+            entry.layer.setStyle({{weight:2, color:'#2D3A5C', fillOpacity:0.9}});
+        }}
+    }});
+    card.addEventListener('mouseleave', () => {{
+        const name = card.dataset.name;
+        const entry = countryLayers[name];
+        if (entry && entry.layer && entry.layer.setStyle) {{
+            const l = entry.level;
+            entry.layer.setStyle({{weight:0.8, color:'#fff', fillOpacity: l===4?0.7:l===3?0.55:l?0.4:0.15}});
+        }}
+    }});
+}});
+
+// Initial sort/filter pass
+applyFilters();
 </script>
 </body>
 </html>"""
@@ -1595,10 +1991,16 @@ def main():
             f.write(html)
 
         generated += 1
+        adv = ADVISORY_DATA.get(name) or {}
         all_countries_data.append({
             "name": name,
             "slug": slug,
             "flag": flag,
+            "iso2": iso2,
+            "continent": continent,
+            "advisory_level": adv.get("level", 0),
+            "advisory_label": adv.get("lt", ""),
+            "hero_image": _get_country_hero_image(name, slug),
             **stats,
         })
 
