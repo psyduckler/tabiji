@@ -4,6 +4,18 @@ output/
 tmp-*/
 *.tmp
 
+# macOS Finder duplicates (e.g. "file 2.json", "file 3.py")
+*\ [0-9].*
+*\ [0-9]
+*\ [0-9][0-9].*
+*\ [0-9][0-9]
+# Tracked files that happen to have a numbered suffix (not Finder dups)
+!scripts/batch-ux-upgrade\ 4.py
+
+# Large research data dumps (regenerable from semrush_*_research.py)
+scripts/barcelona-research/
+scripts/kyoto-research/
+
 # ALL binary media served from img.tabiji.ai (Cloudflare R2)
 *.jpg
 *.jpeg
@@ -17,6 +29,14 @@ logs/
 scripts/fulfill-order_*.js
 functions/run-*.js
 
+# Untracked root-level scripts (use scripts/ dir instead)
+/semrush-*.py
+
+# Claude Code local config
+.claude/launch.json
+.claude/settings.local.json
+
 # generated local preview artifacts
 tmp/popular-picks/
 tmp/geonames/
+api/v1/catalog/places.json

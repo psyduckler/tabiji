@@ -122,7 +122,7 @@ def slug_to_names(slug):
 def generate_compare_content(slug, dest1, dest2):
     """Use Gemini to generate compare page content."""
     api_key = subprocess.run(
-        ['security', 'find-generic-password', '-s', 'google-api-key', '-w'],
+        ['security', 'find-generic-password', '-s', 'gemini-api-key', '-w'],
         capture_output=True, text=True
     ).stdout.strip()
     
@@ -134,6 +134,14 @@ def generate_compare_content(slug, dest1, dest2):
 Generate a comprehensive, opinionated comparison with REAL travel data. Be specific with costs, distances, flight times.
 Write like a well-traveled friend giving honest advice — not generic AI filler.
 
+BANNED WORDS AND PHRASES — do NOT use any of these:
+- "vibrant", "bustling", "unforgettable", "hidden gem", "rich tapestry"
+- "unique blend", "something for everyone", "whether you're", "no matter what"
+- "a feast for the senses", "steeped in history", "melting pot", "picture-perfect"
+- "world-class", "must-visit", "breathtaking", "stunning", "enchanting"
+- "seamlessly blends", "offers something", "it depends on your preferences"
+Instead: use specific, concrete language. Say what IS there, not how it FEELS.
+
 Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 
 {{
@@ -141,10 +149,11 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
   "heroBadge": "🆚 Comparison — [Region/Country]",
   "heroSources": "Relevant subreddits (e.g. r/travel, r/solotravel, r/[country]Travel)",
   "heroDataTypes": "Real traveler costs, flight routes, local insights",
-  "verdictSummary": "2-3 sentences: who should pick which, with a rough daily budget range",
+  "metaDescription": "Write a unique, specific meta description for this comparison (max 155 chars). Include at least one specific number (budget, flight time, or price). Example: 'Paris vs New York compared: $80-150/day vs $120-200/day, 7h direct flights, café culture vs skyscraper energy. Honest picks.'",
+  "verdictSummary": "2-3 sentences: who should pick which, with a rough daily budget range. Be opinionated — pick a side for most travelers.",
   "verdictTakeaways": [
-    {{"choose": "{dest1}", "reason": "Who and why"}},
-    {{"choose": "{dest2}", "reason": "Who and why"}},
+    {{"choose": "{dest1}", "reason": "Who and why — be specific about traveler type"}},
+    {{"choose": "{dest2}", "reason": "Who and why — be specific about traveler type"}},
     {{"choose": "Both", "reason": "When/why to do both and how long"}}
   ],
   "comparisonCategories": [
@@ -155,15 +164,19 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
       "dest1Summary": "Key points for {dest1}",
       "dest2Summary": "Key points for {dest2}",
       "winner": "{dest1}" or "{dest2}" or "Tie",
-      "deepDive": "One detailed paragraph (600-1200 chars) comparing this category with specific names, prices, tips. Include one realistic Reddit-style quote in double quotes.",
+      "deepDive": "Two paragraphs joined by \\n\\n. Para 1: dest1 specifics (places, prices, tips). Para 2: dest2 specifics. End with tabiji verdict: one opinionated sentence. Total 1000-1800 chars. CRITICAL: use \\n\\n between paragraphs, never literal newlines. Avoid apostrophes and special quotes.",
       "winnerWhy": "One sentence on why this destination wins this category",
       "winnerWhoMatters": "Who this matters most for"
     }}
   ],
+  "decisionFramework": {{
+    "dest1Reasons": ["7-9 specific, concrete reasons to choose {dest1} — e.g. 'You want $2 street tacos at 2am'"],
+    "dest2Reasons": ["7-9 specific, concrete reasons to choose {dest2} — e.g. 'You want temples and 6am monks' alms ceremonies'"]
+  }},
   "faqItems": [
     {{
       "question": "Natural question travelers ask about {dest1} vs {dest2}",
-      "answer": "Detailed, helpful answer (2-4 sentences)"
+      "answer": "Detailed, helpful answer (2-4 sentences) with specific numbers"
     }}
   ],
   "ctaText": "Ready to plan your [region] trip?",
@@ -180,11 +193,12 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 Requirements:
 - EXACTLY 10 comparison categories (pick the most relevant from: beaches, food, nightlife, culture, costs, getting there, getting around, accommodation, day trips, weather/seasons, safety, nature, shopping, families, digital nomads, solo travel, etc.)
 - EXACTLY 8 FAQ items
-- Each deepDive must be 600-1200 chars with specific place names, prices, and at least one Reddit-style quote
+- Each deepDive must be 1000-1800 chars (two paragraphs + verdict) with specific place names, prices in local currency AND USD. Use \\n\\n between paragraphs in the JSON string.
 - Be opinionated — pick real winners, don't hedge everything as "Tie"
-- Use real price ranges in local currency AND USD
 - Include specific restaurant/hotel/attraction names where relevant
-- Reddit quotes should feel authentic (short, casual, specific)
+- decisionFramework: 7-9 bullet points per destination, each concrete and specific
+- metaDescription: max 155 chars, include at least one number
+- ZERO banned words/phrases — every single one will be flagged and rejected
 """
 
     import urllib.request
@@ -231,6 +245,184 @@ Requirements:
                 raise
 
 
+def generate_rich_content(slug, dest1, dest2, base_content):
+    """Second Gemini call for rich structured data: cost table, weather, itineraries, quick answers, scorecard."""
+    api_key = subprocess.run(
+        ['security', 'find-generic-password', '-s', 'gemini-api-key', '-w'],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+    # Extract category winners for scorecard
+    categories_info = ""
+    for cat in base_content.get('comparisonCategories', []):
+        categories_info += f"- {cat['name']}: winner={cat['winner']}\n"
+
+    prompt = f"""You are generating structured travel data for a {dest1} vs {dest2} comparison page on tabiji.ai.
+
+Based on these comparison categories and winners:
+{categories_info}
+
+Generate ALL of the following as valid JSON. Be specific with real prices, temperatures, and place names.
+
+BANNED: "vibrant", "bustling", "unforgettable", "hidden gem", "rich tapestry", "unique blend", "something for everyone", "world-class", "must-visit", "breathtaking"
+
+{{
+  "quickAnswers": [
+    {{
+      "question": "Which is cheaper?",
+      "answer": "Short specific answer with numbers (1-2 sentences)",
+      "winner": "{dest1}" or "{dest2}" or "Tie",
+      "linkId": "kebab-case-section-id"
+    }}
+  ],
+  "costTable": {{
+    "items": [
+      {{"label": "🛏️ Hostel dorm", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🏨 Budget hotel", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🍽️ Meal (mid-range)", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🍺 Beer/drink", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "🚇 Local transport", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "☕ Coffee", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}},
+      {{"label": "📊 Daily total (mid-range)", "dest1Price": "$X–Y", "dest2Price": "$X–Y"}}
+    ],
+    "savingsSummary": "Which city saves how much per day and over a 5-day trip"
+  }},
+  "weatherData": [
+    {{"month": "Jan", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Feb", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Mar", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Apr", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "May", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Jun", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Jul", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Aug", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "avoid"}},
+    {{"month": "Sep", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Oct", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": "best"}},
+    {{"month": "Nov", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}},
+    {{"month": "Dec", "dest1Temp": "X°", "dest2Temp": "Y°", "flag": ""}}
+  ],
+  "itineraries": [
+    {{
+      "tabLabel": "3 Days in {dest1}",
+      "title": "Weekend in {dest1} (3 Days)",
+      "days": [
+        {{"dayNum": "Day 1", "desc": "Specific activities with costs and tips (2-3 sentences)"}},
+        {{"dayNum": "Day 2", "desc": "Specific activities with costs and tips (2-3 sentences)"}},
+        {{"dayNum": "Day 3", "desc": "Specific activities with costs and tips (2-3 sentences)"}}
+      ],
+      "tip": "One insider tip with a specific cost or time-saving hack"
+    }},
+    {{
+      "tabLabel": "3 Days in {dest2}",
+      "title": "Weekend in {dest2} (3 Days)",
+      "days": [
+        {{"dayNum": "Day 1", "desc": "..."}},
+        {{"dayNum": "Day 2", "desc": "..."}},
+        {{"dayNum": "Day 3", "desc": "..."}}
+      ],
+      "tip": "..."
+    }},
+    {{
+      "tabLabel": "7 Days in {dest1}",
+      "title": "One Week in {dest1} (7 Days)",
+      "days": [
+        {{"dayNum": "Days 1–2", "desc": "..."}},
+        {{"dayNum": "Days 3–4", "desc": "..."}},
+        {{"dayNum": "Days 5–6", "desc": "..."}},
+        {{"dayNum": "Day 7", "desc": "..."}}
+      ],
+      "tip": "..."
+    }},
+    {{
+      "tabLabel": "7 Days in {dest2}",
+      "title": "One Week in {dest2} (7 Days)",
+      "days": [
+        {{"dayNum": "Days 1–2", "desc": "..."}},
+        {{"dayNum": "Days 3–4", "desc": "..."}},
+        {{"dayNum": "Days 5–6", "desc": "..."}},
+        {{"dayNum": "Day 7", "desc": "..."}}
+      ],
+      "tip": "..."
+    }}
+  ],
+  "scorecardRows": [
+    {{"emoji": "💰", "label": "Budget", "dest1Pct": 80, "dest2Pct": 60, "winner": "{dest1}" or "{dest2}" or "Tie"}}
+  ],
+  "dest1Score": 0,
+  "dest2Score": 0,
+  "tieCount": 0,
+  "personalizeRecommendations": {{
+    "solo_backpacker_food": "For a <strong>solo backpacker into food</strong>, pick <strong>[winner]</strong>. [1 sentence with specific place and price].",
+    "solo_midrange_culture": "...",
+    "solo_midrange_beaches": "...",
+    "couple_midrange_food": "...",
+    "couple_midrange_culture": "...",
+    "couple_midrange_beaches": "...",
+    "couple_luxury_food": "...",
+    "family_midrange_food": "...",
+    "family_midrange_beaches": "...",
+    "friends_midrange_nightlife": "...",
+    "friends_midrange_food": "...",
+    "friends_backpacker_nightlife": "..."
+  }},
+  "relatedComparisons": [
+    {{
+      "slug": "similar-comparison-slug",
+      "title": "City A vs City B",
+      "desc": "One sentence description"
+    }}
+  ],
+  "sectionPhotoQueries": [
+    {{"sectionIndex": 0, "dest1Query": "[dest1] [topic] travel photo", "dest2Query": "[dest2] [topic] travel photo"}}
+  ]
+}}
+
+Requirements:
+- quickAnswers: exactly 6 items covering cost, food, safety, culture, weather, and one unique category
+- costTable: 7 items including daily total. Use USD prices. Be realistic.
+- weatherData: 12 months. Use average high temps in °C. Mark 2-3 months as "best", 1-2 as "avoid"
+- itineraries: 4 total (3-day + 7-day for each destination). Each day description should mention specific places, costs, and tips.
+- scorecardRows: One row per comparison category from the base content. dest1Pct/dest2Pct are 0-100 showing relative strength (winner gets 70-90, loser gets 40-60, ties get similar numbers)
+- dest1Score/dest2Score/tieCount: count of category wins for each destination
+- relatedComparisons: 3 items with slugs of real travel comparisons that would interest the same audience
+- personalizeRecommendations: 12 entries covering key combos. Each 1 sentence with a specific place/price. Use <strong> tags. Always pick a winner.
+- sectionPhotoQueries: One entry per comparison category. dest1Query and dest2Query should be specific Google Images search queries for each destination's version of that category topic (e.g., "Madrid tapas bar food" and "Barcelona paella restaurant food").
+- All prices in USD
+"""
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    body = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.8,
+            "maxOutputTokens": 8192,
+            "responseMimeType": "application/json"
+        }
+    })
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, data=body.encode(), headers={"Content-Type": "application/json"})
+            resp = urllib.request.urlopen(req, timeout=120)
+            result = json.loads(resp.read())
+            text = result['candidates'][0]['content']['parts'][0]['text']
+            text = re.sub(r'^```json\s*', '', text.strip())
+            text = re.sub(r'\s*```$', '', text.strip())
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                fixed = re.sub(r'[\x00-\x1f](?!["\\bfnrt/])', ' ', text)
+                return json.loads(fixed)
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"  Rich content retry {attempt+1} for {slug}: {e}")
+                time.sleep(2 + attempt * 2)
+            else:
+                print(f"  ⚠️ Rich content generation failed (non-fatal): {e}")
+                return None
+
+
 def build_compare_json(slug, content_data):
     """Build the full compare-data JSON from generated content."""
     dest1, dest2 = slug_to_names(slug)
@@ -244,7 +436,7 @@ def build_compare_json(slug, content_data):
     # Build title
     title = f"{dest1} vs {dest2}: Which Should You Visit? (2026 Comparison) | tabiji.ai"
     short_title = f"{dest1} vs {dest2}: Which Should You Visit?"
-    meta_desc = f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip."
+    meta_desc = d.get('metaDescription', f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip.")
     
     canonical = f"https://tabiji.ai/compare/{slug}/"
     og_image = f"https://img.tabiji.ai/compare/{slug}/hero.jpg"
@@ -257,8 +449,9 @@ def build_compare_json(slug, content_data):
     ]
     for cat in d['comparisonCategories']:
         toc_items.append({"href": f"#{cat['id']}", "label": f"{cat['emoji']} {cat['name']}"})
+    toc_items.append({"href": "#the-decision-framework", "label": "🎯 Decision Framework"})
     toc_items.append({"href": "#faq", "label": "❓ FAQ"})
-    
+
     # Build TOC mobile HTML
     toc_links = "\n".join(f'<a href="{t["href"]}">{t["label"]}</a>' for t in toc_items)
     toc_mobile_html = f'''<div class="toc-mobile" id="toc-mobile" onclick="this.classList.toggle('open')">
@@ -370,6 +563,31 @@ def build_compare_json(slug, content_data):
 </section>'''
         deep_dive_html.append(section)
     
+    # Decision Framework HTML
+    df = d.get('decisionFramework', {})
+    dest1_reasons = df.get('dest1Reasons', [f"You want the {dest1} experience"])
+    dest2_reasons = df.get('dest2Reasons', [f"You want the {dest2} experience"])
+    dest1_li = "\n".join(f"<li>{html_module.escape(r)}</li>" for r in dest1_reasons)
+    dest2_li = "\n".join(f"<li>{html_module.escape(r)}</li>" for r in dest2_reasons)
+    decision_framework_html = f'''<section class="deep-dive">
+<h2 id="the-decision-framework">🎯 The Decision Framework</h2>
+<div class="decision-grid">
+<div class="decision-card dest1-card">
+<h3>Choose {dest1} If…</h3>
+<ul>
+{dest1_li}
+</ul>
+</div>
+<div class="decision-card dest2-card">
+<h3>Choose {dest2} If…</h3>
+<ul>
+{dest2_li}
+</ul>
+</div>
+</div>
+</section>'''
+    deep_dive_html.append(decision_framework_html)
+
     # FAQ HTML
     faq_items_html = "\n".join(f'''<div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
 <h3 itemprop="name">{html_module.escape(faq["question"])}</h3>
@@ -473,9 +691,10 @@ def build_compare_json(slug, content_data):
             "faqHtml": faq_html,
             "faqItems": [{"question": f["question"], "answer": f["answer"]} for f in d['faqItems']],
             "ctaHtml": cta_html
-        }
+        },
+        "richContent": content_data.get("_richContent", {})
     }
-    
+
     return full_json
 
 
@@ -556,7 +775,7 @@ def _get_serpapi_key():
 
 def _get_r2_token():
     return subprocess.run(
-        ['security', 'find-generic-password', '-s', 'cloudflare-pages-token', '-w'],
+        ['security', 'find-generic-password', '-s', 'cloudflare-api-token', '-w'],
         capture_output=True, text=True
     ).stdout.strip()
 
@@ -674,7 +893,17 @@ def process_slug(slug):
     except Exception as e:
         print(f"  ❌ Failed to generate content for {slug}: {e}")
         return False
-    
+
+    # Generate rich structured data (cost table, weather, itineraries, etc.)
+    print(f"  Generating rich structured data...")
+    rich = generate_rich_content(slug, dest1, dest2, content)
+    if rich:
+        content['_richContent'] = rich
+        print(f"  ✅ Rich content generated")
+    else:
+        content['_richContent'] = {}
+        print(f"  ⚠️ Rich content skipped (will use basic template)")
+
     # Build full JSON
     try:
         compare_json = build_compare_json(slug, content)

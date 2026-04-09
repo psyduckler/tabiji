@@ -250,16 +250,13 @@ HEAD_TEMPLATE = """<!DOCTYPE html>
             <div class=\"nav-dropdown-menu\">
                 <a href=\"/compare/\">🆚 Compare Destinations</a>
                 <a href=\"/find/\">🔍 Destination Finder</a>
-                <a href=\"/spin/\">🌎 Spin the Globe</a>
                 <a href=\"/resources/\">📚 Resources</a>
-                <a href=\"/owl/\">🧭 Tabiji Travel Agency</a>
-                <a href=\"/trends/\">📊 Travel Trends</a>
                 <a href=\"/alerts/\">🚨 Travel Alerts</a>
                 <a href=\"/api/\">🔌 API</a>
             </div>
         </div>
         <a href=\"/popular-picks/\">Popular Picks</a>
-        <a href=\"/itineraries/\">Itineraries</a>
+        <a href="/countries/">Country Guides</a>
         <a href=\"/about/\">About</a>
         <a href=\"/plan\" class=\"cta-nav\">Get a Free Itinerary</a>
     </div>

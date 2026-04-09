@@ -277,7 +277,8 @@ def render_quick_answer_block(meta, picks):
             f'''<div class="quick-answer-card">\n                <div class="quick-answer-label">{card['label']}</div>\n                <div class="quick-answer-pick">{format_quick_pick(card['pick'])}</div>\n                <p>{card['reason']}</p>\n            </div>'''
         )
 
-    return f'''<section class="quick-answer-block">\n    <div class="quick-answer-header">⚡ Quick answer</div>\n    <p class="quick-answer-kicker">If you're deciding fast, use these picks instead of reading the whole list top-to-bottom.</p>\n    <div class="quick-answer-grid">\n        {'\n        '.join(card_html)}\n    </div>\n</section>'''
+    joiner = '\n        '
+    return f'''<section class="quick-answer-block">\n    <div class="quick-answer-header">⚡ Quick answer</div>\n    <p class="quick-answer-kicker">If you're deciding fast, use these picks instead of reading the whole list top-to-bottom.</p>\n    <div class="quick-answer-grid">\n        {joiner.join(card_html)}\n    </div>\n</section>'''
 
 
 def build_agent_brief_jsonld(meta, picks):

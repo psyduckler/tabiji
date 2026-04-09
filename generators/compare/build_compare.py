@@ -272,70 +272,332 @@ def render_page(data: Dict) -> str:
     schema = data["schema"]
     shell = data["shell"]
     content = data["content"]
+    rich = data.get("richContent", {})
+    dest1 = data["destinations"]["destination1"]
+    dest2 = data["destinations"]["destination2"]
+    slug = data["slug"]
+    d1slug = dest1.lower().replace(' ', '-')
+    d2slug = dest2.lower().replace(' ', '-')
+
+    # ── Score ticker ──
+    d1_score = rich.get("dest1Score", 0)
+    d2_score = rich.get("dest2Score", 0)
+    tie_count = rich.get("tieCount", 0)
+    score_ticker_html = f'''<div class="score-ticker" id="score-ticker">
+<span><span class="score-label score-dest1">{html.escape(dest1)} {d1_score}</span> <span class="score-divider">&mdash;</span> <span class="score-label score-dest2">{d2_score} {html.escape(dest2)}</span></span>
+<span class="score-divider">|</span>
+<span class="score-section" id="ticker-section">{tie_count} ties</span>
+</div>''' if d1_score or d2_score else ""
+
+    # ── Quick answers ──
+    qa_html = ""
+    qa_items = rich.get("quickAnswers", [])
+    if qa_items:
+        qa_cards = ""
+        for qa in qa_items[:6]:
+            winner_raw = qa.get("winner", "Tie")
+            if winner_raw == dest1:
+                wcls = "dest1"
+            elif winner_raw == dest2:
+                wcls = "dest2"
+            else:
+                wcls = "tie"
+            link_id = qa.get("linkId", "")
+            href = f'href="#{html.escape(link_id)}"' if link_id else ""
+            qa_cards += f'''<a class="qa-card" {href}>
+<div class="qa-q">{html.escape(qa.get("question",""))}</div>
+<div class="qa-a">{html.escape(qa.get("answer",""))}</div>
+<span class="qa-winner {wcls}">{html.escape(winner_raw)} wins</span>
+</a>\n'''
+        qa_html = f'<div class="quick-answers" id="quick-answers"><h2>&#9889; Quick Answers</h2><div class="qa-grid">{qa_cards}</div></div>'
+
+    # ── Visual scorecard ──
+    sc_html = ""
+    sc_rows = rich.get("scorecardRows", [])
+    if sc_rows:
+        rows_html = ""
+        for row in sc_rows:
+            w = row.get("winner", "Tie")
+            if w == dest1:
+                wcls = "dest1"
+            elif w == dest2:
+                wcls = "dest2"
+            else:
+                wcls = "tie"
+            rows_html += f'''<div class="sc-row">
+<span class="sc-cat">{html.escape(row.get("emoji",""))} {html.escape(row.get("label",""))}</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:{row.get("dest1Pct",50)}%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:{row.get("dest2Pct",50)}%"></span></span></span>
+<span class="sc-winner {wcls}">{html.escape(w)}</span>
+</div>\n'''
+        sc_html = f'''<div class="scorecard" id="scorecard">
+<h2>&#128202; Visual Scorecard</h2>
+<div class="scorecard-overall">
+<div class="scorecard-city dest1"><div class="city-name">{html.escape(dest1)}</div><div class="city-score">{d1_score}</div></div>
+<div class="scorecard-vs">vs</div>
+<div class="scorecard-city dest2"><div class="city-name">{html.escape(dest2)}</div><div class="city-score">{d2_score}</div></div>
+</div>
+<div class="scorecard-rows">{rows_html}</div>
+</div>'''
+
+    # ── Cost widget ──
+    cost_html = ""
+    cost_data = rich.get("costTable", {})
+    if cost_data.get("items"):
+        rows = ""
+        for item in cost_data["items"]:
+            rows += f'<tr><td>{html.escape(item.get("label",""))}</td><td>{html.escape(item.get("dest1Price",""))}</td><td>{html.escape(item.get("dest2Price",""))}</td></tr>\n'
+        savings = cost_data.get("savingsSummary", "")
+        savings_html = f'<div class="cost-savings">&#127942; {html.escape(savings)}</div>' if savings else ""
+        cost_html = f'''<div class="cost-widget" id="cost-widget">
+<h2>&#128176; Daily Cost Comparison</h2>
+<table class="cost-table"><thead><tr><th>Expense</th><th>{html.escape(dest1)}</th><th>{html.escape(dest2)}</th></tr></thead>
+<tbody>{rows}</tbody></table>
+{savings_html}</div>'''
+
+    # ── Weather chart ──
+    weather_html = ""
+    weather_data = rich.get("weatherData", [])
+    if weather_data:
+        months_html = ""
+        for m in weather_data:
+            flag = m.get("flag", "")
+            cls = f' {flag}' if flag in ("best", "avoid") else ""
+            months_html += f'<div class="weather-month{cls}"><div class="wm-label">{html.escape(m.get("month",""))}</div><div class="wm-temps"><div class="wm-dest1">{html.escape(m.get("dest1Temp",""))}</div><div class="wm-dest2">{html.escape(m.get("dest2Temp",""))}</div></div></div>\n'
+        weather_html = f'''<div class="weather-chart" id="weather-chart">
+<h2>&#127780; When to Visit</h2>
+<p class="weather-note">Average high temperatures (&deg;C). <span style="color:var(--sage)">Green</span> = best months, <span style="color:var(--terracotta)">orange</span> = avoid.</p>
+<div class="weather-months">{months_html}</div>
+<div class="weather-legend"><span><span class="legend-dot dest1"></span> {html.escape(dest1)}</span><span><span class="legend-dot dest2"></span> {html.escape(dest2)}</span><span><span class="legend-dot best"></span> Best months</span></div>
+</div>'''
+
+    # ── Itineraries ──
+    itin_html = ""
+    itins = rich.get("itineraries", [])
+    if itins:
+        tabs_html = ""
+        panels_html = ""
+        for i, itin in enumerate(itins):
+            active = " active" if i == 0 else ""
+            tabs_html += f'<button class="ux-itin-tab{active}" data-panel="itin-{i}">{html.escape(itin.get("tabLabel",""))}</button>\n'
+            days_html = ""
+            for day in itin.get("days", []):
+                days_html += f'<div class="ux-itin-day"><span class="day-num">{html.escape(day.get("dayNum",""))}</span><span class="day-desc">{html.escape(day.get("desc",""))}</span></div>\n'
+            tip = itin.get("tip", "")
+            tip_html = f'<p class="ux-itin-tip">&#128161; {html.escape(tip)}</p>' if tip else ""
+            panels_html += f'<div class="ux-itin-panel{active}" id="itin-{i}"><div class="ux-itin-card"><h3>{html.escape(itin.get("title",""))}</h3>{days_html}{tip_html}</div></div>\n'
+        itin_html = f'<div class="ux-itineraries" id="sample-itineraries"><h2>&#128197; Sample Itineraries</h2><div class="ux-itin-tabs">{tabs_html}</div>{panels_html}</div>'
+
+    # ── Deep dives (collapsible) ──
+    deep_dives_html = ""
+    for i, dd_raw in enumerate(content.get("deepDiveHtml", [])):
+        # Extract title, determine if it's the decision framework
+        title_match = re.search(r'<h2[^>]*id="([^"]*)"[^>]*>(.*?)</h2>', dd_raw, re.S)
+        if not title_match:
+            title_match = re.search(r'<h2[^>]*>(.*?)</h2>', dd_raw, re.S)
+
+        section_id = title_match.group(1) if title_match and title_match.lastindex >= 1 else f"section-{i}"
+
+        # Check if this is the decision framework (keep it open)
+        is_decision = "decision-framework" in dd_raw or "decision_framework" in section_id or "the-decision-framework" in dd_raw
+        open_class = " open" if (i == 0 or is_decision) else ""
+
+        # Extract winner from section-winner block
+        winner_match = re.search(r'<strong>Winner:</strong>\s*(\w[\w\s]*)', dd_raw)
+        winner_text = winner_match.group(1).strip() if winner_match else "—"
+        if winner_text == dest1:
+            badge_cls = "dest1"
+        elif winner_text == dest2:
+            badge_cls = "dest2"
+        else:
+            badge_cls = "tie"
+
+        # Extract summary (first <p> tag content, truncated)
+        summary_match = re.search(r'<p>(.*?)</p>', dd_raw, re.S)
+        summary_text = ""
+        if summary_match:
+            raw = re.sub(r'<[^>]+>', '', summary_match.group(1))
+            summary_text = html.unescape(raw)[:180].rsplit(' ', 1)[0] + "…" if len(raw) > 180 else html.unescape(raw)
+
+        # Get the full section title HTML
+        full_title = title_match.group(0) if title_match else ""
+
+        # Get body content (everything after the first h2)
+        h2_end = dd_raw.find('</h2>')
+        body_content = dd_raw[h2_end+5:] if h2_end != -1 else dd_raw
+        # Remove wrapping <section> tags
+        body_content = re.sub(r'^<section[^>]*>', '', body_content)
+        body_content = re.sub(r'</section>\s*$', '', body_content)
+
+        badge_html = f'<span class="dd-winner-badge {badge_cls}">{html.escape(winner_text)}</span>' if not is_decision else ""
+
+        # data-winner attribute for CSS hooks
+        dw_attr = f' data-winner="{badge_cls}"' if not is_decision else ' data-winner="depends"'
+
+        # Photo pair for this section
+        photo_pair_html = ""
+        if not is_decision and i < 5:  # First 5 deep-dives get photo pairs
+            # Use section-specific images if available, else fall back to dest images
+            d1_img = f"https://img.tabiji.ai/compare/{slug}/section-{i+1}-dest1.jpg"
+            d2_img = f"https://img.tabiji.ai/compare/{slug}/section-{i+1}-dest2.jpg"
+            d1_fallback = f"https://img.tabiji.ai/compare/{slug}/dest1.jpg"
+            d2_fallback = f"https://img.tabiji.ai/compare/{slug}/dest2.jpg"
+            # Extract section title for alt text
+            sec_title = re.sub(r'<[^>]+>', '', full_title).strip() if full_title else f"Section {i+1}"
+            sec_title = re.sub(r'^[\U00010000-\U0010ffff\u2600-\u27bf\u2702-\u27b0]+\s*', '', sec_title).strip()
+            photo_pair_html = f'''<div class="photo-pair">
+<div><img src="{d1_img}" alt="{html.escape(dest1)} — {html.escape(sec_title)}" loading="lazy" onerror="this.src='{d1_fallback}'"><p class="photo-caption">{html.escape(dest1)}</p></div>
+<div><img src="{d2_img}" alt="{html.escape(dest2)} — {html.escape(sec_title)}" loading="lazy" onerror="this.src='{d2_fallback}'"><p class="photo-caption">{html.escape(dest2)}</p></div>
+</div>'''
+
+        # Convert section-winner to tabiji-verdict if present
+        body_content = body_content.replace(
+            '<div class="section-winner"><h3>Winner takeaway</h3>',
+            '<div class="tabiji-verdict"><strong>tabiji verdict:</strong> '
+        )
+        # Close the tabiji-verdict properly
+        body_content = re.sub(
+            r'</ul>\s*</div>\s*$', '</ul></div>',
+            body_content
+        )
+
+        deep_dives_html += f'''<section class="deep-dive{open_class}"{dw_attr} id="sec-{section_id}">
+<div class="dd-header" onclick="toggleSection(this.parentElement)">
+{full_title}
+<div class="dd-header-meta">
+{badge_html}
+<span class="dd-toggle">&#9662;</span>
+</div>
+</div>
+<p class="dd-summary">{html.escape(summary_text)}</p>
+<div class="dd-body"><div class="dd-content">
+{photo_pair_html}
+{body_content}
+</div></div>
+</section>\n'''
+
+    # ── Personalization widget ──
+    personalize_html = ""
+    recs = rich.get("personalizeRecommendations", {})
+    if recs:
+        fallbacks_js = json.dumps({
+            "food": f"For <strong>food lovers</strong>, compare the food sections below for {html.escape(dest1)} vs {html.escape(dest2)}.",
+            "culture": f"For <strong>culture seekers</strong>, both offer rich experiences — scroll to the culture section for specifics.",
+            "beaches": f"If <strong>beaches</strong> matter, check the beaches section for a detailed comparison.",
+            "nightlife": f"For <strong>nightlife</strong>, see the nightlife section for specific venue recommendations.",
+        }, ensure_ascii=False)
+        recs_js = json.dumps(recs, ensure_ascii=False)
+        personalize_html = f'''<div class="personalize-widget" id="personalize">
+<h2>&#127919; Tell me about your trip</h2>
+<div class="personalize-row"><label>Traveling&hellip;</label><div class="pill-group" data-group="style">
+<button class="personalize-pill" data-val="solo" onclick="selectPill(this)">Solo</button>
+<button class="personalize-pill" data-val="couple" onclick="selectPill(this)">Couple</button>
+<button class="personalize-pill" data-val="family" onclick="selectPill(this)">Family</button>
+<button class="personalize-pill" data-val="friends" onclick="selectPill(this)">Friends</button>
+</div></div>
+<div class="personalize-row"><label>Budget&hellip;</label><div class="pill-group" data-group="budget">
+<button class="personalize-pill" data-val="backpacker" onclick="selectPill(this)">Backpacker</button>
+<button class="personalize-pill" data-val="midrange" onclick="selectPill(this)">Mid-range</button>
+<button class="personalize-pill" data-val="luxury" onclick="selectPill(this)">Luxury</button>
+</div></div>
+<div class="personalize-row"><label>I care about&hellip;</label><div class="pill-group" data-group="priority">
+<button class="personalize-pill" data-val="food" onclick="selectPill(this)">Food</button>
+<button class="personalize-pill" data-val="culture" onclick="selectPill(this)">Culture</button>
+<button class="personalize-pill" data-val="beaches" onclick="selectPill(this)">Beaches</button>
+<button class="personalize-pill" data-val="nightlife" onclick="selectPill(this)">Nightlife</button>
+</div></div>
+<div class="personalize-result" id="personalize-result"></div>
+</div>
+<script>
+var personState={{}};
+var recommendations={recs_js};
+var fallbacks={fallbacks_js};
+function selectPill(btn){{var g=btn.parentElement.getAttribute('data-group');btn.parentElement.querySelectorAll('.personalize-pill').forEach(function(p){{p.classList.remove('selected')}});btn.classList.add('selected');personState[g]=btn.getAttribute('data-val');showRecommendation()}}
+function showRecommendation(){{var s=personState;if(!s.style||!s.budget||!s.priority)return;var key=s.style+'_'+s.budget+'_'+s.priority;var result=document.getElementById('personalize-result');var text=recommendations[key]||fallbacks[s.priority]||'Both destinations are excellent. Scroll down to compare specific categories.';result.innerHTML=text;result.classList.add('visible')}}
+</script>'''
+
+    # ── Related comparisons ──
+    related_html = ""
+    related = rich.get("relatedComparisons", [])
+    if related:
+        cards = ""
+        for r in related[:3]:
+            rslug = r.get("slug", "")
+            cards += f'''<a class="also-card" href="/compare/{html.escape(rslug)}/">
+<div class="also-card-body"><div class="also-card-title">{html.escape(r.get("title",""))}</div><div class="also-card-desc">{html.escape(r.get("desc",""))}</div></div></a>\n'''
+        related_html = f'<div class="also-compared" id="also-compared"><h2>&#128101; Travelers Also Compared</h2><div class="also-grid">{cards}</div></div>'
+
     return f"""<!DOCTYPE html>
 
-<html lang=\"en\">
+<html lang="en">
 <head>
-<meta charset=\"utf-8\"/>
-<meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/>
-<script async=\"\" src=\"https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ\"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){{dataLayer.push(arguments);}}
     gtag('js', new Date());
     gtag('config', 'G-D7QHNRXLHJ');
     </script>
-<link href=\"/favicon.ico\" rel=\"icon\" type=\"image/x-icon\"/>
-<link href=\"https://img.tabiji.ai/apple-touch-icon.png\" rel=\"apple-touch-icon\" sizes=\"180x180\"/>
-<link href=\"https://img.tabiji.ai/icon-192.png\" rel=\"icon\" sizes=\"192x192\" type=\"image/png\"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="https://img.tabiji.ai/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="https://img.tabiji.ai/icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
 <title>{seo['title']}</title>
-<meta content=\"{seo['metaDescription']}\" name=\"description\"/>
-<meta content=\"{seo['ogTitle']}\" property=\"og:title\"/>
-<meta content=\"{seo['ogDescription']}\" property=\"og:description\"/>
-<meta content=\"article\" property=\"og:type\"/>
-<meta content=\"{seo['canonical']}\" property=\"og:url\"/>
-<meta content=\"{seo['ogImage']}\" property=\"og:image\"/>
-<meta content=\"tabiji.ai\" property=\"og:site_name\"/>
-<meta content=\"summary_large_image\" name=\"twitter:card\"/>
-<meta content=\"{seo['twitterTitle']}\" name=\"twitter:title\"/>
-<meta content=\"{seo['twitterDescription']}\" name=\"twitter:description\"/>
-<meta content=\"{seo['twitterImage']}\" name=\"twitter:image\"/>
-<meta content=\"{seo['publishedTime']}\" property=\"article:published_time\"/>
-<meta content=\"{seo['modifiedTime']}\" property=\"article:modified_time\"/>
-<meta content=\"index, follow, max-image-preview:large\" name=\"robots\"/>
-<link href=\"{seo['canonical']}\" rel=\"canonical\"/>
+<meta content="{seo['metaDescription']}" name="description"/>
+<meta content="{seo['ogTitle']}" property="og:title"/>
+<meta content="{seo['ogDescription']}" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="{seo['canonical']}" property="og:url"/>
+<meta content="{seo['ogImage']}" property="og:image"/>
+<meta content="tabiji.ai" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="{seo['twitterTitle']}" name="twitter:title"/>
+<meta content="{seo['twitterDescription']}" name="twitter:description"/>
+<meta content="{seo['twitterImage']}" name="twitter:image"/>
+<meta content="{seo['publishedTime']}" property="article:published_time"/>
+<meta content="{seo['modifiedTime']}" property="article:modified_time"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<link href="{seo['canonical']}" rel="canonical"/>
 <!-- Schema: Article -->
-<script type=\"application/ld+json\">{json.dumps(schema['article'], ensure_ascii=False, indent=4)}</script>
+<script type="application/ld+json">{json.dumps(schema['article'], ensure_ascii=False, indent=4)}</script>
 <!-- Schema: BreadcrumbList -->
-<script type=\"application/ld+json\">{json.dumps(schema['breadcrumb'], ensure_ascii=False, indent=4)}</script>
+<script type="application/ld+json">{json.dumps(schema['breadcrumb'], ensure_ascii=False, indent=4)}</script>
 <!-- Schema: FAQPage -->
-<script type=\"application/ld+json\">{json.dumps(schema['faq'], ensure_ascii=False, indent=4)}</script>
+<script type="application/ld+json">{json.dumps(schema['faq'], ensure_ascii=False, indent=4)}</script>
 <style>
 {shell['styleCss']}
 {VIATOR_CSS}
 </style>
 <!-- @include:shared-head:start -->
-<link rel=\"stylesheet\" href=\"/assets/shared-shell.css\">
-<script defer src=\"/assets/shared-shell.js\"></script>
+<link rel="stylesheet" href="/assets/shared-shell.css">
+<script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body>
 <!-- @include:nav:start -->
 {shell['navHtml']}
 <!-- @include:nav:end -->
+{score_ticker_html}
 {content['tocMobileHtml']}
 {content['heroHtml']}
-<div class=\"content-wrapper\">
+<div class="content-wrapper">
 {content['tocSidebarHtml']}
-<div class=\"article-content\">
+<div class="article-content">
 {content['methodologyHtml']}
 {content['photoGridHtml']}
+{qa_html}
+{personalize_html}
 {content['verdictHtml']}
+{sc_html}
+{cost_html}
+{weather_html}
 {content['comparisonHtml']}
-{''.join(content['deepDiveHtml'])}
+{deep_dives_html}
+{itin_html}
 {content['faqHtml']}
 {content['ctaHtml']}
-{build_viator_html(data['destinations']['destination1'], data['destinations']['destination2'])}
+{related_html}
+{build_viator_html(dest1, dest2)}
 </div><!-- /article-content -->
 </div><!-- /content-wrapper -->
 <!-- @include:footer:start -->

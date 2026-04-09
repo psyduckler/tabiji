@@ -448,7 +448,10 @@ function buildRelatedPopularPickLinks(data, limit = 5) {
 function renderMapPanel(mapData, mapPicks, mobile = false) {
   if (!mapData.enabled || !mapPicks.length) return '';
   const firstPick = mapPicks[0];
-  const topPicks = mapPicks.slice(0, 6).map((pick) => `
+  // Show all picks in the legend so the sidebar mirrors the full page,
+  // not just an arbitrary first-6 slice. The legend itself scrolls if
+  // needed, so there's no overflow concern.
+  const topPicks = mapPicks.map((pick) => `
       <li>
         <a href="#${pick.anchorId}">${pick.label}</a>
       </li>`).join('');

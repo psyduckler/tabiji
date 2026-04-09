@@ -632,11 +632,7 @@ def build_nav():
             <div class="nav-dropdown-menu">
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
-                <a href="/spin/">🌎 Spin the Globe</a>
                 <a href="/resources/">📚 Resources</a>
-                <a href="/owl/">🧭 Tabiji Travel Agency</a>
-                <a href="/trends/">📊 Travel Trends</a>
-                <a href="/alerts/">⚠️ Travel Alerts</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
@@ -655,7 +651,6 @@ def build_footer():
     <p><strong>tabiji.ai</strong> — AI-powered travel planning, backed by real traveler wisdom.</p>
     <p style="margin-top: 0.5rem;">Data from US State Dept, UK FCDO, CDC, and GDACS. Auto-updated every 6 hours.</p>
     <p style="margin-top: 1rem;">
-        <a href="/alerts/">← All Travel Alerts</a> &nbsp;·&nbsp;
         <a href="/popular-picks/">Popular Picks</a> &nbsp;·&nbsp;
         <a href="/plan">Plan Your Trip →</a>
         &nbsp;·&nbsp; <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/delete-data/">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener">X</a> · <a href="/api/">API</a>
@@ -1079,7 +1074,6 @@ def build_country_page(name, data, cdc, gdacs_for_country):
 
     page += f'''
 <section class="hero">
-    <a href="/alerts/" class="back-link">← All Travel Alerts</a>
     <h1>{flag} {html.escape(name)} <em>Travel Advisory</em></h1>
 '''
 
@@ -1186,7 +1180,6 @@ def build_level_page(level, countries_data):
     color = get_level_color(level)
     page += f'''
 <section class="hero">
-    <a href="/alerts/" class="back-link">← All Travel Alerts</a>
     <div class="hero-badge" style="background: {get_level_bg(level)}; color: {color};">Level {level}</div>
     <h1 style="color: {color};">Level {level}: <em>{html.escape(label)}</em></h1>
     <p>{len(matching)} countries are currently at Level {level}.</p>
