@@ -46,6 +46,7 @@ def load_countries():
             continue
         slug = data.get("slug")
         hero = data.get("hero", {}) or {}
+        seo = data.get("seo", {}) or {}
         label = hero.get("title") or ""
         if not slug or not label:
             continue
@@ -78,6 +79,7 @@ def load_countries():
             {
                 "slug": slug,
                 "label": label,
+                "hero_image": seo.get("heroImage") or "",
                 "cards": cards,
                 "guide_count": len(cards),
                 "city_count": len(set(cities)),
@@ -237,11 +239,29 @@ def render_card(card, eager=False):
     )
 
 
-def render_country_chip(c):
+def render_country_card(c, eager=False):
     label = esc(c["label"])
+    slug = esc(c["slug"])
+    image = esc(c.get("hero_image") or "")
+    guides = c["guide_count"]
+    cities = c["city_count"]
+    stats = f"{guides} guide{'s' if guides != 1 else ''}"
+    if cities:
+        stats += f" · {cities} cit{'ies' if cities != 1 else 'y'}"
+    img_attrs = (
+        'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
+    )
+    img_html = (
+        f'<img src="{image}" alt="" {img_attrs}>' if image else '<div class="country-card-img-fallback"></div>'
+    )
     return (
-        f'<a href="/popular-picks/{esc(c["slug"])}/" class="country-chip">'
-        f"{label}<span class=\"chip-count\">{c['guide_count']}</span></a>"
+        f'<a href="/popular-picks/{slug}/" class="country-card">\n'
+        f"  {img_html}\n"
+        f'  <div class="country-card-body">\n'
+        f"    <h3>{label}</h3>\n"
+        f'    <p class="country-card-stats">{stats}</p>\n'
+        f"  </div>\n"
+        f"</a>"
     )
 
 
@@ -328,20 +348,27 @@ def render_html(countries, featured):
         ],
     }
 
-    def chip_sort_key(c):
+    def alpha_key(c):
         # Strip leading flag emoji + whitespace so we sort by country name,
         # not by the regional indicator codepoint of the flag.
         label = c["label"]
-        # remove non-ASCII (flag) chars from the front
         return "".join(ch for ch in label if ord(ch) < 128).strip().lower()
 
     # First row (3 cards on desktop) is above-the-fold — eager load for LCP.
     featured_html = "\n    ".join(
         render_card(c, eager=(i < 3)) for i, c in enumerate(featured)
     )
-    chips_html = "\n    ".join(
-        render_country_chip(c)
-        for c in sorted(countries_with_guides, key=chip_sort_key)
+
+    # Country card grid: sort by guide_count desc so the most-loaded
+    # countries lead, with alphabetical as tiebreaker. First row (4 cards
+    # on desktop) gets eager loading.
+    sorted_countries = sorted(
+        countries_with_guides,
+        key=lambda c: (-c["guide_count"], alpha_key(c)),
+    )
+    country_cards_html = "\n    ".join(
+        render_country_card(c, eager=(i < 4))
+        for i, c in enumerate(sorted_countries)
     )
 
     title_text = (
@@ -516,34 +543,48 @@ def render_html(countries, featured):
             font-size: 0.82rem; color: var(--earth);
         }}
 
-        /* country chip bar */
+        /* country grid */
         .countries-section {{ background: var(--warm-cream); }}
-        .country-chips {{
-            display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem;
+        .country-grid {{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
         }}
-        .country-chip {{
-            display: inline-flex; align-items: center; gap: 0.45rem;
+        @media (max-width: 1100px) {{ .country-grid {{ grid-template-columns: repeat(3, 1fr); }} }}
+        @media (max-width: 760px)  {{ .country-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
+        @media (max-width: 460px)  {{ .country-grid {{ grid-template-columns: 1fr; }} }}
+        .country-card {{
             background: var(--white);
             border: 1px solid var(--sand);
-            border-radius: 100px;
-            padding: 0.45rem 0.95rem;
-            color: var(--indigo);
-            font-size: 0.92rem; font-weight: 500;
-            transition: border-color 0.15s, background 0.15s, transform 0.15s;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            color: inherit;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
         }}
-        .country-chip:hover {{
+        .country-card:hover {{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 26px rgba(0,0,0,0.10);
             border-color: var(--terracotta);
-            background: #fff;
-            transform: translateY(-1px);
         }}
-        .chip-count {{
-            font-size: 0.78rem; color: var(--text-muted);
-            background: var(--warm-cream);
-            border-radius: 100px;
-            padding: 0.05rem 0.5rem;
-            font-weight: 600;
+        .country-card img,
+        .country-card-img-fallback {{
+            width: 100%; height: 140px;
+            object-fit: cover; display: block;
+            background: linear-gradient(135deg, var(--warm-cream), var(--sand));
         }}
-        .country-chip:hover .chip-count {{ color: var(--earth); }}
+        .country-card-body {{
+            padding: 0.85rem 1rem 1.1rem;
+            display: flex; flex-direction: column; gap: 0.2rem;
+        }}
+        .country-card-body h3 {{
+            font-size: 1rem; font-weight: 700;
+            color: var(--indigo);
+            line-height: 1.25;
+        }}
+        .country-card-stats {{
+            font-size: 0.82rem; color: var(--text-muted);
+        }}
 
         /* bottom CTA */
         .bottom-cta {{
@@ -645,9 +686,9 @@ def render_html(countries, featured):
 
 <section class="section countries-section">
   <h2>Browse by country</h2>
-  <p class="section-sub">Open any country for the full city-by-city set of guides. Numbers show how many picks live inside each country hub.</p>
-  <div class="country-chips">
-    {chips_html}
+  <p class="section-sub">{total_countries} countries, sorted by guide count. Each card opens the country hub for the full city-by-city set of guides.</p>
+  <div class="country-grid">
+    {country_cards_html}
   </div>
 </section>
 
