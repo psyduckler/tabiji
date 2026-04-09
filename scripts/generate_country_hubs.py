@@ -826,39 +826,33 @@ def get_advisory(country_name):
     return ADVISORY_DATA.get(country_name)
 
 
-# Maps the country slug used by /countries/{slug}/ to the slug used by
-# popular-picks-hub-data/{slug}.json (where they differ).
-_HUB_DATA_SLUG_OVERRIDES = {
-    "czechia": "czech-republic",
-    "united-arab-emirates": "uae",
-    "united-states": "usa",
-}
+def _is_real_destination_photo(url):
+    """Reject placeholder/logo URLs that destinations sometimes use as a fallback."""
+    if not url:
+        return False
+    bad_substrings = (
+        "owl-logo",
+        "tabiji-owl-logo",
+        "/icon-",
+        "apple-touch-icon",
+        "favicon",
+    )
+    return not any(b in url for b in bad_substrings)
 
 
 def _get_country_hero_image(country_name, country_slug):
     """Best-effort hero image for a country card.
 
-    Tries (in order):
-      1. popular-picks-hub-data/{slug}.json → seo.heroImage
-      2. The first destination's photo from api/v1/destinations/<dest_slug>.json
-      3. None (caller renders a gradient placeholder)
+    Walks every destination for the country and returns the first photo
+    that is NOT a logo/icon placeholder. Destinations use Unsplash search
+    queries like "Abisko Sweden landscape" so the photos are travel-themed.
+    The popular-picks-hub-data heroImage field is intentionally NOT used
+    here — those point at zoomed-in leaf food/venue photos that look awful
+    as country thumbnails (a beer mug for the USA, a meat patty close-up
+    for Japan, etc.). Returns None if no good source — caller renders a
+    gradient placeholder.
     """
-    # 1. Popular-picks hub heroImage
-    hub_slug = _HUB_DATA_SLUG_OVERRIDES.get(country_slug, country_slug)
-    hub_path = os.path.join(BASE_DIR, "popular-picks-hub-data", f"{hub_slug}.json")
-    if os.path.exists(hub_path):
-        try:
-            with open(hub_path) as f:
-                hub = json.load(f)
-            img = (hub.get("seo") or {}).get("heroImage")
-            if img:
-                return img
-        except Exception:
-            pass
-
-    # 2. Destination photo (need destinations loaded)
     dests = (_DESTINATIONS_BY_COUNTRY or {}).get(country_name) or []
-    # Try aliases too if direct lookup yields nothing
     if not dests:
         for alias, canonical in DEST_COUNTRY_ALIASES.items():
             if canonical == country_name:
@@ -870,8 +864,11 @@ def _get_country_hero_image(country_name, country_slug):
         if not slug:
             continue
         details = (_DEST_DETAILS_CACHE or {}).get(slug) or _load_dest_details(slug)
-        if details and details.get("photo"):
-            return details["photo"]
+        if not details:
+            continue
+        photo = details.get("photo")
+        if _is_real_destination_photo(photo):
+            return photo
 
     return None
 
@@ -1509,7 +1506,6 @@ def generate_index_page(all_countries_data):
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/countries/">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="/assets/countries.css">
     <style>
         :root {{
             --indigo:#2D3A5C; --warm-cream:#F5F0E8; --sand:#E8DFD0;
@@ -1524,17 +1520,14 @@ def generate_index_page(all_countries_data):
         .hero-stats {{ display:flex; flex-wrap:wrap; gap:.6rem .8rem; justify-content:center; }}
         .hero-stats span {{ background:var(--warm-cream); border:1px solid var(--sand); color:var(--indigo); padding:.45rem 1rem; border-radius:999px; font-size:.88rem; font-weight:600; }}
 
-        /* layout: map + list side by side on desktop */
-        .layout {{ max-width:1320px; margin:0 auto; padding:0 2rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:2rem; align-items:start; }}
-        @media(max-width:1100px) {{ .layout {{ grid-template-columns:1fr; }} }}
+        /* full-width content container */
+        .layout {{ max-width:1320px; margin:0 auto; padding:0 2rem 4rem; }}
 
-        /* map (sticky right sidebar on desktop) */
-        .map-wrap {{ position:sticky; top:84px; }}
-        @media(max-width:1100px) {{ .map-wrap {{ position:static; margin-bottom:1.5rem; }} }}
-        #countryMap {{ width:100%; height:380px; border-radius:14px; border:1px solid var(--sand); z-index:1; background:#f4eedf; }}
-        @media(max-width:1100px) {{ #countryMap {{ height:300px; }} }}
-        @media(max-width:640px)  {{ #countryMap {{ height:240px; }} }}
-        .map-legend {{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.75rem; }}
+        /* map banner (full width above the grid) */
+        .map-wrap {{ margin-bottom:2rem; }}
+        #countryMap {{ width:100%; height:340px; border-radius:14px; border:1px solid var(--sand); z-index:1; background:#f4eedf; }}
+        @media(max-width:760px) {{ #countryMap {{ height:260px; }} }}
+        .map-legend {{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.75rem; justify-content:center; }}
         .legend-chip {{ display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .7rem; border:1px solid var(--sand); border-radius:999px; background:var(--white); cursor:pointer; font-size:.78rem; color:var(--text-muted); transition:all .15s; user-select:none; }}
         .legend-chip:hover {{ border-color:var(--terracotta); }}
         .legend-chip.active {{ border-color:var(--terracotta); background:#fff5ef; color:var(--indigo); font-weight:600; }}
@@ -1554,10 +1547,10 @@ def generate_index_page(all_countries_data):
         .filter-chip-spacer {{ flex:1; min-width:1rem; }}
         .sort-select {{ padding:.4rem .8rem; border:1px solid var(--sand); border-radius:999px; background:var(--white); color:var(--indigo); font-size:.83rem; font-weight:600; cursor:pointer; font-family:inherit; }}
 
-        /* country grid */
-        .country-grid {{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }}
-        @media(max-width:1100px) {{ .country-grid {{ grid-template-columns:repeat(3,1fr); }} }}
-        @media(max-width:920px)  {{ .country-grid {{ grid-template-columns:repeat(2,1fr); }} }}
+        /* country grid — full width, 4 cols on widescreen */
+        .country-grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem; }}
+        @media(max-width:1180px) {{ .country-grid {{ grid-template-columns:repeat(3,1fr); }} }}
+        @media(max-width:880px)  {{ .country-grid {{ grid-template-columns:repeat(2,1fr); }} }}
         @media(max-width:520px)  {{ .country-grid {{ grid-template-columns:1fr; }} }}
 
         /* group headings (region grouping mode) */
@@ -1643,29 +1636,7 @@ def generate_index_page(all_countries_data):
     </section>
 
     <div class="layout">
-        <div>
-            <div class="controls">
-                <input type="text" class="search-input" placeholder="Search countries\u2026" id="countrySearch" oninput="applyFilters()">
-                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-                    <option value="content-desc">Sort: Most content</option>
-                    <option value="name-asc">Sort: A → Z</option>
-                    <option value="name-desc">Sort: Z → A</option>
-                    <option value="advisory-asc">Sort: Safest first</option>
-                    <option value="region">Group by region</option>
-                </select>
-            </div>
-            <div class="filter-chips" id="filterChips">
-                <button type="button" class="filter-chip" data-filter="picks">📍 Has popular picks</button>
-                <button type="button" class="filter-chip" data-filter="compares">🆚 Has comparisons</button>
-                <button type="button" class="filter-chip" data-filter="scams">🛡️ Has scam guides</button>
-                <button type="button" class="filter-chip" data-filter="itins">🗺️ Has itineraries</button>
-                <button type="button" class="filter-chip" data-filter="hide-empty">Hide empty</button>
-            </div>
-            <div class="country-grid" id="countriesList">{country_cards}
-            </div>
-        </div>
-
-        <aside class="map-wrap">
+        <div class="map-wrap">
             <div id="countryMap"></div>
             <div class="map-legend">
                 <button type="button" class="legend-chip" data-level="1"><span class="legend-dot" style="background:#22c55e;"></span> Level 1</button>
@@ -1674,7 +1645,27 @@ def generate_index_page(all_countries_data):
                 <button type="button" class="legend-chip" data-level="4"><span class="legend-dot" style="background:#ef4444;"></span> Level 4</button>
                 <button type="button" class="legend-chip" data-level="0"><span class="legend-dot" style="background:#d1d5db;"></span> No data</button>
             </div>
-        </aside>
+        </div>
+
+        <div class="controls">
+            <input type="text" class="search-input" placeholder="Search countries\u2026" id="countrySearch" oninput="applyFilters()">
+            <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                <option value="content-desc">Sort: Most content</option>
+                <option value="name-asc">Sort: A → Z</option>
+                <option value="name-desc">Sort: Z → A</option>
+                <option value="advisory-asc">Sort: Safest first</option>
+                <option value="region">Group by region</option>
+            </select>
+        </div>
+        <div class="filter-chips" id="filterChips">
+            <button type="button" class="filter-chip" data-filter="picks">📍 Has popular picks</button>
+            <button type="button" class="filter-chip" data-filter="compares">🆚 Has comparisons</button>
+            <button type="button" class="filter-chip" data-filter="scams">🛡️ Has scam guides</button>
+            <button type="button" class="filter-chip" data-filter="itins">🗺️ Has itineraries</button>
+            <button type="button" class="filter-chip" data-filter="hide-empty">Hide empty</button>
+        </div>
+        <div class="country-grid" id="countriesList">{country_cards}
+        </div>
     </div>
 </main>
 
