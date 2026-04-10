@@ -282,7 +282,7 @@ Each pick object:
   "website": "https://...",
   "phone": "+81 ...",
   "photo": "/popular-picks/shinjuku-cheap-restaurants/fuunji.jpg",
-  "cuisineTags": ["tsukemen", "ramen"],
+  "tags": ["tsukemen", "ramen"],
   "whyItMadeTheList": "...",
   "whatToOrder": "...",
   "insiderTip": "...",
@@ -333,7 +333,7 @@ Recommended fields:
 - `reviewCount`
 - `googleMapsUrl`
 - `photo`
-- `cuisineTags`
+- `tags`
 - `redditQuotes`
 
 Rules:

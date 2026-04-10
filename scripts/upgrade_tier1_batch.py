@@ -80,7 +80,7 @@ def load_page_data(slug):
         np = {
             "rank": pos,
             "name": p.get("name", ""),
-            "cuisineTags": p.get("cuisineTags", []),
+            "tags": p.get("tags", []),
             "googleRating": p.get("googleRating"),
             "reviewCount": p.get("reviewCount"),
             "priceRange": p.get("priceRange", p.get("priceRangeLocal", "")),
@@ -203,9 +203,9 @@ def infer_place_type(category, tags):
 def build_rich_itemlist(page):
     items = []
     for p in page["places"]:
-        place_type = infer_place_type(page["category"], p.get("cuisineTags", []))
+        place_type = infer_place_type(page["category"], p.get("tags", []))
         obj = {"@type": place_type, "name": p["name"]}
-        cuisine = p.get("cuisineTags", [])
+        cuisine = p.get("tags", [])
         if cuisine and place_type in {"Restaurant", "CafeOrCoffeeShop", "BarOrPub"}:
             obj["servesCuisine"] = ", ".join(cuisine)
         addr = p.get("address") or p.get("neighborhood", "")
@@ -255,7 +255,7 @@ def build_breadcrumb(page):
 def build_comparison_table(page):
     rows = ""
     for p in page["places"]:
-        tags = ", ".join(p.get("cuisineTags", []))
+        tags = ", ".join(p.get("tags", []))
         rating = f'{p.get("googleRating", "—")}★' if p.get("googleRating") else "—"
         area = (p.get("neighborhood") or p.get("address", "")).split(",")[0].strip()
         rows += f'<tr><td><strong>#{p["rank"]}</strong></td><td><a href="#{p["sectionId"]}">{escape(p["name"])}</a></td><td>{escape(tags)}</td><td>{escape(p.get("priceRange", "—"))}</td><td>{rating}</td><td>{escape(area)}</td></tr>\n'
@@ -274,7 +274,7 @@ def build_comparison_table(page):
 
 def build_filter_chips(page):
     """Build filter bar + CSS + JS for any page."""
-    styles = sorted(set(t for p in page["places"] for t in p.get("cuisineTags", [])))
+    styles = sorted(set(t for p in page["places"] for t in p.get("tags", [])))
     if len(styles) < 2:
         return "", "", ""  # Not enough variety to filter
 
@@ -321,7 +321,7 @@ def generate_content_sections(page):
     """Use Gemini to generate budget tiers, occasion sections, vs comparisons, planning section, extra FAQs."""
     places_summary = []
     for p in page["places"]:
-        places_summary.append(f"#{p['rank']} {p['name']} — {', '.join(p.get('cuisineTags',[]))} — {p.get('priceRange','?')} — {p.get('neighborhood','?')} — {p.get('googleRating','?')}★ ({p.get('reviewCount','?')} reviews) — Verdict: {p.get('verdict','')[:100]}")
+        places_summary.append(f"#{p['rank']} {p['name']} — {', '.join(p.get('tags',[]))} — {p.get('priceRange','?')} — {p.get('neighborhood','?')} — {p.get('googleRating','?')}★ ({p.get('reviewCount','?')} reviews) — Verdict: {p.get('verdict','')[:100]}")
     places_text = "\n".join(places_summary)
 
     prompt = f"""You are a travel/food content expert. Generate content sections for a popular-picks page about "{page['title']}" in {page['city']}.
@@ -518,7 +518,7 @@ def upgrade_page(slug):
 
     # --- 10. Add filter data attributes to sections ---
     for p in page["places"]:
-        style = p.get("cuisineTags", [""])[0] if p.get("cuisineTags") else ""
+        style = p.get("tags", [""])[0] if p.get("tags") else ""
         sid = p["sectionId"]
         old = f'class="restaurant-section" id="{sid}"'
         if old in html and f'data-filter-style' not in html[html.find(old):html.find(old)+200]:
@@ -558,7 +558,7 @@ def upgrade_page(slug):
     for p in page["places"]:
         if not p.get("photo"): continue
         old_alt = f'alt="{escape(p["name"])} in {escape(p.get("neighborhood", p.get("address", "")))}"'
-        cuisine = ", ".join(p.get("cuisineTags", []))
+        cuisine = ", ".join(p.get("tags", []))
         area = (p.get("neighborhood") or p.get("address", "")).split(",")[0].strip()
         new_alt_text = f'{cuisine} at {p["name"]}, {area}, {page["city"]} — {p.get("priceRange", "")}'
         new_alt = f'alt="{escape(new_alt_text)}"'

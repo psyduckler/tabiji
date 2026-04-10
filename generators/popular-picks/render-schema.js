@@ -54,7 +54,7 @@ function renderSchema(data) {
         name: pick.name,
         ...(() => {
           if (!foodTypes.has(resolvedType)) return {};
-          const cuisines = (pick.cuisineTags || []).filter(isLikelyCuisine);
+          const cuisines = (pick.tags || []).filter(isLikelyCuisine);
           return cuisines.length ? { servesCuisine: cuisines.join(' / ') } : {};
         })(),
         ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),

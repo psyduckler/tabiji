@@ -181,7 +181,7 @@ function hoursSummary(pick, hours) {
 }
 
 function cuisineTagClass(pick) {
-  const first = (pick.cuisineTags || [])[0] || '';
+  const first = (pick.tags || [])[0] || '';
   const map = {
     ramen: 'tag-ramen',
     tonkatsu: 'tag-tonkatsu',
@@ -280,7 +280,7 @@ function buildIntentTokens(data) {
   const slugPhrases = [];
   if (slugParts.length >= 2) slugPhrases.push(slugParts.slice(0, 2).join(' '));
   if (slugParts.length >= 3) slugPhrases.push(slugParts.slice(0, 3).join(' '));
-  const cuisineTokens = uniqueBy((data.picks || []).flatMap((pick) => (pick.cuisineTags || []).map((tag) => normalizeIntroText(tag))).filter(Boolean), (value) => value)
+  const cuisineTokens = uniqueBy((data.picks || []).flatMap((pick) => (pick.tags || []).map((tag) => normalizeIntroText(tag))).filter(Boolean), (value) => value)
     .flatMap((value) => value.split(' '))
     .filter((token) => token.length >= 4);
   return uniqueBy([
@@ -603,7 +603,7 @@ function renderQuickAnswer(data) {
 function renderPick(pick, data, mapData) {
   const mapQuery = buildPickMapQuery(pick, data);
   const hours = parseHoursNote(pick.hoursNote);
-  const firstTag = (pick.cuisineTags || [])[0] || pick.placeType || 'Restaurant';
+  const firstTag = (pick.tags || [])[0] || pick.placeType || 'Restaurant';
   const verdictText = buildVerdictText(pick);
   const bestForText = buildBestForText(pick, data, firstTag);
   const strengths = buildStrengths(pick, firstTag);

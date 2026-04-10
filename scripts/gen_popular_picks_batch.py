@@ -206,7 +206,7 @@ Return a JSON object with this EXACT structure (no markdown fences, no trailing 
       "neighborhood": "Neighborhood/Area name",
       "address": "Street address",
       "cuisineStyle": "Primary style for filtering (matches one of filterStyles)",
-      "cuisineTags": ["tag1", "tag2"],
+      "tags": ["tag1", "tag2"],
       "priceTier": "budget or mid",
       "priceRange": "$X-Y per person",
       "rating": 4.5,
@@ -243,7 +243,7 @@ REQUIREMENTS:
 - Each venue must have a real neighborhood, realistic price range, real phone number, real website URL
 - Each venue MUST have accurate lat/lng coordinates (decimal degrees, e.g. 38.1157, 13.3615 for Palermo). Use the real location of the venue.
 - faqs: exactly 8 items, detailed and specific
-- cuisineTags: 2 tags per venue
+- tags: 2 tags per venue
 - filterStyles: unique style values derived from venue cuisineStyle fields (no duplicates)
 - budgetTiers: exactly 3 groups with 3 items each (use real venue names matching the venues array)
 - budgetTiers items anchor values MUST match the slug form of the venue name (lowercase, hyphens, no special chars)
@@ -314,7 +314,7 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
     strengths = venue.get('strengths', '')
     what_to_order = venue.get('whatToOrder', '')
     insider_tip = venue.get('insiderTip', '')
-    tags = venue.get('cuisineTags', [])
+    tags = venue.get('tags', [])
     reddit_quotes = venue.get('redditQuotes', [])
     rank = venue['rank']
 
@@ -951,7 +951,7 @@ def build_api_json(slug: str, city: str, country: str, content: dict) -> dict:
                 "name": v["name"],
                 "neighborhood": v.get("neighborhood", ""),
                 "priceRange": v.get("priceRange", ""),
-                "cuisineTags": v.get("cuisineTags", []),
+                "tags": v.get("tags", []),
                 "cuisineStyle": v.get("cuisineStyle", ""),
                 "priceTier": v.get("priceTier", ""),
                 "rating": v.get("rating", 0),

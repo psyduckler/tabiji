@@ -123,7 +123,7 @@ def build_pick(p, slug, place_type):
         "website": p.get("website") or None,
         "phone": p.get("phone") or None,
         "photo": f"https://img.tabiji.ai/popular-picks/{slug}/{section_id}.jpg",
-        "cuisineTags": p.get("tags") or [],
+        "tags": p.get("tags") or [],
         "whyItMadeTheList": p["whyItMadeTheList"],
         "whatToOrder": p.get("whatToOrder") or f"{p['name']} is a featured pick in this guide.",
         "insiderTip": p["insiderTip"],

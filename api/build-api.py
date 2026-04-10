@@ -239,7 +239,7 @@ def enrich_place(place, *, guide_slug, guide_title, guide_url, city, category):
         field_sources = {
             "name": ["editorial"],
             "position": ["editorial"],
-            "cuisineTags": ["editorial"],
+            "tags": ["editorial"],
             "whatToOrder": ["editorial"],
             "insiderTip": ["editorial"],
             "verdict": ["editorial"],
@@ -531,7 +531,7 @@ def extract_pick_places(soup, slug):
 
         tags = section.find_all('span', class_=lambda x: x and 'cuisine-tag' in x)
         if tags:
-            place["cuisineTags"] = [clean_text(t.get_text()) for t in tags]
+            place["tags"] = [clean_text(t.get_text()) for t in tags]
 
         rating_span = section.find('span', class_='google-rating')
         if rating_span:
@@ -650,7 +650,7 @@ def extract_pick_places_generic(soup, slug):
         if tags:
             tag_texts = [clean_text(t.get_text()) for t in tags if not any(skip in clean_text(t.get_text()) for skip in ['📍', '💰', '🪙', '🕐'])]
             if tag_texts:
-                place["cuisineTags"] = tag_texts
+                place["tags"] = tag_texts
 
         details = item.find(class_=re.compile(r'details|meta|bath-details|pick-details|spot-details'))
         if details:
@@ -739,7 +739,7 @@ def extract_pick_places_alt(soup, slug):
 
         tags = entry.find_all('span', class_=lambda x: x and 'tag' in x and x != 'entry-tags')
         if tags:
-            place["cuisineTags"] = [clean_text(t.get_text()) for t in tags]
+            place["tags"] = [clean_text(t.get_text()) for t in tags]
 
         meta = entry.find(class_='entry-meta')
         if meta:
@@ -1771,7 +1771,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
                 "destinationSlug": pick.get("destinationSlug", ""),
                 "locationLabel": place.get("address") or place.get("area") or detail.get("city", pick.get("city", "")),
                 "category": detail.get("category", pick.get("category", "")),
-                "tags": unique_list([*(place.get("tags", []) or []), *(place.get("cuisineTags", []) or []), *(pick.get("tags", []) or [])]),
+                "tags": unique_list([*(place.get("tags", []) or []), *(pick.get("tags", []) or [])]),
                 "highlights": place.get("bestFor") if isinstance(place.get("bestFor"), list) else unique_list([place.get("bestFor", ""), *(place.get("highlights", []) or [])]),
                 "priceLevel": place.get("priceRange", ""),
                 "ratingNormalized": place.get("googleRating"),
@@ -2298,7 +2298,7 @@ def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_co
 ## Data Fields
 
 ### Place Object (in Picks)
-Each place includes: name, position, cuisineTags, googleRating, reviewCount, priceRange, address, area, googleMapsUrl, mapsLinks, openingHours (weekly grid), phone, website, photo, verdict, editorialSummary, bestFor, comparison, whatToOrder, redditQuotes (with source + sourceUrl), insiderTip, sourceMeta
+Each place includes: name, position, tags, googleRating, reviewCount, priceRange, address, area, googleMapsUrl, mapsLinks, openingHours (weekly grid), phone, website, photo, verdict, editorialSummary, bestFor, comparison, whatToOrder, redditQuotes (with source + sourceUrl), insiderTip, sourceMeta
 
 ### Itinerary Day Object
 Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)

@@ -79,7 +79,7 @@ function pickAddressLocality(item) {
 
 function detectVertical(slug, html, heroBadge = '', picks = []) {
   const text = `${slug} ${heroBadge} ${html.slice(0, 4000)}`.toLowerCase();
-  const names = picks.map((pick) => `${pick.name} ${(pick.cuisineTags || []).join(' ')}`.toLowerCase()).join(' ');
+  const names = picks.map((pick) => `${pick.name} ${(pick.tags || []).join(' ')}`.toLowerCase()).join(' ');
   const combined = `${text} ${names}`;
   if (/(restaurant|restaurants|shawarma|coffee|cafe|brunch|eat|food|jollof|ramen|yatai)/.test(slug.toLowerCase())) return 'restaurants-food';
   if (/(hotel|stay|stays|hostel|villa|resort|ryokan|hanok)/.test(combined)) return 'lodging';
@@ -149,7 +149,7 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
     website: website || null,
     phone: phone || null,
     photo: photo || null,
-    cuisineTags: cuisine ? [cuisine] : [],
+    tags: cuisine ? [cuisine] : [],
     knownForTags: cuisine ? [cuisine] : [],
     whyItMadeTheList: verdict || `${name} appears as a featured pick in the existing HTML page.`,
     whatToOrder: whatToOrder || `${name} is a featured pick in this guide.`,

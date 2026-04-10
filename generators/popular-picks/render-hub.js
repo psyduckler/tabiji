@@ -104,7 +104,7 @@ function renderHubSchema(data) {
   return [collectionPage, breadcrumb, faqSchema].map(renderJsonLd).join('\n    ');
 }
 
-function renderToc(data) {
+function renderMobileToc(data) {
   const items = data.toc || [];
   if (!items.length) return '';
   const links = items.map((item) => `<li><a href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a></li>`).join('');
@@ -115,9 +115,14 @@ function renderToc(data) {
     <span class="toc-chevron">▼</span>
   </button>
   <div class="toc-mobile-dropdown"><ul>${links}</ul></div>
-</div>
+</div>`;
+}
 
-<div class="content-wrapper">
+function renderTocSidebar(data) {
+  const items = data.toc || [];
+  if (!items.length) return '';
+  const links = items.map((item) => `<li><a href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a></li>`).join('');
+  return `
   <aside class="toc-sidebar">
     <h2>Sections</h2>
     <ul>${links}</ul>
@@ -237,7 +242,9 @@ function renderHubPage(data) {
     ${data.seo.heroImage ? `<figure class="hero-figure"><img src="${escapeHtml(absoluteUrl(data.seo.heroImage))}" alt="${escapeHtml(data.hero.title || data.seo.h1)}" loading="eager">${data.hero.caption ? `<figcaption class="hero-caption">${escapeHtml(data.hero.caption)}</figcaption>` : ''}</figure>` : ''}
   </section>
 
-  ${renderToc(data)}
+  ${renderMobileToc(data)}
+  <div class="content-wrapper">
+    ${renderTocSidebar(data)}
     <div class="main-content">
       ${renderSections(data)}
     </div>

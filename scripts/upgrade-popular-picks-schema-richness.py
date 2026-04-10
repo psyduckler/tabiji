@@ -201,7 +201,7 @@ def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
 
     for idx, place in enumerate(page_data.get("places", []), start=1):
         position = place.get("position", idx)
-        tags = place.get("cuisineTags") or []
+        tags = place.get("tags") or []
         place_type = infer_place_type(page_slug, title, category, tags, place.get("name", ""))
         obj = {
             "@type": place_type,
