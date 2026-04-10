@@ -176,6 +176,12 @@ def merge_item_object(existing_obj: dict | None, new_obj: dict):
         elif key not in merged:
             merged[key] = value
 
+    # Strip stale aggregateRating from types that don't support Google review
+    # snippets (e.g. TouristAttraction from a prior enrichment run).
+    aggregate_rating_types = {"LocalBusiness", "Restaurant", "CafeOrCoffeeShop", "BarOrPub", "Hotel", "Campground", "LodgingBusiness"}
+    if merged.get("@type") not in aggregate_rating_types:
+        merged.pop("aggregateRating", None)
+
     # Preserve sameAs as a de-duped union if both exist.
     existing_same_as = merged.get("sameAs") or []
     new_same_as = new_obj.get("sameAs") or []
@@ -229,7 +235,10 @@ def build_itemlist_schema(page_slug: str, page_data: dict, html: str):
 
         rating = place.get("googleRating")
         reviews = place.get("reviewCount")
-        if rating and reviews:
+        # Google only supports AggregateRating review snippets on LocalBusiness
+        # and its subtypes — not on TouristAttraction.
+        aggregate_rating_types = {"LocalBusiness", "Restaurant", "CafeOrCoffeeShop", "BarOrPub", "Hotel", "Campground", "LodgingBusiness"}
+        if rating and reviews and place_type in aggregate_rating_types:
             obj["aggregateRating"] = {
                 "@type": "AggregateRating",
                 "ratingValue": rating,

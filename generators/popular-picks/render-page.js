@@ -418,16 +418,9 @@ function renderIntentLinkSections(data) {
 function buildRelatedPopularPickLinks(data, limit = 5) {
   const inventory = getSiteInventory();
   const tokens = buildIntentTokens(data);
-  const manualLinks = (data.related?.manual || []).map((slug) => {
-    const entry = inventory.popularPicks.find((item) => item.slug === slug);
-    return entry || {
-      type: 'popular-picks',
-      slug,
-      url: `/popular-picks/${slug}/`,
-      title: titleFromSlug(slug),
-      searchText: normalizeIntroText(slug),
-    };
-  });
+  const manualLinks = (data.related?.manual || [])
+    .map((slug) => inventory.popularPicks.find((item) => item.slug === slug))
+    .filter(Boolean);
   const excluded = new Set([data.slug, ...manualLinks.map((entry) => entry.slug)]);
   const candidates = inventory.popularPicks.filter((entry) => !excluded.has(entry.slug));
   const strictMatches = pickTopEntries(candidates, data, tokens, {
