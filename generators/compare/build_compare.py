@@ -363,7 +363,7 @@ def render_page(data: Dict) -> str:
             flag = m.get("flag", "")
             cls = f' {flag}' if flag in ("best", "avoid") else ""
             months_html += f'<div class="weather-month{cls}"><div class="wm-label">{html.escape(m.get("month",""))}</div><div class="wm-temps"><div class="wm-dest1">{html.escape(m.get("dest1Temp",""))}</div><div class="wm-dest2">{html.escape(m.get("dest2Temp",""))}</div></div></div>\n'
-        weather_html = f'''<div class="weather-chart" id="weather-chart">
+        weather_html = f'''<div class="weather-chart" id="weather">
 <h2>&#127780; When to Visit</h2>
 <p class="weather-note">Average high temperatures (&deg;C). <span style="color:var(--sage)">Green</span> = best months, <span style="color:var(--terracotta)">orange</span> = avoid.</p>
 <div class="weather-months">{months_html}</div>

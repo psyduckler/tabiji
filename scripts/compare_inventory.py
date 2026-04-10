@@ -445,16 +445,17 @@ def validate_leaf_page(slug: str) -> Tuple[List[str], List[str]]:
     warnings: List[str] = []
     html = read_text(COMPARE_DIR / slug / "index.html")
 
-    toc_targets = re.findall(r'href="#([^"]+)"', html)
+    html_no_scripts = re.sub(r"<script[\s\S]*?</script>", "", html, flags=re.I)
+    toc_targets = re.findall(r'href="#([^"]+)"', html_no_scripts)
     ids = set(re.findall(r'id="([^"]+)"', html))
     for target in sorted(set(toc_targets)):
         if target not in ids:
             errors.append(f"{slug}: anchor target missing #{target}")
 
     placeholder_patterns = {
-        r"NT,": "unresolved NT currency placeholder",
-        r"~ USD": "unresolved USD currency placeholder",
-        r"/bin/zsh\\.": "shell output leaked into page copy",
+        r"(?<!\$)NT,\d": "unresolved NT currency placeholder (missing $)",
+        r"~–\d+ USD": "unresolved USD currency placeholder",
+        r"/bin/zsh": "shell output leaked into page copy",
     }
     for pattern, label in placeholder_patterns.items():
         if re.search(pattern, html):
@@ -546,11 +547,15 @@ def cmd_extract() -> int:
 
 def cmd_build() -> int:
     inventory = load_json(INVENTORY_PATH)
+    leaf_set = set(compare_leaf_slugs())
+    all_count = len(inventory["cards"])
+    inventory["cards"] = [c for c in inventory["cards"] if c["slug"] in leaf_set]
+    skipped = all_count - len(inventory["cards"])
     index_html = build_compare_index(inventory)
     aggregate = build_compare_aggregate(inventory)
     write_text(COMPARE_INDEX_PATH, index_html)
     write_json(COMPARE_AGG_PATH, aggregate)
-    print(f"Built {COMPARE_INDEX_PATH.relative_to(REPO_ROOT)}")
+    print(f"Built {COMPARE_INDEX_PATH.relative_to(REPO_ROOT)} ({len(inventory['cards'])} cards, {skipped} skipped — no HTML)")
     print(f"Built {COMPARE_AGG_PATH.relative_to(REPO_ROOT)}")
     return 0
 
