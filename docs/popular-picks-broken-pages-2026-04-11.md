@@ -159,11 +159,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `hoi-an-banh-mi` — 11 Best Bánh Mì in Hội An (12/12) · 590/mo — rebuilt 2026-04-11
 - [SKIP] `london-rooftop-bars` — 12 Best Rooftop Bars in London (2026) — Reddit-Backed Guide (1/12) · 590/mo — no ItemList data
 - [x] `osaka-street-food` — 13 Best Street Food Spots in Osaka — The Ultimate Guide (14/14) · 590/mo — rebuilt 2026-04-11
-- [ ] `bangkok-rooftop-bars` — 16 Best Rooftop Bars in Bangkok (1/16) · 480/mo
-- [ ] `rome-cooking-classes` — 9 Best Cooking Classes in Rome (1/10) · 480/mo
-- [ ] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (1/12) · 480/mo
-- [ ] `madrid-churros` — 13 Best Churros in Madrid — The Unfiltered Guide (1/15) · 390/mo
-- [ ] `copenhagen-bakeries` — 12 Best Bakeries in Copenhagen (1/12) · 320/mo
+- [x] `bangkok-rooftop-bars` — 16 Best Rooftop Bars in Bangkok (16/16) · 480/mo — rebuilt 2026-04-11
+- [x] `rome-cooking-classes` — 9 Best Cooking Classes in Rome (10/10) · 480/mo — rebuilt 2026-04-11
+- [x] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (12/12) · 480/mo — rebuilt 2026-04-11
+- [x] `madrid-churros` — 13 Best Churros in Madrid — The Unfiltered Guide (15/15) · 390/mo — rebuilt 2026-04-11
+- [x] `copenhagen-bakeries` — 12 Best Bakeries in Copenhagen (12/12) · 320/mo — rebuilt 2026-04-11
 - [ ] `fukuoka-ramen` — 11 Best Tonkotsu Ramen in Fukuoka (1/12) · 320/mo
 - [ ] `mexico-city-coffee-shops` — 14 Best Coffee Shops in Mexico City (1/14) · 320/mo
 - [ ] `london-cheap-eats` — 13 Best Cheap Eats in London (1/13) · 260/mo
