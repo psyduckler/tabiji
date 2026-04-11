@@ -184,12 +184,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `guangzhou-dim-sum` — 11 Best Dim Sum in Guangzhou (2026) — Reddit-Backed Guide (11/11) · 110/mo — rebuilt 2026-04-11
 - [x] `ho-chi-minh-city-pho` — 12 Best Phở in Ho Chi Minh City (14/14) · 110/mo — rebuilt 2026-04-11
 - [x] `istanbul-breakfast` — 12 Best Turkish Breakfast Spots in Istanbul (12/12) · 110/mo — rebuilt 2026-04-11
-- [ ] `seattle-craft-beer` — 12 Best Craft Beer Breweries in Seattle (2026) — Reddit-Backed Guide (1/12) · 110/mo
-- [ ] `tokyo-cheap-eats` — 15 Best Cheap Eats in Tokyo (1/15) · 110/mo
-- [ ] `amsterdam-cheap-eats` — 18 Best Cheap Eats in Amsterdam (1/18) · 90/mo
-- [ ] `cairo-street-food` — 18 Best Street Food Spots in Cairo (1/18) · 90/mo
-- [ ] `cartagena-ceviche` — 18 Best Ceviche & Seafood Spots in Cartagena (1/18) · 90/mo
-- [ ] `colombo-coffee-shops` — 12 Best Coffee Shops in Colombo (2026) — Reddit-Backed Guide (1/12) · 90/mo
+- [SKIP] `seattle-craft-beer` — 12 Best Craft Beer Breweries in Seattle (2026) — Reddit-Backed Guide (1/12) · 110/mo — minimal ItemList, needs full research
+- [x] `tokyo-cheap-eats` — 15 Best Cheap Eats in Tokyo (15/15) · 110/mo — rebuilt 2026-04-11
+- [x] `amsterdam-cheap-eats` — 18 Best Cheap Eats in Amsterdam (18/18) · 90/mo — rebuilt 2026-04-11
+- [x] `cairo-street-food` — 18 Best Street Food Spots in Cairo (18/18) · 90/mo — rebuilt 2026-04-11
+- [x] `cartagena-ceviche` — 18 Best Ceviche & Seafood Spots in Cartagena (18/18) · 90/mo — rebuilt 2026-04-11
+- [x] `colombo-coffee-shops` — 12 Best Coffee Shops in Colombo (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
 - [ ] `da-nang-coffee-shops` — 13 Best Coffee Shops in Da Nang (1/13) · 90/mo
 - [ ] `kanazawa-sushi` — 12 Best Sushi in Kanazawa (1/12) · 90/mo
 - [ ] `melbourne-vegan-restaurants` — 11 Best Vegan Restaurants in Melbourne (2026) — Reddit-Backed Guide (1/12) · 90/mo
