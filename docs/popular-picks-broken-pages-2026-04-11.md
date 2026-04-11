@@ -119,11 +119,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `portland-donuts` — Legendary Donut Shops in Portland (12/12) — rebuilt 2026-04-11
 - [x] `portland-food-carts` — 11 Best Food Carts in Portland (2026) — Reddit-Backed Guide (11/11) — rebuilt 2026-04-11
 - [x] `reykjavik-restaurants` — Restaurants in Reykjavik (12/12) — rebuilt 2026-04-11
-- [ ] `san-francisco-dim-sum` — Dim Sum in San Francisco's Chinatown (0/12)
-- [ ] `san-francisco-mission-burritos` —  (0/12)
-- [ ] `san-francisco-sourdough` — 12 Best Sourdough Bakeries in San Francisco (2026) — Reddit-Backed Gui… (0/12)
-- [ ] `san-juan-mofongo` — 12 Best Mofongo & Puerto Rican Food in San Juan (0/12)
-- [ ] `seattle-seafood` — Fresh Seafood in Seattle (0/12)
+- [x] `san-francisco-dim-sum` — Dim Sum in San Francisco's Chinatown (12/12) — rebuilt 2026-04-11
+- [x] `san-francisco-mission-burritos` — Mission Burritos SF (12/12) — rebuilt 2026-04-11
+- [x] `san-francisco-sourdough` — 12 Best Sourdough Bakeries in San Francisco (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
+- [x] `san-juan-mofongo` — 12 Best Mofongo & Puerto Rican Food in San Juan (12/12) — rebuilt 2026-04-11
+- [x] `seattle-seafood` — Fresh Seafood in Seattle (12/12) — rebuilt 2026-04-11
 - [ ] `seattle-seafood-restaurants` — 12 Best Seafood Restaurants in Seattle (2026) — Reddit-Backed Guide (0/12)
 - [ ] `seoul-korean-bbq` — 17 Best Korean BBQ in Seoul (0/18)
 - [ ] `shanghai-xiaolongbao` — Best Xiaolongbao in Shanghai (2026) (0/12)
