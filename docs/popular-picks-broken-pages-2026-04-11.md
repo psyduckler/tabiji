@@ -149,11 +149,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `paris-bakeries` — 18 Best Bakeries & Pâtisseries in Paris (18/18) · 1,300/mo — rebuilt 2026-04-11
 - [x] `paris-croissants` — 15 Best Croissants in Paris — The Unfiltered Guide (15/15) · 1,000/mo — rebuilt 2026-04-11
 - [x] `miami-coffee-shops` — 12 Best Coffee Shops in Miami (2026) — Reddit-Backed Guide (12/12) · 880/mo — rebuilt 2026-04-11
-- [ ] `minneapolis-brunch-spots` — 12 Best Brunch Spots in Minneapolis (2026) — Reddit-Backed Guide (1/12) · 880/mo
-- [ ] `new-orleans-jazz-bars` — 12 Best Jazz Bars in New Orleans — The Reddit Guide (1/12) · 880/mo
-- [ ] `paris-flea-markets` — 10 Best Flea Markets in Paris (1/10) · 880/mo
-- [ ] `brussels-waffles` — 10 Best Waffles in Brussels (1/10) · 720/mo
-- [ ] `mexico-city-tacos` — 18 Best Tacos in Mexico City — The Reddit-Backed Guide (1/18) · 720/mo
+- [x] `minneapolis-brunch-spots` — 12 Best Brunch Spots in Minneapolis (2026) — Reddit-Backed Guide (12/12) · 880/mo — rebuilt 2026-04-11
+- [x] `new-orleans-jazz-bars` — 12 Best Jazz Bars in New Orleans — The Reddit Guide (12/12) · 880/mo — rebuilt 2026-04-11
+- [x] `paris-flea-markets` — 10 Best Flea Markets in Paris (10/10) · 880/mo — rebuilt 2026-04-11
+- [x] `brussels-waffles` — 10 Best Waffles in Brussels (10/10) · 720/mo — rebuilt 2026-04-11
+- [x] `mexico-city-tacos` — 18 Best Tacos in Mexico City — The Reddit-Backed Guide (18/18) · 720/mo — rebuilt 2026-04-11
 - [ ] `philadelphia-brunch-spots` — 12 Best Brunch Spots in Philadelphia (2026) — Reddit-Backed Guide (1/12) · 720/mo
 - [ ] `portland-brunch-spots` — 12 Best Brunch Spots in Portland (2026) — Reddit-Backed Guide (1/12) · 720/mo
 - [ ] `hoi-an-banh-mi` — 11 Best Bánh Mì in Hội An (1/12) · 590/mo
