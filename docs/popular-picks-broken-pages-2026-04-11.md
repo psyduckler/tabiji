@@ -144,11 +144,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 Template cuts after venue #1. Largest bucket — rebuild with full research since existing data is only one venue.
 
 - [x] `st-louis-ribs` — 10 Best Ribs in St. Louis (10/10) · 9,900/mo — rebuilt 2026-04-11
-- [ ] `rome-gelato` — 18 Best Gelato Shops in Rome (Tourist Traps Flagged) (1/18) · 1,900/mo
-- [ ] `chicago-tacos` — 12 Best Tacos in Chicago (2026) — Reddit-Backed Guide (1/12) · 1,600/mo
-- [ ] `paris-bakeries` — 18 Best Bakeries & Pâtisseries in Paris (1/18) · 1,300/mo
-- [ ] `paris-croissants` — 15 Best Croissants in Paris — The Unfiltered Guide (1/15) · 1,000/mo
-- [ ] `miami-coffee-shops` — 12 Best Coffee Shops in Miami (2026) — Reddit-Backed Guide (1/12) · 880/mo
+- [x] `rome-gelato` — 18 Best Gelato Shops in Rome (Tourist Traps Flagged) (18/18) · 1,900/mo — rebuilt 2026-04-11
+- [x] `chicago-tacos` — 12 Best Tacos in Chicago (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
+- [x] `paris-bakeries` — 18 Best Bakeries & Pâtisseries in Paris (18/18) · 1,300/mo — rebuilt 2026-04-11
+- [x] `paris-croissants` — 15 Best Croissants in Paris — The Unfiltered Guide (15/15) · 1,000/mo — rebuilt 2026-04-11
+- [x] `miami-coffee-shops` — 12 Best Coffee Shops in Miami (2026) — Reddit-Backed Guide (12/12) · 880/mo — rebuilt 2026-04-11
 - [ ] `minneapolis-brunch-spots` — 12 Best Brunch Spots in Minneapolis (2026) — Reddit-Backed Guide (1/12) · 880/mo
 - [ ] `new-orleans-jazz-bars` — 12 Best Jazz Bars in New Orleans — The Reddit Guide (1/12) · 880/mo
 - [ ] `paris-flea-markets` — 10 Best Flea Markets in Paris (1/10) · 880/mo
