@@ -94,11 +94,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `le-morne-snorkeling` — Le Morne Snorkeling (9/9) — rebuilt 2026-04-11
 - [x] `lisbon-day-trips` — Best Day Trips from Lisbon (12/12) — rebuilt 2026-04-11
 - [x] `london-afternoon-tea` — 12 Best Afternoon Teas in London 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `london-free-museums` — 15 Best Free Museums in London (0/16)
-- [ ] `london-pubs` — 18 Best Pubs in London — Historic, Cozy & Real Ale Picks (0/18)
-- [ ] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (0/12)
-- [ ] `marrakech-riads` — 12 Best Riads in Marrakech Medina (0/12)
-- [ ] `marseille-seafood-markets` — 12 Best Seafood Markets in Marseille (2026) (0/12)
+- [x] `london-free-museums` — 15 Best Free Museums in London (16/16) — rebuilt 2026-04-11
+- [x] `london-pubs` — 18 Best Pubs in London — Historic, Cozy & Real Ale Picks (18/18) — rebuilt 2026-04-11
+- [x] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (12/12) — rebuilt 2026-04-11
+- [x] `marrakech-riads` — 12 Best Riads in Marrakech Medina (12/12) — rebuilt 2026-04-11
+- [x] `marseille-seafood-markets` — 12 Best Seafood Markets in Marseille (2026) (12/12) — rebuilt 2026-04-11
 - [ ] `miami-cuban-food` — 12 Best Cuban Food in Miami (2026) — Reddit-Backed Guide (0/12)
 - [ ] `miami-rooftop-bars` — 12 Best Rooftop Bars in Miami (2026) — Reddit-Backed Guide (0/12)
 - [ ] `montreal-bagels` — 10 Best Montreal's Wood-Fired Bagels (2026) — Reddit-Backed Guide (0/10)
