@@ -35,10 +35,10 @@
 
 Body is empty — `<section class="pick-list">` wrapper with no venues inside. Many have full ItemList data in `<head>` that can be salvaged.
 
-- [ ] `new-york-pizza` — 18 Best Pizza Spots in New York City (0/18) · 49,500/mo
-- [ ] `new-york-bagels` — 15 Best Bagels in New York City — The Unfiltered Guide (0/15) · 9,900/mo
-- [ ] `kyoto-ramen` — 12 Best Ramen in Kyoto (0/12) · 8,100/mo
-- [ ] `los-angeles-tacos` — 11 Best Tacos in Los Angeles 2026 — Reddit-Backed Guide (0/11) · 8,100/mo
+- [x] `new-york-pizza` — 18 Best Pizza Spots in New York City (18/18) · 49,500/mo — rebuilt 2026-04-11
+- [x] `new-york-bagels` — 15 Best Bagels in New York City — The Unfiltered Guide (15/15) · 9,900/mo — rebuilt 2026-04-11
+- [x] `kyoto-ramen` — 12 Best Ramen in Kyoto (12/12) · 8,100/mo — rebuilt 2026-04-11
+- [SKIP] `los-angeles-tacos` — 11 Best Tacos in Los Angeles 2026 — Reddit-Backed Guide (0/11) · 8,100/mo — no ItemList data, needs full research
 - [ ] `nashville-bbq` — 12 Best BBQ in Nashville (2026) — Reddit-Backed Guide (0/12) · 6,600/mo
 - [ ] `barcelona-tapas` — Best Tapas Bars in Barcelona (0/14) · 4,400/mo
 - [ ] `hanoi-pho` — 16 Best Phở Spots in Hanoi (0/18) · 4,400/mo
@@ -143,7 +143,7 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 
 Template cuts after venue #1. Largest bucket — rebuild with full research since existing data is only one venue.
 
-- [ ] `st-louis-ribs` — 10 Best Ribs in St. Louis (1/10) · 9,900/mo
+- [x] `st-louis-ribs` — 10 Best Ribs in St. Louis (10/10) · 9,900/mo — rebuilt 2026-04-11
 - [ ] `rome-gelato` — 18 Best Gelato Shops in Rome (Tourist Traps Flagged) (1/18) · 1,900/mo
 - [ ] `chicago-tacos` — 12 Best Tacos in Chicago (2026) — Reddit-Backed Guide (1/12) · 1,600/mo
 - [ ] `paris-bakeries` — 18 Best Bakeries & Pâtisseries in Paris (1/18) · 1,300/mo
