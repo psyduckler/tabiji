@@ -84,11 +84,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `chicago-italian-beef` — 12 Best Italian Beef Sandwiches in Chicago (2026) — Reddit-Backed Guid… (12/12) — rebuilt 2026-04-11
 - [x] `chongqing-hot-pot` — Chongqing-Style Hot Pot (12/12) — rebuilt 2026-04-11
 - [x] `denver-brunch-spots` — 12 Best Brunch Spots in Denver (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `denver-coffee-shops` — 12 Best Coffee Shops in Denver (2026) — Reddit-Backed Guide (0/12)
-- [ ] `guilin-rice-noodles` — Guilin Rice Noodle Shops (0/12)
-- [ ] `hiroshima-okonomiyaki` — 12 Best Okonomiyaki in Hiroshima (0/12)
-- [ ] `ho-chi-minh-craft-beer-bars` — 12 Best Craft Beer Bars in Ho Chi Minh City (2026) (0/12)
-- [ ] `hyderabad-biryani` — Hyderabad Biryani (0/12)
+- [x] `denver-coffee-shops` — 12 Best Coffee Shops in Denver (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `guilin-rice-noodles` — Guilin Rice Noodle Shops (12/12) — rebuilt 2026-04-11
+- [x] `hiroshima-okonomiyaki` — 12 Best Okonomiyaki in Hiroshima (12/12) — rebuilt 2026-04-11
+- [x] `ho-chi-minh-craft-beer-bars` — 12 Best Craft Beer Bars in Ho Chi Minh City (2026) (12/12) — rebuilt 2026-04-11
+- [x] `hyderabad-biryani` — Hyderabad Biryani (12/12) — rebuilt 2026-04-11
 - [ ] `istanbul-late-night-food` — Best Late Night Food in Istanbul (0/12)
 - [ ] `kobe-beef` — Best Kobe Beef Restaurants in Kobe (0/0)
 - [ ] `le-morne-snorkeling` —  (0/9)
