@@ -164,11 +164,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (12/12) · 480/mo — rebuilt 2026-04-11
 - [x] `madrid-churros` — 13 Best Churros in Madrid — The Unfiltered Guide (15/15) · 390/mo — rebuilt 2026-04-11
 - [x] `copenhagen-bakeries` — 12 Best Bakeries in Copenhagen (12/12) · 320/mo — rebuilt 2026-04-11
-- [ ] `fukuoka-ramen` — 11 Best Tonkotsu Ramen in Fukuoka (1/12) · 320/mo
-- [ ] `mexico-city-coffee-shops` — 14 Best Coffee Shops in Mexico City (1/14) · 320/mo
-- [ ] `london-cheap-eats` — 13 Best Cheap Eats in London (1/13) · 260/mo
-- [ ] `miami-cocktail-bars` — 12 Best Cocktail Bars in Miami (2026) — Reddit-Backed Guide (1/12) · 260/mo
-- [ ] `paris-cheap-eats` — 13 Best Cheap Eats in Paris (1/13) · 260/mo
+- [x] `fukuoka-ramen` — 11 Best Tonkotsu Ramen in Fukuoka (12/12) · 320/mo — rebuilt 2026-04-11
+- [x] `mexico-city-coffee-shops` — 14 Best Coffee Shops in Mexico City (14/14) · 320/mo — rebuilt 2026-04-11
+- [x] `london-cheap-eats` — 13 Best Cheap Eats in London (13/13) · 260/mo — rebuilt 2026-04-11
+- [x] `miami-cocktail-bars` — 12 Best Cocktail Bars in Miami (2026) — Reddit-Backed Guide (12/12) · 260/mo — rebuilt 2026-04-11
+- [x] `paris-cheap-eats` — 13 Best Cheap Eats in Paris (13/13) · 260/mo — rebuilt 2026-04-11
 - [ ] `austin-craft-beer` — 12 Best Craft Beer Breweries in Austin (2026) — Reddit-Backed Guide (1/12) · 210/mo
 - [ ] `jerusalem-falafel` — 8 Best Falafel Spots in Jerusalem (1/9) · 210/mo
 - [ ] `lisbon-rooftop-bars` — 12 Best Rooftop Bars in Lisbon (1/12) · 210/mo
