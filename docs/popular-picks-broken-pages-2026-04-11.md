@@ -169,11 +169,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `london-cheap-eats` — 13 Best Cheap Eats in London (13/13) · 260/mo — rebuilt 2026-04-11
 - [x] `miami-cocktail-bars` — 12 Best Cocktail Bars in Miami (2026) — Reddit-Backed Guide (12/12) · 260/mo — rebuilt 2026-04-11
 - [x] `paris-cheap-eats` — 13 Best Cheap Eats in Paris (13/13) · 260/mo — rebuilt 2026-04-11
-- [ ] `austin-craft-beer` — 12 Best Craft Beer Breweries in Austin (2026) — Reddit-Backed Guide (1/12) · 210/mo
-- [ ] `jerusalem-falafel` — 8 Best Falafel Spots in Jerusalem (1/9) · 210/mo
-- [ ] `lisbon-rooftop-bars` — 12 Best Rooftop Bars in Lisbon (1/12) · 210/mo
-- [ ] `paris-wine-bars` — 17 Best Wine Bars in Paris (1/17) · 210/mo
-- [ ] `shanghai-dim-sum` — 11 Best Dim Sum in Shanghai (2026) — Reddit-Backed Guide (1/11) · 210/mo
+- [x] `austin-craft-beer` — 12 Best Craft Beer Breweries in Austin (2026) — Reddit-Backed Guide (12/12) · 210/mo — rebuilt 2026-04-11
+- [x] `jerusalem-falafel` — 8 Best Falafel Spots in Jerusalem (9/9) · 210/mo — rebuilt 2026-04-11
+- [x] `lisbon-rooftop-bars` — 12 Best Rooftop Bars in Lisbon (12/12) · 210/mo — rebuilt 2026-04-11
+- [x] `paris-wine-bars` — 17 Best Wine Bars in Paris (17/17) · 210/mo — rebuilt 2026-04-11
+- [x] `shanghai-dim-sum` — 11 Best Dim Sum in Shanghai (2026) — Reddit-Backed Guide (11/11) · 210/mo — rebuilt 2026-04-11
 - [ ] `kyoto-street-food` — 12 Best Street Food Spots in Kyoto (1/12) · 170/mo
 - [ ] `mexico-city-vegan-restaurants` — 10 Best Vegan Restaurants in Mexico City (1/10) · 170/mo
 - [ ] `buenos-aires-pizza` — 12 Best Pizza in Buenos Aires (2026) — Reddit-Backed Guide (1/12) · 140/mo
