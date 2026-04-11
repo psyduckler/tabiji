@@ -129,11 +129,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `shanghai-xiaolongbao` — Best Xiaolongbao in Shanghai (2026) (12/12) — rebuilt 2026-04-11
 - [x] `strasbourg-christmas-market` — Strasbourg Christmas Market (12/12) — rebuilt 2026-04-11
 - [x] `tokyo-day-trips` — Best Day Trips from Tokyo (12/12) — rebuilt 2026-04-11
-- [ ] `tokyo-sushi` — Sushi Restaurants in Tokyo (0/12)
-- [ ] `toronto-night-markets` — Toronto Night Markets (0/12)
-- [ ] `tulum-beach-clubs` — 11 Best Beach Clubs in Tulum — The Reddit Guide (0/11)
-- [ ] `valencia-paella` — Authentic Paella in Valencia (0/12)
-- [ ] `venice-cicchetti` — 11 Best Cicchetti Bars in Venice — The Unfiltered Bàcari Guide (0/11)
+- [x] `tokyo-sushi` — Sushi Restaurants in Tokyo (12/12) — rebuilt 2026-04-11
+- [x] `toronto-night-markets` — Toronto Night Markets (12/12) — rebuilt 2026-04-11
+- [x] `tulum-beach-clubs` — 11 Best Beach Clubs in Tulum — The Reddit Guide (11/11) — rebuilt 2026-04-11
+- [x] `valencia-paella` — Authentic Paella in Valencia (12/12) — rebuilt 2026-04-11
+- [x] `venice-cicchetti` — 11 Best Cicchetti Bars in Venice — The Unfiltered Bàcari Guide (11/11) — rebuilt 2026-04-11
 - [ ] `venice-ghost-tours` — Ghost Tours in Venice (0/12)
 - [ ] `xian-biangbiang-noodles` — Biangbiang Noodles in Xi'an (0/12)
 - [ ] `yokohama-ramen` — Yokohama Ramen & Chinatown (0/12)
