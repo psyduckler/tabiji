@@ -758,7 +758,7 @@ def validate_rendered_output(data: Dict, html: str) -> List[str]:
         errors.append("rendered HTML missing verdict-box")
     if 'class="comparison-section"' not in html:
         errors.append("rendered HTML missing comparison-section")
-    if html.count('class="deep-dive"') != len(data["content"]["deepDiveHtml"]):
+    if len(re.findall(r'class="deep-dive[" ]', html)) != len(data["content"]["deepDiveHtml"]):
         errors.append("deep-dive count mismatch")
     if html.count('class="faq-item"') != len(data["content"]["faqItems"]):
         errors.append("faq-item count mismatch")

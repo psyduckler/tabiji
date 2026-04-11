@@ -414,6 +414,8 @@ def cmd_enrich(dry_run: bool, slug_filter: str | None, limit: int | None) -> Non
     work = []
     for f in sorted(DATA_DIR.glob("*.json")):
         data = json.loads(f.read_text())
+        if "slug" not in data:
+            continue  # skip .research.json and other non-page files
         s = data["slug"]
         if slug_filter and s != slug_filter:
             continue
