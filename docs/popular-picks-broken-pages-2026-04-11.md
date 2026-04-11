@@ -99,11 +99,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (12/12) — rebuilt 2026-04-11
 - [x] `marrakech-riads` — 12 Best Riads in Marrakech Medina (12/12) — rebuilt 2026-04-11
 - [x] `marseille-seafood-markets` — 12 Best Seafood Markets in Marseille (2026) (12/12) — rebuilt 2026-04-11
-- [ ] `miami-cuban-food` — 12 Best Cuban Food in Miami (2026) — Reddit-Backed Guide (0/12)
-- [ ] `miami-rooftop-bars` — 12 Best Rooftop Bars in Miami (2026) — Reddit-Backed Guide (0/12)
-- [ ] `montreal-bagels` — 10 Best Montreal's Wood-Fired Bagels (2026) — Reddit-Backed Guide (0/10)
-- [ ] `montreal-poutine` — 12 Best Poutine Spots in Montreal (2026) — Reddit-Backed Guide (0/12)
-- [ ] `montreal-smoked-meat` — 10 Best Montreal Smoked Meat Delis (2026) — Reddit-Backed Guide (0/10)
+- [x] `miami-cuban-food` — 12 Best Cuban Food in Miami (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `miami-rooftop-bars` — 12 Best Rooftop Bars in Miami (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `montreal-bagels` — 10 Best Montreal's Wood-Fired Bagels (2026) — Reddit-Backed Guide (10/10) — rebuilt 2026-04-11
+- [x] `montreal-poutine` — 12 Best Poutine Spots in Montreal (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `montreal-smoked-meat` — 10 Best Montreal Smoked Meat Delis (2026) — Reddit-Backed Guide (10/10) — rebuilt 2026-04-11
 - [ ] `nanjing-restaurants` — Nanjing Cuisine & Salted Duck (0/12)
 - [ ] `naples-sfogliatella` — 12 Best Sfogliatella Shops in Naples (2026) (0/12)
 - [ ] `nashville-hot-chicken` — 12 Best Hot Chicken in Nashville (2026) — Reddit-Backed Guide (0/12)
