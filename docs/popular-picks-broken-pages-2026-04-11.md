@@ -109,11 +109,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `nashville-hot-chicken` — 12 Best Hot Chicken in Nashville (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `new-orleans-beignets` — 12 Best Beignets in New Orleans 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `new-york-brunch` — 12 Best Brunch Spots in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `new-york-chopped-cheese` — 12 Best Chopped Cheese in New York City (2026) — Reddit-Backed Guide (0/12)
-- [ ] `new-york-korean-bbq` — 12 Best Korean BBQ in New York City (2026) — Reddit-Backed Guide (0/12)
-- [ ] `new-york-late-night-eats` — Best Late Night Eats in New York (0/12)
-- [ ] `okinawa-soba` — 12 Best Okinawa Soba Restaurants (0/12)
-- [ ] `osaka-ramen` — Ramen in Osaka (0/12)
+- [x] `new-york-chopped-cheese` — 12 Best Chopped Cheese in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `new-york-korean-bbq` — 12 Best Korean BBQ in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `new-york-late-night-eats` — Best Late Night Eats in New York (12/12) — rebuilt 2026-04-11
+- [x] `okinawa-soba` — 12 Best Okinawa Soba Restaurants (12/12) — rebuilt 2026-04-11
+- [x] `osaka-ramen` — Ramen in Osaka (12/12) — rebuilt 2026-04-11
 - [ ] `philadelphia-brunch` — Brunch in Philadelphia (0/12)
 - [ ] `philadelphia-cheesesteaks` — Cheesesteaks in Philadelphia (0/12)
 - [ ] `portland-donuts` — Legendary Donut Shops in Portland (0/12)
