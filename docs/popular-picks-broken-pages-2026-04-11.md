@@ -64,11 +64,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `vienna-schnitzel` — 10 Best Schnitzel in Vienna (10/10) · 1,000/mo — rebuilt 2026-04-11
 - [x] `singapore-rooftop-bars` — 12 Best Rooftop Bars in Singapore (2026) (12/12) · 110/mo — rebuilt 2026-04-11
 - [x] `singapore-craft-beer` — 14 Best Craft Beer Bars & Breweries in Singapore (14/14) · 30/mo — rebuilt 2026-04-11
-- [ ] `austin-bbq` — 12 Best BBQ in Austin (2026) — Reddit-Backed Guide (0/12)
-- [ ] `austin-breakfast-tacos` — Breakfast Tacos in Austin (0/12)
-- [ ] `austin-fine-dining` — 12 Best Fine Dining in Austin (0/12)
-- [ ] `baltimore-coffee-shops` — 12 Best Coffee Shops in Baltimore (0/12)
-- [ ] `bangkok-street-food` — 12 Best Street Food in Bangkok (0/12)
+- [x] `austin-bbq` — 12 Best BBQ in Austin (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `austin-breakfast-tacos` — Breakfast Tacos in Austin (12/12) — rebuilt 2026-04-11
+- [x] `austin-fine-dining` — 12 Best Fine Dining in Austin (12/12) — rebuilt 2026-04-11
+- [x] `baltimore-coffee-shops` — 12 Best Coffee Shops in Baltimore (12/12) — rebuilt 2026-04-11
+- [x] `bangkok-street-food` — 12 Best Street Food in Bangkok (12/12) — rebuilt 2026-04-11
 - [ ] `beijing-hot-pot` — Beijing Hot Pot Scene (2026) (0/10)
 - [ ] `berlin-currywurst` — 12 Best Currywurst in Berlin (2026) — Reddit-Backed Guide (0/12)
 - [ ] `berlin-nightlife` — Club Nightlife in Berlin (0/12)
