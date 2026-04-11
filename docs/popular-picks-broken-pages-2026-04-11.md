@@ -104,11 +104,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `montreal-bagels` — 10 Best Montreal's Wood-Fired Bagels (2026) — Reddit-Backed Guide (10/10) — rebuilt 2026-04-11
 - [x] `montreal-poutine` — 12 Best Poutine Spots in Montreal (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `montreal-smoked-meat` — 10 Best Montreal Smoked Meat Delis (2026) — Reddit-Backed Guide (10/10) — rebuilt 2026-04-11
-- [ ] `nanjing-restaurants` — Nanjing Cuisine & Salted Duck (0/12)
-- [ ] `naples-sfogliatella` — 12 Best Sfogliatella Shops in Naples (2026) (0/12)
-- [ ] `nashville-hot-chicken` — 12 Best Hot Chicken in Nashville (2026) — Reddit-Backed Guide (0/12)
-- [ ] `new-orleans-beignets` — 12 Best Beignets in New Orleans 2026 — Reddit-Backed Guide (0/12)
-- [ ] `new-york-brunch` — 12 Best Brunch Spots in New York City (2026) — Reddit-Backed Guide (0/12)
+- [x] `nanjing-restaurants` — Nanjing Cuisine & Salted Duck (12/12) — rebuilt 2026-04-11
+- [x] `naples-sfogliatella` — 12 Best Sfogliatella Shops in Naples (2026) (12/12) — rebuilt 2026-04-11
+- [x] `nashville-hot-chicken` — 12 Best Hot Chicken in Nashville (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `new-orleans-beignets` — 12 Best Beignets in New Orleans 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `new-york-brunch` — 12 Best Brunch Spots in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [ ] `new-york-chopped-cheese` — 12 Best Chopped Cheese in New York City (2026) — Reddit-Backed Guide (0/12)
 - [ ] `new-york-korean-bbq` — 12 Best Korean BBQ in New York City (2026) — Reddit-Backed Guide (0/12)
 - [ ] `new-york-late-night-eats` — Best Late Night Eats in New York (0/12)
