@@ -190,12 +190,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cairo-street-food` — 18 Best Street Food Spots in Cairo (18/18) · 90/mo — rebuilt 2026-04-11
 - [x] `cartagena-ceviche` — 18 Best Ceviche & Seafood Spots in Cartagena (18/18) · 90/mo — rebuilt 2026-04-11
 - [x] `colombo-coffee-shops` — 12 Best Coffee Shops in Colombo (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
-- [ ] `da-nang-coffee-shops` — 13 Best Coffee Shops in Da Nang (1/13) · 90/mo
-- [ ] `kanazawa-sushi` — 12 Best Sushi in Kanazawa (1/12) · 90/mo
-- [ ] `melbourne-vegan-restaurants` — 11 Best Vegan Restaurants in Melbourne (2026) — Reddit-Backed Guide (1/12) · 90/mo
-- [ ] `paris-cheese-shops` — 12 Best Cheese Shops in Paris (2026) — Reddit-Backed Guide (1/12) · 90/mo
-- [ ] `penang-street-food` — 18 Best Street Food Spots in Penang (1/20) · 90/mo
-- [ ] `minneapolis-craft-beer` — 12 Best Craft Breweries in Minneapolis (2026) — Reddit-Backed Guide (1/12) · 70/mo
+- [x] `da-nang-coffee-shops` — 13 Best Coffee Shops in Da Nang (13/13) · 90/mo — rebuilt 2026-04-11
+- [x] `kanazawa-sushi` — 12 Best Sushi in Kanazawa (12/12) · 90/mo — rebuilt 2026-04-11
+- [SKIP] `melbourne-vegan-restaurants` — 11 Best Vegan Restaurants in Melbourne (2026) — Reddit-Backed Guide (1/12) · 90/mo — minimal ItemList, needs full research
+- [x] `paris-cheese-shops` — 12 Best Cheese Shops in Paris (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
+- [x] `penang-street-food` — 18 Best Street Food Spots in Penang (20/20) · 90/mo — rebuilt 2026-04-11
+- [x] `minneapolis-craft-beer` — 12 Best Craft Breweries in Minneapolis (2026) — Reddit-Backed Guide (12/12) · 70/mo — rebuilt 2026-04-11
 - [ ] `warsaw-pierogi` — 13 Best Pierogi in Warsaw (2026) (1/13) · 70/mo
 - [ ] `chiang-mai-cooking-classes` — 14 Best Cooking Classes in Chiang Mai (1/14) · 50/mo
 - [ ] `phnom-penh-rooftop-bars` — 7 Best Rooftop Bars in Phnom Penh (1/7) · 50/mo
