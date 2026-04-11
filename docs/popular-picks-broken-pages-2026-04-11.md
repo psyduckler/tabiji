@@ -89,11 +89,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `hiroshima-okonomiyaki` — 12 Best Okonomiyaki in Hiroshima (12/12) — rebuilt 2026-04-11
 - [x] `ho-chi-minh-craft-beer-bars` — 12 Best Craft Beer Bars in Ho Chi Minh City (2026) (12/12) — rebuilt 2026-04-11
 - [x] `hyderabad-biryani` — Hyderabad Biryani (12/12) — rebuilt 2026-04-11
-- [ ] `istanbul-late-night-food` — Best Late Night Food in Istanbul (0/12)
-- [ ] `kobe-beef` — Best Kobe Beef Restaurants in Kobe (0/0)
-- [ ] `le-morne-snorkeling` —  (0/9)
-- [ ] `lisbon-day-trips` — Best Day Trips from Lisbon (0/12)
-- [ ] `london-afternoon-tea` — 12 Best Afternoon Teas in London 2026 — Reddit-Backed Guide (0/12)
+- [x] `istanbul-late-night-food` — Best Late Night Food in Istanbul (12/12) — rebuilt 2026-04-11
+- [SKIP] `kobe-beef` — Best Kobe Beef Restaurants in Kobe (0/0) — no ItemList data
+- [x] `le-morne-snorkeling` — Le Morne Snorkeling (9/9) — rebuilt 2026-04-11
+- [x] `lisbon-day-trips` — Best Day Trips from Lisbon (12/12) — rebuilt 2026-04-11
+- [x] `london-afternoon-tea` — 12 Best Afternoon Teas in London 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [ ] `london-free-museums` — 15 Best Free Museums in London (0/16)
 - [ ] `london-pubs` — 18 Best Pubs in London — Historic, Cozy & Real Ale Picks (0/18)
 - [ ] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (0/12)
