@@ -114,11 +114,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `new-york-late-night-eats` — Best Late Night Eats in New York (12/12) — rebuilt 2026-04-11
 - [x] `okinawa-soba` — 12 Best Okinawa Soba Restaurants (12/12) — rebuilt 2026-04-11
 - [x] `osaka-ramen` — Ramen in Osaka (12/12) — rebuilt 2026-04-11
-- [ ] `philadelphia-brunch` — Brunch in Philadelphia (0/12)
-- [ ] `philadelphia-cheesesteaks` — Cheesesteaks in Philadelphia (0/12)
-- [ ] `portland-donuts` — Legendary Donut Shops in Portland (0/12)
-- [ ] `portland-food-carts` — 11 Best Food Carts in Portland (2026) — Reddit-Backed Guide (0/11)
-- [ ] `reykjavik-restaurants` — Restaurants in Reykjavik (0/12)
+- [x] `philadelphia-brunch` — Brunch in Philadelphia (12/12) — rebuilt 2026-04-11
+- [x] `philadelphia-cheesesteaks` — Cheesesteaks in Philadelphia (12/12) — rebuilt 2026-04-11
+- [x] `portland-donuts` — Legendary Donut Shops in Portland (12/12) — rebuilt 2026-04-11
+- [x] `portland-food-carts` — 11 Best Food Carts in Portland (2026) — Reddit-Backed Guide (11/11) — rebuilt 2026-04-11
+- [x] `reykjavik-restaurants` — Restaurants in Reykjavik (12/12) — rebuilt 2026-04-11
 - [ ] `san-francisco-dim-sum` — Dim Sum in San Francisco's Chinatown (0/12)
 - [ ] `san-francisco-mission-burritos` —  (0/12)
 - [ ] `san-francisco-sourdough` — 12 Best Sourdough Bakeries in San Francisco (2026) — Reddit-Backed Gui… (0/12)
