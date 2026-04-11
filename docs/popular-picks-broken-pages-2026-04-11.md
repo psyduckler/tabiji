@@ -196,11 +196,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `paris-cheese-shops` — 12 Best Cheese Shops in Paris (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
 - [x] `penang-street-food` — 18 Best Street Food Spots in Penang (20/20) · 90/mo — rebuilt 2026-04-11
 - [x] `minneapolis-craft-beer` — 12 Best Craft Breweries in Minneapolis (2026) — Reddit-Backed Guide (12/12) · 70/mo — rebuilt 2026-04-11
-- [ ] `warsaw-pierogi` — 13 Best Pierogi in Warsaw (2026) (1/13) · 70/mo
-- [ ] `chiang-mai-cooking-classes` — 14 Best Cooking Classes in Chiang Mai (1/14) · 50/mo
-- [ ] `phnom-penh-rooftop-bars` — 7 Best Rooftop Bars in Phnom Penh (1/7) · 50/mo
-- [ ] `prague-cheap-eats` — 19 Best Cheap Eats in Prague (1/19) · 50/mo
-- [ ] `taipei-dim-sum` — 15 Best Dim Sum in Taipei — The Unfiltered Guide (1/15) · 50/mo
+- [x] `warsaw-pierogi` — 13 Best Pierogi in Warsaw (2026) (13/13) · 70/mo — rebuilt 2026-04-11
+- [x] `chiang-mai-cooking-classes` — 14 Best Cooking Classes in Chiang Mai (14/14) · 50/mo — rebuilt 2026-04-11
+- [x] `phnom-penh-rooftop-bars` — 7 Best Rooftop Bars in Phnom Penh (7/7) · 50/mo — rebuilt 2026-04-11
+- [x] `prague-cheap-eats` — 19 Best Cheap Eats in Prague (19/19) · 50/mo — rebuilt 2026-04-11
+- [x] `taipei-dim-sum` — 15 Best Dim Sum in Taipei — The Unfiltered Guide (15/15) · 50/mo — rebuilt 2026-04-11
 - [ ] `bali-cooking-classes` — 8 Best Cooking Classes in Bali (1/8) · 40/mo
 - [ ] `kuala-lumpur-rooftop-bars` — 12 Best Rooftop Bars in Kuala Lumpur 2026 — Reddit-Backed Guide (1/12) · 40/mo
 - [ ] `melbourne-brunch-spots` — 12 Best Brunch Spots in Melbourne (2026) — Reddit-Backed Guide (1/12) · 40/mo
