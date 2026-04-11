@@ -154,11 +154,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `paris-flea-markets` — 10 Best Flea Markets in Paris (10/10) · 880/mo — rebuilt 2026-04-11
 - [x] `brussels-waffles` — 10 Best Waffles in Brussels (10/10) · 720/mo — rebuilt 2026-04-11
 - [x] `mexico-city-tacos` — 18 Best Tacos in Mexico City — The Reddit-Backed Guide (18/18) · 720/mo — rebuilt 2026-04-11
-- [ ] `philadelphia-brunch-spots` — 12 Best Brunch Spots in Philadelphia (2026) — Reddit-Backed Guide (1/12) · 720/mo
-- [ ] `portland-brunch-spots` — 12 Best Brunch Spots in Portland (2026) — Reddit-Backed Guide (1/12) · 720/mo
-- [ ] `hoi-an-banh-mi` — 11 Best Bánh Mì in Hội An (1/12) · 590/mo
-- [ ] `london-rooftop-bars` — 12 Best Rooftop Bars in London (2026) — Reddit-Backed Guide (1/12) · 590/mo
-- [ ] `osaka-street-food` — 13 Best Street Food Spots in Osaka — The Ultimate Guide (1/14) · 590/mo
+- [x] `philadelphia-brunch-spots` — 12 Best Brunch Spots in Philadelphia (2026) — Reddit-Backed Guide (12/12) · 720/mo — rebuilt 2026-04-11
+- [x] `portland-brunch-spots` — 12 Best Brunch Spots in Portland (2026) — Reddit-Backed Guide (12/12) · 720/mo — rebuilt 2026-04-11
+- [x] `hoi-an-banh-mi` — 11 Best Bánh Mì in Hội An (12/12) · 590/mo — rebuilt 2026-04-11
+- [SKIP] `london-rooftop-bars` — 12 Best Rooftop Bars in London (2026) — Reddit-Backed Guide (1/12) · 590/mo — no ItemList data
+- [x] `osaka-street-food` — 13 Best Street Food Spots in Osaka — The Ultimate Guide (14/14) · 590/mo — rebuilt 2026-04-11
 - [ ] `bangkok-rooftop-bars` — 16 Best Rooftop Bars in Bangkok (1/16) · 480/mo
 - [ ] `rome-cooking-classes` — 9 Best Cooking Classes in Rome (1/10) · 480/mo
 - [ ] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (1/12) · 480/mo
