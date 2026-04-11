@@ -134,10 +134,10 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `tulum-beach-clubs` — 11 Best Beach Clubs in Tulum — The Reddit Guide (11/11) — rebuilt 2026-04-11
 - [x] `valencia-paella` — Authentic Paella in Valencia (12/12) — rebuilt 2026-04-11
 - [x] `venice-cicchetti` — 11 Best Cicchetti Bars in Venice — The Unfiltered Bàcari Guide (11/11) — rebuilt 2026-04-11
-- [ ] `venice-ghost-tours` — Ghost Tours in Venice (0/12)
-- [ ] `xian-biangbiang-noodles` — Biangbiang Noodles in Xi'an (0/12)
-- [ ] `yokohama-ramen` — Yokohama Ramen & Chinatown (0/12)
-- [ ] `zhangjiajie-glass-bridge` — Zhangjiajie Glass Bridge (0/12)
+- [x] `venice-ghost-tours` — Ghost Tours in Venice (12/12) — rebuilt 2026-04-11
+- [x] `xian-biangbiang-noodles` — Biangbiang Noodles in Xi'an (12/12) — rebuilt 2026-04-11
+- [x] `yokohama-ramen` — Yokohama Ramen & Chinatown (12/12) — rebuilt 2026-04-11
+- [x] `zhangjiajie-glass-bridge` — Zhangjiajie Glass Bridge (12/12) — rebuilt 2026-04-11
 
 ## One section — non-country (1014 pages)
 
