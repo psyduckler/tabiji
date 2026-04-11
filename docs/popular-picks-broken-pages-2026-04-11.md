@@ -59,11 +59,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `new-york-dim-sum` — 12 Best Dim Sum in New York City (2026) — Reddit-Backed Guide (12/12) · 1,300/mo — rebuilt 2026-04-11
 - [x] `san-diego-brunch-spots` — 12 Best Brunch Spots in San Diego (2026) — Reddit-Backed Guide (12/12) · 1,300/mo — rebuilt 2026-04-11
 - [x] `miami-brunch-spots` — 12 Best Brunch Spots in Miami (2026) — Reddit-Backed Guide (12/12) · 1,000/mo — rebuilt 2026-04-11
-- [ ] `seville-tapas` — 15 Best Tapas Bars in Seville (0/15) · 1,000/mo
-- [ ] `taipei-night-markets` — 8 Best Night Markets in Taipei (0/8) · 1,000/mo
-- [ ] `vienna-schnitzel` — 10 Best Schnitzel in Vienna (0/10) · 1,000/mo
-- [ ] `singapore-rooftop-bars` — 12 Best Rooftop Bars in Singapore (2026) (0/12) · 110/mo
-- [ ] `singapore-craft-beer` — 14 Best Craft Beer Bars & Breweries in Singapore (0/14) · 30/mo
+- [x] `seville-tapas` — 15 Best Tapas Bars in Seville (15/15) · 1,000/mo — rebuilt 2026-04-11
+- [x] `taipei-night-markets` — 8 Best Night Markets in Taipei (8/8) · 1,000/mo — rebuilt 2026-04-11
+- [x] `vienna-schnitzel` — 10 Best Schnitzel in Vienna (10/10) · 1,000/mo — rebuilt 2026-04-11
+- [x] `singapore-rooftop-bars` — 12 Best Rooftop Bars in Singapore (2026) (12/12) · 110/mo — rebuilt 2026-04-11
+- [x] `singapore-craft-beer` — 14 Best Craft Beer Bars & Breweries in Singapore (14/14) · 30/mo — rebuilt 2026-04-11
 - [ ] `austin-bbq` — 12 Best BBQ in Austin (2026) — Reddit-Backed Guide (0/12)
 - [ ] `austin-breakfast-tacos` — Breakfast Tacos in Austin (0/12)
 - [ ] `austin-fine-dining` — 12 Best Fine Dining in Austin (0/12)
