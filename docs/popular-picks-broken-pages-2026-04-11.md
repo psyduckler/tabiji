@@ -54,11 +54,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
 - [x] `nashville-brunch-spots` — 12 Best Brunch Spots in Nashville (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
 - [x] `philadelphia-coffee-shops` — 12 Best Coffee Shops in Philadelphia 2026 — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
-- [ ] `portland-vegan-restaurants` — 12 Best Vegan Restaurants in Portland (2026) — Reddit-Backed Guide (0/12) · 1,600/mo
-- [ ] `austin-food-trucks` — 12 Best Food Trucks in Austin (2026) — Reddit-Backed Guide (0/12) · 1,300/mo
-- [ ] `new-york-dim-sum` — 12 Best Dim Sum in New York City (2026) — Reddit-Backed Guide (0/12) · 1,300/mo
-- [ ] `san-diego-brunch-spots` — 12 Best Brunch Spots in San Diego (2026) — Reddit-Backed Guide (0/12) · 1,300/mo
-- [ ] `miami-brunch-spots` — 12 Best Brunch Spots in Miami (2026) — Reddit-Backed Guide (0/12) · 1,000/mo
+- [x] `portland-vegan-restaurants` — 12 Best Vegan Restaurants in Portland (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
+- [x] `austin-food-trucks` — 12 Best Food Trucks in Austin (2026) — Reddit-Backed Guide (12/12) · 1,300/mo — rebuilt 2026-04-11
+- [x] `new-york-dim-sum` — 12 Best Dim Sum in New York City (2026) — Reddit-Backed Guide (12/12) · 1,300/mo — rebuilt 2026-04-11
+- [x] `san-diego-brunch-spots` — 12 Best Brunch Spots in San Diego (2026) — Reddit-Backed Guide (12/12) · 1,300/mo — rebuilt 2026-04-11
+- [x] `miami-brunch-spots` — 12 Best Brunch Spots in Miami (2026) — Reddit-Backed Guide (12/12) · 1,000/mo — rebuilt 2026-04-11
 - [ ] `seville-tapas` — 15 Best Tapas Bars in Seville (0/15) · 1,000/mo
 - [ ] `taipei-night-markets` — 8 Best Night Markets in Taipei (0/8) · 1,000/mo
 - [ ] `vienna-schnitzel` — 10 Best Schnitzel in Vienna (0/10) · 1,000/mo
