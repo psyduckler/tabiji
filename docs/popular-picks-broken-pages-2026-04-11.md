@@ -74,11 +74,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `berlin-nightlife` — Club Nightlife in Berlin (12/12) — rebuilt 2026-04-11
 - [x] `bilbao-guggenheim` — 12 Best Guggenheim Museum Bilbao Guide (12/12) — rebuilt 2026-04-11
 - [x] `boston-clam-chowder` — 12 Best Clam Chowder in Boston (12/12) — rebuilt 2026-04-11
-- [ ] `budapest-ruin-bars` — 18 Best Ruin Bars in Budapest (0/18)
-- [ ] `cartagena-nightlife` — Nightlife in Cartagena (0/12)
-- [ ] `chengdu-hot-pot` — 12 Best Hot Pot in Chengdu (2026) — Reddit-Backed Guide (0/12)
-- [ ] `chicago-art-galleries` — 12 Best Art Galleries in Chicago (0/12)
-- [ ] `chicago-brunch` — 12 Best Brunch Restaurants in Chicago (2026) — Reddit-Backed Guide (0/12)
+- [x] `budapest-ruin-bars` — 18 Best Ruin Bars in Budapest (18/18) — rebuilt 2026-04-11
+- [x] `cartagena-nightlife` — Nightlife in Cartagena (12/12) — rebuilt 2026-04-11
+- [x] `chengdu-hot-pot` — 12 Best Hot Pot in Chengdu (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `chicago-art-galleries` — 12 Best Art Galleries in Chicago (12/12) — rebuilt 2026-04-11
+- [x] `chicago-brunch` — 12 Best Brunch Restaurants in Chicago (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [ ] `chicago-deep-dish-pizza` — 12 Best Deep Dish Pizza Restaurants in Chicago (2026) — Reddit-Backed … (0/12)
 - [ ] `chicago-fine-dining` — 12 Best Fine Dining in Chicago (0/12)
 - [ ] `chicago-italian-beef` — 12 Best Italian Beef Sandwiches in Chicago (2026) — Reddit-Backed Guid… (0/12)
