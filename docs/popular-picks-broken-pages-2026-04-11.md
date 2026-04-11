@@ -49,11 +49,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `chicago-brunch-spots` — 12 Best Brunch Spots in Chicago (2026) — Reddit-Backed Guide (12/12) · 2,400/mo — rebuilt 2026-04-11
 - [x] `new-york-ramen` — 18 Best Ramen in New York (18/18) · 2,400/mo — rebuilt 2026-04-11
 - [x] `rome-pizza` — 15 Best Pizza in Rome (15/15) · 2,400/mo — rebuilt 2026-04-11
-- [ ] `seattle-coffee-shops` — 12 Best Coffee Shops in Seattle (2026) — Reddit-Backed Guide (0/12) · 2,400/mo
-- [ ] `chicago-cocktail-bars` —  (0/14) · 1,600/mo
-- [ ] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (0/12) · 1,600/mo
-- [ ] `nashville-brunch-spots` — 12 Best Brunch Spots in Nashville (2026) — Reddit-Backed Guide (0/12) · 1,600/mo
-- [ ] `philadelphia-coffee-shops` — 12 Best Coffee Shops in Philadelphia 2026 — Reddit-Backed Guide (0/12) · 1,600/mo
+- [x] `seattle-coffee-shops` — 12 Best Coffee Shops in Seattle (2026) — Reddit-Backed Guide (12/12) · 2,400/mo — rebuilt 2026-04-11
+- [x] `chicago-cocktail-bars` — 14 Best Cocktail Bars in Chicago (14/14) · 1,600/mo — rebuilt 2026-04-11
+- [x] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
+- [x] `nashville-brunch-spots` — 12 Best Brunch Spots in Nashville (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
+- [x] `philadelphia-coffee-shops` — 12 Best Coffee Shops in Philadelphia 2026 — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
 - [ ] `portland-vegan-restaurants` — 12 Best Vegan Restaurants in Portland (2026) — Reddit-Backed Guide (0/12) · 1,600/mo
 - [ ] `austin-food-trucks` — 12 Best Food Trucks in Austin (2026) — Reddit-Backed Guide (0/12) · 1,300/mo
 - [ ] `new-york-dim-sum` — 12 Best Dim Sum in New York City (2026) — Reddit-Backed Guide (0/12) · 1,300/mo
