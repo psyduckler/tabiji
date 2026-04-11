@@ -124,11 +124,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `san-francisco-sourdough` — 12 Best Sourdough Bakeries in San Francisco (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
 - [x] `san-juan-mofongo` — 12 Best Mofongo & Puerto Rican Food in San Juan (12/12) — rebuilt 2026-04-11
 - [x] `seattle-seafood` — Fresh Seafood in Seattle (12/12) — rebuilt 2026-04-11
-- [ ] `seattle-seafood-restaurants` — 12 Best Seafood Restaurants in Seattle (2026) — Reddit-Backed Guide (0/12)
-- [ ] `seoul-korean-bbq` — 17 Best Korean BBQ in Seoul (0/18)
-- [ ] `shanghai-xiaolongbao` — Best Xiaolongbao in Shanghai (2026) (0/12)
-- [ ] `strasbourg-christmas-market` — Strasbourg Christmas Market (0/12)
-- [ ] `tokyo-day-trips` — Best Day Trips from Tokyo (0/12)
+- [x] `seattle-seafood-restaurants` — 12 Best Seafood Restaurants in Seattle (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `seoul-korean-bbq` — 17 Best Korean BBQ in Seoul (18/18) — rebuilt 2026-04-11
+- [x] `shanghai-xiaolongbao` — Best Xiaolongbao in Shanghai (2026) (12/12) — rebuilt 2026-04-11
+- [x] `strasbourg-christmas-market` — Strasbourg Christmas Market (12/12) — rebuilt 2026-04-11
+- [x] `tokyo-day-trips` — Best Day Trips from Tokyo (12/12) — rebuilt 2026-04-11
 - [ ] `tokyo-sushi` — Sushi Restaurants in Tokyo (0/12)
 - [ ] `toronto-night-markets` — Toronto Night Markets (0/12)
 - [ ] `tulum-beach-clubs` — 11 Best Beach Clubs in Tulum — The Reddit Guide (0/11)
