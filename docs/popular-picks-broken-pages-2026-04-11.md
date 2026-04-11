@@ -174,11 +174,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `lisbon-rooftop-bars` — 12 Best Rooftop Bars in Lisbon (12/12) · 210/mo — rebuilt 2026-04-11
 - [x] `paris-wine-bars` — 17 Best Wine Bars in Paris (17/17) · 210/mo — rebuilt 2026-04-11
 - [x] `shanghai-dim-sum` — 11 Best Dim Sum in Shanghai (2026) — Reddit-Backed Guide (11/11) · 210/mo — rebuilt 2026-04-11
-- [ ] `kyoto-street-food` — 12 Best Street Food Spots in Kyoto (1/12) · 170/mo
-- [ ] `mexico-city-vegan-restaurants` — 10 Best Vegan Restaurants in Mexico City (1/10) · 170/mo
-- [ ] `buenos-aires-pizza` — 12 Best Pizza in Buenos Aires (2026) — Reddit-Backed Guide (1/12) · 140/mo
-- [ ] `lima-ceviche` — 16 Best Ceviche Spots in Lima (1/18) · 140/mo
-- [ ] `oaxaca-street-food` — 12 Best Street Food in Oaxaca (2026) — Reddit-Backed Guide (1/12) · 140/mo
+- [x] `kyoto-street-food` — 12 Best Street Food Spots in Kyoto (12/12) · 170/mo — rebuilt 2026-04-11
+- [x] `mexico-city-vegan-restaurants` — 10 Best Vegan Restaurants in Mexico City (10/10) · 170/mo — rebuilt 2026-04-11
+- [x] `buenos-aires-pizza` — 12 Best Pizza in Buenos Aires (2026) — Reddit-Backed Guide (12/12) · 140/mo — rebuilt 2026-04-11
+- [x] `lima-ceviche` — 16 Best Ceviche Spots in Lima (18/18) · 140/mo — rebuilt 2026-04-11
+- [x] `oaxaca-street-food` — 12 Best Street Food in Oaxaca (2026) — Reddit-Backed Guide (12/12) · 140/mo — rebuilt 2026-04-11
 - [ ] `buenos-aires-empanadas` — 15 Best Empanadas in Buenos Aires — The Unfiltered Guide (1/15) · 110/mo
 - [ ] `delhi-street-food` — 20 Best Street Food Spots in Delhi (1/20) · 110/mo
 - [ ] `guangzhou-dim-sum` — 11 Best Dim Sum in Guangzhou (2026) — Reddit-Backed Guide (1/11) · 110/mo
