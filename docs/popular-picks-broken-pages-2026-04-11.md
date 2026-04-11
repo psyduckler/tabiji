@@ -179,11 +179,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `buenos-aires-pizza` — 12 Best Pizza in Buenos Aires (2026) — Reddit-Backed Guide (12/12) · 140/mo — rebuilt 2026-04-11
 - [x] `lima-ceviche` — 16 Best Ceviche Spots in Lima (18/18) · 140/mo — rebuilt 2026-04-11
 - [x] `oaxaca-street-food` — 12 Best Street Food in Oaxaca (2026) — Reddit-Backed Guide (12/12) · 140/mo — rebuilt 2026-04-11
-- [ ] `buenos-aires-empanadas` — 15 Best Empanadas in Buenos Aires — The Unfiltered Guide (1/15) · 110/mo
-- [ ] `delhi-street-food` — 20 Best Street Food Spots in Delhi (1/20) · 110/mo
-- [ ] `guangzhou-dim-sum` — 11 Best Dim Sum in Guangzhou (2026) — Reddit-Backed Guide (1/11) · 110/mo
-- [ ] `ho-chi-minh-city-pho` — 12 Best Phở in Ho Chi Minh City (1/14) · 110/mo
-- [ ] `istanbul-breakfast` — 12 Best Turkish Breakfast Spots in Istanbul (1/12) · 110/mo
+- [x] `buenos-aires-empanadas` — 15 Best Empanadas in Buenos Aires — The Unfiltered Guide (15/15) · 110/mo — rebuilt 2026-04-11
+- [x] `delhi-street-food` — 20 Best Street Food Spots in Delhi (20/20) · 110/mo — rebuilt 2026-04-11
+- [x] `guangzhou-dim-sum` — 11 Best Dim Sum in Guangzhou (2026) — Reddit-Backed Guide (11/11) · 110/mo — rebuilt 2026-04-11
+- [x] `ho-chi-minh-city-pho` — 12 Best Phở in Ho Chi Minh City (14/14) · 110/mo — rebuilt 2026-04-11
+- [x] `istanbul-breakfast` — 12 Best Turkish Breakfast Spots in Istanbul (12/12) · 110/mo — rebuilt 2026-04-11
 - [ ] `seattle-craft-beer` — 12 Best Craft Beer Breweries in Seattle (2026) — Reddit-Backed Guide (1/12) · 110/mo
 - [ ] `tokyo-cheap-eats` — 15 Best Cheap Eats in Tokyo (1/15) · 110/mo
 - [ ] `amsterdam-cheap-eats` — 18 Best Cheap Eats in Amsterdam (1/18) · 90/mo
