@@ -44,11 +44,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `hanoi-pho` — 16 Best Phở Spots in Hanoi (18/18) · 4,400/mo — rebuilt 2026-04-11
 - [x] `sapporo-ramen` — 13 Best Miso Ramen in Sapporo (13/13) · 4,400/mo — rebuilt 2026-04-11
 - [x] `hong-kong-dim-sum` — 14 Best Dim Sum in Central Hong Kong (14/14) · 3,600/mo — rebuilt 2026-04-11
-- [ ] `austin-coffee-shops` — 15 Best Coffee Shops in Austin (0/15) · 2,900/mo
-- [ ] `austin-tacos` — 12 Best Tacos in Austin (2026) — Reddit-Backed Guide (0/12) · 2,400/mo
-- [ ] `chicago-brunch-spots` — 12 Best Brunch Spots in Chicago (2026) — Reddit-Backed Guide (0/12) · 2,400/mo
-- [ ] `new-york-ramen` — 18 Best Ramen in New York (0/18) · 2,400/mo
-- [ ] `rome-pizza` — 15 Best Pizza in Rome (0/15) · 2,400/mo
+- [x] `austin-coffee-shops` — 15 Best Coffee Shops in Austin (15/15) · 2,900/mo — rebuilt 2026-04-11
+- [x] `austin-tacos` — 12 Best Tacos in Austin (2026) — Reddit-Backed Guide (12/12) · 2,400/mo — rebuilt 2026-04-11
+- [x] `chicago-brunch-spots` — 12 Best Brunch Spots in Chicago (2026) — Reddit-Backed Guide (12/12) · 2,400/mo — rebuilt 2026-04-11
+- [x] `new-york-ramen` — 18 Best Ramen in New York (18/18) · 2,400/mo — rebuilt 2026-04-11
+- [x] `rome-pizza` — 15 Best Pizza in Rome (15/15) · 2,400/mo — rebuilt 2026-04-11
 - [ ] `seattle-coffee-shops` — 12 Best Coffee Shops in Seattle (2026) — Reddit-Backed Guide (0/12) · 2,400/mo
 - [ ] `chicago-cocktail-bars` —  (0/14) · 1,600/mo
 - [ ] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (0/12) · 1,600/mo
