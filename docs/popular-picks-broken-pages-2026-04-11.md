@@ -79,11 +79,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `chengdu-hot-pot` — 12 Best Hot Pot in Chengdu (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `chicago-art-galleries` — 12 Best Art Galleries in Chicago (12/12) — rebuilt 2026-04-11
 - [x] `chicago-brunch` — 12 Best Brunch Restaurants in Chicago (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `chicago-deep-dish-pizza` — 12 Best Deep Dish Pizza Restaurants in Chicago (2026) — Reddit-Backed … (0/12)
-- [ ] `chicago-fine-dining` — 12 Best Fine Dining in Chicago (0/12)
-- [ ] `chicago-italian-beef` — 12 Best Italian Beef Sandwiches in Chicago (2026) — Reddit-Backed Guid… (0/12)
-- [ ] `chongqing-hot-pot` — Chongqing-Style Hot Pot (0/12)
-- [ ] `denver-brunch-spots` — 12 Best Brunch Spots in Denver (2026) — Reddit-Backed Guide (0/12)
+- [x] `chicago-deep-dish-pizza` — 12 Best Deep Dish Pizza Restaurants in Chicago (2026) — Reddit-Backed … (12/12) — rebuilt 2026-04-11
+- [x] `chicago-fine-dining` — 12 Best Fine Dining in Chicago (12/12) — rebuilt 2026-04-11
+- [x] `chicago-italian-beef` — 12 Best Italian Beef Sandwiches in Chicago (2026) — Reddit-Backed Guid… (12/12) — rebuilt 2026-04-11
+- [x] `chongqing-hot-pot` — Chongqing-Style Hot Pot (12/12) — rebuilt 2026-04-11
+- [x] `denver-brunch-spots` — 12 Best Brunch Spots in Denver (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [ ] `denver-coffee-shops` — 12 Best Coffee Shops in Denver (2026) — Reddit-Backed Guide (0/12)
 - [ ] `guilin-rice-noodles` — Guilin Rice Noodle Shops (0/12)
 - [ ] `hiroshima-okonomiyaki` — 12 Best Okonomiyaki in Hiroshima (0/12)
