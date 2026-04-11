@@ -69,11 +69,11 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `austin-fine-dining` — 12 Best Fine Dining in Austin (12/12) — rebuilt 2026-04-11
 - [x] `baltimore-coffee-shops` — 12 Best Coffee Shops in Baltimore (12/12) — rebuilt 2026-04-11
 - [x] `bangkok-street-food` — 12 Best Street Food in Bangkok (12/12) — rebuilt 2026-04-11
-- [ ] `beijing-hot-pot` — Beijing Hot Pot Scene (2026) (0/10)
-- [ ] `berlin-currywurst` — 12 Best Currywurst in Berlin (2026) — Reddit-Backed Guide (0/12)
-- [ ] `berlin-nightlife` — Club Nightlife in Berlin (0/12)
-- [ ] `bilbao-guggenheim` — 12 Best Guggenheim Museum Bilbao Guide (0/12)
-- [ ] `boston-clam-chowder` — 12 Best Clam Chowder in Boston (0/12)
+- [x] `beijing-hot-pot` — Beijing Hot Pot Scene (2026) (10/10) — rebuilt 2026-04-11
+- [x] `berlin-currywurst` — 12 Best Currywurst in Berlin (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `berlin-nightlife` — Club Nightlife in Berlin (12/12) — rebuilt 2026-04-11
+- [x] `bilbao-guggenheim` — 12 Best Guggenheim Museum Bilbao Guide (12/12) — rebuilt 2026-04-11
+- [x] `boston-clam-chowder` — 12 Best Clam Chowder in Boston (12/12) — rebuilt 2026-04-11
 - [ ] `budapest-ruin-bars` — 18 Best Ruin Bars in Budapest (0/18)
 - [ ] `cartagena-nightlife` — Nightlife in Cartagena (0/12)
 - [ ] `chengdu-hot-pot` — 12 Best Hot Pot in Chengdu (2026) — Reddit-Backed Guide (0/12)
