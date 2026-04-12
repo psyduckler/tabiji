@@ -677,7 +677,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `denver-steak` — 10 Best Steak in Denver (1/10)
 - [ ] `detroit-coney-island-dogs` — 12 Best Detroit's defining food debate: Lafayette vs. American Coney I… (1/12)
 - [ ] `detroit-craft-cocktails` — 12 Best Craft Cocktails in Detroit (1/12)
-- [ ] `detroit-pizza` — 10 Best Pizza in Detroit (1/10)
+- [x] `detroit-pizza` — 10 Best Pizza in Detroit (10/10) — rebuilt 2026-04-11
 - [ ] `doha-restaurants` — Diverse Restaurants in Doha (1/12)
 - [ ] `dongmyo-vintage-shopping` — 6 Best Vintage & Thrift Shops in Dongmyo (1/10)
 - [ ] `dubai-street-food` — Street Food in Dubai (1/12)
@@ -928,7 +928,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `oman-coffee-culture` — Traditional Coffee Culture in Oman (1/12)
 - [x] `osaka-kushikatsu` — 10 Best Kushikatsu in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (10/10) — rebuilt 2026-04-11
-- [ ] `osaka-sushi` — 10 Best Sushi in Osaka (1/10)
+- [x] `osaka-sushi` — 10 Best Sushi in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-takoyaki` — 11 Best Takoyaki in Osaka (11/11) — rebuilt 2026-04-11
 - [ ] `oslo-brunch-spots` — 13 Best Brunch Spots in Oslo (2026) (1/13)
 - [ ] `oslo-coffee-culture` — 12 Best Specialty Coffee Shops in Oslo (2026) — Reddit-Backed Guide (1/12)
@@ -1014,7 +1014,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `sao-paulo-japanese-food` — São Paulo's Japanese Food Scene (1/12)
 - [ ] `sao-paulo-rodizio-bbq` — 12 Best Rodízio BBQ in São Paulo (2026) — Reddit-Backed Guide (1/12)
 - [x] `sapporo-soup-curry` — 14 Best Soup Curry in Sapporo (14/14) — rebuilt 2026-04-11
-- [ ] `sapporo-sushi` — 10 Best Sushi in Sapporo (1/10)
+- [x] `sapporo-sushi` — 10 Best Sushi in Sapporo (10/10) — rebuilt 2026-04-11
 - [SKIP] `sarajevo-cevapi` — Ćevapi & Bosnian Food in Sarajevo (1/12) — minimal ItemList, needs full research
 - [ ] `savannah-bar-hop` — Bar Hop in Savannah (1/12)
 - [ ] `savannah-lowcountry-cuisine` — Shrimp & grits, she-crab soup, and fried green tomatoes served inside … (1/12)
@@ -1124,12 +1124,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `vancouver-craft-beer` — 12 Best Craft Beer Bars & Breweries in Vancouver (2026) — Reddit-Backe… (1/12)
 - [ ] `vancouver-ramen` — Ramen in Vancouver (1/12)
 - [ ] `vancouver-seafood` — 12 Best Pacific Seafood Restaurants in Vancouver (2026) — Reddit-Backe… (1/12)
-- [ ] `vancouver-sushi` — 10 Best Vancouver's Sushi & Japanese Food Scene (2026) — Reddit-Backed… (1/10)
+- [SKIP] `vancouver-sushi` — 10 Best Vancouver's Sushi & Japanese Food Scene (2026) — Reddit-Backed… (1/10) — minimal ItemList, needs full research
 - [ ] `varanasi-street-food` — Street Food & Chai Culture in Varanasi (1/12)
 - [ ] `venice-bacaro-wine-bars` — 12 Best Bacaro Wine Bars in Venice (1/12)
 - [ ] `venice-gondola-making` — Traditional Gondola Boatyards in Venice (1/12)
-- [ ] `venice-pizza` — 10 Best Pizza in Venice (1/10)
-- [ ] `verona-pizza` — 10 Best Pizza in Verona (1/10)
+- [x] `venice-pizza` — 10 Best Pizza in Venice (10/10) — rebuilt 2026-04-11
+- [x] `verona-pizza` — 10 Best Pizza in Verona (10/10) — rebuilt 2026-04-11
 - [ ] `victoria-afternoon-tea` — British Afternoon Tea in Victoria (1/12)
 - [ ] `vienna-heurigen` — 10 Best Heurigen (Wine Taverns) in Vienna (1/10)
 - [ ] `vilnius-restaurants` — Vilnius Food Scene & Lithuanian Cuisine (1/12)
