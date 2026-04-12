@@ -535,7 +535,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bologna-craft-cocktails` — Craft Cocktails in Bologna (1/12)
 - [ ] `bologna-mortadella-shops` — 12 Best Mortadella Shops in Bologna (1/12)
 - [ ] `bologna-tortellini` — 12 Best Tortellini in Bologna 2026 — Reddit-Backed Guide (1/12)
-- [ ] `boracay-sunset-bars` — 10 Best Sunset Bars in Boracay (1/11)
+- [x] `boracay-sunset-bars` — 10 Best Sunset Bars in Boracay (11/11) — rebuilt 2026-04-11
 - [ ] `bordeaux-canele` — 12 Best Canelé in Bordeaux (1/12)
 - [ ] `bordeaux-natural-wine-bars` — Bordeaux Natural Wine Bars (1/12)
 - [ ] `boston-craft-beer` — 12 Best Craft Beer in Boston (1/12)
@@ -782,7 +782,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kamakura-food-scene` — Cafe & Food in Kamakura (1/12)
 - [ ] `kampot-pepper-farm-tour` — Tour a riverside pepper plantation to taste the world-famous Kampot pe… (1/12)
 - [ ] `kanazawa-kenroku-en-teahouse` — Kenroku En Teahouse in Kanazawa (1/12)
-- [ ] `kanazawa-seafood-markets` — 9 Best Seafood Markets in Kanazawa (1/11)
+- [x] `kanazawa-seafood-markets` — 9 Best Seafood Markets in Kanazawa (11/11) — rebuilt 2026-04-11
 - [ ] `kandy-tea-estate-cycling` — Tea Estate Cycling in Kandy (1/12)
 - [ ] `kandy-tooth-relic-temple-visit` — Visit the sacred Sri Dalada Maligawa, the Temple of the Tooth, and wit… (1/12)
 - [ ] `kansas-city-bbq-scene` — Kansas City's iconic burnt ends, saucy ribs, and decades-old pit maste… (1/12)
@@ -819,7 +819,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kunming-crossing-the-bridge-noodles` — Crossing the Bridge Noodles in Kunming (1/12)
 - [ ] `kyoto-bamboo-grove-walks` — 11 Best Bamboo Grove Walks & Nature Trails in Kyoto (1/12)
 - [ ] `kyoto-coffee` — 12 Best Coffee Shops in Kyoto (1/12)
-- [ ] `kyoto-hidden-temples` — 11 Hidden Temples in Kyoto That Reddit Swears By (1/11)
+- [x] `kyoto-hidden-temples` — 11 Hidden Temples in Kyoto That Reddit Swears By (11/11) — rebuilt 2026-04-11
 - [x] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (12/12) — rebuilt 2026-04-11
 - [ ] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (1/10)
 - [x] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
@@ -845,7 +845,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `ljubljana-coffee-culture` — 12 Best Coffee Shops in Ljubljana (1/12)
 - [ ] `ljubljana-metelkova-arts` — Metelkova Arts in Ljubljana (1/12)
 - [ ] `ljubljana-open-kitchen-market` — Graze through 30+ food stalls at Ljubljana's legendary weekly Open Kit… (1/12)
-- [ ] `london-brunch` — 11 Best Brunch Spots in London (1/11)
+- [x] `london-brunch` — 11 Best Brunch Spots in London (11/11) — rebuilt 2026-04-11
 - [ ] `london-curry-houses` — 12 Best Curry Houses in London (2026) — Reddit-Backed Guide (1/12)
 - [ ] `london-vegan-restaurants` — Best Vegan Restaurants in London (1/12)
 - [ ] `london-vintage-shopping` — Best Vintage Shopping in London (1/12)
@@ -863,7 +863,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `marrakech-cooking-classes` — 12 Best Cooking Classes in Marrakech (1/12)
 - [x] `marrakech-hammams` — 15 Best Hammams in Marrakech (16/16) — rebuilt 2026-04-11
 - [ ] `marrakech-photography-spots` — Best Photography Spots in Marrakech (1/12)
-- [ ] `marseille-bouillabaisse` — 11 Best Bouillabaisse Restaurants in Marseille (1/11)
+- [SKIP] `marseille-bouillabaisse` — 11 Best Bouillabaisse Restaurants in Marseille (1/11) — minimal ItemList, needs full research
 - [ ] `marseille-le-panier` — 12 Best Spots in Le Panier, Marseille (1/12)
 - [ ] `matsumoto-sake-bar-hopping` — "Bar-hop through Matsumoto's Nawate Street, sampling local Nagano sake… (1/12)
 - [ ] `mechelen-day-trip` — 8 Best Things to Do in Mechelen (1/8)
@@ -1135,7 +1135,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `vilnius-restaurants` — Vilnius Food Scene & Lithuanian Cuisine (1/12)
 - [ ] `vilnius-street-food` — Street Food in Vilnius (1/12)
 - [ ] `vilnius-uzupis-neighborhood` — Uzupis Neighborhood in Vilnius (1/12)
-- [ ] `wadi-rum-desert-camps` — 11 Best Desert Camps in Wadi Rum (1/11)
+- [x] `wadi-rum-desert-camps` — 11 Best Desert Camps in Wadi Rum (11/11) — rebuilt 2026-04-11
 - [ ] `warsaw-craft-beer` — Best Craft Beer Bars in Warsaw (1/12)
 - [ ] `warsaw-milk-bars` — Best Milk Bars in Warsaw (1/12)
 - [ ] `washington-dc-ethiopian-food` — Washington DC's Ethiopian Restaurants (1/12)
