@@ -247,11 +247,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `accra-cheap-eats` — 10 Best Cheap Eats in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-cocktail-bars` — 10 Best Cocktail Bars in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-coffee-shops` — 10 Best Coffee Shops in Accra (10/10) — rebuilt 2026-04-12
-- [ ] `accra-craft-beer` — Craft Beer & Bars in Accra (1/11)
-- [ ] `accra-dessert-cafes` — 12 Best Dessert Cafes in Accra (1/12)
-- [ ] `accra-fine-dining` — 12 Best Fine Dining in Accra (1/12)
-- [ ] `accra-food-halls` — 12 Best Food Halls in Accra (1/12)
-- [ ] `accra-food-markets` — 12 Best Food Markets in Accra (1/12)
+- [x] `accra-craft-beer` — 10 Best Craft Beer Bars in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-dessert-cafes` — 10 Best Dessert Cafes in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-fine-dining` — 10 Best Fine Dining in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-food-halls` — 10 Best Food Halls in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-food-markets` — 10 Best Food Markets in Accra (10/10) — rebuilt 2026-04-12
 - [ ] `accra-jazz-bars` — 12 Best Jazz Bars in Accra (1/12)
 - [x] `accra-jollof-rice` — 10 Best Jollof Rice in Accra (10/10) — rebuilt 2026-04-11
 - [ ] `accra-natural-wine-bars` — 12 Best Natural Wine Bars in Accra (1/12)
