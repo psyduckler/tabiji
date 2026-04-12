@@ -357,7 +357,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `antwerp-fine-dining` — 12 Best Fine Dining in Antwerp (1/12)
 - [ ] `antwerp-food-halls` — 12 Best Food Halls in Antwerp (1/12)
 - [ ] `antwerp-food-markets` — 12 Best Food Markets in Antwerp (1/12)
-- [ ] `antwerp-frites` — 8 Best Frites in Antwerp (1/8)
+- [x] `antwerp-frites` — 8 Best Frites in Antwerp (8/8) — rebuilt 2026-04-11
 - [ ] `antwerp-jazz-bars` — 12 Best Jazz Bars in Antwerp (1/12)
 - [ ] `antwerp-natural-wine-bars` — 12 Best Natural Wine Bars in Antwerp (1/12)
 - [ ] `antwerp-night-markets` — 12 Best Night Markets in Antwerp (1/12)
@@ -563,7 +563,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bukhara-silk-carpet-workshop` — Watch master weavers produce intricate hand-knotted silk carpets using… (1/12)
 - [ ] `busan-craft-cocktails` — Craft Cocktail Bars in Busan (1/12)
 - [ ] `busan-gamcheon-village-cafes` — 10 Best Cafes in Gamcheon Culture Village, Busan (2026) — Reddit-Backe… (1/12)
-- [ ] `busan-milmyeon` — 7 Best Milmyeon in Busan (1/8)
+- [x] `busan-milmyeon` — 7 Best Milmyeon in Busan (8/8) — rebuilt 2026-04-11
 - [ ] `busan-raw-fish-restaurants` — Busan Raw Fish Restaurants (Hoesik) (1/12)
 - [ ] `cairo-ful-medames` — Best Ful Medames in Cairo (1/12)
 - [ ] `cairo-rooftop-cafes` — 12 Best Rooftop Cafes in Cairo (1/12)
@@ -742,11 +742,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `hoi-an-cao-lau` — 11 Best Cao Lầu in Hội An (12/12) — rebuilt 2026-04-11
 - [ ] `hoi-an-white-rose-dumplings` — 12 Best White Rose Dumplings in Hoi An 2026 — Reddit-Backed Guide (1/12)
 - [x] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `hong-kong-rooftop-bars` — Rooftop Bars in Hong Kong (1/12)
+- [SKIP] `hong-kong-rooftop-bars` — Rooftop Bars in Hong Kong (1/12) — minimal ItemList, needs full research
 - [x] `hongdae-late-night-eats` — 11 Best Late-Night Eats in Hongdae (12/12) — rebuilt 2026-04-11
 - [ ] `hongdae-vinyl-cafes` — 10 Best Vinyl Cafés & LP Bars in Hongdae (1/12)
 - [ ] `honolulu-poke-bowls` — Poke Bowls in Honolulu (1/12)
-- [ ] `houston-restaurants` — 10 Best Restaurants in Houston (1/10)
+- [x] `houston-restaurants` — 10 Best Restaurants in Houston (10/10) — rebuilt 2026-04-11
 - [ ] `houston-taqueria-scene` — Best Taqueria Scene in Houston (1/12)
 - [ ] `houston-vietnamese-food` — The largest Vietnamese community outside Vietnam powers Houston's Bell… (1/12)
 - [x] `hua-hin-seafood-restaurants` — 13 Best Seafood Restaurants in Hua Hin (2026) (13/13) — rebuilt 2026-04-11
@@ -763,7 +763,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `istanbul-baklava-shops` — 12 Best Baklava Shops in Istanbul (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `istanbul-kebabs` — 19 Best Kebab Spots in Istanbul (20/20) — rebuilt 2026-04-11
 - [ ] `istanbul-romantic-restaurants` — Best Romantic Restaurants in Istanbul (1/12)
-- [ ] `istanbul-rooftop-restaurants` — 15 Best Rooftop Restaurants in Istanbul — The Unfiltered Guide (1/15)
+- [x] `istanbul-rooftop-restaurants` — 15 Best Rooftop Restaurants in Istanbul — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `istanbul-street-food` — Best Street Food in Istanbul (1/12)
 - [ ] `istanbul-turkish-breakfast` — Best Turkish Breakfast in Istanbul (1/12)
 - [ ] `itaewon-rooftop-bars` — 11 Best Rooftop Bars in Itaewon (1/12)
@@ -771,10 +771,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `jaipur-rooftop-cafes` — 12 Best Rooftop Cafes in Jaipur (2026) — Fort Views & Hawa Mahal Panor… (1/12)
 - [ ] `jaipur-street-food` — 12 Best Street Food in Jaipur (2026) — Reddit-Backed Guide (1/12)
 - [ ] `jaipur-sweet-shops` — 12 Best Sweet Shops in Jaipur (2026) — Reddit-Backed Guide (1/12)
-- [ ] `jaipur-thali-restaurants` — 11 Best Thali Restaurants in Jaipur (2026) (1/11)
+- [SKIP] `jaipur-thali-restaurants` — 11 Best Thali Restaurants in Jaipur (2026) (1/11) — minimal ItemList, needs full research
 - [ ] `jakarta-street-food` — Street Food in Jakarta (1/12)
 - [ ] `jeju-cafe-culture` — 12 Best Cafes in Jeju 2026 — Reddit-Backed Guide (1/12)
-- [ ] `jeju-city-black-pork-bbq` — 10 Best Black Pork BBQ in Jeju City (1/10)
+- [x] `jeju-city-black-pork-bbq` — 10 Best Black Pork BBQ in Jeju City (10/10) — rebuilt 2026-04-11
 - [ ] `jeju-seafood` — Jeju Island's Haenyeo Seafood (1/12)
 - [ ] `jeju-udo-island-day-trip` — N Best Ferry to Jeju's tiny Udo Island for peanut soft-serve ice cream… (1/12)
 - [ ] `jeonju-hanok-village-bibimbap` — 11 Best Bibimbap in Jeonju Hanok Village (1/12)
@@ -796,7 +796,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kathmandu-momos` — 12 Best Momo Spots in Kathmandu (2026) — Reddit-Backed Guide (1/12)
 - [ ] `kathmandu-rooftop-cafes` — 12 Best Rooftop Cafes in Kathmandu 2026 — Reddit-Backed Guide (1/12)
 - [ ] `kigali-coffee-shops` — 11 Best Coffee Shops in Kigali (1/12)
-- [ ] `kobe-chinatown` — 9 Best Eats in Kobe Chinatown (Nankinmachi) (1/9)
+- [x] `kobe-chinatown` — 9 Best Eats in Kobe Chinatown (Nankinmachi) (9/9) — rebuilt 2026-04-11
 - [ ] `kobe-sushi` — 10 Best Sushi in Kobe (1/10)
 - [ ] `kochi-backwater-houseboat` — Backwater Houseboat in Kochi (1/12)
 - [ ] `kochi-coconut-curries` — 12 Best Coconut Curries in Kochi (2026) — Reddit-Backed Guide (1/12)
