@@ -283,11 +283,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `adelaide-rooftop-bars` — 10 Best Rooftop Bars in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `adelaide-street-food` — 10 Best Street Food Spots in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `adelaide-tea-houses` — 10 Best Tea Houses in Adelaide (10/10) — rebuilt 2026-04-12
-- [ ] `adelaide-vegan-restaurants` — 12 Best Vegan Restaurants in Adelaide (1/12)
-- [ ] `adelaide-viewpoints` — 12 Best Viewpoints in Adelaide (1/12)
-- [ ] `adelaide-wine-bars` — 12 Best Wine Bars in Adelaide (1/12)
-- [ ] `adelaide-working-cafes` — 12 Best Working Cafes in Adelaide (1/12)
-- [ ] `almaty-art-galleries` — 11 Best Art Galleries in Almaty (1/12)
+- [x] `adelaide-vegan-restaurants` — 10 Best Vegan Restaurants in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-viewpoints` — 10 Best Viewpoints in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-wine-bars` — 10 Best Wine Bars in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-working-cafes` — 10 Best Working Cafes in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `almaty-art-galleries` — 10 Best Art Galleries in Almaty (10/10) — rebuilt 2026-04-12
 - [ ] `almaty-beshbarmak-feast` — 12 Best Beshbarmak in Almaty (1/12)
 - [ ] `almaty-big-almaty-lake-hike` — The Ultimate Guide: Hike to the stunning emerald Big Almaty Lake nestl… (1/11)
 - [ ] `almaty-bookshops` — 12 Best Bookshops in Almaty (1/12)
