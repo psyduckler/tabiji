@@ -693,7 +693,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `fez-leather-tanneries` — 5 Leather Tanneries in Fez (1/5)
 - [ ] `fez-rooftop-cafes` — 10 Best Rooftop Cafés in Fez Medina (1/10)
 - [ ] `fez-tagine` — 15 Best Tagine in Fez — The Unfiltered Guide (1/15)
-- [ ] `fez-tannery-viewpoints` — 8 Best Tannery Viewpoints in Fez (1/9)
+- [x] `fez-tannery-viewpoints` — 8 Best Tannery Viewpoints in Fez (9/9) — rebuilt 2026-04-11
 - [ ] `florence-aperitivo-bars` — Load up on free nibbles at Florence's spritz-and-aperitivo bars during… (1/12)
 - [ ] `florence-leather-workshops` — Leather Workshops in Florence (1/12)
 - [ ] `florence-trattorias` — 12 Best Trattorias in Florence (1/12)
@@ -719,9 +719,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `guangzhou-night-markets` — 11 Best Night Markets in Guangzhou 2026 — Reddit-Backed Guide (1/12)
 - [x] `guangzhou-wonton-noodles` — 11 Best Wonton Noodles in Guangzhou (2026) — Reddit-Backed Guide (11/11) — rebuilt 2026-04-11
 - [ ] `guayaquil-seafood` — Pacific Seafood in Guayaquil (1/12)
-- [ ] `gyeongju-craft-beer` — 7 Best Craft Beer in Gyeongju (1/9)
+- [x] `gyeongju-craft-beer` — 7 Best Craft Beer in Gyeongju (9/9) — rebuilt 2026-04-11
 - [ ] `gyeongju-hwangnam-bread` — Hwangnam Bread in Gyeongju (1/12)
-- [ ] `gyeongju-temple-food` — 8 Best Temple Food in Gyeongju (1/9)
+- [x] `gyeongju-temple-food` — 8 Best Temple Food in Gyeongju (9/9) — rebuilt 2026-04-11
 - [ ] `haifa-bahai-gardens-terrace-walk` — Stroll down the 19 perfectly manicured terraces of the Bahá'í Gardens … (1/12)
 - [ ] `haifa-german-colony-brunch` — Brunch on labneh, shakshuka, and freshly baked ka'ak bread in a restor… (1/12)
 - [x] `hamburg-steak` — 10 Best Steak in Hamburg (10/10) — rebuilt 2026-04-11
@@ -778,7 +778,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `jeju-seafood` — Jeju Island's Haenyeo Seafood (1/12)
 - [ ] `jeju-udo-island-day-trip` — N Best Ferry to Jeju's tiny Udo Island for peanut soft-serve ice cream… (1/12)
 - [ ] `jeonju-hanok-village-bibimbap` — 11 Best Bibimbap in Jeonju Hanok Village (1/12)
-- [ ] `jeonju-makgeolli-bars` — 7 Best Makgeolli Bars in Jeonju (1/7)
+- [x] `jeonju-makgeolli-bars` — 7 Best Makgeolli Bars in Jeonju (7/7) — rebuilt 2026-04-11
 - [ ] `kamakura-food-scene` — Cafe & Food in Kamakura (1/12)
 - [ ] `kampot-pepper-farm-tour` — Tour a riverside pepper plantation to taste the world-famous Kampot pe… (1/12)
 - [ ] `kanazawa-kenroku-en-teahouse` — Kenroku En Teahouse in Kanazawa (1/12)
@@ -1147,7 +1147,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `xiamen-gulangyu-cafes` — Cafes_Coffee Tokyo (1/12)
 - [ ] `xiamen-shacha-noodles` — Slurp Hokkien-style sha cha noodles loaded with fresh clams and oyster… (1/12)
 - [ ] `xian-muslim-quarter-food` — Xi'an Muslim Quarter Street Food (1/12)
-- [ ] `yangon-tea-houses` — 5 Best Tea Houses in Yangon (1/7)
+- [x] `yangon-tea-houses` — 5 Best Tea Houses in Yangon (7/7) — rebuilt 2026-04-11
 - [ ] `yaowarat-street-food` — 16 Best Street Food in Yaowarat (Chinatown Bangkok) (1/18)
 - [ ] `yerevan-restaurants` — Armenian Cuisine in Yerevan (1/12)
 - [ ] `yogyakarta-batik-making-class` — 12 Best Batik Making Classes in Yogyakarta (1/12)
