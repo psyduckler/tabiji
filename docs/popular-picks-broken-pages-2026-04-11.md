@@ -51,7 +51,7 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `rome-pizza` — 15 Best Pizza in Rome (15/15) · 2,400/mo — rebuilt 2026-04-11
 - [x] `seattle-coffee-shops` — 12 Best Coffee Shops in Seattle (2026) — Reddit-Backed Guide (12/12) · 2,400/mo — rebuilt 2026-04-11
 - [x] `chicago-cocktail-bars` — 14 Best Cocktail Bars in Chicago (14/14) · 1,600/mo — rebuilt 2026-04-11
-- [ ] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
+- [x] `los-angeles-ramen` — 12 Best Ramen in Los Angeles (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-12
 - [x] `nashville-brunch-spots` — 12 Best Brunch Spots in Nashville (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
 - [x] `philadelphia-coffee-shops` — 12 Best Coffee Shops in Philadelphia 2026 — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
 - [x] `portland-vegan-restaurants` — 12 Best Vegan Restaurants in Portland (2026) — Reddit-Backed Guide (12/12) · 1,600/mo — rebuilt 2026-04-11
@@ -63,12 +63,12 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `taipei-night-markets` — 8 Best Night Markets in Taipei (8/8) · 1,000/mo — rebuilt 2026-04-11
 - [x] `vienna-schnitzel` — 10 Best Schnitzel in Vienna (10/10) · 1,000/mo — rebuilt 2026-04-11
 - [x] `singapore-rooftop-bars` — 12 Best Rooftop Bars in Singapore (2026) (12/12) · 110/mo — rebuilt 2026-04-11
-- [ ] `singapore-craft-beer` — 14 Best Craft Beer Bars & Breweries in Singapore (14/14) · 30/mo — rebuilt 2026-04-11
+- [x] `singapore-craft-beer` — 14 Best Craft Beer Bars & Breweries in Singapore (14/14) · 30/mo — rebuilt 2026-04-12
 - [x] `austin-bbq` — 12 Best BBQ in Austin (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `austin-breakfast-tacos` — Breakfast Tacos in Austin (12/12) — rebuilt 2026-04-11
-- [ ] `austin-fine-dining` — 12 Best Fine Dining in Austin (12/12) — rebuilt 2026-04-11
-- [ ] `baltimore-coffee-shops` — 12 Best Coffee Shops in Baltimore (12/12) — rebuilt 2026-04-11
-- [ ] `bangkok-street-food` — 12 Best Street Food in Bangkok (12/12) — rebuilt 2026-04-11
+- [x] `austin-fine-dining` — 12 Best Fine Dining in Austin (12/12) — rebuilt 2026-04-12
+- [x] `baltimore-coffee-shops` — 12 Best Coffee Shops in Baltimore (12/12) — rebuilt 2026-04-12
+- [x] `bangkok-street-food` — 12 Best Street Food in Bangkok (12/12) — rebuilt 2026-04-12
 - [x] `beijing-hot-pot` — Beijing Hot Pot Scene (2026) (10/10) — rebuilt 2026-04-11
 - [x] `berlin-currywurst` — 12 Best Currywurst in Berlin (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `berlin-nightlife` — Club Nightlife in Berlin (12/12) — rebuilt 2026-04-11
