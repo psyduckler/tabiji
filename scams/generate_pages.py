@@ -2904,11 +2904,35 @@ def danger_badge(level):
     else:
         return '<span class="danger-badge danger-low">🟢 Low</span>'
 
-def generate_scam_cards(scams):
+def make_tldr(story):
+    """Extract first sentence as TL;DR bold summary."""
+    # Split on first period followed by a space (to avoid breaking on abbreviations like "St.")
+    for delim in ['. ', '— ', ' — ']:
+        idx = story.find(delim)
+        if idx != -1 and idx < 120:
+            return story[:idx + len(delim)].rstrip(), story[idx + len(delim):]
+    # Fallback: first 100 chars to nearest word
+    if len(story) > 100:
+        cut = story[:100].rfind(' ')
+        if cut > 40:
+            return story[:cut] + ' ...', story
+    return None, story
+
+
+def generate_scam_cards(scams, city="", n=0):
     html = ""
     for i, scam in enumerate(scams, 1):
         red_flags_html = "\n".join(f"                    <li>{rf}</li>" for rf in scam.get("red_flags", []))
         avoid_html = "\n".join(f"                    <li>{av}</li>" for av in scam.get("how_to_avoid", []))
+
+        # TL;DR + remaining story
+        story = scam.get('story', '')
+        tldr, rest = make_tldr(story)
+        if tldr:
+            story_html = f'<p class="scam-tldr">{tldr}</p>\n        <p class="scam-story-body">{rest}</p>'
+        else:
+            story_html = f'<p class="scam-story-body">{story}</p>'
+
         html += f"""
     <!-- Scam {i} -->
     <div class="scam-card" id="scam-{i}">
@@ -2920,7 +2944,7 @@ def generate_scam_cards(scams):
             {danger_badge(scam['danger_level'])}
         </div>
         <div class="scam-location">📍 {scam['location']}</div>
-        <p class="scam-story">{scam['story']}</p>
+        {story_html}
         <div class="scam-details">
             <div class="detail-block red-flags">
                 <h4>Red Flags</h4>
@@ -2935,6 +2959,14 @@ def generate_scam_cards(scams):
                 </ul>
             </div>
         </div>
+    </div>
+"""
+        # Mid-content CTA after scam #3 (for pages with 5+ scams)
+        if i == 3 and n >= 5:
+            html += f"""
+    <div class="mid-cta">
+        <p>Like what you're reading? Get a full {city} itinerary with safety tips built in.</p>
+        <a href="/plan/">Get Free Itinerary &rarr;</a>
     </div>
 """
     return html
@@ -3003,7 +3035,7 @@ def generate_page(city_data, related_cities_map):
     
     safety_tips_html = "\n".join(f"            <li>{tip}</li>" for tip in safety_tips)
     
-    scam_cards = generate_scam_cards(scams)
+    scam_cards = generate_scam_cards(scams, city=city, n=n)
     toc_html = generate_toc(scams)
 
     # Severity counts for hero summary
@@ -3018,6 +3050,12 @@ def generate_page(city_data, related_cities_map):
     if low_count:
         severity_pills.append(f'<span class="severity-pill low">{low_count} Low</span>')
     severity_html = f'\n    <div class="severity-summary">{"".join(severity_pills)}</div>' if severity_pills else ""
+
+    # Reading time estimate (~200 words per minute)
+    total_words = sum(len(s.get('story', '').split()) for s in scams)
+    total_words += sum(len(' '.join(s.get('red_flags', [])).split()) for s in scams)
+    total_words += sum(len(' '.join(s.get('how_to_avoid', [])).split()) for s in scams)
+    read_min = max(2, round(total_words / 200))
 
     country_code = city_data.get("country_code", "")
 
@@ -3096,14 +3134,16 @@ def generate_page(city_data, related_cities_map):
             <li>{takeaway_transport}</li>
             <li>{takeaway_avoid}</li>"""
 
-    # Build related cities section
+    # Build related cities section — split same-country + nearby
     related_html = ""
     if city in related_cities_map and related_cities_map[city]:
-        related_items = ""
+        same = []
+        nearby = []
         for rc in related_cities_map[city]:
             rc_slug = CITY_SLUGS.get(rc["city"], "")
-            if rc_slug:
-                related_items += f"""
+            if not rc_slug:
+                continue
+            card = f"""
             <a href="/scams/{rc_slug}/" class="related-card">
                 <span class="related-flag">{rc.get('flag', '🌍')}</span>
                 <span class="related-info">
@@ -3111,12 +3151,26 @@ def generate_page(city_data, related_cities_map):
                     <span class="related-country">{rc['country']}</span>
                 </span>
             </a>"""
-        if related_items:
+            if rc["country"] == country:
+                same.append(card)
+            else:
+                nearby.append(card)
+
+        sections = ""
+        if same:
+            sections += f"""
+        <h3 style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin:0 0 0.5rem;">More in {country}</h3>
+        <div class="related-grid">{"".join(same)}
+        </div>"""
+        if nearby:
+            sections += f"""
+        <h3 style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin:1rem 0 0.5rem;">Popular Nearby Destinations</h3>
+        <div class="related-grid">{"".join(nearby)}
+        </div>"""
+        if sections:
             related_html = f"""
     <div class="related-section">
-        <h2 class="section-heading">More Scam Guides</h2>
-        <div class="related-grid">{related_items}
-        </div>
+        <h2 class="section-heading">More Scam Guides</h2>{sections}
     </div>"""
 
     html = f"""<!DOCTYPE html>
@@ -3152,8 +3206,6 @@ def generate_page(city_data, related_cities_map):
     <link rel="canonical" href="https://tabiji.ai/scams/{slug}/">
     <link rel="stylesheet" href="/assets/shared-shell.css">
     <link rel="stylesheet" href="/assets/scams.css">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2D3A5C">
 
     <script type="application/ld+json">
     {schema_json}
@@ -3198,6 +3250,7 @@ def generate_page(city_data, related_cities_map):
         <span>💬 {n} scams documented</span>
         <span>⭐ Reddit-sourced & verified</span>
     </div>{severity_html}
+    <div class="reading-time">&#128214; {read_min} min read</div>
 </div>
 
 <div class="content">
@@ -3219,7 +3272,11 @@ def generate_page(city_data, related_cities_map):
 
 {toc_html}
 
-    <h2 class="section-heading">The {n} Scams</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+        <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">The {n} Scams</h2>
+        <button class="share-btn" onclick="if(navigator.share)navigator.share({{title:document.title,url:location.href}});else{{navigator.clipboard.writeText(location.href);this.textContent='&#10003; Link copied!';setTimeout(()=>this.innerHTML='&#128279; Share this guide',2000)}}">&#128279; Share this guide</button>
+    </div>
+    <hr style="border:none;border-top:2px solid var(--sand);margin:0.6rem 0 1.25rem;">
 {scam_cards}
 
     <!-- What to do -->
@@ -3268,30 +3325,81 @@ def generate_page(city_data, related_cities_map):
 
 <a href="#emergency" class="emergency-fab" aria-label="Emergency help">🆘</a>
 <span class="emergency-fab-tooltip">Been scammed? Get help</span>
+<a href="#" class="back-to-top" id="btt" aria-label="Back to top">&#9650;</a>
 
 <script defer src="/assets/shared-shell.js"></script>
 <script defer src="/assets/offline-download.js"></script>
+<script>
+(function(){{var b=document.getElementById('btt');if(!b)return;window.addEventListener('scroll',function(){{b.classList.toggle('visible',window.scrollY>600)}},{{passive:true}});b.addEventListener('click',function(e){{e.preventDefault();window.scrollTo({{top:0,behavior:'smooth'}})}});}})();
+</script>
 </body>
 </html>"""
     return html
 
 
 def build_related_cities_map(all_cities):
-    """Build a mapping of city -> list of related cities (same country + nearby popular cities)."""
+    """Build a mapping of city -> list of related cities.
+
+    Strategy: up to 3 same-country cities + up to 3 popular cross-country
+    cities from the same region or global popular list. This gives travelers
+    useful links to nearby destinations they're likely also visiting.
+    """
     # Group cities by country
     country_cities = defaultdict(list)
+    city_lookup = {}
     for city_data in all_cities:
         city = city_data["city"]
         if city in CITY_SLUGS:
-            country_cities[city_data["country"]].append({
+            entry = {
                 "city": city,
                 "country": city_data["country"],
                 "flag": city_data.get("flag", "🌍"),
                 "scam_count": len(city_data.get("scams", [])),
-            })
+            }
+            country_cities[city_data["country"]].append(entry)
+            city_lookup[city] = entry
 
-    # For each city, related = same-country cities + a few popular global cities
-    popular_global = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo"]
+    # Region-based popular cities for cross-country recommendations
+    region_popular = {
+        "Europe": ["Paris", "Rome", "Barcelona", "Istanbul", "Prague", "Amsterdam", "London", "Berlin"],
+        "Southeast Asia": ["Bangkok", "Bali", "Ho Chi Minh City", "Manila", "Phnom Penh", "Chiang Mai"],
+        "East Asia": ["Tokyo", "Seoul", "Taipei", "Beijing", "Shanghai", "Kyoto"],
+        "South Asia": ["Delhi", "Mumbai", "Kathmandu", "Colombo"],
+        "Middle East": ["Istanbul", "Cairo", "Amman", "Jerusalem", "Dubai", "Marrakech"],
+        "Africa": ["Cape Town", "Nairobi", "Marrakech", "Cairo", "Accra", "Zanzibar"],
+        "North America": ["New York City", "Los Angeles", "Miami", "Cancún", "Las Vegas", "San Francisco"],
+        "Central America & Caribbean": ["Cancún", "Havana", "San Juan", "Cartagena", "Panama City"],
+        "South America": ["Buenos Aires", "Rio de Janeiro", "Lima", "Cusco", "Medellín", "Cartagena"],
+        "Oceania": ["Sydney", "Melbourne", "Fiji", "Queenstown"],
+    }
+    country_to_region = {}
+    europe = {"France", "Italy", "Spain", "Germany", "United Kingdom", "Netherlands", "Portugal",
+              "Greece", "Czech Republic", "Austria", "Poland", "Hungary", "Croatia", "Belgium",
+              "Ireland", "Denmark", "Iceland", "Scotland", "Romania", "Bulgaria", "Serbia",
+              "Estonia", "Montenegro", "Switzerland", "Finland", "Sweden", "Norway", "Monaco"}
+    sea = {"Thailand", "Vietnam", "Cambodia", "Philippines", "Indonesia", "Malaysia", "Laos", "Singapore"}
+    ea = {"Japan", "South Korea", "Taiwan", "China", "Hong Kong", "Macau"}
+    sa = {"India", "Nepal", "Sri Lanka"}
+    me = {"Turkey", "Egypt", "Jordan", "Israel", "Morocco", "United Arab Emirates",
+          "Saudi Arabia", "Qatar", "Oman", "Lebanon"}
+    af = {"South Africa", "Kenya", "Tanzania", "Ghana", "Ethiopia", "Nigeria", "Senegal", "Mauritius", "Seychelles"}
+    na = {"United States", "Canada"}
+    ca = {"Mexico", "Cuba", "Puerto Rico", "Dominican Republic", "Costa Rica", "Panama",
+          "Honduras", "Antigua and Barbuda", "Jamaica", "Aruba", "The Bahamas", "Turks and Caicos Islands",
+          "Belize", "Guatemala", "El Salvador"}
+    sam = {"Brazil", "Argentina", "Peru", "Colombia", "Chile", "Ecuador", "Bolivia", "Uruguay"}
+    oc = {"Australia", "New Zealand", "Fiji"}
+    for c in europe: country_to_region[c] = "Europe"
+    for c in sea: country_to_region[c] = "Southeast Asia"
+    for c in ea: country_to_region[c] = "East Asia"
+    for c in sa: country_to_region[c] = "South Asia"
+    for c in me: country_to_region[c] = "Middle East"
+    for c in af: country_to_region[c] = "Africa"
+    for c in na: country_to_region[c] = "North America"
+    for c in ca: country_to_region[c] = "Central America & Caribbean"
+    for c in sam: country_to_region[c] = "South America"
+    for c in oc: country_to_region[c] = "Oceania"
+
     related_map = {}
 
     for city_data in all_cities:
@@ -3299,28 +3407,33 @@ def build_related_cities_map(all_cities):
         if city not in CITY_SLUGS:
             continue
         country = city_data["country"]
+        region = country_to_region.get(country, "")
 
-        # Same-country cities (excluding self)
-        same_country = [c for c in country_cities[country] if c["city"] != city]
+        # Same-country cities (up to 3)
+        same_country = [c for c in country_cities[country] if c["city"] != city][:3]
 
-        # Add popular global cities if we have fewer than 4 related
-        related = same_country[:]
-        if len(related) < 4:
-            for pg in popular_global:
-                if pg != city and pg not in [r["city"] for r in related]:
-                    for cd in all_cities:
-                        if cd["city"] == pg and pg in CITY_SLUGS:
-                            related.append({
-                                "city": pg,
-                                "country": cd["country"],
-                                "flag": cd.get("flag", "🌍"),
-                                "scam_count": len(cd.get("scams", [])),
-                            })
-                            break
-                if len(related) >= 6:
+        # Cross-country: pick from same region, then global fallback
+        cross_country = []
+        used = {city} | {c["city"] for c in same_country}
+        if region and region in region_popular:
+            for rc in region_popular[region]:
+                if rc not in used and rc in city_lookup and city_lookup[rc]["country"] != country:
+                    cross_country.append(city_lookup[rc])
+                    used.add(rc)
+                if len(cross_country) >= 3:
                     break
 
-        related_map[city] = related[:6]
+        # If still short, add global popular
+        global_fallback = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo"]
+        if len(cross_country) < 3:
+            for gf in global_fallback:
+                if gf not in used and gf in city_lookup:
+                    cross_country.append(city_lookup[gf])
+                    used.add(gf)
+                if len(cross_country) >= 3:
+                    break
+
+        related_map[city] = same_country + cross_country
 
     return related_map
 

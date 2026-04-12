@@ -47,6 +47,24 @@
           "url": "https://tabiji.ai/scams/",
           "numberOfItems": 201,
           "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"}
+        },
+        {
+          "@type": "ItemList",
+          "name": "Tourist Scam Guides by City",
+          "numberOfItems": 201,
+          "itemListOrder": "https://schema.org/ItemListOrderAlphabetical",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Paris Tourist Scams", "url": "https://tabiji.ai/scams/paris/"},
+            {"@type": "ListItem", "position": 2, "name": "Bangkok Tourist Scams", "url": "https://tabiji.ai/scams/bangkok/"},
+            {"@type": "ListItem", "position": 3, "name": "Rome Tourist Scams", "url": "https://tabiji.ai/scams/rome/"},
+            {"@type": "ListItem", "position": 4, "name": "Barcelona Tourist Scams", "url": "https://tabiji.ai/scams/barcelona/"},
+            {"@type": "ListItem", "position": 5, "name": "Istanbul Tourist Scams", "url": "https://tabiji.ai/scams/istanbul/"},
+            {"@type": "ListItem", "position": 6, "name": "Prague Tourist Scams", "url": "https://tabiji.ai/scams/prague/"},
+            {"@type": "ListItem", "position": 7, "name": "Marrakech Tourist Scams", "url": "https://tabiji.ai/scams/marrakech/"},
+            {"@type": "ListItem", "position": 8, "name": "Tokyo Tourist Scams", "url": "https://tabiji.ai/scams/tokyo/"},
+            {"@type": "ListItem", "position": 9, "name": "Cairo Tourist Scams", "url": "https://tabiji.ai/scams/cairo/"},
+            {"@type": "ListItem", "position": 10, "name": "London Tourist Scams", "url": "https://tabiji.ai/scams/london/"}
+          ]
         }
       ]
     }
@@ -388,22 +406,25 @@
 
 <div class="country-filter" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin:1rem auto;max-width:860px;padding:0 1rem;justify-content:center;">
     <button class="filter-pill active" data-filter="all">All</button>
-        <button class="filter-pill" data-filter="US">🇺🇸 USA (18)</button>
-        <button class="filter-pill" data-filter="MX">🇲🇽 Mexico (11)</button>
-        <button class="filter-pill" data-filter="ES">🇪🇸 Spain (9)</button>
-        <button class="filter-pill" data-filter="IT">🇮🇹 Italy (7)</button>
-        <button class="filter-pill" data-filter="GR">🇬🇷 Greece (6)</button>
-        <button class="filter-pill" data-filter="CO">🇨🇴 Colombia (5)</button>
-        <button class="filter-pill" data-filter="TR">🇹🇷 Turkey (4)</button>
-        <button class="filter-pill" data-filter="IN">🇮🇳 India (4)</button>
-        <button class="filter-pill" data-filter="MA">🇲🇦 Morocco (4)</button>
-        <button class="filter-pill" data-filter="TH">🇹🇭 Thailand (4)</button>
-        <button class="filter-pill" data-filter="GB">🇬🇧 UK (4)</button>
-        <button class="filter-pill" data-filter="FR">🇫🇷 France (3)</button>
-        <button class="filter-pill" data-filter="ZA">🇿🇦 S. Africa (3)</button>
-        <button class="filter-pill" data-filter="JP">🇯🇵 Japan (3)</button>
-        <button class="filter-pill" data-filter="CA">🇨🇦 Canada (3)</button>
-        <button class="filter-pill" data-filter="DE">🇩🇪 Germany (3)</button>
+        <button class="filter-pill" data-filter="US" data-href="/scams/country/us/">🇺🇸 USA (18)</button>
+        <button class="filter-pill" data-filter="MX" data-href="/scams/country/mx/">🇲🇽 Mexico (11)</button>
+        <button class="filter-pill" data-filter="ES" data-href="/scams/country/es/">🇪🇸 Spain (9)</button>
+        <button class="filter-pill" data-filter="IT" data-href="/scams/country/it/">🇮🇹 Italy (7)</button>
+        <button class="filter-pill" data-filter="GR" data-href="/scams/country/gr/">🇬🇷 Greece (6)</button>
+        <button class="filter-pill" data-filter="CO" data-href="/scams/country/co/">🇨🇴 Colombia (5)</button>
+        <button class="filter-pill" data-filter="TR" data-href="/scams/country/tr/">🇹🇷 Turkey (4)</button>
+        <button class="filter-pill" data-filter="IN" data-href="/scams/country/in/">🇮🇳 India (4)</button>
+        <button class="filter-pill" data-filter="MA" data-href="/scams/country/ma/">🇲🇦 Morocco (4)</button>
+        <button class="filter-pill" data-filter="TH" data-href="/scams/country/th/">🇹🇭 Thailand (4)</button>
+        <button class="filter-pill" data-filter="GB" data-href="/scams/country/gb/">🇬🇧 UK (4)</button>
+        <button class="filter-pill" data-filter="FR" data-href="/scams/country/fr/">🇫🇷 France (3)</button>
+        <button class="filter-pill" data-filter="ZA" data-href="/scams/country/za/">🇿🇦 S. Africa (3)</button>
+        <button class="filter-pill" data-filter="JP" data-href="/scams/country/jp/">🇯🇵 Japan (3)</button>
+        <button class="filter-pill" data-filter="CA" data-href="/scams/country/ca/">🇨🇦 Canada (3)</button>
+        <button class="filter-pill" data-filter="DE" data-href="/scams/country/de/">🇩🇪 Germany (3)</button>
+    </div>
+    <div id="country-link" style="text-align:center;margin:0.5rem auto;max-width:860px;display:none;">
+        <a id="country-link-a" href="" style="font-size:0.82rem;font-weight:600;color:#C4704B;text-decoration:none;">View full country guide &rarr;</a>
     </div>
 
 <div class="grid-section">
@@ -2457,12 +2478,22 @@
 
     searchInput.addEventListener('input', filterCards);
 
+    const countryLink = document.getElementById('country-link');
+    const countryLinkA = document.getElementById('country-link-a');
+
     filterPills.forEach(pill => {
         pill.addEventListener('click', () => {
             filterPills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
             activeCountry = pill.dataset.filter;
             filterCards();
+            // Show/hide country page link
+            if (pill.dataset.href) {
+                countryLinkA.href = pill.dataset.href;
+                countryLink.style.display = '';
+            } else {
+                countryLink.style.display = 'none';
+            }
         });
     });
 </script>

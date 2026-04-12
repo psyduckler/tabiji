@@ -91,12 +91,12 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `hyderabad-biryani` — Hyderabad Biryani (12/12) — rebuilt 2026-04-11
 - [x] `istanbul-late-night-food` — Best Late Night Food in Istanbul (12/12) — rebuilt 2026-04-11
 - [SKIP] `kobe-beef` — Best Kobe Beef Restaurants in Kobe (0/0) — no ItemList data
-- [ ] `le-morne-snorkeling` — Le Morne Snorkeling (9/9) — rebuilt 2026-04-11
+- [x] `le-morne-snorkeling` — Le Morne Snorkeling (9/9) — rebuilt 2026-04-12
 - [x] `lisbon-day-trips` — Best Day Trips from Lisbon (12/12) — rebuilt 2026-04-11
-- [ ] `london-afternoon-tea` — 12 Best Afternoon Teas in London 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `london-afternoon-tea` — 12 Best Afternoon Teas in London 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-12
 - [x] `london-free-museums` — 15 Best Free Museums in London (16/16) — rebuilt 2026-04-11
 - [x] `london-pubs` — 18 Best Pubs in London — Historic, Cozy & Real Ale Picks (18/18) — rebuilt 2026-04-11
-- [ ] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (12/12) — rebuilt 2026-04-11
+- [x] `london-sunday-roast` — 12 Best Sunday Roasts in London 2026 (12/12) — rebuilt 2026-04-12
 - [x] `marrakech-riads` — 12 Best Riads in Marrakech Medina (12/12) — rebuilt 2026-04-11
 - [x] `marseille-seafood-markets` — 12 Best Seafood Markets in Marseille (2026) (12/12) — rebuilt 2026-04-11
 - [x] `miami-cuban-food` — 12 Best Cuban Food in Miami (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
@@ -110,7 +110,7 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `new-orleans-beignets` — 12 Best Beignets in New Orleans 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `new-york-brunch` — 12 Best Brunch Spots in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `new-york-chopped-cheese` — 12 Best Chopped Cheese in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `new-york-korean-bbq` — 12 Best Korean BBQ in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `new-york-korean-bbq` — 12 Best Korean BBQ in New York City (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-12
 - [x] `new-york-late-night-eats` — Best Late Night Eats in New York (12/12) — rebuilt 2026-04-11
 - [x] `okinawa-soba` — 12 Best Okinawa Soba Restaurants (12/12) — rebuilt 2026-04-11
 - [x] `osaka-ramen` — Ramen in Osaka (12/12) — rebuilt 2026-04-11
@@ -122,7 +122,7 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `san-francisco-dim-sum` — Dim Sum in San Francisco's Chinatown (12/12) — rebuilt 2026-04-11
 - [x] `san-francisco-mission-burritos` — Mission Burritos SF (12/12) — rebuilt 2026-04-11
 - [x] `san-francisco-sourdough` — 12 Best Sourdough Bakeries in San Francisco (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
-- [ ] `san-juan-mofongo` — 12 Best Mofongo & Puerto Rican Food in San Juan (12/12) — rebuilt 2026-04-11
+- [x] `san-juan-mofongo` — 10 Best Mofongo & Puerto Rican Food in San Juan (10/10) — rebuilt 2026-04-12
 - [x] `seattle-seafood` — Fresh Seafood in Seattle (12/12) — rebuilt 2026-04-11
 - [x] `seattle-seafood-restaurants` — 12 Best Seafood Restaurants in Seattle (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `seoul-korean-bbq` — 17 Best Korean BBQ in Seoul (18/18) — rebuilt 2026-04-11
