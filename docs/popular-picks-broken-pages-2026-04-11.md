@@ -521,7 +521,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bergen-fjord-day-trips` — Take a scenic fjord cruise or hiking day trip from Bergen to Hardanger… (1/12)
 - [ ] `bergen-hiking-cafes` — Bergen Hiking & Mountain Cafes (1/12)
 - [ ] `bergen-seafood` — Seafood & Fish Market in Bergen (1/12)
-- [ ] `berlin-doner-kebab` — 12 Best Döner Kebab in Berlin (1/12)
+- [x] `berlin-doner-kebab` — 12 Best Döner Kebab in Berlin (12/12) — rebuilt 2026-04-11
 - [ ] `berlin-vegan-food` — Vegan Food in Berlin (1/12)
 - [ ] `berlin-vegan-restaurants` — Best Vegan Restaurants in Berlin (1/12)
 - [ ] `berlin-vintage-shopping` — Best Vintage Shopping in Berlin (1/12)
@@ -626,7 +626,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `chiang-mai-fine-dining` — 12 Best Fine Dining Restaurants in Chiang Mai (1/12)
 - [ ] `chiang-mai-food-halls` — 12 Best Food Halls in Chiang Mai (1/12)
 - [ ] `chiang-mai-jazz-bars` — 12 Best Jazz Bars in Chiang Mai (1/12)
-- [ ] `chiang-mai-khao-soi` — 14 Best Khao Soi in Chiang Mai — The Unfiltered Guide (1/15)
+- [x] `chiang-mai-khao-soi` — 14 Best Khao Soi in Chiang Mai — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `chiang-mai-natural-wine-bars` — 12 Best Natural Wine Bars in Chiang Mai (1/12)
 - [ ] `chiang-mai-night-markets` — 12 Best Night Markets in Chiang Mai (1/12)
 - [ ] `chiang-mai-photography-spots` — 12 Best Photography Spots in Chiang Mai (1/12)
@@ -697,7 +697,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `florence-aperitivo-bars` — Load up on free nibbles at Florence's spritz-and-aperitivo bars during… (1/12)
 - [ ] `florence-leather-workshops` — Leather Workshops in Florence (1/12)
 - [ ] `florence-trattorias` — 12 Best Trattorias in Florence (1/12)
-- [ ] `fukuoka-yatai` — 9 Best Yatai (Street Food Stalls) in Fukuoka (1/10)
+- [x] `fukuoka-yatai` — 9 Best Yatai (Street Food Stalls) in Fukuoka (10/10) — rebuilt 2026-04-11
 - [ ] `gdansk-amber-workshops` — Amber Workshops in Gdansk (1/12)
 - [ ] `gdansk-craft-beer` — Craft Beer in Gdansk (1/12)
 - [ ] `gdansk-milk-bars` — Milk Bars in Gdańsk (1/12)
@@ -713,11 +713,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `gothenburg-seafood` — Seafood Culture in Gothenburg (1/12)
 - [ ] `gothenburg-shrimp-toast` — Shrimp Toast in Gothenburg (1/12)
 - [ ] `granada-tapas` — Free Tapas Culture in Granada (1/12)
-- [ ] `guadalajara-birria` —  (1/11)
+- [x] `guadalajara-birria` — 11 Best Birria in Guadalajara (11/11) — rebuilt 2026-04-11
 - [ ] `guadalajara-tequila-bars` — Guadalajara Tequila Bars & Cantinas (1/12)
 - [ ] `guangzhou-morning-tea` — Morning Tea Culture in Guangzhou (1/12)
 - [ ] `guangzhou-night-markets` — 11 Best Night Markets in Guangzhou 2026 — Reddit-Backed Guide (1/12)
-- [ ] `guangzhou-wonton-noodles` — 11 Best Wonton Noodles in Guangzhou (2026) — Reddit-Backed Guide (1/11)
+- [x] `guangzhou-wonton-noodles` — 11 Best Wonton Noodles in Guangzhou (2026) — Reddit-Backed Guide (11/11) — rebuilt 2026-04-11
 - [ ] `guayaquil-seafood` — Pacific Seafood in Guayaquil (1/12)
 - [ ] `gyeongju-craft-beer` — 7 Best Craft Beer in Gyeongju (1/9)
 - [ ] `gyeongju-hwangnam-bread` — Hwangnam Bread in Gyeongju (1/12)
