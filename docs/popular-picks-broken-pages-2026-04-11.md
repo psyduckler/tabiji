@@ -724,7 +724,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `gyeongju-temple-food` — 8 Best Temple Food in Gyeongju (1/9)
 - [ ] `haifa-bahai-gardens-terrace-walk` — Stroll down the 19 perfectly manicured terraces of the Bahá'í Gardens … (1/12)
 - [ ] `haifa-german-colony-brunch` — Brunch on labneh, shakshuka, and freshly baked ka'ak bread in a restor… (1/12)
-- [ ] `hamburg-steak` — 10 Best Steak in Hamburg (1/10)
+- [x] `hamburg-steak` — 10 Best Steak in Hamburg (10/10) — rebuilt 2026-04-11
 - [ ] `hampi-boulder-sunrise-hike` — 12 Best Scramble over the ancient Vijayanagara ruins and volcanic boul… (1/12)
 - [ ] `hangzhou-longjing-tea` — Hangzhou Longjing Tea Villages (1/12)
 - [x] `hanoi-bun-rieu` — 9 Best Bún Riêu in Hanoi (2026) — Reddit-Backed Crab Noodle Soup Guide (12/12) — rebuilt 2026-04-11
@@ -1063,14 +1063,14 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `sydney-specialty-coffee` — Specialty Coffee Cafes in Sydney (1/12)
 - [ ] `taghazout-surf-breaks` — 10 Best Surf Breaks in Taghazout (1/12)
 - [ ] `tainan-coffin-bread` — Bite into Tainan's iconic 'coffin bread' — a thick hollowed-out toast … (1/12)
-- [ ] `taipei-beef-noodle-soup` — 10 Best Beef Noodle Soup in Taipei (1/11)
+- [x] `taipei-beef-noodle-soup` — 10 Best Beef Noodle Soup in Taipei (11/11) — rebuilt 2026-04-11
 - [ ] `taipei-tamsui-riverside-evening` — 12 Best Evening Activities Along Tamsui Riverside (1/12)
 - [ ] `tallinn-craft-beer` — Best Craft Beer in Tallinn (1/12)
 - [ ] `tallinn-old-town-restaurants` — Tallinn Old Town's Medieval Restaurants (1/12)
 - [ ] `tashkent-chorsu-bazaar-spices` — Chorsu Bazaar Spices in Tashkent (1/12)
 - [ ] `tashkent-tandoor-non-bakery` — 12 Best Tandoor Non Bakeries in Tashkent (1/12)
 - [ ] `tbilisi-coffee-shops` — 12 Best Coffee Shops in Tbilisi 2026 — Reddit-Backed Guide (1/12)
-- [ ] `tbilisi-khinkali` — 12 Best Khinkali in Tbilisi (2026) — Reddit-Backed Guide (1/12)
+- [SKIP] `tbilisi-khinkali` — 12 Best Khinkali in Tbilisi (2026) — Reddit-Backed Guide (1/12) — minimal ItemList, needs full research
 - [ ] `tbilisi-natural-wine-bars` — Georgian Natural Wine Bars in Tbilisi (1/12)
 - [ ] `tbilisi-rooftop-bars` — 11 Best Rooftop Bars in Tbilisi (2026) — Reddit-Backed Guide (1/11)
 - [ ] `tbilisi-wine-bars` —  (1/12)
@@ -1078,15 +1078,15 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `tehran-alborz-view-rooftop-cafes` — Sip pomegranate juice on a Tehran rooftop cafe with sweeping views of … (1/12)
 - [ ] `tehran-grand-bazaar-lunch` — 12 Best Lunch Spots in Tehran Grand Bazaar (1/12)
 - [ ] `tel-aviv-nightlife` — Tel Aviv's Legendary Nightlife (1/12)
-- [ ] `thessaloniki-bougatsa` — 10 Best Bougatsa in Thessaloniki 2026 — Reddit-Backed Guide (1/10)
+- [SKIP] `thessaloniki-bougatsa` — 10 Best Bougatsa in Thessaloniki 2026 — Reddit-Backed Guide (1/10) — no ItemList, needs full research
 - [ ] `thessaloniki-coffee-culture` — Coffee Culture in Thessaloniki (1/12)
 - [ ] `thessaloniki-street-food` — Street Food & Food Culture in Thessaloniki (1/12)
 - [ ] `thessaloniki-wine-bars` — Wine Bars in Thessaloniki (1/12)
 - [ ] `tokyo-brunch` — Best Brunch Spots in Tokyo (1/12)
 - [ ] `tokyo-craft-beer-bars` — Best Craft Beer Bars in Tokyo (1/12)
 - [ ] `tokyo-date-night-restaurants` — Best Date Night Restaurants in Tokyo (1/12)
-- [ ] `tokyo-depachika` — 12 Best Depachika (Department Store Food Halls) in Tokyo (1/12)
-- [ ] `tokyo-dessert-cafes` — Best Dessert Cafes in Tokyo (1/12)
+- [x] `tokyo-depachika` — 12 Best Depachika (Department Store Food Halls) in Tokyo (12/12) — rebuilt 2026-04-11
+- [SKIP] `tokyo-dessert-cafes` — Best Dessert Cafes in Tokyo (1/12) — minimal ItemList, needs full research
 - [ ] `tokyo-food-markets` — Best Food Markets in Tokyo (1/12)
 - [ ] `tokyo-instagram-spots` — Best Instagram Spots in Tokyo (1/12)
 - [ ] `tokyo-jazz-bars` — Tokyo's Jazz Bars (1/12)
