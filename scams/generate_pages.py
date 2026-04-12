@@ -3321,7 +3321,7 @@ def generate_page(city_data, related_cities_map):
                 "datePublished": "2026-03-29",
                 "dateModified": "2026-04-07",
                 "author": {"@type": "Organization", "name": "tabiji.ai"},
-                "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"},
+                "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/", "logo": {"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"}},
                 "speakable": {
                     "@type": "SpeakableSpecification",
                     "cssSelector": [".takeaways-box"] + ([".faq-a"] if faqs else [])
@@ -3423,6 +3423,8 @@ def generate_page(city_data, related_cities_map):
     <meta property="og:url" content="https://tabiji.ai/scams/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
     <meta property="og:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="article:published_time" content="2026-03-29">
     <meta property="article:modified_time" content="2026-04-07">
     <meta name="twitter:card" content="summary_large_image">
@@ -3774,7 +3776,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
                 "description": "Tourist scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports.",
                 "url": "https://tabiji.ai/scams/country/{cc_lower}/",
                 "numberOfItems": {n_cities},
-                "publisher": {{"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"}}
+                "publisher": {{"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/", "logo": {{"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"}}}}
             }}
         ]
     }}
@@ -3881,13 +3883,18 @@ def build_country_data(all_cities):
 def main():
     base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
-    # Load all batch files
+    # Load city data — prefer enriched master if available
     all_cities = []
-    batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")) +
-                         glob.glob(os.path.join(base_dir, "research", "tier_b_batch*.json")) +
-                         glob.glob(os.path.join(base_dir, "research", "tier_c_batch*.json")) +
-                         glob.glob(os.path.join(base_dir, "research", "tier_d_batch*.json")) +
-                         glob.glob(os.path.join(base_dir, "research", "new_batch_*.json")))
+    enriched_master = os.path.join(base_dir, "research", "enriched_master.json")
+    if os.path.exists(enriched_master):
+        batch_files = [enriched_master]
+        print("Using enriched master data")
+    else:
+        batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")) +
+                             glob.glob(os.path.join(base_dir, "research", "tier_b_batch*.json")) +
+                             glob.glob(os.path.join(base_dir, "research", "tier_c_batch*.json")) +
+                             glob.glob(os.path.join(base_dir, "research", "tier_d_batch*.json")) +
+                             glob.glob(os.path.join(base_dir, "research", "new_batch_*.json")))
     for path in batch_files:
         with open(path) as f:
             data = json.load(f)
