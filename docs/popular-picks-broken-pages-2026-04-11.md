@@ -221,11 +221,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `oaxaca-mezcal-bars` — 15 Best Mezcal Bars in Oaxaca — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
 - [x] `osaka-cheap-eats` — 12 Best Cheap Eats in Osaka (Under ¥1,000) (12/12) · 20/mo — rebuilt 2026-04-11
 - [x] `paris-natural-wine-bars` — 12 Best Natural Wine Bars in Paris (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
-- [ ] `porto-wine-bars` — 10 Best Wine Bars in Porto — The Reddit Guide (1/11) · 20/mo
-- [ ] `prague-craft-beer` — 15 Best Craft Beer Bars in Prague — The Unfiltered Guide (1/15) · 20/mo
-- [ ] `tel-aviv-cheap-eats` — 11 Best Cheap Eats in Tel Aviv (1/12) · 20/mo
-- [ ] `tel-aviv-hummus` — 14 Best Hummus Spots in Tel Aviv — The Unfiltered Guide (1/15) · 20/mo
-- [ ] `zurich-brunch-spots` — 12 Best Brunch Spots in Zürich (2026) — Reddit-Backed Guide (1/12) · 20/mo
+- [x] `porto-wine-bars` — 10 Best Wine Bars in Porto — The Reddit Guide (11/11) · 20/mo — rebuilt 2026-04-11
+- [x] `prague-craft-beer` — 15 Best Craft Beer Bars in Prague — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
+- [x] `tel-aviv-cheap-eats` — 11 Best Cheap Eats in Tel Aviv (12/12) · 20/mo — rebuilt 2026-04-11
+- [x] `tel-aviv-hummus` — 14 Best Hummus Spots in Tel Aviv — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
+- [x] `zurich-brunch-spots` — 12 Best Brunch Spots in Zürich (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
 - [ ] `ghent-craft-beer` — 8 Best Craft Beer Spots in Ghent (1/10) · 10/mo
 - [ ] `aarhus-art-galleries` — Aarhus Art Galleries (1/10)
 - [ ] `aarhus-new-nordic-restaurants` — 12 Best New Nordic Restaurants in Aarhus (1/12)
