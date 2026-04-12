@@ -115,7 +115,7 @@ echo "⏳ Waiting for processing..."
 STATUS_CODE="UNKNOWN"
 for i in $(seq 1 24); do
   sleep 10
-  STATUS_RESPONSE=$(ig_get "${CONTAINER_ID}&fields=status_code,status")
+  STATUS_RESPONSE=$(curl -s "https://graph.facebook.com/v22.0/${CONTAINER_ID}?fields=status_code,status&access_token=${IG_TOKEN}")
   STATUS_CODE=$(echo "$STATUS_RESPONSE" | python3 -c "import json,sys; print(json.load(sys.stdin).get('status_code','UNKNOWN'))")
   echo "  Attempt ${i}/24: ${STATUS_CODE}"
   if [[ "$STATUS_CODE" == "FINISHED" ]]; then
