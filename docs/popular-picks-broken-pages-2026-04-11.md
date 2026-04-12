@@ -207,14 +207,14 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `nara-udon` — 9 Best Udon Restaurants in Nara (10/10) · 30/mo — rebuilt 2026-04-11
 - [x] `osaka-craft-beer` — 10 Best Craft Beer Bars in Osaka (11/11) · 30/mo — rebuilt 2026-04-11
 - [x] `singapore-late-night-food` — 12 Best Late-Night Food Spots in Singapore (12/12) · 30/mo — rebuilt 2026-04-11
-- [ ] `auckland-brunch-spots` — 12 Best Brunch Spots in Auckland (2026) — Reddit-Backed Guide (1/12) · 20/mo
-- [ ] `buenos-aires-cocktail-bars` — 14 Best Craft Cocktail Bars in Buenos Aires — The Unfiltered Guide (1/15) · 20/mo
-- [ ] `buenos-aires-craft-beer` — 12 Best Craft Beer Bars & Breweries in Buenos Aires 2026 — Reddit-Back… (1/12) · 20/mo
-- [ ] `colombo-rooftop-bars` — 9 Best Rooftop Bars in Colombo (2026) — Reddit-Backed Guide (1/9) · 20/mo
-- [ ] `kathmandu-coffee-shops` — 12 Best Coffee Shops in Kathmandu (2026) — Reddit-Backed Guide (1/12) · 20/mo
-- [ ] `kuala-lumpur-laksa` — 12 Best Laksa in Kuala Lumpur (1/12) · 20/mo
-- [ ] `kyoto-sake-bars` — 10 Best Sake Bars in Kyoto (1/10) · 20/mo
-- [ ] `lisbon-natural-wine-bars` — 12 Best Natural Wine Bars in Lisbon (2026) — Reddit-Backed Guide (1/12) · 20/mo
+- [SKIP] `auckland-brunch-spots` — 12 Best Brunch Spots in Auckland (2026) — Reddit-Backed Guide (1/12) · 20/mo — minimal ItemList, needs full research
+- [x] `buenos-aires-cocktail-bars` — 14 Best Craft Cocktail Bars in Buenos Aires — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
+- [x] `buenos-aires-craft-beer` — 12 Best Craft Beer Bars & Breweries in Buenos Aires 2026 — Reddit-Back… (12/12) · 20/mo — rebuilt 2026-04-11
+- [SKIP] `colombo-rooftop-bars` — 9 Best Rooftop Bars in Colombo (2026) — Reddit-Backed Guide (1/9) · 20/mo — minimal ItemList, needs full research
+- [SKIP] `kathmandu-coffee-shops` — 12 Best Coffee Shops in Kathmandu (2026) — Reddit-Backed Guide (1/12) · 20/mo — minimal ItemList, needs full research
+- [x] `kuala-lumpur-laksa` — 12 Best Laksa in Kuala Lumpur (12/12) · 20/mo — rebuilt 2026-04-11
+- [x] `kyoto-sake-bars` — 10 Best Sake Bars in Kyoto (10/10) · 20/mo — rebuilt 2026-04-11
+- [x] `lisbon-natural-wine-bars` — 12 Best Natural Wine Bars in Lisbon (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
 - [ ] `manila-cheap-eats` — 20 Best Cheap Eats in Manila (1/20) · 20/mo
 - [ ] `marseille-coffee-shops` — 12 Best Coffee Shops in Marseille (2026) — Reddit-Backed Guide (1/12) · 20/mo
 - [ ] `nairobi-rooftop-bars` — 12 Best Rooftop Bars in Nairobi 2026 (1/12) · 20/mo
