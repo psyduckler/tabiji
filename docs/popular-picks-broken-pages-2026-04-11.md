@@ -861,13 +861,13 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `managua-gallo-pinto` — Nicaraguan Food in Managua (1/12)
 - [ ] `marrakech-cocktail-bars` — Rooftop Bars & Cocktails in Marrakech (1/12)
 - [ ] `marrakech-cooking-classes` — 12 Best Cooking Classes in Marrakech (1/12)
-- [ ] `marrakech-hammams` — 15 Best Hammams in Marrakech (1/16)
+- [x] `marrakech-hammams` — 15 Best Hammams in Marrakech (16/16) — rebuilt 2026-04-11
 - [ ] `marrakech-photography-spots` — Best Photography Spots in Marrakech (1/12)
 - [ ] `marseille-bouillabaisse` — 11 Best Bouillabaisse Restaurants in Marseille (1/11)
 - [ ] `marseille-le-panier` — 12 Best Spots in Le Panier, Marseille (1/12)
 - [ ] `matsumoto-sake-bar-hopping` — "Bar-hop through Matsumoto's Nawate Street, sampling local Nagano sake… (1/12)
 - [ ] `mechelen-day-trip` — 8 Best Things to Do in Mechelen (1/8)
-- [ ] `medellin-bandeja-paisa` — 10 Best Bandeja Paisa in Medellín (1/10)
+- [x] `medellin-bandeja-paisa` — 10 Best Bandeja Paisa in Medellín (10/10) — rebuilt 2026-04-11
 - [ ] `medellin-coworking-cafes` — Best Coworking Cafes in Medellin (1/12)
 - [ ] `medellin-craft-beer` — Craft Beer in Medellín (1/12)
 - [ ] `melbourne-brunch` — 12 Best Brunch Spots in Melbourne (2026) — Reddit-Backed Guide (1/12)
@@ -877,14 +877,14 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `memphis-bbq-joints` — Slow-smoked dry-rub ribs, pulled pork, and pit-master tradition at leg… (1/12)
 - [ ] `mendoza-wine-tours` — Mendoza Winery Tours (1/12)
 - [ ] `merzouga-desert-camps` — 9 Best Desert Camps in Merzouga (1/10)
-- [ ] `mexico-city-al-pastor` — 15 Best Al Pastor in Mexico City — The Unfiltered Guide (1/15)
+- [x] `mexico-city-al-pastor` — 15 Best Al Pastor in Mexico City — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `mexico-city-brunch` — Mexico City Brunch Culture (1/12)
 - [ ] `mexico-city-chilaquiles` — Best Chilaquiles in Mexico City (1/12)
 - [ ] `mexico-city-craft-beer` — Best Craft Beer in Mexico City (1/12)
-- [ ] `mexico-city-mezcalerias` — 12 Best Mezcal Bars in Mexico City (1/12)
+- [x] `mexico-city-mezcalerias` — 12 Best Mezcal Bars in Mexico City (12/12) — rebuilt 2026-04-11
 - [ ] `mexico-city-vintage-shopping` — Best Vintage Shopping in Mexico City (1/12)
 - [ ] `miami-restaurants` — 10 Best Restaurants in Miami (1/10)
-- [ ] `milan-aperitivo` — 15 Best Aperitivo Spots in Milan — The Unfiltered Guide (1/15)
+- [x] `milan-aperitivo` — 15 Best Aperitivo Spots in Milan — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `milan-fine-dining` — Fine Dining & Michelin Spots in Milan (1/12)
 - [ ] `miyajima-day-trip` — 10 Best Things to Do on Miyajima Island (1/12)
 - [ ] `montevideo-asado` — Uruguayan Asado in Montevideo (1/12)
