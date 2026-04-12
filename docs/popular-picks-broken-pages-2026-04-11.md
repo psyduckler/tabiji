@@ -268,11 +268,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `adelaide-art-galleries` — 10 Best Art Galleries in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `adelaide-bakeries` — 10 Best Bakeries in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `adelaide-bookshops` — 10 Best Bookshops in Adelaide (10/10) — rebuilt 2026-04-12
-- [ ] `adelaide-brunch-spots` — 12 Best Brunch Spots in Adelaide (1/12)
-- [ ] `adelaide-cheap-eats` — 12 Best Cheap Eats in Adelaide (1/12)
-- [ ] `adelaide-cocktail-bars` — 12 Best Cocktail Bars in Adelaide (1/12)
-- [ ] `adelaide-coffee-shops` — 12 Best Coffee Shops in Adelaide (1/12)
-- [ ] `adelaide-dessert-cafes` — 12 Best Dessert Cafes in Adelaide (1/12)
+- [x] `adelaide-brunch-spots` — 10 Best Brunch Spots in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-cheap-eats` — 10 Best Cheap Eats in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-cocktail-bars` — 10 Best Cocktail Bars in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-coffee-shops` — 10 Best Coffee Shops in Adelaide (10/10) — rebuilt 2026-04-12
+- [x] `adelaide-dessert-cafes` — 10 Best Dessert Cafes in Adelaide (10/10) — rebuilt 2026-04-12
 - [ ] `adelaide-fine-dining` — 12 Best Fine Dining in Adelaide (1/12)
 - [ ] `adelaide-food-halls` — 12 Best Food Halls in Adelaide (1/12)
 - [ ] `adelaide-food-markets` — 12 Best Food Markets in Adelaide (1/12)
