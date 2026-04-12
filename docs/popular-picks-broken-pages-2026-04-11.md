@@ -807,9 +807,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `koh-samui-cooking-classes` — Cooking Classes in Koh Samui (1/12)
 - [ ] `koh-samui-sunset-bars` — 12 Best Sunset Bars in Koh Samui (2026) — Reddit-Backed Guide (1/12)
 - [ ] `kolkata-mishti-doi` — Sweets & Mishti Doi Spots in Kolkata (1/12)
-- [ ] `kolkata-street-food` — 12 Best Street Food in Kolkata — The Unfiltered Guide (1/12)
+- [x] `kolkata-street-food` — 12 Best Street Food in Kolkata — The Unfiltered Guide (12/12) — rebuilt 2026-04-11
 - [ ] `kota-kinabalu-island-hopping` — Take a speedboat to the white-sand islands of Tunku Abdul Rahman Marin… (1/12)
-- [ ] `kota-kinabalu-seafood` — 12 Best Seafood Restaurants in Kota Kinabalu (2026) — Local & Reddit-B… (1/12)
+- [x] `kota-kinabalu-seafood` — 12 Best Seafood Restaurants in Kota Kinabalu (2026) — Local & Reddit-B… (12/12) — rebuilt 2026-04-11
 - [ ] `kotor-old-town-walk` — Wander the medieval stone walls and hidden piazzas of Kotor's car-free… (1/12)
 - [ ] `kotor-seafood` — Seafood in Kotor (1/12)
 - [ ] `krabi-railay-rock-climbing` — Scale the towering limestone karst faces above Railay Beach at Krabi, … (1/12)
@@ -820,9 +820,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kyoto-bamboo-grove-walks` — 11 Best Bamboo Grove Walks & Nature Trails in Kyoto (1/12)
 - [ ] `kyoto-coffee` — 12 Best Coffee Shops in Kyoto (1/12)
 - [ ] `kyoto-hidden-temples` — 11 Hidden Temples in Kyoto That Reddit Swears By (1/11)
-- [ ] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (1/12)
+- [x] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (12/12) — rebuilt 2026-04-11
 - [ ] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (1/10)
-- [ ] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (1/15)
+- [x] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `kyoto-sushi` — 10 Best Sushi in Kyoto (1/10)
 - [ ] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (1/10)
 - [ ] `kyushu-onsen-cuisine` — Onsen & Hell Cuisine in Beppu (1/12)
@@ -835,7 +835,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `lima-craft-beer` — Craft Beer & Bars in Lima (1/12)
 - [ ] `lima-pisco-sour-bars` — 12 Best Pisco Sour Bars in Lima (2026) — Reddit-Backed Guide (1/12)
 - [ ] `lisbon-brunch` — Best Brunch Spots in Lisbon (1/12)
-- [ ] `lisbon-pastel-de-nata` — 18 Best Pastéis de Nata in Lisbon (1/18)
+- [x] `lisbon-pastel-de-nata` — 18 Best Pastéis de Nata in Lisbon (18/18) — rebuilt 2026-04-11
 - [ ] `lisbon-photography-spots` — Best Photography Spots in Lisbon (1/12)
 - [ ] `lisbon-sardine-restaurants` — 15 Best Sardine Restaurants in Lisbon — The Unfiltered Guide (1/15)
 - [ ] `lisbon-solo-travel-guide` — Best Solo Travel Guide to Lisbon (1/12)
