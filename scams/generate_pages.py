@@ -881,6 +881,32 @@ EMERGENCY_INFO = {
     },
 }
 
+# Country to health page slug mapping
+COUNTRY_HEALTH_SLUGS = {
+    "United Kingdom": "united-kingdom", "Japan": "japan", "United Arab Emirates": "united-arab-emirates",
+    "Netherlands": "netherlands", "Singapore": "singapore", "Malaysia": "malaysia",
+    "South Korea": "south-korea", "Portugal": "portugal", "Greece": "greece",
+    "Germany": "germany", "Spain": "spain", "Vietnam": "vietnam", "Mexico": "mexico",
+    "Brazil": "brazil", "Peru": "peru", "Poland": "poland", "France": "france",
+    "Italy": "italy", "Thailand": "thailand", "Turkey": "turkey", "Czech Republic": "czech-republic",
+    "Morocco": "morocco", "Egypt": "egypt", "Argentina": "argentina", "United States": "united-states",
+    "Austria": "austria", "Canada": "canada", "Ireland": "ireland", "Denmark": "denmark",
+    "Hungary": "hungary", "Croatia": "croatia", "Jordan": "jordan", "Israel": "israel",
+    "Iceland": "iceland", "Belgium": "belgium", "Cambodia": "cambodia", "Philippines": "philippines",
+    "Cuba": "cuba", "Puerto Rico": "puerto-rico", "Colombia": "colombia", "Scotland": "united-kingdom",
+    "Indonesia": "indonesia-bali", "India": "india", "Taiwan": "taiwan", "Nepal": "nepal",
+    "China": "china", "Laos": "laos", "Romania": "romania", "Bulgaria": "bulgaria",
+    "Serbia": "serbia", "Estonia": "estonia", "Montenegro": "montenegro",
+    "South Africa": "south-africa", "Kenya": "kenya", "Tanzania": "tanzania",
+    "Ghana": "ghana", "Australia": "australia", "Sri Lanka": "sri-lanka",
+    "The Bahamas": "bahamas", "Aruba": "aruba", "Dominican Republic": "dominican-republic",
+    "Antigua and Barbuda": "antigua-and-barbuda", "Honduras": "honduras",
+    "Panama": "panama", "Costa Rica": "costa-rica", "Jamaica": "jamaica",
+    "Hong Kong": "hong-kong", "Switzerland": "switzerland", "Finland": "finland",
+    "Sweden": "sweden", "Norway": "norway", "New Zealand": "new-zealand",
+    "Turks and Caicos Islands": "turks-and-caicos-islands",
+}
+
 # City slugs mapping
 CITY_SLUGS = {
     "London": "london",
@@ -2885,7 +2911,7 @@ def generate_scam_cards(scams):
         avoid_html = "\n".join(f"                    <li>{av}</li>" for av in scam.get("how_to_avoid", []))
         html += f"""
     <!-- Scam {i} -->
-    <div class="scam-card">
+    <div class="scam-card" id="scam-{i}">
         <div class="scam-header">
             <div>
                 <div class="scam-number">Scam #{i}</div>
@@ -2912,6 +2938,23 @@ def generate_scam_cards(scams):
     </div>
 """
     return html
+
+def generate_toc(scams):
+    """Generate a Table of Contents linking to each scam by anchor."""
+    items = ""
+    for i, scam in enumerate(scams, 1):
+        level = scam.get("danger_level", "low").lower()
+        badge_cls = level if level in ("high", "medium", "low") else "low"
+        label = level.capitalize()
+        items += f"""
+            <li><a href="#scam-{i}"><span class="toc-badge {badge_cls}">{label}</span> {scam['scam_name']}</a></li>"""
+    return f"""
+    <div class="toc">
+        <h2>Jump to a Scam</h2>
+        <ol class="toc-list">{items}
+        </ol>
+    </div>"""
+
 
 def generate_faq_schema(city, faqs):
     items = []
@@ -2961,12 +3004,37 @@ def generate_page(city_data, related_cities_map):
     safety_tips_html = "\n".join(f"            <li>{tip}</li>" for tip in safety_tips)
     
     scam_cards = generate_scam_cards(scams)
-    
-    faq_schema_items = generate_faq_schema(city, faqs)
-    
-    faq_html = generate_faq_html(faqs) if faqs else ""
-    
+    toc_html = generate_toc(scams)
+
+    # Severity counts for hero summary
+    high_count = sum(1 for s in scams if s.get("danger_level", "").lower() == "high")
+    medium_count = sum(1 for s in scams if s.get("danger_level", "").lower() == "medium")
+    low_count = sum(1 for s in scams if s.get("danger_level", "").lower() == "low")
+    severity_pills = []
+    if high_count:
+        severity_pills.append(f'<span class="severity-pill high">{high_count} High Risk</span>')
+    if medium_count:
+        severity_pills.append(f'<span class="severity-pill medium">{medium_count} Medium</span>')
+    if low_count:
+        severity_pills.append(f'<span class="severity-pill low">{low_count} Low</span>')
+    severity_html = f'\n    <div class="severity-summary">{"".join(severity_pills)}</div>' if severity_pills else ""
+
     country_code = city_data.get("country_code", "")
+
+    # Cross-links to health guide and country scam page
+    health_slug = COUNTRY_HEALTH_SLUGS.get(country, "")
+    cc_lower = country_code.lower() if country_code else ""
+    cross_links = []
+    if health_slug:
+        cross_links.append(f'<a href="/health/{health_slug}/" class="cross-link">&#127973; {country} Health Guide</a>')
+    if cc_lower:
+        cross_links.append(f'<a href="/scams/country/{cc_lower}/" class="cross-link">&#128506; All {country} Scam Guides</a>')
+    cross_links.append(f'<a href="/plan/" class="cross-link">&#128203; Free {city} Itinerary</a>')
+    cross_links_html = f'\n    <div class="cross-links">{"".join(cross_links)}</div>' if cross_links else ""
+
+    faq_schema_items = generate_faq_schema(city, faqs)
+
+    faq_html = generate_faq_html(faqs) if faqs else ""
 
     schema = {
         "@context": "https://schema.org",
@@ -3129,10 +3197,11 @@ def generate_page(city_data, related_cities_map):
         <span>📅 Updated April 2026</span>
         <span>💬 {n} scams documented</span>
         <span>⭐ Reddit-sourced & verified</span>
-    </div>
+    </div>{severity_html}
 </div>
 
 <div class="content">
+{cross_links_html}
 
     <div class="takeaways-box">
         <h2>Key Takeaways</h2>
@@ -3148,11 +3217,13 @@ def generate_page(city_data, related_cities_map):
         </ul>
     </div>
 
+{toc_html}
+
     <h2 class="section-heading">The {n} Scams</h2>
 {scam_cards}
 
     <!-- What to do -->
-    <div class="action-section">
+    <div class="action-section" id="emergency">
         <h2>🆘 What to Do If You Get Scammed</h2>
         <div class="action-grid">
             <div class="action-item">
@@ -3194,6 +3265,9 @@ def generate_page(city_data, related_cities_map):
 <footer>
     <p>© 2026 tabiji.ai · <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> · <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> · <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> · <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> · <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
+
+<a href="#emergency" class="emergency-fab" aria-label="Emergency help">🆘</a>
+<span class="emergency-fab-tooltip">Been scammed? Get help</span>
 
 <script defer src="/assets/shared-shell.js"></script>
 <script defer src="/assets/offline-download.js"></script>
@@ -3251,6 +3325,219 @@ def build_related_cities_map(all_cities):
     return related_map
 
 
+def generate_country_page(country, country_code, flag, cities_data, all_scams_count):
+    """Generate an enriched country-level scam page."""
+    cc_lower = country_code.lower()
+    n_cities = len(cities_data)
+    total_scams = sum(c["scam_count"] for c in cities_data)
+
+    # Collect all scam types across cities to find most common
+    scam_type_counts = defaultdict(int)
+    high_count = 0
+    for cd in cities_data:
+        for s in cd.get("scams_raw", []):
+            name = s.get("scam_name", "")
+            level = s.get("danger_level", "").lower()
+            if level == "high":
+                high_count += 1
+            # Normalize common scam keywords for grouping
+            for keyword in ["pickpocket", "taxi", "overcharge", "fake", "bracelet", "petition", "restaurant"]:
+                if keyword in name.lower():
+                    scam_type_counts[keyword.capitalize()] += 1
+
+    top_types = sorted(scam_type_counts.items(), key=lambda x: -x[1])[:5]
+    top_types_html = ""
+    if top_types:
+        pills = "".join(f'<span style="display:inline-block;background:#EFF6FF;border:1px solid #93C5FD;border-radius:99px;padding:0.25rem 0.75rem;font-size:0.8rem;font-weight:600;color:#2D3A5C;">{t} ({c})</span>' for t, c in top_types)
+        top_types_html = f"""
+    <div style="margin-bottom:1.5rem;">
+        <h3 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#6B5D4F;margin-bottom:0.6rem;">Most Common Scam Types</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">{pills}</div>
+    </div>"""
+
+    # Emergency info
+    em = EMERGENCY_INFO.get(country, None)
+    emergency_html = ""
+    if em:
+        emergency_html = f"""
+    <div style="background:#2D3A5C;color:white;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem;">&#x1F6A8; Emergency Numbers in {country}</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;font-size:0.9rem;">
+            <div><strong>Police:</strong> {em['police_number']}</div>
+            <div><strong>Emergency:</strong> {em['emergency_number']}</div>
+            <div><strong>Online Report:</strong> <a href="{em['report_url']}" target="_blank" rel="noopener" style="color:#93C5FD;">{em['report_site']}</a></div>
+        </div>
+    </div>"""
+
+    # City cards
+    city_cards = ""
+    for cd in sorted(cities_data, key=lambda x: -x["scam_count"]):
+        slug = cd["slug"]
+        city_cards += f"""
+        <a href="/scams/{slug}/" class="city-card">
+            <h3>{cd["city"]}</h3>
+            <div class="scam-count">{cd["scam_count"]} scams documented</div>
+        </a>"""
+
+    # Cross-links
+    health_slug = COUNTRY_HEALTH_SLUGS.get(country, "")
+    cross_links = ""
+    if health_slug:
+        cross_links += f'<a href="/health/{health_slug}/" style="color:#C4704B;font-weight:600;text-decoration:none;">&#127973; {country} Health Guide</a>'
+        cross_links += '<span style="margin:0 1rem;color:#d1d5db;">|</span>'
+    cross_links += '<a href="/scams/" style="color:#C4704B;font-weight:600;text-decoration:none;">&larr; Back to all scam guides</a>'
+
+    # Overview text
+    if high_count > 0:
+        risk_note = f"{high_count} scams across {country} are rated high risk."
+    else:
+        risk_note = f"Most scams in {country} are low-to-medium risk."
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Scams in {country} (2026) &mdash; All Cities | tabiji.ai</title>
+    <meta name="description" content="Tourist scam guides for {n_cities} cities in {country}. {total_scams} scams documented from real Reddit traveler stories.">
+    <link rel="canonical" href="https://tabiji.ai/scams/country/{cc_lower}/">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Tourist Scams in {country} (2026) — tabiji.ai">
+    <meta property="og:description" content="{total_scams} scams documented across {n_cities} cities in {country}. Real Reddit traveler stories.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tabiji.ai/scams/country/{cc_lower}/">
+    <meta property="og:site_name" content="tabiji.ai">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Tourist Scams in {country} (2026)">
+    <meta name="twitter:description" content="{total_scams} scams across {n_cities} cities. Reddit-sourced.">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','G-D7QHNRXLHJ');</script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
+    <link rel="stylesheet" href="/assets/shared-shell.css">
+    <script type="application/ld+json">
+    {{
+        "@context": "https://schema.org",
+        "@graph": [
+            {{
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"}},
+                    {{"@type": "ListItem", "position": 2, "name": "Scams", "item": "https://tabiji.ai/scams/"}},
+                    {{"@type": "ListItem", "position": 3, "name": "{country}", "item": "https://tabiji.ai/scams/country/{cc_lower}/"}}
+                ]
+            }},
+            {{
+                "@type": "CollectionPage",
+                "name": "Tourist Scams in {country}",
+                "description": "Tourist scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports.",
+                "url": "https://tabiji.ai/scams/country/{cc_lower}/",
+                "numberOfItems": {n_cities},
+                "publisher": {{"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/"}}
+            }}
+        ]
+    }}
+    </script>
+    <style>
+        .page-hero {{ background: linear-gradient(135deg, #2D3A5C, #3D4E7A); color: white; padding: 7rem 2rem 3rem; text-align: center; }}
+        .page-hero h1 {{ font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.75rem; }}
+        .page-hero p {{ font-size: 1.05rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }}
+        .page-hero-stats {{ display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }}
+        .page-hero-stat {{ background: rgba(255,255,255,0.12); border-radius: 99px; padding: 0.3rem 0.9rem; font-size: 0.82rem; font-weight: 600; }}
+        .container {{ max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }}
+        .city-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; }}
+        .city-card {{ background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; text-decoration: none; color: #2C2419; transition: box-shadow 0.2s, transform 0.2s; }}
+        .city-card:hover {{ box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }}
+        .city-card h3 {{ font-size: 1rem; color: #2D3A5C; margin-bottom: 0.3rem; }}
+        .city-card .scam-count {{ font-size: 0.8rem; color: #dc2626; font-weight: 600; }}
+        .breadcrumb {{ background: #E8DFD0; padding: 0.6rem 2rem; font-size: 0.8rem; color: #6B5D4F; }}
+        .breadcrumb a {{ color: #6B5D4F; text-decoration: none; }}
+        .breadcrumb a:hover {{ color: #2D3A5C; }}
+        .breadcrumb span {{ margin: 0 0.4rem; }}
+    </style>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D3A5C">
+<script defer src="/assets/shared-shell.js"></script>
+<script defer src="/assets/offline-download.js"></script>
+</head>
+<body>
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/api/">&#128268; API</a>
+                <a href="/compare/">&#127386; Compare Destinations</a>
+                <a href="/credit-cards/">&#128179; Credit Card Benefits</a>
+                <a href="/find/">&#128269; Destination Finder</a>
+                <a href="/resources/">&#128218; Resources</a>
+                <a href="/scams/">&#128680; Tourist Scams</a>
+                <a href="/health/">&#127973; Travel Health Tips</a>
+            </div>
+        </div>
+        <a href="/popular-picks/">Popular Picks</a>
+        <a href="/countries/">Country Guides</a>
+        <a href="/about/">About</a>
+        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
+    </div>
+</nav>
+
+<div class="breadcrumb">
+    <a href="/">Home</a><span>&rsaquo;</span><a href="/scams/">Scams</a><span>&rsaquo;</span>{country}
+</div>
+
+<div class="page-hero">
+    <h1>{flag} Tourist Scams in {country}</h1>
+    <p>Scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports. {risk_note}</p>
+    <div class="page-hero-stats">
+        <span class="page-hero-stat">{n_cities} Cities</span>
+        <span class="page-hero-stat">{total_scams} Scams Documented</span>
+        <span class="page-hero-stat">Reddit-Sourced</span>
+    </div>
+</div>
+<div class="container">
+{emergency_html}
+{top_types_html}
+    <h2 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#6B5D4F;margin-bottom:0.5rem;">City Guides</h2>
+    <div class="city-grid">{city_cards}
+    </div>
+    <div style="margin-top:2rem;text-align:center;">
+        {cross_links}
+    </div>
+</div>
+<footer>
+    <p>&copy; 2026 tabiji.ai &middot; <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> &middot; <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> &middot; <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> &middot; <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> &middot; <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> &middot; <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> &middot; <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> &middot; <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> &middot; <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
+</footer>
+<script defer src="/assets/shared-shell.js"></script>
+</body>
+</html>"""
+    return html
+
+
+def build_country_data(all_cities):
+    """Group cities by country for country page generation."""
+    countries = defaultdict(lambda: {"cities": [], "flag": "🌍", "country_code": ""})
+    for city_data in all_cities:
+        city = city_data["city"]
+        if city not in CITY_SLUGS:
+            continue
+        country = city_data["country"]
+        cc = city_data.get("country_code", "")
+        flag = city_data.get("flag", "🌍")
+        countries[country]["flag"] = flag
+        countries[country]["country_code"] = cc
+        countries[country]["cities"].append({
+            "city": city,
+            "slug": CITY_SLUGS[city],
+            "scam_count": len(city_data.get("scams", [])),
+            "scams_raw": city_data.get("scams", []),
+        })
+    return countries
+
+
 def main():
     base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
@@ -3292,6 +3579,32 @@ def main():
     print(f"\nBuilt {len(built)} pages:")
     for city, slug, n in built:
         print(f"  - {city} ({n} scams) → /scams/{slug}/")
+
+    # Build enriched country pages
+    country_data = build_country_data(all_cities)
+    country_built = 0
+    for country, cdata in sorted(country_data.items()):
+        cc = cdata["country_code"]
+        if not cc:
+            continue
+        cc_lower = cc.lower()
+        flag = cdata["flag"]
+        cities = cdata["cities"]
+        if len(cities) < 2:
+            continue  # Only build country pages for countries with 2+ cities
+
+        out_dir = os.path.join(base_dir, "country", cc_lower)
+        os.makedirs(out_dir, exist_ok=True)
+        out_path = os.path.join(out_dir, "index.html")
+
+        html = generate_country_page(country, cc, flag, cities, len(built))
+        with open(out_path, "w") as f:
+            f.write(html)
+
+        country_built += 1
+        print(f"  🌍 {country} ({cc_lower}) → country/{cc_lower}/index.html ({len(cities)} cities)")
+
+    print(f"\nBuilt {country_built} country pages")
 
     return built
 

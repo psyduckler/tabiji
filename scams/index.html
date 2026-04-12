@@ -382,7 +382,7 @@
 <div class="search-section">
     <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" id="city-search" placeholder="Search cities… (e.g. Paris, Bangkok, Rome)" autocomplete="off">
+        <input type="text" id="city-search" placeholder="Search cities or scam types… (e.g. Paris, pickpocket, taxi)" autocomplete="off">
     </div>
 </div>
 
@@ -2434,11 +2434,19 @@
     const filterPills = document.querySelectorAll('.filter-pill');
     let activeCountry = 'all';
 
+    // Pre-build searchable text for each card (city + country + scam names from tagline)
+    const cardSearchText = new Map();
+    cards.forEach(card => {
+        const tagline = card.querySelector('.city-tagline');
+        const text = (card.dataset.city + ' ' + (tagline ? tagline.textContent : '')).toLowerCase();
+        cardSearchText.set(card, text);
+    });
+
     function filterCards() {
         const q = searchInput.value.toLowerCase().trim();
         let visible = 0;
         cards.forEach(card => {
-            const matchSearch = !q || card.dataset.city.includes(q);
+            const matchSearch = !q || cardSearchText.get(card).includes(q);
             const matchCountry = activeCountry === 'all' || card.dataset.country === activeCountry;
             const show = matchSearch && matchCountry;
             card.style.display = show ? '' : 'none';
