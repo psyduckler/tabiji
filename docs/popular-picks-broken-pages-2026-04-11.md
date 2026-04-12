@@ -641,7 +641,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `chicago-natural-wine-bars` — 12 Best Natural Wine Bars in Chicago (1/12)
 - [ ] `chicago-night-markets` — The 12 Best Night Markets in Chicago (1/12)
 - [ ] `chicago-photography-spots` — 12 Best Photography Spots in Chicago (1/12)
-- [ ] `chicago-pizza` — 10 Best Pizza in Chicago (1/10)
+- [x] `chicago-pizza` — 10 Best Pizza in Chicago (10/10) — rebuilt 2026-04-11
 - [ ] `chicago-restaurants` — 10 Best Restaurants in Chicago (1/10)
 - [ ] `chicago-street-food` — 12 Best Street Food in Chicago (1/12)
 - [ ] `chicago-viewpoints` — 12 Best Viewpoints in Chicago (1/12)
@@ -668,7 +668,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `da-lat-weasel-coffee-farm` — Weasel Coffee Farm in Da Lat (1/12)
 - [ ] `da-nang-grilled-fish` — 12 Best Grilled Fish in Da Nang (1/12)
 - [ ] `dali-bai-tie-dye-workshop` — Bai Tie Dye Workshop in Dali (1/12)
-- [ ] `dallas-bbq` — 10 Best BBQ in Dallas (1/10)
+- [x] `dallas-bbq` — 10 Best BBQ in Dallas (10/10) — rebuilt 2026-04-11
 - [ ] `dallas-craft-cocktail-bars` — 12 Best Deep Ellum and Bishop Arts District Craft Cocktail Bars (1/12)
 - [ ] `dallas-restaurants` — 10 Best Restaurants in Dallas (1/10)
 - [ ] `dar-es-salaam-street-food` — Street Food in Dar es Salaam (1/12)
@@ -797,7 +797,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kathmandu-rooftop-cafes` — 12 Best Rooftop Cafes in Kathmandu 2026 — Reddit-Backed Guide (1/12)
 - [ ] `kigali-coffee-shops` — 11 Best Coffee Shops in Kigali (1/12)
 - [x] `kobe-chinatown` — 9 Best Eats in Kobe Chinatown (Nankinmachi) (9/9) — rebuilt 2026-04-11
-- [ ] `kobe-sushi` — 10 Best Sushi in Kobe (1/10)
+- [x] `kobe-sushi` — 10 Best Sushi in Kobe (10/10) — rebuilt 2026-04-11
 - [ ] `kochi-backwater-houseboat` — Backwater Houseboat in Kochi (1/12)
 - [ ] `kochi-coconut-curries` — 12 Best Coconut Curries in Kochi (2026) — Reddit-Backed Guide (1/12)
 - [ ] `kochi-coffee-shops` — 12 Best Coffee Shops in Kochi (2026) — Reddit-Backed Guide (1/12)
@@ -823,7 +823,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (12/12) — rebuilt 2026-04-11
 - [ ] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (1/10)
 - [x] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `kyoto-sushi` — 10 Best Sushi in Kyoto (1/10)
+- [x] `kyoto-sushi` — 10 Best Sushi in Kyoto (10/10) — rebuilt 2026-04-11
 - [ ] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (1/10)
 - [ ] `kyushu-onsen-cuisine` — Onsen & Hell Cuisine in Beppu (1/12)
 - [ ] `la-paz-salteñas` — Salteñas in La Paz (1/12)
@@ -906,7 +906,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `nagasaki-castella-cake` — Castella Cake in Nagasaki (1/12)
 - [ ] `nagasaki-champon-noodles` — Champon & Sara Udon (1/12)
 - [x] `nagoya-hitsumabushi` — 10 Best Hitsumabushi in Nagoya (10/10) — rebuilt 2026-04-11
-- [ ] `nagoya-sushi` — 10 Best Sushi in Nagoya (1/10)
+- [x] `nagoya-sushi` — 10 Best Sushi in Nagoya (10/10) — rebuilt 2026-04-11
 - [x] `nagoya-tebasaki` — 10 Best Tebasaki Wings in Nagoya (10/10) — rebuilt 2026-04-11
 - [ ] `nairobi-craft-coffee` — Specialty Coffee in Nairobi (1/12)
 - [x] `nairobi-nyama-choma` — 11 Best Nyama Choma in Nairobi (12/12) — rebuilt 2026-04-11
