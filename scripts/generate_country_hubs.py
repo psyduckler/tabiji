@@ -522,10 +522,16 @@ def _load_picks():
     if not os.path.isdir(picks_api_dir):
         return
 
+    # Build set of country slugs to filter out hub/index picks
+    _country_slugs = set(slugify(n) for n in COUNTRY_REGISTRY)
+
     for fn in sorted(os.listdir(picks_api_dir)):
         if not fn.endswith(".json"):
             continue
         slug = fn[:-5]
+        # Skip hub/index picks (e.g., "japan.json" is a country hub, not a city pick)
+        if slug in _country_slugs:
+            continue
         # Verify the HTML page exists
         if not os.path.isdir(os.path.join(picks_html_dir, slug)):
             continue
@@ -630,6 +636,32 @@ def get_top_destinations(country_name, limit=12):
     """Get top destinations with photos for a country."""
     _load_destinations()
     _load_dest_pages()
+    _load_scams()
+    _load_picks()
+    _load_compare_dirs()
+    _load_itin_dirs()
+
+    # Build a set of "popular" city slugs — cities that appear in other content
+    popular_slugs = set()
+    # Cities with scam guides
+    for scams in (_SCAMS_BY_COUNTRY or {}).values():
+        for sc in scams:
+            popular_slugs.add(sc.get("slug", ""))
+    # Cities with popular picks (extract city slug from pick slug)
+    for picks in (_PICKS_BY_COUNTRY or {}).values():
+        for pk in picks:
+            # Pick slugs often start with city name, e.g. "fukuoka-ramen"
+            parts = pk.get("slug", "").split("-")
+            if parts:
+                popular_slugs.add(parts[0])
+    # Cities in comparison slugs
+    for entry in (_COMPARE_DIRS_SET or set()):
+        for part in entry.split("-vs-"):
+            popular_slugs.add(part)
+    # Cities in itinerary slugs
+    for entry in (_ITIN_DIRS or set()):
+        for part in entry.split("-"):
+            popular_slugs.add(part)
 
     # Gather all dests for this country
     dests = list(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
@@ -640,7 +672,6 @@ def get_top_destinations(country_name, limit=12):
     if not dests:
         return []
 
-    # Sort by some heuristic: prioritize those with real photos and destination pages
     results = []
     for d in dests:
         slug = d.get("slug", "")
@@ -656,6 +687,7 @@ def get_top_destinations(country_name, limit=12):
 
         has_real_photo = photo and "owl-logo" not in photo and "tabiji-owl" not in photo
         has_page = slug in _DEST_PAGES_SET
+        is_popular = slug in popular_slugs
 
         results.append({
             "name": name,
@@ -663,11 +695,14 @@ def get_top_destinations(country_name, limit=12):
             "photo": photo if has_real_photo else "",
             "has_page": has_page,
             "has_photo": has_real_photo,
+            "is_popular": is_popular,
         })
 
-    # Sort: has_page + has_photo first, then has_photo, then has_page, then rest
+    # Sort: prioritize destinations with pages, popularity signals, then photos
+    # Within each tier, popular destinations (referenced in other content) rank higher
     results.sort(key=lambda x: (
         -(x["has_page"] and x["has_photo"]),
+        -x["is_popular"],
         -x["has_photo"],
         -x["has_page"],
         x["name"],
@@ -710,15 +745,15 @@ def get_comparisons(country_name, country_slug):
     matches = []
     seen = set()
 
+    # Build set of country slugs to filter out hub/index pages
+    _country_slugs = set(slugify(n) for n in COUNTRY_REGISTRY)
+
     for entry in sorted(_COMPARE_DIRS_SET):
         if entry in seen:
             continue
 
-        # Check if it's a hub page (e.g., "japan", "italy")
-        if entry == country_slug:
-            title = entry.replace("-", " ").title()
-            matches.append({"slug": entry, "title": title})
-            seen.add(entry)
+        # Skip hub/index pages (e.g., /compare/japan/ is a hub, not a comparison)
+        if entry in _country_slugs:
             continue
 
         # Check vs comparisons
@@ -843,15 +878,13 @@ def _is_real_destination_photo(url):
 def _get_country_hero_image(country_name, country_slug):
     """Best-effort hero image for a country card.
 
-    Walks every destination for the country and returns the first photo
-    that is NOT a logo/icon placeholder. Destinations use Unsplash search
-    queries like "Abisko Sweden landscape" so the photos are travel-themed.
-    The popular-picks-hub-data heroImage field is intentionally NOT used
-    here — those point at zoomed-in leaf food/venue photos that look awful
-    as country thumbnails (a beer mug for the USA, a meat patty close-up
-    for Japan, etc.). Returns None if no good source — caller renders a
-    gradient placeholder.
+    Prefers destinations that have their own page (major cities) over random
+    alphabetical ones. The popular-picks-hub-data heroImage field is
+    intentionally NOT used — those point at zoomed-in food/venue photos
+    that look awful as country thumbnails.
+    Returns None if no good source — caller renders a gradient placeholder.
     """
+    _load_dest_pages()
     dests = (_DESTINATIONS_BY_COUNTRY or {}).get(country_name) or []
     if not dests:
         for alias, canonical in DEST_COUNTRY_ALIASES.items():
@@ -859,6 +892,20 @@ def _get_country_hero_image(country_name, country_slug):
                 dests = (_DESTINATIONS_BY_COUNTRY or {}).get(alias) or []
                 if dests:
                     break
+
+    # Try destinations with their own page first (major cities like Tokyo, Paris)
+    for d in dests:
+        slug = d.get("slug")
+        if not slug or slug not in (_DEST_PAGES_SET or set()):
+            continue
+        details = (_DEST_DETAILS_CACHE or {}).get(slug) or _load_dest_details(slug)
+        if not details:
+            continue
+        photo = details.get("photo")
+        if _is_real_destination_photo(photo):
+            return photo
+
+    # Fallback: any destination with a real photo
     for d in dests:
         slug = d.get("slug")
         if not slug:
@@ -1027,8 +1074,11 @@ def generate_country_page(name, slug, iso2, flag, continent):
             f"Travel advisory, entry requirements, and safety information."
         )
 
-    # og:image
-    og_image = "https://img.tabiji.ai/tabiji-owl-logo.png"
+    # og:image — use a country-specific destination photo for better social sharing
+    _load_destinations()
+    hero_photo = _get_country_hero_image(name, slug)
+    og_image = hero_photo or "https://img.tabiji.ai/tabiji-owl-logo.png"
+    twitter_card = "summary_large_image" if hero_photo else "summary"
 
     # JSON-LD
     breadcrumb_json = json.dumps({
@@ -1080,26 +1130,26 @@ def generate_country_page(name, slug, iso2, flag, continent):
     advisory_html = ""
     if advisory:
         alert_slug = advisory.get("slug", slug)
-        # Check that an alert page actually exists (try advisory slug first, then country slug)
-        alert_exists = has_alert_page(alert_slug) or has_alert
-        if alert_exists:
-            level = advisory["level"]
-            level_colors = {
-                1: ("#16A34A", "#F0FDF4"),
-                2: ("#F59E0B", "#FFFBEB"),
-                3: ("#F97316", "#FFF7ED"),
-                4: ("#EF4444", "#FEF2F2"),
-            }
-            color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
-            label = f"Level {level} \u2014 {advisory['lt']}"
+        level = advisory["level"]
+        level_colors = {
+            1: ("#16A34A", "#F0FDF4"),
+            2: ("#F59E0B", "#FFFBEB"),
+            3: ("#F97316", "#FFF7ED"),
+            4: ("#EF4444", "#FEF2F2"),
+        }
+        color, bg = level_colors.get(level, ("#16A34A", "#F0FDF4"))
+        label = f"Level {level} \u2014 {advisory['lt']}"
 
-            # Try to extract full alert content from the alert page
+        # Try to embed full alert content if the HTML page exists
+        alert_exists = has_alert_page(alert_slug) or has_alert
+        full_alert = ""
+        if alert_exists:
             full_alert = extract_alert_content(alert_slug)
             if not full_alert:
                 full_alert = extract_alert_content(slug)
 
-            if full_alert:
-                advisory_html = f"""
+        if full_alert:
+            advisory_html = f"""
     <section class="section advisory-full">
         <h2 class="section-title">Travel Advisory</h2>
         <div class="advisory-badge-inline" style="background: {bg}; color: {color};">
@@ -1109,15 +1159,16 @@ def generate_country_page(name, slug, iso2, flag, continent):
             {full_alert}
         </div>
     </section>"""
-            else:
-                advisory_html = f"""
+        else:
+            # Always show the advisory badge card even without the full alert page
+            advisory_html = f"""
     <section class="section">
         <h2 class="section-title">Travel Advisory</h2>
         <div class="advisory-card" style="border-left: 4px solid {color};">
             <div class="advisory-badge" style="background: {bg}; color: {color};">
                 {h(label)}
             </div>
-            <p class="advisory-desc">View the full {name} travel advisory, entry requirements, and safety updates.</p>
+            <p class="advisory-desc">U.S. Department of State advisory level for {name}. Check official sources for the latest entry requirements and safety updates.</p>
         </div>
     </section>"""
 
@@ -1169,7 +1220,11 @@ def generate_country_page(name, slug, iso2, flag, continent):
             </a>"""
         picks_view_all = ""
         if picks_count > 12:
-            picks_view_all = f'\n        <div class="view-all-wrap"><a href="/popular-picks/" class="view-all-link">View all {picks_count} popular picks &rarr;</a></div>'
+            # Link to country-specific picks hub if it exists, otherwise global
+            picks_hub = f"/popular-picks/{slug}/"
+            if not os.path.isdir(os.path.join(BASE_DIR, "popular-picks", slug)):
+                picks_hub = "/popular-picks/"
+            picks_view_all = f'\n        <div class="view-all-wrap"><a href="{picks_hub}" class="view-all-link">View all {picks_count} popular picks &rarr;</a></div>'
         picks_html = f"""
     <section class="section">
         <h2 class="section-title">Popular Picks</h2>
@@ -1192,7 +1247,11 @@ def generate_country_page(name, slug, iso2, flag, continent):
             </a>"""
         compare_view_all = ""
         if compare_count > 12:
-            compare_view_all = f'\n        <div class="view-all-wrap"><a href="/compare/" class="view-all-link">View all {compare_count} comparisons &rarr;</a></div>'
+            # Link to country-specific compare hub if it exists, otherwise global
+            compare_hub = f"/compare/{slug}/"
+            if not os.path.isdir(os.path.join(BASE_DIR, "compare", slug)):
+                compare_hub = "/compare/"
+            compare_view_all = f'\n        <div class="view-all-wrap"><a href="{compare_hub}" class="view-all-link">View all {compare_count} comparisons &rarr;</a></div>'
         compare_html = f"""
     <section class="section">
         <h2 class="section-title">Destination Comparisons</h2>
@@ -1255,12 +1314,19 @@ def generate_country_page(name, slug, iso2, flag, continent):
         <a href="/plan/?destination={h(name)}" class="cta-btn">Plan My {name} Trip &rarr;</a>
     </section>"""
 
+    # --- Robots: noindex thin pages to protect crawl budget ---
+    content_score = scam_count + picks_count + compare_count + itin_count
+    robots_content = "index, follow"
+    if content_score < 3 and dest_count < 20:
+        robots_content = "noindex, follow"
+
     # --- Full page ---
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://img.tabiji.ai">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -1279,10 +1345,10 @@ def generate_country_page(name, slug, iso2, flag, continent):
     <meta property="og:url" content="https://tabiji.ai/countries/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
     <meta property="og:image" content="{og_image}">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="{twitter_card}">
     <meta name="twitter:title" content="{h(name)} Travel Guide {YEAR} | tabiji.ai">
     <meta name="twitter:description" content="{h(meta_desc)}">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="{robots_content}">
     <link rel="canonical" href="https://tabiji.ai/countries/{slug}/">
     <link rel="stylesheet" href="/assets/countries.css">
 <!-- @include:shared-head:start -->
