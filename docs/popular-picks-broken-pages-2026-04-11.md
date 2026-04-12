@@ -242,11 +242,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `abu-dhabi-viewpoints` — 12 Best Viewpoints in Abu Dhabi (12/12) — rebuilt 2026-04-12
 - [x] `accra-art-galleries` — 12 Best Art Galleries in Accra (12/12) — rebuilt 2026-04-12
 - [x] `accra-bakeries` — 10 Best Bakeries in Accra (10/10) — rebuilt 2026-04-12
-- [ ] `accra-bookshops` — 12 Best Bookshops in Accra (1/12)
-- [ ] `accra-brunch-spots` — 12 Best Brunch Spots in Accra (1/12)
-- [ ] `accra-cheap-eats` — 12 Best Cheap Eats in Accra (1/12)
-- [ ] `accra-cocktail-bars` — 12 Best Cocktail Bars in Accra (1/12)
-- [ ] `accra-coffee-shops` — 12 Best Coffee Shops in Accra (1/12)
+- [x] `accra-bookshops` — 10 Best Bookshops in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-brunch-spots` — 12 Best Brunch Spots in Accra (12/12) — rebuilt 2026-04-12
+- [x] `accra-cheap-eats` — 10 Best Cheap Eats in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-cocktail-bars` — 10 Best Cocktail Bars in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-coffee-shops` — 10 Best Coffee Shops in Accra (10/10) — rebuilt 2026-04-12
 - [ ] `accra-craft-beer` — Craft Beer & Bars in Accra (1/11)
 - [ ] `accra-dessert-cafes` — 12 Best Dessert Cafes in Accra (1/12)
 - [ ] `accra-fine-dining` — 12 Best Fine Dining in Accra (1/12)
