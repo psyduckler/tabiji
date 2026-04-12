@@ -905,17 +905,17 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `mysore-palace-sunday-illumination` — 12 Best Stand transfixed as nearly 100,000 bulbs light up the Indo-Sar… (1/12)
 - [ ] `nagasaki-castella-cake` — Castella Cake in Nagasaki (1/12)
 - [ ] `nagasaki-champon-noodles` — Champon & Sara Udon (1/12)
-- [ ] `nagoya-hitsumabushi` — 10 Best Hitsumabushi in Nagoya (1/10)
+- [x] `nagoya-hitsumabushi` — 10 Best Hitsumabushi in Nagoya (10/10) — rebuilt 2026-04-11
 - [ ] `nagoya-sushi` — 10 Best Sushi in Nagoya (1/10)
-- [ ] `nagoya-tebasaki` — 10 Best Tebasaki Wings in Nagoya (1/10)
+- [x] `nagoya-tebasaki` — 10 Best Tebasaki Wings in Nagoya (10/10) — rebuilt 2026-04-11
 - [ ] `nairobi-craft-coffee` — Specialty Coffee in Nairobi (1/12)
-- [ ] `nairobi-nyama-choma` — 11 Best Nyama Choma in Nairobi (1/12)
-- [ ] `nara-mochi` — 9 Best Mochi & Wagashi in Nara (1/9)
+- [x] `nairobi-nyama-choma` — 11 Best Nyama Choma in Nairobi (12/12) — rebuilt 2026-04-11
+- [x] `nara-mochi` — 9 Best Mochi & Wagashi in Nara (9/9) — rebuilt 2026-04-11
 - [ ] `nashville-honky-tonk-bars` — 12 Best Honky Tonk Bars in Nashville 2026 — Reddit-Backed Guide (1/12)
 - [ ] `nashville-restaurants` — 10 Best Restaurants in Nashville (1/10)
 - [ ] `negril-beach-bars` — 12 Best Beach Bars in Negril (1/12)
 - [ ] `new-orleans-restaurants` — 10 Best Restaurants in New Orleans (1/10)
-- [ ] `new-york-dollar-pizza` — 12 Best Dollar Pizza Spots in New York City (2026) — Reddit-Backed Gui… (1/12)
+- [x] `new-york-dollar-pizza` — 12 Best Dollar Pizza Spots in New York City (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
 - [ ] `new-york-fried-chicken` — 10 Best Fried Chicken in New York City (1/10)
 - [ ] `new-york-jewish-delis` — 12 Best Jewish Delis in New York City (2026) — Reddit-Backed Guide (1/12)
 - [ ] `new-york-pastrami` — 11 Best Pastrami Spots in NYC (2026) (1/11)
