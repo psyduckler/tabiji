@@ -253,7 +253,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `accra-food-halls` — 12 Best Food Halls in Accra (1/12)
 - [ ] `accra-food-markets` — 12 Best Food Markets in Accra (1/12)
 - [ ] `accra-jazz-bars` — 12 Best Jazz Bars in Accra (1/12)
-- [ ] `accra-jollof-rice` — 10 Best Jollof Rice in Accra (1/10)
+- [x] `accra-jollof-rice` — 10 Best Jollof Rice in Accra (10/10) — rebuilt 2026-04-11
 - [ ] `accra-natural-wine-bars` — 12 Best Natural Wine Bars in Accra (1/12)
 - [ ] `accra-night-markets` — 12 Best Night Markets in Accra (1/12)
 - [ ] `accra-photography-spots` — 12 Best Photography Spots in Accra (1/12)
@@ -509,7 +509,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `beijing-jazz-bars` — 12 Best Jazz Bars in Beijing (1/12)
 - [ ] `beijing-natural-wine-bars` — 12 Best Natural Wine Bars in Beijing (1/12)
 - [ ] `beijing-night-markets` — 12 Best Night Markets in Beijing (1/12)
-- [ ] `beijing-peking-duck` — 10 Best Peking Duck Restaurants in Beijing (1/10)
+- [SKIP] `beijing-peking-duck` — 10 Best Peking Duck Restaurants in Beijing (1/10) — minimal ItemList, needs full research
 - [ ] `beijing-photography-spots` — 12 Best Photography Spots in Beijing (1/12)
 - [ ] `beijing-street-food` — 12 Best Street Food in Beijing (1/12)
 - [ ] `beijing-viewpoints` — 12 Best Viewpoints in Beijing (1/12)
@@ -539,7 +539,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bordeaux-canele` — 12 Best Canelé in Bordeaux (1/12)
 - [ ] `bordeaux-natural-wine-bars` — Bordeaux Natural Wine Bars (1/12)
 - [ ] `boston-craft-beer` — 12 Best Craft Beer in Boston (1/12)
-- [ ] `boston-pizza` — 10 Best Pizza in Boston (1/10)
+- [x] `boston-pizza` — 10 Best Pizza in Boston (10/10) — rebuilt 2026-04-11
 - [ ] `boston-restaurants` — 10 Best Restaurants in Boston (1/10)
 - [ ] `bratislava-rooftop-bars` — Take in sweeping views of the Danube and Bratislava Castle from the ci… (1/12)
 - [ ] `bratislava-street-food` — Bratislava Street Food & Trdelník Pastries (1/12)
@@ -548,14 +548,14 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `brno-craft-beer` — 12 Best Craft Beer Bars in Brno (1/12)
 - [ ] `brno-wine-bars` — Wine Bars in Brno (1/12)
 - [ ] `bruges-beer-bars` — Best Beer Bars in Bruges (1/0)
-- [ ] `bruges-chocolate` — 9 Best Chocolate Shops in Bruges (1/10)
+- [x] `bruges-chocolate` — 9 Best Chocolate Shops in Bruges (10/10) — rebuilt 2026-04-11
 - [ ] `bruges-hidden-canals` — 10 Hidden Canal Walks in Bruges (1/10)
-- [ ] `brussels-beer-bars` — 10 Best Beer Bars in Brussels (1/10)
+- [x] `brussels-beer-bars` — 10 Best Beer Bars in Brussels (10/10) — rebuilt 2026-04-11
 - [ ] `bucharest-coffee-shops` — 12 Best Coffee Shops in Bucharest (2026) — Reddit-Backed Guide (1/12)
 - [ ] `bucharest-craft-beer` — 12 Best Craft Beer Bars in Bucharest 2026 — Reddit-Backed Guide (1/12)
 - [ ] `bucharest-rooftop-bars` — 10 Best Rooftop Bars in Bucharest (2026) — Reddit-Backed Guide (1/10)
 - [ ] `bucharest-street-food` — Bucharest Street Food & Romanian Cuisine (1/12)
-- [ ] `budapest-langos` — 10 Best Lángos in Budapest (1/10)
+- [x] `budapest-langos` — 10 Best Lángos in Budapest (10/10) — rebuilt 2026-04-11
 - [ ] `buenos-aires-bookshop-cafes` — 14 Best Bookshop Cafés in Buenos Aires (1/16)
 - [ ] `buenos-aires-medialunas` —  (1/15)
 - [ ] `buenos-aires-steakhouses` — 18 Best Steakhouses & Parrillas in Buenos Aires (1/18)
