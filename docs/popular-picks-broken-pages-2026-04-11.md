@@ -1040,11 +1040,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `shinjuku-ramen-alley` —  (1/13)
 - [ ] `siargao-cloud-9-surfing` — Paddle out to Cloud 9, the Philippines' most famous hollow reef break … (1/12)
 - [ ] `siem-reap-angkor-wat-sunrise` — Watch the sun rise behind Angkor Wat's towers reflected in the moat, t… (1/12)
-- [ ] `siem-reap-fish-amok` — 12 Best Fish Amok in Siem Reap (1/12)
+- [x] `siem-reap-fish-amok` — 12 Best Fish Amok in Siem Reap (12/12) — rebuilt 2026-04-11
 - [ ] `singapore-cheap-eats` — Best Hawker Centres in Singapore (1/12)
 - [ ] `singapore-craft-cocktails` — Craft Cocktail Bars in Singapore (1/12)
 - [x] `singapore-hawker-centers` — 20 Best Hawker Stalls in Singapore (20/20) — rebuilt 2026-04-11
-- [ ] `singapore-noodles` — 10 Best Noodles in Singapore (1/10)
+- [x] `singapore-noodles` — 10 Best Noodles in Singapore (10/10) — rebuilt 2026-04-11
 - [ ] `sofia-banitsa` — 12 Best Banitsa Shops in Sofia (1/12)
 - [ ] `sofia-bookshops` — Sofia's Literary Charm: Slaveykov Square Book Market & Cafes (1/12)
 - [ ] `sofia-craft-beer` — Craft Beer in Sofia (1/12)
@@ -1053,7 +1053,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `sokcho-squid-street-food` — Eat freshly grilled cuttlefish and squid ink-tinted snacks at Sokcho's… (1/12)
 - [x] `split-beach-bars` — 10 Best Beach Bars in Split (10/10) — rebuilt 2026-04-11
 - [ ] `split-old-town-food` — 12 Best Food in Split Old Town (1/12)
-- [ ] `stockholm-fika-cafes` — 12 Best Fika Cafés in Stockholm (1/12)
+- [x] `stockholm-fika-cafes` — 12 Best Fika Cafés in Stockholm (12/12) — rebuilt 2026-04-11
 - [SKIP] `strasbourg-tarte-flambee` — 12 Best Tarte Flambée in Strasbourg (1/12) — minimal ItemList, needs full research
 - [ ] `suzhou-canal-restaurants` — Suzhou Canal-Side Restaurants (1/12)
 - [ ] `sydney-brunch` — 12 Best Brunch Spots in Sydney (2026) — Reddit-Backed Guide (1/12)
@@ -1069,7 +1069,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `tallinn-old-town-restaurants` — Tallinn Old Town's Medieval Restaurants (1/12)
 - [ ] `tashkent-chorsu-bazaar-spices` — Chorsu Bazaar Spices in Tashkent (1/12)
 - [ ] `tashkent-tandoor-non-bakery` — 12 Best Tandoor Non Bakeries in Tashkent (1/12)
-- [ ] `tbilisi-coffee-shops` — 12 Best Coffee Shops in Tbilisi 2026 — Reddit-Backed Guide (1/12)
+- [x] `tbilisi-coffee-shops` — 12 Best Coffee Shops in Tbilisi 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [SKIP] `tbilisi-khinkali` — 12 Best Khinkali in Tbilisi (2026) — Reddit-Backed Guide (1/12) — minimal ItemList, needs full research
 - [ ] `tbilisi-natural-wine-bars` — Georgian Natural Wine Bars in Tbilisi (1/12)
 - [ ] `tbilisi-rooftop-bars` — 11 Best Rooftop Bars in Tbilisi (2026) — Reddit-Backed Guide (1/11)
