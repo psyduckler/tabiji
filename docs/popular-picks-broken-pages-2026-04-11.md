@@ -993,10 +993,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `rishikesh-yoga-ashram-retreat` — Yoga & Ashram Retreats in Rishikesh (1/12)
 - [ ] `riyadh-restaurants` — Dining in Riyadh (1/12)
 - [ ] `rome-artichokes` — 12 Best Artichoke Restaurants in Rome 2026 — Carciofi alla Giudia & al… (1/12)
-- [ ] `rome-cacio-e-pepe` — 15 Best Cacio e Pepe in Rome — The Unfiltered Guide (1/15)
+- [x] `rome-cacio-e-pepe` — 15 Best Cacio e Pepe in Rome — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `rome-nightlife` — Nightlife & Aperitivo Spots in Rome (1/12)
 - [ ] `rome-romantic-restaurants` — Best Romantic Restaurants in Rome (1/12)
-- [ ] `rovinj-seafood` — 10 Best Seafood Restaurants in Rovinj (1/10)
+- [x] `rovinj-seafood` — 10 Best Seafood Restaurants in Rovinj (10/10) — rebuilt 2026-04-11
 - [ ] `saint-lucia-seafood` — Saint Lucia's Fresh Seafood & Creole Food (1/12)
 - [ ] `salzburg-coffee-culture` — Linger over Melange coffee and apfelstrudel in Salzburgs ornate Baroqu… (1/12)
 - [ ] `salzburg-food-market` — Food Market in Salzburg (1/12)
@@ -1013,9 +1013,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `santo-domingo-street-food` — 12 Best Santo Domingo Street Food (1/12)
 - [ ] `sao-paulo-japanese-food` — São Paulo's Japanese Food Scene (1/12)
 - [ ] `sao-paulo-rodizio-bbq` — 12 Best Rodízio BBQ in São Paulo (2026) — Reddit-Backed Guide (1/12)
-- [ ] `sapporo-soup-curry` — 14 Best Soup Curry in Sapporo (1/14)
+- [x] `sapporo-soup-curry` — 14 Best Soup Curry in Sapporo (14/14) — rebuilt 2026-04-11
 - [ ] `sapporo-sushi` — 10 Best Sushi in Sapporo (1/10)
-- [ ] `sarajevo-cevapi` — Ćevapi & Bosnian Food in Sarajevo (1/12)
+- [SKIP] `sarajevo-cevapi` — Ćevapi & Bosnian Food in Sarajevo (1/12) — minimal ItemList, needs full research
 - [ ] `savannah-bar-hop` — Bar Hop in Savannah (1/12)
 - [ ] `savannah-lowcountry-cuisine` — Shrimp & grits, she-crab soup, and fried green tomatoes served inside … (1/12)
 - [ ] `seattle-craft-coffee` — Specialty Coffee Culture in Seattle (1/12)
@@ -1032,7 +1032,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `shanghai-jazz-bars` — Jazz Bars in Shanghai (1/12)
 - [ ] `shanghai-street-food` — Shanghai Street Food Guide (2026) (1/12)
 - [ ] `shenzhen-street-food` — Shenzhen Street Food & Night Markets (1/12)
-- [ ] `shibuya-ramen` — 18 Best Ramen Shops in Shibuya (1/18)
+- [x] `shibuya-ramen` — 18 Best Ramen Shops in Shibuya (18/18) — rebuilt 2026-04-11
 - [ ] `shilin-night-markets` — 10 Best Night Market Stalls in Shilin (1/10)
 - [ ] `shimokitazawa-coffee` — 17 Best Coffee Shops in Shimokitazawa (1/17)
 - [ ] `shinjuku-cheap-restaurants` — 20 Best Cheap Restaurants in Shinjuku (Under ¥2,000) (1/20)
@@ -1043,7 +1043,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `siem-reap-fish-amok` — 12 Best Fish Amok in Siem Reap (1/12)
 - [ ] `singapore-cheap-eats` — Best Hawker Centres in Singapore (1/12)
 - [ ] `singapore-craft-cocktails` — Craft Cocktail Bars in Singapore (1/12)
-- [ ] `singapore-hawker-centers` — 20 Best Hawker Stalls in Singapore (1/20)
+- [x] `singapore-hawker-centers` — 20 Best Hawker Stalls in Singapore (20/20) — rebuilt 2026-04-11
 - [ ] `singapore-noodles` — 10 Best Noodles in Singapore (1/10)
 - [ ] `sofia-banitsa` — 12 Best Banitsa Shops in Sofia (1/12)
 - [ ] `sofia-bookshops` — Sofia's Literary Charm: Slaveykov Square Book Market & Cafes (1/12)
@@ -1054,7 +1054,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `split-beach-bars` — 10 Best Beach Bars in Split (1/10)
 - [ ] `split-old-town-food` — 12 Best Food in Split Old Town (1/12)
 - [ ] `stockholm-fika-cafes` — 12 Best Fika Cafés in Stockholm (1/12)
-- [ ] `strasbourg-tarte-flambee` — 12 Best Tarte Flambée in Strasbourg (1/12)
+- [SKIP] `strasbourg-tarte-flambee` — 12 Best Tarte Flambée in Strasbourg (1/12) — minimal ItemList, needs full research
 - [ ] `suzhou-canal-restaurants` — Suzhou Canal-Side Restaurants (1/12)
 - [ ] `sydney-brunch` — 12 Best Brunch Spots in Sydney (2026) — Reddit-Backed Guide (1/12)
 - [ ] `sydney-food-markets` — Sydney's Best Food Markets (1/12)
