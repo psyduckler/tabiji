@@ -824,12 +824,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (1/10)
 - [x] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `kyoto-sushi` — 10 Best Sushi in Kyoto (10/10) — rebuilt 2026-04-11
-- [ ] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (1/10)
+- [x] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (10/10) — rebuilt 2026-04-11
 - [ ] `kyushu-onsen-cuisine` — Onsen & Hell Cuisine in Beppu (1/12)
 - [ ] `la-paz-salteñas` — Salteñas in La Paz (1/12)
 - [ ] `la-paz-street-food` — Street Food in La Paz (1/12)
 - [ ] `lagos-street-food` — Lagos Street Food Scene (1/12)
-- [ ] `le-marais-falafel` — 9 Best Falafel in Le Marais (1/10)
+- [x] `le-marais-falafel` — 9 Best Falafel in Le Marais (10/10) — rebuilt 2026-04-11
 - [ ] `lijiang-naxi-music-performance` — Naxi Music Performance in Lijiang Old Town (1/12)
 - [ ] `lijiang-yak-butter-tea-house` — Warm up with salty smoky yak butter tea at a traditional Naxi tea hous… (1/12)
 - [ ] `lima-craft-beer` — Craft Beer & Bars in Lima (1/12)
@@ -849,7 +849,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `london-curry-houses` — 12 Best Curry Houses in London (2026) — Reddit-Backed Guide (1/12)
 - [ ] `london-vegan-restaurants` — Best Vegan Restaurants in London (1/12)
 - [ ] `london-vintage-shopping` — Best Vintage Shopping in London (1/12)
-- [ ] `los-angeles-restaurants` — 10 Best Restaurants in Los Angeles (1/10)
+- [x] `los-angeles-restaurants` — 10 Best Restaurants in Los Angeles (10/10) — rebuilt 2026-04-11
 - [ ] `luang-prabang-alms-giving-dawn` — Rise before dawn to watch barefoot monks collect sticky rice offerings… (1/12)
 - [ ] `luang-prabang-khao-piak-sen` — 8 Best Khao Piak Sen in Luang Prabang (1/11)
 - [ ] `luang-prabang-night-market-food` — 🍢 12 Best Night Market Food in Luang Prabang (1/12)
@@ -876,14 +876,14 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `melbourne-wine-bars` — Melbourne Natural Wine Bars (1/12)
 - [ ] `memphis-bbq-joints` — Slow-smoked dry-rub ribs, pulled pork, and pit-master tradition at leg… (1/12)
 - [ ] `mendoza-wine-tours` — Mendoza Winery Tours (1/12)
-- [ ] `merzouga-desert-camps` — 9 Best Desert Camps in Merzouga (1/10)
+- [x] `merzouga-desert-camps` — 9 Best Desert Camps in Merzouga (10/10) — rebuilt 2026-04-11
 - [x] `mexico-city-al-pastor` — 15 Best Al Pastor in Mexico City — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `mexico-city-brunch` — Mexico City Brunch Culture (1/12)
 - [ ] `mexico-city-chilaquiles` — Best Chilaquiles in Mexico City (1/12)
 - [ ] `mexico-city-craft-beer` — Best Craft Beer in Mexico City (1/12)
 - [x] `mexico-city-mezcalerias` — 12 Best Mezcal Bars in Mexico City (12/12) — rebuilt 2026-04-11
 - [ ] `mexico-city-vintage-shopping` — Best Vintage Shopping in Mexico City (1/12)
-- [ ] `miami-restaurants` — 10 Best Restaurants in Miami (1/10)
+- [x] `miami-restaurants` — 10 Best Restaurants in Miami (10/10) — rebuilt 2026-04-11
 - [x] `milan-aperitivo` — 15 Best Aperitivo Spots in Milan — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `milan-fine-dining` — Fine Dining & Michelin Spots in Milan (1/12)
 - [ ] `miyajima-day-trip` — 10 Best Things to Do on Miyajima Island (1/12)
