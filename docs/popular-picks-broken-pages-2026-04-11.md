@@ -743,25 +743,25 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `hoi-an-white-rose-dumplings` — 12 Best White Rose Dumplings in Hoi An 2026 — Reddit-Backed Guide (1/12)
 - [x] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `hong-kong-rooftop-bars` — Rooftop Bars in Hong Kong (1/12)
-- [ ] `hongdae-late-night-eats` — 11 Best Late-Night Eats in Hongdae (1/12)
+- [x] `hongdae-late-night-eats` — 11 Best Late-Night Eats in Hongdae (12/12) — rebuilt 2026-04-11
 - [ ] `hongdae-vinyl-cafes` — 10 Best Vinyl Cafés & LP Bars in Hongdae (1/12)
 - [ ] `honolulu-poke-bowls` — Poke Bowls in Honolulu (1/12)
 - [ ] `houston-restaurants` — 10 Best Restaurants in Houston (1/10)
 - [ ] `houston-taqueria-scene` — Best Taqueria Scene in Houston (1/12)
 - [ ] `houston-vietnamese-food` — The largest Vietnamese community outside Vietnam powers Houston's Bell… (1/12)
-- [ ] `hua-hin-seafood-restaurants` — 13 Best Seafood Restaurants in Hua Hin (2026) (1/13)
+- [x] `hua-hin-seafood-restaurants` — 13 Best Seafood Restaurants in Hua Hin (2026) (13/13) — rebuilt 2026-04-11
 - [ ] `hue-imperial-citadel-cycling` — 12 Best Cycling Around Hue Imperial Citadel (1/12)
 - [ ] `hue-royal-cuisine` — Imperial Royal Cuisine in Hué (1/12)
 - [ ] `incheon-chinatown` — Incheon Chinatown & Jajangmyeon (1/12)
-- [ ] `ipoh-dim-sum` — 10 Best Dim Sum in Ipoh (1/10)
+- [x] `ipoh-dim-sum` — 10 Best Dim Sum in Ipoh (10/10) — rebuilt 2026-04-11
 - [ ] `ipoh-limestone-cave-temples` — Limestone Cave Temples in Ipoh (1/12)
 - [ ] `ipoh-white-coffee-kopitiam` — White Coffee Kopitiam in Ipoh (1/12)
 - [ ] `isfahan-faloodeh-ice-cream` — Faloodeh Ice Cream in Isfahan (1/12)
 - [ ] `isfahan-grand-bazaar-coppersmiths` — Hear the rhythmic hammering of copper craftsmen in the vaulted alleys … (1/12)
 - [ ] `isfahan-naghsh-e-jahan-photography` — Naghsh e Jahan Photography in Isfahan (1/12)
 - [ ] `istanbul-baklava` — Best Baklava in Istanbul (1/12)
-- [ ] `istanbul-baklava-shops` — 12 Best Baklava Shops in Istanbul (2026) — Reddit-Backed Guide (1/12)
-- [ ] `istanbul-kebabs` — 19 Best Kebab Spots in Istanbul (1/20)
+- [x] `istanbul-baklava-shops` — 12 Best Baklava Shops in Istanbul (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
+- [x] `istanbul-kebabs` — 19 Best Kebab Spots in Istanbul (20/20) — rebuilt 2026-04-11
 - [ ] `istanbul-romantic-restaurants` — Best Romantic Restaurants in Istanbul (1/12)
 - [ ] `istanbul-rooftop-restaurants` — 15 Best Rooftop Restaurants in Istanbul — The Unfiltered Guide (1/15)
 - [ ] `istanbul-street-food` — Best Street Food in Istanbul (1/12)
