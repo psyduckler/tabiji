@@ -214,7 +214,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [SKIP] `kathmandu-coffee-shops` — 12 Best Coffee Shops in Kathmandu (2026) — Reddit-Backed Guide (1/12) · 20/mo — minimal ItemList, needs full research
 - [x] `kuala-lumpur-laksa` — 12 Best Laksa in Kuala Lumpur (12/12) · 20/mo — rebuilt 2026-04-11
 - [x] `kyoto-sake-bars` — 10 Best Sake Bars in Kyoto (10/10) · 20/mo — rebuilt 2026-04-11
-- [ ] `lisbon-natural-wine-bars` — 12 Best Natural Wine Bars in Lisbon (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
+- [x] `lisbon-natural-wine-bars` — 12 Best Natural Wine Bars in Lisbon (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-12
 - [x] `manila-cheap-eats` — 20 Best Cheap Eats in Manila (20/20) · 20/mo — rebuilt 2026-04-11
 - [SKIP] `marseille-coffee-shops` — 12 Best Coffee Shops in Marseille (2026) — Reddit-Backed Guide (1/12) · 20/mo — minimal ItemList, needs full research
 - [x] `nairobi-rooftop-bars` — 12 Best Rooftop Bars in Nairobi 2026 (12/12) · 20/mo — rebuilt 2026-04-11
@@ -227,11 +227,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `tel-aviv-hummus` — 14 Best Hummus Spots in Tel Aviv — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
 - [x] `zurich-brunch-spots` — 12 Best Brunch Spots in Zürich (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
 - [x] `ghent-craft-beer` — 8 Best Craft Beer Spots in Ghent (10/10) · 10/mo — rebuilt 2026-04-11
-- [ ] `aarhus-art-galleries` — Aarhus Art Galleries (1/10)
+- [x] `aarhus-art-galleries` — 10 Best Art Galleries in Aarhus (10/10) — rebuilt 2026-04-12
 - [x] `aarhus-new-nordic-restaurants` — 12 Best New Nordic Restaurants in Aarhus (12/12) — rebuilt 2026-04-11
-- [ ] `aarhus-waterfront-bars` — Waterfront Bars in Aarhus (1/10)
-- [ ] `abu-dhabi-art-galleries` — Best Art Galleries in Abu Dhabi (1/11)
-- [ ] `abu-dhabi-cheap-eats` — 12 Best Cheap Eats in Abu Dhabi (1/12)
+- [x] `aarhus-waterfront-bars` — 10 Best Waterfront Bars in Aarhus (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-art-galleries` — 11 Best Art Galleries in Abu Dhabi (11/11) — rebuilt 2026-04-12
+- [x] `abu-dhabi-cheap-eats` — 12 Best Cheap Eats in Abu Dhabi (12/12) — rebuilt 2026-04-12
 - [ ] `abu-dhabi-fine-dining` — 12 Best Fine Dining in Abu Dhabi (1/12)
 - [ ] `abu-dhabi-jazz-bars` — 12 Best Jazz Bars in Abu Dhabi (1/12)
 - [ ] `abu-dhabi-natural-wine-bars` — 12 Best Natural Wine Bars in Abu Dhabi (1/12)
