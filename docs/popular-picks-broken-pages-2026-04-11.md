@@ -691,7 +691,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `essaouira-port-seafood` — 5 Best Seafood in Essaouira Port (1/5)
 - [ ] `essaouira-seafood` — 9 Best Seafood in Essaouira Port (1/10)
 - [ ] `fez-leather-tanneries` — 5 Leather Tanneries in Fez (1/5)
-- [ ] `fez-rooftop-cafes` — 10 Best Rooftop Cafés in Fez Medina (1/10)
+- [x] `fez-rooftop-cafes` — 10 Best Rooftop Cafés in Fez Medina (10/10) — rebuilt 2026-04-11
 - [x] `fez-tagine` — 15 Best Tagine in Fez — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `fez-tannery-viewpoints` — 8 Best Tannery Viewpoints in Fez (9/9) — rebuilt 2026-04-11
 - [ ] `florence-aperitivo-bars` — Load up on free nibbles at Florence's spritz-and-aperitivo bars during… (1/12)
@@ -856,7 +856,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `luang-prabang-sunset-bars` — Luang Prabang Sunset Bars & Mekong Views (1/12)
 - [ ] `macau-street-food` — Macau Street Food & Egg Tarts (1/12)
 - [ ] `madrid-vermouth-bars` — Drink house vermouth with olives and anchovies at Madrid's traditional… (1/12)
-- [ ] `malacca-cendol` — 10 Best Cendol in Malacca (1/10)
+- [x] `malacca-cendol` — 10 Best Cendol in Malacca (10/10) — rebuilt 2026-04-11
 - [ ] `malmo-street-food` — Best Street Food in Malmö (1/12)
 - [ ] `managua-gallo-pinto` — Nicaraguan Food in Managua (1/12)
 - [ ] `marrakech-cocktail-bars` — Rooftop Bars & Cocktails in Marrakech (1/12)
@@ -889,7 +889,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `miyajima-day-trip` — 10 Best Things to Do on Miyajima Island (1/12)
 - [ ] `montevideo-asado` — Uruguayan Asado in Montevideo (1/12)
 - [ ] `montevideo-chivito` — 12 Best Montevideo's Chivito Sandwich (1/12)
-- [ ] `montreal-brunch` — 10 Best Best Brunch Spots in Montreal (2026) — Reddit-Backed Guide (1/10)
+- [SKIP] `montreal-brunch` — 10 Best Best Brunch Spots in Montreal (2026) — Reddit-Backed Guide (1/10) — minimal ItemList, needs full research
 - [ ] `montreal-craft-beer` — 10 Best Montreal's Craft Beer Scene (2026) — Reddit-Backed Guide (1/10)
 - [ ] `montreal-natural-wine-bars` — Natural Wine Bars in Montreal (1/12)
 - [ ] `mostar-baklava` — Baklava in Mostar (1/12)
@@ -912,11 +912,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `nairobi-nyama-choma` — 11 Best Nyama Choma in Nairobi (12/12) — rebuilt 2026-04-11
 - [x] `nara-mochi` — 9 Best Mochi & Wagashi in Nara (9/9) — rebuilt 2026-04-11
 - [ ] `nashville-honky-tonk-bars` — 12 Best Honky Tonk Bars in Nashville 2026 — Reddit-Backed Guide (1/12)
-- [ ] `nashville-restaurants` — 10 Best Restaurants in Nashville (1/10)
+- [x] `nashville-restaurants` — 10 Best Restaurants in Nashville (10/10) — rebuilt 2026-04-11
 - [ ] `negril-beach-bars` — 12 Best Beach Bars in Negril (1/12)
-- [ ] `new-orleans-restaurants` — 10 Best Restaurants in New Orleans (1/10)
+- [x] `new-orleans-restaurants` — 10 Best Restaurants in New Orleans (10/10) — rebuilt 2026-04-11
 - [x] `new-york-dollar-pizza` — 12 Best Dollar Pizza Spots in New York City (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
-- [ ] `new-york-fried-chicken` — 10 Best Fried Chicken in New York City (1/10)
+- [x] `new-york-fried-chicken` — 10 Best Fried Chicken in New York City (10/10) — rebuilt 2026-04-11
 - [ ] `new-york-jewish-delis` — 12 Best Jewish Delis in New York City (2026) — Reddit-Backed Guide (1/12)
 - [x] `new-york-pastrami` — 11 Best Pastrami Spots in NYC (2026) (11/11) — rebuilt 2026-04-11
 - [ ] `new-york-steak` — 10 Best Steakhouses in New York City (1/10)
