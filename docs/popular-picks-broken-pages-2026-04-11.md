@@ -381,7 +381,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `athens-jazz-bars` — 12 Best Jazz Bars in Athens (1/12)
 - [ ] `athens-night-markets` — 12 Best Night Markets in Athens (1/12)
 - [ ] `athens-photography-spots` — 12 Best Photography Spots in Athens (1/12)
-- [ ] `athens-pizza` — 10 Best Pizza in Athens (1/10)
+- [x] `athens-pizza` — 10 Best Pizza in Athens (10/10) — rebuilt 2026-04-11
 - [ ] `athens-rooftop-bars` — Rooftop Bars in Athens (1/12)
 - [ ] `athens-street-food` — Athens Street Food Guide (1/12)
 - [ ] `athens-tavernas` — 17 Best Tavernas in Athens (1/18)
@@ -540,7 +540,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bordeaux-natural-wine-bars` — Bordeaux Natural Wine Bars (1/12)
 - [ ] `boston-craft-beer` — 12 Best Craft Beer in Boston (1/12)
 - [x] `boston-pizza` — 10 Best Pizza in Boston (10/10) — rebuilt 2026-04-11
-- [ ] `boston-restaurants` — 10 Best Restaurants in Boston (1/10)
+- [x] `boston-restaurants` — 10 Best Restaurants in Boston (10/10) — rebuilt 2026-04-11
 - [ ] `bratislava-rooftop-bars` — Take in sweeping views of the Danube and Bratislava Castle from the ci… (1/12)
 - [ ] `bratislava-street-food` — Bratislava Street Food & Trdelník Pastries (1/12)
 - [ ] `brisbane-brunch` — Best Brunch Spots in Brisbane (1/12)
@@ -689,7 +689,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `edinburgh-underground-vaults` — Tour the eerie 18th-century underground vaults hidden beneath Edinburg… (1/12)
 - [ ] `edinburgh-whisky-bars` — Best Edinburgh Whisky Bars (1/12)
 - [ ] `essaouira-port-seafood` — 5 Best Seafood in Essaouira Port (1/5)
-- [ ] `essaouira-seafood` — 9 Best Seafood in Essaouira Port (1/10)
+- [x] `essaouira-seafood` — 9 Best Seafood in Essaouira Port (10/10) — rebuilt 2026-04-11
 - [ ] `fez-leather-tanneries` — 5 Leather Tanneries in Fez (1/5)
 - [x] `fez-rooftop-cafes` — 10 Best Rooftop Cafés in Fez Medina (10/10) — rebuilt 2026-04-11
 - [x] `fez-tagine` — 15 Best Tagine in Fez — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
@@ -821,7 +821,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `kyoto-coffee` — 12 Best Coffee Shops in Kyoto (1/12)
 - [x] `kyoto-hidden-temples` — 11 Hidden Temples in Kyoto That Reddit Swears By (11/11) — rebuilt 2026-04-11
 - [x] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (12/12) — rebuilt 2026-04-11
-- [ ] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (1/10)
+- [x] `kyoto-kimono-rentals` — 10 Best Kimono Rental Shops in Kyoto (10/10) — rebuilt 2026-04-11
 - [x] `kyoto-matcha-desserts` — 14 Best Matcha Desserts in Kyoto — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `kyoto-sushi` — 10 Best Sushi in Kyoto (10/10) — rebuilt 2026-04-11
 - [x] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (10/10) — rebuilt 2026-04-11
@@ -1100,7 +1100,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `tokyo-working-cafes` — Best Working Cafes in Tokyo (1/12)
 - [ ] `toronto-brunch` — 10 Best Best Brunch Spots in Toronto (2026) — Reddit-Backed Guide (1/10)
 - [ ] `toronto-craft-beer` — 10 Best Toronto's Craft Brewery Scene (2026) — Reddit-Backed Guide (1/10)
-- [ ] `toronto-dim-sum` — 10 Best Dim Sum in Toronto's Chinatown (2026) — Reddit-Backed Guide (1/10)
+- [SKIP] `toronto-dim-sum` — 10 Best Dim Sum in Toronto's Chinatown (2026) — Reddit-Backed Guide (1/10) — minimal ItemList, needs full research
 - [ ] `toronto-street-food` — 10 Best Toronto Street Food & Food Halls (2026) — Reddit-Backed Guide (1/10)
 - [ ] `trastevere-cheap-restaurants` — 12 Best Cheap Restaurants in Trastevere (1/12)
 - [ ] `trastevere-pasta` — 16 Best Pasta Spots in Trastevere (Reddit-Backed) (1/17)
@@ -1131,7 +1131,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `venice-pizza` — 10 Best Pizza in Venice (10/10) — rebuilt 2026-04-11
 - [x] `verona-pizza` — 10 Best Pizza in Verona (10/10) — rebuilt 2026-04-11
 - [ ] `victoria-afternoon-tea` — British Afternoon Tea in Victoria (1/12)
-- [ ] `vienna-heurigen` — 10 Best Heurigen (Wine Taverns) in Vienna (1/10)
+- [x] `vienna-heurigen` — 10 Best Heurigen (Wine Taverns) in Vienna (10/10) — rebuilt 2026-04-11
 - [ ] `vilnius-restaurants` — Vilnius Food Scene & Lithuanian Cuisine (1/12)
 - [ ] `vilnius-street-food` — Street Food in Vilnius (1/12)
 - [ ] `vilnius-uzupis-neighborhood` — Uzupis Neighborhood in Vilnius (1/12)
