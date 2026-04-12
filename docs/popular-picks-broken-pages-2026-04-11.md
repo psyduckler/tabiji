@@ -237,11 +237,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `abu-dhabi-natural-wine-bars` — 10 Best Natural Wine Bars in Abu Dhabi (10/10) — rebuilt 2026-04-12
 - [x] `abu-dhabi-night-markets` — 10 Best Night Markets in Abu Dhabi (10/10) — rebuilt 2026-04-12
 - [x] `abu-dhabi-photography-spots` — 12 Best Photography Spots in Abu Dhabi (12/12) — rebuilt 2026-04-12
-- [ ] `abu-dhabi-rooftop-bars` — Abu Dhabi's Rooftop Bars (1/12)
-- [ ] `abu-dhabi-street-food` — 12 Best Street Food in Abu Dhabi (1/12)
-- [ ] `abu-dhabi-viewpoints` — 12 Best Viewpoints in Abu Dhabi (1/12)
-- [ ] `accra-art-galleries` — 12 Best Art Galleries in Accra (1/12)
-- [ ] `accra-bakeries` — 12 Best Bakeries in Accra to Satisfy Your Sweet Cravings (1/12)
+- [x] `abu-dhabi-rooftop-bars` — 10 Best Rooftop Bars in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-street-food` — 10 Best Street Food in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-viewpoints` — 12 Best Viewpoints in Abu Dhabi (12/12) — rebuilt 2026-04-12
+- [x] `accra-art-galleries` — 12 Best Art Galleries in Accra (12/12) — rebuilt 2026-04-12
+- [x] `accra-bakeries` — 10 Best Bakeries in Accra (10/10) — rebuilt 2026-04-12
 - [ ] `accra-bookshops` — 12 Best Bookshops in Accra (1/12)
 - [ ] `accra-brunch-spots` — 12 Best Brunch Spots in Accra (1/12)
 - [ ] `accra-cheap-eats` — 12 Best Cheap Eats in Accra (1/12)
