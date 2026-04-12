@@ -215,12 +215,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `kuala-lumpur-laksa` — 12 Best Laksa in Kuala Lumpur (12/12) · 20/mo — rebuilt 2026-04-11
 - [x] `kyoto-sake-bars` — 10 Best Sake Bars in Kyoto (10/10) · 20/mo — rebuilt 2026-04-11
 - [x] `lisbon-natural-wine-bars` — 12 Best Natural Wine Bars in Lisbon (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
-- [ ] `manila-cheap-eats` — 20 Best Cheap Eats in Manila (1/20) · 20/mo
-- [ ] `marseille-coffee-shops` — 12 Best Coffee Shops in Marseille (2026) — Reddit-Backed Guide (1/12) · 20/mo
-- [ ] `nairobi-rooftop-bars` — 12 Best Rooftop Bars in Nairobi 2026 (1/12) · 20/mo
-- [ ] `oaxaca-mezcal-bars` — 15 Best Mezcal Bars in Oaxaca — The Unfiltered Guide (1/15) · 20/mo
-- [ ] `osaka-cheap-eats` — 12 Best Cheap Eats in Osaka (Under ¥1,000) (1/12) · 20/mo
-- [ ] `paris-natural-wine-bars` — 12 Best Natural Wine Bars in Paris (2026) — Reddit-Backed Guide (1/12) · 20/mo
+- [x] `manila-cheap-eats` — 20 Best Cheap Eats in Manila (20/20) · 20/mo — rebuilt 2026-04-11
+- [SKIP] `marseille-coffee-shops` — 12 Best Coffee Shops in Marseille (2026) — Reddit-Backed Guide (1/12) · 20/mo — minimal ItemList, needs full research
+- [x] `nairobi-rooftop-bars` — 12 Best Rooftop Bars in Nairobi 2026 (12/12) · 20/mo — rebuilt 2026-04-11
+- [x] `oaxaca-mezcal-bars` — 15 Best Mezcal Bars in Oaxaca — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
+- [x] `osaka-cheap-eats` — 12 Best Cheap Eats in Osaka (Under ¥1,000) (12/12) · 20/mo — rebuilt 2026-04-11
+- [x] `paris-natural-wine-bars` — 12 Best Natural Wine Bars in Paris (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
 - [ ] `porto-wine-bars` — 10 Best Wine Bars in Porto — The Reddit Guide (1/11) · 20/mo
 - [ ] `prague-craft-beer` — 15 Best Craft Beer Bars in Prague — The Unfiltered Guide (1/15) · 20/mo
 - [ ] `tel-aviv-cheap-eats` — 11 Best Cheap Eats in Tel Aviv (1/12) · 20/mo
