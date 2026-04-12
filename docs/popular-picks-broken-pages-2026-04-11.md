@@ -258,11 +258,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `accra-night-markets` — 10 Best Night Markets in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-photography-spots` — 10 Best Photography Spots in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-rooftop-bars` — 10 Best Rooftop Bars in Accra (10/10) — rebuilt 2026-04-12
-- [ ] `accra-street-food` — 12 Best Street Food in Accra (1/12)
-- [ ] `accra-tea-houses` — 12 Best Tea Houses in Accra (1/12)
-- [ ] `accra-vegan-restaurants` — 12 Best Vegan Restaurants in Accra (1/12)
-- [ ] `accra-viewpoints` — 12 Best Viewpoints in Accra (1/12)
-- [ ] `accra-wine-bars` — 12 Best Wine Bars in Accra (1/12)
+- [x] `accra-street-food` — 10 Best Street Food in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-tea-houses` — 10 Best Tea Houses in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-vegan-restaurants` — 10 Best Vegan Restaurants in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-viewpoints` — 10 Best Viewpoints in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-wine-bars` — 10 Best Wine Bars in Accra (10/10) — rebuilt 2026-04-12
 - [ ] `addis-ababa-coffee-ceremonies` — 11 Best Coffee Ceremonies in Addis Ababa (1/12)
 - [ ] `addis-ababa-injera` — 8 Best Injera Restaurants in Addis Ababa (1/12)
 - [ ] `adelaide-art-galleries` — 12 Best Art Galleries in Adelaide (1/12)
