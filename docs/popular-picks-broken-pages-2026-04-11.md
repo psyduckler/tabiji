@@ -948,15 +948,15 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `paris-bouillon-restaurants` — 10 Best Bouillon Restaurants in Paris (2026) — Classic French Dining U… (1/10)
 - [ ] `paris-brunch` — 12 Best Brunch Spots in Paris (2026) — Reddit-Backed Guide (1/12)
 - [ ] `paris-food-markets` — Best Food Markets in Paris (1/11)
-- [ ] `paris-jazz-clubs` — 15 Best Jazz Clubs in Paris (1/16)
+- [x] `paris-jazz-clubs` — 15 Best Jazz Clubs in Paris (16/16) — rebuilt 2026-04-11
 - [ ] `paris-patisseries` — Best Patisseries in Paris (1/12)
 - [ ] `paris-romantic-restaurants` — Best Romantic Restaurants in Paris (1/12)
 - [ ] `paris-street-food` — Paris Street Food & Affordable Eats (1/12)
 - [ ] `paris-vintage-shopping` — Best Vintage Shopping in Paris (1/12)
 - [ ] `paro-tigers-nest-monastery-hike` — Hike 3 hours up a pine-forested cliffside to the sacred Paro Taktsang … (1/12)
-- [ ] `penang-cendol` — 10 Best Cendol in Penang (1/10)
+- [x] `penang-cendol` — 10 Best Cendol in Penang (10/10) — rebuilt 2026-04-11
 - [ ] `penang-clan-jetty-seafood` — 12 Best Seafood at Clan Jetties in Penang (1/12)
-- [ ] `penang-night-noodles` — 14 Best Night Noodle Stalls in Penang — The Unfiltered Guide (1/15)
+- [x] `penang-night-noodles` — 14 Best Night Noodle Stalls in Penang — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `perth-craft-beer` — Perth Craft Beer Breweries (1/12)
 - [ ] `perth-seafood` — Rock Lobster & Seafood in Perth (1/12)
 - [ ] `petra-jordanian-food` — Jordanian Cuisine Around Petra (1/12)
@@ -971,10 +971,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `pokhara-sarangkot-paragliding` — Soar off Sarangkot hill for a 30-minute tandem paraglide over Phewa La… (1/12)
 - [ ] `port-louis-street-food` — 8 Best Street Food in Port Louis (1/10)
 - [ ] `porto-cheap-eats` — Best Cheap Eats in Porto (1/12)
-- [ ] `porto-francesinha` — 12 Best Francesinhas in Porto — The Reddit Guide (1/12)
+- [x] `porto-francesinha` — 12 Best Francesinhas in Porto — The Reddit Guide (12/12) — rebuilt 2026-04-11
 - [ ] `poznan-craft-beer` — Craft Beer in Poznan (1/12)
 - [ ] `poznan-rogal-marcinski` — The 12 Best Places to Taste Rogal Marcinski in Poznań (1/12)
-- [ ] `prague-svickova` — 9 Best Places for Svíčková in Prague (1/9)
+- [x] `prague-svickova` — 9 Best Places for Svíčková in Prague (9/9) — rebuilt 2026-04-11
 - [ ] `providence-food-scene` — 12 Best James Beard darling Providence packs Federal Hill Italian red-… (1/12)
 - [ ] `puebla-mole` — 12 Best Mole Restaurants in Puebla (1/12)
 - [ ] `queenstown-craft-beer` — Craft Beer in Queenstown (1/12)
