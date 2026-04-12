@@ -72,15 +72,15 @@ Body is empty — `<section class="pick-list">` wrapper with no venues inside. M
 - [x] `beijing-hot-pot` — Beijing Hot Pot Scene (2026) (10/10) — rebuilt 2026-04-11
 - [x] `berlin-currywurst` — 12 Best Currywurst in Berlin (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `berlin-nightlife` — Club Nightlife in Berlin (12/12) — rebuilt 2026-04-11
-- [ ] `bilbao-guggenheim` — 12 Best Guggenheim Museum Bilbao Guide (12/12) — rebuilt 2026-04-11
+- [x] `bilbao-guggenheim` — 10 Best Guggenheim Museum Bilbao Guide (10/10) — rebuilt 2026-04-12
 - [x] `boston-clam-chowder` — 12 Best Clam Chowder in Boston (12/12) — rebuilt 2026-04-11
 - [x] `budapest-ruin-bars` — 18 Best Ruin Bars in Budapest (18/18) — rebuilt 2026-04-11
 - [x] `cartagena-nightlife` — Nightlife in Cartagena (12/12) — rebuilt 2026-04-11
 - [x] `chengdu-hot-pot` — 12 Best Hot Pot in Chengdu (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `chicago-art-galleries` — 12 Best Art Galleries in Chicago (12/12) — rebuilt 2026-04-11
+- [x] `chicago-art-galleries` — 12 Best Art Galleries in Chicago (12/12) — rebuilt 2026-04-12
 - [x] `chicago-brunch` — 12 Best Brunch Restaurants in Chicago (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `chicago-deep-dish-pizza` — 12 Best Deep Dish Pizza Restaurants in Chicago (2026) — Reddit-Backed … (12/12) — rebuilt 2026-04-11
-- [ ] `chicago-fine-dining` — 12 Best Fine Dining in Chicago (12/12) — rebuilt 2026-04-11
+- [x] `chicago-fine-dining` — 12 Best Fine Dining in Chicago (12/12) — rebuilt 2026-04-12
 - [x] `chicago-italian-beef` — 12 Best Italian Beef Sandwiches in Chicago (2026) — Reddit-Backed Guid… (12/12) — rebuilt 2026-04-11
 - [x] `chongqing-hot-pot` — Chongqing-Style Hot Pot (12/12) — rebuilt 2026-04-11
 - [x] `denver-brunch-spots` — 12 Best Brunch Spots in Denver (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
@@ -161,7 +161,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `osaka-street-food` — 13 Best Street Food Spots in Osaka — The Ultimate Guide (14/14) · 590/mo — rebuilt 2026-04-11
 - [x] `bangkok-rooftop-bars` — 16 Best Rooftop Bars in Bangkok (16/16) · 480/mo — rebuilt 2026-04-11
 - [x] `rome-cooking-classes` — 9 Best Cooking Classes in Rome (10/10) · 480/mo — rebuilt 2026-04-11
-- [ ] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (12/12) · 480/mo — rebuilt 2026-04-11
+- [x] `singapore-laksa` — 12 Best Laksa in Singapore (2026) — Reddit-Backed Hawker Guide (12/12) · 480/mo — rebuilt 2026-04-12
 - [x] `madrid-churros` — 13 Best Churros in Madrid — The Unfiltered Guide (15/15) · 390/mo — rebuilt 2026-04-11
 - [x] `copenhagen-bakeries` — 12 Best Bakeries in Copenhagen (12/12) · 320/mo — rebuilt 2026-04-11
 - [x] `fukuoka-ramen` — 11 Best Tonkotsu Ramen in Fukuoka (12/12) · 320/mo — rebuilt 2026-04-11
@@ -190,7 +190,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cairo-street-food` — 18 Best Street Food Spots in Cairo (18/18) · 90/mo — rebuilt 2026-04-11
 - [x] `cartagena-ceviche` — 18 Best Ceviche & Seafood Spots in Cartagena (18/18) · 90/mo — rebuilt 2026-04-11
 - [x] `colombo-coffee-shops` — 12 Best Coffee Shops in Colombo (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
-- [ ] `da-nang-coffee-shops` — 13 Best Coffee Shops in Da Nang (13/13) · 90/mo — rebuilt 2026-04-11
+- [x] `da-nang-coffee-shops` — 13 Best Coffee Shops in Da Nang (13/13) · 90/mo — rebuilt 2026-04-12
 - [x] `kanazawa-sushi` — 12 Best Sushi in Kanazawa (12/12) · 90/mo — rebuilt 2026-04-11
 - [SKIP] `melbourne-vegan-restaurants` — 11 Best Vegan Restaurants in Melbourne (2026) — Reddit-Backed Guide (1/12) · 90/mo — minimal ItemList, needs full research
 - [x] `paris-cheese-shops` — 12 Best Cheese Shops in Paris (2026) — Reddit-Backed Guide (12/12) · 90/mo — rebuilt 2026-04-11
