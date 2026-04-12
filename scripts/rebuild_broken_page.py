@@ -46,7 +46,10 @@ def format_hours(hours_spec: list) -> str:
         opens = h.get('opens', '')
         closes = h.get('closes', '')
         if day and opens and closes:
-            hours_dict[day] = f"{opens} – {closes}"
+            # Handle day as list or string
+            days = day if isinstance(day, list) else [day]
+            for d in days:
+                hours_dict[d] = f"{opens} – {closes}"
 
     # Group consecutive days with same hours
     result = []

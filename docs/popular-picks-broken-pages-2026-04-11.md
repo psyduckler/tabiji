@@ -201,12 +201,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `phnom-penh-rooftop-bars` — 7 Best Rooftop Bars in Phnom Penh (7/7) · 50/mo — rebuilt 2026-04-11
 - [x] `prague-cheap-eats` — 19 Best Cheap Eats in Prague (19/19) · 50/mo — rebuilt 2026-04-11
 - [x] `taipei-dim-sum` — 15 Best Dim Sum in Taipei — The Unfiltered Guide (15/15) · 50/mo — rebuilt 2026-04-11
-- [ ] `bali-cooking-classes` — 8 Best Cooking Classes in Bali (1/8) · 40/mo
-- [ ] `kuala-lumpur-rooftop-bars` — 12 Best Rooftop Bars in Kuala Lumpur 2026 — Reddit-Backed Guide (1/12) · 40/mo
-- [ ] `melbourne-brunch-spots` — 12 Best Brunch Spots in Melbourne (2026) — Reddit-Backed Guide (1/12) · 40/mo
-- [ ] `nara-udon` — 9 Best Udon Restaurants in Nara (1/10) · 30/mo
-- [ ] `osaka-craft-beer` — 10 Best Craft Beer Bars in Osaka (1/11) · 30/mo
-- [ ] `singapore-late-night-food` — 12 Best Late-Night Food Spots in Singapore (1/12) · 30/mo
+- [x] `bali-cooking-classes` — 8 Best Cooking Classes in Bali (8/8) · 40/mo — rebuilt 2026-04-11
+- [x] `kuala-lumpur-rooftop-bars` — 12 Best Rooftop Bars in Kuala Lumpur 2026 — Reddit-Backed Guide (12/12) · 40/mo — rebuilt 2026-04-11
+- [SKIP] `melbourne-brunch-spots` — 12 Best Brunch Spots in Melbourne (2026) — Reddit-Backed Guide (1/12) · 40/mo — minimal ItemList, needs full research
+- [x] `nara-udon` — 9 Best Udon Restaurants in Nara (10/10) · 30/mo — rebuilt 2026-04-11
+- [x] `osaka-craft-beer` — 10 Best Craft Beer Bars in Osaka (11/11) · 30/mo — rebuilt 2026-04-11
+- [x] `singapore-late-night-food` — 12 Best Late-Night Food Spots in Singapore (12/12) · 30/mo — rebuilt 2026-04-11
 - [ ] `auckland-brunch-spots` — 12 Best Brunch Spots in Auckland (2026) — Reddit-Backed Guide (1/12) · 20/mo
 - [ ] `buenos-aires-cocktail-bars` — 14 Best Craft Cocktail Bars in Buenos Aires — The Unfiltered Guide (1/15) · 20/mo
 - [ ] `buenos-aires-craft-beer` — 12 Best Craft Beer Bars & Breweries in Buenos Aires 2026 — Reddit-Back… (1/12) · 20/mo
