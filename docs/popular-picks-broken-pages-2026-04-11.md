@@ -293,11 +293,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `almaty-bookshops` — 10 Best Bookshops in Almaty (10/10) — rebuilt 2026-04-12
 - [x] `almaty-cocktail-bars` — 10 Best Cocktail Bars in Almaty (10/10) — rebuilt 2026-04-12
 - [x] `almaty-dessert-cafes` — 10 Best Dessert Cafes in Almaty (10/10) — rebuilt 2026-04-12
-- [ ] `almaty-fine-dining` — 12 Best Fine Dining in Almaty (1/12)
-- [ ] `almaty-food-halls` — 12 Best Food Halls in Almaty (1/12)
-- [ ] `almaty-food-markets` — 12 Best Food Markets in Almaty (1/12)
-- [ ] `almaty-green-bazaar-tour` — The Best Stalls & Experiences at Almaty's Green Bazaar (1/12)
-- [ ] `almaty-jazz-bars` — 12 Best Jazz Bars in Almaty (1/12)
+- [x] `almaty-fine-dining` — 10 Best Fine Dining in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-food-halls` — 10 Best Food Halls in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-food-markets` — 10 Best Food Markets in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-green-bazaar-tour` — 10 Best Stalls & Experiences at Almaty's Green Bazaar (10/10) — rebuilt 2026-04-12
+- [x] `almaty-jazz-bars` — 10 Best Jazz Bars in Almaty (10/10) — rebuilt 2026-04-12
 - [ ] `almaty-natural-wine-bars` — 12 Best Natural Wine Bars in Almaty (1/12)
 - [ ] `almaty-night-markets` — 12 Best Night Markets in Almaty (1/12)
 - [ ] `almaty-photography-spots` — 12 Best Photography Spots in Almaty (1/12)
