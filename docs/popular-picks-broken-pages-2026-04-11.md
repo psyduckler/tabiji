@@ -288,11 +288,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `adelaide-wine-bars` — 10 Best Wine Bars in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `adelaide-working-cafes` — 10 Best Working Cafes in Adelaide (10/10) — rebuilt 2026-04-12
 - [x] `almaty-art-galleries` — 10 Best Art Galleries in Almaty (10/10) — rebuilt 2026-04-12
-- [ ] `almaty-beshbarmak-feast` — 12 Best Beshbarmak in Almaty (1/12)
-- [ ] `almaty-big-almaty-lake-hike` — The Ultimate Guide: Hike to the stunning emerald Big Almaty Lake nestl… (1/11)
-- [ ] `almaty-bookshops` — 12 Best Bookshops in Almaty (1/12)
-- [ ] `almaty-cocktail-bars` — 12 Best Cocktail Bars in Almaty (1/12)
-- [ ] `almaty-dessert-cafes` — 12 Best Dessert Cafes in Almaty (1/12)
+- [x] `almaty-beshbarmak-feast` — 10 Best Beshbarmak in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-big-almaty-lake-hike` — 10 Best Big Almaty Lake Hiking Experiences (10/10) — rebuilt 2026-04-12
+- [x] `almaty-bookshops` — 10 Best Bookshops in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-cocktail-bars` — 10 Best Cocktail Bars in Almaty (10/10) — rebuilt 2026-04-12
+- [x] `almaty-dessert-cafes` — 10 Best Dessert Cafes in Almaty (10/10) — rebuilt 2026-04-12
 - [ ] `almaty-fine-dining` — 12 Best Fine Dining in Almaty (1/12)
 - [ ] `almaty-food-halls` — 12 Best Food Halls in Almaty (1/12)
 - [ ] `almaty-food-markets` — 12 Best Food Markets in Almaty (1/12)
