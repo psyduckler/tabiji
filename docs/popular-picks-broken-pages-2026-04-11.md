@@ -252,12 +252,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `accra-fine-dining` — 10 Best Fine Dining in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-food-halls` — 10 Best Food Halls in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-food-markets` — 10 Best Food Markets in Accra (10/10) — rebuilt 2026-04-12
-- [ ] `accra-jazz-bars` — 12 Best Jazz Bars in Accra (1/12)
+- [x] `accra-jazz-bars` — 10 Best Jazz Bars in Accra (10/10) — rebuilt 2026-04-12
 - [x] `accra-jollof-rice` — 10 Best Jollof Rice in Accra (10/10) — rebuilt 2026-04-11
-- [ ] `accra-natural-wine-bars` — 12 Best Natural Wine Bars in Accra (1/12)
-- [ ] `accra-night-markets` — 12 Best Night Markets in Accra (1/12)
-- [ ] `accra-photography-spots` — 12 Best Photography Spots in Accra (1/12)
-- [ ] `accra-rooftop-bars` — 12 Best Rooftop Bars in Accra (1/12)
+- [x] `accra-natural-wine-bars` — 10 Best Wine Bars in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-night-markets` — 10 Best Night Markets in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-photography-spots` — 10 Best Photography Spots in Accra (10/10) — rebuilt 2026-04-12
+- [x] `accra-rooftop-bars` — 10 Best Rooftop Bars in Accra (10/10) — rebuilt 2026-04-12
 - [ ] `accra-street-food` — 12 Best Street Food in Accra (1/12)
 - [ ] `accra-tea-houses` — 12 Best Tea Houses in Accra (1/12)
 - [ ] `accra-vegan-restaurants` — 12 Best Vegan Restaurants in Accra (1/12)
