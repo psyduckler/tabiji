@@ -837,7 +837,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `lisbon-brunch` — Best Brunch Spots in Lisbon (1/12)
 - [x] `lisbon-pastel-de-nata` — 18 Best Pastéis de Nata in Lisbon (18/18) — rebuilt 2026-04-11
 - [ ] `lisbon-photography-spots` — Best Photography Spots in Lisbon (1/12)
-- [ ] `lisbon-sardine-restaurants` — 15 Best Sardine Restaurants in Lisbon — The Unfiltered Guide (1/15)
+- [x] `lisbon-sardine-restaurants` — 15 Best Sardine Restaurants in Lisbon — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `lisbon-solo-travel-guide` — Best Solo Travel Guide to Lisbon (1/12)
 - [ ] `lisbon-street-food` — Lisbon Street Food & Time Out Market (1/12)
 - [ ] `lisbon-vintage-shopping` — Best Vintage Shopping in Lisbon (1/12)
@@ -930,7 +930,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-sushi` — 10 Best Sushi in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-takoyaki` — 11 Best Takoyaki in Osaka (11/11) — rebuilt 2026-04-11
-- [ ] `oslo-brunch-spots` — 13 Best Brunch Spots in Oslo (2026) (1/13)
+- [SKIP] `oslo-brunch-spots` — 13 Best Brunch Spots in Oslo (2026) (1/13) — minimal ItemList, needs full research
 - [ ] `oslo-coffee-culture` — 12 Best Specialty Coffee Shops in Oslo (2026) — Reddit-Backed Guide (1/12)
 - [ ] `oslo-coffee-shops` — Specialty Coffee in Oslo (1/12)
 - [ ] `oslo-craft-beer` — 12 Best Craft Beer Bars in Oslo (2026) — Reddit-Backed Guide (1/12)
@@ -1023,7 +1023,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `seoul-brunch-cafes` — Best Brunch Cafes in Seoul (1/12)
 - [ ] `seoul-budae-jjigae` — 8 Best Budae Jjigae (Army Stew) in Seoul 2026 — Reddit-Backed Guide (1/10)
 - [ ] `seoul-buddhist-temple-stays` — 4 Best Buddhist Temple Stays near Seoul (1/4)
-- [ ] `seoul-craft-coffee` — 14 Best Craft Coffee Shops in Seoul — The Unfiltered Guide (1/15)
+- [x] `seoul-craft-coffee` — 14 Best Craft Coffee Shops in Seoul — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `seoul-late-night-eats` — Best Late Night Eats in Seoul (1/12)
 - [ ] `seoul-vintage-shopping` — Best Vintage Shopping in Seoul (1/12)
 - [ ] `seville-flamenco` — Best Flamenco in Seville (1/12)
@@ -1035,7 +1035,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `shibuya-ramen` — 18 Best Ramen Shops in Shibuya (18/18) — rebuilt 2026-04-11
 - [ ] `shilin-night-markets` — 10 Best Night Market Stalls in Shilin (1/10)
 - [ ] `shimokitazawa-coffee` — 17 Best Coffee Shops in Shimokitazawa (1/17)
-- [ ] `shinjuku-cheap-restaurants` — 20 Best Cheap Restaurants in Shinjuku (Under ¥2,000) (1/20)
+- [x] `shinjuku-cheap-restaurants` — 20 Best Cheap Restaurants in Shinjuku (Under ¥2,000) (20/20) — rebuilt 2026-04-11
 - [ ] `shinjuku-izakayas` — 16 Best Izakayas in Shinjuku (1/17)
 - [ ] `shinjuku-ramen-alley` —  (1/13)
 - [ ] `siargao-cloud-9-surfing` — Paddle out to Cloud 9, the Philippines' most famous hollow reef break … (1/12)
@@ -1051,7 +1051,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `sofia-street-food` — Street Food & Bulgarian Cuisine in Sofia (1/12)
 - [ ] `soho-cheap-eats` — 18 Best Cheap Eats in Soho London (Under £15) (1/18)
 - [ ] `sokcho-squid-street-food` — Eat freshly grilled cuttlefish and squid ink-tinted snacks at Sokcho's… (1/12)
-- [ ] `split-beach-bars` — 10 Best Beach Bars in Split (1/10)
+- [x] `split-beach-bars` — 10 Best Beach Bars in Split (10/10) — rebuilt 2026-04-11
 - [ ] `split-old-town-food` — 12 Best Food in Split Old Town (1/12)
 - [ ] `stockholm-fika-cafes` — 12 Best Fika Cafés in Stockholm (1/12)
 - [SKIP] `strasbourg-tarte-flambee` — 12 Best Tarte Flambée in Strasbourg (1/12) — minimal ItemList, needs full research
@@ -1153,7 +1153,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `yogyakarta-batik-making-class` — 12 Best Batik Making Classes in Yogyakarta (1/12)
 - [ ] `yogyakarta-borobudur-sunrise` — Borobudur Sunrise in Yogyakarta (1/12)
 - [ ] `yogyakarta-gudeg` — 11 Best Gudeg in Yogyakarta (1/12)
-- [ ] `yogyakarta-satay` — 13 Best Satay in Yogyakarta — The Unfiltered Guide (1/13)
+- [x] `yogyakarta-satay` — 13 Best Satay in Yogyakarta — The Unfiltered Guide (13/13) — rebuilt 2026-04-11
 - [ ] `zagreb-craft-beer` — 12 Best Craft Beer Bars in Zagreb (1/12)
 - [ ] `zagreb-dolac-market` — 12 Best Food at Dolac Market in Zagreb (1/12)
 - [ ] `zagreb-restaurants` — The 12 Best Restaurants in Zagreb Right Now (1/12)
