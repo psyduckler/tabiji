@@ -5,6 +5,56 @@ import os
 import glob
 from collections import defaultdict
 
+# ── Region-appropriate ride-service advice ─────────────────────────────
+_REGION_SETS = {
+    "southeast_asia": {"th", "vn", "kh", "la", "my", "id", "ph", "sg", "mm"},
+    "east_asia": {"jp", "kr", "tw", "cn", "hk", "mo"},
+    "south_asia": {"in", "np", "lk", "bd"},
+    "europe": {
+        "gb", "fr", "de", "it", "es", "pt", "nl", "be", "at", "ch", "ie", "se",
+        "dk", "no", "fi", "is", "gr", "tr", "pl", "cz", "sk", "hu", "ro", "bg",
+        "hr", "si", "rs", "ba", "me", "al", "mk", "xk", "lt", "lv", "ee",
+        "ua", "ru", "ge", "am", "az", "mc", "mt", "cy", "lu", "li", "ad", "sm",
+        "va", "kz", "uz",
+    },
+    "north_america": {"us", "ca", "pr"},
+    "latin_america_caribbean": {
+        "mx", "gt", "bz", "sv", "hn", "ni", "cr", "pa",
+        "co", "ve", "ec", "pe", "bo", "cl", "ar", "uy", "py", "br", "gy", "sr",
+        "jm", "ht", "do", "tt", "bb", "lc", "ag", "bs", "ky", "tc", "cw",
+        "gd", "dm", "kn", "vc",
+    },
+    "middle_east": {"ae", "qa", "jo", "il", "sa", "om", "lb", "bh", "kw", "iq", "ye"},
+    "africa": {
+        "za", "ke", "tz", "eg", "ma", "ng", "gh", "sn", "et", "ug", "rw",
+        "zm", "mz", "na", "tn", "dj", "sc", "mu", "mg", "cm", "ci",
+        "bw", "zw", "mw", "ao", "cd", "cg", "ga", "ne",
+    },
+    "oceania": {"au", "nz", "fj", "pf", "mv"},
+    "cuba": {"cu"},
+}
+_RIDE_ADVICE = {
+    "southeast_asia": "Use app-based ride services (Grab, Gojek) instead of street taxis \u2014 always confirm the fare before departure",
+    "east_asia": "Use app-based ride services or official metered taxis \u2014 avoid unmarked vehicles near tourist areas",
+    "south_asia": "Use app-based ride services (Uber, Ola) instead of street taxis \u2014 always confirm the fare before departure",
+    "europe": "Use app-based ride services (Uber, Bolt) or official metered taxis instead of unmarked vehicles",
+    "north_america": "Use app-based ride services (Uber, Lyft) instead of unmarked vehicles or unlicensed cabs",
+    "latin_america_caribbean": "Use app-based ride services (Uber, DiDi) instead of street taxis \u2014 avoid unmarked vehicles, especially at night",
+    "middle_east": "Use app-based ride services (Uber, Careem) or official metered taxis instead of unmarked vehicles",
+    "africa": "Use app-based ride services (Uber, Bolt) instead of unmarked taxis \u2014 always confirm the fare before departure",
+    "oceania": "Use app-based ride services (Uber) or official metered taxis instead of unmarked vehicles",
+    "cuba": "Negotiate taxi fares before departure and use official yellow taxis or your hotel\u2019s recommended transport",
+}
+
+def _get_ride_advice(country_code):
+    """Return region-appropriate ride-service advice based on country code."""
+    cc = country_code.lower().strip() if country_code else ""
+    for region, codes in _REGION_SETS.items():
+        if cc in codes:
+            return _RIDE_ADVICE[region]
+    # Fallback for unmapped countries
+    return "Use app-based ride services or official metered taxis instead of unmarked vehicles"
+
 # Emergency numbers per country
 EMERGENCY_INFO = {
     "United Kingdom": {
@@ -3303,7 +3353,7 @@ def generate_page(city_data, related_cities_map):
     takeaway_top = f"The #1 reported scam is the {scam_names[0] if scam_names else 'financial deception'}"
     takeaway_high = f"{len(high_risk)} of {n} scams are rated high risk" if high_risk else f"Most scams in {city} are low-to-medium risk"
     no_rideshare_cities = {"Aruba", "Turks and Caicos"}
-    takeaway_transport = "Only use official taxis with government-set rates — confirm the fare before getting in" if city in no_rideshare_cities else "Use app-based ride services (Uber, Grab, Bolt) instead of street taxis"
+    takeaway_transport = "Only use official taxis with government-set rates \u2014 confirm the fare before getting in" if city in no_rideshare_cities else _get_ride_advice(country_code)
     takeaway_avoid = f"Never accept unsolicited offers from strangers near tourist sites in {city}"
 
     takeaways_html = f"""            <li>{takeaway_top}</li>
