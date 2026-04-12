@@ -232,11 +232,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `aarhus-waterfront-bars` — 10 Best Waterfront Bars in Aarhus (10/10) — rebuilt 2026-04-12
 - [x] `abu-dhabi-art-galleries` — 11 Best Art Galleries in Abu Dhabi (11/11) — rebuilt 2026-04-12
 - [x] `abu-dhabi-cheap-eats` — 12 Best Cheap Eats in Abu Dhabi (12/12) — rebuilt 2026-04-12
-- [ ] `abu-dhabi-fine-dining` — 12 Best Fine Dining in Abu Dhabi (1/12)
-- [ ] `abu-dhabi-jazz-bars` — 12 Best Jazz Bars in Abu Dhabi (1/12)
-- [ ] `abu-dhabi-natural-wine-bars` — 12 Best Natural Wine Bars in Abu Dhabi (1/12)
-- [ ] `abu-dhabi-night-markets` — 12 Best Night Markets in Abu Dhabi (1/12)
-- [ ] `abu-dhabi-photography-spots` — 12 Best Photography Spots in Abu Dhabi (1/12)
+- [x] `abu-dhabi-fine-dining` — 10 Best Fine Dining in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-jazz-bars` — 10 Best Jazz Bars in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-natural-wine-bars` — 10 Best Natural Wine Bars in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-night-markets` — 10 Best Night Markets in Abu Dhabi (10/10) — rebuilt 2026-04-12
+- [x] `abu-dhabi-photography-spots` — 12 Best Photography Spots in Abu Dhabi (12/12) — rebuilt 2026-04-12
 - [ ] `abu-dhabi-rooftop-bars` — Abu Dhabi's Rooftop Bars (1/12)
 - [ ] `abu-dhabi-street-food` — 12 Best Street Food in Abu Dhabi (1/12)
 - [ ] `abu-dhabi-viewpoints` — 12 Best Viewpoints in Abu Dhabi (1/12)
