@@ -727,9 +727,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `hamburg-steak` — 10 Best Steak in Hamburg (1/10)
 - [ ] `hampi-boulder-sunrise-hike` — 12 Best Scramble over the ancient Vijayanagara ruins and volcanic boul… (1/12)
 - [ ] `hangzhou-longjing-tea` — Hangzhou Longjing Tea Villages (1/12)
-- [ ] `hanoi-bun-rieu` — 9 Best Bún Riêu in Hanoi (2026) — Reddit-Backed Crab Noodle Soup Guide (1/12)
-- [ ] `hanoi-egg-coffee` — 12 Best Egg Coffee in Hanoi (1/12)
-- [ ] `hanoi-old-quarter-bun-cha` — 10 Best Bún Chả in Hanoi's Old Quarter (1/11)
+- [x] `hanoi-bun-rieu` — 9 Best Bún Riêu in Hanoi (2026) — Reddit-Backed Crab Noodle Soup Guide (12/12) — rebuilt 2026-04-11
+- [x] `hanoi-egg-coffee` — 12 Best Egg Coffee in Hanoi (12/12) — rebuilt 2026-04-11
+- [x] `hanoi-old-quarter-bun-cha` — 10 Best Bún Chả in Hanoi's Old Quarter (11/11) — rebuilt 2026-04-11
 - [ ] `harbin-ice-sculpture-festival` — Ice Sculpture Festival in Harbin (1/12)
 - [ ] `harbin-russian-bakeries` — Top 12 Russian Bakeries (1/12)
 - [ ] `havana-mojito-bars` — Mojito Bars & Rum Culture in Havana (1/12)
@@ -739,9 +739,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `helsinki-restaurants` — Food in Helsinki (1/12)
 - [ ] `ho-chi-minh-coffee-shops` — 12 Best Coffee Shops in Ho Chi Minh City (2026) — Reddit-Backed Guide (1/12)
 - [ ] `ho-chi-minh-vegetarian-street-food` — 12 Best Vegetarian Street Food in Ho Chi Minh City (2026) — Reddit-Bac… (1/12)
-- [ ] `hoi-an-cao-lau` — 11 Best Cao Lầu in Hội An (1/12)
+- [x] `hoi-an-cao-lau` — 11 Best Cao Lầu in Hội An (12/12) — rebuilt 2026-04-11
 - [ ] `hoi-an-white-rose-dumplings` — 12 Best White Rose Dumplings in Hoi An 2026 — Reddit-Backed Guide (1/12)
-- [ ] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (1/15)
+- [x] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `hong-kong-rooftop-bars` — Rooftop Bars in Hong Kong (1/12)
 - [ ] `hongdae-late-night-eats` — 11 Best Late-Night Eats in Hongdae (1/12)
 - [ ] `hongdae-vinyl-cafes` — 10 Best Vinyl Cafés & LP Bars in Hongdae (1/12)
