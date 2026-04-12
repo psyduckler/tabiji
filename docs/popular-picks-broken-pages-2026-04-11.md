@@ -475,7 +475,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `bangkok-flower-market` — 12 Best Flower Markets in Bangkok (1/12)
 - [ ] `bangkok-jazz-bars` — 12 Best Jazz Bars in Bangkok (1/12)
 - [ ] `bangkok-late-night-street-food` — Best Late Night Street Food in Bangkok (1/12)
-- [ ] `bangkok-mango-sticky-rice` — 15 Best Mango Sticky Rice in Bangkok — The Unfiltered Guide (1/15)
+- [x] `bangkok-mango-sticky-rice` — 15 Best Mango Sticky Rice in Bangkok — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `bangkok-natural-wine-bars` — 12 Best Natural Wine Bars in Bangkok (1/12)
 - [ ] `bangkok-night-markets` — 12 Best Night Markets in Bangkok (1/12)
 - [ ] `bangkok-photography-spots` — 12 Best Photography Spots in Bangkok (1/12)
@@ -568,7 +568,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `cairo-ful-medames` — Best Ful Medames in Cairo (1/12)
 - [ ] `cairo-rooftop-cafes` — 12 Best Rooftop Cafes in Cairo (1/12)
 - [ ] `calgary-craft-beer` — Craft Beer in Calgary (1/12)
-- [ ] `canggu-beach-clubs` — 13 Best Beach Clubs in Canggu — The Unfiltered Guide (1/15)
+- [x] `canggu-beach-clubs` — 13 Best Beach Clubs in Canggu — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `cape-town-braai` — 11 Best Braai Spots in Cape Town (1/12)
 - [ ] `cape-town-craft-cocktails` — 12 Best Craft Cocktail Bars in Cape Town (2026) — Reddit-Backed Guide (1/12)
 - [ ] `cape-town-day-hikes` — 16 Best Day Hikes Near Cape Town (1/16)
@@ -632,7 +632,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `chiang-mai-photography-spots` — 12 Best Photography Spots in Chiang Mai (1/12)
 - [ ] `chiang-mai-street-food` — 12 Best Street Food in Chiang Mai (1/12)
 - [ ] `chiang-mai-sunday-night-market` — Chiang Mai's Sunday Night Walking Street (1/12)
-- [ ] `chiang-mai-thai-massage` — 15 Best Traditional Thai Massages in Chiang Mai — The Unfiltered Guide (1/15)
+- [x] `chiang-mai-thai-massage` — 15 Best Traditional Thai Massages in Chiang Mai — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `chiang-mai-viewpoints` — 12 Best Viewpoints in Chiang Mai (1/12)
 - [ ] `chiang-rai-night-markets` — 7 Best Night Markets in Chiang Rai (1/10)
 - [ ] `chicago-cheap-eats` — 12 Best Cheap Eats in Chicago (1/12)
@@ -684,7 +684,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `dubrovnik-cheap-restaurants` — 10 Best Cheap Restaurants in Dubrovnik (1/10)
 - [ ] `dubrovnik-kayaking` — Kayaking in Dubrovnik (1/12)
 - [ ] `dubrovnik-wine-bars` — 12 Best Wine Bars in Dubrovnik (1/12)
-- [ ] `edinburgh-pubs` — 14 Best Pubs in Edinburgh (1/14)
+- [x] `edinburgh-pubs` — 14 Best Pubs in Edinburgh (14/14) — rebuilt 2026-04-11
 - [ ] `edinburgh-street-food-market` — Graze on haggis rolls, artisan cheese toasties, and craft gin at Edinb… (1/12)
 - [ ] `edinburgh-underground-vaults` — Tour the eerie 18th-century underground vaults hidden beneath Edinburg… (1/12)
 - [ ] `edinburgh-whisky-bars` — Best Edinburgh Whisky Bars (1/12)
@@ -692,7 +692,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `essaouira-seafood` — 9 Best Seafood in Essaouira Port (1/10)
 - [ ] `fez-leather-tanneries` — 5 Leather Tanneries in Fez (1/5)
 - [ ] `fez-rooftop-cafes` — 10 Best Rooftop Cafés in Fez Medina (1/10)
-- [ ] `fez-tagine` — 15 Best Tagine in Fez — The Unfiltered Guide (1/15)
+- [x] `fez-tagine` — 15 Best Tagine in Fez — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `fez-tannery-viewpoints` — 8 Best Tannery Viewpoints in Fez (9/9) — rebuilt 2026-04-11
 - [ ] `florence-aperitivo-bars` — Load up on free nibbles at Florence's spritz-and-aperitivo bars during… (1/12)
 - [ ] `florence-leather-workshops` — Leather Workshops in Florence (1/12)
