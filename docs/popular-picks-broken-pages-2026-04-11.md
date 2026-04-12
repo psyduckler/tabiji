@@ -226,9 +226,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `tel-aviv-cheap-eats` — 11 Best Cheap Eats in Tel Aviv (12/12) · 20/mo — rebuilt 2026-04-11
 - [x] `tel-aviv-hummus` — 14 Best Hummus Spots in Tel Aviv — The Unfiltered Guide (15/15) · 20/mo — rebuilt 2026-04-11
 - [x] `zurich-brunch-spots` — 12 Best Brunch Spots in Zürich (2026) — Reddit-Backed Guide (12/12) · 20/mo — rebuilt 2026-04-11
-- [ ] `ghent-craft-beer` — 8 Best Craft Beer Spots in Ghent (1/10) · 10/mo
+- [x] `ghent-craft-beer` — 8 Best Craft Beer Spots in Ghent (10/10) · 10/mo — rebuilt 2026-04-11
 - [ ] `aarhus-art-galleries` — Aarhus Art Galleries (1/10)
-- [ ] `aarhus-new-nordic-restaurants` — 12 Best New Nordic Restaurants in Aarhus (1/12)
+- [x] `aarhus-new-nordic-restaurants` — 12 Best New Nordic Restaurants in Aarhus (12/12) — rebuilt 2026-04-11
 - [ ] `aarhus-waterfront-bars` — Waterfront Bars in Aarhus (1/10)
 - [ ] `abu-dhabi-art-galleries` — Best Art Galleries in Abu Dhabi (1/11)
 - [ ] `abu-dhabi-cheap-eats` — 12 Best Cheap Eats in Abu Dhabi (1/12)
@@ -317,13 +317,13 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `amman-food-halls` — 12 Best Food Halls in Amman (1/12)
 - [ ] `amman-food-markets` — 12 Best Food Markets in Amman (1/12)
 - [ ] `amman-jazz-bars` — 12 Best Jazz Bars in Amman (1/12)
-- [ ] `amman-mansaf` — 10 Best Mansaf in Amman (1/10)
+- [x] `amman-mansaf` — 10 Best Mansaf in Amman (10/10) — rebuilt 2026-04-11
 - [ ] `amman-natural-wine-bars` — 12 Best Natural Wine Bars in Amman (1/12)
 - [ ] `amman-night-markets` — 12 Best Night Markets in Amman (1/12)
 - [ ] `amman-photography-spots` — 12 Best Photography Spots in Amman (1/12)
 - [ ] `amman-rainbow-street-cafes` — Rainbow Street Cafes in Amman (1/11)
 - [ ] `amman-rooftop-bars` — Rooftop Bars in Amman (1/12)
-- [ ] `amman-shawarma` — 11 Best Shawarma in Amman — The Unfiltered Guide (1/15)
+- [x] `amman-shawarma` — 11 Best Shawarma in Amman — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `amman-street-food` — 12 Best Street Food in Amman (1/12)
 - [ ] `amman-tea-houses` — 12 Best Tea Houses in Amman (1/12)
 - [ ] `amman-vegan-restaurants` — 12 Best Vegan Restaurants in Amman (1/12)
@@ -406,7 +406,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `austin-photography-spots` — 12 Best Photography Spots in Austin (1/12)
 - [ ] `austin-street-food` — 12 Best Street Food in Austin (1/12)
 - [ ] `austin-viewpoints` — 12 Best Viewpoints in Austin (1/12)
-- [ ] `ayutthaya-street-food` — 12 Best Street Food in Ayutthaya (2026) — Michelin-Approved & Reddit-B… (1/12)
+- [x] `ayutthaya-street-food` — 12 Best Street Food in Ayutthaya (2026) — Michelin-Approved & Reddit-B… (12/12) — rebuilt 2026-04-11
 - [ ] `bagan-hot-air-balloon-sunrise` — Float above thousands of ancient brick temples at sunrise in a hot-air… (1/12)
 - [ ] `bagan-lacquerware-workshop` — 12 Best Lacquerware Workshops in Bagan (1/12)
 - [ ] `baku-art-galleries` — 12 Best Art Galleries in Baku (1/12)
