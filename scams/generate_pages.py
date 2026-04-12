@@ -3836,7 +3836,8 @@ def main():
     batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")) +
                          glob.glob(os.path.join(base_dir, "research", "tier_b_batch*.json")) +
                          glob.glob(os.path.join(base_dir, "research", "tier_c_batch*.json")) +
-                         glob.glob(os.path.join(base_dir, "research", "tier_d_batch*.json")))
+                         glob.glob(os.path.join(base_dir, "research", "tier_d_batch*.json")) +
+                         glob.glob(os.path.join(base_dir, "research", "new_batch_*.json")))
     for path in batch_files:
         with open(path) as f:
             data = json.load(f)
