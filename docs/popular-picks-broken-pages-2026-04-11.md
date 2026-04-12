@@ -918,7 +918,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `new-york-dollar-pizza` — 12 Best Dollar Pizza Spots in New York City (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
 - [ ] `new-york-fried-chicken` — 10 Best Fried Chicken in New York City (1/10)
 - [ ] `new-york-jewish-delis` — 12 Best Jewish Delis in New York City (2026) — Reddit-Backed Guide (1/12)
-- [ ] `new-york-pastrami` — 11 Best Pastrami Spots in NYC (2026) (1/11)
+- [x] `new-york-pastrami` — 11 Best Pastrami Spots in NYC (2026) (11/11) — rebuilt 2026-04-11
 - [ ] `new-york-steak` — 10 Best Steakhouses in New York City (1/10)
 - [ ] `new-york-vintage-shopping` — Best Vintage Shopping in New York (1/12)
 - [ ] `nice-cours-saleya-market` — "Shop for fresh flowers, olives, socca, and local produce at Nice's co… (1/12)
@@ -926,10 +926,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `okavango-bushcraft-camps` — 12 Best Bushcraft Camps in the Okavango Delta (1/12)
 - [ ] `okinawa-beach-bars` — 9 Best Beach Bars in Okinawa (1/10)
 - [ ] `oman-coffee-culture` — Traditional Coffee Culture in Oman (1/12)
-- [ ] `osaka-kushikatsu` — 10 Best Kushikatsu in Osaka (1/10)
-- [ ] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (1/12)
+- [x] `osaka-kushikatsu` — 10 Best Kushikatsu in Osaka (10/10) — rebuilt 2026-04-11
+- [x] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (10/10) — rebuilt 2026-04-11
 - [ ] `osaka-sushi` — 10 Best Sushi in Osaka (1/10)
-- [ ] `osaka-takoyaki` — 11 Best Takoyaki in Osaka (1/11)
+- [x] `osaka-takoyaki` — 11 Best Takoyaki in Osaka (11/11) — rebuilt 2026-04-11
 - [ ] `oslo-brunch-spots` — 13 Best Brunch Spots in Oslo (2026) (1/13)
 - [ ] `oslo-coffee-culture` — 12 Best Specialty Coffee Shops in Oslo (2026) — Reddit-Backed Guide (1/12)
 - [ ] `oslo-coffee-shops` — Specialty Coffee in Oslo (1/12)
@@ -943,7 +943,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `palermo-sicily-street-food` — Eat arancini panelle chickpea fritters and spleen sandwiches at Palerm… (1/12)
 - [ ] `palermo-soho-restaurants` — 12 Best Restaurants in Palermo Soho (2026) — Reddit-Backed Guide (1/12)
 - [ ] `panama-city-ceviche` — Panama City's Ceviche & Seafood (1/12)
-- [ ] `paris-banh-mi` — 10 Best Bánh Mì in Paris (1/10)
+- [x] `paris-banh-mi` — 10 Best Bánh Mì in Paris (10/10) — rebuilt 2026-04-11
 - [ ] `paris-bistros` — 12 Best Bistros in Paris (2026) — Insider Guide (1/12)
 - [ ] `paris-bouillon-restaurants` — 10 Best Bouillon Restaurants in Paris (2026) — Classic French Dining U… (1/10)
 - [ ] `paris-brunch` — 12 Best Brunch Spots in Paris (2026) — Reddit-Backed Guide (1/12)
