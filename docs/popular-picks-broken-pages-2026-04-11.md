@@ -392,11 +392,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `auckland-coffee-culture` — 10 Best Coffee Shops in Auckland (10/10) — rebuilt 2026-04-13
 - [x] `auckland-fine-dining` — 10 Best Fine Dining in Auckland (10/10) — rebuilt 2026-04-13
 - [x] `auckland-natural-wine-bars` — 10 Best Natural Wine Bars in Auckland (10/10) — rebuilt 2026-04-13
-- [ ] `auckland-night-markets` — Asian Night Markets in Auckland (1/12)
-- [ ] `auckland-photography-spots` — 12 Best Photography Spots in Auckland (1/12)
-- [ ] `auckland-seafood-restaurants` — 12 Best Seafood Restaurants in Auckland (2026) — Reddit-Backed Guide (1/12)
-- [ ] `auckland-specialty-coffee` — Coffee Culture in Auckland (1/12)
-- [ ] `auckland-street-food` — 12 Best Street Food in Auckland (1/12)
+- [x] `auckland-night-markets` — 10 Best Night Markets in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-photography-spots` — 10 Best Photography Spots in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-seafood-restaurants` — 10 Best Seafood Restaurants in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-specialty-coffee` — 10 Best Specialty Coffee in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-street-food` — 10 Best Street Food in Auckland (10/10) — rebuilt 2026-04-13
 - [ ] `auckland-viewpoints` — 12 Best Viewpoints in Auckland (1/12)
 - [ ] `austin-art-galleries` — 12 Best Art Galleries in Austin (1/12)
 - [ ] `austin-cheap-eats` — 12 Best Cheap Eats in Austin (1/12)
