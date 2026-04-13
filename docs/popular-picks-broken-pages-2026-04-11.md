@@ -366,11 +366,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antwerp-street-food` — 10 Best Street Food in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-tea-houses` — 10 Best Tea Houses in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-vegan-restaurants` — 10 Best Vegan Restaurants in Antwerp (10/10) — rebuilt 2026-04-13
-- [ ] `antwerp-viewpoints` — 12 Best Viewpoints in Antwerp (1/12)
-- [ ] `antwerp-wine-bars` — 12 Best Wine Bars in Antwerp (1/12)
-- [ ] `antwerp-working-cafes` — 12 Best Working Cafés in Antwerp (1/12)
-- [ ] `asakusa-street-food` — 18 Best Street Food in Asakusa (1/18)
-- [ ] `asheville-craft-breweries` — Craft Breweries in Asheville (1/12)
+- [x] `antwerp-viewpoints` — 10 Best Viewpoints in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-wine-bars` — 10 Best Wine Bars in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-working-cafes` — 10 Best Working Cafes in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `asakusa-street-food` — 10 Best Street Food in Asakusa (10/10) — rebuilt 2026-04-13
+- [x] `asheville-craft-breweries` — 10 Best Craft Breweries in Asheville (10/10) — rebuilt 2026-04-13
 - [ ] `asheville-mountain-brunch` — Farm-to-table brunch spots in Asheville showcasing local Appalachian i… (1/12)
 - [ ] `athens-art-galleries` — The 12 Best Art Galleries in Athens (1/12)
 - [ ] `athens-cheap-eats` — 12 Best Cheap Eats in Athens (1/12)
