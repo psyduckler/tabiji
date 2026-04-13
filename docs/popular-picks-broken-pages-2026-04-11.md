@@ -361,11 +361,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antwerp-jazz-bars` — 10 Best Jazz Bars in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-natural-wine-bars` — 10 Best Natural Wine Bars in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-night-markets` — 10 Best Night Markets in Antwerp (10/10) — rebuilt 2026-04-13
-- [ ] `antwerp-photography-spots` — 12 Best Photography Spots in Antwerp (1/12)
-- [ ] `antwerp-rooftop-bars` — 12 Best Rooftop Bars in Antwerp (1/12)
-- [ ] `antwerp-street-food` — 12 Best Street Food in Antwerp (1/12)
-- [ ] `antwerp-tea-houses` — 12 Best Tea Houses in Antwerp (1/12)
-- [ ] `antwerp-vegan-restaurants` — 12 Best Vegan Restaurants in Antwerp (1/12)
+- [x] `antwerp-photography-spots` — 10 Best Photography Spots in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-rooftop-bars` — 10 Best Rooftop Bars in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-street-food` — 10 Best Street Food in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-tea-houses` — 10 Best Tea Houses in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-vegan-restaurants` — 10 Best Vegan Restaurants in Antwerp (10/10) — rebuilt 2026-04-13
 - [ ] `antwerp-viewpoints` — 12 Best Viewpoints in Antwerp (1/12)
 - [ ] `antwerp-wine-bars` — 12 Best Wine Bars in Antwerp (1/12)
 - [ ] `antwerp-working-cafes` — 12 Best Working Cafés in Antwerp (1/12)
