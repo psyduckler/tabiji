@@ -325,11 +325,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `amman-rooftop-bars` — 10 Best Rooftop Bars in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-shawarma` — 11 Best Shawarma in Amman — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `amman-street-food` — 10 Best Street Food in Amman (10/10) — rebuilt 2026-04-12
-- [ ] `amman-tea-houses` — 12 Best Tea Houses in Amman (1/12)
-- [ ] `amman-vegan-restaurants` — 12 Best Vegan Restaurants in Amman (1/12)
-- [ ] `amman-viewpoints` — 12 Best Viewpoints in Amman (1/12)
-- [ ] `amman-wine-bars` — 12 Best Wine Bars in Amman (1/12)
-- [ ] `amritsar-golden-temple-langar` — Eat a free communal meal at the Golden Temple langar the worlds larges… (1/12)
+- [x] `amman-tea-houses` — 10 Best Tea Houses in Amman (10/10) — rebuilt 2026-04-13
+- [x] `amman-vegan-restaurants` — 10 Best Vegan Restaurants in Amman (10/10) — rebuilt 2026-04-13
+- [x] `amman-viewpoints` — 10 Best Viewpoints in Amman (10/10) — rebuilt 2026-04-13
+- [x] `amman-wine-bars` — 10 Best Wine Bars in Amman (10/10) — rebuilt 2026-04-13
+- [x] `amritsar-golden-temple-langar` — 10 Best Golden Temple Langar Experiences in Amritsar (10/10) — rebuilt 2026-04-13
 - [ ] `amritsar-stuffed-kulcha` — 12 Best Stuffed Kulcha in Amritsar (1/12)
 - [ ] `amsterdam-art-galleries` — 12 Best Art Galleries in Amsterdam (1/12)
 - [ ] `amsterdam-brunch` — 12 Best Brunch Spots in Amsterdam (1/12)
