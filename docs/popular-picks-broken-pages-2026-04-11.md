@@ -402,11 +402,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `austin-cheap-eats` — 10 Best Cheap Eats in Austin (10/10) — rebuilt 2026-04-13
 - [x] `austin-jazz-bars` — 10 Best Jazz Bars in Austin (10/10) — rebuilt 2026-04-13
 - [x] `austin-natural-wine-bars` — 10 Best Natural Wine Bars in Austin (10/10) — rebuilt 2026-04-13
-- [ ] `austin-night-markets` — 12 Best Night Markets in Austin (1/12)
-- [ ] `austin-photography-spots` — 12 Best Photography Spots in Austin (1/12)
-- [ ] `austin-street-food` — 12 Best Street Food in Austin (1/12)
-- [ ] `austin-viewpoints` — 12 Best Viewpoints in Austin (1/12)
-- [ ] `ayutthaya-street-food` — 12 Best Street Food in Ayutthaya (2026) — Michelin-Approved & Reddit-B… (12/12) — rebuilt 2026-04-11
+- [x] `austin-night-markets` — 10 Best Night Markets in Austin (10/10) — rebuilt 2026-04-13
+- [x] `austin-photography-spots` — 10 Best Photography Spots in Austin (10/10) — rebuilt 2026-04-13
+- [x] `austin-street-food` — 10 Best Street Food in Austin (10/10) — rebuilt 2026-04-13
+- [x] `austin-viewpoints` — 10 Best Viewpoints in Austin (10/10) — rebuilt 2026-04-13
+- [x] `ayutthaya-street-food` — 10 Best Street Food in Ayutthaya (10/10) — rebuilt 2026-04-13
 - [ ] `bagan-hot-air-balloon-sunrise` — Float above thousands of ancient brick temples at sunrise in a hot-air… (1/12)
 - [ ] `bagan-lacquerware-workshop` — 12 Best Lacquerware Workshops in Bagan (1/12)
 - [ ] `baku-art-galleries` — 12 Best Art Galleries in Baku (1/12)
