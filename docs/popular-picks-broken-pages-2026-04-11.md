@@ -345,11 +345,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antigua-guatemala-cafes` — 10 Best Cafes in Antigua Guatemala (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-art-galleries` — 10 Best Art Galleries in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-bakeries` — 10 Best Bakeries in Antwerp (10/10) — rebuilt 2026-04-13
-- [ ] `antwerp-bookshops` — 12 Best Bookshops in Antwerp (1/12)
-- [ ] `antwerp-brunch` — Best Brunch Spots in Antwerp (1/12)
-- [ ] `antwerp-brunch-spots` — 12 Best Brunch Spots in Antwerp (1/12)
-- [ ] `antwerp-cheap-eats` — 12 Best Cheap Eats in Antwerp (1/12)
-- [ ] `antwerp-cocktail-bars` — 12 Best Cocktail Bars in Antwerp (1/12)
+- [x] `antwerp-bookshops` — 10 Best Bookshops in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-brunch` — 10 Best Brunch Spots in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-brunch-spots` — 10 Best Brunch Spots in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-cheap-eats` — 10 Best Cheap Eats in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-cocktail-bars` — 10 Best Cocktail Bars in Antwerp (10/10) — rebuilt 2026-04-13
 - [ ] `antwerp-coffee-shops` — 12 Best Coffee Shops in Antwerp (1/12)
 - [ ] `antwerp-dessert-cafes` — 12 Best Dessert Cafés in Antwerp (1/12)
 - [ ] `antwerp-diamond-quarter` — Diamond Quarter in Antwerp (1/12)
