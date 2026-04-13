@@ -319,12 +319,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `amman-jazz-bars` — 10 Best Jazz Bars in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-mansaf` — 10 Best Mansaf in Amman (10/10) — rebuilt 2026-04-11
 - [x] `amman-natural-wine-bars` — 10 Best Natural Wine Bars in Amman (10/10) — rebuilt 2026-04-12
-- [ ] `amman-night-markets` — 12 Best Night Markets in Amman (1/12)
-- [ ] `amman-photography-spots` — 12 Best Photography Spots in Amman (1/12)
-- [ ] `amman-rainbow-street-cafes` — Rainbow Street Cafes in Amman (1/11)
-- [ ] `amman-rooftop-bars` — Rooftop Bars in Amman (1/12)
+- [x] `amman-night-markets` — 10 Best Night Markets in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-photography-spots` — 10 Best Photography Spots in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-rainbow-street-cafes` — 10 Best Rainbow Street Cafes in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-rooftop-bars` — 10 Best Rooftop Bars in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-shawarma` — 11 Best Shawarma in Amman — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `amman-street-food` — 12 Best Street Food in Amman (1/12)
+- [x] `amman-street-food` — 10 Best Street Food in Amman (10/10) — rebuilt 2026-04-12
 - [ ] `amman-tea-houses` — 12 Best Tea Houses in Amman (1/12)
 - [ ] `amman-vegan-restaurants` — 12 Best Vegan Restaurants in Amman (1/12)
 - [ ] `amman-viewpoints` — 12 Best Viewpoints in Amman (1/12)
