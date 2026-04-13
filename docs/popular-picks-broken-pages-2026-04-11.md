@@ -407,11 +407,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `austin-street-food` — 10 Best Street Food in Austin (10/10) — rebuilt 2026-04-13
 - [x] `austin-viewpoints` — 10 Best Viewpoints in Austin (10/10) — rebuilt 2026-04-13
 - [x] `ayutthaya-street-food` — 10 Best Street Food in Ayutthaya (10/10) — rebuilt 2026-04-13
-- [ ] `bagan-hot-air-balloon-sunrise` — Float above thousands of ancient brick temples at sunrise in a hot-air… (1/12)
-- [ ] `bagan-lacquerware-workshop` — 12 Best Lacquerware Workshops in Bagan (1/12)
-- [ ] `baku-art-galleries` — 12 Best Art Galleries in Baku (1/12)
-- [ ] `baku-bookshops` — 12 Best Bookshops in Baku (1/12)
-- [ ] `baku-cheap-eats` — 12 Best Cheap Eats in Baku (1/12)
+- [x] `bagan-hot-air-balloon-sunrise` — 10 Best Hot Air Balloon Experiences in Bagan (10/10) — rebuilt 2026-04-13
+- [x] `bagan-lacquerware-workshop` — 10 Best Lacquerware Workshops in Bagan (10/10) — rebuilt 2026-04-13
+- [x] `baku-art-galleries` — 10 Best Art Galleries in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-bookshops` — 10 Best Bookshops in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-cheap-eats` — 10 Best Cheap Eats in Baku (10/10) — rebuilt 2026-04-13
 - [ ] `baku-cocktail-bars` — 12 Best Cocktail Bars in Baku (1/12)
 - [ ] `baku-coffee-shops` — 12 Best Coffee Shops in Baku (1/12)
 - [ ] `baku-dessert-cafes` — 12 Best Dessert Cafés in Baku (1/12)
