@@ -387,11 +387,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `athens-tavernas` — 10 Best Tavernas in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-viewpoints` — 10 Best Viewpoints in Athens (10/10) — rebuilt 2026-04-13
 - [x] `atlanta-craft-breweries` — 10 Best Craft Breweries in Atlanta (10/10) — rebuilt 2026-04-13
-- [ ] `auckland-art-galleries` — 12 Best Art Galleries in Auckland (1/12)
-- [ ] `auckland-cheap-eats` — 12 Best Cheap Eats in Auckland (1/12)
-- [ ] `auckland-coffee-culture` — 12 Best Coffee Shops in Auckland (2026) — Reddit-Backed Guide (1/12)
-- [ ] `auckland-fine-dining` — 12 Best Fine Dining in Auckland (1/12)
-- [ ] `auckland-natural-wine-bars` — 12 Best Natural Wine Bars in Auckland (1/12)
+- [x] `auckland-art-galleries` — 10 Best Art Galleries in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-cheap-eats` — 10 Best Cheap Eats in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-coffee-culture` — 10 Best Coffee Shops in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-fine-dining` — 10 Best Fine Dining in Auckland (10/10) — rebuilt 2026-04-13
+- [x] `auckland-natural-wine-bars` — 10 Best Natural Wine Bars in Auckland (10/10) — rebuilt 2026-04-13
 - [ ] `auckland-night-markets` — Asian Night Markets in Auckland (1/12)
 - [ ] `auckland-photography-spots` — 12 Best Photography Spots in Auckland (1/12)
 - [ ] `auckland-seafood-restaurants` — 12 Best Seafood Restaurants in Auckland (2026) — Reddit-Backed Guide (1/12)
