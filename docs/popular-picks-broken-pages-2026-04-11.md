@@ -382,11 +382,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `athens-night-markets` — 10 Best Night Markets in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-photography-spots` — 10 Best Photography Spots in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-pizza` — 10 Best Pizza in Athens (10/10) — rebuilt 2026-04-11
-- [ ] `athens-rooftop-bars` — Rooftop Bars in Athens (1/12)
-- [ ] `athens-street-food` — Athens Street Food Guide (1/12)
-- [ ] `athens-tavernas` — 17 Best Tavernas in Athens (1/18)
-- [ ] `athens-viewpoints` — 12 Best Viewpoints in Athens (1/12)
-- [ ] `atlanta-craft-breweries` — 12 Best Craft Breweries in Atlanta (1/12)
+- [x] `athens-rooftop-bars` — 10 Best Rooftop Bars in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-street-food` — 10 Best Street Food in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-tavernas` — 10 Best Tavernas in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-viewpoints` — 10 Best Viewpoints in Athens (10/10) — rebuilt 2026-04-13
+- [x] `atlanta-craft-breweries` — 10 Best Craft Breweries in Atlanta (10/10) — rebuilt 2026-04-13
 - [ ] `auckland-art-galleries` — 12 Best Art Galleries in Auckland (1/12)
 - [ ] `auckland-cheap-eats` — 12 Best Cheap Eats in Auckland (1/12)
 - [ ] `auckland-coffee-culture` — 12 Best Coffee Shops in Auckland (2026) — Reddit-Backed Guide (1/12)
