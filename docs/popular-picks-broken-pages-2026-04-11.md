@@ -330,11 +330,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `amman-viewpoints` — 10 Best Viewpoints in Amman (10/10) — rebuilt 2026-04-13
 - [x] `amman-wine-bars` — 10 Best Wine Bars in Amman (10/10) — rebuilt 2026-04-13
 - [x] `amritsar-golden-temple-langar` — 10 Best Golden Temple Langar Experiences in Amritsar (10/10) — rebuilt 2026-04-13
-- [ ] `amritsar-stuffed-kulcha` — 12 Best Stuffed Kulcha in Amritsar (1/12)
-- [ ] `amsterdam-art-galleries` — 12 Best Art Galleries in Amsterdam (1/12)
-- [ ] `amsterdam-brunch` — 12 Best Brunch Spots in Amsterdam (1/12)
-- [ ] `amsterdam-craft-beer` — Amsterdam's Craft Beer Scene (1/12)
-- [ ] `amsterdam-fine-dining` — 12 Best Fine Dining in Amsterdam (1/12)
+- [x] `amritsar-stuffed-kulcha` — 10 Best Stuffed Kulcha in Amritsar (10/10) — rebuilt 2026-04-12
+- [x] `amsterdam-art-galleries` — 10 Best Art Galleries in Amsterdam (10/10) — rebuilt 2026-04-12
+- [x] `amsterdam-brunch` — 10 Best Brunch Spots in Amsterdam (10/10) — rebuilt 2026-04-12
+- [x] `amsterdam-craft-beer` — 10 Best Craft Beer in Amsterdam (10/10) — rebuilt 2026-04-12
+- [x] `amsterdam-fine-dining` — 10 Best Fine Dining in Amsterdam (10/10) — rebuilt 2026-04-12
 - [ ] `amsterdam-jazz-bars` — 12 Best Jazz Bars in Amsterdam (1/12)
 - [ ] `amsterdam-jenever-bars` — 12 Best Jenever Bars in Amsterdam — The Unfiltered Guide (1/12)
 - [ ] `amsterdam-natural-wine-bars` — 12 Best Natural Wine Bars in Amsterdam (1/12)
