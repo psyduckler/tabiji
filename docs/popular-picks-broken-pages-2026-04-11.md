@@ -335,11 +335,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `amsterdam-brunch` — 10 Best Brunch Spots in Amsterdam (10/10) — rebuilt 2026-04-12
 - [x] `amsterdam-craft-beer` — 10 Best Craft Beer in Amsterdam (10/10) — rebuilt 2026-04-12
 - [x] `amsterdam-fine-dining` — 10 Best Fine Dining in Amsterdam (10/10) — rebuilt 2026-04-12
-- [ ] `amsterdam-jazz-bars` — 12 Best Jazz Bars in Amsterdam (1/12)
-- [ ] `amsterdam-jenever-bars` — 12 Best Jenever Bars in Amsterdam — The Unfiltered Guide (1/12)
-- [ ] `amsterdam-natural-wine-bars` — 12 Best Natural Wine Bars in Amsterdam (1/12)
-- [ ] `amsterdam-night-markets` — 12 Best Night Markets in Amsterdam (1/12)
-- [ ] `amsterdam-photography-spots` — 12 Best Photography Spots in Amsterdam (1/12)
+- [x] `amsterdam-jazz-bars` — 10 Best Jazz Bars in Amsterdam (10/10) — rebuilt 2026-04-13
+- [x] `amsterdam-jenever-bars` — 10 Best Jenever Bars in Amsterdam (10/10) — rebuilt 2026-04-13
+- [x] `amsterdam-natural-wine-bars` — 10 Best Natural Wine Bars in Amsterdam (10/10) — rebuilt 2026-04-13
+- [x] `amsterdam-night-markets` — 10 Best Night Markets in Amsterdam (10/10) — rebuilt 2026-04-13
+- [x] `amsterdam-photography-spots` — 10 Best Photography Spots in Amsterdam (10/10) — rebuilt 2026-04-13
 - [ ] `amsterdam-street-food` — 12 Best Street Food in Amsterdam (1/12)
 - [ ] `amsterdam-viewpoints` — 12 Best Viewpoints in Amsterdam (1/12)
 - [ ] `antigua-guatemala-cafes` — Antigua Guatemala's Coffee Culture (1/12)
