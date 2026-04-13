@@ -313,12 +313,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `amman-cocktail-bars` — 10 Best Cocktail Bars in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-coffee-shops` — 10 Best Coffee Shops in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-dessert-cafes` — 10 Best Dessert Cafes in Amman (10/10) — rebuilt 2026-04-12
-- [ ] `amman-fine-dining` — 12 Best Fine Dining in Amman (1/12)
-- [ ] `amman-food-halls` — 12 Best Food Halls in Amman (1/12)
-- [ ] `amman-food-markets` — 12 Best Food Markets in Amman (1/12)
-- [ ] `amman-jazz-bars` — 12 Best Jazz Bars in Amman (1/12)
+- [x] `amman-fine-dining` — 10 Best Fine Dining in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-food-halls` — 10 Best Food Halls in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-food-markets` — 10 Best Food Markets in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-jazz-bars` — 10 Best Jazz Bars in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-mansaf` — 10 Best Mansaf in Amman (10/10) — rebuilt 2026-04-11
-- [ ] `amman-natural-wine-bars` — 12 Best Natural Wine Bars in Amman (1/12)
+- [x] `amman-natural-wine-bars` — 10 Best Natural Wine Bars in Amman (10/10) — rebuilt 2026-04-12
 - [ ] `amman-night-markets` — 12 Best Night Markets in Amman (1/12)
 - [ ] `amman-photography-spots` — 12 Best Photography Spots in Amman (1/12)
 - [ ] `amman-rainbow-street-cafes` — Rainbow Street Cafes in Amman (1/11)
