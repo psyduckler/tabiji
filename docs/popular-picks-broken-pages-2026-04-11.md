@@ -371,11 +371,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antwerp-working-cafes` — 10 Best Working Cafes in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `asakusa-street-food` — 10 Best Street Food in Asakusa (10/10) — rebuilt 2026-04-13
 - [x] `asheville-craft-breweries` — 10 Best Craft Breweries in Asheville (10/10) — rebuilt 2026-04-13
-- [ ] `asheville-mountain-brunch` — Farm-to-table brunch spots in Asheville showcasing local Appalachian i… (1/12)
-- [ ] `athens-art-galleries` — The 12 Best Art Galleries in Athens (1/12)
-- [ ] `athens-cheap-eats` — 12 Best Cheap Eats in Athens (1/12)
-- [ ] `athens-coffee-culture` — 12 Best Coffee Shops in Athens (2026) — Reddit-Backed Guide (1/12)
-- [ ] `athens-fine-dining` — 12 Best Fine Dining in Athens (1/12)
+- [x] `asheville-mountain-brunch` — 10 Best Farm-to-Table Brunch Spots in Asheville (10/10) — rebuilt 2026-04-13
+- [x] `athens-art-galleries` — 10 Best Art Galleries in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-cheap-eats` — 10 Best Cheap Eats in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-coffee-culture` — 10 Best Coffee Shops in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-fine-dining` — 10 Best Fine Dining in Athens (10/10) — rebuilt 2026-04-13
 - [ ] `athens-flea-market` — 12 Best Flea Markets in Athens (1/12)
 - [ ] `athens-food-halls` — 12 Best Food Halls in Athens (1/12)
 - [ ] `athens-jazz-bars` — 12 Best Jazz Bars in Athens (1/12)
