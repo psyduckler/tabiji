@@ -308,11 +308,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `almaty-wine-bars` — 10 Best Wine Bars in Almaty (10/10) — rebuilt 2026-04-12
 - [x] `amman-art-galleries` — 10 Best Art Galleries in Amman (10/10) — rebuilt 2026-04-12
 - [x] `amman-bakeries` — 10 Best Bakeries in Amman (10/10) — rebuilt 2026-04-12
-- [ ] `amman-bookshops` — 12 Best Bookshops in Amman (1/12)
-- [ ] `amman-cheap-eats` — 12 Best Cheap Eats in Amman (1/12)
-- [ ] `amman-cocktail-bars` — 12 Best Cocktail Bars in Amman (1/12)
-- [ ] `amman-coffee-shops` — 12 Best Coffee Shops in Amman (1/12)
-- [ ] `amman-dessert-cafes` — 12 Best Dessert Cafés in Amman (1/12)
+- [x] `amman-bookshops` — 10 Best Bookshops in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-cheap-eats` — 10 Best Cheap Eats in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-cocktail-bars` — 10 Best Cocktail Bars in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-coffee-shops` — 10 Best Coffee Shops in Amman (10/10) — rebuilt 2026-04-12
+- [x] `amman-dessert-cafes` — 10 Best Dessert Cafes in Amman (10/10) — rebuilt 2026-04-12
 - [ ] `amman-fine-dining` — 12 Best Fine Dining in Amman (1/12)
 - [ ] `amman-food-halls` — 12 Best Food Halls in Amman (1/12)
 - [ ] `amman-food-markets` — 12 Best Food Markets in Amman (1/12)
