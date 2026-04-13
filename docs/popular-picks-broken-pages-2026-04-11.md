@@ -412,11 +412,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baku-art-galleries` — 10 Best Art Galleries in Baku (10/10) — rebuilt 2026-04-13
 - [x] `baku-bookshops` — 10 Best Bookshops in Baku (10/10) — rebuilt 2026-04-13
 - [x] `baku-cheap-eats` — 10 Best Cheap Eats in Baku (10/10) — rebuilt 2026-04-13
-- [ ] `baku-cocktail-bars` — 12 Best Cocktail Bars in Baku (1/12)
-- [ ] `baku-coffee-shops` — 12 Best Coffee Shops in Baku (1/12)
-- [ ] `baku-dessert-cafes` — 12 Best Dessert Cafés in Baku (1/12)
-- [ ] `baku-fine-dining` — 12 Best Fine Dining in Baku (1/12)
-- [ ] `baku-food-markets` — 12 Best Food Markets in Baku (1/12)
+- [x] `baku-cocktail-bars` — 10 Best Cocktail Bars in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-coffee-shops` — 10 Best Coffee Shops in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-dessert-cafes` — 10 Best Dessert Cafés in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-fine-dining` — 10 Best Fine Dining in Baku (10/10) — rebuilt 2026-04-13
+- [x] `baku-food-markets` — 10 Best Food Markets in Baku (10/10) — rebuilt 2026-04-13
 - [ ] `baku-icheri-sheher-qutab` — Eat freshly griddled qutab flatbreads stuffed with herbs, pumpkin, or … (1/12)
 - [ ] `baku-jazz-bars` — 12 Best Jazz Bars in Baku (1/12)
 - [ ] `baku-mugham-music-performance` — 12 Best Places to Listen to Mugham in Baku (1/12)
