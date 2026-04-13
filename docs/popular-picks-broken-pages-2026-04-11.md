@@ -350,11 +350,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antwerp-brunch-spots` — 10 Best Brunch Spots in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-cheap-eats` — 10 Best Cheap Eats in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-cocktail-bars` — 10 Best Cocktail Bars in Antwerp (10/10) — rebuilt 2026-04-13
-- [ ] `antwerp-coffee-shops` — 12 Best Coffee Shops in Antwerp (1/12)
-- [ ] `antwerp-dessert-cafes` — 12 Best Dessert Cafés in Antwerp (1/12)
-- [ ] `antwerp-diamond-quarter` — Diamond Quarter in Antwerp (1/12)
-- [ ] `antwerp-fashion-shopping` — 10 Best Fashion Shops in Antwerp (1/10)
-- [ ] `antwerp-fine-dining` — 12 Best Fine Dining in Antwerp (1/12)
+- [x] `antwerp-coffee-shops` — 10 Best Coffee Shops in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-dessert-cafes` — 10 Best Dessert Cafes in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-diamond-quarter` — 10 Best Diamond Quarter Experiences in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-fashion-shopping` — 10 Best Fashion Shops in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-fine-dining` — 10 Best Fine Dining in Antwerp (10/10) — rebuilt 2026-04-13
 - [ ] `antwerp-food-halls` — 12 Best Food Halls in Antwerp (1/12)
 - [ ] `antwerp-food-markets` — 12 Best Food Markets in Antwerp (1/12)
 - [x] `antwerp-frites` — 8 Best Frites in Antwerp (8/8) — rebuilt 2026-04-11
