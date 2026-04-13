@@ -376,11 +376,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `athens-cheap-eats` — 10 Best Cheap Eats in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-coffee-culture` — 10 Best Coffee Shops in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-fine-dining` — 10 Best Fine Dining in Athens (10/10) — rebuilt 2026-04-13
-- [ ] `athens-flea-market` — 12 Best Flea Markets in Athens (1/12)
-- [ ] `athens-food-halls` — 12 Best Food Halls in Athens (1/12)
-- [ ] `athens-jazz-bars` — 12 Best Jazz Bars in Athens (1/12)
-- [ ] `athens-night-markets` — 12 Best Night Markets in Athens (1/12)
-- [ ] `athens-photography-spots` — 12 Best Photography Spots in Athens (1/12)
+- [x] `athens-flea-market` — 10 Best Flea Markets in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-food-halls` — 10 Best Food Halls in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-jazz-bars` — 10 Best Jazz Bars in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-night-markets` — 10 Best Night Markets in Athens (10/10) — rebuilt 2026-04-13
+- [x] `athens-photography-spots` — 10 Best Photography Spots in Athens (10/10) — rebuilt 2026-04-13
 - [x] `athens-pizza` — 10 Best Pizza in Athens (10/10) — rebuilt 2026-04-11
 - [ ] `athens-rooftop-bars` — Rooftop Bars in Athens (1/12)
 - [ ] `athens-street-food` — Athens Street Food Guide (1/12)
