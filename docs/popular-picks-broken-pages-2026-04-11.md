@@ -355,12 +355,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `antwerp-diamond-quarter` — 10 Best Diamond Quarter Experiences in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-fashion-shopping` — 10 Best Fashion Shops in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-fine-dining` — 10 Best Fine Dining in Antwerp (10/10) — rebuilt 2026-04-13
-- [ ] `antwerp-food-halls` — 12 Best Food Halls in Antwerp (1/12)
-- [ ] `antwerp-food-markets` — 12 Best Food Markets in Antwerp (1/12)
+- [x] `antwerp-food-halls` — 10 Best Food Halls in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-food-markets` — 10 Best Food Markets in Antwerp (10/10) — rebuilt 2026-04-13
 - [x] `antwerp-frites` — 8 Best Frites in Antwerp (8/8) — rebuilt 2026-04-11
-- [ ] `antwerp-jazz-bars` — 12 Best Jazz Bars in Antwerp (1/12)
-- [ ] `antwerp-natural-wine-bars` — 12 Best Natural Wine Bars in Antwerp (1/12)
-- [ ] `antwerp-night-markets` — 12 Best Night Markets in Antwerp (1/12)
+- [x] `antwerp-jazz-bars` — 10 Best Jazz Bars in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-natural-wine-bars` — 10 Best Natural Wine Bars in Antwerp (10/10) — rebuilt 2026-04-13
+- [x] `antwerp-night-markets` — 10 Best Night Markets in Antwerp (10/10) — rebuilt 2026-04-13
 - [ ] `antwerp-photography-spots` — 12 Best Photography Spots in Antwerp (1/12)
 - [ ] `antwerp-rooftop-bars` — 12 Best Rooftop Bars in Antwerp (1/12)
 - [ ] `antwerp-street-food` — 12 Best Street Food in Antwerp (1/12)
