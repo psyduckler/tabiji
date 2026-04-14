@@ -1207,7 +1207,7 @@ Country landing pages with only one `city-section` rendered. Some may be legitim
 
 Body renders some venues but fewer than the H1/schema claim. Smaller rebuilds — check if existing venues can be preserved.
 
-- [ ] `paris-restaurants` — 9 Best Restaurants in Paris (9/10) · 6,600/mo
+- [x] `paris-restaurants` — 10 Best Restaurants in Paris (10/10) · 6,600/mo — rebuilt 2026-04-14
 - [ ] `hamburg-craft-beer` — 11 Best Craft Beer Spots in Hamburg 2026 — Reddit-Backed Guide (11/12) · 20/mo
 - [ ] `nairobi-craft-beer` — 9 Best Craft Beer Spots in Nairobi (2026) — Reddit-Backed Guide (9/10) · 10/mo
 - [ ] `akihabara-themed-cafes` — 10 Best Themed Cafes in Akihabara (2026) — Reddit-Backed Guide (10/12)
