@@ -417,9 +417,9 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baku-dessert-cafes` — 10 Best Dessert Cafés in Baku (10/10) — rebuilt 2026-04-13
 - [x] `baku-fine-dining` — 10 Best Fine Dining in Baku (10/10) — rebuilt 2026-04-13
 - [x] `baku-food-markets` — 10 Best Food Markets in Baku (10/10) — rebuilt 2026-04-13
-- [ ] `baku-icheri-sheher-qutab` — Eat freshly griddled qutab flatbreads stuffed with herbs, pumpkin, or … (1/12)
-- [ ] `baku-jazz-bars` — 12 Best Jazz Bars in Baku (1/12)
-- [ ] `baku-mugham-music-performance` — 12 Best Places to Listen to Mugham in Baku (1/12)
+- [x] `baku-icheri-sheher-qutab` — 12 Best Qutab in Baku's Icheri Sheher (12/12) — rebuilt 2026-04-14
+- [x] `baku-jazz-bars` — 12 Best Jazz Bars in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-mugham-music-performance` — 12 Best Places to Listen to Mugham in Baku (12/12) — rebuilt 2026-04-14
 - [ ] `baku-natural-wine-bars` — 12 Best Natural Wine Bars in Baku (1/12)
 - [ ] `baku-night-markets` — 12 Best Night Markets in Baku (1/12)
 - [ ] `baku-photography-spots` — 12 Best Photography Spots in Baku (1/12)
