@@ -420,11 +420,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baku-icheri-sheher-qutab` — 12 Best Qutab in Baku's Icheri Sheher (12/12) — rebuilt 2026-04-14
 - [x] `baku-jazz-bars` — 12 Best Jazz Bars in Baku (12/12) — rebuilt 2026-04-14
 - [x] `baku-mugham-music-performance` — 12 Best Places to Listen to Mugham in Baku (12/12) — rebuilt 2026-04-14
-- [ ] `baku-natural-wine-bars` — 12 Best Natural Wine Bars in Baku (1/12)
-- [ ] `baku-night-markets` — 12 Best Night Markets in Baku (1/12)
-- [ ] `baku-photography-spots` — 12 Best Photography Spots in Baku (1/12)
-- [ ] `baku-street-food` — 12 Best Street Food in Baku (1/12)
-- [ ] `baku-tea-houses` — 12 Best Tea Houses in Baku (1/12)
+- [x] `baku-natural-wine-bars` — 12 Best Natural Wine Bars in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-night-markets` — 12 Best Night Markets in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-photography-spots` — 12 Best Photography Spots in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-street-food` — 12 Best Street Food in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-tea-houses` — 12 Best Tea Houses in Baku (12/12) — rebuilt 2026-04-14
 - [ ] `baku-vegan-restaurants` — 12 Best Vegan Restaurants in Baku (1/12)
 - [ ] `baku-viewpoints` — 12 Best Viewpoints in Baku (1/12)
 - [ ] `baku-wine-bars` — 12 Best Wine Bars in Baku (1/12)
