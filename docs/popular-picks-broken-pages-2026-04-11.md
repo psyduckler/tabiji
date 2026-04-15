@@ -465,11 +465,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baltimore-vegan-restaurants` — 12 Best Vegan Restaurants in Baltimore (12/12) — rebuilt 2026-04-15
 - [x] `baltimore-viewpoints` — 12 Best Viewpoints in Baltimore (12/12) — rebuilt 2026-04-15
 - [x] `baltimore-wine-bars` — 12 Best Wine Bars in Baltimore (12/12) — rebuilt 2026-04-15
-- [ ] `baltimore-working-cafes` — 12 Best Working Cafes in Baltimore (1/12)
-- [ ] `bangalore-craft-beer` — Microbreweries in Bangalore (1/12)
-- [ ] `bangalore-dosas` — Bangalore's Legendary Dosa Culture (1/12)
-- [ ] `bangkok-art-galleries` — 12 Best Art Galleries in Bangkok (1/12)
-- [ ] `bangkok-craft-cocktail-bars` — 12 Best Craft Cocktail Bars in Bangkok 2026 — Reddit-Backed Guide (1/12)
+- [x] `baltimore-working-cafes` — 12 Best Working Cafes in Baltimore (12/12) — rebuilt 2026-04-15
+- [x] `bangalore-craft-beer` — 12 Best Microbreweries in Bangalore (12/12) — rebuilt 2026-04-15
+- [x] `bangalore-dosas` — 12 Best Legendary Dosa Culture Spots in Bangalore (12/12) — rebuilt 2026-04-15
+- [x] `bangkok-art-galleries` — 12 Best Art Galleries in Bangkok (12/12) — rebuilt 2026-04-15
+- [x] `bangkok-craft-cocktail-bars` — 12 Best Craft Cocktail Bars in Bangkok 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-15
 - [ ] `bangkok-day-trips` — Best Day Trips from Bangkok (1/12)
 - [ ] `bangkok-fine-dining` — 12 Best Fine Dining in Bangkok (1/12)
 - [ ] `bangkok-flower-market` — 12 Best Flower Markets in Bangkok (1/12)
