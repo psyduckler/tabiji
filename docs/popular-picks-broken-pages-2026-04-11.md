@@ -445,11 +445,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bali-viewpoints` — 12 Best Viewpoints in Bali (12/12) — rebuilt 2026-04-14
 - [x] `bali-yoga-retreats` — Yoga & Wellness Retreats in Bali (12/12) — rebuilt 2026-04-14
 - [x] `baltimore-art-galleries` — 12 Best Art Galleries in Baltimore (12/12) — rebuilt 2026-04-14
-- [ ] `baltimore-bakeries` — 12 Best Bakeries in Baltimore (1/12)
-- [ ] `baltimore-blue-crab` — 12 Best Blue Crab Restaurants in Baltimore (1/12)
-- [ ] `baltimore-bookshops` — 12 Best Bookshops in Baltimore (1/12)
-- [ ] `baltimore-brunch-spots` — 12 Best Brunch Spots in Baltimore (1/12)
-- [ ] `baltimore-cheap-eats` — 12 Best Cheap Eats in Baltimore (1/12)
+- [x] `baltimore-bakeries` — 12 Best Bakeries in Baltimore (12/12) — rebuilt 2026-04-14
+- [x] `baltimore-blue-crab` — 12 Best Blue Crab Restaurants in Baltimore (12/12) — rebuilt 2026-04-14
+- [x] `baltimore-bookshops` — 12 Best Bookshops in Baltimore (12/12) — rebuilt 2026-04-14
+- [x] `baltimore-brunch-spots` — 12 Best Brunch Spots in Baltimore (12/12) — rebuilt 2026-04-14
+- [x] `baltimore-cheap-eats` — 12 Best Cheap Eats in Baltimore (12/12) — rebuilt 2026-04-14
 - [ ] `baltimore-cocktail-bars` — 12 Best Cocktail Bars in Baltimore (1/12)
 - [ ] `baltimore-dessert-cafes` — 12 Best Dessert Cafes in Baltimore (1/12)
 - [ ] `baltimore-fine-dining` — 12 Best Fine Dining in Baltimore (1/12)
