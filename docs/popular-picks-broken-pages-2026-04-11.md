@@ -425,11 +425,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baku-photography-spots` — 12 Best Photography Spots in Baku (12/12) — rebuilt 2026-04-14
 - [x] `baku-street-food` — 12 Best Street Food in Baku (12/12) — rebuilt 2026-04-14
 - [x] `baku-tea-houses` — 12 Best Tea Houses in Baku (12/12) — rebuilt 2026-04-14
-- [ ] `baku-vegan-restaurants` — 12 Best Vegan Restaurants in Baku (1/12)
-- [ ] `baku-viewpoints` — 12 Best Viewpoints in Baku (1/12)
-- [ ] `baku-wine-bars` — 12 Best Wine Bars in Baku (1/12)
-- [ ] `bali-art-galleries` — 12 Best Art Galleries in Bali (1/12)
-- [ ] `bali-brunch-cafes` — Best Brunch Cafes in Bali (1/12)
+- [x] `baku-vegan-restaurants` — 12 Best Vegan Restaurants in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-viewpoints` — 12 Best Viewpoints in Baku (12/12) — rebuilt 2026-04-14
+- [x] `baku-wine-bars` — 12 Best Wine Bars in Baku (12/12) — rebuilt 2026-04-14
+- [x] `bali-art-galleries` — 12 Best Art Galleries in Bali (12/12) — rebuilt 2026-04-14
+- [x] `bali-brunch-cafes` — 12 Best Brunch Cafes in Bali (12/12) — rebuilt 2026-04-14
 - [ ] `bali-cheap-eats` — 11 Best Cheap Eats in Bali (1/12)
 - [ ] `bali-coworking-cafes` — Best Coworking Cafes in Bali (1/12)
 - [ ] `bali-fine-dining` — 12 Best Fine Dining in Bali (1/12)
