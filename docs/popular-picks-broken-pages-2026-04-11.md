@@ -450,11 +450,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `baltimore-bookshops` — 12 Best Bookshops in Baltimore (12/12) — rebuilt 2026-04-14
 - [x] `baltimore-brunch-spots` — 12 Best Brunch Spots in Baltimore (12/12) — rebuilt 2026-04-14
 - [x] `baltimore-cheap-eats` — 12 Best Cheap Eats in Baltimore (12/12) — rebuilt 2026-04-14
-- [ ] `baltimore-cocktail-bars` — 12 Best Cocktail Bars in Baltimore (1/12)
-- [ ] `baltimore-dessert-cafes` — 12 Best Dessert Cafes in Baltimore (1/12)
-- [ ] `baltimore-fine-dining` — 12 Best Fine Dining in Baltimore (1/12)
-- [ ] `baltimore-food-halls` — 12 Best Food Halls in Baltimore (1/12)
-- [ ] `baltimore-food-markets` — 12 Best Food Markets in Baltimore (1/12)
+- [x] `baltimore-cocktail-bars` — 12 Best Cocktail Bars in Baltimore (12/12) — rebuilt 2026-04-15
+- [x] `baltimore-dessert-cafes` — 12 Best Dessert Cafes in Baltimore (12/12) — rebuilt 2026-04-15
+- [x] `baltimore-fine-dining` — 12 Best Fine Dining in Baltimore (12/12) — rebuilt 2026-04-15
+- [x] `baltimore-food-halls` — 12 Best Food Halls in Baltimore (12/12) — rebuilt 2026-04-15
+- [x] `baltimore-food-markets` — 12 Best Food Markets in Baltimore (12/12) — rebuilt 2026-04-15
 - [ ] `baltimore-jazz-bars` — 12 Best Jazz Bars in Baltimore (1/12)
 - [ ] `baltimore-natural-wine-bars` — 12 Best Natural Wine Bars in Baltimore (1/12)
 - [ ] `baltimore-night-markets` — 12 Best Night Markets in Baltimore (1/12)
