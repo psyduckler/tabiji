@@ -481,11 +481,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bangkok-photography-spots` — 12 Best Photography Spots in Bangkok (12/12) — rebuilt 2026-04-16
 - [x] `bangkok-rooftop-pools` — 16 Best Rooftop Pools in Bangkok (16/16) — rebuilt 2026-04-16
 - [x] `bangkok-solo-traveler-things-to-do` — Best Things to Do Solo in Bangkok (12/12) — rebuilt 2026-04-16
-- [ ] `bangkok-vegetarian-street-food` — Vegetarian Street Food in Bangkok (1/12)
-- [ ] `bangkok-viewpoints` — 12 Best Viewpoints in Bangkok (1/12)
-- [ ] `bangkok-vintage-shopping` — Best Vintage Shopping in Bangkok (1/12)
-- [ ] `bangkok-working-cafes` — Best Working Cafes in Bangkok (1/12)
-- [ ] `barbados-fish-cakes` — Barbados Street Food & Flying Fish (1/12)
+- [x] `bangkok-vegetarian-street-food` — Vegetarian Street Food in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-viewpoints` — 12 Best Viewpoints in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-vintage-shopping` — Best Vintage Shopping in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-working-cafes` — Best Working Cafes in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `barbados-fish-cakes` — 12 Best Fish Cakes & Street Food in Barbados (12/12) — rebuilt 2026-04-16
 - [ ] `barcelona-art-galleries` — 12 Best Art Galleries in Barcelona (1/12)
 - [ ] `barcelona-brunch` — 16 Best Brunch Spots in Barcelona (1/16)
 - [ ] `barcelona-cheap-eats` — 12 Best Cheap Eats in Barcelona (1/12)
