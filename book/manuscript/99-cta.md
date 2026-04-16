@@ -14,7 +14,7 @@ Scam patterns change. Fake monks rebrand, bottakuri bars rename themselves, and 
 
 This is Volume 1 of the **Tabiji Travel Safety Series**. Future volumes will cover other high-traffic destinations with the same structure: real scams, real scripts, real recovery steps — nothing generic.
 
-To be notified when the next volume launches, visit **[tabiji.ai/scams/book](https://tabiji.ai/scams/book)**.
+To be notified when the next volume launches, visit **[tabiji.ai/books](https://tabiji.ai/books)**.
 
 Safe travels.
 

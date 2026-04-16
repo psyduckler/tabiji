@@ -42,17 +42,23 @@ def load_city(slug: str) -> dict:
     return json.loads(path.read_text())
 
 
-def scam_md(scam: dict) -> str:
+def scam_md(scam: dict, image_path: Path | None = None) -> str:
     cat = scam["category"].title()
     sev = scam["severity"].title()
     freq = scam["frequency"].title()
     parts = [
         f'## {scam["name"]}\n\n',
         f"**{cat}** · Severity: {sev} · Frequency: {freq}\n\n",
+    ]
+    if image_path and image_path.exists():
+        alt = f'Illustration of {scam["name"]}'
+        # Absolute path; Pandoc will copy into the EPUB package
+        parts.append(f"![{alt}]({image_path.resolve()})\n\n")
+    parts.extend([
         f'{scam["description"]}\n\n',
         f'### How to avoid it\n\n{scam["avoidance"]}\n\n',
         f'**Where it happens:** {scam["location"]}\n\n',
-    ]
+    ])
     if scam.get("tags"):
         parts.append(f'*{" · ".join(scam["tags"])}*\n\n')
     return "".join(parts)
@@ -74,8 +80,10 @@ def city_chapter_md(data: dict) -> str:
     parts.append(
         f'This chapter documents {len(data["scams"])} scams reported in {city}.\n\n'
     )
-    for scam in data["scams"]:
-        parts.append(scam_md(scam))
+    image_dir = HERE / "assets" / "images" / slug
+    for idx, scam in enumerate(data["scams"], start=1):
+        img = image_dir / f"{idx:02d}.jpg"
+        parts.append(scam_md(scam, img if img.exists() else None))
     return "".join(parts)
 
 
@@ -152,7 +160,30 @@ def stats(md: str) -> dict:
     return {"words": words, "todos": todos, "scams": scam_count}
 
 
+
+
+def render_cover() -> None:
+    """Rebuild cover.jpg from the SVG source if the SVG is newer.
+    Produces a 1600x2560 JPG (KDP spec, 1.6:1 aspect, ~300 DPI)."""
+    svg = ASSETS / "svg" / "front.svg"
+    jpg = ASSETS / "cover.jpg"
+    if not svg.exists():
+        return
+    if jpg.exists() and jpg.stat().st_mtime >= svg.stat().st_mtime:
+        return
+    png_tmp = BUILD / "cover_tmp.png"
+    subprocess.run(
+        ["rsvg-convert", "-w", "1600", "-h", "2560", str(svg), "-o", str(png_tmp)],
+        check=True,
+    )
+    subprocess.run(
+        ["magick", str(png_tmp), "-quality", "90", str(jpg)],
+        check=True,
+    )
+    png_tmp.unlink(missing_ok=True)
+
 def main() -> None:
+    render_cover()
     md = assemble_markdown()
     epub_path = build_epub(md)
     s = stats(md)
