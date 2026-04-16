@@ -470,11 +470,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bangalore-dosas` — 12 Best Legendary Dosa Culture Spots in Bangalore (12/12) — rebuilt 2026-04-15
 - [x] `bangkok-art-galleries` — 12 Best Art Galleries in Bangkok (12/12) — rebuilt 2026-04-15
 - [x] `bangkok-craft-cocktail-bars` — 12 Best Craft Cocktail Bars in Bangkok 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-15
-- [ ] `bangkok-day-trips` — Best Day Trips from Bangkok (1/12)
-- [ ] `bangkok-fine-dining` — 12 Best Fine Dining in Bangkok (1/12)
-- [ ] `bangkok-flower-market` — 12 Best Flower Markets in Bangkok (1/12)
-- [ ] `bangkok-jazz-bars` — 12 Best Jazz Bars in Bangkok (1/12)
-- [ ] `bangkok-late-night-street-food` — Best Late Night Street Food in Bangkok (1/12)
+- [x] `bangkok-day-trips` — 12 Best Day Trips from Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-fine-dining` — 12 Best Fine Dining in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-flower-market` — 12 Best Flower Markets in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-jazz-bars` — 12 Best Jazz Bars in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-late-night-street-food` — Best Late Night Street Food in Bangkok (12/12) — rebuilt 2026-04-16
 - [x] `bangkok-mango-sticky-rice` — 15 Best Mango Sticky Rice in Bangkok — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `bangkok-natural-wine-bars` — 12 Best Natural Wine Bars in Bangkok (1/12)
 - [ ] `bangkok-night-markets` — 12 Best Night Markets in Bangkok (1/12)
