@@ -493,11 +493,11 @@ def build_compare_json(slug, content_data):
 <div>
 <img alt="{dest1} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest1.jpg">
 <div class="caption">{dest1}</div>
-</img></div>
+</div>
 <div>
 <img alt="{dest2} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest2.jpg">
 <div class="caption">{dest2}</div>
-</img></div>
+</div>
 </div>'''
     
     # Verdict HTML

@@ -89,11 +89,11 @@ photoGridHtml = '''<div class="photo-grid">
 <div>
 <img alt="Cancun Hotel Zone beach with turquoise Caribbean water and resort skyline" loading="lazy" src="https://img.tabiji.ai/compare/cancun-vs-tulum/cancun-beach.jpg">
 <div class="caption">Cancun Hotel Zone, Quintana Roo</div>
-</img></div>
+</div>
 <div>
 <img alt="Tulum beach with white sand and clear turquoise Caribbean water" loading="lazy" src="https://img.tabiji.ai/compare/cancun-vs-tulum/tulum-beach.jpg">
 <div class="caption">Tulum Beach, Quintana Roo</div>
-</img></div>
+</div>
 </div>'''
 
 verdictHtml = '''<div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>Cancun wins on value, logistics, and party scene. Tulum wins on cenotes, jungle vibes, and Instagram aesthetics — but at a significant price premium. Mid-range budget: Cancun ~$80–120/day vs Tulum ~$150–250/day (beachfront).</strong></p><ul class="verdict-takeaways"><li><strong>Choose Cancun:</strong> Budget travelers, all-inclusive fans, first-timers to Mexico's Caribbean coast, party seekers.</li><li><strong>Choose Tulum:</strong> Cenote addicts, ruin explorers, yoga retreaters, and anyone who doesn't mind paying $20 for a margarita for the vibe.</li><li><strong>Do both?</strong> Absolutely — they're only 2 hours apart. Stay in Cancun, day-trip to Tulum ruins and cenotes.</li></ul></div>'''
