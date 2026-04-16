@@ -6,7 +6,7 @@ That is why this book is short and practical. It documents sixty specific scams 
 
 ## How each scam is written
 
-Every scam entry follows the same short format. First you will see the name of the scam, the category it falls into (nightlife, transport, sightseeing, and so on), and how serious and how common it is. Then a plain description of how the scam unfolds, with real yen amounts where we have them. Then a short section on how to avoid it, and where it happens. If you can read one entry, you can read them all.
+Every scam entry follows the same short format. First you will see the name of the scam, the category it falls into (nightlife, transport, sightseeing, and so on), and how serious and how common it is. Then two short sections: **How this scam works** — a plain narrative of how it unfolds in real time, with real yen amounts where we have them — and **How to avoid it**, the specific moves that shut it down. Each entry ends with where it happens. If you can read one entry, you can read them all.
 
 ## The single most important chapter
 

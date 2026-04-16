@@ -55,7 +55,7 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
         # Absolute path; Pandoc will copy into the EPUB package
         parts.append(f"![{alt}]({image_path.resolve()})\n\n")
     parts.extend([
-        f'{scam["description"]}\n\n',
+        f'### How this scam works\n\n{scam["description"]}\n\n',
         f'### How to avoid it\n\n{scam["avoidance"]}\n\n',
         f'**Where it happens:** {scam["location"]}\n\n',
     ])
