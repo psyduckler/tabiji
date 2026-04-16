@@ -476,11 +476,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bangkok-jazz-bars` — 12 Best Jazz Bars in Bangkok (12/12) — rebuilt 2026-04-16
 - [x] `bangkok-late-night-street-food` — Best Late Night Street Food in Bangkok (12/12) — rebuilt 2026-04-16
 - [x] `bangkok-mango-sticky-rice` — 15 Best Mango Sticky Rice in Bangkok — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `bangkok-natural-wine-bars` — 12 Best Natural Wine Bars in Bangkok (1/12)
-- [ ] `bangkok-night-markets` — 12 Best Night Markets in Bangkok (1/12)
-- [ ] `bangkok-photography-spots` — 12 Best Photography Spots in Bangkok (1/12)
-- [ ] `bangkok-rooftop-pools` — 16 Best Rooftop Pools in Bangkok (1/16)
-- [ ] `bangkok-solo-traveler-things-to-do` — Best Things to Do Solo in Bangkok (1/12)
+- [x] `bangkok-natural-wine-bars` — 12 Best Natural Wine Bars in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-night-markets` — 12 Best Night Markets in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-photography-spots` — 12 Best Photography Spots in Bangkok (12/12) — rebuilt 2026-04-16
+- [x] `bangkok-rooftop-pools` — 16 Best Rooftop Pools in Bangkok (16/16) — rebuilt 2026-04-16
+- [x] `bangkok-solo-traveler-things-to-do` — Best Things to Do Solo in Bangkok (12/12) — rebuilt 2026-04-16
 - [ ] `bangkok-vegetarian-street-food` — Vegetarian Street Food in Bangkok (1/12)
 - [ ] `bangkok-viewpoints` — 12 Best Viewpoints in Bangkok (1/12)
 - [ ] `bangkok-vintage-shopping` — Best Vintage Shopping in Bangkok (1/12)
