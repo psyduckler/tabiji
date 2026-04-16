@@ -3929,7 +3929,8 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 
         .breadcrumb {{
             background: var(--warm-cream);
-            padding: 0.6rem 2rem;
+            padding: 0.7rem 2rem;
+            margin-top: 72px; /* clear the fixed site nav */
             font-size: 0.82rem;
             color: var(--text-muted);
             border-bottom: 1px solid var(--sand);
@@ -3940,7 +3941,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 
         .page-hero {{
             background: var(--white);
-            padding: 5rem 2rem 2.5rem;
+            padding: 3rem 2rem 2.5rem;
             text-align: center;
         }}
         .page-hero-inner {{ max-width: 820px; margin: 0 auto; }}
@@ -4193,9 +4194,9 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 </nav>
 <!-- @include:nav:end -->
 
-<nav class="breadcrumb" aria-label="Breadcrumb">
+<div class="breadcrumb" role="navigation" aria-label="Breadcrumb">
     <a href="/">Home</a><span>&rsaquo;</span><a href="/scams/">Scams</a><span>&rsaquo;</span>{country}
-</nav>
+</div>
 
 <header class="page-hero">
     <div class="page-hero-inner">
