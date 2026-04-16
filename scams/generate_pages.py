@@ -3724,61 +3724,123 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
     n_cities = len(cities_data)
     total_scams = sum(c["scam_count"] for c in cities_data)
 
-    # Collect all scam types across cities to find most common
+    # Collect scam types across cities + count danger levels + build per-city scam-type previews
+    # Curated categories map: keyword (lowercase) → display label.
+    # Excludes vague words like "fake"/"restaurant" alone — they over-match and read as meaningless.
+    SCAM_CATEGORIES = [
+        ("pickpocket", "Pickpocketing"),
+        ("taxi", "Taxi rigging"),
+        ("overcharge", "Overcharging"),
+        ("bracelet", "Bracelet scam"),
+        ("petition", "Petition scam"),
+        ("fake police", "Fake police"),
+        ("fake monk", "Fake monk"),
+        ("fake ticket", "Fake tickets"),
+        ("atm", "ATM skimming"),
+        ("currency", "Currency swap"),
+        ("gps", "GPS rerouting"),
+        ("meter", "Meter rigging"),
+        ("card skim", "Card skimming"),
+    ]
     scam_type_counts = defaultdict(int)
-    high_count = 0
+    danger_counts = {"high": 0, "medium": 0, "low": 0}
+    city_types = {}  # slug → list of top 2 category labels for that city
     for cd in cities_data:
+        slug = cd["slug"]
+        city_cat_counts = defaultdict(int)
         for s in cd.get("scams_raw", []):
-            name = s.get("scam_name", "")
-            level = s.get("danger_level", "").lower()
-            if level == "high":
-                high_count += 1
-            # Normalize common scam keywords for grouping
-            for keyword in ["pickpocket", "taxi", "overcharge", "fake", "bracelet", "petition", "restaurant"]:
-                if keyword in name.lower():
-                    scam_type_counts[keyword.capitalize()] += 1
+            name = (s.get("scam_name", "") or "").lower()
+            level = (s.get("danger_level", "") or "").lower()
+            if level in danger_counts:
+                danger_counts[level] += 1
+            for keyword, label in SCAM_CATEGORIES:
+                if keyword in name:
+                    scam_type_counts[label] += 1
+                    city_cat_counts[label] += 1
+                    break  # Each scam counts once; prefer the first (most specific) match
+        city_types[slug] = [lbl for lbl, _ in sorted(city_cat_counts.items(), key=lambda x: -x[1])[:2]]
 
-    top_types = sorted(scam_type_counts.items(), key=lambda x: -x[1])[:5]
+    high_count = danger_counts["high"]
+    top_types = sorted(scam_type_counts.items(), key=lambda x: -x[1])[:6]
     top_types_html = ""
     if top_types:
-        pills = "".join(f'<span style="display:inline-block;background:#EFF6FF;border:1px solid #93C5FD;border-radius:99px;padding:0.25rem 0.75rem;font-size:0.8rem;font-weight:600;color:#2D3A5C;">{t} ({c})</span>' for t, c in top_types)
+        pills = "".join(
+            f'<span class="scam-type-pill">{t} <span class="scam-type-count">{c}</span></span>'
+            for t, c in top_types
+        )
         top_types_html = f"""
-    <div style="margin-bottom:1.5rem;">
-        <h3 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#6B5D4F;margin-bottom:0.6rem;">Most Common Scam Types</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">{pills}</div>
-    </div>"""
+    <section class="types-section">
+        <h2 class="section-eyebrow">Most common scam types</h2>
+        <div class="scam-type-row">{pills}</div>
+    </section>"""
 
-    # Emergency info
+    # Emergency info — cleaned up layout: police / emergency / medical (if differs) / report URL
     em = EMERGENCY_INFO.get(country, None)
     emergency_html = ""
     if em:
+        police = em.get("police_number", "")
+        em_num = em.get("emergency_number", "")
+        report_url = em.get("report_url", "")
+        report_site = em.get("report_site", "")
+        emergency_rows = f'<div class="emergency-item"><span class="emergency-label">Police</span><span class="emergency-value">{police}</span></div>'
+        if em_num and em_num != police:
+            emergency_rows += f'<div class="emergency-item"><span class="emergency-label">Emergency</span><span class="emergency-value">{em_num}</span></div>'
+        if report_url and report_site:
+            emergency_rows += f'<div class="emergency-item"><span class="emergency-label">Online report</span><a class="emergency-link" href="{report_url}" target="_blank" rel="noopener">{report_site} &rsaquo;</a></div>'
         emergency_html = f"""
-    <div style="background:#2D3A5C;color:white;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem;">&#x1F6A8; Emergency Numbers in {country}</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;font-size:0.9rem;">
-            <div><strong>Police:</strong> {em['police_number']}</div>
-            <div><strong>Emergency:</strong> {em['emergency_number']}</div>
-            <div><strong>Online Report:</strong> <a href="{em['report_url']}" target="_blank" rel="noopener" style="color:#93C5FD;">{em['report_site']}</a></div>
-        </div>
-    </div>"""
+    <aside class="emergency-box" aria-label="Emergency contacts">
+        <h2 class="emergency-title">🚨 Emergency numbers in {country}</h2>
+        <div class="emergency-grid">{emergency_rows}</div>
+    </aside>"""
 
-    # City cards
+    # City cards — now with danger badge + scam-type preview line
     city_cards = ""
     for cd in sorted(cities_data, key=lambda x: -x["scam_count"]):
         slug = cd["slug"]
+        city_city = cd["city"]
+        n = cd["scam_count"]
+        # Count danger for this specific city so we can show a high-risk badge
+        city_high = sum(
+            1 for s in cd.get("scams_raw", [])
+            if (s.get("danger_level", "") or "").lower() == "high"
+        )
+        badge_html = ""
+        if city_high > 0:
+            badge_html = f'<span class="city-risk-badge" title="{city_high} high-risk scams">🔴 {city_high} high</span>'
+        preview = city_types.get(slug, [])
+        preview_html = ""
+        if preview:
+            preview_html = f'<p class="city-card-preview">{" · ".join(preview)}</p>'
         city_cards += f"""
         <a href="/scams/{slug}/" class="city-card">
-            <h3>{cd["city"]}</h3>
-            <div class="scam-count">{cd["scam_count"]} scams documented</div>
+            <div class="city-card-head">
+                <h3>{city_city}</h3>
+                {badge_html}
+            </div>
+            <div class="city-card-count">{n} scam{"s" if n != 1 else ""} documented</div>
+            {preview_html}
         </a>"""
 
-    # Cross-links
+    # Danger breakdown strip for the hero — only shown if we have data
+    total_with_level = sum(danger_counts.values())
+    danger_strip_html = ""
+    if total_with_level > 0:
+        danger_strip_html = (
+            f'<div class="danger-strip">'
+            f'<span class="danger-item danger-high"><span class="danger-dot"></span>{danger_counts["high"]} high</span>'
+            f'<span class="danger-item danger-med"><span class="danger-dot"></span>{danger_counts["medium"]} medium</span>'
+            f'<span class="danger-item danger-low"><span class="danger-dot"></span>{danger_counts["low"]} low</span>'
+            f'</div>'
+        )
+
+    # Cross-links — adds /books/ link alongside Health + Back
     health_slug = COUNTRY_HEALTH_SLUGS.get(country, "")
-    cross_links = ""
+    cross_links_items = []
+    cross_links_items.append('<a class="cross-link" href="/books/">📚 Travel Safety Series</a>')
     if health_slug:
-        cross_links += f'<a href="/health/{health_slug}/" style="color:#C4704B;font-weight:600;text-decoration:none;">&#127973; {country} Health Guide</a>'
-        cross_links += '<span style="margin:0 1rem;color:#d1d5db;">|</span>'
-    cross_links += '<a href="/scams/" style="color:#C4704B;font-weight:600;text-decoration:none;">&larr; Back to all scam guides</a>'
+        cross_links_items.append(f'<a class="cross-link" href="/health/{health_slug}/">🏥 {country} Health Guide</a>')
+    cross_links_items.append('<a class="cross-link" href="/scams/">← All scam guides</a>')
+    cross_links = "".join(cross_links_items)
 
     # Overview text
     if high_count > 0:
@@ -3786,29 +3848,37 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
     else:
         risk_note = f"Most scams in {country} are low-to-medium risk."
 
+    # hasPart array for CollectionPage JSON-LD
+    has_part_items = ",".join(
+        f'{{"@type":"ListItem","position":{i+1},"name":"{cd["city"]}","url":"https://tabiji.ai/scams/{cd["slug"]}/"}}'
+        for i, cd in enumerate(sorted(cities_data, key=lambda x: -x["scam_count"]))
+    )
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://img.tabiji.ai">
     <title>Tourist Scams in {country} (2026) &mdash; All Cities | tabiji.ai</title>
     <meta name="description" content="Tourist scam guides for {n_cities} cities in {country}. {total_scams} scams documented from real Reddit traveler stories.">
     <link rel="canonical" href="https://tabiji.ai/scams/country/{cc_lower}/">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta property="og:title" content="Tourist Scams in {country} (2026) — tabiji.ai">
     <meta property="og:description" content="{total_scams} scams documented across {n_cities} cities in {country}. Real Reddit traveler stories.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/scams/country/{cc_lower}/">
+    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
     <meta property="og:site_name" content="tabiji.ai">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Tourist Scams in {country} (2026)">
     <meta name="twitter:description" content="{total_scams} scams across {n_cities} cities. Reddit-sourced.">
+    <meta name="twitter:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','G-D7QHNRXLHJ');</script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
-    <link rel="stylesheet" href="/assets/shared-shell.css">
     <script type="application/ld+json">
     {{
         "@context": "https://schema.org",
@@ -3826,35 +3896,279 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
                 "name": "Tourist Scams in {country}",
                 "description": "Tourist scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports.",
                 "url": "https://tabiji.ai/scams/country/{cc_lower}/",
+                "inLanguage": "en",
                 "numberOfItems": {n_cities},
+                "hasPart": [{has_part_items}],
                 "publisher": {{"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/", "logo": {{"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"}}}}
             }}
         ]
     }}
     </script>
     <style>
-        .page-hero {{ background: linear-gradient(135deg, #2D3A5C, #3D4E7A); color: white; padding: 7rem 2rem 3rem; text-align: center; }}
-        .page-hero h1 {{ font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.75rem; }}
-        .page-hero p {{ font-size: 1.05rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }}
-        .page-hero-stats {{ display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }}
-        .page-hero-stat {{ background: rgba(255,255,255,0.12); border-radius: 99px; padding: 0.3rem 0.9rem; font-size: 0.82rem; font-weight: 600; }}
-        .container {{ max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }}
-        .city-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; }}
-        .city-card {{ background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; text-decoration: none; color: #2C2419; transition: box-shadow 0.2s, transform 0.2s; }}
-        .city-card:hover {{ box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }}
-        .city-card h3 {{ font-size: 1rem; color: #2D3A5C; margin-bottom: 0.3rem; }}
-        .city-card .scam-count {{ font-size: 0.8rem; color: #dc2626; font-weight: 600; }}
-        .breadcrumb {{ background: #E8DFD0; padding: 0.6rem 2rem; font-size: 0.8rem; color: #6B5D4F; }}
-        .breadcrumb a {{ color: #6B5D4F; text-decoration: none; }}
-        .breadcrumb a:hover {{ color: #2D3A5C; }}
-        .breadcrumb span {{ margin: 0 0.4rem; }}
+        :root {{
+            --indigo: #2D3A5C;
+            --indigo-light: #3D4E7A;
+            --warm-cream: #F5F0E8;
+            --sand: #E8DFD0;
+            --earth: #8B7355;
+            --earth-light: #A6906F;
+            --terracotta: #C4704B;
+            --deep-brown: #3E2F23;
+            --sage: #7A8B6F;
+            --white: #FEFCF9;
+            --text: #2C2419;
+            --text-muted: #6B5D4F;
+        }}
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text); background: var(--white); line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }}
+        a {{ color: inherit; text-decoration: none; }}
+
+        .breadcrumb {{
+            background: var(--warm-cream);
+            padding: 0.6rem 2rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--sand);
+        }}
+        .breadcrumb a {{ color: var(--text-muted); }}
+        .breadcrumb a:hover {{ color: var(--terracotta); }}
+        .breadcrumb span {{ margin: 0 0.4rem; color: var(--earth-light); }}
+
+        .page-hero {{
+            background: var(--white);
+            padding: 5rem 2rem 2.5rem;
+            text-align: center;
+        }}
+        .page-hero-inner {{ max-width: 820px; margin: 0 auto; }}
+        .page-hero-eyebrow {{
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--terracotta);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }}
+        .page-hero h1 {{
+            font-size: clamp(2rem, 4.5vw, 2.8rem);
+            line-height: 1.1;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.85rem;
+        }}
+        .page-hero-flag {{ margin-right: 0.3em; }}
+        .page-hero p {{
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 1.25rem;
+        }}
+        .page-hero-stats {{
+            display: inline-flex; flex-wrap: wrap;
+            gap: 0.5rem 0.65rem;
+            justify-content: center;
+        }}
+        .stat-pill {{
+            background: var(--warm-cream);
+            border: 1px solid var(--sand);
+            padding: 0.45rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+        }}
+        .stat-pill strong {{ color: var(--terracotta); font-weight: 700; }}
+
+        .danger-strip {{
+            display: inline-flex; flex-wrap: wrap; justify-content: center;
+            gap: 0.3rem 1.1rem;
+            margin-top: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }}
+        .danger-item {{ display: inline-flex; align-items: center; gap: 0.4rem; }}
+        .danger-dot {{ width: 9px; height: 9px; border-radius: 50%; display: inline-block; }}
+        .danger-high .danger-dot {{ background: var(--terracotta); }}
+        .danger-med .danger-dot {{ background: #E0A867; }}
+        .danger-low .danger-dot {{ background: var(--sage); }}
+
+        .container {{
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 4rem;
+        }}
+
+        .emergency-box {{
+            background: var(--warm-cream);
+            border: 1px solid var(--sand);
+            border-left: 4px solid var(--terracotta);
+            border-radius: 14px;
+            padding: 1.35rem 1.5rem;
+            margin-bottom: 2rem;
+        }}
+        .emergency-title {{
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--indigo);
+            margin-bottom: 0.85rem;
+            letter-spacing: -0.01em;
+        }}
+        .emergency-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem 1.5rem;
+        }}
+        .emergency-item {{ display: flex; flex-direction: column; gap: 0.1rem; }}
+        .emergency-label {{
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--earth);
+        }}
+        .emergency-value {{
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+        }}
+        .emergency-link {{
+            font-size: 0.9rem;
+            color: var(--terracotta);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }}
+        .emergency-link:hover {{ color: #b5633f; }}
+
+        .section-eyebrow {{
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--earth);
+            margin-bottom: 0.85rem;
+        }}
+
+        .types-section {{ margin-bottom: 2rem; }}
+        .scam-type-row {{ display: flex; flex-wrap: wrap; gap: 0.5rem; }}
+        .scam-type-pill {{
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 100px;
+            padding: 0.4rem 0.95rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--indigo);
+        }}
+        .scam-type-count {{
+            background: rgba(196,112,75,0.1);
+            color: var(--terracotta);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.12rem 0.5rem;
+            border-radius: 100px;
+        }}
+
+        .city-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }}
+        .city-card {{
+            background: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 14px;
+            padding: 1.15rem 1.25rem 1.3rem;
+            color: inherit;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        }}
+        .city-card:hover {{
+            transform: translateY(-3px);
+            border-color: var(--terracotta);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }}
+        .city-card-head {{
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }}
+        .city-card h3 {{
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--indigo);
+            line-height: 1.2;
+        }}
+        .city-risk-badge {{
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--terracotta);
+            background: rgba(196,112,75,0.1);
+            padding: 0.18rem 0.55rem;
+            border-radius: 100px;
+            white-space: nowrap;
+        }}
+        .city-card-count {{
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--terracotta);
+            margin-bottom: 0.35rem;
+        }}
+        .city-card-preview {{
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }}
+
+        .cross-links {{
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--sand);
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 0.6rem 1.5rem;
+            text-align: center;
+        }}
+        .cross-link {{
+            color: var(--terracotta);
+            font-weight: 600;
+            font-size: 0.92rem;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }}
+        .cross-link:hover {{ color: #b5633f; }}
+
+        footer {{
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--sand);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }}
+
+        @media (max-width: 640px) {{
+            .page-hero {{ padding: 4rem 1.25rem 2rem; }}
+            .container {{ padding: 2rem 1.25rem 3rem; }}
+            .city-grid {{ grid-template-columns: 1fr; }}
+        }}
     </style>
+    <!-- @include:shared-head:start -->
+<link rel="stylesheet" href="/assets/shared-shell.css">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
 <script defer src="/assets/offline-download.js"></script>
+<!-- @include:shared-head:end -->
 </head>
 <body>
+<!-- @include:nav:start -->
 <nav>
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
@@ -3877,34 +4191,51 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
         <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
     </div>
 </nav>
+<!-- @include:nav:end -->
 
-<div class="breadcrumb">
+<nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">Home</a><span>&rsaquo;</span><a href="/scams/">Scams</a><span>&rsaquo;</span>{country}
-</div>
+</nav>
 
-<div class="page-hero">
-    <h1>{flag} Tourist Scams in {country}</h1>
-    <p>Scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports. {risk_note}</p>
-    <div class="page-hero-stats">
-        <span class="page-hero-stat">{n_cities} Cities</span>
-        <span class="page-hero-stat">{total_scams} Scams Documented</span>
-        <span class="page-hero-stat">Reddit-Sourced</span>
+<header class="page-hero">
+    <div class="page-hero-inner">
+        <span class="page-hero-eyebrow">Tourist Scams</span>
+        <h1><span class="page-hero-flag">{flag}</span>Scams to watch for in {country}</h1>
+        <p>Scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports. {risk_note}</p>
+        <div class="page-hero-stats">
+            <span class="stat-pill"><strong>{n_cities}</strong> cities</span>
+            <span class="stat-pill"><strong>{total_scams}</strong> scams documented</span>
+            <span class="stat-pill">Reddit-sourced</span>
+        </div>
+        {danger_strip_html}
     </div>
-</div>
-<div class="container">
+</header>
+
+<main class="container">
 {emergency_html}
 {top_types_html}
-    <h2 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#6B5D4F;margin-bottom:0.5rem;">City Guides</h2>
-    <div class="city-grid">{city_cards}
-    </div>
-    <div style="margin-top:2rem;text-align:center;">
+    <section>
+        <h2 class="section-eyebrow">City guides</h2>
+        <div class="city-grid">{city_cards}
+        </div>
+    </section>
+    <div class="cross-links">
         {cross_links}
     </div>
-</div>
+</main>
+
+<!-- @include:footer:start -->
 <footer>
     <p>&copy; 2026 tabiji.ai &middot; <a href="/terms/" style="color: inherit; text-decoration: underline;">Terms of Service</a> &middot; <a href="/privacy/" style="color: inherit; text-decoration: underline;">Privacy Policy</a> &middot; <a href="/delete-data/" style="color: inherit; text-decoration: underline;">Delete My Data</a> &middot; <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Instagram</a> &middot; <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">YouTube</a> &middot; <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Pinterest</a> &middot; <a href="https://x.com/tabijiai" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">X</a> &middot; <a href="/media/" style="color: inherit; text-decoration: underline;">Media Studio</a> &middot; <a href="/api/" style="color: inherit; text-decoration: underline;">API</a></p>
 </footer>
-<script defer src="/assets/shared-shell.js"></script>
+<!-- @include:footer:end -->
+
+<script>
+document.addEventListener('click', function(e) {{
+    var dd = document.querySelector('.nav-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+}});
+</script>
 </body>
 </html>"""
     return html
