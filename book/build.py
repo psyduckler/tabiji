@@ -34,6 +34,21 @@ DATA_DIR = (HERE / CONFIG["scam_data_dir"]).resolve()
 
 CITY_INSERTION_MARKER = "<!-- CITIES -->"
 
+# Rich alt text for city chapter openers (screen-reader friendly).
+# Mirrors the landmark descriptions used in the front-matter gallery so the
+# same image gets the same spoken description regardless of where it appears.
+CITY_ALT_TEXT: dict[str, str] = {
+    "tokyo": "Stylized illustration of Tokyo — Shibuya crossing and Tokyo Tower at dusk",
+    "kyoto": "Stylized illustration of Kyoto — the Fushimi Inari torii-gate tunnel at dusk",
+    "osaka": "Stylized illustration of Osaka — the Dotonbori canal and Glico running-man sign",
+    "sapporo": "Stylized illustration of Sapporo — Sapporo TV Tower above Odori Park in ginkgo season",
+    "fukuoka": "Stylized illustration of Fukuoka — a Hakata yatai food-stall row at dusk",
+    "hiroshima": "Stylized illustration of Hiroshima — the Itsukushima Shrine floating torii at high tide",
+    "nara": "Stylized illustration of Nara — the Todai-ji Great Buddha Hall with deer in the foreground",
+    "okinawa": "Stylized illustration of Okinawa — the Shuri Castle gate above a turquoise sea",
+    "yokohama": "Stylized illustration of Yokohama — Minato Mirai and the Cosmo Clock Ferris wheel at dusk",
+}
+
 
 def load_city(slug: str) -> dict:
     path = DATA_DIR / f"{slug}.json"
@@ -51,7 +66,13 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
         f"**{cat}** · Severity: {sev} · Frequency: {freq}\n\n",
     ]
     if image_path and image_path.exists():
-        alt = f'Illustration of {scam["name"]}'
+        # Descriptive alt text for screen readers and KDP accessibility compliance.
+        # Category + name + severity is what a blind reader needs to know before
+        # the heading that follows explains the scam in detail.
+        alt = (
+            f'Stylized illustration depicting the {scam["name"]} scam — '
+            f'a {cat.lower()} scam rated {sev.lower()} severity'
+        )
         # Absolute path; Pandoc will copy into the EPUB package
         parts.append(f"![{alt}]({image_path.resolve()})\n\n")
     parts.extend([
@@ -74,7 +95,8 @@ def city_chapter_md(data: dict) -> str:
     # image inside the EPUB (otherwise each of the 9 cities ships twice).
     city_img = HERE / "assets" / "cities" / f"{slug}.jpg"
     if city_img.exists():
-        parts.append(f"![{city}](assets/cities/{slug}.jpg)\n\n")
+        alt = CITY_ALT_TEXT.get(slug, f"Stylized illustration of {city}")
+        parts.append(f"![{alt}](assets/cities/{slug}.jpg)\n\n")
     intro_path = MANUSCRIPT / f"cities-{slug}-intro.md"
     if intro_path.exists():
         parts.append(intro_path.read_text().strip() + "\n\n")
