@@ -541,11 +541,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `boston-craft-beer` — 12 Best Craft Beer in Boston (12/12) — rebuilt 2026-04-17
 - [x] `boston-pizza` — 10 Best Pizza in Boston (10/10) — rebuilt 2026-04-11
 - [x] `boston-restaurants` — 10 Best Restaurants in Boston (10/10) — rebuilt 2026-04-11
-- [ ] `bratislava-rooftop-bars` — Take in sweeping views of the Danube and Bratislava Castle from the ci… (1/12)
-- [ ] `bratislava-street-food` — Bratislava Street Food & Trdelník Pastries (1/12)
-- [ ] `brisbane-brunch` — Best Brunch Spots in Brisbane (1/12)
-- [ ] `brisbane-craft-beer` — Craft Beer in Brisbane (1/12)
-- [ ] `brno-craft-beer` — 12 Best Craft Beer Bars in Brno (1/12)
+- [x] `bratislava-rooftop-bars` — 12 Best Rooftop Bars in Bratislava (12/12) — rebuilt 2026-04-17
+- [x] `bratislava-street-food` — 12 Best Bratislava Street Food & Trdelník Pastries (12/12) — rebuilt 2026-04-17
+- [x] `brisbane-brunch` — 12 Best Brunch Spots in Brisbane (12/12) — rebuilt 2026-04-17
+- [x] `brisbane-craft-beer` — 12 Best Craft Beer in Brisbane (12/12) — rebuilt 2026-04-17
+- [x] `brno-craft-beer` — 12 Best Craft Beer Bars in Brno (12/12) — rebuilt 2026-04-17
 - [ ] `brno-wine-bars` — Wine Bars in Brno (1/12)
 - [ ] `bruges-beer-bars` — Best Beer Bars in Bruges (1/0)
 - [x] `bruges-chocolate` — 9 Best Chocolate Shops in Bruges (10/10) — rebuilt 2026-04-11
