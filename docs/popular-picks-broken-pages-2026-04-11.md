@@ -553,10 +553,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `brussels-beer-bars` — 10 Best Beer Bars in Brussels (10/10) — rebuilt 2026-04-11
 - [x] `bucharest-coffee-shops` — 12 Best Coffee Shops in Bucharest (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
 - [x] `bucharest-craft-beer` — 12 Best Craft Beer Bars in Bucharest 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
-- [ ] `bucharest-rooftop-bars` — 10 Best Rooftop Bars in Bucharest (2026) — Reddit-Backed Guide (1/10)
-- [ ] `bucharest-street-food` — Bucharest Street Food & Romanian Cuisine (1/12)
+- [x] `bucharest-rooftop-bars` — 10 Best Rooftop Bars in Bucharest (2026) — Reddit-Backed Guide (10/10) — rebuilt 2026-04-17
+- [x] `bucharest-street-food` — 12 Best Bucharest Street Food & Romanian Cuisine (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
 - [x] `budapest-langos` — 10 Best Lángos in Budapest (10/10) — rebuilt 2026-04-11
-- [ ] `buenos-aires-bookshop-cafes` — 14 Best Bookshop Cafés in Buenos Aires (1/16)
+- [x] `buenos-aires-bookshop-cafes` — 16 Best Bookshop Cafés in Buenos Aires (16/16) — rebuilt 2026-04-17
 - [ ] `buenos-aires-medialunas` —  (1/15)
 - [ ] `buenos-aires-steakhouses` — 18 Best Steakhouses & Parrillas in Buenos Aires (1/18)
 - [ ] `bukhara-lyabi-hauz-teahouse` — Lyabi Hauz Teahouse in Bukhara (1/12)
