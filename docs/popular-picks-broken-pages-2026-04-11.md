@@ -562,12 +562,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bukhara-lyabi-hauz-teahouse` — 12 Best Lyabi Hauz Teahouses in Bukhara (12/12) — rebuilt 2026-04-17
 - [x] `bukhara-silk-carpet-workshop` — 12 Best Silk Carpet Workshops in Bukhara (12/12) — rebuilt 2026-04-17
 - [x] `busan-craft-cocktails` — 12 Best Craft Cocktail Bars in Busan (12/12) — rebuilt 2026-04-17
-- [ ] `busan-gamcheon-village-cafes` — 10 Best Cafes in Gamcheon Culture Village, Busan (2026) — Reddit-Backe… (1/12)
+- [x] `busan-gamcheon-village-cafes` — 12 Best Cafes in Gamcheon Culture Village, Busan (12/12) — rebuilt 2026-04-17
 - [x] `busan-milmyeon` — 7 Best Milmyeon in Busan (8/8) — rebuilt 2026-04-11
-- [ ] `busan-raw-fish-restaurants` — Busan Raw Fish Restaurants (Hoesik) (1/12)
-- [ ] `cairo-ful-medames` — Best Ful Medames in Cairo (1/12)
-- [ ] `cairo-rooftop-cafes` — 12 Best Rooftop Cafes in Cairo (1/12)
-- [ ] `calgary-craft-beer` — Craft Beer in Calgary (1/12)
+- [x] `busan-raw-fish-restaurants` — 12 Best Raw Fish Restaurants in Busan (12/12) — rebuilt 2026-04-17
+- [x] `cairo-ful-medames` — Best Ful Medames in Cairo (12/12) — rebuilt 2026-04-17
+- [x] `cairo-rooftop-cafes` — 12 Best Rooftop Cafes in Cairo (12/12) — rebuilt 2026-04-17
+- [x] `calgary-craft-beer` — 12 Best Craft Beer in Calgary (12/12) — rebuilt 2026-04-17
 - [x] `canggu-beach-clubs` — 13 Best Beach Clubs in Canggu — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [ ] `cape-town-braai` — 11 Best Braai Spots in Cape Town (1/12)
 - [ ] `cape-town-craft-cocktails` — 12 Best Craft Cocktail Bars in Cape Town (2026) — Reddit-Backed Guide (1/12)
