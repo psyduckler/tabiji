@@ -579,11 +579,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cartagena-natural-wine-bars` — 10 Best Natural Wine Bars in Cartagena (10/10) — rebuilt 2026-04-17
 - [x] `cartagena-night-markets` — 12 Best Night Markets in Cartagena (12/12) — rebuilt 2026-04-17
 - [x] `cartagena-photography-spots` — 12 Best Photography Spots in Cartagena (12/12) — rebuilt 2026-04-17
-- [ ] `cartagena-street-food` — 12 Best Street Food in Cartagena (1/12)
-- [ ] `cartagena-tea-houses` — 12 Best Tea Houses in Cartagena (1/12)
-- [ ] `cartagena-vegan-restaurants` — 12 Best Vegan Restaurants in Cartagena (1/12)
-- [ ] `cartagena-viewpoints` — 12 Best Viewpoints in Cartagena (1/12)
-- [ ] `cartagena-wine-bars` — 12 Best Wine Bars in Cartagena (1/12)
+- [x] `cartagena-street-food` — 12 Best Street Food in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-tea-houses` — 12 Best Tea Houses in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-vegan-restaurants` — 12 Best Vegan Restaurants in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-viewpoints` — 12 Best Viewpoints in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-wine-bars` — 12 Best Wine Bars in Cartagena (12/12) — rebuilt 2026-04-17
 - [ ] `cartagena-working-cafes` — 12 Best Working Cafes in Cartagena (1/12)
 - [ ] `casablanca-art-galleries` — 12 Best Art Galleries in Casablanca (1/12)
 - [ ] `casablanca-cheap-eats` — 12 Best Cheap Eats in Casablanca (1/12)
