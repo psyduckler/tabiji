@@ -584,11 +584,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cartagena-vegan-restaurants` — 12 Best Vegan Restaurants in Cartagena (12/12) — rebuilt 2026-04-17
 - [x] `cartagena-viewpoints` — 12 Best Viewpoints in Cartagena (12/12) — rebuilt 2026-04-17
 - [x] `cartagena-wine-bars` — 12 Best Wine Bars in Cartagena (12/12) — rebuilt 2026-04-17
-- [ ] `cartagena-working-cafes` — 12 Best Working Cafes in Cartagena (1/12)
-- [ ] `casablanca-art-galleries` — 12 Best Art Galleries in Casablanca (1/12)
-- [ ] `casablanca-cheap-eats` — 12 Best Cheap Eats in Casablanca (1/12)
-- [ ] `casablanca-cocktail-bars` — 12 Best Cocktail Bars in Casablanca (1/12)
-- [ ] `casablanca-dessert-cafes` — 12 Best Dessert Cafes in Casablanca (1/12)
+- [x] `cartagena-working-cafes` — 12 Best Working Cafes in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-art-galleries` — 12 Best Art Galleries in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-cheap-eats` — 12 Best Cheap Eats in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-cocktail-bars` — 12 Best Cocktail Bars in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-dessert-cafes` — 12 Best Dessert Cafes in Casablanca (12/12) — rebuilt 2026-04-17
 - [ ] `casablanca-fine-dining` — 12 Best Fine Dining in Casablanca (1/12)
 - [ ] `casablanca-food-halls` — 12 Best Food Halls in Casablanca (1/12)
 - [ ] `casablanca-jazz-bars` — 12 Best Jazz Bars in Casablanca (1/12)
