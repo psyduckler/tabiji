@@ -517,17 +517,17 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `beirut-nightlife` — 12 Best Nightlife Spots in Beirut (12/12) — rebuilt 2026-04-17
 - [x] `beirut-street-food` — 12 Best Street Food in Beirut (12/12) — rebuilt 2026-04-17
 - [x] `belgrade-art-galleries` — 12 Best Art Galleries in Belgrade (12/12) — rebuilt 2026-04-17
-- [ ] `belize-city-street-food` — Belize Street Food & Creole Cuisine (1/12)
-- [ ] `bergen-fjord-day-trips` — Take a scenic fjord cruise or hiking day trip from Bergen to Hardanger… (1/12)
-- [ ] `bergen-hiking-cafes` — Bergen Hiking & Mountain Cafes (1/12)
-- [ ] `bergen-seafood` — Seafood & Fish Market in Bergen (1/12)
+- [x] `belize-city-street-food` — Belize Street Food & Creole Cuisine (12/12) — rebuilt 2026-04-17
+- [x] `bergen-fjord-day-trips` — Fjord Day Trips from Bergen (12/12) — rebuilt 2026-04-17
+- [x] `bergen-hiking-cafes` — Bergen Hiking & Mountain Cafes (12/12) — rebuilt 2026-04-17
+- [x] `bergen-seafood` — Seafood & Fish Market in Bergen (10/10) — rebuilt 2026-04-17
 - [x] `berlin-doner-kebab` — 12 Best Döner Kebab in Berlin (12/12) — rebuilt 2026-04-11
-- [ ] `berlin-vegan-food` — Vegan Food in Berlin (1/12)
-- [ ] `berlin-vegan-restaurants` — Best Vegan Restaurants in Berlin (1/12)
-- [ ] `berlin-vintage-shopping` — Best Vintage Shopping in Berlin (1/12)
-- [ ] `bern-fondue-bars` — Best Fondue Restaurants in Bern (1/12)
-- [ ] `bern-rosengarten-views` — Best Traditional Swiss Restaurants in Bern (1/12)
-- [ ] `bilbao-pintxos-bars` — Pintxos Bars in Bilbao (1/12)
+- [x] `berlin-vegan-food` — Vegan Food in Berlin (12/12) — rebuilt 2026-04-17
+- [x] `berlin-vegan-restaurants` — Best Vegan Restaurants in Berlin (12/12) — rebuilt 2026-04-17
+- [x] `berlin-vintage-shopping` — Best Vintage Shopping in Berlin (12/12) — rebuilt 2026-04-17
+- [x] `bern-fondue-bars` — Best Fondue Restaurants in Bern (12/12) — rebuilt 2026-04-17
+- [x] `bern-rosengarten-views` — Best Traditional Swiss Restaurants in Bern (12/12) — rebuilt 2026-04-17
+- [x] `bilbao-pintxos-bars` — 12 Best Pintxos Bars in Bilbao (12/12) — rebuilt 2026-04-17
 - [ ] `bishkek-kumiss-tasting` — Sample fermented mare's milk (kumiss) from a clay bowl at a Bishkek ma… (1/12)
 - [ ] `bishkek-osh-bazaar` — Navigate the sprawling, chaotic Osh Bazaar in Bishkek — Central Asia's… (1/12)
 - [ ] `bogota-craft-coffee` — 12 Best Specialty Coffee Shops in Bogotá (1/12)
