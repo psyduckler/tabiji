@@ -557,11 +557,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bucharest-street-food` — 12 Best Bucharest Street Food & Romanian Cuisine (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
 - [x] `budapest-langos` — 10 Best Lángos in Budapest (10/10) — rebuilt 2026-04-11
 - [x] `buenos-aires-bookshop-cafes` — 16 Best Bookshop Cafés in Buenos Aires (16/16) — rebuilt 2026-04-17
-- [ ] `buenos-aires-medialunas` —  (1/15)
-- [ ] `buenos-aires-steakhouses` — 18 Best Steakhouses & Parrillas in Buenos Aires (1/18)
-- [ ] `bukhara-lyabi-hauz-teahouse` — Lyabi Hauz Teahouse in Bukhara (1/12)
-- [ ] `bukhara-silk-carpet-workshop` — Watch master weavers produce intricate hand-knotted silk carpets using… (1/12)
-- [ ] `busan-craft-cocktails` — Craft Cocktail Bars in Busan (1/12)
+- [x] `buenos-aires-medialunas` — 15 Best Medialunas in Buenos Aires (15/15) — rebuilt 2026-04-17
+- [x] `buenos-aires-steakhouses` — 18 Best Steakhouses & Parrillas in Buenos Aires (18/18) — rebuilt 2026-04-17
+- [x] `bukhara-lyabi-hauz-teahouse` — 12 Best Lyabi Hauz Teahouses in Bukhara (12/12) — rebuilt 2026-04-17
+- [x] `bukhara-silk-carpet-workshop` — 12 Best Silk Carpet Workshops in Bukhara (12/12) — rebuilt 2026-04-17
+- [x] `busan-craft-cocktails` — 12 Best Craft Cocktail Bars in Busan (12/12) — rebuilt 2026-04-17
 - [ ] `busan-gamcheon-village-cafes` — 10 Best Cafes in Gamcheon Culture Village, Busan (2026) — Reddit-Backe… (1/12)
 - [x] `busan-milmyeon` — 7 Best Milmyeon in Busan (8/8) — rebuilt 2026-04-11
 - [ ] `busan-raw-fish-restaurants` — Busan Raw Fish Restaurants (Hoesik) (1/12)
