@@ -528,11 +528,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bern-fondue-bars` — Best Fondue Restaurants in Bern (12/12) — rebuilt 2026-04-17
 - [x] `bern-rosengarten-views` — Best Traditional Swiss Restaurants in Bern (12/12) — rebuilt 2026-04-17
 - [x] `bilbao-pintxos-bars` — 12 Best Pintxos Bars in Bilbao (12/12) — rebuilt 2026-04-17
-- [ ] `bishkek-kumiss-tasting` — Sample fermented mare's milk (kumiss) from a clay bowl at a Bishkek ma… (1/12)
-- [ ] `bishkek-osh-bazaar` — Navigate the sprawling, chaotic Osh Bazaar in Bishkek — Central Asia's… (1/12)
-- [ ] `bogota-craft-coffee` — 12 Best Specialty Coffee Shops in Bogotá (1/12)
-- [ ] `bogota-street-food` — Street Food & Paloquemao Market in Bogotá (1/12)
-- [ ] `bologna-craft-cocktails` — Craft Cocktails in Bologna (1/12)
+- [x] `bishkek-kumiss-tasting` — 12 Best Spots to Sample Kumiss in Bishkek & Beyond (12/12) — rebuilt 2026-04-17
+- [x] `bishkek-osh-bazaar` — 12 Best Sections of Osh Bazaar in Bishkek (12/12) — rebuilt 2026-04-17
+- [x] `bogota-craft-coffee` — 12 Best Specialty Coffee Shops in Bogotá (12/12) — rebuilt 2026-04-17
+- [x] `bogota-street-food` — Street Food & Paloquemao Market in Bogotá (12/12) — rebuilt 2026-04-17
+- [x] `bologna-craft-cocktails` — 12 Best Craft Cocktails in Bologna (12/12) — rebuilt 2026-04-17
 - [ ] `bologna-mortadella-shops` — 12 Best Mortadella Shops in Bologna (1/12)
 - [ ] `bologna-tortellini` — 12 Best Tortellini in Bologna 2026 — Reddit-Backed Guide (1/12)
 - [x] `boracay-sunset-bars` — 10 Best Sunset Bars in Boracay (11/11) — rebuilt 2026-04-11
