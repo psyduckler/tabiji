@@ -491,11 +491,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `barcelona-cheap-eats` — 12 Best Cheap Eats in Barcelona (12/12) — rebuilt 2026-04-16
 - [x] `barcelona-fine-dining` — 12 Best Fine Dining in Barcelona (12/12) — rebuilt 2026-04-16
 - [x] `barcelona-jazz-bars` — 12 Best Jazz Bars in Barcelona (12/12) — rebuilt 2026-04-16
-- [ ] `barcelona-natural-wine-bars` — Barcelona Natural Wine Bars (1/12)
-- [ ] `barcelona-night-markets` — 12 Best Night Markets in Barcelona (1/12)
-- [ ] `barcelona-photography-spots` — 12 Best Photography Spots in Barcelona (1/12)
-- [ ] `barcelona-street-food` — 12 Best Street Food Spots in Barcelona (1/12)
-- [ ] `barcelona-viewpoints` — 12 Best Viewpoints in Barcelona (1/12)
+- [x] `barcelona-natural-wine-bars` — 12 Best Natural Wine Bars in Barcelona (12/12) — rebuilt 2026-04-16
+- [x] `barcelona-night-markets` — 12 Best Night Markets in Barcelona (12/12) — rebuilt 2026-04-16
+- [x] `barcelona-photography-spots` — 12 Best Photography Spots in Barcelona (12/12) — rebuilt 2026-04-16
+- [x] `barcelona-street-food` — 12 Best Street Food Spots in Barcelona (12/12) — rebuilt 2026-04-16
+- [x] `barcelona-viewpoints` — 12 Best Viewpoints in Barcelona (12/12) — rebuilt 2026-04-16
 - [ ] `basel-art-museums` — Best Art Museums in Basel (1/12)
 - [ ] `basel-craft-beer` — 12 Best Craft Beer Bars in Basel (1/12)
 - [ ] `battambang-bamboo-train-ride` — Ride the iconic hand-built bamboo norry train through rural Cambodian … (1/12)
