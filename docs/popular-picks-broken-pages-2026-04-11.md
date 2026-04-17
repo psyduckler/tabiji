@@ -533,12 +533,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `bogota-craft-coffee` — 12 Best Specialty Coffee Shops in Bogotá (12/12) — rebuilt 2026-04-17
 - [x] `bogota-street-food` — Street Food & Paloquemao Market in Bogotá (12/12) — rebuilt 2026-04-17
 - [x] `bologna-craft-cocktails` — 12 Best Craft Cocktails in Bologna (12/12) — rebuilt 2026-04-17
-- [ ] `bologna-mortadella-shops` — 12 Best Mortadella Shops in Bologna (1/12)
-- [ ] `bologna-tortellini` — 12 Best Tortellini in Bologna 2026 — Reddit-Backed Guide (1/12)
+- [x] `bologna-mortadella-shops` — 12 Best Mortadella Shops in Bologna (12/12) — rebuilt 2026-04-17
+- [x] `bologna-tortellini` — 12 Best Tortellini in Bologna 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
 - [x] `boracay-sunset-bars` — 10 Best Sunset Bars in Boracay (11/11) — rebuilt 2026-04-11
-- [ ] `bordeaux-canele` — 12 Best Canelé in Bordeaux (1/12)
-- [ ] `bordeaux-natural-wine-bars` — Bordeaux Natural Wine Bars (1/12)
-- [ ] `boston-craft-beer` — 12 Best Craft Beer in Boston (1/12)
+- [x] `bordeaux-canele` — 12 Best Canelé in Bordeaux (12/12) — rebuilt 2026-04-17
+- [x] `bordeaux-natural-wine-bars` — 12 Best Natural Wine Bars in Bordeaux (12/12) — rebuilt 2026-04-17
+- [x] `boston-craft-beer` — 12 Best Craft Beer in Boston (12/12) — rebuilt 2026-04-17
 - [x] `boston-pizza` — 10 Best Pizza in Boston (10/10) — rebuilt 2026-04-11
 - [x] `boston-restaurants` — 10 Best Restaurants in Boston (10/10) — rebuilt 2026-04-11
 - [ ] `bratislava-rooftop-bars` — Take in sweeping views of the Danube and Bratislava Castle from the ci… (1/12)
