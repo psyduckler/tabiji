@@ -574,11 +574,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cape-town-day-hikes` — 16 Best Day Hikes Near Cape Town (16/16) — rebuilt 2026-04-17
 - [x] `cape-town-natural-wine-bars` — 12 Best Natural Wine Bars in Cape Town (12/12) — rebuilt 2026-04-17
 - [x] `cartagena-food-halls` — 12 Best Food Halls in Cartagena (12/12) — rebuilt 2026-04-17
-- [ ] `cartagena-food-markets` — 12 Best Food Markets in Cartagena (1/12)
-- [ ] `cartagena-jazz-bars` — 12 Best Jazz Bars in Cartagena (1/12)
-- [ ] `cartagena-natural-wine-bars` — 12 Best Natural Wine Bars in Cartagena (1/12)
-- [ ] `cartagena-night-markets` — 12 Best Night Markets in Cartagena (1/12)
-- [ ] `cartagena-photography-spots` — 12 Best Photography Spots in Cartagena (1/12)
+- [x] `cartagena-food-markets` — 12 Best Food Markets in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-jazz-bars` — 12 Best Jazz Bars in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-natural-wine-bars` — 10 Best Natural Wine Bars in Cartagena (10/10) — rebuilt 2026-04-17
+- [x] `cartagena-night-markets` — 12 Best Night Markets in Cartagena (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-photography-spots` — 12 Best Photography Spots in Cartagena (12/12) — rebuilt 2026-04-17
 - [ ] `cartagena-street-food` — 12 Best Street Food in Cartagena (1/12)
 - [ ] `cartagena-tea-houses` — 12 Best Tea Houses in Cartagena (1/12)
 - [ ] `cartagena-vegan-restaurants` — 12 Best Vegan Restaurants in Cartagena (1/12)
