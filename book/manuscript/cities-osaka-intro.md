@@ -1,0 +1,5 @@
+Osaka is the friendliest big city in Japan, and many travelers find it the most fun. It is also, statistically, the one with the most pickpocketing, the most aggressive food-stand overcharging, and the highest-profile bottakuri bar cases in recent police records. You do not need to be afraid of Osaka, but you do need to know what kind of city it is.
+
+The scams cluster in three districts. The first is Dotonbori and the adjacent Shinsaibashi and Namba, where the neon, the crowds, and the famous Glico sign draw both tourists and pickpockets. The second is Kitashinchi and the Minami nightlife quarters, where the girls-bar bottakuri scam has produced ¥950,000 bills in documented 2025 cases. The third is Kuromon Market, where a minority of stalls charge tourists significantly more than locals. Kansai and Itami Airports round out the list with the usual unlicensed-taxi problem.
+
+Osaka's scams are mostly avoidable with basic vigilance: a front-worn bag at the Glico Bridge, a menu check before you sit, and an official taxi queue at the airport. In return, the city gives you some of the best food in the world and the warmest strangers you will meet anywhere in Japan.
