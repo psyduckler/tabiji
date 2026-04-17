@@ -506,12 +506,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `beijing-fine-dining` — 12 Best Fine Dining in Beijing (12/12) — rebuilt 2026-04-16
 - [x] `beijing-food-halls` — 12 Best Food Halls in Beijing (12/12) — rebuilt 2026-04-16
 - [x] `beijing-hutong-street-food` — Street Food in Beijing's Hutongs (2026) (12/12) — rebuilt 2026-04-16
-- [ ] `beijing-jazz-bars` — 12 Best Jazz Bars in Beijing (1/12)
-- [ ] `beijing-natural-wine-bars` — 12 Best Natural Wine Bars in Beijing (1/12)
-- [ ] `beijing-night-markets` — 12 Best Night Markets in Beijing (1/12)
+- [x] `beijing-jazz-bars` — 12 Best Jazz Bars in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-natural-wine-bars` — 12 Best Natural Wine Bars in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-night-markets` — 12 Best Night Markets in Beijing (12/12) — rebuilt 2026-04-16
 - [SKIP] `beijing-peking-duck` — 10 Best Peking Duck Restaurants in Beijing (1/10) — minimal ItemList, needs full research
-- [ ] `beijing-photography-spots` — 12 Best Photography Spots in Beijing (1/12)
-- [ ] `beijing-street-food` — 12 Best Street Food in Beijing (1/12)
+- [x] `beijing-photography-spots` — 12 Best Photography Spots in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-street-food` — 12 Best Street Food in Beijing (12/12) — rebuilt 2026-04-16
 - [ ] `beijing-viewpoints` — 12 Best Viewpoints in Beijing (1/12)
 - [ ] `beirut-meze-restaurants` — Lebanese Meze Restaurants in Beirut (1/12)
 - [ ] `beirut-nightlife` — Beirut's Legendary Nightlife (1/12)
