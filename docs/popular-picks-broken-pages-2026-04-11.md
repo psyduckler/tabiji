@@ -496,11 +496,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `barcelona-photography-spots` — 12 Best Photography Spots in Barcelona (12/12) — rebuilt 2026-04-16
 - [x] `barcelona-street-food` — 12 Best Street Food Spots in Barcelona (12/12) — rebuilt 2026-04-16
 - [x] `barcelona-viewpoints` — 12 Best Viewpoints in Barcelona (12/12) — rebuilt 2026-04-16
-- [ ] `basel-art-museums` — Best Art Museums in Basel (1/12)
-- [ ] `basel-craft-beer` — 12 Best Craft Beer Bars in Basel (1/12)
-- [ ] `battambang-bamboo-train-ride` — Ride the iconic hand-built bamboo norry train through rural Cambodian … (1/12)
-- [ ] `beijing-art-galleries` — 12 Best Art Galleries in Beijing (1/12)
-- [ ] `beijing-cheap-eats` — 12 Best Cheap Eats in Beijing (1/12)
+- [x] `basel-art-museums` — 12 Best Art Museums in Basel (12/12) — rebuilt 2026-04-16
+- [x] `basel-craft-beer` — 12 Best Craft Beer Bars in Basel (12/12) — rebuilt 2026-04-16
+- [x] `battambang-bamboo-train-ride` — 12 Best Ways to Experience the Bamboo Train in Battambang (12/12) — rebuilt 2026-04-16
+- [x] `beijing-art-galleries` — 12 Best Art Galleries in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-cheap-eats` — 12 Best Cheap Eats in Beijing (12/12) — rebuilt 2026-04-16
 - [ ] `beijing-craft-beer` — 12 Best Craft Beer Bars & Breweries in Beijing (2026) — Reddit-Backed … (1/12)
 - [ ] `beijing-dumplings` — Beijing Dumpling Houses (1/12)
 - [ ] `beijing-fine-dining` — 12 Best Fine Dining in Beijing (1/12)
