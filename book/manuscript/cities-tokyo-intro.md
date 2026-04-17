@@ -1,0 +1,5 @@
+Tokyo is one of the safest major cities in the world, and you should travel here with confidence. Most of what you read in this book will not apply to most of your trip. The scams in this chapter are real, and they can be costly when they work, but they happen in a small set of places, at predictable hours, and once you know where to look, they are not hard to sidestep.
+
+The places where scams happen most are three nightlife areas: Kabukicho in Shinjuku, Roppongi, and central Shibuya. The common time is after midnight, when most tourists should be heading home anyway. The second place is the arrivals area of the two main airports, where unlicensed drivers operate before you reach the official taxi queue. The third is the busy walk up to a few famous temples, where people dressed as monks approach visitors with small gifts.
+
+None of this should keep you from exploring the city. Walk through this chapter once before your trip, and when you arrive, you will start to recognize the patterns as they unfold. The rest of the time, Tokyo will be everything you hoped for.
