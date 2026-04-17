@@ -569,11 +569,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `cairo-rooftop-cafes` — 12 Best Rooftop Cafes in Cairo (12/12) — rebuilt 2026-04-17
 - [x] `calgary-craft-beer` — 12 Best Craft Beer in Calgary (12/12) — rebuilt 2026-04-17
 - [x] `canggu-beach-clubs` — 13 Best Beach Clubs in Canggu — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `cape-town-braai` — 11 Best Braai Spots in Cape Town (1/12)
-- [ ] `cape-town-craft-cocktails` — 12 Best Craft Cocktail Bars in Cape Town (2026) — Reddit-Backed Guide (1/12)
-- [ ] `cape-town-day-hikes` — 16 Best Day Hikes Near Cape Town (1/16)
-- [ ] `cape-town-natural-wine-bars` — Cape Town's Natural Wine Scene (1/12)
-- [ ] `cartagena-food-halls` — Best Food Halls in Cartagena (1/12)
+- [x] `cape-town-braai` — 12 Best Braai Spots in Cape Town (12/12) — rebuilt 2026-04-17
+- [x] `cape-town-craft-cocktails` — 12 Best Craft Cocktail Bars in Cape Town (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-17
+- [x] `cape-town-day-hikes` — 16 Best Day Hikes Near Cape Town (16/16) — rebuilt 2026-04-17
+- [x] `cape-town-natural-wine-bars` — 12 Best Natural Wine Bars in Cape Town (12/12) — rebuilt 2026-04-17
+- [x] `cartagena-food-halls` — 12 Best Food Halls in Cartagena (12/12) — rebuilt 2026-04-17
 - [ ] `cartagena-food-markets` — 12 Best Food Markets in Cartagena (1/12)
 - [ ] `cartagena-jazz-bars` — 12 Best Jazz Bars in Cartagena (1/12)
 - [ ] `cartagena-natural-wine-bars` — 12 Best Natural Wine Bars in Cartagena (1/12)
