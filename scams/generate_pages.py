@@ -1437,6 +1437,14 @@ CITY_SLUGS = {
     "Mérida": "merida",
     "Strasbourg": "strasbourg",
     "Carmel": "carmel",
+    "Cannes": "cannes",
+    "Avignon": "avignon",
+    "Toulouse": "toulouse",
+    "Montpellier": "montpellier",
+    "Colmar": "colmar",
+    "Chamonix": "chamonix",
+    "Mont-Saint-Michel": "mont-saint-michel",
+    "Biarritz": "biarritz",
 }
 
 # City-specific safety tips
@@ -4244,12 +4252,15 @@ document.addEventListener('click', function(e) {{
 
 def build_country_data(all_cities):
     """Group cities by country for country page generation."""
-    countries = defaultdict(lambda: {"cities": [], "flag": "🌍", "country_code": ""})
+    countries = defaultdict(lambda: {"cities": [], "flag": "🌍", "country_code": "", "seen_cities": set()})
     for city_data in all_cities:
         city = city_data["city"]
         if city not in CITY_SLUGS:
             continue
         country = city_data["country"]
+        if city in countries[country]["seen_cities"]:
+            continue
+        countries[country]["seen_cities"].add(city)
         cc = city_data.get("country_code", "")
         flag = city_data.get("flag", "🌍")
         countries[country]["flag"] = flag
