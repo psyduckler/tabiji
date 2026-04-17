@@ -15,7 +15,7 @@ Copy-paste directly into KDP.
 
 > **Title:** Italy Tourist Scams 2026
 >
-> **Subtitle:** 149 Real Scams Across Rome, Venice, Florence & 17 More Cities — The Exact Italian Phrases to Stop Them Before They Cost You €1,000+
+> **Subtitle:** 149 Real Scams Across Rome, Venice, Florence & 17 More Cities — Drawn from Italian News Reports and Police Arrest Records
 
 **Title field:** 26 characters. **Subtitle field:** 148 characters. Combined: 174 — under the ~200-char mobile truncation point.
 

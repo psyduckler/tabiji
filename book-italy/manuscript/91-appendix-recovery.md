@@ -8,7 +8,7 @@ Leave the venue. If you are physically inside a place where you were scammed, do
 
 Do not sign anything, including receipts. A signed credit-card slip is much harder to dispute than one you refused to sign. If staff are blocking your exit, this is a crime under Italian law (*sequestro di persona*, unlawful confinement), and the correct response is to dial **112** and stay on the line. Italian emergency operators in tourist areas are trained to respond in English.
 
-Screenshot everything you can, as discreetly as possible: the bill, the sign outside the venue, the street intersection, the business licence (almost always displayed on the wall behind the counter), the card terminal, and the face of the person who served you if you can do it without escalating. The information you capture in these fifteen minutes is the evidence you will use for weeks afterward. If a pickpocket team is still in the area, walk 100 metres in any direction before you pull out your phone to screenshot.
+Screenshot everything you can, as discreetly as possible: the bill, the sign outside the venue, the street intersection, the business license (almost always displayed on the wall behind the counter), the card terminal, and the face of the person who served you if you can do it without escalating. The information you capture in these fifteen minutes is the evidence you will use for weeks afterward. If a pickpocket team is still in the area, walk 100 meters in any direction before you pull out your phone to screenshot.
 
 If your bag or wallet was just stolen, shout *"Aiuto! Al ladro!"* — this is the Italian hue-and-cry and bystanders are more likely to help than you might expect. Italian bystander-intervention law (*arresto in flagranza di reato*) specifically protects anyone who helps restrain a thief caught in the act.
 
@@ -22,7 +22,7 @@ Freeze the card that was used. International emergency lines for the major card 
 
 ## Within the first twenty-four hours
 
-File a chargeback with your card issuer. Use the denuncia number as documentation. Chargebacks initiated within twenty-four hours of the transaction have a significantly higher success rate than those filed a week later. Under the European Payment Services Directive (PSD2) you have strong chargeback rights for unauthorised or materially-misrepresented charges — this is one reason we recommend credit over debit cards for every Italian trip.
+File a chargeback with your card issuer. Use the denuncia number as documentation. Chargebacks initiated within twenty-four hours of the transaction have a significantly higher success rate than those filed a week later. Under the European Payment Services Directive (PSD2), you have strong chargeback rights for unauthorized or materially misrepresented charges — one reason we recommend credit over debit cards for every Italian trip.
 
 If your passport was photographed, held, or taken by anyone involved, notify your embassy or consulate immediately. Passport data tied to a scam can show up in fraud attempts weeks later, and your embassy will advise on whether a replacement is needed. US citizens can start a replacement report at any time via the US Embassy Rome line; the consulates in Florence, Milan, and Naples handle non-Rome passport issues with a slight delay.
 
@@ -38,12 +38,12 @@ For restaurant overcharging and tourist-menu traps, file a parallel complaint wi
 
 Submit the full travel-insurance claim with all evidence gathered so far. Include the business's name, the address, the exact transaction details, the denuncia number, and the chargeback reference.
 
-Consider leaving a neutral, factual review on Google Maps or TripAdvisor. Describe what happened, the amounts involved, and the date, without emotional language or accusations. Reviews from recent victims are the single most reliable way future travellers avoid the same scam. Do not name individual staff members; describe the business by its official name and location only.
+Consider leaving a neutral, factual review on Google Maps or TripAdvisor. Describe what happened, the amounts involved, and the date, without emotional language or accusations. Reviews from recent victims are the single most reliable way future travelers avoid the same scam. Do not name individual staff members; describe the business by its official name and location only.
 
 ## If the scam involved drink-spiking or physical harm
 
 Go to a hospital before you go to the police. Toxicology tests have a short window and cannot be run retroactively. A list of English-speaking hospitals in each Italian city is in Appendix C. At the hospital, ask specifically for a *"screening tossicologico"* (drug screen or toxicology panel). Keep the hospital report; it is evidence.
 
-In Italy, the ambulance number is **118** (or **112** for general emergencies, which will dispatch an ambulance). If you are inside a venue and drink-spiking is suspected, have a friend call for an ambulance *before* you leave, not after — sometimes the aggressive bill-pressure escalates once the scammer realises you are leaving.
+In Italy, the ambulance number is **118** (or **112** for general emergencies, which will dispatch an ambulance). If you are inside a venue and drink-spiking is suspected, have a friend call for an ambulance *before* you leave, not after — sometimes the aggressive bill pressure escalates once the scammer realizes you are leaving.
 
 Your embassy can help coordinate English-speaking medical care and, if your passport was involved, coordinate a replacement. Consular registration (STEP for US citizens, Smartraveller for Australians, and equivalents for other nationalities) is worth doing before you travel, specifically for situations like this.

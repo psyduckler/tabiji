@@ -1,6 +1,8 @@
 # Appendix C: Emergency Contacts {-}
 
-Every phone number in this appendix was verified current at the time of publication. Phone numbers do change — if a number below fails to connect, search the organisation's name plus "telefono" and you will almost always find the current line on the first page of results.
+Every phone number in this appendix was verified current at the time of publication. Phone numbers do change — if a number below fails to connect, search the organization's name plus *telefono* and you will almost always find the current line on the first page of results.
+
+**Before you travel**, we strongly recommend you double-check your own embassy or consulate's current number directly on its official website (the US State Department's travel.state.gov, the UK's gov.uk, Canada's travel.gc.ca, Australia's smartraveller.gov.au, etc.). Save the number and the after-hours emergency line on your phone before departure. Even a verified number can become a wrong number between editions.
 
 ## National (anywhere in Italy)
 
@@ -64,7 +66,7 @@ Italy has a US Embassy in Rome plus three US Consulates General (Florence, Milan
 
 ### Florence
 
-- **Ospedale Santa Maria Nuova** (Piazza Santa Maria Nuova, historic centre): +39 055-693-81. Historic hospital with tourist-friendly emergency department.
+- **Ospedale Santa Maria Nuova** (Piazza Santa Maria Nuova, historic center): +39 055-693-81. Historic hospital with a tourist-friendly emergency department.
 - **Dr. Stephen Kerr's Medical Service** (Via Porta Rossa 1): +39 335-836-1682. English-speaking GP, walk-in hours and on-call visits.
 
 ### Venice
@@ -87,7 +89,7 @@ Smaller cities have fewer dedicated international clinics. Your fallback is to d
 
 ## Tourist-assistance lines
 
-- **ENIT (Italian National Tourist Board) traveller info:** +39 06-4971-1. Weekdays, English available. For general Italy tourism questions.
+- **ENIT (Italian National Tourist Board) traveler info:** +39 06-4971-1. Weekdays, English available. For general Italy tourism questions.
 - **Cittadinanzattiva (consumer-protection body) tourist line:** +39 06-3671-8555. Handles tourist-menu abuse, taxi overcharging, and rental disputes.
 - **Comune tourist-scam complaint portals** (all accessible in English):
   - **Rome:** comune.roma.it → *Servizi → Reclami*
@@ -116,6 +118,6 @@ Italy does not have Japan's koban system, but every major tourist area has a Car
 
 ## A note on calling 112 with limited Italian
 
-If you dial 112 and cannot explain what is happening in Italian, say *"English, please"* clearly and wait. Italian emergency dispatchers in tourist areas are trained to recognise this request and will bring a translator onto the line. State your location as a landmark — *"Piazza San Marco"*, *"Fontana di Trevi"*, *"Duomo di Milano"* — rather than as a street address that is hard to pronounce. If you are calling from a mobile phone, the dispatcher can also pull your approximate location automatically, so even a rough *"I am near the Colosseum"* is enough to get help moving.
+If you dial 112 and cannot explain what is happening in Italian, say *"English, please"* clearly and wait. Italian emergency dispatchers in tourist areas are trained to recognize this request and will bring a translator onto the line. State your location as a landmark — *"Piazza San Marco,"* *"Fontana di Trevi,"* *"Duomo di Milano"* — rather than as a street address that is hard to pronounce. If you are calling from a mobile phone, the dispatcher can also pull your approximate location automatically, so even a rough *"I am near the Colosseum"* is enough to get help moving.
 
 For English-speaking tourists who have just been pickpocketed, the magic word after *"English, please"* is *"denuncia"* — you want a crime report, and that is the word that tells every dispatcher and officer what to do next.
