@@ -501,11 +501,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `battambang-bamboo-train-ride` — 12 Best Ways to Experience the Bamboo Train in Battambang (12/12) — rebuilt 2026-04-16
 - [x] `beijing-art-galleries` — 12 Best Art Galleries in Beijing (12/12) — rebuilt 2026-04-16
 - [x] `beijing-cheap-eats` — 12 Best Cheap Eats in Beijing (12/12) — rebuilt 2026-04-16
-- [ ] `beijing-craft-beer` — 12 Best Craft Beer Bars & Breweries in Beijing (2026) — Reddit-Backed … (1/12)
-- [ ] `beijing-dumplings` — Beijing Dumpling Houses (1/12)
-- [ ] `beijing-fine-dining` — 12 Best Fine Dining in Beijing (1/12)
-- [ ] `beijing-food-halls` — 12 Best Food Halls in Beijing (1/12)
-- [ ] `beijing-hutong-street-food` — Street Food in Beijing's Hutongs (2026) (1/12)
+- [x] `beijing-craft-beer` — 12 Best Craft Beer Bars & Breweries in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-dumplings` — 12 Best Beijing Dumpling Houses (12/12) — rebuilt 2026-04-16
+- [x] `beijing-fine-dining` — 12 Best Fine Dining in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-food-halls` — 12 Best Food Halls in Beijing (12/12) — rebuilt 2026-04-16
+- [x] `beijing-hutong-street-food` — Street Food in Beijing's Hutongs (2026) (12/12) — rebuilt 2026-04-16
 - [ ] `beijing-jazz-bars` — 12 Best Jazz Bars in Beijing (1/12)
 - [ ] `beijing-natural-wine-bars` — 12 Best Natural Wine Bars in Beijing (1/12)
 - [ ] `beijing-night-markets` — 12 Best Night Markets in Beijing (1/12)
