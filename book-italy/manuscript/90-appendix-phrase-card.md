@@ -4,9 +4,9 @@ These are the phrases most likely to end a scam in Italy. They are arranged by s
 
 A practical suggestion: before your trip, take a screenshot of this appendix on your phone, and bookmark any phrase you think you are most likely to need. If you can, say the first three or four out loud a few times. You will feel much less awkward using them when the moment comes.
 
-A note on pronunciation: Italian vowels are short and crisp, and each is always pronounced the same way — *a* is "ah," *e* is "eh," *i* is "ee," *o* is "oh," *u* is "oo." The letter *c* is "ch" before *e* and *i* (so *centro* is "chentro"), and hard "k" everywhere else. Double consonants are held a touch longer (*anno*, the year, sounds different from *ano*). Stress usually lands on the second-to-last syllable (*car·ta*, *pro·ble·ma*) unless marked with an accent. An accent that should be there will be written in ( as it is on "città"). None of this has to be perfect — Italians will forgive a strong accent as long as the key words are clear.
+A note on pronunciation: Italian vowels are short and crisp, and each is always pronounced the same way — *a* is "ah," *e* is "eh," *i* is "ee," *o* is "oh," *u* is "oo." The letter *c* is "ch" before *e* and *i* (so *centro* is "chentro"), and hard "k" everywhere else. Double consonants are held a touch longer (*anno*, the year, sounds different from *ano*). Stress usually lands on the second-to-last syllable (*car·ta*, *pro·ble·ma*) unless marked with an accent (as on *città*). None of this has to be perfect — Italians will forgive a strong accent as long as the key words are clear.
 
-A note on formality: all the phrases below use the *lei* (formal) verb form, which is what you should use with any stranger. When you see "mi faccia" or "chiami" or "mi mostri," that is the *lei* imperative. Italians will immediately clock you as polite, which is the correct register for anything defensive.
+A note on formality: all the phrases below use the *lei* (formal) verb form, which is what you should use with any stranger. When you see *mi faccia*, *chiami*, or *mi mostri*, that is the *lei* imperative. Italians will immediately register you as polite, which is the correct register for anything defensive.
 
 ## Asking before you commit
 
@@ -42,7 +42,7 @@ If the answer is "sì" but the card reader later turns out to be "broken," you a
 No, grazie.
 *Noh, GRAH-tsyeh.*
 
-Said firmly, once, and without slowing your pace. No elaboration is needed. Italians understand "no grazie" as a complete refusal; repeating it louder or softer is unnecessary.
+Said firmly and without slowing your pace. No elaboration is needed. Italians understand *no grazie* as a complete refusal; repeating it louder or softer does not strengthen it.
 
 **I'm not interested.**
 Non mi interessa.
@@ -95,14 +95,13 @@ Chiamo la mia banca.
 Say this if a restaurant or taxi driver disputes a credit-card transaction. Calling your card issuer from the table is a legitimate move and signals that the charge is going to be disputed.
 
 **I was scammed. Please help.**
-Sono stato truffato. Mi aiuti, per favore.
+Men say: Sono stato truffato. Mi aiuti, per favore.
 *SOH-noh STAH-toh troo-FAH-toh. Mee ah-YOO-tee, pehr fah-VOH-reh.*
 
-**If you are a woman**, use the feminine endings:
-Sono stata truffata.
-*SOH-noh STAH-tah troo-FAH-tah.*
+Women say: Sono stata truffata. Mi aiuti, per favore.
+*SOH-noh STAH-tah troo-FAH-tah. Mee ah-YOO-tee, pehr fah-VOH-reh.*
 
-Use this when speaking to a Carabinieri officer, a Polizia di Stato officer, a hotel front-desk clerk, or any bystander you want to enlist. *Truffato/a* is the specific word for "scammed" and communicates what happened more precisely than any English translation. For pickpocketing specifically, *mi hanno borseggiato* (masculine) or *mi hanno borseggiata* (feminine) — "they pickpocketed me."
+Italian past participles agree with the subject's gender — that's why the *-o* becomes *-a* for women. Use this when speaking to a Carabinieri officer, a Polizia di Stato officer, a hotel front-desk clerk, or any bystander you want to enlist. *Truffato/a* is the specific word for "scammed" and communicates what happened more precisely than any English translation. For pickpocketing specifically: men say *mi hanno borseggiato* and women say *mi hanno borseggiata* — "they pickpocketed me."
 
 **Please show me an itemized receipt.**
 Vorrei la ricevuta dettagliata, per favore.
@@ -142,7 +141,7 @@ Dov'è la caserma dei carabinieri più vicina?
 Vorrei un taxi ufficiale.
 *Vohr-REH-ee oon TAHK-see oof-fee-CHAH-leh.*
 
-Use this at airports and stations where unlicensed drivers approach you. "Official" in Italy means a white-painted car with a meter, a posted licence number on the rear door, and a rooftop TAXI sign. Anything else is an *NCC abusivo*.
+Use this at airports and stations where unlicensed drivers approach you. "Official" in Italy means a white-painted car with a meter, a posted license number on the rear door, and a rooftop TAXI sign. Anything else is an *NCC abusivo*.
 
 **Please call 112.**
 Chiami il 112, per favore.
@@ -152,7 +151,7 @@ Or just shout:
 Aiuto! Chiami il 112!
 *Ah-YOO-toh! Kee-AH-mee eel OO-noh OO-noh DOO-eh!*
 
-112 is the pan-European emergency number and routes you to the appropriate service (Carabinieri, Polizia, ambulance, fire) depending on what you say. Easier to say under stress than the longer sentence, and every Italian adult knows what *uno-uno-due* means.
+112 is the pan-European emergency number and routes you to the appropriate service (Carabinieri, Polizia, ambulance, fire) depending on what you say. *Uno-uno-due* is easier to shout under stress than a full sentence, and every Italian adult recognizes it immediately.
 
 **Help! Thief!**
 Aiuto! Al ladro!
@@ -168,13 +167,13 @@ C'è qualcuno che parla inglese?
 Mi aiuti, per favore.
 *Mee ah-YOO-tee, pehr fah-VOH-reh.*
 
-## Reading euro amounts on a bill
+## Reading euro amounts on Italian bills
 
-Italian numerals use the comma as a decimal and the period as a thousands separator — the reverse of American convention. This trips up almost every visitor, and it can turn a simple bill into a five-minute argument.
+Italian receipts and price tags use the comma as a decimal and the period as a thousands separator — the reverse of American convention. This book writes prices in the English style (€1.50, €1,500), but in Italy, the bill you're handed will use the Italian style — watch for the reversal and don't panic when you see it.
 
-- **€1,50** means one euro fifty cents — not one thousand five hundred.
-- **€1.500** means one thousand five hundred euros — not one euro fifty.
-- **€1.500,00** is the fully-formatted "one thousand five hundred euros exactly."
+- On an Italian bill, **€1,50** means one euro fifty cents — not one thousand five hundred.
+- On an Italian bill, **€1.500** means one thousand five hundred euros — not one euro fifty.
+- **€1.500,00** is the fully-formatted "one thousand five hundred euros exactly" — that's the style you'll see on a restaurant tab.
 
 | Amount | Written | Pronunciation |
 |---|---|---|
@@ -197,6 +196,6 @@ They will almost always oblige.
 
 ## A note on tone
 
-The phrases above are polite, not aggressive. In Italy, polite firmness works better than raised voices — though unlike in Japan, raising your voice is socially acceptable and not always counter-productive. An *iie* equivalent ("No grazie") delivered calmly is a complete refusal. If you need to escalate, *mi lasci stare* and *non mi tocchi* are both firm without being rude, and *chiamo i carabinieri* is the firmest card in the deck.
+The phrases above are polite, not aggressive. In Italy, polite firmness works better than raised voices — though raising your voice is socially acceptable and not always counterproductive. A calm *no grazie* is already a complete refusal. If you need to escalate, *mi lasci stare* and *non mi tocchi* are both firm without being rude, and *chiamo i carabinieri* is the firmest card in the deck.
 
-A last thing worth saying out loud: you do not have to be fluent to use any of this. You just have to say the key word clearly, keep your voice level, and not walk back your no. Scammers read your body language before they read your grammar. Calm and firm beats loud and uncertain every time.
+One last thing worth saying out loud: you do not have to be fluent to use any of this. You just have to say the key word clearly, keep your voice level, and not walk back your no. Scammers read your body language before they read your grammar. Calm and firm beats loud and uncertain every time.
