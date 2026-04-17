@@ -11,28 +11,30 @@ Cluster totals for `/scams/`: **99 pages, 100 clicks, 5,383 impressions, CTR 1.8
 
 Top 20 city pages capture **45% of all /scams/ impressions (2,420 of 5,383)** and span a wide performance range — from pages at 0% CTR despite 130+ impressions (Sofia, Tokyo, Prague) to pages at 4–5% CTR (Vienna, Kyoto, Bratislava). The 0-CTR high-impression pages are the primary learning opportunity: something about the current title isn't hooking searchers at all.
 
+> **Note on scam counts (post-merge):** Several of these pages were rebuilt upstream between the CSV export (2026-04-17) and this experiment's deploy. Scam counts below reflect the *current* page state after that rebuild — the same counts baked into the variant titles. For 12 of 20 pages the count changed (Vienna 7→6, Tokyo 9→6, Medellín 8→6, etc.). CTR/position baselines are still valid since they come from the 2026-04-17 snapshot.
+
 | Rank | City | Clicks | Impr. | CTR | Position | Scam count |
 |---|---|---:|---:|---:|---:|---:|
 | 1 | Bucharest | 1 | 219 | 0.46% | 7.1 | 7 |
-| 2 | Buenos Aires | 1 | 188 | 0.53% | 8.6 | 7 |
-| 3 | Vienna | 8 | 179 | 4.47% | 6.7 | 7 |
+| 2 | Buenos Aires | 1 | 188 | 0.53% | 8.6 | 6 |
+| 3 | Vienna | 8 | 179 | 4.47% | 6.7 | 6 |
 | 4 | Hong Kong | 6 | 176 | 3.41% | 6.3 | 5 |
 | 5 | Riga | 1 | 160 | 0.62% | 6.7 | 6 |
 | 6 | Sofia | 0 | 135 | 0.00% | 6.5 | 6 |
-| 7 | Tokyo | 0 | 132 | 0.00% | 7.2 | 9 |
+| 7 | Tokyo | 0 | 132 | 0.00% | 7.2 | 6 |
 | 8 | Prague | 0 | 130 | 0.00% | 9.3 | 7 |
-| 9 | Tunis | 3 | 117 | 2.56% | 6.1 | 7 |
-| 10 | Kyoto | 6 | 116 | 5.17% | 6.2 | 8 |
+| 9 | Tunis | 3 | 117 | 2.56% | 6.1 | 6 |
+| 10 | Kyoto | 6 | 116 | 5.17% | 6.2 | 7 |
 | 11 | San Juan | 0 | 111 | 0.00% | 7.3 | 6 |
-| 12 | Budapest | 0 | 109 | 0.00% | 8.5 | 8 |
-| 13 | Mumbai | 1 | 106 | 0.94% | 8.2 | 8 |
-| 14 | Medellín | 0 | 93 | 0.00% | 6.3 | 8 |
-| 15 | Seoul | 1 | 84 | 1.19% | 5.7 | 6 |
-| 16 | Kathmandu | 3 | 78 | 3.85% | 6.5 | 8 |
-| 17 | Lima | 0 | 75 | 0.00% | 7.6 | 7 |
+| 12 | Budapest | 0 | 109 | 0.00% | 8.5 | 6 |
+| 13 | Mumbai | 1 | 106 | 0.94% | 8.2 | 7 |
+| 14 | Medellín | 0 | 93 | 0.00% | 6.3 | 6 |
+| 15 | Seoul | 1 | 84 | 1.19% | 5.7 | 5 |
+| 16 | Kathmandu | 3 | 78 | 3.85% | 6.5 | 7 |
+| 17 | Lima | 0 | 75 | 0.00% | 7.6 | 6 |
 | 18 | Hurghada | 0 | 72 | 0.00% | 7.7 | 7 |
-| 19 | Copenhagen | 1 | 71 | 1.41% | 7.4 | 5 |
-| 20 | Bratislava | 3 | 69 | 4.35% | 6.0 | 5 |
+| 19 | Copenhagen | 1 | 71 | 1.41% | 7.4 | 6 |
+| 20 | Bratislava | 3 | 69 | 4.35% | 6.0 | 7 |
 | | **Total (20)** | **35** | **2,420** | **1.45%** | ~7.12 | |
 
 ## Arm assignment: snake-assigned by CTR rank (balanced baselines)
@@ -81,13 +83,13 @@ All three variants are ~50–55 characters before the ` | tabiji.ai` brand suffi
 **Pattern:** `{N} {City} Scams Locals Want Tourists to Know (2026)`
 **Thesis:** Implied local-insider framing differentiates from generic listicle competitors on the SERP.
 
-| Page | New title |
+| Page | New title (N = current scam count after upstream rebuild) |
 |---|---|
-| Vienna | `7 Vienna Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
-| Copenhagen | `5 Copenhagen Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
+| Vienna | `6 Vienna Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
+| Copenhagen | `6 Copenhagen Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
 | Riga | `6 Riga Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
 | Prague | `7 Prague Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
-| Medellín | `8 Medellín Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
+| Medellín | `6 Medellín Scams Locals Want Tourists to Know (2026) \| tabiji.ai` |
 
 ### V2 — Loss-aversion / "Don't Fall for These"
 **Pattern:** `Don't Fall for These {N} Tourist Scams in {City} (2026)`
@@ -95,11 +97,11 @@ All three variants are ~50–55 characters before the ` | tabiji.ai` brand suffi
 
 | Page | New title |
 |---|---|
-| Bratislava | `Don't Fall for These 5 Tourist Scams in Bratislava (2026) \| tabiji.ai` |
-| Tunis | `Don't Fall for These 7 Tourist Scams in Tunis (2026) \| tabiji.ai` |
-| Buenos Aires | `Don't Fall for These 7 Tourist Scams in Buenos Aires (2026) \| tabiji.ai` |
-| Tokyo | `Don't Fall for These 9 Tourist Scams in Tokyo (2026) \| tabiji.ai` |
-| Lima | `Don't Fall for These 7 Tourist Scams in Lima (2026) \| tabiji.ai` |
+| Bratislava | `Don't Fall for These 7 Tourist Scams in Bratislava (2026) \| tabiji.ai` |
+| Tunis | `Don't Fall for These 6 Tourist Scams in Tunis (2026) \| tabiji.ai` |
+| Buenos Aires | `Don't Fall for These 6 Tourist Scams in Buenos Aires (2026) \| tabiji.ai` |
+| Tokyo | `Don't Fall for These 6 Tourist Scams in Tokyo (2026) \| tabiji.ai` |
+| Lima | `Don't Fall for These 6 Tourist Scams in Lima (2026) \| tabiji.ai` |
 
 ### V3 — Question-match / "Is {City} Safe for Tourists?"
 **Pattern:** `Is {City} Safe for Tourists? {N} Scams to Avoid (2026)`
@@ -107,7 +109,7 @@ All three variants are ~50–55 characters before the ` | tabiji.ai` brand suffi
 
 | Page | New title |
 |---|---|
-| Kathmandu | `Is Kathmandu Safe for Tourists? 8 Scams to Avoid (2026) \| tabiji.ai` |
+| Kathmandu | `Is Kathmandu Safe for Tourists? 7 Scams to Avoid (2026) \| tabiji.ai` |
 | Hong Kong | `Is Hong Kong Safe for Tourists? 5 Scams to Avoid (2026) \| tabiji.ai` |
 | Bucharest | `Is Bucharest Safe for Tourists? 7 Scams to Avoid (2026) \| tabiji.ai` |
 | Sofia | `Is Sofia Safe for Tourists? 6 Scams to Avoid (2026) \| tabiji.ai` |
