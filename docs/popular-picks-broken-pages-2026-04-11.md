@@ -512,11 +512,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [SKIP] `beijing-peking-duck` — 10 Best Peking Duck Restaurants in Beijing (1/10) — minimal ItemList, needs full research
 - [x] `beijing-photography-spots` — 12 Best Photography Spots in Beijing (12/12) — rebuilt 2026-04-16
 - [x] `beijing-street-food` — 12 Best Street Food in Beijing (12/12) — rebuilt 2026-04-16
-- [ ] `beijing-viewpoints` — 12 Best Viewpoints in Beijing (1/12)
-- [ ] `beirut-meze-restaurants` — Lebanese Meze Restaurants in Beirut (1/12)
-- [ ] `beirut-nightlife` — Beirut's Legendary Nightlife (1/12)
-- [ ] `beirut-street-food` — Street Food in Beirut (1/12)
-- [ ] `belgrade-art-galleries` — 12 Best Art Galleries in Belgrade (1/12)
+- [x] `beijing-viewpoints` — 12 Best Viewpoints in Beijing (12/12) — rebuilt 2026-04-17
+- [x] `beirut-meze-restaurants` — 12 Best Lebanese Meze Restaurants in Beirut (12/12) — rebuilt 2026-04-17
+- [x] `beirut-nightlife` — 12 Best Nightlife Spots in Beirut (12/12) — rebuilt 2026-04-17
+- [x] `beirut-street-food` — 12 Best Street Food in Beirut (12/12) — rebuilt 2026-04-17
+- [x] `belgrade-art-galleries` — 12 Best Art Galleries in Belgrade (12/12) — rebuilt 2026-04-17
 - [ ] `belize-city-street-food` — Belize Street Food & Creole Cuisine (1/12)
 - [ ] `bergen-fjord-day-trips` — Take a scenic fjord cruise or hiking day trip from Bergen to Hardanger… (1/12)
 - [ ] `bergen-hiking-cafes` — Bergen Hiking & Mountain Cafes (1/12)
