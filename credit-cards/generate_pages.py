@@ -15,11 +15,11 @@ NAV = '''<nav>
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/resources/">📚 Resources</a>
-                <a href="/scams/">🚨 Tourist Scams</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
+        <a href="/scams/">Tourist Scams</a>
         <a href="/popular-picks/">Popular Picks</a>
         <a href="/countries/">Country Guides</a>
         <a href="/about/">About</a>

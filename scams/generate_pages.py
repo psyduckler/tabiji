@@ -3510,12 +3510,12 @@ def generate_page(city_data, related_cities_map):
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/resources/">📚 Resources</a>
-                <a href="/scams/">🚨 Tourist Scams</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
+        <a href="/scams/">Tourist Scams</a>
         <a href="/popular-picks/">Popular Picks</a>
         <a href="/countries/">Country Guides</a>
         <a href="/about/">About</a>
@@ -4190,10 +4190,10 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
                 <a href="/credit-cards/">&#128179; Credit Card Benefits</a>
                 <a href="/find/">&#128269; Destination Finder</a>
                 <a href="/resources/">&#128218; Resources</a>
-                <a href="/scams/">&#128680; Tourist Scams</a>
                 <a href="/health/">&#127973; Travel Health Tips</a>
             </div>
         </div>
+        <a href="/scams/">Tourist Scams</a>
         <a href="/popular-picks/">Popular Picks</a>
         <a href="/countries/">Country Guides</a>
         <a href="/about/">About</a>
