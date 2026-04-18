@@ -604,11 +604,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `catania-fish-market` — 12 Best Fish Market Spots in Catania (12/12) — rebuilt 2026-04-17
 - [x] `charleston-cocktail-scene` — 12 Best Cocktail Bars in Charleston (12/12) — rebuilt 2026-04-17
 - [x] `charleston-shrimp-and-grits` — 12 Best Shrimp and Grits in Charleston (12/12) — rebuilt 2026-04-17
-- [ ] `chengdu-art-galleries` — 12 Best Art Galleries in Chengdu (1/12)
-- [ ] `chengdu-cheap-eats` — 12 Best Cheap Eats in Chengdu (1/12)
+- [x] `chengdu-art-galleries` — 12 Best Art Galleries in Chengdu (12/12) — rebuilt 2026-04-17
+- [x] `chengdu-cheap-eats` — 12 Best Cheap Eats in Chengdu (12/12) — rebuilt 2026-04-17
 - [ ] `chengdu-dan-dan-noodles` — Dan Dan Noodles in Chengdu (1/12)
-- [ ] `chengdu-fine-dining` — 12 Best Fine Dining in Chengdu (1/12)
-- [ ] `chengdu-food-halls` — 12 Best Food Halls in Chengdu (1/12)
+- [x] `chengdu-fine-dining` — 12 Best Fine Dining in Chengdu (12/12) — rebuilt 2026-04-17
+- [x] `chengdu-food-halls` — 12 Best Food Halls in Chengdu (12/12) — rebuilt 2026-04-17
 - [ ] `chengdu-jazz-bars` — 12 Best Jazz Bars in Chengdu (1/12)
 - [ ] `chengdu-natural-wine-bars` — 12 Best Natural Wine Bars in Chengdu (1/12)
 - [ ] `chengdu-night-markets` — 12 Best Night Markets in Chengdu (1/12)
