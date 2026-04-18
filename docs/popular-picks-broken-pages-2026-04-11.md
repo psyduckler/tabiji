@@ -618,11 +618,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `chengdu-street-food` — 12 Best Chengdu Street Food Spots (12/12) — rebuilt 2026-04-18
 - [x] `chengdu-teahouses` — 12 Best Teahouses in Chengdu (12/12) — rebuilt 2026-04-18
 - [x] `chengdu-viewpoints` — 12 Best Viewpoints in Chengdu (12/12) — rebuilt 2026-04-18
-- [ ] `chennai-chettinad-food` — Chettinad Cuisine in Chennai (1/12)
-- [ ] `chennai-filter-coffee` — Filter Coffee Culture in Chennai (1/12)
-- [ ] `chiang-mai-art-galleries` — 12 Best Art Galleries in Chiang Mai (1/12)
+- [x] `chennai-chettinad-food` — 12 Best Chettinad Cuisine in Chennai (12/12) — rebuilt 2026-04-18
+- [x] `chennai-filter-coffee` — 12 Best Filter Coffee in Chennai (12/12) — rebuilt 2026-04-18
+- [x] `chiang-mai-art-galleries` — 12 Best Art Galleries in Chiang Mai (12/12) — rebuilt 2026-04-18
 - [ ] `chiang-mai-cheap-eats` — 12 Best Cheap Eats in Chiang Mai (1/12)
-- [ ] `chiang-mai-coworking-cafes` — Best Coworking Cafes in Chiang Mai (1/12)
+- [x] `chiang-mai-coworking-cafes` — 12 Best Coworking Cafes in Chiang Mai (12/12) — rebuilt 2026-04-18
 - [ ] `chiang-mai-fine-dining` — 12 Best Fine Dining Restaurants in Chiang Mai (1/12)
 - [ ] `chiang-mai-food-halls` — 12 Best Food Halls in Chiang Mai (1/12)
 - [ ] `chiang-mai-jazz-bars` — 12 Best Jazz Bars in Chiang Mai (1/12)

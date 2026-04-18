@@ -1,0 +1,452 @@
+const fulfillOrder = require('./fulfill-order');
+const fs = require('fs');
+const path = require('path');
+
+const PENDING_FILE = path.resolve(__dirname, '..', 'orders', 'pending.json');
+const pending = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8'));
+const order = pending.find(o => (o.id || o.orderId) === 'order_1774234868487_pdetxs');
+
+if (!order) {
+  console.error('Order not found in pending.json — may already be fulfilled');
+  process.exit(1);
+}
+
+const itineraryData = {
+  destination: "Vancouver, British Columbia, Canada",
+  countryEmoji: "🇨🇦",
+  title: "Vancouver",
+  subtitle: "5 Days of Mountain Adventures, Ocean Views & Meat-Forward Feasting",
+  description: "A solo adventurer's dream through Vancouver — snowshoeing Grouse Mountain, crossing Capilano's swaying bridge, cycling the Stanley Park seawall, exploring Granville Island, and eating your way through the city's incredible Korean BBQ, yakiniku, and steak scene. Late March means cherry blossoms are beginning to bloom, the mountains still have snow, and the city is shaking off winter.",
+  duration: "5 days",
+  dates: "March 24 – 28, 2026",
+  budget: "Under $1,000",
+  pace: "Active & adventurous",
+  bestFor: "Solo adventurer who loves meat and outdoor thrills",
+
+  highlights: [
+    "Grouse Mountain Skyride + snowshoeing with panoramic views",
+    "Capilano Suspension Bridge — 70m above the canyon floor",
+    "Stanley Park seawall cycling — 9km of ocean-front riding",
+    "Korean BBQ on Robson Street — SURA & Dae Bak Bon Ga AYCE",
+    "Gastown steam clock, craft beer & smoked meats",
+    "Granville Island Public Market — Tenderland Meats & local eats",
+    "Early cherry blossoms blooming across the city"
+  ],
+
+  essentials: [
+    {
+      title: "🌸 Cherry Blossom Season — You're Right on Time!",
+      text: "Late March is the START of Vancouver's famous cherry blossom season. The earliest varieties (Akebono, Whitcomb) begin blooming around March 20-25, especially in Queen Elizabeth Park, the West End, and along residential streets. By the time you arrive March 24, you should catch the first wave. Download the Vancouver Cherry Blossom Festival app for a real-time bloom map."
+    },
+    {
+      title: "🥩 고기 맛집 가이드 — Meat Lover's Guide",
+      text: "Vancouver has some of the best Korean BBQ outside of Korea plus Japanese yakiniku, craft steakhouses, and smoked meat spots. This itinerary is built around your request (무조껀고기!) — every dinner features serious meat. Key areas: Robson Street for Korean BBQ, Gastown for steakhouses and smoked meat, West Broadway for yakiniku. Budget tip: Korean BBQ AYCE lunch specials (Dae Bak Bon Ga) run around CAD $25-30 — outstanding value."
+    },
+    {
+      title: "🚇 Getting Around — SkyTrain & Bus",
+      text: "Buy a Compass Card at any SkyTrain station (CAD $6 deposit, refundable). Zone 1 (city center): CAD $3.15/trip. Day pass: CAD $11.25. The SkyTrain Canada Line runs from YVR airport to downtown in 25 min (CAD $9.30 with airport surcharge). For North Shore (Grouse, Capilano): take SeaBus from Waterfront Station to Lonsdale Quay, then bus #236 — all on your Compass Card."
+    },
+    {
+      title: "🌧️ March Weather — Layer Up",
+      text: "Late March in Vancouver averages 6-12°C (43-54°F). Rain is likely — pack a waterproof jacket and layers. The mountains still have snow (Grouse Mountain summit: 0-5°C). Bring waterproof hiking boots for snowshoeing. Sunny days do happen and they're gorgeous — mountains and ocean sparkle. Layering is key: T-shirt + fleece + rain shell."
+    }
+  ],
+
+  days: [
+    // ======================== DAY 1 ========================
+    {
+      num: 1,
+      title: "Arrival, Stanley Park & Korean BBQ Feast",
+      neighborhoods: "Downtown · Stanley Park · Robson Street",
+      description: "Land in Vancouver, get your Compass Card, and dive into Stanley Park. Cycle the legendary seawall with ocean and mountain views in every direction, then kick off your meat pilgrimage with Korean BBQ on Robson Street.",
+      timeBlocks: [
+        {
+          label: "Morning — Arrival & Downtown Setup",
+          activities: [
+            {
+              title: "✈️ Arrive at YVR & SkyTrain to Downtown",
+              description: "Take the Canada Line SkyTrain from YVR Airport to Waterfront Station — a clean, fast 25-minute ride through Richmond into the heart of downtown. Buy a Compass Card at the YVR station. Drop your bags and grab breakfast.",
+              details: [
+                "🚇 Canada Line: YVR → Waterfront, 25 min, CAD $9.30",
+                "💳 Compass Card: CAD $6 deposit + load value, tap on/off",
+                "💡 Most hotels/hostels offer luggage storage before check-in"
+              ]
+            },
+            {
+              title: "☕ Breakfast at Breka Bakery & Café",
+              description: "A Vancouver institution open 24 hours. Great coffee, massive pastry selection, and solid hot breakfast items. The Robson Street location is perfect for fueling up before Stanley Park.",
+              details: [
+                "📍 812 Bute St (near Robson) · Open 24h",
+                "💰 CAD $5-12 for coffee + pastry/sandwich"
+              ]
+            }
+          ],
+          meals: [],
+          tips: []
+        },
+        {
+          label: "Afternoon — Stanley Park Seawall by Bike",
+          activities: [
+            {
+              title: "🚲 Cycle the Stanley Park Seawall",
+              description: "Rent a bike near the park entrance on Denman Street and ride the full 9km seawall loop. This is Vancouver's most iconic experience — the path hugs the coastline with views of the North Shore mountains, Lions Gate Bridge, English Bay, and downtown skyline. You'll pass Totem Poles at Brockton Point, Prospect Point under Lions Gate Bridge, and beautiful beaches. In late March, the route is quieter than summer.",
+              details: [
+                "🚲 Spokes Bicycle Rentals: ~CAD $10-15/hour, CAD $30-40/day",
+                "⏱️ Full loop: ~1-1.5 hours at relaxed pace (9km)",
+                "📸 Key stops: Totem Poles, Prospect Point, Third Beach, Siwash Rock",
+                "⚠️ One-way cycling (counter-clockwise). Helmets required by law (provided).",
+                "🌸 Watch for early cherry blossoms near Lost Lagoon"
+              ]
+            },
+            {
+              title: "🌲 Totem Poles at Brockton Point",
+              description: "Nine towering totem poles carved by First Nations artists — the most-visited attraction in BC. Interpretive signs explain the stories. The mountain and harbor backdrop is spectacular.",
+              details: [
+                "📍 Inside Stanley Park, Brockton Point",
+                "🆓 Free, always accessible"
+              ]
+            },
+            {
+              title: "🌊 English Bay Beach",
+              description: "After returning your bike, walk to English Bay Beach for sunset. One of Vancouver's best spots to watch the sun drop over the ocean and mountains.",
+              details: [
+                "📍 English Bay, foot of Denman Street",
+                "🌅 Sunset ~7:30 PM in late March",
+                "🆓 Free"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Lunch",
+              name: "Prospect Point Bar & Grill",
+              description: "At the highest point in Stanley Park with Lions Gate Bridge views. Great AAA beef burgers and hearty pub fare. Casual, scenic, with patio seating if weather cooperates.",
+              meta: "📍 Prospect Point, Stanley Park · CAD $18-28"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🚲 Cycling is strictly counter-clockwise. The route is designed so you get the best views in order." },
+            { type: "reddit", text: "Stanley Park seawall is hands-down the best thing to do in Vancouver. Even locals never get tired of it.", cite: "r/vancouver" }
+          ]
+        },
+        {
+          label: "Evening — Korean BBQ on Robson Street",
+          activities: [
+            {
+              title: "🥩 Korean BBQ Dinner at SURA Korean Cuisine",
+              description: "Your meat pilgrimage begins! SURA is widely considered the best Korean restaurant in Vancouver — run by Korean owners, consistently excellent. The galbi (grilled beef short rib) is legendary and the banchan spread is generous. Order the galbi, bulgogi, samgyeopsal (pork belly), and haemul pajeon. This is the real deal — premium cuts, perfect grilling.",
+              details: [
+                "📍 1518 Robson St · Reservations recommended",
+                "💰 CAD $25-45 per person",
+                "⏰ Dinner: 5:00 PM – 10:00 PM",
+                "🥩 Must-order: 갈비 (Galbi), 불고기 (Bulgogi), 삼겹살 (Samgyeopsal)",
+                "🍺 Korean beer (Cass, Hite) and soju available"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Dinner",
+              name: "SURA Korean Cuisine",
+              description: "Vancouver's top-rated Korean restaurant on Robson Street. Premium galbi, authentic banchan, and BBQ cooked at your table. Solo dining is comfortable at the bar.",
+              meta: "📍 1518 Robson St · CAD $25-45/person · surakoreancuisine.com"
+            }
+          ],
+          tips: [
+            { type: "reddit", text: "Korean dude here. Easy pick. Sura on Robson hands down. Get the galbi, haemul pajeon, bossam, and soondubu jjigae.", cite: "r/vancouver" },
+            { type: "tip", text: "🍖 Solo Korean BBQ tip: most places happily seat solo diners. SURA has counter seating — don't be shy, you're here for the meat!" }
+          ]
+        }
+      ],
+      mapPins: [
+        { lat: 49.1947, lng: -123.1816, label: "YVR Airport", num: 1, cat: "transport", desc: "Vancouver International Airport" },
+        { lat: 49.2863, lng: -123.1207, label: "Waterfront Station", num: 2, cat: "transport", desc: "SkyTrain hub" },
+        { lat: 49.2889, lng: -123.1340, label: "Breka Bakery", num: 3, cat: "food", desc: "24h café" },
+        { lat: 49.3004, lng: -123.1304, label: "Stanley Park Seawall", num: 4, cat: "attraction", desc: "9km cycling loop" },
+        { lat: 49.3005, lng: -123.1171, label: "Totem Poles", num: 5, cat: "attraction", desc: "First Nations totem poles" },
+        { lat: 49.3136, lng: -123.1394, label: "Prospect Point", num: 6, cat: "food", desc: "Highest point, under Lions Gate" },
+        { lat: 49.2862, lng: -123.1437, label: "English Bay Beach", num: 7, cat: "park", desc: "Sunset spot" },
+        { lat: 49.2875, lng: -123.1302, label: "SURA Korean Cuisine", num: 8, cat: "food", desc: "Top Korean BBQ on Robson" }
+      ]
+    },
+
+    // ======================== DAY 2 ========================
+    {
+      num: 2,
+      title: "Grouse Mountain & Capilano Suspension Bridge",
+      neighborhoods: "North Vancouver · Grouse Mountain · Capilano",
+      description: "Cross the inlet to Vancouver's North Shore for mountain thrills. Ride the Skyride gondola up Grouse Mountain for snowshoeing and panoramic views, then cross the swaying Capilano Suspension Bridge 70m above the canyon. End with yakiniku.",
+      timeBlocks: [
+        {
+          label: "Morning — Grouse Mountain",
+          activities: [
+            {
+              title: "🚌 Transit to North Vancouver",
+              description: "Take the SeaBus from Waterfront Station to Lonsdale Quay — a fun 12-minute ferry across Burrard Inlet with amazing views — then catch bus #236 up to Grouse Mountain.",
+              details: [
+                "🚢 SeaBus: Waterfront → Lonsdale Quay, 12 min, every 15 min",
+                "🚌 Bus #236: Lonsdale Quay → Grouse Mountain, ~15 min",
+                "💡 Leave by 9 AM to maximize mountain time"
+              ]
+            },
+            {
+              title: "🏔️ Grouse Mountain — Skyride & Snowshoeing",
+              description: "Take the Skyride — North America's largest aerial tramway — up 1,100 meters for jaw-dropping views of Vancouver, the ocean, and surrounding peaks. In late March there's still snow at the summit! Rent snowshoes and explore marked trails through snowy forest. The Eye of the Wind viewing pod (a turbine 20 stories high with a glass floor) is a unique thrill.",
+              details: [
+                "📍 6400 Nancy Greene Way, North Vancouver",
+                "💰 Skyride: CAD $69 adult (includes all mountaintop activities)",
+                "🎿 Snowshoe rental: ~CAD $15",
+                "⏰ Skyride: 8:45 AM – 10:00 PM",
+                "⚠️ Grouse Grind trail is CLOSED in March (opens mid-April). Skyride only.",
+                "🧥 Summit: 0-5°C — bring warm layers + waterproof jacket"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Brunch",
+              name: "Altitudes Bistro (Grouse Mountain Summit)",
+              description: "Eat at 1,100m elevation with panoramic windows. Solid burgers, steak sandwiches, hearty mountain fare. Try the mountain burger with double-smoked bacon.",
+              meta: "📍 Grouse Mountain Summit · CAD $18-30"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🏔️ Clear days offer views to Vancouver Island and Mt. Baker. Check the Grouse Mountain webcam before heading up — fog = zero visibility." },
+            { type: "tip", text: "⚠️ Grouse Grind trail doesn't open until mid-April. The Skyride is the way up in March." }
+          ]
+        },
+        {
+          label: "Afternoon — Capilano Suspension Bridge",
+          activities: [
+            {
+              title: "🌉 Capilano Suspension Bridge Park",
+              description: "Just 10 minutes down the mountain from Grouse. The main bridge spans 137m across and 70m above the Capilano River — it sways as you walk and the view straight down is dizzying. Beyond the bridge: Treetops Adventure (7 suspension bridges through the forest canopy at 30m height) and the Cliffwalk (a narrow walkway cantilevered off a granite cliff face with glass floor sections). All included in the ticket.",
+              details: [
+                "📍 3735 Capilano Rd, North Vancouver",
+                "💰 ~CAD $63 adult",
+                "⏰ March: 9 AM – 6 PM daily",
+                "⏱️ Allow 2-3 hours for everything",
+                "📸 Cliffwalk is the most Instagrammable — glass floor over the canyon"
+              ]
+            }
+          ],
+          meals: [],
+          tips: [
+            { type: "tip", text: "💡 Do Grouse in the morning, Capilano afternoon — they're 10 min apart by bus. Saves a whole day." },
+            { type: "reddit", text: "Capilano is worth it despite the price. The Cliffwalk alone is insane — glass panels bolted to a cliff 70m up.", cite: "r/vancouver" }
+          ]
+        },
+        {
+          label: "Evening — Yakiniku Night",
+          activities: [
+            {
+              title: "🥩 Yakiniku Dinner at Gyu-Kaku Japanese BBQ",
+              description: "Warm up after your mountain day with sizzling Japanese BBQ. Gyu-Kaku has premium cuts of wagyu-style beef, pork belly, and chicken thigh grilled at your table over charcoal. The garlic butter ribeye and miso-marinated short rib are incredible. Great happy hour deals.",
+              details: [
+                "📍 888 Nelson St, Downtown",
+                "💰 CAD $25-45 per person",
+                "🥩 Must-order: Garlic Toro Beef, Harami Skirt Steak",
+                "🍺 Asahi and Sapporo on tap"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Dinner",
+              name: "Gyu-Kaku Japanese BBQ",
+              description: "Tabletop Japanese BBQ with premium beef cuts, pork belly, and excellent marinades. Counter seating is great for solo diners. Check happy hour for discounted premium cuts.",
+              meta: "📍 888 Nelson St · CAD $25-45/person"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🍖 Gyu-Kaku happy hour gets you premium cuts at 30-50% off. Worth timing dinner around it." }
+          ]
+        }
+      ],
+      mapPins: [
+        { lat: 49.2863, lng: -123.1207, label: "Waterfront Station (SeaBus)", num: 1, cat: "transport", desc: "SeaBus to North Vancouver" },
+        { lat: 49.3137, lng: -123.0740, label: "Lonsdale Quay", num: 2, cat: "transport", desc: "North Van ferry terminal" },
+        { lat: 49.3801, lng: -123.0815, label: "Grouse Mountain", num: 3, cat: "attraction", desc: "Skyride, snowshoeing, views" },
+        { lat: 49.3429, lng: -123.1149, label: "Capilano Suspension Bridge", num: 4, cat: "attraction", desc: "137m bridge, 70m above canyon" },
+        { lat: 49.2812, lng: -123.1243, label: "Gyu-Kaku Japanese BBQ", num: 5, cat: "food", desc: "Tabletop yakiniku" }
+      ]
+    },
+
+    // ======================== DAY 3 ========================
+    {
+      num: 3,
+      title: "Granville Island, Gastown & Steak Night",
+      neighborhoods: "Granville Island · Gastown · Chinatown",
+      description: "Explore Granville Island's market — meat counters, craft beer, artisan everything — then wander through Gastown's cobblestone streets, catch the steam clock, and end with a proper steak dinner.",
+      timeBlocks: [
+        {
+          label: "Morning — Granville Island Public Market",
+          activities: [
+            {
+              title: "🏝️ Granville Island Public Market",
+              description: "Take the tiny Aquabus ferry from downtown across False Creek to Granville Island. The public market is a food lover's paradise — dozens of vendors, fresh seafood, artisan cheese, craft chocolate. For the meat lover: Tenderland Meats for premium steaks and jerky, and Oyama Sausage Co for the best sausages and cured meats in the city.",
+              details: [
+                "📍 1661 Duranleau St, Granville Island",
+                "⏰ 9 AM – 7 PM daily",
+                "🚢 Aquabus from Hornby St dock: CAD $3.75",
+                "💡 Go before 11 AM to beat the lunch crowds",
+                "🆓 Entry is free — pay for what you eat/buy"
+              ]
+            },
+            {
+              title: "🥩 Tenderland Meats & Oyama Sausage Co",
+              description: "Two Granville Island legends side by side. Tenderland has AAA Alberta beef steaks, house-made jerky, and game meats. Oyama is an award-winning sausage maker — grab a chorizo or andouille on a bun for an early snack. Even without a kitchen, their beef jerky and pepperoni sticks make perfect adventure fuel.",
+              details: [
+                "📍 Inside the Public Market",
+                "💰 Sausage on a bun: CAD $8-12 · Jerky: CAD $5-15",
+                "🏆 Oyama: multiple awards for best sausage in BC"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Breakfast",
+              name: "A Bread Affair + Market Grazing",
+              description: "Start with an organic sourdough croissant, then graze: Oyama sausage, a meat pie from the pastry vendors, and an old-school doughnut from Lee's Donuts. This is the Vancouver way to brunch.",
+              meta: "📍 Granville Island Public Market · CAD $10-20 · Open 9 AM"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🍺 Granville Island Brewing is right next to the market — tours and tastings available." },
+            { type: "reddit", text: "Oyama Sausage at Granville Island is one of the best things in Vancouver. Their charcuterie is world class.", cite: "r/FoodVancouver" }
+          ]
+        },
+        {
+          label: "Afternoon — Gastown & Chinatown",
+          activities: [
+            {
+              title: "🏛️ Gastown Exploration",
+              description: "Walk through Vancouver's oldest neighborhood — cobblestone streets, Victorian architecture, and the famous Steam Clock that whistles every 15 minutes. The area is full of indie boutiques, galleries, and excellent cocktail bars.",
+              details: [
+                "📍 Water Street, near Waterfront Station",
+                "🆓 Free to explore",
+                "📸 Brick streets + steam clock + mountain backdrop = iconic shot"
+              ]
+            },
+            {
+              title: "🥪 Lunch at Meat & Bread",
+              description: "A tiny, legendary sandwich shop. Their porchetta sandwich (slow-roasted pork with salsa verde on fresh ciabatta) is a Vancouver icon. There's usually a line — it moves fast and is worth every minute. The meatball sub with whipped ricotta is equally incredible.",
+              details: [
+                "📍 370 Cambie St, Gastown",
+                "💰 CAD $13-16",
+                "⏰ 11 AM – 5 PM",
+                "💡 Go at 11 AM sharp to beat the lunch rush"
+              ]
+            },
+            {
+              title: "🍺 Craft Beer at Steamworks Brewpub",
+              description: "Brewed on-site in historic Gastown, Steamworks has excellent beer and pub food. Perfect mid-afternoon fuel. Their smokehouse platters complement the beer perfectly.",
+              details: [
+                "📍 375 Water St, Gastown",
+                "💰 Pint: CAD $8-10"
+              ]
+            },
+            {
+              title: "🏮 Chinatown Quick Walk",
+              description: "One of North America's largest Chinatowns. Walk through the Millennium Gate, browse herbal shops and produce markets on Keefer and Pender streets. Optional: Dr. Sun Yat-Sen Classical Chinese Garden (CAD $14) — a peaceful oasis.",
+              details: [
+                "📍 Pender St between Carrall and Gore",
+                "💡 30-60 min walk"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Lunch",
+              name: "Meat & Bread",
+              description: "The porchetta sandwich — slow-roasted pork, salsa verde, ciabatta — is a Vancouver legend. No-frills, just incredible meat sandwiches.",
+              meta: "📍 370 Cambie St · CAD $13-16 · 11 AM – 5 PM"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🥪 Meat & Bread's porchetta is legendary. Go at 11 AM sharp — by noon the line is out the door." }
+          ]
+        },
+        {
+          label: "Evening — Steak Night",
+          activities: [
+            {
+              title: "🥩 Steak Dinner at Hy's Steakhouse",
+              description: "Time for a proper steakhouse experience. Hy's has been a Vancouver institution since 1955 — dark wood, leather booths, classic cocktails, and perfectly cooked steaks. The 8oz filet mignon or the New York strip are outstanding. This is old-school steakhouse done right. Solo diners are treated like royalty at the bar — sit there with a martini and a ribeye for the full experience.",
+              details: [
+                "📍 637 Hornby St, Downtown",
+                "💰 CAD $45-80 for steak + sides",
+                "⏰ Dinner: 5 PM – 10 PM",
+                "🥩 Must-order: NY Strip or Filet Mignon, creamed spinach, Hy's cheese toast (legendary starter)",
+                "👔 Smart casual dress code"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type: "Dinner",
+              name: "Hy's Steakhouse & Cocktail Bar",
+              description: "A Vancouver institution since 1955. Classic steakhouse — dark wood, leather, perfect steaks. The cheese toast appetizer is legendary. Bar seating is ideal for solo diners.",
+              meta: "📍 637 Hornby St · CAD $45-80 · Smart casual"
+            }
+          ],
+          tips: [
+            { type: "tip", text: "🧀 Don't skip the Hy's cheese toast — it's been on the menu since the 1950s and is addictive. Melted cheddar on garlic bread, broiled golden." },
+            { type: "tip", text: "💡 Budget tip: Hy's can be pricey but the bar menu has smaller steak options at lower prices." }
+          ]
+        }
+      ],
+      mapPins: [
+        { lat: 49.2723, lng: -123.1340, label: "Granville Island Public Market", num: 1, cat: "attraction", desc: "Food market, Tenderland Meats, Oyama" },
+        { lat: 49.2837, lng: -123.1091, label: "Gastown Steam Clock", num: 2, cat: "attraction", desc: "Vancouver's iconic steam clock" },
+        { lat: 49.2834, lng: -123.1087, label: "Meat & Bread", num: 3, cat: "food", desc: "Legendary porchetta sandwich" },
+        { lat: 49.2842, lng: -123.1110, label: "Steamworks Brewpub", num: 4, cat: "food", desc: "On-site brewed craft beer" },
+        { lat: 49.2791, lng: -123.1014, label: "Chinatown Millennium Gate", num: 5, cat: "attraction", desc: "Historic Chinatown entrance" },
+        { lat: 49.2833, lng: -123.1210, label: "Hy's Steakhouse", num: 6, cat: "food", desc: "Classic steakhouse since 1955" }
+      ]
+    },
+
+    // ======================== DAY 4 ========================
+    {
+      num: 4,
+      title: "Deep Cove Kayaking, Lonsdale Quay & AYCE Korean BBQ",
+      neighborhoods: "Deep Cove · Lonsdale Quay · Robson Street",
+      description: "Adventure day on the water! Kayak through the stunning Deep Cove inlet surrounded by mountains, explore the charming village, then cross back to the city for the ultimate all-you-can-eat Korean BBQ experience.",
+      timeBlocks: [
+        {
+          label: "Morning — Deep Cove Kayaking",
+          activities: [
+            {
+              title: "🚌 Transit to Deep Cove",
+              description: "Take the SeaBus to Lonsdale Quay, then bus #212 east along the North Shore to Deep Cove — a picturesque village at the end of a sheltered inlet. The 30-minute bus ride itself is scenic, passing through residential neighborhoods with mountain views.",
+              details: [
+                "🚢 SeaBus: Waterfront → Lonsdale Quay, 12 min",
+                "🚌 Bus #212: Phibbs Exchange → Deep Cove, ~20 min",
+                "💡 Leave by 9 AM — kayak rentals fill up on nice days"
+              ]
+            },
+            {
+              title: "🛶 Kayaking Indian Arm",
+              description: "Deep Cove is Vancouver's kayaking paradise. Paddle out into Indian Arm — a dramatic fjord surrounded by towering mountains, with waterfalls cascading down the cliffs in spring. The water is calm and sheltered, perfect for beginners and solo paddlers. On a clear March day, the reflections on the water are otherworldly. You might spot seals, eagles, and even dolphins.",
+              details: [
+                "📍 Deep Cove Kayak Centre, 2156 Banbury Rd",
+                "💰 Single kayak rental: ~CAD $55-75 for 2 hours",
+                "⏰ Open from 9 AM (weather dependent in March — call ahead)",
+                "🦅 Wildlife: seals, bald eagles, herons are common",
+                "💡 No experience needed — they provide a quick safety briefing"
+              ]
+            },
+            {
+              title: "🍩 Honey Doughnuts & Goodies",
+              description: "After kayaking, warm up at Deep Cove's legendary doughnut shop. The line is usually out the door and it's absolutely worth it. These are proper old-school cake doughnuts — crispy outside, soft inside, with just the right amount of sweetness. A Vancouver institution since 1972.",
+              details: [
+                "📍 4373 Gallant Ave, Deep Cove",
+                "💰 CAD $3-5 per doughnut",
+                "⏰ Opens 8 AM (sells out by early afternoon on weekends!)",
+                "💡 Get the plain honey or cinnamon sugar — the classics are the best"
+              ]
+            }
+          ],
+          meals: [
+            {
+              type:
