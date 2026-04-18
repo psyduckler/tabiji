@@ -599,11 +599,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `casablanca-street-food` — 12 Best Street Food in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-tea-houses` — 12 Best Tea Houses in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-viewpoints` — 12 Best Viewpoints in Casablanca (12/12) — REBUILT 2026-04-17
-- [ ] `casablanca-wine-bars` — 12 Best Wine Bars in Casablanca (1/12)
-- [ ] `catania-arancini` — Compare styles, sizes, and fillings of Catania's giant fried arancini … (1/12)
-- [ ] `catania-fish-market` — Fish Market in Catania (1/12)
-- [ ] `charleston-cocktail-scene` — James Beard–recognized bartenders and antebellum architecture make Cha… (1/12)
-- [ ] `charleston-shrimp-and-grits` — Shrimp and Grits in Charleston (1/12)
+- [x] `casablanca-wine-bars` — 12 Best Wine Bars in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `catania-arancini` — 12 Best Arancini in Catania (12/12) — rebuilt 2026-04-17
+- [x] `catania-fish-market` — 12 Best Fish Market Spots in Catania (12/12) — rebuilt 2026-04-17
+- [x] `charleston-cocktail-scene` — 12 Best Cocktail Bars in Charleston (12/12) — rebuilt 2026-04-17
+- [x] `charleston-shrimp-and-grits` — 12 Best Shrimp and Grits in Charleston (12/12) — rebuilt 2026-04-17
 - [ ] `chengdu-art-galleries` — 12 Best Art Galleries in Chengdu (1/12)
 - [ ] `chengdu-cheap-eats` — 12 Best Cheap Eats in Chengdu (1/12)
 - [ ] `chengdu-dan-dan-noodles` — Dan Dan Noodles in Chengdu (1/12)
