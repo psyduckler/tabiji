@@ -613,11 +613,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `chengdu-natural-wine-bars` — 12 Best Natural Wine Bars in Chengdu (12/12) — rebuilt 2026-04-18
 - [x] `chengdu-night-markets` — 12 Best Night Markets in Chengdu (12/12) — rebuilt 2026-04-18
 - [x] `chengdu-panda-base-morning` — 12 Top Picks for Your Chengdu Panda Adventure (12/12) — rebuilt 2026-04-18
-- [ ] `chengdu-photography-spots` — 12 Best Photography Spots in Chengdu (1/12)
-- [ ] `chengdu-sichuan-street-food` — 12 Best Sichuan Street Food in Chengdu (2026) — Reddit-Backed Guide (1/12)
-- [ ] `chengdu-street-food` — Chengdu Street Food Trail (1/12)
-- [ ] `chengdu-teahouses` — Ancient Teahouse Culture in Chengdu (1/12)
-- [ ] `chengdu-viewpoints` — 12 Best Viewpoints in Chengdu (1/12)
+- [x] `chengdu-photography-spots` — 12 Best Photography Spots in Chengdu (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-sichuan-street-food` — 12 Best Sichuan Street Food in Chengdu (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-street-food` — 12 Best Chengdu Street Food Spots (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-teahouses` — 12 Best Teahouses in Chengdu (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-viewpoints` — 12 Best Viewpoints in Chengdu (12/12) — rebuilt 2026-04-18
 - [ ] `chennai-chettinad-food` — Chettinad Cuisine in Chennai (1/12)
 - [ ] `chennai-filter-coffee` — Filter Coffee Culture in Chennai (1/12)
 - [ ] `chiang-mai-art-galleries` — 12 Best Art Galleries in Chiang Mai (1/12)
