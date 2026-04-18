@@ -130,12 +130,12 @@ EMERGENCY_INFO = {
         "lost_passport": "Contact your nearest embassy or consulate. The US Embassy is at Av. das Forças Armadas, 1600-081 Lisbon. For emergencies: +351 21 727-3300.",
     },
     "Greece": {
-        "police_name": "Hellenic Police (Ελληνική Αστυνομία)",
-        "police_number": "100",
-        "emergency_number": "112",
+        "police_name": "Tourist Police (Τουριστική Αστυνομία)",
+        "police_number": "171 (Tourist Police, English-speaking, 24/7) or 100 (General Police)",
+        "emergency_number": "112 (General Emergency), 166 (Medical), 171 (Tourist Police)",
         "report_url": "https://www.astynomia.gr/",
         "report_site": "astynomia.gr",
-        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy is at 91 Vassilisis Sophias Avenue, 10160 Athens. For emergencies: +30 210-721-2951.",
+        "lost_passport": "For passport replacement, contact the US Embassy Athens at 91 Vassilisis Sophias Avenue, 10160 Athens (+30 210-721-2951, 24/7 emergency). The UK Embassy is at 1 Ploutarchou Street, Athens (+30 210-727-2600). The Australian Embassy is at Level 6, Thon Building, Kifisias & Alexandras Avenues, Athens (+30 210-870-4000). Always call Tourist Police 171 first — they speak English and will file the police report you need for passport replacement and insurance claims.",
     },
     "Germany": {
         "police_name": "German Police (Polizei)",
@@ -1504,10 +1504,11 @@ SAFETY_TIPS = {
         "In Baixa and Chiado, be wary of anyone who offers to take your photo — they may run off with your phone",
     ],
     "Athens": [
-        "On Monastiraki Square and the Plaka, be alert to distraction techniques — the 'bump and lift' is common",
-        "Metered Athens taxis start at €1.30 — if the driver doesn't turn the meter on, ask immediately or get out",
-        "At restaurant terraces near Acropolis, always check if service charge and bread/couvert are included",
-        "Keep your bag closed and in front of you on the metro between Monastiraki and Syntagma stations",
+        "From Athens Airport (ATH), the legal taxi flat rate to the city centre is €40 daytime and €54 overnight — posted at the queue; anything else is a scam",
+        "Book Acropolis tickets only at hhticket.gr, GetYourGuide, Viator, or Tiqets — sites like acropolisticket.com are documented fakes that send invalid QR codes",
+        "Politely decline any drink invitation from a 'friendly local' in Plaka or Monastiraki — a real Athenian does not recruit tourists for unfamiliar bars",
+        "If someone with a bracelet or flower approaches at Syntagma or Monastiraki, cross your arms and step back — the item is a distraction for a team pickpocket",
+        "Save Tourist Police 171 (English-speaking, 24/7) — they mediate bar bills, rental disputes, and taxi overcharges effectively",
     ],
     "Berlin": [
         "Validate your U-Bahn/S-Bahn ticket every time — plain-clothes fare inspectors work tourist routes and fines are €60+",
@@ -1648,10 +1649,11 @@ SAFETY_TIPS = {
         "Keep bags closed in crowds at the Pile Gate entrance — the morning cruise ship crush is prime pickpocket territory",
     ],
     "Santorini": [
-        "Book donkey rides or boat tours only through your hotel or licensed operators — touts at Fira dock frequently overcharge and underdeliver",
-        "At Oia sunset viewpoint restaurants, check prices before ordering — some charge steep premiums for the view with no menu warning",
-        "Use the cable car or walk the steps in Fira — donkey handlers may demand unexpected tips or overcharge at the bottom",
-        "Rent ATVs only from established shops with insurance documentation — unlicensed rentals leave you liable for any damage on Santorini's narrow roads",
+        "At Athinios Port, walk past the 'public bus €15' recruiters — the real KTEL public bus is €2.40 to Fira and €2 to Oia; the ktel-santorini.gr site posts timetables",
+        "At restaurants on the caldera rim, demand per-portion prices in writing for fish — 'per kilo' billing routinely produces €200+ bills for a single seabass",
+        "Rent cars by credit card only (never cash), photograph every panel including the underside, and choose vetted agencies: Santorini-Rentacar, Kosmos, Damigos",
+        "For Fira to old port transport, take the cable car (€6, every 20 min) rather than donkeys — faster, safer, and avoids the mid-descent price-hike scam",
+        "Confirm your hotel reservation by phone 48 hours before arrival using the Google Maps number; never pay via links in emails, even ones that look like Booking.com",
     ],
     "Phuket": [
         "Never accept a tuk-tuk or taxi ride without agreeing on the price first — meters don't exist and prices triple for tourists who don't negotiate",
@@ -2145,15 +2147,15 @@ FAQS = {
     ],
     "Athens": [
         ("Is Athens safe for tourists?",
-         "Athens is generally safe for tourists. Petty theft — pickpocketing near the Acropolis, in the Monastiraki flea market, and on the metro — is the main risk. The Omonia area has more street-level crime and is best avoided at night. Violent crime targeting tourists is uncommon. Exercise the same awareness you would in any busy European city."),
+         "Athens is generally safe for tourists, including older travellers visiting by cruise, on guided tours, or independently. Violent crime against visitors is rare. The main risks are financial — taxi overcharging, tourist-menu restaurants in Plaka, and Acropolis ticket fraud online — along with pickpocketing on the Metro and at the Acropolis queue. Omonia Square has more street-level issues and is best avoided after dark. Save Tourist Police 171 (English-speaking, 24/7) before your trip — they actively mediate tourist disputes and their response in 2025 has been effective."),
         ("What is the most common scam in Athens?",
-         "Taxi overcharging — particularly from Piraeus port and Athens airport — is the most reported scam. Restaurants near the Acropolis and Monastiraki Square overcharging with unlisted fees (couvert, bread, service) are the second most common complaint. The meter scam (starting the meter on Tariff 2 during daylight) is well-documented."),
-        ("How do I get from Athens airport to the city?",
-         "The Metro Line 3 (blue line) runs from the airport to Syntagma Square in 40 minutes and costs €9 (€18 return). Bus X95 to Syntagma runs 24 hours. Licensed airport taxis have a fixed rate of €40 daytime and €55 nighttime to the center — confirm this before getting in. Any quote significantly different is overcharging."),
-        ("Are Athens taxis reliable?",
-         "Athens taxis are metered and generally reliable, but taxi scams are well-documented. Legitimate practices: Tariff 1 (€1.06/km) within city; Tariff 2 (€1.24/km) outside city limits and midnight–5am. Insist the meter runs on Tariff 1 for daytime city trips. Note the taxi medallion number before getting in."),
-        ("What areas should I avoid in Athens?",
-         "Omonia Square at night has a higher crime rate and is best avoided after dark. Exarchia is known for political demonstrations and occasional unrest — check current conditions before visiting. The Monastiraki and Psirri areas are safe at night and have good nightlife, just watch your pockets in the flea market crowds."),
+         "Taxi overcharging from Athens Airport (ATH) and Piraeus cruise port is the most reported scam. The legal flat rate from the airport is €40 daytime (5 AM–midnight) and €54 overnight — posted on signs at the queue. Anything else is a scam. Fake Acropolis ticket websites (particularly acropolisticket.com) are the second most common issue — always book through hhticket.gr, GetYourGuide, Viator, or Tiqets. The 'friendly local' drink invitation scam in Plaka, where a stranger leads tourists to an unfamiliar bar with escalating bills, is the third most common and can reach €200–€400 per victim."),
+        ("How do I get from Athens Airport to the city?",
+         "The Metro Line 3 (blue line) runs directly from the airport to Syntagma Square in 40 minutes and costs €9 per person. The X95 express bus runs 24 hours for €6 and reaches Syntagma in about 60 minutes. If you prefer a taxi, use Uber, Bolt, FreeNow, or Beat — all four apps work in Athens and show fixed prices before you commit. Licensed airport taxis charge a flat €40 daytime or €54 overnight. Your hotel concierge can also pre-arrange a fixed-price transfer for €45–€55 if you prefer the certainty."),
+        ("How do I buy genuine Acropolis tickets?",
+         "Book online only through hhticket.gr (the official Ministry of Culture site) or verified resellers GetYourGuide, Viator, or Tiqets. Avoid acropolisticket.com and similar lookalike sites — they send invalid QR codes and require credit card chargeback to recover. The combined Acropolis ticket (€30 in summer, €20 in winter as of 2025) covers the Acropolis plus six ancient sites for five days. At the site, buy tickets at the official booth next to the main gate; ignore anyone approaching you in the queue with 'skip-the-line' offers. Licensed Greek guides wear a yellow certification badge — ask to see it before hiring on-site. The climb is steep and uneven; go early morning to avoid heat and queues."),
+        ("What areas should older travellers avoid in Athens?",
+         "Omonia Square at night and in early morning hours has concentrated pickpocket and 'fake police' activity — avoid the area after dark. Exarchia sees political demonstrations and is less tourist-friendly. Plaka, Monastiraki, and Syntagma are safe to walk day and evening, but be alert to the bracelet and flower distraction-theft crews at metro exits. Koukaki (south of the Acropolis), Kolonaki, and Pangrati are excellent neighbourhoods for dining and walking, with lower scam exposure and gentler cobblestones than Plaka's steeper lanes."),
     ],
     "Berlin": [
         ("Is Berlin safe for tourists?",
@@ -2301,15 +2303,15 @@ FAQS = {
     ],
     "Santorini": [
         ("Is Santorini safe for tourists?",
-         "Santorini is one of the safest tourist destinations in Greece and Europe. Violent crime is virtually nonexistent. The main risks are tourist overcharging (restaurants, boat tours, transport), aggressive donkey ride operators, and sunburn/heat exhaustion. It's a place to watch your wallet, not your safety."),
+         "Santorini is one of the safest tourist destinations in Greece — violent crime against visitors is effectively nonexistent. The genuine risks are financial: restaurant per-kilo fish billing on Oia's caldera, fake 'public bus' shuttles at Athinios Port, rental car damage deposit shakedowns, and hotel overbooking forced 'upgrades.' Sun, heat, and the steepness of Fira's and Oia's cobbled streets are practical concerns for older travellers — wear supportive shoes and pace yourself. Save Tourist Police 171 (English, 24/7) before your trip."),
         ("What is the most common scam in Santorini?",
-         "Overcharging at restaurants with caldera views in Oia and Fira is the most common complaint — some charge steep premiums without menu prices. Unlicensed boat tour operators at Ammoudi Bay and Fira port who overcharge and underdeliver on quality are the second most reported issue."),
+         "At Oia and Fira caldera restaurants, fish priced 'per kilo' rather than per portion produces routine €200+ bills for a single seabass — always ask for per-portion prices in writing before ordering. The Athinios Port fake public bus scam (€15 for what the real KTEL bus charges €2.40) targets every ferry arrival. Rental car agencies claiming 'damage' on return for pre-existing scratches, and hotels forcing an 'upgrade' to an inferior property on arrival, round out the top four high-value scams. Donkey handlers demanding mid-ride price increases is the most common low-value scam."),
+        ("How do I get to Santorini from the ferry port?",
+         "At Athinios Port, the official KTEL public bus charges €2.40 to Fira and runs every 30 minutes during tourist season — timetables are posted at ktel-santorini.gr. Look for the official blue-and-white livery with a printed route number. The men in vests yelling 'public bus €15' at the ferry exit are running a private shuttle at six times the real rate. A hotel-arranged private transfer costs €15–€25 for a clearly-contracted car — this is often the best choice for older travellers arriving with luggage after a long ferry crossing."),
         ("Should I ride the donkeys in Santorini?",
-         "The donkey path from Fira Old Port to the town is a traditional option, but animal welfare concerns have made it controversial. Some handlers demand unexpected tips or overcharge. The cable car (€6 each way) is faster, cheaper, and avoids the animal welfare issue entirely. The walk up takes about 30 minutes and is scenic."),
-        ("How do I get around Santorini?",
-         "KTEL buses connect Fira to Oia, Kamari, Perissa, and other villages — cheap and reliable. ATV/quad rentals are popular but rent only from established shops with insurance documentation. The roads are narrow and accidents are common. Taxis are scarce — book through your hotel. The ferry from Athinios port to Fira requires a bus or pre-booked transfer."),
-        ("When is the best time to visit Santorini?",
-         "May-June and September-October offer the best balance of weather and manageable crowds. July-August is peak season with extreme crowds, highest prices, and temperatures above 35°C. The famous Oia sunset is genuinely spectacular year-round, but arrive 2 hours early in peak season to secure a viewing spot."),
+         "No, for three reasons. First, the 'traditional' framing is largely a tourist construct — most Santorini Greeks do not ride donkeys today. Second, handlers frequently escalate the price mid-descent ('€5' becomes '€20 because of the incline'). Third, there are documented animal welfare concerns — the Greek government enacted a 100-kilogram rider weight limit in 2018 because donkeys have suffered spinal injuries from the workload. For Fira-to-port transport, the cable car is €6 each way and runs every 20 minutes — safer, faster, and avoids the ethical concerns. In Oia, the 214 steps to Ammoudi Bay take 15 minutes downhill at a slow pace."),
+        ("How do I avoid restaurant overcharging on the caldera?",
+         "Three rules. First, fish must be priced per portion (e.g., 'seabass 300g €32') rather than per kilogram — refuse any 'we'll weigh it after cooking' arrangement. Second, refuse welcome bread, olives, and bottled water when they arrive — 'ochi, efcharisto' politely waves them off. Third, for dinner, drive or bus inland to Pyrgos, Megalochori, or Karterados villages where local tavernas serve better Greek food at half the caldera prices — then return to Oia purely for sunset at a free public viewpoint. Community-recommended honestly-priced Oia restaurants include Lauda, Santo Souvlaki, and Pelekanos (all 4.4+ Google ratings)."),
     ],
     "Phuket": [
         ("Is Phuket safe for tourists?",
@@ -3211,13 +3213,18 @@ def generate_scam_cards(scams, city="", n=0):
         red_flags_html = "\n".join(f"                    <li>{rf}</li>" for rf in scam.get("red_flags", []))
         avoid_html = "\n".join(f"                    <li>{av}</li>" for av in scam.get("how_to_avoid", []))
 
-        # TL;DR + remaining story
+        # TL;DR + remaining story (supports multi-paragraph stories via \n\n)
         story = scam.get('story', '')
         tldr, rest = make_tldr(story)
+        def _render_paragraphs(text, cls):
+            paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+            if len(paragraphs) <= 1:
+                return f'<p class="{cls}">{text}</p>'
+            return "\n        ".join(f'<p class="{cls}">{p}</p>' for p in paragraphs)
         if tldr:
-            story_html = f'<p class="scam-tldr">{tldr}</p>\n        <p class="scam-story-body">{rest}</p>'
+            story_html = f'<p class="scam-tldr">{tldr}</p>\n        ' + _render_paragraphs(rest, 'scam-story-body')
         else:
-            story_html = f'<p class="scam-story-body">{story}</p>'
+            story_html = _render_paragraphs(story, 'scam-story-body')
 
         html += f"""
     <!-- Scam {i} -->
