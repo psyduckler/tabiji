@@ -589,11 +589,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `casablanca-cheap-eats` — 12 Best Cheap Eats in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-cocktail-bars` — 12 Best Cocktail Bars in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-dessert-cafes` — 12 Best Dessert Cafes in Casablanca (12/12) — rebuilt 2026-04-17
-- [ ] `casablanca-fine-dining` — 12 Best Fine Dining in Casablanca (1/12)
-- [ ] `casablanca-food-halls` — 12 Best Food Halls in Casablanca (1/12)
-- [ ] `casablanca-jazz-bars` — 12 Best Jazz Bars in Casablanca (1/12)
-- [ ] `casablanca-natural-wine-bars` — 12 Best Natural Wine Bars in Casablanca (1/12)
-- [ ] `casablanca-night-markets` — 12 Best Night Markets in Casablanca (1/12)
+- [x] `casablanca-fine-dining` — 12 Best Fine Dining in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-food-halls` — 12 Best Food Halls in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-jazz-bars` — 12 Best Jazz Bars in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-natural-wine-bars` — 12 Best Natural Wine Bars in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-night-markets` — 12 Best Night Markets in Casablanca (12/12) — rebuilt 2026-04-17
 - [ ] `casablanca-photography-spots` — 12 Best Photography Spots in Casablanca (1/12)
 - [ ] `casablanca-seafood` — Fresh Atlantic Seafood in Casablanca (1/12)
 - [ ] `casablanca-street-food` — Casablanca Street Food (1/12)
