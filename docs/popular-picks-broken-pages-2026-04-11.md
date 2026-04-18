@@ -594,11 +594,11 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `casablanca-jazz-bars` — 12 Best Jazz Bars in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-natural-wine-bars` — 12 Best Natural Wine Bars in Casablanca (12/12) — rebuilt 2026-04-17
 - [x] `casablanca-night-markets` — 12 Best Night Markets in Casablanca (12/12) — rebuilt 2026-04-17
-- [ ] `casablanca-photography-spots` — 12 Best Photography Spots in Casablanca (1/12)
-- [ ] `casablanca-seafood` — Fresh Atlantic Seafood in Casablanca (1/12)
-- [ ] `casablanca-street-food` — Casablanca Street Food (1/12)
-- [ ] `casablanca-tea-houses` — 12 Best Tea Houses in Casablanca (1/12)
-- [ ] `casablanca-viewpoints` — 12 Best Viewpoints in Casablanca (1/12)
+- [x] `casablanca-photography-spots` — 12 Best Photography Spots in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-seafood` — 12 Best Fresh Atlantic Seafood in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-street-food` — 12 Best Street Food in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-tea-houses` — 12 Best Tea Houses in Casablanca (12/12) — rebuilt 2026-04-17
+- [x] `casablanca-viewpoints` — 12 Best Viewpoints in Casablanca (12/12) — REBUILT 2026-04-17
 - [ ] `casablanca-wine-bars` — 12 Best Wine Bars in Casablanca (1/12)
 - [ ] `catania-arancini` — Compare styles, sizes, and fillings of Catania's giant fried arancini … (1/12)
 - [ ] `catania-fish-market` — Fish Market in Catania (1/12)
