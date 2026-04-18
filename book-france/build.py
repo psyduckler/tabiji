@@ -38,6 +38,7 @@ CITY_INSERTION_MARKER = "<!-- CITIES -->"
 # Mirrors the landmark descriptions used in the front-matter gallery so the
 # same image gets the same spoken description regardless of where it appears.
 CITY_ALT_TEXT: dict[str, str] = {
+    # Japan volume
     "tokyo": "Stylized illustration of Tokyo — Shibuya crossing and Tokyo Tower at dusk",
     "kyoto": "Stylized illustration of Kyoto — the Fushimi Inari torii-gate tunnel at dusk",
     "osaka": "Stylized illustration of Osaka — the Dotonbori canal and Glico running-man sign",
@@ -47,6 +48,23 @@ CITY_ALT_TEXT: dict[str, str] = {
     "nara": "Stylized illustration of Nara — the Todai-ji Great Buddha Hall with deer in the foreground",
     "okinawa": "Stylized illustration of Okinawa — the Shuri Castle gate above a turquoise sea",
     "yokohama": "Stylized illustration of Yokohama — Minato Mirai and the Cosmo Clock Ferris wheel at dusk",
+    # France volume
+    "paris": "Paris — Eiffel Tower and Haussmann rooftops at dusk",
+    "nice": "Nice — Promenade des Anglais curve and Baie des Anges",
+    "cannes": "Cannes — Croisette palms and Palais des Festivals",
+    "st-tropez": "Saint-Tropez — Vieux Port yachts at golden hour",
+    "marseille": "Marseille — Vieux-Port and Notre-Dame de la Garde",
+    "avignon": "Avignon — Palais des Papes and Pont Saint-Bénézet",
+    "montpellier": "Montpellier — Place de la Comédie and the Three Graces fountain",
+    "toulouse": "Toulouse — Place du Capitole at blue hour",
+    "lyon": "Lyon — Vieux Lyon and Fourvière Basilica above the Saône",
+    "chamonix": "Chamonix — Mont Blanc and the Aiguille du Midi",
+    "annecy": "Annecy — turquoise lake and Palais de l’Ile",
+    "bordeaux": "Bordeaux — Place de la Bourse and the Miroir d’Eau",
+    "biarritz": "Biarritz — Grande Plage and Rocher de la Vierge",
+    "strasbourg": "Strasbourg — the Cathedral and Petite France half-timbered houses",
+    "colmar": "Colmar — Petite Venise canal and half-timbered houses",
+    "mont-saint-michel": "Mont-Saint-Michel — tidal causeway and Abbey silhouette",
 }
 
 
