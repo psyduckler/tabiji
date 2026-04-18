@@ -606,13 +606,13 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `charleston-shrimp-and-grits` — 12 Best Shrimp and Grits in Charleston (12/12) — rebuilt 2026-04-17
 - [x] `chengdu-art-galleries` — 12 Best Art Galleries in Chengdu (12/12) — rebuilt 2026-04-17
 - [x] `chengdu-cheap-eats` — 12 Best Cheap Eats in Chengdu (12/12) — rebuilt 2026-04-17
-- [ ] `chengdu-dan-dan-noodles` — Dan Dan Noodles in Chengdu (1/12)
+- [x] `chengdu-dan-dan-noodles` — 12 Best Dan Dan Noodles in Chengdu (12/12) — rebuilt 2026-04-18
 - [x] `chengdu-fine-dining` — 12 Best Fine Dining in Chengdu (12/12) — rebuilt 2026-04-17
 - [x] `chengdu-food-halls` — 12 Best Food Halls in Chengdu (12/12) — rebuilt 2026-04-17
-- [ ] `chengdu-jazz-bars` — 12 Best Jazz Bars in Chengdu (1/12)
-- [ ] `chengdu-natural-wine-bars` — 12 Best Natural Wine Bars in Chengdu (1/12)
-- [ ] `chengdu-night-markets` — 12 Best Night Markets in Chengdu (1/12)
-- [ ] `chengdu-panda-base-morning` — 12 Top Picks for Your Chengdu Panda Adventure (1/12)
+- [x] `chengdu-jazz-bars` — 12 Best Jazz Bars in Chengdu (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-natural-wine-bars` — 12 Best Natural Wine Bars in Chengdu (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-night-markets` — 12 Best Night Markets in Chengdu (12/12) — rebuilt 2026-04-18
+- [x] `chengdu-panda-base-morning` — 12 Top Picks for Your Chengdu Panda Adventure (12/12) — rebuilt 2026-04-18
 - [ ] `chengdu-photography-spots` — 12 Best Photography Spots in Chengdu (1/12)
 - [ ] `chengdu-sichuan-street-food` — 12 Best Sichuan Street Food in Chengdu (2026) — Reddit-Backed Guide (1/12)
 - [ ] `chengdu-street-food` — Chengdu Street Food Trail (1/12)
