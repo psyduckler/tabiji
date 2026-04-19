@@ -1373,6 +1373,12 @@ CITY_SLUGS = {
     "Guilin": "guilin",
     "Chengdu": "chengdu",
     "Shenzhen": "shenzhen",
+    "Lijiang": "lijiang",
+    "Yangshuo": "yangshuo",
+    "Chongqing": "chongqing",
+    "Zhangjiajie": "zhangjiajie",
+    "Pingyao": "pingyao",
+    "Harbin": "harbin",
     "Vilnius": "vilnius",
     "Antigua Guatemala": "antigua-guatemala",
     "Granada": "granada-nicaragua",
@@ -1471,6 +1477,20 @@ CITY_SLUGS = {
 
 # City-specific safety tips
 SAFETY_TIPS = {
+    "Lijiang": [
+        "Pay the Old Town Maintenance Fee (¥80) at an official checkpoint only — refuse touts selling 'skip-the-line' at ¥150+; r/chinatravel 'Is Yunnan suitable for non Mandarin speakers?' (comments/1o2bop0, 2025) gives the Yunnan context",
+        "For Yulong Snow Mountain, self-book via official WeChat or Trip.com: entry ¥100 + big cable car ¥180 + eco bus ¥50 + shared taxi ¥80 = ¥440 per person — skip hotel-concierge packages at ¥500–¥1,200 with shopping stops",
+        "For authentic Naxi culture, visit Dongba Cultural Museum (¥30 entry) and Naxi Ancient Music concert by Master Xuan Ke's orchestra (¥150–¥280) — skip hotel 'Naxi cultural experience' packages at ¥600+",
+        "Never follow Old Town bar-street touts promising 'free entry, free first drink' — r/chinalife 'Random meeting with Chinese lady' (comments/1gbkj16) documents Lijiang after-hours bar-trap approaches",
+        "Use DiDi or LJG Airport Shuttle Bus (¥25, 45 min) — r/travelchina 'Is Yunnan suitable for non Mandarin speakers?' (comments/1o2bp2j, 2025) confirms DiDi reliability in Yunnan",
+    ],
+    "Yangshuo": [
+        "Book Yulong River bamboo-raft via your guesthouse with posted prices (¥150–¥200 per 2-person, 90-min route) — refuse West Street touts offering 'discount ¥80 raft'; r/chinatravel 'Traveling to China' (comments/1fjwbtc, 2024) warns about Yangshuo rural-scam density",
+        "Avoid West Street bars after 10 PM — hostess-bar / drink-spiking / ¥300+ drink scams per r/travelchina 'Did I nearly get scammed?' (comments/1n4pjbk, 2025) with ¥6 Qingdao beer as reference; eat earlier at Dianping-verified venues",
+        "Book Impression Liu Sanjie show at liusanjie.net or Trip.com (official ¥220–¥680) — avoid hotel-concierge packages at ¥500–¥1,200",
+        "For beer fish, walk one block off West Street to Fang Weng, Cloud 9, or Lucy's Kitchen (¥80–¥220 per 2-person) — avoid West Street tourist-menu at ¥250–¥450",
+        "Rent bikes at guesthouse-affiliated shops (¥30–¥50 regular, ¥80–¥120 e-bike, ¥100–¥200 deposit) — video walk-around at pickup to avoid damage-dispute scams",
+    ],
     "Guangzhou": [
         "Guangzhou has China's most-complained-about taxi-scam density per r/China 'Did I just get scammed real bad by an \"official\" taxi' (comments/1oo4dpl, 2025) — use Metro Line 3 from CAN airport (¥6–¥8, 60 min) or DiDi at the official rideshare zone",
         "At Canton Fair / business dinners, NEVER let a contact or stranger choose the venue — insist on hotel restaurant or Dianping-verified 4.5+ venue; r/travelchina 'Did I nearly get scammed?' (comments/1n4pjbk, 2025) documents ¥300+ beer scams",
@@ -2409,6 +2429,30 @@ SAFETY_TIPS = {
 
 # City-specific FAQ
 FAQS = {
+    "Lijiang": [
+        ("Is Lijiang safe for tourists?",
+         "Lijiang is generally safe — violent crime against foreigners is very rare, and r/travelchina 'Is Yunnan suitable for non Mandarin speakers?' (comments/1o2bp2j, 2025) captures the 2025 view: 'No one scammed me in Lijiang, Xianggelila Yunnan' for self-guided travel. The practical risks concentrate at packaged-tour and nightlife touchpoints: Old Town entry-fee confusion and fake-ticket touts; hotel-concierge day-trip packages to Yulong Snow Mountain + Tiger Leaping Gorge + Shangri-La at ¥500–¥1,200 per person (vs self-guided ~¥440); Naxi 'cultural experience' overcharges; Old Town bar-street dating-app/hostess-bar traps after 10 PM per r/chinalife 'Random meeting with Chinese lady' (comments/1gbkj16); LJG airport taxi overcharges; and silver/Dongba handicraft counterfeits. Save 12315 (English consumer complaints) and 110 (police)."),
+        ("How do I visit Lijiang's Yulong Snow Mountain safely and affordably?",
+         "Self-guided total cost ~¥440 per person vs hotel-concierge packages at ¥500–¥1,200. Breakdown: (1) shared taxi or bus Lijiang Old Town to Yulong Snow Mountain gate ¥80 per person; (2) entry ticket ¥100 (book via official WeChat '玉龙雪山' mini-program or Trip.com); (3) big cable car to 4,506m Glacier Park ¥180; (4) eco bus ¥50; (5) oxygen can rental ¥30 (recommended for altitude). r/chinatravel 'Is Yunnan suitable for non Mandarin speakers?' (comments/1o2bop0, 2025) confirms the Yunnan tour-scam context — avoid any hotel-lobby packages. Arrive early morning (first cable car 8 AM) to beat altitude sickness and tour-group crowds. Consider altitude medication if you're over 60 or have heart conditions — the 4,506m elevation is significant."),
+        ("How do I experience authentic Naxi culture without getting overcharged?",
+         "Free and genuine options: (1) Dongba Cultural Museum ¥30 entry — genuine Naxi pictographic script, posted exhibitions with English context; (2) Naxi Ancient Music concert at Naxi Music Hall in Old Town — Master Xuan Ke's orchestra, ¥150–¥280 direct ticket (a legitimate artistic lineage, not a commercial tourist show); (3) Sifang Square and Black Dragon Pool host free public Naxi music and dance performances; (4) for genuine Naxi cuisine, walk to Baisha Village (the traditional Naxi village north of Lijiang Old Town) — residential restaurants at ¥40–¥80 per person. SKIP hotel-concierge 'Naxi cultural experience' packages at ¥600+ per person — all are commission-driven with staged performances. Buy Dongba script items at the Dongba Cultural Research Institute gift shop (posted prices, certified)."),
+        ("Should I go on a Tiger Leaping Gorge / Shangri-La day trip?",
+         "If yes, self-guide rather than hotel-package. Tiger Leaping Gorge upper viewpoint day trip: Lijiang local bus ¥35 (2h each way) + entry ¥45 per person = ¥80 self-guided vs ¥400+ package. For Shangri-La, the Lijiang-Shangri-La bus is ¥80 per person (4h) one-way — stay overnight at Shangri-La Old Town (accommodation ¥300–¥700/night via Booking.com) rather than cramming Shangri-La into a day trip. SKIP hotel-concierge multi-day Yunnan tours at ¥600–¥1,500 per person — r/chinatravel 'Is Yunnan suitable for non Mandarin speakers?' (comments/1o2bop0, 2025) confirms these are guaranteed shopping-stop scams with 4+ hours daily at jade/silver/Pu'er commission venues."),
+        ("How do I get from Lijiang airport (LJG) to the Old Town?",
+         "Three options: (1) Airport Shuttle Bus LJG to Lijiang Railway Station ¥25 per person, 45 min — then Metro Line 1 or taxi ¥25 to Old Town; (2) DiDi with international-number sign-up at the official rideshare pickup zone — app-regulated fare ~¥90–¥120; (3) licensed taxi with 'da biao' (打表), expect ¥80–¥120 to Old Town. AVOID drivers approaching inside the terminal with 'fixed price' quotes of ¥250+ per r/travelchina 'Taxi drivers in China airports' (comments/1ks12o9, 2025). Photograph taxi plate number from rear windscreen before boarding. For Lijiang-Dali or Lijiang-Kunming, use the high-speed rail from Lijiang Railway Station (Lijiang-Kunming ¥220, 3.5h; Lijiang-Dali ¥50, 2h)."),
+    ],
+    "Yangshuo": [
+        ("Is Yangshuo safe for tourists?",
+         "Yangshuo is generally safe during daytime — violent crime is rare, and the rural karst landscape makes it a beloved independent-traveler destination. However, West Street after 10 PM has a documented scam density per r/chinatravel 'Traveling to China - What I learned' (comments/1fjwbtc, 2024): 'in some rural areas (we went to Yangshuo) they tried to scam us a lot even tho we travelled with a Chinese friend.' The practical risks: West Street bar touts and drink-spiking; Yulong River bamboo-raft tourist-price flips; cormorant-photo-tout scams on Li River cruise; Impression Liu Sanjie show ticket overcharges; tourist-strip beer-fish restaurant overcharges; and bike rental damage-dispute scams. Save 12315 (English consumer complaints) and 110 (police)."),
+        ("How do I do the Yulong River bamboo-raft trip without getting scammed?",
+         "Book via your Yangshuo guesthouse with posted prices: ¥150–¥200 per 2-person raft for the full 90-minute Yulong Qiao to Gongnong Qiao route. AVOID West Street touts offering 'discount raft ¥80' — these deliver 30 min in a stagnant backwater and often demand additional 'tipping' during the ride per r/chinatravel 'Traveling to China - What I learned' (comments/1fjwbtc, 2024). Depart from the official Yulong Qiao raft dock only. The fair rate doesn't change at sunset — 'sunset private raft' at ¥500+ is markup. On the Li River cruise (Guilin to Yangshuo), decline cormorant-fisherman photo requests — the fisherman with straw hat and two cormorants is staged for tourist photos at ¥20–¥50 per shot; if you want the photo, ¥10 is fair."),
+        ("How do I book the Impression Liu Sanjie show affordably?",
+         "Book tickets directly via the official show website (liusanjie.net) or Trip.com / Ctrip at published rates: 'A' seat ¥280, 'B' seat ¥220, 'VIP' section ¥400–¥680 depending on seat location. The 70-minute outdoor Zhang Yimou-directed show features 600+ performers on the Li River and runs nightly at 7:45 PM (plus a 9:20 PM second show on weekends/holidays). AVOID hotel-concierge packages at ¥500–¥1,200 per person — all are commission markups. Get to the venue via Yangshuo local bus from West Street (¥3, 15 min). Dress warmly (outdoor riverside seating) and bring insect repellent for summer shows. Arrive 30 minutes early for best seat selection within your ticket category."),
+        ("How do I avoid West Street bar scams in Yangshuo?",
+         "West Street after 10 PM has aggressive tout-driven bar scams: 'free entry, free first drink' invitations lead to ¥2,000–¥6,000 bills with drinks at ¥300+ each. r/travelchina 'Did I nearly get scammed?' (comments/1n4pjbk, 2025) applies the universal 2025 bar-price anchor — a Qingdao beer should be ¥6–¥30 residential, not ¥300+. Defences: (1) eat and drink before 10 PM at Dianping-verified venues (4.5+ ratings reliable); (2) reject ALL tout 'free entry' invitations; (3) for genuine local bar experience, ask your guesthouse for recommendations one street OFF West Street where locals drink at fair prices; (4) never leave a drink unattended — drink-spiking incidents documented in 2024–2025; (5) hotel bar at your accommodation is the safest option; (6) if drugging suspected, call 110 immediately."),
+        ("Where should I eat beer fish in Yangshuo?",
+         "Community-vetted authentic venues (all one block off West Street for honest pricing): Fang Weng (small family-run, ¥80–¥120 per 2-person beer fish, ¥40–¥60 per vegetable side), Cloud 9 (mid-tier with posted prices, ¥120–¥180 per 2-person), Lucy's Kitchen (Yangshuo institution, ¥150–¥220). AVOID West Street restaurants with English-speaking touts outside and laminated English-photo menus — the same beer fish costs ¥250–¥450 at 2–3x pricing. Ask your guesthouse for residential recommendations or walk into any restaurant that's full of Chinese diners (the quality signal). Book via the Dianping app (Chinese Yelp) with 4.5+ ratings. For genuine Yangshuo cuisine beyond beer fish, try stuffed Yangshuo snail (tianluo) and pipiwang (steamed river fish)."),
+    ],
     "Guangzhou": [
         ("Is Guangzhou safe for tourists?",
          "Guangzhou is generally safe from violent crime — foreigners are rarely targeted. However, Guangzhou has China's most-complained-about taxi-scam density per r/China 'Did I just get scammed real bad by an \"official\" taxi' (comments/1oo4dpl, 2025): '99% of the time I don't get scammed in Shenzhen taxis. 99% of the time I DO get scammed in Guangzhou taxis.' Beyond taxi and counterfeit-bill scams (r/guangzhou comments/8bb5gs), the practical risks are: Canton Fair hostess-bar / contract-dinner scams; Huacheng Plaza and Shamian Island tea-house / art-student scams; Beijing Road and Shangxiajiu fake-goods bait-and-switch; Shamian Island dim sum tourist-menu overcharging. Save 12315 (English consumer complaints) and 110 (police)."),
