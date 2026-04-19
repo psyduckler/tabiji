@@ -1,0 +1,8 @@
+% Override \chapter* so unnumbered chapters update the running head.
+% Without this, pandoc's {-} (unnumbered) chapters inherit the previous
+% numbered chapter's mark — so after the last city chapter (Lanzarote),
+% "LANZAROTE" bleeds into every appendix page.
+\makeatletter
+\let\origschapter\@schapter
+\def\@schapter#1{\origschapter{#1}\markboth{\MakeUppercase{#1}}{\MakeUppercase{#1}}}
+\makeatother

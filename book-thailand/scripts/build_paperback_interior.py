@@ -247,20 +247,62 @@ def build_html(md: str) -> Path:
     return INTERIOR_HTML
 
 
-def html_to_pdf(html: Path) -> Path:
-    cmd = [
-        CHROME,
-        "--headless=new",
-        "--disable-gpu",
-        "--no-sandbox",
-        "--no-pdf-header-footer",
-        "--disable-extensions",
-        "--virtual-time-budget=10000",
-        f"--print-to-pdf={INTERIOR_PDF}",
-        f"file://{html.resolve()}",
-    ]
-    subprocess.run(cmd, check=True, capture_output=True)
+def build_pdf_direct(md_path: Path) -> Path:
+    """Build PDF directly from markdown using pandoc with LaTeX engine.
+    This produces proper TOC with page numbers."""
+    from shutil import which
+
+    # Check for LaTeX engines in preference order
+    engine = None
+    for eng in ("xelatex", "lualatex", "pdflatex"):
+        if which(eng):
+            engine = eng
+            break
+
+    if engine:
+        title = CONFIG.get("title", "Thailand Tourist Scams 2026")
+        author = CONFIG.get("author", "The Tabiji Team")
+
+        cmd = [
+            "pandoc",
+            str(md_path),
+            "-o", str(INTERIOR_PDF),
+            f"--pdf-engine={engine}",
+            "--toc",
+            "--toc-depth=1",
+            "-V", "geometry:paperwidth=6in",
+            "-V", "geometry:paperheight=9in",
+            "-V", "geometry:margin=0.75in",
+            "-V", "documentclass=book",
+            "-V", f"title={title}",
+            "-V", f"author={author}",
+            "-V", "fontsize=11pt",
+            "-V", "mainfont=Arial Unicode MS",
+            "--resource-path", str(BOOK),
+        ]
+        subprocess.run(cmd, check=True)
+    else:
+        # Fall back to Chrome headless (no TOC page numbers)
+        print("Warning: No LaTeX engine found. TOC will not have page numbers.")
+        html = build_html(MANUSCRIPT_MD.read_text())
+        cmd = [
+            CHROME,
+            "--headless=new",
+            "--disable-gpu",
+            "--no-sandbox",
+            "--no-pdf-header-footer",
+            "--disable-extensions",
+            "--virtual-time-budget=10000",
+            f"--print-to-pdf={INTERIOR_PDF}",
+            f"file://{html.resolve()}",
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
     return INTERIOR_PDF
+
+
+def html_to_pdf(html: Path) -> Path:
+    """Legacy function - now redirects to build_pdf_direct for proper TOC page numbers."""
+    return build_pdf_direct(MANUSCRIPT_MD)
 
 
 def page_count(pdf: Path) -> int | None:

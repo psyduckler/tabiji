@@ -1,6 +1,6 @@
 # How to Use This Book {-}
 
-Thailand is extraordinary. It is also, statistically, one of the most scam-prone countries in Southeast Asia for first-time visitors. Bangkok’s Grand Palace approach runs a “palace closed today” tuk-tuk-and-gem-shop script so old the Tourism Authority of Thailand has posted warning signs in four languages inside the compound. Phuket’s Patong beach has an annual jet-ski damage-deposit cycle the Thai Ministry of Tourism calls *”a perennial problem.”* The Tourist Police (dial **1155**) logs tens of thousands of foreign-visitor complaints every year, most of them concentrated on a dozen neighborhoods and a handful of island piers.
+Thailand is extraordinary. It is also, statistically, one of the most scam-prone countries in Southeast Asia for first-time visitors. Bangkok’s Grand Palace approach runs a “palace closed today” tuk-tuk-and-gem-shop script so old the Tourism Authority of Thailand has posted warning signs in four languages inside the compound. Phuket’s Patong beach has an annual jet-ski damage-deposit cycle the Thai Ministry of Tourism calls *“a perennial problem.”* The Tourist Police (dial **1155**) logs tens of thousands of foreign-visitor complaints every year, most of them concentrated on a dozen neighborhoods and a handful of island piers.
 
 We want you to come home with stories about the pad Thai, the temples, the longtail boats, and the night markets — not about a 20,000-baht “damaged” jet ski or a sapphire that was dyed glass.
 
