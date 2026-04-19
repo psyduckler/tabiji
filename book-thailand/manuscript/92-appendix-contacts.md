@@ -9,10 +9,9 @@ Every phone number in this appendix was verified current at the time of publicat
 These are the lines to dial from any phone — mobile or landline, Thai SIM or roaming — anywhere in the country. All of them are free.
 
 - **Tourist Police:** **1155**. This is the number to call if you do not speak Thai. Dispatchers are 24/7 and English-speaking nationwide; several speak Mandarin, Japanese, Korean, Russian, German, and French as well. This is the *first* number to try for any scam, theft, harassment, or assault incident involving a foreign visitor. The dispatcher will direct you to the nearest Tourist Police office and, in serious cases, send officers to meet you.
-- **Royal Thai Police (general emergency):** **191**. The national police general-emergency line. The first operator may speak Thai only; repeat *”English, please”* or *”Tourist Police”* and you will be transferred. Use this if 1155 is slow to connect.
+- **Royal Thai Police (general emergency):** **191**. The national police general-emergency line. The first operator may speak Thai only; repeat *“English, please”* or *“Tourist Police”* and you will be transferred. Use this if 1155 is slow to connect.
 - **Emergency medical services (ambulance):** **1669**. The national EMS dispatch. English is available at the major dispatch centers in Bangkok, Chiang Mai, Phuket, Pattaya, and Koh Samui; elsewhere the first operator may be Thai-only and will locate an English speaker. For any serious injury, calling the nearest large private hospital directly (numbers below) is often faster than 1669 in remote areas.
 - **Fire:** **199**. National fire-and-rescue dispatch.
-- **Pan-international emergency number:** **112**. Works from any mobile phone in Thailand and routes to the appropriate Thai service. Use this if you cannot remember the specific Thai numbers above.
 - **Tourism Authority of Thailand (TAT) Tourist Assistance:** **1672**. Not a fraud-report line — this is the tourist-advice and orientation hotline. Use it for general guidance, disputes with registered tour operators, and as a backup translator if you are struggling to communicate with local authorities. 24/7, English available.
 - **Tourist complaint hotline (Department of Land Transport):** **1584**. Complaints against licensed taxis, tuk-tuks, *songthaews*, buses, and other registered transport operators. Have the license-plate number ready.
 - **Office of the Consumer Protection Board:** **1166**. Complaints against shops, restaurants, tailors, gem shops, tour packages, and consumer fraud generally. Thai-language first line; English via callback in most cases. Website: **ocpb.go.th**.
@@ -49,7 +48,7 @@ Thailand hosts most countries’ embassies in Bangkok. The United States is the 
 
 ### United Kingdom
 
-- **British Embassy Bangkok:** 14 Wireless Road (Thanon Witthayu), Lumphini, Pathum Wan, Bangkok 10330. Main switchboard +66 2 305 8333.
+- **British Embassy Bangkok:** AIA Sathorn Tower, 14th Floor, 11/1 South Sathorn Road, Yannawa, Sathorn, Bangkok 10120. Main switchboard +66 2 305 8333. (The UK relocated from the former Wireless Road compound; verify on gov.uk before visiting.)
 
 ### Canada
 
@@ -86,7 +85,7 @@ Where we are not certain of a specific street address, we tell you so rather tha
 ### Ayutthaya
 
 - **Police report intake:** Ayutthaya has a local Tourist Police desk near the main tourist area inside the historical park; the main *Ayutthaya Provincial Police station* handles formal *bai jaeng kwaam* filings. Dial 1155 for the current office address. If you are day-tripping from Bangkok, many travelers find it faster to file on return to Bangkok — same-day counts.
-- **Major 24/7 emergency hospital:** **Phramongkutklao Ayutthaya Hospital** and **Ayutthaya Hospital** (public) are the two largest emergency departments in the city.
+- **Major 24/7 emergency hospital:** **Phra Nakhon Si Ayutthaya Hospital** (public) and **Ayutthaya Ruamphet Hospital** (private) are the two largest emergency departments in the city.
 - **English-speaking medical care:** limited compared to Bangkok; for non-urgent care, the short drive back to a Bangkok private hospital is often the cleaner option.
 
 ### Pattaya
