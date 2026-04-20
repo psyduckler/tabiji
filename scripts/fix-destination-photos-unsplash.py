@@ -7,7 +7,16 @@ Usage: python3 scripts/fix-destination-photos-unsplash.py
 """
 import json, glob, os, time, urllib.request, urllib.parse, sys
 
-API_KEY = "BCCK9bkNIOgkZULC_K5FYLHluSH_ro4T1MPD1pQbjWk"
+API_KEY = os.environ.get("UNSPLASH_ACCESS_KEY")
+if not API_KEY:
+    import subprocess
+    try:
+        API_KEY = subprocess.check_output(
+            ["security", "find-generic-password", "-s", "unsplash-access-key", "-w"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        raise SystemExit("ERROR: UNSPLASH_ACCESS_KEY not set and 'unsplash-access-key' not in macOS keychain.")
 DEST_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'api', 'v1', 'destinations')
 PROGRESS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scripts', 'unsplash-photo-progress.json')
 

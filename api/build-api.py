@@ -857,8 +857,11 @@ def build_picks():
         print("  ⚠️  popular-picks/ not found")
         return [], 0
 
-    output_picks_dir = OUTPUT_DIR / "picks"
-    output_picks_dir.mkdir(parents=True, exist_ok=True)
+    # Per-file /api/v1/picks/<slug>.json endpoints removed (2026-04-20) to stay
+    # under Cloudflare Pages 20,000-file deployment cap. Canonical pick detail
+    # lives at HTML /popular-picks/<slug>/ and is also included in the aggregate
+    # /api/v1/picks.json index below.
+    output_picks_dir = None
 
     summaries = []
     total_places = 0
@@ -927,8 +930,10 @@ def build_picks():
             "places": places
         }, record_type="pick", slug=slug, source_path=html_path, source_url=f"{SITE_URL}/popular-picks/{slug}/", tags=[city, category])
 
-        with open(output_picks_dir / f"{slug}.json", 'w') as f:
-            json.dump(detail, f, indent=2, ensure_ascii=False)
+        # Per-file picks JSON removed — see note at top of build_picks().
+        # if output_picks_dir is not None:
+        #     with open(output_picks_dir / f"{slug}.json", 'w') as f:
+        #         json.dump(detail, f, indent=2, ensure_ascii=False)
 
         updated_at = isoformat_mtime(html_path)
         summaries.append({
@@ -1160,8 +1165,11 @@ def build_compare():
         print("  ⚠️  compare/ not found")
         return [], 0
 
-    output_compare_dir = OUTPUT_DIR / "compare"
-    output_compare_dir.mkdir(parents=True, exist_ok=True)
+    # Per-file /api/v1/compare/<slug>.json endpoints removed (2026-04-20) to
+    # stay under Cloudflare Pages 20,000-file deployment cap. Canonical compare
+    # detail lives at HTML /compare/<slug>/ and is also included in the
+    # aggregate /api/v1/compare.json index below.
+    output_compare_dir = None
 
     summaries = []
     slugs = sorted([d for d in os.listdir(compare_dir) if (compare_dir / d / "index.html").exists()])
@@ -1261,8 +1269,10 @@ def build_compare():
             "faqs": faqs
         }, record_type="comparison", slug=slug, source_path=html_path, source_url=f"{SITE_URL}/compare/{slug}/", tags=[destination1, destination2])
 
-        with open(output_compare_dir / f"{slug}.json", 'w') as f:
-            json.dump(detail, f, indent=2, ensure_ascii=False)
+        # Per-file compare JSON removed — see note at top of build_compare().
+        # if output_compare_dir is not None:
+        #     with open(output_compare_dir / f"{slug}.json", 'w') as f:
+        #         json.dump(detail, f, indent=2, ensure_ascii=False)
 
         updated_at = isoformat_mtime(html_path)
         summaries.append({
@@ -1537,8 +1547,9 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
         ))
     for p in pick_summaries:
         records.append(build_search_item(
+            # url points to HTML canonical page (per-file /api/v1/picks/<slug>.json endpoints removed 2026-04-20)
             item_type="pick", slug=p["slug"], title=p["title"], subtitle=p.get("category", ""),
-            url=f"{API_BASE_URL}/picks/{p['slug']}.json", site_url=p["url"], tags=p.get("tags", []), extra={"city": p.get("city", "")}
+            url=p["url"], site_url=p["url"], tags=p.get("tags", []), extra={"city": p.get("city", "")}
         ))
     for i in itin_summaries:
         records.append(build_search_item(
@@ -1547,8 +1558,9 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
         ))
     for c in compare_summaries:
         records.append(build_search_item(
+            # url points to HTML canonical page (per-file /api/v1/compare/<slug>.json endpoints removed 2026-04-20)
             item_type="comparison", slug=c["slug"], title=c["title"], subtitle=f"{c.get('destination1', '')} vs {c.get('destination2', '')}".strip(),
-            url=f"{API_BASE_URL}/compare/{c['slug']}.json", site_url=c["url"], tags=c.get("tags", []),
+            url=c["url"], site_url=c["url"], tags=c.get("tags", []),
             extra={"destination1": c.get("destination1", ""), "destination2": c.get("destination2", "")}
         ))
 

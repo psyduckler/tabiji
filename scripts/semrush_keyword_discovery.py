@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 Discover new compare page opportunities using Semrush keyword research.
@@ -13,7 +14,18 @@ import urllib.parse
 import sys
 import re
 
-API_KEY = "466c49b8794c2ba3d09ad2afd1964cd0"
+_env_key = os.environ.get("SEMRUSH_API_KEY")
+if _env_key:
+    API_KEY = _env_key
+else:
+    import subprocess
+    try:
+        API_KEY = subprocess.check_output(
+            ["security", "find-generic-password", "-s", "semrush-api-key", "-w"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        raise SystemExit("ERROR: SEMRUSH_API_KEY not set and 'semrush-api-key' not in macOS keychain.")
 DATABASE = "us"
 EXISTING_SLUGS_FILE = "/Users/bjh/Documents/tabiji/scripts/all-existing-slugs.json"
 OUTPUT_FILE = "/Users/bjh/Documents/tabiji/compare-keyword-opportunities.csv"

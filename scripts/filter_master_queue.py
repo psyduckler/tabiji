@@ -12,9 +12,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PP_DIR = ROOT / "popular-picks"
+QUEUES_DIR = ROOT / "scripts" / "queues"
 
 # Load master queue
-data = json.load(open(ROOT / "popular-picks-master-queue.json"))
+data = json.load(open(QUEUES_DIR / "popular-picks-master-queue.json"))
 
 # Get published slugs
 published = set()
@@ -143,13 +144,13 @@ output_data = {
               "search_volume": e["search_volume"]} for e in done],
 }
 
-output_path = ROOT / "popular-picks-master-queue.json"
+output_path = QUEUES_DIR / "popular-picks-master-queue.json"
 output_path.write_text(json.dumps(output_data, indent=2, ensure_ascii=False))
 print(f"\nWrote {output_path}")
 
 # Also write CSV of just the pending items
 import csv
-csv_path = ROOT / "popular-picks-master-queue.csv"
+csv_path = QUEUES_DIR / "popular-picks-master-queue.csv"
 with open(csv_path, 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f)
     writer.writerow(["slug", "city", "country", "category", "title", "keyword",
