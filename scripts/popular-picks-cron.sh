@@ -4,7 +4,7 @@
 set -uo pipefail
 
 REPO="/Users/psy/tabiji"
-QUEUE="$REPO/popular-picks-master-queue.json"
+QUEUE="$REPO/scripts/queues/popular-picks-master-queue.json"
 LOGDIR="$REPO/logs"
 BATCH_SIZE="${1:-3}"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)

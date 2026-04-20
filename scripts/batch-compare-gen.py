@@ -27,7 +27,7 @@ DATA_DIR = REPO_ROOT / "compare-data"
 API_COMPARE_DIR = REPO_ROOT / "api" / "v1" / "compare"
 INVENTORY_PATH = COMPARE_DIR / "inventory.json"
 SITEMAP_PATH = REPO_ROOT / "sitemap.xml"
-QUEUE_PATH = REPO_ROOT / "compare-queue.json"
+QUEUE_PATH = REPO_ROOT / "scripts" / "queues" / "compare-queue.json"
 SHELL_TEMPLATE_PATH = Path(__file__).resolve().parent / "compare-shell-template.json"
 
 # Load shell template

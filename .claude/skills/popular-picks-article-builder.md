@@ -14,7 +14,7 @@ Build a complete tabiji.ai popular-picks article from research to deployment.
 - When batch-building multiple articles from the queue
 
 ## Required input
-A slug from `popular-picks-master-queue.json` (e.g., `detroit-pizza`, `paris-banh-mi`, `kyoto-sushi`).
+A slug from `scripts/queues/popular-picks-master-queue.json` (e.g., `detroit-pizza`, `paris-banh-mi`, `kyoto-sushi`).
 
 The queue file contains: slug, city, country, category, keyword, search_volume.
 
@@ -216,5 +216,5 @@ Before committing any page:
 ## Related Files
 - Template: `popular-picks/detroit-pizza/index.html`
 - Photo script: `scripts/add_photos_for_page.py`
-- Master queue: `popular-picks-master-queue.json`
+- Master queue: `scripts/queues/popular-picks-master-queue.json`
 - Country hubs: `popular-picks/{usa,japan,france,italy,singapore,greece,...}/index.html`

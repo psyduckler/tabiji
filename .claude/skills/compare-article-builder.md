@@ -16,7 +16,7 @@ Build a complete tabiji.ai compare page from queue to deployment.
 - When running as a cron job to process the compare queue
 
 ## Required input
-A slug in `{dest1}-vs-{dest2}` format (e.g., `madrid-vs-barcelona`, `tokyo-vs-kyoto`), or the word `batch` to process pending items from `compare-queue.json`.
+A slug in `{dest1}-vs-{dest2}` format (e.g., `madrid-vs-barcelona`, `tokyo-vs-kyoto`), or the word `batch` to process pending items from `scripts/queues/compare-queue.json`.
 
 ## Reference implementation
 **`madrid-vs-barcelona`** is the gold standard. New pages must match its structure, tone, and quality bar. It includes: collapsible deep-dive sections, score ticker, visual scorecard with bars, quick answers grid, cost comparison widget, monthly weather chart, 4-tab sample itineraries, Reddit quotes throughout, verdict cards, and related comparisons section.
@@ -152,11 +152,11 @@ Cloudflare Pages auto-deploys from main.
 ## Batch Building
 
 ### From the queue
-Process pending items from `compare-queue.json`:
+Process pending items from `scripts/queues/compare-queue.json`:
 
 ```bash
 # Check what's pending
-python3 -c "import json; q=json.load(open('compare-queue.json')); print(f'{sum(1 for i in q if i[\"status\"]==\"pending\")} pending')"
+python3 -c "import json; q=json.load(open('scripts/queues/compare-queue.json')); print(f'{sum(1 for i in q if i[\"status\"]==\"pending\")} pending')"
 
 # Build next N pages
 python3 scripts/batch-compare-gen.py batch <slugs.json>
@@ -185,7 +185,7 @@ To run as a recurring cron job that processes the compare queue:
 
 The cron prompt should be:
 ```
-Process the next 3 pending items from compare-queue.json through the full compare-article-builder pipeline. For each: generate content, research Reddit, enrich, add photos, validate. Then finalize all and commit with message "Add compare pages: [slugs] (automated build)". Skip any that fail and log the failure.
+Process the next 3 pending items from scripts/queues/compare-queue.json through the full compare-article-builder pipeline. For each: generate content, research Reddit, enrich, add photos, validate. Then finalize all and commit with message "Add compare pages: [slugs] (automated build)". Skip any that fail and log the failure.
 ```
 
 **Pipeline per slug (automated):**
@@ -248,7 +248,7 @@ Before committing any page, verify:
 - Enrichment: `generators/compare/enrich_compare.py`
 - HTML builder: `generators/compare/build_compare.py`
 - Shell template: `scripts/compare-shell-template.json`
-- Compare queue: `compare-queue.json`
+- Compare queue: `scripts/queues/compare-queue.json`
 - Inventory: `compare/inventory.json`
 - Photo pipeline docs: `docs/photo-pipeline.md`
 - Full runbook: `docs/compare-page-runbook.md`

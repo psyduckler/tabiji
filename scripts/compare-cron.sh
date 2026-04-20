@@ -4,7 +4,7 @@
 set -euo pipefail
 
 REPO="/Users/psy/tabiji"
-QUEUE="$REPO/compare-queue.json"
+QUEUE="$REPO/scripts/queues/compare-queue.json"
 SCRIPT="$REPO/scripts/batch-compare-gen.py"
 
 cd "$REPO"

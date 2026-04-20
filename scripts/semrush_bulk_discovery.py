@@ -15,7 +15,7 @@ import os
 
 API_KEY = "466c49b8794c2ba3d09ad2afd1964cd0"
 DATABASE = "us"
-QUEUE_FILE = "/Users/bjh/Documents/tabiji/compare-queue.json"
+QUEUE_FILE = "/Users/bjh/Documents/tabiji/scripts/queues/compare-queue.json"
 EXISTING_SLUGS_FILE = "/Users/bjh/Documents/tabiji/scripts/all-existing-slugs.json"
 ALL_OPPORTUNITIES_FILE = "/Users/bjh/Documents/tabiji/scripts/all-discovered-opportunities.json"
 OUTPUT_FILE = "/Users/bjh/Documents/tabiji/compare-keyword-opportunities.csv"
