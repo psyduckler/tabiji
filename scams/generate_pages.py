@@ -4057,9 +4057,9 @@ FAQS = {
         ("How do I get from Cancún Airport (CUN) to my hotel safely?",
          "Three safe options: (1) Pre-paid shuttle booked ONLINE before trip — eTransfers, Canada Transfers, or USA Transfers at US$15–$30 per person; meet driver with printed voucher at terminal exit. (2) Uber in-app — CUN allows Uber pickups since a 2024 legal ruling, typical MX$350–$500 to Hotel Zone; meet at signposted pickup zone. (3) ADO public bus from CUN Terminals 2/3/4 to Hotel Zone terminal MX$150 (40 min, every 30 min, safest budget option). IGNORE every 'private transfer' sign-holder inside arrivals hall quoting US$80+. For return, pre-book shuttle/Uber night before at US$15–$30."),
         ("How do I avoid Cancún timeshare presentation traps?",
-         "JUST SAY NO at the resort welcome desk — the 'free breakfast + spa credit + excursion vouchers' offer is NEVER worth 3–5 hours of high-pressure sales and potential US$30,000+ financial risk. If you do attend: set a HARD TIME LIMIT and stand up to walk out at exactly 90 minutes regardless of sales tactics; NEVER authorize any credit-card 'hold' during the presentation; refuse 'closer' and 'manager' escalation. Mexican law grants a 5-business-day cooling-off period — if you signed, file cancellation via PROFECO (profeco.gob.mx) and registered mail to the property's legal department within the window. r/cancun 'Your best Here's how I got away from the timeshare' (comments/1aq6o4f, 2024) has 50+ documented exit strategies worth reading BEFORE your trip."),
+         "JUST SAY NO at the resort welcome desk — the 'free breakfast + spa credit + excursion vouchers' offer is NEVER worth 3–5 hours of high-pressure sales and potential US$30,000+ financial risk. If you do attend: set a HARD TIME LIMIT and stand up to walk out at exactly 90 minutes regardless of sales tactics; NEVER authorise any credit-card 'hold' during the presentation; refuse 'closer' and 'manager' escalation. Mexican law grants a 5-business-day cooling-off period — if you signed, file cancellation via PROFECO (profeco.gob.mx) and registered mail to the property's legal department within the window. r/cancun 'Your best Here's how I got away from the timeshare' (comments/1aq6o4f, 2024) has 50+ documented exit strategies worth reading BEFORE your trip."),
         ("How do I handle corrupt police in Cancún?",
-         "Treat it as a FINANCIAL scam (not physical violence): (1) ask for BADGE with name + officer number and WRITE IT DOWN in your phone notes; (2) firmly state 'quiero hablar con el consulado' (I want to speak with the consulate) + '911 por favor' — this deters fake officers and slows real ones; (3) NEVER surrender your original passport — show a laminated photocopy; (4) NEVER unlock your phone for any officer; (5) NEVER pay cash on the spot — insist any fine be written and paid at the delegación (police station); (6) if shakedown proceeds, record audio (Mexican law allows one-party consent). r/cancun 'Cancun police corruption' (comments/1r2w6h6, 2025) and 'I've heard a lot of stories about Police extortion' (comments/1jwdvqt, 2025) document 2025 defence scripts. Save US Embassy +52 55 8526 2561."),
+         "Treat it as a FINANCIAL scam (not physical violence): (1) ask for BADGE with name + officer number and WRITE IT DOWN in your phone notes; (2) firmly state 'quiero hablar con el consulado' (I want to speak with the consulate) + '911 por favour' — this deters fake officers and slows real ones; (3) NEVER surrender your original passport — show a laminated photocopy; (4) NEVER unlock your phone for any officer; (5) NEVER pay cash on the spot — insist any fine be written and paid at the delegación (police station); (6) if shakedown proceeds, record audio (Mexican law allows one-party consent). r/cancun 'Cancun police corruption' (comments/1r2w6h6, 2025) and 'I've heard a lot of stories about Police extortion' (comments/1jwdvqt, 2025) document 2025 defence scripts. Save US Embassy +52 55 8526 2561."),
     ],
     "Isla Mujeres": [
         ("Is Isla Mujeres safe for tourists in 2026?",
@@ -4111,13 +4111,13 @@ FAQS = {
     ],
     "Mexico City": [
         ("Is Mexico City safe for tourists?",
-         "Mexico City has improved significantly in safety for tourist areas. The Roma, Condesa, Polanco, and Coyoacán neighborhoods are as safe as any major European city. The historic center is safe during the day. Avoid Tepito, Doctores, and the airport surroundings at night. The main risks are taxi-related crime, express kidnapping, and pickpocketing — manageable with the right precautions."),
+         "Mexico City has improved significantly in safety for tourist areas. The Roma, Condesa, Polanco, and Coyoacán neighborhoods are as safe as any major European city. The historic centre is safe during the day. Avoid Tepito, Doctores, and the airport surroundings at night. The main risks are taxi-related crime, express kidnapping, and pickpocketing — manageable with the right precautions."),
         ("What is the most common scam in Mexico City?",
-         "Express kidnapping via unofficial taxis (piratas) is the most dangerous and most reported serious crime affecting tourists. The solution is simple: only use Uber or book official taxis through SITEUR (airport official taxis) or your hotel. Pickpocketing in the historic center and at Chapultepec is also common."),
+         "Express kidnapping via unofficial taxis (piratas) is the most dangerous and most reported serious crime affecting tourists. The solution is simple: only use Uber or book official taxis through SITEUR (airport official taxis) or your hotel. Pickpocketing in the historic centre and at Chapultepec is also common."),
         ("Is Uber safe in Mexico City?",
          "Yes — Uber is widely considered the safest transport option in CDMX. It provides driver identification, GPS tracking, and full trip history. Book from inside the terminal or your hotel before stepping outside. Mexico City also has Cabify and DiDi as alternatives. Avoid any car that approaches you proactively."),
         ("Are there areas of Mexico City tourists should avoid?",
-         "Tepito (market area known for contraband), Doctores, and parts of Iztapalapa have significantly higher crime rates and aren't on the typical tourist circuit. The historic center, Roma Norte/Sur, Condesa, Polanco, Coyoacán, and San Ángel are all relatively safe for daytime tourism. At night, stick to the neighborhood where you're eating or drinking and take Uber between areas."),
+         "Tepito (market area known for contraband), Doctores, and parts of Iztapalapa have significantly higher crime rates and aren't on the typical tourist circuit. The historic centre, Roma Norte/Sur, Condesa, Polanco, Coyoacán, and San Ángel are all relatively safe for daytime tourism. At night, stick to the neighbourhood where you're eating or drinking and take Uber between areas."),
         ("Is tap water safe in Mexico City?",
          "No — tap water in CDMX is not safe to drink and causes stomach issues for most visitors. Drink bottled or filtered water. Most hotels provide purified water; many AirBnBs have filters. Brush your teeth with tap water is fine for most people, but drinking it is not recommended. Large 20-liter garrafones of purified water are very cheap at OXXO stores."),
     ],
@@ -5229,17 +5229,17 @@ FAQS = {
         ("Is Guadalajara safe for tourists in 2025-2026?",
          "Guadalajara is generally safe for tourists who stay in established neighborhoods like the Centro Historico, Chapultepec, and Tlaquepaque. The main risks are petty crime like pickpocketing and taxi scams rather than violent crime targeting visitors. Use ride-sharing apps, stay aware in crowded markets, and avoid walking alone in unfamiliar areas after dark."),
         ("Should I use taxis or Uber in Guadalajara?",
-         "Uber and Didi are strongly recommended over street taxis. Both apps provide upfront pricing, GPS-tracked routes, and driver identification, eliminating the meter manipulation and overcharging scams common with some street taxis. If you must take a taxi, use only authorized sitio taxis from official stands and agree on the fare in pesos before getting in."),
+         "Uber and Didi are strongly recommended over street taxis. Both apps provide upfront pricing, GPS-tracked routes, and driver identification, eliminating the meter manipulation and overcharging scams common with some street taxis. If you must take a taxi, use only authorised sitio taxis from official stands and agree on the fare in pesos before getting in."),
         ("Is Mercado San Juan de Dios safe to visit?",
          "Yes, Mercado San Juan de Dios is safe and worth visiting, but you need to take precautions against pickpockets. Visit early in the morning when it is less crowded, wear a crossbody bag in front, carry only the cash you need, and be alert to distraction techniques. Many visitors report positive experiences when they take basic precautions."),
         ("What should I do if a police officer asks me for money on the street?",
          "Legitimate Mexican police never collect fines on the street — all fines must be paid at a police station. If someone claiming to be an officer demands cash, calmly ask for their badge number, say you want to call your consulate, and dial 911 to verify. Real officers will not object to verification. Fake officers will usually back off when you demonstrate knowledge of the system."),
         ("How much should I expect to pay for a taxi from Guadalajara airport?",
-         "A taxi from GDL airport to the Centro Historico should cost approximately 250-350 pesos ($15-20 USD) using an authorized taxi with a pre-purchased voucher from the booth inside the terminal. Uber and Didi are also available and typically charge 150-250 pesos for the same route. Never accept a ride from someone soliciting you in the arrivals hall."),
+         "A taxi from GDL airport to the Centro Historico should cost approximately 250-350 pesos ($15-20 USD) using an authorised taxi with a pre-purchased voucher from the booth inside the terminal. Uber and Didi are also available and typically charge 150-250 pesos for the same route. Never accept a ride from someone soliciting you in the arrivals hall."),
     ],
     "Puebla": [
         ("Is Puebla safe for tourists in 2026?",
-         "Puebla is generally safe for tourists — the historic center (Centro Histórico) is heavily patrolled, police are tourist-friendly, and violent crime against visitors is rare. The 2025 risks are financial: TAPO bus terminal taxi scams (when coming from Mexico City), Cholula pyramid 'mandatory guide' fraud, Talavera pottery authenticity scams, Zócalo-perimeter restaurant bill-padding, and day-trip tour commissions. r/MexicoTravel 'First time in Mexico coming up (30F)' (comments/1qne1ze, 2025) and 'Planning to visit Mexico soon' (comments/1l5dart, 2025) are 2025 community anchors. Save Puebla Tourist Police +52 222 237 2211."),
+         "Puebla is generally safe for tourists — the historic centre (Centro Histórico) is heavily patrolled, police are tourist-friendly, and violent crime against visitors is rare. The 2025 risks are financial: TAPO bus terminal taxi scams (when coming from Mexico City), Cholula pyramid 'mandatory guide' fraud, Talavera pottery authenticity scams, Zócalo-perimeter restaurant bill-padding, and day-trip tour commissions. r/MexicoTravel 'First time in Mexico coming up (30F)' (comments/1qne1ze, 2025) and 'Planning to visit Mexico soon' (comments/1l5dart, 2025) are 2025 community anchors. Save Puebla Tourist Police +52 222 237 2211."),
         ("How do I get from Mexico City to Puebla safely?",
          "Take ADO (or Estrella Roja) primera-clase bus from TAPO terminal in Mexico City at MX$250-300 for a 2-hour comfortable ride. Buy tickets ONLY at the OFFICIAL counter inside TAPO OR on ado.com.mx — NEVER from resellers outside. The bus arrives at CAPU (Central de Autobuses de Puebla). From CAPU to Centro Histórico Puebla, use Uber MX$100-180 (15 km, 20 min) OR colectivo MX$60-80 — NOT the sitio taxi quoting MX$500-800. r/MexicoTravel 'Taxi Scam at TAPO Bus Terminal (June 2025)' (comments/1lmhuox, 2025) is the CANONICAL 2025 anchor documenting TAPO sitio card-cloning fraud."),
         ("How do I visit Cholula Pyramid affordably?",
@@ -5251,7 +5251,7 @@ FAQS = {
     ],
     "Guanajuato": [
         ("Is Guanajuato City safe for tourists in 2026?",
-         "Guanajuato City is one of Mexico's safest colonial destinations — the compact historic center is well-patrolled, violent crime against tourists is rare, and the steep cobblestone alleys keep major vehicle crime low. The 2025 risks are financial: BJX airport taxi overcharging, callejoneada private-tour markups, Mummy Museum ticket-reseller fraud, hotel-approach 'luggage porter' extortion, Jardín de la Unión restaurant bill-padding, and day-trip tour commissions to Dolores Hidalgo/San Miguel/Atotonilco. r/mexico 'Guanajuato (city) currently safe for tourists?' (comments/rwns5n) is a community baseline. Save Guanajuato Tourist Police +52 473 732 2121."),
+         "Guanajuato City is one of Mexico's safest colonial destinations — the compact historic centre is well-patrolled, violent crime against tourists is rare, and the steep cobblestone alleys keep major vehicle crime low. The 2025 risks are financial: BJX airport taxi overcharging, callejoneada private-tour markups, Mummy Museum ticket-reseller fraud, hotel-approach 'luggage porter' extortion, Jardín de la Unión restaurant bill-padding, and day-trip tour commissions to Dolores Hidalgo/San Miguel/Atotonilco. r/mexico 'Guanajuato (city) currently safe for tourists?' (comments/rwns5n) is a community baseline. Save Guanajuato Tourist Police +52 473 732 2121."),
         ("How do I get to Guanajuato City from Mexico City?",
          "Two options: (1) Fly to León/Guanajuato International Airport (BJX) at Silao — 30 km SW of Guanajuato City, 35-min drive, then Uber MX$250-380 to Guanajuato Centro; or Transporte Terrestre prepaid booth MX$450-600. Uber IS available at BJX. (2) Take Primera Plus direct bus from Mexico City's Terminal Norte (NOT TAPO) — MX$800-1,000 for a 5-hour comfortable ride directly to Guanajuato. r/Guanajuato 'Que opciones tengo desde el aeropuerto' (comments/1s50atr, 2025) is the 2025 canonical community anchor. IGNORE every BJX arrivals kiosk quoting MX$1,200+ and every León-terminal taxi quoting MX$400+ for the 30-minute ride."),
         ("What is a callejoneada and how much should it cost?",
@@ -6215,7 +6215,7 @@ def generate_page(city_data, related_cities_map):
             {
                 "@type": "Article",
                 "headline": f"{n} Tourist Scams in {city} (2026)",
-                "description": f"{n} real {city} tourist scams documented from Reddit travelers in 2026. Know what to watch for before you arrive.",
+                "description": f"{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive.",
                 "url": f"https://tabiji.ai/scams/{slug}/",
                 "image": f"https://img.tabiji.ai/scams-{slug}-og.jpg",
                 "datePublished": "2026-03-29",
@@ -6316,9 +6316,9 @@ def generate_page(city_data, related_cities_map):
     <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
     <title>{n} Tourist Scams in {city} (2026) — Real Stories & How to Avoid Them | tabiji.ai</title>
-    <meta name="description" content="{n} real {city} tourist scams documented from Reddit travelers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
+    <meta name="description" content="{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
     <meta property="og:title" content="{n} Tourist Scams in {city} (2026) — tabiji.ai">
-    <meta property="og:description" content="{n} real {city} tourist scams documented from Reddit travelers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
+    <meta property="og:description" content="{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/scams/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
@@ -6329,7 +6329,7 @@ def generate_page(city_data, related_cities_map):
     <meta property="article:modified_time" content="2026-04-07">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{n} Tourist Scams in {city} (2026)">
-    <meta name="twitter:description" content="Real scams, real stories, real advice. From Reddit travelers who got caught out in {city}.">
+    <meta name="twitter:description" content="Real scams, real stories, real advice. From Reddit travellers who got caught out in {city}.">
     <meta name="twitter:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/scams/{slug}/">
@@ -6372,7 +6372,7 @@ def generate_page(city_data, related_cities_map):
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
     <h1>{n} Tourist Scams in {city}</h1>
-    <p>Real stories from Reddit travelers. Know what to watch for before you arrive.</p>
+    <p>Real stories from Reddit travellers. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
         <span>📅 Updated April 2026</span>
