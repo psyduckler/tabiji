@@ -103,6 +103,20 @@ STYLES = {
         "comic lettering — text must be legible, in English only, and correctly spelled. "
         "Square 1:1 composition, 2K resolution."
     ),
+    "argentina": (
+        "A single illustrated comic book page in the classic Argentine newspaper-strip style "
+        "of Quino (Joaquín Salvador Lavado, creator of 'Mafalda') — clean confident black ink "
+        "outlines with occasional hatched shadow, simple expressive cartoon faces with "
+        "oversized eyes and tiny gestures, warm flat-color fills in a muted palette of cream, "
+        "soft mustard, dusty rose, and gentle sky blue, gently humorous social-observation "
+        "tone, the beloved mid-20th-century Buenos Aires newspaper comic-strip aesthetic. "
+        "Showing four sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 "
+        "in the upper-left corner of each panel, separated by thin black panel borders with "
+        "narrow cream gutters. Each panel contains one clean white rounded speech bubble with "
+        "a small pointer tail, holding short printed English dialogue in simple black "
+        "comic-strip lettering — text must be legible, in English only, and correctly spelled. "
+        "Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -120,4 +134,5 @@ PILOTS = {
     "indonesia": "https://img.tabiji.ai/scam-comics/id/style-tests/5-lontar-palm-leaf-manuscript.jpg",
     "canada": "https://img.tabiji.ai/scam-comics/ca/style-tests/2-drawn-and-quarterly-indie.jpg",
     "germany": "https://img.tabiji.ai/scam-comics/de/style-tests/4-heinrich-zille-berlin-milljoh.jpg",
+    "argentina": "https://img.tabiji.ai/scam-comics/ar/style-tests/1-quino-mafalda.jpg",
 }
