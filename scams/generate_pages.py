@@ -2539,22 +2539,25 @@ SAFETY_TIPS = {
         "Keep your passport in the hotel safe and carry a photocopy plus a photo on your phone — this satisfies most identification requests while protecting your original document.",
     ],
     "Tulum": [
-        "Rent a bicycle to get around Tulum — the town is flat and bikeable, and this avoids the taxi mafia's inflated prices entirely while giving you independence.",
-        "Under Mexican law, all beaches are public property. No beach club, hotel, or security guard can legally deny you access to the waterline. Walk through confidently if challenged.",
-        "Carry your physical driver's license at all times when driving, as police have used the lack of a physical document as a pretext for extortion stops on Kukulkan Avenue.",
-        "Book cenotes, tours, and transfers directly through verified online platforms or your hotel rather than accepting offers from people on the street or roadside.",
+        "At Tulum ruins, pay ONLY MX$100 INAH entry at the official window — r/cancun 'Tulum Tax Scam' (comments/1rl847d, 2025) documents 2025 'conservation fee MX$500' and 'mandatory guide MX$600' touts; NO extras are legitimate",
+        "In Beach Zone, eat in DOWNTOWN TULUM for authentic food at 1/3 Beach Road prices — reputable Charly's Vegan Tacos, Antojitos La Chiapaneca, El Tacoqueto on Av. Tulum/Satélite",
+        "Book cenotes via Google 4.7+ operators (Jugo Cenote, Mex-On, Yuchitur) at MX$1,500–$2,500 per person — refuse 'private cenote access MX$3,500' and 'Mayan shaman' upsells",
+        "For TQO airport departure, pay Visitax ONLY via visitax.gob.mx before trip — IGNORE every 'tax agent' or 'processing fee' kiosk per r/cancun 'Tulum Tax Scam' (comments/1rl847d, 2025)",
+        "On Highway 307, drive conservatively and carry all documents + copies — Quintana Roo rental-car checkpoint extortion documented in r/cancun 'Police scam' (comments/1kkl08i, 2025); never pay cash on spot, ask for badge + written ticket"
     ],
     "Playa del Carmen": [
-        "Remove or cover your hotel wristband when walking Fifth Avenue — timeshare promoters read the hotel name to fake familiarity and target you for presentations.",
-        "Never use any ATM on Fifth Avenue or in a convenience store. Walk to an actual bank branch (BBVA, Santander, Scotiabank) for withdrawals, even if it is a few blocks away.",
-        "Eat one or two blocks off Fifth Avenue for genuine local food at 40-60 percent lower prices, and always check your bill for automatically added gratuities before tipping again.",
-        "Stick to groups when exploring the 12th Street nightlife area, never leave drinks unattended, and avoid engaging with anyone offering drugs on the street.",
+        "Eat 2–3 blocks OFF 5th Avenue (Av. 15, Calle 2/4 north) — restaurants Chez Céline, Imprevist, La Malquerida, Catch Seafood have Google 4.5+ at 1/3 tourist-strip prices per r/cancun 'Attempted Scam at La Parilla Restaurant' (comments/1d6kjdi, 2024)",
+        "Buy Cozumel ferry tickets ONLY at official Ultramar/Winjet window (MX$680–$820 round-trip) — r/cozumel 'Scammer selling Ultramar tickets' (comments/1k1qedr, 2025) documents 2025 imposter resellers",
+        "For Tulum transit, use ADO bus MX$140 from ADO terminal OR Calle 2 colectivo MX$60–$80 — confirm price BEFORE boarding per r/cancun 'Whats the best and cheapest way to get to Tulum' (comments/jc206x)",
+        "WALK PAST every 5th Avenue sidewalk timeshare promoter — 'free voucher' is never worth 3-5 hours of high-pressure sales per r/cancun 'Got roped into a presentation' (comments/1okgj7v, 2025)",
+        "Use ONLY bank-branch ATMs on Av. 10 Norte (HSBC, Banamex, Santander); select 'Continue in MX Pesos' (NOT home currency DCC) per r/MexicoCity 'A tip for tourists' (comments/1e6hw8v, 2024)"
     ],
     "Cozumel": [
-        "Photograph the official taxi rate chart at the cruise pier before approaching any driver — this gives you a reference to push back on inflated quotes.",
-        "Do not buy jewelry at cruise port shops unless you are prepared to get it independently appraised — counterfeit gemstones and fake silver are pervasive in port shopping areas.",
-        "Book all tours and excursions in advance through your cruise line, Viator, or the operator's official website rather than from sellers at the pier or ferry terminal.",
-        "Only use pharmacies that serve the local population (Farmacias del Ahorro, Farmacia Guadalajara) rather than tourist-area shops near the cruise pier.",
+        "Photograph the POSTED SITUR rate card at cruise pier — legitimate Puerta Maya-to-San Miguel MX$200, to Chankanaab MX$250, to Punta Sur MX$400 per r/cozumel 'Don't talk to ATA' (comments/1jjivm6, 2025); there is NO Uber/Didi on Cozumel",
+        "Pay Chankanaab US$40–$45 or Punta Sur US$18 AT THE GATE — REFUSE cruise-pier 'bundle US$95–$200' per r/Cruise 'Good Cozumel excursions?' (comments/1iyonkf, 2025); independent day costs <US$70 total",
+        "At gas stations, VERIFY pump reset to ZERO before attendant fills; pay cash in small bills — r/cozumel 'Gas Stations - Scams such as Credit Card Theft' (comments/viyib9) documents 2025 short-change + card-cloning pattern",
+        "For dive/snorkel, book Google 4.7+ PADI 5-Star shops (Scuba Club Cozumel, Deep Blue, Papa Hog's, Aldora, Scuba Dogs) — 2-tank dive US$90–$130, PADI Open Water US$450–$600",
+        "Downtown San Miguel craft shopping: verify .925 sterling hallmark on silver; buy Cuban cigars ONLY at Casa del Tabaco Cubano (licensed) per r/cozumel 'Do not feel obligated to speak to the sales people' (comments/1cb7e06, 2024)"
     ],
     "Oaxaca": [
         "Book mezcal tours ONLY via Google 4.7+ operators (Coyote Aventuras, Experience Mezcal, Mezcoaxaca) at MX$800–$1,200 — refuse Alcalá touts quoting MX$1,800+ per r/MexicoTravel 'Oaxaca. Mezcal tasting!' (comments/1mvzni6, 2025)",
