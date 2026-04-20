@@ -263,12 +263,14 @@ for i, e in enumerate(pending_entries[:20]):
     print(f"  {i+1:2d}. {e['slug']:40s} vol={e['search_volume']:>7,}  ({e['city']}, {e['category']})")
 
 # Write master queue
-output = ROOT / "popular-picks-master-queue.json"
+queues_dir = ROOT / "scripts" / "queues"
+queues_dir.mkdir(parents=True, exist_ok=True)
+output = queues_dir / "popular-picks-master-queue.json"
 output.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
 print(f"\nWrote {output} ({total:,} entries)")
 
 # Also write a CSV for easy spreadsheet viewing
-csv_output = ROOT / "popular-picks-master-queue.csv"
+csv_output = queues_dir / "popular-picks-master-queue.csv"
 with open(csv_output, 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f)
     writer.writerow(["slug", "city", "country", "category", "title", "keyword",

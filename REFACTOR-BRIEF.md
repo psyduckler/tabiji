@@ -115,10 +115,8 @@ Static JSON API at `/api/v1/` — 1,428 pre-built JSON files, ~18MB. Built by `a
 |---|---|
 | `orders/pending.json` | Active order queue |
 | `orders/fulfilled.json` | Completed orders archive |
-| `chatgpt-picks-queue-v2.json` | Batch popular-picks creation queue |
-| `africa-picks-queue.json` | Africa batch queue |
-| `popular-picks-queue.json` | General picks queue |
-| `country-fills-queue.json` | Country page fill queue |
+| `scripts/queues/popular-picks-master-queue.json` | Popular-picks batch queue |
+| `scripts/queues/compare-queue.json` | Compare page batch queue |
 
 ---
 

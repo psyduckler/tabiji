@@ -15,7 +15,7 @@ import os
 
 API_KEY = "466c49b8794c2ba3d09ad2afd1964cd0"
 DATABASE = "us"
-QUEUE_FILE = "/Users/bjh/Documents/tabiji/compare-queue.json"
+QUEUE_FILE = "/Users/bjh/Documents/tabiji/scripts/queues/compare-queue.json"
 OUTPUT_FILE = "/Users/bjh/Documents/tabiji/compare-pending-search-volumes.csv"
 PROGRESS_FILE = "/Users/bjh/Documents/tabiji/scripts/semrush-volume-progress.json"
 

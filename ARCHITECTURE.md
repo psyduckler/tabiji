@@ -259,9 +259,8 @@ Orders and batch jobs are tracked via JSON files:
 |------|---------|
 | `orders/pending.json` | Active paid order queue |
 | `orders/fulfilled.json` | Completed orders archive |
-| `popular-picks-queue.json` | Batch popular-picks creation queue |
-| `compare-queue.json` | Compare page batch queue |
-| `country-fills-queue.json` | Country page fill queue |
+| `scripts/queues/popular-picks-master-queue.json` | Batch popular-picks creation queue |
+| `scripts/queues/compare-queue.json` | Compare page batch queue |
 
 ### Escalation Paths
 
