@@ -1100,6 +1100,8 @@ CITY_SLUGS = {
     "Hanoi": "hanoi",
     "Mexico City": "mexico-city",
     "Rio de Janeiro": "rio-de-janeiro",
+    "Búzios": "buzios",
+    "Paraty": "paraty",
     "Lima": "lima",
     "Krakow": "krakow",
     "Paris": "paris",
@@ -2111,10 +2113,25 @@ SAFETY_TIPS = {
         "Shop crafts at Mercado Municipal García Rejón (Calle 65), NOT Calle 60 'cooperatives' — r/Yucatan 'Mundo Maya Store Merida' (comments/1p9nyjq, 2025) documents 2025 commission-shop markups 3–10x fair price"
     ],
     "Rio de Janeiro": [
-        "Leave all valuables — jewelry, expensive watches, and non-essential electronics — at your hotel safe",
-        "Use 99Taxi or Uber exclusively; never hail street taxis or accept offers from drivers at the airport",
-        "At beaches, only bring exactly what you're willing to lose — keep phones and wallets hidden under towels or at the hotel",
-        "Avoid ATM use at night and in deserted areas — use hotel ATMs or those inside shopping malls during the day",
+        "From GIG / SDU airport, book Uber / 99 / Cabify on airport Wi-Fi (GIG-Zona Sul R$ 90–R$ 160; SDU R$ 25–R$ 60) — IGNORE 'authorised cooperative' kiosks quoting above R$ 200 per r/Brazil 'Tips for Gringos for transportation from GIG Rio de Janeiro' (comments/1c8sdwm, 2024)",
+        "NEVER let a stranger walk you to a 'best caipirinha bar nearby' — r/Rio 'Esses caras tentaram golpe de R$10.000 por 2 caipirinhas' (comments/1s6dcw7, 2026) is the canonical 2026 honeypot-bar anchor; verify caipirinha is R$ 18–R$ 45 (R$ 80+ is scam-tier)",
+        "Bring NOTHING to Copacabana / Ipanema beach you can't afford to lose; use a quiosque chair-and-umbrella R$ 30–R$ 50; arrastão sweep risk 5–10× during Carnaval / NYE per r/RiodeJaneiro 'USEFUL TIPS NO ONE TOLD ME FOR RIO' (comments/1naeiax, 2025)",
+        "Book Christ Redeemer DIRECT at paineirascorcovado.com.br (Trem do Corcovado R$ 105–R$ 116; Paineiras Shuttle R$ 68); Sugarloaf at bondinho.com.br R$ 140 — REFUSE 'skip-the-line VIP' resold at 3–6× rate",
+        "For Carnaval / Réveillon book 6–9 months ahead via Booking.com / hotel chains; AVOID Airbnb peak per r/RiodeJaneiro 'Warning! scam listings on booking.com for Carnaval' (comments/1er8d7k, 2024); DEAT Tourist Police +55 21 2334 6802"
+    ],
+    "Búzios": [
+        "Take 1001 Auto Viação bus from Rio Novo Rio terminal R$ 95–R$ 130 (2.5 hr) — IGNORE GIG tour-desk 'private transfer R$ 1,200–R$ 2,000' per r/Brazil 'Advice on getting between Rio and Buzios' (comments/1hs33cp, 2024)",
+        "Book schooner tour ONLY through Google 4.5+ operators (Buzios Trolley, Tour Shop, Maravilhas do Mar) at R$ 80–R$ 130 — verify life jackets + Marinha registration before boarding",
+        "On Rua das Pedras, BEFORE sitting confirm couvert artístico R$ amount and 'serviço 10%' policy (Brazilian Lei 13.419/2017 makes service charge OPTIONAL — you can refuse)",
+        "All Brazilian beaches are PUBLIC federal property — no entrance fee mandatory; standard chair + umbrella at João Fernandes / Geribá is R$ 80–R$ 200 per r/Brazil 'Solo female traveler - Arraial do Cabo or Búzios?' (comments/1m74j7t, 2025)",
+        "For Carnaval / NYE, book 6–9 months ahead via Booking.com / hotel chains (Casas Brancas, Pedra da Laguna, Vila Cidade); NEVER PIX-transfer to WhatsApp 'private apartment' sellers"
+    ],
+    "Paraty": [
+        "Take Costa Verde Transportes bus from Rio Novo Rio R$ 95–R$ 140 (4 hr) — IGNORE GIG / GRU tour-desk 'private transfer R$ 1,800–R$ 3,000' per r/Brazil 'Paraty tips and recs' (comments/1pswwvi, 2025)",
+        "Book schooner tour ONLY at Saveiros Soberanos / Escuna Mar Aberto / Escuna Saveiros (Google 4.5+) at R$ 70–R$ 120 — verify Marinha registration sticker before boarding per r/Brazil 'Paraty Boat Tours' (comments/1lnc65m, 2025)",
+        "Eat AT authentic Paraty spots: Caminho do Ouro, Banana da Terra, Quintal das Letras, Sereia do Mar — confirm couvert artístico + 'serviço 10%' policy in writing BEFORE sitting",
+        "For Trindade day-trip, take local bus R$ 8 each way (50 min) — REFUSE 'combined Trindade + Angra R$ 600+' Centro Histórico tout bundles per r/Brazil 'Paraty/Ilha Grande OR Buzios/Cabo Frio' (comments/1kr677o, 2025)",
+        "For Cachaça distillery visits, Uber DIRECT to Engenho d'Ouro R$ 50 round-trip; entry R$ 30–R$ 60 includes tour + tasting; buy bottles at distillery (30–50% cheaper than Centro tourist shops)"
     ],
     "Lima": [
         "Use InDriver or Uber for all transportation — avoid street taxis entirely, which have no accountability",
@@ -4148,6 +4165,30 @@ FAQS = {
          "Hand over whatever is demanded — no possession is worth your safety. Brazilian criminals typically want your items, not confrontation. Once safe, go to the nearest Delegacia de Atendimento ao Turista (tourist police) for a Boletim de Ocorrência (police report) — essential for insurance claims. The tourist police speak English at major precincts."),
         ("Is Carnival safe for tourists?",
          "Carnival is genuinely festive and overwhelmingly positive, but crime spikes significantly during the event. Wear a money belt, keep phones in front pockets (or better, at the hotel), and stay with your group. The official Sambódromo parade is safer than street blocos from a theft perspective. Book tickets through official Liesa outlets only — counterfeit tickets are common."),
+    ],
+    "Búzios": [
+        ("Is Búzios safe for tourists in 2026?",
+         "Búzios is one of Brazil's safest tourist destinations — a small upscale beach peninsula 175 km east of Rio with a year-round international tourism economy and very low violent crime against visitors. The 2025 risks are financial: Rio-to-Búzios private-transfer overcharging (R$ 1,200–R$ 2,000 vs real R$ 350–R$ 500), schooner-tour upcharges, Rua das Pedras restaurant tourist-menu padding, beach-vendor pressure, pousada Carnaval / NYE cancel-and-relist fraud, and Arraial / Cabo Frio combined-tour commission stops. r/Brazil 'Solo female traveler - Arraial do Cabo or Búzios?' (comments/1m74j7t, 2025) and r/Brazil 'Brazil beach recommendations August 2026' (comments/1nq2hj7, 2026) are 2025/2026 community anchors. Save DEAT Tourist Police +55 22 2623 8313 (Búzios-area), Polícia Militar 190."),
+        ("How do I get from Rio to Búzios cheaply?",
+         "Take 1001 Auto Viação direct bus from Rio Novo Rio terminal to Búzios at R$ 95–R$ 130 (2.5–3 hour ride, 4–6 daily departures, comfortable air-conditioned coach with reclining seats, restroom, WiFi). Book at 1001.com.br 1–2 weeks ahead in high season. From GIG airport, take a R$ 60 Uber to Novo Rio terminal first, then bus — total R$ 155–R$ 200. For door-to-door private, book BR Transfers / Carioca Transfers / Rio Transfer Service via direct website at R$ 350–R$ 500 per car (1–4 passengers). IGNORE every GIG tour-desk or hotel-concierge 'recommended transfer' above R$ 800. r/Brazil 'Advice on getting between Rio and Buzios' (comments/1hs33cp, 2024) is the canonical community guide."),
+        ("Which beaches in Búzios are best?",
+         "Búzios has 11 named beaches on a 9-km peninsula. For older travellers who want CALM SWIMMING: Praia da Tartaruga (sheltered, family-friendly), Praia da Azeda (small bay, no waves), Praia João Fernandes (clear water, beach-club access). For SCENIC SUNSET: Praia da Ferradura (horseshoe bay), Praia Brava. For SURFING: Praia Geribá (waves, surf schools). For SECLUDED: Praia da Foca, Praia das Caravelas. Reputable beach clubs at João Fernandes: Praia dos Amores, Sunset Lounge, Bardot Beach Club at R$ 80–R$ 200 chair + umbrella + service. All beaches are PUBLIC federal property — no entrance fee mandatory. The 5–6 hour schooner tour (R$ 80–R$ 130 group via Buzios Trolley / Tour Shop) is the best way to see all 11 beaches in one day."),
+        ("Where should I eat in Búzios without overpaying?",
+         "Eat 1–2 blocks OFF the Rua das Pedras tourist strip at: Cigalon (Orla Bardot waterfront, French-Brazilian, Google 4.7+, R$ 80–R$ 180), Sawasdee (Manguinhos Thai, R$ 70–R$ 150), Bar do David (Centro working-class, R$ 50–R$ 100), Fishbone (Praia da Armação seafood, R$ 80–R$ 200). BEFORE sitting, ask for menu and CONFIRM (a) couvert artístico R$ amount per person, (b) 'serviço 10%' policy (Brazilian Lei 13.419/2017 makes service charge OPTIONAL — you can refuse), (c) credit-card surcharge — photograph the menu. For seafood, agree weight in writing BEFORE cooking — fair lobster R$ 400–R$ 700 per kg, white-fish R$ 80–R$ 150 per kg. Skip USD-priced menus (they pad 10–15% exchange) — request real R$ amounts."),
+        ("How do I do a day-trip to Arraial do Cabo from Búzios?",
+         "Take 1001 Auto Viação bus from Búzios Rodoviária to Arraial do Cabo at R$ 25–R$ 40 each way (45 min). At Arraial, walk to the marina pier (5–10 min from rodoviária) and book a schooner DIRECT with Lancha Albatroz, Os Moleques, or Xeretas Tour at R$ 80–R$ 150 per person (5–6 hours, includes Lagoa Azul Blue Lagoon, Praia do Forno, Praia dos Anjos with snorkel + buffet). REFUSE every Búzios-side 'combined day-trip R$ 600+' bundle — DIY total is R$ 130–R$ 230. Lagoa Azul is a STANDARD schooner stop — refuse 'exclusive access' upsells. Eat at Restaurante Caçula (Praia dos Anjos, R$ 60–R$ 100) or Saint Tropez waterfront."),
+    ],
+    "Paraty": [
+        ("Is Paraty safe for tourists in 2026?",
+         "Paraty is one of Brazil's safest UNESCO destinations — a compact colonial town (Centro Histórico is 8×6 walking blocks of Portuguese cobblestone) with very low violent crime against tourists. The 2025 risks are financial: Rio / São Paulo-to-Paraty bus and private-transfer overcharging, schooner boat-tour upcharges and unsafe operators, Centro Histórico restaurant tourist-menu + couvert padding, day-trip commission bundles to Trindade / Angra / Ilha Grande, cachaça distillery commission scams, and pousada Carnaval / FLIP festival cancel-and-relist fraud. r/Brazil 'Recommendations in Paraty' (comments/1i7g6kg, 2025), 'Paraty tips and recs' (comments/1pswwvi, 2025), and 'Solo travel to Paraty in June' (comments/1qarqr3, 2026) are the 2025/2026 community anchors. Save DEAT Tourist Police Paraty +55 24 3371 1334."),
+        ("How do I get to Paraty?",
+         "Take Costa Verde Transportes bus from Rio Novo Rio terminal R$ 95–R$ 140 (4 hours, 4–6 daily departures, comfortable air-conditioned coach with restroom). Book at viacaocostaverde.com.br or buscama.com.br 1–2 weeks ahead in high season. From GIG airport, take a R$ 60 Uber to Novo Rio terminal first — total R$ 155–R$ 200. From São Paulo, Reunidas Paulista bus from Tietê terminal R$ 130–R$ 180 (6 hours). For door-to-door private, BR Transfers / Carioca Transfers / Litoral Transfers at R$ 600–R$ 900 per car. IGNORE every GIG / GRU tour-desk or hotel-concierge 'recommended transfer' above R$ 1,200. The Costa Verde road (BR-101) has 250+ curves between Angra and Paraty — take Dramamine 30 min before departure for motion sickness."),
+        ("Which schooner boat tour should I book in Paraty?",
+         "Book ONLY through Google 4.5+ operators with at least 50 reviews: Saveiros Soberanos (Marina, Largo do Rosário), Escuna Mar Aberto (Cais do Cabral pier), Escuna Saveiros (Pier Largo do Rosário) — all at R$ 70–R$ 120 per person for 5–6 hours including buffet lunch + snorkel gear + soft drinks. r/Brazil 'Paraty Boat Tours' (comments/1lnc65m, 2025) is the canonical 2025 community anchor. VERIFY life jackets for every passenger BEFORE boarding; check Marinha (Brazilian Navy) registration sticker on the boat (mandatory for licensed operators). Standard route includes Lagoa Azul, Praia Vermelha, Ilha Comprida, Praia da Lula. REFUSE 'private schooner R$ 500 per person' / 'VIP exclusive route R$ 800' / 'private islands access R$ 600' upsells — Paraty Bay islands are 95% public-access. Pre-book online 1–2 days ahead in high season."),
+        ("Where should I eat in Paraty Centro Histórico?",
+         "Eat at AUTHENTIC Paraty spots: Caminho do Ouro (waterfront, traditional Caiçara cuisine, Google 4.7+, R$ 80–R$ 180 per meal), Banana da Terra (Rua Dr Samuel Costa, regional Brazilian, R$ 90–R$ 200), Quintal das Letras (Centro Histórico patio, vegetarian-friendly, R$ 60–R$ 140), Restaurante Sereia do Mar (Praia do Pontal, fish, R$ 70–R$ 150). BEFORE sitting, ask for menu and CONFIRM (a) couvert artístico R$ amount per person (legitimate is R$ 15–R$ 35; tourist-trap is R$ 60–R$ 180 for a single guitarist), (b) 'serviço 10%' policy (OPTIONAL by Brazilian Lei 13.419/2017 — you can refuse if poor service), (c) credit-card surcharge. For seafood, agree weight in writing BEFORE cooking. For BUDGET, the Sunday afternoon 'feira do pescador' (fishmonger market) at Praia do Pontal sells fresh-grilled fish meals at R$ 35–R$ 60."),
+        ("How do I visit Paraty's cachaça distilleries?",
+         "Take Uber from Centro Histórico to Engenho d'Ouro distillery (5 km, R$ 50 round-trip with wait) OR Pedra Branca (8 km, R$ 80 round-trip). Pay direct entry R$ 30–R$ 60 at the distillery — tour + 4–6 cachaça tastings included. Reputable IBRAC-certified producers: Coqueiro, Pedra Branca, Engenho d'Ouro, Maria Izabel — all hand-distilled in copper alembics with cane juice (look for 'cachaça artesanal' / 'cachaça de alambique' on label, NOT industrial column-distilled). Buy bottles DIRECT at distillery — guaranteed authenticity, often 30–50% cheaper than Centro Histórico tourist shops. Fair prices: 500ml artisanal R$ 60–R$ 180, 12-year aged R$ 400–R$ 800 (refuse R$ 1,500 'master cachaça' upsells). Brazilian Correios shipping is R$ 30–R$ 60 for 1–2 bottles internationally — refuse 'mandatory shipping fee R$ 200'."),
     ],
     "Lima": [
         ("Is Lima safe for tourists?",
