@@ -146,6 +146,22 @@ STYLES = {
         "text must be legible, in English only, and correctly spelled. Square 1:1 composition, "
         "2K resolution."
     ),
+    "uk": (
+        "A single illustrated comic book page in the loose scratchy pen-and-watercolor style "
+        "of Quentin Blake — the beloved British illustrator of Roald Dahl's children's books "
+        "('Matilda', 'The BFG', 'James and the Giant Peach') — energetic scratchy cross-"
+        "hatched black-ink linework with deliberate hand-drawn wobble and exaggerated "
+        "expressive body language, bright loose watercolor washes in cheerful buttery yellow, "
+        "ink-blue, crimson, and forest-green that run beyond the line-drawing edges, "
+        "whimsically-caricatured British characters with oversized hands and feet, playful "
+        "storybook composition, warm and wry British children's-book tone that adults love. "
+        "Showing four sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 "
+        "in the upper-left corner of each panel, separated by thin hand-drawn black panel "
+        "borders with narrow warm-white gutters. Each panel contains one clean white rounded "
+        "speech bubble with a small pointer tail, holding short printed English dialogue in "
+        "simple black hand-lettered text — text must be legible, in English only, and "
+        "correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -166,4 +182,5 @@ PILOTS = {
     "argentina": "https://img.tabiji.ai/scam-comics/ar/style-tests/1-quino-mafalda.jpg",
     "brazil": "https://img.tabiji.ai/scam-comics/br/style-tests/4-aldemir-martins-folk-modernist.jpg",
     "portugal": "https://img.tabiji.ai/scam-comics/pt/style-tests/3-jose-de-guimaraes-folk-pop.jpg",
+    "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
 }
