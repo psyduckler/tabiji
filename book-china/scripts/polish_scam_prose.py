@@ -80,30 +80,28 @@ def strip_reddit_fragments(md: str) -> str:
     md = re.sub(r"\s*comments/[a-z0-9]+", "", md)
 
     # ---- PASS 2: Reddit citation scaffolding — MUST RUN BEFORE mid-word repair ----
-    # Strategy: strip the ENTIRE citation sentence, not just the preamble.
-    # Citations in the source follow the pattern:
-    #   `r/SUB 'title' (comments/hash) documents the pattern and X.`
-    # After Pass 1 removes (comments/hash), the sentence becomes:
+    # Strategy: strip the ENTIRE citation + any quoted evidence it introduces.
+    # Citations follow several patterns after Pass 1 removes the URL fragment:
+    #   `r/SUB 'title' documents: 'evidence.'`
+    #   `r/SUB 'title' is a named 2025 first-person anchor: 'evidence.'`
     #   `r/SUB 'title' documents the pattern and X.`
-    # Stripping just `r/SUB 'title' documents` leaves an orphan `the pattern
-    # and X.` that reads as a subject-less fragment. So we strip through the
-    # next sentence terminator.
+    #   `r/SUB 'title' shows how fresh the concern still is.`
+    #   `per r/SUB 'title'` (bare reference)
     #
-    # Pattern A: citation + verb + colon + quoted evidence + period
-    #   `r/SUB 'title' documents: 'the quoted evidence.' `
-    # Uses `.+?` (non-greedy any-char) for title/evidence so that titles
-    # containing internal apostrophes (e.g., `'I'm going to Barcelona'`)
-    # still match. The trailing verb anchors the title boundary.
+    # Pattern A: citation + any-introductory-clause + colon + quoted evidence
+    # Allows modifier text between the title-closing-quote and the colon, so
+    # "r/sub 'title' is a named 2025 anchor: 'quote'" is caught (previous
+    # version required verb directly followed by colon).
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"
-        r"\s*(?:" + _CITATION_VERBS + r")\s*:\s*"
-        r"['\u2018\u2019\"].+?['\u2018\u2019\"]\s*\.?",
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"  # r/sub 'title'
+        r"[^.\n]{0,200}?:\s*"                                 # any modifier + :
+        r"['\u2018\u2019\"].+?['\u2018\u2019\"]\s*\.?",       # 'evidence.'
         " ",
         md,
         flags=re.IGNORECASE | re.DOTALL,
     )
 
-    # Pattern B: citation + verb + continues through next period
+    # Pattern B: citation + verb + continues through next period (NO colon)
     #   `r/SUB 'title' shows how fresh the concern still is.`
     md = re.sub(
         r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"
@@ -113,8 +111,7 @@ def strip_reddit_fragments(md: str) -> str:
         flags=re.IGNORECASE,
     )
 
-    # Pattern C: standalone `r/SUB 'title'` citation (no verb), possibly
-    # with leading "per"/"from"/"via". Strip through next period.
+    # Pattern C: standalone `r/SUB 'title'` citation (no verb) through next period
     md = re.sub(
         r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"
         r"[^.\n]{0,400}\.",
@@ -122,42 +119,37 @@ def strip_reddit_fragments(md: str) -> str:
         md,
     )
 
-    # Pattern D: bare `r/SUB 'title'` not followed by anything structured —
-    # just strip the citation, leave surrounding prose.
+    # Pattern D: bare `r/SUB 'title'` not followed by anything structured
     md = re.sub(
         r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]",
         " ",
         md,
     )
 
-    # Pattern E: malformed `r/SUB (...` with no closing paren — strip to EOL
+    # Pattern E: malformed `r/SUB (...` with no closing paren
     md = re.sub(r"\s*r/\w+\s+\([^)\n]*$", "", md, flags=re.MULTILINE)
 
     # Pattern F: bare `r/SUB` left after stripping
     md = re.sub(r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\b(?=\s*[.,;:!?\n])", "", md)
 
-    # ---- PASS 3: Mid-word apostrophe-break repair (AFTER scaffolding is stripped) ----
-    # e.g., "gr' ab" → "grab", "sc' am" → "scam"
-    # Must exclude `s'\s+` (plural-possessives: "girls' room").
-    # Valid contractions like "don't X" never match because the apostrophe
-    # is followed by a letter, not whitespace.
+    # ---- PASS 3: Mid-word apostrophe-break repair — DISABLED ----
+    # The historical use case was truncated Reddit quotes like `gr' ab` that
+    # needed to be fused back into `grab`. But those truncations only existed
+    # INSIDE Reddit citation scaffolding (`r/SUB 'title' documents: '...gr' ab...'`)
+    # — and Pass 2 now strips the entire citation sentence including the quote
+    # body, so the truncations are removed wholesale.
     #
-    # Also exclude when the following word is a common connective/preposition/
-    # pronoun — these are strong signals that we're looking at a legitimate
-    # closing quote followed by the sentence continuing, e.g.:
-    #   `'photo-with-cannon' and 'Dutch uniform rental' where` — KEEP as-is
-    # rather than fusing to `cannonand` / `rentalwhere`.
-    md = re.sub(
-        r"(?<=[a-rt-z])['\u2019]\s+"
-        r"(?!(?:and|or|but|where|when|while|which|that|then|until|how|why|"
-        r"not|all|the|as|at|to|for|in|on|by|of|from|with|about|into|onto|"
-        r"upon|you|we|they|he|she|it|i|is|are|was|were|be|been|do|does|"
-        r"did|can|could|will|would|should|may|might|must|have|has|had|a|"
-        r"an|any|some|this|these|those|no|so|if|than|because)\b)"
-        r"(?=[a-z])",
-        "",
-        md,
-    )
+    # Running a mid-word-apostrophe-repair pass on the remaining prose is NET
+    # HARMFUL because it can't distinguish truncations (rare) from legitimate
+    # quoted phrases followed by a lowercase continuation word (common):
+    #   `'Blue Bird Taxi' stickers`     → WRONG: `Taxistickers`
+    #   `'photo-with-cannon' and X`     → WRONG: `cannonand`
+    #   `'Dutch uniform rental' where`  → WRONG: `rentalwhere`
+    #   `'my favourite bar' pattern`    → WRONG: `barpattern`
+    #
+    # So this pass is intentionally a no-op. If a future change reintroduces
+    # truncation patterns in the prose, re-enable with a dictionary-aware
+    # word-fusion heuristic rather than a blanket regex.
 
     # ---- PASS 4: Whitespace + punctuation cleanup ----
     md = re.sub(r" +([,.;:!?])", r"\1", md)   # space-before-punct → drop space
@@ -392,6 +384,328 @@ def fix_alt_text_scam_scam(md: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# 6. US English + inclusive-framing normalizer
+# ---------------------------------------------------------------------------
+
+# British → American spelling conversions. Lowercase-keyed; preserves
+# capitalization of matched text via case-matching replacement helper below.
+#
+# PROPER-NOUN SAFETY: we only match lowercase-initial words with `\b` so
+# proper nouns like "HarbourFront Centre", "Singapore Cruise Centre",
+# "Trawangan Dive Centre" stay intact (their "Centre" is capital-C).
+_BRITISH_TO_AMERICAN = [
+    # (british, american) — order matters for overlapping matches (longer first)
+    ("travellers", "travelers"),
+    ("traveller", "traveler"),
+    ("defence", "defense"),
+    ("offence", "offense"),
+    ("pretence", "pretense"),
+    ("licence", "license"),
+    ("practised", "practiced"),
+    ("organised", "organized"),
+    ("organising", "organizing"),
+    ("organisation", "organization"),
+    ("recognised", "recognized"),
+    ("recognising", "recognizing"),
+    ("recognise", "recognize"),
+    ("realised", "realized"),
+    ("realising", "realizing"),
+    ("realise", "realize"),
+    ("specialised", "specialized"),
+    ("specialising", "specializing"),
+    ("specialise", "specialize"),
+    ("apologised", "apologized"),
+    ("apologise", "apologize"),
+    ("prioritising", "prioritizing"),
+    ("prioritised", "prioritized"),
+    ("prioritise", "prioritize"),
+    ("analysed", "analyzed"),
+    ("analyse", "analyze"),
+    ("centre", "center"),
+    ("centres", "centers"),
+    ("centred", "centered"),
+    ("colour", "color"),
+    ("colours", "colors"),
+    ("coloured", "colored"),
+    ("favour", "favor"),
+    ("favours", "favors"),
+    ("favourite", "favorite"),
+    ("favouring", "favoring"),
+    ("honour", "honor"),
+    ("honours", "honors"),
+    ("honoured", "honored"),
+    ("humour", "humor"),
+    ("labour", "labor"),
+    ("labours", "labors"),
+    ("labouring", "laboring"),
+    ("behaviour", "behavior"),
+    ("behaviours", "behaviors"),
+    ("flavour", "flavor"),
+    ("flavours", "flavors"),
+    ("neighbour", "neighbor"),
+    ("neighbours", "neighbors"),
+    ("neighbouring", "neighboring"),
+    ("neighbourhood", "neighborhood"),
+    ("rumour", "rumor"),
+    ("rumours", "rumors"),
+    ("jewellery", "jewelry"),
+    ("tyres", "tires"),
+    ("tyre", "tire"),
+    ("kerb", "curb"),
+    ("kerbs", "curbs"),
+    ("kerbside", "curbside"),
+    ("aluminium", "aluminum"),
+    ("catalogue", "catalog"),
+    ("catalogues", "catalogs"),
+    ("dialogue", "dialog"),
+    ("dialogues", "dialogs"),
+    ("storeys", "stories"),
+    ("storey", "story"),
+    ("whilst", "while"),
+    ("amongst", "among"),
+    ("grey", "gray"),
+    ("manoeuvre", "maneuver"),
+    ("manoeuvres", "maneuvers"),
+    ("metre", "meter"),
+    ("metres", "meters"),
+    ("litre", "liter"),
+    ("litres", "liters"),
+    ("theatre", "theater"),
+    ("theatres", "theaters"),
+    ("fibre", "fiber"),
+    ("fibres", "fibers"),
+    ("cheque", "check"),
+    ("cheques", "checks"),
+    ("programme", "program"),
+    ("programmes", "programs"),
+    ("enquiry", "inquiry"),
+    ("enquiries", "inquiries"),
+    ("enquire", "inquire"),
+    # Additional coverage caught by Round 1 copyedit audit
+    ("acclimatise", "acclimatize"),
+    ("acclimatised", "acclimatized"),
+    ("acclimatises", "acclimatizes"),
+    ("mechanised", "mechanized"),
+    ("mechanise", "mechanize"),
+    ("flavouring", "flavoring"),
+    ("flavoured", "flavored"),
+    ("unauthorised", "unauthorized"),
+    ("authorised", "authorized"),
+    ("authorisation", "authorization"),
+    ("recognisable", "recognizable"),
+    ("recognised", "recognized"),
+    ("parlour", "parlor"),
+    ("parlours", "parlors"),
+    ("stabilise", "stabilize"),
+    ("stabilised", "stabilized"),
+    ("criticise", "criticize"),
+    ("criticised", "criticized"),
+    ("utilise", "utilize"),
+    ("utilised", "utilized"),
+    ("summarise", "summarize"),
+    ("summarised", "summarized"),
+    ("emphasise", "emphasize"),
+    ("emphasised", "emphasized"),
+    ("maximise", "maximize"),
+    ("minimise", "minimize"),
+    ("mobilise", "mobilize"),
+    ("legalise", "legalize"),
+    ("civilise", "civilize"),
+    ("capitalise", "capitalize"),
+    ("categorise", "categorize"),
+]
+
+
+def _case_match_replace(match_word: str, replacement: str) -> str:
+    """Preserve the capitalization pattern of `match_word` on `replacement`.
+
+    "Travellers" → "Travelers"    (initial cap)
+    "TRAVELLERS" → "TRAVELERS"    (all caps)
+    "travellers" → "travelers"    (lowercase)
+    """
+    if match_word.isupper():
+        return replacement.upper()
+    if match_word[0].isupper():
+        return replacement[0].upper() + replacement[1:]
+    return replacement
+
+
+# Proper-noun phrases that contain British-spelled words but must be preserved
+# verbatim (e.g., because they are official brand/venue names registered with
+# the British spelling). Extend this list whenever a new proper-noun leaks.
+_PROPER_NOUN_EXCEPTIONS = [
+    "HarbourFront Centre",          # Singapore shopping/mall
+    "Singapore Cruise Centre",      # Singapore cruise terminal
+    "Trawangan Dive Centre",        # Gili Islands dive operator
+    "Centre Pompidou",              # Paris museum (if it ever appears)
+    "Lincoln Centre",               # NYC (unlikely but safe)
+    "Theatre District",             # NYC neighborhood
+    "Rockefeller Centre",           # Safety in case it appears with British spelling
+    "City Centre Deal",             # known retail brand
+    "Queen's Park",                 # could trigger confusion
+    "Covent Garden Theatre",        # London venue
+]
+
+
+def normalize_us_english(md: str) -> str:
+    """Convert British spellings to American.
+
+    Uses word-boundary matching + a proper-noun exception list so brand/venue
+    names registered with British spelling (HarbourFront Centre, Singapore
+    Cruise Centre, Trawangan Dive Centre) survive intact. All other British
+    spellings — lowercase mid-sentence AND Title-Case sentence-starts — get
+    normalized.
+
+    Capitalization of matched text is preserved (Travellers → Travelers,
+    TRAVELLERS → TRAVELERS).
+    """
+    # PHASE 1: protect proper-noun exceptions with NULL-char placeholders
+    placeholders: dict[str, str] = {}
+    for idx, phrase in enumerate(_PROPER_NOUN_EXCEPTIONS):
+        if phrase in md:
+            placeholder = f"\x00PROPN{idx:02d}\x00"
+            md = md.replace(phrase, placeholder)
+            placeholders[placeholder] = phrase
+
+    # PHASE 2: British → American replacement with capitalization preservation
+    def _replace(match: re.Match) -> str:
+        word = match.group(0)
+        british = word.lower()
+        for uk, us in _BRITISH_TO_AMERICAN:
+            if british == uk:
+                return _case_match_replace(word, us)
+        return word
+
+    pattern = r"\b(?:" + "|".join(uk for uk, _ in _BRITISH_TO_AMERICAN) + r")\b"
+    md = re.sub(pattern, _replace, md, flags=re.IGNORECASE)
+
+    # Harbour special-case: strip unless immediately followed by "Front"
+    # (protects the Singapore mall brand "HarbourFront" — though the full
+    # phrase "HarbourFront Centre" is already protected via the exception list).
+    md = re.sub(r"\bharbour\b(?!Front)", "harbor", md, flags=re.IGNORECASE)
+    md = re.sub(r"\bharbours\b", "harbors", md, flags=re.IGNORECASE)
+
+    # PHASE 3: restore proper-noun placeholders
+    for placeholder, phrase in placeholders.items():
+        md = md.replace(placeholder, phrase)
+
+    return md
+
+
+def remove_older_traveler_framing(md: str) -> str:
+    """Replace age-specific "older travelers" framing with inclusive "travelers".
+
+    The source JSON scam descriptions frame the "defensive playbook" sections
+    as "For older travellers, the practical defence:" — this was originally
+    intended to single out readers 60+ but has the side effect of making
+    younger readers feel the advice isn't for them. Rewrite as generic
+    "For travelers" so the guidance reads as universal.
+
+    Handles the common patterns:
+      "For older travelers, ..."       → "For travelers, ..."
+      "For older travelers (X), ..."   → "For travelers (X), ..."
+      "For older travelers and X, ..." → "For travelers and X, ..."
+      "For older travelers AND X"      → "For travelers"
+      "older travelers" (mid-sentence) → "travelers"
+      "older traveler"                 → "traveler"
+
+    Runs AFTER US-English normalization so it only needs to handle the
+    American spelling.
+    """
+    # "For older travelers AND [modifier up to end-of-clause or newline]"
+    # → "For travelers" (drops the AND-qualifier because "travelers" is
+    # already inclusive of "anyone descending to blue flames," etc.)
+    md = re.sub(
+        r"For older travelers\s+AND\s+[^,.:;\n]*",
+        "For travelers",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # "For older travelers and [modifier]" → "For travelers"
+    md = re.sub(
+        r"For older travelers\s+and\s+(?:all\s+)?[^,.:;\n]*",
+        "For travelers",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # "For older travelers (parenthetical)" → "For travelers" (drops the
+    # parenthetical because it usually repeats the age caveat)
+    md = re.sub(
+        r"For older travelers\s*\([^)]{0,120}\)",
+        "For travelers",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # Plain: "For older travelers" → "For travelers"
+    md = re.sub(r"\bFor older travelers\b", "For travelers", md, flags=re.IGNORECASE)
+    # Mid-sentence: "older travelers" → "travelers" — case-insensitive match,
+    # but we preserve the capitalization pattern of the OPENING word ("Older"
+    # → "Travelers", "older" → "travelers", "OLDER TRAVELERS" → "TRAVELERS").
+    def _strip_older(match: re.Match) -> str:
+        first = match.group(1)     # "older" / "Older" / "OLDER"
+        second = match.group(2)    # "travelers" / "travelers" / "TRAVELERS"
+        is_plural = second.lower().endswith("s")
+        base = "travelers" if is_plural else "traveler"
+        if first.isupper():
+            return base.upper()
+        if first[0].isupper():
+            return base[0].upper() + base[1:]
+        return base
+
+    md = re.sub(
+        r"\b(older|Older|OLDER) (travelers?|Travelers?|TRAVELERS?)\b",
+        _strip_older,
+        md,
+    )
+
+    # --- Age-specific numeric and descriptor phrases ---
+    # Caught by Round 1 audit — these slip past the "older travelers" pattern.
+    # Note: `\b` does not match between `+` and a following letter (both are
+    # non-word-ish), so we use explicit `(?=\s)` or wordless lookahead where
+    # `\b` is unreliable.
+    age_pattern_replacements = [
+        # Explicit "60+" / "65+" age markers — followed by whitespace
+        (r"\bfit 60\+\s+travelers?", "fit walkers"),
+        (r"\bfit 65\+\s+travelers?", "fit walkers"),
+        (r"\bmoderately fit 60\+\s+travelers?", "moderately fit walkers"),
+        (r"\bmoderately fit 65\+\s+travelers?", "moderately fit walkers"),
+        (r"\btravelers 65\+\s+with\s+", "anyone with "),
+        (r"\btravelers 60\+\s+with\s+", "anyone with "),
+        (r"\bchildren and travelers 65\+\s+with\s+", "anyone with "),
+        (r"\bchildren and travelers 60\+\s+with\s+", "anyone with "),
+        (r"\bdivers 60\+(?=[\s;,.])", "divers with cardiovascular, respiratory, or ear-pressure concerns"),
+        (r"\bdivers 65\+(?=[\s;,.])", "divers with cardiovascular, respiratory, or ear-pressure concerns"),
+        # Sentence-terminal "... for 60+/65+"  (e.g., "not recommended for 65+;")
+        (r"\s+for 60\+(?=[;,.)])", ""),
+        (r"\s+for 65\+(?=[;,.)])", ""),
+        (r"\s+recommended for 60\+(?=[;,.)])", " recommended for those who sleep well in rough conditions"),
+        (r"\s+recommended for 65\+(?=[;,.)])", " recommended for those who sleep well in rough conditions"),
+        # "if X 60+/65+ or ..."  (e.g., "DO NOT do 3D2N cram if 60+ or heart issues")
+        (r"\s+if 60\+\s+or\s+", " if you have "),
+        (r"\s+if 65\+\s+or\s+", " if you have "),
+        # Over/above phrasings
+        (r"\byou're over 60 or have\b", "you have"),
+        (r"\byou're over 65 or have\b", "you have"),
+        (r"\bif you're over 60\b", "if you have any cardiovascular concerns"),
+        (r"\bif you're over 65\b", "if you have any cardiovascular concerns"),
+        (r"\babove age 65\b", "with mobility limitations"),
+        (r"\bskip above age 65 if\s+", "skip if "),
+        (r"\babove 60 or\b", "or"),
+        (r"\babove 65 or\b", "or"),
+        (r"\bnot recommended above 65 or\s+", "not recommended "),
+        (r"\bnot recommended above 60 or\s+", "not recommended "),
+        # Older-traveler compound descriptors
+        (r"\bthe older-traveler choice\b", "the quieter choice"),
+        (r"\bolder-traveler choice\b", "quieter choice"),
+        (r"\bfor older solo male travelers\b", "for solo travelers using dating apps"),
+    ]
+    for pattern, replacement in age_pattern_replacements:
+        md = re.sub(pattern, replacement, md, flags=re.IGNORECASE)
+
+    return md
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
@@ -420,8 +734,17 @@ def polish_markdown(md: str) -> str:
     """Whole-document polish — applied to the final assembled markdown.
 
     Use this in `assemble_markdown()` as a final pass for fixes that need to
-    see the fully-assembled document (alt-text repair, etc.).
+    see the fully-assembled document (alt-text repair, US-English + inclusive
+    framing normalization).
+
+    Order matters:
+      1. Alt-text repairs (work on raw markdown)
+      2. US-English normalization (must run before inclusive-framing because
+         inclusive-framing operates on 'travelers' in American spelling)
+      3. Inclusive-framing removal ('older travelers' → 'travelers')
     """
     md = fix_alt_text_double_the(md)
     md = fix_alt_text_scam_scam(md)
+    md = normalize_us_english(md)
+    md = remove_older_traveler_framing(md)
     return md
