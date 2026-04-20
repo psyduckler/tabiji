@@ -1894,10 +1894,18 @@ SAFETY_TIPS = {
         "Request Lan Ha Bay route (Cat Ba) instead of Ha Long main — fewer ships, more authentic kayaking per r/Vietnam_Tourism 'Is ha long bay worth it?' (comments/1mtdro3, 2025)",
     ],
     "Mexico City": [
-        "Only use official CDMX airport taxis (pre-pay at authorized booths inside the terminal) or book Uber before landing",
-        "At Chapultepec and tourist markets, keep phones in front pockets or bags — pickpockets are active in crowds",
-        "Express kidnapping risk: take Uber over street taxis, especially at night and near nightlife areas",
-        "Keep valuables minimal when visiting markets and historic center sites — travel with replaceable items only",
+        "From MEX airport, use the official Sitio Taxi desk INSIDE arrivals (MX$250–$330 flat-rate prepaid with printed receipt) OR book Uber/Didi on airport Wi-Fi — IGNORE every kerb tout per r/MexicoCity 'Airport transportation - Uber vs Taxi?' (comments/1kz3xtl, 2025)",
+        "NEVER hand your credit card to any taxi driver or 'sitio' counter — r/MexicoCity 'Don't be a dumbass like me and give a taxi your credit card' (comments/1l6ib6m, 2025) is the 2025 card-cloning canonical anchor",
+        "For Uber/Didi, pay in-app ONLY — refuse any driver requesting WhatsApp, cancellation, or cash per r/MexicoCity 'Today, an Uber driver totally ripped me off' (comments/1lf0sc1, 2025)",
+        "At Zócalo, Bellas Artes, and Calle Madero, keep phones in zipped bags — r/MexicoCity 'Pickpocketed near Bellas Artes' (comments/1lbg7b5, 2025) documents the 2025 distraction-team pattern",
+        "If stopped by police, show passport photocopy only, NEVER surrender original, NEVER pay cash on the spot, and say 'quiero hablar con el consulado' — r/MexicoCity 'Robbed by police in Roma Norte' (comments/1rdm6jz, 2025) is the 2025 anchor; US Embassy +52 55 8526 2561"
+    ],
+    "Mérida": [
+        "From MID airport, use the official Transporte Terrestre prepaid booth inside arrivals (MX$275–$350) — Uber works at MID but meet at parking P2 per r/Yucatan 'Uber cancel?' (comments/1k101kb, 2025)",
+        "Chichén Itzá entry is MX$614 total (INAH + state) — NO 'skip-the-line' exists, NO mandatory guide; refuse roadside 'park here' touts on Route 180 per r/Yucatan 'Do not get tickets for Chichen Itza from sharks stopping' (comments/1fbp037, 2024)",
+        "DO NOT stop at 'recommended' highway restaurants on Route 180 (Mi Lindo Yucatán et al) — r/Yucatan 'Mi Lando Yucatán (Scam Warning)' (comments/1h61snq, 2024) is the canonical anchor; eat in Valladolid instead",
+        "For cenotes, prefer community cooperatives (Yokdzonot MX$150, San Antonio Mulix MX$450, Cuzamá MX$300) — r/Yucatan 'Cenotes - Which are great, which to avoid?' (comments/1ionaa3, 2025) has community selections",
+        "Shop crafts at Mercado Municipal García Rejón (Calle 65), NOT Calle 60 'cooperatives' — r/Yucatan 'Mundo Maya Store Merida' (comments/1p9nyjq, 2025) documents 2025 commission-shop markups 3–10x fair price"
     ],
     "Rio de Janeiro": [
         "Leave all valuables — jewelry, expensive watches, and non-essential electronics — at your hotel safe",
@@ -2441,10 +2449,11 @@ SAFETY_TIPS = {
         "Only use pharmacies that serve the local population (Farmacias del Ahorro, Farmacia Guadalajara) rather than tourist-area shops near the cruise pier.",
     ],
     "Oaxaca": [
-        "Visit artisan villages directly (Teotitlan del Valle, San Bartolo Coyotepec, San Martin Tilcajete) to buy genuine crafts at fair prices and ensure your money goes directly to the makers.",
-        "Exchange money only inside banks or official casas de cambio — never with anyone on the street, regardless of the rate they offer.",
-        "Use the Didi app or have your hotel call a taxi for fair pricing. For Monte Alban, take the shared shuttle from Hotel Rivera del Angel to avoid taxi overcharging.",
-        "Eat at local fondas and the Mercado 20 de Noviembre for authentic Oaxacan food at honest prices — tourist restaurants around the Zocalo charge significantly more and may add hidden fees.",
+        "Book mezcal tours ONLY via Google 4.7+ operators (Coyote Aventuras, Experience Mezcal, Mezcoaxaca) at MX$800–$1,200 — refuse Alcalá touts quoting MX$1,800+ per r/MexicoTravel 'Oaxaca. Mezcal tasting!' (comments/1mvzni6, 2025)",
+        "At Monte Albán, entry is MX$95 for foreigners — NO mandatory guide; optional guides are MX$200–$350 PER GROUP (4–8 people), not per person",
+        "At Pasillo de Humo, ASK prices BEFORE the butcher cuts — r/Oaxaca 'Pasillo de Humo.. tourist scam!' (comments/1mqmg2a, 2025) documents the 2025 tourist-overcharge pattern; fair tasajo is MX$150–$200/kg",
+        "For Día de los Muertos, book accommodations 9–12 months ahead via Booking.com/Hyatt/Marriott — r/Oaxaca 'Airbnb cancelled for Día de los Muertos' (comments/1ngp44v, 2025) documents 2025 Airbnb cancel-and-relist pattern",
+        "For rental cars, photograph every scratch BEFORE driving off; verify credit-card rental insurance in Mexico before declining agency insurance per r/Oaxaca 'Card Scam by Rental Car Company in Oaxaca City' (comments/17e4z6q, 2024)"
     ],
     "Seattle": [
         "Avoid 3rd Avenue between Pike and Pine — use parallel streets like 1st or 2nd Avenue to reach Pike Place Market",
@@ -3480,6 +3489,18 @@ FAQS = {
          "A legitimate 2-day/1-night Ha Long cruise at $150–$250 per person includes: round-trip Hanoi transfer, one night onboard in a cabin, three meals (lunch, dinner, breakfast), kayaking or rowing sampan session (verify 'included' not 'supplement' at booking), visit to one cave (Sung Sot or Luon), and one 'floating village' photo stop. r/Vietnam_Tourism 'Is ha long bay worth it?' (comments/1mtdro3, 2025) recommends requesting the Lan Ha Bay route (from Cat Ba Island) instead of the main Ha Long Bay — fewer ships, quieter kayaking, more authentic. Decline onboard upsells: take your own photos, bring your own snorkel/reading material, skip the 'pearl farm' visit selling paste-pearls at inflated prices per r/travel (comments/dny5kt). Check the final bill item-by-item before settling."),
         ("What's the difference between Ha Long Bay and Lan Ha Bay?",
          "Ha Long Bay is the UNESCO-famous main destination — overcrowded during peak season (April–October) with 500+ cruise ships circulating the same routes. Lan Ha Bay, accessed from Cat Ba Island (reached via Tuan Chau speedboat or car ferry), is a smaller quieter bay just south of Ha Long proper with equally dramatic karst limestone formations, significantly fewer ships, and genuine small fishing-village visits. r/Vietnam_Tourism 'Is ha long bay worth it?' (comments/1mtdro3, 2025) is blunt: 'I would recommend Lan Ha Bay over Ha Long bay if you're worried about the overcrowding.' For older travellers who prefer calmer water and kayaking over party-boat atmosphere, Lan Ha Bay operators (Indochina Junk, Signature Cruise, Perla Dawn Sails) offer comparable quality at similar prices with far better experience."),
+    ],
+    "Mérida": [
+        ("Is Mérida safe for tourists in 2026?",
+         "Mérida is widely considered one of Mexico's SAFEST major cities — violent crime against tourists is rare, the historic centre is walkable day and night in most zones, and local police are tourist-friendly. The practical 2025 risk mix is financial: taxi overcharging at MID airport, Chichén Itzá 'skip-the-line' ticket fraud, highway restaurant tourist traps (Mi Lindo Yucatán et al), cenote tour overcharging, and Calle 60 'authentic cooperative' craft-shop markups. r/Yucatan 'Should I worry about police here like in QR?' (comments/1q4wxoq, 2025) confirms the Yucatán state is markedly safer than Quintana Roo. Save Policía Turística Mérida +52 999 942 0060 (English available)."),
+        ("What is the most common scam in Mérida?",
+         "Chichén Itzá-related overcharging is Yucatán's most-documented 2025 tourist scam. r/Yucatan 'Do not get tickets for Chichen Itza from sharks stopping' (comments/1fbp037, 2024) documents the roadside 'park here' touts on Route 180; r/Yucatan 'Mi Lando Yucatán (Scam Warning)' (comments/1h61snq, 2024) is the canonical highway-restaurant forced-stop anchor. The real UNESCO site entry is MX$614 total; parking MX$80 at official lot. NO 'skip-the-line' exists; NO mandatory guide. Calle 60 'authentic Mayan cooperative' craft shops (Mundo Maya Store documented in r/Yucatan comments/1p9nyjq, 2025) sell goods at 3–10x Mercado García Rejón prices."),
+        ("How do I visit Chichén Itzá affordably?",
+         "Drive yourself via the CUOTA (toll) road from Mérida — 1h 40min each way, MX$420 toll each direction, arrive at 8 AM opening (before Cancún/Playa tour buses at 11 AM). Park at OFFICIAL lot MX$80. Entry is MX$614 TOTAL for foreigners (MX$90 INAH + MX$524 Yucatán state, collected at two separate counters inside). NO mandatory guide — self-guide with free INAH app OR hire a licensed optional guide at MX$800–$1,200 PER GROUP of 4–8 people. Bring water, sun protection, bug spray (35°C+ in summer is dangerous for older travellers). Combine with Cenote Ik Kil (MX$180 entry, 10 min from CI) for a full day."),
+        ("Which cenotes should I visit from Mérida?",
+         "r/Yucatan 'Cenotes - Which are great, which to avoid?' (comments/1ionaa3, 2025) is the canonical 2025 community anchor. Community recommendations: Yokdzonot community cooperative (MX$150 entry, crowd-free), San Antonio Mulix 3-cenote combo (MX$450, 1 hour from Mérida, swimable), Cuzamá horse-cart cenote tour (MX$300, adventurous). Ik Kil is famous and beautiful but crowded 11 AM–3 PM (tour-bus flood from Chichén Itzá). Community cooperative cenotes return revenue to local Mayan villages. Bring biodegradable sunscreen ONLY — chemical sunscreens damage cenote ecosystems."),
+        ("How do I get from Mérida to Progreso?",
+         "Uber or Didi from Mérida Centro to Progreso is MX$300–$400 one-way (35 km, 45 min); return same rate. Alternatively, ADO bus MX$80 each way (60 min, every 30 min from CAME terminal Calle 70). For Mérida residents and locals, the Progreso shuttle bus runs MX$30. If staying in Mérida with cruise-day Progreso visitors, take the bus to Centro (Progreso Malecón is 10-min walk from bus station). Skip cruise-pier 'Mérida day tour' bookings at MX$3,500+ — do it independently."),
     ],
     "Mexico City": [
         ("Is Mexico City safe for tourists?",
