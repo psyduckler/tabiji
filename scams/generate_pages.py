@@ -6499,20 +6499,33 @@ def make_tldr(story):
     em-dash or spaces). When we split on ` — `, we replace the trailing
     em-dash with a period so the TLDR reads as a complete sentence.
     """
-    # Split on first period followed by a space (to avoid breaking on abbreviations like "St.")
+    # Split on first period or em-dash break (avoids abbreviations like "St.")
+    # Threshold 160 chars lets natural em-dash breakpoints in longer opening
+    # sentences be caught cleanly instead of falling through to the char-cut.
     for delim in ['. ', '— ', ' — ']:
         idx = story.find(delim)
-        if idx != -1 and idx < 120:
+        if idx != -1 and idx < 160:
             head = story[:idx + len(delim)].rstrip()
             # Replace dangling em-dash with a clean period
             if head.endswith('—'):
                 head = head[:-1].rstrip() + '.'
-            return head, story[idx + len(delim):]
-    # Fallback: first 100 chars to nearest word, closed with a period
+            rest = story[idx + len(delim):]
+            # Capitalize the first letter of rest (since it now opens its own paragraph)
+            if rest and rest[0].islower():
+                rest = rest[0].upper() + rest[1:]
+            return head, rest
+    # Fallback: first 100 chars to nearest word, closed with a period.
+    # CRITICAL: also trim those first 100 chars from the rest so the body
+    # paragraph doesn't redundantly repeat the TLDR content.
     if len(story) > 100:
         cut = story[:100].rfind(' ')
         if cut > 40:
-            return story[:cut].rstrip() + '.', story
+            tldr = story[:cut].rstrip() + '.'
+            rest = story[cut:].lstrip()
+            # Re-capitalize the first letter of rest if it was mid-sentence
+            if rest and rest[0].islower():
+                rest = rest[0].upper() + rest[1:]
+            return tldr, rest
     return None, story
 
 
