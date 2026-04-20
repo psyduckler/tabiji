@@ -6493,17 +6493,26 @@ def danger_badge(level):
         return '<span class="danger-badge danger-low">🟢 Low</span>'
 
 def make_tldr(story):
-    """Extract first sentence as TL;DR bold summary."""
+    """Extract first sentence as TL;DR bold summary.
+
+    Returns (tldr, rest) where tldr ends cleanly on a period (no dangling
+    em-dash or spaces). When we split on ` — `, we replace the trailing
+    em-dash with a period so the TLDR reads as a complete sentence.
+    """
     # Split on first period followed by a space (to avoid breaking on abbreviations like "St.")
     for delim in ['. ', '— ', ' — ']:
         idx = story.find(delim)
         if idx != -1 and idx < 120:
-            return story[:idx + len(delim)].rstrip(), story[idx + len(delim):]
-    # Fallback: first 100 chars to nearest word
+            head = story[:idx + len(delim)].rstrip()
+            # Replace dangling em-dash with a clean period
+            if head.endswith('—'):
+                head = head[:-1].rstrip() + '.'
+            return head, story[idx + len(delim):]
+    # Fallback: first 100 chars to nearest word, closed with a period
     if len(story) > 100:
         cut = story[:100].rfind(' ')
         if cut > 40:
-            return story[:cut] + ' ...', story
+            return story[:cut].rstrip() + '.', story
     return None, story
 
 
