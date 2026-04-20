@@ -2379,16 +2379,25 @@ SAFETY_TIPS = {
         "The east and north coasts have powerful Atlantic surf with dangerous rip currents and no lifeguards — stick to calm west coast beaches (Palm Beach, Eagle Beach) for swimming",
     ],
     "Puerto Vallarta": [
-        "Download offline maps before exploring — cell service is spotty outside the Zona Romantica and hotel zone, and getting lost triggers aggressive tuk-tuk and tour approaches",
-        "Use Uber for all transport — it works throughout PV and eliminates taxi negotiation. If you must take a taxi, agree on the fare in pesos before getting in",
-        "At restaurants, always ask for 'la cuenta desglosada' (itemized bill) and check if service charge is already included before tipping on top",
-        "Walk straight through the airport arrivals area without stopping — the gauntlet of timeshare promoters is designed to intercept you before you reach your transfer",
+        "WALK STRAIGHT through PVR airport's 'Shark Tank' timeshare area right after customs — r/puertovallarta 'airport scam, save yourselves' (comments/1n6s9iq, 2025) is the canonical 2025 anchor; don't stop or answer 'Where staying?'",
+        "Book Uber on airport Wi-Fi AFTER exiting terminal; meet at Sheraton pedestrian-bridge pickup zone (100m from main terminal) — MX$250–$400 to Zona Romántica per r/puertovallarta 'Uber at Airport' (comments/1olw4t5, 2025)",
+        "JUST SAY NO to Garza Blanca, Vidanta, Villa Group 'breakfast presentations' — r/puertovallarta 'What is with the hard sell on the breakfast presentation' (comments/1ksvts0, 2025) and \"Don't go to Garza Blanca\" (comments/1jt1mqv, 2025) document 3-5 hour high-pressure traps",
+        "Eat Zona Romántica local spots OFF the Malecón: El Arrayán, La Leche, Barcelona Tapas, Joe Jack's Fish Shack — Google 4.7+ at 1/3 tourist-strip prices",
+        "At ATMs, ALWAYS select 'NO / Continue in MX Pesos' when asked about 'home currency' — DCC prompts are 8-15% padded; use bank-branch ATMs only"
     ],
     "Cabo San Lucas": [
-        "Always pay in Mexican pesos (MXN) rather than USD — restaurants, taxis, and shops that accept dollars set their own exchange rates, typically 5-15% worse than the bank rate",
-        "Pre-book all airport transportation before you land — the walk from SJD arrivals runs a gauntlet of timeshare promoters and pirate taxi operators",
-        "Stick to licensed vendors on Medano Beach who wear white uniforms with visible ID badges — unlicensed operators in street clothes are most likely to overcharge or run damage scams",
-        "Uber works in Cabo and is significantly safer and cheaper than street taxis — download the app before your trip, especially for nighttime rides near the bar district",
+        "WALK STRAIGHT through SJD airport's 'Shark Tank' right after customs — r/cabosanlucas 'Beware the Airport Shark Tank (right after customs)' (comments/1ldbfm9, 2025) is the canonical 2025 anchor",
+        "For airport transfer, book Uber at signposted pickup zone OR use Transcabo/Cabo Yellow Bus official shuttle US$20–$30 pp — SJD-Cabo MX$900–$1,500 via Uber",
+        "JUST SAY NO to Pueblo Bonito 'Explore Rewards', Garza Blanca 'Elite Preview', Villa Group presentations — 3-5 hour high-pressure sales per r/cabosanlucas 'Garza Blanca Timeshare Promotion' (comments/1jj0eq5, 2025)",
+        "For rental cars, verify TOTAL PRICE (base + mandatory liability + taxes) via Expedia/RentalCars.com before booking — agency insurance MX$800/day often duplicates credit-card coverage per r/cabosanlucas 'Safe to rent a car to La Paz?' (comments/1psiz63, 2025)",
+        "For Medano Beach, firm 'no gracias' to every vendor; REFUSE 'exotic animal photos' (wildlife welfare); beach-club cover confirmed BEFORE sitting per r/cabosanlucas 'Did I get ripped off?' (comments/1rvon7c, 2025)"
+    ],
+    "Mazatlán": [
+        "For Uber, pay in-app ONLY — r/Mazatlan 'Uber scam?' (comments/1pn8tef, 2025) documents 2025 driver off-app negotiation pattern; verify licence plate matches app BEFORE boarding",
+        "Stay in Zona Dorada, Centro Histórico, or Malecón — these tourist zones are safe; AVOID outer Mazatlán districts per r/mexico 'Mazatlan is the tourist port with the most missing people' (comments/1oexzbx, 2025)",
+        "At cruise pier, agree pulmonía (open-air VW taxi) price BEFORE boarding: MX$200–$300 to Centro Histórico; or Uber MX$100–$150",
+        "SKIP Pueblo Bonito/El Cid/Riu 'snowbird membership' and 'Explore Rewards' welcome-desk programs — timeshare presentations in disguise targeting retirees",
+        "For tequila, buy at Chedraui supermarket CRT-certified bottles MX$400–$1,500; skip 'tequila museum' tastings which are commission shopping — or take Los Osuna Destilería tour MX$300"
     ],
     "Punta Cana": [
         "Do not drink tap water anywhere in Punta Cana, including at all-inclusive resorts — stick to sealed bottled water and avoid ice at non-resort establishments",
@@ -4652,6 +4661,18 @@ FAQS = {
          "Jet ski rentals can be safe with precautions, but the damage-shakedown scam is well-documented. Only use licensed operators with branded tents (not freelancers in street clothes). Record a 360-degree video of the equipment before riding. Never hand over your passport. Use a credit card with fraud protection. If confronted with a fake damage claim, show your video and refuse to pay cash."),
         ("What should I do if police ask me for money in Cabo?",
          "Police bribery ('mordida') does occur during traffic stops. Remain calm, be polite, ask to see the badge and write down the number. Request a formal written citation rather than paying any on-the-spot 'fine.' Real fines are paid at a government office, never in cash to an officer. If threatened, call the US Consular Agency in Los Cabos at +52 (624) 143-3566."),
+    ],
+    "Mazatlán": [
+        ("Is Mazatlán safe for tourists in 2026?",
+         "Mazatlán's Zona Dorada (Golden Zone), Centro Histórico (Old Town), and Malecón are statistically SAFE for tourists — these zones have heavy police presence and welcome snowbird/cruise visitors year-round. However, Mazatlán is in Sinaloa state (US State Dept Level 4 Do Not Travel advisory for the state as a whole) per r/MexicoTravel 'Why a US state department level 4 Do Not Travel Warning' (comments/1mk5xrg, 2025). Stay in tourist zones, avoid driving Culiacán-Mazatlán highway as tourist, skip 'authentic rural Sinaloa' day trips. r/MexicoTravel 'Freaking out. Mazatlan in June' (comments/1rfr8jm, 2025) and 'Traveling to Mazatlan in 4 days' (comments/1rcl4hd, 2025) are 2025 community reality-check anchors. Save US Consulate Guadalajara +52 33 3268 2100."),
+        ("What is the most common scam in Mazatlán?",
+         "Uber off-app cash negotiation is 2025's canonical named scam per r/Mazatlan 'Uber scam?' (comments/1pn8tef, 2025) — driver accepts booking then messages 'app broken, pay WhatsApp'. Solution: pay in-app ONLY, cancel and rebook if driver requests off-app. Cruise-pier pulmonía (open-air VW taxi) overcharging is second — quotes MX$500-1,200 to Centro when real is MX$200-300. Timeshare 'snowbird membership' presentations at Pueblo Bonito, El Cid, Riu target retirees with US$15,000-$50,000 commitments disguised as 'resort info sessions'."),
+        ("How do I get from Mazatlán Airport (MZT) to my hotel?",
+         "Three options: (1) Book Uber on airport Wi-Fi — MZT to Zona Dorada MX$350-500 (Uber works; 10-15 min wait). (2) Official Transporte Terrestre prepaid booth inside arrivals: MX$500-850 depending on destination — legitimate. (3) Official shared shuttle MX$150-200 per person (budget option). IGNORE every arrivals-kerb kiosk quoting MX$1,200+. Your Zona Dorada hotel usually includes free airport pickup with advance booking — use this. r/Mazatlan 'Uber' (comments/1hwzgbf, 2025) has 2025 airport-specific Uber logistics."),
+        ("What should cruise-ship visitors do in Mazatlán?",
+         "For a safe independent cruise day: take pulmonía or Uber (Uber works) from cruise pier to Centro Histórico (Plaza Machado, Cathedral) at MX$200-300/MX$100-150 respectively. Walk the Malecón, catch El Quebradora cliff divers (FREE shows 11 AM/12 PM/4 PM/5 PM at Cerro Del Creston), eat at Topolobampo or Pedro y Lola at Plaza Machado (MX$250-450 traditional meal). SKIP cruise-pier bundles at US$120+ per person for these free/cheap activities. For Stone Island beach day, take Playa Sur launcha ferry MX$70 round-trip, palapa lunch MX$250 — total US$30 vs cruise bundle US$90. Allow 90-min buffer to ship departure."),
+        ("Are Mazatlán timeshare 'snowbird programs' legitimate?",
+         "Pueblo Bonito, El Cid El Moro, Riu Emerald Bay are legitimate resort brands — but their 'Explore Rewards', 'Snowbird Membership', 'Resort Info Session' welcome-desk programs are TIMESHARE PRESENTATIONS targeting older US/Canadian retirees with US$15,000-$50,000 lifetime commitments. r/Mazatlan 'El cid el Moro Beach' (comments/1pcofmr, 2025) covers the resort landscape. Mexican 5-business-day cooling-off period is law if you sign — file PROFECO (profeco.gob.mx) + registered mail to property within window. For genuine Mexican retirement living, rent long-term first via Booking.com or verified local realtors — NEVER commit to timeshare 'membership' on first trip. Consult licensed Mexican real-estate attorney (NOT the resort's 'legal counsel') for any property purchase."),
     ],
     "Punta Cana": [
         ("Is Punta Cana safe for tourists?",
