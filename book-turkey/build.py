@@ -52,6 +52,10 @@ CITY_ALT_TEXT: dict[str, str] = {
 }
 
 
+sys.path.insert(0, str(HERE / "scripts"))
+from polish_scam_prose import polish_description, polish_avoidance, polish_location, polish_markdown  # noqa: E402
+
+
 def load_city(slug: str) -> dict:
     path = DATA_DIR / f"{slug}.json"
     if not path.exists():
@@ -73,10 +77,13 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
             f'a {cat.lower()} scam rated {sev.lower()} severity'
         )
         parts.append(f"![{alt}]({image_path.resolve()})\n\n")
+    description = polish_description(scam["description"])
+    avoidance = polish_avoidance(scam["avoidance"])
+    location = polish_location(scam["location"])
     parts.extend([
-        f'### How this scam works\n\n{scam["description"]}\n\n',
-        f'### How to avoid it\n\n{scam["avoidance"]}\n\n',
-        f'**Where it happens:** {scam["location"]}\n\n',
+        f'### How this scam works\n\n{description}\n\n',
+        f'### How to avoid it\n\n{avoidance}\n\n',
+        f'**Where it happens:** {location}\n\n',
     ])
     if scam.get("tags"):
         parts.append(f'*{" · ".join(scam["tags"])}*\n\n')
@@ -182,6 +189,22 @@ def _normalize_turkish_currency(md: str) -> str:
     # Any stray ₺ that escaped (e.g. in prose) → "TL"
     md = md.replace("₺", "TL")
 
+    # --- Normalize legacy `TRY` currency code → `TL` ---
+    # Bodrum/Marmaris scams carry `200 TRY`, `5,000 TRY` in the source JSON;
+    # the rest of the book uses `TL` so this keeps the book consistent.
+    md = re.sub(r"(\d[\d,.]*)\s*TRY\b", r"\1 TL", md)
+    md = re.sub(r"\bTRY\s*(\d[\d,.]*)", r"\1 TL", md)
+
+    # --- Fix misplaced punctuation around TL ---
+    # Source has patterns like "200, TL 30 min" where the thousands-separator
+    # comma got rendered in the wrong position relative to the unit. Swap.
+    md = re.sub(r"(\b\d[\d,.]*),\s*TL\b", r"\1 TL,", md)
+    # Same for sentence-final period: `1,300–1,700. TL Next sentence.`
+    # → `1,300–1,700 TL. Next sentence.`
+    md = re.sub(r"(\b\d[\d,.]*)\.\s*TL\s+(?=[A-Z])", r"\1 TL. ", md)
+    # `25. TL` at end of line/sentence with no continuation
+    md = re.sub(r"(\b\d[\d,.]*)\.\s*TL\b(?!\w)", r"\1 TL.", md)
+
     # Convert hyphens in numeric ranges inside currency contexts to en-dashes.
     # Only touch: (digits)-(digits) immediately followed by a currency word.
     md = re.sub(
@@ -211,7 +234,7 @@ def assemble_markdown() -> str:
         else:
             parts.append(content)
         parts.append("\n\n")
-    return _normalize_turkish_currency("".join(parts))
+    return polish_markdown(_normalize_turkish_currency("".join(parts)))
 
 
 def build_epub(md: str) -> Path:
