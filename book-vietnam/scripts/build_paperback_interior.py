@@ -173,21 +173,40 @@ p:has(img) + p em { font-size: 9.5pt; color: #444; }
 
 h1 + p { text-indent: 0; }
 
-/* ===== TOC refinements — target-counter(attr(href), page) is the key line here ===== */
+/* ===== TOC refinements — dot leaders + right-aligned page numbers ===== */
 #TOC { page-break-before: right; }
 #TOC h1 { margin-top: 1.5in; margin-bottom: 0.75in; }
-#TOC > ul { font-size: 11pt; line-height: 1.9; list-style: none; margin-left: 0; padding-left: 0; }
-#TOC > ul > li { list-style: none; margin-left: 0;
-                 border-bottom: 0.3pt dotted #aaa;
-                 padding-bottom: 2pt; margin-bottom: 4pt;
-                 display: flex; justify-content: space-between; align-items: baseline; }
-#TOC > ul > li > a { border-bottom: 0; padding-right: 0.6em; background: #fff;
-                     flex: 1; }
+#TOC > ul { font-size: 11pt; line-height: 1.9; list-style: none;
+            margin-left: 0; padding-left: 0; }
+#TOC > ul > li { list-style: none; margin: 0 0 4pt 0; padding: 0; }
+/* The <a> is the flex container with three flex items:
+     1. The chapter-title text (flex: 0 1 auto)
+     2. A ::before dotted leader (order: 2, flex: 1)
+     3. A ::after page number (order: 3, flex: 0 0 auto)
+   Using flex lets WeasyPrint right-align the page number and fill the
+   gap between title and page number with dotted leader. */
+#TOC > ul > li > a {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit;
+}
+#TOC > ul > li > a::before {
+  content: "";
+  order: 2;
+  flex: 1 1 auto;
+  margin: 0 0.35em 0.32em;
+  border-bottom: 0.5pt dotted #777;
+  min-width: 1em;
+  align-self: flex-end;
+}
 #TOC > ul > li > a::after {
   content: target-counter(attr(href), page);
-  background: #fff; padding-left: 0.3em;
+  order: 3;
+  flex: 0 0 auto;
   font-variant-numeric: tabular-nums;
-  margin-left: auto;
+  white-space: nowrap;
 }
 
 /* ===== Widows/orphans ===== */

@@ -14,7 +14,7 @@ Target: 6"x9" trim, KDP-compliant inside/outside margins, running page numbers,
 chapter breaks on new pages, widow/orphan control, image containment.
 
 Usage:
-    python3 book-spain/scripts/build_paperback_interior.py
+    python3 book-turkey/scripts/build_paperback_interior.py
 
 Prerequisites:
     - pandoc (brew install pandoc)
@@ -167,16 +167,35 @@ h1 + p { text-indent: 0; }
 #TOC { page-break-before: right; }
 #TOC h1 { margin-top: 1.5in; margin-bottom: 0.75in; }
 #TOC > ul { font-size: 11pt; line-height: 1.9; list-style: none; margin-left: 0; padding-left: 0; }
-#TOC > ul > li { list-style: none; margin-left: 0; position: relative;
-                 padding-right: 3em; border-bottom: 0.3pt dotted #aaa;
-                 padding-bottom: 2pt; margin-bottom: 4pt; }
-#TOC > ul > li > a { border-bottom: 0; display: block; padding-right: 0.2em;
-                     background: #fff; }
+#TOC > ul > li { list-style: none; margin: 0 0 4pt 0; padding: 0; }
+/* The <a> is a flex container with three items:
+     1. Chapter-title text (flex: 0 1 auto)
+     2. ::before dotted leader (order: 2, flex: 1 1 auto)
+     3. ::after page number (order: 3, flex: 0 0 auto)
+   This is the only layout that gives WeasyPrint a right-aligned page
+   number with proper dot leaders between title and number. */
+#TOC > ul > li > a {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit;
+}
+#TOC > ul > li > a::before {
+  content: "";
+  order: 2;
+  flex: 1 1 auto;
+  margin: 0 0.35em 0.32em;
+  border-bottom: 0.5pt dotted #777;
+  min-width: 1em;
+  align-self: flex-end;
+}
 #TOC > ul > li > a::after {
   content: target-counter(attr(href), page);
-  position: absolute; right: 0;
-  background: #fff; padding-left: 0.3em;
+  order: 3;
+  flex: 0 0 auto;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 @supports not (content: target-counter(attr(href), page)) {
   #TOC > ul > li > a::after { content: ""; }
