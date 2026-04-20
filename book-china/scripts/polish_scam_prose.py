@@ -90,21 +90,25 @@ def strip_reddit_fragments(md: str) -> str:
     #
     # Pattern A: citation + any-introductory-clause + colon + quoted evidence
     # Allows modifier text between the title-closing-quote and the colon, so
-    # "r/sub 'title' is a named 2025 anchor: 'quote'" is caught (previous
-    # version required verb directly followed by colon).
+    # "r/sub 'title' is a named 2025 anchor: 'quote'" is caught.
+    #
+    # CRITICAL: the closing quotes (title AND evidence) must be followed by
+    # whitespace / paren / end-of-line — otherwise non-greedy `.+?` stops at
+    # the FIRST internal apostrophe in contractions like `won't` / `I'd` /
+    # `it's`, leaving the rest of the quote orphaned in the output as
+    # fragments like ". t take it back.'"
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"  # r/sub 'title'
-        r"[^.\n]{0,200}?:\s*"                                 # any modifier + :
-        r"['\u2018\u2019\"].+?['\u2018\u2019\"]\s*\.?",       # 'evidence.'
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"  # r/sub 'title'
+        r"[^.\n]{0,200}?:\s*"                                          # any modifier + :
+        r"['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s.,;!?)]|$)",      # 'evidence.'
         " ",
         md,
         flags=re.IGNORECASE | re.DOTALL,
     )
 
     # Pattern B: citation + verb + continues through next period (NO colon)
-    #   `r/SUB 'title' shows how fresh the concern still is.`
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
         r"\s*(?:" + _CITATION_VERBS + r")\b[^.\n]{0,500}\.",
         " ",
         md,
@@ -113,7 +117,7 @@ def strip_reddit_fragments(md: str) -> str:
 
     # Pattern C: standalone `r/SUB 'title'` citation (no verb) through next period
     md = re.sub(
-        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]"
+        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
         r"[^.\n]{0,400}\.",
         " ",
         md,
@@ -121,7 +125,7 @@ def strip_reddit_fragments(md: str) -> str:
 
     # Pattern D: bare `r/SUB 'title'` not followed by anything structured
     md = re.sub(
-        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"]",
+        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(]|$)",
         " ",
         md,
     )

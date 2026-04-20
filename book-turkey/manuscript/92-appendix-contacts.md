@@ -36,7 +36,7 @@ If your card was issued by a bank (not directly by Visa, Mastercard, or Amex), t
 
 ## Embassies and consulates in Turkey for major passport nationalities
 
-Turkey hosts most countries' embassies in Ankara, with major consulates in Istanbul and honorary consulates in Antalya, Izmir, and other regional hubs. Numbers below are main switchboards; every embassy also operates a separate after-hours duty-officer line for citizens in distress, published on its own website.
+Turkey hosts most countries' embassies in Ankara, with major consulates in Istanbul and honorary consulates in Antalya, İzmir, and other regional hubs. Numbers below are main switchboards; every embassy also operates a separate after-hours duty-officer line for citizens in distress, published on its own website.
 
 ### United States
 
@@ -48,7 +48,7 @@ Turkey hosts most countries' embassies in Ankara, with major consulates in Istan
 
 - **British Embassy Ankara:** Şehit Ersan Caddesi 46/A, Çankaya, 06680 Ankara. Main switchboard +90 312 455 3344.
 - **British Consulate General Istanbul:** Meşrutiyet Caddesi 34, Tepebaşı, Beyoğlu, 34435 Istanbul. +90 212 334 6400.
-- **British Honorary Consulate Antalya, Bodrum, Izmir, Marmaris:** addresses at gov.uk.
+- **British Honorary Consulate Antalya, Bodrum, İzmir, Marmaris:** addresses at gov.uk.
 
 ### Canada
 

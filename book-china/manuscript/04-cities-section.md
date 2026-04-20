@@ -32,7 +32,7 @@ If you're hitting only a few of these, skip to the chapter you need. If you're d
 
 ![Shenzhen — the Ping An Finance Center above Shenzhen Bay](assets/cities/shenzhen.jpg)
 
-**Shenzhen** — China's youngest megacity, Huaqiangbei electronics, and the Hong Kong border. Huaqiangbei fake-electronics resellers selling refurbished phones as new; Luohu and Shenzhen Bay border-crossing touts selling "expedited processing" that doesn't exist; OCT Loft gallery-pitch circuit targeting expat professionals; and Baoan Airport (SZX) "black car" flat-rate freelancers quoting 300-RMB for 90-RMB metered runs.
+**Shenzhen** — China's youngest megacity, Huaqiangbei electronics, and the Hong Kong border. Huaqiangbei fake-electronics resellers selling refurbished phones as new; Luohu and Shenzhen Bay border-crossing touts selling "expedited processing" that doesn't exist; OCT Loft gallery-pitch circuit targeting expat professionals; and Bao'an Airport (SZX) "black car" flat-rate freelancers quoting 300-RMB for 90-RMB metered runs.
 
 ![Hangzhou — the Leifeng Pagoda above West Lake](assets/cities/hangzhou.jpg)
 

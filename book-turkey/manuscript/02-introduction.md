@@ -28,7 +28,7 @@ The third is the **emergency contacts appendix**. Tourist Police (**Turizm Polis
 
 ## A note on currency
 
-Turkey's currency is the **Turkish lira** (TL, TRY). Inflation has run high in recent years, and the lira–US-dollar exchange rate has drifted materially between editions — verify on xe.com in the week before you travel. Tourist-facing venues in Istanbul, the Aegean, and the Mediterranean coast frequently quote prices in **euros** (€) as well, particularly for carpets, jewelry, scenic-area admissions, and gulet-boat charters. Don't be surprised when a hotel front desk presents a bill in euros while your taxi driver wants cash in lira.
+Turkey's currency is the **Turkish lira** (TL, TL). Inflation has run high in recent years, and the lira–US-dollar exchange rate has drifted materially between editions — verify on xe.com in the week before you travel. Tourist-facing venues in Istanbul, the Aegean, and the Mediterranean coast frequently quote prices in **euros** (€) as well, particularly for carpets, jewelry, scenic-area admissions, and gulet-boat charters. Don't be surprised when a hotel front desk presents a bill in euros while your taxi driver wants cash in lira.
 
 ## A suggested way to use the book
 
