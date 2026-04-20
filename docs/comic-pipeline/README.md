@@ -27,17 +27,27 @@ human) to generate a new batch of comics without re-deriving the system.
 
 Start here and branch out:
 
-- **[cast.md](cast.md)** — the 4 canonical protagonists (Margie, Priya, Harry, Marcus), with the verbatim paragraphs to paste into every prompt and the scam-type pairing rules. Read this first.
-- **[pipeline.md](pipeline.md)** — the generator (Nano Banana Pro via Wavespeed), R2 storage, HTML injection pattern, cache-busting, and rate-limit handling. Read this second.
-- **[prompt-template.md](prompt-template.md)** — the 3-block prompt format (`STYLE` + `CHARACTER` + `SCENE`) and per-panel dialogue rules. Read this third.
+- **[cast.md](cast.md)** — the 4 canonical protagonists (Margie, Priya, Harry, Marcus), verbatim paragraphs to paste into every prompt + scam-type pairing rules. Read this first.
+- **[pipeline.md](pipeline.md)** — the image generator (Nano Banana Pro via Wavespeed), R2 storage, HTML injection pattern, cache-busting, rate limits. Read this second.
+- **[prompt-synthesis.md](prompt-synthesis.md) ← current production pipeline (v2)** — per-scam bespoke prompt synthesis via Gemini 2.5 Pro. One scam at a time. Replaces the deprecated keyword-classified themed-template approach and is what all new batches must use.
+- **[prompt-template.md](prompt-template.md)** — reference doc for the 3-block prompt format that Nano Banana Pro consumes. The format is unchanged in v2; only the way the SCENE block is authored changed (Gemini writes it per-scam).
+- **[style-exploration.md](style-exploration.md)** — the 5-way bake-off process for picking a new country's style.
 - **[styles/](styles/)** — one file per country, each with the locked STYLE block verbatim. Copy-paste from the target country's file.
+- **[../../scripts/comic-pipeline/](../../scripts/comic-pipeline/)** — the runnable v2 pipeline code: `cast.py`, `styles.py`, `synthesize.py`, `generate.py`.
 
-## Quick-start for a new country
+## Quick-start for a new country (v2)
 
-1. Pick a culturally-anchored illustration style (bake off 3–5 candidates — see [style-exploration.md](style-exploration.md))
-2. Create `styles/<country>.md` with the locked STYLE block
-3. Generate the **first** comic via `text-to-image` (no reference image yet)
-4. Confirm the style is right with the user
+1. **Pick a culturally-anchored illustration style.** Bake off 3–5 candidates on the same anchor scam. See [style-exploration.md](style-exploration.md) for the process and [styles/](styles/) for inspiration.
+2. **Lock the winner.** Create `styles/<country>.md` with the verbatim STYLE block, and add it to `STYLES` + `PILOTS` in [`scripts/comic-pipeline/styles.py`](../../scripts/comic-pipeline/styles.py).
+3. **Generate the pilot** (via `/text-to-image`, no reference yet). Upload to `scam-comics/<cc>/style-tests/`. Get user approval.
+4. **Run the v2 pipeline to regenerate every scam** in every city:
+   ```bash
+   python3 scripts/comic-pipeline/generate.py <country> <city1> <city2> ... --force --batch-size 3
+   ```
+   This calls Gemini 2.5 Pro to synthesize each scam's bespoke script, submits to Nano Banana Pro with the locked style + pilot anchor, quality-gates each output, and uploads to R2.
+5. **Review the flag log** (`/tmp/<country>-flagged.log`) — anything here needs manual attention.
+6. **Inject img tags** into each city's `index.html` (pattern in [pipeline.md](pipeline.md)).
+7. **Commit + PR + merge + deploy.**
 5. Generate the rest via `edit` with 2–3 approved prior comics as `images` anchors (tighter style lock than text-to-image)
 6. Upload to R2 at `scams/<city>/scam-<N>.jpg`
 7. Inject the img tag into each city's `index.html`
