@@ -36,12 +36,24 @@ DATA_DIR = REPO_ROOT / "compare-data"
 TMPDIR = Path("/tmp/compare-images-enrich")
 PROGRESS_PATH = Path("/tmp/enrich-compare-images-progress.json")
 
-SERPAPI_KEY = os.environ.get(
-    "SERPAPI_KEY", "3d4b51ea3336e8eb9c73d5a3a28594bf11ec8d9219655903acf9719a6711f639"
-)
-GEMINI_KEY = os.environ.get(
-    "GEMINI_KEY", "AIzaSyCo9zeMqGnE0iBzu9Edk2W8W7ky9-JJwhY"
-)
+def _load_key(env_name, keychain_service):
+    value = os.environ.get(env_name)
+    if value:
+        return value
+    import subprocess
+    try:
+        return subprocess.check_output(
+            ["security", "find-generic-password", "-s", keychain_service, "-w"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        raise SystemExit(
+            f"ERROR: {env_name} not set and '{keychain_service}' not in macOS keychain."
+        )
+
+
+SERPAPI_KEY = _load_key("SERPAPI_KEY", "serpapi-key")
+GEMINI_KEY = _load_key("GEMINI_KEY", "gemini-key")
 GEMINI_MODEL = "gemini-2.5-flash"
 
 R2_ACCOUNT = "9ce95ed3e1df4a7e1d2a401e116c3c6f"
