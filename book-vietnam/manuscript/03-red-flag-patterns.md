@@ -46,7 +46,7 @@ Hoi An, Hue, Da Nang, and Phu Quoc are the epicenters of the motorbike-scratch v
 
 The defense is photographic, and it is mandatory. Before you accept the rental, take six to ten date-stamped photos of the item from every angle: front, back, left, right, both sides of the seat, the specific areas where scratches typically appear, the odometer, and the fuel gauge. For cars, shoot a slow thirty-second video walkaround. Hand over an easily-replaceable paper photocopy of your passport identification page rather than the real passport; keep the real passport at the hotel safe, and offer a deposit in cash instead if pressed. If the operator refuses to accept a photocopy and insists on the real passport, walk to the next rental shop — in Hoi An, Hue, and Da Nang there are dozens. If a damage claim is made at return, produce the photos on the spot. If the operator still refuses to return the passport or deposit, call **113** immediately from the location and wait for police to arrive. Also note: the tourist-assistance hotline **1800 1552** (toll-free) can escalate serious rental disputes in English.
 
-*You will see this pattern in: the Hue motorbike-scratch scam, the Hoi An bicycle-chain damage claim, the Da Nang self-drive rental damage, the Phu Quoc jet-ski deposit-damage, the Nha Trang beach-rental scam, and the Koh Tao–equivalent island rental traps on Phu Quoc.*
+*You will see this pattern in: the Hue motorbike-scratch scam, the Hoi An bicycle-chain damage claim, the Da Nang self-drive rental damage, the Phu Quoc jet-ski deposit-damage, the Nha Trang beach-rental scam.*
 
 ## Pattern 5: An "official" is an official only at an official office
 

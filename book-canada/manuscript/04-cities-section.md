@@ -48,7 +48,7 @@ If you're hitting only a few of these, skip to the chapter you need. If you're d
 
 ![Vancouver — Coal Harbour and the North Shore mountains at sunset](assets/cities/vancouver.jpg)
 
-**Vancouver** — British Columbia's Pacific gateway, Gastown, Stanley Park, and Canada Place. The Gastown fake-monks donation scam with beaded bracelets; the gold / jewelry blessing scam where a "monk" or "spiritual guide" blesses your watch and then demands a $200+ donation; the fake Uber and rideshare scam at YVR arrivals; the Canada Place street-magic hustle with forced payment after casual watching; the downtown parking-meter extortion (men with fake attendant vests collecting fees on app-based meters); rental listing fraud on Craigslist and Facebook Marketplace; and the phoney-police-officer donation scam on Robson Street with dollar-store badges and clipboards.
+**Vancouver** — British Columbia's Pacific gateway, Gastown, Stanley Park, and Canada Place. The Gastown fake-monks donation scam with beaded bracelets; the gold / jewelry blessing scam where a "monk" or "spiritual guide" blesses your watch and then demands a $200+ donation; the fake Uber and rideshare scam at YVR arrivals; the Canada Place street-magic hustle with forced payment after casual watching; the downtown parking-meter extortion (men with fake attendant vests collecting fees on app-based meters); rental listing fraud on Craigslist and Facebook Marketplace; and the phony-police-officer donation scam on Robson Street with dollar-store badges and clipboards.
 
 ![Victoria BC — Inner Harbour and BC Parliament at golden hour](assets/cities/victoria-bc.jpg)
 

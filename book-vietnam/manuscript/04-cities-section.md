@@ -40,7 +40,7 @@ If you're hitting only a few of these, skip to the chapter you need. If you're d
 
 ![Ho Chi Minh City — Notre-Dame spires and Saigon Central Post Office at dusk](assets/cities/ho-chi-minh-city.jpg)
 
-**Ho Chi Minh City** — Southern commercial capital, District 1, and the most industrial-scale nightlife-scam economy in Vietnam. The Tan Son Nhat (SGN) fake-Grab script; the Vinasun-copycat taxi meter-tampering circuit; the Bui Vien walking-street bar "hostess" 4,000,000-VND extortion that matches Bangkok's Patpong scale; the District 1 motorbike bag-snatch and phone-grab teams; the Ben Thanh Market foreigner-price gap (with Saigon Square next door at a third the price); and HCMC-wide Booking.com / Agoda off-platform payment fraud.
+**Ho Chi Minh City** — Southern commercial capital, District 1, and the most industrial-scale nightlife-scam economy in Vietnam. The Tan Son Nhat (SGN) fake-Grab script; the Vinasun-copycat taxi meter-tampering circuit; the Bui Vien walking-street bar "hostess" 4,000,000-VND extortion; the District 1 motorbike bag-snatch and phone-grab teams; the Ben Thanh Market foreigner-price gap (with Saigon Square next door at a third the price); and HCMC-wide Booking.com / Agoda off-platform payment fraud.
 
 ![Can Tho — Cai Rang floating market at dawn on the Mekong Delta](assets/cities/can-tho.jpg)
 
