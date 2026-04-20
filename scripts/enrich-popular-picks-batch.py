@@ -44,7 +44,9 @@ def get_key(name):
     ).stdout.strip()
 
 
-SERPAPI_KEY = os.environ.get("SERPAPI_KEY") or get_key('serpapi-key') or '3d4b51ea3336e8eb9c73d5a3a28594bf11ec8d9219655903acf9719a6711f639'
+SERPAPI_KEY = os.environ.get("SERPAPI_KEY") or get_key('serpapi-key')
+if not SERPAPI_KEY:
+    raise SystemExit("ERROR: SERPAPI_KEY not set and 'serpapi-key' not in macOS keychain.")
 R2_TOKEN = get_key('cloudflare-api-token')
 GEMINI_KEY = os.environ.get("GEMINI_KEY") or get_key("gemini-api-key")
 GEMINI_MODEL = "gemini-2.5-flash"

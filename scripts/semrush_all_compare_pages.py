@@ -15,7 +15,18 @@ import time
 import urllib.parse
 import urllib.request
 
-API_KEY = "466c49b8794c2ba3d09ad2afd1964cd0"
+_env_key = os.environ.get("SEMRUSH_API_KEY")
+if _env_key:
+    API_KEY = _env_key
+else:
+    import subprocess
+    try:
+        API_KEY = subprocess.check_output(
+            ["security", "find-generic-password", "-s", "semrush-api-key", "-w"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        raise SystemExit("ERROR: SEMRUSH_API_KEY not set and 'semrush-api-key' not in macOS keychain.")
 DATABASE = "us"
 
 ROOT = "/Users/bjh/Documents/tabiji/.claude/worktrees/happy-tharp-5601b2"
