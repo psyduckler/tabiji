@@ -118,6 +118,20 @@ STYLES = {
         "lettering — text must be legible, in English only, and correctly spelled. Square "
         "1:1 composition, 2K resolution."
     ),
+    "portugal": (
+        "A single illustrated comic book page in the folk-pop modernist style of Portuguese "
+        "contemporary artist José de Guimarães — bold flat hand-painted shapes with strong black "
+        "outline, saturated primary color palette (Portuguese flag red + cobalt blue + mustard "
+        "yellow + white + black), stylized figures drawn in a modernist reduction inspired by "
+        "Portuguese folk art (galo de Barcelos cockerel, azulejo geometric motifs, Bordalo "
+        "Pinheiro ceramics), playful graphic simplification, bright confident storytelling tone. "
+        "Showing four sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in "
+        "the upper-left corner of each panel, separated by thin black panel borders with narrow "
+        "white gutters. Each panel contains one clean white rounded speech bubble with a small "
+        "pointer tail, holding short printed English dialogue in simple black comic lettering — "
+        "text must be legible, in English only, and correctly spelled. Square 1:1 composition, "
+        "2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -136,4 +150,5 @@ PILOTS = {
     "canada": "https://img.tabiji.ai/scam-comics/ca/style-tests/2-drawn-and-quarterly-indie.jpg",
     "germany": "https://img.tabiji.ai/scam-comics/de/style-tests/4-heinrich-zille-berlin-milljoh.jpg",
     "brazil": "https://img.tabiji.ai/scam-comics/br/style-tests/4-aldemir-martins-folk-modernist.jpg",
+    "portugal": "https://img.tabiji.ai/scam-comics/pt/style-tests/3-jose-de-guimaraes-folk-pop.jpg",
 }
