@@ -20,7 +20,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Hong Kong / China | Shaw Brothers 1960s-70s painted cinema poster | — | [styles/hong-kong.md](styles/hong-kong.md) |
 | Croatia | Ivan Generalić / Hlebine School naïve-art | — | [styles/croatia.md](styles/croatia.md) |
 | Turkey | Ottoman Iznik-tile border + illustrated travel-comic interior | 78 | [styles/turkey.md](styles/turkey.md) |
-| Japan | Manga (planned) | — | — |
+| Japan | Contemporary illustrated travel-comic (neon night + warm day) | 54 | [styles/japan.md](styles/japan.md) |
 | USA | American comic book (planned) | — | — |
 | Italy | Fumetti / bande dessinée (planned) | — | — |
 

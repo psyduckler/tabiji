@@ -182,6 +182,30 @@ STYLES = {
         "dialogue in simple black comic lettering — text must be legible, in English "
         "only, and correctly spelled. Square 1:1 composition, 2K resolution."
     ),
+    "japan": (
+        "A single illustrated comic book page in a warm contemporary illustrated-travel-"
+        "comic style: confident fine black ink outlines with richly digital-painted "
+        "watercolor-and-gouache fills, realistic character proportions and expressive "
+        "faces, visible painterly texture, detailed Japanese location backgrounds — "
+        "neon-lit nightlife alleys (Shinjuku, Dotonbori, Susukino, Nakasu) rendered in "
+        "vivid magenta, cyan, warm amber, and reflected-puddle cobalt against dark wet "
+        "pavement; daytime exteriors (Kyoto temple streets, Nara Park, Miyajima torii, "
+        "suburban train stations, Koban police boxes, Japanese convenience-store and "
+        "vending-machine signage) rendered in warm natural light with soft blues, cherry "
+        "pink, lantern red, and cream. Traveler figures in modern casual clothing "
+        "alongside Japanese characters — salarymen in dark suits, bar touts in slim "
+        "black suits, kimono-clad hostesses and temple visitors, uniformed Koban "
+        "police, ramen cooks, deer-feeding visitors, monks — each drawn with everyday "
+        "realism. Showing four sequential panels arranged in a 2x2 grid with small "
+        "numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated by thin "
+        "clean black panel borders with narrow white gutters. Each panel contains one "
+        "clean white rounded speech bubble with a small pointer tail, holding short "
+        "printed English dialogue in simple black comic lettering — text must be "
+        "legible, in English only, and correctly spelled. Japanese neon and signage in "
+        "the background must be location-accurate for the scam's specific district (no "
+        "Roppongi signage on Fukuoka/Sapporo scenes, no Shibuya signage on Kabukicho "
+        "scenes). Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -204,4 +228,5 @@ PILOTS = {
     "portugal": "https://img.tabiji.ai/scam-comics/pt/style-tests/3-jose-de-guimaraes-folk-pop.jpg",
     "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
     "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
+    "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
 }
