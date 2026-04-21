@@ -1,0 +1,97 @@
+% -----------------------------------------------------------------
+% LaTeX header-includes for paperback interior (xelatex pipeline)
+% Applied via pandoc --include-in-header (-H) flag.
+% -----------------------------------------------------------------
+
+% ----------------------------------------------------------------------
+% 1. Running-head control — fancyhdr with chapter-only heads
+% ----------------------------------------------------------------------
+% Why: long scam titles (H2) like "FAKE PRADO MUSEUM & ROYAL PALACE
+% 'SKIP-THE-LINE' TICKET SCAM" overflow a 6"×9" running header when
+% ALL-CAPSed from \sectionmark. Use fancyhdr to show ONLY the chapter
+% (H1) name in mixed case — short enough to always fit, and keeps the
+% running head stable even through multi-page scam entries.
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% Chapter name on the outer edge of each spread; page number on the
+% outer edge at the foot. \nouppercase keeps mixed case; \leftmark is
+% the chapter mark (book class puts chapter name in \leftmark under
+% twoside, section name in \rightmark — we only use \leftmark).
+\fancyhead[LE]{\small\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\nouppercase{\leftmark}}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% The `plain` page style (used for chapter first pages) should show
+% only the footer page number, no header.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[LE,RO]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+% ----------------------------------------------------------------------
+% 2. Unnumbered-chapter running-head fix
+% ----------------------------------------------------------------------
+% Pandoc's {-} (unnumbered) chapters call \chapter* which does NOT call
+% \chaptermark, so appendix pages inherit the previous numbered
+% chapter's \leftmark. Override \@schapter to update \markboth.
+% Keep the mark in ORIGINAL case (not uppercase) so fancyhdr's
+% \nouppercase renders it as mixed-case, matching the numbered-chapter
+% running heads.
+\makeatletter
+\let\origschapter\@schapter
+\def\@schapter#1{\origschapter{#1}\markboth{#1}{#1}}
+\makeatother
+
+% Also ensure normal numbered chapters store the mark without uppercase
+% (book.cls's default \chaptermark uppercases; we override).
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{}  % section mark unused (kept blank)
+
+% ----------------------------------------------------------------------
+% 3. URL / long-word line-break support
+% ----------------------------------------------------------------------
+% Long URLs like tickets.alhambra-patronato.es and hyphenated compounds
+% must be allowed to break inside lines to avoid text overflow in
+% justified paragraphs. Enable word break after period, slash, and
+% hyphen — this stops the KDP-flagged "text outside margins" errors.
+\usepackage{xurl}  % better URL line-breaking than url.sty
+\usepackage{seqsplit}  % fallback splitter for stubborn long tokens
+
+% Tolerance for justified paragraphs — allow a bit more stretch before
+% overflowing the margin.
+\tolerance=3000
+\emergencystretch=3em
+
+% Prevent hyphenation of city/brand names that shouldn't break mid-word.
+\hyphenation{al-ham-bra pa-tro-na-to bi-taxi cer-can-ias get-your-guide}
+
+% ----------------------------------------------------------------------
+% 4. Right-aligned TOC page numbers with dot leaders
+% ----------------------------------------------------------------------
+% book.cls's default \l@chapter renders chapter entries in the TOC
+% without dot leaders by design. Override it to behave like \l@section
+% does — with dotted leaders and a right-aligned page number column.
+\makeatletter
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\normalfont
+      \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+\makeatother
