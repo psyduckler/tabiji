@@ -97,18 +97,33 @@ def strip_reddit_fragments(md: str) -> str:
     # the FIRST internal apostrophe in contractions like `won't` / `I'd` /
     # `it's`, leaving the rest of the quote orphaned in the output as
     # fragments like ". t take it back.'"
+    # NOTE: evidence uses `[^.\n]{5,400}?` not `.+?` — prevents over-matching
+    # when the evidence quote is never properly closed within its own sentence
+    # (common when Reddit scraping leaves unclosed single-quotes with internal
+    # contractions like 'It's...' ). Without this, Pattern A extends evidence
+    # across multiple sentences to the next bare `'` (often the SECOND quoted
+    # scam-term in a later sentence like 'cleaning'), leaving an orphan tail
+    # like "even if no work was actually done." in the output.
+    #
+    # Trailing `[^.\n]{0,200}\.` — scrubs any trailing clause after the closing
+    # evidence quote up to the next period. Fixes orphan fragments like
+    # "after the victim tried to dispute." / "for tourists specifically."
+    # / "leverages emotional sympathy..." that were left behind when the
+    # source sentence was a single long clause with the evidence quote in
+    # the middle.
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"  # r/sub 'title'
-        r"[^.\n]{0,200}?:\s*"                                          # any modifier + :
-        r"['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s.,;!?)]|$)",      # 'evidence.'
+        r"\s*r/\w+\s+['\u2018\u2019\"][^.\n]{1,200}?['\u2018\u2019\"](?=[\s(,;])"  # r/sub 'title'
+        r"[^.\n]{0,200}?:\s*"                                                     # any modifier + :
+        r"['\u2018\u2019\"][^.\n]{5,400}?['\u2018\u2019\"](?=[\s.,;!?)]|$)"       # 'evidence'
+        r"[^.\n]{0,200}\.",                                                       # trailing clause.
         " ",
         md,
-        flags=re.IGNORECASE | re.DOTALL,
+        flags=re.IGNORECASE,
     )
 
     # Pattern B: citation + verb + continues through next period (NO colon)
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"
         r"\s*(?:" + _CITATION_VERBS + r")\b[^.\n]{0,500}\.",
         " ",
         md,
@@ -117,7 +132,7 @@ def strip_reddit_fragments(md: str) -> str:
 
     # Pattern C: standalone `r/SUB 'title'` citation (no verb) through next period
     md = re.sub(
-        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
+        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"
         r"[^.\n]{0,400}\.",
         " ",
         md,
@@ -431,6 +446,7 @@ _BRITISH_TO_AMERICAN = [
     ("colour", "color"),
     ("colours", "colors"),
     ("coloured", "colored"),
+    ("colouring", "coloring"),
     ("favour", "favor"),
     ("favours", "favors"),
     ("favourite", "favorite"),
