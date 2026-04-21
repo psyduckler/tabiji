@@ -149,6 +149,14 @@ def strip_reddit_fragments(md: str) -> str:
         md,
     )
 
+    # Pattern D2: parenthesized bare r/sub — "(r/halifax 'title')" or "per (r/sub 'title')"
+    # Must run AFTER Pattern D so it only catches what Pattern D missed.
+    md = re.sub(
+        r"\s*\((?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"][^'\u2018\u2019\"\n]+?['\u2018\u2019\"]\)",
+        "",
+        md,
+    )
+
     # Pattern E: malformed `r/SUB (...` with no closing paren
     md = re.sub(r"\s*r/\w+\s+\([^)\n]*$", "", md, flags=re.MULTILINE)
 
@@ -722,6 +730,29 @@ def remove_older_traveler_framing(md: str) -> str:
         _strip_older,
         md,
     )
+
+    # "For older cruise passengers (X), ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s*\([^)]{0,120}\)",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # "For older cruise passengers and X, ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s+and\s+[^,.:;\n]*",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # Plain: "For older cruise passengers" → "For cruise passengers"
+    md = re.sub(r"\bFor older cruise passengers\b", "For cruise passengers", md, flags=re.IGNORECASE)
+    # Mid-sentence: "older cruise passengers" → "cruise passengers"
+    md = re.sub(r"\bolder cruise passengers\b", "cruise passengers", md, flags=re.IGNORECASE)
+    # "older female travelers" / "older female traveller" → "female travelers"
+    md = re.sub(r"\bolder female travel(ers?|lers?)\b", "female travelers", md, flags=re.IGNORECASE)
+    # "older male travelers" → "male travelers"
+    md = re.sub(r"\bolder male travel(ers?|lers?)\b", "male travelers", md, flags=re.IGNORECASE)
+    # "for older female travelers" → "for female travelers"
+    md = re.sub(r"\bfor older (female|male) travel(ers?|lers?)\b", r"for \1 travelers", md, flags=re.IGNORECASE)
 
     # --- Age-specific numeric and descriptor phrases ---
     # Caught by Round 1 audit — these slip past the "older travelers" pattern.

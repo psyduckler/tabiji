@@ -232,6 +232,10 @@ def build_epub(md: str) -> Path:
         str(md_path),
         "-o",
         str(epub_path),
+        # Disable LaTeX math-dollar syntax: prose contains currency like "$10-20"
+        # and "P$ Montreal" which pandoc otherwise treats as math delimiters,
+        # mangling whole paragraphs into <em>-per-letter gibberish.
+        "--from", "markdown-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
         "--resource-path",
         str(HERE),
         "--metadata",
