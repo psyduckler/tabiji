@@ -162,6 +162,26 @@ STYLES = {
         "simple black hand-lettered text — text must be legible, in English only, and "
         "correctly spelled. Square 1:1 composition, 2K resolution."
     ),
+    "turkey": (
+        "A single illustrated comic book page framed inside an ornate Ottoman Iznik-tile "
+        "border — rich decorative geometric-floral rim in cobalt blue, coral red, emerald "
+        "green, saffron yellow, and cream white, with stylized tulip, carnation, and "
+        "arabesque motifs drawn as flat stained-glass-like shapes. Interior of each panel "
+        "rendered in a warm contemporary illustrated-travel-comic style: confident fine "
+        "black ink outlines with richly-painted watercolor and gouache fills, a warm "
+        "palette of parchment cream, terracotta, deep Ottoman blue, ochre, crimson, and "
+        "gold-leaf accents, detailed Turkish architectural and landscape backgrounds "
+        "(mosques, minarets, bazaar domes, ancient ruins, travertine terraces, gulet "
+        "boats, fairy-chimneys depending on scene), traveler figures in modern casual "
+        "clothing alongside Turkish characters in traditional vests, fezzes, and "
+        "embroidered waistcoats, storybook-rich composition with visible painterly "
+        "texture. Showing four sequential panels arranged in a 2x2 grid with small blue "
+        "numerals 1, 2, 3, 4 in the upper-left corner of each panel, separated by thin "
+        "cream gutters inside the tiled border. Each panel contains one clean white "
+        "rounded speech bubble with a small pointer tail, holding short printed English "
+        "dialogue in simple black comic lettering — text must be legible, in English "
+        "only, and correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -183,4 +203,5 @@ PILOTS = {
     "brazil": "https://img.tabiji.ai/scam-comics/br/style-tests/4-aldemir-martins-folk-modernist.jpg",
     "portugal": "https://img.tabiji.ai/scam-comics/pt/style-tests/3-jose-de-guimaraes-folk-pop.jpg",
     "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
+    "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
 }
