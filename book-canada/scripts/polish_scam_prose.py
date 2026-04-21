@@ -111,8 +111,12 @@ def strip_reddit_fragments(md: str) -> str:
     # / "leverages emotional sympathy..." that were left behind when the
     # source sentence was a single long clause with the evidence quote in
     # the middle.
+    # Title uses `.+?` (not `[^.\n]`) because Reddit titles frequently
+    # contain periods (e.g. "Robbed at HCM airport by fake Grab driver. Be"
+    # — Reddit truncates long titles mid-sentence). Without DOTALL, `.` still
+    # excludes newlines, which is what we want for titles.
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"][^.\n]{1,200}?['\u2018\u2019\"](?=[\s(,;])"  # r/sub 'title'
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"            # r/sub 'title'
         r"[^.\n]{0,200}?:\s*"                                                     # any modifier + :
         r"['\u2018\u2019\"][^.\n]{5,400}?['\u2018\u2019\"](?=[\s.,;!?)]|$)"       # 'evidence'
         r"[^.\n]{0,200}\.",                                                       # trailing clause.
