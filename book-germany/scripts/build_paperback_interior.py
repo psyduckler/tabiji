@@ -258,7 +258,25 @@ def build_pdf_direct(md_path: Path) -> Path:
             "--toc-depth=1",
             "-V", "geometry:paperwidth=6in",
             "-V", "geometry:paperheight=9in",
-            "-V", "geometry:margin=0.75in",
+            # KDP-compliant twoside geometry for 6"x9" trim.
+            # KDP minimums:
+            #   Inside margin (gutter): 0.375" for 24-150 pages, 0.5" for
+            #     151-300, 0.625" for 301-500, 0.75" for 501-700, 0.875" for
+            #     701-828 pages.
+            #   Outside, top, bottom: 0.25" minimum for any page count.
+            # Our values (comfortable above minimums, stable text block):
+            #   inside (gutter) = 0.875"
+            #   outside         = 0.5"     (2x KDP min)
+            #   top             = 0.75"    (room for running head + headsep)
+            #   bottom          = 0.75"    (room for page number)
+            # Text block: 6 - 0.875 - 0.5 = 4.625" at 11pt ≈ 62 chars (60-75 optimal).
+            "-V", "geometry:inner=0.875in",
+            "-V", "geometry:outer=0.5in",
+            "-V", "geometry:top=0.75in",
+            "-V", "geometry:bottom=0.75in",
+            "-V", "geometry:headheight=14pt",
+            "-V", "geometry:headsep=18pt",
+            "-V", "classoption=twoside",
             "-V", "documentclass=book",
             "-V", f"title={title}",
             "-V", f"author={author}",

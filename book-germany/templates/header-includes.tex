@@ -1,23 +1,86 @@
 % -----------------------------------------------------------------
 % LaTeX header-includes for paperback interior (xelatex pipeline)
 % Applied via pandoc --include-in-header (-H) flag.
+%
+% KDP-compliant canonical version. Synced with:
+%   .claude/skills/book-generator/templates/build-templates/header-includes.tex
+%
+% Fixes (in order):
+%   1. Running-head overflow on long chapter/scam titles — uses fancyhdr
+%      with \leftmark (chapter-only) + \nouppercase for mixed-case so
+%      long H2 scam names never land in the running header.
+%   2. Unnumbered chapter {-} running-head bleed — \@schapter override.
+%   3. Long URL / token overflow in justified paragraphs — xurl, seqsplit,
+%      relaxed tolerance + emergencystretch.
+%   4. Right-aligned TOC page numbers with dot leaders.
 % -----------------------------------------------------------------
 
-% 1. Unnumbered-chapter running-head fix.
-%    Pandoc's {-} (unnumbered) chapters call \chapter* which doesn't
-%    invoke \chaptermark, so the previous numbered chapter's name
-%    bleeds into every appendix page's running header. Override
-%    \@schapter to always update \markboth.
+% ----------------------------------------------------------------------
+% 1. Running-head control — fancyhdr with chapter-only heads
+% ----------------------------------------------------------------------
+% Long H2 scam titles (e.g. "BRANDENBURGER TOR PETITION & BRACELET
+% PICKPOCKET DISTRACTION") overflow a 6x9 running header when
+% ALL-CAPSed from \sectionmark. Use fancyhdr to show ONLY the chapter
+% (H1) name in mixed case — short enough to always fit.
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\nouppercase{\leftmark}}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% The `plain` page style (chapter first pages) shows only the footer.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[LE,RO]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+% ----------------------------------------------------------------------
+% 2. Unnumbered-chapter running-head fix
+% ----------------------------------------------------------------------
+% Pandoc's {-} (unnumbered) chapters call \chapter* which does NOT call
+% \chaptermark, so appendix pages inherit the previous numbered
+% chapter's \leftmark. Override \@schapter to update \markboth.
+% Store the mark in ORIGINAL case (not uppercase) so fancyhdr's
+% \nouppercase renders it mixed-case.
 \makeatletter
 \let\origschapter\@schapter
-\def\@schapter#1{\origschapter{#1}\markboth{\MakeUppercase{#1}}{\MakeUppercase{#1}}}
+\def\@schapter#1{\origschapter{#1}\markboth{#1}{#1}}
 \makeatother
 
-% 2. Right-aligned TOC page numbers with dot leaders.
-%    book.cls's default \l@chapter renders chapter entries in the
-%    TOC without dot leaders by design. Override it to behave like
-%    \l@section does — with dotted leaders and a right-aligned page
-%    number. Uses \cf@dotsep=\@dotsep (defined in book.cls).
+% Also ensure normal numbered chapters store the mark without uppercase.
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{}  % section mark unused
+
+% ----------------------------------------------------------------------
+% 3. URL / long-word line-break support (stops KDP "text outside margins")
+% ----------------------------------------------------------------------
+% Long URLs (tickets.alhambra-patronato.es, reservations.pc.gc.ca,
+% spsg.de/sanssouci-skipline-ticket) and hyphenated compounds must
+% break inside lines to avoid text overflow in justified paragraphs.
+\usepackage{xurl}      % better URL line-breaking than url.sty
+\usepackage{seqsplit}  % fallback splitter for stubborn long tokens
+
+% Tolerance + emergencystretch: let LaTeX accept loose lines rather
+% than let a single long word overflow the right margin.
+\tolerance=3000
+\emergencystretch=3em
+
+% Prevent hyphenation of city/brand names that shouldn't break mid-word.
+\hyphenation{al-ham-bra pa-tro-na-to bi-taxi cer-can-ias get-your-guide
+             bran-den-bur-ger neu-schwan-stein hohen-schwan-gau
+             ok-to-ber-fest christ-kin-dles-markt stri-ezel-markt
+             nie-der-sach-sen ba-den-baden ho-hen-zoll-ern}
+
+% ----------------------------------------------------------------------
+% 4. Right-aligned TOC page numbers with dot leaders
+% ----------------------------------------------------------------------
+% book.cls's default \l@chapter renders chapter entries in the TOC
+% without dot leaders by design. Override it to behave like \l@section
+% does — with dotted leaders and a right-aligned page number column.
 \makeatletter
 \renewcommand*\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
