@@ -12,7 +12,37 @@ anchors.
 import json
 import os
 import glob
+import re
+import sys
 from collections import defaultdict
+from pathlib import Path
+
+# Reuse the battle-tested cleaner from scripts/clean_us_reddit_shards.py
+# so SAFETY_TIPS, FAQS, and scam["story"] text all pass through the
+# same strip logic before rendering. This prevents regenerated US pages
+# from reintroducing Reddit-citation + NAMED-anchor research shards
+# that were never meant to be reader-facing.
+_SCRIPTS = Path(__file__).resolve().parent.parent / "scripts"
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+try:
+    from clean_us_reddit_shards import clean_text as _clean_reddit_shards
+except ImportError:  # pragma: no cover — fail soft if cleaner missing
+    def _clean_reddit_shards(t: str) -> str:
+        return t
+
+
+def _sanitize_reddit_shards(text: str) -> str:
+    """Strip Reddit citation URL shards and NAMED-anchor workflow tags.
+
+    Applied to all user-facing prose (SAFETY_TIPS, FAQs, scam stories)
+    so research artifacts like `r/sub 'title' (comments/xxx, 2025) is
+    the 2025 NAMED anchor` do not survive into rendered HTML. Safe
+    (idempotent) on already-clean text — returns input unchanged.
+    """
+    if not text:
+        return text
+    return _clean_reddit_shards(text)
 
 # ── Region-appropriate ride-service advice ─────────────────────────────
 _REGION_SETS = {
@@ -6541,11 +6571,15 @@ def make_tldr(story):
 def generate_scam_cards(scams, city="", n=0):
     html = ""
     for i, scam in enumerate(scams, 1):
-        red_flags_html = "\n".join(f"                    <li>{rf}</li>" for rf in scam.get("red_flags", []))
-        avoid_html = "\n".join(f"                    <li>{av}</li>" for av in scam.get("how_to_avoid", []))
+        # Sanitize Reddit-citation shards before rendering (US data has
+        # historically leaked research workflow artifacts into prose).
+        red_flags = [_sanitize_reddit_shards(rf) for rf in scam.get("red_flags", [])]
+        how_to_avoid = [_sanitize_reddit_shards(av) for av in scam.get("how_to_avoid", [])]
+        red_flags_html = "\n".join(f"                    <li>{rf}</li>" for rf in red_flags)
+        avoid_html = "\n".join(f"                    <li>{av}</li>" for av in how_to_avoid)
 
         # TL;DR + remaining story (supports multi-paragraph stories via \n\n)
-        story = scam.get('story', '')
+        story = _sanitize_reddit_shards(scam.get('story', ''))
         tldr, rest = make_tldr(story)
         def _render_paragraphs(text, cls):
             paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
@@ -6655,8 +6689,10 @@ def generate_page(city_data, related_cities_map):
         "Book tours and tickets through verified operators with online reviews",
         "Keep a copy of your passport separate from the original",
     ])
-    faqs = FAQS.get(city, [])
-    
+    # Sanitize Reddit-citation shards from SAFETY_TIPS + FAQ before render.
+    safety_tips = [_sanitize_reddit_shards(tip) for tip in safety_tips]
+    faqs = [(q, _sanitize_reddit_shards(a)) for q, a in FAQS.get(city, [])]
+
     safety_tips_html = "\n".join(f"            <li>{tip}</li>" for tip in safety_tips)
     
     scam_cards = generate_scam_cards(scams, city=city, n=n)
