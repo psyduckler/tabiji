@@ -238,7 +238,7 @@ def build_html(md: str) -> Path:
         "--metadata", f"title={title}",
         "--metadata", f"author={author}",
         "--resource-path", str(BOOK),
-        "--from", "markdown+smart",
+        "--from", "markdown+smart-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
     ]
     subprocess.run(cmd, check=True)
     return INTERIOR_HTML
