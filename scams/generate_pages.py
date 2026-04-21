@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""Generate scam pages for all cities based on Barcelona template."""
+"""Generate scam pages for all cities based on Barcelona template.
+
+STYLE: all editorial prose in this file — SAFETY_TIPS, FAQS, country-hub
+copy, any HTML-embedded string — must follow the tabiji scam-pages style
+guide at ``docs/scam-pages-style-guide.md``. The house variant is
+**American English (en-US)**. Exceptions: quoted Reddit-thread titles
+(verbatim citations) and proper nouns. See the style guide for full
+rules on voice, currency formatting, regulatory citations, and Reddit
+anchors.
+"""
 import json
 import os
 import glob
@@ -6789,7 +6798,7 @@ def generate_page(city_data, related_cities_map):
     </div>"""
 
     html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7192,7 +7201,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
     )
 
     html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
