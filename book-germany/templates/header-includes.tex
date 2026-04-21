@@ -1,0 +1,40 @@
+% -----------------------------------------------------------------
+% LaTeX header-includes for paperback interior (xelatex pipeline)
+% Applied via pandoc --include-in-header (-H) flag.
+% -----------------------------------------------------------------
+
+% 1. Unnumbered-chapter running-head fix.
+%    Pandoc's {-} (unnumbered) chapters call \chapter* which doesn't
+%    invoke \chaptermark, so the previous numbered chapter's name
+%    bleeds into every appendix page's running header. Override
+%    \@schapter to always update \markboth.
+\makeatletter
+\let\origschapter\@schapter
+\def\@schapter#1{\origschapter{#1}\markboth{\MakeUppercase{#1}}{\MakeUppercase{#1}}}
+\makeatother
+
+% 2. Right-aligned TOC page numbers with dot leaders.
+%    book.cls's default \l@chapter renders chapter entries in the
+%    TOC without dot leaders by design. Override it to behave like
+%    \l@section does — with dotted leaders and a right-aligned page
+%    number. Uses \cf@dotsep=\@dotsep (defined in book.cls).
+\makeatletter
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\normalfont
+      \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+\makeatother
