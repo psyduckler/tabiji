@@ -206,6 +206,21 @@ STYLES = {
         "Roppongi signage on Fukuoka/Sapporo scenes, no Shibuya signage on Kabukicho "
         "scenes). Square 1:1 composition, 2K resolution."
     ),
+    "mexico": (
+        "A single illustrated comic book page rendered in the iconic Mexican Lotería card "
+        "(Don Clemente tarjeta) style — flat bright saturated colors (chili red, marigold "
+        "yellow, sky blue, cactus green, and ivory white) with bold clean black outline, "
+        "naive-folk figure proportions, centered iconic compositions on each panel, "
+        "decorative thin black ornamental frame around every panel evoking the classic "
+        "Lotería deck, each panel reading like a small cautionary Lotería tarjeta, warm "
+        "cream paper background with a subtle printing-grain texture. Showing four "
+        "sequential panels arranged in a 2x2 grid with small Lotería-style card numbers "
+        "1, 2, 3, 4 in the upper-left corner of each panel, separated by narrow cream "
+        "gutters. Each panel contains one clean white rounded speech bubble with a small "
+        "pointer tail, holding short printed English dialogue in simple black lettering "
+        "— text must be legible, in English only, and correctly spelled. Square 1:1 "
+        "composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -229,4 +244,5 @@ PILOTS = {
     "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
     "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
     "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
+    "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
 }
