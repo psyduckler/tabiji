@@ -158,11 +158,25 @@ def download_verify(url: str, out_path: Path) -> tuple[bool, str]:
 def upload_r2(src: Path, r2_key: str, r2_token: str) -> bool:
     url = (f"https://api.cloudflare.com/client/v4/accounts/{R2_ACCT}"
            f"/r2/buckets/{R2_BUCKET}/objects/{r2_key}")
-    req = urllib.request.Request(url, method="PUT", data=src.read_bytes())
-    req.add_header("Authorization", f"Bearer {r2_token}")
-    req.add_header("Content-Type", "image/jpeg")
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return bool(json.loads(r.read()).get("success"))
+    body = src.read_bytes()
+    for attempt in range(5):
+        req = urllib.request.Request(url, method="PUT", data=body)
+        req.add_header("Authorization", f"Bearer {r2_token}")
+        req.add_header("Content-Type", "image/jpeg")
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return bool(json.loads(r.read()).get("success"))
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 500, 502, 503, 504) and attempt < 4:
+                time.sleep(3 + attempt * 3)
+                continue
+            return False
+        except Exception:
+            if attempt < 4:
+                time.sleep(3 + attempt * 3)
+                continue
+            return False
+    return False
 
 
 def generate_one(
