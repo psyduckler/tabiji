@@ -98,7 +98,7 @@ def strip_reddit_fragments(md: str) -> str:
     # `it's`, leaving the rest of the quote orphaned in the output as
     # fragments like ". t take it back.'"
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"  # r/sub 'title'
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"  # r/sub 'title'
         r"[^.\n]{0,200}?:\s*"                                          # any modifier + :
         r"['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s.,;!?)]|$)",      # 'evidence.'
         " ",
@@ -108,7 +108,7 @@ def strip_reddit_fragments(md: str) -> str:
 
     # Pattern B: citation + verb + continues through next period (NO colon)
     md = re.sub(
-        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
+        r"\s*r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"
         r"\s*(?:" + _CITATION_VERBS + r")\b[^.\n]{0,500}\.",
         " ",
         md,
@@ -117,7 +117,7 @@ def strip_reddit_fragments(md: str) -> str:
 
     # Pattern C: standalone `r/SUB 'title'` citation (no verb) through next period
     md = re.sub(
-        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(])"
+        r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"].+?['\u2018\u2019\"](?=[\s(,;])"
         r"[^.\n]{0,400}\.",
         " ",
         md,
