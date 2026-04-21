@@ -19,6 +19,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Austria | Jean-Jacques Sempé pen-and-ink wash | 8 | [styles/austria.md](styles/austria.md) |
 | Hong Kong / China | Shaw Brothers 1960s-70s painted cinema poster | — | [styles/hong-kong.md](styles/hong-kong.md) |
 | Croatia | Ivan Generalić / Hlebine School naïve-art | — | [styles/croatia.md](styles/croatia.md) |
+| Turkey | Ottoman Iznik-tile border + illustrated travel-comic interior | 78 | [styles/turkey.md](styles/turkey.md) |
 | Japan | Manga (planned) | — | — |
 | USA | American comic book (planned) | — | — |
 | Italy | Fumetti / bande dessinée (planned) | — | — |
