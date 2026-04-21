@@ -227,7 +227,10 @@ def build_html(md: str) -> Path:
         "--metadata", f"title={title}",
         "--metadata", f"author={author}",
         "--resource-path", str(BOOK),
-        "--from", "markdown+smart",
+        # Disable LaTeX math-dollar syntax: prose contains currency like "$30-50"
+        # that pandoc otherwise treats as math delimiters, mangling paragraphs
+        # into <em>-per-letter gibberish.
+        "--from", "markdown+smart-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
     ]
     subprocess.run(cmd, check=True)
     return INTERIOR_HTML
@@ -280,6 +283,8 @@ def build_pdf_direct(md_path: Path) -> Path:
             # matches the Thailand volume's font choice for series consistency.
             "-V", "mainfont=Arial Unicode MS",
             "--resource-path", str(BOOK),
+            # Disable LaTeX math-dollar syntax (same as HTML path above).
+            "--from", "markdown+smart-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
         ]
         # Inject the header fixes (running-head reset for unnumbered chapters,
         # long-heading protection) if the template file exists.
