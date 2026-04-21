@@ -723,6 +723,24 @@ def remove_older_traveler_framing(md: str) -> str:
         md,
     )
 
+    # Compound "older X travelers" patterns — strip the "older" prefix while
+    # preserving the modifier (business / female / male / solo / cruise, etc.)
+    md = re.sub(
+        r"\bFor older (business|female|male|solo|cruise|budget|independent|first[- ]time|luxury|family|senior)\s+(travelers?|passengers?|tourists?|visitors?)\b",
+        r"For \1 \2",
+        md, flags=re.IGNORECASE,
+    )
+    md = re.sub(
+        r"\bfor older (business|female|male|solo|cruise|budget|independent|first[- ]time|luxury|family|senior)\s+(travelers?|passengers?|tourists?|visitors?)\b",
+        r"for \1 \2",
+        md, flags=re.IGNORECASE,
+    )
+    md = re.sub(
+        r"\bolder (business|female|male|solo|cruise|budget|independent|first[- ]time|luxury|family|senior)\s+(travelers?|passengers?|tourists?|visitors?)\b",
+        r"\1 \2",
+        md, flags=re.IGNORECASE,
+    )
+
     # --- Age-specific numeric and descriptor phrases ---
     # Caught by Round 1 audit — these slip past the "older travelers" pattern.
     # Note: `\b` does not match between `+` and a following letter (both are
