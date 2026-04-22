@@ -23,6 +23,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Japan | Contemporary illustrated travel-comic (neon night + warm day) | 54 | [styles/japan.md](styles/japan.md) |
 | USA | Silver-Age American superhero-comic-book (Kirby/Ditko) | 233 | [styles/united-states.md](styles/united-states.md) |
 | Australia | Percy Trompf / Gert Sellheim 1930s-50s art-deco travel poster | 84 | [styles/australia.md](styles/australia.md) |
+| Costa Rica | 1950s Pan American Airways tropical-deco travel poster | pending | [styles/costa-rica.md](styles/costa-rica.md) |
 | Italy | Fumetti / bande dessinée (planned) | — | — |
 
 ## What to read in this folder
