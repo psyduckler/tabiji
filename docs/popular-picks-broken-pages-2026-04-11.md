@@ -366,7 +366,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `hanoi-bun-rieu` — 9 Best Bún Riêu in Hanoi (2026) — Reddit-Backed Crab Noodle Soup Guide (12/12) — rebuilt 2026-04-11
 - [x] `hanoi-egg-coffee` — 12 Best Egg Coffee in Hanoi (12/12) — rebuilt 2026-04-11
 - [x] `harbin-ice-sculpture-festival` — Ice Sculpture Festival in Harbin (1/12) — rebuilt 2026-04-22
-- [ ] `helsinki-restaurants` — Food in Helsinki (1/12)
+- [x] `helsinki-restaurants` — Food in Helsinki (1/12) — rebuilt 2026-04-22
 - [x] `hoi-an-cao-lau` — 11 Best Cao Lầu in Hội An (12/12) — rebuilt 2026-04-11
 - [x] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [SKIP] `hong-kong-rooftop-bars` — Rooftop Bars in Hong Kong (1/12) — minimal ItemList, needs full research
@@ -409,17 +409,17 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-sushi` — 10 Best Sushi in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-takoyaki` — 11 Best Takoyaki in Osaka (11/11) — rebuilt 2026-04-11
-- [ ] `oslo-restaurants` — New Nordic Restaurants in Oslo (1/12)
+- [x] `oslo-restaurants` — New Nordic Restaurants in Oslo (1/12) — rebuilt 2026-04-22
 - [x] `paris-banh-mi` — 10 Best Bánh Mì in Paris (10/10) — rebuilt 2026-04-11
 - [x] `paris-jazz-clubs` — 15 Best Jazz Clubs in Paris (16/16) — rebuilt 2026-04-11
 - [x] `penang-cendol` — 10 Best Cendol in Penang (10/10) — rebuilt 2026-04-11
-- [ ] `philadelphia-restaurants` — 10 Best Restaurants in Philadelphia (1/10)
+- [x] `philadelphia-restaurants` — 10 Best Restaurants in Philadelphia (10/10) — rebuilt 2026-04-22
 - [x] `porto-francesinha` — 12 Best Francesinhas in Porto — The Reddit Guide (12/12) — rebuilt 2026-04-11
 - [x] `prague-svickova` — 9 Best Places for Svíčková in Prague (9/9) — rebuilt 2026-04-11
-- [ ] `queenstown-restaurants` — Queenstown's Best Restaurants (1/12)
+- [x] `queenstown-restaurants` — Best Restaurants in Queenstown (8/8) — rebuilt 2026-04-22
 - [x] `rome-cacio-e-pepe` — 15 Best Cacio e Pepe in Rome — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `rome-nightlife` — Nightlife & Aperitivo Spots in Rome (1/12)
-- [ ] `san-diego-fish-tacos` — 12 Best Fish Tacos in San Diego (2026) — Reddit-Backed Guide (1/12)
+- [x] `rome-nightlife` — Nightlife & Aperitivo Spots in Rome (1/12) — rebuilt 2026-04-22
+- [x] `san-diego-fish-tacos` — 12 Best Fish Tacos in San Diego (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-22
 - [x] `sapporo-soup-curry` — 14 Best Soup Curry in Sapporo (14/14) — rebuilt 2026-04-11
 - [x] `sapporo-sushi` — 10 Best Sushi in Sapporo (10/10) — rebuilt 2026-04-11
 - [SKIP] `sarajevo-cevapi` — Ćevapi & Bosnian Food in Sarajevo (1/12) — minimal ItemList, needs full research
@@ -430,10 +430,10 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [SKIP] `strasbourg-tarte-flambee` — 12 Best Tarte Flambée in Strasbourg (1/12) — minimal ItemList, needs full research
 - [x] `taipei-beef-noodle-soup` — 10 Best Beef Noodle Soup in Taipei (11/11) — rebuilt 2026-04-11
 - [x] `tbilisi-coffee-shops` — 12 Best Coffee Shops in Tbilisi 2026 — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
-- [ ] `tel-aviv-nightlife` — Tel Aviv's Legendary Nightlife (1/12)
+- [x] `tel-aviv-nightlife` — Tel Aviv's Legendary Nightlife (12/12) — rebuilt 2026-04-22
 - [SKIP] `thessaloniki-bougatsa` — 10 Best Bougatsa in Thessaloniki 2026 — Reddit-Backed Guide (1/10) — no ItemList, needs full research
 - [x] `tokyo-depachika` — 12 Best Depachika (Department Store Food Halls) in Tokyo (12/12) — rebuilt 2026-04-11
-- [ ] `tokyo-street-food` — Tokyo Street Food & Food Stalls (1/12)
+- [x] `tokyo-street-food` — Tokyo Street Food & Food Stalls (1/12) — rebuilt 2026-04-22
 - [SKIP] `toronto-dim-sum` — 10 Best Dim Sum in Toronto's Chinatown (2026) — Reddit-Backed Guide (1/10) — minimal ItemList, needs full research
 - [SKIP] `vancouver-sushi` — 10 Best Vancouver's Sushi & Japanese Food Scene (2026) — Reddit-Backed… (1/10) — minimal ItemList, needs full research
 - [x] `venice-pizza` — 10 Best Pizza in Venice (10/10) — rebuilt 2026-04-11
@@ -461,7 +461,7 @@ Country landing pages with only one `city-section` rendered. Some may be legitim
 Body renders some venues but fewer than the H1/schema claim. Smaller rebuilds — check if existing venues can be preserved.
 
 - [x] `paris-restaurants` — 10 Best Restaurants in Paris (10/10) · 6,600/mo — rebuilt 2026-04-14
-- [ ] `cebu-city-lechon` — 10 Best Lechon in Cebu City (10/12)
+- [x] `cebu-city-lechon` — 10 Best Lechon in Cebu City (12/12) — rebuilt 2026-04-22
 
 ## Partial / short — country hubs (7 pages)
 
