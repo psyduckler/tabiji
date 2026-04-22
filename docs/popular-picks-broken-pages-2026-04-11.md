@@ -365,7 +365,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `hamburg-steak` — 10 Best Steak in Hamburg (10/10) — rebuilt 2026-04-11
 - [x] `hanoi-bun-rieu` — 9 Best Bún Riêu in Hanoi (2026) — Reddit-Backed Crab Noodle Soup Guide (12/12) — rebuilt 2026-04-11
 - [x] `hanoi-egg-coffee` — 12 Best Egg Coffee in Hanoi (12/12) — rebuilt 2026-04-11
-- [ ] `harbin-ice-sculpture-festival` — Ice Sculpture Festival in Harbin (1/12)
+- [x] `harbin-ice-sculpture-festival` — Ice Sculpture Festival in Harbin (1/12) — rebuilt 2026-04-22
 - [ ] `helsinki-restaurants` — Food in Helsinki (1/12)
 - [x] `hoi-an-cao-lau` — 11 Best Cao Lầu in Hội An (12/12) — rebuilt 2026-04-11
 - [x] `hong-kong-claypot-rice` — 12 Best Claypot Rice in Hong Kong — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
@@ -374,12 +374,12 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `ipoh-dim-sum` — 10 Best Dim Sum in Ipoh (10/10) — rebuilt 2026-04-11
 - [x] `istanbul-baklava-shops` — 12 Best Baklava Shops in Istanbul (2026) — Reddit-Backed Guide (12/12) — rebuilt 2026-04-11
 - [x] `istanbul-rooftop-restaurants` — 15 Best Rooftop Restaurants in Istanbul — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
-- [ ] `istanbul-street-food` — Best Street Food in Istanbul (1/12)
+- [x] `istanbul-street-food` — Best Street Food in Istanbul (1/12) — rebuilt 2026-04-22
 - [SKIP] `jaipur-thali-restaurants` — 11 Best Thali Restaurants in Jaipur (2026) (1/11) — minimal ItemList, needs full research
 - [x] `kobe-chinatown` — 9 Best Eats in Kobe Chinatown (Nankinmachi) (9/9) — rebuilt 2026-04-11
 - [x] `kobe-sushi` — 10 Best Sushi in Kobe (10/10) — rebuilt 2026-04-11
 - [x] `kolkata-street-food` — 12 Best Street Food in Kolkata — The Unfiltered Guide (12/12) — rebuilt 2026-04-11
-- [ ] `kyoto-coffee` — 12 Best Coffee Shops in Kyoto (1/12)
+- [x] `kyoto-coffee` — 12 Best Coffee Shops in Kyoto (12/12) — rebuilt 2026-04-22
 - [x] `kyoto-kaiseki` — 12 Best Affordable Kaiseki in Kyoto (12/12) — rebuilt 2026-04-11
 - [x] `kyoto-sushi` — 10 Best Sushi in Kyoto (10/10) — rebuilt 2026-04-11
 - [x] `kyoto-tofu` — 10 Best Tofu Restaurants in Kyoto (10/10) — rebuilt 2026-04-11
@@ -404,7 +404,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `new-york-dollar-pizza` — 12 Best Dollar Pizza Spots in New York City (2026) — Reddit-Backed Gui… (12/12) — rebuilt 2026-04-11
 - [x] `new-york-fried-chicken` — 10 Best Fried Chicken in New York City (10/10) — rebuilt 2026-04-11
 - [x] `new-york-pastrami` — 11 Best Pastrami Spots in NYC (2026) (11/11) — rebuilt 2026-04-11
-- [ ] `new-york-steak` — 10 Best Steakhouses in New York City (1/10)
+- [x] `new-york-steak` — 10 Best Steakhouses in New York City (10/10) — rebuilt 2026-04-22
 - [x] `osaka-kushikatsu` — 10 Best Kushikatsu in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-okonomiyaki` — 12 Best Okonomiyaki in Osaka (10/10) — rebuilt 2026-04-11
 - [x] `osaka-sushi` — 10 Best Sushi in Osaka (10/10) — rebuilt 2026-04-11
