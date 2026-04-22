@@ -43,6 +43,12 @@ CONFIDENCE_PLACE_CATALOG = 0.74
 EDITORIAL_SIGNAL_STRONG = 0.7
 EDITORIAL_SIGNAL_WEAK = 0.35
 
+# Canonical in-memory store for destination details.
+# Populated by build_destinations() from destinations-full.json; read by
+# detail-enrichment, build_filter(), and knowledge-chunk builders.
+# Written back to destinations-full.json at end of the enrichment pass.
+_DEST_DETAILS: dict = {}
+
 
 def isoformat_mtime(path):
     return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -401,101 +407,39 @@ def find_json_ld_by_type(blocks, type_name):
 # ============================================================
 
 def build_destinations():
-    src = BASE_DIR / "find" / "destinations.json"
+    """Load destinations-full.json as canonical source, project to slim summary.
+
+    destinations-full.json is the canonical, hand-edited source of truth
+    (batch photo work, dedup, etc. all target this file). Per-slug detail
+    responses are served at runtime by the Cloudflare Pages Function at
+    functions/api/v1/destinations/[slug].js, which reads from this bundle
+    — build-api.py no longer writes per-slug JSONs.
+
+    Populates _DEST_DETAILS (module global) for downstream readers:
+    detail enrichment (relatedPicks/Itins/Compares, safetyRef), build_filter(),
+    and knowledge-chunk builders. Writes slim destinations.json (6-field
+    listing) and returns summaries for the wider build flow.
+    """
+    src = OUTPUT_DIR / "destinations-full.json"
     if not src.exists():
-        print("  ⚠️  destinations.json not found")
+        print("  ⚠️  destinations-full.json not found")
         return [], 0
 
     with open(src) as f:
-        destinations = json.load(f)
-
-    dest_dir = OUTPUT_DIR / "destinations"
-    dest_dir.mkdir(parents=True, exist_ok=True)
-
-    country_facts = load_country_facts()
-    destination_country_map = load_destination_country_map()
+        _DEST_DETAILS.clear()
+        _DEST_DETAILS.update(json.load(f))
 
     summaries = []
-    used_slugs = set()
-    for dest in destinations:
-        slug = make_unique_slug(slugify(dest.get("name", "")), dest, used_slugs)
-        if not slug:
-            continue
-
-        destination_country_key = make_destination_country_key(dest.get("name", ""), dest.get("region", ""))
-        country_mapping = destination_country_map.get(destination_country_key, {})
-        country_fact = country_facts.get(country_mapping.get("countryCode", ""), {})
-
-        detail_path = dest_dir / f"{slug}.json"
-        detail = attach_record_meta({
-            "slug": slug,
-            "name": dest.get("name", ""),
-            "region": dest.get("region", ""),
-            "continent": dest.get("continent", ""),
-            "country": country_fact.get("country", country_mapping.get("country", "")),
-            "countryCode": country_mapping.get("countryCode", ""),
-            "currency": country_fact.get("currency", {}),
-            "language": country_fact.get("language", ""),
-            "languages": country_fact.get("languages", []),
-            "flag": country_fact.get("flag", {}),
-            "timezone": country_fact.get("timezone", ""),
-            "timezones": country_fact.get("timezones", []),
-            "coordinates": country_mapping.get("coordinates", country_fact.get("coordinates", {})),
-            "plugType": country_fact.get("plugType", []),
-            "drivingSide": country_fact.get("drivingSide", ""),
-            "dialCode": country_fact.get("dialCode", ""),
-            "tapWaterSafe": country_fact.get("tapWaterSafe"),
-            "tippingCustom": country_fact.get("tippingCustom", ""),
-            "visaNote": country_fact.get("visaNote", ""),
-            "photo": dest.get("photo", ""),
-            "pitch": dest.get("pitch", ""),
-            "budget": dest.get("budget", ""),
-            "season": dest.get("season", ""),
-            "vibes": dest.get("vibes", []),
-            "travelStyles": dest.get("travel", []),
-            "url": f"{SITE_URL}/find/?q={slug}"
-        }, record_type="destination", slug=slug, source_path=src, source_url=f"{SITE_URL}/find/?q={slug}", tags=[dest.get("region", ""), dest.get("continent", ""), country_fact.get("country", ""), country_mapping.get("countryCode", ""), *(dest.get("vibes", []) or []), *(dest.get("travel", []) or [])])
-
-        existing_detail = load_json_if_exists(detail_path)
-        if same_record_ignoring_updated_at(existing_detail, detail) and existing_detail:
-            detail["updatedAt"] = existing_detail.get("updatedAt", detail["updatedAt"])
-            detail = existing_detail | {"updatedAt": detail["updatedAt"]}
-        else:
-            write_json(detail_path, detail)
-
-        updated_at = isoformat_mtime(src)
-        summary_tags = [dest.get("region", ""), dest.get("continent", ""), country_fact.get("country", ""), country_mapping.get("countryCode", ""), *(dest.get("vibes", []) or []), *(dest.get("travel", []) or [])]
+    for slug in sorted(_DEST_DETAILS.keys()):
+        d = _DEST_DETAILS[slug]
         summaries.append({
             "slug": slug,
-            "name": dest.get("name", ""),
-            "region": dest.get("region", ""),
-            "continent": dest.get("continent", ""),
-            "country": country_fact.get("country", country_mapping.get("country", "")),
-            "countryCode": country_mapping.get("countryCode", ""),
-            "currency": country_fact.get("currency", {}),
-            "language": country_fact.get("language", ""),
-            "flag": country_fact.get("flag", {}),
-            "timezone": country_fact.get("timezone", ""),
-            "coordinates": country_mapping.get("coordinates", country_fact.get("coordinates", {})),
-            "plugType": country_fact.get("plugType", []),
-            "drivingSide": country_fact.get("drivingSide", ""),
-            "dialCode": country_fact.get("dialCode", ""),
-            "tapWaterSafe": country_fact.get("tapWaterSafe"),
-            "tippingCustom": country_fact.get("tippingCustom", ""),
-            "visaNote": country_fact.get("visaNote", ""),
-            "budget": dest.get("budget", ""),
-            "season": dest.get("season", ""),
-            "vibes": dest.get("vibes", []),
-            "photo": dest.get("photo", ""),
-            "pitch": dest.get("pitch", "")
-        } | make_summary_meta(
-            record_type="destination",
-            slug=slug,
-            updated_at=updated_at,
-            source_url=f"{SITE_URL}/find/?q={slug}",
-            source_path=str(src.relative_to(BASE_DIR)) if src.is_relative_to(BASE_DIR) else str(src),
-            tags=summary_tags,
-        ))
+            "name": d.get("name", ""),
+            "country": d.get("country", ""),
+            "continent": d.get("continent", ""),
+            "region": d.get("region", ""),
+            "photo": d.get("photo", ""),
+        })
 
     with open(OUTPUT_DIR / "destinations.json", 'w') as f:
         json.dump({"count": len(summaries), "destinations": summaries}, f, indent=2, ensure_ascii=False)
@@ -1421,8 +1365,7 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             other_dest = destination_lookup[other_slug]
             nearby_destinations.append(make_related_summary(item_type="destination", slug=other_slug, title=other_dest["name"], url=f"{API_BASE_URL}/destinations/{other_slug}.json", extra={"region": other_dest.get("region", "")}))
 
-        detail_path = OUTPUT_DIR / "destinations" / f"{slug}.json"
-        detail = load_json_if_exists(detail_path)
+        detail = _DEST_DETAILS.get(slug)
         if detail:
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("pitch", "")
             detail["bestFor"] = detail.get("bestFor") or unique_list([*(detail.get("vibes", []) or []), *(detail.get("travelStyles", []) or [])])[:6]
@@ -1443,8 +1386,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 _dest_scam_slugs = _scams_by_country.get(_dest_cc_upper, [])
                 if _dest_scam_slugs:
                     detail["scamsRef"] = [f"{API_BASE_URL}/scams/{s}.json" for s in sorted(_dest_scam_slugs)]
-
-            write_json(detail_path, detail)
 
         dest["relatedPicks"] = truncate_list(related_picks)
         dest["relatedItineraries"] = truncate_list(related_itins)
@@ -1529,7 +1470,11 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
             write_json(detail_path, detail)
 
-    write_json(OUTPUT_DIR / "destinations.json", {"count": len(dest_summaries), "destinations": dest_summaries})
+    # Slim destinations.json was already written by build_destinations() from
+    # _DEST_DETAILS projection; the enrichment above has mutated _DEST_DETAILS
+    # in-place (relatedPicks/Itineraries/Compares, safetyRef/alertsRef/scamsRef).
+    # Persist the enriched bundle so the CF Pages Function serves current data.
+    write_json(OUTPUT_DIR / "destinations-full.json", _DEST_DETAILS)
     write_json(OUTPUT_DIR / "picks.json", {"count": len(pick_summaries), "picks": pick_summaries})
     write_json(OUTPUT_DIR / "itineraries.json", {"count": len(itin_summaries), "itineraries": itin_summaries})
     write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "comparisons": compare_summaries})
@@ -2719,8 +2664,7 @@ def _parse_season(raw):
 
 def build_filter():
     """Build /api/v1/filter.json — filterable destination index with normalized dimensions."""
-    dest_dir = OUTPUT_DIR / "destinations"
-    if not dest_dir.exists():
+    if not _DEST_DETAILS:
         return [], 0
 
     # Load safety data by iso2
@@ -2735,7 +2679,7 @@ def build_filter():
                 ta = sd.get("travelAdvisory", {})
                 # Normalize soloFemaleSafety/lgbtSafety from free text to enum
                 def _normalize_safety_text(text):
-                    if not text:
+                    if not text or not isinstance(text, str):
                         return None
                     t = text.lower()
                     if "very safe" in t or "extremely safe" in t:
@@ -2773,11 +2717,8 @@ def build_filter():
                 continue
 
     items = []
-    for dest_path in sorted(dest_dir.glob("*.json")):
-        try:
-            d = json.loads(dest_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            continue
+    for slug in sorted(_DEST_DETAILS.keys()):
+        d = _DEST_DETAILS[slug]
 
         cc = (d.get("countryCode") or "").upper()
         budget_raw = d.get("budget", "")
@@ -2809,7 +2750,7 @@ def build_filter():
         editorial_score = (d.get("freshness") or {}).get("confidenceScore", 0.7)
 
         items.append({
-            "slug": d.get("slug", dest_path.stem),
+            "slug": d.get("slug", slug),
             "name": d.get("name", ""),
             "country": d.get("country", ""),
             "countryCode": cc,
@@ -2822,7 +2763,7 @@ def build_filter():
             "safety": safety_entry,
             "practical": practical,
             "scores": {"editorial": editorial_score},
-            "url": f"{API_BASE_URL}/destinations/{d.get('slug', dest_path.stem)}.json",
+            "url": f"{API_BASE_URL}/destinations/{d.get('slug', slug)}.json",
         })
 
     payload = {
@@ -3852,12 +3793,11 @@ def build_knowledge_chunks():
     )
     top_dest_slugs = [item["slug"] for item in filter_items_sorted[:500]]
 
-    dest_dir = OUTPUT_DIR / "destinations"
     added = 0
     for slug in top_dest_slugs:
         if added >= 500:
             break
-        detail = _read_json_file(dest_dir / f"{slug}.json")
+        detail = _DEST_DETAILS.get(slug)
         if detail:
             chunks.append(_destination_chunk(detail, API_BASE_URL))
             added += 1
