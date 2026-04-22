@@ -1473,8 +1473,11 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
     # Slim destinations.json was already written by build_destinations() from
     # _DEST_DETAILS projection; the enrichment above has mutated _DEST_DETAILS
     # in-place (relatedPicks/Itineraries/Compares, safetyRef/alertsRef/scamsRef).
-    # Persist the enriched bundle so the CF Pages Function serves current data.
-    write_json(OUTPUT_DIR / "destinations-full.json", _DEST_DETAILS)
+    # Persist the enriched bundle (minified, matching #289 convention — the
+    # file is 17 MB pretty but ~11 MB minified, and it's consumed programmatically
+    # by the CF Pages Function at functions/api/v1/destinations/[slug].js).
+    with open(OUTPUT_DIR / "destinations-full.json", "w") as _full_f:
+        json.dump(_DEST_DETAILS, _full_f, separators=(",", ":"), ensure_ascii=False)
     write_json(OUTPUT_DIR / "picks.json", {"count": len(pick_summaries), "picks": pick_summaries})
     write_json(OUTPUT_DIR / "itineraries.json", {"count": len(itin_summaries), "itineraries": itin_summaries})
     write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "comparisons": compare_summaries})
