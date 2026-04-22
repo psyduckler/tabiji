@@ -1,7 +1,7 @@
 # Popular Picks — Broken Pages Checklist
 
 **Audit date:** 2026-04-11  
-**Total broken pages:** 451  
+**Total broken pages:** 421  
 **Bug:** Template rendering bug in an earlier popular-picks builder emitted only the first `restaurant-section` (or none at all) before closing the `<section class="pick-list">` wrapper prematurely. H1, schema `numberOfItems`, and hero `📝 N picks` meta all claim the correct count; the rendered body does not match.
 
 ## How to use this checklist
@@ -444,46 +444,17 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 
 Country landing pages with only one `city-section` rendered. Some may be legitimate (only one covered city in the country) — verify against the master queue before rebuilding.
 
-- [ ] `armenia` — 🇦🇲 Armenia (1/0)
-- [ ] `azerbaijan` — 🇦🇿 Azerbaijan (1/0)
-- [ ] `belize` — 🇧🇿 Belize (1/0)
-- [ ] `bolivia` — 🇧🇴 Bolivia (1/0)
-- [ ] `botswana` — 🇧🇼 Botswana (1/0)
-- [ ] `chile` — 🇨🇱 Chile (1/0)
-- [ ] `costa-rica` — 🇨🇷 Costa Rica (1/0)
-- [ ] `cuba` — 🇨🇺 Cuba (1/0)
-- [ ] `dominican-republic` — 🇩🇴 Dominican Republic (1/0)
-- [ ] `el-salvador` — 🇸🇻 El Salvador (1/0)
-- [ ] `estonia` — 🇪🇪 Estonia (1/0)
-- [ ] `guatemala` — 🇬🇹 Guatemala (1/0)
-- [ ] `honduras` — 🇭🇳 Honduras (1/0)
-- [ ] `iceland` — 🇮🇸 Iceland (1/0)
-- [ ] `ireland` — 🇮🇪 Ireland (1/0)
-- [ ] `kazakhstan` — 🇰🇿 Kazakhstan (1/12)
-- [ ] `kuwait` — 🇰🇼 Kuwait (1/0)
-- [ ] `kyrgyzstan` — 🇰🇬 Kyrgyzstan (1/0)
-- [ ] `latvia` — 🇱🇻 Latvia (1/0)
-- [ ] `lebanon` — 🇱🇧 Lebanon (1/0)
-- [ ] `lithuania` — 🇱🇹 Lithuania (1/0)
-- [ ] `macau` — 🇲🇴 Macau (1/0)
-- [ ] `madagascar` — 🇲🇬 Madagascar (1/0)
-- [ ] `mali` — 🇲🇱 Mali (1/0)
-- [ ] `malta` — 🇲🇹 Malta (1/0)
-- [ ] `montenegro` — 🇲🇪 Montenegro (1/0)
-- [ ] `nicaragua` — 🇳🇮 Nicaragua (1/0)
-- [ ] `nigeria` — 🇳🇬 Nigeria (1/0)
-- [ ] `panama` — 🇵🇦 Panama (1/0)
-- [ ] `puerto-rico` — 🇵🇷 Puerto Rico (1/0)
-- [ ] `qatar` — 🇶🇦 Qatar (1/0)
-- [ ] `saint-lucia` — 🇱🇨 Saint Lucia (1/0)
-- [ ] `saudi-arabia` — 🇸🇦 Saudi Arabia (1/0)
-- [ ] `senegal` — 🇸🇳 Senegal (1/0)
-- [ ] `serbia` — 🇷🇸 Serbia (1/0)
-- [ ] `slovakia` — 🇸🇰 Slovakia (1/0)
-- [ ] `slovenia` — 🇸🇮 Slovenia (1/0)
-- [ ] `tunisia` — 🇹🇳 Tunisia (1/0)
-- [ ] `uganda` — 🇺🇬 Uganda (1/0)
-- [ ] `uruguay` — 🇺🇾 Uruguay (1/0)
+- [x] `azerbaijan` — 🇦🇿 Azerbaijan (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `botswana` — 🇧🇼 Botswana (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `iceland` — 🇮🇸 Iceland (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `ireland` — 🇮🇪 Ireland (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `kazakhstan` — 🇰🇿 Kazakhstan (1/12) — rebuilt 2026-04-22 (hub)
+- [x] `lebanon` — 🇱🇧 Lebanon (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `mali` — 🇲🇱 Mali (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `nigeria` — 🇳🇬 Nigeria (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `puerto-rico` — 🇵🇷 Puerto Rico (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `serbia` — 🇷🇸 Serbia (1/0) — rebuilt 2026-04-22 (hub)
+- [x] `slovakia` — 🇸🇰 Slovakia (1/0) — rebuilt 2026-04-22 (hub)
 
 ## Partial / short — non-country (57 pages)
 
@@ -496,13 +467,12 @@ Body renders some venues but fewer than the H1/schema claim. Smaller rebuilds �
 
 Country hubs where hero meta claims more city picks than are actually rendered. Usually a matter of adding pick-cards for already-built cities.
 
-- [ ] `bulgaria` — 🇧🇬 Bulgaria (2/12)
-- [ ] `canada` — 🇨🇦 Canada (10/12)
-- [ ] `colombia` — 🇨🇴 Colombia (10/12)
-- [ ] `denmark` — 🇩🇰 Denmark (4/15)
-- [ ] `morocco` — 🇲🇦 Morocco (6/12)
-- [ ] `netherlands` — 🇳🇱 Netherlands (2/12)
-- [ ] `tanzania` — 🇹🇿 Tanzania (4/12)
+- [x] `canada` — 🇨🇦 Canada (10/12) — rebuilt 2026-04-22 (hub)
+- [x] `colombia` — 🇨🇴 Colombia (10/12) — rebuilt 2026-04-22 (hub)
+- [x] `denmark` — 🇩🇰 Denmark (4/15) — rebuilt 2026-04-22 (hub)
+- [x] `morocco` — 🇲🇦 Morocco (6/12) — rebuilt 2026-04-22 (hub)
+- [x] `netherlands` — 🇳🇱 Netherlands (2/12) — rebuilt 2026-04-22 (hub)
+- [x] `tanzania` — 🇹🇿 Tanzania (4/12) — rebuilt 2026-04-22 (hub)
 
 ---
 
