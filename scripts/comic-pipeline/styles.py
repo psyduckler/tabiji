@@ -221,6 +221,28 @@ STYLES = {
         "— text must be legible, in English only, and correctly spelled. Square 1:1 "
         "composition, 2K resolution."
     ),
+    "united-states": (
+        "A single illustrated comic book page in the classic Silver-Age American "
+        "superhero-comic-book style (Marvel / DC circa Jack Kirby + Steve Ditko) — bold "
+        "flat primary colors (classic Captain-America red, royal blue, chrome yellow, "
+        "white), confident black ink outlines with occasional expressive cross-hatching, "
+        "halftone Ben-Day dot shading in mid-tones, dynamic jagged starburst action "
+        "shapes and speed lines behind key moments, hand-lettered comic-book sound "
+        "effects in blocky capital letters ('KAPOW!', 'BAM!', 'NO!') where emphasis is "
+        "appropriate, classic rectangular speech balloons with crisp black tails, "
+        "realistic but slightly-heroic character proportions with expressive faces, "
+        "detailed American-landmark and city backgrounds (Times Square neon, Liberty "
+        "Bell brickwork, French Quarter balconies, Alamo stonework, Space Needle "
+        "skyline, Palmetto Row, Maui palms, Bourbon Street signage, Embarcadero fog, "
+        "Waikiki towers, Vegas neon, suburban strip malls — whichever fits the scam's "
+        "actual location). Showing four sequential panels arranged in a 2x2 grid with "
+        "small bold numbers 1, 2, 3, 4 in the upper-left corner of each panel, "
+        "separated by thin clean black panel borders with narrow white gutters. Each "
+        "panel contains one clean white rectangular speech balloon with a small pointer "
+        "tail, holding short printed English dialogue in simple black comic-book "
+        "hand-lettering — text must be legible, in English only, and correctly spelled. "
+        "Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -244,5 +266,6 @@ PILOTS = {
     "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
     "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
     "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
+    "united-states": "https://img.tabiji.ai/scams/philadelphia/scam-2.jpg",
     "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
 }
