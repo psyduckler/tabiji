@@ -221,6 +221,24 @@ STYLES = {
         "— text must be legible, in English only, and correctly spelled. Square 1:1 "
         "composition, 2K resolution."
     ),
+    "colombia": (
+        "A single illustrated comic book page in the dreamlike magical-realism watercolor "
+        "style evoking Gabriel García Márquez's 'Macondo' and the Caribbean-coastal "
+        "Colombian literary imagination — delicate ink outlines with lush layered watercolor "
+        "washes in a saturated tropical palette of papaya orange, Caribbean teal, mango "
+        "yellow, hibiscus pink, and deep jungle green, soft blooming pigment edges, "
+        "expressive dreamy faces, hints of butterflies and tropical foliage at panel edges, "
+        "Macondo-era mid-20th-century nostalgia, literary storybook sensibility, warm humid "
+        "Caribbean atmosphere adapted to the scam's actual Colombian setting (highland "
+        "Bogotá colonial Candelaria, Medellín paisa hillsides, Cartagena walled-city "
+        "colonial balconies, Cali salsa-city streets, Santa Marta Caribbean coastline — "
+        "whichever fits). Showing four sequential panels arranged in a 2x2 grid with small "
+        "numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated by thin cream "
+        "gutters with subtle watercolor bleed. Each panel contains one clean white rounded "
+        "speech bubble with a small pointer tail, holding short printed English dialogue in "
+        "simple black handwritten-looking lettering — text must be legible, in English "
+        "only, and correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
     "united-states": (
         "A single illustrated comic book page in the classic Silver-Age American "
         "superhero-comic-book style (Marvel / DC circa Jack Kirby + Steve Ditko) — bold "
@@ -268,4 +286,5 @@ PILOTS = {
     "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
     "united-states": "https://img.tabiji.ai/scams/philadelphia/scam-2.jpg",
     "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
+    "colombia": "https://img.tabiji.ai/scam-comics/co/style-tests/2-macondo-magical-realism-watercolor.jpg",
 }
