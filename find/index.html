@@ -505,8 +505,10 @@ setupChips('soloFemaleChips', selectedSoloFemale, true);
 })();
 
 // === PHOTO UTIL ===
-// Pool of varied travel photos for deterministic slug-based assignment
-const _PHOTO_POOL = [
+// Primary source: d.photo on each filter.json item (populated from
+// api/v1/destinations-full.json). Fallback pool kept for any stray item
+// missing a photo URL — should be empty in practice post-photo-fetch.
+const _FALLBACK_POOL = [
   'photo-1488646953014-85cb44e25828','photo-1476514525535-07fb3b4ae5f1',
   'photo-1530521954074-e64f6810b32d','photo-1501854140801-50d01698950b',
   'photo-1507525428034-b723cf961d3e','photo-1469474968028-56623f02e42e',
@@ -519,12 +521,24 @@ const _PHOTO_POOL = [
   'photo-1502301103665-0b95cc738daf','photo-1580639569904-7a4b27cfb6e3'
 ];
 
-function photoForSlug(slug, w, q) {
+function _fallbackPhoto(slug, w, q) {
   let h = 5381;
   const s = slug || '';
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h) + s.charCodeAt(i);
-  const photo = _PHOTO_POOL[Math.abs(h) % _PHOTO_POOL.length];
+  const photo = _FALLBACK_POOL[Math.abs(h) % _FALLBACK_POOL.length];
   return 'https://images.unsplash.com/' + photo + '?w=' + w + '&q=' + (q || 80) + '&fit=crop&auto=format';
+}
+
+function destinationPhoto(d, w, q) {
+  // Use the real destination photo if present, otherwise deterministic fallback.
+  const p = d && d.photo;
+  if (p && p.indexOf('owl-logo') === -1) return p;
+  return _fallbackPhoto((d && (d.slug || d.name)) || '', w, q);
+}
+
+// Retained for backwards-compat with any callers not updated yet.
+function photoForSlug(slug, w, q) {
+  return _fallbackPhoto(slug, w, q);
 }
 
 // === SAFETY BADGE ===
@@ -610,7 +624,7 @@ function renderPage() {
     if (budgetStr) metaParts.push(budgetStr);
     if (seasonStr) metaParts.push('📅 ' + seasonStr);
     return '<div class="card" onclick="openModal(' + i + ')" style="animation-delay:' + Math.min(i * 0.05, 0.5) + 's">' +
-      '<img src="' + photoForSlug(d.slug || d.name, 600, 80) + '" alt="' + d.name + '" loading="' + (i < 6 ? 'eager' : 'lazy') + '">' +
+      '<img src="' + destinationPhoto(d, 600, 80) + '" alt="' + d.name + '" loading="' + (i < 6 ? 'eager' : 'lazy') + '">' +
       '<div class="card-body">' +
       '<div class="card-header-row"><h2>' + d.name + '</h2>' + badge + '</div>' +
       '<div class="region">' + (d.country || d.continent || '') + '</div>' +
@@ -649,7 +663,7 @@ function loadMore() { visibleCount += PAGE_SIZE; renderPage(); }
 function openModal(idx) {
   const d = filtered[idx];
   if (!d) return;
-  document.getElementById('mImg').src = photoForSlug(d.slug || d.name, 800, 80);
+  document.getElementById('mImg').src = destinationPhoto(d, 800, 80);
   document.getElementById('mImg').alt = d.name;
   document.getElementById('mName').textContent = d.name;
   document.getElementById('mRegion').textContent = (d.country || '') + (d.continent ? ' · ' + d.continent : '');
