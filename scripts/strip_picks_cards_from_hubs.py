@@ -7,6 +7,7 @@ popular-picks-hub-data/*.json so future rebuilds don't re-add them.
 Run after apply_picks_drops.py.
 """
 
+import argparse
 import csv
 import json
 import os
@@ -14,7 +15,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path("/Users/bjh/Documents/tabiji/.claude/worktrees/happy-tharp-5601b2")
+ROOT = Path(__file__).resolve().parent.parent
 PICKS_DIR = ROOT / "popular-picks"
 HUB_DATA_DIR = ROOT / "popular-picks-hub-data"
 TIERS_CSV = ROOT / "scripts" / "compare-analysis" / "picks-tiers.csv"
@@ -113,7 +114,14 @@ def strip_hub_data(drops):
 
 
 def main():
-    drops = load_drops()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--slugs-file", help="Newline-delimited slug file (overrides default zero-vol selection)")
+    args = ap.parse_args()
+    if args.slugs_file:
+        with open(args.slugs_file) as f:
+            drops = {l.strip() for l in f if l.strip()}
+    else:
+        drops = load_drops()
     print(f"Drop count: {len(drops)}")
     print("\nStripping HTML hub pages:")
     html_touched = strip_hub_html(drops)
