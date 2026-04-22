@@ -2775,6 +2775,7 @@ def build_filter():
             "countryCode": cc,
             "continent": d.get("continent", ""),
             "region": d.get("region", ""),
+            "photo": d.get("photo", ""),
             "budget": {"tier": budget_tier, "raw": budget_raw} if budget_raw else None,
             "season": {"best": season_best, "raw": season_raw} if season_raw else None,
             "vibes": vibes,
