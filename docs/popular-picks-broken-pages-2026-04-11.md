@@ -351,7 +351,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [x] `chiang-mai-khao-soi` — 14 Best Khao Soi in Chiang Mai — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `chiang-mai-thai-massage` — 15 Best Traditional Thai Massages in Chiang Mai — The Unfiltered Guide (15/15) — rebuilt 2026-04-11
 - [x] `chicago-pizza` — 10 Best Pizza in Chicago (10/10) — rebuilt 2026-04-11
-- [ ] `chicago-restaurants` — 10 Best Restaurants in Chicago (1/10)
+- [x] `chicago-restaurants` — 10 Best Restaurants in Chicago (1/10) — rebuilt 2026-04-22
 - [ ] `cusco-restaurants` — Andean Cuisine in Cusco (1/12)
 - [x] `dallas-bbq` — 10 Best BBQ in Dallas (10/10) — rebuilt 2026-04-11
 - [x] `dallas-restaurants` — 10 Best Restaurants in Dallas (10/10) — rebuilt 2026-04-22
