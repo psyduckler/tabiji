@@ -26,15 +26,23 @@ from __future__ import annotations
 import argparse
 import re
 import subprocess
+import sys
 from pathlib import Path
 
+try:
+    import yaml
+except ImportError:
+    sys.exit("pyyaml is required: pip3 install pyyaml")
 
 HERE = Path(__file__).resolve().parent
 BOOK = HERE.parent
+CONFIG = yaml.safe_load((BOOK / "config.yaml").read_text())
 FRONT_SVG = BOOK / "assets" / "svg" / "front.svg"
 BACK_SVG = BOOK / "assets" / "svg" / "back.svg"
-OUT_SVG = BOOK / "build" / f"{CONFIG.get('output_filename', 'scams').replace('-scams', '')}-paperback-cover.svg"
-OUT_PDF = BOOK / "build" / f"{CONFIG.get('output_filename', 'scams').replace('-scams', '')}-paperback-cover.pdf"
+# Output filename base (e.g. "japan-scams" → "japan-paperback-cover")
+_OUT_BASE = CONFIG.get("output_filename", "scams").replace("-scams", "")
+OUT_SVG = BOOK / "build" / f"{_OUT_BASE}-paperback-cover.svg"
+OUT_PDF = BOOK / "build" / f"{_OUT_BASE}-paperback-cover.pdf"
 
 TRIM_W_IN = 6.0           # KDP trade-paperback 6x9 trim
 TRIM_H_IN = 9.0
