@@ -261,6 +261,26 @@ STYLES = {
         "hand-lettering — text must be legible, in English only, and correctly spelled. "
         "Square 1:1 composition, 2K resolution."
     ),
+    "australia": (
+        "A single illustrated comic book page in the bold Australian art-deco travel-poster "
+        "style of Percy Trompf and Gert Sellheim (1930s-50s 'Come to Australia' / 'Australia "
+        "— Land of Sunshine' posters) — bold flat simplified graphic shapes with crisp black "
+        "outlines, streamlined modernist composition, sun-drenched saturated palette of sky "
+        "blue, turquoise ocean, golden sand, warm red ochre, and cream, stylized 1930s "
+        "travelers and local Australian scenery (Sydney Opera House, Harbour Bridge, Bondi "
+        "crescent, Melbourne trams, Great Barrier Reef, Uluru red monolith, Tasmanian "
+        "sandstone, outback scrub, kangaroo and kookaburra silhouettes, gum-leaf motifs — "
+        "whichever fits the scam's actual location), confident hand-stenciled travel-poster "
+        "typography, cheerful advertising optimism, clean legible layout. Showing four "
+        "sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in the "
+        "upper-left corner of each panel, separated by thin black panel borders with narrow "
+        "cream gutters. Each panel contains one clean white rounded speech bubble with a "
+        "small pointer tail, holding short printed English dialogue in art-deco stencil-"
+        "style black lettering — text must be legible, in English only, and correctly "
+        "spelled. Do NOT add any footer or caption banner outside the four panels — the "
+        "comic must be exactly the 2x2 grid with no additional text, tagline, or banner "
+        "below. Square 1:1 composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -287,4 +307,5 @@ PILOTS = {
     "united-states": "https://img.tabiji.ai/scams/philadelphia/scam-2.jpg",
     "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
     "colombia": "https://img.tabiji.ai/scam-comics/co/style-tests/2-macondo-magical-realism-watercolor.jpg",
+    "australia": "https://img.tabiji.ai/scam-comics/au/style-tests/4-trompf-art-deco-travel-poster.jpg",
 }
