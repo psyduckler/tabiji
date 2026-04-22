@@ -149,6 +149,14 @@ def strip_reddit_fragments(md: str) -> str:
         md,
     )
 
+    # Pattern D2: parenthesized bare r/sub — "(r/halifax 'title')" or "per (r/sub 'title')"
+    # Must run AFTER Pattern D so it only catches what Pattern D missed.
+    md = re.sub(
+        r"\s*\((?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"][^'\u2018\u2019\"\n]+?['\u2018\u2019\"]\)",
+        "",
+        md,
+    )
+
     # Pattern E: malformed `r/SUB (...` with no closing paren
     md = re.sub(r"\s*r/\w+\s+\([^)\n]*$", "", md, flags=re.MULTILINE)
 
@@ -723,15 +731,28 @@ def remove_older_traveler_framing(md: str) -> str:
         md,
     )
 
-    # Catch-all: "For older <anything>" → "For <anything>" — handles all
-    # compound modifiers (cruise-passengers, package-holiday arrivals,
-    # UK tourists, male solo travelers, etc.) that don't match the single-
-    # word compound pattern above. Runs LAST so it only triggers on
-    # leftovers. Deliberately only rewrites the phrase "For older X" /
-    # "for older X" so legitimate mid-sentence uses of "older" (older
-    # architecture, older buildings, etc.) are preserved.
-    md = re.sub(r"\bFor older (?=[a-zA-Z])", "For ", md, flags=re.IGNORECASE)
-    md = re.sub(r"\bfor older (?=[a-zA-Z])", "for ", md, flags=re.IGNORECASE)
+    # "For older cruise passengers (X), ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s*\([^)]{0,120}\)",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # "For older cruise passengers and X, ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s+and\s+[^,.:;\n]*",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # Plain: "For older cruise passengers" → "For cruise passengers"
+    md = re.sub(r"\bFor older cruise passengers\b", "For cruise passengers", md, flags=re.IGNORECASE)
+    # Mid-sentence: "older cruise passengers" → "cruise passengers"
+    md = re.sub(r"\bolder cruise passengers\b", "cruise passengers", md, flags=re.IGNORECASE)
+    # "older female travelers" / "older female traveller" → "female travelers"
+    md = re.sub(r"\bolder female travel(ers?|lers?)\b", "female travelers", md, flags=re.IGNORECASE)
+    # "older male travelers" → "male travelers"
+    md = re.sub(r"\bolder male travel(ers?|lers?)\b", "male travelers", md, flags=re.IGNORECASE)
+    # "for older female travelers" → "for female travelers"
+    md = re.sub(r"\bfor older (female|male) travel(ers?|lers?)\b", r"for \1 travelers", md, flags=re.IGNORECASE)
 
     # --- Age-specific numeric and descriptor phrases ---
     # Caught by Round 1 audit — these slip past the "older travelers" pattern.
@@ -785,90 +806,9 @@ def remove_older_traveler_framing(md: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _fix_dangling_preposition(text: str) -> str:
-    """Repair sentences that end with a trailing preposition + period, caused
-    when strip_reddit_fragments removed the citation the preposition introduced.
-
-    Example:
-      Before: "Book direct at community-vetted fado houses listed in. Mesa..."
-      After:  "Book direct at these community-vetted fado houses: Mesa..."
-
-    We replace the dangling period with a colon when what follows is a capital-letter
-    proper noun (a list continuation). Otherwise we drop the trailing prepositional
-    phrase back to the preceding period.
-    """
-    import re as _re
-    # Pattern: <word>(preposition) + period + space + capitalized-word
-    # Common trailing prepositions when Reddit tails were stripped
-    preps = ["listed in", "documented in", "noted in", "cited in", "captured in",
-             "confirmed by", "reported by", "charges.*for", "for",
-             "via", "per", "at", "through", "across"]
-    # Handle the most common safe case: "...listed in. NextWord" -> "...listed in these sources: NextWord"
-    text = _re.sub(
-        r"\blisted in\.\s+([A-Z])",
-        r"listed in the 2025 community guides: \1",
-        text
-    )
-    text = _re.sub(
-        r"\bdocumented in\.\s+([A-Z])",
-        r"documented in the 2025 community reports: \1",
-        text
-    )
-    text = _re.sub(
-        r"\bnoted in\.\s+([A-Z])",
-        r"noted in the 2025 community threads: \1",
-        text
-    )
-    text = _re.sub(
-        r"\bcited in\.\s+([A-Z])",
-        r"cited in the 2025 community threads: \1",
-        text
-    )
-    # "operator charges €X for. NextSentence" -> "operator charges €X. NextSentence"
-    text = _re.sub(
-        r"(charges \S+\s+(?:for|against))\.\s+([A-Z])",
-        r"\1 alleged damage. \2",
-        text
-    )
-    # "charges €X–€Y for." end of sentence with nothing after
-    text = _re.sub(
-        r"(charges \S+)\s+for\.(\s|$)",
-        r"\1 for alleged damage.\2",
-        text
-    )
-
-    # Strip dangling Portuguese quote artefacts left by citation-removal.
-    # Example: "targeting arrivals specifically...timeshares e é scam legal.' The"
-    # becomes "targeting arrivals specifically. The" (we drop the orphan Portuguese
-    # quote fragment between '...' and '.').
-    text = _re.sub(
-        r"\.{3}[^'\"\.]+\.['’]",
-        ".",
-        text
-    )
-    # Portuguese / English dangling-quote tail after a citation strip:
-    # "...killed 15+ people... it's really tough...on an 18% [gradient]' —"
-    # The '—' dash after an orphan close-quote is the signature.
-    text = _re.sub(
-        r"[×]{0,0}\.{3}[^']{3,200}'\s+\u2014",
-        ".",
-        text
-    )
-    # Also: truncated Reddit post-title ellipses with dangling close-quote
-    # "'TRAGIC NEWS FOR TRANSIT FANS: The iconic Elevador...'" — when this ends
-    # a sentence, drop the whole quoted fragment.
-    text = _re.sub(
-        r"\s+'[^']{5,120}\.{3}'[^.]*",
-        "",
-        text
-    )
-    return text
-
-
 def polish_description(desc: str) -> str:
     """Apply all description transformations in order."""
     desc = strip_reddit_fragments(desc)
-    desc = _fix_dangling_preposition(desc)
     desc = break_description_paragraphs(desc)
     desc = linearize_numbered_list(desc)
     return desc

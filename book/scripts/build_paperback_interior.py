@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build the paperback-interior PDF for the Vietnam book (V6).
+Build the paperback-interior PDF for the Indonesia book (V6).
 
 Pipeline:
   markdown (via assemble_markdown from build.py)
@@ -18,7 +18,7 @@ fully implements CSS Paged Media and renders the same HTML/CSS with proper
 leaders. Fallback to Chrome only if WeasyPrint isn't importable.
 
 Usage:
-    python3 book-vietnam/scripts/build_paperback_interior.py
+    python3 book/scripts/build_paperback_interior.py
 
 Prerequisites:
     - pandoc (brew install pandoc)
@@ -41,8 +41,8 @@ BUILD = BOOK / "build"
 sys.path.insert(0, str(BOOK))
 from build import assemble_markdown, CONFIG  # noqa: E402
 
-INTERIOR_HTML = BUILD / "portugal-scams-paperback.html"
-INTERIOR_PDF = BUILD / "portugal-scams-paperback.pdf"
+INTERIOR_HTML = BUILD / f"{CONFIG.get('output_filename', 'scams')}-paperback.html"
+INTERIOR_PDF = BUILD / f"{CONFIG.get('output_filename', 'scams')}-paperback.pdf"
 MANUSCRIPT_MD = BUILD / "paperback-manuscript.md"
 PRINT_CSS_FILE = BUILD / "paperback-print.css"
 
@@ -222,7 +222,7 @@ def build_html(md: str) -> Path:
     MANUSCRIPT_MD.write_text(md)
     PRINT_CSS_FILE.write_text(PRINT_CSS)
 
-    title = CONFIG.get("title", "Vietnam Tourist Scams 2026")
+    title = CONFIG.get("title", CONFIG.get("title", "Tourist Scams 2026"))
     author = CONFIG.get("author", "The Tabiji Team")
 
     cmd = [
@@ -238,9 +238,6 @@ def build_html(md: str) -> Path:
         "--metadata", f"title={title}",
         "--metadata", f"author={author}",
         "--resource-path", str(BOOK),
-        # Disable LaTeX math-dollar syntax: prose contains currency like "€20"
-        # + "$30" + URLs like "infraestruturasdeportugal.pt" that pandoc
-        # otherwise treats as math delimiters and mangles.
         "--from", "markdown+smart-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
     ]
     subprocess.run(cmd, check=True)
