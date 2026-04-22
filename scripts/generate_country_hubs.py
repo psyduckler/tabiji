@@ -417,7 +417,7 @@ def _load_dest_details(slug):
         with open(fp) as f:
             return json.load(f)
     except Exception:
-        return None
+        return (_DEST_DETAILS_CACHE or {}).get(slug)
 
 
 def _load_scams():
