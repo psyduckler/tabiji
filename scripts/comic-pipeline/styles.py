@@ -281,6 +281,27 @@ STYLES = {
         "comic must be exactly the 2x2 grid with no additional text, tagline, or banner "
         "below. Square 1:1 composition, 2K resolution."
     ),
+    "costa-rica": (
+        "A single illustrated comic book page in the vivid 1950s tropical art-deco "
+        "travel-poster style used by Pan American Airways for Central America routes — "
+        "bold flat simplified graphic shapes with crisp black outlines, streamlined "
+        "modernist composition, sun-drenched tropical palette of deep turquoise Pacific, "
+        "emerald jungle, volcano red-orange, banana yellow, tropical magenta, and "
+        "cream, stylized 1950s travelers and location-accurate Costa Rican scenery "
+        "(Arenal volcano cone, Manuel Antonio beach coves, palm silhouettes, SINAC "
+        "ranger stations, carreta oxcart wheels, toucans and sloths — whichever fits "
+        "the scam's actual location), confident hand-stenciled travel-poster "
+        "typography, cheerful mid-century advertising optimism, clean legible layout. "
+        "Showing four sequential panels arranged in a 2x2 grid with small numbers "
+        "1, 2, 3, 4 in the upper-left corner of each panel, separated by thin black "
+        "panel borders with narrow cream gutters. Each panel contains one clean white "
+        "rounded speech bubble with a small pointer tail, holding short printed "
+        "English dialogue in art-deco stencil-style black lettering — text must be "
+        "legible, in English only, and correctly spelled. Do NOT add any footer or "
+        "caption banner outside the four panels — the comic must be exactly the 2x2 "
+        "grid with no additional text, tagline, or banner below. Square 1:1 "
+        "composition, 2K resolution."
+    ),
     "austria": "",  # placeholder; see styles/austria.md
     "hong-kong": "",  # placeholder; see styles/hong-kong.md
     "croatia": "",  # placeholder; see styles/croatia.md
@@ -308,4 +329,5 @@ PILOTS = {
     "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
     "colombia": "https://img.tabiji.ai/scam-comics/co/style-tests/2-macondo-magical-realism-watercolor.jpg",
     "australia": "https://img.tabiji.ai/scam-comics/au/style-tests/4-trompf-art-deco-travel-poster.jpg",
+    "costa-rica": "https://img.tabiji.ai/scam-comics/cr/style-tests/nbp-5-tropical-deco-travel-poster.jpg",
 }
