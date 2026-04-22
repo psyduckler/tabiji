@@ -414,17 +414,18 @@ def clean_residual_orphans(md: str) -> str:
         (r"— Scheduled Delta stops", "— scheduled Delta stops"),
         (r"— Round-trip ARS ", "— round-trip ARS "),
         (r"ASK specifically", "ask specifically"),
-        (r"The 2025 playbook For travelers:", "The 2025 playbook for older travelers:"),
+        # Note: Earlier versions of this file had rules here that restored
+        # "for older travelers" capitalization. The v2 polisher (PR #356) now
+        # strips age-framing by design, so those rules were net-harmful and
+        # have been removed. Keep only the sentence-casing normalizations.
         (r"The older-traveler playbook:", "The traveler's playbook:"),
-        (r"The safer path For travelers:", "The safer path for older travelers:"),
-        (r"The safer approach For travelers:", "The safer approach for older travelers:"),
-        (r"The defensive playbook For travelers:", "The defensive playbook for older travelers:"),
-        (r"The 2025 defense For travelers:", "The 2025 defense for older travelers:"),
-        (r"A prudent approach For travelers:", "A prudent approach for older travelers:"),
-        (r"For travelers, the 2025 defense:", "For older travelers, the 2025 defense:"),
-        (r"For travelers, the clean approach:", "For older travelers, the clean approach:"),
         # Title with orphan "TripAdviso.com" typo
         (r"TripAdviso\.com listing link", "TripAdvisor/Booking.com listing link"),
+        # Capitalization fix: v2 polisher's compound age-framing strip can leave
+        # "designed For travelers" (capital F mid-sentence) — lowercase it.
+        (r"\bdesigned For travelers\b", "designed for travelers"),
+        (r"\bfor older (?=[a-zA-Z])", "for "),  # safety net (mid-sentence)
+        (r"\bFor older (?=[a-zA-Z])", "For "),  # safety net (sentence start)
     ]
     for pat, rep in replacements:
         md = _re.sub(pat, rep, md)

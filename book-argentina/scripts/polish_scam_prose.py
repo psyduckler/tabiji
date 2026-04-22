@@ -149,39 +149,85 @@ def strip_reddit_fragments(md: str) -> str:
         md,
     )
 
+    # Pattern D2: parenthesized bare r/sub — "(r/halifax 'title')" or "per (r/sub 'title')"
+    # Must run AFTER Pattern D so it only catches what Pattern D missed.
+    md = re.sub(
+        r"\s*\((?:per\s+|from\s+|via\s+)?r/\w+\s+['\u2018\u2019\"][^'\u2018\u2019\"\n]+?['\u2018\u2019\"]\)",
+        "",
+        md,
+    )
+
     # Pattern E: malformed `r/SUB (...` with no closing paren
     md = re.sub(r"\s*r/\w+\s+\([^)\n]*$", "", md, flags=re.MULTILINE)
 
+    # Pattern D3: `per r/sub <thread-id>` where the "title" is a bare Reddit
+    # base36 thread ID like `1q0ng8y` instead of a quoted string. Caught in
+    # book-Argentina v2 audit — covers "per r/Patagonia 1q0ng8y (2025)" and
+    # "r/antarctica 1la6luj" / "(r/antarctica 1fysl78)" variants.
+    # CRITICAL: require at least one DIGIT in the thread-ID-like token so we
+    # don't over-match common English words like "community" (9 alpha chars).
+    # Reddit base36 thread IDs always contain digits.
+    md = re.sub(
+        r"\s*\(?\s*(?:per\s+|from\s+|via\s+)?r/\w+\s+"
+        r"(?=[a-z0-9]{6,10}\b)(?=[a-z0-9]*\d)[a-z0-9]{6,10}"
+        r"(?:\s*\(\s*\d{4}\s*\))?\s*\)?",
+        " ",  # leave single space to prevent "documenteduntil" join
+        md,
+        flags=re.IGNORECASE,
+    )
+    # Pattern D4: "per r/sub YYYY local mapping" / "per r/sub community" /
+    # "r/sub and r/othersub community" — hand-written bare-Reddit-date
+    # references without any title (quoted or ID). Strips the reference and
+    # the trailing descriptor ("local mapping", "community", "threads", "posts").
+    # Multi-sub form first (per r/sub1 and r/sub2 community) so it consumes
+    # the whole prefix cleanly.
+    md = re.sub(
+        r"\s+(?:per\s+|from\s+|via\s+)?r/\w+"
+        r"\s+(?:and|\/)\s+r/\w+"
+        r"\s+(?:\d{4}\s+)?(?:local\s+mapping|community|threads?|posts?|OP)",
+        " ",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # Single-sub form
+    md = re.sub(
+        r"\s*\(?\s*(?:per\s+|from\s+|via\s+)?r/\w+"
+        r"\s+(?:\d{4}\s+)?(?:local\s+mapping|community|threads?|posts?|OP)"
+        r"\s*\)?",
+        " ",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # Pattern D5: "recent r/sub / r/othersub posts" — the "recent X or Y posts"
+    # construction that escaped above.
+    md = re.sub(
+        r"\s*recent\s+r/\w+(?:\s*\/\s*r/\w+)*\s+posts?",
+        " ",
+        md,
+        flags=re.IGNORECASE,
+    )
+    # Pattern D6: ORPHAN CITATION TAILS — when a multi-citation chain
+    # ("Per r/sub1 '...', r/sub2 '...', r/sub3 '...':") is only partially
+    # stripped by A/B/C, the leading "Per" may survive next to an orphan
+    # closing quote + year tail like "Per Belgrano' (2025),".
+    # This pattern strips " Per <any-capitalized-word>' (YYYY)," / " Per …
+    # word' (YYYY):" fragments.
+    md = re.sub(
+        r"\s*\b[Pp]er\s+[A-Z][A-Za-zÀ-ÿ\-]*['\u2018\u2019\"]"
+        r"\s*\(\s*(?:19|20)\d{2}\s*\)\s*[,:]",
+        ",",
+        md,
+    )
+    # Pattern D7: leading "Per " clause with NO "r/" before a colon sentence
+    # start (residual from multi-citation chain strip). Rare but observed.
+    md = re.sub(
+        r"(?:^|\n)Per\s+[A-Z][A-Za-zÀ-ÿ\- \s]*['\u2018\u2019\"][^:\n]*:\s*",
+        "",
+        md,
+    )
+
     # Pattern F: bare `r/SUB` left after stripping
     md = re.sub(r"\s*(?:per\s+|from\s+|via\s+)?r/\w+\b(?=\s*[.,;:!?\n])", "", md)
-
-    # Pattern F.5: Citation IN THE MIDDLE of a sentence with ` per r/SUB 'title' (YYYY) `
-    # pattern (before connective like "where" / "who" / "that"). Remove the inline
-    # citation clause so the surrounding prose reads continuously.
-    md = re.sub(
-        r"\s+per\s+r/\w+\s+['\u2018\u2019\"][^'\u2018\u2019\"]{3,200}['\u2018\u2019\"]"
-        r"(?:\s*\(\s*(?:19|20)\d{2}\s*\))?"
-        r"(?=\s+(?:where|who|that|which|and|but|so|yet|per|in\b))",
-        "",
-        md,
-        flags=re.IGNORECASE,
-    )
-
-    # Pattern G: full scaffolding clause — catches "documented by r/SUB 'title'
-    # (YYYY)" and "per r/SUB 'title' (YYYY)" patterns that Pass 2/3/4 above
-    # missed because they sit as pure parenthetical without verb + period.
-    # Removes the WHOLE scaffolding through the closing year-parenthesis.
-    md = re.sub(
-        r"(?:\s*\(?\s*)(?:the\s+)?(?:anchor\s+)?(?:signature\s+)?(?:as\s+)?"
-        r"(?:documented|cited|reported|noted|flagged|repeatedly\s+documented|per|from|via)"
-        r"\s+(?:by\s+)?r/\w+"
-        r"(?:\s+['\u2018\u2019\"][^'\u2018\u2019\"]{3,200}['\u2018\u2019\"])?"
-        r"(?:\s*\(\s*(?:19|20)\d{2}\s*\))?"
-        r"\s*\)?",
-        "",
-        md,
-        flags=re.IGNORECASE,
-    )
 
     # ---- PASS 3: Mid-word apostrophe-break repair — DISABLED ----
     # The historical use case was truncated Reddit quotes like `gr' ab` that
@@ -750,6 +796,29 @@ def remove_older_traveler_framing(md: str) -> str:
         _strip_older,
         md,
     )
+
+    # "For older cruise passengers (X), ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s*\([^)]{0,120}\)",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # "For older cruise passengers and X, ..." → "For cruise passengers, ..."
+    md = re.sub(
+        r"For older cruise passengers\s+and\s+[^,.:;\n]*",
+        "For cruise passengers",
+        md, flags=re.IGNORECASE,
+    )
+    # Plain: "For older cruise passengers" → "For cruise passengers"
+    md = re.sub(r"\bFor older cruise passengers\b", "For cruise passengers", md, flags=re.IGNORECASE)
+    # Mid-sentence: "older cruise passengers" → "cruise passengers"
+    md = re.sub(r"\bolder cruise passengers\b", "cruise passengers", md, flags=re.IGNORECASE)
+    # "older female travelers" / "older female traveller" → "female travelers"
+    md = re.sub(r"\bolder female travel(ers?|lers?)\b", "female travelers", md, flags=re.IGNORECASE)
+    # "older male travelers" → "male travelers"
+    md = re.sub(r"\bolder male travel(ers?|lers?)\b", "male travelers", md, flags=re.IGNORECASE)
+    # "for older female travelers" → "for female travelers"
+    md = re.sub(r"\bfor older (female|male) travel(ers?|lers?)\b", r"for \1 travelers", md, flags=re.IGNORECASE)
 
     # --- Age-specific numeric and descriptor phrases ---
     # Caught by Round 1 audit — these slip past the "older travelers" pattern.
