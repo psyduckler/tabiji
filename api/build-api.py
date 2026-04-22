@@ -406,8 +406,26 @@ def find_json_ld_by_type(blocks, type_name):
 # DESTINATIONS
 # ============================================================
 
+# Fields dropped from slim destinations.json vs the fat bundle.
+# Scoped to plural-duplicates (languages/timezones) and internal refs
+# (alertsRef/safetyRef/scamsRef) — schema-declared summary fields
+# (editorialSummary, bestFor, relatedPicks, relatedItineraries,
+# relatedComparisons, relatedDestinations) stay in slim.
+SLIM_DROP_FIELDS = {
+    "languages", "timezones", "alertsRef", "safetyRef", "scamsRef",
+}
+
+
+def _slim_projection(details: dict) -> list:
+    """Project _DEST_DETAILS-shaped dict into sorted slim-summary list."""
+    return [
+        {k: v for k, v in details[slug].items() if k not in SLIM_DROP_FIELDS}
+        for slug in sorted(details.keys())
+    ]
+
+
 def build_destinations():
-    """Load destinations-full.json as canonical source, project to slim summary.
+    """Load destinations-full.json as canonical source, populate _DEST_DETAILS.
 
     destinations-full.json is the canonical, hand-edited source of truth
     (batch photo work, dedup, etc. all target this file). Per-slug detail
@@ -417,8 +435,10 @@ def build_destinations():
 
     Populates _DEST_DETAILS (module global) for downstream readers:
     detail enrichment (relatedPicks/Itins/Compares, safetyRef), build_filter(),
-    and knowledge-chunk builders. Writes slim destinations.json (6-field
-    listing) and returns summaries for the wider build flow.
+    and knowledge-chunk builders. Returns a slim-projected summaries list
+    that build_relationships() mutates in place with related* fields.
+    The on-disk slim destinations.json is written later by the main build
+    flow after those mutations land (see write_slim_destinations()).
     """
     src = OUTPUT_DIR / "destinations-full.json"
     if not src.exists():
@@ -429,22 +449,15 @@ def build_destinations():
         _DEST_DETAILS.clear()
         _DEST_DETAILS.update(json.load(f))
 
-    summaries = []
-    for slug in sorted(_DEST_DETAILS.keys()):
-        d = _DEST_DETAILS[slug]
-        summaries.append({
-            "slug": slug,
-            "name": d.get("name", ""),
-            "country": d.get("country", ""),
-            "continent": d.get("continent", ""),
-            "region": d.get("region", ""),
-            "photo": d.get("photo", ""),
-        })
+    summaries = _slim_projection(_DEST_DETAILS)
+    return summaries, len(summaries)
 
+
+def write_slim_destinations(summaries):
+    """Write api/v1/destinations.json. Call AFTER build_relationships has
+    mutated each summary dict with related* fields so they land on disk."""
     with open(OUTPUT_DIR / "destinations.json", 'w') as f:
         json.dump({"count": len(summaries), "destinations": summaries}, f, indent=2, ensure_ascii=False)
-
-    return summaries, len(summaries)
 
 
 # ============================================================
@@ -1470,9 +1483,12 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
             write_json(detail_path, detail)
 
-    # Slim destinations.json was already written by build_destinations() from
-    # _DEST_DETAILS projection; the enrichment above has mutated _DEST_DETAILS
-    # in-place (relatedPicks/Itineraries/Compares, safetyRef/alertsRef/scamsRef).
+    # Persist the enriched slim summary — build_relationships has mutated
+    # each summary dict above with relatedPicks/Itineraries/Compares/
+    # Destinations + editorialSummary, so re-project from _DEST_DETAILS
+    # (which reflects the same mutations) to capture the enriched state.
+    write_slim_destinations(_slim_projection(_DEST_DETAILS))
+
     # Persist the enriched bundle (minified, matching #289 convention — the
     # file is 17 MB pretty but ~11 MB minified, and it's consumed programmatically
     # by the CF Pages Function at functions/api/v1/destinations/[slug].js).
