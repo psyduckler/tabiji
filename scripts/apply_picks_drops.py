@@ -25,7 +25,7 @@ import re
 import shutil
 import sys
 
-ROOT = "/Users/bjh/Documents/tabiji/.claude/worktrees/happy-tharp-5601b2"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TIERS_CSV = os.path.join(ROOT, "scripts", "compare-analysis", "picks-tiers.csv")
 PICKS_DIR = os.path.join(ROOT, "popular-picks")
 METADATA = os.path.join(PICKS_DIR, "picks-metadata.json")
@@ -227,12 +227,18 @@ def update_api_index(new_picks_count, dry_run):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--slugs-file", help="Newline-delimited file of slugs to drop (overrides zero-vol selection)")
     args = ap.parse_args()
 
     if args.dry_run:
         print("=== DRY RUN ===\n")
 
-    drops = load_zero_vol_topics()
+    if args.slugs_file:
+        with open(args.slugs_file) as f:
+            drops = [l.strip() for l in f if l.strip()]
+        print(f"Loaded {len(drops)} drop slugs from {args.slugs_file}")
+    else:
+        drops = load_zero_vol_topics()
     drops_set = set(drops)
     print(f"Zero-volume topic drops: {len(drops)}")
 
