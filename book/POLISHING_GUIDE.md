@@ -262,6 +262,56 @@ allow long URLs to break cleanly at slashes.
    bubbles. **Fix**: use `xMidYMid meet` with a square frame matching the
    source aspect ratio.
 
+7. **Hardcoded spine text from template copy** (Italy v1). `book-italy` was
+   scaffolded by copying `book-canada/scripts/build_paperback_cover.py`,
+   which had `>CANADA</text>` baked into the f-string that renders the
+   spine. Italy shipped a `CANADA / Tourist Scams` spine in its first cover
+   draft. **Fix**: derive spine title from `CONFIG["title"]` at module
+   load — `spine_title = re.split(r"\s+Tourist\b", CONFIG["title"])[0].upper()`.
+   Override with an explicit `CONFIG["spine_title"]` for countries where
+   the first word isn't the spine text (e.g. `"Mont-Saint-Michel"` should
+   show `FRANCE`, not `MONT-SAINT-MICHEL`). Fixed in `book/`,
+   `book-canada/`, and `book-italy/` — but check any fresh-scaffolded
+   volume's `build_paperback_cover.py` before rendering the first cover.
+
+8. **QR code blocks Amazon's auto-placed barcode** (Italy v1). The `back.svg`
+   shipped with a SCAN-FOR-UPDATES QR code in the bottom-right — exactly
+   where KDP places the ISBN barcode (Amazon reserves a 2" × 1.2" zone at
+   bottom-right of the back cover). KDP rejected the cover with "We're
+   unable to detect a valid barcode." **Fix**: remove the QR group + label
+   from `back.svg`. Leave the bottom-right blank (dark background color is
+   fine) so Amazon's barcode has contrast to sit on. `paperback_back_content()`
+   in `build_paperback_cover.py` already does this for the generic book-
+   canada back template, but a country-specific `back.svg` that was
+   hand-edited might still carry the QR — grep for `SCAN FOR UPDATES` /
+   `QR` in `assets/svg/back.svg` before building the cover PDF.
+
+9. **Spine / bleed color hardcoded navy** (Italy v1, sibling of #7). The
+   wraparound composition script has a `fullBleed` linearGradient hardcoded
+   to Canada's palette `#0F1A2E → #1E2F4D`. Italy's front + back covers
+   are oxblood (`#5A1E1A → #3F1612`), so the spine rendered as a navy
+   stripe sandwiched between two oxblood halves — broken. **Fix**: make
+   bleed colors config-driven. Read `CONFIG["bleed_colors"]` as a
+   `[top_hex, bottom_hex]` list, default to navy for back-compat.
+
+   ```python
+   bleed_colors = CONFIG.get("bleed_colors", ["#0F1A2E", "#1E2F4D"])
+   bleed_top, bleed_bottom = bleed_colors[0], bleed_colors[1]
+   ```
+
+   Then reference `{bleed_top}` / `{bleed_bottom}` in the SVG f-string.
+   Each volume's `config.yaml` declares its own palette. Italy's:
+
+   ```yaml
+   bleed_colors:
+     - "#5A1E1A"   # top — matches front-cover oxblood gradient start
+     - "#3F1612"   # bottom — matches front-cover oxblood gradient end
+   ```
+
+   Inspect `assets/svg/front.svg` for the existing cover-art gradient
+   stops and mirror them into `bleed_colors`. Already propagated to
+   `book/` (template), `book-canada/`, and `book-italy/`.
+
 ---
 
 ## 5. The 3-pass copyedit workflow

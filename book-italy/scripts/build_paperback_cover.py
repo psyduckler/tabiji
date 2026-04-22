@@ -167,6 +167,21 @@ def main() -> None:
     spine_cx = spine_x + spine / 2
     cover_cy = total_h / 2
 
+    # Derive spine title from config.yaml title (e.g. "Italy Tourist Scams 2026"
+    # → "ITALY"). Override with CONFIG["spine_title"] if that key is present.
+    spine_title = CONFIG.get(
+        "spine_title",
+        re.split(r"\s+Tourist\b", CONFIG.get("title", ""))[0].upper() or "TABIJI",
+    )
+
+    # Bleed gradient for the spine + outer bleed area — must match the
+    # country's cover palette so any trim drift produces a seamless edge,
+    # not a contrasting stripe. Override via CONFIG["bleed_colors"] which
+    # should be a 2-item list: [top_hex, bottom_hex]. Default = navy
+    # (historical Canada palette; safe generic fallback).
+    bleed_colors = CONFIG.get("bleed_colors", ["#0F1A2E", "#1E2F4D"])
+    bleed_top, bleed_bottom = bleed_colors[0], bleed_colors[1]
+
     print(f"Pages:     {args.pages} ({args.paper})")
     print(f"Spine:     {spine_in:.4f}\" ({spine:.2f} SVG units, {spine_in * 25.4:.2f} mm)")
     print(f"Trim:      {TRIM_W_IN}\" × {TRIM_H_IN}\" per cover side")
@@ -194,12 +209,13 @@ def main() -> None:
   <!-- Order (left→right): BACK | SPINE | FRONT                        -->
   <!-- ================================================================ -->
 
-  <!-- Full-canvas navy bleed (matches cover palette so any trim drift
-       still produces a clean navy edge, not a white stripe) -->
+  <!-- Full-canvas bleed gradient (matches cover palette so any trim drift
+       still produces a clean edge, not a contrasting stripe). Colors
+       come from CONFIG["bleed_colors"]; default is navy (Canada). -->
   <defs>
     <linearGradient id="fullBleed" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#0F1A2E"/>
-      <stop offset="1" stop-color="#1E2F4D"/>
+      <stop offset="0" stop-color="{bleed_top}"/>
+      <stop offset="1" stop-color="{bleed_bottom}"/>
     </linearGradient>
   </defs>
   <rect width="{total_w}" height="{total_h}" fill="url(#fullBleed)"/>
@@ -223,10 +239,10 @@ def main() -> None:
           text-anchor="middle" letter-spacing="3" opacity="0.9">T A B I J I</text>
   </g>
 
-  <!-- Main spine title: CANADA + Tourist Scams, centered -->
+  <!-- Main spine title: {spine_title} + Tourist Scams, centered -->
   <g transform="translate({spine_cx} {cover_cy}) rotate(-90)">
     <text x="0" y="-4" font-family="Georgia, serif" font-weight="700" font-size="20"
-          fill="#F5E9D3" text-anchor="middle" letter-spacing="3">CANADA</text>
+          fill="#F5E9D3" text-anchor="middle" letter-spacing="3">{spine_title}</text>
     <text x="0" y="14" font-family="Georgia, serif" font-style="italic" font-size="10"
           fill="#D4A12E" text-anchor="middle" letter-spacing="1">Tourist Scams</text>
   </g>
