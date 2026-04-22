@@ -21,6 +21,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Croatia | Ivan Generalić / Hlebine School naïve-art | — | [styles/croatia.md](styles/croatia.md) |
 | Turkey | Ottoman Iznik-tile border + illustrated travel-comic interior | 78 | [styles/turkey.md](styles/turkey.md) |
 | Japan | Contemporary illustrated travel-comic (neon night + warm day) | 54 | [styles/japan.md](styles/japan.md) |
+| USA | Silver-Age American superhero-comic-book (Kirby/Ditko) | 233 | [styles/united-states.md](styles/united-states.md) |
 | USA | American comic book (planned) | — | — |
 | Italy | Fumetti / bande dessinée (planned) | — | — |
 
