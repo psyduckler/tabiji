@@ -34,6 +34,43 @@ SHELL_TEMPLATE_PATH = Path(__file__).resolve().parent / "compare-shell-template.
 def get_shell():
     return json.loads(SHELL_TEMPLATE_PATH.read_text())
 
+
+# Cached destinations-full.json for dest-photo lookup.
+_DEST_FULL_CACHE: dict | None = None
+
+def _dest_full() -> dict:
+    global _DEST_FULL_CACHE
+    if _DEST_FULL_CACHE is None:
+        full_path = REPO_ROOT / "api" / "v1" / "destinations-full.json"
+        if full_path.exists():
+            _DEST_FULL_CACHE = json.loads(full_path.read_text())
+        else:
+            _DEST_FULL_CACHE = {}
+    return _DEST_FULL_CACHE
+
+
+def dest_photo_url(pair_slug: str, which: str) -> str:
+    """Return the canonical photo URL for dest1/dest2 of a compare pair.
+
+    Prefers api/v1/destinations-full.json's `photo` field for the split
+    pair slug (e.g. 'portugal-vs-spain' → 'portugal' / 'spain'). Falls
+    back to the legacy compare/{slug}/dest{N}.jpg asset path when the
+    destination is not in destinations-full — this happens for country-
+    level compares like england-vs-scotland.
+    """
+    parts = pair_slug.split("-vs-")
+    legacy = f"https://img.tabiji.ai/compare/{pair_slug}/{which}.jpg"
+    if len(parts) != 2:
+        return legacy
+    dest_slug = parts[0] if which == "dest1" else parts[1]
+    entry = _dest_full().get(dest_slug)
+    if not entry:
+        return legacy
+    photo = (entry.get("photo") or "").strip()
+    if not photo or "owl-logo" in photo:
+        return legacy
+    return photo
+
 def slug_to_names(slug):
     """Convert 'tokyo-vs-kyoto' to ('Tokyo', 'Kyoto')"""
     parts = slug.split('-vs-')
@@ -439,7 +476,10 @@ def build_compare_json(slug, content_data):
     meta_desc = d.get('metaDescription', f"{dest1} vs {dest2} — a data-backed comparison based on Reddit discussions, real costs, and traveler preferences. Honest verdicts for your next trip.")
     
     canonical = f"https://tabiji.ai/compare/{slug}/"
-    og_image = f"https://img.tabiji.ai/compare/{slug}/hero.jpg"
+    # og:image prefers dest1's canonical photo; falls back to legacy hero.jpg
+    # when the destination isn't in destinations-full.json (country-level pairs).
+    _dest1_photo = dest_photo_url(slug, "dest1")
+    og_image = _dest1_photo if _dest1_photo.startswith("https://img.tabiji.ai") or _dest1_photo.startswith("https://images.unsplash.com") else f"https://img.tabiji.ai/compare/{slug}/hero.jpg"
     
     # Build TOC items from categories
     toc_items = [
@@ -488,14 +528,15 @@ def build_compare_json(slug, content_data):
     ]))
     methodology_html = f'''<div class="methodology-box"><h2 id="how-we-built-this-comparison">How we built this comparison</h2><p>This page combines traveler discussion patterns, published price ranges, flight schedules, and seasonal data to help you decide between {dest1} and {dest2}.</p><ul class="methodology-points">{method_points}</ul></div>'''
     
-    # Photo grid (placeholder — no actual images needed)
+    # Photo grid — prefers canonical destination photos from destinations-full.json;
+    # falls back to legacy compare/{slug}/dest{N}.jpg for country-level pairs.
     photo_grid_html = f'''<div class="photo-grid">
 <div>
-<img alt="{dest1} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest1.jpg">
+<img alt="{dest1} travel destination" loading="lazy" src="{dest_photo_url(slug, "dest1")}">
 <div class="caption">{dest1}</div>
 </div>
 <div>
-<img alt="{dest2} travel destination" loading="lazy" src="https://img.tabiji.ai/compare/{slug}/dest2.jpg">
+<img alt="{dest2} travel destination" loading="lazy" src="{dest_photo_url(slug, "dest2")}">
 <div class="caption">{dest2}</div>
 </div>
 </div>'''
@@ -760,8 +801,8 @@ def build_inventory_card(compare_data):
         "title": f"{dest1} vs {dest2}",
         "description": compare_data['seo']['metaDescription'][:200],
         "tags": [],
-        "image1": f"https://img.tabiji.ai/compare/{slug}/dest1.jpg",
-        "image2": f"https://img.tabiji.ai/compare/{slug}/dest2.jpg",
+        "image1": dest_photo_url(slug, "dest1"),
+        "image2": dest_photo_url(slug, "dest2"),
         "destination1": dest1,
         "destination2": dest2
     }
