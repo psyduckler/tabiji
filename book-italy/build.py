@@ -34,6 +34,11 @@ DATA_DIR = (HERE / CONFIG["scam_data_dir"]).resolve()
 
 CITY_INSERTION_MARKER = "<!-- CITIES -->"
 
+# Polish integration — strips r/SUB citation scaffolding, normalizes
+# UK→US spellings, removes age-framing, repairs mid-word truncations.
+sys.path.insert(0, str(HERE / "scripts"))
+from polish_scam_prose import polish_description, polish_avoidance, polish_location, polish_markdown  # noqa: E402
+
 # Rich alt text for city chapter openers (screen-reader friendly).
 # Mirrors the landmark descriptions used in the front-matter gallery so the
 # same image gets the same spoken description regardless of where it appears.
@@ -75,10 +80,13 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
         )
         # Absolute path; Pandoc will copy into the EPUB package
         parts.append(f"![{alt}]({image_path.resolve()})\n\n")
+    description = polish_description(scam["description"])
+    avoidance = polish_avoidance(scam["avoidance"])
+    location = polish_location(scam["location"])
     parts.extend([
-        f'### How this scam works\n\n{scam["description"]}\n\n',
-        f'### How to avoid it\n\n{scam["avoidance"]}\n\n',
-        f'**Where it happens:** {scam["location"]}\n\n',
+        f'### How this scam works\n\n{description}\n\n',
+        f'### How to avoid it\n\n{avoidance}\n\n',
+        f'**Where it happens:** {location}\n\n',
     ])
     if scam.get("tags"):
         parts.append(f'*{" · ".join(scam["tags"])}*\n\n')
@@ -138,7 +146,10 @@ def assemble_markdown() -> str:
         else:
             parts.append(content)
         parts.append("\n\n")
-    return "".join(parts)
+    # Final polish pass over the whole document — catches citation shards,
+    # AmE normalizations, age-framing sweeps, etc. that need the full
+    # assembled text to fire correctly.
+    return polish_markdown("".join(parts))
 
 
 def build_epub(md: str) -> Path:
@@ -155,6 +166,10 @@ def build_epub(md: str) -> Path:
         str(md_path),
         "-o",
         str(epub_path),
+        # Disable LaTeX math-dollar: prose uses "$10-20" / "€20" paired with
+        # another "$N" elsewhere in paragraphs, which pandoc otherwise
+        # interprets as math and mangles to concat gibberish.
+        "--from", "markdown-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
         "--resource-path",
         str(HERE),
         "--metadata",
