@@ -355,7 +355,7 @@ Template cuts after venue #1. Largest bucket — rebuild with full research sinc
 - [ ] `cusco-restaurants` — Andean Cuisine in Cusco (1/12)
 - [x] `dallas-bbq` — 10 Best BBQ in Dallas (10/10) — rebuilt 2026-04-11
 - [ ] `dallas-restaurants` — 10 Best Restaurants in Dallas (1/10)
-- [ ] `denver-restaurants` — 10 Best Restaurants in Denver (1/10)
+- [x] `denver-restaurants` — 10 Best Restaurants in Denver (10/10) — rebuilt 2026-04-22
 - [ ] `denver-steak` — 10 Best Steak in Denver (1/10)
 - [x] `detroit-pizza` — 10 Best Pizza in Detroit (10/10) — rebuilt 2026-04-11
 - [x] `edinburgh-pubs` — 14 Best Pubs in Edinburgh (14/14) — rebuilt 2026-04-11
