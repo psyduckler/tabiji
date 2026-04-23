@@ -622,26 +622,38 @@ def build_css():
 
 
 def build_nav():
-    """Generate nav bar matching tabiji design."""
-    return '''<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="tabiji.ai" style="height:32px;vertical-align:middle;margin-right:6px;">tabiji<span>.ai</span></a>
+    """Generate nav bar matching tabiji design.
+
+    Emits @include:nav:start/end markers so build-partials.py keeps this
+    in sync with _includes/nav-main.html automatically. Inline fallback
+    markup (below) is only visible until the first partial sync; after
+    that it's overwritten.
+    """
+    return '''<!-- @include:nav:start -->
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
+                <a href="/popular-picks/">⭐ Popular Picks</a>
+                <a href="/countries/">🗺 Country Guides</a>
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
+                <a href="/credit-cards/">💳 Credit Card Benefits</a>
+                <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
-        <a href="/itineraries/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">Sample Itineraries</a>
-        <a href="/popular-picks/" style="color:var(--terracotta);text-decoration:none;font-size:0.9rem;font-weight:600;">Popular Picks</a>
-        <a href="/about/" style="color:var(--indigo);text-decoration:none;font-size:0.9rem;font-weight:500;">About</a>
-        <a href="/plan" class="cta-nav">Get Your Free Custom Itinerary</a>
+        <a href="/trip-planner/">Trip Planner</a>
+        <a href="/scams/">Tourist Scams</a>
+        <a href="/about/">About</a>
+        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
     </div>
 </nav>
+<!-- @include:nav:end -->
 '''
 
 
