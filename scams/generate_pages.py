@@ -1873,6 +1873,12 @@ SAFETY_TIPS = {
         "Book taxis through the Go app for pre-set fares; trains are almost always faster and cheaper",
         "Near Sensoji and Shibuya, don't accept trinkets or items placed in your hands by strangers in robes",
     ],
+    "Taipei": [
+        "Take the Taoyuan Airport MRT directly from inside the terminal to Taipei Main Station — 35 minutes, contactless via EasyCard, zero scam risk",
+        "In Ximending, Zhongxiao Dunhua, and Taipei 101 concourses, keep walking past kiosk staff who step into your path with free skincare samples",
+        "At Taipei Main Station and 228 Park, decline 'Where are you from?' approaches within 10 seconds and never follow strangers to a second location",
+        "Demand an itemized receipt at every souvenir shop, night-market stand, and tea store before paying — verify line items match what was handed over",
+    ],
     "Dubai": [
         "Choose your own venue for any date arranged through apps — never let your match pick the bar",
         "Only take taxis from the official rank inside the terminal or use the Careem/Uber app",
@@ -3908,6 +3914,18 @@ FAQS = {
          "Yes — Tokyo is overwhelmingly safe at night. The main caveat is avoiding Roppongi and Kabukicho if you're not familiar with the area, and specifically not entering venues at the suggestion of street touts. Most neighborhoods, including Shinjuku, Shibuya, and Shimokitazawa, are perfectly safe for solo travelers at any hour."),
         ("Do I need to negotiate taxi prices in Tokyo?",
          "No — Tokyo taxis are metered and generally honest. The Go taxi app provides pre-set fares. Metered taxis are reliable, but the late-night surcharge (after 10pm) is legitimate. Train and subway remain significantly cheaper for most tourist-area travel."),
+    ],
+    "Taipei": [
+        ("Is Taipei safe for tourists?",
+         "Yes — Taipei is among Asia's safest major cities, with very low violent crime and honest meter-using taxi drivers. The scams that do exist cluster in specific spots: Taoyuan airport arrivals (illegal taxis), Ximending and Zhongxiao kiosks (Dead Sea skincare high-pressure sales), tourist-facing souvenir shops and night markets (receipt padding), and Taipei Main Station (friendly-stranger MLM or confidence approaches)."),
+        ("What is the most common scam in Taipei?",
+         "The Ximending Dead Sea skincare kiosk is consistently ranked the most-reported tourist scam in Taipei on r/taiwan. Staff step into pedestrian paths with free samples, apply cream before consent is meaningful, then run a 15-minute high-pressure close. Keep walking past any kiosk approach and never accept a product in-hand."),
+        ("Is the airport taxi from Taoyuan safe?",
+         "Only from the official yellow-taxi coupon queue outside the arrivals hall, where English fares are posted and the meter is mandatory. Refuse any 'Taxi? Taipei?' approach inside the terminal or at the curb — on 5 June 2025 an unlicensed operator was fined up to NT$ 25 million after a Spanish tourist jumped from his moving car near Terminal 2. The Taoyuan Airport MRT Express is the simplest alternative — about 35 minutes to Taipei Main Station."),
+        ("Where is it safe to walk in Taipei?",
+         "Almost everywhere, day or night — Taipei is a low-crime city and women travelers routinely report feeling safer than in most Western capitals. The main tourist corridors (Ximending, Zhongxiao, Xinyi, Da'an, Shilin) are heavily patrolled and well-lit. The only real caution is ignoring friendly-stranger approaches around Taipei Main Station and 228 Peace Memorial Park."),
+        ("Is it safe to change money or use ATMs in Taipei?",
+         "Yes — use any ATM inside a Taiwanese bank (Cathay, CTBC, Mega, First, Taishin) or 7-Eleven/FamilyMart. Money-changing is safest at Bank of Taiwan at Taoyuan airport or any licensed bank branch in the city. Avoid any 'currency exchange' stranger offering to swap USD or EUR on the street or inside Taipei Main Station — this is never legitimate."),
     ],
     "Dubai": [
         ("Is Dubai safe for tourists?",
