@@ -1868,7 +1868,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "provenance": {"sources": ["alerts"], "lastVerifiedAt": generated_at},
         })
 
-    for city in (scam_items or _load_index_items("scams.json", "cities")):
+    for city in (scam_items or _load_index_items("scams.json", "items")):
         slug = city.get("slug", "")
         items.append({
             "id": city.get("id", f"scam:{slug}"),
@@ -2985,7 +2985,7 @@ def main():
     country_items = _load_index_items("countries.json", "countries")
     safety_items = _load_index_items("safety.json", "profiles")
     alert_items = _load_index_items("alerts.json", "alerts")
-    scam_items = _load_index_items("scams.json", "cities")
+    scam_items = _load_index_items("scams.json", "items")
     insurance_items = _load_index_items("insurance.json", "carriers")
     card_items = _load_index_items("cards.json", "cards")
 
@@ -3333,7 +3333,7 @@ def build_packs():
     dest_slug_to_country = {d["slug"]: d.get("countryCode", "") for d in all_dest_summaries}
 
     # Build scam city slugs grouped by countryCode
-    scam_cities_list = _load_index_items("scams.json", "cities")
+    scam_cities_list = _load_index_items("scams.json", "items")
     scam_slugs_by_country = {}
     for city in scam_cities_list:
         cc = city.get("countryCode", "").upper()
