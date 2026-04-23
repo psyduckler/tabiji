@@ -12,9 +12,6 @@ const api = JSON.parse(fs.readFileSync(apiPath, 'utf8')).comparisons || [];
 const apiBySlug = new Map(api.map(item => [item.slug, item]));
 
 const featuredSlugs = [
-  'tokyo-vs-kyoto',
-  'tokyo-vs-osaka',
-  'kyoto-vs-osaka',
   'london-vs-amsterdam',
   'madrid-vs-barcelona',
   'amalfi-coast-vs-cinque-terre'
@@ -174,11 +171,11 @@ const html = `<!DOCTYPE html>
   <meta property="og:description" content="Search ${totalCount}+ travel comparisons, browse featured picks, and find the right destination faster.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tabiji.ai/compare/">
-  <meta property="og:image" content="https://img.tabiji.ai/compare/tokyo-vs-kyoto/tokyo-shibuya-crossing.jpg">
+  <meta property="og:image" content="https://img.tabiji.ai/compare-default-og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Travel Comparisons | Compare Destinations Side by Side | Tabiji">
   <meta name="twitter:description" content="Search ${totalCount}+ travel comparisons, browse featured picks, and find the right destination faster.">
-  <meta name="twitter:image" content="https://img.tabiji.ai/compare/tokyo-vs-kyoto/tokyo-shibuya-crossing.jpg">
+  <meta name="twitter:image" content="https://img.tabiji.ai/compare-default-og.jpg">
   <style>
     :root {
       --indigo:#2D3A5C; --terracotta:#C4704B; --sand:#E8DFD0; --cream:#FEFCF9; --warm:#F5F0E8; --text:#2C2419; --muted:#6B5D4F; --sage:#7A8B6F;
@@ -189,14 +186,8 @@ const html = `<!DOCTYPE html>
     body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; background:var(--cream); color:var(--text); line-height:1.55; }
     a { color:inherit; }
     .shell { max-width:1180px; margin:0 auto; padding:0 24px; }
-    .topbar { position:sticky; top:0; z-index:20; background:rgba(254,252,249,.92); backdrop-filter:blur(16px); border-bottom:1px solid rgba(232,223,208,.9); }
-    .topbar .shell { display:flex; justify-content:space-between; align-items:center; min-height:72px; gap:20px; }
-    .brand { font-size:1.35rem; font-weight:800; text-decoration:none; color:var(--indigo); }
-    .brand span { color:var(--terracotta); }
-    .navlinks { display:flex; gap:18px; align-items:center; font-size:.95rem; }
-    .navlinks a { text-decoration:none; color:var(--muted); }
-    .navcta { background:var(--terracotta); color:#fff !important; padding:.7rem 1rem; border-radius:10px; font-weight:700; }
-    .hero { padding:72px 0 36px; }
+    main { padding-top:72px; }
+    .hero { padding:40px 0 36px; }
     .hero-grid { display:grid; grid-template-columns:1.3fr .9fr; gap:28px; align-items:stretch; }
     .hero-copy, .hero-panel, .section-card, .search-panel, .browse-card { background:#fff; border:1px solid var(--sand); border-radius:24px; box-shadow:var(--shadow); }
     .hero-copy { padding:34px; }
@@ -264,9 +255,9 @@ const html = `<!DOCTYPE html>
     }
     @media (max-width: 720px) {
       .shell { padding:0 16px; }
-      .navlinks a:not(.navcta) { display:none; }
       .hero-grid, .feature-grid, .mini-grid, .browse-grid, .search-toolbar, .archive-row, .hero-stats { grid-template-columns:1fr; }
-      .hero { padding-top:34px; }
+      main { padding-top:60px; }
+      .hero { padding-top:18px; }
       .hero-copy, .hero-panel, .search-panel { border-radius:20px; }
       .section-header, .archive-meta, .mini-top, .browse-head { display:block; }
       .archive-row { gap:8px; }
@@ -274,17 +265,12 @@ const html = `<!DOCTYPE html>
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="shell">
-      <a class="brand" href="/">tabi<span>ji</span></a>
-      <nav class="navlinks">
-        <a href="/destinations/">Destinations</a>
-        <a href="/compare/">Compare</a>
-        <a href="/plan">Plan a trip</a>
-        <a class="navcta" href="/plan">Get itinerary</a>
-      </nav>
-    </div>
-  </header>
+  <nav class="navlinks">
+    <a href="/destinations/">Destinations</a>
+    <a href="/compare/">Compare</a>
+    <a href="/plan">Plan a trip</a>
+    <a class="navcta" href="/plan">Get itinerary</a>
+  </nav>
 
   <main>
     <section class="hero">
