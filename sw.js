@@ -3,7 +3,7 @@
  * Cache-first app shell, network-first pages, region pack downloads
  */
 
-const CACHE_VERSION = 'tabiji-v1';
+const CACHE_VERSION = 'tabiji-v2-footer';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const PAGE_CACHE = `pages-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
