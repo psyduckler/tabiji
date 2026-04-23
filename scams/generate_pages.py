@@ -7843,6 +7843,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
             .city-grid {{ grid-template-columns: 1fr; }}
         }}
     </style>
+    <link rel="stylesheet" href="/assets/scams.css">
     <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
 <link rel="manifest" href="/manifest.json">
@@ -7851,7 +7852,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 <script defer src="/assets/offline-download.js"></script>
 <!-- @include:shared-head:end -->
 </head>
-<body>
+<body class="editorial-v2">
 <!-- @include:nav:start -->
 <nav>
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
@@ -7884,7 +7885,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 <header class="page-hero">
     <div class="page-hero-inner">
         <span class="page-hero-eyebrow">Tourist Scams</span>
-        <h1><span class="page-hero-flag">{flag}</span>Scams to watch for in {country}</h1>
+        <h1><span class="page-hero-flag">{flag}</span>Scams to watch for in <em>{country}</em></h1>
         <p>Scam guides for {n_cities} cities in {country}, sourced from real Reddit traveler reports. {risk_note}</p>
         <div class="page-hero-stats">
             <span class="stat-pill"><strong>{n_cities}</strong> cities</span>
