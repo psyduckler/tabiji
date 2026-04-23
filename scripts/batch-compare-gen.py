@@ -20,6 +20,7 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 from datetime import datetime, timezone
+from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 COMPARE_DIR = REPO_ROOT / "compare"
@@ -36,7 +37,7 @@ def get_shell():
 
 
 # Cached destinations-full.json for dest-photo lookup.
-_DEST_FULL_CACHE: dict | None = None
+_DEST_FULL_CACHE: Optional[dict] = None
 
 def _dest_full() -> dict:
     global _DEST_FULL_CACHE
