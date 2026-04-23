@@ -768,17 +768,20 @@ def upgrade_page(slug: str, dry_run: bool = False) -> str:
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle">Explore</button>
             <div class="nav-dropdown-menu">
+                <a href="/popular-picks/">&#x2B50; Popular Picks</a>
+                <a href="/countries/">&#x1F5FA; Country Guides</a>
                 <a href="/compare/">&#x1F19A; Compare Destinations</a>
                 <a href="/find/">&#x1F50D; Destination Finder</a>
-                <a href="/spin/">&#x1F30E; Spin the Globe</a>
+                <a href="/credit-cards/">&#x1F4B3; Credit Card Benefits</a>
+                <a href="/health/">&#x1F3E5; Travel Health Tips</a>
                 <a href="/resources/">&#x1F4DA; Resources</a>
                 <a href="/api/">&#x1F50C; API</a>
             </div>
         </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/itineraries/">Itineraries</a>
+        <a href="/trip-planner/">Trip Planner</a>
+        <a href="/scams/">Tourist Scams</a>
         <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
+        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
     </div>
 </nav>
 <!-- @include:nav:end -->

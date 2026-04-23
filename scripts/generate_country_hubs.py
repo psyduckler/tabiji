@@ -982,19 +982,20 @@ def nav_html():
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
-                <a href="/api/">\U0001F50C API</a>
+                <a href="/popular-picks/">\u2B50 Popular Picks</a>
+                <a href="/countries/">\U0001F5FA Country Guides</a>
                 <a href="/compare/">\U0001F19A Compare Destinations</a>
-                <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/find/">\U0001F50D Destination Finder</a>
-                <a href="/resources/">\U0001F4DA Resources</a>
-                <a href="/scams/">\U0001F6A8 Tourist Scams</a>
+                <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/health/">\U0001F3E5 Travel Health Tips</a>
+                <a href="/resources/">\U0001F4DA Resources</a>
+                <a href="/api/">\U0001F50C API</a>
             </div>
         </div>
-        <a href="/popular-picks/">Popular Picks</a>
-        <a href="/countries/">Country Guides</a>
+        <a href="/trip-planner/">Trip Planner</a>
+        <a href="/scams/">Tourist Scams</a>
         <a href="/about/">About</a>
-        <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
+        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
     </div>
 </nav>
 <!-- @include:nav:end -->"""
