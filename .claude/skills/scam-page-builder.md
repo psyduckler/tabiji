@@ -38,7 +38,7 @@ If only the city is given, infer the other three and confirm with the user.
         "danger_level": "high|moderate|low",
         "category": "<fixed vocab>",
         "location": "<≤5 comma-separated spots>",
-        "story": "<3 paragraphs separated by \\n\\n, 250–450 words>",
+        "story": "<4–6 paragraphs separated by \\n\\n, 40–110 words each (target 60–90), total 280–500 words>",
         "red_flags": ["<fragment>", ... 5 items],
         "how_to_avoid": ["<complete imperative sentence ending .?!>", ... 5 items],
         "reddit_sources": ["r/<sub> '<title verbatim>' (comments/<id>, <year>)", ... 5 items]
@@ -69,8 +69,19 @@ grep -n '"<City>"' scams/generate_pages.py | grep CITY_SLUGS
 ls scams/<slug>/ 2>/dev/null
 ```
 
-- If `CITY_SLUGS["<City>"]` exists or `scams/<slug>/index.html` exists → **abort**. This skill does not enrich existing pages.
-- If the country is brand-new (not in any `scams/research/*_batch*.json`), confirm with the user before proceeding.
+Three outcomes:
+
+1. **New city** — `CITY_SLUGS["<City>"]` absent and `scams/<slug>/index.html` absent → proceed normally.
+2. **Already book-ready** — existing page has ≥ 3 scams with valid `comments/<id>` Reddit IDs in `reddit_sources` (verify via `grep -c 'comments/[a-z0-9]\{6,8\}' scams/<slug>/index.html`) **and** ≥ 1 T1/T2 news/gov citation per scam → **abort**. This skill does not enrich already-book-ready pages.
+3. **Pre-book-ready page (rewrite-override)** — existing page is from an earlier era (no verifiable Reddit IDs, no T1/T2 sources, style-guide violations like missing currency spacing or pre-2025 anchors) → **only proceed if the user explicitly authorizes a fresh rewrite**. Confirm in one sentence: "Existing `<city>` page is pre-book-ready; OK to rewrite from scratch?"
+
+When rewriting:
+- Keep the existing `CITY_SLUGS["<City>"]` entry (don't duplicate).
+- **Replace** any existing `SAFETY_TIPS["<City>"]` and `FAQS["<City>"]` entries with freshly-researched values (don't merge — the old ones were written to a lower bar).
+- Add the city to a country research batch as if new (the generator will overwrite `scams/<slug>/index.html` regardless).
+- Commit message template: `scams: rewrite <City> (<Country>) to book-ready — <N> Reddit-cited scams`.
+
+If the country is brand-new (not in any `scams/research/*_batch*.json`), confirm with the user before proceeding.
 
 ### Step 2: SerpAPI research — 4 passes
 
@@ -219,11 +230,16 @@ Follow the style guide (`docs/scam-pages-style-guide.md`) strictly. Key rules:
 - Pick the most diagnostic, not the exhaustive list
 - Example: "KLIA arrivals, KL Sentral hotel drop-offs, Bukit Bintang pedestrian corridors" — not 7 airport gate numbers
 
-**`story`** (250–450 words, 3 paragraphs separated by `\n\n`)
+**`story`** (280–500 words, **4–6 paragraphs** separated by `\n\n`; each paragraph 40–110 words target 60–90, 2–5 sentences — monolithic walls are rejected)
 
-- **Para 1 (context)** — Name the scam locale and community baseline. Reference Reddit qualitatively: "A 2025 r/KualaLumpur PSA thread documents..." or "Travelers on r/malaysia in 2025 reported...". **Never embed `r/<sub> '<title>' (comments/xxx, YEAR)` citation strings in prose** — the sanitizer will strip them and leave orphan fragments. Thread links live only in `reddit_sources[]`.
-- **Para 2 (mechanic)** — Variant enumeration with concrete local-currency prices and named locations. One paraphrased 1-sentence Redditor line is OK (no username, `r/<sub>` attribution inline: "one r/malaysia poster described paying RM 6,000 for glass"). Include typical loss as a natural sentence: "Typical losses run RM 200–RM 1,500."
-- **Para 3 (defense)** — 3 numbered actionable steps + emergency contacts. End with dialable phones: tourist police, national emergency, consumer-protection hotline, one relevant embassy.
+Readability mandate: the scam-page corpus also ships as paperback KDP books under `book-<country>/`. Dense 150+ word paragraphs that look OK on desktop become unreadable on mobile and brutal in print. Split aggressively.
+
+- **Para 1 (context)** — Name the scam locale and community baseline. Reference Reddit qualitatively: "A 2025 r/KualaLumpur PSA thread documents..." or "Travelers on r/malaysia in 2025 reported...". **Never embed `r/<sub> '<title>' (comments/xxx, YEAR)` citation strings in prose** — the sanitizer will strip them and leave orphan fragments. Thread links live only in `reddit_sources[]`. ~60–80 words.
+- **Para 2 (the hook)** — How the approach begins; the first 30 seconds of the encounter; the emotional lead-in. ~60–90 words.
+- **Para 3 (variants + evidence)** — 2–3 variants with concrete local-currency prices and named locations. One paraphrased 1-sentence Redditor line is OK (no username, `r/<sub>` attribution inline: "one r/malaysia poster described paying RM 6,000 for glass"). Typical-loss range as a natural sentence: "Typical losses run RM 200–RM 1,500." ~60–90 words.
+- **Para 4 (defense, steps 1–2)** — First two numbered actionable steps. Verb-first imperatives. ~50–80 words.
+- **Para 5 (defense, step 3 + emergency)** — Final step plus dialable phones: tourist police, national emergency, consumer-protection hotline, relevant embassy. ~60–100 words.
+- **Optional Para 6** — Reserved for regulatory citation, recovery path, or a particularly nuanced scam requiring an extra beat. Skip for most scams. ~50–80 words.
 
 **`red_flags[5]`**
 - Fragments acceptable; short; parallel structure
@@ -265,7 +281,9 @@ Run [scripts/lint_scam_content.py](scripts/lint_scam_content.py) against the dra
 
 6. **Sentence length** — any sentence > 50 words → WARN; > 70 words → REJECT.
 
-7. **Paragraph length** — any `story` paragraph > 180 words → REJECT.
+7. **Paragraph length** — any `story` paragraph > 120 words → REJECT; > 100 → WARN.
+
+7b. **Paragraph count** — `story` has fewer than 4 paragraphs (count `\n\n` separators: must be ≥ 3) → REJECT. More than 6 → WARN.
 
 8. **ALL-CAPS budget per story** — count of ALL-CAPS tokens (`[A-Z]{3,}`) > 12 → WARN; > 18 → REJECT.
 
@@ -406,9 +424,12 @@ for i, card in enumerate(cards, 1):
     assert len(tldr) >= 30, f"scam {i} tldr too short: {tldr!r}"
     assert tldr.strip()[-1] in ".?!", f"scam {i} tldr doesn't end in .?!: {tldr!r}"
     bodies = card.select("p.scam-story-body")
-    assert len(bodies) >= 1, f"scam {i} missing story body"
+    assert 3 <= len(bodies) <= 6, f"scam {i} expected 3\u20136 body paragraphs (tldr counts separately), got {len(bodies)}"
     for p in bodies:
-        assert len(p.get_text()) >= 80, f"scam {i} has short story paragraph"
+        text = p.get_text()
+        word_count = len(text.split())
+        assert len(text) >= 80, f"scam {i} has short story paragraph"
+        assert word_count <= 120, f"scam {i} has paragraph > 120 words ({word_count})"
     red_flags = card.select(".red-flags li")
     avoid = card.select(".avoid li")
     assert len(red_flags) == 5 and len(avoid) == 5, f"scam {i} bullet count wrong"

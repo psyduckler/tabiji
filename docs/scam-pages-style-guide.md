@@ -87,16 +87,27 @@ Each scam card must contain, in this order:
 2. **`<div class="scam-location">`** — location string with `📍` prefix
 3. **`<img class="scam-comic">`** — per-scam comic illustration (see `docs/comic-pipeline/README.md`)
 4. **`<p class="scam-tldr">`** — one-sentence summary opening the story
-5. **3 × `<p class="scam-story-body">`** — the three-paragraph story
+5. **4–6 × `<p class="scam-story-body">`** — the scam story, split into short paragraphs
 6. **5 × red-flag chip** — short, parallel, starts with a noun or present-participle
 7. **5 × how-to-avoid chip** — short, parallel, starts with an imperative verb
 8. **5 × Reddit source link** — canonical 2025/2026 Reddit thread citations
 
-**Paragraph 1** — context + Reddit anchors. Opens by naming the scam locale. Ends by listing 4–6 canonical community threads as citations.
+### Paragraph sizing — readability + book-print mandate
 
-**Paragraph 2** — the mechanic. `The 2025 scam patterns: (a) ...; (b) ...; (c) ...;` — enumerate variants with concrete prices and named locations.
+**Every scam story must split into 4–6 paragraphs, 40–110 words each (target 60–90), 2–5 sentences each.** Monolithic 150+ word prose blocks are rejected: they're unscannable on the web and unreadable when packaged into the paperback KDP books under `book-<country>/`.
 
-**Paragraph 3** — the defense. `For travelers: (1) ...; (2) ...; (3) ...;` — numbered actionable steps. End with emergency contacts: tourist police phone, SAMU/emergency number, consumer-protection hotline.
+In the research JSON `story` field, separate paragraphs with `\n\n`. The generator's `_render_paragraphs` (in `scams/generate_pages.py`) splits on that separator and emits one `<p class="scam-story-body">` per paragraph.
+
+### Narrative structure across paragraphs
+
+The scam story still covers three beats — **context**, **mechanic**, **defense** — but now distributed across 4–6 paragraphs so no single one becomes a wall:
+
+- **Para 1 (context)** — Name the scam locale; community baseline. ~60–80 words.
+- **Para 2 (the hook)** — How the approach begins; the first 30 seconds of the encounter. ~60–90 words.
+- **Para 3 (variants + evidence)** — Enumerate 2–3 variants with concrete local-currency prices and named locations; cite the 2025/2026 anchor qualitatively. ~60–90 words.
+- **Para 4 (defense, steps 1–2)** — First two numbered actionable steps. ~50–80 words.
+- **Para 5 (defense, steps 3 + emergency contacts)** — Final step plus dialable phones: tourist police, national emergency, consumer-protection hotline, relevant embassy. ~60–100 words.
+- **Optional Para 6** — Only if a single scam needs an additional nuance (e.g., a regulatory citation, a specific recovery path). ~50–80 words.
 
 ---
 
@@ -157,8 +168,9 @@ Before committing a new city scam page:
 - [ ] American English throughout prose (not Reddit citations)
 - [ ] No "older travelers" framing — just "travelers" or "you"
 - [ ] Currency: `R$ 50` (space), `R$ 50–R$ 100` (en-dash, repeated symbol)
-- [ ] 6 scams × 5 FAQs × 18 body paragraphs per city page
-- [ ] Each scam = 3-paragraph story, 5 red flags, 5 how-to-avoid, 5 Reddit sources
+- [ ] 6 scams × 5 FAQs per city page
+- [ ] Each scam = 4–6 paragraph story (40–110 words/para, target 60–90), 5 red flags, 5 how-to-avoid, 5 Reddit sources
+- [ ] No `story` paragraph exceeds 120 words (lint reject)
 - [ ] At least 80% of Reddit citations from 2025/2026
 - [ ] Regulatory citations (Lei, IBAMA, DEATUR, PROCON, etc.) kept in original language
 - [ ] Proper nouns preserve diacritics (São Paulo, Brasília)
