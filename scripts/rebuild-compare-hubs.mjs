@@ -228,7 +228,59 @@ function navHtml() {
   return fs.readFileSync(path.join(repoRoot, '_includes', 'nav-main.html'), 'utf8').trim();
 }
 
-function renderArchiveScript(cardsForPage, searchOptions = { region: true, type: true }) {
+function renderArchiveScript(cardsForPage, searchOptions = { region: true, type: true, paginate: false, externalDataUrl: null }) {
+  const PAGE_SIZE = 50;
+  if (searchOptions.externalDataUrl) {
+    return `<script>
+    const PAGE_SIZE = ${PAGE_SIZE};
+    let allCards = [];
+    let filtered = [];
+    let page = 0;
+    const searchInput = document.getElementById('searchInput');
+    const regionFilter = document.getElementById('regionFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const archiveList = document.getElementById('archiveList');
+    const resultCount = document.getElementById('resultCount');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    function rowTemplate(card) {
+      return '<a class="archive-row" href="' + card.url + '">' + '<div><h3>' + card.destination1 + ' vs ' + card.destination2 + '</h3><p>' + card.description + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + card.region + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + card.tripType + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + card.inboundLinks + ' links</div>' + '</a>';
+    }
+    function renderPage() {
+      const start = 0;
+      const end = (page + 1) * PAGE_SIZE;
+      const visible = filtered.slice(start, end);
+      resultCount.textContent = 'Showing ' + visible.length + ' of ' + filtered.length + ' comparison' + (filtered.length === 1 ? '' : 's');
+      archiveList.innerHTML = visible.length ? visible.map(rowTemplate).join('') : '<div class="archive-empty">No matches. Try a broader search.</div>';
+      loadMoreBtn.style.display = end < filtered.length ? 'inline-flex' : 'none';
+    }
+    function applyFilters() {
+      page = 0;
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      const region = regionFilter ? regionFilter.value : '';
+      const type = typeFilter ? typeFilter.value : '';
+      const sort = sortFilter ? sortFilter.value : 'popular';
+      filtered = allCards.filter(card => {
+        const haystack = [card.title, card.description, card.destination1, card.destination2, card.region, card.tripType, ...(card.tags || [])].join(' ').toLowerCase();
+        return (!query || haystack.includes(query)) && (!region || card.region === region) && (!type || card.tripType === type);
+      });
+      filtered = filtered.sort((a,b) => sort === 'az' ? a.title.localeCompare(b.title) : sort === 'newest' ? ((b.updatedAt||'').localeCompare(a.updatedAt||'') || b.popularityScore - a.popularityScore) : (b.popularityScore - a.popularityScore || (b.updatedAt||'').localeCompare(a.updatedAt||'')));
+      renderPage();
+    }
+    function loadMore() {
+      page++;
+      renderPage();
+    }
+    [searchInput, regionFilter, typeFilter, sortFilter].filter(Boolean).forEach(el => { el.addEventListener('input', applyFilters); el.addEventListener('change', applyFilters); });
+    loadMoreBtn.addEventListener('click', loadMore);
+    fetch('${searchOptions.externalDataUrl}').then(r => r.json()).then(data => {
+      allCards = data;
+      applyFilters();
+    }).catch(() => {
+      archiveList.innerHTML = '<div class="archive-empty">Failed to load comparisons. Please refresh.</div>';
+    });
+  </script>`;
+  }
   return `<script>
     const cards = ${JSON.stringify(cardsForPage)};
     const searchInput = document.getElementById('searchInput');
@@ -258,7 +310,7 @@ function renderArchiveScript(cardsForPage, searchOptions = { region: true, type:
   </script>`;
 }
 
-function pageHtml({ title, metaDescription, canonicalPath, heroKicker, heroTitle, heroText, heroStats, sidebarTitle, sidebarItems, sections, archiveCards, archivePrefillRegion = '', archivePrefillType = '', introCards = [] }) {
+function pageHtml({ title, metaDescription, canonicalPath, heroKicker, heroTitle, heroText, heroStats, sidebarTitle, sidebarItems, sections, archiveCards, archivePrefillRegion = '', archivePrefillType = '', introCards = [], externalDataUrl = null }) {
   const regionOptions = [...new Set(cards.map(card => card.region))].sort();
   const typeOptions = [...new Set(cards.map(card => card.tripType))].sort();
   const canonicalUrl = `https://tabiji.ai${canonicalPath}`;
@@ -282,9 +334,9 @@ function pageHtml({ title, metaDescription, canonicalPath, heroKicker, heroTitle
 <!-- @include:shared-head:start -->
 ${sharedHeadHtml}
 <!-- @include:shared-head:end -->
-</head><body>${navHtml()}<main><section class="hero"><div class="shell hero-grid"><div class="hero-copy"><div class="hero-kicker">${safeText(heroKicker)}</div><h1>${safeText(heroTitle)}</h1><p>${safeText(heroText)}</p><div class="hero-actions"><a class="button primary" href="#archive">Browse ranked comparisons</a><a class="button secondary" href="/compare/">Back to compare home</a></div><div class="hero-stats">${heroStats.map(stat => `<div><strong>${safeText(stat.value)}</strong><span>${safeText(stat.label)}</span></div>`).join('')}</div></div><aside class="hero-panel"><h2>${safeText(sidebarTitle)}</h2><div class="hero-list">${sidebarItems.map(item => `<a href="${item.href}"><strong>${safeText(item.title)}</strong><span>${safeText(item.text)}</span></a>`).join('')}</div></aside></div></section><section class="section" id="toc"><div class="shell"><div class="search-panel toc-panel"><div class="section-header"><div><h2>On this page</h2><p>Use the hub like a real browse surface, not a dead-end index.</p></div></div><div class="quick-chips"><a class="chip" href="#popular">Popular picks</a><a class="chip" href="#newest">Newest</a><a class="chip" href="#archive">Ranked archive</a><a class="chip" href="#faq">FAQ</a><a class="chip" href="#cta">Plan a trip</a></div></div></div></section>${sections.join('')}<section class="section" id="faq"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>FAQ</h2><p>Quick answers so these compare hubs read like intentional landing pages, not orphaned utility pages.</p></div></div><div class="archive-list">${faqItems.map(item => `<div class="archive-row"><div><h3>${safeText(item.question)}</h3><p>${safeText(item.answer)}</p></div><div class="archive-label"><strong>Page type</strong><br>Compare hub</div><div class="archive-label"><strong>Use case</strong><br>Browse + shortlist</div><div class="archive-label"><strong>Scope</strong><br>${archiveCards.length} pages</div></div>`).join('')}</div></div></div></section><section class="section" id="archive"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>Ranked archive</h2><p>Popularity uses inbound compare-page links plus destination frequency and recency, so this is better than pure alphabetical dumping.</p></div></div><div class="archive-toolbar"><input id="searchInput" class="field" type="search" placeholder="Search destinations, tags, or themes…">${archivePrefillRegion ? `<input id="regionFilter" class="field" value="${safeText(archivePrefillRegion)}" disabled>` : `<select id="regionFilter" class="field"><option value="">All regions</option>${regionOptions.map(region => `<option value="${safeText(region)}">${safeText(region)}</option>`).join('')}</select>`}${archivePrefillType ? `<input id="typeFilter" class="field" value="${safeText(archivePrefillType)}" disabled>` : `<select id="typeFilter" class="field"><option value="">All trip types</option>${typeOptions.map(type => `<option value="${safeText(type)}">${safeText(type)}</option>`).join('')}</select>`}<select id="sortFilter" class="field"><option value="popular">Most popular</option><option value="newest">Newest</option><option value="az">A–Z</option></select></div><div class="archive-meta"><div id="resultCount">Showing ${archiveCards.length} comparisons</div><div>Signals: inbound compare links + destination demand + freshness</div></div><div id="archiveList" class="archive-list"></div></div></div></section><section class="section" id="cta"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>Need a trip recommendation?</h2><p>If this hub helped you narrow the field, Tabiji can turn the shortlist into an actual route, city split, or day-by-day plan.</p></div></div><div class="hero-actions"><a class="button primary" href="/plan">Get itinerary</a><a class="button secondary" href="/compare/">Browse all compare pages</a></div></div></div></section></main>
+</head><body>${navHtml()}<main><section class="hero"><div class="shell hero-grid"><div class="hero-copy"><div class="hero-kicker">${safeText(heroKicker)}</div><h1>${safeText(heroTitle)}</h1><p>${safeText(heroText)}</p><div class="hero-actions"><a class="button primary" href="#archive">Browse ranked comparisons</a><a class="button secondary" href="/compare/">Back to compare home</a></div><div class="hero-stats">${heroStats.map(stat => `<div><strong>${safeText(stat.value)}</strong><span>${safeText(stat.label)}</span></div>`).join('')}</div></div><aside class="hero-panel"><h2>${safeText(sidebarTitle)}</h2><div class="hero-list">${sidebarItems.map(item => `<a href="${item.href}"><strong>${safeText(item.title)}</strong><span>${safeText(item.text)}</span></a>`).join('')}</div></aside></div></section><section class="section" id="toc"><div class="shell"><div class="search-panel toc-panel"><div class="section-header"><div><h2>On this page</h2><p>Use the hub like a real browse surface, not a dead-end index.</p></div></div><div class="quick-chips"><a class="chip" href="#popular">Popular picks</a><a class="chip" href="#newest">Newest</a><a class="chip" href="#archive">Ranked archive</a><a class="chip" href="#faq">FAQ</a><a class="chip" href="#cta">Plan a trip</a></div></div></div></section>${sections.join('')}<section class="section" id="faq"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>FAQ</h2><p>Quick answers so these compare hubs read like intentional landing pages, not orphaned utility pages.</p></div></div><div class="archive-list">${faqItems.map(item => `<div class="archive-row"><div><h3>${safeText(item.question)}</h3><p>${safeText(item.answer)}</p></div><div class="archive-label"><strong>Page type</strong><br>Compare hub</div><div class="archive-label"><strong>Use case</strong><br>Browse + shortlist</div><div class="archive-label"><strong>Scope</strong><br>${archiveCards.length} pages</div></div>`).join('')}</div></div></div></section><section class="section" id="archive"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>Ranked archive</h2><p>Popularity uses inbound compare-page links plus destination frequency and recency, so this is better than pure alphabetical dumping.</p></div></div><div class="archive-toolbar"><input id="searchInput" class="field" type="search" placeholder="Search destinations, tags, or themes…">${archivePrefillRegion ? `<input id="regionFilter" class="field" value="${safeText(archivePrefillRegion)}" disabled>` : `<select id="regionFilter" class="field"><option value="">All regions</option>${regionOptions.map(region => `<option value="${safeText(region)}">${safeText(region)}</option>`).join('')}</select>`}${archivePrefillType ? `<input id="typeFilter" class="field" value="${safeText(archivePrefillType)}" disabled>` : `<select id="typeFilter" class="field"><option value="">All trip types</option>${typeOptions.map(type => `<option value="${safeText(type)}">${safeText(type)}</option>`).join('')}</select>`}<select id="sortFilter" class="field"><option value="popular">Most popular</option><option value="newest">Newest</option><option value="az">A–Z</option></select></div><div class="archive-meta"><div id="resultCount">Showing ${archiveCards.length} comparisons</div><div>Signals: inbound compare links + destination demand + freshness</div></div><div id="archiveList" class="archive-list"></div><button id="loadMoreBtn" class="button secondary" style="margin-top:18px;display:none;">Load more comparisons</button></div></div></section><section class="section" id="cta"><div class="shell"><div class="search-panel"><div class="section-header"><div><h2>Need a trip recommendation?</h2><p>If this hub helped you narrow the field, Tabiji can turn the shortlist into an actual route, city split, or day-by-day plan.</p></div></div><div class="hero-actions"><a class="button primary" href="/plan">Get itinerary</a><a class="button secondary" href="/compare/">Browse all compare pages</a></div></div></div></section></main>
 ${footerHtml}
-${renderArchiveScript(archiveCards)}</body></html>`;
+${renderArchiveScript(archiveCards, { region: true, type: true, externalDataUrl })}</body></html>`;
 }
 
 function homepageSections(cards) {
@@ -311,6 +363,11 @@ function writePage(relPath, html) {
 }
 
 const home = homepageSections(cards);
+const sortedCards = sortByPopularity(cards);
+const cardsDataPath = path.join(compareDir, 'cards-data.json');
+fs.writeFileSync(cardsDataPath, JSON.stringify(sortedCards));
+console.log(`Wrote ${sortedCards.length} cards to compare/cards-data.json (${Math.round(fs.statSync(cardsDataPath).size / 1024)}KB)`);
+
 writePage('compare/index.html', pageHtml({
   title: `Travel Comparisons | Compare ${cards.length}+ Destinations Side by Side | Tabiji`,
   metaDescription: `Compare ${cards.length}+ destinations side by side with Tabiji. Search ranked comparisons, browse region hubs, and explore trip-type hubs without wading through a flat archive.`,
@@ -322,7 +379,8 @@ writePage('compare/index.html', pageHtml({
   sidebarTitle: 'Popular routes',
   sidebarItems: home.sidebarItems,
   sections: home.sections,
-  archiveCards: sortByPopularity(cards)
+  archiveCards: sortedCards,
+  externalDataUrl: '/compare/cards-data.json'
 }));
 
 const sitemapUrls = ['/compare/'];
