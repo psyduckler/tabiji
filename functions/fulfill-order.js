@@ -164,6 +164,19 @@ function _doFulfill(order, itineraryData, _orderId) {
   const filePath = path.join(dir, 'index.html');
   fs.writeFileSync(filePath, html, 'utf8');
 
+  // Sync managed shared-head/nav/footer blocks into the fresh page so
+  // build-partials CI doesn't fail on the next PR. Scoped to this one
+  // file — does NOT sweep the whole repo.
+  try {
+    execSync(`python3 scripts/build-partials.py --files ${JSON.stringify(path.relative(REPO_ROOT, filePath))}`, {
+      cwd: REPO_ROOT,
+      stdio: 'inherit',
+    });
+  } catch (err) {
+    console.warn(`⚠️  Failed to sync partials into ${filePath}: ${err.message}`);
+    console.warn('    Page was written, but managed blocks may be stale. Run scripts/sync-partials.sh before committing.');
+  }
+
   // Generate hero background image via nano-banana-pro (Gemini image gen)
   // Generate directly as 1K JPEG — no PNG→JPEG conversion needed
   const heroPath = path.join(dir, 'hero-bg.jpg');

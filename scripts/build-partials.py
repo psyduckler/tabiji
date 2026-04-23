@@ -196,9 +196,25 @@ def main() -> int:
                         help="Dry-run: report drift, write nothing, exit 1 if any file is stale.")
     parser.add_argument("--staged-only", action="store_true",
                         help="Limit the scan to HTML files staged in git (for pre-commit use).")
+    parser.add_argument("--files", nargs="+", default=None, metavar="PATH",
+                        help="Process only the given HTML files (relative or absolute). "
+                             "Useful for generators that just wrote a single page and want to "
+                             "sync it without sweeping the whole repo.")
     args = parser.parse_args()
 
-    if args.staged_only:
+    if args.files:
+        targets = []
+        for f in args.files:
+            p = Path(f)
+            if not p.is_absolute():
+                p = ROOT / p
+            if p.is_file() and _eligible(p):
+                targets.append(p)
+            else:
+                print(f"⚠️  skipping {f}: not a tracked HTML file", file=sys.stderr)
+        if not targets:
+            return 0
+    elif args.staged_only:
         targets = staged_html_files()
         if not targets:
             # No staged HTML — hook has nothing to check.
@@ -221,8 +237,19 @@ def main() -> int:
             print("   Fix: run `scripts/sync-partials.sh`, then re-stage the updated files.",
                   file=sys.stderr)
             return 1
-        scope = "staged" if args.staged_only else "tracked"
-        print(f"✓ All {len(targets)} {scope} HTML file(s) are in sync with _includes/.")
+        if args.files:
+            print(f"✓ All {len(targets)} specified HTML file(s) are in sync with _includes/.")
+        elif args.staged_only:
+            print(f"✓ All {len(targets)} staged HTML file(s) are in sync with _includes/.")
+        else:
+            print(f"✓ All {len(targets)} tracked HTML file(s) are in sync with _includes/.")
+        return 0
+
+    # Non-check mode: rewrite the targets in place.
+    if args.files:
+        # Targeted sync — skip the full-tree validate() (which would touch files
+        # the caller didn't ask about and is slow on large trees).
+        print(f"Updated {len(drifted)}/{len(targets)} HTML file(s)")
         return 0
 
     # Full explicit sync: rewrite + validate.
