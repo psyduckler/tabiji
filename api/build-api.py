@@ -2442,6 +2442,19 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     )
 
     paths = spec.setdefault('paths', {})
+
+    # Keep per-endpoint description counts in sync with ground truth.
+    # Earlier revisions let these drift — only info.description was regenerated.
+    endpoint_desc_updates = {
+        '/destinations.json': f"Returns all {dest_count} destinations with budget level, best season, vibes, travel styles, and a one-line pitch.",
+        '/picks.json': f"Returns all {picks_count} curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
+        '/itineraries.json': f"Returns all {itin_count} day-by-day travel itineraries with summary metadata.",
+        '/compare.json': f"Returns all {compare_count} head-to-head destination comparisons with summary metadata.",
+    }
+    for path_key, desc in endpoint_desc_updates.items():
+        if path_key in paths and 'get' in paths[path_key]:
+            paths[path_key]['get']['description'] = desc
+
     if '/search.json' in paths:
         search_get = paths['/search.json'].setdefault('get', {})
         for param in search_get.get('parameters', []):

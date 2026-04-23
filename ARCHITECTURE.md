@@ -129,17 +129,18 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 
 | Directory | Count | Description |
 |-----------|-------|-------------|
-| `popular-picks/` | ~1,439 | Food & activity guides (SEO backbone) |
-| `compare/` | ~1,158 | VS comparison pages (e.g., Bali vs Thailand) |
-| `i/` | ~352 | Paid customer itineraries (delivered products) |
-| `alerts/` | ~224 | Travel safety alerts by country |
-| `scams/` | ~99 | Scam awareness pages by destination |
-| `health/` | ~52 | Health & vaccination info by destination |
-| `credit-cards/` | ~50 | Travel credit card reviews |
+| `popular-picks/` | ~1,001 | Food & activity guides (SEO backbone) |
+| `compare/` | ~926 | VS comparison pages (e.g., Bali vs Thailand) |
+| `scams/` | ~546 | Scam awareness pages by destination |
+| `i/` | ~395 | Paid customer itineraries (delivered products) |
+| `health/` | ~228 | Health & vaccination info by destination |
+| `countries/` | ~211 | Country info pages |
+| `destinations/` | ~69 | City destination pages |
+| `credit-cards/` | ~49 | Travel credit card reviews |
 | `itineraries/` | ~49 | Free curated itineraries |
-| `resources/` | ~35 | Blog / resource articles |
+| `resources/` | ~14 | Blog / resource articles |
 | `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
-| `destinations/` | 9 | Legacy city destination pages |
+| `recommend/` | 11 | Theme-based recommendation pages |
 
 ### 3.3 Top-Level Layout
 
@@ -155,18 +156,17 @@ tabiji/
 ├── manifest.json / sw.js    ← PWA support
 ├── deploy.sh                ← clean-push deploy helper
 │
-├── i/                       ← paid itineraries (352 slugs)
-├── popular-picks/           ← food/activity guides (1,439 slugs)
-├── compare/                 ← VS comparison pages (1,158 slugs)
-├── alerts/                  ← travel safety alerts (224 countries)
-├── scams/                   ← scam awareness pages (99 destinations)
-├── health/                  ← health info pages (52 destinations)
-├── credit-cards/            ← credit card reviews (50 cards)
+├── i/                       ← paid itineraries (395 slugs)
+├── popular-picks/           ← food/activity guides (1,001 slugs)
+├── compare/                 ← VS comparison pages (926 slugs)
+├── scams/                   ← scam awareness pages (546 destinations)
+├── health/                  ← health info pages (228 destinations)
+├── countries/               ← country info pages (211 countries)
+├── destinations/            ← city destination pages (69 cities)
+├── credit-cards/            ← credit card reviews (49 cards)
 ├── itineraries/             ← free curated itineraries (49 slugs)
-├── resources/               ← blog/articles (35 slugs)
+├── resources/               ← blog/articles (14 slugs)
 ├── best-places-to-visit-in-*/ ← monthly guides (12 months)
-├── destinations/            ← legacy city pages (9 cities)
-├── country/                 ← country info pages
 │
 ├── find/                    ← destination finder tool
 ├── owl/                     ← Owl interactive assistant
@@ -182,7 +182,7 @@ tabiji/
 ├── functions/               ← core scripts (fulfillment, enrichment, email)
 ├── scripts/                 ← batch generators, one-off scripts, utilities
 ├── generators/              ← page generators (compare, popular-picks)
-├── api/                     ← static JSON API + build script (~10,991 JSON files)
+├── api/                     ← static JSON API + build script (~1,703 JSON files)
 ├── _includes/               ← shared HTML partials (nav, footer, head)
 ├── .well-known/             ← agent discovery (ai-plugin.json, agents.json)
 ├── .githooks/               ← pre-commit hooks (itinerary safeguards)
@@ -316,7 +316,7 @@ Every page has its **own copy** of the nav and footer baked in. Shared partials 
 
 ## 6. API Layer
 
-Static JSON API at `/api/v1/` — **~10,991 pre-built JSON files**. Built by `api/build-api.py` which reads all HTML pages and extracts structured data. Zero runtime cost — just static files served by Cloudflare Pages.
+Static JSON API at `/api/v1/` — **~1,703 pre-built JSON files (after #289 consolidated 6,907 per-slug destination files into a single bundle served by a Pages Function)**. Built by `api/build-api.py` which reads all HTML pages and extracts structured data. Zero runtime cost — just static files served by Cloudflare Pages.
 
 Agent discovery files in `.well-known/` (`ai-plugin.json`, `agents.json`) allow AI tools to discover and use the API.
 
@@ -452,7 +452,7 @@ All secrets accessed via `security find-generic-password` at runtime. Nothing ha
 Other dependency chains:
 - Popular-picks creation → `enrich-popular-picks.py` → `aeo-upgrade-popular-picks.py` → `add-related-links.js`
 - Travel alerts → `build-travel-alerts.py` generates all 224 alert pages
-- API → `api/build-api.py` reads all HTML pages to generate ~10,991 JSON files
+- API → `api/build-api.py` reads all HTML pages to generate ~1,703 JSON files
 
 ---
 
