@@ -1895,6 +1895,12 @@ SAFETY_TIPS = {
         "Refuse every 'Grab' driver pitch in Kaohsiung — Grab does not operate in Taiwan, so any Grab offer is always a scam",
         "Keep hands in pockets at Dream Mall and Shinkuchan when kiosk staff step into your path with 'free sample' skincare cream",
     ],
+    "Tainan": [
+        "Book Tainan minsu and Airbnb only through verified platforms — never pay deposits via LINE Pay, Western Union, wire transfer, or gift cards",
+        "Legitimate Taiwan bank transfers go to a Post Office or named Taiwanese bank (Cathay, CTBC, Mega, First) — never overseas accounts",
+        "At Anping Old Street, Shennong Street, and Tainan night markets, ask the price of every item before it is rung up and demand an itemized receipt",
+        "Taiwan police do not investigate by phone or video — hang up immediately on any call demanding payment, and call 165 anti-fraud hotline",
+    ],
     "Dallas": [
         "Use only the official yellow-taxi queue at DFW or Love Field, or order Uber/Lyft from the app's designated pickup zone — never accept curbside approaches",
         "Take the DART Orange Line from DFW Airport to downtown Dallas for $ 3.00 one-way (about 50 minutes) — the scam-proof backup when the taxi queue feels off",
@@ -3972,6 +3978,18 @@ FAQS = {
          "Uber and Lyft will never call you to ask for a verification code. Any inbound call claiming 'unusual activity' and asking you to read a code aloud is a scam — hang up and open the app directly. KHOU Houston broadcast a warning in October 2025 after multiple local account takeovers. If you accidentally share a code, change your password within 60 seconds and remove stored payment methods."),
         ("What should I do if I'm scammed in Houston?",
          "Call Houston Police non-emergency at 713-884-3131 for downtown incidents or IAH/Hobby Airport Police for airport incidents. File a formal report within 24 hours so travel insurance and card disputes are valid. The City of Houston Property and Financial Crimes Division accepts formal reports at 713-308-3300. Report the pattern to the Texas Attorney General's consumer-protection line at 800-621-0508 and to the FTC at reportfraud.ftc.gov."),
+    ],
+    "Tainan": [
+        ("Is Tainan safe for tourists?",
+         "Tainan is one of Taiwan's safest and most charming cities — the cultural capital with dense Historic District lanes, Anping Old Street, and low violent crime. The few tourist-facing risks are financial: Airbnb and minsu off-platform deposit fraud, Anping souvenir-shop receipt padding and 'market price' food overcharges, and the Taiwan-wide AI fake-police phone/SMS scam surge that reached Tainan in 2025-2026. Tainan Police non-emergency is +886 6 229 5366."),
+        ("How do I avoid Tainan minsu and Airbnb booking fraud?",
+         "Book only through Airbnb, Booking.com, Agoda, or a verified minsu website with a Taiwan Tourism Administration license number visible. Never pay a deposit via LINE Pay, Western Union, wire transfer, or gift cards. Legitimate Taiwan bank transfers go to a Post Office or named local bank (Cathay, CTBC, Mega, First) — any request to pay to an overseas account is a scam. Cross-check listing photos and the address on Google Maps before paying."),
+        ("What should I watch for at Anping Old Street?",
+         "Anping Old Street is safe but dense with tourists, which creates receipt-padding conditions. Ask the price of every item before it is rung up, demand an itemized receipt, and cross-check line items against the bag before leaving. Tea stalls quoting 'premium Ali Shan oolong' at NT$ 3,000 to NT$ 5,000 per 150 grams are overcharging — buy tea at registered Tainan tea shops instead. Food vendors quoting 'market price' instead of posted rates often charge foreigners more."),
+        ("What is the AI fake-police scam in Tainan?",
+         "Taiwan-wide 2025-2026 scam surge with live video calls from 'police officers' or 'prosecutors' claiming the tourist's passport is flagged for money laundering. Demands are always cryptocurrency, gift cards, or bank transfers to 'clear' the case before departure. Taipei Times 2026-04-22 reported the Taichung District Prosecutors indicted 18 operators running this ring. Hang up immediately and call 165 (anti-fraud) or +886 6 229 5366 (Tainan Police)."),
+        ("What should I do if I'm scammed in Tainan?",
+         "Call Tainan Police non-emergency at +886 6 229 5366. Taiwan's anti-fraud hotline is 165 and the consumer-protection hotline is 1950. For English-speaking support, call the tourism hotline 0800-011-765 (or +886 2 2717 3737 from abroad). The American Institute in Taiwan main line is +886 2 2162 2000. For fraudulent booking disputes, contact your card issuer within 30 days for chargeback."),
     ],
     "Kaohsiung": [
         ("Is Kaohsiung safe for tourists?",
