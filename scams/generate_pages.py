@@ -1889,6 +1889,12 @@ SAFETY_TIPS = {
         "At Taichung Airport (RMQ), HSR Station, and Main Station, use the official yellow-taxi queue with the meter required or the Uber app",
         "At Fengjia, Yizhong Street, and Second Market, demand an itemized receipt before paying and cross-check against items in the bag",
     ],
+    "Kaohsiung": [
+        "Never accept a flag, keychain, or trinket pressed into your hand at Kaohsiung Main Station — fake 'deaf-mute' begpacker vendors target tourists",
+        "Take the Kaohsiung MRT Red Line from KHH Airport directly to downtown for NT$ 35 to NT$ 60 contactless via EasyCard — the scam-proof backup",
+        "Refuse every 'Grab' driver pitch in Kaohsiung — Grab does not operate in Taiwan, so any Grab offer is always a scam",
+        "Keep hands in pockets at Dream Mall and Shinkuchan when kiosk staff step into your path with 'free sample' skincare cream",
+    ],
     "Dallas": [
         "Use only the official yellow-taxi queue at DFW or Love Field, or order Uber/Lyft from the app's designated pickup zone — never accept curbside approaches",
         "Take the DART Orange Line from DFW Airport to downtown Dallas for $ 3.00 one-way (about 50 minutes) — the scam-proof backup when the taxi queue feels off",
@@ -3966,6 +3972,18 @@ FAQS = {
          "Uber and Lyft will never call you to ask for a verification code. Any inbound call claiming 'unusual activity' and asking you to read a code aloud is a scam — hang up and open the app directly. KHOU Houston broadcast a warning in October 2025 after multiple local account takeovers. If you accidentally share a code, change your password within 60 seconds and remove stored payment methods."),
         ("What should I do if I'm scammed in Houston?",
          "Call Houston Police non-emergency at 713-884-3131 for downtown incidents or IAH/Hobby Airport Police for airport incidents. File a formal report within 24 hours so travel insurance and card disputes are valid. The City of Houston Property and Financial Crimes Division accepts formal reports at 713-308-3300. Report the pattern to the Texas Attorney General's consumer-protection line at 800-621-0508 and to the FTC at reportfraud.ftc.gov."),
+    ],
+    "Kaohsiung": [
+        ("Is Kaohsiung safe for tourists?",
+         "Kaohsiung is among Taiwan's safest cities — the community consensus on r/Kaohsiung is that scam density is very low and taxi drivers sometimes argue when tourists try to tip them. The few tourist-facing risks are financial: the Kaohsiung Main Station 'I love Taiwan' flag-vendor scam (r/taiwan 115-upvote 2025 anchor), KHH Airport and Zuoying HSR illegal-taxi solicitation, and night-market receipt padding at Liuhe, Ruifeng, and Cijin Old Street."),
+        ("What is the 'I love Taiwan' flag vendor scam?",
+         "Young foreign women at Kaohsiung Main Station and Formosa Boulevard MRT hold laminated 'deaf and mute' cards, press flags or keychains into tourists' hands, and demand NT$ 100 to NT$ 500 cash. The 'begpacker' term applies — Western backpackers funding travel by soliciting rather than working. The deaf-mute framing is typically fake. Return any unsolicited item immediately and walk away without engaging."),
+        ("Is KHH Airport taxi safe?",
+         "Use only the official yellow-taxi queue at KHH with the meter required, or the Uber app. The Kaohsiung MRT Red Line connects KHH directly to downtown for NT$ 35 to NT$ 60 contactless via EasyCard — the scam-proof backup. Refuse every 'Grab' pitch; Grab does not operate in Taiwan, so any Grab offer is always a scam. Legitimate metered fare to downtown is NT$ 300 to NT$ 500."),
+        ("Are Kaohsiung night markets safe?",
+         "Yes — Liuhe, Ruifeng, and Cijin Old Street are safe, but ask the price of every item before it is rung up and demand an itemized receipt. Stalls that quote 'market price' instead of posted prices often charge foreigners two to three times the local rate. Tea stalls marketing 'premium Ali Shan oolong' at NT$ 3,000 to NT$ 5,000 per 150 grams are overcharging — buy tea at registered Kaohsiung tea shops instead."),
+        ("What should I do if I'm scammed in Kaohsiung?",
+         "Call Kaohsiung Police non-emergency at +886 7 221 5796 for downtown incidents or Zuoying HSR transit police at +886 7 588 7001. Taiwan's anti-fraud hotline is 165 and the consumer-protection hotline is 1950. For English-speaking support, call the tourism hotline 0800-011-765 (or +886 2 2717 3737 from abroad). The American Institute in Taiwan Kaohsiung Branch is +886 7 335 5006."),
     ],
     "Taichung": [
         ("Is Taichung safe for tourists?",
