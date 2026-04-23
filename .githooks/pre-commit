@@ -1,14 +1,28 @@
 #!/bin/bash
+# Pre-commit hook: verify (don't rewrite) shared partials + guard itinerary assets.
+#
+# This used to sweep every tracked HTML file through build-partials.py and
+# `git add` the lot. That caused massive cross-branch merge conflicts whenever
+# two agents worked in parallel, because any partial edit (or even normal
+# drift) would pull hundreds of unrelated pages into both branches' commits.
+#
+# The new contract:
+#   - Commits only touch the files the developer actually modified.
+#   - build-partials.py --check --staged-only verifies the staged subset is
+#     in sync with _includes/ and fails the commit if not, with a clear fix.
+#   - When _includes/*.html changes, run `scripts/sync-partials.sh` explicitly
+#     to propagate across the repo.
+#   - CI (.github/workflows/check-partials.yml) runs the same check across
+#     every tracked HTML at PR time, so drift can't land silently.
+
 set -euo pipefail
 
-# Refresh managed nav/footer/head blocks before every commit.
-python3 scripts/build-partials.py
+# 1. Verify any staged HTML has up-to-date managed blocks.
+if ! python3 scripts/build-partials.py --check --staged-only; then
+  exit 1
+fi
 
-git add _includes assets/shared-shell.css assets/shared-shell.js scripts/build-partials.py
-
-git ls-files -z -- '*.html' ':(exclude)tmp/**' | xargs -0 git add --
-
-# Reject new itinerary HTML without hero-bg assets.
+# 2. Reject new itinerary HTML without hero-bg assets.
 staged_html=$(git diff --cached --name-only --diff-filter=A | grep '^i/.*/index\.html$' || true)
 
 if [ -z "$staged_html" ]; then

@@ -1,7 +1,31 @@
 #!/usr/bin/env python3
+"""Sync managed shared-head/nav/footer blocks from _includes/ into HTML pages.
+
+Default mode (no args): walks every tracked HTML file and rewrites the
+managed blocks in-place. Used by the explicit sync workflow
+(scripts/sync-partials.sh) when _includes/*.html changes.
+
+--check: dry-run. Reports which files have stale managed blocks, writes
+nothing, exits 1 if any drift is found. Used by CI to fail PRs with
+outdated partials.
+
+--staged-only: restrict the scan to HTML files currently staged in git
+(diff-filter=AM). Pairs with --check in .githooks/pre-commit so a normal
+commit only verifies the files the developer actually touched — no more
+sweeping auto-rewrites of unrelated pages across the repo.
+
+The old behavior (pre-commit auto-rewrites + `git add` every HTML file)
+was the root cause of massive cross-branch merge conflicts whenever more
+than one agent worked in parallel. This script still does the same
+rewrite work when invoked explicitly, but it no longer runs as a
+side-effect of every commit.
+"""
 from __future__ import annotations
 
+import argparse
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,20 +45,26 @@ PARTIALS = {
     "footer-default": (INCLUDES / "footer-default.html").read_text().strip(),
 }
 
-HTML_FILES = [
-    p for p in ROOT.rglob("*.html")
-    if ".git" not in p.parts
-    and "node_modules" not in p.parts
-    and "tmp" not in p.parts
-    and not p.is_relative_to(INCLUDES)
-]
+
+def _eligible(path: Path) -> bool:
+    """Matches the exclusions used by HTML_FILES scanning."""
+    if ".git" in path.parts or "node_modules" in path.parts or "tmp" in path.parts:
+        return False
+    if path.is_relative_to(INCLUDES):
+        return False
+    return True
+
+
+HTML_FILES = [p for p in ROOT.rglob("*.html") if _eligible(p)]
 
 
 def managed_block(start: str, content: str, end: str) -> str:
     return f"{start}\n{content}\n{end}"
 
 
-def replace_or_insert(text: str, start: str, end: str, content: str, fallback_pattern: str | None = None, fallback_repl: str | None = None) -> tuple[str, bool]:
+def replace_or_insert(text: str, start: str, end: str, content: str,
+                      fallback_pattern: str | None = None,
+                      fallback_repl: str | None = None) -> tuple[str, bool]:
     block = managed_block(start, content, end)
     marker_re = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
     if marker_re.search(text):
@@ -47,10 +77,13 @@ def replace_or_insert(text: str, start: str, end: str, content: str, fallback_pa
             return text, False
     else:
         return text, False
-    # Remove stray duplicate end markers left by earlier runs
-    dup = f"{end}\n{end}"
-    while dup in updated:
-        updated = updated.replace(dup, end)
+    # Remove stray duplicate markers left by earlier runs. Pre-existing pages
+    # sometimes had orphan start markers (or orphan end markers) accumulate
+    # from fallback re-inserts. Collapse consecutive duplicates on both sides.
+    for marker in (start, end):
+        dup = f"{marker}\n{marker}"
+        while dup in updated:
+            updated = updated.replace(dup, marker)
     return updated, updated != text
 
 
@@ -67,7 +100,11 @@ def footer_partial_for(path: Path) -> str:
     return PARTIALS["footer-default"]
 
 
-def process_file(path: Path) -> bool:
+def process_file(path: Path, write: bool = True) -> bool:
+    """Rewrite managed blocks in `path`. Returns True if content would change.
+
+    When write=False, computes the diff but doesn't touch the file.
+    """
     rel = path.relative_to(ROOT)
     original = path.read_text()
     text = original
@@ -104,15 +141,16 @@ def process_file(path: Path) -> bool:
         )
 
     if text != original:
-        path.write_text(text)
+        if write:
+            path.write_text(text)
         return True
     return False
 
 
-def validate() -> None:
+def validate(targets: list[Path]) -> None:
     unresolved = []
     missing = []
-    for path in HTML_FILES:
+    for path in targets:
         text = path.read_text()
         if "@include:" in text:
             for marker in re.findall(r"@include:[^:]+(?=:start|:end)?", text):
@@ -133,11 +171,65 @@ def validate() -> None:
         raise SystemExit("\n".join(lines))
 
 
-def main() -> None:
-    changed = sum(1 for path in HTML_FILES if process_file(path))
-    validate()
-    print(f"Updated {changed} HTML files")
+def staged_html_files() -> list[Path]:
+    """HTML files currently staged for commit (added or modified)."""
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=AM"],
+        capture_output=True, text=True, cwd=ROOT,
+    )
+    if result.returncode != 0:
+        return []
+    out: list[Path] = []
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line or not line.endswith(".html"):
+            continue
+        p = ROOT / line
+        if p.is_file() and _eligible(p):
+            out.append(p)
+    return out
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--check", action="store_true",
+                        help="Dry-run: report drift, write nothing, exit 1 if any file is stale.")
+    parser.add_argument("--staged-only", action="store_true",
+                        help="Limit the scan to HTML files staged in git (for pre-commit use).")
+    args = parser.parse_args()
+
+    if args.staged_only:
+        targets = staged_html_files()
+        if not targets:
+            # No staged HTML — hook has nothing to check.
+            return 0
+    else:
+        targets = HTML_FILES
+
+    drifted = [p for p in targets if process_file(p, write=not args.check)]
+
+    if args.check:
+        if drifted:
+            print(f"❌ {len(drifted)} HTML file(s) have stale managed blocks "
+                  f"(shared-head / nav / footer out of sync with _includes/):",
+                  file=sys.stderr)
+            for p in drifted[:20]:
+                print(f"   {p.relative_to(ROOT)}", file=sys.stderr)
+            if len(drifted) > 20:
+                print(f"   ... and {len(drifted) - 20} more", file=sys.stderr)
+            print(file=sys.stderr)
+            print("   Fix: run `scripts/sync-partials.sh`, then re-stage the updated files.",
+                  file=sys.stderr)
+            return 1
+        scope = "staged" if args.staged_only else "tracked"
+        print(f"✓ All {len(targets)} {scope} HTML file(s) are in sync with _includes/.")
+        return 0
+
+    # Full explicit sync: rewrite + validate.
+    validate(HTML_FILES)
+    print(f"Updated {len(drifted)} HTML file(s)")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
