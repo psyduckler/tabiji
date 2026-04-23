@@ -445,3 +445,202 @@
       .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
       .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
 
+/* ══════════════════════════════════════════════════════════
+   Restored modules (previously inline, lost in 917cbb2b29
+   extraction): personalize-widget, quick-answers, scorecard,
+   cost-widget, weather-chart, deep-dive (dd-*), also-compared,
+   score-ticker, jump-verdict.
+   Used on 339 compare pages. Dest1 = indigo, dest2 = terracotta
+   for generic templated pages. madrid/barcelona variants kept
+   for the madrid-vs-barcelona page which still uses those
+   suffixes literally.
+   ══════════════════════════════════════════════════════════ */
+:root { --madrid:#C0392B; --barcelona:#2E86C1; --tie-color:#7A8B6F; --dest1-color:var(--indigo); --dest2-color:var(--terracotta); }
+
+/* ── Hero subtitle (missing .subtitle inside .hero) ── */
+.hero .subtitle { color:var(--text-muted); font-size:1.05rem; line-height:1.6; margin-bottom:1rem; }
+
+/* ── Personalization widget ── */
+.personalize-widget { max-width:680px; margin:0 auto 2rem; padding:1.25rem 1.5rem; background:var(--warm-cream); border-radius:14px; }
+.personalize-widget h2 { font-size:1rem; color:var(--indigo); margin-bottom:0.75rem; font-weight:600; }
+.personalize-row { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.6rem; flex-wrap:wrap; }
+.personalize-row label { font-size:0.88rem; color:var(--text-muted); min-width:110px; font-weight:500; }
+.pill-group { display:flex; gap:0.4rem; flex-wrap:wrap; }
+.personalize-pill { padding:0.3rem 0.85rem; border-radius:16px; border:1.5px solid var(--sand); background:var(--white); font-size:0.82rem; cursor:pointer; transition:all 0.2s; color:var(--text); }
+.personalize-pill:hover { border-color:var(--terracotta); }
+.personalize-pill.selected { border-color:var(--terracotta); background:var(--terracotta); color:#fff; }
+.personalize-result { margin-top:0.75rem; padding:0.85rem 1rem; background:var(--white); border-radius:10px; border-left:3px solid var(--terracotta); font-size:0.92rem; line-height:1.6; display:none; }
+.personalize-result.visible { display:block; }
+
+/* ── Sticky score ticker ── */
+.score-ticker { position:sticky; top:64px; z-index:90; background:rgba(254,252,249,0.95); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--sand); padding:0.5rem 1.5rem; display:flex; align-items:center; justify-content:center; gap:1.2rem; font-size:0.88rem; transform:translateY(-100%); opacity:0; transition:transform 0.3s,opacity 0.3s; }
+.score-ticker.visible { transform:translateY(0); opacity:1; }
+.score-ticker .score-label { font-weight:700; }
+.score-ticker .score-madrid, .score-ticker .score-dest1 { color:var(--madrid); }
+.score-ticker .score-barcelona, .score-ticker .score-dest2 { color:var(--barcelona); }
+.score-ticker .score-section { color:var(--text-muted); font-size:0.82rem; }
+.score-ticker .score-divider { color:var(--sand); }
+
+/* ── Quick answers ── */
+.quick-answers { margin-bottom:2.5rem; }
+.quick-answers h2 { font-size:1.3rem; margin-bottom:1rem; color:var(--indigo); }
+.qa-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+.qa-card { padding:1rem 1.15rem; background:var(--white); border:1.5px solid var(--sand); border-radius:12px; cursor:pointer; transition:all 0.2s; text-decoration:none; color:inherit; display:block; }
+.qa-card:hover { border-color:var(--terracotta); box-shadow:0 2px 12px rgba(196,112,75,0.08); }
+.qa-card .qa-q { font-size:0.88rem; font-weight:600; color:var(--indigo); margin-bottom:0.35rem; }
+.qa-card .qa-a { font-size:0.85rem; color:var(--text-muted); line-height:1.5; }
+.qa-card .qa-winner { display:inline-block; font-size:0.75rem; font-weight:600; padding:0.15rem 0.5rem; border-radius:10px; margin-top:0.35rem; }
+.qa-winner.madrid, .qa-winner.dest1 { background:rgba(45,58,92,0.1); color:var(--indigo); }
+.qa-winner.barcelona, .qa-winner.dest2 { background:rgba(196,112,75,0.1); color:var(--terracotta); }
+.qa-winner.tie { background:rgba(122,139,111,0.1); color:var(--tie-color); }
+.qa-card .qa-winner.madrid { background:rgba(192,57,43,0.1); color:var(--madrid); }
+.qa-card .qa-winner.barcelona { background:rgba(46,134,193,0.1); color:var(--barcelona); }
+
+/* ── Visual Scorecard ── */
+.scorecard { margin-bottom:2.5rem; }
+.scorecard h2 { font-size:1.3rem; margin-bottom:1rem; color:var(--indigo); }
+.scorecard-overall { display:flex; align-items:center; justify-content:center; gap:2rem; padding:1rem; background:var(--warm-cream); border-radius:12px; margin-bottom:1rem; }
+.scorecard-city { text-align:center; }
+.scorecard-city .city-name { font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; }
+.scorecard-city .city-score { font-size:2rem; font-weight:700; }
+.scorecard-city.madrid .city-name, .scorecard-city.madrid .city-score { color:var(--madrid); }
+.scorecard-city.barcelona .city-name, .scorecard-city.barcelona .city-score { color:var(--barcelona); }
+.scorecard-city.dest1 .city-name, .scorecard-city.dest1 .city-score { color:var(--indigo); }
+.scorecard-city.dest2 .city-name, .scorecard-city.dest2 .city-score { color:var(--terracotta); }
+.scorecard-vs { font-size:1.2rem; color:var(--earth-light); font-weight:600; }
+.scorecard-rows { display:flex; flex-direction:column; gap:0.5rem; }
+.sc-row { display:grid; grid-template-columns:130px 1fr 60px; align-items:center; gap:0.75rem; padding:0.6rem 0.75rem; border-radius:10px; cursor:pointer; transition:background 0.15s; text-decoration:none; color:inherit; }
+.sc-row:hover { background:rgba(196,112,75,0.04); }
+.sc-row .sc-cat { font-size:0.85rem; font-weight:500; }
+.sc-bars { display:flex; gap:4px; align-items:center; height:22px; }
+.sc-bar-wrap { flex:1; height:100%; background:#f0ebe3; border-radius:6px; overflow:hidden; position:relative; display:block; }
+.sc-bar { height:100%; border-radius:6px; transition:width 0.6s ease; display:block; }
+.sc-bar.madrid { background:var(--madrid); }
+.sc-bar.barcelona { background:var(--barcelona); }
+.sc-bar.dest1 { background:var(--indigo); }
+.sc-bar.dest2 { background:var(--terracotta); }
+.sc-winner { font-size:0.78rem; font-weight:600; text-align:right; white-space:nowrap; }
+.sc-winner.madrid { color:var(--madrid); }
+.sc-winner.barcelona { color:var(--barcelona); }
+.sc-winner.dest1 { color:var(--indigo); }
+.sc-winner.dest2 { color:var(--terracotta); }
+.sc-winner.tie { color:var(--tie-color); }
+
+/* ── Cost comparison widget ── */
+.cost-widget { margin-bottom:2.5rem; background:var(--white); border:1.5px solid var(--sand); border-radius:16px; padding:1.5rem; }
+.cost-widget h2 { font-size:1.2rem; margin-bottom:1rem; color:var(--indigo); }
+.cost-savings { margin-top:0.75rem; padding:0.65rem 1rem; background:rgba(196,112,75,0.06); border-radius:10px; font-size:0.88rem; color:var(--terracotta); font-weight:500; text-align:center; }
+
+/* ── Weather chart (12-month grid) ── */
+.weather-chart { margin-bottom:2.5rem; background:var(--white); border:1.5px solid var(--sand); border-radius:16px; padding:1.5rem; }
+.weather-chart h2 { font-size:1.2rem; margin-bottom:0.35rem; color:var(--indigo); }
+.weather-chart .weather-note { font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem; }
+.weather-months { display:grid; grid-template-columns:repeat(12,1fr); gap:0.35rem; }
+.weather-month { text-align:center; }
+.weather-month .wm-label { font-size:0.7rem; font-weight:600; color:var(--earth-light); text-transform:uppercase; margin-bottom:0.35rem; }
+.weather-month .wm-temps { font-size:0.75rem; line-height:1.6; }
+.weather-month .wm-madrid { color:var(--madrid); font-weight:500; }
+.weather-month .wm-barcelona { color:var(--barcelona); font-weight:500; }
+.weather-month .wm-dest1 { color:var(--indigo); font-weight:500; }
+.weather-month .wm-dest2 { color:var(--terracotta); font-weight:500; }
+.weather-month.best { background:rgba(122,139,111,0.12); border-radius:8px; padding:0.3rem 0; }
+.weather-month.avoid { background:rgba(192,57,43,0.06); border-radius:8px; padding:0.3rem 0; }
+.weather-legend { display:flex; gap:1.5rem; margin-top:0.75rem; justify-content:center; font-size:0.78rem; color:var(--text-muted); flex-wrap:wrap; }
+.weather-legend span { display:inline-flex; align-items:center; gap:0.3rem; }
+.legend-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
+.legend-dot.madrid { background:var(--madrid); }
+.legend-dot.barcelona { background:var(--barcelona); }
+.legend-dot.dest1 { background:var(--indigo); }
+.legend-dot.dest2 { background:var(--terracotta); }
+.legend-dot.best { background:rgba(122,139,111,0.5); }
+
+/* ── Deep-dive collapsibles (dd-*) ── */
+.dd-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 0; cursor:pointer; gap:0.75rem; }
+.dd-header h2 { font-size:1.15rem; margin:0; flex:1; }
+.dd-header-meta { display:flex; align-items:center; gap:0.75rem; flex-shrink:0; }
+.dd-winner-badge { font-size:0.75rem; font-weight:600; padding:0.2rem 0.65rem; border-radius:12px; white-space:nowrap; }
+.dd-winner-badge.madrid { background:rgba(192,57,43,0.1); color:var(--madrid); }
+.dd-winner-badge.barcelona { background:rgba(46,134,193,0.1); color:var(--barcelona); }
+.dd-winner-badge.dest1 { background:rgba(45,58,92,0.1); color:var(--indigo); }
+.dd-winner-badge.dest2 { background:rgba(196,112,75,0.1); color:var(--terracotta); }
+.dd-winner-badge.tie { background:rgba(122,139,111,0.1); color:var(--tie-color); }
+.dd-toggle { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--sand); background:var(--white); display:flex; align-items:center; justify-content:center; font-size:0.75rem; color:var(--earth-light); transition:all 0.2s; flex-shrink:0; }
+.deep-dive.open .dd-toggle { transform:rotate(180deg); border-color:var(--terracotta); color:var(--terracotta); }
+.dd-summary { font-size:0.9rem; color:var(--text-muted); margin-bottom:0.5rem; line-height:1.5; }
+.dd-body { overflow:hidden; max-height:0; transition:max-height 0.4s ease; }
+.deep-dive.open .dd-body { max-height:5000px; }
+.dd-content { padding:0 0 1.5rem; }
+.dd-content p { margin-bottom:1rem; line-height:1.7; }
+.dd-content .section-img { width:100%; border-radius:12px; margin-bottom:1rem; }
+.dd-content .photo-pair { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem; }
+.dd-content .photo-pair img { width:100%; border-radius:10px; aspect-ratio:16/10; object-fit:cover; }
+.dd-content .photo-pair .photo-caption { font-size:0.78rem; color:var(--text-muted); text-align:center; margin-top:0.25rem; }
+.photo-pair { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem; }
+.photo-pair img { width:100%; border-radius:10px; aspect-ratio:16/10; object-fit:cover; }
+.photo-caption { font-size:0.8rem; color:var(--text-muted); text-align:center; margin-top:0.35rem; }
+
+/* ── Decision-card variants referenced alongside dest1-card/dest2-card ── */
+.decision-card { padding:1.25rem; border-radius:14px; }
+.decision-card h3 { font-size:1.05rem; margin-bottom:0.75rem; }
+.decision-card ul { padding-left:1.1rem; }
+.decision-card li { font-size:0.88rem; line-height:1.6; margin-bottom:0.35rem; color:var(--text-muted); }
+
+/* ── CTA buttons (madrid/barcelona literal variants) ── */
+.cta-btn-madrid, .cta-btn-barcelona { padding:0.7rem 1.5rem; border-radius:10px; text-decoration:none; font-weight:600; font-size:0.95rem; transition:all 0.2s; display:inline-block; }
+.cta-btn-madrid { background:var(--madrid); color:#fff; }
+.cta-btn-madrid:hover { background:#a93226; }
+.cta-btn-barcelona { background:var(--barcelona); color:#fff; }
+.cta-btn-barcelona:hover { background:#2475a8; }
+.cta-plan-box { background:var(--warm-cream); border-radius:12px; padding:1.25rem 1.5rem; margin:1.5rem 0; text-align:center; }
+
+/* ── Travelers also compared ── */
+.also-compared { margin-bottom:2rem; }
+.also-compared h2 { font-size:1.2rem; margin-bottom:1rem; color:var(--indigo); }
+.also-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
+.also-card { border:1.5px solid var(--sand); border-radius:12px; overflow:hidden; text-decoration:none; color:inherit; transition:all 0.2s; display:block; }
+.also-card:hover { border-color:var(--terracotta); box-shadow:0 2px 12px rgba(196,112,75,0.1); }
+.also-card img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+.also-card-body { padding:0.85rem; }
+.also-card-title { font-size:0.92rem; font-weight:600; color:var(--indigo); margin-bottom:0.25rem; }
+.also-card-desc { font-size:0.8rem; color:var(--text-muted); line-height:1.5; }
+.also-card-vol { font-size:0.72rem; color:var(--earth-light); margin-top:0.35rem; }
+
+/* ── Related-comparisons alias (used by some newer pages) ── */
+.related-comparisons { margin-bottom:2rem; }
+.related-comparisons h2 { font-size:1.2rem; margin-bottom:1rem; color:var(--indigo); }
+.related-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
+.related-card { border:1.5px solid var(--sand); border-radius:12px; overflow:hidden; text-decoration:none; color:inherit; transition:all 0.2s; display:block; padding:0.85rem; }
+.related-card:hover { border-color:var(--terracotta); box-shadow:0 2px 12px rgba(196,112,75,0.1); }
+.related-meta { font-size:0.78rem; color:var(--earth-light); margin-top:0.35rem; }
+
+/* ── Mobile toc arrow (missing rotation helper) ── */
+.toc-mobile-arrow { transition:transform 0.2s; display:inline-block; }
+.toc-mobile-sticky.open .toc-mobile-arrow { transform:rotate(180deg); }
+
+/* ── Mobile jump-to-verdict button ── */
+.jump-verdict { display:none; position:fixed; bottom:1.25rem; right:1.25rem; z-index:80; background:var(--terracotta); color:#fff; border:none; padding:0.6rem 1.1rem; border-radius:24px; font-size:0.82rem; font-weight:600; cursor:pointer; box-shadow:0 3px 14px rgba(196,112,75,0.35); transition:all 0.2s; opacity:0; transform:translateY(10px); font-family:inherit; }
+.jump-verdict.visible { opacity:1; transform:translateY(0); }
+
+/* ── Fallback tables used alongside weather-chart/cost-widget ── */
+.ux-cost-table, .ux-weather-table { width:100%; border-collapse:collapse; margin-top:0.5rem; }
+.ux-cost-table th, .ux-weather-table th { font-size:0.78rem; text-transform:uppercase; color:var(--earth-light); text-align:left; padding:0.5rem 0.75rem; border-bottom:1.5px solid var(--sand); }
+.ux-cost-table td, .ux-weather-table td { padding:0.55rem 0.75rem; border-bottom:1px solid #f0ebe3; font-size:0.9rem; }
+
+/* ── Responsive overrides for the restored modules ── */
+@media (max-width: 900px) {
+  .verdict-cards, .decision-grid { grid-template-columns:1fr; }
+  .qa-grid { grid-template-columns:1fr; }
+  .also-grid, .related-grid { grid-template-columns:1fr; }
+  .dd-content .photo-pair, .photo-pair { grid-template-columns:1fr; }
+  .scorecard-overall { gap:1rem; padding:0.75rem; }
+  .sc-row { grid-template-columns:100px 1fr 50px; gap:0.5rem; padding:0.5rem; }
+  .weather-months { grid-template-columns:repeat(6,1fr); row-gap:0.75rem; }
+  .jump-verdict { display:block; }
+  .personalize-row { flex-direction:column; align-items:flex-start; gap:0.4rem; }
+  .personalize-row label { min-width:auto; }
+}
+@media (max-width: 480px) {
+  .weather-months { grid-template-columns:repeat(4,1fr); }
+  .scorecard-city .city-score { font-size:1.6rem; }
+}
+
