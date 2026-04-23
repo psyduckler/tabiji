@@ -84,7 +84,21 @@ Stripe webhook → orders/pending.json → Psy claims order →
 
 **Locking:** `fulfill-order.js` uses atomic mkdir (`.fulfillment.lockdir/`) to prevent concurrent fulfillments.
 
-**Git hook:** `.githooks/pre-commit` rejects new `/i/` pages without a `hero-bg.png` or `hero-bg.jpg`.
+**Git hook:** `.githooks/pre-commit` rejects new `/i/` pages without a `hero-bg.png` or `hero-bg.jpg`, and verifies staged HTML's shared-head/nav/footer blocks are in sync with `_includes/` (see "Shared partials" below).
+
+**Hook install:** `.githooks/` is not wired to `core.hooksPath` by default. Run once per clone:
+```bash
+bash scripts/install-hooks.sh
+```
+Without this, commits skip the hook entirely. CI (`.github/workflows/check-partials.yml`) catches drift at PR time regardless.
+
+### Shared partials
+
+`_includes/shared-head.html`, `nav-main.html`, `nav-export.html`, and `footer-default.html` are propagated into every page's managed block (`<!-- @include:*:start -->` … `<!-- @include:*:end -->`) by `scripts/build-partials.py`.
+
+Workflow:
+- **Normal page edits:** commit as usual. Pre-commit verifies staged HTML's managed blocks are current.
+- **Editing `_includes/*.html`:** run `scripts/sync-partials.sh --stage` to propagate + stage updated files, then commit. CI enforces drift-free main.
 
 ### Utilities
 - **`functions/wait-for-deploy.sh <url> [max_seconds] [interval_seconds]`** — standalone deploy verification. Used by fulfill-order.js internally. Also available as a safety net.
