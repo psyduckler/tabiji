@@ -12,7 +12,13 @@ function slugToTitle(value = '') {
 }
 
 function getHubFaq(data) {
-  if (Array.isArray(data.faq) && data.faq.length) return data.faq;
+  if (Array.isArray(data.faq) && data.faq.length) {
+    // Normalize {q, a} shape to {question, answer} (hub data JSONs use q/a)
+    return data.faq.map((item) => ({
+      question: item.question ?? item.q ?? '',
+      answer: item.answer ?? item.a ?? ''
+    }));
+  }
 
   const sectionTitles = (data.sections || []).map((section) => section.title).filter(Boolean);
   const firstSection = sectionTitles[0] || slugToTitle(data.slug || 'this destination');
