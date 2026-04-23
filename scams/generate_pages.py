@@ -7117,7 +7117,7 @@ def generate_page(city_data, related_cities_map):
     {schema_json}
     </script>
 </head>
-<body>
+<body class="editorial-v2">
 <nav>
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
@@ -7148,7 +7148,7 @@ def generate_page(city_data, related_cities_map):
 <main>
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
-    <h1>{n} Tourist Scams in {city}</h1>
+    <h1>{n} Tourist Scams in <em>{city}</em></h1>
     <p>Real stories from Reddit travellers. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
