@@ -14,7 +14,6 @@ Live sources of truth:
   - pick       — /popular-picks/<slug>/ directories
   - itinerary  — /itineraries/<slug>/ ∪ /i/<slug>/
   - destination— /api/v1/destinations-full.json keys
-  - card       — /credit-cards/<slug>/
   - scam       — /scams/<slug>/
 
 Preserves as-is (not disk-backed, or ISO-keyed):
@@ -34,7 +33,7 @@ CATALOG_DIR = os.path.join(ROOT, "api", "v1", "catalog")
 MANIFEST = os.path.join(ROOT, "api", "v1", "catalog.json")
 
 # Entity types whose catalog entries are still live if their slug exists on disk.
-DISK_BACKED = {"compare", "pick", "itinerary", "destination", "card", "scam"}
+DISK_BACKED = {"compare", "pick", "itinerary", "destination", "scam"}
 # Entity types we leave alone.
 PASS_THROUGH = {"alert", "insurance", "place", "country", "safety"}
 
@@ -51,7 +50,6 @@ def build_live():
         "pick": list_dirs(os.path.join(ROOT, "popular-picks")),
         "itinerary": list_dirs(os.path.join(ROOT, "itineraries"))
                      | list_dirs(os.path.join(ROOT, "i")),
-        "card": list_dirs(os.path.join(ROOT, "credit-cards")),
         "scam": list_dirs(os.path.join(ROOT, "scams")),
     }
     # Destinations come from the Pages Function data source.
