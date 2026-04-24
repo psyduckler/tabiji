@@ -152,7 +152,6 @@ for city, picks in sorted(cities_picks.items(), key=lambda x: -len(x[1])):
 }}</script>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->

@@ -72,7 +72,6 @@ The following countries now have US embassy/consulate data populated:
 
 ## Data Updated
 
-- **Kit data** (`kit/data/safety/`): 54 countries with embassies
 - **API data** (`api/v1/safety/`): 54 countries with embassies
 
 ## Notes
