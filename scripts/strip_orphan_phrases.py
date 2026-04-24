@@ -36,9 +36,10 @@ _TAIL_CLAUSE = (
     r"(?:\s+(?:threads?|posts?|warnings?|incidents?|reports?))?"
     # Optional: "X-ing clause" — participles/prepositions leading tail content.
     # Bounded by sentence-end chars so we don't eat across the next sentence.
-    r"(?:\s+(?:documenting|confirming|establishing|capturing|covering|discussing|flagging|naming|describing|warning|reviewing|with|for|on|where|about|from|explaining)\s+[^.?!<>\n]{0,200})?"
-    # Optional: em-dash or colon introducing short clause. Must NOT cross a period.
-    r"(?:\s*(?:[—\-]|:)\s*[^.?!<>\n]{0,200})?"
+    # Also bounded by `"`, `,`, `}`, `]` so we don't eat JSON structure chars.
+    r"(?:\s+(?:documenting|confirming|establishing|capturing|covering|discussing|flagging|naming|describing|warning|reviewing|with|for|on|where|about|from|explaining)\s+[^.?!<>\n\"},\]]{0,200})?"
+    # Optional: em-dash or colon introducing short clause. Same bounds.
+    r"(?:\s*(?:[—\-]|:)\s*[^.?!<>\n\"},\]]{0,200})?"
     # Optional: parenthetical or quoted anecdote — self-bounded by brackets/quotes.
     r"(?:\s*(?:\([^)]{0,250}\)|'[^'\n<>]{0,250}'|\"[^\"\n<>]{0,250}\"))?"
 )
@@ -93,30 +94,41 @@ def _strip_orphans(text: str) -> tuple[str, int]:
     return text, total_stripped
 
 
+def _collect_targets() -> list[Path]:
+    city_pages = [
+        p / "index.html"
+        for p in sorted(SCAMS.iterdir())
+        if p.is_dir() and p.name != "country" and (p / "index.html").exists()
+    ]
+    research = sorted((SCAMS / "research").glob("*.json"))
+    api_city = sorted((REPO / "api" / "v1" / "scams").glob("*.json"))
+    api_country = sorted((REPO / "api" / "v1" / "countries").glob("*/scams.json"))
+    api_catalog = [REPO / "api" / "v1" / "catalog" / "scams.json"]
+    return city_pages + research + api_city + api_country + [p for p in api_catalog if p.exists()]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, help="Stop after N files (for testing)")
     args = ap.parse_args()
 
-    city_dirs = sorted(p for p in SCAMS.iterdir() if p.is_dir() and p.name != "country")
+    targets = _collect_targets()
     if args.limit:
-        city_dirs = city_dirs[: args.limit]
+        targets = targets[: args.limit]
 
     total_stripped = 0
     files_changed = 0
-    for city_dir in city_dirs:
-        index = city_dir / "index.html"
-        if not index.exists():
-            continue
-        original = index.read_text()
+    for path in targets:
+        original = path.read_text()
         fixed, n = _strip_orphans(original)
         if n > 0 and fixed != original:
             files_changed += 1
             total_stripped += n
-            print(f"  {city_dir.name:30} — {n} orphans stripped")
+            label = str(path.relative_to(REPO))
+            print(f"  {label:55} — {n} orphans stripped")
             if not args.dry_run:
-                index.write_text(fixed)
+                path.write_text(fixed)
 
     action = "would strip" if args.dry_run else "stripped"
     print(f"\n{action} {total_stripped} orphans across {files_changed} files")
