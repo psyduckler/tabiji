@@ -21,7 +21,6 @@ def get_priority(path):
     if path.startswith('/recommend/'): return '0.6'
     if path.startswith('/best-places-to-visit'): return '0.6'
     if path.startswith('/i/'): return '0.5'
-    if path.startswith('/resources/'): return '0.5'
     return '0.5'
 
 def get_changefreq(path):
