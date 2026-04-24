@@ -22,27 +22,8 @@ FEATURED_SLUGS = {
     "mexico-city", "paris", "rome", "tokyo"
 }
 
-NAV_HTML = """<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">⭐ Popular Picks</a>
-                <a href="/countries/">🗺 Country Guides</a>
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>"""
+from _nav_util import get_nav_html
+NAV_HTML = get_nav_html()
 
 FOOTER_HTML = """<footer>
     <p>© 2026 tabiji.ai · <a href="/terms/">Terms of Service</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/delete-data/">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener">X</a> · <a href="/media/">Media Studio</a> · <a href="/api/">API</a></p>

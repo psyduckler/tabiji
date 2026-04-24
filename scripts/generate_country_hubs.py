@@ -25,6 +25,7 @@ import glob
 import re
 from datetime import date
 from html import escape as _html_escape
+from _nav_util import get_nav_html
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TODAY = date.today().isoformat()
@@ -972,31 +973,7 @@ def pl(n, singular, plural=None):
 
 
 def nav_html():
-    # Marker comments are required so scripts/build-partials.py can keep this
-    # block in sync with _includes/nav-main.html across the whole site.
-    return """<!-- @include:nav:start -->
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">\u2630</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">\u2B50 Popular Picks</a>
-                <a href="/countries/">\U0001F5FA Country Guides</a>
-                <a href="/compare/">\U0001F19A Compare Destinations</a>
-                <a href="/find/">\U0001F50D Destination Finder</a>
-                <a href="/health/">\U0001F3E5 Travel Health Tips</a>
-                <a href="/api/">\U0001F50C API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
-<!-- @include:nav:end -->"""
+    return get_nav_html()
 
 
 def footer_html():

@@ -22,6 +22,10 @@ ALERTS_DIR = TABIJI_ROOT / "alerts"
 POPULAR_PICKS_DIR = TABIJI_ROOT / "popular-picks"
 ITINERARIES_DIR = TABIJI_ROOT / "i"
 
+import sys as _sys
+_sys.path.insert(0, str(TABIJI_ROOT / "scripts"))
+from _nav_util import get_nav_html
+
 # Country name normalization map
 COUNTRY_ALIASES = {
     "Korea, Republic of": "South Korea",
@@ -622,37 +626,7 @@ def build_css():
 
 
 def build_nav():
-    """Generate nav bar matching tabiji design.
-
-    Emits @include:nav:start/end markers so build-partials.py keeps this
-    in sync with _includes/nav-main.html automatically. Inline fallback
-    markup (below) is only visible until the first partial sync; after
-    that it's overwritten.
-    """
-    return '''<!-- @include:nav:start -->
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">⭐ Popular Picks</a>
-                <a href="/countries/">🗺 Country Guides</a>
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
-<!-- @include:nav:end -->
-'''
+    return get_nav_html() + "\n"
 
 
 def build_footer():

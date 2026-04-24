@@ -20,6 +20,9 @@ from typing import Dict, List, Optional, Tuple
 REPO = Path(__file__).resolve().parents[1]
 COMPARE_DIR = REPO / "compare"
 
+from _nav_util import get_nav_html
+NAV_HTML = get_nav_html()
+
 DEST1_COLOR = "#C0392B"
 DEST2_COLOR = "#2E86C1"
 TIE_COLOR = "#7A8B6F"
@@ -760,29 +763,7 @@ def upgrade_page(slug: str, dry_run: bool = False) -> str:
 <!-- @include:shared-head:end -->
 </head>
 <body>
-<!-- @include:nav:start -->
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" aria-label="Menu">&#9776;</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">&#x2B50; Popular Picks</a>
-                <a href="/countries/">&#x1F5FA; Country Guides</a>
-                <a href="/compare/">&#x1F19A; Compare Destinations</a>
-                <a href="/find/">&#x1F50D; Destination Finder</a>
-                <a href="/health/">&#x1F3E5; Travel Health Tips</a>
-                <a href="/api/">&#x1F50C; API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
-<!-- @include:nav:end -->
+{NAV_HTML}
 
 {ticker_html}
 {mobile_toc}
