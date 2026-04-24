@@ -389,42 +389,95 @@ Preserve 2-space JSON indent (`json.dumps(..., indent=2, ensure_ascii=False)`). 
 
 ### Step 9: Regenerate
 
-```bash
-python3 scams/generate_pages.py
+The generator's `main()` glob is stale — it does not pick up `<cc>_batch*.json` files. Bypass it and call `generate_page()` directly, loading **every** research batch so `build_related_cities_map()` gets the full corpus (otherwise `.related-section` renders empty — this was the bug across all cities shipped before PR #420/#421's editorial-v2 rollout).
+
+```python
+import json, sys, glob
+from pathlib import Path
+sys.path.insert(0, "scams")
+from generate_pages import generate_page, build_related_cities_map, CITY_SLUGS
+
+# Load ALL research batches (not just the new one) for cross-city related links.
+all_cities = []
+for bf in sorted(glob.glob("scams/research/*.json")):
+    all_cities.extend(json.load(open(bf)))
+related = build_related_cities_map(all_cities)
+
+# Regenerate just the new city (or a small set).
+new_city_data = next(c for c in all_cities if c["city"] == "<City>")
+slug = CITY_SLUGS[new_city_data["city"]]
+out = Path(f"scams/{slug}/index.html")
+out.parent.mkdir(parents=True, exist_ok=True)
+out.write_text(generate_page(new_city_data, related))
 ```
 
-Confirm both outputs:
+If Taiwan/US country hub needs regeneration (≥ 2 cities), also run:
 
-```bash
-ls -la scams/<slug>/index.html
-ls -la scams/country/<cc>/index.html
+```python
+from generate_pages import generate_country_page, build_country_data
+country_data = build_country_data(all_cities)
+c = country_data["<Country>"]
+html = generate_country_page("<Country>", c["country_code"], c["flag"], c["cities"], sum(len(x["scams"]) for x in all_cities))
+Path(f"scams/country/{c['country_code'].lower()}/index.html").write_text(html)
 ```
 
-City page should be ≥ 20 KB. Country hub should contain the new city entry (grep for `<slug>`).
+**If the country has a live Amazon book** (japan, italy, france, indonesia, brazil, portugal, canada, united-kingdom, vietnam, germany, spain, greece, thailand — authoritative list in [scripts/book-cta-rollout/apply_book_ctas.py](scripts/book-cta-rollout/apply_book_ctas.py) `COUNTRIES` dict), run the book-CTA insertion next so the new page matches existing pages in that country:
+
+```bash
+python3 scripts/book-cta-rollout/apply_book_ctas.py
+```
 
 ### Step 10: Parser-based verification
 
+The editorial-v2 UI (PRs #420/#421) added required elements. Parser must assert all of them.
+
 ```python
-from html.parser import HTMLParser
-# ... or use bs4 if already in tooling
 from bs4 import BeautifulSoup
+import json, re
 html = open("scams/<slug>/index.html").read()
 soup = BeautifulSoup(html, "html.parser")
 
-# Required structural checks — all must pass
-cards = soup.select(".scam-card")
-assert len(cards) == <N>, f"expected <N> cards, got {len(cards)}"
+# Editorial-v2 shell (PR #420)
+body = soup.select_one("body")
+assert body and "editorial-v2" in body.get("class", []), "missing body.editorial-v2"
 
+h1 = soup.select_one("h1")
+assert h1 and h1.select_one("em"), "H1 must wrap city in <em> (editorial-v2 typography)"
+
+# Required editorial-v2 shell elements
+assert soup.select_one(".hero"), "missing .hero"
+assert soup.select_one(".hero-badge"), "missing .hero-badge"
+assert soup.select_one(".severity-summary"), "missing .severity-summary"
+assert soup.select_one(".reading-time"), "missing .reading-time"
+assert soup.select_one(".takeaways-box"), "missing .takeaways-box"
+assert soup.select_one(".safety-box"), "missing .safety-box"
+assert soup.select_one(".toc"), "missing .toc"
+assert soup.select_one(".toc-list"), "missing .toc-list"
+assert soup.select_one(".emergency-fab"), "missing .emergency-fab"
+assert soup.select_one(".back-to-top"), "missing .back-to-top"
+assert soup.select_one(".action-grid"), "missing .action-grid"
+
+# Related-section must render (requires full related_cities_map — see Step 9)
+rel = soup.select_one(".related-section")
+assert rel, "missing .related-section (did you load ALL research batches in Step 9?)"
+assert len(rel.select(".related-card")) >= 3, "related-section needs ≥3 cards (same-country + nearby)"
+
+# TOC list entries must match scam count
+toc_entries = soup.select(".toc-list li")
+cards = soup.select(".scam-card")
+assert len(toc_entries) == len(cards), f"TOC has {len(toc_entries)} entries, {len(cards)} scam cards"
+
+# Per-card structural checks
+assert len(cards) == <N>, f"expected <N> cards, got {len(cards)}"
 for i, card in enumerate(cards, 1):
     assert card.select_one(".scam-header"), f"scam {i} missing header"
     assert card.select_one(".scam-location"), f"scam {i} missing location"
-    assert card.select_one("img.scam-comic"), f"scam {i} missing comic img tag"
     assert card.select_one("p.scam-tldr"), f"scam {i} missing tldr"
     tldr = card.select_one("p.scam-tldr").get_text()
     assert len(tldr) >= 30, f"scam {i} tldr too short: {tldr!r}"
     assert tldr.strip()[-1] in ".?!", f"scam {i} tldr doesn't end in .?!: {tldr!r}"
     bodies = card.select("p.scam-story-body")
-    assert 3 <= len(bodies) <= 6, f"scam {i} expected 3\u20136 body paragraphs (tldr counts separately), got {len(bodies)}"
+    assert 3 <= len(bodies) <= 6, f"scam {i} expected 3–6 body paragraphs, got {len(bodies)}"
     for p in bodies:
         text = p.get_text()
         word_count = len(text.split())
@@ -437,31 +490,80 @@ for i, card in enumerate(cards, 1):
         assert li.get_text().strip(), f"scam {i} has empty <li>"
 
 # Schema.org JSON-LD
-import json
 scripts = soup.find_all("script", {"type": "application/ld+json"})
 for s in scripts:
     json.loads(s.string)  # must parse
-
-# FAQ schema count
 ld = json.loads(scripts[0].string)
 faq = next((g for g in ld["@graph"] if g["@type"] == "FAQPage"), None)
 assert faq and len(faq["mainEntity"]) == 5, "FAQ schema count wrong"
 
+# Book-CTA check (if country has a live book)
+COUNTRIES_WITH_BOOKS = {"Japan","Italy","France","Indonesia","Brazil","Portugal","Canada","United Kingdom","Vietnam","Germany","Spain","Greece","Thailand"}
+if "<Country>" in COUNTRIES_WITH_BOOKS:
+    assert soup.select_one(".book-mid-cta"), "country has live book — .book-mid-cta missing (run apply_book_ctas.py)"
+    assert soup.select_one(".book-end-cta"), "country has live book — .book-end-cta missing"
+
 # Orphan-phrase check (known sanitizer bug)
-import re
 orphans = re.findall(
     r"(?:is|are|establishes?|documents?|captures?|tracks?)\s+the\s+(?:2025|2026|canonical|community|baseline|recurring|first[- ]person|named)\s+(?:anchor|baseline|reference)",
     html
 )
 assert not orphans, f"orphan sanitizer phrases found: {orphans[:5]}"
+
+# Scam-comic img — deferred to comic-batch PR, expected absent on first-pass
+# (If adding comics at the same time: assert card.select_one("img.scam-comic") per card)
 ```
 
-Any failure → fix the research JSON, re-run Step 9, re-verify. **Do not commit broken HTML.**
+Any failure → fix, re-run Step 9, re-verify. **Do not commit broken HTML.**
 
-### Step 11: Hub spot-check
+### Step 11: Hub integration (required — NOT optional)
 
-- `scams/index.html` — the master hub. Some deploys regenerate it via a separate script; confirm the new slug appears. If not, note it in the PR body (the hub rebuild may be a separate step owned by `build_scams_hub.py` or equivalent).
-- `scams/country/<cc>/index.html` — confirm the new city is listed with the correct scam count.
+`/scams/index.html` is a hand-maintained master hub with ~500 `<a class="city-card">` entries. It does NOT auto-update. Every new city needs three things patched.
+
+**11a. Append city-card to `scams/index.html` (alphabetical by city name):**
+
+Find the surrounding alphabetical neighbors and insert:
+
+```html
+        <a href="/scams/<slug>/" class="city-card" data-city="<city lowercased> <country lowercased>" data-country="<CC>">
+            <div class="city-flag">&#127481;&#127484;</div>  <!-- or appropriate flag -->
+            <div class="city-name"><City></div>
+            <div class="city-country"><Country></div>
+            <div class="scam-count"><N> scams documented</div>
+            <div class="scam-preview"><1-line preview, e.g. "Airport taxi · Dead Sea kiosks"></div>
+        </a>
+```
+
+Use the surrounding cards as the exact-format template — `sed` or manual `Read` + `Edit` is fine.
+
+**11b. Update the stats-bar in `scams/index.html`:**
+
+```python
+# Recompute from actual data
+import json, glob
+all_cities = sum((json.load(open(f)) for f in glob.glob("scams/research/*.json")), [])
+total_cities = len(set(c["city"] for c in all_cities if c["city"] in CITY_SLUGS))
+total_scams = sum(len(c["scams"]) for c in all_cities if c["city"] in CITY_SLUGS)
+total_countries = len(set(c["country"] for c in all_cities if c["city"] in CITY_SLUGS))
+```
+
+Then update the three `<strong>N</strong>` values in the `.stats-bar` block. Also update:
+- `<meta name="description">` — any "N scams documented" / "N cities" numbers
+- `<meta property="og:description">` and `<meta name="twitter:description">`
+
+**11c. Country hub (if country has ≥2 cities):**
+
+Option A — country hub already exists (e.g. `/scams/country/us/`): append a new `<a class="city-card">` entry (same format as the existing cards in that file) and update the top stats. Use the surrounding entries as template.
+
+Option B — country hub does not yet exist and this new city crosses the 2-city threshold: call `generate_country_page()` per Step 9.
+
+**11d. If the country has a live Amazon book**, run the hub-stats audit script afterwards to sync every per-city scam count visible on the country hub:
+
+```bash
+python3 scripts/book-cta-rollout/audit_country_hub_scam_counts.py --only <cc>
+```
+
+This fixes: country-hub meta-description totals, hero subtitle, hero stat-pill, body intro paragraph, per-city `.city-card-count` and `.city-risk-badge` counts.
 
 ### Step 12: Commit + PR
 
@@ -576,7 +678,12 @@ This directory is intentionally outside the repo (not `.gitignore`d, just `/tmp/
 - [ ] Claim-token audit: every numeric and named claim has a source match
 - [ ] Parser verification: 0 failures
 - [ ] `scams/<slug>/index.html` ≥ 20 KB
+- [ ] `<body class="editorial-v2">` + `<h1>` with `<em>{city}</em>` wrap (PR #420)
+- [ ] `.toc-list`, `.emergency-fab`, `.back-to-top`, `.action-grid` all present
+- [ ] `.related-section` renders with ≥ 3 related cards (load full batch corpus in Step 9)
+- [ ] `.book-mid-cta` + `.book-end-cta` present if country has live Amazon book
 - [ ] `scams/country/<cc>/index.html` lists new city with correct count
+- [ ] `scams/index.html` has a new `.city-card` anchor + stats-bar + meta-description updated
 - [ ] Schema.org JSON-LD parses cleanly; FAQPage has 5 entries
 - [ ] Emergency contacts on defense paragraph of every scam
 - [ ] Audit trail complete under `/tmp/scam-research/<slug>/`
