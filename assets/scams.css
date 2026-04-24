@@ -848,7 +848,22 @@ body.editorial-v2 {
     text-rendering: optimizeLegibility;
 }
 
-body.editorial-v2 ::selection { background: var(--terracotta); color: var(--white); }
+/* Soft editorial selection — translucent terracotta tint preserves
+   the underlying indigo/terracotta text color, so selecting a serif
+   H1 no longer produces a jarring solid rectangle. */
+body.editorial-v2 ::selection { background: rgba(196, 112, 75, 0.22); color: inherit; }
+
+/* Signature editorial emphasis — italic serif in terracotta.
+   Applies to every <em> inside editorial-v2 pages so the accent
+   flows consistently through H1s, pull-quotes, body copy, and
+   card titles. Per-context rules only override if they need to
+   change size or line-height. */
+body.editorial-v2 em {
+    font-style: italic;
+    color: var(--terracotta);
+    font-weight: 500;
+    font-family: inherit;
+}
 
 /* ---- Legacy class aliases so the 25 inline-<style> pages can drop
    their <style> block and inherit the editorial system without
@@ -1231,7 +1246,8 @@ body.editorial-v2 .scam-card {
     scroll-margin-top: calc(var(--nav-height) + 1rem);
     transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
-body.editorial-v2 .scam-card:hover {
+body.editorial-v2 .scam-card:hover,
+body.editorial-v2 .browse-card:hover {
     border-color: var(--terracotta);
     box-shadow: 0 6px 22px rgba(60, 40, 25, 0.09);
     transform: translateY(-2px);
@@ -1563,7 +1579,8 @@ body.editorial-v2 .page-hero h1 em {
 }
 body.editorial-v2 .page-hero-flag {
     display: inline-block;
-    margin-right: 0.6rem;
+    margin-right: 0.75rem;
+    vertical-align: -0.08em;
     filter: saturate(0.92);
 }
 body.editorial-v2 .page-hero p {
@@ -2111,22 +2128,28 @@ body.editorial-v2 .report-cta p {
     margin-left: auto;
     margin-right: auto;
 }
-body.editorial-v2 .report-cta-btn {
+/* Editorial primary CTA button — shared by .report-cta-btn,
+   .inline-cta-btn (about page), and .ready-primary (about page).
+   Per-button padding + font-size overrides follow where they're defined. */
+body.editorial-v2 .report-cta-btn,
+body.editorial-v2 .inline-cta-btn,
+body.editorial-v2 .ready-primary {
     display: inline-block;
     background: var(--terracotta);
     color: var(--white);
-    padding: 0.7rem 1.5rem;
     border-radius: var(--radius-md);
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 0.92rem;
     text-decoration: none;
     transition: background 0.2s, transform 0.15s;
 }
-body.editorial-v2 .report-cta-btn:hover {
+body.editorial-v2 .report-cta-btn:hover,
+body.editorial-v2 .inline-cta-btn:hover,
+body.editorial-v2 .ready-primary:hover {
     background: var(--terracotta-deep);
     transform: translateY(-1px);
 }
+body.editorial-v2 .report-cta-btn { padding: 0.7rem 1.5rem; font-size: 0.92rem; }
 
 /* CTA strip on /scams/ index */
 body.editorial-v2 .cta-strip {
@@ -2184,25 +2207,8 @@ body.editorial-v2 .about-section {
 }
 body.editorial-v2 .about-section:last-child { margin-bottom: 2rem; }
 
-body.editorial-v2 .about-section > .section-eyebrow {
-    display: inline-block;
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--terracotta);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    position: relative;
-    padding-top: 1.25rem;
-}
-body.editorial-v2 .about-section > .section-eyebrow::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 40px; height: 2px;
-    background: var(--terracotta);
-}
+/* .about-section eyebrow + bar are covered by the generic
+   `section > .section-eyebrow` rules higher in this file. */
 
 body.editorial-v2 .about-section h2 {
     font-family: var(--font-serif);
@@ -2252,7 +2258,6 @@ body.editorial-v2 .pull-quote em {
     font-style: italic;
 }
 
-/* Method numbered list (re-using our process-step pattern with CSS counter) */
 body.editorial-v2 .method-grid {
     list-style: none;
     padding: 0;
@@ -2298,7 +2303,6 @@ body.editorial-v2 .method-step p {
     max-width: none;
 }
 
-/* Inline CTA — editorial button */
 body.editorial-v2 .inline-cta {
     text-align: center;
     margin: 2rem 0 1rem;
@@ -2320,7 +2324,6 @@ body.editorial-v2 .inline-cta-btn:hover {
     transform: translateY(-1px);
 }
 
-/* Team cards — masthead style, serif-initial avatars */
 body.editorial-v2 .team-card {
     display: flex;
     gap: 1.25rem;
@@ -2382,12 +2385,16 @@ body.editorial-v2 .team-body p {
     max-width: none;
 }
 
-/* THE NAME · 旅路 — ceremonial etymology block */
-body.editorial-v2 .etymology-section { text-align: center; }
-body.editorial-v2 .etymology-section > .section-eyebrow::before {
+/* Centered-eyebrow sections: center the 40px terracotta bar under
+   the eyebrow label, since the section itself is text-align:center. */
+body.editorial-v2 .etymology-section,
+body.editorial-v2 .contact-section,
+body.editorial-v2 .ready-section { text-align: center; }
+body.editorial-v2 :is(.etymology-section, .contact-section, .ready-section) > .section-eyebrow::before {
     left: 50%;
     transform: translateX(-50%);
 }
+
 body.editorial-v2 .etymology-block {
     background: var(--warm-cream);
     border: 1px solid var(--sand);
@@ -2432,6 +2439,7 @@ body.editorial-v2 .etymology-meaning {
 body.editorial-v2 .etymology-owl {
     width: 100%;
     max-width: 320px;
+    aspect-ratio: 1 / 1;
     border-radius: var(--radius-md);
     margin: 0.25rem auto 1rem;
     display: block;
@@ -2452,7 +2460,6 @@ body.editorial-v2 .etymology-caption em {
     font-weight: 500;
 }
 
-/* Beliefs + don't-do list */
 body.editorial-v2 .beliefs-grid {
     display: grid;
     gap: 0.85rem;
@@ -2516,7 +2523,6 @@ body.editorial-v2 .dont-heading em {
     font-weight: 500;
 }
 
-/* Browse grid — editorial cards with eyebrow labels */
 body.editorial-v2 .browse-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -2535,11 +2541,7 @@ body.editorial-v2 .browse-card {
     flex-direction: column;
     gap: 0.4rem;
 }
-body.editorial-v2 .browse-card:hover {
-    border-color: var(--terracotta);
-    box-shadow: 0 6px 22px rgba(60, 40, 25, 0.09);
-    transform: translateY(-2px);
-}
+/* .browse-card:hover is grouped with .scam-card:hover higher in this file */
 body.editorial-v2 .browse-eyebrow {
     font-family: var(--font-sans);
     font-size: 0.7rem;
@@ -2581,12 +2583,6 @@ body.editorial-v2 .browse-card:hover .browse-arrow {
     transform: translateX(3px);
 }
 
-/* Reach us — contact block */
-body.editorial-v2 .contact-section { text-align: center; }
-body.editorial-v2 .contact-section > .section-eyebrow::before {
-    left: 50%;
-    transform: translateX(-50%);
-}
 body.editorial-v2 .contact-block {
     background: var(--warm-cream);
     border: 1px solid var(--sand);
@@ -2636,12 +2632,6 @@ body.editorial-v2 .contact-note em {
     font-weight: 500;
 }
 
-/* Ready-to-go — final CTA */
-body.editorial-v2 .ready-section { text-align: center; }
-body.editorial-v2 .ready-section > .section-eyebrow::before {
-    left: 50%;
-    transform: translateX(-50%);
-}
 body.editorial-v2 .ready-section h2 {
     max-width: 620px;
     margin-left: auto;
