@@ -106,7 +106,7 @@ CARRIERS = [
         "badge_tone": "danger",
         "coverage_headline": "Emergency reimbursement only — no in-network abroad",
         "mechanism": "Pay upfront, claim back",
-        "assistance_phone": "Member services on your card",
+        "assistance_phone": "1-951-268-3900 (Away From Home Travel Line)",
         "plan_types": "HMO only — worst international profile",
         "short": "The worst major US carrier for international travel. Emergency reimbursement only, no network abroad, upfront payment required everywhere.",
     },

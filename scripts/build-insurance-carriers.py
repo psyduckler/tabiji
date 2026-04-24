@@ -1,4 +1,227 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+build-insurance-carriers.py — Generate the 15 /health/insurance/{slug}/index.html
+carrier pages in editorial-v2.
+
+Pulls catalog data (name, icon, tier, mechanism, phone, plan types) from
+scripts.lib.editorial.CARRIERS and per-carrier editorial content (overview,
+covered/not-covered, scenarios, FAQs, sources) from scripts.lib.carrier_content.
+
+Each carrier page includes:
+- Editorial hero with serif headline
+- Reviewer strip + affiliate disclosure
+- Quick-facts banner (carrier / coverage / phone / supplemental)
+- 10 content sections (overview, PPO-HMO, covered, not covered, what you need
+  to know, check your plan, claim walkthrough, real-world scenario, supplemental
+  verdict, destinations, FAQ, sources, methodology)
+- Sticky TOC sidebar (desktop) + mobile dropdown
+- FAQ accordion with per-carrier Q/As
+- Article + BreadcrumbList + FAQPage schema
+
+Usage:
+    python3 scripts/build-insurance-carriers.py            # all 15
+    python3 scripts/build-insurance-carriers.py kaiser-permanente cigna  # specific
+"""
+
+import html
+import json
+import re
+import sys
+from datetime import date
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from lib.editorial import (  # noqa: E402
+    CARRIERS,
+    REVIEW_DATE,
+    apply_replacements,
+    render_faq_accordion,
+    render_faqs_schema,
+    tier_slug,
+)
+from lib.carrier_content import CARRIER_CONTENT, SHARED_CLAIM_STEPS  # noqa: E402
+
+ROOT = SCRIPT_DIR.parent
+INSURANCE_DIR = ROOT / "health" / "insurance"
+
+
+def render_tone_callout(tone: str, title: str, body: str) -> str:
+    return (
+        f'<div class="need-callout need-callout-{tone}">'
+        f'<strong class="need-callout-title">{html.escape(title)}</strong>'
+        f'<p>{html.escape(body)}</p></div>'
+    )
+
+
+def render_list(items) -> str:
+    return "\n".join(f'          <li>{html.escape(x)}</li>' for x in items)
+
+
+def render_ordered_questions(questions) -> str:
+    return "\n".join(f'          <li>{html.escape(q)}</li>' for q in questions)
+
+
+def render_claim_steps(steps) -> str:
+    out = []
+    for s in steps:
+        out.append(
+            f'        <li>\n'
+            f'          <strong>{html.escape(s["title"])}</strong>\n'
+            f'          <p>{html.escape(s["body"])}</p>\n'
+            f'        </li>'
+        )
+    return "\n".join(out)
+
+
+_VANITY = {"BLUE": "2583"}
+
+
+def tel_href(phone: str):
+    """Extract a tel: URI from an assistance-phone string, or None if the
+    string is a descriptive placeholder like 'Member services on your card'.
+    Vanity-number words (e.g. BLUE → 2583) are resolved first."""
+    if not phone:
+        return None
+    resolved = phone
+    for word, digits in _VANITY.items():
+        resolved = re.sub(word, digits, resolved, flags=re.IGNORECASE)
+    digits = re.sub(r'[^\d]', '', resolved.split("(")[0])
+    if len(digits) < 10:
+        return None
+    return f"tel:+{digits}" if digits.startswith("1") else f"tel:+1{digits}"
+
+
+def render_sources(sources) -> str:
+    out = []
+    for s in sources:
+        name = html.escape(s["name"])
+        url = s.get("url")
+        if url:
+            out.append(f'          <li><a href="{url}" target="_blank" rel="noopener">{name}</a></li>')
+        else:
+            out.append(f'          <li>{name}</li>')
+    return "\n".join(out)
+
+
+def render_carrier_page(carrier: dict, content: dict) -> str:
+    slug = carrier["slug"]
+    name = carrier["name"]
+    icon = carrier["icon"]
+    tier = carrier["supp_tier"]
+    tslug = tier_slug(tier)
+    today = date.today().isoformat()
+
+    schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "headline": f"{name} — International Travel Coverage Guide",
+                "description": (
+                    f"Does {name} cover you abroad? Carrier-specific international travel health insurance "
+                    "guide — what's covered, what's not, PPO vs HMO differences, filing claims, a real-world "
+                    "cost scenario, and whether you need supplemental travel insurance."
+                ),
+                "url": f"https://tabiji.ai/health/insurance/{slug}/",
+                "inLanguage": "en",
+                "datePublished": "2026-03-01",
+                "dateModified": today,
+                "lastReviewed": today,
+                "about": {"@type": "FinancialProduct", "name": name, "category": "HealthInsurance"},
+                "author": {"@type": "Organization", "name": "tabiji editorial team", "url": "https://tabiji.ai/about/"},
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "tabiji.ai",
+                    "url": "https://tabiji.ai",
+                    "logo": {"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"},
+                },
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
+                    {"@type": "ListItem", "position": 2, "name": "Travel Health", "item": "https://tabiji.ai/health/"},
+                    {"@type": "ListItem", "position": 3, "name": "Insurance by Carrier", "item": "https://tabiji.ai/health/insurance/"},
+                    {"@type": "ListItem", "position": 4, "name": name, "item": f"https://tabiji.ai/health/insurance/{slug}/"},
+                ],
+            },
+            {"@type": "FAQPage", "mainEntity": render_faqs_schema(content["faqs"])},
+        ],
+    }
+    schema_str = json.dumps(schema, ensure_ascii=False, indent=2)
+
+    need_to_know_html = "\n    ".join(
+        render_tone_callout(c["tone"], c["title"], c["body"]) for c in content["need_to_know"]
+    )
+
+    phone = carrier["assistance_phone"]
+    tel_uri = tel_href(phone)
+    if tel_uri:
+        fab_html = (
+            f'<a class="call-carrier-fab" href="{tel_uri}" aria-label="Call {html.escape(name)}">'
+            f'📞 Call your carrier</a>'
+        )
+    else:
+        fab_html = ""
+
+    replacements = {
+        "__SLUG__": slug,
+        "__NAME__": html.escape(name),
+        "__ICON__": icon,
+        "__TIER__": html.escape(tier),
+        "__TIER_SLUG__": tslug,
+        "__MECHANISM__": html.escape(carrier["coverage_headline"]),
+        "__PHONE__": html.escape(phone),
+        "__CALL_FAB__": fab_html,
+        "__PLAN_TYPES__": html.escape(carrier["plan_types"]),
+        "__OVERVIEW__": html.escape(content["overview"]),
+        "__PPO_HMO_NOTE__": html.escape(content["ppo_hmo_note"]),
+        "__COVERED_LIST__": render_list(content["covered"]),
+        "__NOT_COVERED_LIST__": render_list(content["not_covered"]),
+        "__NEED_TO_KNOW__": need_to_know_html,
+        "__ASK_QUESTIONS__": render_ordered_questions(content["ask_questions"]),
+        "__CLAIM_STEPS__": render_claim_steps(SHARED_CLAIM_STEPS),
+        "__SCENARIO_DESTINATION__": html.escape(content["scenario"]["destination"]),
+        "__SCENARIO_TOTAL__": html.escape(content["scenario"]["total"]),
+        "__SCENARIO_REIMBURSED__": html.escape(content["scenario"]["reimbursed"]),
+        "__SCENARIO_YOUR_COST__": html.escape(content["scenario"]["your_cost"]),
+        "__SCENARIO_BODY__": html.escape(content["scenario"]["body"]),
+        "__SUPPLEMENTAL_VERDICT__": html.escape(content["supplemental_verdict"]),
+        "__FAQS__": render_faq_accordion(content["faqs"], id_prefix=f"{slug}-faq"),
+        "__SOURCES__": render_sources(content["sources"]),
+        "__SCHEMA__": schema_str,
+        "__REVIEW_DATE__": REVIEW_DATE,
+        "__TODAY__": today,
+    }
+    return apply_replacements(CARRIER_TEMPLATE, replacements)
+
+
+def build(slugs=None):
+    if slugs:
+        targets = [c for c in CARRIERS if c["slug"] in slugs]
+        missing = set(slugs) - {c["slug"] for c in targets}
+        if missing:
+            print(f"Unknown carrier slug(s): {', '.join(sorted(missing))}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        targets = CARRIERS
+
+    for carrier in targets:
+        slug = carrier["slug"]
+        content = CARRIER_CONTENT[slug]
+        html_out = render_carrier_page(carrier, content)
+        out_path = INSURANCE_DIR / slug / "index.html"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(html_out)
+        print(f"Wrote {out_path.relative_to(ROOT)} ({len(html_out):,} chars)")
+
+
+# -------------------------------------------------------------------
+# HTML template
+# -------------------------------------------------------------------
+
+CARRIER_TEMPLATE = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,109 +232,18 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
-    <title>Aetna International Travel Coverage — Does Your Plan Cover You Abroad? | tabiji.ai</title>
-    <meta name="description" content="Does Aetna cover you abroad? Carrier-specific international travel health insurance guide — what's covered, what's not, PPO vs HMO, filing claims, a real cost scenario, and whether you need supplemental travel insurance.">
+    <title>__NAME__ International Travel Coverage — Does Your Plan Cover You Abroad? | tabiji.ai</title>
+    <meta name="description" content="Does __NAME__ cover you abroad? Carrier-specific international travel health insurance guide — what's covered, what's not, PPO vs HMO, filing claims, a real cost scenario, and whether you need supplemental travel insurance.">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="https://tabiji.ai/health/insurance/aetna/">
-    <meta property="og:title" content="Aetna Abroad — Coverage, Claims, and Cost Scenarios | tabiji.ai">
-    <meta property="og:description" content="Carrier-specific international travel insurance guide for Aetna members.">
+    <link rel="canonical" href="https://tabiji.ai/health/insurance/__SLUG__/">
+    <meta property="og:title" content="__NAME__ Abroad — Coverage, Claims, and Cost Scenarios | tabiji.ai">
+    <meta property="og:description" content="Carrier-specific international travel insurance guide for __NAME__ members.">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://tabiji.ai/health/insurance/aetna/">
+    <meta property="og:url" content="https://tabiji.ai/health/insurance/__SLUG__/">
     <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
     <meta property="og:site_name" content="tabiji.ai">
 
-    <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Article",
-      "headline": "Aetna — International Travel Coverage Guide",
-      "description": "Does Aetna cover you abroad? Carrier-specific international travel health insurance guide — what's covered, what's not, PPO vs HMO differences, filing claims, a real-world cost scenario, and whether you need supplemental travel insurance.",
-      "url": "https://tabiji.ai/health/insurance/aetna/",
-      "inLanguage": "en",
-      "datePublished": "2026-03-01",
-      "dateModified": "2026-04-24",
-      "lastReviewed": "2026-04-24",
-      "about": {
-        "@type": "FinancialProduct",
-        "name": "Aetna",
-        "category": "HealthInsurance"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "tabiji editorial team",
-        "url": "https://tabiji.ai/about/"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "tabiji.ai",
-        "url": "https://tabiji.ai",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://img.tabiji.ai/tabiji-owl-logo.png"
-        }
-      }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://tabiji.ai/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Travel Health",
-          "item": "https://tabiji.ai/health/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Insurance by Carrier",
-          "item": "https://tabiji.ai/health/insurance/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "Aetna",
-          "item": "https://tabiji.ai/health/insurance/aetna/"
-        }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What's the difference between Aetna and Aetna International?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Aetna is US-based commercial and Medicare insurance. Aetna International is a separate product for expats and frequent travelers, with a global provider network, direct billing, and outpatient coverage. You can't convert one to the other — they're distinct purchases."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is Aetna PPO good for travel?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Aetna PPO is average among US carriers — competent for emergencies, weak on evacuation and non-emergency care. Not as good as Cigna or BCBS PPO for international scenarios, but considerably better than Kaiser or Medicaid plans."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does Aetna Medicare Advantage cover travel?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Limited. Most Aetna Medicare Advantage plans include emergency international coverage with a lifetime cap. For substantial travel, Medigap + a travel medical policy is the stronger combination."
-          }
-        }
-      ]
-    }
-  ]
-}</script>
+    <script type="application/ld+json">__SCHEMA__</script>
 
     <link rel="stylesheet" href="/assets/scams.css">
     <style>
@@ -617,6 +749,7 @@
                 <a href="/popular-picks/">⭐ Popular Picks</a>
                 <a href="/countries/">🗺 Country Guides</a>
                 <a href="/compare/">🆚 Compare Destinations</a>
+                <a href="/find/">🔍 Destination Finder</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/api/">🔌 API</a>
             </div>
@@ -630,44 +763,44 @@
 <!-- @include:nav:end -->
 
 <div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span><a href="/health/insurance/">Insurance</a><span>›</span>Aetna
+    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span><a href="/health/insurance/">Insurance</a><span>›</span>__NAME__
 </div>
 
 <main>
 
   <div class="hero">
-    <div class="hero-badge">💼 Aetna</div>
-    <h1>Does <em>Aetna</em> cover you abroad?</h1>
+    <div class="hero-badge">__ICON__ __NAME__</div>
+    <h1>Does <em>__NAME__</em> cover you abroad?</h1>
     <p>International travel coverage, claim process, real-world cost scenario, and whether you need supplemental insurance.</p>
     <div class="hero-meta">
-      <span>🕐 Last reviewed April 2026</span>
+      <span>🕐 Last reviewed __REVIEW_DATE__</span>
     </div>
   </div>
 
   <div class="reviewer-strip">
-    <strong>Researched by the tabiji editorial team.</strong> Cross-referenced against Aetna's published plan documents, Summary of Benefits and Coverage filings, NAIC filings, and independent consumer reports. Last full review: April 2026. This is general carrier-level information and not insurance advice — always verify with your specific plan before traveling. This page is not affiliated with or endorsed by Aetna.
+    <strong>Researched by the tabiji editorial team.</strong> Cross-referenced against __NAME__'s published plan documents, Summary of Benefits and Coverage filings, NAIC filings, and independent consumer reports. Last full review: __REVIEW_DATE__. This is general carrier-level information and not insurance advice — always verify with your specific plan before traveling. This page is not affiliated with or endorsed by __NAME__.
   </div>
 
   <div class="affiliate-disclosure">
-    <strong>No affiliate commissions.</strong> We don't earn anything from Aetna or any supplemental travel insurance provider named on this page. Rankings reflect our editorial view of coverage quality only.
+    <strong>No affiliate commissions.</strong> We don't earn anything from __NAME__ or any supplemental travel insurance provider named on this page. Rankings reflect our editorial view of coverage quality only.
   </div>
 
   <div class="quick-facts">
     <div class="qf-tile">
       <div class="qf-label">Carrier</div>
-      <div class="qf-value">Aetna</div>
+      <div class="qf-value">__NAME__</div>
     </div>
     <div class="qf-tile">
       <div class="qf-label">Coverage mechanism</div>
-      <div class="qf-value qf-value-small">International plans (Aetna International) for long stays</div>
+      <div class="qf-value qf-value-small">__MECHANISM__</div>
     </div>
     <div class="qf-tile">
       <div class="qf-label">Assistance phone</div>
-      <div class="qf-value qf-value-small">Member services on your card</div>
+      <div class="qf-value qf-value-small">__PHONE__</div>
     </div>
     <div class="qf-tile">
       <div class="qf-label">Supplemental</div>
-      <div class="qf-value">Recommended</div>
+      <div class="qf-value">__TIER__</div>
     </div>
   </div>
 
@@ -714,13 +847,13 @@
       <section id="overview">
         <span class="section-eyebrow">Overview</span>
         <h2>International coverage at a <em>glance</em>.</h2>
-        <p>Aetna (now a CVS Health company) covers international emergencies on most commercial plans, typically at out-of-network rates. For longer trips or expat living, Aetna International is a separate dedicated product with a global provider network. The distinction matters: a US-based Aetna commercial plan is a different animal from Aetna International.</p>
+        <p>__OVERVIEW__</p>
       </section>
 
       <section id="ppo-hmo">
         <span class="section-eyebrow">Plan types</span>
         <h2>PPO vs HMO vs <em>HDHP</em>.</h2>
-        <p>PPO plans cover international emergencies at out-of-network rates. HMO and EPO plans limit international coverage to true emergencies. HDHP/HSA plans follow the underlying plan type with the deductible applied first. For travelers under 65, Aetna International is worth quoting separately if you&#x27;re abroad more than 90 days a year.</p>
+        <p>__PPO_HMO_NOTE__</p>
       </section>
 
       <section id="coverage">
@@ -730,21 +863,13 @@
           <div class="covered-block yes">
             <h3>Typically covered</h3>
             <ul>
-          <li>Emergency room visits abroad at out-of-network rates</li>
-          <li>Emergency hospitalization</li>
-          <li>Emergency ambulance transport</li>
-          <li>Some urgent care — PPO plans only</li>
-          <li>Medical evacuation on specific Aetna International plans (not standard commercial)</li>
+__COVERED_LIST__
             </ul>
           </div>
           <div class="covered-block no">
             <h3>Not covered</h3>
             <ul>
-          <li>Routine or preventive care abroad</li>
-          <li>Dental or vision care internationally</li>
-          <li>Planned surgeries or medical tourism</li>
-          <li>Prescription refills at foreign pharmacies</li>
-          <li>Care in countries subject to US sanctions</li>
+__NOT_COVERED_LIST__
             </ul>
           </div>
         </div>
@@ -753,22 +878,15 @@
       <section id="need-to-know">
         <span class="section-eyebrow">What you need to know</span>
         <h2>The three things that <em>actually matter</em>.</h2>
-    <div class="need-callout need-callout-info"><strong class="need-callout-title">Aetna International is a separate product</strong><p>If you&#x27;re living abroad or traveling for 3+ months a year, Aetna International is worth quoting. It includes direct billing at international hospitals, higher evacuation caps, and outpatient coverage — things the standard commercial plan doesn&#x27;t have.</p></div>
-    <div class="need-callout need-callout-caution"><strong class="need-callout-title">Commercial plan = emergency only</strong><p>Standard US Aetna commercial plans cover emergencies abroad at out-of-network rates, but nothing routine. Budget for a 40–60% reimbursement gap even on covered claims.</p></div>
-    <div class="need-callout need-callout-info"><strong class="need-callout-title">Member services handles travel claims</strong><p>There&#x27;s no dedicated Aetna travel assistance line for commercial members — call the member services number on your card. Aetna International members have a separate 24/7 assistance number in their plan documents.</p></div>
+    __NEED_TO_KNOW__
       </section>
 
       <section id="check-plan">
         <span class="section-eyebrow">Check your plan</span>
         <h2>Six questions to <em>ask your carrier</em>.</h2>
-        <p>Call <strong>Member services on your card</strong> and ask these directly. Get the answers in writing — verbal confirmation doesn't hold up at claim time.</p>
+        <p>Call <strong>__PHONE__</strong> and ask these directly. Get the answers in writing — verbal confirmation doesn't hold up at claim time.</p>
         <ol class="ask-list">
-          <li>Is international emergency care covered at in-network or out-of-network rates?</li>
-          <li>Is medical evacuation included, and if so, what&#x27;s the dollar cap?</li>
-          <li>Do I need pre-authorization for non-emergency international care?</li>
-          <li>What&#x27;s my out-of-network deductible and coinsurance for international claims?</li>
-          <li>Is there a per-incident or annual cap on international coverage?</li>
-          <li>What documentation do I need to file an international claim, and how long does reimbursement take?</li>
+__ASK_QUESTIONS__
         </ol>
       </section>
 
@@ -777,26 +895,7 @@
         <h2>The <em>five steps</em> that actually work.</h2>
         <p>Most international claims fail because of missing documentation or delayed filing. Do these five things and you'll maximize what you get back.</p>
         <ol class="claim-steps">
-        <li>
-          <strong>Call your carrier&#x27;s assistance line first if possible</strong>
-          <p>For non-emergency care, call before you go in. Many carriers with international assistance lines can locate in-network facilities and arrange direct billing. In an emergency, go to the nearest hospital first; call within 48 hours.</p>
-        </li>
-        <li>
-          <strong>Pay with a credit card</strong>
-          <p>Credit cards create an audit trail and give you dispute leverage if the hospital overbills. Save every charge slip.</p>
-        </li>
-        <li>
-          <strong>Collect every piece of documentation</strong>
-          <p>Itemized bill, medical report, diagnostic codes, discharge summary, and proof of payment. Ask the hospital for English-language copies — most international facilities will provide them on request.</p>
-        </li>
-        <li>
-          <strong>Submit the claim promptly</strong>
-          <p>Most carriers require claim submission within 90–180 days. Include translated copies if your documents are in another language. Track the submission confirmation number.</p>
-        </li>
-        <li>
-          <strong>Expect partial reimbursement</strong>
-          <p>Carriers reimburse at their &quot;usual and customary&quot; rates, which can be 30–70% less than what you paid. Plan on a gap. This is the single biggest argument for a supplemental travel policy that direct-pays the hospital instead.</p>
-        </li>
+__CLAIM_STEPS__
         </ol>
       </section>
 
@@ -804,22 +903,22 @@
         <span class="section-eyebrow">Real-world scenario</span>
         <h2>What a <em>typical claim</em> looks like.</h2>
         <div class="scenario-card">
-          <div class="scenario-header">London broken leg with surgery</div>
+          <div class="scenario-header">__SCENARIO_DESTINATION__</div>
           <div class="scenario-numbers">
             <div class="scenario-num">
               <span class="scen-label">Total bill</span>
-              <div class="scen-amount">$22,000</div>
+              <div class="scen-amount">__SCENARIO_TOTAL__</div>
             </div>
             <div class="scenario-num">
               <span class="scen-label">Reimbursed</span>
-              <div class="scen-amount">$12,000</div>
+              <div class="scen-amount">__SCENARIO_REIMBURSED__</div>
             </div>
             <div class="scenario-num your-cost">
               <span class="scen-label">Your cost</span>
-              <div class="scen-amount">$10,000</div>
+              <div class="scen-amount">__SCENARIO_YOUR_COST__</div>
             </div>
           </div>
-          <p>An Aetna PPO commercial plan covered the emergency at out-of-network rates. You paid the London private hospital $22K upfront, filed a claim with Aetna, and got back $12K after the $7,500 out-of-network deductible and 20% coinsurance on the rest. Net: $10K. A supplemental travel policy with direct billing (~$75 for the trip) would have eliminated the gap entirely.</p>
+          <p>__SCENARIO_BODY__</p>
         </div>
       </section>
 
@@ -827,9 +926,9 @@
         <span class="section-eyebrow">Supplemental insurance</span>
         <h2>Do you <em>need</em> supplemental?</h2>
         <div class="supp-verdict-card">
-          <span class="verdict-label">Our recommendation for Aetna members</span>
-          <div class="verdict-tier">Recommended</div>
-          <p>Recommended. Standard Aetna commercial plans handle emergencies but leave meaningful reimbursement gaps and exclude evacuation on most plans. For long stays abroad, Aetna International is a strong primary option. For short trips, a supplemental travel medical policy alongside your commercial Aetna plan is the cheap, effective combination.</p>
+          <span class="verdict-label">Our recommendation for __NAME__ members</span>
+          <div class="verdict-tier">__TIER__</div>
+          <p>__SUPPLEMENTAL_VERDICT__</p>
         </div>
         <p style="margin-top:1rem;">Popular supplemental providers: <strong>World Nomads</strong>, <strong>GeoBlue</strong> (BCBS affiliated), <strong>IMG Global</strong>, <strong>Allianz Travel</strong>, <strong>Travel Guard</strong>. Expect $30–80 for a weeklong trip, $60–200 for a month, with higher rates for adventure activities or pre-existing condition waivers.</p>
       </section>
@@ -845,20 +944,9 @@
 
       <section id="faq">
         <span class="section-eyebrow">Frequently asked</span>
-        <h2>Aetna <em>abroad</em>, answered.</h2>
+        <h2>__NAME__ <em>abroad</em>, answered.</h2>
         <div class="faq-section">
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="aetna-faq-a-0">What&#x27;s the difference between Aetna and Aetna International?<span class="faq-arrow">▾</span></button>
-        <div class="faq-a" id="aetna-faq-a-0">Aetna is US-based commercial and Medicare insurance. Aetna International is a separate product for expats and frequent travelers, with a global provider network, direct billing, and outpatient coverage. You can&#x27;t convert one to the other — they&#x27;re distinct purchases.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="aetna-faq-a-1">Is Aetna PPO good for travel?<span class="faq-arrow">▾</span></button>
-        <div class="faq-a" id="aetna-faq-a-1">Aetna PPO is average among US carriers — competent for emergencies, weak on evacuation and non-emergency care. Not as good as Cigna or BCBS PPO for international scenarios, but considerably better than Kaiser or Medicaid plans.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="aetna-faq-a-2">Does Aetna Medicare Advantage cover travel?<span class="faq-arrow">▾</span></button>
-        <div class="faq-a" id="aetna-faq-a-2">Limited. Most Aetna Medicare Advantage plans include emergency international coverage with a lifetime cap. For substantial travel, Medigap + a travel medical policy is the stronger combination.</div>
-      </div>
+__FAQS__
         </div>
       </section>
 
@@ -866,12 +954,9 @@
         <span class="section-eyebrow">Sources &amp; references</span>
         <h2>What we <em>checked</em>.</h2>
         <ul class="sources-list">
-          <li><a href="https://www.aetna.com/" target="_blank" rel="noopener">Aetna</a></li>
-          <li><a href="https://www.aetnainternational.com/" target="_blank" rel="noopener">Aetna International</a></li>
-          <li><a href="https://travel.state.gov/content/travel/en/international-travel/before-you-go/your-health-abroad.html" target="_blank" rel="noopener">US State Department — Travel Insurance Guide</a></li>
-          <li><a href="https://www.naic.org/" target="_blank" rel="noopener">NAIC — National Association of Insurance Commissioners</a></li>
+__SOURCES__
         </ul>
-        <p style="margin-top:1rem;font-size:0.9rem;color:var(--earth);font-style:italic;">⚠️ This guide provides general carrier-level information and does not constitute insurance or medical advice. Coverage varies by plan, employer, state, and year. Always verify your specific coverage with your insurance carrier before traveling. This page is not affiliated with or endorsed by Aetna.</p>
+        <p style="margin-top:1rem;font-size:0.9rem;color:var(--earth);font-style:italic;">⚠️ This guide provides general carrier-level information and does not constitute insurance or medical advice. Coverage varies by plan, employer, state, and year. Always verify your specific coverage with your insurance carrier before traveling. This page is not affiliated with or endorsed by __NAME__.</p>
       </section>
 
     </article>
@@ -881,12 +966,12 @@
   <div class="report-cta">
     <h3>Spot something <em>out of date?</em></h3>
     <p>Plan details change. Rates change. Every correction gets read and usually ships within 48 hours.</p>
-    <a href="mailto:hello@tabiji.ai?subject=Aetna%20carrier%20guide%20correction" class="report-cta-btn">Send a correction</a>
+    <a href="mailto:hello@tabiji.ai?subject=__NAME__%20carrier%20guide%20correction" class="report-cta-btn">Send a correction</a>
   </div>
 
 </main>
 
-
+__CALL_FAB__
 
 <!-- @include:footer:start -->
 <footer>
@@ -970,3 +1055,9 @@
 
 </body>
 </html>
+"""
+
+
+if __name__ == "__main__":
+    slugs = sys.argv[1:] if len(sys.argv) > 1 else None
+    build(slugs)
