@@ -23,7 +23,13 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from lib.editorial import REVIEW_DATE, apply_replacements, render_faq_accordion, render_faqs_schema  # noqa: E402
+from lib.editorial import (  # noqa: E402
+    REVIEW_DATE,
+    apply_replacements,
+    render_faq_accordion,
+    render_faqs_schema,
+    render_medication_book_cta,
+)
 from lib.medication_content import TIER1, HUB_FAQS  # noqa: E402
 
 ROOT = SCRIPT_DIR.parent
@@ -345,6 +351,11 @@ def build_tier1(tier1: dict, aggregated: dict, today: str):
         "__BANNED_COUNT__": str(len(banned)),
         "__RESTRICTED_COUNT__": str(len(restricted)),
         "__FAQS__": render_faq_accordion(tier1["faqs"], id_prefix=f"{tier1['slug']}-faq"),
+        "__BOOK_CTA__": render_medication_book_cta(
+            tier1["canonical_name"],
+            [e["slug"] for e in banned],
+            [e["slug"] for e in restricted],
+        ),
         "__SHARED_STYLES__": SHARED_STYLES,
         "__SCHEMA__": schema_str,
         "__REVIEW_DATE__": REVIEW_DATE,
@@ -777,6 +788,64 @@ SHARED_STYLES = r"""
         letter-spacing: 0.16em;
         text-transform: uppercase;
         margin-top: 0.35rem;
+    }
+
+    /* Destination-aware book CTA grid on tier-1 medication pages */
+    body.editorial-v2 .med-books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0.85rem;
+        margin-top: 0.75rem;
+    }
+    body.editorial-v2 .med-book-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        background: var(--indigo);
+        color: var(--white);
+        padding: 1.3rem 1.4rem;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        transition: transform 0.15s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+    body.editorial-v2 .med-book-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(45, 58, 92, 0.25);
+    }
+    body.editorial-v2 .med-book-card::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(196, 112, 75, 0.22) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    body.editorial-v2 .med-book-card .med-book-eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--terracotta);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+    body.editorial-v2 .med-book-card strong {
+        font-family: var(--font-serif);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.1;
+        margin-top: 0.25rem;
+    }
+    body.editorial-v2 .med-book-card .med-book-cta {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--terracotta);
+        margin-top: 0.6rem;
     }
 """
 
@@ -1256,6 +1325,8 @@ __STRATEGY_STEPS__
 __FAQS__
     </div>
   </section>
+
+__BOOK_CTA__
 
   <div class="report-cta">
     <h3>Spot an <em>outdated rule?</em></h3>
