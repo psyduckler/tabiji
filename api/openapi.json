@@ -3,7 +3,7 @@
   "info": {
     "title": "tabiji.ai API",
     "version": "1.5.0",
-    "description": "Free REST API for AI-curated travel data — 6488 destinations, 467 curated picks guides (5,429 place records), 443 day-by-day itineraries, 925 destination comparisons, and unified search. No API key required.",
+    "description": "Free REST API for AI-curated travel data — 6498 destinations, 990 curated picks guides (10,504 place records), 448 day-by-day itineraries, 1636 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -47,7 +47,7 @@
       "get": {
         "operationId": "listDestinations",
         "summary": "List all destinations",
-        "description": "Returns all 6488 destinations with budget level, best season, vibes, travel styles, and a one-line pitch.",
+        "description": "Returns all 6498 destinations with budget level, best season, vibes, travel styles, and a one-line pitch.",
         "tags": [
           "Destinations"
         ],
@@ -106,7 +106,7 @@
       "get": {
         "operationId": "listPicks",
         "summary": "List all picks guides",
-        "description": "Returns all 467 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
+        "description": "Returns all 990 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
         "tags": [
           "Picks"
         ],
@@ -124,48 +124,11 @@
         }
       }
     },
-    "/picks/{slug}.json": {
-      "get": {
-        "operationId": "getPicksGuide",
-        "summary": "Get a full picks guide",
-        "description": "Returns a complete picks guide with all places, Google ratings, opening hours, maps links, 'what to order' tips, Reddit quotes, and insider tips.",
-        "tags": [
-          "Picks"
-        ],
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "description": "Picks guide slug (e.g., 'amsterdam-brunch', 'tokyo-ramen', 'paris-wine-bars')",
-            "schema": {
-              "type": "string"
-            },
-            "example": "amsterdam-brunch"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Full picks guide with places",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PicksDetail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Guide not found"
-          }
-        }
-      }
-    },
     "/itineraries.json": {
       "get": {
         "operationId": "listItineraries",
         "summary": "List all itineraries",
-        "description": "Returns all 443 day-by-day travel itineraries with summary metadata.",
+        "description": "Returns all 448 day-by-day travel itineraries with summary metadata.",
         "tags": [
           "Itineraries"
         ],
@@ -224,7 +187,7 @@
       "get": {
         "operationId": "listComparisons",
         "summary": "List all destination comparisons",
-        "description": "Returns all 925 head-to-head destination comparisons with summary metadata.",
+        "description": "Returns all 1636 head-to-head destination comparisons with summary metadata.",
         "tags": [
           "Comparisons"
         ],
@@ -238,43 +201,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/compare/{slug}.json": {
-      "get": {
-        "operationId": "getComparison",
-        "summary": "Get a full comparison",
-        "description": "Returns a complete head-to-head comparison with all categories, Reddit quotes, verdict, and FAQs.",
-        "tags": [
-          "Comparisons"
-        ],
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "description": "Comparison slug (e.g., 'tokyo-vs-kyoto', 'mexico-city-vs-oaxaca')",
-            "schema": {
-              "type": "string"
-            },
-            "example": "tokyo-vs-kyoto"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Full comparison",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ComparisonDetail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Comparison not found"
           }
         }
       }

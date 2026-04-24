@@ -91,6 +91,19 @@ def replace_drift(text: str) -> tuple[str, dict[str, int]]:
     return text, counts
 
 
+def _collect_targets() -> list[Path]:
+    city_pages = [
+        p / "index.html"
+        for p in sorted(SCAMS.iterdir())
+        if p.is_dir() and p.name != "country" and (p / "index.html").exists()
+    ]
+    research = sorted((SCAMS / "research").glob("*.json"))
+    api_city = sorted((REPO / "api" / "v1" / "scams").glob("*.json"))
+    api_country = sorted((REPO / "api" / "v1" / "countries").glob("*/scams.json"))
+    api_catalog = [REPO / "api" / "v1" / "catalog" / "scams.json"]
+    return city_pages + research + api_city + api_country + [p for p in api_catalog if p.exists()]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
