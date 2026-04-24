@@ -151,7 +151,6 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | `countries/` | ~211 | Country info pages |
 | `destinations/` | ~69 | City destination pages |
 | `itineraries/` | ~49 | Free curated itineraries |
-| `resources/` | ~14 | Blog / resource articles |
 | `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
 | `recommend/` | 11 | Theme-based recommendation pages |
 
@@ -176,7 +175,6 @@ tabiji/
 ├── countries/               ← country info pages (211 countries)
 ├── destinations/            ← city destination pages (69 cities)
 ├── itineraries/             ← free curated itineraries (49 slugs)
-├── resources/               ← blog/articles (14 slugs)
 ├── best-places-to-visit-in-*/ ← monthly guides (12 months)
 │
 ├── find/                    ← destination finder tool

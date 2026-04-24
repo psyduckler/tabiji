@@ -987,7 +987,6 @@ def nav_html():
                 <a href="/compare/">\U0001F19A Compare Destinations</a>
                 <a href="/find/">\U0001F50D Destination Finder</a>
                 <a href="/health/">\U0001F3E5 Travel Health Tips</a>
-                <a href="/resources/">\U0001F4DA Resources</a>
                 <a href="/api/">\U0001F50C API</a>
             </div>
         </div>

@@ -642,7 +642,6 @@ def build_nav():
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/resources/">📚 Resources</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
