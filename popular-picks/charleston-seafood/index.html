@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Charleston", "picks": [{"anchorId": "the-ordinary", "rank": 1, "name": "The Ordinary", "label": "1. The Ordinary", "ctaUrl": "https://maps.google.com/?q=The+Ordinary+Downtown+Charleston", "mapQuery": "The Ordinary, Downtown, Charleston", "lat": 32.7892, "lng": -79.936}, {"anchorId": "hanks-seafood-restaurant", "rank": 2, "name": "Hank's Seafood Restaurant", "label": "2. Hank's Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Hank's+Seafood+Restaurant+Historic+District+Charleston", "mapQuery": "Hank's Seafood Restaurant, Historic District, Charleston", "lat": 32.7845, "lng": -79.9329}, {"anchorId": "167-raw-oyster-bar", "rank": 3, "name": "167 Raw Oyster Bar", "label": "3. 167 Raw Oyster Bar", "ctaUrl": "https://maps.google.com/?q=167+Raw+Oyster+Bar+French+Quarter+Charleston", "mapQuery": "167 Raw Oyster Bar, French Quarter, Charleston", "lat": 32.7797, "lng": -79.9328}, {"anchorId": "leons-oyster-shop", "rank": 4, "name": "Leon's Oyster Shop", "label": "4. Leon's Oyster Shop", "ctaUrl": "https://maps.google.com/?q=Leon's+Oyster+Shop+North+Central+Charleston", "mapQuery": "Leon's Oyster Shop, North Central, Charleston", "lat": 32.7938, "lng": -79.936}, {"anchorId": "the-darling-oyster-bar", "rank": 5, "name": "The Darling Oyster Bar", "label": "5. The Darling Oyster Bar", "ctaUrl": "https://maps.google.com/?q=The+Darling+Oyster+Bar+Historic+District+Charleston", "mapQuery": "The Darling Oyster Bar, Historic District, Charleston", "lat": 32.7885, "lng": -79.9359}, {"anchorId": "fleet-landing-restaurant-bar", "rank": 6, "name": "Fleet Landing Restaurant & Bar", "label": "6. Fleet Landing Restaurant & Bar", "ctaUrl": "https://maps.google.com/?q=Fleet+Landing+Restaurant+&+Bar+Waterfront+Charleston", "mapQuery": "Fleet Landing Restaurant & Bar, Waterfront, Charleston", "lat": 32.782, "lng": -79.9272}, {"anchorId": "amen-street-fish-raw-bar", "rank": 7, "name": "Amen Street Fish & Raw Bar", "label": "7. Amen Street Fish & Raw Bar", "ctaUrl": "https://maps.google.com/?q=Amen+Street+Fish+&+Raw+Bar+Historic+District+Charleston", "mapQuery": "Amen Street Fish & Raw Bar, Historic District, Charleston", "lat": 32.7816, "lng": -79.9298}, {"anchorId": "bowens-island-restaurant", "rank": 8, "name": "Bowens Island Restaurant", "label": "8. Bowens Island Restaurant", "ctaUrl": "https://maps.google.com/?q=Bowens+Island+Restaurant+Folly+Beach+area+Charleston", "mapQuery": "Bowens Island Restaurant, Folly Beach area, Charleston", "lat": 32.7215, "lng": -79.9705}, {"anchorId": "coast-bar-and-grill", "rank": 9, "name": "Coast Bar and Grill", "label": "9. Coast Bar and Grill", "ctaUrl": "https://maps.google.com/?q=Coast+Bar+and+Grill+Historic+District+Charleston", "mapQuery": "Coast Bar and Grill, Historic District, Charleston", "lat": 32.7865, "lng": -79.9366}, {"anchorId": "chubby-fish", "rank": 10, "name": "Chubby Fish", "label": "10. Chubby Fish", "ctaUrl": "https://maps.google.com/?q=Chubby+Fish+Cannonborough-Elliotborough+Charleston", "mapQuery": "Chubby Fish, Cannonborough-Elliotborough, Charleston", "lat": 32.7937, "lng": -79.9431}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

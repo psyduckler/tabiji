@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+Boston", "picks": [{"anchorId": "christopher-kimballs-milk-street-kitchen", "rank": 1, "name": "Christopher Kimball's Milk Street Kitchen", "label": "1. Christopher Kimball's Milk Street Kitchen", "ctaUrl": "https://maps.google.com/?q=Christopher+Kimball's+Milk+Street+Kitchen+Downtown+Boston", "mapQuery": "Christopher Kimball's Milk Street Kitchen, Downtown, Boston", "lat": 42.358245, "lng": -71.053703}, {"anchorId": "the-kitchen-at-the-boston-public-market", "rank": 2, "name": "The KITCHEN at The Boston Public Market", "label": "2. The KITCHEN at The Boston Public Market", "ctaUrl": "https://maps.google.com/?q=The+KITCHEN+at+The+Boston+Public+Market+Downtown/Haymarket+Boston", "mapQuery": "The KITCHEN at The Boston Public Market, Downtown/Haymarket, Boston", "lat": 42.363065, "lng": -71.058145}, {"anchorId": "eataly-boston", "rank": 3, "name": "Eataly Boston", "label": "3. Eataly Boston", "ctaUrl": "https://maps.google.com/?q=Eataly+Boston+Back+Bay+Boston", "mapQuery": "Eataly Boston, Back Bay, Boston", "lat": 42.348639, "lng": -71.080556}, {"anchorId": "flour-bakery-cafe", "rank": 4, "name": "Flour Bakery + Cafe", "label": "4. Flour Bakery + Cafe", "ctaUrl": "https://maps.google.com/?q=Flour+Bakery+++Cafe+Seaport/Fort+Point+Boston", "mapQuery": "Flour Bakery + Cafe, Seaport/Fort Point, Boston", "lat": 42.350849, "lng": -71.049448}, {"anchorId": "sur-la-table", "rank": 5, "name": "Sur La Table (Newbury St)", "label": "5. Sur La Table (Newbury St)", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+(Newbury+St)+Back+Bay+Boston", "mapQuery": "Sur La Table (Newbury St), Back Bay, Boston", "lat": 42.349694, "lng": -71.085}, {"anchorId": "cambridge-center-for-adult-education", "rank": 6, "name": "Cambridge Center for Adult Education (CCAE)", "label": "6. Cambridge Center for Adult Education (CCAE)", "ctaUrl": "https://maps.google.com/?q=Cambridge+Center+for+Adult+Education+(CCAE)+Harvard+Square+(Cambridge)+Boston", "mapQuery": "Cambridge Center for Adult Education (CCAE), Harvard Square (Cambridge), Boston", "lat": 42.373406, "lng": -71.121528}, {"anchorId": "boston-center-for-adult-education", "rank": 7, "name": "Boston Center for Adult Education (BCAE)", "label": "7. Boston Center for Adult Education (BCAE)", "ctaUrl": "https://maps.google.com/?q=Boston+Center+for+Adult+Education+(BCAE)+Back+Bay+Boston", "mapQuery": "Boston Center for Adult Education (BCAE), Back Bay, Boston", "lat": 42.3507, "lng": -71.06649}, {"anchorId": "tuscan-kitchen-seaport", "rank": 8, "name": "Tuscan Kitchen Seaport", "label": "8. Tuscan Kitchen Seaport", "ctaUrl": "https://maps.google.com/?q=Tuscan+Kitchen+Seaport+Seaport+Boston", "mapQuery": "Tuscan Kitchen Seaport, Seaport, Boston", "lat": 42.350699, "lng": -71.045053}, {"anchorId": "formaggio-kitchen", "rank": 9, "name": "Formaggio Kitchen", "label": "9. Formaggio Kitchen", "ctaUrl": "https://maps.google.com/?q=Formaggio+Kitchen+Cambridge+Boston", "mapQuery": "Formaggio Kitchen, Cambridge, Boston", "lat": 42.38575, "lng": -71.13783}, {"anchorId": "curio-spice-co", "rank": 10, "name": "Curio Spice Co.", "label": "10. Curio Spice Co.", "ctaUrl": "https://maps.google.com/?q=Curio+Spice+Co.+Cambridgeport+Boston", "mapQuery": "Curio Spice Co., Cambridgeport, Boston", "lat": 42.39162, "lng": -71.12599}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

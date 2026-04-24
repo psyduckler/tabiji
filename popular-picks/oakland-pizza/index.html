@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Oakland", "picks": [{"anchorId": "zacharys-chicago-pizza", "rank": 1, "name": "Zachary's Chicago Pizza", "label": "1. Zachary's Chicago Pizza", "ctaUrl": "https://maps.google.com/?q=Zachary's+Chicago+Pizza+Rockridge+Oakland", "mapQuery": "Zachary's Chicago Pizza, Rockridge, Oakland", "lat": 37.8427, "lng": -122.2519}, {"anchorId": "pizzahacker", "rank": 2, "name": "PizzaHacker", "label": "2. PizzaHacker", "ctaUrl": "https://maps.google.com/?q=PizzaHacker+Temescal+Oakland", "mapQuery": "PizzaHacker, Temescal, Oakland", "lat": 37.8368, "lng": -122.253}, {"anchorId": "pizzaiolo", "rank": 3, "name": "Pizzaiolo", "label": "3. Pizzaiolo", "ctaUrl": "https://maps.google.com/?q=Pizzaiolo+Temescal+Oakland", "mapQuery": "Pizzaiolo, Temescal, Oakland", "lat": 37.834, "lng": -122.2694}, {"anchorId": "square-pie-guys", "rank": 4, "name": "Square Pie Guys", "label": "4. Square Pie Guys", "ctaUrl": "https://maps.google.com/?q=Square+Pie+Guys+Uptown+Oakland", "mapQuery": "Square Pie Guys, Uptown, Oakland", "lat": 37.8093, "lng": -122.2796}, {"anchorId": "slicer-pizzeria", "rank": 5, "name": "Slicer Pizzeria", "label": "5. Slicer Pizzeria", "ctaUrl": "https://maps.google.com/?q=Slicer+Pizzeria+Lake+Merritt+Oakland", "mapQuery": "Slicer Pizzeria, Lake Merritt, Oakland", "lat": 37.8078, "lng": -122.2642}, {"anchorId": "arthur-macs-tap-and-snack", "rank": 6, "name": "Arthur Mac's Tap and Snack", "label": "6. Arthur Mac's Tap and Snack", "ctaUrl": "https://maps.google.com/?q=Arthur+Mac's+Tap+and+Snack+Temescal+Oakland", "mapQuery": "Arthur Mac's Tap and Snack, Temescal, Oakland", "lat": 37.8288, "lng": -122.2713}, {"anchorId": "the-forge", "rank": 7, "name": "The Forge", "label": "7. The Forge", "ctaUrl": "https://maps.google.com/?q=The+Forge+Jack+London+Square+Oakland", "mapQuery": "The Forge, Jack London Square, Oakland", "lat": 37.7975, "lng": -122.2789}, {"anchorId": "rotten-city-pizza", "rank": 8, "name": "Rotten City Pizza", "label": "8. Rotten City Pizza", "ctaUrl": "https://maps.google.com/?q=Rotten+City+Pizza+Piedmont+Ave+Oakland", "mapQuery": "Rotten City Pizza, Piedmont Ave, Oakland", "lat": 37.8427, "lng": -122.2678}, {"anchorId": "abruzzo-pizza", "rank": 9, "name": "Abruzzo Pizza", "label": "9. Abruzzo Pizza", "ctaUrl": "https://maps.google.com/?q=Abruzzo+Pizza+Grand+Lake+Oakland", "mapQuery": "Abruzzo Pizza, Grand Lake, Oakland", "lat": 37.8077, "lng": -122.2694}, {"anchorId": "la-santa-torta-pizza-y-birria", "rank": 10, "name": "La Santa Torta - Pizza y Birria", "label": "10. La Santa Torta - Pizza y Birria", "ctaUrl": "https://maps.google.com/?q=La+Santa+Torta+-+Pizza+y+Birria+Fruitvale+Oakland", "mapQuery": "La Santa Torta - Pizza y Birria, Fruitvale, Oakland", "lat": 37.7818, "lng": -122.2155}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

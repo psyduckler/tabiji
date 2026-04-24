@@ -1565,73 +1565,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Las+Vegas", "picks": [{"anchorId": "mastros-ocean-club", "rank": 1, "name": "Mastro's Ocean Club", "label": "1. Mastro's Ocean Club", "ctaUrl": "https://maps.google.com/?q=Mastro's+Ocean+Club+The+Strip+(ARIA+Resort+&+Casino)+Las+Vegas", "mapQuery": "Mastro's Ocean Club, The Strip (ARIA Resort & Casino), Las Vegas", "lat": 36.1091, "lng": -115.1746}, {"anchorId": "joes-seafood-prime-steak-stone-crab", "rank": 2, "name": "Joe's Seafood, Prime Steak & Stone Crab", "label": "2. Joe's Seafood, Prime Steak & Stone Crab", "ctaUrl": "https://maps.google.com/?q=Joe's+Seafood,+Prime+Steak+&+Stone+Crab+The+Strip+(Forum+Shops+at+Caesars+Palace)+Las+Vegas", "mapQuery": "Joe's Seafood, Prime Steak & Stone Crab, The Strip (Forum Shops at Caesars Palace), Las Vegas", "lat": 36.1166, "lng": -115.1745}, {"anchorId": "emerils-new-orleans-fish-house", "rank": 3, "name": "Emeril's New Orleans Fish House", "label": "3. Emeril's New Orleans Fish House", "ctaUrl": "https://maps.google.com/?q=Emeril's+New+Orleans+Fish+House+The+Strip+(MGM+Grand)+Las+Vegas", "mapQuery": "Emeril's New Orleans Fish House, The Strip (MGM Grand), Las Vegas", "lat": 36.1017, "lng": -115.1702}, {"anchorId": "estiatorio-milos", "rank": 4, "name": "Estiatorio Milos", "label": "4. Estiatorio Milos", "ctaUrl": "https://maps.google.com/?q=Estiatorio+Milos+The+Strip+(The+Venetian+Resort)+Las+Vegas", "mapQuery": "Estiatorio Milos, The Strip (The Venetian Resort), Las Vegas", "lat": 36.1215, "lng": -115.1706}, {"anchorId": "the-oyster-bar-at-palace-station", "rank": 5, "name": "The Oyster Bar at Palace Station", "label": "5. The Oyster Bar at Palace Station", "ctaUrl": "https://maps.google.com/?q=The+Oyster+Bar+at+Palace+Station+West+Las+Vegas+(Palace+Station+Hotel+&+Casino)+Las+Vegas", "mapQuery": "The Oyster Bar at Palace Station, West Las Vegas (Palace Station Hotel & Casino), Las Vegas", "lat": 36.136, "lng": -115.195}, {"anchorId": "water-grill", "rank": 6, "name": "Water Grill", "label": "6. Water Grill", "ctaUrl": "https://maps.google.com/?q=Water+Grill+The+Strip+(Forum+Shops+at+Caesars+Palace)+Las+Vegas", "mapQuery": "Water Grill, The Strip (Forum Shops at Caesars Palace), Las Vegas", "lat": 36.1166, "lng": -115.1745}, {"anchorId": "hot-n-juicy-crawfish", "rank": 7, "name": "Hot N Juicy Crawfish", "label": "7. Hot N Juicy Crawfish", "ctaUrl": "https://maps.google.com/?q=Hot+N+Juicy+Crawfish+Chinatown+(Spring+Mountain+Rd)+Las+Vegas", "mapQuery": "Hot N Juicy Crawfish, Chinatown (Spring Mountain Rd), Las Vegas", "lat": 36.1264, "lng": -115.1818}, {"anchorId": "kabuto-edomae-sushi", "rank": 8, "name": "Kabuto Edomae Sushi", "label": "8. Kabuto Edomae Sushi", "ctaUrl": "https://maps.google.com/?q=Kabuto+Edomae+Sushi+Chinatown+(Spring+Mountain+Rd)+Las+Vegas", "mapQuery": "Kabuto Edomae Sushi, Chinatown (Spring Mountain Rd), Las Vegas", "lat": 36.1293, "lng": -115.2227}, {"anchorId": "lobster-me", "rank": 9, "name": "Lobster ME", "label": "9. Lobster ME", "ctaUrl": "https://maps.google.com/?q=Lobster+ME+The+Strip+(Grand+Canal+Shoppes+at+The+Venetian+Resort)+Las+Vegas", "mapQuery": "Lobster ME, The Strip (Grand Canal Shoppes at The Venetian Resort), Las Vegas", "lat": 36.1221, "lng": -115.1718}, {"anchorId": "catch", "rank": 10, "name": "Catch", "label": "10. Catch", "ctaUrl": "https://maps.google.com/?q=Catch+The+Strip+(ARIA+Resort+&+Casino)+Las+Vegas", "mapQuery": "Catch, The Strip (ARIA Resort & Casino), Las Vegas", "lat": 36.107, "lng": -115.176}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

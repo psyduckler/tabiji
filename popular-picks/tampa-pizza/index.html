@@ -1573,73 +1573,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Tampa", "picks": [{"anchorId": "eddie-sams-ny-pizza", "rank": 1, "name": "Eddie & Sam's NY Pizza", "label": "1. Eddie & Sam's NY Pizza", "ctaUrl": "https://maps.google.com/?q=Eddie+&+Sam's+NY+Pizza+Downtown+Tampa+Tampa", "mapQuery": "Eddie & Sam's NY Pizza, Downtown Tampa, Tampa", "lat": 27.947847, "lng": -82.457887}, {"anchorId": "fabrica-pizza", "rank": 2, "name": "Fabrica Pizza", "label": "2. Fabrica Pizza", "ctaUrl": "https://maps.google.com/?q=Fabrica+Pizza+Channelside+Tampa", "mapQuery": "Fabrica Pizza, Channelside, Tampa", "lat": 27.943194, "lng": -82.451458}, {"anchorId": "cappys-pizzeria", "rank": 3, "name": "Cappy's Pizzeria", "label": "3. Cappy's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Cappy's+Pizzeria+South+Tampa+Tampa", "mapQuery": "Cappy's Pizzeria, South Tampa, Tampa", "lat": 27.900994, "lng": -82.493977}, {"anchorId": "ava", "rank": 4, "name": "Ava", "label": "4. Ava", "ctaUrl": "https://maps.google.com/?q=Ava+SoHo+/+Hyde+Park+Tampa", "mapQuery": "Ava, SoHo / Hyde Park, Tampa", "lat": 27.931792, "lng": -82.479469}, {"anchorId": "due-amici-pizza", "rank": 5, "name": "Due Amici Pizza", "label": "5. Due Amici Pizza", "ctaUrl": "https://maps.google.com/?q=Due+Amici+Pizza+Ybor+City+Tampa", "mapQuery": "Due Amici Pizza, Ybor City, Tampa", "lat": 27.957545, "lng": -82.433291}, {"anchorId": "lees-grocery", "rank": 6, "name": "Lee's Grocery", "label": "6. Lee's Grocery", "ctaUrl": "https://maps.google.com/?q=Lee's+Grocery+Seminole+Heights+Tampa", "mapQuery": "Lee's Grocery, Seminole Heights, Tampa", "lat": 27.971511, "lng": -82.458925}, {"anchorId": "new-york-new-york-pizza", "rank": 7, "name": "New York New York Pizza", "label": "7. New York New York Pizza", "ctaUrl": "https://maps.google.com/?q=New+York+New+York+Pizza+USF+Area+/+Temple+Terrace+Tampa", "mapQuery": "New York New York Pizza, USF Area / Temple Terrace, Tampa", "lat": 28.043519, "lng": -82.385507}, {"anchorId": "pauls-chicago-pizza", "rank": 8, "name": "Paul's Chicago Pizza", "label": "8. Paul's Chicago Pizza", "ctaUrl": "https://maps.google.com/?q=Paul's+Chicago+Pizza+Carrollwood+Tampa", "mapQuery": "Paul's Chicago Pizza, Carrollwood, Tampa", "lat": 28.053805, "lng": -82.529853}, {"anchorId": "square-brgr-boozy-bites", "rank": 9, "name": "Square Brgr & BOOzy Bites", "label": "9. Square Brgr & BOOzy Bites", "ctaUrl": "https://maps.google.com/?q=Square+Brgr+&+BOOzy+Bites+Westchase+Tampa", "mapQuery": "Square Brgr & BOOzy Bites, Westchase, Tampa", "lat": 28.040177, "lng": -82.637505}, {"anchorId": "wood-fired-pizza", "rank": 10, "name": "Wood Fired Pizza", "label": "10. Wood Fired Pizza", "ctaUrl": "https://maps.google.com/?q=Wood+Fired+Pizza+Seminole+Heights+Tampa", "mapQuery": "Wood Fired Pizza, Seminole Heights, Tampa", "lat": 28.006764, "lng": -82.457816}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Toronto", "picks": [{"anchorId": "alo", "rank": 1, "name": "Alo", "label": "1. Alo", "ctaUrl": "https://maps.google.com/?q=Alo+Queen+West+Toronto", "mapQuery": "Alo, Queen West, Toronto", "lat": 43.6477, "lng": -79.3957}, {"anchorId": "richmond-station", "rank": 2, "name": "Richmond Station", "label": "2. Richmond Station", "ctaUrl": "https://maps.google.com/?q=Richmond+Station+Financial+District+Toronto", "mapQuery": "Richmond Station, Financial District, Toronto", "lat": 43.6515, "lng": -79.379}, {"anchorId": "pai-northern-thai-kitchen", "rank": 3, "name": "PAI Northern Thai Kitchen", "label": "3. PAI Northern Thai Kitchen", "ctaUrl": "https://maps.google.com/?q=PAI+Northern+Thai+Kitchen+Entertainment+District+Toronto", "mapQuery": "PAI Northern Thai Kitchen, Entertainment District, Toronto", "lat": 43.6465, "lng": -79.3879}, {"anchorId": "seven-lives-tacos-y-mariscos", "rank": 4, "name": "Seven Lives Tacos y Mariscos", "label": "4. Seven Lives Tacos y Mariscos", "ctaUrl": "https://maps.google.com/?q=Seven+Lives+Tacos+y+Mariscos+Kensington+Market+Toronto", "mapQuery": "Seven Lives Tacos y Mariscos, Kensington Market, Toronto", "lat": 43.6548, "lng": -79.4005}, {"anchorId": "edulis", "rank": 5, "name": "Edulis", "label": "5. Edulis", "ctaUrl": "https://maps.google.com/?q=Edulis+King+West+Toronto", "mapQuery": "Edulis, King West, Toronto", "lat": 43.6433, "lng": -79.4057}, {"anchorId": "rasta-pasta", "rank": 6, "name": "Rasta Pasta", "label": "6. Rasta Pasta", "ctaUrl": "https://maps.google.com/?q=Rasta+Pasta+Kensington+Market+Toronto", "mapQuery": "Rasta Pasta, Kensington Market, Toronto", "lat": 43.6545, "lng": -79.4004}, {"anchorId": "mothers-dumplings", "rank": 7, "name": "Mother's Dumplings", "label": "7. Mother's Dumplings", "ctaUrl": "https://maps.google.com/?q=Mother's+Dumplings+Kensington+Market+Toronto", "mapQuery": "Mother's Dumplings, Kensington Market, Toronto", "lat": 43.6558, "lng": -79.3978}, {"anchorId": "quetzal", "rank": 8, "name": "Quetzal", "label": "8. Quetzal", "ctaUrl": "https://maps.google.com/?q=Quetzal+King+West+Toronto", "mapQuery": "Quetzal, King West, Toronto", "lat": 43.6555, "lng": -79.4002}, {"anchorId": "descendant-detroit-style-pizza", "rank": 9, "name": "Descendant Detroit-Style Pizza", "label": "9. Descendant Detroit-Style Pizza", "ctaUrl": "https://maps.google.com/?q=Descendant+Detroit-Style+Pizza+Leslieville+Toronto", "mapQuery": "Descendant Detroit-Style Pizza, Leslieville, Toronto", "lat": 43.6601, "lng": -79.3364}, {"anchorId": "khao-san-road", "rank": 10, "name": "Khao San Road", "label": "10. Khao San Road", "ctaUrl": "https://maps.google.com/?q=Khao+San+Road+Entertainment+District+Toronto", "mapQuery": "Khao San Road, Entertainment District, Toronto", "lat": 43.6457, "lng": -79.3892}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

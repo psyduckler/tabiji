@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Dim Sum Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/dim+sum+in+Boston", "picks": [{"anchorId": "winsor-dim-sum-house", "rank": 1, "name": "Winsor Dim Sum House", "label": "1. Winsor Dim Sum House", "ctaUrl": "https://maps.google.com/?q=Winsor+Dim+Sum+House+Chinatown+Boston", "mapQuery": "Winsor Dim Sum House, Chinatown, Boston", "lat": 42.3512, "lng": -71.0592}, {"anchorId": "hei-la-moon", "rank": 2, "name": "Hei La Moon", "label": "2. Hei La Moon", "ctaUrl": "https://maps.google.com/?q=Hei+La+Moon+Chinatown+Boston", "mapQuery": "Hei La Moon, Chinatown, Boston", "lat": 42.3508, "lng": -71.0591}, {"anchorId": "myers-chang", "rank": 3, "name": "Myers + Chang", "label": "3. Myers + Chang", "ctaUrl": "https://maps.google.com/?q=Myers+++Chang+South+End+Boston", "mapQuery": "Myers + Chang, South End, Boston", "lat": 42.3414, "lng": -71.0664}, {"anchorId": "jumbo-seafood-restaurant", "rank": 4, "name": "Jumbo Seafood Restaurant", "label": "4. Jumbo Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Jumbo+Seafood+Restaurant+Chinatown+Boston", "mapQuery": "Jumbo Seafood Restaurant, Chinatown, Boston", "lat": 42.3508, "lng": -71.0594}, {"anchorId": "china-pearl", "rank": 5, "name": "China Pearl", "label": "5. China Pearl", "ctaUrl": "https://maps.google.com/?q=China+Pearl+Chinatown+Boston", "mapQuery": "China Pearl, Chinatown, Boston", "lat": 42.3512, "lng": -71.0594}, {"anchorId": "gourmet-dumpling-house", "rank": 6, "name": "Gourmet Dumpling House", "label": "6. Gourmet Dumpling House", "ctaUrl": "https://maps.google.com/?q=Gourmet+Dumpling+House+Chinatown+Boston", "mapQuery": "Gourmet Dumpling House, Chinatown, Boston", "lat": 42.3508, "lng": -71.0601}, {"anchorId": "peach-farm", "rank": 7, "name": "Peach Farm", "label": "7. Peach Farm", "ctaUrl": "https://maps.google.com/?q=Peach+Farm+Chinatown+Boston", "mapQuery": "Peach Farm, Chinatown, Boston", "lat": 42.3512, "lng": -71.0593}, {"anchorId": "great-taste-bakery-restaurant", "rank": 8, "name": "Great Taste Bakery & Restaurant", "label": "8. Great Taste Bakery & Restaurant", "ctaUrl": "https://maps.google.com/?q=Great+Taste+Bakery+&+Restaurant+Chinatown+Boston", "mapQuery": "Great Taste Bakery & Restaurant, Chinatown, Boston", "lat": 42.3508, "lng": -71.0601}, {"anchorId": "taiwan-cafe", "rank": 9, "name": "Taiwan Cafe", "label": "9. Taiwan Cafe", "ctaUrl": "https://maps.google.com/?q=Taiwan+Cafe+Chinatown+Boston", "mapQuery": "Taiwan Cafe, Chinatown, Boston", "lat": 42.3516, "lng": -71.0605}, {"anchorId": "shanghai-gate", "rank": 10, "name": "Shanghai Gate", "label": "10. Shanghai Gate", "ctaUrl": "https://maps.google.com/?q=Shanghai+Gate+Allston+Boston", "mapQuery": "Shanghai Gate, Allston, Boston", "lat": 42.3503, "lng": -71.1306}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

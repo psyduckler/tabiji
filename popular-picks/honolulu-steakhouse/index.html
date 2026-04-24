@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Honolulu", "picks": [{"anchorId": "hys-steak-house", "rank": 1, "name": "Hy's Steak House", "label": "1. Hy's Steak House", "ctaUrl": "https://maps.google.com/?q=Hy's+Steak+House+Waikiki+Honolulu", "mapQuery": "Hy's Steak House, Waikiki, Honolulu", "lat": 21.278563, "lng": -157.824874}, {"anchorId": "wolfgangs-steakhouse-by-wolfgang-zwiener", "rank": 2, "name": "Wolfgang's Steakhouse by Wolfgang Zwiener", "label": "2. Wolfgang's Steakhouse by Wolfgang Zwiener", "ctaUrl": "https://maps.google.com/?q=Wolfgang's+Steakhouse+by+Wolfgang+Zwiener+Waikiki+Honolulu", "mapQuery": "Wolfgang's Steakhouse by Wolfgang Zwiener, Waikiki, Honolulu", "lat": 21.278144, "lng": -157.828854}, {"anchorId": "dk-steak-house", "rank": 3, "name": "DK Steak House", "label": "3. DK Steak House", "ctaUrl": "https://maps.google.com/?q=DK+Steak+House+Waikiki+Honolulu", "mapQuery": "DK Steak House, Waikiki, Honolulu", "lat": 21.274889, "lng": -157.821421}, {"anchorId": "stripsteak-waikiki", "rank": 4, "name": "Stripsteak Waikiki", "label": "4. Stripsteak Waikiki", "ctaUrl": "https://maps.google.com/?q=Stripsteak+Waikiki+Waikiki+Honolulu", "mapQuery": "Stripsteak Waikiki, Waikiki, Honolulu", "lat": 21.278065, "lng": -157.826848}, {"anchorId": "the-signature-prime-steak-seafood", "rank": 5, "name": "The Signature Prime Steak & Seafood", "label": "5. The Signature Prime Steak & Seafood", "ctaUrl": "https://maps.google.com/?q=The+Signature+Prime+Steak+&+Seafood+Ala+Moana+Honolulu", "mapQuery": "The Signature Prime Steak & Seafood, Ala Moana, Honolulu", "lat": 21.290747, "lng": -157.842775}, {"anchorId": "ruths-chris-steak-house", "rank": 6, "name": "Ruth's Chris Steak House", "label": "6. Ruth's Chris Steak House", "ctaUrl": "https://maps.google.com/?q=Ruth's+Chris+Steak+House+Waikiki+Honolulu", "mapQuery": "Ruth's Chris Steak House, Waikiki, Honolulu", "lat": 21.28014, "lng": -157.828943}, {"anchorId": "mortons-the-steakhouse", "rank": 7, "name": "Morton's The Steakhouse", "label": "7. Morton's The Steakhouse", "ctaUrl": "https://maps.google.com/?q=Morton's+The+Steakhouse+Ala+Moana+Honolulu", "mapQuery": "Morton's The Steakhouse, Ala Moana, Honolulu", "lat": 21.290757, "lng": -157.846877}, {"anchorId": "side-street-inn", "rank": 8, "name": "Side Street Inn", "label": "8. Side Street Inn", "ctaUrl": "https://maps.google.com/?q=Side+Street+Inn+Kaimuki+Honolulu", "mapQuery": "Side Street Inn, Kaimuki, Honolulu", "lat": 21.279813, "lng": -157.810578}, {"anchorId": "chucks-steak-house", "rank": 9, "name": "Chuck's Steak House", "label": "9. Chuck's Steak House", "ctaUrl": "https://maps.google.com/?q=Chuck's+Steak+House+Waikiki+Honolulu", "mapQuery": "Chuck's Steak House, Waikiki, Honolulu", "lat": 21.276685, "lng": -157.826792}, {"anchorId": "the-beachhouse-at-the-moana", "rank": 10, "name": "The Beachhouse at the Moana", "label": "10. The Beachhouse at the Moana", "ctaUrl": "https://maps.google.com/?q=The+Beachhouse+at+the+Moana+Waikiki+Honolulu", "mapQuery": "The Beachhouse at the Moana, Waikiki, Honolulu", "lat": 21.276081, "lng": -157.825828}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

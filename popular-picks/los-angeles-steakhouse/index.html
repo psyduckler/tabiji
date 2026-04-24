@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Los+Angeles", "picks": [{"anchorId": "cut-by-wolfgang-puck", "rank": 1, "name": "CUT by Wolfgang Puck", "label": "1. CUT by Wolfgang Puck", "ctaUrl": "https://maps.google.com/?q=CUT+by+Wolfgang+Puck+Beverly+Hills+Los+Angeles", "mapQuery": "CUT by Wolfgang Puck, Beverly Hills, Los Angeles", "lat": 34.0664, "lng": -118.4011}, {"anchorId": "mastros-steakhouse", "rank": 2, "name": "Mastro's Steakhouse", "label": "2. Mastro's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Mastro's+Steakhouse+Beverly+Hills+Los+Angeles", "mapQuery": "Mastro's Steakhouse, Beverly Hills, Los Angeles", "lat": 34.0674, "lng": -118.4022}, {"anchorId": "boa-steakhouse", "rank": 3, "name": "Boa Steakhouse", "label": "3. Boa Steakhouse", "ctaUrl": "https://maps.google.com/?q=Boa+Steakhouse+West+Hollywood+Los+Angeles", "mapQuery": "Boa Steakhouse, West Hollywood, Los Angeles", "lat": 34.0901, "lng": -118.3892}, {"anchorId": "nick-stefs-steakhouse", "rank": 4, "name": "Nick & Stef's Steakhouse", "label": "4. Nick & Stef's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Nick+&+Stef's+Steakhouse+Downtown+LA+Los+Angeles", "mapQuery": "Nick & Stef's Steakhouse, Downtown LA, Los Angeles", "lat": 34.0538, "lng": -118.2562}, {"anchorId": "musso-frank-grill", "rank": 5, "name": "Musso & Frank Grill", "label": "5. Musso & Frank Grill", "ctaUrl": "https://maps.google.com/?q=Musso+&+Frank+Grill+Hollywood+Los+Angeles", "mapQuery": "Musso & Frank Grill, Hollywood, Los Angeles", "lat": 34.1018, "lng": -118.3374}, {"anchorId": "taylors-steakhouse", "rank": 6, "name": "Taylor's Steakhouse", "label": "6. Taylor's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Taylor's+Steakhouse+Koreatown+Los+Angeles", "mapQuery": "Taylor's Steakhouse, Koreatown, Los Angeles", "lat": 34.0569, "lng": -118.3079}, {"anchorId": "jar-restaurant", "rank": 7, "name": "Jar Restaurant", "label": "7. Jar Restaurant", "ctaUrl": "https://maps.google.com/?q=Jar+Restaurant+Beverly+Grove+Los+Angeles", "mapQuery": "Jar Restaurant, Beverly Grove, Los Angeles", "lat": 34.0768, "lng": -118.3698}, {"anchorId": "gwen-butcher-shop-restaurant", "rank": 8, "name": "Gwen Butcher Shop & Restaurant", "label": "8. Gwen Butcher Shop & Restaurant", "ctaUrl": "https://maps.google.com/?q=Gwen+Butcher+Shop+&+Restaurant+Hollywood+Los+Angeles", "mapQuery": "Gwen Butcher Shop & Restaurant, Hollywood, Los Angeles", "lat": 34.0975, "lng": -118.3297}, {"anchorId": "dal-rae-restaurant", "rank": 9, "name": "Dal Rae Restaurant", "label": "9. Dal Rae Restaurant", "ctaUrl": "https://maps.google.com/?q=Dal+Rae+Restaurant+Pico+Rivera+Los+Angeles", "mapQuery": "Dal Rae Restaurant, Pico Rivera, Los Angeles", "lat": 33.9576, "lng": -118.0674}, {"anchorId": "pacific-dining-car", "rank": 10, "name": "Pacific Dining Car", "label": "10. Pacific Dining Car", "ctaUrl": "https://maps.google.com/?q=Pacific+Dining+Car+Downtown+LA+Los+Angeles", "mapQuery": "Pacific Dining Car, Downtown LA, Los Angeles", "lat": 34.0543, "lng": -118.2678}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

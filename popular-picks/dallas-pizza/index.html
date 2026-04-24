@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Dallas", "picks": [{"anchorId": "cane-rosso", "rank": 1, "name": "Cane Rosso", "label": "1. Cane Rosso", "ctaUrl": "https://maps.google.com/?q=Cane+Rosso+Deep+Ellum+Dallas", "mapQuery": "Cane Rosso, Deep Ellum, Dallas", "lat": 32.7845, "lng": -96.7865}, {"anchorId": "zalat-pizza", "rank": 2, "name": "Zalat Pizza", "label": "2. Zalat Pizza", "ctaUrl": "https://maps.google.com/?q=Zalat+Pizza+multiple+locations,+e.g.,+Lower+Greenville+Dallas", "mapQuery": "Zalat Pizza, multiple locations, e.g., Lower Greenville, Dallas", "lat": 32.8124, "lng": -96.7816}, {"anchorId": "partenope-ristorante", "rank": 3, "name": "Partenope Ristorante", "label": "3. Partenope Ristorante", "ctaUrl": "https://maps.google.com/?q=Partenope+Ristorante+Downtown+/+Main+Street+District+Dallas", "mapQuery": "Partenope Ristorante, Downtown / Main Street District, Dallas", "lat": 32.7801, "lng": -96.7979}, {"anchorId": "enos-pizza-tavern", "rank": 4, "name": "Eno's Pizza Tavern", "label": "4. Eno's Pizza Tavern", "ctaUrl": "https://maps.google.com/?q=Eno's+Pizza+Tavern+Bishop+Arts+District+Dallas", "mapQuery": "Eno's Pizza Tavern, Bishop Arts District, Dallas", "lat": 32.7485, "lng": -96.8227}, {"anchorId": "pie-tap-pizza-workshop-bar", "rank": 5, "name": "Pie Tap Pizza Workshop + Bar", "label": "5. Pie Tap Pizza Workshop + Bar", "ctaUrl": "https://maps.google.com/?q=Pie+Tap+Pizza+Workshop+++Bar+multiple+locations,+e.g.,+Henderson+Ave+Dallas", "mapQuery": "Pie Tap Pizza Workshop + Bar, multiple locations, e.g., Henderson Ave, Dallas", "lat": 32.8105, "lng": -96.7909}, {"anchorId": "olivellas-neo-pizza-napoletana", "rank": 6, "name": "Olivella's Neo Pizza Napoletana", "label": "6. Olivella's Neo Pizza Napoletana", "ctaUrl": "https://maps.google.com/?q=Olivella's+Neo+Pizza+Napoletana+multiple+locations,+e.g.,+University+Park+Dallas", "mapQuery": "Olivella's Neo Pizza Napoletana, multiple locations, e.g., University Park, Dallas", "lat": 32.845, "lng": -96.7997}, {"anchorId": "campisis-restaurant", "rank": 7, "name": "Campisi's Restaurant", "label": "7. Campisi's Restaurant", "ctaUrl": "https://maps.google.com/?q=Campisi's+Restaurant+multiple+locations,+e.g.,+Mockingbird+Ln+Dallas", "mapQuery": "Campisi's Restaurant, multiple locations, e.g., Mockingbird Ln, Dallas", "lat": 32.8214, "lng": -96.7644}, {"anchorId": "cavalli-pizza", "rank": 8, "name": "Cavalli Pizza", "label": "8. Cavalli Pizza", "ctaUrl": "https://maps.google.com/?q=Cavalli+Pizza+Irving+(near+Dallas)+Dallas", "mapQuery": "Cavalli Pizza, Irving (near Dallas), Dallas", "lat": 32.871, "lng": -96.9942}, {"anchorId": "motorino-pizza", "rank": 9, "name": "Motorino Pizza", "label": "9. Motorino Pizza", "ctaUrl": "https://maps.google.com/?q=Motorino+Pizza+Uptown+Dallas", "mapQuery": "Motorino Pizza, Uptown, Dallas", "lat": 32.8459, "lng": -96.8041}, {"anchorId": "thunderbird-pies", "rank": 10, "name": "Thunderbird Pies", "label": "10. Thunderbird Pies", "ctaUrl": "https://maps.google.com/?q=Thunderbird+Pies+East+Dallas+/+Casa+Linda+Dallas", "mapQuery": "Thunderbird Pies, East Dallas / Casa Linda, Dallas", "lat": 32.8256, "lng": -96.7118}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

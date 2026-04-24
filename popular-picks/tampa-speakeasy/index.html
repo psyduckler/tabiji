@@ -1555,73 +1555,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Tampa", "picks": [{"anchorId": "ciros-speakeasy-and-supper-club", "rank": 1, "name": "Ciro's Speakeasy and Supper Club", "label": "1. Ciro's Speakeasy and Supper Club", "ctaUrl": "https://maps.google.com/?q=Ciro's+Speakeasy+and+Supper+Club+South+Tampa+Tampa", "mapQuery": "Ciro's Speakeasy and Supper Club, South Tampa, Tampa", "lat": 27.9405, "lng": -82.4828}, {"anchorId": "the-saint", "rank": 2, "name": "The Saint", "label": "2. The Saint", "ctaUrl": "https://maps.google.com/?q=The+Saint+Downtown+Tampa+Tampa", "mapQuery": "The Saint, Downtown Tampa, Tampa", "lat": 27.9542, "lng": -82.4573}, {"anchorId": "mandarin-heights", "rank": 3, "name": "Mandarin Heights", "label": "3. Mandarin Heights", "ctaUrl": "https://maps.google.com/?q=Mandarin+Heights+Seminole+Heights+Tampa", "mapQuery": "Mandarin Heights, Seminole Heights, Tampa", "lat": 27.9942, "lng": -82.4552}, {"anchorId": "cws-gin-joint", "rank": 4, "name": "CW's Gin Joint", "label": "4. CW's Gin Joint", "ctaUrl": "https://maps.google.com/?q=CW's+Gin+Joint+Downtown+Tampa+Tampa", "mapQuery": "CW's Gin Joint, Downtown Tampa, Tampa", "lat": 27.9507, "lng": -82.4589}, {"anchorId": "the-dirty-laundry", "rank": 5, "name": "The Dirty Laundry", "label": "5. The Dirty Laundry", "ctaUrl": "https://maps.google.com/?q=The+Dirty+Laundry+Channelside+Tampa", "mapQuery": "The Dirty Laundry, Channelside, Tampa", "lat": 27.9427, "lng": -82.4491}, {"anchorId": "saloon", "rank": 6, "name": "Saloon", "label": "6. Saloon", "ctaUrl": "https://maps.google.com/?q=Saloon+Channelside+Tampa", "mapQuery": "Saloon, Channelside, Tampa", "lat": 27.9404, "lng": -82.4478}, {"anchorId": "the-proper", "rank": 7, "name": "The Proper", "label": "7. The Proper", "ctaUrl": "https://maps.google.com/?q=The+Proper+South+Tampa+Tampa", "mapQuery": "The Proper, South Tampa, Tampa", "lat": 27.9405, "lng": -82.4746}, {"anchorId": "the-dan", "rank": 8, "name": "The Dan", "label": "8. The Dan", "ctaUrl": "https://maps.google.com/?q=The+Dan+Downtown+Tampa+Tampa", "mapQuery": "The Dan, Downtown Tampa, Tampa", "lat": 27.9529, "lng": -82.4593}, {"anchorId": "bar-h", "rank": 9, "name": "Bar H", "label": "9. Bar H", "ctaUrl": "https://maps.google.com/?q=Bar+H+Tampa+Heights+Tampa", "mapQuery": "Bar H, Tampa Heights, Tampa", "lat": 27.962, "lng": -82.4641}, {"anchorId": "corner-club", "rank": 10, "name": "Corner Club", "label": "10. Corner Club", "ctaUrl": "https://maps.google.com/?q=Corner+Club+Westshore+Tampa", "mapQuery": "Corner Club, Westshore, Tampa", "lat": 27.9548, "lng": -82.5286}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

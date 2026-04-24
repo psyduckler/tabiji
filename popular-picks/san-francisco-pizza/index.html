@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+San+Francisco", "picks": [{"anchorId": "tonys-pizza-napoletana", "rank": 1, "name": "Tony's Pizza Napoletana", "label": "1. Tony's Pizza Napoletana", "ctaUrl": "https://maps.google.com/?q=Tony's+Pizza+Napoletana+North+Beach+San+Francisco", "mapQuery": "Tony's Pizza Napoletana, North Beach, San Francisco", "lat": 37.8, "lng": -122.4104}, {"anchorId": "delfina-pizzeria", "rank": 2, "name": "Delfina Pizzeria", "label": "2. Delfina Pizzeria", "ctaUrl": "https://maps.google.com/?q=Delfina+Pizzeria+Mission+District+San+Francisco", "mapQuery": "Delfina Pizzeria, Mission District, San Francisco", "lat": 37.76175, "lng": -122.42398}, {"anchorId": "golden-boy-pizza", "rank": 3, "name": "Golden Boy Pizza", "label": "3. Golden Boy Pizza", "ctaUrl": "https://maps.google.com/?q=Golden+Boy+Pizza+North+Beach+San+Francisco", "mapQuery": "Golden Boy Pizza, North Beach, San Francisco", "lat": 37.79973, "lng": -122.40875}, {"anchorId": "pizzetta-211", "rank": 4, "name": "Pizzetta 211", "label": "4. Pizzetta 211", "ctaUrl": "https://maps.google.com/?q=Pizzetta+211+Outer+Richmond+San+Francisco", "mapQuery": "Pizzetta 211, Outer Richmond, San Francisco", "lat": 37.78187, "lng": -122.48395}, {"anchorId": "caseys-pizza", "rank": 5, "name": "Casey's Pizza", "label": "5. Casey's Pizza", "ctaUrl": "https://maps.google.com/?q=Casey's+Pizza+Mission+District+San+Francisco", "mapQuery": "Casey's Pizza, Mission District, San Francisco", "lat": 37.77665, "lng": -122.41044}, {"anchorId": "a16", "rank": 6, "name": "A16", "label": "6. A16", "ctaUrl": "https://maps.google.com/?q=A16+Marina+District+San+Francisco", "mapQuery": "A16, Marina District, San Francisco", "lat": 37.80065, "lng": -122.44195}, {"anchorId": "arinell-pizza", "rank": 7, "name": "Arinell Pizza", "label": "7. Arinell Pizza", "ctaUrl": "https://maps.google.com/?q=Arinell+Pizza+Mission+District+San+Francisco", "mapQuery": "Arinell Pizza, Mission District, San Francisco", "lat": 37.76344, "lng": -122.42258}, {"anchorId": "capos", "rank": 8, "name": "Capo's", "label": "8. Capo's", "ctaUrl": "https://maps.google.com/?q=Capo's+North+Beach+San+Francisco", "mapQuery": "Capo's, North Beach, San Francisco", "lat": 37.80164, "lng": -122.40939}, {"anchorId": "little-original-joes", "rank": 9, "name": "Little Original Joe's", "label": "9. Little Original Joe's", "ctaUrl": "https://maps.google.com/?q=Little+Original+Joe's+West+Portal+San+Francisco", "mapQuery": "Little Original Joe's, West Portal, San Francisco", "lat": 37.73787, "lng": -122.47055}, {"anchorId": "fiorella", "rank": 10, "name": "Fiorella", "label": "10. Fiorella", "ctaUrl": "https://maps.google.com/?q=Fiorella+Outer+Richmond+San+Francisco", "mapQuery": "Fiorella, Outer Richmond, San Francisco", "lat": 37.7828, "lng": -122.48625}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1550,73 +1550,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Lisbon", "picks": [{"anchorId": "belcanto", "rank": 1, "name": "Belcanto", "label": "1. Belcanto", "ctaUrl": "https://maps.google.com/?q=Belcanto+Chiado+Lisbon", "mapQuery": "Belcanto, Chiado, Lisbon", "lat": 38.7081, "lng": -9.1415}, {"anchorId": "alma", "rank": 2, "name": "Alma", "label": "2. Alma", "ctaUrl": "https://maps.google.com/?q=Alma+Chiado+Lisbon", "mapQuery": "Alma, Chiado, Lisbon", "lat": 38.7077, "lng": -9.1437}, {"anchorId": "prado-restaurante", "rank": 3, "name": "Prado Restaurante", "label": "3. Prado Restaurante", "ctaUrl": "https://maps.google.com/?q=Prado+Restaurante+Baixa+Lisbon", "mapQuery": "Prado Restaurante, Baixa, Lisbon", "lat": 38.7118, "lng": -9.1352}, {"anchorId": "taberna-da-rua-das-flores", "rank": 4, "name": "Taberna da Rua das Flores", "label": "4. Taberna da Rua das Flores", "ctaUrl": "https://maps.google.com/?q=Taberna+da+Rua+das+Flores+Chiado+Lisbon", "mapQuery": "Taberna da Rua das Flores, Chiado, Lisbon", "lat": 38.7088, "lng": -9.1456}, {"anchorId": "cervejaria-ramiro", "rank": 5, "name": "Cervejaria Ramiro", "label": "5. Cervejaria Ramiro", "ctaUrl": "https://maps.google.com/?q=Cervejaria+Ramiro+Intendente+Lisbon", "mapQuery": "Cervejaria Ramiro, Intendente, Lisbon", "lat": 38.7196, "lng": -9.1352}, {"anchorId": "ponto-final", "rank": 6, "name": "Ponto Final", "label": "6. Ponto Final", "ctaUrl": "https://maps.google.com/?q=Ponto+Final+Almada+(across+Tagus)+Lisbon", "mapQuery": "Ponto Final, Almada (across Tagus), Lisbon", "lat": 38.6837, "lng": -9.1557}, {"anchorId": "o-botanista", "rank": 7, "name": "O Botanista", "label": "7. O Botanista", "ctaUrl": "https://maps.google.com/?q=O+Botanista+Príncipe+Real+Lisbon", "mapQuery": "O Botanista, Príncipe Real, Lisbon", "lat": 38.7147, "lng": -9.1491}, {"anchorId": "as-bifanas-do-afonso", "rank": 8, "name": "As Bifanas do Afonso", "label": "8. As Bifanas do Afonso", "ctaUrl": "https://maps.google.com/?q=As+Bifanas+do+Afonso+Baixa+Lisbon", "mapQuery": "As Bifanas do Afonso, Baixa, Lisbon", "lat": 38.71, "lng": -9.136}, {"anchorId": "time-out-market-lisboa", "rank": 9, "name": "Time Out Market Lisboa", "label": "9. Time Out Market Lisboa", "ctaUrl": "https://maps.google.com/?q=Time+Out+Market+Lisboa+Cais+do+Sodré+Lisbon", "mapQuery": "Time Out Market Lisboa, Cais do Sodré, Lisbon", "lat": 38.7067, "lng": -9.1479}, {"anchorId": "a-valenciana", "rank": 10, "name": "A Valenciana", "label": "10. A Valenciana", "ctaUrl": "https://maps.google.com/?q=A+Valenciana+São+Sebastião+Lisbon", "mapQuery": "A Valenciana, São Sebastião, Lisbon", "lat": 38.7303, "lng": -9.1627}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

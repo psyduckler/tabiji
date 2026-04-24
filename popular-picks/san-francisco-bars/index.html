@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bars+in+San+Francisco", "picks": [{"anchorId": "bourbon-branch", "rank": 1, "name": "Bourbon & Branch", "label": "1. Bourbon & Branch", "ctaUrl": "https://maps.google.com/?q=Bourbon+&+Branch+Tenderloin+San+Francisco", "mapQuery": "Bourbon & Branch, Tenderloin, San Francisco", "lat": 37.7852, "lng": -122.4124}, {"anchorId": "smugglers-cove", "rank": 2, "name": "Smuggler's Cove", "label": "2. Smuggler's Cove", "ctaUrl": "https://maps.google.com/?q=Smuggler's+Cove+Hayes+Valley+San+Francisco", "mapQuery": "Smuggler's Cove, Hayes Valley, San Francisco", "lat": 37.7788, "lng": -122.423}, {"anchorId": "zeitgeist", "rank": 3, "name": "Zeitgeist", "label": "3. Zeitgeist", "ctaUrl": "https://maps.google.com/?q=Zeitgeist+Mission+San+Francisco", "mapQuery": "Zeitgeist, Mission, San Francisco", "lat": 37.7663, "lng": -122.4218}, {"anchorId": "trick-dog", "rank": 4, "name": "Trick Dog", "label": "4. Trick Dog", "ctaUrl": "https://maps.google.com/?q=Trick+Dog+Mission+San+Francisco", "mapQuery": "Trick Dog, Mission, San Francisco", "lat": 37.7592, "lng": -122.4087}, {"anchorId": "tonga-room-hurricane-bar", "rank": 5, "name": "Tonga Room & Hurricane Bar", "label": "5. Tonga Room & Hurricane Bar", "ctaUrl": "https://maps.google.com/?q=Tonga+Room+&+Hurricane+Bar+Nob+Hill+San+Francisco", "mapQuery": "Tonga Room & Hurricane Bar, Nob Hill, San Francisco", "lat": 37.7922, "lng": -122.4101}, {"anchorId": "local-edition", "rank": 6, "name": "Local Edition", "label": "6. Local Edition", "ctaUrl": "https://maps.google.com/?q=Local+Edition+FiDi+San+Francisco", "mapQuery": "Local Edition, FiDi, San Francisco", "lat": 37.7871, "lng": -122.4037}, {"anchorId": "elixir", "rank": 7, "name": "Elixir", "label": "7. Elixir", "ctaUrl": "https://maps.google.com/?q=Elixir+Mission+San+Francisco", "mapQuery": "Elixir, Mission, San Francisco", "lat": 37.7645, "lng": -122.4239}, {"anchorId": "the-dead-rabbit", "rank": 8, "name": "The Dead Rabbit (SF)", "label": "8. The Dead Rabbit (SF)", "ctaUrl": "https://maps.google.com/?q=The+Dead+Rabbit+(SF)+FiDi+San+Francisco", "mapQuery": "The Dead Rabbit (SF), FiDi, San Francisco", "lat": 37.7885, "lng": -122.4036}, {"anchorId": "vesuvio-cafe", "rank": 9, "name": "Vesuvio Cafe", "label": "9. Vesuvio Cafe", "ctaUrl": "https://maps.google.com/?q=Vesuvio+Cafe+North+Beach+San+Francisco", "mapQuery": "Vesuvio Cafe, North Beach, San Francisco", "lat": 37.7983, "lng": -122.4069}, {"anchorId": "comstock-saloon", "rank": 10, "name": "Comstock Saloon", "label": "10. Comstock Saloon", "ctaUrl": "https://maps.google.com/?q=Comstock+Saloon+North+Beach+San+Francisco", "mapQuery": "Comstock Saloon, North Beach, San Francisco", "lat": 37.7969, "lng": -122.406}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

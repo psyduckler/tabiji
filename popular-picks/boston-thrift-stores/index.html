@@ -1555,73 +1555,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Boston", "picks": [{"anchorId": "bobby-from-boston", "rank": 1, "name": "Bobby From Boston", "label": "1. Bobby From Boston", "ctaUrl": "https://maps.google.com/?q=Bobby+From+Boston+South+End+Boston", "mapQuery": "Bobby From Boston, South End, Boston", "lat": 42.342935, "lng": -71.066487}, {"anchorId": "the-garment-district", "rank": 2, "name": "The Garment District", "label": "2. The Garment District", "ctaUrl": "https://maps.google.com/?q=The+Garment+District+Cambridge+(Kendall+Square+area)+Boston", "mapQuery": "The Garment District, Cambridge (Kendall Square area), Boston", "lat": 42.364402, "lng": -71.077202}, {"anchorId": "boomerangs", "rank": 3, "name": "Boomerangs (South End)", "label": "3. Boomerangs (South End)", "ctaUrl": "https://maps.google.com/?q=Boomerangs+(South+End)+South+End+Boston", "mapQuery": "Boomerangs (South End), South End, Boston", "lat": 42.34149, "lng": -71.07222}, {"anchorId": "buffalo-exchange", "rank": 4, "name": "Buffalo Exchange (Allston)", "label": "4. Buffalo Exchange (Allston)", "ctaUrl": "https://maps.google.com/?q=Buffalo+Exchange+(Allston)+Allston+Boston", "mapQuery": "Buffalo Exchange (Allston), Allston, Boston", "lat": 42.350392, "lng": -71.1328}, {"anchorId": "vivians-vintage", "rank": 5, "name": "Vivian's Vintage", "label": "5. Vivian's Vintage", "ctaUrl": "https://maps.google.com/?q=Vivian's+Vintage+Allston+Boston", "mapQuery": "Vivian's Vintage, Allston, Boston", "lat": 42.3501, "lng": -71.135}, {"anchorId": "great-eastern-trading-co", "rank": 6, "name": "Great Eastern Trading Co.", "label": "6. Great Eastern Trading Co.", "ctaUrl": "https://maps.google.com/?q=Great+Eastern+Trading+Co.+Central+Square,+Cambridge+Boston", "mapQuery": "Great Eastern Trading Co., Central Square, Cambridge, Boston", "lat": 42.364402, "lng": -71.104698}, {"anchorId": "poor-little-rich-girl", "rank": 7, "name": "Poor Little Rich Girl", "label": "7. Poor Little Rich Girl", "ctaUrl": "https://maps.google.com/?q=Poor+Little+Rich+Girl+Beacon+Hill+Boston", "mapQuery": "Poor Little Rich Girl, Beacon Hill, Boston", "lat": 42.3592, "lng": -71.0706}, {"anchorId": "thrift-store-of-boston", "rank": 8, "name": "Thrift Store of Boston (Roslindale)", "label": "8. Thrift Store of Boston (Roslindale)", "ctaUrl": "https://maps.google.com/?q=Thrift+Store+of+Boston+(Roslindale)+Roslindale+Boston", "mapQuery": "Thrift Store of Boston (Roslindale), Roslindale, Boston", "lat": 42.2783, "lng": -71.1219}, {"anchorId": "raspberry-beret", "rank": 9, "name": "Raspberry Beret", "label": "9. Raspberry Beret", "ctaUrl": "https://maps.google.com/?q=Raspberry+Beret+Cambridge+(Porter+Square)+Boston", "mapQuery": "Raspberry Beret, Cambridge (Porter Square), Boston", "lat": 42.3917, "lng": -71.1235}, {"anchorId": "castanet", "rank": 10, "name": "Castanet", "label": "10. Castanet", "ctaUrl": "https://maps.google.com/?q=Castanet+Beacon+Hill+Boston", "mapQuery": "Castanet, Beacon Hill, Boston", "lat": 42.3595, "lng": -71.0707}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Victoria", "picks": [{"anchorId": "red-fish-blue-fish", "rank": 1, "name": "Red Fish Blue Fish", "label": "1. Red Fish Blue Fish", "ctaUrl": "https://maps.google.com/?q=Red+Fish+Blue+Fish+Inner+Harbour+Victoria", "mapQuery": "Red Fish Blue Fish, Inner Harbour, Victoria", "lat": 48.4239, "lng": -123.3698}, {"anchorId": "nautical-nellies-oyster-bar-grill", "rank": 2, "name": "Nautical Nellies Oyster Bar & Grill", "label": "2. Nautical Nellies Oyster Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Nautical+Nellies+Oyster+Bar+&+Grill+Inner+Harbour+Victoria", "mapQuery": "Nautical Nellies Oyster Bar & Grill, Inner Harbour, Victoria", "lat": 48.4242, "lng": -123.3688}, {"anchorId": "boom-batten-restaurant-cafe", "rank": 3, "name": "Boom + Batten Restaurant & Cafe", "label": "3. Boom + Batten Restaurant & Cafe", "ctaUrl": "https://maps.google.com/?q=Boom+++Batten+Restaurant+&+Cafe+Inner+Harbour+(West+Song+Walk)+Victoria", "mapQuery": "Boom + Batten Restaurant & Cafe, Inner Harbour (West Song Walk), Victoria", "lat": 48.4262, "lng": -123.3857}, {"anchorId": "finest-at-sea-seafood-market-grill", "rank": 4, "name": "Finest at Sea Seafood Market & Grill", "label": "4. Finest at Sea Seafood Market & Grill", "ctaUrl": "https://maps.google.com/?q=Finest+at+Sea+Seafood+Market+&+Grill+James+Bay+/+Fisherman's+Wharf+Victoria", "mapQuery": "Finest at Sea Seafood Market & Grill, James Bay / Fisherman's Wharf, Victoria", "lat": 48.4173, "lng": -123.3768}, {"anchorId": "ferris-oyster-bar-grill", "rank": 5, "name": "Ferris' Oyster Bar & Grill", "label": "5. Ferris' Oyster Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Ferris'+Oyster+Bar+&+Grill+Downtown+Victoria", "mapQuery": "Ferris' Oyster Bar & Grill, Downtown, Victoria", "lat": 48.4283, "lng": -123.3687}, {"anchorId": "blue-crab-seafood-house", "rank": 6, "name": "Blue Crab Seafood House", "label": "6. Blue Crab Seafood House", "ctaUrl": "https://maps.google.com/?q=Blue+Crab+Seafood+House+Inner+Harbour+Victoria", "mapQuery": "Blue Crab Seafood House, Inner Harbour, Victoria", "lat": 48.419, "lng": -123.374}, {"anchorId": "fishhook", "rank": 7, "name": "Fishhook", "label": "7. Fishhook", "ctaUrl": "https://maps.google.com/?q=Fishhook+Downtown+Victoria", "mapQuery": "Fishhook, Downtown, Victoria", "lat": 48.4259, "lng": -123.3643}, {"anchorId": "barbs-fish-chips", "rank": 8, "name": "Barb's Fish & Chips", "label": "8. Barb's Fish & Chips", "ctaUrl": "https://maps.google.com/?q=Barb's+Fish+&+Chips+Fisherman's+Wharf+Victoria", "mapQuery": "Barb's Fish & Chips, Fisherman's Wharf, Victoria", "lat": 48.4133, "lng": -123.3765}, {"anchorId": "flying-otter-grill", "rank": 9, "name": "Flying Otter Grill", "label": "9. Flying Otter Grill", "ctaUrl": "https://maps.google.com/?q=Flying+Otter+Grill+Inner+Harbour+Victoria", "mapQuery": "Flying Otter Grill, Inner Harbour, Victoria", "lat": 48.4247, "lng": -123.3697}, {"anchorId": "the-fish-store-at-fishermans-wharf", "rank": 10, "name": "The Fish Store at Fisherman's Wharf", "label": "10. The Fish Store at Fisherman's Wharf", "ctaUrl": "https://maps.google.com/?q=The+Fish+Store+at+Fisherman's+Wharf+Fisherman's+Wharf+Victoria", "mapQuery": "The Fish Store at Fisherman's Wharf, Fisherman's Wharf, Victoria", "lat": 48.4133, "lng": -123.3767}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

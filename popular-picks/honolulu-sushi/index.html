@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Honolulu", "picks": [{"anchorId": "sushi-murayama", "rank": 1, "name": "Sushi Murayama", "label": "1. Sushi Murayama", "ctaUrl": "https://maps.google.com/?q=Sushi+Murayama+Kaimuki+Honolulu", "mapQuery": "Sushi Murayama, Kaimuki, Honolulu", "lat": 21.28293, "lng": -157.79813}, {"anchorId": "sushi-sho", "rank": 2, "name": "Sushi Sho", "label": "2. Sushi Sho", "ctaUrl": "https://maps.google.com/?q=Sushi+Sho+Waikiki+Honolulu", "mapQuery": "Sushi Sho, Waikiki, Honolulu", "lat": 21.28003, "lng": -157.8306}, {"anchorId": "mugen-at-espacio-the-jewel-of-waikiki", "rank": 3, "name": "Mugen at Espacio The Jewel of Waikiki", "label": "3. Mugen at Espacio The Jewel of Waikiki", "ctaUrl": "https://maps.google.com/?q=Mugen+at+Espacio+The+Jewel+of+Waikiki+Waikiki+Honolulu", "mapQuery": "Mugen at Espacio The Jewel of Waikiki, Waikiki, Honolulu", "lat": 21.27581, "lng": -157.82485}, {"anchorId": "sushi-izakaya-gaku", "rank": 4, "name": "Sushi Izakaya Gaku", "label": "4. Sushi Izakaya Gaku", "ctaUrl": "https://maps.google.com/?q=Sushi+Izakaya+Gaku+Kaimuki+Honolulu", "mapQuery": "Sushi Izakaya Gaku, Kaimuki, Honolulu", "lat": 21.29548, "lng": -157.83984}, {"anchorId": "mitchs-fish-market-sushi-bar", "rank": 5, "name": "Mitch's Fish Market & Sushi Bar", "label": "5. Mitch's Fish Market & Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Mitch's+Fish+Market+&+Sushi+Bar+Honolulu+International+Airport+Honolulu", "mapQuery": "Mitch's Fish Market & Sushi Bar, Honolulu International Airport, Honolulu", "lat": 21.32626, "lng": -157.90641}, {"anchorId": "yanagi-sushi", "rank": 6, "name": "Yanagi Sushi", "label": "6. Yanagi Sushi", "ctaUrl": "https://maps.google.com/?q=Yanagi+Sushi+Kaka'ako+Honolulu", "mapQuery": "Yanagi Sushi, Kaka'ako, Honolulu", "lat": 21.30397, "lng": -157.85408}, {"anchorId": "doraku-sushi-waikiki", "rank": 7, "name": "Doraku Sushi Waikiki", "label": "7. Doraku Sushi Waikiki", "ctaUrl": "https://maps.google.com/?q=Doraku+Sushi+Waikiki+Waikiki+Honolulu", "mapQuery": "Doraku Sushi Waikiki, Waikiki, Honolulu", "lat": 21.27787, "lng": -157.82855}, {"anchorId": "izakaya-nonbei", "rank": 8, "name": "Izakaya Nonbei", "label": "8. Izakaya Nonbei", "ctaUrl": "https://maps.google.com/?q=Izakaya+Nonbei+Kaimuki+Honolulu", "mapQuery": "Izakaya Nonbei, Kaimuki, Honolulu", "lat": 21.26732, "lng": -157.79728}, {"anchorId": "banzai-sushi-bar", "rank": 9, "name": "Banzai Sushi Bar", "label": "9. Banzai Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Banzai+Sushi+Bar+North+Shore+Honolulu", "mapQuery": "Banzai Sushi Bar, North Shore, Honolulu", "lat": 21.58782, "lng": -158.11029}, {"anchorId": "genki-sushi", "rank": 10, "name": "Genki Sushi (Ala Moana)", "label": "10. Genki Sushi (Ala Moana)", "ctaUrl": "https://maps.google.com/?q=Genki+Sushi+(Ala+Moana)+Ala+Moana+Honolulu", "mapQuery": "Genki Sushi (Ala Moana), Ala Moana, Honolulu", "lat": 21.29177, "lng": -157.84379}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

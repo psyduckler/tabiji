@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+San+Antonio", "picks": [{"anchorId": "pastiche", "rank": 1, "name": "Pastiche", "label": "1. Pastiche", "ctaUrl": "https://maps.google.com/?q=Pastiche+Dignowity+Hill+San+Antonio", "mapQuery": "Pastiche, Dignowity Hill, San Antonio", "lat": 29.424377, "lng": -98.472718}, {"anchorId": "jazz-tx", "rank": 2, "name": "Jazz, TX", "label": "2. Jazz, TX", "ctaUrl": "https://maps.google.com/?q=Jazz,+TX+Pearl+District+San+Antonio", "mapQuery": "Jazz, TX, Pearl District, San Antonio", "lat": 29.458928, "lng": -98.471694}, {"anchorId": "the-cellar", "rank": 3, "name": "The Cellar (at The Esquire Tavern)", "label": "3. The Cellar (at The Esquire Tavern)", "ctaUrl": "https://maps.google.com/?q=The+Cellar+(at+The+Esquire+Tavern)+Downtown+/+Riverwalk+San+Antonio", "mapQuery": "The Cellar (at The Esquire Tavern), Downtown / Riverwalk, San Antonio", "lat": 29.42531, "lng": -98.49008}, {"anchorId": "downstairs-at-the-general-public", "rank": 4, "name": "Downstairs at The General Public", "label": "4. Downstairs at The General Public", "ctaUrl": "https://maps.google.com/?q=Downstairs+at+The+General+Public+Pearl+District+San+Antonio", "mapQuery": "Downstairs at The General Public, Pearl District, San Antonio", "lat": 29.4578, "lng": -98.47355}, {"anchorId": "hanzo", "rank": 5, "name": "Hanzo", "label": "5. Hanzo", "ctaUrl": "https://maps.google.com/?q=Hanzo+Alamo+Heights+San+Antonio", "mapQuery": "Hanzo, Alamo Heights, San Antonio", "lat": 29.50821, "lng": -98.46162}, {"anchorId": "phillys-phamous-cheesesteaks-secret-bar", "rank": 6, "name": "Philly's Phamous Cheesesteaks Secret Bar", "label": "6. Philly's Phamous Cheesesteaks Secret Bar", "ctaUrl": "https://maps.google.com/?q=Philly's+Phamous+Cheesesteaks+Secret+Bar+Beacon+Hill+San+Antonio", "mapQuery": "Philly's Phamous Cheesesteaks Secret Bar, Beacon Hill, San Antonio", "lat": 29.47545, "lng": -98.5201}, {"anchorId": "jet-setter", "rank": 7, "name": "Jet-Setter", "label": "7. Jet-Setter", "ctaUrl": "https://maps.google.com/?q=Jet-Setter+Tobin+Hill+San+Antonio", "mapQuery": "Jet-Setter, Tobin Hill, San Antonio", "lat": 29.44445, "lng": -98.48425}, {"anchorId": "the-green-lantern", "rank": 8, "name": "The Green Lantern", "label": "8. The Green Lantern", "ctaUrl": "https://maps.google.com/?q=The+Green+Lantern+Far+North+Central+San+Antonio", "mapQuery": "The Green Lantern, Far North Central, San Antonio", "lat": 29.62649, "lng": -98.54471}, {"anchorId": "paramour-at-the-phipps", "rank": 9, "name": "Paramour at The Phipps", "label": "9. Paramour at The Phipps", "ctaUrl": "https://maps.google.com/?q=Paramour+at+The+Phipps+Downtown+San+Antonio", "mapQuery": "Paramour at The Phipps, Downtown, San Antonio", "lat": 29.43125, "lng": -98.4878}, {"anchorId": "barrio-bar", "rank": 10, "name": "Barrio Bar (at The St. Anthony Hotel)", "label": "10. Barrio Bar (at The St. Anthony Hotel)", "ctaUrl": "https://maps.google.com/?q=Barrio+Bar+(at+The+St.+Anthony+Hotel)+Downtown+San+Antonio", "mapQuery": "Barrio Bar (at The St. Anthony Hotel), Downtown, San Antonio", "lat": 29.42878, "lng": -98.49015}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

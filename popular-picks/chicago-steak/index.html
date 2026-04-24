@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Chicago", "picks": [{"anchorId": "gibsons-bar-steakhouse", "rank": 1, "name": "Gibsons Bar & Steakhouse", "label": "1. Gibsons Bar & Steakhouse", "ctaUrl": "https://maps.google.com/?q=Gibsons+Bar+&+Steakhouse+Gold+Coast+Chicago", "mapQuery": "Gibsons Bar & Steakhouse, Gold Coast, Chicago", "lat": 41.9026, "lng": -87.6293}, {"anchorId": "rpm-steak", "rank": 2, "name": "RPM Steak", "label": "2. RPM Steak", "ctaUrl": "https://maps.google.com/?q=RPM+Steak+River+North+Chicago", "mapQuery": "RPM Steak, River North, Chicago", "lat": 41.8872, "lng": -87.6327}, {"anchorId": "joes-seafood-prime-steak-stone-crab", "rank": 3, "name": "Joe's Seafood, Prime Steak & Stone Crab", "label": "3. Joe's Seafood, Prime Steak & Stone Crab", "ctaUrl": "https://maps.google.com/?q=Joe's+Seafood,+Prime+Steak+&+Stone+Crab+River+North+Chicago", "mapQuery": "Joe's Seafood, Prime Steak & Stone Crab, River North, Chicago", "lat": 41.8916, "lng": -87.6264}, {"anchorId": "bavettes-bar-boeuf", "rank": 4, "name": "Bavette's Bar & Boeuf", "label": "4. Bavette's Bar & Boeuf", "ctaUrl": "https://maps.google.com/?q=Bavette's+Bar+&+Boeuf+River+North+Chicago", "mapQuery": "Bavette's Bar & Boeuf, River North, Chicago", "lat": 41.8892, "lng": -87.6366}, {"anchorId": "maple-ash", "rank": 5, "name": "Maple & Ash", "label": "5. Maple & Ash", "ctaUrl": "https://maps.google.com/?q=Maple+&+Ash+Gold+Coast+Chicago", "mapQuery": "Maple & Ash, Gold Coast, Chicago", "lat": 41.9009, "lng": -87.6289}, {"anchorId": "swift-sons", "rank": 6, "name": "Swift & Sons", "label": "6. Swift & Sons", "ctaUrl": "https://maps.google.com/?q=Swift+&+Sons+West+Loop+Chicago", "mapQuery": "Swift & Sons, West Loop, Chicago", "lat": 41.8877, "lng": -87.656}, {"anchorId": "chicago-cut-steakhouse", "rank": 7, "name": "Chicago Cut Steakhouse", "label": "7. Chicago Cut Steakhouse", "ctaUrl": "https://maps.google.com/?q=Chicago+Cut+Steakhouse+River+North+Chicago", "mapQuery": "Chicago Cut Steakhouse, River North, Chicago", "lat": 41.889, "lng": -87.6358}, {"anchorId": "kinzie-chophouse", "rank": 8, "name": "Kinzie Chophouse", "label": "8. Kinzie Chophouse", "ctaUrl": "https://maps.google.com/?q=Kinzie+Chophouse+River+North+Chicago", "mapQuery": "Kinzie Chophouse, River North, Chicago", "lat": 41.8899, "lng": -87.6341}, {"anchorId": "gt-prime-steakhouse", "rank": 9, "name": "GT Prime Steakhouse", "label": "9. GT Prime Steakhouse", "ctaUrl": "https://maps.google.com/?q=GT+Prime+Steakhouse+River+North+Chicago", "mapQuery": "GT Prime Steakhouse, River North, Chicago", "lat": 41.892, "lng": -87.6315}, {"anchorId": "prime-provisions", "rank": 10, "name": "Prime & Provisions", "label": "10. Prime & Provisions", "ctaUrl": "https://maps.google.com/?q=Prime+&+Provisions+Loop+Chicago", "mapQuery": "Prime & Provisions, Loop, Chicago", "lat": 41.8856, "lng": -87.6353}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

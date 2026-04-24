@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Vegetarian Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/vegetarian+restaurants+in+Chicago", "picks": [{"anchorId": "the-chicago-diner", "rank": 1, "name": "The Chicago Diner", "label": "1. The Chicago Diner", "ctaUrl": "https://maps.google.com/?q=The+Chicago+Diner+Lakeview+Chicago", "mapQuery": "The Chicago Diner, Lakeview, Chicago", "lat": 41.942713, "lng": -87.649641}, {"anchorId": "handlebar", "rank": 2, "name": "Handlebar", "label": "2. Handlebar", "ctaUrl": "https://maps.google.com/?q=Handlebar+Wicker+Park+Chicago", "mapQuery": "Handlebar, Wicker Park, Chicago", "lat": 41.917951, "lng": -87.701191}, {"anchorId": "kitchen-17", "rank": 3, "name": "Kitchen 17", "label": "3. Kitchen 17", "ctaUrl": "https://maps.google.com/?q=Kitchen+17+Lakeview+Chicago", "mapQuery": "Kitchen 17, Lakeview, Chicago", "lat": 41.939221, "lng": -87.6444}, {"anchorId": "planta-queen", "rank": 4, "name": "Planta Queen", "label": "4. Planta Queen", "ctaUrl": "https://maps.google.com/?q=Planta+Queen+River+North+Chicago", "mapQuery": "Planta Queen, River North, Chicago", "lat": 41.890659, "lng": -87.63228}, {"anchorId": "bloom-plant-based-kitchen", "rank": 5, "name": "Bloom Plant Based Kitchen", "label": "5. Bloom Plant Based Kitchen", "ctaUrl": "https://maps.google.com/?q=Bloom+Plant+Based+Kitchen+Wicker+Park+Chicago", "mapQuery": "Bloom Plant Based Kitchen, Wicker Park, Chicago", "lat": 41.910309, "lng": -87.684179}, {"anchorId": "cant-believe-its-not-meat", "rank": 6, "name": "Can't Believe It's Not Meat", "label": "6. Can't Believe It's Not Meat", "ctaUrl": "https://maps.google.com/?q=Can't+Believe+It's+Not+Meat+Hyde+Park+Chicago", "mapQuery": "Can't Believe It's Not Meat, Hyde Park, Chicago", "lat": 41.79971, "lng": -87.5925}, {"anchorId": "fancy-plants-cafe", "rank": 7, "name": "Fancy Plants Cafe", "label": "7. Fancy Plants Cafe", "ctaUrl": "https://maps.google.com/?q=Fancy+Plants+Cafe+Lincoln+Park+Chicago", "mapQuery": "Fancy Plants Cafe, Lincoln Park, Chicago", "lat": 41.9135, "lng": -87.6366}, {"anchorId": "ground-control", "rank": 8, "name": "Ground Control", "label": "8. Ground Control", "ctaUrl": "https://maps.google.com/?q=Ground+Control+Logan+Square+Chicago", "mapQuery": "Ground Control, Logan Square, Chicago", "lat": 41.91795, "lng": -87.70889}, {"anchorId": "arya-bhavan", "rank": 9, "name": "Arya Bhavan", "label": "9. Arya Bhavan", "ctaUrl": "https://maps.google.com/?q=Arya+Bhavan+West+Rogers+Park+Chicago", "mapQuery": "Arya Bhavan, West Rogers Park, Chicago", "lat": 41.99616, "lng": -87.69176}, {"anchorId": "amitabul", "rank": 10, "name": "Amitabul", "label": "10. Amitabul", "ctaUrl": "https://maps.google.com/?q=Amitabul+Albany+Park+Chicago", "mapQuery": "Amitabul, Albany Park, Chicago", "lat": 41.99622, "lng": -87.69747}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

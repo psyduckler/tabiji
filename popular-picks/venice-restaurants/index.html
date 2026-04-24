@@ -1568,73 +1568,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Venice", "picks": [{"anchorId": "osteria-alle-testiere", "rank": 1, "name": "Osteria alle Testiere", "label": "1. Osteria alle Testiere", "ctaUrl": "https://maps.google.com/?q=Osteria+alle+Testiere+Castello+Venice", "mapQuery": "Osteria alle Testiere, Castello, Venice", "lat": 45.438902, "lng": 12.341103}, {"anchorId": "antiche-carampane", "rank": 2, "name": "Antiche Carampane", "label": "2. Antiche Carampane", "ctaUrl": "https://maps.google.com/?q=Antiche+Carampane+San+Polo+Venice", "mapQuery": "Antiche Carampane, San Polo, Venice", "lat": 45.438501, "lng": 12.332306}, {"anchorId": "al-covo", "rank": 3, "name": "Al Covo", "label": "3. Al Covo", "ctaUrl": "https://maps.google.com/?q=Al+Covo+Castello+Venice", "mapQuery": "Al Covo, Castello, Venice", "lat": 45.432604, "lng": 12.345805}, {"anchorId": "covino", "rank": 4, "name": "CoVino", "label": "4. CoVino", "ctaUrl": "https://maps.google.com/?q=CoVino+Castello+Venice", "mapQuery": "CoVino, Castello, Venice", "lat": 45.432406, "lng": 12.346007}, {"anchorId": "osteria-enoteca-ai-artisti", "rank": 5, "name": "Osteria Enoteca Ai Artisti", "label": "5. Osteria Enoteca Ai Artisti", "ctaUrl": "https://maps.google.com/?q=Osteria+Enoteca+Ai+Artisti+Dorsoduro+Venice", "mapQuery": "Osteria Enoteca Ai Artisti, Dorsoduro, Venice", "lat": 45.431017, "lng": 12.327518}, {"anchorId": "hostaria-boccadoro", "rank": 6, "name": "Hostaria Boccadoro", "label": "6. Hostaria Boccadoro", "ctaUrl": "https://maps.google.com/?q=Hostaria+Boccadoro+Cannaregio+Venice", "mapQuery": "Hostaria Boccadoro, Cannaregio, Venice", "lat": 45.441809, "lng": 12.33961}, {"anchorId": "alla-madonna", "rank": 7, "name": "Alla Madonna", "label": "7. Alla Madonna", "ctaUrl": "https://maps.google.com/?q=Alla+Madonna+San+Polo+Venice", "mapQuery": "Alla Madonna, San Polo, Venice", "lat": 45.440213, "lng": 12.334014}, {"anchorId": "trattoria-alla-rivetta", "rank": 8, "name": "Trattoria Alla Rivetta", "label": "8. Trattoria Alla Rivetta", "ctaUrl": "https://maps.google.com/?q=Trattoria+Alla+Rivetta+Castello+Venice", "mapQuery": "Trattoria Alla Rivetta, Castello, Venice", "lat": 45.433802, "lng": 12.342903}, {"anchorId": "bancogiro", "rank": 9, "name": "Bancogiro", "label": "9. Bancogiro", "ctaUrl": "https://maps.google.com/?q=Bancogiro+San+Polo+Venice", "mapQuery": "Bancogiro, San Polo, Venice", "lat": 45.439811, "lng": 12.335612}, {"anchorId": "osteria-al-squero", "rank": 10, "name": "Osteria al Squero", "label": "10. Osteria al Squero", "ctaUrl": "https://maps.google.com/?q=Osteria+al+Squero+Dorsoduro+Venice", "mapQuery": "Osteria al Squero, Dorsoduro, Venice", "lat": 45.430821, "lng": 12.326222}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

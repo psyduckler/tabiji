@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Record Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/record+stores+in+Portland", "picks": [{"anchorId": "music-millennium", "rank": 1, "name": "Music Millennium", "label": "1. Music Millennium", "ctaUrl": "https://maps.google.com/?q=Music+Millennium+Laurelhurst+Portland", "mapQuery": "Music Millennium, Laurelhurst, Portland", "lat": 45.52224, "lng": -122.62256}, {"anchorId": "everyday-music", "rank": 2, "name": "Everyday Music (Hawthorne)", "label": "2. Everyday Music (Hawthorne)", "ctaUrl": "https://maps.google.com/?q=Everyday+Music+(Hawthorne)+Hawthorne+Portland", "mapQuery": "Everyday Music (Hawthorne), Hawthorne, Portland", "lat": 45.51173, "lng": -122.6366}, {"anchorId": "jackpot-records", "rank": 3, "name": "Jackpot Records", "label": "3. Jackpot Records", "ctaUrl": "https://maps.google.com/?q=Jackpot+Records+Hawthorne+Portland", "mapQuery": "Jackpot Records, Hawthorne, Portland", "lat": 45.52187, "lng": -122.68213}, {"anchorId": "beacon-sound", "rank": 4, "name": "Beacon Sound", "label": "4. Beacon Sound", "ctaUrl": "https://maps.google.com/?q=Beacon+Sound+Boise+Portland", "mapQuery": "Beacon Sound, Boise, Portland", "lat": 45.55018, "lng": -122.67137}, {"anchorId": "exiled-records", "rank": 5, "name": "Exiled Records", "label": "5. Exiled Records", "ctaUrl": "https://maps.google.com/?q=Exiled+Records+Kerns+Portland", "mapQuery": "Exiled Records, Kerns, Portland", "lat": 45.51206, "lng": -122.61483}, {"anchorId": "crossroads-music", "rank": 6, "name": "Crossroads Music", "label": "6. Crossroads Music", "ctaUrl": "https://maps.google.com/?q=Crossroads+Music+Foster-Powell+Portland", "mapQuery": "Crossroads Music, Foster-Powell, Portland", "lat": 45.49842, "lng": -122.57689}, {"anchorId": "little-axe-records", "rank": 7, "name": "Little Axe Records", "label": "7. Little Axe Records", "ctaUrl": "https://maps.google.com/?q=Little+Axe+Records+Kenton+Portland", "mapQuery": "Little Axe Records, Kenton, Portland", "lat": 45.5779, "lng": -122.70582}, {"anchorId": "future-shock-records", "rank": 8, "name": "Future Shock Records", "label": "8. Future Shock Records", "ctaUrl": "https://maps.google.com/?q=Future+Shock+Records+Montavilla+Portland", "mapQuery": "Future Shock Records, Montavilla, Portland", "lat": 45.49757, "lng": -122.59379}, {"anchorId": "green-noise-records", "rank": 9, "name": "Green Noise Records", "label": "9. Green Noise Records", "ctaUrl": "https://maps.google.com/?q=Green+Noise+Records+St.+Johns+Portland", "mapQuery": "Green Noise Records, St. Johns, Portland", "lat": 45.58079, "lng": -122.71434}, {"anchorId": "2nd-ave-records", "rank": 10, "name": "2nd Ave Records", "label": "10. 2nd Ave Records", "ctaUrl": "https://maps.google.com/?q=2nd+Ave+Records+Downtown+Portland", "mapQuery": "2nd Ave Records, Downtown, Portland", "lat": 45.52041, "lng": -122.67389}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

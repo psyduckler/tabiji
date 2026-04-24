@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bars+in+Los+Angeles", "picks": [{"anchorId": "the-varnish", "rank": 1, "name": "The Varnish", "label": "1. The Varnish", "ctaUrl": "https://maps.google.com/?q=The+Varnish+Downtown+LA+Los+Angeles", "mapQuery": "The Varnish, Downtown LA, Los Angeles", "lat": 34.045055, "lng": -118.251341}, {"anchorId": "death-co-los-angeles", "rank": 2, "name": "Death & Co Los Angeles", "label": "2. Death & Co Los Angeles", "ctaUrl": "https://maps.google.com/?q=Death+&+Co+Los+Angeles+Arts+District+Los+Angeles", "mapQuery": "Death & Co Los Angeles, Arts District, Los Angeles", "lat": 34.043372, "lng": -118.236021}, {"anchorId": "everson-royce-bar", "rank": 3, "name": "Everson Royce Bar", "label": "3. Everson Royce Bar", "ctaUrl": "https://maps.google.com/?q=Everson+Royce+Bar+Arts+District+Los+Angeles", "mapQuery": "Everson Royce Bar, Arts District, Los Angeles", "lat": 34.04021, "lng": -118.23594}, {"anchorId": "employees-only-la", "rank": 4, "name": "Employees Only LA", "label": "4. Employees Only LA", "ctaUrl": "https://maps.google.com/?q=Employees+Only+LA+West+Hollywood+Los+Angeles", "mapQuery": "Employees Only LA, West Hollywood, Los Angeles", "lat": 34.09062, "lng": -118.35824}, {"anchorId": "bar-flores", "rank": 5, "name": "Bar Flores", "label": "5. Bar Flores", "ctaUrl": "https://maps.google.com/?q=Bar+Flores+Echo+Park+Los+Angeles", "mapQuery": "Bar Flores, Echo Park, Los Angeles", "lat": 34.07297, "lng": -118.26189}, {"anchorId": "sassafras-saloon", "rank": 6, "name": "Sassafras Saloon", "label": "6. Sassafras Saloon", "ctaUrl": "https://maps.google.com/?q=Sassafras+Saloon+Hollywood+Los+Angeles", "mapQuery": "Sassafras Saloon, Hollywood, Los Angeles", "lat": 34.09849, "lng": -118.32626}, {"anchorId": "mama-shelter-rooftop-bar", "rank": 7, "name": "Mama Shelter Rooftop Bar", "label": "7. Mama Shelter Rooftop Bar", "ctaUrl": "https://maps.google.com/?q=Mama+Shelter+Rooftop+Bar+Hollywood+Los+Angeles", "mapQuery": "Mama Shelter Rooftop Bar, Hollywood, Los Angeles", "lat": 34.1017, "lng": -118.33042}, {"anchorId": "the-friend", "rank": 8, "name": "The Friend", "label": "8. The Friend", "ctaUrl": "https://maps.google.com/?q=The+Friend+Silver+Lake+Los+Angeles", "mapQuery": "The Friend, Silver Lake, Los Angeles", "lat": 34.08544, "lng": -118.27138}, {"anchorId": "tonys-saloon", "rank": 9, "name": "Tony's Saloon", "label": "9. Tony's Saloon", "ctaUrl": "https://maps.google.com/?q=Tony's+Saloon+Arts+District+Los+Angeles", "mapQuery": "Tony's Saloon, Arts District, Los Angeles", "lat": 34.04018, "lng": -118.23277}, {"anchorId": "seven-grand", "rank": 10, "name": "Seven Grand", "label": "10. Seven Grand", "ctaUrl": "https://maps.google.com/?q=Seven+Grand+Downtown+LA+Los+Angeles", "mapQuery": "Seven Grand, Downtown LA, Los Angeles", "lat": 34.04705, "lng": -118.25754}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

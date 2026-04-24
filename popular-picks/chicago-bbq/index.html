@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+Chicago", "picks": [{"anchorId": "smoque-bbq", "rank": 1, "name": "Smoque BBQ", "label": "1. Smoque BBQ", "ctaUrl": "https://maps.google.com/?q=Smoque+BBQ+Irving+Park+Chicago", "mapQuery": "Smoque BBQ, Irving Park, Chicago", "lat": 41.9507, "lng": -87.7277}, {"anchorId": "green-street-smoked-meats", "rank": 2, "name": "Green Street Smoked Meats", "label": "2. Green Street Smoked Meats", "ctaUrl": "https://maps.google.com/?q=Green+Street+Smoked+Meats+West+Loop+Chicago", "mapQuery": "Green Street Smoked Meats, West Loop, Chicago", "lat": 41.8833, "lng": -87.6483}, {"anchorId": "honey-1-bbq", "rank": 3, "name": "Honey 1 BBQ", "label": "3. Honey 1 BBQ", "ctaUrl": "https://maps.google.com/?q=Honey+1+BBQ+Uptown+Chicago", "mapQuery": "Honey 1 BBQ, Uptown, Chicago", "lat": 41.9213, "lng": -87.6888}, {"anchorId": "lems-bar-b-q", "rank": 4, "name": "Lem's Bar-B-Q", "label": "4. Lem's Bar-B-Q", "ctaUrl": "https://maps.google.com/?q=Lem's+Bar-B-Q+Englewood+Chicago", "mapQuery": "Lem's Bar-B-Q, Englewood, Chicago", "lat": 41.7876, "lng": -87.6437}, {"anchorId": "smoke-daddy-bbq", "rank": 5, "name": "Smoke Daddy BBQ", "label": "5. Smoke Daddy BBQ", "ctaUrl": "https://maps.google.com/?q=Smoke+Daddy+BBQ+Wicker+Park+Chicago", "mapQuery": "Smoke Daddy BBQ, Wicker Park, Chicago", "lat": 41.9038, "lng": -87.6749}, {"anchorId": "flat-point", "rank": 6, "name": "Flat & Point", "label": "6. Flat & Point", "ctaUrl": "https://maps.google.com/?q=Flat+&+Point+Logan+Square+Chicago", "mapQuery": "Flat & Point, Logan Square, Chicago", "lat": 41.9287, "lng": -87.7188}, {"anchorId": "chicago-q", "rank": 7, "name": "Chicago Q", "label": "7. Chicago Q", "ctaUrl": "https://maps.google.com/?q=Chicago+Q+Gold+Coast+Chicago", "mapQuery": "Chicago Q, Gold Coast, Chicago", "lat": 41.9039, "lng": -87.6327}, {"anchorId": "county-barbeque", "rank": 8, "name": "County Barbeque", "label": "8. County Barbeque", "ctaUrl": "https://maps.google.com/?q=County+Barbeque+Little+Italy+Chicago", "mapQuery": "County Barbeque, Little Italy, Chicago", "lat": 41.8698, "lng": -87.6599}, {"anchorId": "bub-city", "rank": 9, "name": "Bub City", "label": "9. Bub City", "ctaUrl": "https://maps.google.com/?q=Bub+City+River+North+Chicago", "mapQuery": "Bub City, River North, Chicago", "lat": 41.8906, "lng": -87.6322}, {"anchorId": "babygold-barbecue", "rank": 10, "name": "Babygold Barbecue", "label": "10. Babygold Barbecue", "ctaUrl": "https://maps.google.com/?q=Babygold+Barbecue+Ravenswood+Chicago", "mapQuery": "Babygold Barbecue, Ravenswood, Chicago", "lat": 41.9686, "lng": -87.6748}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

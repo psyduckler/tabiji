@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Food Trucks Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/food+trucks+in+Houston", "picks": [{"anchorId": "trill-burgers", "rank": 1, "name": "Trill Burgers", "label": "1. Trill Burgers", "ctaUrl": "https://maps.google.com/?q=Trill+Burgers+Third+Ward+/+Permanent+location+Houston", "mapQuery": "Trill Burgers, Third Ward / Permanent location, Houston", "lat": 29.73602, "lng": -95.42197}, {"anchorId": "tacos-tierra-caliente", "rank": 2, "name": "Tacos Tierra Caliente", "label": "2. Tacos Tierra Caliente", "ctaUrl": "https://maps.google.com/?q=Tacos+Tierra+Caliente+Montrose+Houston", "mapQuery": "Tacos Tierra Caliente, Montrose, Houston", "lat": 29.73971, "lng": -95.40578}, {"anchorId": "coreanos", "rank": 3, "name": "Coreanos", "label": "3. Coreanos", "ctaUrl": "https://maps.google.com/?q=Coreanos+Various+(check+schedule)+Houston", "mapQuery": "Coreanos, Various (check schedule), Houston", "lat": 29.7349, "lng": -95.3941}, {"anchorId": "oh-my-gogi-bbq", "rank": 4, "name": "Oh My Gogi! BBQ", "label": "4. Oh My Gogi! BBQ", "ctaUrl": "https://maps.google.com/?q=Oh+My+Gogi!+BBQ+Midtown+/+Various+(check+schedule)+Houston", "mapQuery": "Oh My Gogi! BBQ, Midtown / Various (check schedule), Houston", "lat": 29.7523, "lng": -95.37}, {"anchorId": "the-waffle-bus", "rank": 5, "name": "The Waffle Bus", "label": "5. The Waffle Bus", "ctaUrl": "https://maps.google.com/?q=The+Waffle+Bus+The+Heights+/+Permanent+location+Houston", "mapQuery": "The Waffle Bus, The Heights / Permanent location, Houston", "lat": 29.7909, "lng": -95.4055}, {"anchorId": "micos-hot-chicken", "rank": 6, "name": "Micos Hot Chicken", "label": "6. Micos Hot Chicken", "ctaUrl": "https://maps.google.com/?q=Micos+Hot+Chicken+Timbergrove+/+Permanent+location+Houston", "mapQuery": "Micos Hot Chicken, Timbergrove / Permanent location, Houston", "lat": 29.79155, "lng": -95.40932}, {"anchorId": "stickys-chicken", "rank": 7, "name": "Sticky's Chicken", "label": "7. Sticky's Chicken", "ctaUrl": "https://maps.google.com/?q=Sticky's+Chicken+EaDo+/+Permanent+location+Houston", "mapQuery": "Sticky's Chicken, EaDo / Permanent location, Houston", "lat": 29.77335, "lng": -95.3683}, {"anchorId": "flip-n-patties", "rank": 8, "name": "Flip 'n Patties", "label": "8. Flip 'n Patties", "ctaUrl": "https://maps.google.com/?q=Flip+'n+Patties+Lazybrook/Timbergrove+(check+schedule)+Houston", "mapQuery": "Flip 'n Patties, Lazybrook/Timbergrove (check schedule), Houston", "lat": 29.7349, "lng": -95.3941}, {"anchorId": "yelo-kolache", "rank": 9, "name": "Yelo Kolache", "label": "9. Yelo Kolache", "ctaUrl": "https://maps.google.com/?q=Yelo+Kolache+Heights+/+Permanent+location+Houston", "mapQuery": "Yelo Kolache, Heights / Permanent location, Houston", "lat": 29.7925, "lng": -95.4101}, {"anchorId": "the-cuban-spot", "rank": 10, "name": "The Cuban Spot", "label": "10. The Cuban Spot", "ctaUrl": "https://maps.google.com/?q=The+Cuban+Spot+Greater+Heights+/+Permanent+location+Houston", "mapQuery": "The Cuban Spot, Greater Heights / Permanent location, Houston", "lat": 29.8143, "lng": -95.3852}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

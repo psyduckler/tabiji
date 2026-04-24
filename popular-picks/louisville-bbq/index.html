@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+Louisville", "picks": [{"anchorId": "feast-bbq", "rank": 1, "name": "Feast BBQ", "label": "1. Feast BBQ", "ctaUrl": "https://maps.google.com/?q=Feast+BBQ+Nulu+Louisville", "mapQuery": "Feast BBQ, Nulu, Louisville", "lat": 38.2561, "lng": -85.7337}, {"anchorId": "back-deck-bbq", "rank": 2, "name": "Back Deck BBQ", "label": "2. Back Deck BBQ", "ctaUrl": "https://maps.google.com/?q=Back+Deck+BBQ+Schnitzelburg+Louisville", "mapQuery": "Back Deck BBQ, Schnitzelburg, Louisville", "lat": 38.2137, "lng": -85.7327}, {"anchorId": "mommas-mustard-pickles-bbq", "rank": 3, "name": "Momma's Mustard, Pickles & BBQ", "label": "3. Momma's Mustard, Pickles & BBQ", "ctaUrl": "https://maps.google.com/?q=Momma's+Mustard,+Pickles+&+BBQ+East+End+Louisville", "mapQuery": "Momma's Mustard, Pickles & BBQ, East End, Louisville", "lat": 38.2393, "lng": -85.5562}, {"anchorId": "smoketown-usa", "rank": 4, "name": "Smoketown USA", "label": "4. Smoketown USA", "ctaUrl": "https://maps.google.com/?q=Smoketown+USA+Smoketown+Louisville", "mapQuery": "Smoketown USA, Smoketown, Louisville", "lat": 38.2435, "lng": -85.7402}, {"anchorId": "doc-crows-southern-smokehouse-and-raw-ba", "rank": 5, "name": "Doc Crow's Southern Smokehouse and Raw Bar", "label": "5. Doc Crow's Southern Smokehouse and Raw Bar", "ctaUrl": "https://maps.google.com/?q=Doc+Crow's+Southern+Smokehouse+and+Raw+Bar+Downtown+Louisville", "mapQuery": "Doc Crow's Southern Smokehouse and Raw Bar, Downtown, Louisville", "lat": 38.257, "lng": -85.7601}, {"anchorId": "marks-feed-store", "rank": 6, "name": "Mark's Feed Store", "label": "6. Mark's Feed Store", "ctaUrl": "https://maps.google.com/?q=Mark's+Feed+Store+Middletown+Louisville", "mapQuery": "Mark's Feed Store, Middletown, Louisville", "lat": 38.2618, "lng": -85.5134}, {"anchorId": "frankfort-avenue-beer-depot-smokehouse", "rank": 7, "name": "Frankfort Avenue Beer Depot & Smokehouse", "label": "7. Frankfort Avenue Beer Depot & Smokehouse", "ctaUrl": "https://maps.google.com/?q=Frankfort+Avenue+Beer+Depot+&+Smokehouse+Crescent+Hill+Louisville", "mapQuery": "Frankfort Avenue Beer Depot & Smokehouse, Crescent Hill, Louisville", "lat": 38.2562, "lng": -85.6797}, {"anchorId": "river-road-bbq", "rank": 8, "name": "River Road BBQ", "label": "8. River Road BBQ", "ctaUrl": "https://maps.google.com/?q=River+Road+BBQ+Clifton+Louisville", "mapQuery": "River Road BBQ, Clifton, Louisville", "lat": 38.2831, "lng": -85.6983}, {"anchorId": "bootleg-bbq", "rank": 9, "name": "Bootleg BBQ", "label": "9. Bootleg BBQ", "ctaUrl": "https://maps.google.com/?q=Bootleg+BBQ+Fern+Creek+Louisville", "mapQuery": "Bootleg BBQ, Fern Creek, Louisville", "lat": 38.1691, "lng": -85.5901}, {"anchorId": "jucys-bar-b-que", "rank": 10, "name": "Jucy's Bar B Que", "label": "10. Jucy's Bar B Que", "ctaUrl": "https://maps.google.com/?q=Jucy's+Bar+B+Que+Highview+Louisville", "mapQuery": "Jucy's Bar B Que, Highview, Louisville", "lat": 38.1408, "lng": -85.6268}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Tacos Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/tacos+in+Las+Vegas", "picks": [{"anchorId": "tacos-el-gordo", "rank": 1, "name": "Tacos El Gordo", "label": "1. Tacos El Gordo", "ctaUrl": "https://maps.google.com/?q=Tacos+El+Gordo+The+Strip+Las+Vegas", "mapQuery": "Tacos El Gordo, The Strip, Las Vegas", "lat": 36.1265, "lng": -115.1633}, {"anchorId": "tacos-beer", "rank": 2, "name": "Tacos & Beer", "label": "2. Tacos & Beer", "ctaUrl": "https://maps.google.com/?q=Tacos+&+Beer+Paradise+Las+Vegas", "mapQuery": "Tacos & Beer, Paradise, Las Vegas", "lat": 36.1132, "lng": -115.1504}, {"anchorId": "el-dorado-cantina", "rank": 3, "name": "El Dorado Cantina", "label": "3. El Dorado Cantina", "ctaUrl": "https://maps.google.com/?q=El+Dorado+Cantina+Spring+Mountain+Las+Vegas", "mapQuery": "El Dorado Cantina, Spring Mountain, Las Vegas", "lat": 36.1234, "lng": -115.1764}, {"anchorId": "birrieria-guadalajara", "rank": 4, "name": "Birrieria Guadalajara", "label": "4. Birrieria Guadalajara", "ctaUrl": "https://maps.google.com/?q=Birrieria+Guadalajara+East+Las+Vegas+Las+Vegas", "mapQuery": "Birrieria Guadalajara, East Las Vegas, Las Vegas", "lat": 36.1287, "lng": -115.2238}, {"anchorId": "frijoles-frescas", "rank": 5, "name": "Frijoles & Frescas", "label": "5. Frijoles & Frescas", "ctaUrl": "https://maps.google.com/?q=Frijoles+&+Frescas+Sahara+Ave+Las+Vegas", "mapQuery": "Frijoles & Frescas, Sahara Ave, Las Vegas", "lat": 36.1412, "lng": -115.2505}, {"anchorId": "pinches-tacos", "rank": 6, "name": "Pinches Tacos", "label": "6. Pinches Tacos", "ctaUrl": "https://maps.google.com/?q=Pinches+Tacos+Flamingo/The+Linq+Promenade+Las+Vegas", "mapQuery": "Pinches Tacos, Flamingo/The Linq Promenade, Las Vegas", "lat": 36.1189, "lng": -115.1718}, {"anchorId": "border-grill", "rank": 7, "name": "Border Grill", "label": "7. Border Grill", "ctaUrl": "https://maps.google.com/?q=Border+Grill+Mandalay+Bay+Las+Vegas", "mapQuery": "Border Grill, Mandalay Bay, Las Vegas", "lat": 36.0901, "lng": -115.1764}, {"anchorId": "komex-express", "rank": 8, "name": "Komex Express", "label": "8. Komex Express", "ctaUrl": "https://maps.google.com/?q=Komex+Express+Chinatown+Las+Vegas", "mapQuery": "Komex Express, Chinatown, Las Vegas", "lat": 36.1264, "lng": -115.2003}, {"anchorId": "taqueria-casa-del-sabor", "rank": 9, "name": "Taqueria Casa Del Sabor", "label": "9. Taqueria Casa Del Sabor", "ctaUrl": "https://maps.google.com/?q=Taqueria+Casa+Del+Sabor+North+Las+Vegas+Las+Vegas", "mapQuery": "Taqueria Casa Del Sabor, North Las Vegas, Las Vegas", "lat": 36.2307, "lng": -115.0869}, {"anchorId": "viva-tacos-cantina", "rank": 10, "name": "Viva Tacos & Cantina", "label": "10. Viva Tacos & Cantina", "ctaUrl": "https://maps.google.com/?q=Viva+Tacos+&+Cantina+Downtown+/+Fremont+Street+Las+Vegas", "mapQuery": "Viva Tacos & Cantina, Downtown / Fremont Street, Las Vegas", "lat": 36.168, "lng": -115.1408}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

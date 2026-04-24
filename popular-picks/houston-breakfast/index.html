@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Breakfast Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/breakfast+in+Houston", "picks": [{"anchorId": "the-breakfast-klub", "rank": 1, "name": "The Breakfast Klub", "label": "1. The Breakfast Klub", "ctaUrl": "https://maps.google.com/?q=The+Breakfast+Klub+Midtown+Houston", "mapQuery": "The Breakfast Klub, Midtown, Houston", "lat": 29.7431, "lng": -95.3789}, {"anchorId": "pondicheri", "rank": 2, "name": "Pondicheri", "label": "2. Pondicheri", "ctaUrl": "https://maps.google.com/?q=Pondicheri+Upper+Kirby+Houston", "mapQuery": "Pondicheri, Upper Kirby, Houston", "lat": 29.7369, "lng": -95.4194}, {"anchorId": "common-bond-bistro-bakery", "rank": 3, "name": "Common Bond Bistro & Bakery", "label": "3. Common Bond Bistro & Bakery", "ctaUrl": "https://maps.google.com/?q=Common+Bond+Bistro+&+Bakery+Montrose+Houston", "mapQuery": "Common Bond Bistro & Bakery, Montrose, Houston", "lat": 29.7431, "lng": -95.4057}, {"anchorId": "dish-society", "rank": 4, "name": "Dish Society", "label": "4. Dish Society", "ctaUrl": "https://maps.google.com/?q=Dish+Society+Multiple+(e.g.,+Montrose)+Houston", "mapQuery": "Dish Society, Multiple (e.g., Montrose), Houston", "lat": 29.7441, "lng": -95.4079}, {"anchorId": "empire-cafe", "rank": 5, "name": "Empire Cafe", "label": "5. Empire Cafe", "ctaUrl": "https://maps.google.com/?q=Empire+Cafe+Montrose+Houston", "mapQuery": "Empire Cafe, Montrose, Houston", "lat": 29.743, "lng": -95.4053}, {"anchorId": "kenny-ziggys-new-york-delicatessen", "rank": 6, "name": "Kenny & Ziggy's New York Delicatessen", "label": "6. Kenny & Ziggy's New York Delicatessen", "ctaUrl": "https://maps.google.com/?q=Kenny+&+Ziggy's+New+York+Delicatessen+Galleria+Houston", "mapQuery": "Kenny & Ziggy's New York Delicatessen, Galleria, Houston", "lat": 29.7554, "lng": -95.4627}, {"anchorId": "snooze-an-am-eatery", "rank": 7, "name": "Snooze, an A.M. Eatery", "label": "7. Snooze, an A.M. Eatery", "ctaUrl": "https://maps.google.com/?q=Snooze,+an+A.M.+Eatery+Multiple+(e.g.,+Montrose)+Houston", "mapQuery": "Snooze, an A.M. Eatery, Multiple (e.g., Montrose), Houston", "lat": 29.742, "lng": -95.397}, {"anchorId": "harrys-restaurant-cafe", "rank": 8, "name": "Harry's Restaurant & Cafe", "label": "8. Harry's Restaurant & Cafe", "ctaUrl": "https://maps.google.com/?q=Harry's+Restaurant+&+Cafe+Montrose+Houston", "mapQuery": "Harry's Restaurant & Cafe, Montrose, Houston", "lat": 29.7547, "lng": -95.3857}, {"anchorId": "cielito-cafe", "rank": 9, "name": "Cielito Cafe", "label": "9. Cielito Cafe", "ctaUrl": "https://maps.google.com/?q=Cielito+Cafe+Garden+Oaks+Houston", "mapQuery": "Cielito Cafe, Garden Oaks, Houston", "lat": 29.8329, "lng": -95.4206}, {"anchorId": "tout-suite", "rank": 10, "name": "Tout Suite", "label": "10. Tout Suite", "ctaUrl": "https://maps.google.com/?q=Tout+Suite+EaDo+Houston", "mapQuery": "Tout Suite, EaDo, Houston", "lat": 29.757, "lng": -95.3533}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

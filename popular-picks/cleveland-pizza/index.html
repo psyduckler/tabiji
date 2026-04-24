@@ -1462,73 +1462,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Cleveland", "picks": [{"anchorId": "il-rione", "rank": 1, "name": "Il Rione", "label": "1. Il Rione", "ctaUrl": "https://maps.google.com/?q=Il+Rione+Gordon+Square+Arts+District+Cleveland", "mapQuery": "Il Rione, Gordon Square Arts District, Cleveland", "lat": 41.485125, "lng": -81.74088}, {"anchorId": "citizen-pie", "rank": 2, "name": "Citizen Pie", "label": "2. Citizen Pie", "ctaUrl": "https://maps.google.com/?q=Citizen+Pie+Ohio+City+Cleveland", "mapQuery": "Citizen Pie, Ohio City, Cleveland", "lat": 41.482838, "lng": -81.706179}, {"anchorId": "angelos-pizza", "rank": 3, "name": "Angelo's Pizza", "label": "3. Angelo's Pizza", "ctaUrl": "https://maps.google.com/?q=Angelo's+Pizza+Lakewood+Cleveland", "mapQuery": "Angelo's Pizza, Lakewood, Cleveland", "lat": 41.480036, "lng": -81.782803}, {"anchorId": "geracis-restaurant", "rank": 4, "name": "Geraci's Restaurant", "label": "4. Geraci's Restaurant", "ctaUrl": "https://maps.google.com/?q=Geraci's+Restaurant+University+Heights+Cleveland", "mapQuery": "Geraci's Restaurant, University Heights, Cleveland", "lat": 41.493056, "lng": -81.545833}, {"anchorId": "edisons-pizza-kitchen", "rank": 5, "name": "Edison's Pizza Kitchen", "label": "5. Edison's Pizza Kitchen", "ctaUrl": "https://maps.google.com/?q=Edison's+Pizza+Kitchen+Downtown+/+Playhouse+Square+Cleveland", "mapQuery": "Edison's Pizza Kitchen, Downtown / Playhouse Square, Cleveland", "lat": 41.498889, "lng": -81.688889}, {"anchorId": "vero-pizza", "rank": 6, "name": "Vero Pizza", "label": "6. Vero Pizza", "ctaUrl": "https://maps.google.com/?q=Vero+Pizza+Clark-Fulton+Cleveland", "mapQuery": "Vero Pizza, Clark-Fulton, Cleveland", "lat": 41.485278, "lng": -81.761667}, {"anchorId": "saucy-brew-works", "rank": 7, "name": "Saucy Brew Works", "label": "7. Saucy Brew Works", "ctaUrl": "https://maps.google.com/?q=Saucy+Brew+Works+Ohio+City+Cleveland", "mapQuery": "Saucy Brew Works, Ohio City, Cleveland", "lat": 41.48628, "lng": -81.70617}, {"anchorId": "pizzeria-dilauro", "rank": 8, "name": "Pizzeria DiLauro", "label": "8. Pizzeria DiLauro", "ctaUrl": "https://maps.google.com/?q=Pizzeria+DiLauro+Lakewood+Cleveland", "mapQuery": "Pizzeria DiLauro, Lakewood, Cleveland", "lat": 41.48197, "lng": -81.80386}, {"anchorId": "ohio-city-pizzeria", "rank": 9, "name": "Ohio City Pizzeria", "label": "9. Ohio City Pizzeria", "ctaUrl": "https://maps.google.com/?q=Ohio+City+Pizzeria+Ohio+City+Cleveland", "mapQuery": "Ohio City Pizzeria, Ohio City, Cleveland", "lat": 41.480036, "lng": -81.698036}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

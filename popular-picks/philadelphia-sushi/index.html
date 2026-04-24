@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Philadelphia", "picks": [{"anchorId": "omakase-by-yanaga", "rank": 1, "name": "Omakase by Yanaga", "label": "1. Omakase by Yanaga", "ctaUrl": "https://maps.google.com/?q=Omakase+by+Yanaga+Fishtown+Philadelphia", "mapQuery": "Omakase by Yanaga, Fishtown, Philadelphia", "lat": 39.972305, "lng": -75.132808}, {"anchorId": "hiroki", "rank": 2, "name": "Hiroki", "label": "2. Hiroki", "ctaUrl": "https://maps.google.com/?q=Hiroki+Fishtown+Philadelphia", "mapQuery": "Hiroki, Fishtown, Philadelphia", "lat": 39.972621, "lng": -75.132549}, {"anchorId": "royal-izakaya", "rank": 3, "name": "Royal Izakaya", "label": "3. Royal Izakaya", "ctaUrl": "https://maps.google.com/?q=Royal+Izakaya+Queen+Village+Philadelphia", "mapQuery": "Royal Izakaya, Queen Village, Philadelphia", "lat": 39.940523, "lng": -75.143764}, {"anchorId": "double-knot", "rank": 4, "name": "Double Knot", "label": "4. Double Knot", "ctaUrl": "https://maps.google.com/?q=Double+Knot+Midtown+Village+Philadelphia", "mapQuery": "Double Knot, Midtown Village, Philadelphia", "lat": 39.95015, "lng": -75.16335}, {"anchorId": "zama", "rank": 5, "name": "Zama", "label": "5. Zama", "ctaUrl": "https://maps.google.com/?q=Zama+Rittenhouse+Square+Philadelphia", "mapQuery": "Zama, Rittenhouse Square, Philadelphia", "lat": 39.95156, "lng": -75.17066}, {"anchorId": "tuna-bar", "rank": 6, "name": "Tuna Bar", "label": "6. Tuna Bar", "ctaUrl": "https://maps.google.com/?q=Tuna+Bar+Old+City+Philadelphia", "mapQuery": "Tuna Bar, Old City, Philadelphia", "lat": 39.95349, "lng": -75.14309}, {"anchorId": "umai-umai", "rank": 7, "name": "Umai Umai", "label": "7. Umai Umai", "ctaUrl": "https://maps.google.com/?q=Umai+Umai+Fairmount+Philadelphia", "mapQuery": "Umai Umai, Fairmount, Philadelphia", "lat": 39.96739, "lng": -75.17646}, {"anchorId": "masaki-sushi", "rank": 8, "name": "Masaki Sushi", "label": "8. Masaki Sushi", "ctaUrl": "https://maps.google.com/?q=Masaki+Sushi+Graduate+Hospital+Philadelphia", "mapQuery": "Masaki Sushi, Graduate Hospital, Philadelphia", "lat": 39.94828, "lng": -75.1726}, {"anchorId": "dawa-sushi-grill", "rank": 9, "name": "Dawa Sushi & Grill", "label": "9. Dawa Sushi & Grill", "ctaUrl": "https://maps.google.com/?q=Dawa+Sushi+&+Grill+Queen+Village+Philadelphia", "mapQuery": "Dawa Sushi & Grill, Queen Village, Philadelphia", "lat": 39.94043, "lng": -75.14589}, {"anchorId": "vic-sushi-bar", "rank": 10, "name": "Vic Sushi Bar", "label": "10. Vic Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Vic+Sushi+Bar+Rittenhouse+Square+Philadelphia", "mapQuery": "Vic Sushi Bar, Rittenhouse Square, Philadelphia", "lat": 39.95047, "lng": -75.17417}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

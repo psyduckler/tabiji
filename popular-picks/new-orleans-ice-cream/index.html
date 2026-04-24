@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Ice Cream Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/ice+cream+in+New+Orleans", "picks": [{"anchorId": "creole-creamery", "rank": 1, "name": "Creole Creamery", "label": "1. Creole Creamery", "ctaUrl": "https://maps.google.com/?q=Creole+Creamery+Uptown+/+Garden+District+New+Orleans", "mapQuery": "Creole Creamery, Uptown / Garden District, New Orleans", "lat": 29.93096, "lng": -90.09139}, {"anchorId": "angelo-brocato-original-italian-ice-crea", "rank": 2, "name": "Angelo Brocato Original Italian Ice Cream Parlor", "label": "2. Angelo Brocato Original Italian Ice Cream Parlor", "ctaUrl": "https://maps.google.com/?q=Angelo+Brocato+Original+Italian+Ice+Cream+Parlor+Mid-City+New+Orleans", "mapQuery": "Angelo Brocato Original Italian Ice Cream Parlor, Mid-City, New Orleans", "lat": 29.95764, "lng": -90.0934}, {"anchorId": "piccola-gelateria", "rank": 3, "name": "Piccola Gelateria", "label": "3. Piccola Gelateria", "ctaUrl": "https://maps.google.com/?q=Piccola+Gelateria+Uptown+/+Freret+Street+New+Orleans", "mapQuery": "Piccola Gelateria, Uptown / Freret Street, New Orleans", "lat": 29.93297, "lng": -90.10174}, {"anchorId": "drip-affogato-bar", "rank": 4, "name": "Drip Affogato Bar", "label": "4. Drip Affogato Bar", "ctaUrl": "https://maps.google.com/?q=Drip+Affogato+Bar+Bywater+New+Orleans", "mapQuery": "Drip Affogato Bar, Bywater, New Orleans", "lat": 29.94098, "lng": -89.98774}, {"anchorId": "sucré", "rank": 5, "name": "Sucré", "label": "5. Sucré", "ctaUrl": "https://maps.google.com/?q=Sucré+Garden+District+New+Orleans", "mapQuery": "Sucré, Garden District, New Orleans", "lat": 29.93188, "lng": -90.08269}, {"anchorId": "kilwins", "rank": 6, "name": "Kilwins", "label": "6. Kilwins", "ctaUrl": "https://maps.google.com/?q=Kilwins+French+Quarter+New+Orleans", "mapQuery": "Kilwins, French Quarter, New Orleans", "lat": 29.95759, "lng": -90.06077}, {"anchorId": "district-donuts-sliders-brew", "rank": 7, "name": "District Donuts. Sliders. Brew.", "label": "7. District Donuts. Sliders. Brew.", "ctaUrl": "https://maps.google.com/?q=District+Donuts.+Sliders.+Brew.+Garden+District+New+Orleans", "mapQuery": "District Donuts. Sliders. Brew., Garden District, New Orleans", "lat": 29.93608, "lng": -90.07823}, {"anchorId": "ice-cream-504", "rank": 8, "name": "Ice Cream 504", "label": "8. Ice Cream 504", "ctaUrl": "https://maps.google.com/?q=Ice+Cream+504+Gentilly+New+Orleans", "mapQuery": "Ice Cream 504, Gentilly, New Orleans", "lat": 29.99616, "lng": -90.04639}, {"anchorId": "southern-swirls-frozen-yogurt", "rank": 9, "name": "Southern Swirls Frozen Yogurt", "label": "9. Southern Swirls Frozen Yogurt", "ctaUrl": "https://maps.google.com/?q=Southern+Swirls+Frozen+Yogurt+Uptown+New+Orleans", "mapQuery": "Southern Swirls Frozen Yogurt, Uptown, New Orleans", "lat": 29.92348, "lng": -90.11181}, {"anchorId": "fat-boyz-sweets-n-treats", "rank": 10, "name": "Fat Boyz Sweets N Treats", "label": "10. Fat Boyz Sweets N Treats", "ctaUrl": "https://maps.google.com/?q=Fat+Boyz+Sweets+N+Treats+Hollygrove+New+Orleans", "mapQuery": "Fat Boyz Sweets N Treats, Hollygrove, New Orleans", "lat": 29.98292, "lng": -90.13605}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1547,73 +1547,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+San+Antonio", "picks": [{"anchorId": "2m-smokehouse", "rank": 1, "name": "2M Smokehouse", "label": "1. 2M Smokehouse", "ctaUrl": "https://maps.google.com/?q=2M+Smokehouse+East+Side+San+Antonio", "mapQuery": "2M Smokehouse, East Side, San Antonio", "lat": 29.35923, "lng": -98.39704}, {"anchorId": "pinkertons-bbq", "rank": 2, "name": "Pinkerton's BBQ", "label": "2. Pinkerton's BBQ", "ctaUrl": "https://maps.google.com/?q=Pinkerton's+BBQ+Downtown+/+St.+Paul+Square+San+Antonio", "mapQuery": "Pinkerton's BBQ, Downtown / St. Paul Square, San Antonio", "lat": 29.42676, "lng": -98.49077}, {"anchorId": "smoke-shack-bbq-southern-kitchen", "rank": 3, "name": "Smoke Shack BBQ + Southern Kitchen", "label": "3. Smoke Shack BBQ + Southern Kitchen", "ctaUrl": "https://maps.google.com/?q=Smoke+Shack+BBQ+++Southern+Kitchen+Midtown+/+Mahncke+Park+San+Antonio", "mapQuery": "Smoke Shack BBQ + Southern Kitchen, Midtown / Mahncke Park, San Antonio", "lat": 29.46231, "lng": -98.46973}, {"anchorId": "alamo-bbq-co", "rank": 4, "name": "Alamo BBQ Co.", "label": "4. Alamo BBQ Co.", "ctaUrl": "https://maps.google.com/?q=Alamo+BBQ+Co.+Near+The+Pearl+/+Tobin+Hill+San+Antonio", "mapQuery": "Alamo BBQ Co., Near The Pearl / Tobin Hill, San Antonio", "lat": 29.43948, "lng": -98.47359}, {"anchorId": "curry-boys-bbq", "rank": 5, "name": "Curry Boys BBQ", "label": "5. Curry Boys BBQ", "ctaUrl": "https://maps.google.com/?q=Curry+Boys+BBQ+Government+Hill+/+East+Side+San+Antonio", "mapQuery": "Curry Boys BBQ, Government Hill / East Side, San Antonio", "lat": 29.45604, "lng": -98.48492}, {"anchorId": "south-bbq-kitchen", "rank": 6, "name": "South BBQ & Kitchen", "label": "6. South BBQ & Kitchen", "ctaUrl": "https://maps.google.com/?q=South+BBQ+&+Kitchen+Southside+San+Antonio", "mapQuery": "South BBQ & Kitchen, Southside, San Antonio", "lat": 29.3888, "lng": -98.4719}, {"anchorId": "harmons-bbq", "rank": 7, "name": "Harmon's BBQ", "label": "7. Harmon's BBQ", "ctaUrl": "https://maps.google.com/?q=Harmon's+BBQ+Near+SA+Airport+/+Castle+Hills+San+Antonio", "mapQuery": "Harmon's BBQ, Near SA Airport / Castle Hills, San Antonio", "lat": 29.44473, "lng": -98.57723}, {"anchorId": "rudys-country-store-and-bbq", "rank": 8, "name": "Rudy's Country Store and BBQ", "label": "8. Rudy's Country Store and BBQ", "ctaUrl": "https://maps.google.com/?q=Rudy's+Country+Store+and+BBQ+Northwest+Side+/+Multiple+Locations+San+Antonio", "mapQuery": "Rudy's Country Store and BBQ, Northwest Side / Multiple Locations, San Antonio", "lat": 29.59914, "lng": -98.62539}, {"anchorId": "two-bros-bbq-market", "rank": 9, "name": "Two Bros. BBQ Market", "label": "9. Two Bros. BBQ Market", "ctaUrl": "https://maps.google.com/?q=Two+Bros.+BBQ+Market+Northwest+Side+/+Shavano+Park+San+Antonio", "mapQuery": "Two Bros. BBQ Market, Northwest Side / Shavano Park, San Antonio", "lat": 29.56708, "lng": -98.53039}, {"anchorId": "garcias-mexican-food-bbq", "rank": 10, "name": "Garcia's Mexican Food & BBQ", "label": "10. Garcia's Mexican Food & BBQ", "ctaUrl": "https://maps.google.com/?q=Garcia's+Mexican+Food+&+BBQ+Southside+San+Antonio", "mapQuery": "Garcia's Mexican Food & BBQ, Southside, San Antonio", "lat": 29.30906, "lng": -98.53675}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

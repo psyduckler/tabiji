@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Coffee Shops Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/coffee+shops+in+Knoxville", "picks": [{"anchorId": "honeybee-coffee-co", "rank": 1, "name": "Honeybee Coffee Co. (South Knoxville)", "label": "1. Honeybee Coffee Co. (South Knoxville)", "ctaUrl": "https://maps.google.com/?q=Honeybee+Coffee+Co.+(South+Knoxville)+South+Knoxville+Knoxville", "mapQuery": "Honeybee Coffee Co. (South Knoxville), South Knoxville, Knoxville", "lat": 35.952097, "lng": -83.914275}, {"anchorId": "remedy-coffee", "rank": 2, "name": "Remedy Coffee", "label": "2. Remedy Coffee", "ctaUrl": "https://maps.google.com/?q=Remedy+Coffee+Old+City+Knoxville", "mapQuery": "Remedy Coffee, Old City, Knoxville", "lat": 35.969188, "lng": -83.921355}, {"anchorId": "wild-love-bakehouse", "rank": 3, "name": "Wild Love Bakehouse", "label": "3. Wild Love Bakehouse", "ctaUrl": "https://maps.google.com/?q=Wild+Love+Bakehouse+Old+North+Knoxville+Knoxville", "mapQuery": "Wild Love Bakehouse, Old North Knoxville, Knoxville", "lat": 35.979061, "lng": -83.924209}, {"anchorId": "k-brew", "rank": 4, "name": "K Brew (North Knoxville)", "label": "4. K Brew (North Knoxville)", "ctaUrl": "https://maps.google.com/?q=K+Brew+(North+Knoxville)+North+Knoxville+Knoxville", "mapQuery": "K Brew (North Knoxville), North Knoxville, Knoxville", "lat": 35.981881, "lng": -83.925433}, {"anchorId": "mahalo-coffee-roasters", "rank": 5, "name": "Mahalo Coffee Roasters", "label": "5. Mahalo Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Mahalo+Coffee+Roasters+Downtown+Knoxville", "mapQuery": "Mahalo Coffee Roasters, Downtown, Knoxville", "lat": 35.963499, "lng": -83.9208}, {"anchorId": "the-golden-roast", "rank": 6, "name": "The Golden Roast", "label": "6. The Golden Roast", "ctaUrl": "https://maps.google.com/?q=The+Golden+Roast+Fort+Sanders+Knoxville", "mapQuery": "The Golden Roast, Fort Sanders, Knoxville", "lat": 35.955434, "lng": -83.928766}, {"anchorId": "frothy-monkey", "rank": 7, "name": "Frothy Monkey", "label": "7. Frothy Monkey", "ctaUrl": "https://maps.google.com/?q=Frothy+Monkey+Downtown+Knoxville", "mapQuery": "Frothy Monkey, Downtown, Knoxville", "lat": 35.964434, "lng": -83.918116}, {"anchorId": "phoenix-pharmacy-and-soda-fountain", "rank": 8, "name": "Phoenix Pharmacy and Soda Fountain", "label": "8. Phoenix Pharmacy and Soda Fountain", "ctaUrl": "https://maps.google.com/?q=Phoenix+Pharmacy+and+Soda+Fountain+Downtown+Knoxville", "mapQuery": "Phoenix Pharmacy and Soda Fountain, Downtown, Knoxville", "lat": 35.960252, "lng": -83.91902}, {"anchorId": "old-city-java", "rank": 9, "name": "Old City Java", "label": "9. Old City Java", "ctaUrl": "https://maps.google.com/?q=Old+City+Java+Old+City+Knoxville", "mapQuery": "Old City Java, Old City, Knoxville", "lat": 35.96919, "lng": -83.921609}, {"anchorId": "likewise-coffee", "rank": 10, "name": "Likewise Coffee", "label": "10. Likewise Coffee", "ctaUrl": "https://maps.google.com/?q=Likewise+Coffee+West+Knoxville+Knoxville", "mapQuery": "Likewise Coffee, West Knoxville, Knoxville", "lat": 35.922437, "lng": -84.032333}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1565,73 +1565,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Austin", "picks": [{"anchorId": "jeffreys", "rank": 1, "name": "Jeffrey's", "label": "1. Jeffrey's", "ctaUrl": "https://maps.google.com/?q=Jeffrey's+Clarksville+Austin", "mapQuery": "Jeffrey's, Clarksville, Austin", "lat": 30.2974, "lng": -97.7667}, {"anchorId": "perrys-steakhouse-grille", "rank": 2, "name": "Perry's Steakhouse & Grille", "label": "2. Perry's Steakhouse & Grille", "ctaUrl": "https://maps.google.com/?q=Perry's+Steakhouse+&+Grille+Downtown+Austin", "mapQuery": "Perry's Steakhouse & Grille, Downtown, Austin", "lat": 30.2662, "lng": -97.741}, {"anchorId": "lonesome-dove-western-bistro", "rank": 3, "name": "Lonesome Dove Western Bistro", "label": "3. Lonesome Dove Western Bistro", "ctaUrl": "https://maps.google.com/?q=Lonesome+Dove+Western+Bistro+Warehouse+District+Austin", "mapQuery": "Lonesome Dove Western Bistro, Warehouse District, Austin", "lat": 30.2678, "lng": -97.747}, {"anchorId": "j-carvers-oyster-bar-chophouse", "rank": 4, "name": "J. Carver's Oyster Bar & Chophouse", "label": "4. J. Carver's Oyster Bar & Chophouse", "ctaUrl": "https://maps.google.com/?q=J.+Carver's+Oyster+Bar+&+Chophouse+Downtown+Austin", "mapQuery": "J. Carver's Oyster Bar & Chophouse, Downtown, Austin", "lat": 30.2687, "lng": -97.7414}, {"anchorId": "bobs-steak-chop-house", "rank": 5, "name": "Bob's Steak & Chop House", "label": "5. Bob's Steak & Chop House", "ctaUrl": "https://maps.google.com/?q=Bob's+Steak+&+Chop+House+Downtown+Austin", "mapQuery": "Bob's Steak & Chop House, Downtown, Austin", "lat": 30.2662, "lng": -97.741}, {"anchorId": "vince-young-steakhouse", "rank": 6, "name": "Vince Young Steakhouse", "label": "6. Vince Young Steakhouse", "ctaUrl": "https://maps.google.com/?q=Vince+Young+Steakhouse+Downtown+Austin", "mapQuery": "Vince Young Steakhouse, Downtown, Austin", "lat": 30.2677, "lng": -97.7455}, {"anchorId": "garrison-at-fairmont-austin", "rank": 7, "name": "Garrison at Fairmont Austin", "label": "7. Garrison at Fairmont Austin", "ctaUrl": "https://maps.google.com/?q=Garrison+at+Fairmont+Austin+Downtown+Austin", "mapQuery": "Garrison at Fairmont Austin, Downtown, Austin", "lat": 30.2638, "lng": -97.7392}, {"anchorId": "salt-time", "rank": 8, "name": "Salt & Time", "label": "8. Salt & Time", "ctaUrl": "https://maps.google.com/?q=Salt+&+Time+East+Austin+Austin", "mapQuery": "Salt & Time, East Austin, Austin", "lat": 30.2652, "lng": -97.7289}, {"anchorId": "jack-allens-kitchen", "rank": 9, "name": "Jack Allen's Kitchen", "label": "9. Jack Allen's Kitchen", "ctaUrl": "https://maps.google.com/?q=Jack+Allen's+Kitchen+Various+(Oak+Hill/360)+Austin", "mapQuery": "Jack Allen's Kitchen, Various (Oak Hill/360), Austin", "lat": 30.252, "lng": -97.8767}, {"anchorId": "little-darlins", "rank": 10, "name": "Little Darlin's", "label": "10. Little Darlin's", "ctaUrl": "https://maps.google.com/?q=Little+Darlin's+South+Austin+Austin", "mapQuery": "Little Darlin's, South Austin, Austin", "lat": 30.2016, "lng": -97.777}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

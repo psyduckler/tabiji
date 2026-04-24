@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Wings Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/wings+in+Detroit", "picks": [{"anchorId": "sweetwater-tavern", "rank": 1, "name": "Sweetwater Tavern", "label": "1. Sweetwater Tavern", "ctaUrl": "https://maps.google.com/?q=Sweetwater+Tavern+Downtown+Detroit", "mapQuery": "Sweetwater Tavern, Downtown, Detroit", "lat": 42.3323, "lng": -83.04169}, {"anchorId": "detroit-wing-company", "rank": 2, "name": "Detroit Wing Company", "label": "2. Detroit Wing Company", "ctaUrl": "https://maps.google.com/?q=Detroit+Wing+Company+Midtown+Detroit", "mapQuery": "Detroit Wing Company, Midtown, Detroit", "lat": 42.35515, "lng": -83.0645}, {"anchorId": "penny-reds", "rank": 3, "name": "Penny Red's", "label": "3. Penny Red's", "ctaUrl": "https://maps.google.com/?q=Penny+Red's+Downtown+Detroit", "mapQuery": "Penny Red's, Downtown, Detroit", "lat": 42.33649, "lng": -83.04691}, {"anchorId": "batch-brewing-company", "rank": 4, "name": "Batch Brewing Company", "label": "4. Batch Brewing Company", "ctaUrl": "https://maps.google.com/?q=Batch+Brewing+Company+Corktown+Detroit", "mapQuery": "Batch Brewing Company, Corktown, Detroit", "lat": 42.33333, "lng": -83.06917}, {"anchorId": "bookies-bar-grille", "rank": 5, "name": "Bookies Bar & Grille", "label": "5. Bookies Bar & Grille", "ctaUrl": "https://maps.google.com/?q=Bookies+Bar+&+Grille+Downtown+Detroit", "mapQuery": "Bookies Bar & Grille, Downtown, Detroit", "lat": 42.33924, "lng": -83.05387}, {"anchorId": "union-street-detroit", "rank": 6, "name": "Union Street Detroit", "label": "6. Union Street Detroit", "ctaUrl": "https://maps.google.com/?q=Union+Street+Detroit+Midtown+Detroit", "mapQuery": "Union Street Detroit, Midtown, Detroit", "lat": 42.35246, "lng": -83.06013}, {"anchorId": "motor-city-brewing-works", "rank": 7, "name": "Motor City Brewing Works", "label": "7. Motor City Brewing Works", "ctaUrl": "https://maps.google.com/?q=Motor+City+Brewing+Works+Midtown+Detroit", "mapQuery": "Motor City Brewing Works, Midtown, Detroit", "lat": 42.34824, "lng": -83.06456}, {"anchorId": "bronx-bar", "rank": 8, "name": "Bronx Bar", "label": "8. Bronx Bar", "ctaUrl": "https://maps.google.com/?q=Bronx+Bar+Midtown+Detroit", "mapQuery": "Bronx Bar, Midtown, Detroit", "lat": 42.35597, "lng": -83.06522}, {"anchorId": "bobcat-bonnies", "rank": 9, "name": "Bobcat Bonnie's", "label": "9. Bobcat Bonnie's", "ctaUrl": "https://maps.google.com/?q=Bobcat+Bonnie's+Corktown+Detroit", "mapQuery": "Bobcat Bonnie's, Corktown, Detroit", "lat": 42.33318, "lng": -83.07223}, {"anchorId": "checker-bar-grill", "rank": 10, "name": "Checker Bar & Grill", "label": "10. Checker Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Checker+Bar+&+Grill+Downtown+Detroit", "mapQuery": "Checker Bar & Grill, Downtown, Detroit", "lat": 42.3323, "lng": -83.0476}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

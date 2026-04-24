@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Orlando", "picks": [{"anchorId": "eddy-vs-prime-seafood-steaks", "rank": 1, "name": "Eddy V's Prime Seafood & Steaks", "label": "1. Eddy V's Prime Seafood & Steaks", "ctaUrl": "https://maps.google.com/?q=Eddy+V's+Prime+Seafood+&+Steaks+Dr.+Phillips+Orlando", "mapQuery": "Eddy V's Prime Seafood & Steaks, Dr. Phillips, Orlando", "lat": 28.455209, "lng": -81.458925}, {"anchorId": "the-oceanaire-seafood-room", "rank": 2, "name": "The Oceanaire Seafood Room", "label": "2. The Oceanaire Seafood Room", "ctaUrl": "https://maps.google.com/?q=The+Oceanaire+Seafood+Room+International+Drive+Orlando", "mapQuery": "The Oceanaire Seafood Room, International Drive, Orlando", "lat": 28.435756, "lng": -81.467475}, {"anchorId": "big-fin-seafood-kitchen", "rank": 3, "name": "Big Fin Seafood Kitchen", "label": "3. Big Fin Seafood Kitchen", "ctaUrl": "https://maps.google.com/?q=Big+Fin+Seafood+Kitchen+Dr.+Phillips+Orlando", "mapQuery": "Big Fin Seafood Kitchen, Dr. Phillips, Orlando", "lat": 28.457801, "lng": -81.459392}, {"anchorId": "paddlefish", "rank": 4, "name": "Paddlefish", "label": "4. Paddlefish", "ctaUrl": "https://maps.google.com/?q=Paddlefish+Disney+Springs+Orlando", "mapQuery": "Paddlefish, Disney Springs, Orlando", "lat": 28.370503, "lng": -81.517333}, {"anchorId": "reel-fish-coastal-kitchen-bar", "rank": 5, "name": "Reel Fish Coastal Kitchen + Bar", "label": "5. Reel Fish Coastal Kitchen + Bar", "ctaUrl": "https://maps.google.com/?q=Reel+Fish+Coastal+Kitchen+++Bar+Windermere+Orlando", "mapQuery": "Reel Fish Coastal Kitchen + Bar, Windermere, Orlando", "lat": 28.468755, "lng": -81.524419}, {"anchorId": "high-tide-harrys", "rank": 6, "name": "High Tide Harry's", "label": "6. High Tide Harry's", "ctaUrl": "https://maps.google.com/?q=High+Tide+Harry's+Semoran+Boulevard+Orlando", "mapQuery": "High Tide Harry's, Semoran Boulevard, Orlando", "lat": 28.562388, "lng": -81.309063}, {"anchorId": "lee-ricks-oyster-bar", "rank": 7, "name": "Lee & Rick's Oyster Bar", "label": "7. Lee & Rick's Oyster Bar", "ctaUrl": "https://maps.google.com/?q=Lee+&+Rick's+Oyster+Bar+West+Orlando+Orlando", "mapQuery": "Lee & Rick's Oyster Bar, West Orlando, Orlando", "lat": 28.544721, "lng": -81.450371}, {"anchorId": "king-cajun-crawfish", "rank": 8, "name": "King Cajun Crawfish", "label": "8. King Cajun Crawfish", "ctaUrl": "https://maps.google.com/?q=King+Cajun+Crawfish+Mills+50+District+Orlando", "mapQuery": "King Cajun Crawfish, Mills 50 District, Orlando", "lat": 28.567794, "lng": -81.370577}, {"anchorId": "bar-harbor-seafood", "rank": 9, "name": "Bar Harbor Seafood", "label": "9. Bar Harbor Seafood", "ctaUrl": "https://maps.google.com/?q=Bar+Harbor+Seafood+South+Orlando+Orlando", "mapQuery": "Bar Harbor Seafood, South Orlando, Orlando", "lat": 28.490772, "lng": -81.365313}, {"anchorId": "winter-park-fish-co", "rank": 10, "name": "Winter Park Fish Co.", "label": "10. Winter Park Fish Co.", "ctaUrl": "https://maps.google.com/?q=Winter+Park+Fish+Co.+Winter+Park+Orlando", "mapQuery": "Winter Park Fish Co., Winter Park, Orlando", "lat": 28.601569, "lng": -81.367018}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

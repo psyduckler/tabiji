@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Dallas", "picks": [{"anchorId": "dolly-python", "rank": 1, "name": "Dolly Python", "label": "1. Dolly Python", "ctaUrl": "https://maps.google.com/?q=Dolly+Python+Lower+Greenville+Dallas", "mapQuery": "Dolly Python, Lower Greenville, Dallas", "lat": 32.808061, "lng": -96.786522}, {"anchorId": "genesis-womens-shelter-thrift-store", "rank": 2, "name": "Genesis Women's Shelter Thrift Store", "label": "2. Genesis Women's Shelter Thrift Store", "ctaUrl": "https://maps.google.com/?q=Genesis+Women's+Shelter+Thrift+Store+Preston+Hollow+Dallas", "mapQuery": "Genesis Women's Shelter Thrift Store, Preston Hollow, Dallas", "lat": 32.860161, "lng": -96.840748}, {"anchorId": "thrift-giant", "rank": 3, "name": "Thrift Giant", "label": "3. Thrift Giant", "ctaUrl": "https://maps.google.com/?q=Thrift+Giant+Northwest+Dallas+Dallas", "mapQuery": "Thrift Giant, Northwest Dallas, Dallas", "lat": 32.860548, "lng": -96.861788}, {"anchorId": "crossroads-trading", "rank": 4, "name": "Crossroads Trading", "label": "4. Crossroads Trading", "ctaUrl": "https://maps.google.com/?q=Crossroads+Trading+Lowest+Greenville+Dallas", "mapQuery": "Crossroads Trading, Lowest Greenville, Dallas", "lat": 32.822941, "lng": -96.783689}, {"anchorId": "buffalo-exchange", "rank": 5, "name": "Buffalo Exchange", "label": "5. Buffalo Exchange", "ctaUrl": "https://maps.google.com/?q=Buffalo+Exchange+Lower+Greenville+Dallas", "mapQuery": "Buffalo Exchange, Lower Greenville, Dallas", "lat": 32.822986, "lng": -96.783965}, {"anchorId": "out-of-the-closet-thrift-store-dallas", "rank": 6, "name": "Out of the Closet Thrift Store - Dallas", "label": "6. Out of the Closet Thrift Store - Dallas", "ctaUrl": "https://maps.google.com/?q=Out+of+the+Closet+Thrift+Store+-+Dallas+Oak+Lawn+Dallas", "mapQuery": "Out of the Closet Thrift Store - Dallas, Oak Lawn, Dallas", "lat": 32.812235, "lng": -96.8041}, {"anchorId": "dallas-vintage-shop", "rank": 7, "name": "Dallas Vintage Shop", "label": "7. Dallas Vintage Shop", "ctaUrl": "https://maps.google.com/?q=Dallas+Vintage+Shop+Addison+(Dallas+area)+Dallas", "mapQuery": "Dallas Vintage Shop, Addison (Dallas area), Dallas", "lat": 32.964953, "lng": -96.837567}, {"anchorId": "salvation-army-family-store-donation-cen", "rank": 8, "name": "Salvation Army Family Store & Donation Center", "label": "8. Salvation Army Family Store & Donation Center", "ctaUrl": "https://maps.google.com/?q=Salvation+Army+Family+Store+&+Donation+Center+Bachman-Northwest+Highway+Dallas", "mapQuery": "Salvation Army Family Store & Donation Center, Bachman-Northwest Highway, Dallas", "lat": 32.802871, "lng": -96.887413}, {"anchorId": "uptown-consignment", "rank": 9, "name": "Uptown Consignment", "label": "9. Uptown Consignment", "ctaUrl": "https://maps.google.com/?q=Uptown+Consignment+Knox-Henderson+Dallas", "mapQuery": "Uptown Consignment, Knox-Henderson, Dallas", "lat": 32.840742, "lng": -96.779777}, {"anchorId": "st-vincent-de-paul-thrift-store", "rank": 10, "name": "St. Vincent de Paul Thrift Store", "label": "10. St. Vincent de Paul Thrift Store", "ctaUrl": "https://maps.google.com/?q=St.+Vincent+de+Paul+Thrift+Store+Fair+Park+Dallas", "mapQuery": "St. Vincent de Paul Thrift Store, Fair Park, Dallas", "lat": 32.748374, "lng": -96.762886}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

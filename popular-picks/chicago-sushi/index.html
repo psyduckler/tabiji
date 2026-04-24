@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Chicago", "picks": [{"anchorId": "mako", "rank": 1, "name": "Mako", "label": "1. Mako", "ctaUrl": "https://maps.google.com/?q=Mako+West+Loop+Chicago", "mapQuery": "Mako, West Loop, Chicago", "lat": 41.884784, "lng": -87.647363}, {"anchorId": "omakase-room-by-tatsu", "rank": 2, "name": "Omakase Room by Tatsu", "label": "2. Omakase Room by Tatsu", "ctaUrl": "https://maps.google.com/?q=Omakase+Room+by+Tatsu+West+Loop+Chicago", "mapQuery": "Omakase Room by Tatsu, West Loop, Chicago", "lat": 41.916174, "lng": -87.687258}, {"anchorId": "kyōten", "rank": 3, "name": "Kyōten", "label": "3. Kyōten", "ctaUrl": "https://maps.google.com/?q=Kyōten+West+Loop+Chicago", "mapQuery": "Kyōten, West Loop, Chicago", "lat": 41.884179, "lng": -87.647781}, {"anchorId": "kai-zan", "rank": 4, "name": "Kai Zan", "label": "4. Kai Zan", "ctaUrl": "https://maps.google.com/?q=Kai+Zan+West+Town+Chicago", "mapQuery": "Kai Zan, West Town, Chicago", "lat": 41.895353, "lng": -87.689625}, {"anchorId": "sushi-san", "rank": 5, "name": "Sushi-san", "label": "5. Sushi-san", "ctaUrl": "https://maps.google.com/?q=Sushi-san+River+North+Chicago", "mapQuery": "Sushi-san, River North, Chicago", "lat": 41.891893, "lng": -87.63242}, {"anchorId": "coast-sushi-bar", "rank": 6, "name": "Coast Sushi Bar", "label": "6. Coast Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Coast+Sushi+Bar+Bucktown+Chicago", "mapQuery": "Coast Sushi Bar, Bucktown, Chicago", "lat": 41.92135, "lng": -87.67756}, {"anchorId": "sushi-hachi", "rank": 7, "name": "Sushi Hachi", "label": "7. Sushi Hachi", "ctaUrl": "https://maps.google.com/?q=Sushi+Hachi+West+Loop+Chicago", "mapQuery": "Sushi Hachi, West Loop, Chicago", "lat": 41.88636, "lng": -87.64816}, {"anchorId": "akira-sushi", "rank": 8, "name": "Akira Sushi", "label": "8. Akira Sushi", "ctaUrl": "https://maps.google.com/?q=Akira+Sushi+Lincoln+Park+Chicago", "mapQuery": "Akira Sushi, Lincoln Park, Chicago", "lat": 41.912629, "lng": -87.668579}, {"anchorId": "yume-sushi", "rank": 9, "name": "Yume Sushi", "label": "9. Yume Sushi", "ctaUrl": "https://maps.google.com/?q=Yume+Sushi+Lakeview+Chicago", "mapQuery": "Yume Sushi, Lakeview, Chicago", "lat": 41.938029, "lng": -87.67817}, {"anchorId": "lawrence-fish-market", "rank": 10, "name": "Lawrence Fish Market", "label": "10. Lawrence Fish Market", "ctaUrl": "https://maps.google.com/?q=Lawrence+Fish+Market+Albany+Park+Chicago", "mapQuery": "Lawrence Fish Market, Albany Park, Chicago", "lat": 41.95376, "lng": -87.72895}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

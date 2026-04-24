@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Oysters Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/oysters+in+New+Orleans", "picks": [{"anchorId": "pêche-seafood-grill", "rank": 1, "name": "Pêche Seafood Grill", "label": "1. Pêche Seafood Grill", "ctaUrl": "https://maps.google.com/?q=Pêche+Seafood+Grill+Warehouse+District+New+Orleans", "mapQuery": "Pêche Seafood Grill, Warehouse District, New Orleans", "lat": 29.945039, "lng": -90.066497}, {"anchorId": "casamentos-restaurant", "rank": 2, "name": "Casamento's Restaurant", "label": "2. Casamento's Restaurant", "ctaUrl": "https://maps.google.com/?q=Casamento's+Restaurant+Uptown+New+Orleans", "mapQuery": "Casamento's Restaurant, Uptown, New Orleans", "lat": 29.923188, "lng": -90.106518}, {"anchorId": "felixs-restaurant-oyster-bar", "rank": 3, "name": "Felix's Restaurant & Oyster Bar", "label": "3. Felix's Restaurant & Oyster Bar", "ctaUrl": "https://maps.google.com/?q=Felix's+Restaurant+&+Oyster+Bar+French+Quarter+New+Orleans", "mapQuery": "Felix's Restaurant & Oyster Bar, French Quarter, New Orleans", "lat": 29.956637, "lng": -90.070054}, {"anchorId": "dragos-seafood-restaurant", "rank": 4, "name": "Drago's Seafood Restaurant", "label": "4. Drago's Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Drago's+Seafood+Restaurant+Central+Business+District+New+Orleans", "mapQuery": "Drago's Seafood Restaurant, Central Business District, New Orleans", "lat": 29.944321, "lng": -90.063259}, {"anchorId": "acme-oyster-house", "rank": 5, "name": "Acme Oyster House", "label": "5. Acme Oyster House", "ctaUrl": "https://maps.google.com/?q=Acme+Oyster+House+French+Quarter+New+Orleans", "mapQuery": "Acme Oyster House, French Quarter, New Orleans", "lat": 29.956557, "lng": -90.069903}, {"anchorId": "pascals-manale-restaurant", "rank": 6, "name": "Pascal's Manale Restaurant", "label": "6. Pascal's Manale Restaurant", "ctaUrl": "https://maps.google.com/?q=Pascal's+Manale+Restaurant+Uptown+New+Orleans", "mapQuery": "Pascal's Manale Restaurant, Uptown, New Orleans", "lat": 29.924879, "lng": -90.093437}, {"anchorId": "herbsaint-restaurant", "rank": 7, "name": "Herbsaint Restaurant", "label": "7. Herbsaint Restaurant", "ctaUrl": "https://maps.google.com/?q=Herbsaint+Restaurant+Central+Business+District+New+Orleans", "mapQuery": "Herbsaint Restaurant, Central Business District, New Orleans", "lat": 29.947237, "lng": -90.069411}, {"anchorId": "cochon-butcher", "rank": 8, "name": "Cochon Butcher", "label": "8. Cochon Butcher", "ctaUrl": "https://maps.google.com/?q=Cochon+Butcher+Warehouse+District+New+Orleans", "mapQuery": "Cochon Butcher, Warehouse District, New Orleans", "lat": 29.943147, "lng": -90.070104}, {"anchorId": "mr-eds-oyster-bar-fish-house", "rank": 9, "name": "Mr. Ed's Oyster Bar & Fish House", "label": "9. Mr. Ed's Oyster Bar & Fish House", "ctaUrl": "https://maps.google.com/?q=Mr.+Ed's+Oyster+Bar+&+Fish+House+French+Quarter+New+Orleans", "mapQuery": "Mr. Ed's Oyster Bar & Fish House, French Quarter, New Orleans", "lat": 29.95764, "lng": -90.07018}, {"anchorId": "sidecar-nola", "rank": 10, "name": "Sidecar NOLA", "label": "10. Sidecar NOLA", "ctaUrl": "https://maps.google.com/?q=Sidecar+NOLA+Garden+District+New+Orleans", "mapQuery": "Sidecar NOLA, Garden District, New Orleans", "lat": 29.940562, "lng": -90.073103}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

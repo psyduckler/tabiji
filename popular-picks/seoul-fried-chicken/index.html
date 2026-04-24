@@ -1548,73 +1548,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fried Chicken Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fried+chicken+in+Seoul", "picks": [{"anchorId": "kyochon-chicken-gangnam-main", "rank": 1, "name": "Kyochon Chicken Gangnam Main", "label": "1. Kyochon Chicken Gangnam Main", "ctaUrl": "https://maps.google.com/?q=Kyochon+Chicken+Gangnam+Main+Gangnam+Seoul", "mapQuery": "Kyochon Chicken Gangnam Main, Gangnam, Seoul", "lat": 37.4988, "lng": 127.0279}, {"anchorId": "bhc-chicken-hongdae", "rank": 2, "name": "BHC Chicken Hongdae", "label": "2. BHC Chicken Hongdae", "ctaUrl": "https://maps.google.com/?q=BHC+Chicken+Hongdae+Hongdae+Seoul", "mapQuery": "BHC Chicken Hongdae, Hongdae, Seoul", "lat": 37.5507, "lng": 126.9242}, {"anchorId": "bbq-chicken-jongno", "rank": 3, "name": "BBQ Chicken Jongno", "label": "3. BBQ Chicken Jongno", "ctaUrl": "https://maps.google.com/?q=BBQ+Chicken+Jongno+Jongno+Seoul", "mapQuery": "BBQ Chicken Jongno, Jongno, Seoul", "lat": 37.5714, "lng": 126.9897}, {"anchorId": "han-chu-sinsa-dong", "rank": 4, "name": "Han Chu Sinsa-dong", "label": "4. Han Chu Sinsa-dong", "ctaUrl": "https://maps.google.com/?q=Han+Chu+Sinsa-dong+Sinsa-dong+Seoul", "mapQuery": "Han Chu Sinsa-dong, Sinsa-dong, Seoul", "lat": 37.5218, "lng": 127.0315}, {"anchorId": "kkanbu-chicken-garosu-gil", "rank": 5, "name": "Kkanbu Chicken Garosu-gil", "label": "5. Kkanbu Chicken Garosu-gil", "ctaUrl": "https://maps.google.com/?q=Kkanbu+Chicken+Garosu-gil+Garosu-gil+Seoul", "mapQuery": "Kkanbu Chicken Garosu-gil, Garosu-gil, Seoul", "lat": 37.5212, "lng": 127.0229}, {"anchorId": "goobne-chicken-myeongdong", "rank": 6, "name": "Goobne Chicken Myeongdong", "label": "6. Goobne Chicken Myeongdong", "ctaUrl": "https://maps.google.com/?q=Goobne+Chicken+Myeongdong+Myeongdong+Seoul", "mapQuery": "Goobne Chicken Myeongdong, Myeongdong, Seoul", "lat": 37.5615, "lng": 126.9859}, {"anchorId": "pelicana-chicken-seochon", "rank": 7, "name": "Pelicana Chicken Seochon", "label": "7. Pelicana Chicken Seochon", "ctaUrl": "https://maps.google.com/?q=Pelicana+Chicken+Seochon+Seochon+Seoul", "mapQuery": "Pelicana Chicken Seochon, Seochon, Seoul", "lat": 37.5796, "lng": 126.9712}, {"anchorId": "the-frypan-gangnam-station", "rank": 8, "name": "The Frypan Gangnam Station", "label": "8. The Frypan Gangnam Station", "ctaUrl": "https://maps.google.com/?q=The+Frypan+Gangnam+Station+Gangnam+Seoul", "mapQuery": "The Frypan Gangnam Station, Gangnam, Seoul", "lat": 37.4957, "lng": 127.027}, {"anchorId": "twotwo-chicken-dongdaemun", "rank": 9, "name": "TwoTwo Chicken Dongdaemun", "label": "9. TwoTwo Chicken Dongdaemun", "ctaUrl": "https://maps.google.com/?q=TwoTwo+Chicken+Dongdaemun+Dongdaemun+Seoul", "mapQuery": "TwoTwo Chicken Dongdaemun, Dongdaemun, Seoul", "lat": 37.5663, "lng": 127.0055}, {"anchorId": "jangsu-chicken-gyeongbokgung", "rank": 10, "name": "Jangsu Chicken Gyeongbokgung", "label": "10. Jangsu Chicken Gyeongbokgung", "ctaUrl": "https://maps.google.com/?q=Jangsu+Chicken+Gyeongbokgung+Jongno+Seoul", "mapQuery": "Jangsu Chicken Gyeongbokgung, Jongno, Seoul", "lat": 37.5756, "lng": 126.9749}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Burger Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/burger+in+Denver", "picks": [{"anchorId": "cherry-cricket", "rank": 1, "name": "Cherry Cricket", "label": "1. Cherry Cricket", "ctaUrl": "https://maps.google.com/?q=Cherry+Cricket+Cherry+Creek+Denver", "mapQuery": "Cherry Cricket, Cherry Creek, Denver", "lat": 39.717658, "lng": -104.957591}, {"anchorId": "my-brothers-bar", "rank": 2, "name": "My Brother's Bar", "label": "2. My Brother's Bar", "ctaUrl": "https://maps.google.com/?q=My+Brother's+Bar+Central+Platte+Valley+Denver", "mapQuery": "My Brother's Bar, Central Platte Valley, Denver", "lat": 39.757041, "lng": -105.000305}, {"anchorId": "park-burger", "rank": 3, "name": "Park Burger", "label": "3. Park Burger", "ctaUrl": "https://maps.google.com/?q=Park+Burger+Platt+Park+Denver", "mapQuery": "Park Burger, Platt Park, Denver", "lat": 39.673891, "lng": -104.981882}, {"anchorId": "highland-tap-and-burger", "rank": 4, "name": "Highland Tap and Burger", "label": "4. Highland Tap and Burger", "ctaUrl": "https://maps.google.com/?q=Highland+Tap+and+Burger+Highlands+Denver", "mapQuery": "Highland Tap and Burger, Highlands, Denver", "lat": 39.760114, "lng": -105.011885}, {"anchorId": "steubens-uptown", "rank": 5, "name": "Steuben's Uptown", "label": "5. Steuben's Uptown", "ctaUrl": "https://maps.google.com/?q=Steuben's+Uptown+Uptown+Denver", "mapQuery": "Steuben's Uptown, Uptown, Denver", "lat": 39.743789, "lng": -104.981885}, {"anchorId": "bad-daddys-burger-bar", "rank": 6, "name": "Bad Daddy's Burger Bar", "label": "6. Bad Daddy's Burger Bar", "ctaUrl": "https://maps.google.com/?q=Bad+Daddy's+Burger+Bar+LoDo+Denver", "mapQuery": "Bad Daddy's Burger Bar, LoDo, Denver", "lat": 39.752317, "lng": -104.998341}, {"anchorId": "hopdoddy-burger-bar", "rank": 7, "name": "Hopdoddy Burger Bar", "label": "7. Hopdoddy Burger Bar", "ctaUrl": "https://maps.google.com/?q=Hopdoddy+Burger+Bar+LoDo+Denver", "mapQuery": "Hopdoddy Burger Bar, LoDo, Denver", "lat": 39.753308, "lng": -105.000319}, {"anchorId": "5280-burger-bar", "rank": 8, "name": "5280 Burger Bar", "label": "8. 5280 Burger Bar", "ctaUrl": "https://maps.google.com/?q=5280+Burger+Bar+Downtown+/+16th+Street+Mall+Denver", "mapQuery": "5280 Burger Bar, Downtown / 16th Street Mall, Denver", "lat": 39.746979, "lng": -104.990422}, {"anchorId": "lohi-steakbar", "rank": 9, "name": "LoHi Steakbar", "label": "9. LoHi Steakbar", "ctaUrl": "https://maps.google.com/?q=LoHi+Steakbar+LoHi+Denver", "mapQuery": "LoHi Steakbar, LoHi, Denver", "lat": 39.764506, "lng": -105.0069}, {"anchorId": "smashburger", "rank": 10, "name": "Smashburger", "label": "10. Smashburger", "ctaUrl": "https://maps.google.com/?q=Smashburger+Capitol+Hill+Denver", "mapQuery": "Smashburger, Capitol Hill, Denver", "lat": 39.743419, "lng": -104.97544}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+Charleston", "picks": [{"anchorId": "rodney-scotts-bbq", "rank": 1, "name": "Rodney Scott's BBQ", "label": "1. Rodney Scott's BBQ", "ctaUrl": "https://maps.google.com/?q=Rodney+Scott's+BBQ+Downtown+Charleston", "mapQuery": "Rodney Scott's BBQ, Downtown, Charleston", "lat": 32.79815, "lng": -79.94052}, {"anchorId": "lewis-barbecue", "rank": 2, "name": "Lewis Barbecue", "label": "2. Lewis Barbecue", "ctaUrl": "https://maps.google.com/?q=Lewis+Barbecue+Downtown+Charleston", "mapQuery": "Lewis Barbecue, Downtown, Charleston", "lat": 32.80214, "lng": -79.94073}, {"anchorId": "home-team-bbq", "rank": 3, "name": "Home Team BBQ", "label": "3. Home Team BBQ", "ctaUrl": "https://maps.google.com/?q=Home+Team+BBQ+Downtown+Charleston", "mapQuery": "Home Team BBQ, Downtown, Charleston", "lat": 32.80287, "lng": -79.9442}, {"anchorId": "swig-swine", "rank": 4, "name": "Swig & Swine", "label": "4. Swig & Swine", "ctaUrl": "https://maps.google.com/?q=Swig+&+Swine+West+Ashley+Charleston", "mapQuery": "Swig & Swine, West Ashley, Charleston", "lat": 32.81222, "lng": -80.00947}, {"anchorId": "martins-bar-b-que-joint", "rank": 5, "name": "Martin's Bar-B-Que Joint", "label": "5. Martin's Bar-B-Que Joint", "ctaUrl": "https://maps.google.com/?q=Martin's+Bar-B-Que+Joint+Mount+Pleasant+Charleston", "mapQuery": "Martin's Bar-B-Que Joint, Mount Pleasant, Charleston", "lat": 32.81154, "lng": -79.90481}, {"anchorId": "bessingers-bbq", "rank": 6, "name": "Bessinger's BBQ", "label": "6. Bessinger's BBQ", "ctaUrl": "https://maps.google.com/?q=Bessinger's+BBQ+West+Ashley+Charleston", "mapQuery": "Bessinger's BBQ, West Ashley, Charleston", "lat": 32.80164, "lng": -79.99227}, {"anchorId": "melvins-legendary-barbecue", "rank": 7, "name": "Melvin's Legendary Barbecue", "label": "7. Melvin's Legendary Barbecue", "ctaUrl": "https://maps.google.com/?q=Melvin's+Legendary+Barbecue+James+Island+Charleston", "mapQuery": "Melvin's Legendary Barbecue, James Island, Charleston", "lat": 32.71618, "lng": -79.96913}, {"anchorId": "smoky-oak-taproom", "rank": 8, "name": "Smoky Oak Taproom", "label": "8. Smoky Oak Taproom", "ctaUrl": "https://maps.google.com/?q=Smoky+Oak+Taproom+James+Island+Charleston", "mapQuery": "Smoky Oak Taproom, James Island, Charleston", "lat": 32.70954, "lng": -79.96734}, {"anchorId": "queology", "rank": 9, "name": "Queology", "label": "9. Queology", "ctaUrl": "https://maps.google.com/?q=Queology+Downtown+Charleston", "mapQuery": "Queology, Downtown, Charleston", "lat": 32.78768, "lng": -79.93291}, {"anchorId": "my-fathers-mustache-bbq", "rank": 10, "name": "My Father's Mustache BBQ", "label": "10. My Father's Mustache BBQ", "ctaUrl": "https://maps.google.com/?q=My+Father's+Mustache+BBQ+Mount+Pleasant+Charleston", "mapQuery": "My Father's Mustache BBQ, Mount Pleasant, Charleston", "lat": 32.81734, "lng": -79.88937}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

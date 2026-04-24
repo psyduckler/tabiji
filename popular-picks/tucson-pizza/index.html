@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Tucson", "picks": [{"anchorId": "reilly-craft-pizza-drink", "rank": 1, "name": "Reilly Craft Pizza & Drink", "label": "1. Reilly Craft Pizza & Drink", "ctaUrl": "https://maps.google.com/?q=Reilly+Craft+Pizza+&+Drink+Downtown+Tucson", "mapQuery": "Reilly Craft Pizza & Drink, Downtown, Tucson", "lat": 32.2215, "lng": -110.9719}, {"anchorId": "vero-amore", "rank": 2, "name": "Vero Amore", "label": "2. Vero Amore", "ctaUrl": "https://maps.google.com/?q=Vero+Amore+Dove+Mountain+/+Swan+Tucson", "mapQuery": "Vero Amore, Dove Mountain / Swan, Tucson", "lat": 32.2359, "lng": -110.8653}, {"anchorId": "locale-neighborhood-italian", "rank": 3, "name": "Locale Neighborhood Italian", "label": "3. Locale Neighborhood Italian", "ctaUrl": "https://maps.google.com/?q=Locale+Neighborhood+Italian+Central+Tucson+Tucson", "mapQuery": "Locale Neighborhood Italian, Central Tucson, Tucson", "lat": 32.2289, "lng": -110.9705}, {"anchorId": "magpie-pizza", "rank": 4, "name": "Magpie Pizza", "label": "4. Magpie Pizza", "ctaUrl": "https://maps.google.com/?q=Magpie+Pizza+Sam+Hughes+Tucson", "mapQuery": "Magpie Pizza, Sam Hughes, Tucson", "lat": 32.2291, "lng": -110.9634}, {"anchorId": "roccos-little-chicago-pizzeria", "rank": 5, "name": "Rocco's Little Chicago Pizzeria", "label": "5. Rocco's Little Chicago Pizzeria", "ctaUrl": "https://maps.google.com/?q=Rocco's+Little+Chicago+Pizzeria+Downtown+/+Main+Gate+Tucson", "mapQuery": "Rocco's Little Chicago Pizzeria, Downtown / Main Gate, Tucson", "lat": 32.2227, "lng": -110.9168}, {"anchorId": "mama-louisas-italian-restaurant", "rank": 6, "name": "Mama Louisa's Italian Restaurant", "label": "6. Mama Louisa's Italian Restaurant", "ctaUrl": "https://maps.google.com/?q=Mama+Louisa's+Italian+Restaurant+South+Tucson+Tucson", "mapQuery": "Mama Louisa's Italian Restaurant, South Tucson, Tucson", "lat": 32.1834, "lng": -110.8753}, {"anchorId": "ermannos-chicago-pizza", "rank": 7, "name": "Ermanno's Chicago Pizza", "label": "7. Ermanno's Chicago Pizza", "ctaUrl": "https://maps.google.com/?q=Ermanno's+Chicago+Pizza+Midtown+Tucson", "mapQuery": "Ermanno's Chicago Pizza, Midtown, Tucson", "lat": 32.2355, "lng": -110.9998}, {"anchorId": "brooklyn-pizza", "rank": 8, "name": "Brooklyn Pizza", "label": "8. Brooklyn Pizza", "ctaUrl": "https://maps.google.com/?q=Brooklyn+Pizza+East+Side+Tucson", "mapQuery": "Brooklyn Pizza, East Side, Tucson", "lat": 32.2299, "lng": -110.9634}, {"anchorId": "fresco-pizzeria-pastries", "rank": 9, "name": "Fresco Pizzeria & Pastries", "label": "9. Fresco Pizzeria & Pastries", "ctaUrl": "https://maps.google.com/?q=Fresco+Pizzeria+&+Pastries+Central+Tucson+Tucson", "mapQuery": "Fresco Pizzeria & Pastries, Central Tucson, Tucson", "lat": 32.2605, "lng": -110.9328}, {"anchorId": "dominicks-real-italian", "rank": 10, "name": "Dominick's Real Italian", "label": "10. Dominick's Real Italian", "ctaUrl": "https://maps.google.com/?q=Dominick's+Real+Italian+Northwest+Tucson+Tucson", "mapQuery": "Dominick's Real Italian, Northwest Tucson, Tucson", "lat": 32.3551, "lng": -111.0475}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

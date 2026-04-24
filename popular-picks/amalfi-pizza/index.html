@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Amalfi", "picks": [{"anchorId": "pizzeria-donna-stella", "rank": 1, "name": "Pizzeria Donna Stella", "label": "1. Pizzeria Donna Stella", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Donna+Stella+Central+Amalfi+Amalfi", "mapQuery": "Pizzeria Donna Stella, Central Amalfi, Amalfi", "lat": 40.63297, "lng": 14.60002}, {"anchorId": "labside-pizzeria", "rank": 2, "name": "L'Abside Pizzeria", "label": "2. L'Abside Pizzeria", "ctaUrl": "https://maps.google.com/?q=L'Abside+Pizzeria+Amalfi+Center+Amalfi", "mapQuery": "L'Abside Pizzeria, Amalfi Center, Amalfi", "lat": 40.63412, "lng": 14.60045}, {"anchorId": "da-maria-trattoria-e-pizzeria", "rank": 3, "name": "Da Maria Trattoria e Pizzeria", "label": "3. Da Maria Trattoria e Pizzeria", "ctaUrl": "https://maps.google.com/?q=Da+Maria+Trattoria+e+Pizzeria+Amalfi+Port+Amalfi", "mapQuery": "Da Maria Trattoria e Pizzeria, Amalfi Port, Amalfi", "lat": 40.6338, "lng": 14.6019}, {"anchorId": "pizzeria-al-giardinetto", "rank": 4, "name": "Pizzeria al Giardinetto", "label": "4. Pizzeria al Giardinetto", "ctaUrl": "https://maps.google.com/?q=Pizzeria+al+Giardinetto+Central+Amalfi+Amalfi", "mapQuery": "Pizzeria al Giardinetto, Central Amalfi, Amalfi", "lat": 40.63351, "lng": 14.59869}, {"anchorId": "pizzeria-il-mulino", "rank": 5, "name": "Pizzeria il Mulino", "label": "5. Pizzeria il Mulino", "ctaUrl": "https://maps.google.com/?q=Pizzeria+il+Mulino+Valle+dei+Mulini+Amalfi", "mapQuery": "Pizzeria il Mulino, Valle dei Mulini, Amalfi", "lat": 40.63854, "lng": 14.59473}, {"anchorId": "trattoria-pizzeria-piazzetta", "rank": 6, "name": "Trattoria Pizzeria Piazzetta", "label": "6. Trattoria Pizzeria Piazzetta", "ctaUrl": "https://maps.google.com/?q=Trattoria+Pizzeria+Piazzetta+Central+Amalfi+Amalfi", "mapQuery": "Trattoria Pizzeria Piazzetta, Central Amalfi, Amalfi", "lat": 40.6339, "lng": 14.5996}, {"anchorId": "ristorante-pizzeria-santandrea", "rank": 7, "name": "Ristorante Pizzeria Sant'Andrea", "label": "7. Ristorante Pizzeria Sant'Andrea", "ctaUrl": "https://maps.google.com/?q=Ristorante+Pizzeria+Sant'Andrea+Amalfi+Center+Amalfi", "mapQuery": "Ristorante Pizzeria Sant'Andrea, Amalfi Center, Amalfi", "lat": 40.6341, "lng": 14.5994}, {"anchorId": "pizzeria-del-corso", "rank": 8, "name": "Pizzeria del Corso", "label": "8. Pizzeria del Corso", "ctaUrl": "https://maps.google.com/?q=Pizzeria+del+Corso+Amalfi+Center+Amalfi", "mapQuery": "Pizzeria del Corso, Amalfi Center, Amalfi", "lat": 40.63435, "lng": 14.6006}, {"anchorId": "bar-pizzeria-duomo", "rank": 9, "name": "Bar Pizzeria Duomo", "label": "9. Bar Pizzeria Duomo", "ctaUrl": "https://maps.google.com/?q=Bar+Pizzeria+Duomo+Amalfi+Center+Amalfi", "mapQuery": "Bar Pizzeria Duomo, Amalfi Center, Amalfi", "lat": 40.63415, "lng": 14.59905}, {"anchorId": "pizzeria-ristorante-la-pergola", "rank": 10, "name": "Pizzeria Ristorante La Pergola", "label": "10. Pizzeria Ristorante La Pergola", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Ristorante+La+Pergola+Amalfi+Waterfront+Amalfi", "mapQuery": "Pizzeria Ristorante La Pergola, Amalfi Waterfront, Amalfi", "lat": 40.6346, "lng": 14.6022}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

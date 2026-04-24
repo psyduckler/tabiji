@@ -1519,7 +1519,7 @@
   <h3>More New York guides</h3>
   <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
   <div class="related-picks-grid">
-    <a href="/popular-picks/best-cheap-eats-new-york/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
+    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
     <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
     <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
     <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Matcha Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/matcha+in+New+York", "picks": [{"anchorId": "kettl-tea", "rank": 1, "name": "Kettl Tea", "label": "1. Kettl Tea", "ctaUrl": "https://maps.google.com/?q=Kettl+Tea+Greenpoint+New+York", "mapQuery": "Kettl Tea, Greenpoint, New York", "lat": 40.7288, "lng": -73.961}, {"anchorId": "setsugekka", "rank": 2, "name": "Setsugekka", "label": "2. Setsugekka", "ctaUrl": "https://maps.google.com/?q=Setsugekka+East+Village+New+York", "mapQuery": "Setsugekka, East Village, New York", "lat": 40.7303, "lng": -73.9893}, {"anchorId": "ippuku", "rank": 3, "name": "IPPUKU", "label": "3. IPPUKU", "ctaUrl": "https://maps.google.com/?q=IPPUKU+Lower+East+Side+New+York", "mapQuery": "IPPUKU, Lower East Side, New York", "lat": 40.7202, "lng": -73.9893}, {"anchorId": "kettl-tea", "rank": 4, "name": "Kettl Tea (Industry City)", "label": "4. Kettl Tea (Industry City)", "ctaUrl": "https://maps.google.com/?q=Kettl+Tea+(Industry+City)+Sunset+Park+New+York", "mapQuery": "Kettl Tea (Industry City), Sunset Park, New York", "lat": 40.6558, "lng": -74.0084}, {"anchorId": "the-matcha-tokyo", "rank": 5, "name": "The Matcha Tokyo", "label": "5. The Matcha Tokyo", "ctaUrl": "https://maps.google.com/?q=The+Matcha+Tokyo+SoHo+New+York", "mapQuery": "The Matcha Tokyo, SoHo, New York", "lat": 40.7228, "lng": -73.9984}, {"anchorId": "hi-note", "rank": 6, "name": "Hi-Note", "label": "6. Hi-Note", "ctaUrl": "https://maps.google.com/?q=Hi-Note+West+Village+New+York", "mapQuery": "Hi-Note, West Village, New York", "lat": 40.7381, "lng": -74.0021}, {"anchorId": "cha-cha-matcha", "rank": 7, "name": "Cha Cha Matcha", "label": "7. Cha Cha Matcha", "ctaUrl": "https://maps.google.com/?q=Cha+Cha+Matcha+NoLiTa+New+York", "mapQuery": "Cha Cha Matcha, NoLiTa, New York", "lat": 40.7169, "lng": -73.9892}, {"anchorId": "matchaful", "rank": 8, "name": "Matchaful", "label": "8. Matchaful", "ctaUrl": "https://maps.google.com/?q=Matchaful+SoHo+New+York", "mapQuery": "Matchaful, SoHo, New York", "lat": 40.7197, "lng": -73.9968}, {"anchorId": "matcha-bar", "rank": 9, "name": "Matcha Bar", "label": "9. Matcha Bar", "ctaUrl": "https://maps.google.com/?q=Matcha+Bar+Williamsburg+New+York", "mapQuery": "Matcha Bar, Williamsburg, New York", "lat": 40.7188, "lng": -73.9634}, {"anchorId": "grace-street-coffee-desserts", "rank": 10, "name": "Grace Street Coffee & Desserts", "label": "10. Grace Street Coffee & Desserts", "ctaUrl": "https://maps.google.com/?q=Grace+Street+Coffee+&+Desserts+Koreatown+New+York", "mapQuery": "Grace Street Coffee & Desserts, Koreatown, New York", "lat": 40.7483, "lng": -73.9871}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1539,73 +1539,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+San+Diego", "picks": [{"anchorId": "noble-experiment", "rank": 1, "name": "Noble Experiment", "label": "1. Noble Experiment", "ctaUrl": "https://maps.google.com/?q=Noble+Experiment+Gaslamp+Quarter+San+Diego", "mapQuery": "Noble Experiment, Gaslamp Quarter, San Diego", "lat": 32.712604, "lng": -117.160163}, {"anchorId": "raised-by-wolves", "rank": 2, "name": "Raised By Wolves", "label": "2. Raised By Wolves", "ctaUrl": "https://maps.google.com/?q=Raised+By+Wolves+Westfield+UTC+(La+Jolla)+San+Diego", "mapQuery": "Raised By Wolves, Westfield UTC (La Jolla), San Diego", "lat": 32.871168, "lng": -117.213277}, {"anchorId": "false-idol", "rank": 3, "name": "False Idol", "label": "3. False Idol", "ctaUrl": "https://maps.google.com/?q=False+Idol+Little+Italy+San+Diego", "mapQuery": "False Idol, Little Italy, San Diego", "lat": 32.721523, "lng": -117.164801}, {"anchorId": "oculto-477", "rank": 4, "name": "Oculto 477", "label": "4. Oculto 477", "ctaUrl": "https://maps.google.com/?q=Oculto+477+Old+Town+San+Diego", "mapQuery": "Oculto 477, Old Town, San Diego", "lat": 32.7547, "lng": -117.195}, {"anchorId": "prohibition-lounge", "rank": 5, "name": "Prohibition Lounge", "label": "5. Prohibition Lounge", "ctaUrl": "https://maps.google.com/?q=Prohibition+Lounge+Gaslamp+Quarter+San+Diego", "mapQuery": "Prohibition Lounge, Gaslamp Quarter, San Diego", "lat": 32.712854, "lng": -117.161042}, {"anchorId": "the-grass-skirt", "rank": 6, "name": "The Grass Skirt", "label": "6. The Grass Skirt", "ctaUrl": "https://maps.google.com/?q=The+Grass+Skirt+Pacific+Beach+San+Diego", "mapQuery": "The Grass Skirt, Pacific Beach, San Diego", "lat": 32.793774, "lng": -117.251433}, {"anchorId": "bar-three-piece", "rank": 7, "name": "Bar Three Piece", "label": "7. Bar Three Piece", "ctaUrl": "https://maps.google.com/?q=Bar+Three+Piece+North+Park+San+Diego", "mapQuery": "Bar Three Piece, North Park, San Diego", "lat": 32.75924, "lng": -117.13525}, {"anchorId": "vin-de-syrah", "rank": 8, "name": "Vin de Syrah", "label": "8. Vin de Syrah", "ctaUrl": "https://maps.google.com/?q=Vin+de+Syrah+Gaslamp+Quarter+San+Diego", "mapQuery": "Vin de Syrah, Gaslamp Quarter, San Diego", "lat": 32.7144, "lng": -117.1604}, {"anchorId": "room-56", "rank": 9, "name": "Room 56", "label": "9. Room 56", "ctaUrl": "https://maps.google.com/?q=Room+56+Gaslamp+Quarter+San+Diego", "mapQuery": "Room 56, Gaslamp Quarter, San Diego", "lat": 32.71217, "lng": -117.16091}, {"anchorId": "young-blood", "rank": 10, "name": "Young Blood", "label": "10. Young Blood", "ctaUrl": "https://maps.google.com/?q=Young+Blood+Gaslamp+Quarter+San+Diego", "mapQuery": "Young Blood, Gaslamp Quarter, San Diego", "lat": 32.71185, "lng": -117.16015}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

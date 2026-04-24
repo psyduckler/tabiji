@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pho Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pho+in+Las+Vegas", "picks": [{"anchorId": "pho-kim-long", "rank": 1, "name": "Pho Kim Long", "label": "1. Pho Kim Long", "ctaUrl": "https://maps.google.com/?q=Pho+Kim+Long+Chinatown+Las+Vegas", "mapQuery": "Pho Kim Long, Chinatown, Las Vegas", "lat": 36.126435, "lng": -115.201826}, {"anchorId": "district-one-kitchen-bar", "rank": 2, "name": "District One Kitchen & Bar", "label": "2. District One Kitchen & Bar", "ctaUrl": "https://maps.google.com/?q=District+One+Kitchen+&+Bar+Chinatown+Las+Vegas", "mapQuery": "District One Kitchen & Bar, Chinatown, Las Vegas", "lat": 36.11714, "lng": -115.22686}, {"anchorId": "pho-vietnam", "rank": 3, "name": "Pho Vietnam", "label": "3. Pho Vietnam", "ctaUrl": "https://maps.google.com/?q=Pho+Vietnam+Spring+Valley+Las+Vegas", "mapQuery": "Pho Vietnam, Spring Valley, Las Vegas", "lat": 36.108, "lng": -115.22857}, {"anchorId": "pho-thanh-huong", "rank": 4, "name": "Pho Thanh Huong", "label": "4. Pho Thanh Huong", "ctaUrl": "https://maps.google.com/?q=Pho+Thanh+Huong+Chinatown+Las+Vegas", "mapQuery": "Pho Thanh Huong, Chinatown, Las Vegas", "lat": 36.12675, "lng": -115.20811}, {"anchorId": "lucky-8-chinatown", "rank": 5, "name": "Lucky 8 Chinatown", "label": "5. Lucky 8 Chinatown", "ctaUrl": "https://maps.google.com/?q=Lucky+8+Chinatown+Chinatown+Las+Vegas", "mapQuery": "Lucky 8 Chinatown, Chinatown, Las Vegas", "lat": 36.11714, "lng": -115.22686}, {"anchorId": "pho-saigon-8", "rank": 6, "name": "Pho Saigon 8", "label": "6. Pho Saigon 8", "ctaUrl": "https://maps.google.com/?q=Pho+Saigon+8+Spring+Valley+Las+Vegas", "mapQuery": "Pho Saigon 8, Spring Valley, Las Vegas", "lat": 36.12788, "lng": -115.21557}, {"anchorId": "pho-thanh-long", "rank": 7, "name": "Pho Thanh Long", "label": "7. Pho Thanh Long", "ctaUrl": "https://maps.google.com/?q=Pho+Thanh+Long+Northeast+Las+Vegas+Las+Vegas", "mapQuery": "Pho Thanh Long, Northeast Las Vegas, Las Vegas", "lat": 36.21568, "lng": -115.06847}, {"anchorId": "pho-90", "rank": 8, "name": "Pho 90", "label": "8. Pho 90", "ctaUrl": "https://maps.google.com/?q=Pho+90+Henderson+Las+Vegas", "mapQuery": "Pho 90, Henderson, Las Vegas", "lat": 35.99849, "lng": -115.09347}, {"anchorId": "pho-so-1", "rank": 9, "name": "Pho So 1", "label": "9. Pho So 1", "ctaUrl": "https://maps.google.com/?q=Pho+So+1+Chinatown+Las+Vegas", "mapQuery": "Pho So 1, Chinatown, Las Vegas", "lat": 36.12713, "lng": -115.20967}, {"anchorId": "pho-king-las-vegas", "rank": 10, "name": "Pho King Las Vegas", "label": "10. Pho King Las Vegas", "ctaUrl": "https://maps.google.com/?q=Pho+King+Las+Vegas+Chinatown+Las+Vegas", "mapQuery": "Pho King Las Vegas, Chinatown, Las Vegas", "lat": 36.12643, "lng": -115.20713}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

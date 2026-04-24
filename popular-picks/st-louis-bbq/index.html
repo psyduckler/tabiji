@@ -1549,73 +1549,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+St+Louis", "picks": [{"anchorId": "pappys-smokehouse", "rank": 1, "name": "Pappy's Smokehouse", "label": "1. Pappy's Smokehouse", "ctaUrl": "https://maps.google.com/?q=Pappy's+Smokehouse+Midtown+St+Louis", "mapQuery": "Pappy's Smokehouse, Midtown, St Louis", "lat": 38.636681, "lng": -90.230788}, {"anchorId": "salt-smoke", "rank": 2, "name": "Salt + Smoke", "label": "2. Salt + Smoke", "ctaUrl": "https://maps.google.com/?q=Salt+++Smoke+Central+West+End+St+Louis", "mapQuery": "Salt + Smoke, Central West End, St Louis", "lat": 38.643321, "lng": -90.260842}, {"anchorId": "bogarts-smokehouse", "rank": 3, "name": "Bogart's Smokehouse", "label": "3. Bogart's Smokehouse", "ctaUrl": "https://maps.google.com/?q=Bogart's+Smokehouse+Soulard+St+Louis", "mapQuery": "Bogart's Smokehouse, Soulard, St Louis", "lat": 38.61466, "lng": -90.20392}, {"anchorId": "sugarfire-smoke-house", "rank": 4, "name": "Sugarfire Smoke House", "label": "4. Sugarfire Smoke House", "ctaUrl": "https://maps.google.com/?q=Sugarfire+Smoke+House+Downtown+St+Louis", "mapQuery": "Sugarfire Smoke House, Downtown, St Louis", "lat": 38.629369, "lng": -90.191543}, {"anchorId": "beast-craft-bbq-co", "rank": 5, "name": "BEAST Craft BBQ Co.", "label": "5. BEAST Craft BBQ Co.", "ctaUrl": "https://maps.google.com/?q=BEAST+Craft+BBQ+Co.+The+Grove+St+Louis", "mapQuery": "BEAST Craft BBQ Co., The Grove, St Louis", "lat": 38.632289, "lng": -90.263531}, {"anchorId": "dalies-smokehouse", "rank": 6, "name": "Dalie's Smokehouse", "label": "6. Dalie's Smokehouse", "ctaUrl": "https://maps.google.com/?q=Dalie's+Smokehouse+Ellisville+St+Louis", "mapQuery": "Dalie's Smokehouse, Ellisville, St Louis", "lat": 38.583569, "lng": -90.490802}, {"anchorId": "the-shaved-duck", "rank": 7, "name": "The Shaved Duck", "label": "7. The Shaved Duck", "ctaUrl": "https://maps.google.com/?q=The+Shaved+Duck+Tower+Grove+South+St+Louis", "mapQuery": "The Shaved Duck, Tower Grove South, St Louis", "lat": 38.601556, "lng": -90.235944}, {"anchorId": "big-baby-q-and-wecks", "rank": 8, "name": "Big Baby Q and Wecks", "label": "8. Big Baby Q and Wecks", "ctaUrl": "https://maps.google.com/?q=Big+Baby+Q+and+Wecks+Florissant+St+Louis", "mapQuery": "Big Baby Q and Wecks, Florissant, St Louis", "lat": 38.775878, "lng": -90.315082}, {"anchorId": "smoke-n-bones", "rank": 9, "name": "Smoke N Bones", "label": "9. Smoke N Bones", "ctaUrl": "https://maps.google.com/?q=Smoke+N+Bones+South+City+St+Louis", "mapQuery": "Smoke N Bones, South City, St Louis", "lat": 38.588889, "lng": -90.286944}, {"anchorId": "st-louis-q", "rank": 10, "name": "St. Louis Q", "label": "10. St. Louis Q", "ctaUrl": "https://maps.google.com/?q=St.+Louis+Q+Affton+St+Louis", "mapQuery": "St. Louis Q, Affton, St Louis", "lat": 38.544838, "lng": -90.354148}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

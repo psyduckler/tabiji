@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Houston", "picks": [{"anchorId": "the-guild-shop", "rank": 1, "name": "The Guild Shop", "label": "1. The Guild Shop", "ctaUrl": "https://maps.google.com/?q=The+Guild+Shop+Montrose+Houston", "mapQuery": "The Guild Shop, Montrose, Houston", "lat": 29.742, "lng": -95.3999}, {"anchorId": "blue-bird-circle-resale-shop", "rank": 2, "name": "Blue Bird Circle Resale Shop", "label": "2. Blue Bird Circle Resale Shop", "ctaUrl": "https://maps.google.com/?q=Blue+Bird+Circle+Resale+Shop+Montrose+Houston", "mapQuery": "Blue Bird Circle Resale Shop, Montrose, Houston", "lat": 29.7443, "lng": -95.3976}, {"anchorId": "retropolis", "rank": 3, "name": "Retropolis", "label": "3. Retropolis", "ctaUrl": "https://maps.google.com/?q=Retropolis+The+Heights+Houston", "mapQuery": "Retropolis, The Heights, Houston", "lat": 29.8, "lng": -95.4026}, {"anchorId": "out-of-the-closet", "rank": 4, "name": "Out of the Closet", "label": "4. Out of the Closet", "ctaUrl": "https://maps.google.com/?q=Out+of+the+Closet+Montrose+Houston", "mapQuery": "Out of the Closet, Montrose, Houston", "lat": 29.7456, "lng": -95.3973}, {"anchorId": "buffalo-exchange", "rank": 5, "name": "Buffalo Exchange", "label": "5. Buffalo Exchange", "ctaUrl": "https://maps.google.com/?q=Buffalo+Exchange+Montrose+Houston", "mapQuery": "Buffalo Exchange, Montrose, Houston", "lat": 29.7441, "lng": -95.4018}, {"anchorId": "crossroads-trading", "rank": 6, "name": "Crossroads Trading", "label": "6. Crossroads Trading", "ctaUrl": "https://maps.google.com/?q=Crossroads+Trading+Rice+Village+Houston", "mapQuery": "Crossroads Trading, Rice Village, Houston", "lat": 29.7188, "lng": -95.4116}, {"anchorId": "leopard-lounge-vintage-supply-co", "rank": 7, "name": "Leopard Lounge Vintage & Supply Co.", "label": "7. Leopard Lounge Vintage & Supply Co.", "ctaUrl": "https://maps.google.com/?q=Leopard+Lounge+Vintage+&+Supply+Co.+Montrose+Houston", "mapQuery": "Leopard Lounge Vintage & Supply Co., Montrose, Houston", "lat": 29.7436, "lng": -95.4022}, {"anchorId": "texas-thrift", "rank": 8, "name": "Texas Thrift", "label": "8. Texas Thrift", "ctaUrl": "https://maps.google.com/?q=Texas+Thrift+Gulfton+Houston", "mapQuery": "Texas Thrift, Gulfton, Houston", "lat": 29.7397, "lng": -95.4851}, {"anchorId": "family-thrift-center-outlet", "rank": 9, "name": "Family Thrift Center Outlet", "label": "9. Family Thrift Center Outlet", "ctaUrl": "https://maps.google.com/?q=Family+Thrift+Center+Outlet+Sharpstown+Houston", "mapQuery": "Family Thrift Center Outlet, Sharpstown, Houston", "lat": 29.7289, "lng": -95.4816}, {"anchorId": "flamingo-vintage", "rank": 10, "name": "Flamingo Vintage", "label": "10. Flamingo Vintage", "ctaUrl": "https://maps.google.com/?q=Flamingo+Vintage+The+Heights+Houston", "mapQuery": "Flamingo Vintage, The Heights, Houston", "lat": 29.7998, "lng": -95.4071}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Houston", "picks": [{"anchorId": "crawfish-noodles", "rank": 1, "name": "Crawfish & Noodles", "label": "1. Crawfish & Noodles", "ctaUrl": "https://maps.google.com/?q=Crawfish+&+Noodles+Bellaire+Houston", "mapQuery": "Crawfish & Noodles, Bellaire, Houston", "lat": 29.699709, "lng": -95.578602}, {"anchorId": "caracol", "rank": 2, "name": "Caracol", "label": "2. Caracol", "ctaUrl": "https://maps.google.com/?q=Caracol+Uptown+Park+Houston", "mapQuery": "Caracol, Uptown Park, Houston", "lat": 29.752601, "lng": -95.461621}, {"anchorId": "trulucks-oceans-finest-seafood-crab", "rank": 3, "name": "Truluck's Ocean's Finest Seafood & Crab", "label": "3. Truluck's Ocean's Finest Seafood & Crab", "ctaUrl": "https://maps.google.com/?q=Truluck's+Ocean's+Finest+Seafood+&+Crab+Galleria/Uptown+Houston", "mapQuery": "Truluck's Ocean's Finest Seafood & Crab, Galleria/Uptown, Houston", "lat": 29.743141, "lng": -95.462705}, {"anchorId": "goode-company-seafood", "rank": 4, "name": "Goode Company Seafood", "label": "4. Goode Company Seafood", "ctaUrl": "https://maps.google.com/?q=Goode+Company+Seafood+Upper+Kirby+Houston", "mapQuery": "Goode Company Seafood, Upper Kirby, Houston", "lat": 29.730303, "lng": -95.449755}, {"anchorId": "liberty-kitchen-oysterette", "rank": 5, "name": "Liberty Kitchen & Oysterette", "label": "5. Liberty Kitchen & Oysterette", "ctaUrl": "https://maps.google.com/?q=Liberty+Kitchen+&+Oysterette+River+Oaks+Houston", "mapQuery": "Liberty Kitchen & Oysterette, River Oaks, Houston", "lat": 29.740529, "lng": -95.432658}, {"anchorId": "pappadeaux-seafood-kitchen", "rank": 6, "name": "Pappadeaux Seafood Kitchen", "label": "6. Pappadeaux Seafood Kitchen", "ctaUrl": "https://maps.google.com/?q=Pappadeaux+Seafood+Kitchen+Uptown/Galleria+Houston", "mapQuery": "Pappadeaux Seafood Kitchen, Uptown/Galleria, Houston", "lat": 29.73456, "lng": -95.46467}, {"anchorId": "eugenes-gulf-coast-cuisine", "rank": 7, "name": "Eugene's Gulf Coast Cuisine", "label": "7. Eugene's Gulf Coast Cuisine", "ctaUrl": "https://maps.google.com/?q=Eugene's+Gulf+Coast+Cuisine+Montrose/Upper+Kirby+Houston", "mapQuery": "Eugene's Gulf Coast Cuisine, Montrose/Upper Kirby, Houston", "lat": 29.749503, "lng": -95.409395}, {"anchorId": "acme-oyster-house", "rank": 8, "name": "Acme Oyster House", "label": "8. Acme Oyster House", "ctaUrl": "https://maps.google.com/?q=Acme+Oyster+House+Montrose+Houston", "mapQuery": "Acme Oyster House, Montrose, Houston", "lat": 29.750529, "lng": -95.399587}, {"anchorId": "capt-bennys-seafood", "rank": 9, "name": "Capt. Benny's Seafood", "label": "9. Capt. Benny's Seafood", "ctaUrl": "https://maps.google.com/?q=Capt.+Benny's+Seafood+South+Main+Houston", "mapQuery": "Capt. Benny's Seafood, South Main, Houston", "lat": 29.684521, "lng": -95.429381}, {"anchorId": "blue-water-seafood", "rank": 10, "name": "Blue Water Seafood", "label": "10. Blue Water Seafood", "ctaUrl": "https://maps.google.com/?q=Blue+Water+Seafood+Garden+Oaks/Oak+Forest+Houston", "mapQuery": "Blue Water Seafood, Garden Oaks/Oak Forest, Houston", "lat": 29.839841, "lng": -95.532338}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

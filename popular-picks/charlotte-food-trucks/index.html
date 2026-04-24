@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Food Trucks Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/food+trucks+in+Charlotte", "picks": [{"anchorId": "papi-queso", "rank": 1, "name": "Papi Queso", "label": "1. Papi Queso", "ctaUrl": "https://maps.google.com/?q=Papi+Queso+Typically+South+End/Plaza+Midwood+Charlotte", "mapQuery": "Papi Queso, Typically South End/Plaza Midwood, Charlotte", "lat": 35.2415, "lng": -80.8166}, {"anchorId": "cuzzos-cuisine", "rank": 2, "name": "Cuzzo's Cuisine", "label": "2. Cuzzo's Cuisine", "ctaUrl": "https://maps.google.com/?q=Cuzzo's+Cuisine+Varies+(often+Uptown,+West+Charlotte)+Charlotte", "mapQuery": "Cuzzo's Cuisine, Varies (often Uptown, West Charlotte), Charlotte", "lat": 35.2464, "lng": -80.8306}, {"anchorId": "masterbao", "rank": 3, "name": "MasterBao", "label": "3. MasterBao", "ctaUrl": "https://maps.google.com/?q=MasterBao+Often+Plaza+Midwood,+NoDa+Charlotte", "mapQuery": "MasterBao, Often Plaza Midwood, NoDa, Charlotte", "lat": 35.2422, "lng": -80.8122}, {"anchorId": "tin-kitchen", "rank": 4, "name": "TIN Kitchen", "label": "4. TIN Kitchen", "ctaUrl": "https://maps.google.com/?q=TIN+Kitchen+Uptown,+South+End,+University+City+Charlotte", "mapQuery": "TIN Kitchen, Uptown, South End, University City, Charlotte", "lat": 35.2155, "lng": -80.8647}, {"anchorId": "yummy-banh-mi", "rank": 5, "name": "Yummy Banh Mi", "label": "5. Yummy Banh Mi", "ctaUrl": "https://maps.google.com/?q=Yummy+Banh+Mi+Varies+(often+East+Charlotte,+University+City)+Charlotte", "mapQuery": "Yummy Banh Mi, Varies (often East Charlotte, University City), Charlotte", "lat": 35.2115, "lng": -80.7305}, {"anchorId": "street-spice", "rank": 6, "name": "Street Spice", "label": "6. Street Spice", "ctaUrl": "https://maps.google.com/?q=Street+Spice+NoDa,+Plaza+Midwood+Charlotte", "mapQuery": "Street Spice, NoDa, Plaza Midwood, Charlotte", "lat": 35.2519, "lng": -80.8037}, {"anchorId": "my-sausage-buddy", "rank": 7, "name": "My Sausage Buddy", "label": "7. My Sausage Buddy", "ctaUrl": "https://maps.google.com/?q=My+Sausage+Buddy+Often+Uptown,+South+End+Charlotte", "mapQuery": "My Sausage Buddy, Often Uptown, South End, Charlotte", "lat": 35.227, "lng": -80.8431}, {"anchorId": "la-shish-kabob", "rank": 8, "name": "La Shish Kabob", "label": "8. La Shish Kabob", "ctaUrl": "https://maps.google.com/?q=La+Shish+Kabob+Often+University+City,+Ballantyne+Charlotte", "mapQuery": "La Shish Kabob, Often University City, Ballantyne, Charlotte", "lat": 35.1969, "lng": -80.893}, {"anchorId": "hot-box-next-level-kitchen", "rank": 9, "name": "Hot Box Next Level Kitchen", "label": "9. Hot Box Next Level Kitchen", "ctaUrl": "https://maps.google.com/?q=Hot+Box+Next+Level+Kitchen+Varies+(often+South+End,+breweries)+Charlotte", "mapQuery": "Hot Box Next Level Kitchen, Varies (often South End, breweries), Charlotte", "lat": 35.1481, "lng": -80.8242}, {"anchorId": "marias-mexican-restaurant", "rank": 10, "name": "Maria's Mexican Restaurant", "label": "10. Maria's Mexican Restaurant", "ctaUrl": "https://maps.google.com/?q=Maria's+Mexican+Restaurant+Often+Steele+Creek,+South+Charlotte+Charlotte", "mapQuery": "Maria's Mexican Restaurant, Often Steele Creek, South Charlotte, Charlotte", "lat": 35.0396, "lng": -80.9507}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

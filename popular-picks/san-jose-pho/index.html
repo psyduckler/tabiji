@@ -1543,73 +1543,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pho Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pho+in+San+Jose", "picks": [{"anchorId": "pho-real", "rank": 1, "name": "Pho Real", "label": "1. Pho Real", "ctaUrl": "https://maps.google.com/?q=Pho+Real+San+Pedro+San+Jose", "mapQuery": "Pho Real, San Pedro, San Jose", "lat": 9.9379, "lng": -84.0487}, {"anchorId": "bambu-house-restaurant", "rank": 2, "name": "Bambu House Restaurant", "label": "2. Bambu House Restaurant", "ctaUrl": "https://maps.google.com/?q=Bambu+House+Restaurant+Escazú+San+Jose", "mapQuery": "Bambu House Restaurant, Escazú, San Jose", "lat": 9.932, "lng": -84.1488}, {"anchorId": "saigon-san-pedro", "rank": 3, "name": "Saigon San Pedro", "label": "3. Saigon San Pedro", "ctaUrl": "https://maps.google.com/?q=Saigon+San+Pedro+San+Pedro+San+Jose", "mapQuery": "Saigon San Pedro, San Pedro, San Jose", "lat": 9.9366, "lng": -84.0495}, {"anchorId": "vietnamita", "rank": 4, "name": "Vietnamita", "label": "4. Vietnamita", "ctaUrl": "https://maps.google.com/?q=Vietnamita+La+Sabana+San+Jose", "mapQuery": "Vietnamita, La Sabana, San Jose", "lat": 9.9329, "lng": -84.1009}, {"anchorId": "restaurant-vietnam", "rank": 5, "name": "Restaurant Vietnam", "label": "5. Restaurant Vietnam", "ctaUrl": "https://maps.google.com/?q=Restaurant+Vietnam+San+Francisco+de+Dos+Ríos+San+Jose", "mapQuery": "Restaurant Vietnam, San Francisco de Dos Ríos, San Jose", "lat": 9.9142, "lng": -84.0535}, {"anchorId": "saigon-bistro", "rank": 6, "name": "Saigon Bistro", "label": "6. Saigon Bistro", "ctaUrl": "https://maps.google.com/?q=Saigon+Bistro+Curridabat+San+Jose", "mapQuery": "Saigon Bistro, Curridabat, San Jose", "lat": 9.9168, "lng": -84.0253}, {"anchorId": "hanoi-express", "rank": 7, "name": "Hanoi Express", "label": "7. Hanoi Express", "ctaUrl": "https://maps.google.com/?q=Hanoi+Express+Barrio+Escalante+San+Jose", "mapQuery": "Hanoi Express, Barrio Escalante, San Jose", "lat": 9.9348, "lng": -84.0673}, {"anchorId": "the-noodle-house", "rank": 8, "name": "The Noodle House", "label": "8. The Noodle House", "ctaUrl": "https://maps.google.com/?q=The+Noodle+House+Rohrmoser+San+Jose", "mapQuery": "The Noodle House, Rohrmoser, San Jose", "lat": 9.9405, "lng": -84.119}, {"anchorId": "lotus-eatery", "rank": 9, "name": "Lotus Eatery", "label": "9. Lotus Eatery", "ctaUrl": "https://maps.google.com/?q=Lotus+Eatery+Paseo+Colón+San+Jose", "mapQuery": "Lotus Eatery, Paseo Colón, San Jose", "lat": 9.932, "lng": -84.0867}, {"anchorId": "pho-street", "rank": 10, "name": "Pho Street", "label": "10. Pho Street", "ctaUrl": "https://maps.google.com/?q=Pho+Street+Ciudad+Colón+San+Jose", "mapQuery": "Pho Street, Ciudad Colón, San Jose", "lat": 9.914, "lng": -84.225}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

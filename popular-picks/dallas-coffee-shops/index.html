@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cafes_Coffee Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cafes_coffee+in+Dallas", "picks": [{"anchorId": "merit-coffee", "rank": 1, "name": "Merit Coffee", "label": "1. Merit Coffee", "ctaUrl": "https://maps.google.com/?q=Merit+Coffee+Deep+Ellum+Dallas", "mapQuery": "Merit Coffee, Deep Ellum, Dallas", "lat": 32.7816, "lng": -96.7909}, {"anchorId": "houndstooth-coffee", "rank": 2, "name": "Houndstooth Coffee", "label": "2. Houndstooth Coffee", "ctaUrl": "https://maps.google.com/?q=Houndstooth+Coffee+Henderson+Avenue+Dallas", "mapQuery": "Houndstooth Coffee, Henderson Avenue, Dallas", "lat": 32.8123, "lng": -96.7877}, {"anchorId": "ascension-coffee", "rank": 3, "name": "Ascension Coffee", "label": "3. Ascension Coffee", "ctaUrl": "https://maps.google.com/?q=Ascension+Coffee+Design+District+Dallas", "mapQuery": "Ascension Coffee, Design District, Dallas", "lat": 32.802, "lng": -96.8143}, {"anchorId": "la-la-land-kind-cafe", "rank": 4, "name": "La La Land Kind Cafe", "label": "4. La La Land Kind Cafe", "ctaUrl": "https://maps.google.com/?q=La+La+Land+Kind+Cafe+Knox/Henderson+Dallas", "mapQuery": "La La Land Kind Cafe, Knox/Henderson, Dallas", "lat": 32.8532, "lng": -96.8407}, {"anchorId": "noble-coyote-coffee-roasters", "rank": 5, "name": "Noble Coyote Coffee Roasters", "label": "5. Noble Coyote Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Noble+Coyote+Coffee+Roasters+Near+Fair+Park+Dallas", "mapQuery": "Noble Coyote Coffee Roasters, Near Fair Park, Dallas", "lat": 32.7879, "lng": -96.7766}, {"anchorId": "deep-ellum-coffee", "rank": 6, "name": "Deep Ellum Coffee", "label": "6. Deep Ellum Coffee", "ctaUrl": "https://maps.google.com/?q=Deep+Ellum+Coffee+Deep+Ellum+Dallas", "mapQuery": "Deep Ellum Coffee, Deep Ellum, Dallas", "lat": 32.7806, "lng": -96.7885}, {"anchorId": "white-rock-coffee", "rank": 7, "name": "White Rock Coffee", "label": "7. White Rock Coffee", "ctaUrl": "https://maps.google.com/?q=White+Rock+Coffee+Lake+Highlands+Dallas", "mapQuery": "White Rock Coffee, Lake Highlands, Dallas", "lat": 32.8631, "lng": -96.7214}, {"anchorId": "ldu-coffee", "rank": 8, "name": "LDU Coffee", "label": "8. LDU Coffee", "ctaUrl": "https://maps.google.com/?q=LDU+Coffee+Knox/Henderson+Dallas", "mapQuery": "LDU Coffee, Knox/Henderson, Dallas", "lat": 32.8251, "lng": -96.8049}, {"anchorId": "cultivar-coffee-bar-roaster", "rank": 9, "name": "Cultivar Coffee Bar & Roaster", "label": "9. Cultivar Coffee Bar & Roaster", "ctaUrl": "https://maps.google.com/?q=Cultivar+Coffee+Bar+&+Roaster+Oak+Cliff+Dallas", "mapQuery": "Cultivar Coffee Bar & Roaster, Oak Cliff, Dallas", "lat": 32.7485, "lng": -96.8188}, {"anchorId": "the-wild-detectives", "rank": 10, "name": "The Wild Detectives", "label": "10. The Wild Detectives", "ctaUrl": "https://maps.google.com/?q=The+Wild+Detectives+Oak+Cliff+Dallas", "mapQuery": "The Wild Detectives, Oak Cliff, Dallas", "lat": 32.7481, "lng": -96.8177}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

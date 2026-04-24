@@ -1540,73 +1540,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Chicago", "picks": [{"anchorId": "the-violet-hour", "rank": 1, "name": "The Violet Hour", "label": "1. The Violet Hour", "ctaUrl": "https://maps.google.com/?q=The+Violet+Hour+Wicker+Park+Chicago", "mapQuery": "The Violet Hour, Wicker Park, Chicago", "lat": 41.910006, "lng": -87.676664}, {"anchorId": "milk-room", "rank": 2, "name": "Milk Room", "label": "2. Milk Room", "ctaUrl": "https://maps.google.com/?q=Milk+Room+Loop+Chicago", "mapQuery": "Milk Room, Loop, Chicago", "lat": 41.879793, "lng": -87.624172}, {"anchorId": "green-mill-cocktail-lounge", "rank": 3, "name": "Green Mill Cocktail Lounge", "label": "3. Green Mill Cocktail Lounge", "ctaUrl": "https://maps.google.com/?q=Green+Mill+Cocktail+Lounge+Uptown+Chicago", "mapQuery": "Green Mill Cocktail Lounge, Uptown, Chicago", "lat": 41.970597, "lng": -87.659972}, {"anchorId": "blind-barber", "rank": 4, "name": "Blind Barber", "label": "4. Blind Barber", "ctaUrl": "https://maps.google.com/?q=Blind+Barber+West+Loop+Chicago", "mapQuery": "Blind Barber, West Loop, Chicago", "lat": 41.886475, "lng": -87.653457}, {"anchorId": "dram-shop", "rank": 5, "name": "Dram Shop", "label": "5. Dram Shop", "ctaUrl": "https://maps.google.com/?q=Dram+Shop+Logan+Square+Chicago", "mapQuery": "Dram Shop, Logan Square, Chicago", "lat": 41.93382, "lng": -87.69747}, {"anchorId": "chicago-magic-lounge", "rank": 6, "name": "Chicago Magic Lounge", "label": "6. Chicago Magic Lounge", "ctaUrl": "https://maps.google.com/?q=Chicago+Magic+Lounge+Uptown+Chicago", "mapQuery": "Chicago Magic Lounge, Uptown, Chicago", "lat": 41.97397, "lng": -87.66858}, {"anchorId": "wc-harlan", "rank": 7, "name": "W.C. Harlan", "label": "7. W.C. Harlan", "ctaUrl": "https://maps.google.com/?q=W.C.+Harlan+West+Loop+Chicago", "mapQuery": "W.C. Harlan, West Loop, Chicago", "lat": 41.88936, "lng": -87.63385}, {"anchorId": "dr-feelgoods", "rank": 8, "name": "Dr. Feelgood's", "label": "8. Dr. Feelgood's", "ctaUrl": "https://maps.google.com/?q=Dr.+Feelgood's+Lincoln+Park+Chicago", "mapQuery": "Dr. Feelgood's, Lincoln Park, Chicago", "lat": 41.92135, "lng": -87.66986}, {"anchorId": "booze-box", "rank": 9, "name": "Booze Box", "label": "9. Booze Box", "ctaUrl": "https://maps.google.com/?q=Booze+Box+West+Loop+Chicago", "mapQuery": "Booze Box, West Loop, Chicago", "lat": 41.88448, "lng": -87.64771}, {"anchorId": "ositos-tap", "rank": 10, "name": "Osito's Tap", "label": "10. Osito's Tap", "ctaUrl": "https://maps.google.com/?q=Osito's+Tap+Little+Village+Chicago", "mapQuery": "Osito's Tap, Little Village, Chicago", "lat": 41.84813, "lng": -87.72895}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

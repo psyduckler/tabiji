@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Dim Sum Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/dim+sum+in+Los+Angeles", "picks": [{"anchorId": "sea-harbour-seafood-restaurant", "rank": 1, "name": "Sea Harbour Seafood Restaurant", "label": "1. Sea Harbour Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Sea+Harbour+Seafood+Restaurant+Rosemead+Los+Angeles", "mapQuery": "Sea Harbour Seafood Restaurant, Rosemead, Los Angeles", "lat": 34.075902, "lng": -118.067333}, {"anchorId": "din-tai-fung", "rank": 2, "name": "Din Tai Fung", "label": "2. Din Tai Fung", "ctaUrl": "https://maps.google.com/?q=Din+Tai+Fung+Arcadia+Los+Angeles", "mapQuery": "Din Tai Fung, Arcadia, Los Angeles", "lat": 34.132549, "lng": -118.056087}, {"anchorId": "lunasia-chinese-cuisine", "rank": 3, "name": "Lunasia Chinese Cuisine", "label": "3. Lunasia Chinese Cuisine", "ctaUrl": "https://maps.google.com/?q=Lunasia+Chinese+Cuisine+Alhambra+Los+Angeles", "mapQuery": "Lunasia Chinese Cuisine, Alhambra, Los Angeles", "lat": 34.09575, "lng": -118.12999}, {"anchorId": "elite-restaurant", "rank": 4, "name": "Elite Restaurant", "label": "4. Elite Restaurant", "ctaUrl": "https://maps.google.com/?q=Elite+Restaurant+Monterey+Park+Los+Angeles", "mapQuery": "Elite Restaurant, Monterey Park, Los Angeles", "lat": 34.053896, "lng": -118.13192}, {"anchorId": "nbc-seafood-restaurant", "rank": 5, "name": "NBC Seafood Restaurant", "label": "5. NBC Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=NBC+Seafood+Restaurant+Monterey+Park+Los+Angeles", "mapQuery": "NBC Seafood Restaurant, Monterey Park, Los Angeles", "lat": 34.059437, "lng": -118.131505}, {"anchorId": "capital-seafood-restaurant", "rank": 6, "name": "Capital Seafood Restaurant", "label": "6. Capital Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Capital+Seafood+Restaurant+San+Gabriel+Los+Angeles", "mapQuery": "Capital Seafood Restaurant, San Gabriel, Los Angeles", "lat": 34.088656, "lng": -118.093489}, {"anchorId": "nom-wah-tea-parlor", "rank": 7, "name": "Nom Wah Tea Parlor", "label": "7. Nom Wah Tea Parlor", "ctaUrl": "https://maps.google.com/?q=Nom+Wah+Tea+Parlor+Chinatown+Los+Angeles", "mapQuery": "Nom Wah Tea Parlor, Chinatown, Los Angeles", "lat": 34.062098, "lng": -118.238466}, {"anchorId": "ocean-star-restaurant", "rank": 8, "name": "Ocean Star Restaurant", "label": "8. Ocean Star Restaurant", "ctaUrl": "https://maps.google.com/?q=Ocean+Star+Restaurant+Monterey+Park+Los+Angeles", "mapQuery": "Ocean Star Restaurant, Monterey Park, Los Angeles", "lat": 34.062137, "lng": -118.13172}, {"anchorId": "golden-dragon-restaurant", "rank": 9, "name": "Golden Dragon Restaurant", "label": "9. Golden Dragon Restaurant", "ctaUrl": "https://maps.google.com/?q=Golden+Dragon+Restaurant+Chinatown+Los+Angeles", "mapQuery": "Golden Dragon Restaurant, Chinatown, Los Angeles", "lat": 34.06206, "lng": -118.23847}, {"anchorId": "new-capital-seafood-restaurant", "rank": 10, "name": "New Capital Seafood Restaurant", "label": "10. New Capital Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=New+Capital+Seafood+Restaurant+San+Gabriel+Los+Angeles", "mapQuery": "New Capital Seafood Restaurant, San Gabriel, Los Angeles", "lat": 34.086975, "lng": -118.098863}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

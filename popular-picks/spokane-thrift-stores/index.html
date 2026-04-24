@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Spokane", "picks": [{"anchorId": "boulevard-mercantile", "rank": 1, "name": "Boulevard Mercantile", "label": "1. Boulevard Mercantile", "ctaUrl": "https://maps.google.com/?q=Boulevard+Mercantile+South+Hill+Spokane", "mapQuery": "Boulevard Mercantile, South Hill, Spokane", "lat": 47.68001, "lng": -117.43394}, {"anchorId": "the-bohemian", "rank": 2, "name": "The Bohemian", "label": "2. The Bohemian", "ctaUrl": "https://maps.google.com/?q=The+Bohemian+North+Monroe+Spokane", "mapQuery": "The Bohemian, North Monroe, Spokane", "lat": 47.68972, "lng": -117.42436}, {"anchorId": "consign-local", "rank": 3, "name": "Consign Local", "label": "3. Consign Local", "ctaUrl": "https://maps.google.com/?q=Consign+Local+South+Hill+Spokane", "mapQuery": "Consign Local, South Hill, Spokane", "lat": 47.60688, "lng": -117.43714}, {"anchorId": "goodwill", "rank": 4, "name": "Goodwill (North Division)", "label": "4. Goodwill (North Division)", "ctaUrl": "https://maps.google.com/?q=Goodwill+(North+Division)+North+Spokane+Spokane", "mapQuery": "Goodwill (North Division), North Spokane, Spokane", "lat": 47.75545, "lng": -117.38283}, {"anchorId": "value-village", "rank": 5, "name": "Value Village (North Nevada)", "label": "5. Value Village (North Nevada)", "ctaUrl": "https://maps.google.com/?q=Value+Village+(North+Nevada)+North+Spokane+Spokane", "mapQuery": "Value Village (North Nevada), North Spokane, Spokane", "lat": 47.7212, "lng": -117.37894}, {"anchorId": "lucky-vintage-thrift", "rank": 6, "name": "Lucky Vintage & Thrift", "label": "6. Lucky Vintage & Thrift", "ctaUrl": "https://maps.google.com/?q=Lucky+Vintage+&+Thrift+North+Monroe+Spokane", "mapQuery": "Lucky Vintage & Thrift, North Monroe, Spokane", "lat": 47.68882, "lng": -117.42435}, {"anchorId": "habitat-for-humanity-restore", "rank": 7, "name": "Habitat for Humanity ReStore", "label": "7. Habitat for Humanity ReStore", "ctaUrl": "https://maps.google.com/?q=Habitat+for+Humanity+ReStore+East+Central+Spokane", "mapQuery": "Habitat for Humanity ReStore, East Central, Spokane", "lat": 47.66989, "lng": -117.38283}, {"anchorId": "refinery", "rank": 8, "name": "Refinery", "label": "8. Refinery", "ctaUrl": "https://maps.google.com/?q=Refinery+South+Hill+Spokane", "mapQuery": "Refinery, South Hill, Spokane", "lat": 47.63223, "lng": -117.40424}, {"anchorId": "stcu-good-samaritan-thrift-store", "rank": 9, "name": "STCU Good Samaritan Thrift Store", "label": "9. STCU Good Samaritan Thrift Store", "ctaUrl": "https://maps.google.com/?q=STCU+Good+Samaritan+Thrift+Store+Spokane+Valley+Spokane", "mapQuery": "STCU Good Samaritan Thrift Store, Spokane Valley, Spokane", "lat": 47.67876, "lng": -117.2023}, {"anchorId": "revival-lighting-salvage", "rank": 10, "name": "Revival Lighting & Salvage", "label": "10. Revival Lighting & Salvage", "ctaUrl": "https://maps.google.com/?q=Revival+Lighting+&+Salvage+Hillyard+Spokane", "mapQuery": "Revival Lighting & Salvage, Hillyard, Spokane", "lat": 47.70273, "lng": -117.34863}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

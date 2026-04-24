@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Vancouver", "picks": [{"anchorId": "annalena", "rank": 1, "name": "AnnaLena", "label": "1. AnnaLena", "ctaUrl": "https://maps.google.com/?q=AnnaLena+Kitsilano+Vancouver", "mapQuery": "AnnaLena, Kitsilano, Vancouver", "lat": 49.2721, "lng": -123.1432}, {"anchorId": "kissa-tanto", "rank": 2, "name": "Kissa Tanto", "label": "2. Kissa Tanto", "ctaUrl": "https://maps.google.com/?q=Kissa+Tanto+Gastown+Vancouver", "mapQuery": "Kissa Tanto, Gastown, Vancouver", "lat": 49.2801, "lng": -123.1029}, {"anchorId": "miku-vancouver", "rank": 3, "name": "Miku Vancouver", "label": "3. Miku Vancouver", "ctaUrl": "https://maps.google.com/?q=Miku+Vancouver+Coal+Harbour+Vancouver", "mapQuery": "Miku Vancouver, Coal Harbour, Vancouver", "lat": 49.2863, "lng": -123.1118}, {"anchorId": "savio-volpe", "rank": 4, "name": "Savio Volpe", "label": "4. Savio Volpe", "ctaUrl": "https://maps.google.com/?q=Savio+Volpe+Fraserhood+Vancouver", "mapQuery": "Savio Volpe, Fraserhood, Vancouver", "lat": 49.2604, "lng": -123.0898}, {"anchorId": "ask-for-luigi", "rank": 5, "name": "Ask for Luigi", "label": "5. Ask for Luigi", "ctaUrl": "https://maps.google.com/?q=Ask+for+Luigi+Gastown+Vancouver", "mapQuery": "Ask for Luigi, Gastown, Vancouver", "lat": 49.282, "lng": -123.1042}, {"anchorId": "phnom-penh", "rank": 6, "name": "Phnom Penh", "label": "6. Phnom Penh", "ctaUrl": "https://maps.google.com/?q=Phnom+Penh+Chinatown+Vancouver", "mapQuery": "Phnom Penh, Chinatown, Vancouver", "lat": 49.2798, "lng": -123.1009}, {"anchorId": "tacofino-gastown", "rank": 7, "name": "Tacofino Gastown", "label": "7. Tacofino Gastown", "ctaUrl": "https://maps.google.com/?q=Tacofino+Gastown+Gastown+Vancouver", "mapQuery": "Tacofino Gastown, Gastown, Vancouver", "lat": 49.2821, "lng": -123.107}, {"anchorId": "jam-cafe", "rank": 8, "name": "Jam Cafe (Original)", "label": "8. Jam Cafe (Original)", "ctaUrl": "https://maps.google.com/?q=Jam+Cafe+(Original)+Gastown+Vancouver", "mapQuery": "Jam Cafe (Original), Gastown, Vancouver", "lat": 49.2818, "lng": -123.1059}, {"anchorId": "guu-izakaya", "rank": 9, "name": "Guu Izakaya (Thurlow)", "label": "9. Guu Izakaya (Thurlow)", "ctaUrl": "https://maps.google.com/?q=Guu+Izakaya+(Thurlow)+Downtown+Vancouver", "mapQuery": "Guu Izakaya (Thurlow), Downtown, Vancouver", "lat": 49.2858, "lng": -123.1293}, {"anchorId": "peaceful-restaurant", "rank": 10, "name": "Peaceful Restaurant (Broadway)", "label": "10. Peaceful Restaurant (Broadway)", "ctaUrl": "https://maps.google.com/?q=Peaceful+Restaurant+(Broadway)+Kitsilano+Vancouver", "mapQuery": "Peaceful Restaurant (Broadway), Kitsilano, Vancouver", "lat": 49.2635, "lng": -123.1205}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

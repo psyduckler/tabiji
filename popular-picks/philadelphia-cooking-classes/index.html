@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+Philadelphia", "picks": [{"anchorId": "cook", "rank": 1, "name": "COOK", "label": "1. COOK", "ctaUrl": "https://maps.google.com/?q=COOK+Center+City+Philadelphia", "mapQuery": "COOK, Center City, Philadelphia", "lat": 39.9482, "lng": -75.1742}, {"anchorId": "sur-la-table", "rank": 2, "name": "Sur La Table (Rittenhouse Row)", "label": "2. Sur La Table (Rittenhouse Row)", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+(Rittenhouse+Row)+Center+City+Philadelphia", "mapQuery": "Sur La Table (Rittenhouse Row), Center City, Philadelphia", "lat": 39.9507, "lng": -75.1706}, {"anchorId": "the-philadelphia-school-of-cooking-arts", "rank": 3, "name": "The Philadelphia School of Cooking Arts (PSCA)", "label": "3. The Philadelphia School of Cooking Arts (PSCA)", "ctaUrl": "https://maps.google.com/?q=The+Philadelphia+School+of+Cooking+Arts+(PSCA)+Fairmount+/+Spring+Garden+Philadelphia", "mapQuery": "The Philadelphia School of Cooking Arts (PSCA), Fairmount / Spring Garden, Philadelphia", "lat": 39.9538, "lng": -75.1582}, {"anchorId": "fantes-kitchen", "rank": 4, "name": "Fante's Kitchen", "label": "4. Fante's Kitchen", "ctaUrl": "https://maps.google.com/?q=Fante's+Kitchen+Italian+Market+/+South+Philly+Philadelphia", "mapQuery": "Fante's Kitchen, Italian Market / South Philly, Philadelphia", "lat": 39.936, "lng": -75.1581}, {"anchorId": "di-bruno-bros", "rank": 5, "name": "Di Bruno Bros. (Rittenhouse)", "label": "5. Di Bruno Bros. (Rittenhouse)", "ctaUrl": "https://maps.google.com/?q=Di+Bruno+Bros.+(Rittenhouse)+Center+City+Philadelphia", "mapQuery": "Di Bruno Bros. (Rittenhouse), Center City, Philadelphia", "lat": 39.9507, "lng": -75.1709}, {"anchorId": "free-library-of-philadelphia-culinary-li", "rank": 6, "name": "Free Library of Philadelphia Culinary Literacy Center", "label": "6. Free Library of Philadelphia Culinary Literacy Center", "ctaUrl": "https://maps.google.com/?q=Free+Library+of+Philadelphia+Culinary+Literacy+Center+Parkway+Central+Library+/+Art+Museum+Area+Philadelphia", "mapQuery": "Free Library of Philadelphia Culinary Literacy Center, Parkway Central Library / Art Museum Area, Philadelphia", "lat": 39.9575, "lng": -75.1685}, {"anchorId": "philly-cake-decorating", "rank": 7, "name": "Philly Cake Decorating", "label": "7. Philly Cake Decorating", "ctaUrl": "https://maps.google.com/?q=Philly+Cake+Decorating+South+Philly+Philadelphia", "mapQuery": "Philly Cake Decorating, South Philly, Philadelphia", "lat": 39.9231, "lng": -75.1707}, {"anchorId": "art-in-the-age", "rank": 8, "name": "Art in the Age", "label": "8. Art in the Age", "ctaUrl": "https://maps.google.com/?q=Art+in+the+Age+Old+City+Philadelphia", "mapQuery": "Art in the Age, Old City, Philadelphia", "lat": 39.9526, "lng": -75.1451}, {"anchorId": "vetri-cucina", "rank": 9, "name": "Vetri Cucina", "label": "9. Vetri Cucina", "ctaUrl": "https://maps.google.com/?q=Vetri+Cucina+Center+City+Philadelphia", "mapQuery": "Vetri Cucina, Center City, Philadelphia", "lat": 39.9463, "lng": -75.1664}, {"anchorId": "pizza-brain", "rank": 10, "name": "Pizza Brain", "label": "10. Pizza Brain", "ctaUrl": "https://maps.google.com/?q=Pizza+Brain+Kensington+Philadelphia", "mapQuery": "Pizza Brain, Kensington, Philadelphia", "lat": 39.9723, "lng": -75.1278}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

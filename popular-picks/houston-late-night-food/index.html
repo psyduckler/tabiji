@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Late Night Food Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/late+night+food+in+Houston", "picks": [{"anchorId": "nancys-hustle", "rank": 1, "name": "Nancy's Hustle", "label": "1. Nancy's Hustle", "ctaUrl": "https://maps.google.com/?q=Nancy's+Hustle+EaDo+Houston", "mapQuery": "Nancy's Hustle, EaDo, Houston", "lat": 29.75618, "lng": -95.35246}, {"anchorId": "house-of-pies", "rank": 2, "name": "House of Pies (Kirby Dr)", "label": "2. House of Pies (Kirby Dr)", "ctaUrl": "https://maps.google.com/?q=House+of+Pies+(Kirby+Dr)+Upper+Kirby+Houston", "mapQuery": "House of Pies (Kirby Dr), Upper Kirby, Houston", "lat": 29.74384, "lng": -95.42068}, {"anchorId": "mais-restaurant", "rank": 3, "name": "Mai's Restaurant", "label": "3. Mai's Restaurant", "ctaUrl": "https://maps.google.com/?q=Mai's+Restaurant+Midtown+Houston", "mapQuery": "Mai's Restaurant, Midtown, Houston", "lat": 29.75231, "lng": -95.37899}, {"anchorId": "tacos-a-go-go", "rank": 4, "name": "Tacos A Go Go (Midtown)", "label": "4. Tacos A Go Go (Midtown)", "ctaUrl": "https://maps.google.com/?q=Tacos+A+Go+Go+(Midtown)+Midtown+Houston", "mapQuery": "Tacos A Go Go (Midtown), Midtown, Houston", "lat": 29.75409, "lng": -95.3852}, {"anchorId": "dot-coffee-shop", "rank": 5, "name": "Dot Coffee Shop", "label": "5. Dot Coffee Shop", "ctaUrl": "https://maps.google.com/?q=Dot+Coffee+Shop+Gulfgate+Houston", "mapQuery": "Dot Coffee Shop, Gulfgate, Houston", "lat": 29.70428, "lng": -95.27532}, {"anchorId": "whataburger", "rank": 6, "name": "Whataburger (Montrose)", "label": "6. Whataburger (Montrose)", "ctaUrl": "https://maps.google.com/?q=Whataburger+(Montrose)+Montrose+Houston", "mapQuery": "Whataburger (Montrose), Montrose, Houston", "lat": 29.74609, "lng": -95.38885}, {"anchorId": "pasha-turkish-restaurant", "rank": 7, "name": "Pasha Turkish Restaurant", "label": "7. Pasha Turkish Restaurant", "ctaUrl": "https://maps.google.com/?q=Pasha+Turkish+Restaurant+Galleria+Area+Houston", "mapQuery": "Pasha Turkish Restaurant, Galleria Area, Houston", "lat": 29.73602, "lng": -95.42173}, {"anchorId": "christians-tailgate-bar-grill", "rank": 8, "name": "Christian's Tailgate Bar & Grill (Heights)", "label": "8. Christian's Tailgate Bar & Grill (Heights)", "ctaUrl": "https://maps.google.com/?q=Christian's+Tailgate+Bar+&+Grill+(Heights)+The+Heights+Houston", "mapQuery": "Christian's Tailgate Bar & Grill (Heights), The Heights, Houston", "lat": 29.79007, "lng": -95.39414}, {"anchorId": "voodoo-doughnut", "rank": 9, "name": "Voodoo Doughnut", "label": "9. Voodoo Doughnut", "ctaUrl": "https://maps.google.com/?q=Voodoo+Doughnut+Washington+Avenue+Houston", "mapQuery": "Voodoo Doughnut, Washington Avenue, Houston", "lat": 29.7645, "lng": -95.39702}, {"anchorId": "the-taco-stand", "rank": 10, "name": "The Taco Stand", "label": "10. The Taco Stand", "ctaUrl": "https://maps.google.com/?q=The+Taco+Stand+Washington+Avenue+Houston", "mapQuery": "The Taco Stand, Washington Avenue, Houston", "lat": 29.76562, "lng": -95.40579}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Tacos Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/tacos+in+San+Antonio", "picks": [{"anchorId": "carnitas-lonja", "rank": 1, "name": "Carnitas Lonja", "label": "1. Carnitas Lonja", "ctaUrl": "https://maps.google.com/?q=Carnitas+Lonja+Southside+San+Antonio", "mapQuery": "Carnitas Lonja, Southside, San Antonio", "lat": 29.390597, "lng": -98.496515}, {"anchorId": "rays-drive-inn", "rank": 2, "name": "Ray's Drive Inn", "label": "2. Ray's Drive Inn", "ctaUrl": "https://maps.google.com/?q=Ray's+Drive+Inn+West+Side+San+Antonio", "mapQuery": "Ray's Drive Inn, West Side, San Antonio", "lat": 29.418485, "lng": -98.530374}, {"anchorId": "petes-tako-house", "rank": 3, "name": "Pete's Tako House", "label": "3. Pete's Tako House", "ctaUrl": "https://maps.google.com/?q=Pete's+Tako+House+Downtown+San+Antonio", "mapQuery": "Pete's Tako House, Downtown, San Antonio", "lat": 29.43169, "lng": -98.48425}, {"anchorId": "garcias-mexican-food", "rank": 4, "name": "Garcia's Mexican Food", "label": "4. Garcia's Mexican Food", "ctaUrl": "https://maps.google.com/?q=Garcia's+Mexican+Food+Woodlawn+Lake+San+Antonio", "mapQuery": "Garcia's Mexican Food, Woodlawn Lake, San Antonio", "lat": 29.44967, "lng": -98.51357}, {"anchorId": "tacos-el-regio", "rank": 5, "name": "Tacos El Regio", "label": "5. Tacos El Regio", "ctaUrl": "https://maps.google.com/?q=Tacos+El+Regio+Monticello+Park+San+Antonio", "mapQuery": "Tacos El Regio, Monticello Park, San Antonio", "lat": 29.45667, "lng": -98.52229}, {"anchorId": "rosarios-restaurant-lounge", "rank": 6, "name": "Rosario's Restaurant & Lounge", "label": "6. Rosario's Restaurant & Lounge", "ctaUrl": "https://maps.google.com/?q=Rosario's+Restaurant+&+Lounge+Southtown+/+King+William+San+Antonio", "mapQuery": "Rosario's Restaurant & Lounge, Southtown / King William, San Antonio", "lat": 29.41804, "lng": -98.49078}, {"anchorId": "mi-tierra-cafe-y-panaderia", "rank": 7, "name": "Mi Tierra Cafe y Panaderia", "label": "7. Mi Tierra Cafe y Panaderia", "ctaUrl": "https://maps.google.com/?q=Mi+Tierra+Cafe+y+Panaderia+Market+Square+San+Antonio", "mapQuery": "Mi Tierra Cafe y Panaderia, Market Square, San Antonio", "lat": 29.42436, "lng": -98.5029}, {"anchorId": "taqueria-datapoint", "rank": 8, "name": "Taqueria Datapoint", "label": "8. Taqueria Datapoint", "ctaUrl": "https://maps.google.com/?q=Taqueria+Datapoint+Medical+Center+San+Antonio", "mapQuery": "Taqueria Datapoint, Medical Center, San Antonio", "lat": 29.50195, "lng": -98.56064}, {"anchorId": "pollos-asados-los-norteños", "rank": 9, "name": "Pollos Asados Los Norteños", "label": "9. Pollos Asados Los Norteños", "ctaUrl": "https://maps.google.com/?q=Pollos+Asados+Los+Norteños+East+Side+San+Antonio", "mapQuery": "Pollos Asados Los Norteños, East Side, San Antonio", "lat": 29.48911, "lng": -98.39768}, {"anchorId": "tommys-restaurant", "rank": 10, "name": "Tommy's Restaurant", "label": "10. Tommy's Restaurant", "ctaUrl": "https://maps.google.com/?q=Tommy's+Restaurant+Medical+Center+San+Antonio", "mapQuery": "Tommy's Restaurant, Medical Center, San Antonio", "lat": 29.51, "lng": -98.5714}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

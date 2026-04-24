@@ -1551,73 +1551,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Montreal", "picks": [{"anchorId": "joe-beef", "rank": 1, "name": "Joe Beef", "label": "1. Joe Beef", "ctaUrl": "https://maps.google.com/?q=Joe+Beef+Little+Burgundy+Montreal", "mapQuery": "Joe Beef, Little Burgundy, Montreal", "lat": 45.4746, "lng": -73.5786}, {"anchorId": "toqué", "rank": 2, "name": "Toqué!", "label": "2. Toqué!", "ctaUrl": "https://maps.google.com/?q=Toqué!+Quartier+des+Spectacles+Montreal", "mapQuery": "Toqué!, Quartier des Spectacles, Montreal", "lat": 45.5009, "lng": -73.5623}, {"anchorId": "lexpress", "rank": 3, "name": "L'Express", "label": "3. L'Express", "ctaUrl": "https://maps.google.com/?q=L'Express+Plateau+Mont-Royal+Montreal", "mapQuery": "L'Express, Plateau Mont-Royal, Montreal", "lat": 45.5218, "lng": -73.5746}, {"anchorId": "mon-lapin", "rank": 4, "name": "Mon Lapin", "label": "4. Mon Lapin", "ctaUrl": "https://maps.google.com/?q=Mon+Lapin+Mile+End+Montreal", "mapQuery": "Mon Lapin, Mile End, Montreal", "lat": 45.5323, "lng": -73.6105}, {"anchorId": "elena", "rank": 5, "name": "Elena", "label": "5. Elena", "ctaUrl": "https://maps.google.com/?q=Elena+Saint-Henri+Montreal", "mapQuery": "Elena, Saint-Henri, Montreal", "lat": 45.4673, "lng": -73.5936}, {"anchorId": "schwartzs", "rank": 6, "name": "Schwartz's", "label": "6. Schwartz's", "ctaUrl": "https://maps.google.com/?q=Schwartz's+Plateau+Mont-Royal+Montreal", "mapQuery": "Schwartz's, Plateau Mont-Royal, Montreal", "lat": 45.5186, "lng": -73.5783}, {"anchorId": "arthurs-nosh-bar", "rank": 7, "name": "Arthurs Nosh Bar", "label": "7. Arthurs Nosh Bar", "ctaUrl": "https://maps.google.com/?q=Arthurs+Nosh+Bar+Saint-Henri+Montreal", "mapQuery": "Arthurs Nosh Bar, Saint-Henri, Montreal", "lat": 45.4691, "lng": -73.5901}, {"anchorId": "satay-brothers", "rank": 8, "name": "Satay Brothers", "label": "8. Satay Brothers", "ctaUrl": "https://maps.google.com/?q=Satay+Brothers+Saint-Henri+Montreal", "mapQuery": "Satay Brothers, Saint-Henri, Montreal", "lat": 45.4722, "lng": -73.5857}, {"anchorId": "damián", "rank": 9, "name": "Damián", "label": "9. Damián", "ctaUrl": "https://maps.google.com/?q=Damián+Old+Montreal+Montreal", "mapQuery": "Damián, Old Montreal, Montreal", "lat": 45.4925, "lng": -73.5583}, {"anchorId": "restaurant-kam-fung", "rank": 10, "name": "Restaurant Kam Fung", "label": "10. Restaurant Kam Fung", "ctaUrl": "https://maps.google.com/?q=Restaurant+Kam+Fung+Chinatown+Montreal", "mapQuery": "Restaurant Kam Fung, Chinatown, Montreal", "lat": 45.505, "lng": -73.563}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

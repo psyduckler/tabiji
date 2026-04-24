@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Providence", "picks": [{"anchorId": "federal-hill-pizza", "rank": 1, "name": "Federal Hill Pizza", "label": "1. Federal Hill Pizza", "ctaUrl": "https://maps.google.com/?q=Federal+Hill+Pizza+Federal+Hill+Providence", "mapQuery": "Federal Hill Pizza, Federal Hill, Providence", "lat": 41.815981, "lng": -71.420849}, {"anchorId": "fellini-pizzeria", "rank": 2, "name": "Fellini Pizzeria", "label": "2. Fellini Pizzeria", "ctaUrl": "https://maps.google.com/?q=Fellini+Pizzeria+Downtown/College+Hill+Providence", "mapQuery": "Fellini Pizzeria, Downtown/College Hill, Providence", "lat": 41.81599, "lng": -71.40118}, {"anchorId": "providence-coal-fired-pizza", "rank": 3, "name": "Providence Coal Fired Pizza", "label": "3. Providence Coal Fired Pizza", "ctaUrl": "https://maps.google.com/?q=Providence+Coal+Fired+Pizza+Downtown+Providence", "mapQuery": "Providence Coal Fired Pizza, Downtown, Providence", "lat": 41.81577, "lng": -71.4116}, {"anchorId": "figidini", "rank": 4, "name": "Figidini", "label": "4. Figidini", "ctaUrl": "https://maps.google.com/?q=Figidini+Downtown+Providence", "mapQuery": "Figidini, Downtown, Providence", "lat": 41.81736, "lng": -71.41315}, {"anchorId": "pizza-marvin", "rank": 5, "name": "Pizza Marvin", "label": "5. Pizza Marvin", "ctaUrl": "https://maps.google.com/?q=Pizza+Marvin+Fox+Point+Providence", "mapQuery": "Pizza Marvin, Fox Point, Providence", "lat": 41.82914, "lng": -71.39129}, {"anchorId": "nice-slice", "rank": 6, "name": "Nice Slice", "label": "6. Nice Slice", "ctaUrl": "https://maps.google.com/?q=Nice+Slice+Downtown/AS220+Providence", "mapQuery": "Nice Slice, Downtown/AS220, Providence", "lat": 41.81577, "lng": -71.41738}, {"anchorId": "caserta-pizzeria", "rank": 7, "name": "Caserta Pizzeria", "label": "7. Caserta Pizzeria", "ctaUrl": "https://maps.google.com/?q=Caserta+Pizzeria+Federal+Hill+Providence", "mapQuery": "Caserta Pizzeria, Federal Hill, Providence", "lat": 41.8152, "lng": -71.42436}, {"anchorId": "antonios-pizza", "rank": 8, "name": "Antonio's Pizza", "label": "8. Antonio's Pizza", "ctaUrl": "https://maps.google.com/?q=Antonio's+Pizza+East+Side/Wayland+Square+Providence", "mapQuery": "Antonio's Pizza, East Side/Wayland Square, Providence", "lat": 41.82627, "lng": -71.4005}, {"anchorId": "ricottis-pizza", "rank": 9, "name": "Ricotti's Pizza", "label": "9. Ricotti's Pizza", "ctaUrl": "https://maps.google.com/?q=Ricotti's+Pizza+Elmhurst+Providence", "mapQuery": "Ricotti's Pizza, Elmhurst, Providence", "lat": 41.85303, "lng": -71.44299}, {"anchorId": "dolores", "rank": 10, "name": "Dolores", "label": "10. Dolores", "ctaUrl": "https://maps.google.com/?q=Dolores+West+Side/Olneyville+Providence", "mapQuery": "Dolores, West Side/Olneyville, Providence", "lat": 41.81599, "lng": -71.42398}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

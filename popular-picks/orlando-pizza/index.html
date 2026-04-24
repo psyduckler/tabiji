@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Orlando", "picks": [{"anchorId": "pizza-bruno", "rank": 1, "name": "Pizza Bruno", "label": "1. Pizza Bruno", "ctaUrl": "https://maps.google.com/?q=Pizza+Bruno+Dover+Shores+Orlando", "mapQuery": "Pizza Bruno, Dover Shores, Orlando", "lat": 28.50868, "lng": -81.3323}, {"anchorId": "lazy-moon-pizza", "rank": 2, "name": "Lazy Moon Pizza", "label": "2. Lazy Moon Pizza", "ctaUrl": "https://maps.google.com/?q=Lazy+Moon+Pizza+Mills+50+Orlando", "mapQuery": "Lazy Moon Pizza, Mills 50, Orlando", "lat": 28.54807, "lng": -81.36531}, {"anchorId": "antonellas-pizzeria", "rank": 3, "name": "Antonella's Pizzeria", "label": "3. Antonella's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Antonella's+Pizzeria+Winter+Park+Orlando", "mapQuery": "Antonella's Pizzeria, Winter Park, Orlando", "lat": 28.58789, "lng": -81.36214}, {"anchorId": "pizzeria-roberti", "rank": 4, "name": "Pizzeria Roberti", "label": "4. Pizzeria Roberti", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Roberti+East+Orlando+Orlando", "mapQuery": "Pizzeria Roberti, East Orlando, Orlando", "lat": 28.51347, "lng": -81.30605}, {"anchorId": "flippers-pizzeria", "rank": 5, "name": "Flippers Pizzeria", "label": "5. Flippers Pizzeria", "ctaUrl": "https://maps.google.com/?q=Flippers+Pizzeria+Multiple+Locations+(e.g.,+Downtown+Orlando)+Orlando", "mapQuery": "Flippers Pizzeria, Multiple Locations (e.g., Downtown Orlando), Orlando", "lat": 28.5392, "lng": -81.38072}, {"anchorId": "anthonys-coal-fired-pizza-wings", "rank": 6, "name": "Anthony's Coal Fired Pizza & Wings", "label": "6. Anthony's Coal Fired Pizza & Wings", "ctaUrl": "https://maps.google.com/?q=Anthony's+Coal+Fired+Pizza+&+Wings+Waterford+Lakes+Orlando", "mapQuery": "Anthony's Coal Fired Pizza & Wings, Waterford Lakes, Orlando", "lat": 28.55835, "lng": -81.20524}, {"anchorId": "mellow-mushroom", "rank": 7, "name": "Mellow Mushroom", "label": "7. Mellow Mushroom", "ctaUrl": "https://maps.google.com/?q=Mellow+Mushroom+Winter+Park+Orlando", "mapQuery": "Mellow Mushroom, Winter Park, Orlando", "lat": 28.60156, "lng": -81.30902}, {"anchorId": "blaze-pizza", "rank": 8, "name": "Blaze Pizza", "label": "8. Blaze Pizza", "ctaUrl": "https://maps.google.com/?q=Blaze+Pizza+Waterford+Lakes+Orlando", "mapQuery": "Blaze Pizza, Waterford Lakes, Orlando", "lat": 28.56066, "lng": -81.20577}, {"anchorId": "paradiso-pizzeria-restaurant", "rank": 9, "name": "Paradiso Pizzeria & Restaurant", "label": "9. Paradiso Pizzeria & Restaurant", "ctaUrl": "https://maps.google.com/?q=Paradiso+Pizzeria+&+Restaurant+Lake+Mary+(just+north+of+Orlando)+Orlando", "mapQuery": "Paradiso Pizzeria & Restaurant, Lake Mary (just north of Orlando), Orlando", "lat": 28.4552, "lng": -81.4646}, {"anchorId": "nypd-pizza", "rank": 10, "name": "NYPD Pizza", "label": "10. NYPD Pizza", "ctaUrl": "https://maps.google.com/?q=NYPD+Pizza+Multiple+Locations+(e.g.,+Downtown+Orlando)+Orlando", "mapQuery": "NYPD Pizza, Multiple Locations (e.g., Downtown Orlando), Orlando", "lat": 28.48622, "lng": -81.43939}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

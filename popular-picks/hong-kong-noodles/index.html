@@ -1546,73 +1546,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Noodles Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/noodles+in+Hong+Kong", "picks": [{"anchorId": "maks-noodle", "rank": 1, "name": "Mak's Noodle", "label": "1. Mak's Noodle", "ctaUrl": "https://maps.google.com/?q=Mak's+Noodle+Central+Hong+Kong", "mapQuery": "Mak's Noodle, Central, Hong Kong", "lat": 22.281895, "lng": 114.153967}, {"anchorId": "kau-kee-restaurant", "rank": 2, "name": "Kau Kee Restaurant", "label": "2. Kau Kee Restaurant", "ctaUrl": "https://maps.google.com/?q=Kau+Kee+Restaurant+Central+Hong+Kong", "mapQuery": "Kau Kee Restaurant, Central, Hong Kong", "lat": 22.28387, "lng": 114.15222}, {"anchorId": "tsim-chai-kee-noodle", "rank": 3, "name": "Tsim Chai Kee Noodle", "label": "3. Tsim Chai Kee Noodle", "ctaUrl": "https://maps.google.com/?q=Tsim+Chai+Kee+Noodle+Central+Hong+Kong", "mapQuery": "Tsim Chai Kee Noodle, Central, Hong Kong", "lat": 22.2825, "lng": 114.15394}, {"anchorId": "ho-hung-kee", "rank": 4, "name": "Ho Hung Kee", "label": "4. Ho Hung Kee", "ctaUrl": "https://maps.google.com/?q=Ho+Hung+Kee+Causeway+Bay+Hong+Kong", "mapQuery": "Ho Hung Kee, Causeway Bay, Hong Kong", "lat": 22.2796, "lng": 114.18049}, {"anchorId": "wing-wah-noodle-shop", "rank": 5, "name": "Wing Wah Noodle Shop", "label": "5. Wing Wah Noodle Shop", "ctaUrl": "https://maps.google.com/?q=Wing+Wah+Noodle+Shop+Wan+Chai+Hong+Kong", "mapQuery": "Wing Wah Noodle Shop, Wan Chai, Hong Kong", "lat": 22.27648, "lng": 114.17061}, {"anchorId": "tamjai-samgor-mixian", "rank": 6, "name": "Tamjai Samgor Mixian", "label": "6. Tamjai Samgor Mixian", "ctaUrl": "https://maps.google.com/?q=Tamjai+Samgor+Mixian+Multiple+Locations+(e.g.,+Mong+Kok)+Hong+Kong", "mapQuery": "Tamjai Samgor Mixian, Multiple Locations (e.g., Mong Kok), Hong Kong", "lat": 22.31682, "lng": 114.17066}, {"anchorId": "sun-kee-sze-chuen-restaurant", "rank": 7, "name": "Sun Kee Sze Chuen Restaurant", "label": "7. Sun Kee Sze Chuen Restaurant", "ctaUrl": "https://maps.google.com/?q=Sun+Kee+Sze+Chuen+Restaurant+Mong+Kok+Hong+Kong", "mapQuery": "Sun Kee Sze Chuen Restaurant, Mong Kok, Hong Kong", "lat": 22.31689, "lng": 114.1706}, {"anchorId": "lau-sum-kee-noodle", "rank": 8, "name": "Lau Sum Kee Noodle", "label": "8. Lau Sum Kee Noodle", "ctaUrl": "https://maps.google.com/?q=Lau+Sum+Kee+Noodle+Sham+Shui+Po+Hong+Kong", "mapQuery": "Lau Sum Kee Noodle, Sham Shui Po, Hong Kong", "lat": 22.32766, "lng": 114.16279}, {"anchorId": "ser-wong-fun", "rank": 9, "name": "Ser Wong Fun", "label": "9. Ser Wong Fun", "ctaUrl": "https://maps.google.com/?q=Ser+Wong+Fun+Central+Hong+Kong", "mapQuery": "Ser Wong Fun, Central, Hong Kong", "lat": 22.28284, "lng": 114.15422}, {"anchorId": "chee-kei", "rank": 10, "name": "Chee Kei", "label": "10. Chee Kei", "ctaUrl": "https://maps.google.com/?q=Chee+Kei+Tsim+Sha+Tsui+Hong+Kong", "mapQuery": "Chee Kei, Tsim Sha Tsui, Hong Kong", "lat": 22.29653, "lng": 114.17066}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

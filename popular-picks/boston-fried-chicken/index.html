@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fried Chicken Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fried+chicken+in+Boston", "picks": [{"anchorId": "buttermilk-bourbon", "rank": 1, "name": "Buttermilk & Bourbon", "label": "1. Buttermilk & Bourbon", "ctaUrl": "https://maps.google.com/?q=Buttermilk+&+Bourbon+Back+Bay+Boston", "mapQuery": "Buttermilk & Bourbon, Back Bay, Boston", "lat": 42.351651, "lng": -71.077242}, {"anchorId": "lily-ps-fried-chicken", "rank": 2, "name": "Lily P's Fried Chicken", "label": "2. Lily P's Fried Chicken", "ctaUrl": "https://maps.google.com/?q=Lily+P's+Fried+Chicken+Cambridgeport+(Cambridge)+Boston", "mapQuery": "Lily P's Fried Chicken, Cambridgeport (Cambridge), Boston", "lat": 42.361958, "lng": -71.091176}, {"anchorId": "sweet-cheeks-q", "rank": 3, "name": "Sweet Cheeks Q", "label": "3. Sweet Cheeks Q", "ctaUrl": "https://maps.google.com/?q=Sweet+Cheeks+Q+Fenway+Boston", "mapQuery": "Sweet Cheeks Q, Fenway, Boston", "lat": 42.34586, "lng": -71.0963}, {"anchorId": "bonchon", "rank": 4, "name": "Bonchon", "label": "4. Bonchon", "ctaUrl": "https://maps.google.com/?q=Bonchon+Allston+Boston", "mapQuery": "Bonchon, Allston, Boston", "lat": 42.34898, "lng": -71.13098}, {"anchorId": "brassica-kitchen-cafe", "rank": 5, "name": "Brassica Kitchen + Cafe", "label": "5. Brassica Kitchen + Cafe", "ctaUrl": "https://maps.google.com/?q=Brassica+Kitchen+++Cafe+Jamaica+Plain+Boston", "mapQuery": "Brassica Kitchen + Cafe, Jamaica Plain, Boston", "lat": 42.30872, "lng": -71.10903}, {"anchorId": "southern-proper", "rank": 6, "name": "Southern Proper", "label": "6. Southern Proper", "ctaUrl": "https://maps.google.com/?q=Southern+Proper+South+End+Boston", "mapQuery": "Southern Proper, South End, Boston", "lat": 42.33947, "lng": -71.06646}, {"anchorId": "coreano", "rank": 7, "name": "Coreano", "label": "7. Coreano", "ctaUrl": "https://maps.google.com/?q=Coreano+Allston+Boston", "mapQuery": "Coreano, Allston, Boston", "lat": 42.35036, "lng": -71.13257}, {"anchorId": "the-friendly-toast", "rank": 8, "name": "The Friendly Toast", "label": "8. The Friendly Toast", "ctaUrl": "https://maps.google.com/?q=The+Friendly+Toast+Back+Bay+Boston", "mapQuery": "The Friendly Toast, Back Bay, Boston", "lat": 42.34812, "lng": -71.07185}, {"anchorId": "threesome-fried-chicken", "rank": 9, "name": "Threesome Fried Chicken", "label": "9. Threesome Fried Chicken", "ctaUrl": "https://maps.google.com/?q=Threesome+Fried+Chicken+Allston+Boston", "mapQuery": "Threesome Fried Chicken, Allston, Boston", "lat": 42.35017, "lng": -71.13295}, {"anchorId": "the-coast-cafe", "rank": 10, "name": "The Coast Cafe", "label": "10. The Coast Cafe", "ctaUrl": "https://maps.google.com/?q=The+Coast+Cafe+Cambridgeport+(Cambridge)+Boston", "mapQuery": "The Coast Cafe, Cambridgeport (Cambridge), Boston", "lat": 42.36186, "lng": -71.1062}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

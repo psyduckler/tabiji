@@ -1546,73 +1546,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Palermo", "picks": [{"anchorId": "pizzeria-frida", "rank": 1, "name": "Pizzeria Frida", "label": "1. Pizzeria Frida", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Frida+Kalsa+Palermo", "mapQuery": "Pizzeria Frida, Kalsa, Palermo", "lat": 38.1171, "lng": 13.367}, {"anchorId": "sardegna-26", "rank": 2, "name": "Sardegna 26", "label": "2. Sardegna 26", "ctaUrl": "https://maps.google.com/?q=Sardegna+26+Centro+Storico+Palermo", "mapQuery": "Sardegna 26, Centro Storico, Palermo", "lat": 38.1362, "lng": 13.3444}, {"anchorId": "pizzeria-bellini", "rank": 3, "name": "Pizzeria Bellini", "label": "3. Pizzeria Bellini", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Bellini+Centro+Storico+Palermo", "mapQuery": "Pizzeria Bellini, Centro Storico, Palermo", "lat": 38.1165, "lng": 13.3609}, {"anchorId": "pizzeria-tondo-tondo", "rank": 4, "name": "Pizzeria Tondo Tondo", "label": "4. Pizzeria Tondo Tondo", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Tondo+Tondo+Politeama+Palermo", "mapQuery": "Pizzeria Tondo Tondo, Politeama, Palermo", "lat": 38.1328, "lng": 13.3361}, {"anchorId": "pizzottando", "rank": 5, "name": "Pizzottando", "label": "5. Pizzottando", "ctaUrl": "https://maps.google.com/?q=Pizzottando+Borgo+Vecchio+Palermo", "mapQuery": "Pizzottando, Borgo Vecchio, Palermo", "lat": 38.1408, "lng": 13.3441}, {"anchorId": "pizzeria-mamma-rosa", "rank": 6, "name": "Pizzeria Mamma Rosa", "label": "6. Pizzeria Mamma Rosa", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Mamma+Rosa+Libertà+Palermo", "mapQuery": "Pizzeria Mamma Rosa, Libertà, Palermo", "lat": 38.1352, "lng": 13.3512}, {"anchorId": "langolo-della-pizza", "rank": 7, "name": "L'Angolo della Pizza", "label": "7. L'Angolo della Pizza", "ctaUrl": "https://maps.google.com/?q=L'Angolo+della+Pizza+Capo+Palermo", "mapQuery": "L'Angolo della Pizza, Capo, Palermo", "lat": 38.1189, "lng": 13.3533}, {"anchorId": "pizzeria-la-braciera-ai-cassari", "rank": 8, "name": "Pizzeria La Braciera ai Cassari", "label": "8. Pizzeria La Braciera ai Cassari", "ctaUrl": "https://maps.google.com/?q=Pizzeria+La+Braciera+ai+Cassari+Kalsa+Palermo", "mapQuery": "Pizzeria La Braciera ai Cassari, Kalsa, Palermo", "lat": 38.118, "lng": 13.3644}, {"anchorId": "pizzeria-ciccio-passami-lolio", "rank": 9, "name": "Pizzeria Ciccio Passami l'Olio", "label": "9. Pizzeria Ciccio Passami l'Olio", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Ciccio+Passami+l'Olio+Noce+Palermo", "mapQuery": "Pizzeria Ciccio Passami l'Olio, Noce, Palermo", "lat": 38.1278, "lng": 13.333}, {"anchorId": "pizzeria-da-michele-palermo", "rank": 10, "name": "Pizzeria Da Michele Palermo", "label": "10. Pizzeria Da Michele Palermo", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Da+Michele+Palermo+Politeama+Palermo", "mapQuery": "Pizzeria Da Michele Palermo, Politeama, Palermo", "lat": 38.1256, "lng": 13.3541}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

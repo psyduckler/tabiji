@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Wings Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/wings+in+Atlanta", "picks": [{"anchorId": "jr-crickets", "rank": 1, "name": "J.R. Crickets", "label": "1. J.R. Crickets", "ctaUrl": "https://maps.google.com/?q=J.R.+Crickets+Midtown+Atlanta", "mapQuery": "J.R. Crickets, Midtown, Atlanta", "lat": 33.7749, "lng": -84.3986}, {"anchorId": "american-deli", "rank": 2, "name": "American Deli", "label": "2. American Deli", "ctaUrl": "https://maps.google.com/?q=American+Deli+Sweet+Auburn+Atlanta", "mapQuery": "American Deli, Sweet Auburn, Atlanta", "lat": 33.7663, "lng": -84.3793}, {"anchorId": "jacks-pizza-wings", "rank": 3, "name": "Jack's Pizza & Wings", "label": "3. Jack's Pizza & Wings", "ctaUrl": "https://maps.google.com/?q=Jack's+Pizza+&+Wings+Virginia-Highland+Atlanta", "mapQuery": "Jack's Pizza & Wings, Virginia-Highland, Atlanta", "lat": 33.7709, "lng": -84.3643}, {"anchorId": "bōm", "rank": 4, "name": "Bōm", "label": "4. Bōm", "ctaUrl": "https://maps.google.com/?q=Bōm+Ponce+City+Market+Atlanta", "mapQuery": "Bōm, Ponce City Market, Atlanta", "lat": 33.7758, "lng": -84.3658}, {"anchorId": "wing-factory", "rank": 5, "name": "Wing Factory", "label": "5. Wing Factory", "ctaUrl": "https://maps.google.com/?q=Wing+Factory+Sandy+Springs+Atlanta", "mapQuery": "Wing Factory, Sandy Springs, Atlanta", "lat": 33.9298, "lng": -84.3725}, {"anchorId": "blind-willies", "rank": 6, "name": "Blind Willie's", "label": "6. Blind Willie's", "ctaUrl": "https://maps.google.com/?q=Blind+Willie's+Virginia-Highland+Atlanta", "mapQuery": "Blind Willie's, Virginia-Highland, Atlanta", "lat": 33.777, "lng": -84.3644}, {"anchorId": "the-local-pizzaiolo", "rank": 7, "name": "The Local Pizzaiolo", "label": "7. The Local Pizzaiolo", "ctaUrl": "https://maps.google.com/?q=The+Local+Pizzaiolo+West+Midtown+Atlanta", "mapQuery": "The Local Pizzaiolo, West Midtown, Atlanta", "lat": 33.7773, "lng": -84.4072}, {"anchorId": "oracle", "rank": 8, "name": "Oracle", "label": "8. Oracle", "ctaUrl": "https://maps.google.com/?q=Oracle+East+Atlanta+Village+Atlanta", "mapQuery": "Oracle, East Atlanta Village, Atlanta", "lat": 33.7483, "lng": -84.3541}, {"anchorId": "fox-bros-bar-b-q", "rank": 9, "name": "Fox Bros Bar-B-Q", "label": "9. Fox Bros Bar-B-Q", "ctaUrl": "https://maps.google.com/?q=Fox+Bros+Bar-B-Q+Candler+Park+Atlanta", "mapQuery": "Fox Bros Bar-B-Q, Candler Park, Atlanta", "lat": 33.7634, "lng": -84.3417}, {"anchorId": "bone-lick-bbq", "rank": 10, "name": "Bone Lick BBQ", "label": "10. Bone Lick BBQ", "ctaUrl": "https://maps.google.com/?q=Bone+Lick+BBQ+Old+Fourth+Ward+Atlanta", "mapQuery": "Bone Lick BBQ, Old Fourth Ward, Atlanta", "lat": 33.7371, "lng": -84.3546}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

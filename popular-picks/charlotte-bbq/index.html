@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+Charlotte", "picks": [{"anchorId": "midwood-smokehouse", "rank": 1, "name": "Midwood Smokehouse", "label": "1. Midwood Smokehouse", "ctaUrl": "https://maps.google.com/?q=Midwood+Smokehouse+Plaza+Midwood+Charlotte", "mapQuery": "Midwood Smokehouse, Plaza Midwood, Charlotte", "lat": 35.222718, "lng": -80.803738}, {"anchorId": "noble-smoke", "rank": 2, "name": "Noble Smoke", "label": "2. Noble Smoke", "ctaUrl": "https://maps.google.com/?q=Noble+Smoke+Freedom+Drive+Charlotte", "mapQuery": "Noble Smoke, Freedom Drive, Charlotte", "lat": 35.222956, "lng": -80.887227}, {"anchorId": "macs-speed-shop", "rank": 3, "name": "Mac's Speed Shop", "label": "3. Mac's Speed Shop", "ctaUrl": "https://maps.google.com/?q=Mac's+Speed+Shop+South+End+Charlotte", "mapQuery": "Mac's Speed Shop, South End, Charlotte", "lat": 35.201712, "lng": -80.865918}, {"anchorId": "saucemans", "rank": 4, "name": "Sauceman's", "label": "4. Sauceman's", "ctaUrl": "https://maps.google.com/?q=Sauceman's+South+End+Charlotte", "mapQuery": "Sauceman's, South End, Charlotte", "lat": 35.195209, "lng": -80.852514}, {"anchorId": "sweet-lews-bbq", "rank": 5, "name": "Sweet Lew's BBQ", "label": "5. Sweet Lew's BBQ", "ctaUrl": "https://maps.google.com/?q=Sweet+Lew's+BBQ+NoDa+Charlotte", "mapQuery": "Sweet Lew's BBQ, NoDa, Charlotte", "lat": 35.23439, "lng": -80.81643}, {"anchorId": "mckoys-smokehouse-and-saloon", "rank": 6, "name": "McKoy's Smokehouse and Saloon", "label": "6. McKoy's Smokehouse and Saloon", "ctaUrl": "https://maps.google.com/?q=McKoy's+Smokehouse+and+Saloon+South+End+Charlotte", "mapQuery": "McKoy's Smokehouse and Saloon, South End, Charlotte", "lat": 35.21633, "lng": -80.85703}, {"anchorId": "bill-spoons-bbq", "rank": 7, "name": "Bill Spoon's BBQ", "label": "7. Bill Spoon's BBQ", "ctaUrl": "https://maps.google.com/?q=Bill+Spoon's+BBQ+South+Blvd+Charlotte", "mapQuery": "Bill Spoon's BBQ, South Blvd, Charlotte", "lat": 35.1882, "lng": -80.86018}, {"anchorId": "bar-b-q-king", "rank": 8, "name": "Bar-B-Q King", "label": "8. Bar-B-Q King", "ctaUrl": "https://maps.google.com/?q=Bar-B-Q+King+West+Charlotte+Charlotte", "mapQuery": "Bar-B-Q King, West Charlotte, Charlotte", "lat": 35.22744, "lng": -80.89366}, {"anchorId": "moes-original-bbq", "rank": 9, "name": "Moe's Original BBQ", "label": "9. Moe's Original BBQ", "ctaUrl": "https://maps.google.com/?q=Moe's+Original+BBQ+Plaza+Midwood+Charlotte", "mapQuery": "Moe's Original BBQ, Plaza Midwood, Charlotte", "lat": 35.22152, "lng": -80.80373}, {"anchorId": "seoul-food-meat-co", "rank": 10, "name": "Seoul Food Meat Co.", "label": "10. Seoul Food Meat Co.", "ctaUrl": "https://maps.google.com/?q=Seoul+Food+Meat+Co.+South+End+Charlotte", "mapQuery": "Seoul Food Meat Co., South End, Charlotte", "lat": 35.2165, "lng": -80.85906}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

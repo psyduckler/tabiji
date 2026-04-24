@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+San+Antonio", "picks": [{"anchorId": "wildfish-seafood-grille", "rank": 1, "name": "Wildfish Seafood Grille", "label": "1. Wildfish Seafood Grille", "ctaUrl": "https://maps.google.com/?q=Wildfish+Seafood+Grille+The+Rim+San+Antonio", "mapQuery": "Wildfish Seafood Grille, The Rim, San Antonio", "lat": 29.598991, "lng": -98.618635}, {"anchorId": "chart-house", "rank": 2, "name": "Chart House", "label": "2. Chart House", "ctaUrl": "https://maps.google.com/?q=Chart+House+Tower+of+the+Americas+San+Antonio", "mapQuery": "Chart House, Tower of the Americas, San Antonio", "lat": 29.419958, "lng": -98.48421}, {"anchorId": "paesanos-riverwalk", "rank": 3, "name": "Paesanos Riverwalk", "label": "3. Paesanos Riverwalk", "ctaUrl": "https://maps.google.com/?q=Paesanos+Riverwalk+Riverwalk+San+Antonio", "mapQuery": "Paesanos Riverwalk, Riverwalk, San Antonio", "lat": 29.42533, "lng": -98.49079}, {"anchorId": "smashin-crab", "rank": 4, "name": "Smashin Crab", "label": "4. Smashin Crab", "ctaUrl": "https://maps.google.com/?q=Smashin+Crab+Stone+Oak+San+Antonio", "mapQuery": "Smashin Crab, Stone Oak, San Antonio", "lat": 29.620067, "lng": -98.528483}, {"anchorId": "catch-the-wave-seafood-grill", "rank": 5, "name": "Catch the Wave Seafood Grill", "label": "5. Catch the Wave Seafood Grill", "ctaUrl": "https://maps.google.com/?q=Catch+the+Wave+Seafood+Grill+West+San+Antonio+San+Antonio", "mapQuery": "Catch the Wave Seafood Grill, West San Antonio, San Antonio", "lat": 29.569485, "lng": -98.66687}, {"anchorId": "fish-city-grill", "rank": 6, "name": "Fish City Grill", "label": "6. Fish City Grill", "ctaUrl": "https://maps.google.com/?q=Fish+City+Grill+La+Cantera+San+Antonio", "mapQuery": "Fish City Grill, La Cantera, San Antonio", "lat": 29.605225, "lng": -98.586118}, {"anchorId": "coastal-bend-seafood", "rank": 7, "name": "Coastal Bend Seafood", "label": "7. Coastal Bend Seafood", "ctaUrl": "https://maps.google.com/?q=Coastal+Bend+Seafood+Northwest+San+Antonio+San+Antonio", "mapQuery": "Coastal Bend Seafood, Northwest San Antonio, San Antonio", "lat": 29.560411, "lng": -98.667824}, {"anchorId": "sea-island-shrimp-house", "rank": 8, "name": "Sea Island Shrimp House", "label": "8. Sea Island Shrimp House", "ctaUrl": "https://maps.google.com/?q=Sea+Island+Shrimp+House+Northwest+San+Antonio+San+Antonio", "mapQuery": "Sea Island Shrimp House, Northwest San Antonio, San Antonio", "lat": 29.508535, "lng": -98.608307}, {"anchorId": "rudys-seafood", "rank": 9, "name": "Rudy's Seafood", "label": "9. Rudy's Seafood", "ctaUrl": "https://maps.google.com/?q=Rudy's+Seafood+South+San+Antonio+San+Antonio", "mapQuery": "Rudy's Seafood, South San Antonio, San Antonio", "lat": 29.378941, "lng": -98.50831}, {"anchorId": "freds-fish-fry", "rank": 10, "name": "Fred's Fish Fry", "label": "10. Fred's Fish Fry", "ctaUrl": "https://maps.google.com/?q=Fred's+Fish+Fry+South+San+Antonio+San+Antonio", "mapQuery": "Fred's Fish Fry, South San Antonio, San Antonio", "lat": 29.362942, "lng": -98.508544}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

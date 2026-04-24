@@ -1565,73 +1565,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Atlanta", "picks": [{"anchorId": "umi-sushi-buckhead", "rank": 1, "name": "Umi Sushi Buckhead", "label": "1. Umi Sushi Buckhead", "ctaUrl": "https://maps.google.com/?q=Umi+Sushi+Buckhead+Buckhead+Atlanta", "mapQuery": "Umi Sushi Buckhead, Buckhead, Atlanta", "lat": 33.844743, "lng": -84.380725}, {"anchorId": "tomo-japanese-restaurant", "rank": 2, "name": "Tomo Japanese Restaurant", "label": "2. Tomo Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Tomo+Japanese+Restaurant+Buckhead+Atlanta", "mapQuery": "Tomo Japanese Restaurant, Buckhead, Atlanta", "lat": 33.848386, "lng": -84.368685}, {"anchorId": "brush-sushi-izakaya", "rank": 3, "name": "Brush Sushi Izakaya", "label": "3. Brush Sushi Izakaya", "ctaUrl": "https://maps.google.com/?q=Brush+Sushi+Izakaya+Inman+Park+Atlanta", "mapQuery": "Brush Sushi Izakaya, Inman Park, Atlanta", "lat": 33.74853, "lng": -84.36294}, {"anchorId": "nakato-japanese-restaurant", "rank": 4, "name": "Nakato Japanese Restaurant", "label": "4. Nakato Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Nakato+Japanese+Restaurant+Cheshire+Bridge+Atlanta", "mapQuery": "Nakato Japanese Restaurant, Cheshire Bridge, Atlanta", "lat": 33.81664, "lng": -84.35334}, {"anchorId": "o-ku-atlanta", "rank": 5, "name": "O-Ku Atlanta", "label": "5. O-Ku Atlanta", "ctaUrl": "https://maps.google.com/?q=O-Ku+Atlanta+West+Midtown+Atlanta", "mapQuery": "O-Ku Atlanta, West Midtown, Atlanta", "lat": 33.78457, "lng": -84.41031}, {"anchorId": "eight-sushi-lounge", "rank": 6, "name": "Eight Sushi Lounge", "label": "6. Eight Sushi Lounge", "ctaUrl": "https://maps.google.com/?q=Eight+Sushi+Lounge+West+Midtown+Atlanta", "mapQuery": "Eight Sushi Lounge, West Midtown, Atlanta", "lat": 33.78363, "lng": -84.40698}, {"anchorId": "wagaya", "rank": 7, "name": "Wagaya", "label": "7. Wagaya", "ctaUrl": "https://maps.google.com/?q=Wagaya+Virginia-Highland+Atlanta", "mapQuery": "Wagaya, Virginia-Highland, Atlanta", "lat": 33.7816, "lng": -84.36098}, {"anchorId": "flying-fish-sushi", "rank": 8, "name": "Flying Fish Sushi", "label": "8. Flying Fish Sushi", "ctaUrl": "https://maps.google.com/?q=Flying+Fish+Sushi+Midtown+Atlanta", "mapQuery": "Flying Fish Sushi, Midtown, Atlanta", "lat": 33.84758, "lng": -84.38146}, {"anchorId": "ru-sans", "rank": 9, "name": "Ru San's", "label": "9. Ru San's", "ctaUrl": "https://maps.google.com/?q=Ru+San's+Midtown+Atlanta", "mapQuery": "Ru San's, Midtown, Atlanta", "lat": 33.79152, "lng": -84.37943}, {"anchorId": "kinjo-room", "rank": 10, "name": "Kinjo Room", "label": "10. Kinjo Room", "ctaUrl": "https://maps.google.com/?q=Kinjo+Room+Downtown+Atlanta", "mapQuery": "Kinjo Room, Downtown, Atlanta", "lat": 33.754876, "lng": -84.389279}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

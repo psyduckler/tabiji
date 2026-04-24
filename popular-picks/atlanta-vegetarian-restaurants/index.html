@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Vegetarian Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/vegetarian+restaurants+in+Atlanta", "picks": [{"anchorId": "herban-fix-vegan-kitchen", "rank": 1, "name": "Herban Fix - Vegan Kitchen", "label": "1. Herban Fix - Vegan Kitchen", "ctaUrl": "https://maps.google.com/?q=Herban+Fix+-+Vegan+Kitchen+Midtown+Atlanta", "mapQuery": "Herban Fix - Vegan Kitchen, Midtown, Atlanta", "lat": 33.77457, "lng": -84.38557}, {"anchorId": "cafe-sunflower", "rank": 2, "name": "Cafe Sunflower", "label": "2. Cafe Sunflower", "ctaUrl": "https://maps.google.com/?q=Cafe+Sunflower+Buckhead+Atlanta", "mapQuery": "Cafe Sunflower, Buckhead, Atlanta", "lat": 33.81223, "lng": -84.39121}, {"anchorId": "slutty-vegan", "rank": 3, "name": "Slutty Vegan", "label": "3. Slutty Vegan", "ctaUrl": "https://maps.google.com/?q=Slutty+Vegan+Edgewood+Atlanta", "mapQuery": "Slutty Vegan, Edgewood, Atlanta", "lat": 33.75053, "lng": -84.34685}, {"anchorId": "soul-vegetarian-restaurant", "rank": 4, "name": "Soul Vegetarian Restaurant", "label": "4. Soul Vegetarian Restaurant", "ctaUrl": "https://maps.google.com/?q=Soul+Vegetarian+Restaurant+West+End+Atlanta", "mapQuery": "Soul Vegetarian Restaurant, West End, Atlanta", "lat": 33.74311, "lng": -84.42858}, {"anchorId": "planta-queen", "rank": 5, "name": "Planta Queen", "label": "5. Planta Queen", "ctaUrl": "https://maps.google.com/?q=Planta+Queen+Buckhead+Atlanta", "mapQuery": "Planta Queen, Buckhead, Atlanta", "lat": 33.82901, "lng": -84.3792}, {"anchorId": "green-sprout-vegetarian-restaurant", "rank": 6, "name": "Green Sprout Vegetarian Restaurant", "label": "6. Green Sprout Vegetarian Restaurant", "ctaUrl": "https://maps.google.com/?q=Green+Sprout+Vegetarian+Restaurant+Emory+Atlanta", "mapQuery": "Green Sprout Vegetarian Restaurant, Emory, Atlanta", "lat": 33.79978, "lng": -84.35624}, {"anchorId": "tassilis-raw-reality-cafe", "rank": 7, "name": "Tassili's Raw Reality Cafe", "label": "7. Tassili's Raw Reality Cafe", "ctaUrl": "https://maps.google.com/?q=Tassili's+Raw+Reality+Cafe+West+End+Atlanta", "mapQuery": "Tassili's Raw Reality Cafe, West End, Atlanta", "lat": 33.74087, "lng": -84.44026}, {"anchorId": "grass-vbq-joint", "rank": 8, "name": "Grass VBQ Joint", "label": "8. Grass VBQ Joint", "ctaUrl": "https://maps.google.com/?q=Grass+VBQ+Joint+Kirkwood+Atlanta", "mapQuery": "Grass VBQ Joint, Kirkwood, Atlanta", "lat": 33.75402, "lng": -84.36443}, {"anchorId": "lovn-it-live", "rank": 9, "name": "Lov'n It Live", "label": "9. Lov'n It Live", "ctaUrl": "https://maps.google.com/?q=Lov'n+It+Live+East+Point+Atlanta", "mapQuery": "Lov'n It Live, East Point, Atlanta", "lat": 33.68729, "lng": -84.4449}, {"anchorId": "life-bistro", "rank": 10, "name": "Life Bistro", "label": "10. Life Bistro", "ctaUrl": "https://maps.google.com/?q=Life+Bistro+South+Atlanta+Atlanta", "mapQuery": "Life Bistro, South Atlanta, Atlanta", "lat": 33.69363, "lng": -84.44026}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

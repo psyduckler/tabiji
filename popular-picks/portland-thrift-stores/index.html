@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Portland", "picks": [{"anchorId": "house-of-vintage", "rank": 1, "name": "House of Vintage", "label": "1. House of Vintage", "ctaUrl": "https://maps.google.com/?q=House+of+Vintage+Hawthorne+Portland", "mapQuery": "House of Vintage, Hawthorne, Portland", "lat": 45.51096, "lng": -122.63004}, {"anchorId": "buffalo-exchange", "rank": 2, "name": "Buffalo Exchange (Hawthorne)", "label": "2. Buffalo Exchange (Hawthorne)", "ctaUrl": "https://maps.google.com/?q=Buffalo+Exchange+(Hawthorne)+Hawthorne+Portland", "mapQuery": "Buffalo Exchange (Hawthorne), Hawthorne, Portland", "lat": 45.5113, "lng": -122.6224}, {"anchorId": "red-white-blue-thrift-store", "rank": 3, "name": "Red White & Blue Thrift Store", "label": "3. Red White & Blue Thrift Store", "ctaUrl": "https://maps.google.com/?q=Red+White+&+Blue+Thrift+Store+Cully+Portland", "mapQuery": "Red White & Blue Thrift Store, Cully, Portland", "lat": 45.5516, "lng": -122.5772}, {"anchorId": "goodwill-outlet", "rank": 4, "name": "Goodwill Outlet (The Bins)", "label": "4. Goodwill Outlet (The Bins)", "ctaUrl": "https://maps.google.com/?q=Goodwill+Outlet+(The+Bins)+Lents+Portland", "mapQuery": "Goodwill Outlet (The Bins), Lents, Portland", "lat": 45.5036, "lng": -122.6644}, {"anchorId": "crossroads-trading", "rank": 5, "name": "Crossroads Trading (NW 23rd)", "label": "5. Crossroads Trading (NW 23rd)", "ctaUrl": "https://maps.google.com/?q=Crossroads+Trading+(NW+23rd)+Northwest+Portland+Portland", "mapQuery": "Crossroads Trading (NW 23rd), Northwest Portland, Portland", "lat": 45.5342, "lng": -122.6953}, {"anchorId": "rerun", "rank": 6, "name": "Rerun", "label": "6. Rerun", "ctaUrl": "https://maps.google.com/?q=Rerun+SE+Division+Portland", "mapQuery": "Rerun, SE Division, Portland", "lat": 45.51065, "lng": -122.65682}, {"anchorId": "village-merchants", "rank": 7, "name": "Village Merchants", "label": "7. Village Merchants", "ctaUrl": "https://maps.google.com/?q=Village+Merchants+Woodstock+Portland", "mapQuery": "Village Merchants, Woodstock, Portland", "lat": 45.46648, "lng": -122.63708}, {"anchorId": "rays-ragtime", "rank": 8, "name": "Ray's Ragtime", "label": "8. Ray's Ragtime", "ctaUrl": "https://maps.google.com/?q=Ray's+Ragtime+Central+Eastside+Portland", "mapQuery": "Ray's Ragtime, Central Eastside, Portland", "lat": 45.5137, "lng": -122.6568}, {"anchorId": "fat-fancy", "rank": 9, "name": "Fat Fancy", "label": "9. Fat Fancy", "ctaUrl": "https://maps.google.com/?q=Fat+Fancy+Hawthorne+Portland", "mapQuery": "Fat Fancy, Hawthorne, Portland", "lat": 45.5038, "lng": -122.6575}, {"anchorId": "vintage-pink", "rank": 10, "name": "Vintage Pink", "label": "10. Vintage Pink", "ctaUrl": "https://maps.google.com/?q=Vintage+Pink+Multnomah+Village+Portland", "mapQuery": "Vintage Pink, Multnomah Village, Portland", "lat": 45.4594, "lng": -122.7303}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

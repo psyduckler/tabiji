@@ -1547,73 +1547,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Florence", "picks": [{"anchorId": "trattoria-mario", "rank": 1, "name": "Trattoria Mario", "label": "1. Trattoria Mario", "ctaUrl": "https://maps.google.com/?q=Trattoria+Mario+San+Lorenzo+Florence", "mapQuery": "Trattoria Mario, San Lorenzo, Florence", "lat": 43.7788, "lng": 11.2541}, {"anchorId": "allantico-vinaio", "rank": 2, "name": "All'Antico Vinaio", "label": "2. All'Antico Vinaio", "ctaUrl": "https://maps.google.com/?q=All'Antico+Vinaio+Centro+Storico+Florence", "mapQuery": "All'Antico Vinaio, Centro Storico, Florence", "lat": 43.7686, "lng": 11.2588}, {"anchorId": "osteria-santo-spirito", "rank": 3, "name": "Osteria Santo Spirito", "label": "3. Osteria Santo Spirito", "ctaUrl": "https://maps.google.com/?q=Osteria+Santo+Spirito+Oltrarno+Florence", "mapQuery": "Osteria Santo Spirito, Oltrarno, Florence", "lat": 43.7663, "lng": 11.2476}, {"anchorId": "trattoria-sabatino", "rank": 4, "name": "Trattoria Sabatino", "label": "4. Trattoria Sabatino", "ctaUrl": "https://maps.google.com/?q=Trattoria+Sabatino+Oltrarno+Florence", "mapQuery": "Trattoria Sabatino, Oltrarno, Florence", "lat": 43.7712, "lng": 11.2384}, {"anchorId": "la-giostra", "rank": 5, "name": "La Giostra", "label": "5. La Giostra", "ctaUrl": "https://maps.google.com/?q=La+Giostra+Santa+Croce+Florence", "mapQuery": "La Giostra, Santa Croce, Florence", "lat": 43.7719, "lng": 11.2619}, {"anchorId": "enoteca-pinchiorri", "rank": 6, "name": "Enoteca Pinchiorri", "label": "6. Enoteca Pinchiorri", "ctaUrl": "https://maps.google.com/?q=Enoteca+Pinchiorri+Santa+Croce+Florence", "mapQuery": "Enoteca Pinchiorri, Santa Croce, Florence", "lat": 43.7699, "lng": 11.2612}, {"anchorId": "il-latini", "rank": 7, "name": "Il Latini", "label": "7. Il Latini", "ctaUrl": "https://maps.google.com/?q=Il+Latini+Santa+Maria+Novella+Florence", "mapQuery": "Il Latini, Santa Maria Novella, Florence", "lat": 43.7712, "lng": 11.2504}, {"anchorId": "gusta-pizza", "rank": 8, "name": "Gusta Pizza", "label": "8. Gusta Pizza", "ctaUrl": "https://maps.google.com/?q=Gusta+Pizza+Oltrarno+Florence", "mapQuery": "Gusta Pizza, Oltrarno, Florence", "lat": 43.7668, "lng": 11.2483}, {"anchorId": "la-ménagère", "rank": 9, "name": "La Ménagère", "label": "9. La Ménagère", "ctaUrl": "https://maps.google.com/?q=La+Ménagère+San+Lorenzo+Florence", "mapQuery": "La Ménagère, San Lorenzo, Florence", "lat": 43.7766, "lng": 11.2541}, {"anchorId": "trattoria-dalloste", "rank": 10, "name": "Trattoria dall'Oste", "label": "10. Trattoria dall'Oste", "ctaUrl": "https://maps.google.com/?q=Trattoria+dall'Oste+Santa+Maria+Novella+Florence", "mapQuery": "Trattoria dall'Oste, Santa Maria Novella, Florence", "lat": 43.7767, "lng": 11.2468}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Rooftop Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/rooftop+bars+in+Atlanta", "picks": [{"anchorId": "hotel-clermont-rooftop-bar", "rank": 1, "name": "Hotel Clermont Rooftop Bar", "label": "1. Hotel Clermont Rooftop Bar", "ctaUrl": "https://maps.google.com/?q=Hotel+Clermont+Rooftop+Bar+Poncey-Highland+Atlanta", "mapQuery": "Hotel Clermont Rooftop Bar, Poncey-Highland, Atlanta", "lat": 33.774987, "lng": -84.354786}, {"anchorId": "9-mile-station", "rank": 2, "name": "9 Mile Station", "label": "2. 9 Mile Station", "ctaUrl": "https://maps.google.com/?q=9+Mile+Station+Old+Fourth+Ward+(Ponce+City+Market)+Atlanta", "mapQuery": "9 Mile Station, Old Fourth Ward (Ponce City Market), Atlanta", "lat": 33.774577, "lng": -84.364402}, {"anchorId": "skylounge-at-the-glenn-hotel", "rank": 3, "name": "SkyLounge at the Glenn Hotel", "label": "3. SkyLounge at the Glenn Hotel", "ctaUrl": "https://maps.google.com/?q=SkyLounge+at+the+Glenn+Hotel+Downtown+Atlanta", "mapQuery": "SkyLounge at the Glenn Hotel, Downtown, Atlanta", "lat": 33.757047, "lng": -84.391696}, {"anchorId": "whiskey-blue", "rank": 4, "name": "Whiskey Blue", "label": "4. Whiskey Blue", "ctaUrl": "https://maps.google.com/?q=Whiskey+Blue+Buckhead+Atlanta", "mapQuery": "Whiskey Blue, Buckhead, Atlanta", "lat": 33.847525, "lng": -84.361958}, {"anchorId": "st-julep", "rank": 5, "name": "St. Julep", "label": "5. St. Julep", "ctaUrl": "https://maps.google.com/?q=St.+Julep+Buckhead+Atlanta", "mapQuery": "St. Julep, Buckhead, Atlanta", "lat": 33.837837, "lng": -84.380727}, {"anchorId": "spaceman", "rank": 6, "name": "Spaceman", "label": "6. Spaceman", "ctaUrl": "https://maps.google.com/?q=Spaceman+Midtown+Atlanta", "mapQuery": "Spaceman, Midtown, Atlanta", "lat": 33.78426, "lng": -84.38446}, {"anchorId": "drawbar", "rank": 7, "name": "Drawbar", "label": "7. Drawbar", "ctaUrl": "https://maps.google.com/?q=Drawbar+West+Midtown+Atlanta", "mapQuery": "Drawbar, West Midtown, Atlanta", "lat": 33.7885, "lng": -84.4132}, {"anchorId": "new-realm-brewing", "rank": 8, "name": "New Realm Brewing", "label": "8. New Realm Brewing", "ctaUrl": "https://maps.google.com/?q=New+Realm+Brewing+BeltLine+Eastside+Atlanta", "mapQuery": "New Realm Brewing, BeltLine Eastside, Atlanta", "lat": 33.7709, "lng": -84.3598}, {"anchorId": "grana", "rank": 9, "name": "Grana", "label": "9. Grana", "ctaUrl": "https://maps.google.com/?q=Grana+Piedmont+Heights+Atlanta", "mapQuery": "Grana, Piedmont Heights, Atlanta", "lat": 33.8016, "lng": -84.3735}, {"anchorId": "loa", "rank": 10, "name": "L.O.A. (Leave of Absence)", "label": "10. L.O.A. (Leave of Absence)", "ctaUrl": "https://maps.google.com/?q=L.O.A.+(Leave+of+Absence)+West+Midtown+Atlanta", "mapQuery": "L.O.A. (Leave of Absence), West Midtown, Atlanta", "lat": 33.7834, "lng": -84.4093}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

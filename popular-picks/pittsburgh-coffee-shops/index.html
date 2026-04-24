@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Coffee Shops Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/coffee+shops+in+Pittsburgh", "picks": [{"anchorId": "commonplace-coffee", "rank": 1, "name": "Commonplace Coffee", "label": "1. Commonplace Coffee", "ctaUrl": "https://maps.google.com/?q=Commonplace+Coffee+Strip+District+Pittsburgh", "mapQuery": "Commonplace Coffee, Strip District, Pittsburgh", "lat": 40.450395, "lng": -79.992686}, {"anchorId": "la-prima-espresso-co", "rank": 2, "name": "La Prima Espresso Co.", "label": "2. La Prima Espresso Co.", "ctaUrl": "https://maps.google.com/?q=La+Prima+Espresso+Co.+Strip+District+Pittsburgh", "mapQuery": "La Prima Espresso Co., Strip District, Pittsburgh", "lat": 40.4533, "lng": -79.98807}, {"anchorId": "de-fer-coffee-tea", "rank": 3, "name": "De Fer Coffee & Tea", "label": "3. De Fer Coffee & Tea", "ctaUrl": "https://maps.google.com/?q=De+Fer+Coffee+&+Tea+Strip+District+Pittsburgh", "mapQuery": "De Fer Coffee & Tea, Strip District, Pittsburgh", "lat": 40.45607, "lng": -79.98506}, {"anchorId": "arriviste-coffee-roasters", "rank": 4, "name": "Arriviste Coffee Roasters", "label": "4. Arriviste Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Arriviste+Coffee+Roasters+Shadyside+Pittsburgh", "mapQuery": "Arriviste Coffee Roasters, Shadyside, Pittsburgh", "lat": 40.45648, "lng": -79.92984}, {"anchorId": "redhawk-coffee", "rank": 5, "name": "Redhawk Coffee", "label": "5. Redhawk Coffee", "ctaUrl": "https://maps.google.com/?q=Redhawk+Coffee+Oakland+Pittsburgh", "mapQuery": "Redhawk Coffee, Oakland, Pittsburgh", "lat": 40.44391, "lng": -79.95758}, {"anchorId": "adda-coffee-tea-house", "rank": 6, "name": "Adda Coffee & Tea House", "label": "6. Adda Coffee & Tea House", "ctaUrl": "https://maps.google.com/?q=Adda+Coffee+&+Tea+House+Shadyside+Pittsburgh", "mapQuery": "Adda Coffee & Tea House, Shadyside, Pittsburgh", "lat": 40.43573, "lng": -79.92646}, {"anchorId": "gasoline-street-coffee", "rank": 7, "name": "Gasoline Street Coffee", "label": "7. Gasoline Street Coffee", "ctaUrl": "https://maps.google.com/?q=Gasoline+Street+Coffee+Downtown+Pittsburgh", "mapQuery": "Gasoline Street Coffee, Downtown, Pittsburgh", "lat": 40.43736, "lng": -79.99849}, {"anchorId": "coffee-tree-roasters", "rank": 8, "name": "Coffee Tree Roasters", "label": "8. Coffee Tree Roasters", "ctaUrl": "https://maps.google.com/?q=Coffee+Tree+Roasters+Shadyside+Pittsburgh", "mapQuery": "Coffee Tree Roasters, Shadyside, Pittsburgh", "lat": 40.45664, "lng": -79.929}, {"anchorId": "ka-fair-coffee-wine-bar", "rank": 9, "name": "Ka-Fair Coffee & Wine Bar", "label": "9. Ka-Fair Coffee & Wine Bar", "ctaUrl": "https://maps.google.com/?q=Ka-Fair+Coffee+&+Wine+Bar+North+Side+Pittsburgh", "mapQuery": "Ka-Fair Coffee & Wine Bar, North Side, Pittsburgh", "lat": 40.4533, "lng": -80.01026}, {"anchorId": "curbside-coffeehouse", "rank": 10, "name": "Curbside Coffeehouse", "label": "10. Curbside Coffeehouse", "ctaUrl": "https://maps.google.com/?q=Curbside+Coffeehouse+South+Side+Pittsburgh", "mapQuery": "Curbside Coffeehouse, South Side, Pittsburgh", "lat": 40.4277, "lng": -79.9881}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

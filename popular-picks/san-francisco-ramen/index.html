@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Ramen Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/ramen+in+San+Francisco", "picks": [{"anchorId": "mensho-tokyo-sf", "rank": 1, "name": "Mensho Tokyo SF", "label": "1. Mensho Tokyo SF", "ctaUrl": "https://maps.google.com/?q=Mensho+Tokyo+SF+Union+Square+San+Francisco", "mapQuery": "Mensho Tokyo SF, Union Square, San Francisco", "lat": 37.787498, "lng": -122.411622}, {"anchorId": "marufuku-ramen", "rank": 2, "name": "Marufuku Ramen", "label": "2. Marufuku Ramen", "ctaUrl": "https://maps.google.com/?q=Marufuku+Ramen+Japantown+San+Francisco", "mapQuery": "Marufuku Ramen, Japantown, San Francisco", "lat": 37.78546, "lng": -122.43003}, {"anchorId": "hinodeya-ramen-bar", "rank": 3, "name": "Hinodeya Ramen Bar", "label": "3. Hinodeya Ramen Bar", "ctaUrl": "https://maps.google.com/?q=Hinodeya+Ramen+Bar+Japantown+San+Francisco", "mapQuery": "Hinodeya Ramen Bar, Japantown, San Francisco", "lat": 37.78486, "lng": -122.42858}, {"anchorId": "ippudo-sf", "rank": 4, "name": "Ippudo SF", "label": "4. Ippudo SF", "ctaUrl": "https://maps.google.com/?q=Ippudo+SF+Financial+District+San+Francisco", "mapQuery": "Ippudo SF, Financial District, San Francisco", "lat": 37.7859, "lng": -122.4042}, {"anchorId": "nojo-ramen-tavern", "rank": 5, "name": "Nojo Ramen Tavern", "label": "5. Nojo Ramen Tavern", "ctaUrl": "https://maps.google.com/?q=Nojo+Ramen+Tavern+Hayes+Valley+San+Francisco", "mapQuery": "Nojo Ramen Tavern, Hayes Valley, San Francisco", "lat": 37.77797, "lng": -122.42168}, {"anchorId": "ramen-izakaya-goku", "rank": 6, "name": "Ramen Izakaya Goku", "label": "6. Ramen Izakaya Goku", "ctaUrl": "https://maps.google.com/?q=Ramen+Izakaya+Goku+Mission+District+San+Francisco", "mapQuery": "Ramen Izakaya Goku, Mission District, San Francisco", "lat": 37.7645, "lng": -122.4216}, {"anchorId": "ramen-yamadaya", "rank": 7, "name": "Ramen Yamadaya", "label": "7. Ramen Yamadaya", "ctaUrl": "https://maps.google.com/?q=Ramen+Yamadaya+Inner+Sunset+San+Francisco", "mapQuery": "Ramen Yamadaya, Inner Sunset, San Francisco", "lat": 37.749, "lng": -122.479}, {"anchorId": "izakaya-hachi", "rank": 8, "name": "Izakaya Hachi", "label": "8. Izakaya Hachi", "ctaUrl": "https://maps.google.com/?q=Izakaya+Hachi+Inner+Richmond+San+Francisco", "mapQuery": "Izakaya Hachi, Inner Richmond, San Francisco", "lat": 37.78853, "lng": -122.4552}, {"anchorId": "kiraku-ramen", "rank": 9, "name": "Kiraku Ramen", "label": "9. Kiraku Ramen", "ctaUrl": "https://maps.google.com/?q=Kiraku+Ramen+Outer+Sunset+San+Francisco", "mapQuery": "Kiraku Ramen, Outer Sunset, San Francisco", "lat": 37.75051, "lng": -122.48398}, {"anchorId": "katana-ya-ramen-sushi", "rank": 10, "name": "Katana-Ya Ramen & Sushi", "label": "10. Katana-Ya Ramen & Sushi", "ctaUrl": "https://maps.google.com/?q=Katana-Ya+Ramen+&+Sushi+Tenderloin+San+Francisco", "mapQuery": "Katana-Ya Ramen & Sushi, Tenderloin, San Francisco", "lat": 37.78523, "lng": -122.41169}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

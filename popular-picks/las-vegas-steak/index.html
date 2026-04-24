@@ -1550,73 +1550,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Las+Vegas", "picks": [{"anchorId": "cut-by-wolfgang-puck", "rank": 1, "name": "CUT by Wolfgang Puck", "label": "1. CUT by Wolfgang Puck", "ctaUrl": "https://maps.google.com/?q=CUT+by+Wolfgang+Puck+The+Palazzo+Las+Vegas", "mapQuery": "CUT by Wolfgang Puck, The Palazzo, Las Vegas", "lat": 36.12204, "lng": -115.16955}, {"anchorId": "golden-steer-steakhouse", "rank": 2, "name": "Golden Steer Steakhouse", "label": "2. Golden Steer Steakhouse", "ctaUrl": "https://maps.google.com/?q=Golden+Steer+Steakhouse+Off-Strip+Las+Vegas", "mapQuery": "Golden Steer Steakhouse, Off-Strip, Las Vegas", "lat": 36.1432, "lng": -115.1614}, {"anchorId": "bazaar-meat-by-josé-andrés", "rank": 3, "name": "Bazaar Meat by José Andrés", "label": "3. Bazaar Meat by José Andrés", "ctaUrl": "https://maps.google.com/?q=Bazaar+Meat+by+José+Andrés+Sahara+Las+Vegas+Las+Vegas", "mapQuery": "Bazaar Meat by José Andrés, Sahara Las Vegas, Las Vegas", "lat": 36.1408, "lng": -115.1528}, {"anchorId": "sw-steakhouse", "rank": 4, "name": "SW Steakhouse", "label": "4. SW Steakhouse", "ctaUrl": "https://maps.google.com/?q=SW+Steakhouse+Wynn+Las+Vegas+Las+Vegas", "mapQuery": "SW Steakhouse, Wynn Las Vegas, Las Vegas", "lat": 36.1246, "lng": -115.1666}, {"anchorId": "delmonico-steakhouse", "rank": 5, "name": "Delmonico Steakhouse", "label": "5. Delmonico Steakhouse", "ctaUrl": "https://maps.google.com/?q=Delmonico+Steakhouse+The+Venetian+Resort+Las+Vegas", "mapQuery": "Delmonico Steakhouse, The Venetian Resort, Las Vegas", "lat": 36.1213, "lng": -115.1704}, {"anchorId": "barrys-downtown-prime", "rank": 6, "name": "Barry's Downtown Prime", "label": "6. Barry's Downtown Prime", "ctaUrl": "https://maps.google.com/?q=Barry's+Downtown+Prime+Circa+Resort+&+Casino+Las+Vegas", "mapQuery": "Barry's Downtown Prime, Circa Resort & Casino, Las Vegas", "lat": 36.1691, "lng": -115.1402}, {"anchorId": "prime-steakhouse", "rank": 7, "name": "Prime Steakhouse", "label": "7. Prime Steakhouse", "ctaUrl": "https://maps.google.com/?q=Prime+Steakhouse+Bellagio+Resort+&+Casino+Las+Vegas", "mapQuery": "Prime Steakhouse, Bellagio Resort & Casino, Las Vegas", "lat": 36.1132, "lng": -115.1764}, {"anchorId": "jean-georges-steakhouse", "rank": 8, "name": "Jean Georges Steakhouse", "label": "8. Jean Georges Steakhouse", "ctaUrl": "https://maps.google.com/?q=Jean+Georges+Steakhouse+Aria+Resort+&+Casino+Las+Vegas", "mapQuery": "Jean Georges Steakhouse, Aria Resort & Casino, Las Vegas", "lat": 36.107, "lng": -115.1764}, {"anchorId": "oscars-steakhouse", "rank": 9, "name": "Oscar's Steakhouse", "label": "9. Oscar's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Oscar's+Steakhouse+Plaza+Hotel+&+Casino+Las+Vegas", "mapQuery": "Oscar's Steakhouse, Plaza Hotel & Casino, Las Vegas", "lat": 36.1706, "lng": -115.1444}, {"anchorId": "the-steak-house-at-circus-circus", "rank": 10, "name": "The Steak House at Circus Circus", "label": "10. The Steak House at Circus Circus", "ctaUrl": "https://maps.google.com/?q=The+Steak+House+at+Circus+Circus+Circus+Circus+Las+Vegas", "mapQuery": "The Steak House at Circus Circus, Circus Circus, Las Vegas", "lat": 36.1368, "lng": -115.1666}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

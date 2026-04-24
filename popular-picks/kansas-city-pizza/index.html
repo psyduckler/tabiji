@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Kansas+City", "picks": [{"anchorId": "il-lazzarone", "rank": 1, "name": "Il Lazzarone", "label": "1. Il Lazzarone", "ctaUrl": "https://maps.google.com/?q=Il+Lazzarone+River+Market+Kansas+City", "mapQuery": "Il Lazzarone, River Market, Kansas City", "lat": 39.1027, "lng": -94.5824}, {"anchorId": "pizza-tascio", "rank": 2, "name": "Pizza Tascio", "label": "2. Pizza Tascio", "ctaUrl": "https://maps.google.com/?q=Pizza+Tascio+Crossroads+Arts+District+Kansas+City", "mapQuery": "Pizza Tascio, Crossroads Arts District, Kansas City", "lat": 39.0734, "lng": -94.5901}, {"anchorId": "providence-pizza", "rank": 3, "name": "Providence Pizza", "label": "3. Providence Pizza", "ctaUrl": "https://maps.google.com/?q=Providence+Pizza+Westport+Kansas+City", "mapQuery": "Providence Pizza, Westport, Kansas City", "lat": 39.0494, "lng": -94.5925}, {"anchorId": "waldo-pizza", "rank": 4, "name": "Waldo Pizza", "label": "4. Waldo Pizza", "ctaUrl": "https://maps.google.com/?q=Waldo+Pizza+Waldo+Kansas+City", "mapQuery": "Waldo Pizza, Waldo, Kansas City", "lat": 38.9959, "lng": -94.5829}, {"anchorId": "minskys-pizza", "rank": 5, "name": "Minsky's Pizza", "label": "5. Minsky's Pizza", "ctaUrl": "https://maps.google.com/?q=Minsky's+Pizza+City+Market+Kansas+City", "mapQuery": "Minsky's Pizza, City Market, Kansas City", "lat": 39.1051, "lng": -94.5807}, {"anchorId": "johnny-jos-pizzeria", "rank": 6, "name": "Johnny Jo's Pizzeria", "label": "6. Johnny Jo's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Johnny+Jo's+Pizzeria+Country+Club+Plaza+Kansas+City", "mapQuery": "Johnny Jo's Pizzeria, Country Club Plaza, Kansas City", "lat": 39.0371, "lng": -94.5946}, {"anchorId": "artego-pizza", "rank": 7, "name": "Artego Pizza", "label": "7. Artego Pizza", "ctaUrl": "https://maps.google.com/?q=Artego+Pizza+Southwest+Boulevard+Kansas+City", "mapQuery": "Artego Pizza, Southwest Boulevard, Kansas City", "lat": 39.0886, "lng": -94.5937}, {"anchorId": "spin-neapolitan-pizza", "rank": 8, "name": "Spin! Neapolitan Pizza", "label": "8. Spin! Neapolitan Pizza", "ctaUrl": "https://maps.google.com/?q=Spin!+Neapolitan+Pizza+Country+Club+Plaza+Kansas+City", "mapQuery": "Spin! Neapolitan Pizza, Country Club Plaza, Kansas City", "lat": 39.0376, "lng": -94.5858}, {"anchorId": "buffalo-state-pizza-co", "rank": 9, "name": "Buffalo State Pizza Co.", "label": "9. Buffalo State Pizza Co.", "ctaUrl": "https://maps.google.com/?q=Buffalo+State+Pizza+Co.+Downtown+Kansas+City", "mapQuery": "Buffalo State Pizza Co., Downtown, Kansas City", "lat": 39.0827, "lng": -94.5866}, {"anchorId": "leos-pizza", "rank": 10, "name": "Leo's Pizza", "label": "10. Leo's Pizza", "ctaUrl": "https://maps.google.com/?q=Leo's+Pizza+Brookside+Kansas+City", "mapQuery": "Leo's Pizza, Brookside, Kansas City", "lat": 39.0069, "lng": -94.5847}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>
