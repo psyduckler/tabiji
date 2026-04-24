@@ -7291,7 +7291,6 @@ def generate_page(city_data, related_cities_map):
 <a href="#" class="back-to-top" id="btt" aria-label="Back to top">&#9650;</a>
 
 <script defer src="/assets/shared-shell.js"></script>
-<script defer src="/assets/offline-download.js"></script>
 <script>
 (function(){{var b=document.getElementById('btt');if(!b)return;window.addEventListener('scroll',function(){{b.classList.toggle('visible',window.scrollY>600)}},{{passive:true}});b.addEventListener('click',function(e){{e.preventDefault();window.scrollTo({{top:0,behavior:'smooth'}})}});}})();
 </script>
@@ -7846,10 +7845,8 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
     <link rel="stylesheet" href="/assets/scams.css">
     <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
-<script defer src="/assets/offline-download.js"></script>
 <!-- @include:shared-head:end -->
 </head>
 <body class="editorial-v2">

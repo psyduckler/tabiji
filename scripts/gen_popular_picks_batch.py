@@ -872,7 +872,6 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
     </style>
 {_schema_tag(breadcrumb)}
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
 </head>

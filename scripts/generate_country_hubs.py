@@ -1353,10 +1353,8 @@ def generate_country_page(name, slug, iso2, flag, continent):
     <link rel="stylesheet" href="/assets/countries.css">
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
-<script defer src="/assets/offline-download.js"></script>
 <!-- @include:shared-head:end -->
 
     <script type="application/ld+json">
@@ -1681,10 +1679,8 @@ def generate_index_page(all_countries_data):
     </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
-<script defer src="/assets/offline-download.js"></script>
 <!-- @include:shared-head:end -->
 
     <script type="application/ld+json">
