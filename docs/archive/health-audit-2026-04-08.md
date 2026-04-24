@@ -184,7 +184,6 @@ Currently each page links to:
 - the matching `/countries/[slug]/` guide
 - `/scams/`
 - `/compare/`
-- `/find/`
 
 **Missing:**
 - `/credit-cards/` — most premium travel cards include emergency medical / evacuation. Big monetization miss.

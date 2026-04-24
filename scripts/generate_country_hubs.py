@@ -1279,7 +1279,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         <h2 class="section-title">Top Destinations</h2>
         <div class="dest-grid">{dest_cards}
         </div>
-        <div class="view-all-wrap"><a href="/find/" class="view-all-link">Explore all {name} destinations &rarr;</a></div>
     </section>"""
 
     # --- CTA ---

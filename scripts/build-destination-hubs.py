@@ -207,10 +207,6 @@ body {{ font-family: 'Inter', system-ui, sans-serif; background: var(--warm-crea
       <p>Get a free custom itinerary built from real traveler insights — not generic templates.</p>
       <a href="/plan">Get a Free Itinerary →</a>
     </div>
-
-    <div class="hub-discovery">
-      <a href="/find/">🔍 Destination Finder</a>
-    </div>
   </div>
 
 <!-- @include:footer:start -->

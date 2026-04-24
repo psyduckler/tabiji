@@ -152,7 +152,6 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | `destinations/` | ~69 | City destination pages |
 | `itineraries/` | ~49 | Free curated itineraries |
 | `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
-| `recommend/` | 11 | Theme-based recommendation pages |
 
 ### 3.3 Top-Level Layout
 
@@ -177,10 +176,7 @@ tabiji/
 ├── itineraries/             ← free curated itineraries (49 slugs)
 ├── best-places-to-visit-in-*/ ← monthly guides (12 months)
 │
-├── find/                    ← destination finder tool
 ├── owl/                     ← Owl interactive assistant
-├── spin/                    ← destination spinner tool
-├── recommend/               ← recommendation pages by theme
 ├── trends/                  ← travel trends tool
 ├── about/                   ← about page
 ├── privacy/                 ← privacy policy

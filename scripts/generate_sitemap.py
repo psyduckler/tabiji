@@ -18,7 +18,6 @@ def get_priority(path):
     if path.startswith('/popular-picks/'): return '0.6'
     if path.startswith('/scams/'): return '0.7'
     if path.startswith('/itineraries/'): return '0.6'
-    if path.startswith('/recommend/'): return '0.6'
     if path.startswith('/best-places-to-visit'): return '0.6'
     if path.startswith('/i/'): return '0.5'
     return '0.5'
