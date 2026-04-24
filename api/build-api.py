@@ -1311,7 +1311,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 return slug
         return ''
 
-    pick_detail_updates = {}
     for pick in pick_summaries:
         destination_slug = (
             destination_slug_for_name(pick.get("city", ""))
@@ -1321,10 +1320,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
         pick["destinationName"] = destination_lookup.get(destination_slug, {}).get("name", pick.get("city", "")) if destination_slug else pick.get("city", "")
         if destination_slug:
             picks_by_destination.setdefault(destination_slug, []).append(pick)
-        pick_detail_updates[pick["slug"]] = {
-            "destinationSlug": destination_slug,
-            "destinationName": pick.get("destinationName", ""),
-        }
 
     itin_detail_updates = {}
     for itin in itin_summaries:
@@ -1337,7 +1332,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             itins_by_destination.setdefault(destination_slug, []).append(itin)
         itin_detail_updates[itin["slug"]] = {"destinationSlug": destination_slug}
 
-    compare_detail_updates = {}
     for compare in compare_summaries:
         dest1_slug = destination_slug_for_name(compare.get("destination1", ""))
         dest2_slug = destination_slug_for_name(compare.get("destination2", ""))
@@ -1348,11 +1342,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             compares_by_destination.setdefault(slug, []).append(compare)
         if dest1_slug and dest2_slug:
             compare_pairs[frozenset([dest1_slug, dest2_slug])] = compare
-        compare_detail_updates[compare["slug"]] = {
-            "destination1Slug": dest1_slug,
-            "destination2Slug": dest2_slug,
-            "destinationSlugs": compare["destinationSlugs"],
-        }
 
     for dest in dest_summaries:
         slug = dest["slug"]
@@ -1414,23 +1403,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 make_related_summary(item_type="pick", slug=other["slug"], title=other["title"], url=other["url"], extra={"category": other.get("category", "")})
                 for other in picks_by_destination.get(destination_slug, []) if other["slug"] != slug
             ]
-        detail_path = OUTPUT_DIR / "picks" / f"{slug}.json"
-        detail = load_json_if_exists(detail_path)
-        if detail:
-            detail.update(pick_detail_updates.get(slug, {}))
-            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
-            detail["bestFor"] = detail.get("bestFor") or unique_list([detail.get("city", ""), detail.get("category", "")])
-            detail["relatedPicks"] = truncate_list(sibling_picks)
-            detail["relatedItineraries"] = truncate_list([
-                make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")})
-                for itin in itins_by_destination.get(destination_slug, [])
-            ])
-            detail["relatedComparisons"] = truncate_list([
-                make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"])
-                for compare in compares_by_destination.get(destination_slug, [])
-            ]) if destination_slug else []
-            detail["places"] = [enrich_place(place, guide_slug=slug, guide_title=detail.get("title", slug), guide_url=detail.get("url", ""), city=detail.get("city", ""), category=detail.get("category", "")) for place in detail.get("places", [])]
-            write_json(detail_path, detail)
         pick["relatedPicks"] = truncate_list(sibling_picks)
 
     for itin in itin_summaries:
@@ -1449,38 +1421,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"])
                 for compare in compares_by_destination.get(destination_slug, [])
             ]) if destination_slug else []
-            write_json(detail_path, detail)
-
-    for compare in compare_summaries:
-        slug = compare["slug"]
-        detail_path = OUTPUT_DIR / "compare" / f"{slug}.json"
-        detail = load_json_if_exists(detail_path)
-        if detail:
-            detail.update(compare_detail_updates.get(slug, {}))
-            related_destinations = []
-            for dest_slug in detail.get("destinationSlugs", []):
-                if dest_slug in destination_lookup:
-                    destination = destination_lookup[dest_slug]
-                    related_destinations.append(make_related_summary(item_type="destination", slug=dest_slug, title=destination.get("name", title_case_slug(dest_slug)), url=f"{API_BASE_URL}/destinations/{dest_slug}.json", extra={"region": destination.get("region", "")}))
-            detail["relatedDestinations"] = truncate_list(related_destinations)
-            related_itins = []
-            related_picks = []
-            seen_itins = set()
-            seen_picks = set()
-            for dest_slug in detail.get("destinationSlugs", []):
-                for itin in itins_by_destination.get(dest_slug, []):
-                    if itin["slug"] in seen_itins:
-                        continue
-                    seen_itins.add(itin["slug"])
-                    related_itins.append(make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")}))
-                for pick in picks_by_destination.get(dest_slug, []):
-                    if pick["slug"] in seen_picks:
-                        continue
-                    seen_picks.add(pick["slug"])
-                    related_picks.append(make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")}))
-            detail["relatedItineraries"] = truncate_list(related_itins)
-            detail["relatedPicks"] = truncate_list(related_picks)
-            detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
             write_json(detail_path, detail)
 
     # Persist the enriched slim summary — build_relationships has mutated
@@ -1670,8 +1610,6 @@ def _write_catalog_chunks(items, generated_at):
 def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
                   country_items=None, safety_items=None, alert_items=None,
                   scam_items=None, insurance_items=None):
-    # Catalog place entities are hydrated from generated pick detail files,
-    # so this must run after build_picks() has written api/v1/picks/*.json.
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     items = []
 
@@ -1724,43 +1662,6 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=CONFIDENCE_PICK_SUMMARY, operational_fields_may_change=True)),
             "provenance": pick.get("provenance", {}),
         })
-
-        detail = load_json_if_exists(OUTPUT_DIR / "picks" / f"{pick['slug']}.json") or {}
-        for place in detail.get("places", []):
-            place_id = place.get("id") or f"place:{pick['slug']}:{slugify(place.get('name', 'place'))}"
-            items.append({
-                "id": place_id,
-                "entityType": "place",
-                "schemaVersion": API_SCHEMA_VERSION,
-                "source": "picks",
-                "slug": pick["slug"],
-                "parentId": pick["id"],
-                "name": place.get("name", ""),
-                "title": pick.get("title", ""),
-                "description": place.get("editorialSummary") or place.get("verdict") or pick.get("description", ""),
-                "city": detail.get("city", pick.get("city", "")),
-                "destinationSlug": pick.get("destinationSlug", ""),
-                "locationLabel": place.get("address") or place.get("area") or detail.get("city", pick.get("city", "")),
-                "category": detail.get("category", pick.get("category", "")),
-                "tags": unique_list([*(place.get("tags", []) or []), *(pick.get("tags", []) or [])]),
-                "highlights": place.get("bestFor") if isinstance(place.get("bestFor"), list) else unique_list([place.get("bestFor", ""), *(place.get("highlights", []) or [])]),
-                "priceLevel": place.get("priceRange", ""),
-                "ratingNormalized": place.get("googleRating"),
-                "editorialSignal": EDITORIAL_SIGNAL_STRONG if place.get("editorialSummary") or place.get("verdict") else EDITORIAL_SIGNAL_WEAK,
-                "url": f"{pick_url}#{slugify(place.get('name', 'place'))}",
-                "freshness": make_freshness(
-                    detail.get("updatedAt", generated_at),
-                    confidence="mixed",
-                    confidence_score=CONFIDENCE_PLACE_CATALOG,
-                    operational_fields_may_change=True,
-                ),
-                "provenance": {
-                    "sources": unique_list(["tabiji_static_page", "tabiji_editorial", *collect_field_source_labels(place.get("sourceMeta", {}).get("fieldSources", {}))]),
-                    "parentId": pick["id"],
-                    "sourceUrl": detail.get("sourceUrl", pick.get("sourceUrl", "")),
-                    "lastVerifiedAt": detail.get("updatedAt", generated_at),
-                },
-            })
 
     for itin in itin_summaries:
         items.append({
@@ -3198,19 +3099,19 @@ def build_packs():
         cc = city.get("countryCode", "").upper()
         scam_slugs_by_country.setdefault(cc, []).append(city["slug"])
 
-    # Derive solo-female-safe slugs directly from filter data (safe + budget/moderate, top 25 by editorial score).
+    # Filter records may have nested fields explicitly set to None (not just missing); use `or {}` so
+    # the chained .get() doesn't blow up on AttributeError.
     solo_candidates = [
         it for it in all_filter_items
-        if it.get("safety", {}).get("soloFemaleSafety") in ("very-safe", "safe")
-        and it.get("budget", {}).get("tier") in ("budget", "moderate")
+        if (it.get("safety") or {}).get("soloFemaleSafety") in ("very-safe", "safe")
+        and (it.get("budget") or {}).get("tier") in ("budget", "moderate")
     ]
-    solo_candidates.sort(key=lambda x: x.get("scores", {}).get("editorial", 0), reverse=True)
+    solo_candidates.sort(key=lambda x: (x.get("scores") or {}).get("editorial", 0), reverse=True)
     solo_female_slugs = {m["slug"] for m in solo_candidates[:25]}
     budget_slugs = set()
-    # Budget backpacker: budget=$ destinations from filter
     budget_countries = set()
     for item in all_filter_items:
-        if item.get("budget", {}).get("raw") == "$":
+        if (item.get("budget") or {}).get("raw") == "$":
             budget_countries.add(item.get("countryCode", "").upper())
             budget_slugs.add(item.get("slug", ""))
 
