@@ -691,7 +691,6 @@ def gen_related_links(d: dict) -> str:
     html += f'  <li>🌍 <a href="/countries/{escape(country_slug)}/" style="color:var(--terracotta);text-decoration:underline;">{flag} {escape(name)} Country Guide</a> — visa, culture, weather &amp; travel tips</li>\n'
     html += f'  <li>🚨 <a href="/scams/" style="color:var(--terracotta);text-decoration:underline;">Tourist Scam Alerts</a> — common scams to watch for</li>\n'
     html += f'  <li>🆚 <a href="/compare/" style="color:var(--terracotta);text-decoration:underline;">Compare Destinations</a> — compare {escape(name)} with other countries</li>\n'
-    html += f'  <li>🔍 <a href="/find/" style="color:var(--terracotta);text-decoration:underline;">Destination Finder</a> — find your perfect trip</li>\n'
     html += '</ul></div>\n'
     return html
 

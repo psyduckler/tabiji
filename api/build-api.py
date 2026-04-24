@@ -1506,7 +1506,7 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
     for d in dest_summaries:
         records.append(build_search_item(
             item_type="destination", slug=d["slug"], title=d["name"], subtitle=d.get("pitch", ""),
-            url=f"{API_BASE_URL}/destinations/{d['slug']}.json", site_url=d.get("sourceUrl", f"{SITE_URL}/find/?q={d['slug']}"),
+            url=f"{API_BASE_URL}/destinations/{d['slug']}.json", site_url=d.get("sourceUrl", ""),
             tags=d.get("tags", []), extra={"region": d.get("region", ""), "continent": d.get("continent", "")}
         ))
     for p in pick_summaries:
@@ -2624,7 +2624,7 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
 
 
 # ============================================================
-# FILTER, FACETS & RECOMMENDATIONS (Sprint 3)
+# FILTER & FACETS (Sprint 3)
 # ============================================================
 
 _BUDGET_TIER_MAP = {"$": "budget", "$$": "moderate", "$$$": "premium", "$$$$": "luxury"}
@@ -2811,122 +2811,6 @@ def build_facets(filter_items):
     write_json(OUTPUT_DIR / "facets.json", payload)
 
 
-def build_recommend(filter_items):
-    """Build /api/v1/recommend.json — pre-computed recommendation sets for common queries."""
-
-    def _match(item, filters):
-        for key, allowed in filters.items():
-            parts = key.split(".")
-            val = item
-            for p in parts:
-                val = val.get(p) if isinstance(val, dict) else None
-                if val is None:
-                    break
-            if isinstance(val, list):
-                if not any(v in allowed for v in val):
-                    return False
-            elif val not in allowed:
-                return False
-        return True
-
-    def _reason_text(item):
-        reasons = []
-        s = item.get("safety", {})
-        if s.get("soloFemaleSafety"):
-            reasons.append(f"Solo female safety: {s['soloFemaleSafety']}")
-        if s.get("overallRisk"):
-            reasons.append(f"Overall risk: {s['overallRisk']}")
-        b = item.get("budget", {})
-        if b and b.get("raw"):
-            reasons.append(f"Budget: {b['raw']}")
-        if item.get("vibes"):
-            reasons.append(f"Vibes: {', '.join(item['vibes'][:3])}")
-        return reasons[:3]
-
-    presets_def = [
-        ("solo-female-safe-budget", "safe, budget-friendly solo female travel",
-         {"safety.soloFemaleSafety": ["very-safe", "safe"], "budget.tier": ["budget", "moderate"]}),
-        ("warm-beach-budget", "warm beach destinations on a budget",
-         {"vibes": ["beach"], "budget.tier": ["budget", "moderate"]}),
-        ("cultural-europe", "cultural destinations in Europe",
-         {"continent": ["Europe"], "vibes": ["cultural"]}),
-        ("foodie-asia", "food-focused destinations in Asia",
-         {"continent": ["Asia"], "vibes": ["food"]}),
-        ("adventure-south-america", "adventure travel in South America",
-         {"continent": ["South America"], "vibes": ["adventure"]}),
-        ("family-safe", "safe, family-friendly destinations",
-         {"vibes": ["family"], "safety.overallRisk": ["very-low", "low"]}),
-        ("digital-nomad-budget", "budget-friendly digital nomad destinations",
-         {"budget.tier": ["budget"], "vibes": ["city"]}),
-        ("romantic-europe", "romantic getaways in Europe",
-         {"continent": ["Europe"], "vibes": ["romantic"]}),
-        ("nature-wildlife", "nature and wildlife destinations",
-         {"vibes": ["nature", "wildlife"]}),
-        ("off-beaten-path", "off the beaten path destinations",
-         {"vibes": ["unfrequented"]}),
-        # ── Sprint 6 expansion: 15 new presets ──────────────────────────────
-        ("honeymoon-tropical", "tropical honeymoon destinations",
-         {"vibes": ["beach", "romantic"], "budget.tier": ["moderate", "premium"]}),
-        ("europe-winter", "winter destinations in Europe",
-         {"continent": ["Europe"], "vibes": ["city", "cultural"]}),
-        ("southeast-asia-backpacking", "budget backpacking in Southeast Asia",
-         {"continent": ["Asia"], "budget.tier": ["budget"]}),
-        ("safe-lgbtq-friendly", "LGBTQ-friendly safe destinations",
-         {"safety.overallRisk": ["very-low", "low"]}),
-        ("wine-and-food-europe", "wine and food destinations in Europe",
-         {"continent": ["Europe"], "vibes": ["food"]}),
-        ("best-for-photography", "best destinations for photography",
-         {"vibes": ["photography"]}),
-        ("diving-snorkeling", "diving and snorkeling destinations",
-         {"vibes": ["beach"]}),
-        ("history-architecture", "history and architecture destinations",
-         {"vibes": ["history", "cultural"]}),
-        ("luxury-splurge", "luxury travel destinations",
-         {"budget.tier": ["premium", "luxury"]}),
-        ("family-beach", "family-friendly beach destinations",
-         {"vibes": ["beach", "family"]}),
-        ("spring-break", "spring break destinations",
-         {"vibes": ["beach", "nightlife"], "budget.tier": ["budget", "moderate"]}),
-        ("hiking-trekking", "hiking and trekking destinations",
-         {"vibes": ["hiking", "adventure", "nature"]}),
-        ("island-hopping", "island hopping destinations",
-         {"vibes": ["beach"]}),
-        ("nightlife-party", "nightlife and party destinations",
-         {"vibes": ["nightlife"]}),
-        ("wellness-retreat", "wellness and retreat destinations",
-         {"vibes": ["relaxation", "spiritual"]}),
-    ]
-
-    presets = []
-    for preset_id, query, filters in presets_def:
-        matches = [it for it in filter_items if _match(it, filters)]
-        matches.sort(key=lambda x: x.get("scores", {}).get("editorial", 0), reverse=True)
-        top = matches[:25]
-        results = [
-            {
-                "slug": m["slug"],
-                "name": m["name"],
-                "country": m.get("country", ""),
-                "score": round(m.get("scores", {}).get("editorial", 0.7), 2),
-                "reasons": _reason_text(m),
-            }
-            for m in top
-        ]
-        presets.append({
-            "id": preset_id,
-            "query": query,
-            "filters": filters,
-            "results": results,
-            "resultCount": len(matches),
-        })
-
-    payload = {
-        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "presets": presets,
-    }
-    write_json(OUTPUT_DIR / "recommend.json", payload)
-
-
 def main():
     print("🦉 Building Tabiji API v1...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -3006,10 +2890,6 @@ def main():
     build_facets(filter_items)
     print("   ✅ facets.json")
 
-    print("💡 Building recommendations...")
-    build_recommend(filter_items)
-    print("   ✅ recommend.json")
-
     print("📄 Updating API docs page...")
     build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
     print("   ✅ api/index.html")
@@ -3072,7 +2952,6 @@ def build_manifest():
         ("scams",         "/api/v1/scams.json",           "/api/v1/scams/{slug}.json"),
         ("filter",        "/api/v1/filter.json",          None),
         ("facets",        "/api/v1/facets.json",          None),
-        ("recommend",     "/api/v1/recommend.json",       None),
         ("insurance",     "/api/v1/insurance.json",       "/api/v1/insurance/{slug}.json"),
     ]
 
@@ -3308,13 +3187,15 @@ def build_packs():
         cc = city.get("countryCode", "").upper()
         scam_slugs_by_country.setdefault(cc, []).append(city["slug"])
 
-    # Collect recommend preset destinations for theme packs
-    recommend_data = _read_json_file(OUTPUT_DIR / "recommend.json") or {}
-    solo_female_slugs = set()
+    # Derive solo-female-safe slugs directly from filter data (safe + budget/moderate, top 25 by editorial score).
+    solo_candidates = [
+        it for it in all_filter_items
+        if it.get("safety", {}).get("soloFemaleSafety") in ("very-safe", "safe")
+        and it.get("budget", {}).get("tier") in ("budget", "moderate")
+    ]
+    solo_candidates.sort(key=lambda x: x.get("scores", {}).get("editorial", 0), reverse=True)
+    solo_female_slugs = {m["slug"] for m in solo_candidates[:25]}
     budget_slugs = set()
-    for preset in recommend_data.get("presets", []):
-        if preset.get("id") == "solo-female-safe-budget":
-            solo_female_slugs = {r["slug"] for r in preset.get("results", [])}
     # Budget backpacker: budget=$ destinations from filter
     budget_countries = set()
     for item in all_filter_items:
