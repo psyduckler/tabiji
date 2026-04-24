@@ -39,9 +39,6 @@ DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-
 
 CONFIDENCE_EDITORIAL = 0.9
 CONFIDENCE_PICK_SUMMARY = 0.78
-CONFIDENCE_PLACE_CATALOG = 0.74
-EDITORIAL_SIGNAL_STRONG = 0.7
-EDITORIAL_SIGNAL_WEAK = 0.35
 
 # Canonical in-memory store for destination details.
 # Populated by build_destinations() from destinations-full.json; read by
