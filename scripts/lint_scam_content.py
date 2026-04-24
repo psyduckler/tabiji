@@ -15,11 +15,13 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
+# Currency alternation — symbols + 3-letter codes used in scam prose.
+_CCY = r"R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD|ARS|BRL|INR"
+
 # ---- AmE/BrE drift (rule 1) ----
-# Forbidden BrE forms; allowlist any match inside a proper-noun phrase or
-# inside a single-quoted Reddit title in reddit_sources[].
 BRE_PATTERN = re.compile(
     r"\b("
     r"travellers?|favour(?:ite|ed|s)?|colour(?:ed|ful|s)?|centre[ds]?|"
@@ -31,10 +33,12 @@ BRE_PATTERN = re.compile(
     r")\b",
     re.IGNORECASE,
 )
+# Specific proper-noun phrases where a BrE-looking word is legitimate.
+# Keep tight — generic entries like "centre for" create false negatives.
 PROPER_NOUN_ALLOWLIST = {
-    "centre pompidou", "theatre district", "metropolitan centre",
-    "programme national", "centre for", "national theatre",
-    "london theatre", "covent garden theatre",
+    "centre pompidou", "metropolitan centre for tropical medicine",
+    "programme national", "national theatre", "covent garden theatre",
+    "theatre royal", "royal albert",
 }
 
 # ---- Reddit-in-prose (rule 2) ----
@@ -42,20 +46,10 @@ REDDIT_IN_PROSE = re.compile(
     r"r/\w+\s*['\u2018\u2019\"]|comments/[a-z0-9]{6,8}\b"
 )
 
-# ---- Currency spacing (rule 3) ----
-# A currency symbol or 1-3-letter code directly adjacent to a digit.
-CURRENCY_NOSPACE = re.compile(
-    r"\b(?:R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD|ARS|BRL|INR)(?=\d)"
-)
-
-# ---- Currency range (rule 4) ----
-# "RM 50-RM 100" (hyphen) or "RM 50–100" (missing repeat symbol).
-CURRENCY_RANGE_BAD = re.compile(
-    r"(?:R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD)\s?[\d,\.]+\s?[-\u2013]\s?\d"
-)
-CURRENCY_RANGE_GOOD = re.compile(
-    r"(?:R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD)\s[\d,\.]+\s?\u2013\s?(?:R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD)\s"
-)
+# ---- Currency spacing + ranges (rules 3, 4) ----
+CURRENCY_NOSPACE = re.compile(rf"\b(?:{_CCY})(?=\d)")
+# "RM 50-RM 100" (hyphen) or "RM 50–100" (missing repeat symbol) — either rejects.
+CURRENCY_RANGE_BAD = re.compile(rf"(?:{_CCY})\s?[\d,\.]+\s?[-\u2013]\s?\d")
 
 # ---- Em-dash spacing (rule 5) ----
 # An em-dash with no space on either side (but allow mid-word em-dash which is
@@ -75,17 +69,17 @@ BAD_INTERJECTIONS = re.compile(
 )
 
 # ---- ALL-CAPS token (rule 8) ----
+# Matches 3+ uppercase letters. Allowlist known acronyms that appear in
+# legitimate scam-page prose (regulatory bodies, transport, card networks).
 ALLCAPS_TOKEN = re.compile(r"\b[A-Z]{3,}\b")
-# Acronyms we expect to see repeatedly that shouldn't count as "emphasis":
 ALLCAPS_ALLOWLIST = {
     "MDAC", "KLIA", "JPJ", "PDRM", "GIA", "AIGS", "AGL", "LRT", "MRT",
-    "USD", "EUR", "THB", "JPY", "NT", "RM", "ATM", "QR", "SMS", "PSA",
-    "TRA", "TPE", "AIT", "OCAC", "CIB", "GASA", "NT$", "HK$", "US$",
-    "MLM", "ID", "PDF", "FAQ", "TL;DR", "TLDR", "WhatsApp",
-    "TOC", "CSS", "HTML", "CTA", "URL", "CTR", "SEO", "T1", "T2", "T3",
-    "CNA", "AFP", "AP", "BBC", "SAR", "NYC", "UK", "US", "EU",
-    "BUDGET", "PREMIER",  # from existing corpus
-    "DNS", "AI",
+    "USD", "EUR", "THB", "JPY", "ATM", "QR", "SMS", "PSA",
+    "TRA", "TPE", "AIT", "OCAC", "CIB", "GASA",
+    "MLM", "PDF", "FAQ", "TLDR",
+    "TOC", "CSS", "HTML", "CTA", "URL", "CTR", "SEO",
+    "CNA", "AFP", "BBC", "SAR", "NYC",
+    "BUDGET", "PREMIER", "DNS",
 }
 
 # ---- Fixed scam categories ----
@@ -97,6 +91,12 @@ VALID_CATEGORIES = {
 
 VALID_DANGER = {"high", "moderate", "low"}
 
+_YEAR_AT_END = re.compile(r",\s*(\d{4})\)\s*$")
+_REDDIT_ID = re.compile(r"comments/([a-z0-9]+)")
+_REDDIT_ID_SHAPE = re.compile(r"[a-z0-9]{4,10}")
+_TRAILING_QUOTES = re.compile(r"['\"\u2019\u201d]+$")
+_PUNCT_STRIP = re.compile(r"[^\w\s]")
+
 
 def _sentences(text: str):
     """Rough sentence split on [.!?] followed by whitespace or end."""
@@ -104,27 +104,14 @@ def _sentences(text: str):
     return [p for p in parts if p.strip()]
 
 
-def _is_in_reddit_title(text: str, match_start: int) -> bool:
-    """Heuristic: if the match is between two single quotes, it's a citation."""
-    before = text[:match_start]
-    after = text[match_start:]
-    # Find nearest single-quote boundaries
-    last_open = max(before.rfind("'"), before.rfind("\u2018"))
-    last_close = max(before.rfind("'"), before.rfind("\u2019"))
-    if last_open > last_close:
-        # We're inside a quoted span
-        return True
-    return False
-
-
 def _is_proper_noun_phrase(text: str, match_start: int, match_end: int) -> bool:
-    """Check if the BrE match is part of a known proper-noun phrase."""
-    # Look at 30 chars around match
-    window = text[max(0, match_start - 20): match_end + 10].lower()
+    # Title-case match against the original window — generic lowercase matches
+    # like "centre for" would admit BrE prose as a false positive.
+    window = text[max(0, match_start - 20): match_end + 20]
     return any(p in window for p in PROPER_NOUN_ALLOWLIST)
 
 
-def lint_scam(scam: dict, scam_idx: int, city: str):
+def lint_scam(scam: dict, scam_idx: int):
     """Return list of (level, rule, message) tuples."""
     issues = []
 
@@ -202,10 +189,8 @@ def lint_scam(scam: dict, scam_idx: int, city: str):
         if not text:
             continue
 
-        # Rule 1: AmE/BrE drift (skip reddit_sources by design: not in prose_fields)
+        # Rule 1: AmE/BrE drift (reddit_sources[] is excluded upstream — not in prose_fields)
         for m in BRE_PATTERN.finditer(text):
-            if _is_in_reddit_title(text, m.start()):
-                continue
             if _is_proper_noun_phrase(text, m.start(), m.end()):
                 continue
             add("REJECT", "1", f"BrE form {m.group()!r} in {fname}")
@@ -216,14 +201,11 @@ def lint_scam(scam: dict, scam_idx: int, city: str):
 
         # Rule 3: Currency no-space
         for m in CURRENCY_NOSPACE.finditer(text):
-            # Ignore matches inside reddit_sources titles (we don't scan those here)
             add("REJECT", "3", f"currency no-space at {m.group()!r} in {fname}")
 
-        # Rule 4: Currency range with hyphen or missing repeat symbol
+        # Rule 4: Currency range missing the repeated symbol on the second amount
         for m in CURRENCY_RANGE_BAD.finditer(text):
-            # Only reject if it's actually missing the repeat (not already matching CURRENCY_RANGE_GOOD)
-            if not CURRENCY_RANGE_GOOD.search(text[max(0,m.start()-2):m.end()+10]):
-                add("REJECT", "4", f"bad currency range {m.group()!r} in {fname}")
+            add("REJECT", "4", f"bad currency range {m.group()!r} in {fname}")
 
         # Rule 5: Em-dash no-space
         for m in EMDASH_NOSPACE.finditer(text):
@@ -242,14 +224,14 @@ def lint_scam(scam: dict, scam_idx: int, city: str):
         if len(item.split()) < 4:
             add("REJECT", "12", f"red_flags[{i}] has < 4 words: {item!r}")
     for i, item in enumerate(av):
-        stripped = item.strip().rstrip("'\"\u2019\u201d")
+        stripped = _TRAILING_QUOTES.sub("", item.strip())
         if not stripped or stripped[-1] not in ".?!":
             add("REJECT", "12", f"how_to_avoid[{i}] doesn't end in .?!: {item!r}")
 
     # ---- 15: reddit year mix ----
     years = []
     for src in rs:
-        m = re.search(r",\s*(\d{4})\)\s*$", src)
+        m = _YEAR_AT_END.search(src)
         if m:
             years.append(int(m.group(1)))
     if years:
@@ -258,12 +240,12 @@ def lint_scam(scam: dict, scam_idx: int, city: str):
         if pct < 80:
             add("WARN", "15", f"reddit_sources year mix {modern}/{len(years)} from 2025/2026 ({pct:.0f}% < 80%)")
 
-    # ---- reddit id shape ----
+    # ---- reddit id shape (4-10 chars covers legacy + modern base36 IDs) ----
     for src in rs:
-        m = re.search(r"comments/([a-z0-9]+)", src)
+        m = _REDDIT_ID.search(src)
         if not m:
             add("REJECT", "16", f"reddit_sources missing comments/<id>: {src!r}")
-        elif not re.fullmatch(r"[a-z0-9]{5,8}", m.group(1)):
+        elif not _REDDIT_ID_SHAPE.fullmatch(m.group(1)):
             add("REJECT", "16", f"reddit thread id wrong shape: {m.group(1)!r}")
 
     return issues
@@ -279,24 +261,23 @@ def lint_city(data: dict):
     if not (3 <= len(scams) <= 6):
         all_issues.append(("REJECT", "count", f"{city}: {len(scams)} scams (need 3-6)"))
 
-    # Opening-repetition (rule 11)
+    # Opening-repetition (rule 11): first 2 words of first sentence, punctuation-stripped
     openings = []
     for s in scams:
         story = s.get("story", "")
-        # First 2 words of first paragraph's first sentence, case-folded
         first_para = story.split("\n\n")[0] if story else ""
-        first_sent = _sentences(first_para)[0] if _sentences(first_para) else ""
-        words = first_sent.split()[:2]
+        sents = _sentences(first_para)
+        first_sent = sents[0] if sents else ""
+        words = [_PUNCT_STRIP.sub("", w).lower() for w in first_sent.split()[:2]]
+        words = [w for w in words if w]
         if len(words) == 2:
-            openings.append(" ".join(w.lower() for w in words))
-    from collections import Counter
-    opening_counts = Counter(openings)
-    for op, c in opening_counts.items():
+            openings.append(" ".join(words))
+    for op, c in Counter(openings).items():
         if c >= 3:
             all_issues.append(("WARN", "11", f"{city}: {c} scams share 2-word opening {op!r}"))
 
     for i, scam in enumerate(scams, 1):
-        all_issues.extend(lint_scam(scam, i, city))
+        all_issues.extend(lint_scam(scam, i))
 
     return all_issues
 
@@ -321,7 +302,8 @@ def main():
     all_issues = []
     for path in targets:
         try:
-            data = json.load(open(path))
+            with open(path) as f:
+                data = json.load(f)
         except Exception as e:
             print(f"FAIL to load {path}: {e}", file=sys.stderr)
             sys.exit(2)
