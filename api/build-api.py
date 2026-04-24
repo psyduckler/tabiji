@@ -1894,7 +1894,6 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "provenance": {"sources": ["insurance"], "lastVerifiedAt": generated_at},
         })
 
-
     # --- Write chunked output ---
     total_chunks, shard_names = _write_catalog_chunks(items, generated_at)
 
