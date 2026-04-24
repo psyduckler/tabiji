@@ -1,3 +1,68 @@
+/* Skip-to-content link — visible only when focused via keyboard */
+.skip-link {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  z-index: 10000;
+  padding: 0.6rem 1.1rem;
+  background: var(--indigo, #2D3A5C);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 0 0 8px 0;
+  transition: top 0.15s ease-out;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--terracotta, #C4704B);
+  outline-offset: -2px;
+}
+
+/* Page breadcrumbs — rendered by shared-shell.js from BreadcrumbList JSON-LD */
+.page-breadcrumbs {
+  padding: 0.5rem 2rem;
+  font-size: 0.85rem;
+  color: var(--muted, #6B5D4F);
+  border-bottom: 1px solid rgba(232, 223, 208, 0.5);
+  background: rgba(254, 252, 249, 0.6);
+}
+.page-breadcrumbs ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.page-breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+}
+.page-breadcrumbs li + li::before {
+  content: '›';
+  margin-right: 0.5rem;
+  color: var(--sand, #E8DFD0);
+}
+.page-breadcrumbs a {
+  color: var(--terracotta, #C4704B);
+  text-decoration: none;
+}
+.page-breadcrumbs a:hover,
+.page-breadcrumbs a:focus-visible {
+  text-decoration: underline;
+}
+.page-breadcrumbs li[aria-current="page"] {
+  color: var(--indigo, #2D3A5C);
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .page-breadcrumbs {
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+  }
+}
+
 nav {
   position: fixed;
   top: 0;
