@@ -93,7 +93,17 @@ document.addEventListener('click', function (event) {
       ol.appendChild(li);
     });
     nav.appendChild(ol);
-    main.insertBefore(nav, main.firstChild);
+
+    // Place breadcrumbs immediately before the hero so they sit between the
+    // fixed site nav and the hero on every layout (compare, popular-picks
+    // hub/leaf, scams leaf). Fall back to the top of <main> when no hero
+    // is present.
+    var hero = document.querySelector('section.hero, header.hero, .hero');
+    if (hero && hero.parentNode) {
+      hero.parentNode.insertBefore(nav, hero);
+    } else {
+      main.insertBefore(nav, main.firstChild);
+    }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', render);
