@@ -12,174 +12,25 @@ Usage:
 
 import html
 import json
-import re
+import sys
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-EXISTING_HUB = ROOT / "health" / "insurance" / "index.html"
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from lib.editorial import (  # noqa: E402
+    CARRIERS,
+    REVIEW_DATE,
+    TIERS,
+    apply_replacements,
+    render_faq_accordion,
+    render_faqs_schema,
+    tier_slug,
+)
+
+ROOT = SCRIPT_DIR.parent
 OUT_HUB = ROOT / "health" / "insurance" / "index.html"
 HEALTH_API = ROOT / "api" / "v1" / "health.json"
-
-REVIEW_DATE = "April 2026"
-
-# -------------------------------------------------------------------
-# Canonical carrier data — hand-curated to match what the individual
-# carrier pages claim, so hub + carrier pages stay in sync.
-# -------------------------------------------------------------------
-
-CARRIERS = [
-    {
-        "slug": "blue-cross-blue-shield", "name": "Blue Cross Blue Shield", "icon": "🛡️",
-        "supp_tier": "Strongly Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "Global Core network in 190+ countries",
-        "mechanism": "Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "34 independent licensees; coverage varies by state. PPO plans carry international emergency + some urgent care.",
-    },
-    {
-        "slug": "unitedhealthcare", "name": "UnitedHealthcare", "icon": "🏥",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "UHC Global supports reimbursement in most countries",
-        "mechanism": "UHC Global",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "Emergency care covered worldwide at out-of-network rates. Direct billing at select international hospitals.",
-    },
-    {
-        "slug": "aetna", "name": "Aetna", "icon": "💼",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "International plans (Aetna International) for long stays",
-        "mechanism": "Aetna International",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "PPO best · separate expat plans available",
-        "short": "Domestic plans cover emergencies only. Aetna International is a separate product for expats and frequent travelers.",
-    },
-    {
-        "slug": "cigna", "name": "Cigna", "icon": "🌐",
-        "supp_tier": "Recommended",
-        "badge_tone": "safe",
-        "coverage_headline": "Strong international network; Cigna Global available separately",
-        "mechanism": "Cigna Global",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "PPO solid · Cigna Global for expats",
-        "short": "One of the better US carriers for international coverage. Cigna Global is a dedicated expat product with broad worldwide access.",
-    },
-    {
-        "slug": "humana", "name": "Humana", "icon": "❤️",
-        "supp_tier": "Essential",
-        "badge_tone": "caution",
-        "coverage_headline": "Emergency-only, mostly Medicare Advantage",
-        "mechanism": "Limited — Medicare Advantage rules",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "Medicare Advantage · commercial",
-        "short": "Largely a Medicare Advantage carrier. International emergency coverage exists but with strict lifetime caps and no routine care.",
-    },
-    {
-        "slug": "kaiser-permanente", "name": "Kaiser Permanente", "icon": "🏛️",
-        "supp_tier": "Essential",
-        "badge_tone": "danger",
-        "coverage_headline": "Emergency reimbursement only — no in-network abroad",
-        "mechanism": "Pay upfront, claim back",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "HMO only — worst international profile",
-        "short": "The worst major US carrier for international travel. Emergency reimbursement only, no network abroad, upfront payment required everywhere.",
-    },
-    {
-        "slug": "anthem", "name": "Anthem", "icon": "🔵",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BlueCard / Global Core in 190+ countries",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "BCBS licensee for 14 states. Global Core access; standard Blue emergency-only-abroad rules.",
-    },
-    {
-        "slug": "centene", "name": "Centene", "icon": "🏢",
-        "supp_tier": "Essential",
-        "badge_tone": "caution",
-        "coverage_headline": "Varies dramatically by subsidiary (Ambetter, WellCare, etc.)",
-        "mechanism": "Subsidiary-dependent",
-        "assistance_phone": "Subsidiary member services",
-        "plan_types": "Medicaid · Marketplace · Medicare Advantage",
-        "short": "Largest US Medicaid carrier. International coverage is almost nonexistent across its Medicaid and Marketplace products.",
-    },
-    {
-        "slug": "molina-healthcare", "name": "Molina Healthcare", "icon": "🏥",
-        "supp_tier": "Essential",
-        "badge_tone": "caution",
-        "coverage_headline": "Near-zero international coverage",
-        "mechanism": "Medicaid / Marketplace limits",
-        "assistance_phone": "Member services on your card",
-        "plan_types": "Medicaid-focused",
-        "short": "Medicaid-focused carrier with minimal international scope. Supplemental travel insurance is essential for any trip abroad.",
-    },
-    {
-        "slug": "hcsc", "name": "Health Care Service Corporation", "icon": "🔷",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BCBS plans across 5 states (IL/TX/NM/OK/MT)",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "BCBS licensee covering Illinois, Texas, New Mexico, Oklahoma, and Montana. Global Core access with standard Blue rules.",
-    },
-    {
-        "slug": "highmark", "name": "Highmark", "icon": "💠",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BCBS plans across PA / WV / DE / NY",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "BCBS licensee covering Pennsylvania, West Virginia, Delaware, and parts of New York. Standard Blue international rules.",
-    },
-    {
-        "slug": "independence-blue-cross", "name": "Independence Blue Cross", "icon": "🔹",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "Global Core + GeoBlue (a BCBS affiliate)",
-        "mechanism": "BCBS Global Core + GeoBlue",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · GeoBlue supplements available",
-        "short": "Southeastern Pennsylvania's BCBS licensee. Global Core access plus easy GeoBlue supplement for extended stays.",
-    },
-    {
-        "slug": "carefirst", "name": "CareFirst", "icon": "💙",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BCBS plans in MD / DC / VA",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "BCBS licensee for Maryland, DC, and northern Virginia. Standard Blue international emergency coverage.",
-    },
-    {
-        "slug": "premera-blue-cross", "name": "Premera Blue Cross", "icon": "🏔️",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BCBS plans in WA / AK",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "BCBS licensee for Washington and Alaska. Alaska residents need evacuation coverage given geography.",
-    },
-    {
-        "slug": "regence", "name": "Regence", "icon": "⛰️",
-        "supp_tier": "Recommended",
-        "badge_tone": "info",
-        "coverage_headline": "BlueCard / Global Core in WA / OR / ID / UT",
-        "mechanism": "BCBS Global Core",
-        "assistance_phone": "1-800-810-BLUE (2583)",
-        "plan_types": "PPO best · HMO emergency-only",
-        "short": "Pacific Northwest BCBS licensee. Emergency coverage abroad via Global Core; supplemental recommended for non-emergency needs.",
-    },
-]
 
 # FAQ — 18 insurance-specific Q/A used for FAQPage schema + on-page accordion
 FAQS = [
@@ -285,20 +136,29 @@ DEST_TIERS = {
 # Templates
 # -------------------------------------------------------------------
 
+def _evac_status(c: dict) -> str:
+    """Medevac-coverage cell text for the comparison matrix."""
+    if c["slug"] in ("kaiser-permanente", "humana", "centene", "molina-healthcare"):
+        return "Rarely"
+    if "BCBS" in c["mechanism"] or "Global Core" in c["mechanism"]:
+        return "Varies"
+    return "Check plan"
+
+
 def render_carrier_cards() -> str:
     out = []
     for c in CARRIERS:
+        tslug = tier_slug(c["supp_tier"])
         out.append(
             f'      <a href="/health/insurance/{c["slug"]}/" class="carrier-card" '
-            f'data-tier="{c["supp_tier"].lower().replace(" ", "-")}" '
-            f'data-mechanism="{html.escape(c["mechanism"])}">\n'
+            f'data-tier="{tslug}" data-mechanism="{html.escape(c["mechanism"])}">\n'
             f'        <div class="carrier-icon">{c["icon"]}</div>\n'
             f'        <div class="carrier-body">\n'
             f'          <h3 class="carrier-name">{html.escape(c["name"])}</h3>\n'
             f'          <p class="carrier-headline">{html.escape(c["coverage_headline"])}</p>\n'
             f'          <p class="carrier-short">{html.escape(c["short"])}</p>\n'
             f'          <div class="carrier-meta">\n'
-            f'            <span class="supp-tier supp-{c["supp_tier"].lower().replace(" ", "-")}">'
+            f'            <span class="supp-tier supp-{tslug}">'
             f'Supplemental: <strong>{html.escape(c["supp_tier"])}</strong></span>\n'
             f'            <span class="plan-types">{html.escape(c["plan_types"])}</span>\n'
             f'          </div>\n'
@@ -312,38 +172,17 @@ def render_carrier_cards() -> str:
 def render_matrix_rows() -> str:
     rows = []
     for c in CARRIERS:
-        evac = "✓" if c["supp_tier"] in ("Recommended", "Strongly Recommended") and "BCBS" not in c["mechanism"] and c["slug"] != "kaiser-permanente" else "Varies"
-        # Simpler: mark explicit medevac-included carriers; BCBS licensees "Varies by licensee"
-        if c["slug"] in ("kaiser-permanente", "humana", "centene", "molina-healthcare"):
-            evac = "Rarely"
-        elif "BCBS" in c["mechanism"] or "Global Core" in c["mechanism"]:
-            evac = "Varies"
-        else:
-            evac = "Check plan"
-
+        tslug = tier_slug(c["supp_tier"])
         rows.append(
             f'      <tr>\n'
             f'        <td class="matrix-carrier">'
             f'<a href="/health/insurance/{c["slug"]}/">{c["icon"]} {html.escape(c["name"])}</a></td>\n'
             f'        <td class="matrix-mechanism">{html.escape(c["mechanism"])}</td>\n'
-            f'        <td class="matrix-tier supp-{c["supp_tier"].lower().replace(" ", "-")}">{html.escape(c["supp_tier"])}</td>\n'
-            f'        <td class="matrix-evac">{evac}</td>\n'
+            f'        <td class="matrix-tier supp-{tslug}">{html.escape(c["supp_tier"])}</td>\n'
+            f'        <td class="matrix-evac">{_evac_status(c)}</td>\n'
             f'      </tr>'
         )
     return "\n".join(rows)
-
-
-def render_faqs() -> str:
-    out = []
-    for i, f in enumerate(FAQS):
-        out.append(
-            f'      <div class="faq-item">\n'
-            f'        <button class="faq-q" type="button" aria-expanded="false" aria-controls="ifaq-a-{i}">'
-            f'{html.escape(f["q"])}<span class="faq-arrow">▾</span></button>\n'
-            f'        <div class="faq-a" id="ifaq-a-{i}">{html.escape(f["a"])}</div>\n'
-            f'      </div>'
-        )
-    return "\n".join(out)
 
 
 def render_carrier_select_options() -> str:
@@ -353,19 +192,11 @@ def render_carrier_select_options() -> str:
     return "\n".join(opts)
 
 
-def render_faqs_schema() -> list:
-    return [
-        {
-            "@type": "Question",
-            "name": f["q"],
-            "acceptedAnswer": {"@type": "Answer", "text": f["a"]},
-        }
-        for f in FAQS
-    ]
-
-
 def render_carrier_decision_data_js() -> str:
-    data = {c["slug"]: {"tier": c["supp_tier"], "mechanism": c["mechanism"], "note": c["short"]} for c in CARRIERS}
+    data = {
+        c["slug"]: {"tier": c["supp_tier"], "mechanism": c["mechanism"], "note": c["short"]}
+        for c in CARRIERS
+    }
     return json.dumps(data, ensure_ascii=False)
 
 
@@ -432,7 +263,7 @@ def build_hub():
                     {"@type": "ListItem", "position": 3, "name": "Insurance by Carrier", "item": "https://tabiji.ai/health/insurance/"},
                 ],
             },
-            {"@type": "FAQPage", "mainEntity": render_faqs_schema()},
+            {"@type": "FAQPage", "mainEntity": render_faqs_schema(FAQS)},
             {
                 "@type": "ItemList",
                 "name": "US Health Insurance Carriers",
@@ -459,14 +290,11 @@ def build_hub():
         "__CARRIER_SELECT_OPTIONS__": render_carrier_select_options(),
         "__MATRIX_ROWS__": render_matrix_rows(),
         "__CARRIER_CARDS__": render_carrier_cards(),
-        "__FAQS__": render_faqs(),
+        "__FAQS__": render_faq_accordion(FAQS, id_prefix="ifaq"),
         "__CARRIER_DECISION_DATA__": render_carrier_decision_data_js(),
         "__DEST_TIERS__": render_dest_tiers_js(),
     }
-    html_out = HUB_TEMPLATE
-    for k, v in replacements.items():
-        html_out = html_out.replace(k, v)
-
+    html_out = apply_replacements(HUB_TEMPLATE, replacements)
     OUT_HUB.write_text(html_out)
     print(f"Wrote {OUT_HUB} ({len(html_out):,} chars, {len(CARRIERS)} carriers)")
 

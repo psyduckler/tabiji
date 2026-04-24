@@ -13,10 +13,20 @@ Usage:
 import html
 import json
 import re
+import sys
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from lib.editorial import (  # noqa: E402
+    REVIEW_DATE,
+    apply_replacements,
+    render_faq_accordion,
+    render_faqs_schema,
+)
+
+ROOT = SCRIPT_DIR.parent
 HEALTH_DATA = ROOT / "health-data"
 EXISTING_HUB = ROOT / "health" / "index.html"
 OUT_HUB = ROOT / "health" / "index.html"
@@ -26,8 +36,6 @@ OUT_API = ROOT / "api" / "v1" / "health.json"
 # Static editorial content (the 4 modules, FAQ, methodology, alerts).
 # Hand-curated and dated; update when doing a monthly pass.
 # -------------------------------------------------------------------
-
-REVIEW_DATE = "April 2026"
 
 # Top destinations with a single-line critical warning the reader cannot afford
 # to miss. Shown in the "Going somewhere soon?" lookup module as chips + JS.
@@ -270,66 +278,91 @@ STRICT_MEDS_SLUGS = {
 # Data extraction
 # -------------------------------------------------------------------
 
+_REGION_PATTERN = re.compile(
+    r'<(?:div|section) class="region-section" data-region="([a-z\-]+)">\s*'
+    r'<h2(?:\s+class="[^"]*")?>([^<]+)</h2>\s*'
+    r'<div class="country-grid(?: city-grid)?">(.*?)</div>\s*</(?:div|section)>',
+    re.DOTALL,
+)
+_CARD_PATTERN = re.compile(
+    r'<a href="/health/([a-z\-]+)/" class="country-card(?: city-card)?" '
+    r'data-country="([^"]+)"([^>]*)>(.*?)</a>',
+    re.DOTALL,
+)
+_CARD_ATTR_PATTERN = re.compile(r'data-([a-z]+)="([^"]*)"')
+_FLAG_PATTERN_LEGACY = re.compile(r'flag">([^<]+)</span>')
+_FLAG_PATTERN_EDITORIAL = re.compile(r'<div class="flag">([^<]+)</div>')
+_LEGACY_RATING_PATTERN = re.compile(r'color:#8B7355;[^"]*">([^<]+)</div>')
+_LEGACY_BADGE_PATTERN = re.compile(r'class="badge [a-z\-]+">([^<]+)</span>')
+_RATING_LABEL_PATTERN = re.compile(r'<span class="rating-label">([^<]+)</span>')
+
+
 def parse_regions(hub_html: str):
-    """Extract ordered regions and their country slugs from the existing hub."""
-    pattern = re.compile(
-        r'<div class="region-section" data-region="([a-z\-]+)">\s*'
-        r'<h2>([^<]+)</h2>\s*<div class="country-grid">(.*?)</div>\s*</div>',
-        re.DOTALL,
-    )
+    """Extract ordered regions and their country slugs from the hub (supports
+    both the legacy indigo-gradient layout and the current editorial-v2 one)."""
     regions = []
-    for m in pattern.finditer(hub_html):
-        slug = m.group(1)
-        heading = html.unescape(m.group(2))
-        grid = m.group(3)
-        countries = re.findall(r'href="/health/([a-z\-]+)/"', grid)
-        regions.append({"slug": slug, "heading": heading, "slugs": countries})
+    for m in _REGION_PATTERN.finditer(hub_html):
+        slug, heading, grid = m.group(1), html.unescape(m.group(2)), m.group(3)
+        slugs = re.findall(r'href="/health/([a-z\-]+)/"', grid)
+        regions.append({"slug": slug, "heading": heading, "slugs": slugs})
     return regions
 
 
+def _parse_water_insurance_from_legacy_badges(body: str):
+    water = "unknown"
+    insurance = "recommended"
+    for b in _LEGACY_BADGE_PATTERN.findall(body):
+        if "Safe Water" in b:
+            water = "safe"
+        elif "Caution" in b and "Water" in b:
+            water = "caution"
+        elif "Unsafe" in b or "Don't drink" in b:
+            water = "unsafe"
+        if "Insurance Required" in b:
+            insurance = "required"
+    return water, insurance
+
+
 def parse_card_metadata(hub_html: str):
-    """Map slug → (flag, display_name, rating_int, rating_label, water, insurance)."""
-    card_pattern = re.compile(
-        r'<a href="/health/([a-z\-]+)/" class="country-card" data-country="([^"]+)">(.*?)</a>',
-        re.DOTALL,
-    )
+    """Map slug → {name, flag, stars, rating_label, water, insurance} by
+    reading the hub HTML. Prefers data-* attributes (editorial-v2), falls back
+    to parsing badge text + rating div (legacy hub)."""
     meta = {}
-    for m in card_pattern.finditer(hub_html):
+    for m in _CARD_PATTERN.finditer(hub_html):
         slug = m.group(1)
         name = html.unescape(m.group(2))
-        body = m.group(3)
-        flag_m = re.search(r'flag">([^<]+)</span>', body)
+        attrs_tail = m.group(3)
+        body = m.group(4)
+        attrs = dict(_CARD_ATTR_PATTERN.findall(attrs_tail))
+
+        flag_m = _FLAG_PATTERN_EDITORIAL.search(body) or _FLAG_PATTERN_LEGACY.search(body)
         flag = flag_m.group(1) if flag_m else ""
-        # Rating text: "★★★★★ Excellent" form
-        rating_m = re.search(r'color:#8B7355;[^"]*">([^<]+)</div>', body)
-        rating_raw = html.unescape(rating_m.group(1)) if rating_m else ""
-        stars = rating_raw.count("★")
-        rating_label = re.sub(r'[★☆]', '', rating_raw).strip()
-        badges = re.findall(r'class="badge [a-z\-]+">([^<]+)</span>', body)
-        # Water
-        water = "unknown"
-        for b in badges:
-            if "Safe Water" in b:
-                water = "safe"
-            elif "Caution: Water" in b or "Caution" in b and "Water" in b:
-                water = "caution"
-            elif "Unsafe" in b or "Don't drink" in b:
-                water = "unsafe"
-        # Insurance
-        insurance = "recommended"
-        for b in badges:
-            if "Insurance Required" in b:
-                insurance = "required"
+
+        if "rating" in attrs:
+            stars = int(attrs["rating"])
+            label_m = _RATING_LABEL_PATTERN.search(body)
+            rating_label = label_m.group(1) if label_m else "Unrated"
+        else:
+            rating_m = _LEGACY_RATING_PATTERN.search(body)
+            rating_raw = html.unescape(rating_m.group(1)) if rating_m else ""
+            stars = rating_raw.count("★")
+            rating_label = re.sub(r"[★☆]", "", rating_raw).strip() or "Unrated"
+
+        if "water" in attrs:
+            water = attrs["water"]
+            insurance = attrs.get("insurance", "recommended")
+        else:
+            water, insurance = _parse_water_insurance_from_legacy_badges(body)
+
         meta[slug] = {
             "name": name,
             "flag": flag,
             "stars": stars,
-            "rating_label": rating_label or "Unrated",
+            "rating_label": rating_label,
             "water": water,
             "insurance": insurance,
         }
 
-    # Fill missing/unknown water status from the authoritative /health-data/*.json
     for slug, m in meta.items():
         if m["water"] in (None, "unknown"):
             data = load_country_data(slug)
@@ -340,20 +373,22 @@ def parse_card_metadata(hub_html: str):
     return meta
 
 
+_COUNTRY_DATA = None
+
+
 def load_country_data(slug: str):
-    """Load the per-country health-data/{ISO}.json if present (keyed by slug)."""
-    # We need a slug → iso2 lookup, which lives inside each JSON's countrySlug.
-    # Build a cache on first call.
-    if not hasattr(load_country_data, "_cache"):
-        cache = {}
+    """Per-country health-data/{ISO}.json, keyed by countrySlug. Parses the
+    210-file directory once on first call."""
+    global _COUNTRY_DATA
+    if _COUNTRY_DATA is None:
+        _COUNTRY_DATA = {}
         for p in HEALTH_DATA.glob("*.json"):
             try:
                 data = json.loads(p.read_text())
-                cache[data.get("countrySlug")] = data
+                _COUNTRY_DATA[data.get("countrySlug")] = data
             except Exception:
                 pass
-        load_country_data._cache = cache
-    return load_country_data._cache.get(slug)
+    return _COUNTRY_DATA.get(slug)
 
 
 # -------------------------------------------------------------------
@@ -368,7 +403,7 @@ def render_stars(n: int) -> str:
     return STAR_FULL * n + STAR_EMPTY * (5 - n)
 
 
-def render_card(slug: str, meta: dict, filters: dict) -> str:
+def render_card(slug: str, meta: dict) -> str:
     water = meta["water"]
     insurance = meta["insurance"]
     stars = meta["stars"]
@@ -455,27 +490,15 @@ def render_medevac_spotlight(meta) -> str:
     return "\n".join(items)
 
 
-def render_faqs() -> str:
-    items = []
-    for i, f in enumerate(FAQS):
-        items.append(
-            f'      <div class="faq-item">\n'
-            f'        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-{i}">'
-            f'{html.escape(f["q"])}<span class="faq-arrow">▾</span></button>\n'
-            f'        <div class="faq-a" id="faq-a-{i}">{html.escape(f["a"])}</div>\n'
-            f'      </div>'
-        )
-    return "\n".join(items)
+QUICK_LOOKUP_ORDER = [
+    "japan", "thailand", "mexico", "uae", "india", "kenya", "indonesia-bali",
+    "brazil", "france", "germany", "turkey", "peru",
+]
 
 
-def render_quick_lookup_chips() -> str:
+def render_quick_lookup_chips(meta_by_slug: dict) -> str:
     chips = []
-    order = [
-        "japan", "thailand", "mexico", "uae", "india", "kenya", "indonesia-bali",
-        "brazil", "france", "germany", "turkey", "peru",
-    ]
-    meta_by_slug = getattr(render_quick_lookup_chips, "_meta", {})
-    for slug in order:
+    for slug in QUICK_LOOKUP_ORDER:
         m = meta_by_slug.get(slug)
         name = html.escape(m["name"]) if m else slug.title()
         flag = m["flag"] if m else "🌍"
@@ -486,32 +509,11 @@ def render_quick_lookup_chips() -> str:
     return "\n".join(chips)
 
 
-def render_faqs_schema() -> str:
-    entities = []
-    for f in FAQS:
-        entities.append({
-            "@type": "Question",
-            "name": f["q"],
-            "acceptedAnswer": {"@type": "Answer", "text": f["a"]},
-        })
-    return json.dumps(entities, ensure_ascii=False)
-
-
-def render_quick_warnings_js() -> str:
-    data = {slug: warn for slug, warn in QUICK_WARNINGS.items()}
-    return json.dumps(data, ensure_ascii=False)
-
-
 # -------------------------------------------------------------------
 # Main generators
 # -------------------------------------------------------------------
 
-def build_hub():
-    hub_html = EXISTING_HUB.read_text()
-    regions = parse_regions(hub_html)
-    meta = parse_card_metadata(hub_html)
-    render_quick_lookup_chips._meta = meta
-
+def build_hub(regions, meta):
     total_countries = sum(len(r["slugs"]) for r in regions)
 
     region_sections = []
@@ -521,7 +523,7 @@ def build_hub():
             m = meta.get(slug)
             if not m:
                 continue
-            cards.append(render_card(slug, m, {}))
+            cards.append(render_card(slug, m))
         region_sections.append(
             f'  <section class="region-section" data-region="{region["slug"]}">\n'
             f'    <h2 class="region-heading">{html.escape(region["heading"])}</h2>\n'
@@ -535,10 +537,9 @@ def build_hub():
     alerts_html = render_alerts()
     editor_lists_html = render_editor_lists()
     medevac_html = render_medevac_spotlight(meta)
-    faqs_html = render_faqs()
-    lookup_chips_html = render_quick_lookup_chips()
-    faq_schema = render_faqs_schema()
-    quick_warnings_js = render_quick_warnings_js()
+    faqs_html = render_faq_accordion(FAQS, id_prefix="faq")
+    lookup_chips_html = render_quick_lookup_chips(meta)
+    quick_warnings_js = json.dumps(QUICK_WARNINGS, ensure_ascii=False)
 
     today = date.today().isoformat()
 
@@ -593,7 +594,7 @@ def build_hub():
             },
             {
                 "@type": "FAQPage",
-                "mainEntity": json.loads(faq_schema),
+                "mainEntity": render_faqs_schema(FAQS),
             },
             {
                 "@type": "ItemList",
@@ -618,20 +619,13 @@ def build_hub():
         "__FAQS__": faqs_html,
         "__QUICK_WARNINGS_JS__": quick_warnings_js,
     }
-    html_out = HUB_TEMPLATE
-    for k, v in replacements.items():
-        html_out = html_out.replace(k, v)
-
+    html_out = apply_replacements(HUB_TEMPLATE, replacements)
     OUT_HUB.write_text(html_out)
     print(f"Wrote {OUT_HUB} ({len(html_out):,} chars, {total_countries} countries)")
 
 
-def build_api():
+def build_api(regions, meta):
     """Emit /api/v1/health.json — structured data for LLMs and agents."""
-    hub_html = EXISTING_HUB.read_text()
-    regions = parse_regions(hub_html)
-    meta = parse_card_metadata(hub_html)
-
     countries = []
     for region in regions:
         for slug in region["slugs"]:
@@ -1596,7 +1590,13 @@ __FAQS__
 """
 
 
+def main():
+    hub_html = EXISTING_HUB.read_text()
+    regions = parse_regions(hub_html)
+    meta = parse_card_metadata(hub_html)
+    build_api(regions, meta)
+    build_hub(regions, meta)
+
+
 if __name__ == "__main__":
-    # API first — build_hub() overwrites the source file parse_* reads from.
-    build_api()
-    build_hub()
+    main()
