@@ -205,7 +205,7 @@ body {{ font-family: 'Inter', system-ui, sans-serif; background: var(--warm-crea
     <div class="hub-cta">
       <h2>Plan your {city_name} trip</h2>
       <p>Get a free custom itinerary built from real traveler insights — not generic templates.</p>
-      <a href="/plan">Get a Free Itinerary →</a>
+      <a href="/trip-planner/">Get a Free Itinerary →</a>
     </div>
   </div>
 

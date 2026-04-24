@@ -1266,7 +1266,7 @@ def generate_country_page(name, slug, iso2, flag, continent):
             if td["has_page"]:
                 href = f"/destinations/{td['slug']}/"
             else:
-                href = f"/plan/?destination={h(td['name'])}"
+                href = f"/trip-planner/"
             dest_cards += f"""
             <a href="{href}" class="dest-card">
                 <img src="{h(photo)}" alt="{h(td['name'])}" loading="lazy" width="400" height="260">
@@ -1286,7 +1286,7 @@ def generate_country_page(name, slug, iso2, flag, continent):
     <section class="cta-box">
         <h2>Ready to plan your {name} trip?</h2>
         <p>Get a personalized, day-by-day itinerary built from real traveler recommendations.</p>
-        <a href="/plan/?destination={h(name)}" class="cta-btn">Plan My {name} Trip &rarr;</a>
+        <a href="/trip-planner/" class="cta-btn">Plan My {name} Trip &rarr;</a>
     </section>"""
 
     # --- Robots: noindex thin pages to protect crawl budget ---

@@ -648,8 +648,8 @@ def build_compare_json(slug, content_data):
 <h2>{html_module.escape(d.get("ctaText", f"Ready to plan your trip?"))}</h2>
 <p>{html_module.escape(d.get("ctaDescription", f"Get a free custom itinerary for {dest1}, {dest2}, or both."))}</p>
 <div class="cta-buttons">
-<a class="cta-btn-primary" href="/plan">{html_module.escape(d.get("ctaButton1", f"Plan Your {dest1} Trip →"))}</a>
-<a class="cta-btn-secondary" href="/plan">{html_module.escape(d.get("ctaButton2", f"Plan Your {dest2} Trip →"))}</a>
+<a class="cta-btn-primary" href="/trip-planner/">{html_module.escape(d.get("ctaButton1", f"Plan Your {dest1} Trip →"))}</a>
+<a class="cta-btn-secondary" href="/trip-planner/">{html_module.escape(d.get("ctaButton2", f"Plan Your {dest2} Trip →"))}</a>
 </div>
 </div>'''
     

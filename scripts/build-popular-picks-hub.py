@@ -673,7 +673,7 @@ def render_html(countries, featured):
 <section class="bottom-cta">
   <h2>Don't see what you're looking for?</h2>
   <p>We build custom AI itineraries for any destination — drawn from the same Reddit-sourced traveler intel that powers every Popular Pick.</p>
-  <a href="/plan" class="cta-btn">Get a Free Itinerary</a>
+  <a href="/trip-planner/" class="cta-btn">Get a Free Itinerary</a>
 </section>
 
 <!-- @include:footer:start -->
