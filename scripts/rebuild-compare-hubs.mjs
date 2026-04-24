@@ -243,8 +243,9 @@ function renderArchiveScript(cardsForPage, searchOptions = { region: true, type:
     const archiveList = document.getElementById('archiveList');
     const resultCount = document.getElementById('resultCount');
     const loadMoreBtn = document.getElementById('loadMoreBtn');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
     function rowTemplate(card) {
-      return '<a class="archive-row" href="' + card.url + '">' + '<div><h3>' + card.destination1 + ' vs ' + card.destination2 + '</h3><p>' + card.description + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + card.region + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + card.tripType + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + card.inboundLinks + ' links</div>' + '</a>';
+      return '<a class="archive-row" href="' + esc(card.url) + '">' + '<div><h3>' + esc(card.destination1) + ' vs ' + esc(card.destination2) + '</h3><p>' + esc(card.description) + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + esc(card.region) + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + esc(card.tripType) + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + Number(card.inboundLinks || 0) + ' links</div>' + '</a>';
     }
     function renderPage() {
       const start = 0;
@@ -289,8 +290,9 @@ function renderArchiveScript(cardsForPage, searchOptions = { region: true, type:
     const sortFilter = document.getElementById('sortFilter');
     const archiveList = document.getElementById('archiveList');
     const resultCount = document.getElementById('resultCount');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
     function rowTemplate(card) {
-      return '<a class="archive-row" href="' + card.url + '">' + '<div><h3>' + card.destination1 + ' vs ' + card.destination2 + '</h3><p>' + card.description + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + card.region + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + card.tripType + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + card.inboundLinks + ' links</div>' + '</a>';
+      return '<a class="archive-row" href="' + esc(card.url) + '">' + '<div><h3>' + esc(card.destination1) + ' vs ' + esc(card.destination2) + '</h3><p>' + esc(card.description) + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + esc(card.region) + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + esc(card.tripType) + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + Number(card.inboundLinks || 0) + ' links</div>' + '</a>';
     }
     function applyFilters() {
       const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
