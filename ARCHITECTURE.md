@@ -152,7 +152,6 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | `destinations/` | ~69 | City destination pages |
 | `credit-cards/` | ~49 | Travel credit card reviews |
 | `itineraries/` | ~49 | Free curated itineraries |
-| `resources/` | ~14 | Blog / resource articles |
 | `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
 | `recommend/` | 11 | Theme-based recommendation pages |
 
@@ -178,7 +177,6 @@ tabiji/
 ├── destinations/            ← city destination pages (69 cities)
 ├── credit-cards/            ← credit card reviews (49 cards)
 ├── itineraries/             ← free curated itineraries (49 slugs)
-├── resources/               ← blog/articles (14 slugs)
 ├── best-places-to-visit-in-*/ ← monthly guides (12 months)
 │
 ├── find/                    ← destination finder tool

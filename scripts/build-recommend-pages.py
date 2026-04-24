@@ -35,7 +35,6 @@ NAV_HTML = """<nav>
                 <a href="/find/">🔍 Destination Finder</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/resources/">📚 Resources</a>
                 <a href="/api/">🔌 API</a>
             </div>
         </div>

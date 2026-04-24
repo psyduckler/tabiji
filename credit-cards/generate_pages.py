@@ -14,7 +14,6 @@ NAV = '''<nav>
             <div class="nav-dropdown-menu">
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
-                <a href="/resources/">📚 Resources</a>
                 <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/api/">🔌 API</a>
             </div>
@@ -67,7 +66,7 @@ footer p { color: var(--text-muted); font-size: 0.85rem; }
 FOOTER = '''<footer>
     <div class="logo-footer">tabiji<span style="color:var(--terracotta)">.ai</span></div>
     <p>© 2026 Tabiji. AI-powered travel planning.</p>
-    <p style="margin-top:0.5rem"><a href="/resources/" style="color:var(--earth);text-decoration:none">Resources</a> · <a href="/credit-cards/" style="color:var(--earth);text-decoration:none">Credit Cards</a> · <a href="/plan" style="color:var(--earth);text-decoration:none">Plan a Trip</a></p>
+    <p style="margin-top:0.5rem"><a href="/credit-cards/" style="color:var(--earth);text-decoration:none">Credit Cards</a> · <a href="/plan" style="color:var(--earth);text-decoration:none">Plan a Trip</a></p>
 </footer>'''
 
 GA4 = '''<script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
