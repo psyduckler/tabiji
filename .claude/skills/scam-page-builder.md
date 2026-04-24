@@ -46,7 +46,7 @@ If only the city is given, infer the other three and confirm with the user.
     ]
   }
   ```
-- **Generator**: [scams/generate_pages.py](scams/generate_pages.py) — single source of truth. Reads all batch files, writes `scams/<slug>/index.html` + `scams/country/<cc>/index.html`. Owns `EMERGENCY_INFO` (line 98), `CITY_SLUGS` (line 1134), `SAFETY_TIPS` (line 1613), `FAQS` (line 3467).
+- **Generator**: [scams/generate_pages.py](scams/generate_pages.py) — single source of truth. Exports `regenerate_city(city_name)`, `regenerate_country_hub(country_name)`, `load_all_research_batches()`, plus the `EMERGENCY_INFO`, `CITY_SLUGS`, `SAFETY_TIPS`, `FAQS` dicts (search by name — avoid hard-coded line numbers).
 - **Style contract**: [docs/scam-pages-style-guide.md](docs/scam-pages-style-guide.md). American English (en-US). Don't write prose that violates this.
 - **Sanitizer**: `_sanitize_reddit_shards` in `scams/generate_pages.py` imports `clean_text` from [scripts/clean_us_reddit_shards.py](scripts/clean_us_reddit_shards.py). Runs on all prose at render time; strips `r/<sub> '<title>' (comments/xxx, YEAR)` strings. **Has a known orphan-phrase bug** — see Known Traps.
 - **Lint**: [scripts/lint_scam_content.py](scripts/lint_scam_content.py). Pre-generation gate. Build on first skill run if absent (spec in Step 5).
@@ -334,12 +334,12 @@ Save `/tmp/scam-research/<slug>/claim-tokens.json` with one row per claim, its s
 
 Add entries (alphabetical order within each dict):
 
-**`CITY_SLUGS`** (around line 1134):
+**`CITY_SLUGS`** (grep `^CITY_SLUGS = ` in `scams/generate_pages.py`):
 ```python
 "<City>": "<slug>",
 ```
 
-**`SAFETY_TIPS`** (around line 1613):
+**`SAFETY_TIPS`** (grep `^SAFETY_TIPS = `):
 ```python
 "<City>": [
     "<imperative tip 1, ≤ 20 words, verb-first>",
@@ -349,7 +349,7 @@ Add entries (alphabetical order within each dict):
 ],
 ```
 
-**`FAQS`** (around line 3467):
+**`FAQS`** (grep `^FAQS = `):
 ```python
 "<City>": [
     ("Is <city> safe for tourists?", "<answer, 2–3 sentences, covers common sense + neighborhoods to prefer/avoid>"),
@@ -360,7 +360,7 @@ Add entries (alphabetical order within each dict):
 ],
 ```
 
-**`EMERGENCY_INFO`** (around line 98) — only if country is missing, or if the city needs an override:
+**`EMERGENCY_INFO`** (grep `^EMERGENCY_INFO = `) — only if country is missing, or if the city needs an override:
 ```python
 "<Country>": {
     "police_name": "<official name>",
@@ -398,18 +398,11 @@ from generate_pages import regenerate_city
 regenerate_city("<City>")  # writes scams/<slug>/index.html
 ```
 
-If the country hub needs regeneration (≥ 2 cities per country), also run:
+If the country has ≥ 2 cities, regenerate its country hub too:
 
 ```python
-from generate_pages import generate_country_page, build_country_data, load_all_research_batches
-all_cities = load_all_research_batches()
-country_data = build_country_data(all_cities)
-c = country_data["<Country>"]
-from pathlib import Path
-Path(f"scams/country/{c['country_code'].lower()}/index.html").write_text(
-    generate_country_page("<Country>", c["country_code"], c["flag"], c["cities"],
-                          sum(len(x["scams"]) for x in all_cities))
-)
+from generate_pages import regenerate_country_hub
+regenerate_country_hub("<Country>")  # returns None if < 2 cities, else the output Path
 ```
 
 **If the country has a live Amazon book** (japan, italy, france, indonesia, brazil, portugal, canada, united-kingdom, vietnam, germany, spain, greece, thailand — authoritative list in [scripts/book-cta-rollout/apply_book_ctas.py](scripts/book-cta-rollout/apply_book_ctas.py) `COUNTRIES` dict), run the book-CTA insertion next so the new page matches existing pages in that country:
@@ -568,9 +561,10 @@ Adds `<City>` to tabiji scam coverage with <N> Reddit-cited scams.
 - [ ] If AmE drift / orphan-phrase bugs found in existing pages: [pending_scam_cleanup_prs memory]
 
 ## Test plan
-- [ ] `python3 scams/generate_pages.py` runs clean
-- [ ] `/scams/<slug>/` loads and all 6 cards render
-- [ ] `/scams/country/<cc>/` lists the new city
+- [ ] `regenerate_city("<City>")` runs clean and emits editorial-v2 shell
+- [ ] `/scams/<slug>/` loads with all scam cards + `.related-section` + `.toc-list`
+- [ ] `/scams/country/<cc>/` lists the new city with correct scam count
+- [ ] `/scams/` hub (after `python3 scripts/regenerate_scams_hub.py`) shows the new city in the grid + stats-bar reflects it
 - [ ] Schema.org validates (no JSON-LD errors)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -580,7 +574,7 @@ Adds `<City>` to tabiji scam coverage with <N> Reddit-cited scams.
 
 1. **Sanitizer orphan-phrase bug** — `_sanitize_reddit_shards` (from `scripts/clean_us_reddit_shards.py`) strips `r/<sub> '<title>' (comments/xxx, YEAR)` strings from prose at render time, but sometimes leaves trailing editorial tags like "is the community baseline", "established the recurring pattern", "are first-person anchors". **Prevention**: never embed Reddit citations in `story`/`red_flags`/`how_to_avoid` prose. Thread links go in `reddit_sources[]` only. Rule 2 of the lint catches this.
 
-2. **`make_tldr` mid-sentence cuts** — the generator's first-sentence splitter (`make_tldr` in `scams/generate_pages.py:6705`) fallback cuts at char 100 on nearest word and appends `.` if no em-dash or period is found before then. If the first sentence is long and has no mid-sentence period/em-dash, the TLDR becomes a truncated fragment. **Prevention**: open Para 1 with a ≤ 160-char complete sentence ending in `.` or ` — `.
+2. **`make_tldr` mid-sentence cuts** — the generator's first-sentence splitter (`make_tldr` in `scams/generate_pages.py`) falls back to a char-100 nearest-word cut when it can't find `. ` or ` — ` in the first 160 chars. If the first sentence is long and has no mid-sentence period/em-dash, the TLDR becomes a truncated fragment. **Prevention**: open Para 1 with a ≤ 160-char complete sentence ending in `.` or ` — `. Also beware of `"St. "` / `"Dr. "` / `"Mt. "` abbreviations at the start — the period gets treated as sentence-end. Use `"Saint Louis"` spelling in the first sentence to work around.
 
 3. **AmE drift** — style guide locked en-US on 2026-04, but drift recurs (e.g., `colourful` in `scams/kuala-lumpur/index.html:416`). Lint rule 1 catches 17 pairs but will miss new forms. Add any new drift to the regex as it's discovered.
 
@@ -588,7 +582,7 @@ Adds `<City>` to tabiji scam coverage with <N> Reddit-cited scams.
 
 5. **Reddit thread ID verification** — IDs are 6–8 lowercase alphanumeric. Any deviation (`comments/1qru2ox_wrong`, longer IDs, uppercase) is a typo. Always verify via `.json` fetch.
 
-6. **Hardcoded paths** — ignore `scripts/generate_new_scam_pages.py` (hardcoded `BASE = "/Users/bjh/Documents/tabiji"`, wrong machine). Always drive generation from `scams/generate_pages.py`.
+6. **Hardcoded paths** — ignore `scripts/generate_new_scam_pages.py` (hardcoded `BASE = "/Users/bjh/Documents/tabiji"`, wrong machine). Always use the `regenerate_city()` / `regenerate_country_hub()` helpers from `scams/generate_pages.py`.
 
 7. **Comic URL cache-bust** — when comics are later uploaded in the comic-batch PR, the generator already writes `?v=1` by default; bump to `?v=2`, `?v=3` on re-upload.
 
