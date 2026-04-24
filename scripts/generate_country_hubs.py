@@ -329,7 +329,7 @@ QUICK_FACTS = {
 # Health slug overrides (when health directory slug differs from country slug)
 HEALTH_SLUG_OVERRIDES = {
     "United Arab Emirates": "uae",
-    "Indonesia":            "indonesia-bali",
+    "Indonesia":            "indonesia",
 }
 
 # ---------------------------------------------------------------------------

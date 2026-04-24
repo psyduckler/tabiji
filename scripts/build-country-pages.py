@@ -69,7 +69,7 @@ YF_REQUIRED_SLUGS = {
 
 STRICT_MEDS_SLUGS = {
     "japan", "uae", "singapore", "saudi-arabia", "south-korea", "thailand",
-    "mexico", "indonesia-bali", "china", "russia", "egypt", "qatar", "kuwait",
+    "mexico", "indonesia", "china", "russia", "egypt", "qatar", "kuwait",
     "bahrain", "oman", "iran", "malaysia",
 }
 

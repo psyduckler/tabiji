@@ -46,7 +46,7 @@ QUICK_WARNINGS = {
     "uae": "Codeine, CBD, and many common pain meds require pre-approved import permits. Customs prosecute.",
     "india": "Monsoon brings dengue and chikungunya in the south. Private hospitals in major cities only.",
     "kenya": "Yellow fever vaccination required for entry if arriving from an endemic country. Malaria risk below 2,500m.",
-    "indonesia-bali": "Rabies is endemic — don't touch dogs or monkeys. Dengue active year-round.",
+    "indonesia": "Rabies is endemic — don't touch dogs or monkeys. Dengue active year-round.",
     "brazil": "Yellow fever required for Amazon and Pantanal regions. Dengue epidemic since 2024.",
     "vietnam": "Foreign prescriptions are not accepted. Dengue and Japanese encephalitis risk in rural areas.",
     "philippines": "Rabies endemic, dengue year-round. Medical evacuation to Singapore or Bangkok for serious cases.",
@@ -270,7 +270,7 @@ YF_REQUIRED_SLUGS = {
 # can result in arrest or confiscation at customs. Hand-picked from known cases.
 STRICT_MEDS_SLUGS = {
     "japan", "uae", "singapore", "saudi-arabia", "south-korea", "thailand",
-    "mexico", "indonesia-bali", "china", "russia", "egypt", "qatar", "kuwait",
+    "mexico", "indonesia", "china", "russia", "egypt", "qatar", "kuwait",
     "bahrain", "oman", "iran", "malaysia",
 }
 
@@ -491,7 +491,7 @@ def render_medevac_spotlight(meta) -> str:
 
 
 QUICK_LOOKUP_ORDER = [
-    "japan", "thailand", "mexico", "uae", "india", "kenya", "indonesia-bali",
+    "japan", "thailand", "mexico", "uae", "india", "kenya", "indonesia",
     "brazil", "france", "germany", "turkey", "peru",
 ]
 
