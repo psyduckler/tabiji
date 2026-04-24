@@ -1502,7 +1502,11 @@ body.editorial-v2 .back-to-top {
     body.editorial-v2 .content > hr {
         grid-column: 2;
     }
-    body.editorial-v2 .toc {
+    /* Scoped to scam-page TOCs (direct children of .content grid container).
+       The unscoped `.toc` selector bled into /health/ country pages that use
+       <aside class="toc"> inside a separate .layout grid — forcing 999 phantom
+       grid rows × 2.5rem gap = ~40,000px empty space between Sources and footer. */
+    body.editorial-v2 .content > .toc {
         grid-column: 1;
         grid-row: 1 / span 999;
         position: sticky;
