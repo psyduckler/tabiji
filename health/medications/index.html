@@ -638,6 +638,64 @@
         text-transform: uppercase;
         margin-top: 0.35rem;
     }
+
+    /* Destination-aware book CTA grid on tier-1 medication pages */
+    body.editorial-v2 .med-books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0.85rem;
+        margin-top: 0.75rem;
+    }
+    body.editorial-v2 .med-book-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        background: var(--indigo);
+        color: var(--white);
+        padding: 1.3rem 1.4rem;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        transition: transform 0.15s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+    body.editorial-v2 .med-book-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(45, 58, 92, 0.25);
+    }
+    body.editorial-v2 .med-book-card::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(196, 112, 75, 0.22) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    body.editorial-v2 .med-book-card .med-book-eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--terracotta);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+    body.editorial-v2 .med-book-card strong {
+        font-family: var(--font-serif);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.1;
+        margin-top: 0.25rem;
+    }
+    body.editorial-v2 .med-book-card .med-book-cta {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--terracotta);
+        margin-top: 0.6rem;
+    }
 </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -648,6 +706,7 @@
 <body class="editorial-v2">
 
 <!-- @include:nav:start -->
+<a class="skip-link" href="#main">Skip to main content</a>
 <nav>
     <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>

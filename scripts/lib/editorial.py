@@ -26,6 +26,107 @@ REVIEW_DATE = "April 2026"
 
 
 # -------------------------------------------------------------------
+# Tabiji travel-safety Kindle books
+# -------------------------------------------------------------------
+# Country-slug → book URL. Only countries with published + live Kindle books
+# (verified via /books/{slug}-tourist-scams/ returning 200). Adding a country
+# to this list causes the matching /health/{slug}/ page to show a book-CTA.
+BOOKS_BY_SLUG = {
+    "argentina":       "/books/argentina-tourist-scams/",
+    "brazil":          "/books/brazil-tourist-scams/",
+    "canada":          "/books/canada-tourist-scams/",
+    "china":           "/books/china-tourist-scams/",
+    "colombia":        "/books/colombia-tourist-scams/",
+    "france":          "/books/france-tourist-scams/",
+    "germany":         "/books/germany-tourist-scams/",
+    "greece":          "/books/greece-tourist-scams/",
+    "indonesia":       "/books/indonesia-tourist-scams/",
+    "italy":           "/books/italy-tourist-scams/",
+    "japan":           "/books/japan-tourist-scams/",
+    "portugal":        "/books/portugal-tourist-scams/",
+    "spain":           "/books/spain-tourist-scams/",
+    "thailand":        "/books/thailand-tourist-scams/",
+    "turkey":          "/books/turkey-tourist-scams/",
+    "united-kingdom":  "/books/united-kingdom-tourist-scams/",
+    "vietnam":         "/books/vietnam-tourist-scams/",
+}
+
+
+def book_url_for(slug: str):
+    """Return the canonical book URL for a country slug, or None if no book."""
+    return BOOKS_BY_SLUG.get(slug)
+
+
+def render_country_book_cta(slug: str, name: str) -> str:
+    """Render the editorial-v2 book-CTA card for a country page.
+    Returns empty string if no book exists for that country."""
+    url = book_url_for(slug)
+    if not url:
+        return ""
+    import html as html_mod
+    name_esc = html_mod.escape(name)
+    return (
+        f'  <section class="book-cta-section">\n'
+        f'    <div class="book-cta">\n'
+        f'      <span class="book-cta-eyebrow">📕 Travel safety book</span>\n'
+        f'      <h3 class="book-cta-heading">The full <em>{name_esc}</em> safety guide.</h3>\n'
+        f'      <p class="book-cta-body">Every scam pattern, customs trap, and emergency protocol '
+        f'we have documented for {name_esc} — packaged into a single Kindle book. '
+        f'Searchable offline, sized for your phone.</p>\n'
+        f'      <a href="{url}" class="book-cta-btn">Get the {name_esc} safety book →</a>\n'
+        f'      <p class="book-cta-format"><em>Kindle · instant download · offline-ready</em></p>\n'
+        f'    </div>\n'
+        f'  </section>'
+    )
+
+
+def render_medication_book_cta(tier1_name: str, banned_country_slugs: list, restricted_country_slugs: list) -> str:
+    """Render a destination-aware book-CTA for a tier-1 medication page.
+    Picks up to 3 countries from the banned/restricted lists that have books,
+    prioritizing banned countries first."""
+    import html as html_mod
+    candidates = []
+    for s in banned_country_slugs + restricted_country_slugs:
+        if s in BOOKS_BY_SLUG and s not in [c["slug"] for c in candidates]:
+            candidates.append({"slug": s, "url": BOOKS_BY_SLUG[s]})
+        if len(candidates) >= 3:
+            break
+    if not candidates:
+        return ""
+    # Map slug to display name (for the CTA card labels)
+    display = {
+        "argentina": "Argentina", "brazil": "Brazil", "canada": "Canada",
+        "china": "China", "colombia": "Colombia", "france": "France",
+        "germany": "Germany", "greece": "Greece", "indonesia": "Indonesia",
+        "italy": "Italy", "japan": "Japan", "portugal": "Portugal",
+        "spain": "Spain", "thailand": "Thailand", "turkey": "Turkey",
+        "united-kingdom": "United Kingdom", "vietnam": "Vietnam",
+    }
+    cards = []
+    for c in candidates:
+        country = display.get(c["slug"], c["slug"].replace("-", " ").title())
+        cards.append(
+            f'      <a href="{c["url"]}" class="med-book-card">\n'
+            f'        <span class="med-book-eyebrow">📕 Safety book</span>\n'
+            f'        <strong>{html_mod.escape(country)}</strong>\n'
+            f'        <span class="med-book-cta">Get the guide →</span>\n'
+            f'      </a>'
+        )
+    return (
+        f'  <section class="module-section" id="book-cta">\n'
+        f'    <span class="section-eyebrow">Going deeper</span>\n'
+        f'    <h2>Full safety guides for <em>{html_mod.escape(tier1_name)}-restricted</em> destinations.</h2>\n'
+        f'    <p class="lede">If you are heading somewhere that restricts {html_mod.escape(tier1_name.lower())}, '
+        f'our country-specific Kindle books cover every scam, customs trap, and emergency protocol we have '
+        f'documented — in a single searchable offline volume.</p>\n'
+        f'    <div class="med-books-grid">\n'
+        + "\n".join(cards) + "\n"
+        f'    </div>\n'
+        f'  </section>'
+    )
+
+
+# -------------------------------------------------------------------
 # Supplemental-insurance tier vocabulary
 # -------------------------------------------------------------------
 
