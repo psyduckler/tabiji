@@ -234,7 +234,6 @@ def build_preset_page(preset, filter_lookup):
 </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->
@@ -312,7 +311,6 @@ def build_hub_page(presets):
 </style>
 <!-- @include:shared-head:start -->
 <link rel="stylesheet" href="/assets/shared-shell.css">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2D3A5C">
 <script defer src="/assets/shared-shell.js"></script>
 <!-- @include:shared-head:end -->

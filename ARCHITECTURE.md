@@ -167,7 +167,6 @@ tabiji/
 ├── success.html             ← post-payment confirmation
 ├── 404.html                 ← custom error page
 ├── robots.txt / sitemap.xml ← SEO
-├── manifest.json / sw.js    ← PWA support
 ├── deploy.sh                ← clean-push deploy helper
 │
 ├── i/                       ← paid itineraries (395 slugs)
@@ -185,7 +184,6 @@ tabiji/
 ├── find/                    ← destination finder tool
 ├── owl/                     ← Owl interactive assistant
 ├── spin/                    ← destination spinner tool
-├── kit/                     ← travel kit builder
 ├── recommend/               ← recommendation pages by theme
 ├── trends/                  ← travel trends tool
 ├── about/                   ← about page
