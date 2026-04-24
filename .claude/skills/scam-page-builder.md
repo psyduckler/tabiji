@@ -389,36 +389,27 @@ Preserve 2-space JSON indent (`json.dumps(..., indent=2, ensure_ascii=False)`). 
 
 ### Step 9: Regenerate
 
-The generator's `main()` glob is stale — it does not pick up `<cc>_batch*.json` files. Bypass it and call `generate_page()` directly, loading **every** research batch so `build_related_cities_map()` gets the full corpus (otherwise `.related-section` renders empty).
+Use the `regenerate_city()` helper — it loads every research batch and builds the full `related_cities_map` internally, so `.related-section` always renders.
 
 ```python
-import json, sys, glob
-from pathlib import Path
+import sys
 sys.path.insert(0, "scams")
-from generate_pages import generate_page, build_related_cities_map, CITY_SLUGS
-
-# Load ALL research batches (not just the new one) for cross-city related links.
-all_cities = []
-for bf in sorted(glob.glob("scams/research/*.json")):
-    all_cities.extend(json.load(open(bf)))
-related = build_related_cities_map(all_cities)
-
-# Regenerate just the new city (or a small set).
-new_city_data = next(c for c in all_cities if c["city"] == "<City>")
-slug = CITY_SLUGS[new_city_data["city"]]
-out = Path(f"scams/{slug}/index.html")
-out.parent.mkdir(parents=True, exist_ok=True)
-out.write_text(generate_page(new_city_data, related))
+from generate_pages import regenerate_city
+regenerate_city("<City>")  # writes scams/<slug>/index.html
 ```
 
-If Taiwan/US country hub needs regeneration (≥ 2 cities), also run:
+If the country hub needs regeneration (≥ 2 cities per country), also run:
 
 ```python
-from generate_pages import generate_country_page, build_country_data
+from generate_pages import generate_country_page, build_country_data, load_all_research_batches
+all_cities = load_all_research_batches()
 country_data = build_country_data(all_cities)
 c = country_data["<Country>"]
-html = generate_country_page("<Country>", c["country_code"], c["flag"], c["cities"], sum(len(x["scams"]) for x in all_cities))
-Path(f"scams/country/{c['country_code'].lower()}/index.html").write_text(html)
+from pathlib import Path
+Path(f"scams/country/{c['country_code'].lower()}/index.html").write_text(
+    generate_country_page("<Country>", c["country_code"], c["flag"], c["cities"],
+                          sum(len(x["scams"]) for x in all_cities))
+)
 ```
 
 **If the country has a live Amazon book** (japan, italy, france, indonesia, brazil, portugal, canada, united-kingdom, vietnam, germany, spain, greece, thailand — authoritative list in [scripts/book-cta-rollout/apply_book_ctas.py](scripts/book-cta-rollout/apply_book_ctas.py) `COUNTRIES` dict), run the book-CTA insertion next so the new page matches existing pages in that country:
@@ -510,57 +501,23 @@ assert not orphans, f"orphan sanitizer phrases found: {orphans[:5]}"
 
 Any failure → fix, re-run Step 9, re-verify. **Do not commit broken HTML.**
 
-### Step 11: Hub integration (required — NOT optional)
+### Step 11: Hub integration
 
-`/scams/index.html` is a hand-maintained master hub with ~500 `<a class="city-card">` entries. It does NOT auto-update. Every new city needs three things patched.
+**11a. Regenerate the master `/scams/index.html` hub:**
 
-**11a. Append city-card to `scams/index.html` (alphabetical by city name):**
-
-Exact template (matches existing hub cards — attribute order matters, `href` comes before `class`):
-
-```html
-        <a href="/scams/<slug>/" class="city-card" data-city="<city lowercased> <country lowercased>" data-country="<CC>">
-            <div class="flag"><flag emoji></div>
-            <div class="city-name"><City></div>
-            <div class="city-country"><Country></div>
-            <div class="scam-count"><N> scams documented</div>
-            <div class="city-tagline">First 3 scam names joined by ", ", then ", and more"</div>
-            <div class="card-date" style="font-size:0.72rem;color:#9ca3af;margin-top:0.4rem;">Updated Apr 2026</div>
-            <div class="arrow">Read the guide →</div>
-        </a>
+```bash
+python3 scripts/regenerate_scams_hub.py
 ```
 
-**11b. Update the stats-bar in `scams/index.html`:**
+This scans every `scams/<slug>/index.html`, rebuilds the stats-bar, country-filter pills, city-grid (alphabetical), and JSON-LD `numberOfItems` — all from the filesystem (authoritative). Replaces the old manual card-insertion + 3-stat-bump + 2-JSON-LD-counter workflow with a single command. If a warning about an unknown country code appears, add it to `COUNTRY_META` in the script.
 
-```python
-import json, glob, sys
-from bs4 import BeautifulSoup
-sys.path.insert(0, "scams")
-from generate_pages import CITY_SLUGS
-
-all_cities = []
-for bf in sorted(glob.glob("scams/research/*.json")):
-    data = json.load(open(bf))
-    cities = data if isinstance(data, list) else data.get("cities", [])
-    all_cities.extend(cities)
-# Count from hub cards (authoritative — includes legacy pages outside CITY_SLUGS)
-hub_cards = len(BeautifulSoup(open("scams/index.html").read(), "html.parser").select(".city-card"))
-total_scams = sum(len(c["scams"]) for c in all_cities if c["city"] in CITY_SLUGS)
-total_countries = len(set(c["country"] for c in all_cities if c["city"] in CITY_SLUGS))
-```
-
-Then update:
-- Three `<strong>N</strong>` values in the `.stats-bar` block
-- JSON-LD `"numberOfItems"` (appears twice: in `CollectionPage` and `ItemList`)
-- `<meta name="description">`, `<meta property="og:description">`, `<meta name="twitter:description">`
-
-**11c. Country hub (if country has ≥2 cities):**
+**11b. Country hub (if country has ≥2 cities):**
 
 Option A — country hub already exists (e.g. `/scams/country/us/`): append a new `<a class="city-card">` entry (same format as the existing cards in that file) and update the top stats. Use the surrounding entries as template.
 
 Option B — country hub does not yet exist and this new city crosses the 2-city threshold: call `generate_country_page()` per Step 9.
 
-**11d. If the country has a live Amazon book**, run the hub-stats audit script afterwards to sync every per-city scam count visible on the country hub:
+**11c. If the country has a live Amazon book**, run the hub-stats audit script afterwards to sync every per-city scam count visible on the country hub:
 
 ```bash
 python3 scripts/book-cta-rollout/audit_country_hub_scam_counts.py --only <cc>
