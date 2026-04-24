@@ -514,6 +514,13 @@ def build_compare_json(slug, content_data):
 <div class="hero-badge">{html_module.escape(d.get('heroBadge', f'🆚 Destination Comparison'))}</div>
 <h1>{dest1} vs {dest2}: <em>Which Should You Visit?</em></h1>
 <p>{html_module.escape(d.get('heroSubtitle', f'A data-backed comparison to help you decide between {dest1} and {dest2}.'))}</p>
+<div class="page-byline" data-byline="bernard-huang">
+<img class="byline-photo" src="https://img.tabiji.ai/authors/bernard-huang.jpg" alt="Bernard Huang" width="44" height="44" loading="lazy">
+<div class="byline-info">
+<div class="byline-name">By <a href="/about/">Bernard Huang</a></div>
+<div class="byline-title">Editor, tabiji.ai</div>
+</div>
+</div>
 <div class="hero-meta">
 <div><strong>Updated:</strong> {today_display}</div>
 <div><strong>Sources:</strong> {html_module.escape(d.get('heroSources', 'r/travel, r/solotravel'))}</div>
@@ -693,7 +700,7 @@ def build_compare_json(slug, content_data):
                 "@type": "Article",
                 "headline": short_title,
                 "description": meta_desc[:200],
-                "author": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"},
+                "author": {"@type": "Person", "name": "Bernard Huang", "jobTitle": "Editor", "image": "https://img.tabiji.ai/authors/bernard-huang.jpg", "url": "https://tabiji.ai/about/", "worksFor": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"}},
                 "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai"},
                 "datePublished": today,
                 "dateModified": today,
