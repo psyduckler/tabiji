@@ -7934,7 +7934,37 @@ def regenerate_city(city_name):
     out_dir = Path(base_dir) / CITY_SLUGS[city_name]
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "index.html"
-    out_path.write_text(generate_page(city_data, related))
+    out_path.write_text(generate_page(city_data, related), encoding="utf-8")
+    return out_path
+
+
+def regenerate_country_hub(country_name):
+    """Regenerate scams/country/<cc>/index.html from the full corpus.
+
+    Raises KeyError if country_name has no research data. Returns None (legit
+    no-op) if the country has fewer than 2 cities — generate_country_page
+    requires the 2-city threshold. Otherwise returns the output path.
+    """
+    if not country_name:
+        raise ValueError("country_name is required")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    all_cities = load_all_research_batches(base_dir)
+    country_data = build_country_data(all_cities)
+    if country_name not in country_data:
+        raise KeyError(f"no country entry for {country_name!r}")
+    cdata = country_data[country_name]
+    if len(cdata.get("cities", [])) < 2:
+        return None
+    cc = cdata["country_code"]
+    flag = cdata["flag"]
+    total_scams = sum(len(c["scams"]) for c in all_cities)
+    out_dir = Path(base_dir) / "country" / cc.lower()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "index.html"
+    out_path.write_text(
+        generate_country_page(country_name, cc, flag, cdata["cities"], total_scams),
+        encoding="utf-8",
+    )
     return out_path
 
 
