@@ -7906,6 +7906,38 @@ def build_country_data(all_cities):
     return countries
 
 
+def load_all_research_batches(base_dir=None):
+    """Load every research batch (legacy dict-shape + new <cc>_batch*.json list-shape)."""
+    base = Path(base_dir or os.path.dirname(os.path.abspath(__file__)))
+    cities = []
+    for path in sorted((base / "research").glob("*.json")):
+        with open(path) as f:
+            data = json.load(f)
+        cities.extend(data if isinstance(data, list) else data.get("cities", []))
+    return cities
+
+
+def regenerate_city(city_name):
+    """Regenerate one city's HTML using the full corpus so .related-section renders.
+
+    Loads every research batch, builds the related-cities map over the full set,
+    and writes scams/<slug>/index.html. Returns the output path.
+    """
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    all_cities = load_all_research_batches(base_dir)
+    if city_name not in CITY_SLUGS:
+        raise KeyError(f"no CITY_SLUGS entry for {city_name!r}")
+    city_data = next((c for c in all_cities if c["city"] == city_name), None)
+    if city_data is None:
+        raise LookupError(f"{city_name!r} not found in any research/*.json")
+    related = build_related_cities_map(all_cities)
+    out_dir = Path(base_dir) / CITY_SLUGS[city_name]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "index.html"
+    out_path.write_text(generate_page(city_data, related))
+    return out_path
+
+
 def main():
     base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
@@ -7913,18 +7945,11 @@ def main():
     all_cities = []
     enriched_master = os.path.join(base_dir, "research", "enriched_master.json")
     if os.path.exists(enriched_master):
-        batch_files = [enriched_master]
+        with open(enriched_master) as f:
+            all_cities = json.load(f)
         print("Using enriched master data")
     else:
-        batch_files = sorted(glob.glob(os.path.join(base_dir, "research", "batch*.json")) +
-                             glob.glob(os.path.join(base_dir, "research", "tier_b_batch*.json")) +
-                             glob.glob(os.path.join(base_dir, "research", "tier_c_batch*.json")) +
-                             glob.glob(os.path.join(base_dir, "research", "tier_d_batch*.json")) +
-                             glob.glob(os.path.join(base_dir, "research", "new_batch_*.json")))
-    for path in batch_files:
-        with open(path) as f:
-            data = json.load(f)
-            all_cities.extend(data)
+        all_cities = load_all_research_batches(base_dir)
 
     print(f"Loaded {len(all_cities)} cities total")
 
