@@ -101,21 +101,21 @@
   </a></div></div></section><section class="section"><div class="shell"><div class="section-header"><div><h2>Newest comparisons</h2><p>Freshly updated pages, kept visible without making the homepage a giant dump.</p></div></div><div class="mini-grid"><a class="mini-card" href="/compare/lisbon-vs-rome/">
     <div class="mini-top"><strong>Lisbon vs Rome</strong><span>Apr 24, 2026</span></div>
     <p>Lisbon vs Rome: Compare daily costs ($85-130 vs $110-165), flight times, food, and culture. Find your ideal European city for 2024.</p>
-  </a><a class="mini-card" href="/compare/ubud-vs-canggu/">
-    <div class="mini-top"><strong>Ubud vs Canggu</strong><span>Apr 24, 2026</span></div>
-    <p>Ubud vs Canggu: Find your Bali match. Daily budgets of $30-70 vs $45-100. Culture, rice fields, surf, cafes. Honest picks.</p>
-  </a><a class="mini-card" href="/compare/south-france-vs-south-spain/">
-    <div class="mini-top"><strong>South France vs South Spain</strong><span>Apr 24, 2026</span></div>
-    <p>South France vs South Spain: expect €120-200/day vs €70-130/day. Discover specific costs, culture, food, and travel advice.</p>
-  </a><a class="mini-card" href="/compare/santa-barbara-vs-monterey/">
-    <div class="mini-top"><strong>Santa Barbara vs Monterey</strong><span>Apr 24, 2026</span></div>
-    <p>Santa Barbara vs Monterey: Compare daily budgets ($150-300 SB, $180-350 Monterey), ocean activities, and dining. Pick your California coast trip.</p>
-  </a><a class="mini-card" href="/compare/nusa-penida-vs-gili-islands/">
-    <div class="mini-top"><strong>Nusa Penida vs Gili Islands</strong><span>Apr 24, 2026</span></div>
-    <p>Nusa Penida vs Gili Islands: discover raw cliffs, diving, $40-70/day vs car-free relaxation, $35-65/day. Pick your Indonesian island escape.</p>
-  </a><a class="mini-card" href="/compare/mexico-city-vs-buenos-aires/">
-    <div class="mini-top"><strong>Mexico City vs Buenos Aires</strong><span>Apr 24, 2026</span></div>
-    <p>Mexico City vs Buenos Aires: daily budget of $40-150 vs $30-130, 5.5hr vs 11hr flights. Which city wins your heart? Get honest insights.</p>
+  </a><a class="mini-card" href="/compare/cape-town-vs-lisbon/">
+    <div class="mini-top"><strong>Cape Town vs Lisbon</strong><span>Apr 24, 2026</span></div>
+    <p>Cape Town vs Lisbon: daily budgets of $60-100 vs $80-130, 8-15h flights, mountain views vs historic alleys. Pick your adventure.</p>
+  </a><a class="mini-card" href="/compare/cinque-terre-vs-costa-brava/">
+    <div class="mini-top"><strong>Cinque Terre vs Costa Brava</strong><span>Apr 24, 2026</span></div>
+    <p>Cinque Terre vs Costa Brava: daily budgets from $100-$200 vs $70-$150, direct 2-3h flights from major hubs. Honest comparison for your next European trip.</p>
+  </a><a class="mini-card" href="/compare/chiang-mai-vs-luang-prabang/">
+    <div class="mini-top"><strong>Chiang Mai vs Luang Prabang</strong><span>Apr 24, 2026</span></div>
+    <p>Chiang Mai vs Luang Prabang: discover if you prefer $40-60/day budgets, 1.5h flights, night markets, or serene temples. Get honest picks.</p>
+  </a><a class="mini-card" href="/compare/granada-vs-leon-nicaragua/">
+    <div class="mini-top"><strong>Granada vs León (Nicaragua)</strong><span>Apr 24, 2026</span></div>
+    <p>Granada (Spain) vs León (Nicaragua) compared: $65-110/day vs $30-60/day, Moorish palaces vs volcano boarding. Honest picks.</p>
+  </a><a class="mini-card" href="/compare/kamakura-vs-nikko/">
+    <div class="mini-top"><strong>Kamakura vs Nikko</strong><span>Apr 24, 2026</span></div>
+    <p>Kamakura vs Nikko compared: Explore coastal temples or mountain shrines. Discover daily budgets from $70, travel times, and honest recommendations.</p>
   </a></div></div></section><section class="section"><div class="shell"><div class="section-header"><div><h2>Browse by region</h2><p>Dedicated regional hubs now act as entry points instead of forcing a global browse.</p></div></div><div class="browse-grid"><section class="browse-card">
     <div class="browse-head"><h3><a href="/compare/asia/">Asia</a></h3><span>269 pages</span></div>
     <div class="browse-links"><a href="/compare/chiang-mai-vs-chiang-rai/">Chiang Mai vs Chiang Rai</a><a href="/compare/chiang-mai-vs-luang-prabang/">Chiang Mai vs Luang Prabang</a><a href="/compare/japan-vs-thailand/">Japan vs Thailand</a><a href="/compare/japan-vs-south-korea/">Japan vs South Korea</a></div>
@@ -230,8 +230,9 @@
     const archiveList = document.getElementById('archiveList');
     const resultCount = document.getElementById('resultCount');
     const loadMoreBtn = document.getElementById('loadMoreBtn');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
     function rowTemplate(card) {
-      return '<a class="archive-row" href="' + card.url + '">' + '<div><h3>' + card.destination1 + ' vs ' + card.destination2 + '</h3><p>' + card.description + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + card.region + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + card.tripType + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + card.inboundLinks + ' links</div>' + '</a>';
+      return '<a class="archive-row" href="' + esc(card.url) + '">' + '<div><h3>' + esc(card.destination1) + ' vs ' + esc(card.destination2) + '</h3><p>' + esc(card.description) + '</p></div>' + '<div class="archive-label"><strong>Region</strong><br>' + esc(card.region) + '</div>' + '<div class="archive-label"><strong>Type</strong><br>' + esc(card.tripType) + '</div>' + '<div class="archive-label"><strong>Signals</strong><br>' + Number(card.inboundLinks || 0) + ' links</div>' + '</a>';
     }
     function renderPage() {
       const start = 0;

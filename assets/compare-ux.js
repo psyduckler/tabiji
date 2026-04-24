@@ -6,6 +6,8 @@
 (function() {
     'use strict';
 
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
     // Only run on compare pages with deep-dive sections
     var deepDives = document.querySelectorAll('section.deep-dive');
     if (!deepDives.length) return;
@@ -83,7 +85,7 @@
     var ticker = document.createElement('div');
     ticker.className = 'ux-ticker';
     ticker.id = 'ux-ticker';
-    ticker.innerHTML = '<span class="t-d1">' + dest1 + ' ' + d1Wins + '</span><span class="t-sep">&mdash;</span><span class="t-d2">' + d2Wins + ' ' + dest2 + '</span><span class="t-sep">|</span><span class="t-section" id="ux-ticker-section">' + ties + ' ties</span>';
+    ticker.innerHTML = '<span class="t-d1">' + esc(dest1) + ' ' + Number(d1Wins) + '</span><span class="t-sep">&mdash;</span><span class="t-d2">' + Number(d2Wins) + ' ' + esc(dest2) + '</span><span class="t-sep">|</span><span class="t-section" id="ux-ticker-section">' + Number(ties) + ' ties</span>';
     var nav = document.querySelector('nav');
     if (nav && nav.nextSibling) {
         nav.parentNode.insertBefore(ticker, nav.nextSibling);
@@ -171,9 +173,9 @@
             var card = document.createElement('a');
             card.className = 'ux-qa-card';
             card.href = '#' + (sections.length > qaCount ? sections[qaCount].id : '');
-            card.innerHTML = '<div class="qa-q">Which is better for ' + category.toLowerCase().replace(/\s*\(.*?\)/, '') + '?</div>' +
-                '<div class="qa-a">' + dest1 + ': ' + val1.substring(0, 60) + (val1.length > 60 ? '...' : '') + '<br>' + dest2 + ': ' + val2.substring(0, 60) + (val2.length > 60 ? '...' : '') + '</div>' +
-                '<span class="qa-badge ' + badgeClass + '">' + badgeText + '</span>';
+            card.innerHTML = '<div class="qa-q">Which is better for ' + esc(category.toLowerCase().replace(/\s*\(.*?\)/, '')) + '?</div>' +
+                '<div class="qa-a">' + esc(dest1) + ': ' + esc(val1.substring(0, 60)) + (val1.length > 60 ? '...' : '') + '<br>' + esc(dest2) + ': ' + esc(val2.substring(0, 60)) + (val2.length > 60 ? '...' : '') + '</div>' +
+                '<span class="qa-badge ' + esc(badgeClass) + '">' + esc(badgeText) + '</span>';
             qaGrid.appendChild(card);
             qaCount++;
         });
@@ -193,16 +195,16 @@
             var d1Pct, d2Pct, winnerHtml;
             if (s.winner === 'd1') {
                 d1Pct = 85; d2Pct = 50;
-                winnerHtml = '<span class="ux-sc-winner d1">' + dest1 + '</span>';
+                winnerHtml = '<span class="ux-sc-winner d1">' + esc(dest1) + '</span>';
             } else if (s.winner === 'd2') {
                 d1Pct = 50; d2Pct = 85;
-                winnerHtml = '<span class="ux-sc-winner d2">' + dest2 + '</span>';
+                winnerHtml = '<span class="ux-sc-winner d2">' + esc(dest2) + '</span>';
             } else {
                 d1Pct = 72; d2Pct = 72;
                 winnerHtml = '<span class="ux-sc-winner tie">Tie</span>';
             }
-            scRows += '<a class="ux-sc-row" href="#' + s.id + '">' +
-                '<span class="sc-label">' + getIcon(s.heading) + ' ' + getShortLabel(s.heading) + '</span>' +
+            scRows += '<a class="ux-sc-row" href="#' + esc(s.id) + '">' +
+                '<span class="sc-label">' + esc(getIcon(s.heading)) + ' ' + esc(getShortLabel(s.heading)) + '</span>' +
                 '<span class="ux-sc-bars"><span class="ux-sc-bar-wrap"><span class="ux-sc-bar d1" style="width:' + d1Pct + '%"></span></span>' +
                 '<span class="ux-sc-bar-wrap"><span class="ux-sc-bar d2" style="width:' + d2Pct + '%"></span></span></span>' +
                 winnerHtml + '</a>';
@@ -210,9 +212,9 @@
 
         scDiv.innerHTML = '<h2>📊 Visual Scorecard</h2>' +
             '<div class="ux-sc-overall">' +
-            '<div class="ux-sc-city d1"><div class="c-name">' + dest1.toUpperCase() + '</div><div class="c-score">' + d1Wins + '</div></div>' +
+            '<div class="ux-sc-city d1"><div class="c-name">' + esc(dest1.toUpperCase()) + '</div><div class="c-score">' + Number(d1Wins) + '</div></div>' +
             '<div class="ux-sc-vs">vs</div>' +
-            '<div class="ux-sc-city d2"><div class="c-name">' + dest2.toUpperCase() + '</div><div class="c-score">' + d2Wins + '</div></div>' +
+            '<div class="ux-sc-city d2"><div class="c-name">' + esc(dest2.toUpperCase()) + '</div><div class="c-score">' + Number(d2Wins) + '</div></div>' +
             '</div>' +
             '<div class="ux-sc-rows">' + scRows + '</div>';
 
@@ -245,7 +247,7 @@
 
         var meta = document.createElement('div');
         meta.className = 'ux-dd-meta';
-        meta.innerHTML = '<span class="ux-dd-badge ' + badgeClass + '">' + badgeText + '</span><span class="ux-dd-arrow">▾</span>';
+        meta.innerHTML = '<span class="ux-dd-badge ' + esc(badgeClass) + '">' + esc(badgeText) + '</span><span class="ux-dd-arrow">▾</span>';
 
         // Move h2 into bar
         bar.appendChild(h2);
