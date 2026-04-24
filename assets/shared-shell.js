@@ -46,3 +46,58 @@ document.addEventListener('click', function (event) {
     init();
   }
 })();
+
+/* ── Page breadcrumbs — render visible breadcrumbs from BreadcrumbList JSON-LD ── */
+(function () {
+  'use strict';
+  function render() {
+    if (document.querySelector('.page-breadcrumbs')) return; // already rendered
+    var main = document.getElementById('main') || document.querySelector('main');
+    if (!main) return;
+    var scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    var crumbs = null;
+    for (var i = 0; i < scripts.length; i++) {
+      try {
+        var data = JSON.parse(scripts[i].textContent);
+        var blocks = Array.isArray(data) ? data : [data];
+        for (var j = 0; j < blocks.length; j++) {
+          var b = blocks[j];
+          if (b && b['@type'] === 'BreadcrumbList' && Array.isArray(b.itemListElement)) {
+            crumbs = b.itemListElement.slice().sort(function (a, c) {
+              return (a.position || 0) - (c.position || 0);
+            });
+            break;
+          }
+        }
+      } catch (e) { /* ignore bad JSON */ }
+      if (crumbs) break;
+    }
+    if (!crumbs || crumbs.length < 2) return;
+
+    var nav = document.createElement('nav');
+    nav.className = 'page-breadcrumbs';
+    nav.setAttribute('aria-label', 'Breadcrumb');
+    var ol = document.createElement('ol');
+    crumbs.forEach(function (c, idx) {
+      var li = document.createElement('li');
+      var isLast = idx === crumbs.length - 1;
+      if (isLast) {
+        li.setAttribute('aria-current', 'page');
+        li.textContent = c.name || '';
+      } else {
+        var a = document.createElement('a');
+        a.href = c.item || '#';
+        a.textContent = c.name || '';
+        li.appendChild(a);
+      }
+      ol.appendChild(li);
+    });
+    nav.appendChild(ol);
+    main.insertBefore(nav, main.firstChild);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+})();
