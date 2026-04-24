@@ -185,7 +185,7 @@ COUNTRY_PAGE_SLUGS = {
     "cuba": "cuba", "czechia": "czechia", "germany": "germany",
     "egypt": "egypt", "spain": "spain", "france": "france",
     "united-kingdom": "united-kingdom", "greece": "greece", "croatia": "croatia",
-    "hungary": "hungary", "indonesia-bali": "indonesia", "ireland": "ireland",
+    "hungary": "hungary", "indonesia": "indonesia", "ireland": "ireland",
     "israel": "israel", "india": "india", "iceland": "iceland",
     "italy": "italy", "jordan": "jordan", "kenya": "kenya",
     "south-korea": "south-korea", "sri-lanka": "sri-lanka", "morocco": "morocco",

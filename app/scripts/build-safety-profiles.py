@@ -53,7 +53,7 @@ PRIORITY_COUNTRIES = {
     "CO": {"name": "Colombia",       "health_slug": "colombia",       "scam_cities": ["medellin"]},
     "PE": {"name": "Peru",           "health_slug": "peru",           "scam_cities": ["lima"]},
     "VN": {"name": "Vietnam",        "health_slug": "vietnam",        "scam_cities": ["hanoi", "ho-chi-minh-city"]},
-    "ID": {"name": "Indonesia",      "health_slug": "indonesia-bali", "scam_cities": []},
+    "ID": {"name": "Indonesia",      "health_slug": "indonesia", "scam_cities": []},
     "MA": {"name": "Morocco",        "health_slug": "morocco",        "scam_cities": ["marrakech"]},
     "TR": {"name": "Turkey",         "health_slug": "turkey",         "scam_cities": ["istanbul"]},
     "KR": {"name": "South Korea",    "health_slug": "south-korea",    "scam_cities": ["seoul"]},

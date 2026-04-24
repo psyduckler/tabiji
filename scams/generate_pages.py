@@ -1122,7 +1122,7 @@ COUNTRY_HEALTH_SLUGS = {
     "Hungary": "hungary", "Croatia": "croatia", "Jordan": "jordan", "Israel": "israel",
     "Iceland": "iceland", "Belgium": "belgium", "Cambodia": "cambodia", "Philippines": "philippines",
     "Cuba": "cuba", "Puerto Rico": "puerto-rico", "Colombia": "colombia", "Scotland": "united-kingdom",
-    "Indonesia": "indonesia-bali", "India": "india", "Taiwan": "taiwan", "Nepal": "nepal",
+    "Indonesia": "indonesia", "India": "india", "Taiwan": "taiwan", "Nepal": "nepal",
     "China": "china", "Laos": "laos", "Romania": "romania", "Bulgaria": "bulgaria",
     "Serbia": "serbia", "Estonia": "estonia", "Montenegro": "montenegro",
     "South Africa": "south-africa", "Kenya": "kenya", "Tanzania": "tanzania",

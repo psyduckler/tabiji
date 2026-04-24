@@ -39,7 +39,7 @@ CURATED = {
         {"tone": "info", "title": "Street food is safer than you think at busy stalls",
          "body": "Cooked-to-order food at high-turnover vendors is generally safe. Avoid sliced fruit, tap-water ice at cheaper venues, and raw/undercooked seafood."},
     ],
-    "indonesia-bali": [
+    "indonesia": [
         {"tone": "danger", "title": "Rabies is endemic — don't touch animals",
          "body": "Bali has an active rabies epidemic in stray dogs and monkeys. Any bite or scratch requires immediate wound washing and post-exposure vaccination within hours. Medical-grade rabies immunoglobulin is limited outside Denpasar."},
         {"tone": "danger", "title": "Motorbike crashes + traffic chaos",
