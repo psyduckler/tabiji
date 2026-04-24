@@ -648,7 +648,7 @@ def _build_cta_section(city: str) -> str:
     return f"""      <section class="cta-section">
           <h2>Plan your {_esc(city)} trip</h2>
           <p>Get a free custom itinerary for {_esc(city)} &mdash; built from real traveler insights.</p>
-          <a href="/plan" class="cta-btn">Get a Free Itinerary &rarr;</a>
+          <a href="/trip-planner/" class="cta-btn">Get a Free Itinerary &rarr;</a>
         </section>"""
 
 

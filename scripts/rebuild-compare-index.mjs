@@ -268,8 +268,8 @@ const html = `<!DOCTYPE html>
   <nav class="navlinks">
     <a href="/destinations/">Destinations</a>
     <a href="/compare/">Compare</a>
-    <a href="/plan">Plan a trip</a>
-    <a class="navcta" href="/plan">Get itinerary</a>
+    <a href="/trip-planner/">Plan a trip</a>
+    <a class="navcta" href="/trip-planner/">Get itinerary</a>
   </nav>
 
   <main>
