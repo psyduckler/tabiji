@@ -36,7 +36,6 @@
     { id: 'phrases', icon: '🗣️', label: 'Phrases' },
     { id: 'practical', icon: '🔌', label: 'Practical' },
     { id: 'safety', icon: '🛡️', label: 'Safety' },
-    { id: 'cards', icon: '💳', label: 'Card Coverage' },
     { id: 'maps', icon: '🗺️', label: 'Offline Maps' },
   ];
 
@@ -183,7 +182,6 @@
       case 'phrases': return renderPhrases(d);
       case 'practical': return renderPractical(d);
       case 'safety': return renderSafety(d);
-      case 'cards': return renderCardCoverage(d);
       case 'maps': return renderOfflineMaps(d);
       default: return '<p>Coming soon</p>';
     }
@@ -534,23 +532,6 @@
     }
 
     return html || '<p>No safety data available.</p>';
-  }
-
-  function renderCardCoverage(d) {
-    const cc = d.cardCoverage || {};
-    const topCards = cc.topCards || [];
-    if (!topCards.length) return '<p>No card coverage data available for this country.</p>';
-
-    let html = `<div class="section-card"><h3>Best cards for ${escHtml(d.name)}</h3>`;
-    topCards.forEach((card) => {
-      html += `
-        <div class="card-coverage-item">
-          <div class="card-coverage-name">${escHtml(card.name)}</div>
-          <div class="card-coverage-benefits">${escHtml((card.relevantBenefits || []).join(', '))}</div>
-        </div>`;
-    });
-    html += '</div>';
-    return html;
   }
 
   function renderOfflineMaps(d) {

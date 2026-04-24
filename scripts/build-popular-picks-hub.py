@@ -651,7 +651,6 @@ def render_html(countries, featured):
                 <a href="/countries/">🗺 Country Guides</a>
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
-                <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/api/">🔌 API</a>

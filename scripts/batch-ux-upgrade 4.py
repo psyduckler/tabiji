@@ -772,7 +772,6 @@ def upgrade_page(slug: str, dry_run: bool = False) -> str:
                 <a href="/countries/">&#x1F5FA; Country Guides</a>
                 <a href="/compare/">&#x1F19A; Compare Destinations</a>
                 <a href="/find/">&#x1F50D; Destination Finder</a>
-                <a href="/credit-cards/">&#x1F4B3; Credit Card Benefits</a>
                 <a href="/health/">&#x1F3E5; Travel Health Tips</a>
                 <a href="/resources/">&#x1F4DA; Resources</a>
                 <a href="/api/">&#x1F50C; API</a>

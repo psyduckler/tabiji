@@ -7186,7 +7186,6 @@ def generate_page(city_data, related_cities_map):
                 <a href="/countries/">🗺 Country Guides</a>
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
-                <a href="/credit-cards/">💳 Credit Card Benefits</a>
                 <a href="/health/">🏥 Travel Health Tips</a>
                 <a href="/resources/">📚 Resources</a>
                 <a href="/api/">🔌 API</a>
@@ -7866,7 +7865,6 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
                 <a href="/countries/">&#128506; Country Guides</a>
                 <a href="/compare/">&#127386; Compare Destinations</a>
                 <a href="/find/">&#128269; Destination Finder</a>
-                <a href="/credit-cards/">&#128179; Credit Card Benefits</a>
                 <a href="/health/">&#127973; Travel Health Tips</a>
                 <a href="/resources/">&#128218; Resources</a>
                 <a href="/api/">&#128268; API</a>

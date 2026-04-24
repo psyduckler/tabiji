@@ -150,7 +150,6 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | `health/` | ~228 | Health & vaccination info by destination |
 | `countries/` | ~211 | Country info pages |
 | `destinations/` | ~69 | City destination pages |
-| `credit-cards/` | ~49 | Travel credit card reviews |
 | `itineraries/` | ~49 | Free curated itineraries |
 | `resources/` | ~14 | Blog / resource articles |
 | `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
@@ -177,7 +176,6 @@ tabiji/
 ├── health/                  ← health info pages (228 destinations)
 ├── countries/               ← country info pages (211 countries)
 ├── destinations/            ← city destination pages (69 cities)
-├── credit-cards/            ← credit card reviews (49 cards)
 ├── itineraries/             ← free curated itineraries (49 slugs)
 ├── resources/               ← blog/articles (14 slugs)
 ├── best-places-to-visit-in-*/ ← monthly guides (12 months)
@@ -309,7 +307,6 @@ Every page is **fully self-contained HTML** with inline CSS. There are NO shared
 | `/alerts/` | `functions/build-travel-alerts.py` |
 | `/scams/` | Sub-agents |
 | `/health/` | `scripts/build-health-page.py` |
-| `/credit-cards/` | Sub-agents |
 | `/best-places-to-visit-in-*/` | Sub-agents (reference: `best-places-template.html`) |
 | Landing pages | Hand-crafted (`index.html`, `plan.html`, `success.html`) |
 
