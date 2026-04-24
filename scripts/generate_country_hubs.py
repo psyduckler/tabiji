@@ -988,7 +988,6 @@ def nav_html():
                 <a href="/find/">\U0001F50D Destination Finder</a>
                 <a href="/credit-cards/">\U0001F4B3 Credit Card Benefits</a>
                 <a href="/health/">\U0001F3E5 Travel Health Tips</a>
-                <a href="/resources/">\U0001F4DA Resources</a>
                 <a href="/api/">\U0001F50C API</a>
             </div>
         </div>
