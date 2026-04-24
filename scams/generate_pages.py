@@ -15,6 +15,7 @@ import glob
 import re
 import sys
 from collections import defaultdict
+from datetime import date, datetime
 from pathlib import Path
 
 # Reuse the battle-tested cleaner from scripts/clean_us_reddit_shards.py
@@ -30,6 +31,8 @@ try:
 except ImportError:  # pragma: no cover — fail soft if cleaner missing
     def _clean_reddit_shards(t: str) -> str:
         return t
+
+from _scam_sweep_common import git_first_commit as _git_first_commit
 
 from _nav_util import get_nav_html
 NAV_HTML = get_nav_html()
@@ -53,28 +56,33 @@ _REGION_SETS = {
     "east_asia": {"jp", "kr", "tw", "cn", "hk", "mo"},
     "south_asia": {"in", "np", "lk", "bd"},
     "europe": {
-        "Gb", "fr", "de", "it", "es", "pt", "nl", "be", "at", "ch", "ie", "se",
-        "Dk", "no", "fi", "is", "gr", "tr", "pl", "cz", "sk", "hu", "ro", "bg",
-        "Hr", "si", "rs", "ba", "me", "al", "mk", "xk", "lt", "lv", "ee",
-        "Ua", "ru", "ge", "am", "az", "mc", "mt", "cy", "lu", "li", "ad", "sm",
-        "Va", "kz", "uz",
+        "gb", "fr", "de", "it", "es", "pt", "nl", "be", "at", "ch", "ie", "se",
+        "dk", "no", "fi", "is", "gr", "tr", "pl", "cz", "sk", "hu", "ro", "bg",
+        "hr", "si", "rs", "ba", "me", "al", "mk", "xk", "lt", "lv", "ee",
+        "ua", "ru", "ge", "am", "az", "mc", "mt", "cy", "lu", "li", "ad", "sm",
+        "va", "kz", "uz",
     },
     "north_america": {"us", "ca", "pr"},
     "latin_america_caribbean": {
-        "Mx", "gt", "bz", "sv", "hn", "ni", "cr", "pa",
-        "Co", "ve", "ec", "pe", "bo", "cl", "ar", "uy", "py", "br", "gy", "sr",
-        "Jm", "ht", "do", "tt", "bb", "lc", "ag", "bs", "ky", "tc", "cw",
-        "Gd", "dm", "kn", "vc",
+        "mx", "gt", "bz", "sv", "hn", "ni", "cr", "pa",
+        "co", "ve", "ec", "pe", "bo", "cl", "ar", "uy", "py", "br", "gy", "sr",
+        "jm", "ht", "do", "tt", "bb", "lc", "ag", "bs", "ky", "tc", "cw",
+        "gd", "dm", "kn", "vc",
     },
     "middle_east": {"ae", "qa", "jo", "il", "sa", "om", "lb", "bh", "kw", "iq", "ye"},
     "africa": {
-        "Za", "ke", "tz", "eg", "ma", "ng", "gh", "sn", "et", "ug", "rw",
-        "Zm", "mz", "na", "tn", "dj", "sc", "mu", "mg", "cm", "ci",
-        "Bw", "zw", "mw", "ao", "cd", "cg", "ga", "ne",
+        "za", "ke", "tz", "eg", "ma", "ng", "gh", "sn", "et", "ug", "rw",
+        "zm", "mz", "na", "tn", "dj", "sc", "mu", "mg", "cm", "ci",
+        "bw", "zw", "mw", "ao", "cd", "cg", "ga", "ne",
     },
     "oceania": {"au", "nz", "fj", "pf", "mv"},
     "cuba": {"cu"},
 }
+# Defensive: _get_ride_advice lowercases its input, so every entry must be
+# lowercase — a single "Gb" or "Mx" silently drops a country to the generic
+# fallback (UK/DK/HR/UA/VA/MX/CO/JM/GD/ZA/BW/ZM all hit this bug at one point).
+assert all(cc == cc.lower() for codes in _REGION_SETS.values() for cc in codes), \
+    "_REGION_SETS must contain lowercase-only country codes"
 _RIDE_ADVICE = {
     "southeast_asia": "Use app-based ride services (Grab, Gojek) instead of street taxis \u2014 always confirm the fare before departure",
     "east_asia": "Use app-based ride services or official metered taxis \u2014 avoid unmarked vehicles near tourist areas",
@@ -6835,40 +6843,75 @@ def danger_badge(level):
     else:
         return '<span class="danger-badge danger-low">🟢 Low</span>'
 
+# Common English abbreviations that contain a period mid-phrase. A sentence
+# boundary split that lands immediately after one of these is a false positive.
+_TLDR_ABBREVIATIONS = {
+    "St.", "Mt.", "Dr.", "Mr.", "Mrs.", "Ms.", "Jr.", "Sr.",
+    "Ft.", "Fr.", "Rd.", "Ave.", "Blvd.", "vs.", "etc.", "e.g.", "i.e.",
+    "No.", "U.S.", "U.K.", "U.A.E.",
+}
+
+
 def make_tldr(story):
     """Extract first sentence as TL;DR bold summary.
 
-    Returns (tldr, rest) where tldr ends cleanly on a period (no dangling
-    em-dash or spaces). When we split on ` — `, we replace the trailing
-    em-dash with a period so the TLDR reads as a complete sentence.
+    Guarantees the returned TL;DR is sentence-complete: ends in [.!?] and
+    never trails off into an em-dash, ellipsis, comma, or open clause. If
+    we can't find a clean breakpoint, we return (None, story) and let the
+    card render without a TLDR rather than ship broken pull-quote text.
+
+    Returns (tldr, rest) where rest is the remaining story with a
+    capitalized opener (since it now opens its own paragraph).
     """
-    # Split on first period or em-dash break (avoids abbreviations like "St.")
-    # Threshold 160 chars lets natural em-dash breakpoints in longer opening
-    # sentences be caught cleanly instead of falling through to the char-cut.
-    for delim in ['. ', '— ', ' — ']:
+    if not story:
+        return None, story
+
+    def _after_abbrev(text, idx):
+        # Is the period at `idx` part of a common abbreviation (St., Dr., etc.)?
+        for abbr in _TLDR_ABBREVIATIONS:
+            if text[max(0, idx - len(abbr) + 1): idx + 1] == abbr:
+                return True
+        return False
+
+    def _capitalize_opener(text):
+        return (text[0].upper() + text[1:]) if text and text[0].islower() else text
+
+    # Pass 1: split on sentence boundary (". ") skipping abbreviations.
+    # A head that's out of range (too short on the first sentence, or too long)
+    # keeps scanning instead of breaking — otherwise "Yes. The real story is…"
+    # bails out on the 4-char head and never tries the legitimate second split.
+    search_start = 0
+    while search_start < len(story):
+        idx = story.find('. ', search_start)
+        if idx == -1 or idx >= 200:
+            break
+        if _after_abbrev(story, idx):
+            search_start = idx + 2
+            continue
+        head = story[:idx + 1].rstrip()
+        rest = story[idx + 2:].lstrip()
+        if 20 <= len(head) <= 280 and head.endswith(('.', '!', '?')):
+            return head, _capitalize_opener(rest)
+        if len(head) < 20:
+            search_start = idx + 2
+            continue
+        break
+
+    # Pass 2: em-dash break inside the first 180 chars — replace with a period
+    # so the TLDR reads as a complete sentence.
+    for delim in (' — ', '— '):
         idx = story.find(delim)
-        if idx != -1 and idx < 160:
-            head = story[:idx + len(delim)].rstrip()
-            # Replace dangling em-dash with a clean period
-            if head.endswith('—'):
-                head = head[:-1].rstrip() + '.'
-            rest = story[idx + len(delim):]
-            # Capitalize the first letter of rest (since it now opens its own paragraph)
-            if rest and rest[0].islower():
-                rest = rest[0].upper() + rest[1:]
-            return head, rest
-    # Fallback: first 100 chars to nearest word, closed with a period.
-    # CRITICAL: also trim those first 100 chars from the rest so the body
-    # paragraph doesn't redundantly repeat the TLDR content.
-    if len(story) > 100:
-        cut = story[:100].rfind(' ')
-        if cut > 40:
-            tldr = story[:cut].rstrip() + '.'
-            rest = story[cut:].lstrip()
-            # Re-capitalize the first letter of rest if it was mid-sentence
-            if rest and rest[0].islower():
-                rest = rest[0].upper() + rest[1:]
-            return tldr, rest
+        if idx != -1 and idx < 180:
+            head = story[:idx].rstrip().rstrip('—').rstrip()
+            if not head.endswith(('.', '!', '?')):
+                head = head + '.'
+            rest = story[idx + len(delim):].lstrip()
+            if 20 <= len(head) <= 280:
+                return head, _capitalize_opener(rest)
+            break
+
+    # Pass 3: no clean break found. Returning None lets the renderer omit
+    # the TLDR entirely — better than shipping a truncated fragment.
     return None, story
 
 
@@ -6977,6 +7020,82 @@ def generate_faq_html(faqs):
 """
     return html
 
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
+def _page_dates(slug):
+    """Resolve (datePublished, dateModified) for a city page. Published is
+    the first-added git commit date; modified is today (the generator run
+    itself is a mod). Brand-new uncommitted pages default both to today."""
+    today = date.today().isoformat()
+    published = _git_first_commit(_REPO_ROOT / "scams" / slug / "index.html")
+    return (published[:10] if published else today), today
+
+
+def _human_month_year(iso_date):
+    """"2026-04-24" → "April 2026" for the hero "Updated {month} {year}" pill."""
+    try:
+        return datetime.fromisoformat(iso_date).strftime("%B %Y")
+    except Exception:
+        return "April 2026"
+
+
+def _meta_description(city, n, scam_names):
+    """Per-page meta description derived from top scam titles. Targets
+    120–160 chars for Google's soft cap. Falls through a cascade of
+    template shapes rather than slicing mid-word."""
+    titles = [_clean_title(t) for t in scam_names if t]
+    fallback = f"{n} real {city} tourist scams documented in 2026 — red flags, costs, and how to avoid them."
+    templates = []
+    if len(titles) >= 3:
+        templates.append(f"Watch for {titles[0]}, {titles[1]}, and {titles[2]} in {city} — {n} documented 2026 scams with red flags and how to avoid them. Real traveler reports.")
+    if len(titles) >= 2:
+        templates.append(f"Watch for {titles[0]} and {titles[1]} in {city} — {n} documented 2026 scams with red flags and how to avoid them. Real traveler reports.")
+        t0, t1 = _truncate_title(titles[0], 30), _truncate_title(titles[1], 30)
+        templates.append(f"Watch for {t0} and {t1} in {city} — {n} documented 2026 scams with red flags and how to avoid them.")
+    if titles:
+        templates.append(f"Watch for {titles[0]} and more in {city} — {n} documented 2026 scams with red flags and how to avoid them. Real traveler reports.")
+    templates.append(fallback)
+    for t in templates:
+        if 120 <= len(t) <= 160:
+            return t
+    # Nothing hit the window cleanly. Pick the longest <= 160 so we never
+    # ship mid-word truncation; if even the fallback is too short, return it
+    # as-is rather than synthesize padding.
+    under = [t for t in templates if len(t) <= 160]
+    if under:
+        return max(under, key=len)
+    return fallback
+
+
+def _twitter_description(city, scam_names):
+    titles = [_clean_title(t) for t in scam_names if t][:2]
+    if len(titles) >= 2:
+        return f"Hard-won {city} travel safety: {titles[0]}, {titles[1]}, and more. 2026 edition."
+    if titles:
+        return f"Hard-won {city} travel safety: {titles[0]} and more. 2026 edition."
+    return f"Real scams, real stories, real advice from travelers in {city}."
+
+
+def _clean_title(t):
+    """Strip leading articles ('The ', 'A ') from a scam-title for meta use."""
+    t = t.strip()
+    for prefix in ("The ", "A ", "An "):
+        if t.startswith(prefix):
+            t = t[len(prefix):]
+            break
+    return t
+
+
+def _truncate_title(t, maxlen):
+    if len(t) <= maxlen:
+        return t
+    cut = t[:maxlen].rsplit(" ", 1)[0]
+    while cut and cut.split()[-1].lower() in {"and", "or", "the", "of", "in", "on", "&", "/", "with", "for"}:
+        cut = cut.rsplit(" ", 1)[0]
+    return cut.rstrip(",")
+
+
 def generate_page(city_data, related_cities_map):
     city = city_data["city"]
     country = city_data["country"]
@@ -7038,6 +7157,12 @@ def generate_page(city_data, related_cities_map):
 
     faq_html = generate_faq_html(faqs) if faqs else ""
 
+    scam_name_list = [s.get("scam_name", "") for s in scams]
+    meta_desc = _meta_description(city, n, scam_name_list)
+    twitter_desc = _twitter_description(city, scam_name_list)
+    date_published, date_modified = _page_dates(slug)
+    hero_update_label = _human_month_year(date_modified)
+
     schema = {
         "@context": "https://schema.org",
         "@graph": [
@@ -7052,11 +7177,11 @@ def generate_page(city_data, related_cities_map):
             {
                 "@type": "Article",
                 "headline": f"{n} Tourist Scams in {city} (2026)",
-                "description": f"{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive.",
+                "description": meta_desc,
                 "url": f"https://tabiji.ai/scams/{slug}/",
                 "image": f"https://img.tabiji.ai/scams-{slug}-og.jpg",
-                "datePublished": "2026-03-29",
-                "dateModified": "2026-04-07",
+                "datePublished": date_published,
+                "dateModified": date_modified,
                 "author": {"@type": "Organization", "name": "tabiji.ai"},
                 "publisher": {"@type": "Organization", "name": "tabiji.ai", "url": "https://tabiji.ai/", "logo": {"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"}},
                 "speakable": {
@@ -7153,20 +7278,20 @@ def generate_page(city_data, related_cities_map):
     <link rel="apple-touch-icon" sizes="180x180" href="https://img.tabiji.ai/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="https://img.tabiji.ai/icon-192.png">
     <title>{n} Tourist Scams in {city} (2026) — Real Stories & How to Avoid Them | tabiji.ai</title>
-    <meta name="description" content="{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
+    <meta name="description" content="{meta_desc}">
     <meta property="og:title" content="{n} Tourist Scams in {city} (2026) — tabiji.ai">
-    <meta property="og:description" content="{n} real {city} tourist scams documented from Reddit travellers in 2026. Know what to watch for before you arrive — and exactly how to stay safe.">
+    <meta property="og:description" content="{meta_desc}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/scams/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
     <meta property="og:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="article:published_time" content="2026-03-29">
-    <meta property="article:modified_time" content="2026-04-07">
+    <meta property="article:published_time" content="{date_published}">
+    <meta property="article:modified_time" content="{date_modified}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{n} Tourist Scams in {city} (2026)">
-    <meta name="twitter:description" content="Real scams, real stories, real advice. From Reddit travellers who got caught out in {city}.">
+    <meta name="twitter:description" content="{twitter_desc}">
     <meta name="twitter:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/scams/{slug}/">
@@ -7188,10 +7313,10 @@ def generate_page(city_data, related_cities_map):
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
     <h1>{n} Tourist Scams in <em>{city}</em></h1>
-    <p>Real stories from Reddit travellers. Know what to watch for before you arrive.</p>
+    <p>Real stories from Reddit travelers. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
-        <span>📅 Updated April 2026</span>
+        <span>📅 Updated {hero_update_label}</span>
         <span>💬 {n} scams documented</span>
         <span>⭐ Reddit-sourced & verified</span>
     </div>{severity_html}
