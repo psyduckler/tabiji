@@ -389,7 +389,7 @@ Preserve 2-space JSON indent (`json.dumps(..., indent=2, ensure_ascii=False)`). 
 
 ### Step 9: Regenerate
 
-The generator's `main()` glob is stale — it does not pick up `<cc>_batch*.json` files. Bypass it and call `generate_page()` directly, loading **every** research batch so `build_related_cities_map()` gets the full corpus (otherwise `.related-section` renders empty — this was the bug across all cities shipped before PR #420/#421's editorial-v2 rollout).
+The generator's `main()` glob is stale — it does not pick up `<cc>_batch*.json` files. Bypass it and call `generate_page()` directly, loading **every** research batch so `build_related_cities_map()` gets the full corpus (otherwise `.related-section` renders empty).
 
 ```python
 import json, sys, glob
@@ -429,40 +429,35 @@ python3 scripts/book-cta-rollout/apply_book_ctas.py
 
 ### Step 10: Parser-based verification
 
-The editorial-v2 UI (PRs #420/#421) added required elements. Parser must assert all of them.
-
 ```python
 from bs4 import BeautifulSoup
-import json, re
+import json, re, sys
+sys.path.insert(0, "scripts/book-cta-rollout")
+from apply_book_ctas import COUNTRIES as _BOOK_COUNTRIES
+COUNTRIES_WITH_BOOKS = {v["name"] for v in _BOOK_COUNTRIES.values()}
+
 html = open("scams/<slug>/index.html").read()
 soup = BeautifulSoup(html, "html.parser")
 
-# Editorial-v2 shell (PR #420)
+# Editorial-v2 shell
 body = soup.select_one("body")
 assert body and "editorial-v2" in body.get("class", []), "missing body.editorial-v2"
 
 h1 = soup.select_one("h1")
-assert h1 and h1.select_one("em"), "H1 must wrap city in <em> (editorial-v2 typography)"
+assert h1 and h1.select_one("em"), "H1 must wrap city in <em>"
 
-# Required editorial-v2 shell elements
-assert soup.select_one(".hero"), "missing .hero"
-assert soup.select_one(".hero-badge"), "missing .hero-badge"
-assert soup.select_one(".severity-summary"), "missing .severity-summary"
-assert soup.select_one(".reading-time"), "missing .reading-time"
-assert soup.select_one(".takeaways-box"), "missing .takeaways-box"
-assert soup.select_one(".safety-box"), "missing .safety-box"
-assert soup.select_one(".toc"), "missing .toc"
-assert soup.select_one(".toc-list"), "missing .toc-list"
-assert soup.select_one(".emergency-fab"), "missing .emergency-fab"
-assert soup.select_one(".back-to-top"), "missing .back-to-top"
-assert soup.select_one(".action-grid"), "missing .action-grid"
+required_blocks = [".hero", ".hero-badge", ".severity-summary", ".reading-time",
+    ".takeaways-box", ".safety-box", ".toc", ".emergency-fab",
+    ".back-to-top", ".action-grid"]
+for sel in required_blocks:
+    assert soup.select_one(sel), f"missing {sel}"
 
-# Related-section must render (requires full related_cities_map — see Step 9)
+# Related-section requires full corpus from Step 9
 rel = soup.select_one(".related-section")
-assert rel, "missing .related-section (did you load ALL research batches in Step 9?)"
-assert len(rel.select(".related-card")) >= 3, "related-section needs ≥3 cards (same-country + nearby)"
+assert rel, "missing .related-section (did Step 9 load ALL research batches?)"
+assert len(rel.select(".related-card")) >= 3, "related-section needs ≥3 cards"
 
-# TOC list entries must match scam count
+# TOC entry count matches scam count
 toc_entries = soup.select(".toc-list li")
 cards = soup.select(".scam-card")
 assert len(toc_entries) == len(cards), f"TOC has {len(toc_entries)} entries, {len(cards)} scam cards"
@@ -497,11 +492,10 @@ ld = json.loads(scripts[0].string)
 faq = next((g for g in ld["@graph"] if g["@type"] == "FAQPage"), None)
 assert faq and len(faq["mainEntity"]) == 5, "FAQ schema count wrong"
 
-# Book-CTA check (if country has a live book)
-COUNTRIES_WITH_BOOKS = {"Japan","Italy","France","Indonesia","Brazil","Portugal","Canada","United Kingdom","Vietnam","Germany","Spain","Greece","Thailand"}
+# Book-CTA check (COUNTRIES_WITH_BOOKS imported above from apply_book_ctas.py)
 if "<Country>" in COUNTRIES_WITH_BOOKS:
-    assert soup.select_one(".book-mid-cta"), "country has live book — .book-mid-cta missing (run apply_book_ctas.py)"
-    assert soup.select_one(".book-end-cta"), "country has live book — .book-end-cta missing"
+    assert soup.select_one(".book-mid-cta"), "country has live book — run apply_book_ctas.py"
+    assert soup.select_one(".book-end-cta"), "country has live book — run apply_book_ctas.py"
 
 # Orphan-phrase check (known sanitizer bug)
 orphans = re.findall(
@@ -522,34 +516,43 @@ Any failure → fix, re-run Step 9, re-verify. **Do not commit broken HTML.**
 
 **11a. Append city-card to `scams/index.html` (alphabetical by city name):**
 
-Find the surrounding alphabetical neighbors and insert:
+Exact template (matches existing hub cards — attribute order matters, `href` comes before `class`):
 
 ```html
         <a href="/scams/<slug>/" class="city-card" data-city="<city lowercased> <country lowercased>" data-country="<CC>">
-            <div class="city-flag">&#127481;&#127484;</div>  <!-- or appropriate flag -->
+            <div class="flag"><flag emoji></div>
             <div class="city-name"><City></div>
             <div class="city-country"><Country></div>
             <div class="scam-count"><N> scams documented</div>
-            <div class="scam-preview"><1-line preview, e.g. "Airport taxi · Dead Sea kiosks"></div>
+            <div class="city-tagline">First 3 scam names joined by ", ", then ", and more"</div>
+            <div class="card-date" style="font-size:0.72rem;color:#9ca3af;margin-top:0.4rem;">Updated Apr 2026</div>
+            <div class="arrow">Read the guide →</div>
         </a>
 ```
-
-Use the surrounding cards as the exact-format template — `sed` or manual `Read` + `Edit` is fine.
 
 **11b. Update the stats-bar in `scams/index.html`:**
 
 ```python
-# Recompute from actual data
-import json, glob
-all_cities = sum((json.load(open(f)) for f in glob.glob("scams/research/*.json")), [])
-total_cities = len(set(c["city"] for c in all_cities if c["city"] in CITY_SLUGS))
+import json, glob, sys
+from bs4 import BeautifulSoup
+sys.path.insert(0, "scams")
+from generate_pages import CITY_SLUGS
+
+all_cities = []
+for bf in sorted(glob.glob("scams/research/*.json")):
+    data = json.load(open(bf))
+    cities = data if isinstance(data, list) else data.get("cities", [])
+    all_cities.extend(cities)
+# Count from hub cards (authoritative — includes legacy pages outside CITY_SLUGS)
+hub_cards = len(BeautifulSoup(open("scams/index.html").read(), "html.parser").select(".city-card"))
 total_scams = sum(len(c["scams"]) for c in all_cities if c["city"] in CITY_SLUGS)
 total_countries = len(set(c["country"] for c in all_cities if c["city"] in CITY_SLUGS))
 ```
 
-Then update the three `<strong>N</strong>` values in the `.stats-bar` block. Also update:
-- `<meta name="description">` — any "N scams documented" / "N cities" numbers
-- `<meta property="og:description">` and `<meta name="twitter:description">`
+Then update:
+- Three `<strong>N</strong>` values in the `.stats-bar` block
+- JSON-LD `"numberOfItems"` (appears twice: in `CollectionPage` and `ItemList`)
+- `<meta name="description">`, `<meta property="og:description">`, `<meta name="twitter:description">`
 
 **11c. Country hub (if country has ≥2 cities):**
 
