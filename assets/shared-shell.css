@@ -54,13 +54,25 @@
   outline-offset: -2px;
 }
 
-/* Page breadcrumbs — rendered by shared-shell.js from BreadcrumbList JSON-LD */
+/* Page breadcrumbs — rendered by shared-shell.js from BreadcrumbList JSON-LD.
+   Style mirrors body.editorial-v2 .breadcrumb on /scams/country/ pages.
+   Explicit resets guard against per-page inline `nav { position:fixed; ... }`
+   rules that would otherwise apply to this <nav class="page-breadcrumbs">. */
 .page-breadcrumbs {
-  padding: 0.5rem 2rem;
-  font-size: 0.85rem;
-  color: var(--muted, #6B5D4F);
-  border-bottom: 1px solid rgba(232, 223, 208, 0.5);
-  background: rgba(254, 252, 249, 0.6);
+  position: static;
+  top: auto;
+  width: auto;
+  z-index: auto;
+  display: block;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  padding: 5.25rem 2rem 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted, var(--muted, #6B5D4F));
+  max-width: 1160px;
+  margin: 0 auto;
 }
 .page-breadcrumbs ol {
   margin: 0;
@@ -68,7 +80,6 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
   align-items: center;
 }
 .page-breadcrumbs li {
@@ -77,29 +88,29 @@
 }
 .page-breadcrumbs li + li::before {
   content: '›';
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
   color: var(--sand, #E8DFD0);
 }
 .page-breadcrumbs a {
-  color: var(--terracotta, #C4704B);
+  color: var(--earth, #8B7355);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 .page-breadcrumbs a:hover,
 .page-breadcrumbs a:focus-visible {
-  text-decoration: underline;
+  color: var(--terracotta, #C4704B);
 }
 .page-breadcrumbs li[aria-current="page"] {
-  color: var(--indigo, #2D3A5C);
-  font-weight: 600;
+  color: var(--text-muted, var(--muted, #6B5D4F));
 }
 @media (max-width: 600px) {
   .page-breadcrumbs {
-    padding: 0.4rem 1rem;
+    padding: 4.75rem 1rem 0.4rem;
     font-size: 0.78rem;
   }
 }
 
-nav {
+body > nav:not(.page-breadcrumbs) {
   position: fixed;
   top: 0;
   width: 100%;
@@ -396,7 +407,7 @@ footer a {
 }
 
 @media (max-width: 768px) {
-  nav {
+  body > nav:not(.page-breadcrumbs) {
     position: fixed;
   }
 
