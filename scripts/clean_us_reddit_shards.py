@@ -398,6 +398,152 @@ def clean_text(text: str) -> str:
         # " — ." dangle
         text = re.sub(r"\s+[—–-]\s*(?=\.)", "", text)
 
+        # Phase 4: bare r/X references (no comments/ ID) that survive Phase 1.
+        # Quote char class: single, double, curly variants.
+        _Q = r"['\u2018\u2019\"\u201c\u201d]"
+        _TITLE = rf"{_Q}[^'\u2018\u2019\"\u201c\u201d]{{2,120}}{_Q}"
+
+        # STRIP FULL SCAFFOLDING FIRST: shard + attribution phrase as one unit,
+        # so we don't leave an orphan verb (e.g. " is the 2025 anchor:").
+
+        # "r/X 'title' (YYYY) is the named YYYY anchor: 'quote'" → "One traveler wrote: 'quote'"
+        text = re.sub(
+            rf"r/\w+\s+{_TITLE}(?:\s+\([^)]{{0,40}}\))?\s+is\s+(?:the|a)\s+(?:canonical\s+)?(?:\d{{4}}\s+)?(?:named\s+)?(?:first-person\s+)?(?:community\s+)?anchor:",
+            "One traveler wrote:",
+            text,
+        )
+        # "r/X 'title' (YYYY) is blunt: 'quote'" → "Travelers are blunt: 'quote'"
+        text = re.sub(
+            rf"r/\w+\s+{_TITLE}(?:\s+\([^)]{{0,40}}\))?\s+is\s+blunt:",
+            "Travelers are blunt:",
+            text,
+        )
+        # "r/X 'title' (YYYY) documents/describes/confirms/frames/places/captures/applies/warns/notes [more]"
+        text = re.sub(
+            rf"r/\w+\s+{_TITLE}(?:\s+\([^)]{{0,40}}\))?\s+(documents?|describes?|confirms?|frames?|places?|captures?|applies|warns?|notes?)\b",
+            r"Community reports \1",
+            text,
+        )
+        # "r/X 'title' (YYYY) and" / " and r/X 'title' ..." trailing conjunctions → drop
+        text = re.sub(
+            rf"\s+and\s+r/\w+\s+{_TITLE}(?:\s+\([^)]{{0,40}}\))?",
+            "",
+            text,
+        )
+        # "per r/X 'title' [maybe documented anchor]"
+        text = re.sub(
+            rf"per\s+r/\w+\s+{_TITLE}(?:\s+documented\s+anchor)?",
+            "per community reports",
+            text,
+        )
+        # "r/X 'title' (YYYY)" standalone (sentence-fragment citation)
+        text = re.sub(
+            rf"r/\w+\s+{_TITLE}\s+\(\s*(?:late\s+|early\s+)?\d{{4}}(?:\s*,\s*\d{{4}})?\s*\)",
+            "",
+            text,
+        )
+        # Bare "r/X 'title'" (no year, no verb)
+        text = re.sub(
+            rf"r/\w+\s+{_TITLE}",
+            "",
+            text,
+        )
+        # "(r/X)" in parentheses
+        text = re.sub(r"\(\s*r/\w+\s*\)", "", text)
+        # "(comments/xxx, YYYY description)" — parenthetical containing comments ID + sentence
+        text = re.sub(
+            r"\(\s*comments/[a-z0-9]+,?\s*(?:late\s+|early\s+)?\d{4}\s+[^)]+\)",
+            "",
+            text,
+        )
+        # "(comments/xxx)" / "(comments/xxx, YYYY)" standalone parenthetical
+        text = re.sub(
+            r"\(\s*comments/[a-z0-9]+(?:\s*,\s*(?:late\s+|early\s+)?\d{4})?\s*\)",
+            "",
+            text,
+        )
+        # Bare "comments/xxx" without parens
+        text = re.sub(r"\bcomments/[a-z0-9]{4,}\b", "", text)
+        # "per the r/X community" / "per r/X community"
+        text = re.sub(r"per\s+(?:the\s+)?r/\w+\s+community\b", "per community reports", text)
+        # "the r/X community"
+        text = re.sub(r"\bthe\s+r/\w+\s+community\b", "the traveler community", text)
+        # "r/X community"
+        text = re.sub(r"\br/\w+\s+community\b", "the traveler community", text)
+        # "per r/X"
+        text = re.sub(r"\bper\s+r/\w+\b", "per community reports", text)
+        # "r/X threads?"
+        text = re.sub(r"\br/\w+\s+threads?\b", "community threads", text)
+        # "r/X traveler reports?"
+        text = re.sub(r"\br/\w+\s+traveler\s+reports?\b", "traveler community reports", text)
+        # "r/X users?"
+        text = re.sub(r"\br/\w+\s+users?\b", "travelers", text)
+        # Catch-all: bare r/X remaining → "community forums"
+        text = re.sub(r"\br/[A-Za-z][A-Za-z0-9_]*\b", "community forums", text)
+
+        # Dangling "— is a YYYY report" / "— documents" / "— describes" etc.
+        # after em-dash where shard was stripped.
+        text = re.sub(
+            r"\s+[—–-]\s+is\s+(?:the|a)\s+(?:canonical\s+)?(?:\d{4}\s+)?(?:named\s+|first-person\s+)*(?:report|anchor|thread|post)\b[^.;]*",
+            "",
+            text,
+        )
+        text = re.sub(
+            r"\s+[—–-]\s+(documents?|describes?|confirms?|frames?|places?|captures?|warns?|notes?)\b[^.;]*",
+            "",
+            text,
+        )
+        # Orphan verb phrases left after shard strip (no subject)
+        # "^ is the named 2025 anchor: 'quote'" → "One traveler wrote: 'quote'"
+        text = re.sub(
+            r"^\s*is\s+(?:the|a)\s+(?:(?:canonical|named|first-person|community|2\d{3})\s+){0,4}anchor:\s*",
+            "One traveler wrote: ",
+            text,
+        )
+        # "[.;] is the named 2025 anchor:" mid-text
+        text = re.sub(
+            r"([.;])\s+is\s+(?:the|a)\s+(?:(?:canonical|named|first-person|community|2\d{3})\s+){0,4}anchor:\s*",
+            r"\1 One traveler wrote: ",
+            text,
+        )
+        # ". is [the|a] X anchor." — no quote follows — drop entirely
+        text = re.sub(
+            r"([.;])\s+is\s+(?:the|a)\s+(?:(?:canonical|named|first-person|community|2\d{3})\s+){0,4}anchor\.\s*",
+            r"\1 ",
+            text,
+        )
+        # "^is blunt: 'quote'" → "Travelers are blunt: 'quote'"
+        text = re.sub(r"^\s*is\s+blunt:\s*", "Travelers are blunt: ", text)
+        text = re.sub(r"([.;])\s+is\s+blunt:\s*", r"\1 Travelers are blunt: ", text)
+        # "^ applies the X rule at Y" → "The same rule applies at Y"
+        text = re.sub(r"^\s*applies\s+the\s+\w[\w\s-]*?\s+rule\s+", "The same rule applies ", text)
+        text = re.sub(r"([.;])\s+applies\s+the\s+\w[\w\s-]*?\s+rule\s+", r"\1 The same rule applies ", text)
+        # "^ documents" → "Community reports document"
+        text = re.sub(r"^\s*documents?\s+", "Community reports document ", text)
+        text = re.sub(r"([.;])\s+documents?\s+", r"\1 Community reports document ", text)
+        # Orphan describe/confirm/frame/place/capture/warn/note verbs at start
+        text = re.sub(
+            r"^\s*(describes?|confirms?|frames?|places?|captures?|warns?|notes?)\s+",
+            r"Community reports \1 ",
+            text,
+        )
+        text = re.sub(
+            r"([.;])\s+(describes?|confirms?|frames?|places?|captures?|warns?|notes?)\s+",
+            r"\1 Community reports \2 ",
+            text,
+        )
+        # Semi-colon + orphan verb ("; documents ¥300+ scams" → "; community reports document ¥300+ scams")
+        # Already handled above.
+
+        # Re-apply grammar fixups after Phase 4
+        text = DOUBLE_SPACE.sub(" ", text)
+        text = re.sub(r"\s+([,.;:])", r"\1", text)
+        text = re.sub(r"\(\s*\)", "", text)
+        text = re.sub(r",\s*,", ",", text)
+        text = re.sub(r",\s*\.", ".", text)
+        # Double period from shard-before-period removal
+        text = re.sub(r"(?<!\.)\.{2}(?!\.)", ".", text)
+
     return text
 
 
@@ -433,11 +579,47 @@ TARGETS = [
     ),
     (
         "safety-tips-li",
-        re.compile(r'(            <li>)(.*?)(</li>)', re.DOTALL),
+        re.compile(r'(^\s*<li>)([^<]*?)(</li>)', re.DOTALL | re.MULTILINE),
     ),
     (
         "faq-a",
         re.compile(r'(<div class="faq-a">)(.*?)(</div>)', re.DOTALL),
+    ),
+    (
+        "faq-q",
+        re.compile(r'(<button class="faq-q"[^>]*>)(.*?)(</button>)', re.DOTALL),
+    ),
+    (
+        "scam-story",
+        re.compile(r'(<p class="scam-story">)(.*?)(</p>)', re.DOTALL),
+    ),
+    (
+        "scam-location",
+        re.compile(r'(<div class="scam-location">)(.*?)(</div>)', re.DOTALL),
+    ),
+    (
+        "scam-title",
+        re.compile(r'(<div class="scam-title">)(.*?)(</div>)', re.DOTALL),
+    ),
+    (
+        "book-end-cta-sub",
+        re.compile(r'(<p class="book-end-cta-sub">)(.*?)(</p>)', re.DOTALL),
+    ),
+    (
+        "meta-desc",
+        re.compile(r'(<meta\s+(?:name|property)="(?:description|og:description|twitter:description)"\s+content=")((?:[^"\\]|\\.)*)(")', re.DOTALL),
+    ),
+    (
+        "jsonld_description",
+        re.compile(r'("description":\s*")((?:\\.|[^"\\])*)(")', re.DOTALL),
+    ),
+    (
+        "jsonld_headline",
+        re.compile(r'("headline":\s*")((?:\\.|[^"\\])*)(")', re.DOTALL),
+    ),
+    (
+        "plain-p",
+        re.compile(r'(<p>)([^<]*?)(</p>)', re.DOTALL),
     ),
 ]
 
