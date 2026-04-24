@@ -241,8 +241,8 @@ function basePage(title, desc, canonical, heroTitle, heroText, cards) {
   const ogImage = 'https://img.tabiji.ai/compare-default-og.jpg';
   const faqItems = [
     {
-      question: `What is the ${heroTitle} compare hub?`,
-      answer: `This hub groups ${heroTitle.toLowerCase()} into one browse surface so readers can see the strongest related matchups before jumping into individual pages.`
+      question: 'What is a compare page?',
+      answer: 'Each compare page puts two destinations side-by-side across cost, safety, weather, food, transit, and honest verdicts from real travelers — a decision-focused answer to "which one should I book?" rather than a generic listicle.'
     },
     {
       question: 'How are pages ranked here?',
