@@ -31,6 +31,9 @@ except ImportError:  # pragma: no cover — fail soft if cleaner missing
     def _clean_reddit_shards(t: str) -> str:
         return t
 
+from _nav_util import get_nav_html
+NAV_HTML = get_nav_html()
+
 
 def _sanitize_reddit_shards(text: str) -> str:
     """Strip Reddit citation URL shards and NAMED-anchor workflow tags.
@@ -7175,27 +7178,7 @@ def generate_page(city_data, related_cities_map):
     </script>
 </head>
 <body class="editorial-v2">
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">⭐ Popular Picks</a>
-                <a href="/countries/">🗺 Country Guides</a>
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
+{NAV_HTML}
 
 <div class="breadcrumb">
     <a href="/">Home</a><span>›</span><a href="/scams/">Scams</a><span>›</span>{city}
@@ -7849,29 +7832,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 <!-- @include:shared-head:end -->
 </head>
 <body class="editorial-v2">
-<!-- @include:nav:start -->
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">&#11088; Popular Picks</a>
-                <a href="/countries/">&#128506; Country Guides</a>
-                <a href="/compare/">&#127386; Compare Destinations</a>
-                <a href="/find/">&#128269; Destination Finder</a>
-                <a href="/health/">&#127973; Travel Health Tips</a>
-                <a href="/api/">&#128268; API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
-<!-- @include:nav:end -->
+{NAV_HTML}
 
 <div class="breadcrumb" role="navigation" aria-label="Breadcrumb">
     <a href="/">Home</a><span>&rsaquo;</span><a href="/scams/">Scams</a><span>&rsaquo;</span>{country}

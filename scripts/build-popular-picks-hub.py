@@ -25,6 +25,9 @@ HUB_DATA_DIR = ROOT / "popular-picks-hub-data"
 OVERRIDE_FILE = ROOT / "popular-picks" / "featured.json"
 OUT_FILE = ROOT / "popular-picks" / "index.html"
 
+from _nav_util import get_nav_html
+NAV_HTML = get_nav_html()
+
 NUM_FEATURED = 12
 
 
@@ -637,29 +640,7 @@ def render_html(countries, featured):
     <!-- @include:shared-head:end -->
 </head>
 <body>
-<!-- @include:nav:start -->
-<nav>
-    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;">tabiji<span>.ai</span></a>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
-    <div class="nav-links">
-        <div class="nav-dropdown">
-            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
-            <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">⭐ Popular Picks</a>
-                <a href="/countries/">🗺 Country Guides</a>
-                <a href="/compare/">🆚 Compare Destinations</a>
-                <a href="/find/">🔍 Destination Finder</a>
-                <a href="/health/">🏥 Travel Health Tips</a>
-                <a href="/api/">🔌 API</a>
-            </div>
-        </div>
-        <a href="/trip-planner/">Trip Planner</a>
-        <a href="/scams/">Tourist Scams</a>
-        <a href="/about/">About</a>
-        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
-    </div>
-</nav>
-<!-- @include:nav:end -->
+{NAV_HTML}
 
 <section class="hero">
   <div class="hero-inner">
