@@ -531,6 +531,82 @@ body {
 }
 .emergency-fab:hover + .emergency-fab-tooltip { opacity: 1; }
 
+/* Mobile sticky book-CTA bar — hidden on desktop, shown <=899px viewport.
+   Sits below the emergency-fab (z:100) and above page content. Dismissible
+   with localStorage persistence and auto-hide when the end-CTA is near. */
+.mobile-book-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--warm-cream-soft, #FAF6EE);
+    border-top: 1px solid rgba(45, 58, 92, 0.12);
+    padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    z-index: 90;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+}
+@media (max-width: 899px) {
+    .mobile-book-bar { display: flex; }
+    .mobile-book-bar.dismissed { display: none; }
+}
+.mobile-book-bar img {
+    width: 32px;
+    height: 48px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+.mobile-book-bar-text {
+    flex: 1;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    color: var(--text);
+    min-width: 0;
+}
+.mobile-book-bar-text strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--indigo);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mobile-book-bar-text span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mobile-book-bar-cta {
+    background: var(--terracotta);
+    color: #fff;
+    padding: 0.45rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.mobile-book-bar-cta:hover { background: var(--terracotta-deep); }
+.mobile-book-bar-dismiss {
+    background: none;
+    border: 0;
+    padding: 0.4rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.mobile-book-bar-dismiss:hover { color: var(--text); }
+
 /* Cross-links bar */
 .cross-links {
     display: flex;
@@ -1477,7 +1553,7 @@ body.editorial-v2 .back-to-top {
 /* ============================================================
    STICKY TOC — desktop only
    ============================================================ */
-@media (min-width: 1080px) {
+@media (min-width: 900px) {
     body.editorial-v2 .content {
         display: grid;
         grid-template-columns: 220px minmax(0, 1fr);
