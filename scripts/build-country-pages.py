@@ -85,6 +85,60 @@ TIER1_PATTERNS = [
     ("opioids", ["opioid", "narcotic", "oxycodone", "hydrocodone", "morphine", "fentanyl"]),
 ]
 
+# Display names for tier-1 slugs — .title() gives "Cbd" which looks wrong
+# for an acronym. Override where the default wouldn't be right.
+TIER1_DISPLAY_NAMES = {
+    "cbd": "CBD",
+}
+
+# Slug → travel.state.gov URL path override for countries whose State Dept
+# page name doesn't match the default `slug.title().replace("-","")` pattern.
+# Verified with curl sweep against live state.gov endpoints.
+# `None` means no State Dept advisory exists for that destination (US / US
+# territories are the home country and get no inbound advisory).
+STATE_GOV_URL_OVERRIDES = {
+    "united-states": None,
+    "puerto-rico": None,
+    "united-states-virgin-islands": None,
+    "antigua-and-barbuda": "AntiguaandBarbuda",
+    "bosnia-and-herzegovina": "BosniaandHerzegovina",
+    "cape-verde": "CaboVerde",
+    "czech-republic": "Czechia",
+    "dr-congo": "DemocraticRepublicoftheCongoDRC",
+    "gambia": "TheGambia",
+    "guinea-bissau": "Guinea-Bissau",
+    "ivory-coast": "CotedIvoire",
+    "micronesia": "FederatedStatesOfMicronesia",
+    "myanmar": "Burma",
+    "north-korea": "KoreaDemocraticPeoplesRepublicof",
+    "north-macedonia": "Macedonia",
+    "republic-of-the-congo": "RepublicoftheCongo",
+    "russia": "RussianFederation",
+    "saint-kitts-and-nevis": "SaintKittsandNevis",
+    "saint-vincent-and-the-grenadines": "SaintVincentandtheGrenadines",
+    "sao-tome-and-principe": "SaoTomeandPrincipe",
+    "syria": "SyrianArabRepublic",
+    "timor-leste": "Timor-Leste",
+    "tokelau": "NewZealand",
+    "trinidad-and-tobago": "TrinidadandTobago",
+    "uae": "UnitedArabEmirates",
+}
+
+
+def state_gov_url(slug: str):
+    """Return the valid travel.state.gov URL for this country, or None if
+    no State Department advisory is available (US + US territories)."""
+    if slug in STATE_GOV_URL_OVERRIDES:
+        path = STATE_GOV_URL_OVERRIDES[slug]
+        if path is None:
+            return None
+    else:
+        path = slug.title().replace("-", "")
+    return (
+        "https://travel.state.gov/content/travel/en/international-travel/"
+        f"International-Travel-Country-Information-Pages/{path}.html"
+    )
+
 # Source-name → canonical URL for the Sources section. Applied when the
 # source line matches by loose string containment.
 SOURCE_URLS = {
@@ -338,7 +392,7 @@ def render_restricted_meds(meds, tier1_slugs) -> str:
     tier1_links = ""
     if tier1_slugs:
         links = " · ".join(
-            f'<a href="/health/medications/{s}/">{s.replace("-", " ").title()}</a>'
+            f'<a href="/health/medications/{s}/">{TIER1_DISPLAY_NAMES.get(s, s.replace("-", " ").title())}</a>'
             for s in tier1_slugs
         )
         tier1_links = (
@@ -516,11 +570,14 @@ def render_covid(cs) -> str:
 
 def render_sources(sources, country_slug) -> str:
     out = []
-    seen_state_dept = False
-    # Always include travel.state.gov as the first entry
-    out.append(
-        f'        <li><a href="https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/{country_slug.title().replace("-", "")}.html" target="_blank" rel="noopener">US Department of State — travel advisory for this country</a></li>'
-    )
+    # Include travel.state.gov as the first entry when a valid advisory URL
+    # exists for this country (skipped for US + US territories).
+    sg_url = state_gov_url(country_slug)
+    if sg_url:
+        out.append(
+            f'        <li><a href="{sg_url}" target="_blank" rel="noopener">'
+            f'US Department of State — travel advisory for this country</a></li>'
+        )
     if not sources:
         out.append('        <li>CDC Yellow Book 2026</li>')
         out.append('        <li>WHO International Travel and Health</li>')
@@ -544,9 +601,12 @@ def build_faqs(d: dict) -> list:
     meds = d.get("restrictedMeds") or []
 
     faqs = []
+    # Strip trailing period from the raw emergency string so we don't end up with
+    # "...many areas.. For..." when the source already ends the clause with a period.
+    emergency_clean = (emergency or "").rstrip(". ")
     faqs.append({
         "q": f"What's the emergency number in {name}?",
-        "a": f"{emergency}. For non-emergency travel medical assistance, your travel insurance provider's 24/7 assistance line can locate an English-speaking doctor and arrange direct billing where possible.",
+        "a": f"{emergency_clean}. For non-emergency travel medical assistance, your travel insurance provider's 24/7 assistance line can locate an English-speaking doctor and arrange direct billing where possible.",
     })
     if water == "unsafe":
         faqs.append({
