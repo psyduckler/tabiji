@@ -54,6 +54,13 @@ tabiji.ai is a read-only static travel data API. All data is editorially curated
 
 **Recommended agent workflow:** Use `search.json` to find matching slugs, then fetch the full record with the appropriate detail endpoint.
 
+### Travel Health
+- `GET /api/v1/health.json` — Structured directory of 210 country health guides and 15 US insurance carrier guides. Each country record includes: slug, name, flag, region, healthcare quality rating (1–5 stars), water safety status (safe/caution/unsafe), insurance-required flag, yellow-fever requirement flag, strict-medication-enforcement flag, emergency number, healthcare system description, pharmacy access level, and up-to-10 banned + restricted medication names.
+- Full human-readable hubs: `https://tabiji.ai/health/` (main), `https://tabiji.ai/health/insurance/` (carriers), `https://tabiji.ai/health/medications/` (medications).
+- Per-country pages at `https://tabiji.ai/health/{slug}/` include hospital names with phone numbers, local-language pharmacy phrases, medication restrictions with full legal status notes, cash-price ranges, medical-evacuation destinations and cost bands, mental-health crisis lines, vaccination lists, water and food safety detail, and mobility-accessibility info.
+- Reviewed monthly by the tabiji editorial team against CDC Travelers' Health, WHO International Travel and Health, IATA Travel Centre, US State Department travel advisories, and national health-ministry publications.
+- **Not personal medical advice** — safety-critical decisions should be confirmed with a travel-medicine clinician.
+
 ---
 
 ## Data Fields
@@ -72,6 +79,9 @@ Each comparison includes: `slug`, `title`, `destination1`, `destination2`, `cate
 
 ### Country Object
 Each country includes: `id`, `name`, `officialName`, `iso2`, `iso3`, `capital`, `population`, `area` (km²), `region`, `subregion`, `borders` (ISO3 codes), `landlocked`, `demonyms`, `startOfWeek`, `maps`, `currencies`, `languages`, `timezones`, `flag` (emoji), `flagSvg`, `flagPng`, `drivingSide`, `dialCode`, `tld`
+
+### Country Health Object (in `/api/v1/health.json`)
+Each country health record includes: `slug`, `name`, `flag`, `region` (europe / asia / mena / africa / americas / oceania), `url`, `iso2`, `healthcareQuality` (1–5 int), `healthcareQualityLabel` (e.g. "Excellent", "Limited"), `waterSafety` (safe/caution/unsafe/unknown), `emergencyNumber`, `healthcareSystem`, `pharmacyAccess`, `insuranceRequired` (bool), `yellowFeverRequired` (bool), `strictMedications` (bool), `bannedMedications` (array, up to 10), `restrictedMedications` (array, up to 10), `lastUpdated`. The hub also includes a top-level `insuranceCarriers` array with 15 US carrier slugs and URLs.
 
 ---
 
