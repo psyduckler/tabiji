@@ -210,8 +210,8 @@ def _render_filter_pills(country_counts: Counter) -> str:
         # UK display label matches current hub ("UK" not "United Kingdom")
         label = "UK" if cc == "GB" else ("USA" if cc == "US" else name)
         lines.append(
-            f'        <button class="filter-pill" data-filter="{cc}" '
-            f'data-href="/scams/country/{cc.lower()}/">{flag} {label} ({n})</button>'
+            f'        <a class="filter-pill" data-filter="{cc}" '
+            f'href="/scams/country/{cc.lower()}/">{flag} {label} ({n})</a>'
         )
     lines.append("    </div>")
     return "\n".join(lines)

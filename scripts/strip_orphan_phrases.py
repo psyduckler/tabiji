@@ -19,10 +19,13 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _scam_sweep_common import collect_scam_targets
+
 REPO = Path(__file__).resolve().parents[1]
-SCAMS = REPO / "scams"
 
 # The signal-words that identify orphan tags. Legitimate prose can use any
 # of these individually, so we only strip when the full pattern (verb +
@@ -94,26 +97,17 @@ def _strip_orphans(text: str) -> tuple[str, int]:
     return text, total_stripped
 
 
-def _collect_targets() -> list[Path]:
-    city_pages = [
-        p / "index.html"
-        for p in sorted(SCAMS.iterdir())
-        if p.is_dir() and p.name != "country" and (p / "index.html").exists()
-    ]
-    research = sorted((SCAMS / "research").glob("*.json"))
-    api_city = sorted((REPO / "api" / "v1" / "scams").glob("*.json"))
-    api_country = sorted((REPO / "api" / "v1" / "countries").glob("*/scams.json"))
-    api_catalog = [REPO / "api" / "v1" / "catalog" / "scams.json"]
-    return city_pages + research + api_city + api_country + [p for p in api_catalog if p.exists()]
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, help="Stop after N files (for testing)")
     args = ap.parse_args()
 
-    targets = _collect_targets()
+    targets = collect_scam_targets(
+        city_pages=True,
+        research_json=True,
+        api_json=True,
+    )
     if args.limit:
         targets = targets[: args.limit]
 
