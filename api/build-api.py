@@ -1676,8 +1676,12 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
     items = []
 
     for dest in dest_summaries:
+        # A small number of legacy destination records (e.g. `arches`) lack the
+        # `id` / `entityType` fields that newer builds add; fall back to slug so
+        # build_catalog doesn't abort when it hits them.
+        dest_id = dest.get("id") or f"destination:{dest.get('slug', 'unknown')}"
         items.append({
-            "id": dest["id"],
+            "id": dest_id,
             "entityType": "destination",
             "schemaVersion": dest.get("schemaVersion", API_SCHEMA_VERSION),
             "source": "destinations",
@@ -1700,6 +1704,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
         })
 
     for pick in pick_summaries:
+        pick_url = pick.get("url") or f"{SITE_URL}/popular-picks/{pick['slug']}/"
         items.append({
             "id": pick["id"],
             "entityType": "pick",
@@ -1715,7 +1720,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "tags": pick.get("tags", []),
             "highlights": unique_list([pick.get("city", ""), pick.get("category", "")]),
             "itemCount": pick.get("placeCount", 0),
-            "url": f"{API_BASE_URL}/picks/{pick['slug']}.json",
+            "url": pick_url,
             "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=CONFIDENCE_PICK_SUMMARY, operational_fields_may_change=True)),
             "provenance": pick.get("provenance", {}),
         })
@@ -1742,7 +1747,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
                 "priceLevel": place.get("priceRange", ""),
                 "ratingNormalized": place.get("googleRating"),
                 "editorialSignal": EDITORIAL_SIGNAL_STRONG if place.get("editorialSummary") or place.get("verdict") else EDITORIAL_SIGNAL_WEAK,
-                "url": f"{API_BASE_URL}/picks/{pick['slug']}.json#{slugify(place.get('name', 'place'))}",
+                "url": f"{pick_url}#{slugify(place.get('name', 'place'))}",
                 "freshness": make_freshness(
                     detail.get("updatedAt", generated_at),
                     confidence="mixed",
@@ -1796,7 +1801,7 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "tags": compare.get("tags", []),
             "highlights": unique_list(compare.get("destinationSlugs", [])),
             "itemCount": compare.get("categoryCount", 0),
-            "url": f"{API_BASE_URL}/compare/{compare['slug']}.json",
+            "url": compare.get("url", f"{SITE_URL}/compare/{compare['slug']}/"),
             "freshness": compare.get("freshness", make_freshness(compare.get("updatedAt", generated_at))),
             "provenance": compare.get("provenance", {}),
         })
@@ -2228,16 +2233,16 @@ def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_co
 - [Single Destination](https://tabiji.ai/api/v1/destinations/{{slug}}.json): Full details for one destination (e.g., `tokyo.json`, `paris.json`)
 
 ### Popular Picks (Restaurant & Attraction Guides)
-- [All Picks](https://tabiji.ai/api/v1/picks.json): {picks_count} curated "best of" guides covering {places_count:,} places
-- [Single Picks Guide](https://tabiji.ai/api/v1/picks/{{slug}}.json): Full guide with all places, editorial summaries, maps links, source metadata, "what to order" tips, Reddit quotes, and insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
+- [All Picks](https://tabiji.ai/api/v1/picks.json): {picks_count} curated "best of" guides covering {places_count:,} places, each linking to its canonical HTML page
+- Single Picks Guide (HTML canonical): `https://tabiji.ai/popular-picks/{{slug}}/` — full guide with all places, editorial summaries, Reddit quotes, and insider tips (e.g., `amsterdam-brunch`, `tokyo-ramen`). Per-slug JSON was retired on 2026-04-20.
 
 ### Itineraries
 - [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): {itin_count} day-by-day travel itineraries
 - [Single Itinerary](https://tabiji.ai/api/v1/itineraries/{{slug}}.json): Full itinerary with day-by-day activities, times, tips, and logistics
 
 ### Comparisons
-- [All Comparisons](https://tabiji.ai/api/v1/compare.json): {compare_count} head-to-head destination comparisons
-- [Single Comparison](https://tabiji.ai/api/v1/compare/{{slug}}.json): Full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto.json`)
+- [All Comparisons](https://tabiji.ai/api/v1/compare.json): {compare_count} head-to-head destination comparisons, each linking to its canonical HTML page
+- Single Comparison (HTML canonical): `https://tabiji.ai/compare/{{slug}}/` — full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto`). Per-slug JSON was retired on 2026-04-20.
 
 ### Cross-Collection Search
 - [Unified Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Search destinations, picks, itineraries, and comparisons from one endpoint (`q`, optional `type`, optional `limit`)
@@ -2291,7 +2296,7 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
                 "outputModes": ["text"],
                 "steps": [
                     {"id": "search", "description": "Search all public travel data for relevant matches", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=pick"}},
-                    {"id": "get-guide", "description": "Fetch the full guide with all places and details", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/picks/{slug}.json"}}
+                    {"id": "get-guide", "description": "Open the canonical HTML guide page with all places, Reddit quotes, and editorial details (per-slug JSON retired 2026-04-20).", "endpoint": {"method": "GET", "url": "https://tabiji.ai/popular-picks/{slug}/"}}
                 ]
             },
             {
@@ -2327,7 +2332,7 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
                 "outputModes": ["text"],
                 "steps": [
                     {"id": "search", "description": "Search comparisons by either destination", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=compare"}},
-                    {"id": "get-comparison", "description": "Fetch the full comparison with categories and verdict", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/compare/{slug}.json"}}
+                    {"id": "get-comparison", "description": "Open the canonical HTML comparison page with category breakdowns, Reddit quotes, verdict, and FAQs (per-slug JSON retired 2026-04-20).", "endpoint": {"method": "GET", "url": "https://tabiji.ai/compare/{slug}/"}}
                 ]
             },
             {
@@ -2944,9 +2949,10 @@ def build_manifest():
     collections_def = [
         ("destinations",  "/api/v1/destinations.json",   "/api/v1/destinations/{slug}.json"),
         ("countries",     "/api/v1/countries.json",       "/api/v1/countries/{iso2}.json"),
-        ("picks",         "/api/v1/picks.json",           "/api/v1/picks/{slug}.json"),
+        # picks + compare per-slug JSON retired 2026-04-20 (Cloudflare Pages 20k file cap). Canonical detail lives at HTML URLs; see htmlPattern.
+        ("picks",         "/api/v1/picks.json",           None),
         ("itineraries",   "/api/v1/itineraries.json",     "/api/v1/itineraries/{slug}.json"),
-        ("compare",       "/api/v1/compare.json",         "/api/v1/compare/{slug}.json"),
+        ("compare",       "/api/v1/compare.json",         None),
         ("safety",        "/api/v1/safety.json",          "/api/v1/safety/{iso2}.json"),
         ("alerts",        "/api/v1/alerts.json",          "/api/v1/alerts/{iso2}.json"),
         ("scams",         "/api/v1/scams.json",           "/api/v1/scams/{slug}.json"),
@@ -2994,6 +3000,13 @@ def build_manifest():
         }
         if detail_pattern:
             entry["detailPattern"] = detail_pattern
+
+        html_patterns = {
+            "picks":   "/popular-picks/{slug}/",
+            "compare": "/compare/{slug}/",
+        }
+        if col_name in html_patterns:
+            entry["htmlPattern"] = html_patterns[col_name]
 
         collections[col_name] = entry
 

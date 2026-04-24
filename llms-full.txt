@@ -33,16 +33,16 @@ tabiji.ai is a read-only static travel data API. All data is editorially curated
 - `GET /api/v1/destinations/{slug}.json` — Full details for one destination (e.g., `tokyo.json`, `paris.json`)
 
 ### Popular Picks (Restaurant & Attraction Guides)
-- `GET /api/v1/picks.json` — All 467 curated "best of" guides covering 5,429 places
-- `GET /api/v1/picks/{slug}.json` — Full guide with all places, editorial summaries, maps links, Reddit quotes, "what to order" tips, insider tips (e.g., `amsterdam-brunch.json`, `tokyo-ramen.json`)
+- `GET /api/v1/picks.json` — All 467 curated "best of" guides covering 5,429 places, each linked to its canonical HTML page via the `url` field
+- Canonical detail page (HTML): `https://tabiji.ai/popular-picks/{slug}/` — full guide with all places, editorial summaries, Reddit quotes, "what to order" tips, insider tips. Per-slug JSON endpoints were retired 2026-04-20.
 
 ### Itineraries
 - `GET /api/v1/itineraries.json` — All 443 day-by-day travel itineraries
 - `GET /api/v1/itineraries/{slug}.json` — Full itinerary with day-by-day activities, neighborhoods, tips, and logistics
 
 ### Comparisons
-- `GET /api/v1/compare.json` — All 925 head-to-head destination comparisons
-- `GET /api/v1/compare/{slug}.json` — Full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto.json`)
+- `GET /api/v1/compare.json` — All 925 head-to-head destination comparisons, each linked to its canonical HTML page via the `url` field
+- Canonical detail page (HTML): `https://tabiji.ai/compare/{slug}/` — full comparison with categories, Reddit quotes, verdict, and FAQs. Per-slug JSON endpoints were retired 2026-04-20.
 
 ### Countries
 - `GET /api/v1/countries.json` — All 250 countries with capitals, population, area, region, borders, currencies, languages, timezones, driving side, dial codes, flags, and maps links
@@ -171,9 +171,9 @@ The following are real responses from the tabiji API, trimmed for brevity. Full 
 
 ---
 
-### Example 2: Picks Guide — `GET /api/v1/picks/tokyo-cheap-eats.json`
+### Example 2: Picks Guide — canonical at `https://tabiji.ai/popular-picks/tokyo-cheap-eats/`
 
-*(Showing 1 of 15 places for brevity)*
+*(Data shape as embedded in the HTML page. Showing 1 of 15 places for brevity. Per-slug JSON endpoints were retired 2026-04-20.)*
 
 ```json
 {
@@ -273,9 +273,9 @@ The following are real responses from the tabiji API, trimmed for brevity. Full 
 
 ---
 
-### Example 4: Comparison — `GET /api/v1/compare/tokyo-vs-kyoto.json`
+### Example 4: Comparison — canonical at `https://tabiji.ai/compare/tokyo-vs-kyoto/`
 
-*(Showing 1 of 8 categories and selected FAQs for brevity)*
+*(Data shape as embedded in the HTML page. Showing 1 of 8 categories and selected FAQs for brevity. Per-slug JSON endpoints were retired 2026-04-20.)*
 
 ```json
 {
@@ -368,7 +368,7 @@ The search index contains 8,874 records across all content types. Each record ha
       "slug": "tokyo-cheap-eats",
       "title": "15 Best Cheap Eats in Tokyo",
       "subtitle": "Gyudon, udon, conveyor sushi, teishoku, standing bars & more. All under ¥1,000.",
-      "url": "https://tabiji.ai/api/v1/picks/tokyo-cheap-eats.json",
+      "url": "https://tabiji.ai/popular-picks/tokyo-cheap-eats/",
       "siteUrl": "https://tabiji.ai/popular-picks/tokyo-cheap-eats/",
       "tags": ["Tokyo", "Cheap Eats", "Japan"],
       "tokens": ["tokyo", "cheap", "eats", "gyudon", "udon", "sushi"]
@@ -388,7 +388,7 @@ The search index contains 8,874 records across all content types. Each record ha
       "type": "compare",
       "slug": "tokyo-vs-kyoto",
       "title": "Tokyo vs Kyoto: Which Should You Visit?",
-      "url": "https://tabiji.ai/api/v1/compare/tokyo-vs-kyoto.json",
+      "url": "https://tabiji.ai/compare/tokyo-vs-kyoto/",
       "siteUrl": "https://tabiji.ai/compare/tokyo-vs-kyoto/",
       "tags": ["Tokyo", "Kyoto", "Japan"],
       "tokens": ["tokyo", "kyoto", "vs", "japan", "compare"]
@@ -400,7 +400,7 @@ The search index contains 8,874 records across all content types. Each record ha
 **Recommended search workflow for agents:**
 1. Filter `items` by `type` if needed (`destination`, `pick`, `itinerary`, `compare`)
 2. Match query tokens against `tokens` or `title` fields
-3. Use the matched `slug` to call the detail endpoint (e.g., `GET /api/v1/picks/{slug}.json`)
+3. Follow the matched item's `url` field. For `destination` and `itinerary` that's a JSON endpoint; for `pick` and `compare` it's the canonical HTML page (per-slug JSON was retired 2026-04-20)
 
 ---
 
